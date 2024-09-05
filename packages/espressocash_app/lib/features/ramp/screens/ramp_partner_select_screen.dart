@@ -14,33 +14,30 @@ import '../../country_picker/widgets/country_picker.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/ramp_type.dart';
+import '../widgets/partner_config.dart';
 import '../widgets/partner_tile.dart';
 
 class RampPartnerSelectScreen extends StatefulWidget {
   const RampPartnerSelectScreen({
     super.key,
-    required this.partners,
     required this.type,
     required this.onPartnerSelected,
   });
 
   static void push(
     BuildContext context, {
-    required IList<RampPartner> partners,
     required RampType type,
     required ValueSetter<RampPartner> onPartnerSelected,
   }) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
           builder: (context) => RampPartnerSelectScreen(
-            partners: partners,
             type: type,
             onPartnerSelected: onPartnerSelected,
           ),
         ),
       );
 
-  final IList<RampPartner> partners;
   final RampType type;
   final ValueSetter<RampPartner> onPartnerSelected;
 
@@ -52,6 +49,11 @@ class RampPartnerSelectScreen extends StatefulWidget {
 class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
   Country? _country;
 
+  IList<RampPartner> get _partners => switch (widget.type) {
+        RampType.onRamp => getOnRampPartners(_country?.code),
+        RampType.offRamp => getOffRampPartners(_country?.code),
+      };
+
   @override
   void initState() {
     super.initState();
@@ -62,6 +64,14 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
     if (country != null) {
       _country = Country.findByCode(country);
     }
+  }
+
+  void _handleCountryChange(Country country) {
+    sl<ProfileRepository>().country = country.code;
+
+    setState(() {
+      _country = country;
+    });
   }
 
   @override
@@ -129,11 +139,11 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: CountryPicker(
                   country: _country,
-                  onSubmitted: (country) => setState(() => _country = country),
+                  onSubmitted: _handleCountryChange,
                 ),
               ),
               const SizedBox(height: 20),
-              for (final partner in widget.partners)
+              for (final partner in _partners)
                 PartnerTile(
                   partner: partner,
                   onPartnerSelected: widget.onPartnerSelected,
