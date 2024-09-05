@@ -89,12 +89,15 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
           ),
           body: OnboardingScreen(
             children: [
-              switch (widget.type) {
-                RampType.onRamp =>
-                  Assets.images.cashInGraphic.image(height: 100),
-                RampType.offRamp =>
-                  Assets.images.cashOutGraphic.image(height: 100),
-              },
+              if (_partners.isEmpty) ...[
+                Assets.icons.errorIcon.svg(height: 100),
+              ] else
+                switch (widget.type) {
+                  RampType.onRamp =>
+                    Assets.images.cashInGraphic.image(height: 100),
+                  RampType.offRamp =>
+                    Assets.images.cashOutGraphic.image(height: 100),
+                },
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 42),
