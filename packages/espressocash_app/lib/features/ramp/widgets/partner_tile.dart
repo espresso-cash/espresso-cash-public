@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../ramp_partner/models/payment_methods.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../models/ramp_type.dart';
 
 class PartnerTile extends StatelessWidget {
   const PartnerTile({
     super.key,
     required this.partner,
+    required this.type,
     required this.onPartnerSelected,
   });
 
   final RampPartner partner;
+  final RampType type;
   final ValueSetter<RampPartner> onPartnerSelected;
 
   @override
@@ -55,14 +59,25 @@ class PartnerTile extends StatelessWidget {
             subtitle: Row(
               children: [
                 for (final method in partner.paymentMethods) ...[
-                  method.logo.image(),
+                  method.logo.svg(width: 30),
                   const SizedBox(width: 4),
                 ],
                 if (partner == RampPartner.moneygram) ...[
-                  const Text('Cash deposits', style: _subtitleStyle),
+                  Text(
+                    switch (type) {
+                      RampType.onRamp =>
+                        context.l10n.moneygramPaymentMethodOnRamp,
+                      RampType.offRamp =>
+                        context.l10n.moneygramPaymentMethodOffRamp,
+                    },
+                    style: _subtitleStyle,
+                  ),
                 ],
                 const Spacer(),
-                Text('Min ${partner.minimumAmount}', style: _subtitleStyle),
+                Text(
+                  context.l10n.rampMinimumTransferAmount(partner.minimumAmount),
+                  style: _subtitleStyle,
+                ),
               ],
             ),
             onTap: () => onPartnerSelected(partner),

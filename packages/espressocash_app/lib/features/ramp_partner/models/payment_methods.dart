@@ -12,24 +12,24 @@ enum PaymentMethod {
 }
 
 extension PaymentMethodAssets on PaymentMethod {
-  AssetGenImage get logo {
+  SvgGenImage get logo {
     switch (this) {
       case PaymentMethod.visa:
-        return Assets.images.visaIcon;
+        return Assets.icons.visaIcon;
       case PaymentMethod.mastercard:
-        return Assets.images.mastercardIcon;
+        return Assets.icons.mastercardIcon;
       case PaymentMethod.applePay:
-        return Assets.images.applepayIcon;
+        return Assets.icons.applepayIcon;
       case PaymentMethod.googlePay:
-        return Assets.images.gpayIcon;
+        return Assets.icons.gpayIcon;
       case PaymentMethod.bank:
-        return Assets.images.bankIcon;
+        return Assets.icons.bankIcon;
       case PaymentMethod.sepa:
-        return Assets.images.sepaIcon;
+        return Assets.icons.sepaIcon;
       case PaymentMethod.pix:
-        return Assets.images.pixIcon;
+        return Assets.icons.pixIcon;
       case PaymentMethod.swift:
-        return Assets.images.swiftIcon;
+        return Assets.icons.swiftIcon;
     }
   }
 }

@@ -151,14 +151,47 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
                   onSubmitted: _handleCountryChange,
                 ),
               ),
+              if (_partners.isEmpty) ...[
+                const Spacer(),
+                const _CountryNotSupportedWidget(),
+              ],
               const SizedBox(height: 20),
               for (final partner in _partners)
                 PartnerTile(
                   partner: partner,
+                  type: widget.type,
                   onPartnerSelected: widget.onPartnerSelected,
                 ),
             ],
           ),
         ),
+      );
+}
+
+class _CountryNotSupportedWidget extends StatelessWidget {
+  const _CountryNotSupportedWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: [
+          Text(
+            context.l10n.countryNotSupportedText.toUpperCase(),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 20,
+              height: 24 / 20,
+              letterSpacing: 0.23,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          Text(
+            context.l10n.countryNotSupportedAdditionalText,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
       );
 }
