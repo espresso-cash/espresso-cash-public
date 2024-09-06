@@ -119,14 +119,19 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
         return;
       }
 
-      final amount = Amount.fromDecimal(
+      final walletAmount = Amount.fromDecimal(
         value: Decimal.parse(usdcBalance.toString()),
         currency: Currency.usdc,
       ) as CryptoAmount;
 
-      final hash = await _initiateSwapToSolana(amount);
+      final hash = await _initiateSwapToSolana(walletAmount);
 
-      value = StellarRecoveryState.processing(amount: value.amount, txId: hash);
+      final receivedAmount =
+          _storage.getInt(_stellarRecoveryAmountKey).toCryptoAmount;
+
+      value =
+          StellarRecoveryState.processing(amount: receivedAmount, txId: hash);
+
       _watchBridgeTx();
     } on Exception {
       value = const StellarRecoveryState.failed();
@@ -165,7 +170,7 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
 
   void _watchBridgeTx() {
     _watcher =
-        Stream<void>.periodic(const Duration(seconds: 15)).listen((_) async {
+        Stream<void>.periodic(const Duration(seconds: 5)).listen((_) async {
       final txId = switch (value) {
         RecoveryProcessing(:final txId) => txId,
         _ => null,
