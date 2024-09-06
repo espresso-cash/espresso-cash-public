@@ -45,6 +45,9 @@ extension BuildContextExt on BuildContext {
 
     const partner = RampPartner.scalex;
 
+    final minAmountNGN =
+        partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
+
     await RampAmountScreen.push(
       this,
       partner: partner,
@@ -52,11 +55,30 @@ extension BuildContextExt on BuildContext {
         Navigator.pop(this);
         amount = value;
       },
-      minAmount: partner.minimumAmountInDecimal,
-      currency: Currency.usdc,
-      calculateEquivalent: (Amount amount) async =>
-          Either.right(amount.calculateOnRampFee(exchangeRate: rampRate)),
-      // partnerFeeLabel: 'Partner Fee: ${rampFeePercentage * 100}% + \$$fixedFee',
+      minAmount: minAmountNGN,
+      currency: Currency.ngn,
+      calculateEquivalent: (Amount amount) async => Either.right(
+        amount.calculateOnRampReceiveAmount(
+          exchangeRate: rampRate,
+          percentageFee: rampFeePercentage,
+          fixedFee: fixedFee,
+        ),
+      ),
+      calculateFee: (amount) async {
+        final fee = amount.calculateOnRampFee(
+          exchangeRate: rampRate,
+          percentageFee: rampFeePercentage,
+          fixedFee: fixedFee,
+        );
+
+        return Either.right(
+          (
+            ourFee: '0 USDC',
+            partnerFee: '${rampFeePercentage * 100}% + \$$fixedFee',
+            totalFee: fee,
+          ),
+        );
+      },
       exchangeRate: '1 USDC = $rampRate NGN',
       type: RampType.onRamp,
     );
@@ -167,6 +189,10 @@ window.addEventListener("message", (event) => {
 
     Amount? amount;
 
+    final double rampRate = rateAndFee.offRampRate;
+    final double rampFeePercentage = rateAndFee.offRampFeePercentage;
+    final double fixedFee = rateAndFee.fixedOffRampFee;
+
     const partner = RampPartner.scalex;
 
     await RampAmountScreen.push(
@@ -179,15 +205,28 @@ window.addEventListener("message", (event) => {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       calculateEquivalent: (amount) async => Either.right(
-        amount.calculateOffRampFee(
-          exchangeRate: rateAndFee.offRampRate,
-          percentageFee: rateAndFee.offRampFeePercentage,
-          fixedFee: rateAndFee.fixedOffRampFee,
+        amount.calculateOffRampReceiveAmount(
+          exchangeRate: rampRate,
+          percentageFee: rampFeePercentage,
+          fixedFee: fixedFee,
         ),
       ),
-      exchangeRate: '1 USDC = ${rateAndFee.offRampRate} NGN',
-      // partnerFeeLabel:
-      //     'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
+      exchangeRate: '1 USDC = $rampRate NGN',
+      calculateFee: (amount) async {
+        final fee = amount.calculateOffRampFee(
+          exchangeRate: rampRate,
+          percentageFee: rampFeePercentage,
+          fixedFee: fixedFee,
+        );
+
+        return Either.right(
+          (
+            ourFee: '0 USDC',
+            partnerFee: '${rampFeePercentage * 100}% + \$$fixedFee',
+            totalFee: fee,
+          ),
+        );
+      },
       type: RampType.offRamp,
     );
 
@@ -308,7 +347,7 @@ window.addEventListener("message", (event) => {
 }
 
 extension on Amount {
-  FiatAmount calculateOffRampFee({
+  FiatAmount calculateOffRampReceiveAmount({
     required double exchangeRate,
     required double percentageFee,
     required double fixedFee,
@@ -326,14 +365,50 @@ extension on Amount {
     );
   }
 
-  FiatAmount calculateOnRampFee({
+  FiatAmount calculateOffRampFee({
     required double exchangeRate,
+    required double percentageFee,
+    required double fixedFee,
   }) {
-    final double inputAmount = decimal.toDouble() * exchangeRate;
+    final double inputAmountInUSDC = decimal.toDouble();
+    final double feeInUSDC = (inputAmountInUSDC * percentageFee) + fixedFee;
+    final double feeInNGN = feeInUSDC * exchangeRate;
 
     return FiatAmount(
-      value: Currency.ngn.decimalToInt(Decimal.parse(inputAmount.toString())),
+      value: Currency.ngn.decimalToInt(Decimal.parse(feeInNGN.toString())),
       fiatCurrency: Currency.ngn,
+    );
+  }
+
+  CryptoAmount calculateOnRampReceiveAmount({
+    required double exchangeRate,
+    required double percentageFee,
+    required double fixedFee,
+  }) {
+    final double inputAmountInNGN = decimal.toDouble();
+    final double amountInUSDC = inputAmountInNGN / exchangeRate;
+    final double feeInUSDC = (amountInUSDC * percentageFee) + fixedFee;
+    final double netAmountInUSDC = amountInUSDC - feeInUSDC;
+
+    return CryptoAmount(
+      value:
+          Currency.usdc.decimalToInt(Decimal.parse(netAmountInUSDC.toString())),
+      cryptoCurrency: Currency.usdc,
+    );
+  }
+
+  CryptoAmount calculateOnRampFee({
+    required double exchangeRate,
+    required double percentageFee,
+    required double fixedFee,
+  }) {
+    final double inputAmountInNGN = decimal.toDouble();
+    final double amountInUSDC = inputAmountInNGN / exchangeRate;
+    final double feeInUSDC = (amountInUSDC * percentageFee) + fixedFee;
+
+    return CryptoAmount(
+      value: Currency.usdc.decimalToInt(Decimal.parse(feeInUSDC.toString())),
+      cryptoCurrency: Currency.usdc,
     );
   }
 }
