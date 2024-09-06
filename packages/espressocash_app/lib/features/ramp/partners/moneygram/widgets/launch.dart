@@ -14,7 +14,6 @@ import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../../utils/errors.dart';
 import '../../../../conversion_rates/services/amount_ext.dart';
-import '../../../../conversion_rates/widgets/extensions.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
@@ -53,11 +52,11 @@ extension BuildContextExt on BuildContext {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usd,
       type: type,
-      calculateEquivalent: (amount) => _calculateFees(
+      calculateEquivalent: (amount) => _calculateReceiveAmount(
         amount: amount,
         type: type,
       ),
-      partnerFeeLabel: 'Fee taken during bridging',
+      exchangeRate: '1 USDC = 1 USDC',
     );
 
     final submittedAmount = amount;
@@ -179,10 +178,15 @@ window.addEventListener("message", (event) => {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       type: type,
-      calculateEquivalent: (amount) => _calculateFees(
+      calculateEquivalent: (amount) => _calculateReceiveAmount(
         amount: amount,
         type: type,
       ),
+      calculateFee: (amount) => _calculateFees(
+        amount: amount,
+        type: type,
+      ),
+      exchangeRate: '1 USDC = 1 USDC',
     );
 
     final submittedAmount = amount;
@@ -246,7 +250,7 @@ window.addEventListener("message", (event) => {
   /// for [RampType.offRamp], fee is taken from input amount
   ///
   /// Since [RampType.onRamp] fee is added, we show total amount to pay
-  Future<Either<Exception, ({Amount amount, String? rate})>> _calculateFees({
+  Future<Either<Exception, Amount>> _calculateReceiveAmount({
     required Amount amount,
     required RampType type,
   }) async {
@@ -255,13 +259,29 @@ window.addEventListener("message", (event) => {
       type: type,
     );
 
-    final feeLabel = switch (type) {
-      RampType.onRamp =>
-        'You will pay ${(fees.moneygramFee + amount).format(locale)}',
-      RampType.offRamp => null,
-    };
+    return Either.right(fees.receiveAmount);
+  }
 
-    return Either.right((amount: fees.receiveAmount, rate: feeLabel));
+  Future<Either<Exception, RampFees>> _calculateFees({
+    required Amount amount,
+    required RampType type,
+  }) async {
+    final fees = await _fetchFees(
+      amount: amount,
+      type: type,
+    );
+
+    return Either.right(
+      (
+        ourFee: '0 USDC',
+        partnerFee: 'Heheh',
+        totalFee: FiatAmount(
+          value:
+              Currency.usd.decimalToInt(amount.decimal * Decimal.parse('0.05')),
+          fiatCurrency: Currency.usd,
+        ),
+      ),
+    );
   }
 
   Future<({Amount receiveAmount, Amount moneygramFee})> _fetchFees({
@@ -276,6 +296,8 @@ window.addEventListener("message", (event) => {
         amount: amount.decimal.toString(),
       ),
     );
+
+    print(fee);
 
     return (
       receiveAmount: Amount.fromDecimal(

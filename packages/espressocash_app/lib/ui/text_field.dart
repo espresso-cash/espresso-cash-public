@@ -25,6 +25,9 @@ class CpTextField extends StatelessWidget {
     this.textInputAction,
     this.multiLine = false,
     this.textCapitalization = TextCapitalization.none,
+    this.fontWeight = FontWeight.normal,
+    this.height,
+    this.maxLength,
   });
 
   final TextEditingController? controller;
@@ -44,6 +47,9 @@ class CpTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool? multiLine;
   final TextCapitalization textCapitalization;
+  final FontWeight fontWeight;
+  final double? height;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +57,7 @@ class CpTextField extends StatelessWidget {
     final multiLine = this.multiLine ?? false;
 
     return Container(
+      height: height,
       margin: margin,
       decoration: border == CpTextFieldBorder.stadium
           ? ShapeDecoration(
@@ -66,16 +73,16 @@ class CpTextField extends StatelessWidget {
         decoration: const BoxDecoration(),
         suffix: suffix,
         padding: padding,
+        maxLength: maxLength,
         readOnly: readOnly,
         textAlignVertical: TextAlignVertical.center,
         controller: controller,
         maxLines: multiLine ? null : 1,
         cursorColor: CpColors.yellowColor,
         style: TextStyle(
-          fontWeight: FontWeight.normal,
+          fontWeight: fontWeight,
           fontSize: fontSize,
           color: textColor,
-          height: 1.2,
         ),
         placeholder: placeholder,
         keyboardType: inputType,
@@ -92,4 +99,33 @@ class CpTextField extends StatelessWidget {
       ),
     );
   }
+}
+
+class FittedTextEditingController extends TextEditingController {
+  FittedTextEditingController({super.text});
+
+  @override
+  TextSpan buildTextSpan({
+    required BuildContext context,
+    TextStyle? style,
+    required bool withComposing,
+  }) =>
+      TextSpan(
+        style: style,
+        children: [
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) =>
+                  FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  text,
+                  style: style,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
 }

@@ -1,7 +1,9 @@
+import 'package:country_flags/country_flags.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/amount_keypad/amount_keypad.dart';
@@ -9,18 +11,19 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../../tokens/token.dart';
+import '../../tokens/widgets/token_icon.dart';
 import '../models/ramp_type.dart';
 
-typedef AmountCalculator = AsyncResult<({Amount amount, String? rate})>
-    Function(
-  Amount amount,
-);
-typedef FeeCalculator = CryptoAmount Function(Amount amount);
+typedef AmountCalculator = AsyncResult<Amount> Function(Amount amount);
+typedef RampFees = ({String? ourFee, String? partnerFee, Amount? totalFee});
+typedef FeeCalculator = AsyncResult<RampFees> Function(Amount amount);
 
 class RampAmountScreen extends StatefulWidget {
   const RampAmountScreen({
@@ -32,7 +35,7 @@ class RampAmountScreen extends StatefulWidget {
     required this.type,
     required this.calculateFee,
     required this.partner,
-    this.partnerFeeLabel,
+    required this.exchangeRate,
   });
 
   static Future<void> push(
@@ -44,7 +47,7 @@ class RampAmountScreen extends StatefulWidget {
     required RampPartner partner,
     AmountCalculator? calculateEquivalent,
     FeeCalculator? calculateFee,
-    String? partnerFeeLabel,
+    String? exchangeRate,
   }) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
@@ -56,7 +59,7 @@ class RampAmountScreen extends StatefulWidget {
             type: type,
             partner: partner,
             calculateFee: calculateFee,
-            partnerFeeLabel: partnerFeeLabel,
+            exchangeRate: exchangeRate,
           ),
         ),
       );
@@ -68,7 +71,8 @@ class RampAmountScreen extends StatefulWidget {
   final RampType type;
   final RampPartner partner;
   final FeeCalculator? calculateFee;
-  final String? partnerFeeLabel;
+
+  final String? exchangeRate;
 
   @override
   State<RampAmountScreen> createState() => _RampAmountScreenState();
@@ -111,29 +115,31 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
           ),
           body: SafeArea(
             top: false,
-            minimum: const EdgeInsets.symmetric(vertical: 40),
+            minimum: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: ValueListenableBuilder(
-                    valueListenable: _controller,
-                    builder: (context, value, child) => _EnteredAmount(
-                      enteredText: value.text,
-                      currency: widget.currency,
-                    ),
-                  ),
+                _RampTextField(
+                  label: 'Deposit Amount',
+                  controller: _controller,
+                  currency: widget.currency,
                 ),
-                const SizedBox(height: 27),
                 ValueListenableBuilder(
                   valueListenable: _controller,
-                  builder: (context, value, child) => _InfoLabel(
+                  builder: (context, value, child) => _EquivalentTextField(
                     amount: _amount,
                     calculateEquivalent: widget.calculateEquivalent,
                     minAmount: widget.minAmount,
-                    currency: widget.currency,
                     type: widget.type,
-                    partner: widget.partner,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ValueListenableBuilder(
+                  valueListenable: _controller,
+                  builder: (context, value, child) => _AdditionalInfoLabel(
+                    feeCalculator: widget.calculateFee,
+                    amount: _amount,
+                    exchangeRate: widget.exchangeRate,
+                    minAmount: widget.minAmount,
                   ),
                 ),
                 Expanded(
@@ -142,15 +148,6 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                       controller: _controller,
                       maxDecimals: 2,
                     ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ValueListenableBuilder(
-                  valueListenable: _controller,
-                  builder: (context, value, child) => _FeeLabel(
-                    feeCalculator: widget.calculateFee,
-                    partnerFeeLabel: widget.partnerFeeLabel,
-                    amount: _amount,
                   ),
                 ),
                 Padding(
@@ -177,145 +174,310 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
       );
 }
 
-class _FeeLabel extends StatelessWidget {
-  const _FeeLabel({
+class _AdditionalInfoLabel extends StatefulWidget {
+  const _AdditionalInfoLabel({
     required this.feeCalculator,
-    required this.partnerFeeLabel,
     required this.amount,
+    required this.minAmount,
+    this.exchangeRate,
   });
 
-  final String? partnerFeeLabel;
+  final String? exchangeRate;
   final FeeCalculator? feeCalculator;
   final Amount amount;
+  final Decimal minAmount;
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          if (partnerFeeLabel case final partnerFeeLabel?)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
-              child: Text(
-                partnerFeeLabel,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.19,
-                ),
+  State<_AdditionalInfoLabel> createState() => _AdditionalInfoLabelState();
+}
+
+class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel> {
+  AsyncResult<RampFees>? _result;
+
+  @override
+  void initState() {
+    super.initState();
+    _result = widget.feeCalculator?.call(widget.amount);
+  }
+
+  @override
+  void didUpdateWidget(covariant _AdditionalInfoLabel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.amount == widget.amount) return;
+
+    _result = widget.feeCalculator?.call(widget.amount);
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      widget.exchangeRate == null && widget.feeCalculator == null
+          ? const SizedBox.shrink()
+          : _SendInfoContainer(
+              content: Column(
+                children: [
+                  if (widget.exchangeRate case final exchangeRate?)
+                    _InfoRow(
+                      title: 'Exchange Rate',
+                      value: exchangeRate,
+                    ),
+                  if (widget.feeCalculator != null)
+                    FutureBuilder(
+                      future: _result,
+                      builder: (context, snapshot) {
+                        if (widget.amount.decimal < widget.minAmount) {
+                          return const Column(
+                            children: [
+                              _InfoRow(title: 'Our Fee', value: '-'),
+                              _InfoRow(title: 'Partner Fee', value: '-'),
+                              _InfoRow(title: 'Total Fees', value: '-'),
+                            ],
+                          );
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Column(
+                            children: [
+                              _ShimmerInfoRow(title: 'Our Fee'),
+                              _ShimmerInfoRow(title: 'Partner Fee'),
+                              _ShimmerInfoRow(title: 'Total Fees'),
+                            ],
+                          );
+                        }
+
+                        final data = snapshot.data;
+
+                        return data == null || snapshot.hasError
+                            ? const SizedBox.shrink()
+                            : data.fold(
+                                (_) => const SizedBox.shrink(),
+                                (data) => Column(
+                                  children: [
+                                    if (data.ourFee case final ourFee?)
+                                      _InfoRow(
+                                        title: 'Our Fee',
+                                        value: ourFee,
+                                      ),
+                                    if (data.partnerFee case final partnerFee?)
+                                      _InfoRow(
+                                        title: 'Partner Fee',
+                                        value: partnerFee,
+                                      ),
+                                    if (data.totalFee case final totalFee?)
+                                      _InfoRow(
+                                        title: 'Total Fees',
+                                        value: totalFee.format(
+                                          context.locale,
+                                          maxDecimals: 2,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              );
+                      },
+                    ),
+                ],
+              ),
+            );
+}
+
+class _ShimmerInfoRow extends StatelessWidget {
+  const _ShimmerInfoRow({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Row(
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
               ),
             ),
-          if (feeCalculator case final feeCalculator?)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
-              child: _FeeCalculator(
-                calculateFee: feeCalculator,
-                amount: amount,
-              ),
+            const Spacer(),
+            const _SkeletonAnimation(
+              height: 20,
+              width: 80,
             ),
-          const SizedBox(height: 12),
-        ],
+          ],
+        ),
       );
 }
 
-class _InfoLabel extends StatelessWidget {
-  const _InfoLabel({
+class _EquivalentTextField extends StatelessWidget {
+  const _EquivalentTextField({
     required this.amount,
-    required this.minAmount,
-    required this.currency,
     required this.calculateEquivalent,
     required this.type,
-    required this.partner,
+    required this.minAmount,
   });
 
   final Amount amount;
-  final Decimal minAmount;
-  final Currency currency;
   final AmountCalculator? calculateEquivalent;
+  final Decimal minAmount;
   final RampType type;
-  final RampPartner partner;
 
   @override
   Widget build(BuildContext context) {
-    context.l10n.minAmountToOffRamp(
-      Amount(
-        value: currency.decimalToInt(minAmount),
-        currency: currency,
-      ).format(context.locale, roundInteger: true),
-    );
+    final calculator = calculateEquivalent;
 
-    Widget? child;
     if (amount.decimal < minAmount || calculateEquivalent == null) {
-      final amount = Amount(
-        value: currency.decimalToInt(minAmount),
-        currency: currency,
-      ).format(context.locale, roundInteger: true);
-
-      child = Text(
-        switch (type) {
-          RampType.onRamp => context.l10n.minAmountToOnRamp(amount),
-          RampType.offRamp => context.l10n.minAmountToOffRamp(amount),
-        }
-            .toUpperCase(),
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w700,
-        ),
-      );
-    } else if (calculateEquivalent case final calculateEquivalent?) {
-      child = _Calculator(
-        calculateEquivalent: calculateEquivalent,
-        amount: amount,
-        partner: partner,
-      );
+      return const SizedBox.shrink();
     }
 
-    return child == null
-        ? const SizedBox(height: 55)
-        : Container(
-            margin: const EdgeInsets.symmetric(horizontal: 40),
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            height: 55,
-            width: double.infinity,
-            decoration: const ShapeDecoration(
-              shape: StadiumBorder(),
-              color: Colors.black,
-            ),
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: DefaultTextStyle(
-                style: const TextStyle(fontSize: 15),
-                child: child,
+    return calculator == null
+        ? const SizedBox.shrink()
+        : Column(
+            children: [
+              const SizedBox(height: 16),
+              _Calculator(
+                calculateEquivalent: calculator,
+                amount: amount,
               ),
-            ),
+            ],
           );
   }
 }
 
-class _EnteredAmount extends StatelessWidget {
-  const _EnteredAmount({
+class _RampTextField extends StatelessWidget {
+  const _RampTextField({
     required this.currency,
-    required this.enteredText,
+    required this.controller,
+    required this.label,
   });
 
+  final String label;
   final Currency currency;
-  final String enteredText;
+  final TextEditingController controller;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        height: 82,
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-            enteredText.isEmpty
-                ? context.l10n.enterAmount
-                : '$enteredText ${currency.symbol}',
-            style: TextStyle(
-              fontSize: 70,
-              fontWeight: FontWeight.w700,
-              color:
-                  enteredText.isEmpty ? const Color(0xFF8F8F8F) : Colors.white,
+  Widget build(BuildContext context) {
+    final logo = switch (currency) {
+      FiatCurrency(:final countryCode) => countryCode != null
+          ? CountryFlag.fromCountryCode(
+              countryCode,
+              shape: const Circle(),
+            )
+          : CircleAvatar(
+              backgroundColor: CpColors.darkBackgroundColor,
+              child: Assets.icons.money.svg(),
+            ),
+      CryptoCurrency(:final Token token) => TokenIcon(
+          token: token,
+          size: 36,
+        ),
+    };
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 16, bottom: 6),
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
+          CpTextField(
+            padding: const EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 24,
+            ),
+            height: 70,
+            controller: controller,
+            inputType: const TextInputType.numberWithOptions(decimal: true),
+            textInputAction: TextInputAction.next,
+            textCapitalization: TextCapitalization.none,
+            backgroundColor: CpColors.darkBackgroundColor,
+            placeholder: '0',
+            placeholderColor: Colors.white,
+            textColor: Colors.white,
+            fontSize: 34,
+            fontWeight: FontWeight.w700,
+            maxLength: 29,
+            prefix: logo,
+            suffix: Padding(
+              padding: const EdgeInsets.only(right: 24),
+              child: Text(
+                currency.symbol,
+                style: const TextStyle(
+                  fontSize: 34,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SendInfoContainer extends StatelessWidget {
+  const _SendInfoContainer({
+    required this.content,
+  });
+
+  final Widget content;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 18),
+          decoration: const ShapeDecoration(
+            color: CpColors.darkBackgroundColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(28),
+              ),
+            ),
+          ),
+          child: content,
+        ),
+      );
+}
+
+class _InfoRow extends StatelessWidget {
+  const _InfoRow({
+    required this.title,
+    required this.value,
+  });
+
+  final String title;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Row(
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const Spacer(),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: Color(0xff999999),
+              ),
+            ),
+          ],
         ),
       );
 }
@@ -324,19 +486,17 @@ class _Calculator extends StatefulWidget {
   const _Calculator({
     required this.calculateEquivalent,
     required this.amount,
-    required this.partner,
   });
 
   final AmountCalculator calculateEquivalent;
   final Amount amount;
-  final RampPartner partner;
 
   @override
   State<_Calculator> createState() => _CalculatorState();
 }
 
 class _CalculatorState extends State<_Calculator> {
-  AsyncResult<({Amount amount, String? rate})>? _result;
+  AsyncResult<Amount>? _result;
 
   @override
   void initState() {
@@ -357,99 +517,153 @@ class _CalculatorState extends State<_Calculator> {
   Widget build(BuildContext context) => FutureBuilder(
         future: _result,
         builder: (context, snapshot) {
+          const label = 'You Receive';
+          const loading = LoadingTextField(label: label);
+
+          if (snapshot.connectionState != ConnectionState.done) {
+            return loading;
+          }
+
           final data = snapshot.data;
 
-          return data == null ||
-                  snapshot.connectionState != ConnectionState.done
-              ? Text(context.l10n.loading)
+          return data == null
+              ? const SizedBox.shrink()
               : data.fold(
-                  (_) => const Text('Error. Please try again later.'),
-                  (data) => Column(
-                    children: [
-                      if (widget.partner == RampPartner.scalex)
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: data.amount
-                                    .format(context.locale, skipSymbol: true),
-                              ),
-                              TextSpan(
-                                text:
-                                    ' ${data.amount.currency.symbol.toUpperCase()}',
-                                style: const TextStyle(
-                                  color: CpColors.yellowColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          textAlign: TextAlign.center,
-                        )
-                      else
-                        Text(
-                          context.l10n.rampAmountEquivalent(
-                            data.amount.format(context.locale, maxDecimals: 3),
-                          ),
-                        ),
-                      if (data.rate case final rate?)
-                        Text(
-                          rate,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 0.19,
-                          ),
-                        ),
-                    ],
+                  (_) => loading,
+                  (data) => _RampTextField(
+                    label: label,
+                    controller: FittedTextEditingController(
+                      text: data.format(
+                        context.locale,
+                        maxDecimals: 2,
+                        skipSymbol: true,
+                      ),
+                    ),
+                    currency: data.currency,
                   ),
                 );
         },
       );
 }
 
-class _FeeCalculator extends StatefulWidget {
-  const _FeeCalculator({
-    required this.calculateFee,
-    required this.amount,
+class LoadingTextField extends StatelessWidget {
+  const LoadingTextField({
+    super.key,
+    required this.label,
   });
 
-  final FeeCalculator calculateFee;
-  final Amount amount;
+  final String label;
 
   @override
-  State<_FeeCalculator> createState() => _FeeCalculatorState();
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16, bottom: 4),
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Container(
+              height: 70,
+              decoration: const ShapeDecoration(
+                color: CpColors.darkBackgroundColor,
+                shape: StadiumBorder(),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: const Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.grey,
+                  ),
+                  SizedBox(width: 24),
+                  Expanded(
+                    child: _SkeletonAnimation(
+                      height: 34,
+                      width: double.infinity,
+                    ),
+                  ),
+                  SizedBox(width: 24),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 }
 
-class _FeeCalculatorState extends State<_FeeCalculator> {
-  late Amount _result;
+class _SkeletonAnimation extends StatelessWidget {
+  const _SkeletonAnimation({
+    required this.height,
+    required this.width,
+  });
+
+  final double height;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) => Container(
+        height: height,
+        width: width,
+        decoration: BoxDecoration(
+          color: Colors.grey.withOpacity(0.3),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(8),
+          ),
+        ),
+        child: const _ShimmerEffect(),
+      );
+}
+
+class _ShimmerEffect extends StatefulWidget {
+  const _ShimmerEffect();
+
+  @override
+  _ShimmerEffectState createState() => _ShimmerEffectState();
+}
+
+class _ShimmerEffectState extends State<_ShimmerEffect>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _result = widget.calculateFee(widget.amount);
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat();
   }
 
   @override
-  void didUpdateWidget(covariant _FeeCalculator oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.amount == widget.amount) return;
-
-    _result = widget.calculateFee(widget.amount);
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => Text(
-        context.l10n.feeAmount(_result.format(context.locale)),
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 0.19,
+  Widget build(BuildContext context) => AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) => Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.grey.withOpacity(0.3),
+                Colors.grey.withOpacity(0.5),
+                Colors.grey.withOpacity(0.3),
+              ],
+              stops: const [0.0, 0.5, 1.0],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              transform: GradientRotation(_controller.value * 2 * 3.14159),
+            ),
+          ),
         ),
       );
 }

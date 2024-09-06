@@ -54,15 +54,10 @@ extension BuildContextExt on BuildContext {
       },
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
-      calculateEquivalent: (Amount amount) async => Either.right(
-        (
-          amount: amount.calculateOnRampFee(
-            exchangeRate: rampRate,
-          ),
-          rate: '1 USDC = $rampRate NGN'
-        ),
-      ),
-      partnerFeeLabel: 'Partner Fee: ${rampFeePercentage * 100}% + \$$fixedFee',
+      calculateEquivalent: (Amount amount) async =>
+          Either.right(amount.calculateOnRampFee(exchangeRate: rampRate)),
+      // partnerFeeLabel: 'Partner Fee: ${rampFeePercentage * 100}% + \$$fixedFee',
+      exchangeRate: '1 USDC = $rampRate NGN',
       type: RampType.onRamp,
     );
 
@@ -184,17 +179,15 @@ window.addEventListener("message", (event) => {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       calculateEquivalent: (amount) async => Either.right(
-        (
-          amount: amount.calculateOffRampFee(
-            exchangeRate: rateAndFee.offRampRate,
-            percentageFee: rateAndFee.offRampFeePercentage,
-            fixedFee: rateAndFee.fixedOffRampFee,
-          ),
-          rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
+        amount.calculateOffRampFee(
+          exchangeRate: rateAndFee.offRampRate,
+          percentageFee: rateAndFee.offRampFeePercentage,
+          fixedFee: rateAndFee.fixedOffRampFee,
         ),
       ),
-      partnerFeeLabel:
-          'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
+      exchangeRate: '1 USDC = ${rateAndFee.offRampRate} NGN',
+      // partnerFeeLabel:
+      //     'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
       type: RampType.offRamp,
     );
 
