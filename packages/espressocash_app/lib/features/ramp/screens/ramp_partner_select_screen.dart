@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
@@ -7,12 +8,15 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/loader.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/theme.dart';
 import '../../../utils/extensions.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../../profile/data/profile_repository.dart';
+import '../../profile/service/update_profile.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 import '../widgets/partner_config.dart';
@@ -67,13 +71,26 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
     }
   }
 
-  void _handleCountryChange(Country country) {
-    sl<ProfileRepository>().country = country.code;
+  void _handleCountryChange(Country country) => runWithLoader(
+        context,
+        () async {
+          await sl<UpdateProfile>()
+              .call(
+                countryCode: country.code,
+              )
+              .foldAsync((e) => throw e, ignore);
 
-    setState(() {
-      _country = country;
-    });
-  }
+          if (!mounted) return;
+          setState(() {
+            _country = country;
+          });
+        },
+        onError: (error) => showErrorDialog(
+          context,
+          context.l10n.lblProfileUpdateFailed,
+          error,
+        ),
+      );
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
@@ -172,7 +189,7 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
 }
 
 class _CountryNotSupportedWidget extends StatelessWidget {
-  const _CountryNotSupportedWidget({super.key});
+  const _CountryNotSupportedWidget();
 
   @override
   Widget build(BuildContext context) => Column(
