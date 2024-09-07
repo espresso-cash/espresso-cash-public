@@ -352,15 +352,16 @@ extension on Amount {
     required double percentageFee,
     required double fixedFee,
   }) {
-    final double inputAmount = decimal.toDouble();
-    final double totalFeeInUsdc = (inputAmount * percentageFee) + fixedFee;
-
-    final double netAmountInFiat =
-        (inputAmount - totalFeeInUsdc) * exchangeRate;
+    final (amountInNGN, feeInUSDC) = _calculateOffRampAmounts(
+      exchangeRate: exchangeRate,
+      percentageFee: percentageFee,
+      fixedFee: fixedFee,
+    );
+    final double netAmountInNGN = amountInNGN - (feeInUSDC * exchangeRate);
 
     return FiatAmount(
       value:
-          Currency.ngn.decimalToInt(Decimal.parse(netAmountInFiat.toString())),
+          Currency.ngn.decimalToInt(Decimal.parse(netAmountInNGN.toString())),
       fiatCurrency: Currency.ngn,
     );
   }
@@ -370,8 +371,11 @@ extension on Amount {
     required double percentageFee,
     required double fixedFee,
   }) {
-    final double inputAmountInUSDC = decimal.toDouble();
-    final double feeInUSDC = (inputAmountInUSDC * percentageFee) + fixedFee;
+    final (_, feeInUSDC) = _calculateOffRampAmounts(
+      exchangeRate: exchangeRate,
+      percentageFee: percentageFee,
+      fixedFee: fixedFee,
+    );
     final double feeInNGN = feeInUSDC * exchangeRate;
 
     return FiatAmount(
@@ -380,14 +384,28 @@ extension on Amount {
     );
   }
 
+  (double, double) _calculateOffRampAmounts({
+    required double exchangeRate,
+    required double percentageFee,
+    required double fixedFee,
+  }) {
+    final double inputAmountInUSDC = decimal.toDouble();
+    final double feeInUSDC = (inputAmountInUSDC * percentageFee) + fixedFee;
+    final double amountInNGN = inputAmountInUSDC * exchangeRate;
+
+    return (amountInNGN, feeInUSDC);
+  }
+
   CryptoAmount calculateOnRampReceiveAmount({
     required double exchangeRate,
     required double percentageFee,
     required double fixedFee,
   }) {
-    final double inputAmountInNGN = decimal.toDouble();
-    final double amountInUSDC = inputAmountInNGN / exchangeRate;
-    final double feeInUSDC = (amountInUSDC * percentageFee) + fixedFee;
+    final (amountInUSDC, feeInUSDC) = _calculateOnRampAmounts(
+      exchangeRate: exchangeRate,
+      percentageFee: percentageFee,
+      fixedFee: fixedFee,
+    );
     final double netAmountInUSDC = amountInUSDC - feeInUSDC;
 
     return CryptoAmount(
@@ -402,14 +420,28 @@ extension on Amount {
     required double percentageFee,
     required double fixedFee,
   }) {
-    final double inputAmountInNGN = decimal.toDouble();
-    final double amountInUSDC = inputAmountInNGN / exchangeRate;
-    final double feeInUSDC = (amountInUSDC * percentageFee) + fixedFee;
+    final (_, feeInUSDC) = _calculateOnRampAmounts(
+      exchangeRate: exchangeRate,
+      percentageFee: percentageFee,
+      fixedFee: fixedFee,
+    );
 
     return CryptoAmount(
       value: Currency.usdc.decimalToInt(Decimal.parse(feeInUSDC.toString())),
       cryptoCurrency: Currency.usdc,
     );
+  }
+
+  (double, double) _calculateOnRampAmounts({
+    required double exchangeRate,
+    required double percentageFee,
+    required double fixedFee,
+  }) {
+    final double inputAmountInNGN = decimal.toDouble();
+    final double amountInUSDC = inputAmountInNGN / exchangeRate;
+    final double feeInUSDC = (amountInUSDC * percentageFee) + fixedFee;
+
+    return (amountInUSDC, feeInUSDC);
   }
 }
 
