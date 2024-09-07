@@ -6,10 +6,13 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../../../../../config.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../../conversion_rates/services/amount_ext.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../tokens/token.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
@@ -24,22 +27,32 @@ extension BuildContextExt on BuildContext {
     required String address,
     required ProfileData profile,
   }) async {
-    Amount? amount;
+    FiatAmount? amount;
 
     await RampAmountScreen.push(
       this,
       partner: RampPartner.kado,
       onSubmitted: (Amount? value) {
         Navigator.pop(this);
-        amount = value;
+        amount = value as FiatAmount?;
       },
       minAmount: Decimal.fromInt(10),
-      currency: Currency.usdc,
+      currency: Currency.usd,
       type: RampType.onRamp,
     );
 
     final submittedAmount = amount;
-    if (submittedAmount is! CryptoAmount) return;
+
+    if (submittedAmount == null) return;
+
+    final usdcAmount =
+        submittedAmount.toTokenAmount(Token.usdc)?.round(Currency.usd.decimals);
+
+    if (usdcAmount == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
 
     final uri = Uri.parse(kadoBaseUrl).replace(
       queryParameters: {
@@ -73,7 +86,7 @@ extension BuildContextExt on BuildContext {
             sl<OnRampOrderService>()
                 .create(
               orderId: orderId,
-              submittedAmount: submittedAmount,
+              submittedAmount: usdcAmount,
               partner: RampPartner.kado,
               countryCode: profile.country.code,
             )
