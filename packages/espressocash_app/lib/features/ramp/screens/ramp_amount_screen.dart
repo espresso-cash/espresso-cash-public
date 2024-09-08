@@ -119,53 +119,69 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
             minimum: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
               children: [
-                _RampTextField(
-                  label: 'Deposit Amount',
-                  controller: _controller,
-                  currency: widget.currency,
-                ),
-                ValueListenableBuilder(
-                  valueListenable: _controller,
-                  builder: (context, value, child) => _EquivalentTextField(
-                    amount: _amount,
-                    calculateEquivalent: widget.calculateEquivalent,
-                    minAmount: widget.minAmount,
-                    type: widget.type,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                ValueListenableBuilder(
-                  valueListenable: _controller,
-                  builder: (context, value, child) => _AdditionalInfoLabel(
-                    feeCalculator: widget.calculateFee,
-                    amount: _amount,
-                    exchangeRate: widget.exchangeRate,
-                    minAmount: widget.minAmount,
+                Expanded(
+                  child: Column(
+                    children: [
+                      _RampTextField(
+                        label: widget.type == RampType.offRamp
+                            ? 'Withdrawal Amount'
+                            : 'Deposit Amount',
+                        controller: _controller,
+                        currency: widget.currency,
+                      ),
+                      ValueListenableBuilder(
+                        valueListenable: _controller,
+                        builder: (context, value, child) =>
+                            _EquivalentTextField(
+                          amount: _amount,
+                          calculateEquivalent: widget.calculateEquivalent,
+                          minAmount: widget.minAmount,
+                          type: widget.type,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      ValueListenableBuilder(
+                        valueListenable: _controller,
+                        builder: (context, value, child) =>
+                            _AdditionalInfoLabel(
+                          feeCalculator: widget.calculateFee,
+                          amount: _amount,
+                          exchangeRate: widget.exchangeRate,
+                          minAmount: widget.minAmount,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
-                  child: Center(
-                    child: AmountKeypad(
-                      controller: _controller,
-                      maxDecimals: 2,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: ValueListenableBuilder(
-                    valueListenable: _controller,
-                    builder: (context, value, child) {
-                      final amount = _amount;
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: AmountKeypad(
+                            controller: _controller,
+                            maxDecimals: 2,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: ValueListenableBuilder(
+                          valueListenable: _controller,
+                          builder: (context, value, child) {
+                            final amount = _amount;
 
-                      return CpButton(
-                        width: double.infinity,
-                        text: context.l10n.next,
-                        onPressed: amount.decimal >= widget.minAmount
-                            ? () => widget.onSubmitted(amount)
-                            : null,
-                      );
-                    },
+                            return CpButton(
+                              width: double.infinity,
+                              text: context.l10n.next,
+                              onPressed: amount.decimal >= widget.minAmount
+                                  ? () => widget.onSubmitted(amount)
+                                  : null,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -310,8 +326,8 @@ class _ShimmerInfoRow extends StatelessWidget {
             ),
             const Spacer(),
             const _SkeletonAnimation(
-              height: 20,
-              width: 80,
+              height: 16,
+              width: 70,
             ),
           ],
         ),
@@ -371,6 +387,8 @@ class _RampTextField extends StatelessWidget {
           ? CountryFlag.fromCountryCode(
               countryCode,
               shape: const Circle(),
+              width: 36,
+              height: 36,
             )
           : CircleAvatar(
               backgroundColor: CpColors.darkBackgroundColor,
@@ -594,16 +612,22 @@ class LoadingTextField extends StatelessWidget {
                 color: CpColors.darkBackgroundColor,
                 shape: StadiumBorder(),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(
+                vertical: 16,
+              ),
               child: const Row(
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.grey,
+                  SizedBox(width: 16),
+                  SizedBox.square(
+                    dimension: 36,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey,
+                    ),
                   ),
                   SizedBox(width: 24),
                   Expanded(
                     child: _SkeletonAnimation(
-                      height: 34,
+                      height: 30,
                       width: double.infinity,
                     ),
                   ),
@@ -626,15 +650,9 @@ class _SkeletonAnimation extends StatelessWidget {
   final double width;
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => SizedBox(
         height: height,
         width: width,
-        decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.3),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(8),
-          ),
-        ),
         child: const _ShimmerEffect(),
       );
 }
@@ -677,9 +695,8 @@ class _ShimmerEffectState extends State<_ShimmerEffect>
                 Colors.grey.withOpacity(0.3),
               ],
               stops: const [0.0, 0.5, 1.0],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              transform: GradientRotation(_controller.value * 2 * 3.14159),
+              begin: Alignment(-1.0 + (2 * _controller.value), 0.0),
+              end: Alignment(1.0 + (2 * _controller.value), 0.0),
             ),
           ),
         ),
