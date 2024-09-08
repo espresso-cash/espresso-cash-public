@@ -9,8 +9,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.22.2"
-  DART_VERSION: "3.4.3"
+  FLUTTER_VERSION: "3.24.2"
+  DART_VERSION: "3.5.2"
   DCM_VERSION: "1.17.0"
 
 jobs:
