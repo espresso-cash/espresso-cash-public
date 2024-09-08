@@ -14,6 +14,7 @@ import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../../utils/errors.dart';
 import '../../../../conversion_rates/services/amount_ext.dart';
+import '../../../../conversion_rates/widgets/extensions.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
@@ -53,6 +54,10 @@ extension BuildContextExt on BuildContext {
       currency: Currency.usd,
       type: type,
       calculateEquivalent: (amount) => _calculateReceiveAmount(
+        amount: amount,
+        type: type,
+      ),
+      calculateFee: (amount) => _calculateFees(
         amount: amount,
         type: type,
       ),
@@ -271,20 +276,30 @@ window.addEventListener("message", (event) => {
       type: type,
     );
 
+    final totalFees = switch (type) {
+      RampType.onRamp => fees.bridgeFee,
+      RampType.offRamp => fees.moneygramFee + fees.bridgeFee,
+    };
+
+    final bridgeFee = fees.bridgeFee.format(locale, maxDecimals: 2);
+    final moneygramFee = fees.moneygramFee.format(locale, maxDecimals: 2);
+
+    final partnerFee = switch (type) {
+      RampType.onRamp => bridgeFee,
+      RampType.offRamp => '$moneygramFee + $bridgeFee',
+    };
+
     return Either.right(
       (
         ourFee: '0 USDC',
-        partnerFee: 'Heheh',
-        totalFee: FiatAmount(
-          value:
-              Currency.usd.decimalToInt(amount.decimal * Decimal.parse('0.05')),
-          fiatCurrency: Currency.usd,
-        ),
+        partnerFee: partnerFee,
+        totalFee: totalFees,
       ),
     );
   }
 
-  Future<({Amount receiveAmount, Amount moneygramFee})> _fetchFees({
+  Future<({Amount receiveAmount, Amount moneygramFee, Amount bridgeFee})>
+      _fetchFees({
     required Amount amount,
     required RampType type,
   }) async {
@@ -297,27 +312,30 @@ window.addEventListener("message", (event) => {
       ),
     );
 
-    print(fee);
-
     return (
       receiveAmount: Amount.fromDecimal(
         value: Decimal.parse(fee.totalAmount),
-        currency: type.currency,
+        currency: switch (type) {
+          RampType.onRamp => Currency.usdc,
+          RampType.offRamp => Currency.usd
+        },
       ),
       moneygramFee: Amount.fromDecimal(
         value: Decimal.parse(fee.moneygramFee),
-        currency: Currency.usd,
+        currency: switch (type) {
+          RampType.onRamp => Currency.usd,
+          RampType.offRamp => Currency.usdc
+        },
+      ),
+      bridgeFee: Amount.fromDecimal(
+        value: Decimal.parse(fee.bridgeFee),
+        currency: Currency.usdc,
       ),
     );
   }
 }
 
 extension on RampType {
-  Currency get currency => switch (this) {
-        RampType.onRamp => Currency.usdc,
-        RampType.offRamp => Currency.usd
-      };
-
   RampTypeDto toDto() => switch (this) {
         RampType.onRamp => RampTypeDto.onRamp,
         RampType.offRamp => RampTypeDto.offRamp

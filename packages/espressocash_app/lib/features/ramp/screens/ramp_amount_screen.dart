@@ -20,6 +20,7 @@ import '../../ramp_partner/models/ramp_partner.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 import '../models/ramp_type.dart';
+import 'debounce_mixin.dart';
 
 typedef AmountCalculator = AsyncResult<Amount> Function(Amount amount);
 typedef RampFees = ({String? ourFee, String? partnerFee, Amount? totalFee});
@@ -191,13 +192,14 @@ class _AdditionalInfoLabel extends StatefulWidget {
   State<_AdditionalInfoLabel> createState() => _AdditionalInfoLabelState();
 }
 
-class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel> {
+class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
+    with DebounceMixin {
   AsyncResult<RampFees>? _result;
 
   @override
   void initState() {
     super.initState();
-    _result = widget.feeCalculator?.call(widget.amount);
+    _call();
   }
 
   @override
@@ -206,7 +208,15 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel> {
 
     if (oldWidget.amount == widget.amount) return;
 
-    _result = widget.feeCalculator?.call(widget.amount);
+    _call();
+  }
+
+  void _call() {
+    debounce(() {
+      setState(() {
+        _result = widget.feeCalculator?.call(widget.amount);
+      });
+    });
   }
 
   @override
@@ -495,13 +505,13 @@ class _Calculator extends StatefulWidget {
   State<_Calculator> createState() => _CalculatorState();
 }
 
-class _CalculatorState extends State<_Calculator> {
+class _CalculatorState extends State<_Calculator> with DebounceMixin {
   AsyncResult<Amount>? _result;
 
   @override
   void initState() {
     super.initState();
-    _result = widget.calculateEquivalent(widget.amount);
+    _call();
   }
 
   @override
@@ -510,7 +520,15 @@ class _CalculatorState extends State<_Calculator> {
 
     if (oldWidget.amount == widget.amount) return;
 
-    _result = widget.calculateEquivalent(widget.amount);
+    _call();
+  }
+
+  void _call() {
+    debounce(() {
+      setState(() {
+        _result = widget.calculateEquivalent(widget.amount);
+      });
+    });
   }
 
   @override
