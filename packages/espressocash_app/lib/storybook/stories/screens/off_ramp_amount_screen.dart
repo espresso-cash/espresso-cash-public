@@ -46,6 +46,7 @@ final offRampAmountScreenStory = Story(
                 .decimalToInt(amount.decimal * Decimal.parse('0.05')),
             fiatCurrency: Currency.usd,
           ),
+          extraFee: null,
         ),
       ),
     ),

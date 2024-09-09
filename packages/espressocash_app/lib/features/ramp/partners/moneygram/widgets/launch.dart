@@ -289,11 +289,17 @@ window.addEventListener("message", (event) => {
       RampType.offRamp => '$moneygramFee + $bridgeFee',
     };
 
+    final extraFee = switch (type) {
+      RampType.onRamp => fees.moneygramFee,
+      RampType.offRamp => null,
+    };
+
     return Either.right(
       (
-        ourFee: '0 USDC',
+        ourFee: null,
         partnerFee: partnerFee,
         totalFee: totalFees,
+        extraFee: extraFee,
       ),
     );
   }

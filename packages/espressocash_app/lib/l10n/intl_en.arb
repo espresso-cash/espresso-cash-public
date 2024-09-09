@@ -902,6 +902,8 @@
   "@withdrawalAmountTitle": {},
   "depositAmountTitle": "Deposit Amount",
   "@depositAmountTitle": {},
+  "additionalFeesTitle": "Additional fees",
+  "@additionalFeesTitle": {},
   "youReceiveTitle": "You Receive",
   "@youReceiveTitle": {},
   "totalFeesTitle": "Total Fees",

@@ -22,7 +22,12 @@ import '../widgets/ramp_loader.dart';
 import '../widgets/ramp_textfield.dart';
 
 typedef AmountCalculator = AsyncResult<Amount> Function(Amount amount);
-typedef RampFees = ({String? ourFee, String? partnerFee, Amount? totalFee});
+typedef RampFees = ({
+  String? ourFee,
+  String? partnerFee,
+  Amount? totalFee,
+  Amount? extraFee
+});
 typedef FeeCalculator = AsyncResult<RampFees> Function(Amount amount);
 
 class RampAmountScreen extends StatefulWidget {
@@ -304,7 +309,12 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
     with DebounceMixin {
   AsyncResult<RampFees>? _result;
 
-  final _empty = (ourFee: null, partnerFee: null, totalFee: null);
+  final _empty = (
+    ourFee: null,
+    partnerFee: null,
+    totalFee: null,
+    extraFee: null,
+  );
 
   @override
   void initState() {
@@ -333,10 +343,10 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
 
   Widget _buildFeeRows(RampFees? rampFees) => Column(
         children: [
-          if (rampFees?.ourFee case final ourFee)
+          if (rampFees?.ourFee case final ourFee?)
             _InfoRow(
               title: context.l10n.ourFeeTitle,
-              value: ourFee ?? '-',
+              value: ourFee,
               isLoading: rampFees == null,
             ),
           if (rampFees?.partnerFee case final partnerFee)
@@ -349,6 +359,18 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
             _InfoRow(
               title: context.l10n.totalFeesTitle,
               value: totalFee?.let(
+                    (value) => value.format(
+                      context.locale,
+                      maxDecimals: 2,
+                    ),
+                  ) ??
+                  '-',
+              isLoading: rampFees == null,
+            ),
+          if (rampFees?.extraFee case final extraFee?)
+            _InfoRow(
+              title: context.l10n.additionalFeesTitle,
+              value: extraFee.let(
                     (value) => value.format(
                       context.locale,
                       maxDecimals: 2,
