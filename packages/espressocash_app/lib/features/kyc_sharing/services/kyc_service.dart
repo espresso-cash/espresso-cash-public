@@ -30,7 +30,7 @@ class KycSharingService {
 
   KycServiceClient get _validatorClient => _xFlowClient.kycValidatorClient;
   OtpServiceClient get _otpClient => _xFlowClient.otpServiceClient;
-  PartnerServiceClient get _partnerClient => _xFlowClient.partnerServiceClient;
+  UserServiceClient get _userClient => _xFlowClient.userServiceClient;
 
   @PostConstruct()
   Future<void> init() async {
@@ -150,7 +150,7 @@ class KycSharingService {
   }
 
   Future<void> sendUserData() async {
-    await _partnerClient.sendUserData(
+    await _userClient.sendUserData(
       SendUserDataRequest(
         user: User(
           userPk: _authPublicKey,
