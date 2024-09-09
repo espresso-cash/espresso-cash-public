@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
@@ -20,38 +21,39 @@ class PartnerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 6,
-          horizontal: 18,
+        padding: EdgeInsets.symmetric(
+          vertical: 6.h,
+          horizontal: 18.w,
         ),
         child: DecoratedBox(
-          decoration: const ShapeDecoration(
+          decoration: ShapeDecoration(
             color: CpColors.darkBackgroundColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(30),
+                Radius.circular(30.r),
               ),
             ),
           ),
           child: ListTile(
-            shape: const RoundedRectangleBorder(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(30),
+                Radius.circular(30.r),
               ),
             ),
             leading: Container(
               alignment: Alignment.center,
-              width: 40,
+              width: 40.w,
               child: partner.logo.image(),
             ),
+            minLeadingWidth: 40.w,
             contentPadding:
-                const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+                EdgeInsets.symmetric(horizontal: 28.w, vertical: 10.h),
             title: Padding(
               padding: const EdgeInsets.only(bottom: 4),
               child: Text(
                 partner.title,
-                style: const TextStyle(
-                  fontSize: 18,
+                style: TextStyle(
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -59,8 +61,8 @@ class PartnerTile extends StatelessWidget {
             subtitle: Row(
               children: [
                 for (final method in partner.paymentMethods) ...[
-                  method.logo.svg(width: 30),
-                  const SizedBox(width: 4),
+                  method.logo.svg(width: 30.w),
+                  SizedBox(width: 4.w),
                 ],
                 if (partner == RampPartner.moneygram) ...[
                   Text(
@@ -86,8 +88,8 @@ class PartnerTile extends StatelessWidget {
       );
 }
 
-const _subtitleStyle = TextStyle(
-  fontSize: 14,
+final _subtitleStyle = TextStyle(
+  fontSize: 14.sp,
   color: Colors.white,
   fontWeight: FontWeight.w400,
 );

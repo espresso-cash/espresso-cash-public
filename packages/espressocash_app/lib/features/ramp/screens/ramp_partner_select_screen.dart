@@ -1,6 +1,7 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -107,21 +108,21 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
           body: OnboardingScreen(
             children: [
               if (_partners.isEmpty) ...[
-                Assets.icons.errorIcon.svg(height: 100),
+                Assets.icons.errorIcon.svg(height: 100.h),
               ] else
                 switch (widget.type) {
                   RampType.onRamp =>
-                    Assets.images.cashInGraphic.image(height: 100),
+                    Assets.images.cashInGraphic.image(height: 100.h),
                   RampType.offRamp =>
-                    Assets.images.cashOutGraphic.image(height: 100),
+                    Assets.images.cashOutGraphic.image(height: 100.h),
                 },
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 42),
+                padding: EdgeInsets.symmetric(horizontal: 42.w),
                 child: Text.rich(
                   TextSpan(
-                    style: const TextStyle(
-                      fontSize: 32,
+                    style: TextStyle(
+                      fontSize: 32.sp,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.25,
                       height: 1,
@@ -136,9 +137,7 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
                               .l10n.selectPartnerOffRampTitle.firstWord
                               .toUpperCase(),
                         },
-                        style: const TextStyle(
-                          color: CpColors.yellowColor,
-                        ),
+                        style: const TextStyle(color: CpColors.yellowColor),
                       ),
                       TextSpan(
                         text:
@@ -148,23 +147,23 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 42),
+                padding: EdgeInsets.symmetric(horizontal: 42.w),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     context.l10n.selectPartnerAdditionalText,
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style: TextStyle(
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.sp),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
+                padding: EdgeInsets.symmetric(horizontal: 18.w),
                 child: CountryPicker(
                   backgroundColor: CpColors.darkBackgroundColor,
                   country: _country,
@@ -175,7 +174,7 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
                 const Spacer(),
                 const _CountryNotSupportedWidget(),
               ],
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               for (final partner in _partners)
                 PartnerTile(
                   partner: partner,
@@ -197,8 +196,8 @@ class _CountryNotSupportedWidget extends StatelessWidget {
           Text(
             context.l10n.countryNotSupportedText.toUpperCase(),
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
+            style: TextStyle(
+              fontSize: 20.sp,
               height: 24 / 20,
               letterSpacing: 0.23,
               fontWeight: FontWeight.w700,
@@ -207,8 +206,8 @@ class _CountryNotSupportedWidget extends StatelessWidget {
           Text(
             context.l10n.countryNotSupportedAdditionalText,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 16,
+            style: TextStyle(
+              fontSize: 16.sp,
               fontWeight: FontWeight.w400,
             ),
           ),
