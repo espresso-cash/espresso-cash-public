@@ -17,7 +17,22 @@ class ReturnData {
   final String programId;
 
   /// The return data itself, as base-64 encoded binary data
+  @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson)
   final String data;
 
   Map<String, dynamic> toJson() => _$ReturnDataToJson(this);
+
+  static List<String> _dataToJson(String data) => [data, 'base64'];
+
+  static String _dataFromJson(dynamic data) {
+    if (data is String) {
+      return data;
+    } else if (data is List<String> &&
+        data.length == 2 &&
+        data[1] == 'base64') {
+      return data[0];
+    }
+
+    throw ArgumentError.value(data, 'data', 'Invalid data type');
+  }
 }
