@@ -58,10 +58,9 @@ class RampTextField extends StatelessWidget {
           ),
           CpTextField(
             padding: EdgeInsets.symmetric(
-              vertical: 16.h,
+              vertical: 12.h,
               horizontal: 24.w,
             ),
-            height: 70.h,
             controller: controller,
             inputType: const TextInputType.numberWithOptions(decimal: true),
             textInputAction: TextInputAction.next,

@@ -26,7 +26,6 @@ class CpTextField extends StatelessWidget {
     this.multiLine = false,
     this.textCapitalization = TextCapitalization.none,
     this.fontWeight = FontWeight.normal,
-    this.height,
     this.maxLength,
   });
 
@@ -48,7 +47,6 @@ class CpTextField extends StatelessWidget {
   final bool? multiLine;
   final TextCapitalization textCapitalization;
   final FontWeight fontWeight;
-  final double? height;
   final int? maxLength;
 
   @override
@@ -57,7 +55,6 @@ class CpTextField extends StatelessWidget {
     final multiLine = this.multiLine ?? false;
 
     return Container(
-      height: height,
       margin: margin,
       decoration: border == CpTextFieldBorder.stadium
           ? ShapeDecoration(
