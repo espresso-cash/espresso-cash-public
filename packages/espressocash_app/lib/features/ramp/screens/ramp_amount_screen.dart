@@ -252,10 +252,9 @@ class _ReceiveTextFieldState extends State<_ReceiveTextField>
                   future: _result,
                   builder: (context, snapshot) {
                     final label = context.l10n.youReceiveTitle;
-                    final loading = LoadingTextField(label: label);
 
                     if (snapshot.connectionState != ConnectionState.done) {
-                      return loading;
+                      return LoadingTextField(label: label);
                     }
 
                     final data = snapshot.data;
@@ -263,7 +262,7 @@ class _ReceiveTextFieldState extends State<_ReceiveTextField>
                     return data == null
                         ? const SizedBox.shrink()
                         : data.fold(
-                            (_) => loading,
+                            (_) => const SizedBox.shrink(),
                             (data) => RampTextField(
                               label: label,
                               controller: FittedTextEditingController(

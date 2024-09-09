@@ -27,13 +27,17 @@ class LoadingTextField extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 2.h),
             Container(
               height: 70.h,
+              margin: null,
               decoration: const ShapeDecoration(
                 color: CpColors.darkBackgroundColor,
                 shape: StadiumBorder(),
               ),
-              padding: EdgeInsets.symmetric(vertical: 16.h),
+              padding: EdgeInsets.symmetric(
+                vertical: 16.h,
+              ),
               child: Row(
                 children: [
                   SizedBox(width: 16.w),
