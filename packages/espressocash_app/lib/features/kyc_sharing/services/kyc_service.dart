@@ -92,6 +92,8 @@ class KycSharingService {
         countryCode: data.countryCode,
         idType: data.idType,
         idNumber: data.idNumber,
+        // bankAccountNumber: '', //TODO
+        // bankCode: '',
       ),
       selfie: photo != null ? await photo.readAsBytes() : null,
       idCard: null,
