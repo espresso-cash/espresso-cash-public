@@ -39,6 +39,7 @@ extension BuildContextExt on BuildContext {
       minAmount: Decimal.fromInt(10),
       currency: Currency.usd,
       type: RampType.onRamp,
+      exchangeRate: '1 USDC = 1 USDC',
     );
 
     final submittedAmount = amount;
@@ -136,6 +137,7 @@ window.addEventListener("message", (event) => {
       minAmount: Decimal.fromInt(10),
       currency: Currency.usdc,
       type: RampType.onRamp,
+      exchangeRate: '1 USDC = 1 USDC',
     );
 
     final submittedAmount = amount;

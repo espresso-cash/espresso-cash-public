@@ -897,5 +897,19 @@
   "offRampWithdrawalInProgress": "Withdrawing in progress...",
   "@offRampWithdrawalInProgress": {},
   "moneygramCashAvailable": "Cash is available at Moneygram location",
-  "@moneygramCashAvailable": {}
+  "@moneygramCashAvailable": {},
+  "withdrawalAmountTitle": "Withdrawal Amount",
+  "@withdrawalAmountTitle": {},
+  "depositAmountTitle": "Deposit Amount",
+  "@depositAmountTitle": {},
+  "youReceiveTitle": "You Receive",
+  "@youReceiveTitle": {},
+  "totalFeesTitle": "Total Fees",
+  "@totalFeesTitle": {},
+  "partnerFeeTitle": "Partner Fee",
+  "@partnerFeeTitle": {},
+  "ourFeeTitle": "Our Fee",
+  "@ourFeeTitle": {},
+  "exchangeRateTitle": "Exchange Rate",
+  "@exchangeRateTitle": {}
 }
