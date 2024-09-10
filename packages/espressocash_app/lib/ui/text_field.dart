@@ -18,6 +18,7 @@ class CpTextField extends StatelessWidget {
     this.backgroundColor = CpColors.lightGreyBackground,
     this.readOnly = false,
     this.fontSize = 20,
+    this.fontWeight = FontWeight.normal,
     this.disabled = false,
     this.padding = const EdgeInsets.all(24),
     this.suffix,
@@ -38,6 +39,7 @@ class CpTextField extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final bool readOnly;
   final double fontSize;
+  final FontWeight fontWeight;
   final bool disabled;
   final TextInputType? inputType;
   final List<TextInputFormatter>? inputFormatters;
@@ -77,7 +79,7 @@ class CpTextField extends StatelessWidget {
         maxLines: multiLine ? null : 1,
         cursorColor: CpColors.yellowColor,
         style: TextStyle(
-          fontWeight: FontWeight.normal,
+          fontWeight: fontWeight,
           fontSize: fontSize,
           color: textColor,
           height: 1.2,

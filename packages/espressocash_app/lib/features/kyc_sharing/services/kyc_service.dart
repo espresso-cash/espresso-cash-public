@@ -51,6 +51,9 @@ class KycSharingService {
     _rawSecretKey = _kycUserClient.rawSecretKey;
     _authPublicKey = _kycUserClient.authPublicKey;
     _userPublicKey = _ecWallet.publicKey.toString();
+
+    // maybe handle it in another way
+    await _kycUserClient.grantPartnerAccess(validatorAuthPk);
   }
 
   Future<KycUserInfo?> fetchUser() async {

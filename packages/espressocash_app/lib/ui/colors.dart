@@ -32,6 +32,7 @@ abstract class CpColors {
   static const darkPrimaryColor = Color(0xffd74924);
 
   static const backgroundAccentColor = Color(0xffff9551);
+  static const grey = Color(0xff444444);
   static const greyBackground = Color(0xfff4f4f4);
   static const menuPrimaryTextColor = Color(0xff34393c);
   static const greyIconBackgroundColor = Color(0xfff0efe7);

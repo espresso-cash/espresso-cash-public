@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
+import '../../../ui/onboarding_screen.dart';
 import '../../../ui/pick_image_container.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
+import '../../../ui/theme.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../data/kyc_repository.dart';
@@ -186,101 +189,91 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
   @override
   Widget build(BuildContext context) => CpLoader(
         isLoading: _isLoading,
-        child: Scaffold(
-          appBar: CpAppBar(
-            scrolledUnderColor: CpColors.goldBackgroundColor,
-            leading: const CpBackButton(),
-            title: Text('Basic Information'.toUpperCase()),
-          ),
-          backgroundColor: CpColors.goldBackgroundColor,
-          extendBodyBehindAppBar: true,
-          body: LayoutBuilder(
-            builder: (context, constraints) => SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: SafeArea(
-                  child: IntrinsicHeight(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 24),
-                          PickImageContainer(
-                            image: _photo,
-                            pickImageClicked: () async {
-                              final photo = await _openCamera();
+        child: CpTheme.black(
+          child: Scaffold(
+            appBar: CpAppBar(
+              leading: const CpBackButton(),
+              title: Text('Basic Information'.toUpperCase()),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: OnboardingScreen(
+                children: [
+                  Assets.images.profileGraphic.image(height: 80),
+                  // PickImageContainer(
+                  //   image: _photo,
+                  //   pickImageClicked: () async {
+                  //     final photo = await _openCamera();
 
-                              if (photo != null && mounted) {
-                                setState(() => _photo = photo);
-                              }
-                            },
-                          ),
-                          const SizedBox(height: 42),
-                          _ProfileTextField(
-                            controller: _firstNameController,
-                            inputType: TextInputType.name,
-                            placeholder: 'First Name',
-                          ),
-                          const SizedBox(height: 8),
-                          _ProfileTextField(
-                            controller: _middleNameController,
-                            inputType: TextInputType.name,
-                            placeholder: 'Middle Name',
-                          ),
-                          const SizedBox(height: 8),
-                          _ProfileTextField(
-                            controller: _lastNameController,
-                            inputType: TextInputType.name,
-                            placeholder: 'Last Name',
-                          ),
-                          const SizedBox(height: 8),
-                          GestureDetector(
-                            onTap: _selectDob,
-                            child: AbsorbPointer(
-                              child: _ProfileTextField(
-                                controller: _dobController,
-                                inputType: TextInputType.text,
-                                placeholder: 'Date of Birth',
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          CountryPicker(
-                            country: _country,
-                            onSubmitted: (country) =>
-                                setState(() => _country = country),
-                          ),
-                          const SizedBox(height: 8),
-                          IdPicker(
-                            type: _idType,
-                            enabled: false,
-                          ),
-                          const SizedBox(height: 8),
-                          _ProfileTextField(
-                            controller: _idController,
-                            inputType: TextInputType.text,
-                            placeholder: 'ID Number',
-                            disabled: true,
-                          ),
-                          const SizedBox(height: 28),
-                          const Spacer(),
-                          ListenableBuilder(
-                            listenable: Listenable.merge([
-                              _firstNameController,
-                              _lastNameController,
-                              _dobController,
-                            ]),
-                            builder: (context, child) => CpButton(
-                              width: double.infinity,
-                              text: 'Update',
-                              onPressed: _isValid ? _handleSubmitted : null,
-                            ),
-                          ),
-                        ],
+                  //     if (photo != null && mounted) {
+                  //       setState(() => _photo = photo);
+                  //     }
+                  //   },
+                  // ),
+                  const SizedBox(height: 30),
+                  CountryPicker(
+                    country: _country,
+                    onSubmitted: (country) =>
+                        setState(() => _country = country),
+                  ),
+                  const SizedBox(height: 18),
+                  _ProfileTextField(
+                    controller: _firstNameController,
+                    inputType: TextInputType.name,
+                    placeholder: 'First Name',
+                  ),
+                  const SizedBox(height: 18),
+                  _ProfileTextField(
+                    controller: _middleNameController,
+                    inputType: TextInputType.name,
+                    placeholder: 'Middle Name',
+                  ),
+                  const SizedBox(height: 18),
+                  _ProfileTextField(
+                    controller: _lastNameController,
+                    inputType: TextInputType.name,
+                    placeholder: 'Last Name',
+                  ),
+                  const SizedBox(height: 18),
+                  GestureDetector(
+                    onTap: _selectDob,
+                    child: AbsorbPointer(
+                      child: _ProfileTextField(
+                        controller: _dobController,
+                        inputType: TextInputType.text,
+                        placeholder: 'Date of Birth',
                       ),
                     ),
                   ),
-                ),
+                  const SizedBox(height: 18),
+                  IdPicker(
+                    type: _idType,
+                    enabled: false,
+                  ),
+                  const SizedBox(height: 18),
+                  _ProfileTextField(
+                    controller: _idController,
+                    inputType: TextInputType.text,
+                    placeholder: 'ID Number',
+                    disabled: true,
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: ListenableBuilder(
+                      listenable: Listenable.merge([
+                        _firstNameController,
+                        _lastNameController,
+                        _dobController,
+                      ]),
+                      builder: (context, child) => CpButton(
+                        width: double.infinity,
+                        text: 'Next',
+                        onPressed: _isValid ? _handleSubmitted : null,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -311,14 +304,15 @@ class _ProfileTextField extends StatelessWidget {
             left: 26,
             right: 26,
           ),
+          fontWeight: FontWeight.w500,
+          fontSize: 16,
           controller: controller,
           inputType: inputType,
           textInputAction: TextInputAction.next,
-          backgroundColor: const Color(0xFF9D8A59),
+          backgroundColor: CpColors.grey,
           placeholder: placeholder,
           placeholderColor: Colors.white,
           textColor: Colors.white,
-          fontSize: 16,
         ),
       );
 }

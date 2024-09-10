@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../gen/assets.gen.dart';
@@ -6,11 +7,11 @@ import 'button.dart';
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({
     super.key,
-    required this.footer,
+    this.footer,
     required this.children,
   });
 
-  final Widget footer;
+  final Widget? footer;
   final List<Widget> children;
 
   @override
@@ -27,9 +28,8 @@ class OnboardingScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     ...children,
-                    Expanded(
-                      child: footer,
-                    ),
+                    footer?.let((f) => Expanded(child: f)) ??
+                        const SizedBox.shrink(),
                   ],
                 ),
               ),
