@@ -1,28 +1,40 @@
 import 'package:flutter/material.dart';
 
 import '../models/id_type.dart';
+import '../screens/id_type_picker_screen.dart';
 
 class IdPicker extends StatelessWidget {
   const IdPicker({
     super.key,
-    this.enabled = true,
-    required this.type,
+    this.type,
+    required this.onSubmitted,
   });
 
   final IdType? type;
-  final bool enabled;
+  final ValueSetter<IdType> onSubmitted;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
         decoration: const ShapeDecoration(
-          color: Color(0xFF9D8A59),
+          color: Colors.black,
           shape: StadiumBorder(),
         ),
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-          onTap: enabled ? () {} : null,
+          onTap: () async {
+            final IdType? updated = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => IdTypePickerScreen(initial: type),
+              ),
+            );
+
+            if (context.mounted && updated != null) {
+              onSubmitted(updated);
+            }
+          },
           title: Text(
-            type?.name ?? 'ID Type',
+            type?.name ?? 'Select ID Verification Method',
             style: const TextStyle(
               fontWeight: FontWeight.normal,
               fontSize: 16,

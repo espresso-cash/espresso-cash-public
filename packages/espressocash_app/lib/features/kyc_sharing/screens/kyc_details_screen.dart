@@ -12,6 +12,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/pick_image_container.dart';
+import '../../../ui/radio_button.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
@@ -55,6 +56,8 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
   final _lastNameController = TextEditingController();
   final _dobController = TextEditingController();
 
+  bool _isShareData = false;
+
   DateTime? _dob;
 
   Country? _country;
@@ -65,11 +68,11 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
 
   bool get _isValid =>
       _firstNameController.text.isNotEmpty &&
-      _middleNameController.text.isNotEmpty &&
       _lastNameController.text.isNotEmpty &&
       _dobController.text.isNotEmpty &&
       _idController.text.isNotEmpty &&
-      _photo != null &&
+      //    _photo != null &&
+      _isShareData &&
       _country != null;
 
   Future<void> _handleSubmitted() async {
@@ -169,7 +172,6 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
 
     // Hardcode values for now
     _country = Country.findByCode('NG');
-    _idType = IdType.voterId;
     _idController.text = '0000000000000000004';
 
     _fetchKycInfo();
@@ -216,17 +218,11 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
                     onSubmitted: (country) =>
                         setState(() => _country = country),
                   ),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 16),
                   _ProfileTextField(
                     controller: _firstNameController,
                     inputType: TextInputType.name,
                     placeholder: 'First Name',
-                  ),
-                  const SizedBox(height: 18),
-                  _ProfileTextField(
-                    controller: _middleNameController,
-                    inputType: TextInputType.name,
-                    placeholder: 'Middle Name',
                   ),
                   const SizedBox(height: 18),
                   _ProfileTextField(
@@ -248,15 +244,36 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
                   const SizedBox(height: 18),
                   IdPicker(
                     type: _idType,
-                    enabled: false,
+                    onSubmitted: (idType) => setState(() => _idType = idType),
                   ),
                   const SizedBox(height: 18),
                   _ProfileTextField(
                     controller: _idController,
                     inputType: TextInputType.text,
                     placeholder: 'ID Number',
-                    disabled: true,
                   ),
+                  const SizedBox(height: 18),
+                  Row(
+                    children: [
+                      CpRadioButton(
+                        value: _isShareData,
+                        onChanged: (value) =>
+                            setState(() => _isShareData = value),
+                      ),
+                      const SizedBox(width: 12),
+                      const Expanded(
+                        child: Text(
+                          'Allow Espresso Cash partners to share this data for the purposes of deposits and withdrawals.',
+                          style: TextStyle(
+                            fontSize: 14,
+                            height: 1.5,
+                            letterSpacing: 0.19,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(16),

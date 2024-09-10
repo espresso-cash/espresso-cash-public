@@ -1,21 +1,13 @@
-enum IdType { driversLicense, voterId }
+enum IdType {
+  bvn('BVN', 'BVN'),
+  nin('NIN', 'NIN'),
+  ninV2('NIN V2', 'NIN_V2'),
+  ninSlip('NIN V2', 'NIN_SLIP'),
+  driversLicense('Driver\'s License', 'DRIVERS_LICENSE'),
+  voterId('Voter ID', 'VOTER_ID');
 
-extension IdTypeExtension on IdType {
-  String get name {
-    switch (this) {
-      case IdType.driversLicense:
-        return 'Driver\'s License';
-      case IdType.voterId:
-        return 'Voter ID';
-    }
-  }
+  const IdType(this.name, this.value);
 
-  String get value {
-    switch (this) {
-      case IdType.driversLicense:
-        return 'DRIVERS_LICENSE';
-      case IdType.voterId:
-        return 'VOTER_ID';
-    }
-  }
+  final String name;
+  final String value;
 }
