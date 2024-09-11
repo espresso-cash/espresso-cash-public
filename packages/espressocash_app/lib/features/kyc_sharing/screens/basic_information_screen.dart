@@ -97,12 +97,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
     }
   }
 
-  Future<File?> _openCamera() => Navigator.of(context).push<File?>(
-        MaterialPageRoute(
-          builder: (context) => const KycCameraScreen(),
-        ),
-      );
-
   Future<void> _selectDob() async {
     final DateTime? picked = await showDatePicker(
       context: context,

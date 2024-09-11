@@ -10,6 +10,13 @@ import '../../../ui/theme.dart';
 class KycCameraScreen extends StatefulWidget {
   const KycCameraScreen({super.key});
 
+  static void pushReplacement(BuildContext context) =>
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (context) => const KycCameraScreen(),
+        ),
+      );
+
   @override
   State<KycCameraScreen> createState() => _KycCameraScreenState();
 }

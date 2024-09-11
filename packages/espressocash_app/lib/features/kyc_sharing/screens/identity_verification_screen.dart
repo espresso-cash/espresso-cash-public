@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../ui/button.dart';
+import '../../../ui/timeline.dart';
 import '../widgets/kyc_text_field.dart';
+import 'kyc_camera_screen.dart';
 import 'kyc_screen.dart';
 
 class IdentityVerificationScreen extends StatefulWidget {
@@ -50,34 +52,55 @@ class _IdentityVerificationScreenState
   Widget build(BuildContext context) => KycScreen(
         title: 'Identity verification',
         children: [
-          const SizedBox(height: 30),
-          KycTextField(
-            controller: _accountNumberController,
-            inputType: TextInputType.name,
-            placeholder: 'Account Number',
+          const SizedBox(height: 20),
+          const Text(
+            'For security purposes, we need you to take a quick selfie to verify your identity.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              height: 21 / 16,
+              letterSpacing: .19,
+            ),
           ),
-          const SizedBox(height: 18),
-          KycTextField(
-            controller: _bankCodeController,
-            inputType: TextInputType.name,
-            placeholder: 'Bank Code',
-          ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 40),
+          const SizedBox(height: 400, child: _Timeline()),
           const Spacer(),
           Padding(
             padding: const EdgeInsets.all(16),
-            child: ListenableBuilder(
-              listenable: Listenable.merge([
-                _accountNumberController,
-                _bankCodeController,
-              ]),
-              builder: (context, child) => CpButton(
-                width: double.infinity,
-                text: 'Next',
-                onPressed: _isValid ? _handleSubmitted : null,
-              ),
+            child: CpButton(
+              width: double.infinity,
+              text: 'Start Selfie Verification',
+              onPressed: () {
+                KycCameraScreen.pushReplacement(context);
+              },
             ),
           ),
         ],
       );
+}
+
+class _Timeline extends StatelessWidget {
+  const _Timeline();
+
+  @override
+  Widget build(BuildContext context) {
+    const items = [
+      CpTimelineItem(
+        subtitle: 'Make sure your face is clearly visible.',
+      ),
+      CpTimelineItem(
+        subtitle: 'Avoid hats, sunglasses, or other facial coverings.',
+      ),
+      CpTimelineItem(
+        subtitle: 'Good lighting helps us verify your identity quickly!',
+      ),
+    ];
+
+    return CpTimeline(
+      status: CpTimelineStatus.inProgress,
+      items: items,
+      active: items.length - 1,
+      animated: false,
+    );
+  }
 }
