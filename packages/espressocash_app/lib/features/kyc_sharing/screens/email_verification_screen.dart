@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
-import '../../../../../ui/text_field.dart';
 import '../../../di.dart';
 import '../../../ui/button.dart';
-import '../../../ui/form_page.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
-import '../../profile/data/profile_repository.dart';
+import '../../../utils/email.dart';
 import '../services/kyc_service.dart';
+import '../widgets/kyc_text_field.dart';
 import 'email_confirmation_screen.dart';
-
-const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
+import 'kyc_screen.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
   const EmailVerificationScreen({super.key});
@@ -29,16 +26,7 @@ class EmailVerificationScreen extends StatefulWidget {
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   final _emailController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    final repository = sl<ProfileRepository>();
-
-    _emailController.text = repository.email;
-  }
-
+  
   @override
   void dispose() {
     _emailController.dispose();
@@ -75,52 +63,33 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => FormPage(
-        colorTheme: FormPageColorTheme.gold,
-        title: Text('Email Verification'.toUpperCase()),
-        header: const SizedBox(),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-            child: Column(
-              children: [
-                const Spacer(),
-                const Text(
-                  'Enter email to get verification code:',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                CpTextField(
-                  padding: const EdgeInsets.only(
-                    top: 18,
-                    bottom: 16,
-                    left: 26,
-                    right: 26,
-                  ),
-                  controller: _emailController,
-                  inputType: TextInputType.number,
-                  textInputAction: TextInputAction.next,
-                  backgroundColor: const Color(0xFF9D8A59),
-                  placeholder: 'Enter email',
-                  placeholderColor: Colors.white,
-                  textColor: Colors.white,
-                  fontSize: 16,
-                ),
-                const Spacer(),
-                ListenableBuilder(
-                  listenable: _emailController,
-                  builder: (context, child) => CpButton(
-                    width: double.infinity,
-                    text: 'Send verification code',
-                    onPressed: _sendEmail,
-                  ),
-                ),
-              ],
+  Widget build(BuildContext context) => KycScreen(
+        title: 'Email verification',
+        children: [
+          const SizedBox(height: 20),
+          const Text(
+            'Enter your email address to receive your confirmation code.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              height: 21 / 16,
+              letterSpacing: .19,
             ),
           ),
-        ),
+          const SizedBox(height: 40),
+          KycTextField(
+            controller: _emailController,
+            inputType: TextInputType.emailAddress,
+            placeholder: 'Email Address',
+          ),
+          const SizedBox(height: 16),
+          ListenableBuilder(
+            listenable: _emailController,
+            builder: (context, child) => CpButton(
+              text: 'Send Verification Code',
+              onPressed: _emailController.text.isValidEmail ? _sendEmail : null,
+            ),
+          ),
+        ],
       );
 }

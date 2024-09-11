@@ -37,7 +37,6 @@ class KycScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Assets.images.profileGraphic.image(height: 80),
-                          const SizedBox(height: 30),
                           ...children,
                         ],
                       ),

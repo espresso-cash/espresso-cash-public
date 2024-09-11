@@ -4,27 +4,32 @@ import '../../../ui/button.dart';
 import '../widgets/kyc_text_field.dart';
 import 'kyc_screen.dart';
 
-class BankAccountScreen extends StatefulWidget {
-  const BankAccountScreen({super.key});
+class IdentityVerificationScreen extends StatefulWidget {
+  const IdentityVerificationScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
+  static void push(
+    BuildContext context,
+  ) =>
+      Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => const BankAccountScreen(),
+          builder: (context) => const IdentityVerificationScreen(),
         ),
       );
 
   static void pushReplacement(BuildContext context) =>
       Navigator.of(context).pushReplacement(
         MaterialPageRoute<void>(
-          builder: (context) => const BankAccountScreen(),
+          builder: (context) => const IdentityVerificationScreen(),
         ),
       );
 
   @override
-  State<BankAccountScreen> createState() => _BankAccountScreenState();
+  State<IdentityVerificationScreen> createState() =>
+      _IdentityVerificationScreenState();
 }
 
-class _BankAccountScreenState extends State<BankAccountScreen> {
+class _IdentityVerificationScreenState
+    extends State<IdentityVerificationScreen> {
   final _accountNumberController = TextEditingController();
   final _bankCodeController = TextEditingController();
 
@@ -43,7 +48,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
 
   @override
   Widget build(BuildContext context) => KycScreen(
-        title: 'Bank Account',
+        title: 'Identity verification',
         children: [
           const SizedBox(height: 30),
           KycTextField(

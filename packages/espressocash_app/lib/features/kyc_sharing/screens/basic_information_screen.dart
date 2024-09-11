@@ -5,11 +5,9 @@ import 'package:intl/intl.dart';
 
 import '../../../di.dart';
 import '../../../ui/button.dart';
-import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/radio_button.dart';
 import '../../../ui/snackbar.dart';
-import '../../../ui/text_field.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../data/kyc_repository.dart';
@@ -18,20 +16,15 @@ import '../models/kyc_model.dart';
 import '../services/kyc_service.dart';
 import '../widgets/id_picker.dart';
 import '../widgets/kyc_text_field.dart';
+import 'identity_verification_screen.dart';
 import 'kyc_camera_screen.dart';
 import 'kyc_screen.dart';
-import 'read_pesmission_screen.dart';
 
 class BasicInformationScreen extends StatefulWidget {
   const BasicInformationScreen({super.key});
 
-  static void push(
-    BuildContext context,
-  ) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => const BasicInformationScreen(),
-        ),
+  static void push(BuildContext context) => Navigator.of(context).push<void>(
+        MaterialPageRoute(builder: (context) => const BasicInformationScreen()),
       );
 
   static void pushReplacement(BuildContext context) =>
@@ -94,7 +87,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
       showCpSnackbar(context, message: 'Success, Data updated');
       sl<KycRepository>().hasPassedKyc = true;
-      ReadPermissionScreen.pushReplacement(context);
+      IdentityVerificationScreen.pushReplacement(context);
     } on Exception {
       showCpErrorSnackbar(context, message: 'Failed to update data');
     } finally {
@@ -190,16 +183,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
         child: KycScreen(
           title: 'Basic Information',
           children: [
-            // PickImageContainer(
-            //   image: _photo,
-            //   pickImageClicked: () async {
-            //     final photo = await _openCamera();
-
-            //     if (photo != null && mounted) {
-            //       setState(() => _photo = photo);
-            //     }
-            //   },
-            // ),
+            const SizedBox(height: 30),
             CountryPicker(
               country: _country,
               onSubmitted: (country) => setState(() => _country = country),

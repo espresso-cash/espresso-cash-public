@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../ui/button.dart';
-import '../../../ui/form_page.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
-import '../../../ui/text_field.dart';
 import '../services/kyc_service.dart';
+import '../widgets/kyc_text_field.dart';
+import 'kyc_screen.dart';
 import 'phone_confirmation_screen.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
@@ -73,52 +72,33 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => FormPage(
-        colorTheme: FormPageColorTheme.gold,
-        title: Text('Phone Verification'.toUpperCase()),
-        header: const SizedBox(),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-            child: Column(
-              children: [
-                const Spacer(),
-                const Text(
-                  'Enter phone number to get verification code:',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                CpTextField(
-                  padding: const EdgeInsets.only(
-                    top: 18,
-                    bottom: 16,
-                    left: 26,
-                    right: 26,
-                  ),
-                  controller: _numberController,
-                  inputType: TextInputType.phone,
-                  textInputAction: TextInputAction.next,
-                  backgroundColor: const Color(0xFF9D8A59),
-                  placeholder: 'Enter number',
-                  placeholderColor: Colors.white,
-                  textColor: Colors.white,
-                  fontSize: 16,
-                ),
-                const Spacer(),
-                ListenableBuilder(
-                  listenable: _numberController,
-                  builder: (context, child) => CpButton(
-                    width: double.infinity,
-                    text: 'Send verification code',
-                    onPressed: _isValid ? _sendSms : null,
-                  ),
-                ),
-              ],
+  Widget build(BuildContext context) => KycScreen(
+        title: 'Phone verification',
+        children: [
+          const SizedBox(height: 20),
+          const Text(
+            'Enter your mobile phone number to receive your confirmation code.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              height: 21 / 16,
+              letterSpacing: .19,
             ),
           ),
-        ),
+          const SizedBox(height: 40),
+          KycTextField(
+            controller: _numberController,
+            inputType: TextInputType.phone,
+            placeholder: 'Phone Number',
+          ),
+          const SizedBox(height: 16),
+          ListenableBuilder(
+            listenable: _numberController,
+            builder: (context, child) => CpButton(
+              text: 'Send verification code',
+              onPressed: _isValid ? _sendSms : null,
+            ),
+          ),
+        ],
       );
 }
