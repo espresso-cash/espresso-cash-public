@@ -838,8 +838,14 @@
   "@viewMoneygramTransferInstructions": {},
   "confirmYourTransferOf": "Confirm your transfer of",
   "@confirmYourTransferOf": {},
-  "transferInProgressText": "Transfer could take a few minutes...",
-  "@transferInProgressText": {},
+  "transferInProgressText": "Transfer could take up to {minutes} minutes...",
+  "@transferInProgressText": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "openMoneygramIframeText": "Open Moneygram to continue",
   "@openMoneygramIframeText": {},
   "preparingWithdrawal": "Preparing your withdrawal",
