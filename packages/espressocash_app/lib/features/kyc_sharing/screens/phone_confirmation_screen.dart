@@ -5,7 +5,7 @@ import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
 import '../data/kyc_repository.dart';
 import '../services/kyc_service.dart';
-import '../widgets/kyc_screen.dart';
+import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
 class PhoneConfirmationScreen extends StatefulWidget {
@@ -59,7 +59,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => KycScreen(
+  Widget build(BuildContext context) => KycPage(
         title: 'Phone verification',
         children: [
           const SizedBox(height: 20),

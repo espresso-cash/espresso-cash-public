@@ -6,7 +6,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/email.dart';
 import '../services/kyc_service.dart';
-import '../widgets/kyc_screen.dart';
+import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 import 'email_confirmation_screen.dart';
 
@@ -70,7 +70,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => KycScreen(
+  Widget build(BuildContext context) => KycPage(
         title: 'Email verification',
         children: [
           const SizedBox(height: 20),

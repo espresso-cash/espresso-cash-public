@@ -5,7 +5,7 @@ import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
-import '../widgets/kyc_screen.dart';
+import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 import 'email_verification_screen.dart';
 
@@ -66,7 +66,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => KycScreen(
+  Widget build(BuildContext context) => KycPage(
         title: 'Bank Account',
         children: [
           const SizedBox(height: 30),

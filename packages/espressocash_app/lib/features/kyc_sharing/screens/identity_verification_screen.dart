@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../ui/button.dart';
 import '../../../ui/timeline.dart';
-import '../widgets/kyc_screen.dart';
+import '../widgets/kyc_page.dart';
 import 'kyc_camera_screen.dart';
 
 // TODO(vsumin): fix layout
@@ -48,7 +48,7 @@ class _IdentityVerificationScreenState
   }
 
   @override
-  Widget build(BuildContext context) => KycScreen(
+  Widget build(BuildContext context) => KycPage(
         title: 'Identity verification',
         children: [
           const SizedBox(height: 20),

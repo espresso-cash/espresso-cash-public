@@ -13,7 +13,7 @@ import '../data/kyc_repository.dart';
 import '../models/id_type.dart';
 import '../services/kyc_service.dart';
 import '../widgets/id_picker.dart';
-import '../widgets/kyc_screen.dart';
+import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 import 'identity_verification_screen.dart';
 
@@ -176,7 +176,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   @override
   Widget build(BuildContext context) => CpLoader(
         isLoading: _isLoading,
-        child: KycScreen(
+        child: KycPage(
           title: 'Basic Information',
           children: [
             const SizedBox(height: 30),

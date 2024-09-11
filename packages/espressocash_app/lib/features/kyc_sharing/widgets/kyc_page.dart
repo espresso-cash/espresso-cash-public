@@ -5,8 +5,8 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/theme.dart';
 
-class KycScreen extends StatelessWidget {
-  const KycScreen({
+class KycPage extends StatelessWidget {
+  const KycPage({
     super.key,
     required this.title,
     required this.children,
