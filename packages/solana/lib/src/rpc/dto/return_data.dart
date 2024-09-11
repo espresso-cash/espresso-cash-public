@@ -27,10 +27,11 @@ class ReturnData {
   static String _dataFromJson(dynamic data) {
     if (data is String) {
       return data;
-    } else if (data is List<String> &&
+    } else if (data is List &&
         data.length == 2 &&
+        data.every((element) => element is String) &&
         data[1] == 'base64') {
-      return data[0];
+      return data[0] as String;
     }
 
     throw ArgumentError.value(data, 'data', 'Invalid data type');
