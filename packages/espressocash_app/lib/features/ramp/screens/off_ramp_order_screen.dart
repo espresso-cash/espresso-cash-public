@@ -189,10 +189,13 @@ class OffRampOrderScreenContent extends StatelessWidget {
         order.status == OffRampOrderStatus.ready ||
         showMoneygramCancel;
 
+    final bridgeTimeInMinutes =
+        order.status == OffRampOrderStatus.waitingForRefundBridge ? 3 : 10;
+
     final bridgeSubtitleContent = [
       const SizedBox(height: 6),
       Text(
-        context.l10n.transferInProgressText,
+        context.l10n.transferInProgressText(bridgeTimeInMinutes),
         style: const TextStyle(fontSize: 14),
       ),
     ];
