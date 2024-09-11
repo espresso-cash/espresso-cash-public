@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
@@ -9,6 +10,7 @@ import 'package:solana/base58.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
@@ -221,10 +223,16 @@ class OLPService implements Disposable {
           signature: signature,
         ),
       );
-    } on Exception {
+    } on Exception catch (error) {
+      TxFailureReason reason = TxFailureReason.creatingFailure;
+
+      if (error is DioException &&
+          error.toEspressoCashError() == EspressoCashError.insufficientFunds) {
+        reason = TxFailureReason.insufficientFunds;
+      }
+
       return payment.copyWith(
-        status:
-            const OLPStatus.txFailure(reason: TxFailureReason.creatingFailure),
+        status: OLPStatus.txFailure(reason: reason),
       );
     }
   }

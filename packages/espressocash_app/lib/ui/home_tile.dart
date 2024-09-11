@@ -20,8 +20,6 @@ class HomeTile extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: CpColors.dashboardBackgroundColor,
-              blurRadius: 0.0,
-              spreadRadius: 0.0,
               offset: Offset(0, 2),
             ),
           ],
