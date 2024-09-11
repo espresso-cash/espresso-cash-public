@@ -43,6 +43,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
       showCpSnackbar(context, message: 'Success, phone number verified');
       sl<KycRepository>().hasValidatedPhone = true;
       Navigator.pop(context);
+      Navigator.pop(context);
     } else {
       if (!mounted) return;
       showCpErrorSnackbar(

@@ -1,7 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../ui/button.dart';
@@ -12,12 +12,10 @@ import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../data/kyc_repository.dart';
 import '../models/id_type.dart';
-import '../models/kyc_model.dart';
 import '../services/kyc_service.dart';
 import '../widgets/id_picker.dart';
 import '../widgets/kyc_text_field.dart';
 import 'identity_verification_screen.dart';
-import 'kyc_camera_screen.dart';
 import 'kyc_screen.dart';
 
 class BasicInformationScreen extends StatefulWidget {
@@ -51,7 +49,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
   Country? _country;
   IdType? _idType;
-  File? _photo;
 
   bool _isLoading = true;
 
@@ -60,41 +57,49 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
       _lastNameController.text.isNotEmpty &&
       _dobController.text.isNotEmpty &&
       _idController.text.isNotEmpty &&
-      //    _photo != null &&
       _isShareData &&
       _country != null;
 
   Future<void> _handleSubmitted() async {
-    setState(() => _isLoading = true);
+    final success = await runWithLoader<bool>(
+      context,
+      () async {
+        try {
+          final service = sl<KycSharingService>();
 
-    try {
-      final service = sl<KycSharingService>();
+          await service.updateInfo(
+            data: V1UserData(
+              firstName: _firstNameController.text,
+              middleName: _middleNameController.text,
+              lastName: _lastNameController.text,
+              dob: _dob?.toIso8601String() ?? '',
+              countryCode: _country!.code,
+              idType: _idType!.value,
+              idNumber: _idController.text,
+            ),
+            photo: null,
+          );
 
-      await service.updateInfo(
-        data: KycUserInfo(
-          firstName: _firstNameController.text,
-          middleName: _middleNameController.text,
-          lastName: _lastNameController.text,
-          dob: _dob?.toIso8601String() ?? '',
-          countryCode: _country!.code,
-          idType: _idType!.value,
-          idNumber: _idController.text,
-        ),
-        photo: _photo!,
-      );
+          if (!mounted) return false;
 
-      if (!mounted) return;
+          showCpSnackbar(context, message: 'Success, Data updated');
+          sl<KycRepository>().hasPassedKyc = true;
 
-      showCpSnackbar(context, message: 'Success, Data updated');
-      sl<KycRepository>().hasPassedKyc = true;
-      IdentityVerificationScreen.pushReplacement(context);
-    } on Exception {
-      showCpErrorSnackbar(context, message: 'Failed to update data');
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
+          return true;
+        } on Exception {
+          if (!mounted) return false;
+
+          showCpErrorSnackbar(
+            context,
+            message: 'Failed to send verification code',
+          );
+
+          return false;
+        }
+      },
+    );
+    if (!mounted) return;
+    if (success) IdentityVerificationScreen.push(context);
   }
 
   Future<void> _selectDob() async {
@@ -116,37 +121,35 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   }
 
   Future<void> _fetchKycInfo() async {
-    setState(() => _isLoading = true);
+    setState(() => _isLoading = false);
 
-    try {
-      final service = sl<KycSharingService>();
-      final kycInfo = await service.fetchUser();
+    // try {
+    //   final service = sl<KycSharingService>();
+    //   final kycInfo = await service.fetchUser();
 
-      if (!mounted) return;
-      if (kycInfo == null) return;
+    //   if (!mounted) return;
+    //   if (kycInfo == null) return;
 
-      setState(() {
-        _firstNameController.text = kycInfo.firstName;
-        _middleNameController.text = kycInfo.middleName;
-        _lastNameController.text = kycInfo.lastName;
-        if (kycInfo.dob.isNotEmpty) {
-          _dob = DateTime.parse(kycInfo.dob);
-          _dobController.text = DateFormat('dd/MM/yyyy').format(_dob!);
-        }
-        _country = Country.findByCode(kycInfo.countryCode);
-        _idController.text = kycInfo.idNumber;
+    //   setState(() {
+    //     _firstNameController.text = kycInfo.firstName;
+    //     _middleNameController.text = kycInfo.middleName;
+    //     _lastNameController.text = kycInfo.lastName;
+    //     if (kycInfo.dob.isNotEmpty) {
+    //       _dob = DateTime.parse(kycInfo.dob);
+    //       _dobController.text = DateFormat('dd/MM/yyyy').format(_dob!);
+    //     }
+    //     _country = Country.findByCode(kycInfo.countryCode);
+    //     _idController.text = kycInfo.idNumber;
+    //   });
+    // } on Exception {
+    //   if (!mounted) return;
 
-        _photo = kycInfo.photo;
-      });
-    } on Exception {
-      if (!mounted) return;
-
-      showCpErrorSnackbar(context, message: 'Failed to fetch KYC information');
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
+    //   showCpErrorSnackbar(context, message: 'Failed to fetch KYC information');
+    // } finally {
+    //   if (mounted) {
+    //     setState(() => _isLoading = false);
+    //   }
+    // }
   }
 
   @override

@@ -19,6 +19,13 @@ class EmailVerificationScreen extends StatefulWidget {
         ),
       );
 
+  static void pushReplacement(BuildContext context) =>
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (context) => const EmailVerificationScreen(),
+        ),
+      );
+
   @override
   State<EmailVerificationScreen> createState() =>
       _EmailVerificationScreenState();
@@ -26,7 +33,7 @@ class EmailVerificationScreen extends StatefulWidget {
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   final _emailController = TextEditingController();
-  
+
   @override
   void dispose() {
     _emailController.dispose();

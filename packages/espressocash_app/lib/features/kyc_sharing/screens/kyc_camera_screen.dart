@@ -2,10 +2,20 @@ import 'dart:io';
 
 import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
+import 'package:kyc_client_dart/kyc_client_dart.dart';
 
-import '../../../ui/app_bar.dart';
+import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/loader.dart';
+import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
+import '../data/kyc_repository.dart';
+import '../services/kyc_service.dart';
+import 'bank_account_screen.dart';
+
+// TODO(vsumin): divide complicated widgets, refactor
 
 class KycCameraScreen extends StatefulWidget {
   const KycCameraScreen({super.key});
@@ -24,7 +34,34 @@ class KycCameraScreen extends StatefulWidget {
 class _KycCameraScreenState extends State<KycCameraScreen> {
   File? _capturedImage;
 
+  bool _isLoading = false;
+
   late FaceCameraController _controller;
+
+  Future<void> _handleSubmitted() async {
+    setState(() => _isLoading = true);
+
+    try {
+      final service = sl<KycSharingService>();
+
+      await service.updateInfo(
+        data: const V1UserData(),
+        photo: null,
+      );
+
+      if (!mounted) return;
+
+      showCpSnackbar(context, message: 'Success, Data updated');
+      sl<KycRepository>().hasPassedKyc = true;
+      BankAccountScreen.pushReplacement(context);
+    } on Exception {
+      showCpErrorSnackbar(context, message: 'Failed to update data');
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -40,75 +77,112 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          appBar: const CpAppBar(
-            title: Text('Capture Selfie'),
-          ),
-          body: Builder(
-            builder: (context) => _capturedImage != null
-                ? Center(
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        Image.file(
-                          _capturedImage!,
-                          width: double.maxFinite,
-                          fit: BoxFit.fitWidth,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+  Widget build(BuildContext context) => CpLoader(
+        isLoading: _isLoading,
+        child: CpTheme.black(
+          child: Scaffold(
+            body: Stack(
+              children: [
+                Builder(
+                  builder: (context) => _capturedImage != null
+                      ? Center(
+                          child: Stack(
+                            alignment: Alignment.bottomCenter,
                             children: [
-                              CpButton(
-                                text: 'Recapture',
-                                onPressed: () async {
-                                  await _controller.startImageStream();
-
-                                  if (!mounted) return;
-
-                                  setState(() => _capturedImage = null);
-                                },
+                              Transform.flip(
+                                flipX: true,
+                                child: Image.file(
+                                  _capturedImage!,
+                                  height: double.maxFinite,
+                                  fit: BoxFit.fitHeight,
+                                ),
                               ),
-                              const SizedBox(width: 12),
-                              CpButton(
-                                text: 'Submit',
-                                onPressed: () {
-                                  Navigator.of(context).pop(_capturedImage);
-                                },
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 40,
+                                  vertical: 16,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    CpButton(
+                                      variant: CpButtonVariant.light,
+                                      width: double.infinity,
+                                      text: 'Retake Selfie',
+                                      onPressed: () async {
+                                        await _controller.startImageStream();
+
+                                        if (!mounted) return;
+
+                                        setState(() => _capturedImage = null);
+                                      },
+                                    ),
+                                    const SizedBox(height: 16),
+                                    CpButton(
+                                      width: double.infinity,
+                                      text: 'Submit',
+                                      onPressed: _handleSubmitted
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
+                        )
+                      : Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            SmartFaceCamera(
+                              controller: _controller,
+                              indicatorShape: IndicatorShape.image,
+                              indicatorAssetImage: Assets.images.faceFrame.path,
+                              showControls: false,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    width: 80,
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: CpColors.yellowColor,
+                                        width: 3,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 60,
+                                    height: 60,
+                                    child: CpButton(
+                                      text: '',
+                                      onPressed: _controller.captureImage,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.paddingOf(context).top + 16,
+                      right: 24,
                     ),
-                  )
-                : SmartFaceCamera(
-                    controller: _controller,
-                    messageBuilder: (context, face) {
-                      if (face == null) {
-                        return _message('Place your face in the camera');
-                      }
-
-                      return !face.wellPositioned
-                          ? _message('Center your face in the square')
-                          : const SizedBox.shrink();
+                    icon: const Icon(Icons.close, size: 28),
+                    onPressed: () {
+                      Navigator.of(context).pop();
                     },
                   ),
-          ),
-        ),
-      );
-
-  Widget _message(String msg) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 55, vertical: 15),
-        child: Text(
-          msg,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 14,
-            height: 1.5,
-            fontWeight: FontWeight.w400,
+                ),
+              ],
+            ),
           ),
         ),
       );

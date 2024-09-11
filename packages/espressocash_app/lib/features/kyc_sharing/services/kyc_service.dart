@@ -83,7 +83,7 @@ class KycSharingService {
   }
 
   Future<void> updateInfo({
-    required KycUserInfo data,
+    required V1UserData data,
     required File? photo,
   }) async {
     await _kycUserClient.setData(
@@ -95,8 +95,8 @@ class KycSharingService {
         countryCode: data.countryCode,
         idType: data.idType,
         idNumber: data.idNumber,
-        // bankAccountNumber: '', //TODO
-        // bankCode: '',
+        bankAccountNumber: data.bankAccountNumber,
+        bankCode: data.bankCode,
       ),
       selfie: photo != null ? await photo.readAsBytes() : null,
       idCard: null,

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kyc_client_dart/kyc_client_dart.dart';
 
+import '../../../di.dart';
 import '../../../ui/button.dart';
+import '../../../ui/snackbar.dart';
+import '../services/kyc_service.dart';
 import '../widgets/kyc_text_field.dart';
+import 'email_verification_screen.dart';
 import 'kyc_screen.dart';
 
 class BankAccountScreen extends StatefulWidget {
@@ -25,18 +30,37 @@ class BankAccountScreen extends StatefulWidget {
 }
 
 class _BankAccountScreenState extends State<BankAccountScreen> {
-  final _accountNumberController = TextEditingController();
+  final _bankAccountNumberController = TextEditingController();
   final _bankCodeController = TextEditingController();
 
   bool get _isValid =>
-      _accountNumberController.text.isNotEmpty &&
+      _bankAccountNumberController.text.isNotEmpty &&
       _bankCodeController.text.isNotEmpty;
 
-  Future<void> _handleSubmitted() async {}
+  Future<void> _handleSubmitted() async {
+    try {
+      final service = sl<KycSharingService>();
+
+      await service.updateInfo(
+        data: V1UserData(
+          bankAccountNumber: _bankAccountNumberController.text,
+          bankCode: _bankCodeController.text,
+        ),
+        photo: null,
+      );
+
+      if (!mounted) return;
+
+      showCpSnackbar(context, message: 'Success, Data updated');
+      EmailVerificationScreen.pushReplacement(context);
+    } on Exception {
+      showCpErrorSnackbar(context, message: 'Failed to update data');
+    }
+  }
 
   @override
   void dispose() {
-    _accountNumberController.dispose();
+    _bankAccountNumberController.dispose();
     _bankCodeController.dispose();
     super.dispose();
   }
@@ -47,7 +71,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
         children: [
           const SizedBox(height: 30),
           KycTextField(
-            controller: _accountNumberController,
+            controller: _bankAccountNumberController,
             inputType: TextInputType.name,
             placeholder: 'Account Number',
           ),
@@ -63,7 +87,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
             padding: const EdgeInsets.all(16),
             child: ListenableBuilder(
               listenable: Listenable.merge([
-                _accountNumberController,
+                _bankAccountNumberController,
                 _bankCodeController,
               ]),
               builder: (context, child) => CpButton(

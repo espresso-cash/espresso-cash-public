@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../ui/button.dart';
 import '../../../ui/timeline.dart';
-import '../widgets/kyc_text_field.dart';
 import 'kyc_camera_screen.dart';
 import 'kyc_screen.dart';
+
+// TODO(vsumin): fix layout
 
 class IdentityVerificationScreen extends StatefulWidget {
   const IdentityVerificationScreen({super.key});
@@ -39,8 +40,6 @@ class _IdentityVerificationScreenState
       _accountNumberController.text.isNotEmpty &&
       _bankCodeController.text.isNotEmpty;
 
-  Future<void> _handleSubmitted() async {}
-
   @override
   void dispose() {
     _accountNumberController.dispose();
@@ -63,7 +62,7 @@ class _IdentityVerificationScreenState
             ),
           ),
           const SizedBox(height: 40),
-          const SizedBox(height: 400, child: _Timeline()),
+          const SizedBox(height: 300, child: _Timeline()),
           const Spacer(),
           Padding(
             padding: const EdgeInsets.all(16),
