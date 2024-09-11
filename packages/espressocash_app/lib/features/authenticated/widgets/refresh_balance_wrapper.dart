@@ -54,6 +54,8 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   AsyncResult<void> _updateConversionRates() async {
     final tokens = await sl<TokenBalancesRepository>().readUserTokens();
 
+    if (tokens.isEmpty) return const Either.right(null);
+
     return sl<ConversionRatesRepository>()
         .refresh(defaultFiatCurrency, tokens)
         .doOnLeftAsync((_) {
