@@ -219,24 +219,27 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
               placeholder: 'ID Number',
             ),
             const SizedBox(height: 18),
-            Row(
-              children: [
-                CpRadioButton(
-                  value: _isShareData,
-                  onChanged: (value) => setState(() => _isShareData = value),
-                ),
-                const SizedBox(width: 12),
-                const Expanded(
-                  child: Text(
-                    'Allow Espresso Cash partners to share this data for the purposes of deposits and withdrawals.',
-                    style: TextStyle(
-                      fontSize: 14,
-                      height: 1.5,
-                      letterSpacing: 0.19,
+            GestureDetector(
+              onTap: () => setState(() => _isShareData = !_isShareData),
+              child: Row(
+                children: [
+                  CpRadioButton(
+                    value: _isShareData,
+                    onChanged: (value) => setState(() => _isShareData = value),
+                  ),
+                  const SizedBox(width: 12),
+                  const Expanded(
+                    child: Text(
+                      'Allow Espresso Cash partners to share this data for the purposes of deposits and withdrawals.',
+                      style: TextStyle(
+                        fontSize: 14,
+                        height: 1.5,
+                        letterSpacing: 0.19,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const Spacer(),
             Padding(
