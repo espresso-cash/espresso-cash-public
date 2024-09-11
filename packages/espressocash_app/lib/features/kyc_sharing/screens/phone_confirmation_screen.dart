@@ -5,9 +5,8 @@ import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
 import '../data/kyc_repository.dart';
 import '../services/kyc_service.dart';
+import '../widgets/kyc_screen.dart';
 import '../widgets/kyc_text_field.dart';
-import 'basic_information_screen.dart';
-import 'kyc_screen.dart';
 
 class PhoneConfirmationScreen extends StatefulWidget {
   const PhoneConfirmationScreen(this.phone, {super.key});

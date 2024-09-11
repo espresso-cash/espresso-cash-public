@@ -6,9 +6,9 @@ import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/email.dart';
 import '../services/kyc_service.dart';
+import '../widgets/kyc_screen.dart';
 import '../widgets/kyc_text_field.dart';
 import 'email_confirmation_screen.dart';
-import 'kyc_screen.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
   const EmailVerificationScreen({super.key});

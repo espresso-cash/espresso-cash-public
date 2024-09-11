@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../ui/button.dart';
 import '../../../ui/timeline.dart';
+import '../widgets/kyc_screen.dart';
 import 'kyc_camera_screen.dart';
-import 'kyc_screen.dart';
 
 // TODO(vsumin): fix layout
 

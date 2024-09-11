@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
@@ -14,9 +13,9 @@ import '../data/kyc_repository.dart';
 import '../models/id_type.dart';
 import '../services/kyc_service.dart';
 import '../widgets/id_picker.dart';
+import '../widgets/kyc_screen.dart';
 import '../widgets/kyc_text_field.dart';
 import 'identity_verification_screen.dart';
-import 'kyc_screen.dart';
 
 class BasicInformationScreen extends StatefulWidget {
   const BasicInformationScreen({super.key});
@@ -120,7 +119,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
     }
   }
 
-  Future<void> _fetchKycInfo() async {
+  void _fetchKycInfo() {
     setState(() => _isLoading = false);
 
     // try {

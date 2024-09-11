@@ -69,7 +69,6 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
     _controller = FaceCameraController(
       autoCapture: false,
       defaultCameraLens: CameraLens.front,
-      imageResolution: ImageResolution.low,
       onCapture: (image) {
         setState(() => _capturedImage = image);
       },
@@ -121,7 +120,7 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
                                     CpButton(
                                       width: double.infinity,
                                       text: 'Submit',
-                                      onPressed: _handleSubmitted
+                                      onPressed: _handleSubmitted,
                                     ),
                                   ],
                                 ),

@@ -5,9 +5,9 @@ import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
+import '../widgets/kyc_screen.dart';
 import '../widgets/kyc_text_field.dart';
 import 'email_verification_screen.dart';
-import 'kyc_screen.dart';
 
 class BankAccountScreen extends StatefulWidget {
   const BankAccountScreen({super.key});

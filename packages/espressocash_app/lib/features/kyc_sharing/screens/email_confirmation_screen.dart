@@ -6,8 +6,8 @@ import '../../../ui/snackbar.dart';
 import '../../profile/data/profile_repository.dart';
 import '../data/kyc_repository.dart';
 import '../services/kyc_service.dart';
+import '../widgets/kyc_screen.dart';
 import '../widgets/kyc_text_field.dart';
-import 'kyc_screen.dart';
 import 'phone_verification_screen.dart';
 
 class EmailConfirmationScreen extends StatefulWidget {
