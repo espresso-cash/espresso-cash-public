@@ -14,7 +14,7 @@ import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../balances/data/repository.dart';
 import '../../currency/models/amount.dart';
-import '../../kyc_sharing/screens/kyc_details_screen.dart';
+import '../../kyc_sharing/screens/basic_information_screen.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../tokens/token.dart';
 import '../widgets/home_add_cash.dart';
@@ -228,7 +228,7 @@ class _Buttons extends StatelessWidget {
                 Expanded(
                   child: PayOrRequestButton(
                     voidCallback: () {
-                      KycDetailsScreen.push(context);
+                      BasicInformationScreen.push(context);
                     },
                   ),
                 ),

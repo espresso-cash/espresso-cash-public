@@ -167,6 +167,20 @@ class KycSharingService {
     );
   }
 
+  // TODO(vsumin): add method to delete user data
+  // Future<void> deleteUserData() async {
+  //   await _userClient.deleteUserData(
+  //     DeleteUserDataRequest(
+  //       user: User(
+  //         userPk: _authPublicKey,
+  //         secretKey: _rawSecretKey,
+  //         // partnerToken: _partnerToken,
+  //       ),
+  //       partnerPk: partnerAuthPk,
+  //     ),
+  //   );
+  //}
+
   Future<void> _sendEmailOtp() async {
     await _otpClient.sendOtpByEmail(
       SendOtpRequest(

@@ -8,7 +8,7 @@ import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
 import '../data/kyc_repository.dart';
 import '../services/kyc_service.dart';
-import 'kyc_details_screen.dart';
+import 'basic_information_screen.dart';
 
 class PhoneConfirmationScreen extends StatefulWidget {
   const PhoneConfirmationScreen(this.phone, {super.key});
@@ -44,7 +44,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
       showCpSnackbar(context, message: 'Success, phone number verified');
       sl<KycRepository>().hasValidatedPhone = true;
       Navigator.pop(context);
-      KycDetailsScreen.pushReplacement(context);
+      BasicInformationScreen.pushReplacement(context);
     } else {
       if (!mounted) return;
       showCpErrorSnackbar(
