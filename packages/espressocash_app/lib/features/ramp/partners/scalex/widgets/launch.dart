@@ -57,6 +57,7 @@ extension BuildContextExt on BuildContext {
       },
       minAmount: minAmountNGN,
       currency: Currency.ngn,
+      receiveCurrency: Currency.usdc,
       calculateEquivalent: (Amount amount) async => Either.right(
         amount.calculateOnRampReceiveAmount(
           exchangeRate: rampRate,
@@ -205,6 +206,7 @@ window.addEventListener("message", (event) => {
       },
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
+      receiveCurrency: Currency.ngn,
       calculateEquivalent: (amount) async => Either.right(
         amount.calculateOffRampReceiveAmount(
           exchangeRate: rampRate,

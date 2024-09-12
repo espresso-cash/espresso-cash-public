@@ -41,6 +41,7 @@ class RampAmountScreen extends StatefulWidget {
     required this.calculateFee,
     required this.partner,
     required this.exchangeRate,
+    required this.receiveCurrency,
   });
 
   static Future<void> push(
@@ -53,6 +54,7 @@ class RampAmountScreen extends StatefulWidget {
     AmountCalculator? calculateEquivalent,
     FeeCalculator? calculateFee,
     String? exchangeRate,
+    Currency? receiveCurrency,
   }) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
@@ -65,6 +67,7 @@ class RampAmountScreen extends StatefulWidget {
             partner: partner,
             calculateFee: calculateFee,
             exchangeRate: exchangeRate,
+            receiveCurrency: receiveCurrency,
           ),
         ),
       );
@@ -76,8 +79,8 @@ class RampAmountScreen extends StatefulWidget {
   final RampType type;
   final RampPartner partner;
   final FeeCalculator? calculateFee;
-
   final String? exchangeRate;
+  final Currency? receiveCurrency;
 
   @override
   State<RampAmountScreen> createState() => _RampAmountScreenState();
@@ -140,6 +143,7 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                           calculateEquivalent: widget.calculateEquivalent,
                           minAmount: widget.minAmount,
                           type: widget.type,
+                          receiveCurrency: widget.receiveCurrency,
                         ),
                       ),
                       SizedBox(height: 14.h),
@@ -203,12 +207,14 @@ class _ReceiveTextField extends StatefulWidget {
     required this.calculateEquivalent,
     required this.type,
     required this.minAmount,
+    required this.receiveCurrency,
   });
 
   final Amount amount;
   final AmountCalculator? calculateEquivalent;
   final Decimal minAmount;
   final RampType type;
+  final Currency? receiveCurrency;
 
   @override
   State<_ReceiveTextField> createState() => _ReceiveTextFieldState();
@@ -261,7 +267,11 @@ class _ReceiveTextFieldState extends State<_ReceiveTextField>
                     final label = context.l10n.youReceiveTitle;
 
                     if (snapshot.connectionState != ConnectionState.done) {
-                      return LoadingTextField(label: label);
+                      return RampTextField(
+                        label: label,
+                        controller: null,
+                        currency: widget.receiveCurrency,
+                      );
                     }
 
                     final data = snapshot.data;
@@ -472,8 +482,8 @@ class _InfoRow extends StatelessWidget {
             const Spacer(),
             if (isLoading)
               LoaderAnimation(
-                height: 16.h,
-                width: 70.w,
+                height: 18.h,
+                width: 95.w,
               )
             else
               Text(

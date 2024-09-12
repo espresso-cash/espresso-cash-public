@@ -8,6 +8,7 @@ import '../../../ui/text_field.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
+import 'ramp_loader.dart';
 
 class RampTextField extends StatelessWidget {
   const RampTextField({
@@ -18,8 +19,8 @@ class RampTextField extends StatelessWidget {
   });
 
   final String label;
-  final Currency currency;
-  final TextEditingController controller;
+  final Currency? currency;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +32,21 @@ class RampTextField extends StatelessWidget {
               width: 36.w,
               height: 36.h,
             )
-          : CircleAvatar(
-              backgroundColor: CpColors.darkBackgroundColor,
-              child: Assets.icons.money.svg(),
-            ),
+          : _defaultLogo,
       CryptoCurrency(:final Token token) => TokenIcon(
           token: token,
-          size: 36.w,
+          size: 40.w,
         ),
+      _ => _defaultLogo,
     };
+
+    final symbol = Text(
+      currency?.symbol ?? '',
+      style: TextStyle(
+        fontSize: 34.sp,
+        fontWeight: FontWeight.w700,
+      ),
+    );
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -56,35 +63,42 @@ class RampTextField extends StatelessWidget {
               ),
             ),
           ),
-          CpTextField(
-            padding: EdgeInsets.symmetric(
-              vertical: 12.h,
-              horizontal: 24.w,
-            ),
-            controller: controller,
-            inputType: const TextInputType.numberWithOptions(decimal: true),
-            textInputAction: TextInputAction.next,
-            textCapitalization: TextCapitalization.none,
-            backgroundColor: CpColors.darkBackgroundColor,
-            placeholder: '0',
-            placeholderColor: Colors.white,
-            textColor: Colors.white,
-            fontSize: 34.sp,
-            fontWeight: FontWeight.w700,
-            prefix: logo,
-            suffix: Padding(
-              padding: EdgeInsets.only(right: 24.w),
-              child: Text(
-                currency.symbol,
-                style: TextStyle(
-                  fontSize: 34.sp,
-                  fontWeight: FontWeight.w700,
-                ),
+          if (controller == null)
+            LoadingTextField(
+              prefix: logo,
+              suffix: symbol,
+            )
+          else
+            CpTextField(
+              padding: EdgeInsets.symmetric(
+                vertical: 12.h,
+                horizontal: 24.w,
+              ),
+              controller: controller,
+              inputType: const TextInputType.numberWithOptions(decimal: true),
+              textInputAction: TextInputAction.next,
+              textCapitalization: TextCapitalization.none,
+              backgroundColor: CpColors.darkBackgroundColor,
+              placeholder: '0',
+              placeholderColor: Colors.white,
+              textColor: Colors.white,
+              fontSize: 34.sp,
+              fontWeight: FontWeight.w700,
+              prefix: logo,
+              readOnly: true,
+              suffix: Padding(
+                padding: EdgeInsets.only(right: 24.w),
+                child: symbol,
               ),
             ),
-          ),
         ],
       ),
     );
   }
 }
+
+Widget get _defaultLogo => CircleAvatar(
+      maxRadius: 20.w,
+      backgroundColor: CpColors.darkBackgroundColor,
+      child: Assets.icons.money.svg(),
+    );

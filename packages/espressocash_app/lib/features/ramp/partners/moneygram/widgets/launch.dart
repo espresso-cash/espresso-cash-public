@@ -52,6 +52,7 @@ extension BuildContextExt on BuildContext {
       },
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usd,
+      receiveCurrency: Currency.usdc,
       type: type,
       calculateEquivalent: (amount) => _calculateReceiveAmount(
         amount: amount,
@@ -182,6 +183,7 @@ window.addEventListener("message", (event) => {
       },
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
+      receiveCurrency: Currency.usd,
       type: type,
       calculateEquivalent: (amount) => _calculateReceiveAmount(
         amount: amount,
