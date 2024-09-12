@@ -14,8 +14,8 @@ import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 import '../models/ramp_type.dart';
 
 typedef OnRampOrder = ({
@@ -46,12 +46,12 @@ typedef AdditionalDetails = ({
 
 @Singleton(scope: authScope)
 class OnRampOrderService implements Disposable {
-  OnRampOrderService(this._db, this._tokens, this._analytics);
+  OnRampOrderService(this._db, this._tokenRepository, this._analytics);
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
   final MyDatabase _db;
-  final TokenList _tokens;
+  final TokenRepository _tokenRepository;
   final AnalyticsManager _analytics;
 
   @PostConstruct(preResolve: true)
@@ -192,8 +192,8 @@ class OnRampOrderService implements Disposable {
     final query = _db.select(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().map(
-      (row) {
+    return query.watchSingle().asyncMap(
+      (row) async {
         final bankAccount = row.bankAccount;
         final bankName = row.bankName;
         final transferExpiryDate = row.bankTransferExpiry;
@@ -205,6 +205,8 @@ class OnRampOrderService implements Disposable {
             transferExpiryDate != null &&
             transferAmount != null &&
             fiatSymbol != null;
+
+        final Token? token = await _tokenRepository.getToken(row.token);
 
         final feeAmount = row.feeAmount?.let(
           (it) => Amount(
@@ -219,14 +221,14 @@ class OnRampOrderService implements Disposable {
           submittedAmount: CryptoAmount(
             value: row.amount,
             cryptoCurrency: CryptoCurrency(
-              token: _tokens.requireTokenByMint(row.token),
+              token: token ?? Token.unk,
             ),
           ),
           receiveAmount: row.receiveAmount?.let(
             (amount) => CryptoAmount(
               value: amount,
               cryptoCurrency: CryptoCurrency(
-                token: _tokens.requireTokenByMint(row.token),
+                token: token ?? Token.unk,
               ),
             ),
           ),
