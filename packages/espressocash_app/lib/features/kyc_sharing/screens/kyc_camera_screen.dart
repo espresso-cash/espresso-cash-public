@@ -15,8 +15,6 @@ import '../data/kyc_repository.dart';
 import '../services/kyc_service.dart';
 import 'bank_account_screen.dart';
 
-// TODO(vsumin): divide complicated widgets, refactor
-
 class KycCameraScreen extends StatefulWidget {
   const KycCameraScreen({super.key});
 
@@ -84,88 +82,18 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
               children: [
                 Builder(
                   builder: (context) => _capturedImage != null
-                      ? Center(
-                          child: Stack(
-                            alignment: Alignment.bottomCenter,
-                            children: [
-                              Transform.flip(
-                                flipX: true,
-                                child: Image.file(
-                                  _capturedImage!,
-                                  height: double.maxFinite,
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 40,
-                                  vertical: 16,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    CpButton(
-                                      variant: CpButtonVariant.light,
-                                      width: double.infinity,
-                                      text: 'Retake Selfie',
-                                      onPressed: () async {
-                                        await _controller.startImageStream();
+                      ? _ResultView(
+                          capturedImage: _capturedImage!,
+                          onRetakePressed: () async {
+                            await _controller.startImageStream();
 
-                                        if (!mounted) return;
+                            if (!mounted) return;
 
-                                        setState(() => _capturedImage = null);
-                                      },
-                                    ),
-                                    const SizedBox(height: 16),
-                                    CpButton(
-                                      width: double.infinity,
-                                      text: 'Submit',
-                                      onPressed: _handleSubmitted,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                            setState(() => _capturedImage = null);
+                          },
+                          onSubmitPressed: _handleSubmitted,
                         )
-                      : Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: [
-                            SmartFaceCamera(
-                              controller: _controller,
-                              indicatorShape: IndicatorShape.image,
-                              indicatorAssetImage: Assets.images.faceFrame.path,
-                              showControls: false,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Container(
-                                    width: 80,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: CpColors.yellowColor,
-                                        width: 3,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 60,
-                                    height: 60,
-                                    child: CpButton(
-                                      text: '',
-                                      onPressed: _controller.captureImage,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      : _CameraView(_controller),
                 ),
                 Align(
                   alignment: Alignment.topRight,
@@ -191,4 +119,102 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
     _controller.dispose();
     super.dispose();
   }
+}
+
+class _CameraView extends StatelessWidget {
+  const _CameraView(this._controller);
+
+  final FaceCameraController _controller;
+
+  @override
+  Widget build(BuildContext context) => Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          SmartFaceCamera(
+            controller: _controller,
+            indicatorShape: IndicatorShape.image,
+            indicatorAssetImage: Assets.images.faceFrame.path,
+            showControls: false,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: CpColors.yellowColor,
+                      width: 3,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: CpButton(
+                    text: '',
+                    onPressed: _controller.captureImage,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+}
+
+class _ResultView extends StatelessWidget {
+  const _ResultView({
+    required this.capturedImage,
+    required this.onRetakePressed,
+    required this.onSubmitPressed,
+  });
+
+  final File capturedImage;
+  final VoidCallback onRetakePressed;
+  final VoidCallback onSubmitPressed;
+
+  @override
+  Widget build(BuildContext context) => Center(
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Transform.flip(
+              flipX: true,
+              child: Image.file(
+                capturedImage,
+                height: double.maxFinite,
+                fit: BoxFit.fitHeight,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 40,
+                vertical: 16,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CpButton(
+                    variant: CpButtonVariant.light,
+                    width: double.infinity,
+                    text: 'Retake Selfie',
+                    onPressed: onRetakePressed,
+                  ),
+                  const SizedBox(height: 16),
+                  CpButton(
+                    width: double.infinity,
+                    text: 'Submit',
+                    onPressed: onSubmitPressed,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 }
