@@ -40,20 +40,12 @@ class TokenUpdater {
 
           await _ecClient.getTokensFile(file.path);
 
-          await compute(
-            _initializeFromAssets,
-            IsolateParams(
-              file,
-              rootToken,
-            ),
-          );
+          await compute(_initializeFromAssets, IsolateParams(file, rootToken));
         }
       });
 }
 
-Future<Either<Exception, void>> _initializeFromAssets(
-  IsolateParams args,
-) =>
+Future<Either<Exception, void>> _initializeFromAssets(IsolateParams args) =>
     tryEitherAsync(
       (_) async {
         BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);
@@ -62,15 +54,14 @@ Future<Either<Exception, void>> _initializeFromAssets(
 
         final db = MyDatabase();
 
-        await tokenStream.forEach((tokenRows) async {
-          for (final tokenRow in tokenRows) {
-            await db.transaction(
-              () => db.into(db.tokenRows).insert(
-                    tokenRow,
-                    mode: InsertMode.insertOrReplace,
-                  ),
-            );
-          }
+        await db.transaction(() async {
+          await tokenStream.forEach((tokenRows) async {
+            for (final tokenRow in tokenRows) {
+              await db
+                  .into(db.tokenRows)
+                  .insert(tokenRow, mode: InsertMode.insertOrReplace);
+            }
+          });
         });
 
         // ignore: avoid-weak-cryptographic-algorithms, non sensitive

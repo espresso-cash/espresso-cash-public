@@ -347,21 +347,3 @@ class TokenRows extends Table {
   @override
   Set<Column> get primaryKey => {chainId, address};
 }
-
-class TagsConverter extends TypeConverter<List<String>, String> {
-  const TagsConverter();
-
-  @override
-  List<String> fromSql(String fromDb) {
-    if (fromDb.isEmpty) return [];
-
-    return fromDb.split(',');
-  }
-
-  @override
-  String toSql(List<String> value) {
-    if (value.isEmpty) return '';
-
-    return value.join(',');
-  }
-}

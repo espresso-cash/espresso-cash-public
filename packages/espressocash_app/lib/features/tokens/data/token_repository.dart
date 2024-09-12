@@ -31,7 +31,6 @@ class TokenRepository {
         if (rootToken == null) return;
 
         final assetFile = await rootBundle.load('assets/tokens/tokens.csv.gz');
-
         final platformFile = await fileManager.loadFromAppDir('tokens.csv.gz');
 
         await compute(

@@ -113,9 +113,7 @@ class OffRampOrderService implements Disposable {
         .map((rows) => rows.toIList());
   }
 
-  Stream<OffRampOrder> watch(
-    String orderId,
-  ) {
+  Stream<OffRampOrder> watch(String orderId) {
     final query = _db.select(_db.offRampOrderRows)
       ..where((tbl) => tbl.id.equals(orderId));
 
@@ -134,9 +132,7 @@ class OffRampOrderService implements Disposable {
 
           return CryptoAmount(
             value: amount,
-            cryptoCurrency: CryptoCurrency(
-              token: token,
-            ),
+            cryptoCurrency: CryptoCurrency(token: token),
           );
         },
       );
