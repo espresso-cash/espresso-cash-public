@@ -169,17 +169,23 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
   }
 
   void _watchBridgeTx() {
+    final txId = switch (value) {
+      RecoveryProcessing(:final txId) => txId,
+      _ => null,
+    };
+
+    if (txId == null || txId.isEmpty) {
+      _watcher?.cancel();
+
+      value = StellarRecoveryState.pending(
+        amount: _storage.getInt(_stellarRecoveryAmountKey).toCryptoAmount,
+      );
+
+      return;
+    }
+
     _watcher =
         Stream<void>.periodic(const Duration(seconds: 5)).listen((_) async {
-      final txId = switch (value) {
-        RecoveryProcessing(:final txId) => txId,
-        _ => null,
-      };
-
-      if (txId == null) {
-        return;
-      }
-
       final response = await _allbridgeApiClient.fetchStatus(
         chain: Chain.stellar,
         hash: txId,
