@@ -76,12 +76,11 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
         context,
         () async {
           await sl<UpdateProfile>()
-              .call(
-                countryCode: country.code,
-              )
+              .call(countryCode: country.code)
               .foldAsync((e) => throw e, ignore);
 
           if (!mounted) return;
+
           setState(() {
             _country = country;
           });
