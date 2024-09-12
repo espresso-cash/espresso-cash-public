@@ -240,13 +240,13 @@ class _ReceiveTextFieldState extends State<_ReceiveTextField>
   }
 
   void _call() {
-    if (widget.amount.decimal < widget.minAmount) return;
-
     final calculateEquivalent = widget.calculateEquivalent;
 
     if (calculateEquivalent == null) return;
 
     debounce(() {
+      if (widget.amount.decimal < widget.minAmount) return;
+
       setState(() {
         _result = calculateEquivalent(widget.amount);
       });
@@ -342,9 +342,9 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
   }
 
   void _call() {
-    if (widget.amount.decimal < widget.minAmount) return;
-
     debounce(() {
+      if (widget.amount.decimal < widget.minAmount) return;
+
       setState(() {
         _result = widget.feeCalculator?.call(widget.amount);
       });
