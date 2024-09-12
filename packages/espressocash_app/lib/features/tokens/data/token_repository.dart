@@ -12,8 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/file_manager.dart';
-import 'extensions.dart';
 import '../token.dart';
+import 'extensions.dart';
 
 @Singleton()
 class TokenRepository {
