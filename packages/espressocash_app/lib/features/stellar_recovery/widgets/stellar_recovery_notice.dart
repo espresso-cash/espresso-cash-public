@@ -21,14 +21,7 @@ class StellarRecoveryNotice extends StatefulWidget {
 }
 
 class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
-  late final Future<StellarRecoveryService> _recoveryServiceFuture;
   bool _isVisible = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _recoveryServiceFuture = sl.getAsync<StellarRecoveryService>();
-  }
 
   void _handleRecoverPressed() => RecoverStellarScreen.push(
         context,
@@ -49,41 +42,26 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
 
   @override
   Widget build(BuildContext context) => _isVisible
-      ? FutureBuilder<StellarRecoveryService>(
-          future: _recoveryServiceFuture,
-          builder: (context, snapshot) {
-            final recoveryService = snapshot.data;
+      ? ListenableBuilder(
+          listenable: sl<StellarRecoveryService>(),
+          builder: (context, child) {
+            Widget notice(Widget child) => _RecoveryNoticeContent(
+                  onClosePressed: _handleHideNoticePressed,
+                  child: child,
+                );
 
-            if (snapshot.connectionState != ConnectionState.done) {
-              return const SizedBox.shrink();
-            }
-
-            return snapshot.hasError || recoveryService == null
-                ? const SizedBox.shrink()
-                : ListenableBuilder(
-                    listenable: recoveryService,
-                    builder: (context, child) {
-                      Widget notice(Widget child) => _RecoveryNoticeContent(
-                            onClosePressed: _handleHideNoticePressed,
-                            child: child,
-                          );
-
-                      return switch (recoveryService.value) {
-                        RecoveryNone() ||
-                        RecoveryDismissed() =>
-                          const SizedBox.shrink(),
-                        RecoveryPending() => notice(
-                            _Pending(onRecoverPressed: _handleRecoverPressed),
-                          ),
-                        RecoveryProcessing() => notice(const _Processing()),
-                        RecoveryCompleted(:final amount) =>
-                          notice(_Completed(amount: amount)),
-                        RecoveryFailed() => notice(
-                            _Failed(onRecoverPressed: _handleRecoverPressed),
-                          ),
-                      };
-                    },
-                  );
+            return switch (sl<StellarRecoveryService>().value) {
+              RecoveryNone() || RecoveryDismissed() => const SizedBox.shrink(),
+              RecoveryPending() => notice(
+                  _Pending(onRecoverPressed: _handleRecoverPressed),
+                ),
+              RecoveryProcessing() => notice(const _Processing()),
+              RecoveryCompleted(:final amount) =>
+                notice(_Completed(amount: amount)),
+              RecoveryFailed() => notice(
+                  _Failed(onRecoverPressed: _handleRecoverPressed),
+                ),
+            };
           },
         )
       : const SizedBox.shrink();

@@ -192,7 +192,7 @@ class MoneygramOffRampOrderService implements Disposable {
             transaction: '',
             depositAddress: '',
             slot: BigInt.zero,
-            bridgeAmount: 0,
+            bridgeAmount: null,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
@@ -492,7 +492,7 @@ class MoneygramOffRampOrderService implements Disposable {
 
     final receiveAmount = Amount.fromDecimal(
       value: Decimal.parse(transaction.amountOut ?? '0'),
-      currency: Currency.usd,
+      currency: currencyFromString(transaction.amountOutAsset ?? 'USD'),
     ) as FiatAmount;
 
     final fee = Amount.fromDecimal(
@@ -649,17 +649,23 @@ class MoneygramOffRampOrderService implements Disposable {
       cryptoCurrency: Currency.usdc,
     );
 
-    final transactionSucceed = await _stellarClient.sendUsdc(
-      destinationAddress: order.withdrawAnchorAccount ?? '',
-      memo: order.withdrawMemo ?? '',
-      amount: amount.decimal.toString(),
-    );
+    try {
+      final transactionSucceed = await _stellarClient.sendUsdc(
+        destinationAddress: order.withdrawAnchorAccount ?? '',
+        memo: order.withdrawMemo ?? '',
+        amount: amount.decimal.toString(),
+      );
 
-    return transactionSucceed
-        ? const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.waitingForPartner),
-          )
-        : null;
+      return transactionSucceed
+          ? const OffRampOrderRowsCompanion(
+              status: Value(OffRampOrderStatus.waitingForPartner),
+            )
+          : null;
+    } on Exception catch (error, stackTrace) {
+      reportError(error, stackTrace);
+
+      return null;
+    }
   }
 
   Future<OffRampOrderRowsCompanion?> _processRefund(
@@ -673,28 +679,16 @@ class MoneygramOffRampOrderService implements Disposable {
       );
     }
 
-    final response = await _allbridgeApiClient
-        .fetchStatus(
-          chain: Chain.solana,
-          hash: order.solanaBridgeTx ?? '',
-        )
-        .then((e) => e?.receive);
-
-    if (response == null) {
-      return const OffRampOrderRowsCompanion(
-        status: Value(OffRampOrderStatus.processingRefund),
-      );
-    }
-
-    final amount = int.parse(response.amount) ~/ 10;
-
-    final solanaAddress = _ecWallet.address;
+    final amount = CryptoAmount(
+      value: order.bridgeAmount ?? 0,
+      cryptoCurrency: Currency.usdc,
+    );
 
     final refundAmount = await _ecClient
         .calculateMoneygramFee(
           MoneygramFeeRequestDto(
             type: RampTypeDto.onRamp,
-            amount: (int.parse(response.amount) / 10000000).toString(),
+            amount: amount.decimal.toString(),
           ),
         )
         .then(
@@ -707,9 +701,9 @@ class MoneygramOffRampOrderService implements Disposable {
     final bridgeTx = await _ecClient
         .swapToSolana(
           SwapToSolanaRequestDto(
-            amount: amount.toStringAsFixed(0),
+            amount: amount.value.toString(),
             stellarSenderAddress: _stellarWallet.address,
-            solanaReceiverAddress: solanaAddress,
+            solanaReceiverAddress: _ecWallet.address,
           ),
         )
         .then((e) => e.encodedTx);

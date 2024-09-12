@@ -189,10 +189,13 @@ class OffRampOrderScreenContent extends StatelessWidget {
         order.status == OffRampOrderStatus.ready ||
         showMoneygramCancel;
 
+    final bridgeTimeInMinutes =
+        order.status == OffRampOrderStatus.waitingForRefundBridge ? 3 : 10;
+
     final bridgeSubtitleContent = [
       const SizedBox(height: 6),
       Text(
-        context.l10n.transferInProgressText,
+        context.l10n.transferInProgressText(bridgeTimeInMinutes),
         style: const TextStyle(fontSize: 14),
       ),
     ];
@@ -400,22 +403,30 @@ class _Timeline extends StatelessWidget {
       subtitle: order.created.let((t) => context.formatDate(t)),
     );
 
+    final showReceiveAmount =
+        isMoneygramOrder ? order.status.showMoneygramReceiveAmount : true;
+
+    final bridgeFeeAmount = order.bridgeAmount?.let((e) {
+      if (e.value == 0) return null;
+
+      return order.amount - e;
+    });
+
     final bridgingToStellar = CpTimelineItem(
       title: context.l10n.bridgingText,
+      subtitle: bridgeFeeAmount != null
+          ? '${bridgeFeeAmount.format(context.locale, maxDecimals: 2)} fee applied'
+          : null,
     );
     final amountSent = CpTimelineItem(
       title: isMoneygramOrder
           ? context.l10n.moneygramCashAvailable
           : context.l10n.offRampWithdrawSent,
-      trailing: isMoneygramOrder
-          ? order.bridgeAmount?.let(
-              (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
-            )
-          : null,
     );
     final paymentSuccess = CpTimelineItem(
       title: context.l10n.offRampWithdrawReceived,
-      trailing: receiveAmount?.format(context.locale),
+      trailing:
+          showReceiveAmount ? receiveAmount?.format(context.locale) : null,
       subtitle: order.resolved?.let((t) => context.formatDate(t)),
     );
     final paymentCanceled = CpTimelineItem(
@@ -566,6 +577,28 @@ extension on OffRampOrderStatus {
       this == OffRampOrderStatus.preProcessing ||
       this == OffRampOrderStatus.waitingForRefundBridge ||
       this == OffRampOrderStatus.postProcessing;
+
+  bool get showMoneygramReceiveAmount => switch (this) {
+        OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.completed ||
+        OffRampOrderStatus.waitingForPartner =>
+          true,
+        OffRampOrderStatus.depositTxRequired ||
+        OffRampOrderStatus.depositTxReady ||
+        OffRampOrderStatus.processingRefund ||
+        OffRampOrderStatus.waitingForRefundBridge ||
+        OffRampOrderStatus.preProcessing ||
+        OffRampOrderStatus.postProcessing ||
+        OffRampOrderStatus.ready ||
+        OffRampOrderStatus.creatingDepositTx ||
+        OffRampOrderStatus.depositError ||
+        OffRampOrderStatus.depositTxConfirmError ||
+        OffRampOrderStatus.insufficientFunds ||
+        OffRampOrderStatus.failure ||
+        OffRampOrderStatus.cancelled ||
+        OffRampOrderStatus.refunded =>
+          false,
+      };
 
   String toMoneygramStatus(BuildContext context) => switch (this) {
         OffRampOrderStatus.preProcessing ||
