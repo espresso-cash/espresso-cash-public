@@ -45,8 +45,10 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
       ? ListenableBuilder(
           listenable: sl<StellarRecoveryService>(),
           builder: (context, child) {
-            Widget notice(Widget child) => _RecoveryNoticeContent(
+            Widget notice(Widget child, {bool animated = false}) =>
+                _RecoveryNoticeContent(
                   onClosePressed: _handleHideNoticePressed,
+                  showAnimation: animated,
                   child: child,
                 );
 
@@ -55,9 +57,10 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
               RecoveryPending() => notice(
                   _Pending(onRecoverPressed: _handleRecoverPressed),
                 ),
-              RecoveryProcessing() => notice(const _Processing()),
+              RecoveryProcessing() =>
+                notice(const _Processing(), animated: true),
               RecoveryCompleted(:final amount) =>
-                notice(_Completed(amount: amount)),
+                notice(_Completed(amount: amount), animated: true),
               RecoveryFailed() => notice(
                   _Failed(onRecoverPressed: _handleRecoverPressed),
                 ),
@@ -137,10 +140,12 @@ class _RecoveryNoticeContent extends StatelessWidget {
   const _RecoveryNoticeContent({
     required this.onClosePressed,
     required this.child,
+    required this.showAnimation,
   });
 
   final VoidCallback onClosePressed;
   final Widget child;
+  final bool showAnimation;
 
   @override
   Widget build(BuildContext context) => DefaultTextStyle(
@@ -154,36 +159,45 @@ class _RecoveryNoticeContent extends StatelessWidget {
           child: Center(
             child: SizedBox(
               width: 360,
-              child: CpInfoWidget(
-                message: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 4.0,
-                          vertical: 2,
+              child: Stack(
+                children: [
+                  if (showAnimation) Assets.gifs.recoveryAnimation.image(),
+                  CpInfoWidget(
+                    message: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 4.0,
+                              vertical: 2,
+                            ),
+                            child: Center(child: child),
+                          ),
                         ),
-                        child: Center(child: child),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: onClosePressed,
-                      child: SizedBox.square(
-                        dimension: 12,
-                        child: Assets.icons.closeButtonIcon.svg(
-                          color: Colors.white,
+                        GestureDetector(
+                          onTap: onClosePressed,
+                          child: SizedBox.square(
+                            dimension: 12,
+                            child: Assets.icons.closeButtonIcon.svg(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-                infoRadius: 12,
-                iconSize: 12,
-                variant: CpInfoVariant.black,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    infoRadius: 12,
+                    iconSize: 12,
+                    variant: showAnimation
+                        ? CpInfoVariant.transparent
+                        : CpInfoVariant.black,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 16,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
