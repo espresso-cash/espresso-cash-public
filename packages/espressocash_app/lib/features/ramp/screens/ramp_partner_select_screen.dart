@@ -1,6 +1,7 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../di.dart';
@@ -13,7 +14,6 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/theme.dart';
-import '../../../utils/extensions.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../../profile/data/profile_repository.dart';
@@ -119,31 +119,16 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
               SizedBox(height: 20.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 42.w),
-                child: Text.rich(
-                  TextSpan(
-                    style: TextStyle(
-                      fontSize: 32.sp,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 0.25,
-                      height: 1,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: switch (widget.type) {
-                          RampType.onRamp => context
-                              .l10n.selectPartnerOnRampTitle.firstWord
-                              .toUpperCase(),
-                          RampType.offRamp => context
-                              .l10n.selectPartnerOffRampTitle.firstWord
-                              .toUpperCase(),
-                        },
-                        style: const TextStyle(color: CpColors.yellowColor),
-                      ),
-                      TextSpan(
-                        text:
-                            ' ${context.l10n.selectPartnerOnRampTitle.restOfSentence.toUpperCase()}',
-                      ),
-                    ],
+                child: MarkdownBody(
+                  data: switch (widget.type) {
+                    RampType.onRamp =>
+                      context.l10n.selectPartnerOnRampTitle.toUpperCase(),
+                    RampType.offRamp =>
+                      context.l10n.selectPartnerOffRampTitle.toUpperCase(),
+                  },
+                  styleSheet: MarkdownStyleSheet(
+                    em: _markdownStyle.copyWith(color: CpColors.yellowColor),
+                    p: _markdownStyle,
                   ),
                 ),
               ),
@@ -214,3 +199,11 @@ class _CountryNotSupportedWidget extends StatelessWidget {
         ],
       );
 }
+
+final _markdownStyle = TextStyle(
+  fontStyle: FontStyle.normal,
+  fontSize: 32.sp,
+  fontWeight: FontWeight.w900,
+  letterSpacing: 0.25,
+  height: 1,
+);

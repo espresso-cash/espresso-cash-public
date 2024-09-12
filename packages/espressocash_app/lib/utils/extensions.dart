@@ -16,14 +16,6 @@ extension StringExt on String {
 
   String withZeroWidthSpaces() =>
       splitMapJoin('', onMatch: (m) => '${m.group(0) ?? ''}\u200b');
-
-  String get firstWord => split(' ').first;
-
-  String get restOfSentence {
-    final List<String> words = split(' ');
-
-    return words.length > 1 ? words.sublist(1).join(' ') : '';
-  }
 }
 
 extension FormatDate on BuildContext {
