@@ -32,9 +32,9 @@ class TokenRepository {
 
         final assetFile = await rootBundle.load('assets/tokens/tokens.csv.gz');
         final file = await _fileManager.loadFromAppDir('tokens.csv.gz');
-        final sink = file.openWrite();
-        sink.add(assetFile.buffer.asUint8List());
+        final sink = file.openWrite()..add(assetFile.buffer.asUint8List());
         await sink.flush();
+        await sink.close();
 
         if (rootToken == null) return;
 
