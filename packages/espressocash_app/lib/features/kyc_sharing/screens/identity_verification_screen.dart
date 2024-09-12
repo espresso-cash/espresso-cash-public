@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../../gen/assets.gen.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
+import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
-import '../widgets/kyc_page.dart';
 import 'kyc_camera_screen.dart';
 
-// TODO(vsumin): fix layout
-
-class IdentityVerificationScreen extends StatefulWidget {
+class IdentityVerificationScreen extends StatelessWidget {
   const IdentityVerificationScreen({super.key});
 
   static void push(
@@ -27,54 +28,46 @@ class IdentityVerificationScreen extends StatefulWidget {
       );
 
   @override
-  State<IdentityVerificationScreen> createState() =>
-      _IdentityVerificationScreenState();
-}
-
-class _IdentityVerificationScreenState
-    extends State<IdentityVerificationScreen> {
-  final _accountNumberController = TextEditingController();
-  final _bankCodeController = TextEditingController();
-
-  bool get _isValid =>
-      _accountNumberController.text.isNotEmpty &&
-      _bankCodeController.text.isNotEmpty;
-
-  @override
-  void dispose() {
-    _accountNumberController.dispose();
-    _bankCodeController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => KycPage(
-        title: 'Identity verification',
-        children: [
-          const SizedBox(height: 20),
-          const Text(
-            'For security purposes, we need you to take a quick selfie to verify your identity.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              height: 21 / 16,
-              letterSpacing: .19,
+  Widget build(BuildContext context) => CpTheme.black(
+        child: Scaffold(
+          appBar: CpAppBar(
+            leading: const CpBackButton(),
+            title: Text('Identity verification'.toUpperCase()),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: SafeArea(
+              top: false,
+              child: Column(
+                children: [
+                  Assets.images.profileGraphic.image(height: 80),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'For security purposes, we need you to take a quick selfie to verify your identity.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      height: 21 / 16,
+                      letterSpacing: .19,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  const Expanded(child: _Timeline()),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: CpButton(
+                      width: double.infinity,
+                      text: 'Start Selfie Verification',
+                      onPressed: () {
+                        KycCameraScreen.pushReplacement(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 40),
-          const SizedBox(height: 300, child: _Timeline()),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: CpButton(
-              width: double.infinity,
-              text: 'Start Selfie Verification',
-              onPressed: () {
-                KycCameraScreen.pushReplacement(context);
-              },
-            ),
-          ),
-        ],
+        ),
       );
 }
 
