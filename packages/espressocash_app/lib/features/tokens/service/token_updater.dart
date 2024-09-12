@@ -13,7 +13,7 @@ import '../../../data/db/db.dart';
 import '../../../data/file_manager.dart';
 import '../../accounts/auth_scope.dart';
 import '../data/token_repository.dart';
-import 'extensions.dart';
+import '../data/extensions.dart';
 
 @Singleton(scope: authScope)
 class TokenUpdater {
@@ -23,8 +23,7 @@ class TokenUpdater {
   final EspressoCashClient _ecClient;
 
   @PostConstruct(preResolve: false)
-  Future<void> call() =>
-      TokensMetaStorage.getHash().letAsync((actualHash) async {
+  Future<void> call() => TokensMetaStorage.getHash().then((actualHash) async {
         final rootToken = ServicesBinding.rootIsolateToken;
 
         if (rootToken == null) return;

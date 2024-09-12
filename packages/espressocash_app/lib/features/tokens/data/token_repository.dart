@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/file_manager.dart';
-import '../service/extensions.dart';
+import 'extensions.dart';
 import '../token.dart';
 
 @Singleton()
@@ -43,9 +43,7 @@ class TokenRepository {
         );
       });
 
-  Future<Either<Exception, void>> _initializeFromAssets(
-    IsolateParams args,
-  ) =>
+  Future<Either<Exception, void>> _initializeFromAssets(IsolateParams args) =>
       tryEitherAsync(
         (_) async {
           BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);

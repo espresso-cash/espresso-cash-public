@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../../data/db/db.dart';
 import '../token.dart';
@@ -72,13 +71,4 @@ extension ToTokenRows on Stream<String> {
 extension DecodeFile on Stream<List<int>> {
   Stream<List<TokenRow>> decodeFile() =>
       transform(gzip.decoder).transform(utf8.decoder).transformToTokenRows();
-}
-
-extension FileExtension on File {
-  static Future<File> createTempFile(String fileName) async {
-    final appDir = await getTemporaryDirectory();
-    final path = '${appDir.path}${Platform.pathSeparator}$fileName';
-
-    return File(path);
-  }
 }
