@@ -120,6 +120,7 @@ flutter:
     - assets/coinflow/static/css/
     - assets/scalex/
     - assets/moneygram/
+    - assets/tokens/
 
   fonts:
     - family: RobotoApp

@@ -14,7 +14,6 @@ import '../../currency/models/currency.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
-import '../../tokens/token_list.dart';
 import '../../transaction_request/service/tr_service.dart';
 import '../models/activity.dart';
 import '../models/transaction.dart';
@@ -22,10 +21,9 @@ import 'activity_builder.dart';
 
 @injectable
 class TransactionRepository {
-  const TransactionRepository(this._db, this._tokens);
+  const TransactionRepository(this._db);
 
   final MyDatabase _db;
-  final TokenList _tokens;
 
   Stream<IList<String>> watchAll() {
     final query = _db.select(_db.transactionRows)
@@ -96,13 +94,13 @@ class TransactionRepository {
 
     final odp = _db.oDPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
-      builder: (pr) => pr.toActivity(_tokens),
+      builder: (pr) => pr.toActivity(),
       ignoreWhen: (row) => row.status != ODPStatusDto.success,
     );
 
     final olp = _db.oLPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
-      builder: (pr) => pr.toActivity(_tokens),
+      builder: (pr) => pr.toActivity(),
       ignoreWhen: (row) => const [OLPStatusDto.withdrawn, OLPStatusDto.canceled]
           .contains(row.status)
           .not(),
