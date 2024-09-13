@@ -49,6 +49,9 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
         photo: null,
       );
 
+      // uncomment to request smile kyc
+      // await service.requestKyc();
+
       if (!mounted) return;
 
       showCpSnackbar(context, message: 'Success, Data updated');

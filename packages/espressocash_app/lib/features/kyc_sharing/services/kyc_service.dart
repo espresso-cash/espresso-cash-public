@@ -51,9 +51,6 @@ class KycSharingService {
     _rawSecretKey = _kycUserClient.rawSecretKey;
     _authPublicKey = _kycUserClient.authPublicKey;
     _userPublicKey = _ecWallet.publicKey.toString();
-
-    // maybe handle it in another way
-    await _kycUserClient.grantPartnerAccess(validatorAuthPk);
   }
 
   Future<KycUserInfo?> fetchUser() async {
@@ -101,8 +98,6 @@ class KycSharingService {
       selfie: photo != null ? await photo.readAsBytes() : null,
       idCard: null,
     );
-
-    // await validate(); //TODO
   }
 
   Future<void> updateField({
@@ -144,7 +139,8 @@ class KycSharingService {
     return response.isValid;
   }
 
-  Future<void> validate() async {
+  Future<void> requestKyc() async {
+    await _kycUserClient.grantPartnerAccess(validatorAuthPk);
     await _validatorClient.requestKyc(
       KycRequest(
         secretKey: _rawSecretKey,
