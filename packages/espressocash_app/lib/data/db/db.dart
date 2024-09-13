@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 57;
+const int latestVersion = 58;
 
 const _tables = [
   OutgoingTransferRows,
@@ -39,6 +39,7 @@ const _tables = [
   TransactionRequestRows,
   TokenBalanceRows,
   ConversionRatesRows,
+  TokenRows,
 ];
 
 @lazySingleton
@@ -128,7 +129,6 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(onRampOrderRows, onRampOrderRows.referenceNumber);
             await m.addColumn(onRampOrderRows, onRampOrderRows.feeAmount);
           }
-
           if (from >= 40 && from < 54) {
             await m.addColumn(offRampOrderRows, offRampOrderRows.authToken);
             await m.addColumn(offRampOrderRows, offRampOrderRows.moreInfoUrl);
@@ -160,6 +160,9 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 57) {
             await m.addColumn(onRampOrderRows, onRampOrderRows.bridgeAmount);
+          }
+          if (from < 58) {
+            await m.createTable(tokenRows);
           }
         },
       );
@@ -328,4 +331,19 @@ class ConversionRatesRows extends Table {
 
   @override
   Set<Column<Object>> get primaryKey => {token, fiatCurrency};
+}
+
+class TokenRows extends Table {
+  const TokenRows();
+
+  IntColumn get chainId => integer()();
+  TextColumn get address => text()();
+  TextColumn get symbol => text()();
+  TextColumn get name => text()();
+  IntColumn get decimals => integer()();
+  TextColumn get logoURI => text().nullable()();
+  BoolColumn get isStablecoin => boolean()();
+
+  @override
+  Set<Column> get primaryKey => {chainId, address};
 }
