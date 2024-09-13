@@ -291,10 +291,10 @@ class TransactionRows extends Table {
 
   TextColumn get id => text()();
   DateTimeColumn get created => dateTime().nullable()();
-  TextColumn get tokenAddress => text()();
   TextColumn get encodedTx => text()();
   IntColumn get status => intEnum<TxCommonStatus>()();
   IntColumn get amount => integer().nullable()();
+  TextColumn get tokenAddress => text().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
