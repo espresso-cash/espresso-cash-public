@@ -913,5 +913,9 @@
   "offRampWithdrawalInProgress": "Withdrawing in progress...",
   "@offRampWithdrawalInProgress": {},
   "moneygramCashAvailable": "Cash is available at Moneygram location",
-  "@moneygramCashAvailable": {}
+  "@moneygramCashAvailable": {},
+  "today": "Today",
+  "@today": {},
+  "yesterday": "Yesterday",
+  "@yesterday": {}
 }

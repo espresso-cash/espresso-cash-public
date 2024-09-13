@@ -51,11 +51,11 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
     return (parsedDate.year == now.year &&
             parsedDate.month == now.month &&
             parsedDate.day == now.day)
-        ? 'Today'
+        ? context.l10n.today
         : (parsedDate.year == yesterday.year &&
                 parsedDate.month == yesterday.month &&
                 parsedDate.day == yesterday.day)
-            ? 'Yesterday'
+            ? context.l10n.yesterday
             : DateFormat('MMM d, yyyy').format(parsedDate);
   }
 
