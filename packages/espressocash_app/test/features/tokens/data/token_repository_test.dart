@@ -1,8 +1,8 @@
 import 'package:dfunc/src/either/either.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_app/data/db/db.dart';
-import 'package:espressocash_app/data/file_manager.dart';
+import 'package:espressocash_app/features/tokens/data/extensions.dart';
 import 'package:espressocash_app/features/tokens/data/token_repository.dart';
-import 'package:espressocash_app/features/tokens/service/extensions.dart';
 import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,7 +33,7 @@ void main() {
       );
 
       when(mockRepo.getToken('So00000000000'))
-          .thenAnswer((_) async => token.toModel());
+          .thenAnswer((_) => token.toModel());
 
       final Token? response = await mockRepo.getToken('So00000000000');
 
@@ -256,5 +256,7 @@ class MemoryTokenRepository implements TokenRepository {
   }
 
   @override
-  FileManager get fileManager => throw UnimplementedError();
+  Future<void> update(EspressoCashClient ecClient) {
+    throw UnimplementedError();
+  }
 }

@@ -183,6 +183,10 @@ class StellarClient {
 
     final response = await _sdk.submitTransaction(transaction);
 
+    if (!response.success) {
+      throw Exception('Send Stellar USDC failed: $response');
+    }
+
     return response.success;
   }
 }

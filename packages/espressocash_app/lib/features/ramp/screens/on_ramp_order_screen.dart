@@ -139,7 +139,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.postProcessing =>
         context.l10n.onRampAwaitingFunds,
       OnRampOrderStatus.waitingForBridge =>
-        'Transfer could take a few minutes...',
+        context.l10n.transferInProgressText(3),
       OnRampOrderStatus.pending ||
       OnRampOrderStatus.preProcessing ||
       OnRampOrderStatus.waitingForDeposit ||

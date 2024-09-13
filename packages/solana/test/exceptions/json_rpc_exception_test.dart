@@ -44,8 +44,9 @@ Future<void> main() async {
 
   test('recognizes AlreadyProcessedException', () async {
     final b = await client.rpcClient
-        .getRecentBlockhash(commitment: Commitment.confirmed)
+        .getLatestBlockhash(commitment: Commitment.confirmed)
         .value;
+
     final tx = await account.signMessage(
       message: message,
       recentBlockhash: b.blockhash,

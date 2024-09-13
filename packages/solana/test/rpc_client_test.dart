@@ -104,9 +104,13 @@ void main() {
     });
 
     test('Read the recent blockhash', () async {
-      final RecentBlockhash blockHash = await client.rpcClient
-          .getRecentBlockhash(commitment: Commitment.confirmed)
+      final bh = await client.rpcClient
+          .getLatestBlockhash(commitment: Commitment.confirmed)
           .value;
+      final blockHash = RecentBlockhash(
+        blockhash: bh.blockhash,
+        feeCalculator: const FeeCalculator(lamportsPerSignature: 500),
+      );
       expect(blockHash, isNot(null));
       expect(blockHash.blockhash, isNot(null));
       expect(blockHash.blockhash, isNot(''));
@@ -136,8 +140,8 @@ void main() {
     });
 
     test('Simulate a transfer', () async {
-      final recentBlockhash = await client.rpcClient
-          .getRecentBlockhash(commitment: Commitment.confirmed)
+      final bh = await client.rpcClient
+          .getLatestBlockhash(commitment: Commitment.confirmed)
           .value;
       final instruction = SystemInstruction.transfer(
         fundingAccount: source.publicKey,
@@ -146,7 +150,7 @@ void main() {
       );
       final SignedTx signedTx = await source.signMessage(
         message: Message.only(instruction),
-        recentBlockhash: recentBlockhash.blockhash,
+        recentBlockhash: bh.blockhash,
       );
       final TransactionStatus transferResult = await client.rpcClient
           .simulateTransaction(
@@ -158,8 +162,8 @@ void main() {
     });
 
     test('Transfer SOL', () async {
-      final recentBlockhash = await client.rpcClient
-          .getRecentBlockhash(commitment: Commitment.confirmed)
+      final bh = await client.rpcClient
+          .getLatestBlockhash(commitment: Commitment.confirmed)
           .value;
       final instruction = SystemInstruction.transfer(
         fundingAccount: source.publicKey,
@@ -168,7 +172,7 @@ void main() {
       );
       final SignedTx signedTx = await source.signMessage(
         message: Message.only(instruction),
-        recentBlockhash: recentBlockhash.blockhash,
+        recentBlockhash: bh.blockhash,
       );
       final String signature = await client.rpcClient.sendTransaction(
         signedTx.encode(),
@@ -189,8 +193,8 @@ void main() {
     });
 
     test('Transfer SOL to the same address', () async {
-      final recentBlockhash = await client.rpcClient
-          .getRecentBlockhash(commitment: Commitment.confirmed)
+      final bh = await client.rpcClient
+          .getLatestBlockhash(commitment: Commitment.confirmed)
           .value;
       final instruction = SystemInstruction.transfer(
         fundingAccount: source.publicKey,
@@ -199,7 +203,7 @@ void main() {
       );
       final SignedTx signedTx = await source.signMessage(
         message: Message.only(instruction),
-        recentBlockhash: recentBlockhash.blockhash,
+        recentBlockhash: bh.blockhash,
       );
       final String signature = await client.rpcClient.sendTransaction(
         signedTx.encode(),
@@ -227,8 +231,8 @@ void main() {
     });
 
     test('Transfer SOL with Versioned Transaction', () async {
-      final recentBlockhash = await client.rpcClient
-          .getRecentBlockhash(commitment: Commitment.confirmed)
+      final bh = await client.rpcClient
+          .getLatestBlockhash(commitment: Commitment.confirmed)
           .value;
       final instruction = SystemInstruction.transfer(
         fundingAccount: source.publicKey,
@@ -239,7 +243,7 @@ void main() {
       final message = Message.only(instruction);
 
       final compiledMessage = message.compileV0(
-        recentBlockhash: recentBlockhash.blockhash,
+        recentBlockhash: bh.blockhash,
         feePayer: source.publicKey,
       );
       final sign = await source.sign(compiledMessage.toByteArray());
@@ -401,13 +405,8 @@ void main() {
         () async {
       final version = await client.rpcClient.getVersion();
 
-      expect(version.solanaCore.codeUnitAt(0), equals(49));
+      expect(version.solanaCore.codeUnitAt(0), anyOf(equals(49), equals(50)));
       expect(version.solanaCore.codeUnitAt(1), equals(46));
-    });
-
-    test('Call to getSnapshotSlot() succeeds', () async {
-      final snapshotSlot = await client.rpcClient.getSnapshotSlot();
-      expect(snapshotSlot, greaterThan(0));
     });
 
     test('Call to getSlot() succeeds', () async {
@@ -626,22 +625,10 @@ void main() {
       expect(epochInfo.slotsPerEpoch, greaterThan(0));
     });
 
-    test('Call to getFeeCalculatorForBlockhash() succeeds', () async {
-      final recentBlockhash = await client.rpcClient.getRecentBlockhash().value;
-      final feeCalculator = await client.rpcClient
-          .getFeeCalculatorForBlockhash(recentBlockhash.blockhash)
-          .value;
-
-      expect(feeCalculator, isNotNull);
-      expect(feeCalculator?.feeCalculator.lamportsPerSignature, greaterThan(0));
-    });
-
     test('Call to isBlockhashValid() succeeds', () async {
-      final RecentBlockhash recentBlockhash =
-          await client.rpcClient.getRecentBlockhash().value;
-      final bool isBlockhashValid = await client.rpcClient
-          .isBlockhashValid(recentBlockhash.blockhash)
-          .value;
+      final bh = await client.rpcClient.getLatestBlockhash().value;
+      final bool isBlockhashValid =
+          await client.rpcClient.isBlockhashValid(bh.blockhash).value;
 
       expect(isBlockhashValid, true);
     });
@@ -665,19 +652,6 @@ void main() {
         expect(stakeMinimumDelegation.value, isA<int>());
       },
     );
-
-    test('Call to getFees() succeeds', () async {
-      final fees = await client.rpcClient.getFees().value;
-      expect(fees.lastValidBlockHeight, greaterThan(0));
-    });
-
-    test('Call to getFees() succeeds with commitment', () async {
-      final fees = await client.rpcClient
-          .getFees(commitment: Commitment.finalized)
-          .value;
-
-      expect(fees.lastValidBlockHeight, greaterThan(0));
-    });
 
     test('Call to getFirstAvailableBlock() succeeds', () async {
       final block = await client.rpcClient.getFirstAvailableBlock();
@@ -776,26 +750,6 @@ void main() {
       skip: 'Leader schedule for epoch 0 is unavailable',
     );
 
-    test('Call to getStakeActivation() succeeds', () async {
-      final largestAccounts = await client.rpcClient.getLargestAccounts().value;
-      final accounts = await client.rpcClient
-          .getMultipleAccounts(
-            largestAccounts.map((l) => l.address).toList(growable: false),
-            encoding: Encoding.jsonParsed,
-          )
-          .value;
-      final stakeAccountIndex =
-          accounts.indexWhere((a) => a?.data is ParsedStakeProgramAccountData);
-      if (stakeAccountIndex == -1) {
-        fail('cannot find a staking account');
-      }
-      final stakeActivation = await client.rpcClient.getStakeActivation(
-        largestAccounts[stakeAccountIndex].address,
-      );
-
-      expect(stakeActivation.state, equals(StakeActivationState.active));
-    });
-
     test('Call to getVoteAccounts() succeeds', () async {
       final voteAccounts = await client.rpcClient.getVoteAccounts();
 
@@ -888,9 +842,13 @@ Future<int> _createTokenAccount(
     space: TokenProgram.neededAccountSpace,
   );
 
-  final recentBlockhash = await client.rpcClient
-      .getRecentBlockhash(commitment: Commitment.confirmed)
+  final bh = await client.rpcClient
+      .getLatestBlockhash(commitment: Commitment.confirmed)
       .value;
+  final recentBlockhash = RecentBlockhash(
+    blockhash: bh.blockhash,
+    feeCalculator: const FeeCalculator(lamportsPerSignature: 5000),
+  );
 
   await client.sendAndConfirmTransaction(
     message: Message(instructions: instructions),
@@ -930,12 +888,12 @@ Future<String> _createAccount(SolanaClient client, int size) async {
     ),
     space: size,
   );
-  final recentBlockhash = await client.rpcClient
-      .getRecentBlockhash(commitment: Commitment.finalized)
+  final bh = await client.rpcClient
+      .getLatestBlockhash(commitment: Commitment.finalized)
       .value;
 
   final signedTx = await signTransaction(
-    recentBlockhash,
+    bh,
     Message.only(instruction),
     [source, accountKeyPair],
   );

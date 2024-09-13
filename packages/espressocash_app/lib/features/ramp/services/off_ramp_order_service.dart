@@ -134,9 +134,7 @@ class OffRampOrderService implements Disposable {
 
           return CryptoAmount(
             value: amount,
-            cryptoCurrency: CryptoCurrency(
-              token: token,
-            ),
+            cryptoCurrency: CryptoCurrency(token: token),
           );
         },
       );

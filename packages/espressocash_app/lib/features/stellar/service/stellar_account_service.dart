@@ -3,14 +3,20 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../analytics/analytics_manager.dart';
+import '../../intercom/services/intercom_service.dart';
 import '../models/stellar_wallet.dart';
 
 @Singleton(scope: authScope)
 class StellarAccountService {
-  const StellarAccountService(this._stellarWallet, this._analyticsManager);
+  const StellarAccountService(
+    this._stellarWallet,
+    this._analyticsManager,
+    this._intercomService,
+  );
 
   final StellarWallet _stellarWallet;
   final AnalyticsManager _analyticsManager;
+  final IntercomService _intercomService;
 
   @postConstruct
   void init() {
@@ -20,6 +26,7 @@ class StellarAccountService {
       (scope) => scope.setExtra('stellarWalletAddress', address),
     );
     _analyticsManager.setStellarAddress(address);
+    _intercomService.updateStellarAddress(address);
   }
 
   @disposeMethod

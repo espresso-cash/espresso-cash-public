@@ -91,11 +91,8 @@ class MoneygramOnRampOrderService implements Disposable {
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
           logMessage(
-            message: 'Moneygram on ramp order status update',
-            data: {
-              'orderId': orderId,
-              'status': order.status.name,
-            },
+            message: 'MGOnRampOrderStatusChange',
+            data: order.toSentry,
           );
 
           switch (order.status) {
@@ -146,6 +143,7 @@ class MoneygramOnRampOrderService implements Disposable {
     required String authToken,
     required CryptoAmount receiveAmount,
     required String countryCode,
+    required Amount bridgeAmount,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -164,6 +162,7 @@ class MoneygramOnRampOrderService implements Disposable {
             partner: RampPartner.moneygram,
             status: OnRampOrderStatus.pending,
             authToken: authToken,
+            bridgeAmount: bridgeAmount.value,
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
@@ -229,7 +228,7 @@ class MoneygramOnRampOrderService implements Disposable {
 
     final feeAmount = Amount.fromDecimal(
       value: Decimal.parse(transaction.amountFee ?? '0'),
-      currency: currencyFromString(transaction.amountInAsset ?? 'USD'),
+      currency: currencyFromString(transaction.amountFeeAsset ?? 'USD'),
     ) as FiatAmount;
 
     return OnRampOrderRowsCompanion(
@@ -247,7 +246,7 @@ class MoneygramOnRampOrderService implements Disposable {
     OnRampOrderRow order,
   ) async {
     final cashInAmount = CryptoAmount(
-      value: order.amount,
+      value: order.bridgeAmount ?? 0,
       cryptoCurrency: Currency.usdc,
     );
 
@@ -283,8 +282,8 @@ class MoneygramOnRampOrderService implements Disposable {
       );
     }
 
-    final amount = CryptoAmount(
-      value: order.amount,
+    final amount = Amount.crypto(
+      value: order.bridgeAmount ?? 0,
       cryptoCurrency: Currency.usdc,
     );
 
@@ -405,7 +404,7 @@ class MoneygramOnRampOrderService implements Disposable {
         );
 
       final amount = CryptoAmount(
-        value: order.amount,
+        value: order.bridgeAmount ?? 0,
         cryptoCurrency: Currency.usdc,
       );
 
@@ -481,3 +480,10 @@ class MoneygramOnRampOrderService implements Disposable {
 }
 
 const _minimumInitBalance = 1.5; // 1.5 XLM
+
+extension on OnRampOrderRow {
+  Map<String, dynamic> get toSentry => toJson()
+    ..removeWhere(
+      (key, value) => value == null || value == '' || value == 0.0,
+    );
+}

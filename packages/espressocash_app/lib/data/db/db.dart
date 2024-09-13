@@ -157,10 +157,10 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(conversionRatesRows);
           }
           if (from < 57) {
-            await m.createTable(tokenRows);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.bridgeAmount);
           }
           if (from < 58) {
-            await m.addColumn(transactionRows, transactionRows.tokenAddress);
+            await m.createTable(tokenRows);
           }
         },
       );
@@ -190,6 +190,7 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get stellarTxHash => text().nullable()();
   IntColumn get feeAmount => integer().nullable()();
   TextColumn get referenceNumber => text().nullable()();
+  IntColumn get bridgeAmount => integer().nullable()();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
@@ -344,22 +345,4 @@ class TokenRows extends Table {
 
   @override
   Set<Column> get primaryKey => {chainId, address};
-}
-
-class TagsConverter extends TypeConverter<List<String>, String> {
-  const TagsConverter();
-
-  @override
-  List<String> fromSql(String fromDb) {
-    if (fromDb.isEmpty) return [];
-
-    return fromDb.split(',');
-  }
-
-  @override
-  String toSql(List<String> value) {
-    if (value.isEmpty) return '';
-
-    return value.join(',');
-  }
 }

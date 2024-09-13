@@ -112,6 +112,8 @@ extension CryptoAmountExt on CryptoAmount {
       copyWith(value: currency.decimalToInt(decimal));
 
   CryptoAmount round(int scale) => copyWithDecimal(decimal.round(scale: scale));
+
+  CryptoAmount floor(int scale) => copyWithDecimal(decimal.floor(scale: scale));
 }
 
 extension FiatAmountExt on FiatAmount {
