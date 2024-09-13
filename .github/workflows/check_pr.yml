@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1.6.5
         with:
           sdk: ${{ env.DART_VERSION }}
 
@@ -33,8 +33,8 @@ jobs:
       SCOPE: --no-flutter --ignore="solana"
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1.6.5
         with:
           sdk: ${{ env.DART_VERSION }}
 
@@ -73,7 +73,7 @@ jobs:
       METAPLEX_ID: "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
       METAPLEX_SO: "packages/solana/test/bpf-programs/metaplex.so"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
 
       - uses: subosito/flutter-action@v2
@@ -109,7 +109,7 @@ jobs:
       - name: Coverage
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_coverage
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           flags: solana-${{ matrix.solanaVersion }}
 
@@ -119,7 +119,7 @@ jobs:
     env:
       SCOPE: --scope="solana_mobile_*" --scope="solana_seed_vault"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - uses: subosito/flutter-action@v2
         with:
@@ -155,7 +155,7 @@ jobs:
       SCOPE: --scope="espressocash_app"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - uses: subosito/flutter-action@v2
         with:
@@ -215,7 +215,7 @@ jobs:
       SCOPE: --scope="espressocash_landing"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - uses: subosito/flutter-action@v2
         with:
