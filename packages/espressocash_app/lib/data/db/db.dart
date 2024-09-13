@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../features/activities/models/transaction.dart';
+import '../../features/currency/models/currency.dart';
 import '../../features/incoming_link_payments/data/ilp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
@@ -163,7 +164,12 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(tokenRows);
           }
           if (from < 59) {
-            await m.addColumn(transactionRows, transactionRows.tokenAddress);
+            await m.addColumn(transactionRows, transactionRows.token);
+
+            await customStatement(
+              'UPDATE ${transactionRows.actualTableName} SET token = ?',
+              [Currency.usdc.token.address],
+            );
           }
         },
       );
@@ -294,7 +300,7 @@ class TransactionRows extends Table {
   TextColumn get encodedTx => text()();
   IntColumn get status => intEnum<TxCommonStatus>()();
   IntColumn get amount => integer().nullable()();
-  TextColumn get tokenAddress => text().nullable()();
+  TextColumn get token => text().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};

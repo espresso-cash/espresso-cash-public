@@ -54,7 +54,7 @@ class TransactionRepository {
 
   Stream<IList<String>> watchByAddress(String tokenAddress) {
     final query = _db.select(_db.transactionRows)
-      ..where((t) => t.tokenAddress.equals(tokenAddress))
+      ..where((t) => t.token.equals(tokenAddress))
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.map((row) => row.id).watch().map((event) => event.toIList());
@@ -62,7 +62,7 @@ class TransactionRepository {
 
   Stream<Map<String, IList<TxCommon>>> watchGroupedByDate(String tokenAddress) {
     final query = _db.select(_db.transactionRows)
-      ..where((t) => t.tokenAddress.equals(tokenAddress))
+      ..where((t) => t.token.equals(tokenAddress))
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.watch().asyncMap((rows) async {
@@ -190,7 +190,7 @@ class TransactionRepository {
 
 extension TransactionRowExt on TransactionRow {
   Future<TxCommon> toModel() async {
-    final tokenAddress = this.tokenAddress;
+    final tokenAddress = this.token;
     Token? token;
 
     if (tokenAddress != null) {
@@ -204,9 +204,7 @@ extension TransactionRowExt on TransactionRow {
       amount: amount?.let(
         (it) => CryptoAmount(
           value: it,
-          cryptoCurrency: CryptoCurrency(
-            token: token ?? Token.unk,
-          ),
+          cryptoCurrency: CryptoCurrency(token: token ?? Token.unk),
         ),
       ),
     );
@@ -217,10 +215,10 @@ extension on TxCommon {
   TransactionRow toRow() => TransactionRow(
         id: tx.id,
         created: created,
-        tokenAddress: amount?.cryptoCurrency.token.address ?? Token.unk.address,
         encodedTx: tx.encode(),
         status: status,
         amount: amount?.value,
+        token: amount?.cryptoCurrency.token.address,
       );
 }
 
