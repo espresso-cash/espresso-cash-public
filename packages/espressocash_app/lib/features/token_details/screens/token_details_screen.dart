@@ -38,105 +38,86 @@ class TokenDetailsScreen extends StatelessWidget {
         value: token,
         child: CpTheme.dark(
           child: Scaffold(
-            body: Stack(
-              children: <Widget>[
-                Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        CpColors.darkGoldBackgroundColor,
-                        CpColors.dashboardBackgroundColor,
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [0.75, 0.25],
-                    ),
-                  ),
+            backgroundColor: CpColors.darkGoldBackgroundColor,
+            body: SafeArea(
+              bottom: false,
+              child: NestedScrollView(
+                headerSliverBuilder: (context, _) =>
+                    [TokenAppBar(token: token)],
+                body: _TokenDetailsBody(token: token),
+              ),
+            ),
+          ),
+        ),
+      );
+}
+
+class _TokenDetailsBody extends StatelessWidget {
+  const _TokenDetailsBody({
+    required this.token,
+  });
+
+  final Token token;
+
+  @override
+  Widget build(BuildContext context) => ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(31)),
+        child: LayoutBuilder(
+          builder: (
+            BuildContext context,
+            BoxConstraints viewportConstraints,
+          ) =>
+              RefreshIndicator(
+            onRefresh: () => sl<TransactionRepository>().update(),
+            color: CpColors.primaryColor,
+            backgroundColor: Colors.white,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(
+                decelerationRate: ScrollDecelerationRate.fast,
+                parent: ClampingScrollPhysics(),
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
                 ),
-                SafeArea(
-                  bottom: false,
-                  child: NestedScrollView(
-                    headerSliverBuilder: (context, _) => [
-                      TokenAppBar(token: token),
-                    ],
-                    body: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(31),
-                        topRight: Radius.circular(31),
-                      ),
-                      child: LayoutBuilder(
-                        builder: (
-                          BuildContext context,
-                          BoxConstraints viewportConstraints,
-                        ) =>
-                            RefreshIndicator(
-                          onRefresh: () => sl<TransactionRepository>().update(),
-                          color: CpColors.primaryColor,
-                          backgroundColor: Colors.white,
-                          child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(
-                              decelerationRate: ScrollDecelerationRate.fast,
-                              parent: ClampingScrollPhysics(),
-                            ),
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                minHeight: viewportConstraints.maxHeight,
+                child: IntrinsicHeight(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 4),
+                      const _TokenHeader(),
+                      const SizedBox(height: 24),
+                      if (token.isUsdcToken) const _RampButtons(),
+                      const SizedBox(height: 24),
+                      Expanded(
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            color: CpColors.dashboardBackgroundColor,
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(31)),
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 41,
                               ),
-                              child: DecoratedBox(
-                                decoration: const BoxDecoration(),
-                                child: IntrinsicHeight(
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(height: 4),
-                                      const _TokenHeader(),
-                                      const SizedBox(height: 33),
-                                      if (token.isUsdcToken)
-                                        const _RampButtons()
-                                      else
-                                        const _SwapButton(),
-                                      const SizedBox(height: 41),
-                                      Expanded(
-                                        child: DecoratedBox(
-                                          decoration: const BoxDecoration(
-                                            color: CpColors
-                                                .dashboardBackgroundColor,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(31),
-                                              topRight: Radius.circular(31),
-                                            ),
-                                          ),
-                                          child: Center(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                vertical: 41,
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  TokenInfo(
-                                                    tokenAddress: token.address,
-                                                  ),
-                                                  RecentTokenActivityWidget(
-                                                    tokenAddress: token.address,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                              child: Column(
+                                children: [
+                                  TokenInfo(
+                                    tokenAddress: token.address,
                                   ),
-                                ),
+                                  RecentTokenActivityWidget(
+                                    tokenAddress: token.address,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -149,7 +130,6 @@ class _TokenHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final token = context.watch<Token>();
-
     final rate = sl<ConversionRatesRepository>().readRate(
           CryptoCurrency(token: token),
           to: defaultFiatCurrency,
@@ -167,7 +147,6 @@ class _TokenHeader extends StatelessWidget {
       builder: (context, value) {
         final crypto = value.$1;
         final fiat = value.$2;
-
         final fiatRate =
             Amount.fromDecimal(value: rate, currency: Currency.usd);
 
@@ -251,7 +230,7 @@ class _RampButtons extends StatelessWidget {
       );
 }
 
-// Won't be available in first release
+// ignore: unused_element, won't be available in first release
 class _SwapButton extends StatelessWidget {
   const _SwapButton();
 
