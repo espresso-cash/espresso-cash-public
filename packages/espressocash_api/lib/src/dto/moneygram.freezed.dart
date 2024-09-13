@@ -12,7 +12,7 @@ part of 'moneygram.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 MoneygramChallengeSignRequestDto _$MoneygramChallengeSignRequestDtoFromJson(
     Map<String, dynamic> json) {
@@ -1010,7 +1010,9 @@ MoneygramFeeResponseDto _$MoneygramFeeResponseDtoFromJson(
 
 /// @nodoc
 mixin _$MoneygramFeeResponseDto {
-  String get amount => throw _privateConstructorUsedError;
+  String get totalAmount => throw _privateConstructorUsedError;
+  String get bridgeFee => throw _privateConstructorUsedError;
+  String get moneygramFee => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1024,7 +1026,7 @@ abstract class $MoneygramFeeResponseDtoCopyWith<$Res> {
           $Res Function(MoneygramFeeResponseDto) then) =
       _$MoneygramFeeResponseDtoCopyWithImpl<$Res, MoneygramFeeResponseDto>;
   @useResult
-  $Res call({String amount});
+  $Res call({String totalAmount, String bridgeFee, String moneygramFee});
 }
 
 /// @nodoc
@@ -1041,12 +1043,22 @@ class _$MoneygramFeeResponseDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? amount = null,
+    Object? totalAmount = null,
+    Object? bridgeFee = null,
+    Object? moneygramFee = null,
   }) {
     return _then(_value.copyWith(
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
+      totalAmount: null == totalAmount
+          ? _value.totalAmount
+          : totalAmount // ignore: cast_nullable_to_non_nullable
+              as String,
+      bridgeFee: null == bridgeFee
+          ? _value.bridgeFee
+          : bridgeFee // ignore: cast_nullable_to_non_nullable
+              as String,
+      moneygramFee: null == moneygramFee
+          ? _value.moneygramFee
+          : moneygramFee // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -1061,7 +1073,7 @@ abstract class _$$MoneygramFeeResponseDtoImplCopyWith<$Res>
       __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String amount});
+  $Res call({String totalAmount, String bridgeFee, String moneygramFee});
 }
 
 /// @nodoc
@@ -1077,12 +1089,22 @@ class __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? amount = null,
+    Object? totalAmount = null,
+    Object? bridgeFee = null,
+    Object? moneygramFee = null,
   }) {
     return _then(_$MoneygramFeeResponseDtoImpl(
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
+      totalAmount: null == totalAmount
+          ? _value.totalAmount
+          : totalAmount // ignore: cast_nullable_to_non_nullable
+              as String,
+      bridgeFee: null == bridgeFee
+          ? _value.bridgeFee
+          : bridgeFee // ignore: cast_nullable_to_non_nullable
+              as String,
+      moneygramFee: null == moneygramFee
+          ? _value.moneygramFee
+          : moneygramFee // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -1091,17 +1113,24 @@ class __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$MoneygramFeeResponseDtoImpl implements _MoneygramFeeResponseDto {
-  const _$MoneygramFeeResponseDtoImpl({required this.amount});
+  const _$MoneygramFeeResponseDtoImpl(
+      {required this.totalAmount,
+      required this.bridgeFee,
+      required this.moneygramFee});
 
   factory _$MoneygramFeeResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$MoneygramFeeResponseDtoImplFromJson(json);
 
   @override
-  final String amount;
+  final String totalAmount;
+  @override
+  final String bridgeFee;
+  @override
+  final String moneygramFee;
 
   @override
   String toString() {
-    return 'MoneygramFeeResponseDto(amount: $amount)';
+    return 'MoneygramFeeResponseDto(totalAmount: $totalAmount, bridgeFee: $bridgeFee, moneygramFee: $moneygramFee)';
   }
 
   @override
@@ -1109,12 +1138,18 @@ class _$MoneygramFeeResponseDtoImpl implements _MoneygramFeeResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MoneygramFeeResponseDtoImpl &&
-            (identical(other.amount, amount) || other.amount == amount));
+            (identical(other.totalAmount, totalAmount) ||
+                other.totalAmount == totalAmount) &&
+            (identical(other.bridgeFee, bridgeFee) ||
+                other.bridgeFee == bridgeFee) &&
+            (identical(other.moneygramFee, moneygramFee) ||
+                other.moneygramFee == moneygramFee));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, amount);
+  int get hashCode =>
+      Object.hash(runtimeType, totalAmount, bridgeFee, moneygramFee);
 
   @JsonKey(ignore: true)
   @override
@@ -1132,14 +1167,20 @@ class _$MoneygramFeeResponseDtoImpl implements _MoneygramFeeResponseDto {
 }
 
 abstract class _MoneygramFeeResponseDto implements MoneygramFeeResponseDto {
-  const factory _MoneygramFeeResponseDto({required final String amount}) =
-      _$MoneygramFeeResponseDtoImpl;
+  const factory _MoneygramFeeResponseDto(
+      {required final String totalAmount,
+      required final String bridgeFee,
+      required final String moneygramFee}) = _$MoneygramFeeResponseDtoImpl;
 
   factory _MoneygramFeeResponseDto.fromJson(Map<String, dynamic> json) =
       _$MoneygramFeeResponseDtoImpl.fromJson;
 
   @override
-  String get amount;
+  String get totalAmount;
+  @override
+  String get bridgeFee;
+  @override
+  String get moneygramFee;
   @override
   @JsonKey(ignore: true)
   _$$MoneygramFeeResponseDtoImplCopyWith<_$MoneygramFeeResponseDtoImpl>
@@ -1153,7 +1194,6 @@ FundXlmRequestDto _$FundXlmRequestDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$FundXlmRequestDto {
   String get accountId => throw _privateConstructorUsedError;
-  FundType get type => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1167,7 +1207,7 @@ abstract class $FundXlmRequestDtoCopyWith<$Res> {
           FundXlmRequestDto value, $Res Function(FundXlmRequestDto) then) =
       _$FundXlmRequestDtoCopyWithImpl<$Res, FundXlmRequestDto>;
   @useResult
-  $Res call({String accountId, FundType type});
+  $Res call({String accountId});
 }
 
 /// @nodoc
@@ -1184,17 +1224,12 @@ class _$FundXlmRequestDtoCopyWithImpl<$Res, $Val extends FundXlmRequestDto>
   @override
   $Res call({
     Object? accountId = null,
-    Object? type = null,
   }) {
     return _then(_value.copyWith(
       accountId: null == accountId
           ? _value.accountId
           : accountId // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as FundType,
     ) as $Val);
   }
 }
@@ -1207,7 +1242,7 @@ abstract class _$$FundXlmRequestDtoImplCopyWith<$Res>
       __$$FundXlmRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String accountId, FundType type});
+  $Res call({String accountId});
 }
 
 /// @nodoc
@@ -1222,17 +1257,12 @@ class __$$FundXlmRequestDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? accountId = null,
-    Object? type = null,
   }) {
     return _then(_$FundXlmRequestDtoImpl(
       accountId: null == accountId
           ? _value.accountId
           : accountId // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as FundType,
     ));
   }
 }
@@ -1240,19 +1270,17 @@ class __$$FundXlmRequestDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$FundXlmRequestDtoImpl implements _FundXlmRequestDto {
-  const _$FundXlmRequestDtoImpl({required this.accountId, required this.type});
+  const _$FundXlmRequestDtoImpl({required this.accountId});
 
   factory _$FundXlmRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$FundXlmRequestDtoImplFromJson(json);
 
   @override
   final String accountId;
-  @override
-  final FundType type;
 
   @override
   String toString() {
-    return 'FundXlmRequestDto(accountId: $accountId, type: $type)';
+    return 'FundXlmRequestDto(accountId: $accountId)';
   }
 
   @override
@@ -1261,13 +1289,12 @@ class _$FundXlmRequestDtoImpl implements _FundXlmRequestDto {
         (other.runtimeType == runtimeType &&
             other is _$FundXlmRequestDtoImpl &&
             (identical(other.accountId, accountId) ||
-                other.accountId == accountId) &&
-            (identical(other.type, type) || other.type == type));
+                other.accountId == accountId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, accountId, type);
+  int get hashCode => Object.hash(runtimeType, accountId);
 
   @JsonKey(ignore: true)
   @override
@@ -1285,17 +1312,14 @@ class _$FundXlmRequestDtoImpl implements _FundXlmRequestDto {
 }
 
 abstract class _FundXlmRequestDto implements FundXlmRequestDto {
-  const factory _FundXlmRequestDto(
-      {required final String accountId,
-      required final FundType type}) = _$FundXlmRequestDtoImpl;
+  const factory _FundXlmRequestDto({required final String accountId}) =
+      _$FundXlmRequestDtoImpl;
 
   factory _FundXlmRequestDto.fromJson(Map<String, dynamic> json) =
       _$FundXlmRequestDtoImpl.fromJson;
 
   @override
   String get accountId;
-  @override
-  FundType get type;
   @override
   @JsonKey(ignore: true)
   _$$FundXlmRequestDtoImplCopyWith<_$FundXlmRequestDtoImpl> get copyWith =>

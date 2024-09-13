@@ -10,7 +10,9 @@ import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../accounts/models/account.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../country_picker/models/country.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/profile_data.dart';
@@ -18,6 +20,7 @@ import '../models/ramp_type.dart';
 import '../partners/coinflow/widgets/launch.dart';
 import '../partners/guardarian/widgets/launch.dart';
 import '../partners/kado/widgets/launch.dart';
+import '../partners/moneygram/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
 import '../partners/scalex/widgets/launch.dart';
 import '../screens/ramp_onboarding_screen.dart';
@@ -242,9 +245,14 @@ extension RampBuildContextExt on BuildContext {
         launchGuardarianOnRamp(profile: profile, address: address);
       case RampPartner.scalex:
         launchScalexOnRamp(profile: profile, address: address);
+      case RampPartner.moneygram:
+        launchMoneygramOnRamp(profile: profile);
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
+
+    sl<AnalyticsManager>()
+        .rampOpened(partner: partner, rampType: RampType.onRamp.name);
   }
 
   void _launchOffRampPartner(
@@ -259,10 +267,15 @@ extension RampBuildContextExt on BuildContext {
         launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
         launchScalexOffRamp(profile: profile, address: address);
+      case RampPartner.moneygram:
+        launchMoneygramOffRamp(profile: profile);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');
     }
+
+    sl<AnalyticsManager>()
+        .rampOpened(partner: partner, rampType: RampType.offRamp.name);
   }
 }
 
@@ -285,6 +298,13 @@ IList<RampPartner> _getOnRampPartners(String countryCode) {
     partners.add(RampPartner.guardarian);
   }
 
+  final isMoneygramEnabled =
+      sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
+
+  if (isMoneygramEnabled && _moneygramOnRampCountries.contains(countryCode)) {
+    partners.add(RampPartner.moneygram);
+  }
+
   return IList(partners);
 }
 
@@ -297,6 +317,13 @@ IList<RampPartner> _getOffRampPartners(String countryCode) {
 
   if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
+  }
+
+  final isMoneygramEnabled =
+      sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
+
+  if (isMoneygramEnabled && _moneygramOffRampCountries.contains(countryCode)) {
+    partners.add(RampPartner.moneygram);
   }
 
   return IList(partners);
@@ -317,3 +344,6 @@ const _coinflowCountries = {
 };
 
 const _scalexCountries = {'NG'};
+
+const _moneygramOnRampCountries = {'US'};
+const _moneygramOffRampCountries = {'US', 'PT'};

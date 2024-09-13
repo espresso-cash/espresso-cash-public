@@ -141,7 +141,7 @@ class CpThemeData {
           brightness: brightness,
           primary: CpColors.primaryColor,
           secondary: CpColors.primaryColor,
-          background: backgroundColor,
+          surface: backgroundColor,
         ),
         appBarTheme: AppBarTheme(
           systemOverlayStyle: brightness.systemOverlayStyle,

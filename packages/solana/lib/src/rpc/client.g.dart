@@ -354,22 +354,6 @@ Map<String, dynamic> _$GetSlotLeaderConfigToJson(GetSlotLeaderConfig instance) {
   return val;
 }
 
-Map<String, dynamic> _$GetStakeActivationConfigToJson(
-    GetStakeActivationConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
-  writeNotNull('epoch', instance.epoch);
-  writeNotNull('minContextSlot', instance.minContextSlot);
-  return val;
-}
-
 Map<String, dynamic> _$GetStakeMinimumDelegationConfigToJson(
     GetStakeMinimumDelegationConfig instance) {
   final val = <String, dynamic>{};
@@ -592,96 +576,5 @@ Map<String, dynamic> _$SimulateTransactionConfigToJson(
   writeNotNull('replaceRecentBlockhash', instance.replaceRecentBlockhash);
   writeNotNull('accounts', instance.accounts?.toJson());
   writeNotNull('minContextSlot', instance.minContextSlot);
-  return val;
-}
-
-Map<String, dynamic> _$GetConfirmedBlockConfigToJson(
-    GetConfirmedBlockConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
-  writeNotNull('transactionDetails',
-      _$TransactionDetailLevelEnumMap[instance.transactionDetails]);
-  writeNotNull('rewards', instance.rewards);
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
-  return val;
-}
-
-Map<String, dynamic> _$GetConfirmedSignaturesForAddress2ConfigToJson(
-    GetConfirmedSignaturesForAddress2Config instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('limit', instance.limit);
-  writeNotNull('before', instance.before);
-  writeNotNull('until', instance.until);
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
-  return val;
-}
-
-Map<String, dynamic> _$GetConfirmedTransactionConfigToJson(
-    GetConfirmedTransactionConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
-  return val;
-}
-
-Map<String, dynamic> _$GetFeeCalculatorForBlockhashConfigToJson(
-    GetFeeCalculatorForBlockhashConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
-  return val;
-}
-
-Map<String, dynamic> _$GetFeesConfigToJson(GetFeesConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
-  return val;
-}
-
-Map<String, dynamic> _$GetRecentBlockhashConfigToJson(
-    GetRecentBlockhashConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('commitment', _$CommitmentEnumMap[instance.commitment]);
   return val;
 }

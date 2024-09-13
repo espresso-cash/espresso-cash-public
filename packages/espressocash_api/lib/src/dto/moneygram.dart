@@ -76,7 +76,9 @@ class MoneygramFeeRequestDto with _$MoneygramFeeRequestDto {
 @freezed
 class MoneygramFeeResponseDto with _$MoneygramFeeResponseDto {
   const factory MoneygramFeeResponseDto({
-    required String amount,
+    required String totalAmount,
+    required String bridgeFee,
+    required String moneygramFee,
   }) = _MoneygramFeeResponseDto;
 
   factory MoneygramFeeResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -89,11 +91,8 @@ enum RampTypeDto { onRamp, offRamp }
 class FundXlmRequestDto with _$FundXlmRequestDto {
   const factory FundXlmRequestDto({
     required String accountId,
-    required FundType type,
   }) = _FundXlmRequestDto;
 
   factory FundXlmRequestDto.fromJson(Map<String, dynamic> json) =>
       _$FundXlmRequestDtoFromJson(json);
 }
-
-enum FundType { init, bridge, send }

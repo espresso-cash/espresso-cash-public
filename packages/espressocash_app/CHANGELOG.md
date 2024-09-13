@@ -1,3 +1,53 @@
+## 1.126.1
+
+ - **FIX**: moneygram ramp fixes (#1562).
+ - **FIX**: stellar recovery service init (#1561).
+
+## 1.126.0
+
+ - **FIX**: Solana v.2 tests (#1554).
+ - **FIX**: moneygram offramp bridge amount (#1556).
+ - **FEAT**: add stellar recovery service (#1549).
+
+## 1.125.0
+
+ - **FEAT**: enable moneygram for PT (#1558).
+
+## 1.124.1
+
+ - **FIX**: moneygram bridge precision (#1555).
+
+## 1.124.0
+
+ - **FIX**: moneygram ramp fixes (#1550).
+ - **FIX**: status screen UI theming (#1541).
+ - **FEAT**: add ramp analytics (#1552).
+ - **FEAT**: onboarding UI update (#1553).
+ - **FEAT**: store conversion rates to db (#1526).
+ - **FEAT**: remove the smart retry for all transactions (#1515).
+ - **FEAT**: moneygram updates (#1543).
+ - **FEAT**: request link creation to mixpanel logs (#1546).
+
+## 1.123.2
+
+ - **FIX**: moneygram stellar config (#1540).
+
+## 1.123.1
+
+ - **REFACTOR**: moneygram pr (#1533).
+ - **FIX**: Temporary change for webview package dependency (#1534).
+
+## 1.123.0
+
+ - **REFACTOR**: update outgoing escrow signing (#1500).
+ - **FIX**: coinflow additional verification redirect (#1516).
+ - **FIX**: portfolio amount value (#1504).
+ - **FEAT**: add moneygram cash out (#1506).
+ - **FEAT**: add moneygram cash in (#1502).
+ - **FEAT**: android target sdk version to 34 (#1523).
+ - **FEAT**: upgrade to Flutter 3.22 (#1517).
+ - **FEAT**: add logging for link tx creation (#1513).
+
 ## 1.122.1
 
  - **FIX**: durable tx signing.

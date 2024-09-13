@@ -10,11 +10,13 @@ import 'package:uuid/uuid.dart';
 
 import '../../../data/db/db.dart';
 import '../../accounts/auth_scope.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
+import '../models/ramp_type.dart';
 
 typedef OnRampOrder = ({
   String id,
@@ -25,6 +27,8 @@ typedef OnRampOrder = ({
   OnRampOrderStatus status,
   String partnerOrderId,
   DepositDetails? manualDeposit,
+  String? authToken,
+  AdditionalDetails additionalDetails,
 });
 
 typedef DepositDetails = ({
@@ -34,14 +38,21 @@ typedef DepositDetails = ({
   FiatAmount transferAmount,
 });
 
+typedef AdditionalDetails = ({
+  FiatAmount? fee,
+  String? referenceNumber,
+  String? moreInfoUrl
+});
+
 @Singleton(scope: authScope)
 class OnRampOrderService implements Disposable {
-  OnRampOrderService(this._db, this._tokens);
+  OnRampOrderService(this._db, this._tokenRepository, this._analytics);
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
   final MyDatabase _db;
-  final TokenList _tokens;
+  final TokenRepository _tokenRepository;
+  final AnalyticsManager _analytics;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
@@ -53,6 +64,10 @@ class OnRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
+      if (order.partner == RampPartner.moneygram) {
+        continue;
+      }
+
       _subscribe(order.id);
     }
   }
@@ -67,6 +82,7 @@ class OnRampOrderService implements Disposable {
     String? bankName,
     DateTime? transferExpiryDate,
     FiatAmount? transferAmount,
+    required String countryCode,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -88,10 +104,20 @@ class OnRampOrderService implements Disposable {
             bankTransferExpiry: transferExpiryDate,
             bankTransferAmount: transferAmount?.value,
             fiatSymbol: transferAmount?.currency.symbol,
+            authToken: null,
+            moreInfoUrl: null,
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
           _subscribe(order.id);
+
+          _analytics.rampInitiated(
+            partner: partner,
+            rampType: RampType.onRamp.name,
+            amount: submittedAmount.value.toString(),
+            countryCode: countryCode,
+            id: order.id,
+          );
 
           return order.id;
         }
@@ -100,22 +126,25 @@ class OnRampOrderService implements Disposable {
   AsyncResult<String> createForManualTransfer({
     required String orderId,
     required RampPartner partner,
-    required CryptoAmount receiveAmount,
-    required String bankAccount,
-    required String bankName,
-    required DateTime transferExpiryDate,
+    required CryptoAmount submittedAmount,
+    required CryptoAmount? receiveAmount,
+    required String? bankAccount,
+    required String? bankName,
+    required DateTime? transferExpiryDate,
     required FiatAmount transferAmount,
+    required String countryCode,
   }) =>
       create(
         orderId: orderId,
         partner: partner,
-        submittedAmount: receiveAmount,
+        submittedAmount: submittedAmount,
         receiveAmount: receiveAmount,
         bankAccount: bankAccount,
         bankName: bankName,
         transferExpiryDate: transferExpiryDate,
         transferAmount: transferAmount,
         status: OnRampOrderStatus.waitingForDeposit,
+        countryCode: countryCode,
       );
 
   Future<void> confirmDeposit(String orderId) async {
@@ -137,6 +166,10 @@ class OnRampOrderService implements Disposable {
       case OnRampOrderStatus.waitingForPartner:
       case OnRampOrderStatus.failure:
       case OnRampOrderStatus.completed:
+      case OnRampOrderStatus.pending:
+      case OnRampOrderStatus.preProcessing:
+      case OnRampOrderStatus.postProcessing:
+      case OnRampOrderStatus.waitingForBridge:
         break;
     }
   }
@@ -146,7 +179,7 @@ class OnRampOrderService implements Disposable {
       ..where((tbl) => tbl.id.equals(orderId));
     final order = await query.getSingle();
 
-    if (order.status != OnRampOrderStatus.depositExpired) {
+    if (!order.status.isCancellable) {
       return;
     }
 
@@ -159,19 +192,28 @@ class OnRampOrderService implements Disposable {
     final query = _db.select(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().map(
-      (row) {
+    return query.watchSingle().asyncMap(
+      (row) async {
         final bankAccount = row.bankAccount;
         final bankName = row.bankName;
         final transferExpiryDate = row.bankTransferExpiry;
         final transferAmount = row.bankTransferAmount;
         final fiatSymbol = row.fiatSymbol;
+        final moreInfoUrl = row.moreInfoUrl;
 
-        final isManualDeposit = bankAccount != null &&
-            bankName != null &&
+        final isManualDeposit = bankName != null &&
             transferExpiryDate != null &&
             transferAmount != null &&
             fiatSymbol != null;
+
+        final Token? token = await _tokenRepository.getToken(row.token);
+
+        final feeAmount = row.feeAmount?.let(
+          (it) => Amount(
+            value: it,
+            currency: currencyFromString(row.fiatSymbol ?? 'USD'),
+          ) as FiatAmount,
+        );
 
         return (
           id: row.id,
@@ -179,14 +221,14 @@ class OnRampOrderService implements Disposable {
           submittedAmount: CryptoAmount(
             value: row.amount,
             cryptoCurrency: CryptoCurrency(
-              token: _tokens.requireTokenByMint(row.token),
+              token: token ?? Token.unk,
             ),
           ),
           receiveAmount: row.receiveAmount?.let(
             (amount) => CryptoAmount(
               value: amount,
               cryptoCurrency: CryptoCurrency(
-                token: _tokens.requireTokenByMint(row.token),
+                token: token ?? Token.unk,
               ),
             ),
           ),
@@ -195,7 +237,7 @@ class OnRampOrderService implements Disposable {
           partnerOrderId: row.partnerOrderId,
           manualDeposit: isManualDeposit
               ? (
-                  bankAccount: bankAccount,
+                  bankAccount: bankAccount ?? '',
                   bankName: bankName,
                   transferExpiryDate: transferExpiryDate,
                   transferAmount: FiatAmount(
@@ -204,6 +246,12 @@ class OnRampOrderService implements Disposable {
                   ),
                 )
               : null,
+          authToken: row.authToken,
+          additionalDetails: (
+            fee: feeAmount,
+            moreInfoUrl: moreInfoUrl,
+            referenceNumber: row.referenceNumber
+          ),
         );
       },
     );
@@ -211,7 +259,10 @@ class OnRampOrderService implements Disposable {
 
   Stream<IList<({String id, DateTime created})>> watchPending() {
     final query = _db.select(_db.onRampOrderRows)
-      ..where((tbl) => tbl.isCompleted.equals(false));
+      ..where(
+        (tbl) =>
+            tbl.isCompleted.equals(false) & tbl.status.isNotValue('pending'),
+      );
 
     return query
         .watch()
@@ -255,4 +306,12 @@ class OnRampOrderService implements Disposable {
     await Future.wait(_subscriptions.values.map((it) => it.cancel()));
     await _db.delete(_db.onRampOrderRows).go();
   }
+}
+
+extension OnRampOrderStatusExt on OnRampOrderStatus {
+  bool get isCancellable =>
+      this == OnRampOrderStatus.depositExpired ||
+      this == OnRampOrderStatus.pending ||
+      this == OnRampOrderStatus.preProcessing ||
+      this == OnRampOrderStatus.postProcessing;
 }

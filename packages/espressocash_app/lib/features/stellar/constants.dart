@@ -6,6 +6,10 @@ const _isStellarProd =
 final stellarNetwork = _isStellarProd ? Network.PUBLIC : Network.TESTNET;
 final stellarSdk = _isStellarProd ? StellarSDK.PUBLIC : StellarSDK.TESTNET;
 
+const _devSorobanRpcUrl = 'https://soroban-testnet.stellar.org';
+const _prodSorobanRpcUrl = String.fromEnvironment('SOROBAN_RPC_URL');
+const sorobanRpcUrl = _isStellarProd ? _prodSorobanRpcUrl : _devSorobanRpcUrl;
+
 const _devBaseUrl = 'https://extstellar.moneygram.com/stellaradapterservice';
 const _prodBaseUrl = 'https://stellar.moneygram.com/stellaradapterservice';
 const moneygramBaseUrl = _isStellarProd ? _prodBaseUrl : _devBaseUrl;
