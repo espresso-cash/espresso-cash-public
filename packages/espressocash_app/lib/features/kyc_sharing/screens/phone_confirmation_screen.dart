@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kyc_app_client/kyc_app_client.dart';
 
 import '../../../di.dart';
 import '../../../ui/button.dart';
@@ -33,8 +34,10 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
   Future<void> _handleConfirm() async {
     final service = sl<KycSharingService>();
 
-    final isValid =
-        await service.verifyField(identifier: 'phone', value: _controller.text);
+    final isValid = await service.verifyField(
+      identifier: OtpType.phone,
+      value: _controller.text,
+    );
 
     if (isValid) {
       if (!mounted) return;

@@ -129,7 +129,7 @@ class KycSharingService {
   }
 
   Future<bool> verifyField({
-    required String identifier,
+    required OtpType identifier,
     required String value,
   }) async {
     final response = await _otpClient.verifyOtp(
@@ -137,6 +137,7 @@ class KycSharingService {
         identifier: identifier,
         otp: value,
         userPk: _authPublicKey,
+        secretKey: _rawSecretKey,
       ),
     );
 
@@ -147,45 +148,37 @@ class KycSharingService {
     await _validatorClient.requestKyc(
       KycRequest(
         secretKey: _rawSecretKey,
-        // partnerToken: _validatorToken, //TODO
         userAuthPk: _authPublicKey,
         userPublicKey: _userPublicKey,
       ),
     );
   }
 
-  Future<void> sendUserData() async {
+  Future<void> shareDataWithPartner() async {
     await _userClient.sendUserData(
       SendUserDataRequest(
         user: User(
           userPk: _authPublicKey,
           secretKey: _rawSecretKey,
-          // partnerToken: _partnerToken, //TODO
         ),
         partnerPk: partnerAuthPk,
       ),
     );
   }
 
-  // TODO(vsumin): add method to delete user data
-  // Future<void> deleteUserData() async {
-  //   await _userClient.deleteUserData(
-  //     DeleteUserDataRequest(
-  //       user: User(
-  //         userPk: _authPublicKey,
-  //         secretKey: _rawSecretKey,
-  //         // partnerToken: _partnerToken,
-  //       ),
-  //       partnerPk: partnerAuthPk,
-  //     ),
-  //   );
-  //}
+  Future<void> revokeDataFromPartner() async {
+    await _userClient.deleteUserData(
+      DeleteUserDataRequest(
+        userPk: _authPublicKey,
+        partnerPk: partnerAuthPk,
+      ),
+    );
+  }
 
   Future<void> _sendEmailOtp() async {
     await _otpClient.sendOtpByEmail(
       SendOtpRequest(
         secretKey: _rawSecretKey,
-        // partnerToken: _validatorToken, //TODO
         userPk: _authPublicKey,
       ),
     );
@@ -195,7 +188,6 @@ class KycSharingService {
     await _otpClient.sendOtpBySms(
       SendOtpRequest(
         secretKey: _rawSecretKey,
-        // partnerToken: _validatorToken, //TODO
         userPk: _authPublicKey,
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kyc_app_client/kyc_app_client.dart';
 
 import '../../../di.dart';
 import '../../../ui/button.dart';
@@ -32,8 +33,10 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
   Future<void> _handleConfirm() async {
     final service = sl<KycSharingService>();
 
-    final isValid =
-        await service.verifyField(identifier: 'email', value: _controller.text);
+    final isValid = await service.verifyField(
+      identifier: OtpType.email,
+      value: _controller.text,
+    );
 
     if (isValid) {
       if (!mounted) return;
