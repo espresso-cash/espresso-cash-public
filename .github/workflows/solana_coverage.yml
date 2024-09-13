@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.22.2"
+  FLUTTER_VERSION: "3.24.3"
 
 jobs:
   solana_coverage:

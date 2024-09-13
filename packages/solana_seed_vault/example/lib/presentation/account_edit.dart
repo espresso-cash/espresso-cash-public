@@ -32,6 +32,8 @@ class _AccountEditState extends State<AccountEdit> {
         )
         .then(
       (it) {
+        if (!mounted) return;
+
         Navigator.of(context).pop();
         showSnackBar(context, it.map(always('Account name updated')));
       },
