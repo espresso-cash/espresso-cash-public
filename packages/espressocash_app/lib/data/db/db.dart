@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 58;
+const int latestVersion = 59;
 
 const _tables = [
   OutgoingTransferRows,
@@ -161,6 +161,9 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 58) {
             await m.createTable(tokenRows);
+          }
+          if (from < 59) {
+            await m.addColumn(transactionRows, transactionRows.tokenAddress);
           }
         },
       );
