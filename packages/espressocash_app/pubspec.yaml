@@ -61,7 +61,7 @@ dependencies:
   ramp_flutter: ^3.0.0
   recase: ^4.1.0
   retrofit: ^4.0.3
-  rive: ^0.13.2
+  rive: ^0.13.13
   rxdart: ^0.27.7
   sentry_flutter: ^8.1.0
   share: ^2.0.4
