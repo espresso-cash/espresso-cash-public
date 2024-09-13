@@ -106,24 +106,24 @@ class KycSharingService {
   }
 
   Future<void> updateField({
-    required String key,
+    required OtpType key,
     required String value,
   }) async {
     await _kycUserClient.setData(
       data: V1UserData(
-        email: key == 'email' ? value : null,
-        phone: key == 'phone' ? value : null,
+        email: key == OtpType.email ? value : null,
+        phone: key == OtpType.phone ? value : null,
       ),
       selfie: null,
       idCard: null,
     );
 
     switch (key) {
-      case 'email':
+      case OtpType.email:
         await _sendEmailOtp();
-      case 'phone':
+      case OtpType.phone:
         await _sendSmsOtp();
-      case _:
+      case OtpType.unsupported:
         return;
     }
   }
