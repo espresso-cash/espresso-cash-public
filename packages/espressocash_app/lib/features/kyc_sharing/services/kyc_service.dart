@@ -150,6 +150,17 @@ class KycSharingService {
     );
   }
 
+  Future<String> createOrder({
+    required String cryptoAmount,
+    required String cryptoCurrency,
+    required String partnerPK,
+  }) =>
+      _kycUserClient.createOrder(
+        partnerPK: partnerPK,
+        cryptoAmount: cryptoAmount,
+        cryptoCurrency: cryptoCurrency,
+      );
+
   Future<void> shareDataWithPartner() async {
     await _userClient.sendUserData(
       SendUserDataRequest(

@@ -1233,7 +1233,7 @@ packages:
     description:
       path: "."
       ref: upd-api
-      resolved-ref: "5f8de1a7ed3daed41cc1350a9458ebbfc8d56c97"
+      resolved-ref: "1ff9cf1f9e7f44138423ef6e5c660db0010d6037"
       url: "https://github.com/espresso-cash/kyc_client_dart.git"
     source: git
     version: "1.0.0"

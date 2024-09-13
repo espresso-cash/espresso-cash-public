@@ -14,6 +14,8 @@ import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
+import '../../../../kyc_sharing/screens/kyc_flow.dart';
+import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
@@ -70,92 +72,91 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount is! CryptoAmount) return;
 
-    final link = await _generateRampLink(
-      address: address,
-      profile: profile,
-      type: RampType.onRamp,
-      amount: submittedAmount.decimal.toDouble() * rampRate,
+    // - finish kyc
+    // - user creates order for go backend
+    // - pass all the information from kyc and createForManualTransfer
+    // - opens OnRampOrderScreen
+    KycFlow.open(this);
+
+    final orderId = await sl<KycSharingService>().createOrder(
+      cryptoAmount: submittedAmount.value.toString(),
+      cryptoCurrency: submittedAmount.cryptoCurrency.name,
+      partnerPK: partnerAuthPk,
     );
 
-    if (link == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+//     bool orderWasCreated = false;
+//     Future<void> handleLoaded(InAppWebViewController controller) async {
+//       await controller.evaluateJavascript(source: await _loadCustomStyle());
 
-      return;
-    }
+//       controller.addJavaScriptHandler(
+//         handlerName: 'scalex',
+//         callback: (args) async {
+//           if (orderWasCreated) return;
 
-    bool orderWasCreated = false;
-    Future<void> handleLoaded(InAppWebViewController controller) async {
-      await controller.evaluateJavascript(source: await _loadCustomStyle());
+//           if (args.firstOrNull
+//               case <String, dynamic>{
+//                 'reference': final String reference,
+//                 'to_amount': final num toAmount,
+//               }) {
+//             final decimal = Decimal.parse(toAmount.toString());
+//             final amount =
+//                 Amount.fromDecimal(value: decimal, currency: Currency.usdc)
+//                     as CryptoAmount;
 
-      controller.addJavaScriptHandler(
-        handlerName: 'scalex',
-        callback: (args) async {
-          if (orderWasCreated) return;
+//             final order = await sl<EspressoCashClient>().fetchScalexTransaction(
+//               OrderStatusScalexRequestDto(referenceId: reference),
+//             );
 
-          if (args.firstOrNull
-              case <String, dynamic>{
-                'reference': final String reference,
-                'to_amount': final num toAmount,
-              }) {
-            final decimal = Decimal.parse(toAmount.toString());
-            final amount =
-                Amount.fromDecimal(value: decimal, currency: Currency.usdc)
-                    as CryptoAmount;
+//             final details = order.onRampDetails;
 
-            final order = await sl<EspressoCashClient>().fetchScalexTransaction(
-              OrderStatusScalexRequestDto(referenceId: reference),
-            );
+//             if (details == null) return;
 
-            final details = order.onRampDetails;
+//             final transferAmount = Amount.fromDecimal(
+//               value: Decimal.parse(details.fromAmount.toString()),
+//               currency: currencyFromString(details.currency.toUpperCase()),
+//             ) as FiatAmount;
 
-            if (details == null) return;
+//             await sl<OnRampOrderService>()
+//                 .createForManualTransfer(
+//               orderId: reference,
+//               receiveAmount: amount,
+//               partner: RampPartner.scalex,
+//               bankAccount: details.bankAccount,
+//               bankName: details.bankName,
+//               transferAmount: transferAmount,
+//               transferExpiryDate:
+//                   DateTime.now().add(const Duration(minutes: 30)),
+//               submittedAmount: submittedAmount,
+//               countryCode: profile.country.code,
+//             )
+//                 .then((order) {
+//               switch (order) {
+//                 case Left<Exception, String>():
+//                   break;
+//                 case Right<Exception, String>(:final value):
+//                   OnRampOrderScreen.pushReplacement(this, id: value);
+//               }
+//             });
+//             orderWasCreated = true;
+//           }
+//         },
+//       );
+//       await controller.evaluateJavascript(
+//         source: '''
+// window.addEventListener("message", (event) => {
+//   window.flutter_inappwebview.callHandler('scalex', event.data);
+// }, false);
+// ''',
+//       );
+//     }
 
-            final transferAmount = Amount.fromDecimal(
-              value: Decimal.parse(details.fromAmount.toString()),
-              currency: currencyFromString(details.currency.toUpperCase()),
-            ) as FiatAmount;
-
-            await sl<OnRampOrderService>()
-                .createForManualTransfer(
-              orderId: reference,
-              receiveAmount: amount,
-              partner: RampPartner.scalex,
-              bankAccount: details.bankAccount,
-              bankName: details.bankName,
-              transferAmount: transferAmount,
-              transferExpiryDate:
-                  DateTime.now().add(const Duration(minutes: 30)),
-              submittedAmount: submittedAmount,
-              countryCode: profile.country.code,
-            )
-                .then((order) {
-              switch (order) {
-                case Left<Exception, String>():
-                  break;
-                case Right<Exception, String>(:final value):
-                  OnRampOrderScreen.pushReplacement(this, id: value);
-              }
-            });
-            orderWasCreated = true;
-          }
-        },
-      );
-      await controller.evaluateJavascript(
-        source: '''
-window.addEventListener("message", (event) => {
-  window.flutter_inappwebview.callHandler('scalex', event.data);
-}, false);
-''',
-      );
-    }
-
-    await WebViewScreen.push(
-      this,
-      url: Uri.parse(link),
-      onLoaded: handleLoaded,
-      title: l10n.ramp_titleCashIn.toUpperCase(),
-      theme: const CpThemeData.black(),
-    );
+    // await WebViewScreen.push(
+    //   this,
+    //   url: Uri.parse(link),
+    //   onLoaded: handleLoaded,
+    //   title: l10n.ramp_titleCashIn.toUpperCase(),
+    //   theme: const CpThemeData.black(),
+    // );
   }
 
   Future<void> launchScalexOffRamp({
