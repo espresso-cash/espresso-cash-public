@@ -45,11 +45,18 @@ class _PinInputDisplayWidgetState extends State<PinInputDisplayWidget> {
 
     return Flex(
       direction: Axis.vertical,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        const SizedBox(height: 40),
         if (message != null) ...[
-          Text(message, style: Theme.of(context).textTheme.titleSmall),
-          const SizedBox(height: 24),
+          Text(
+            message.toUpperCase(),
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                ),
+          ),
+          const SizedBox(height: 36),
         ],
         ValueListenableBuilder<TextEditingValue>(
           valueListenable: _controller,
@@ -58,7 +65,7 @@ class _PinInputDisplayWidgetState extends State<PinInputDisplayWidget> {
             currentDigits: value.text.length,
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 16),
         Align(
           alignment: Alignment.bottomCenter,
           child: PinKeypad(

@@ -11,9 +11,14 @@ import '../models/activity.dart';
 import 'activity_tile.dart';
 
 class ODPTile extends StatelessWidget {
-  const ODPTile({super.key, required this.activity});
+  const ODPTile({
+    super.key,
+    required this.activity,
+    this.showIcon = true,
+  });
 
   final ODPActivity activity;
+  final bool showIcon;
 
   @override
   Widget build(BuildContext context) => CpActivityTile(
@@ -29,5 +34,6 @@ class ODPTile extends StatelessWidget {
           txFailure: always(CpActivityTileStatus.failure),
         ),
         onTap: () => ODPDetailsScreen.push(context, id: activity.id),
+        showIcon: showIcon,
       );
 }

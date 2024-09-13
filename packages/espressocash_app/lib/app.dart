@@ -62,7 +62,7 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
 
   @override
   Widget build(BuildContext context) => CpTheme(
-        theme: const CpThemeData.light(),
+        theme: const CpThemeData.dark(),
         child: Builder(
           builder: (context) => MaterialApp(
             home: const SplashScreen(),

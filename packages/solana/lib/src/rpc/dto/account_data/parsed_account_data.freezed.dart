@@ -12,12 +12,14 @@ part of 'parsed_account_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ParsedAccountData _$ParsedAccountDataFromJson(Map<String, dynamic> json) {
   switch (json['program']) {
     case 'spl-token':
       return ParsedSplTokenProgramAccountData.fromJson(json);
+    case 'spl-token-2022':
+      return ParsedSplToken2022ProgramAccountData.fromJson(json);
     case 'stake':
       return ParsedStakeProgramAccountData.fromJson(json);
 
@@ -32,6 +34,7 @@ mixin _$ParsedAccountData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SplTokenProgramAccountData parsed) splToken,
+    required TResult Function(SplTokenProgramAccountData parsed) token2022,
     required TResult Function(StakeProgramAccountData parsed) stake,
     required TResult Function(Map<String, dynamic> parsed) unsupported,
   }) =>
@@ -39,6 +42,7 @@ mixin _$ParsedAccountData {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult? Function(SplTokenProgramAccountData parsed)? token2022,
     TResult? Function(StakeProgramAccountData parsed)? stake,
     TResult? Function(Map<String, dynamic> parsed)? unsupported,
   }) =>
@@ -46,6 +50,7 @@ mixin _$ParsedAccountData {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult Function(SplTokenProgramAccountData parsed)? token2022,
     TResult Function(StakeProgramAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
     required TResult orElse(),
@@ -54,6 +59,8 @@ mixin _$ParsedAccountData {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSplTokenProgramAccountData value) splToken,
+    required TResult Function(ParsedSplToken2022ProgramAccountData value)
+        token2022,
     required TResult Function(ParsedStakeProgramAccountData value) stake,
     required TResult Function(UnsupportedProgramAccountData value) unsupported,
   }) =>
@@ -61,6 +68,7 @@ mixin _$ParsedAccountData {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult? Function(ParsedSplToken2022ProgramAccountData value)? token2022,
     TResult? Function(ParsedStakeProgramAccountData value)? stake,
     TResult? Function(UnsupportedProgramAccountData value)? unsupported,
   }) =>
@@ -68,6 +76,7 @@ mixin _$ParsedAccountData {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult Function(ParsedSplToken2022ProgramAccountData value)? token2022,
     TResult Function(ParsedStakeProgramAccountData value)? stake,
     TResult Function(UnsupportedProgramAccountData value)? unsupported,
     required TResult orElse(),
@@ -185,6 +194,7 @@ class _$ParsedSplTokenProgramAccountDataImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SplTokenProgramAccountData parsed) splToken,
+    required TResult Function(SplTokenProgramAccountData parsed) token2022,
     required TResult Function(StakeProgramAccountData parsed) stake,
     required TResult Function(Map<String, dynamic> parsed) unsupported,
   }) {
@@ -195,6 +205,7 @@ class _$ParsedSplTokenProgramAccountDataImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult? Function(SplTokenProgramAccountData parsed)? token2022,
     TResult? Function(StakeProgramAccountData parsed)? stake,
     TResult? Function(Map<String, dynamic> parsed)? unsupported,
   }) {
@@ -205,6 +216,7 @@ class _$ParsedSplTokenProgramAccountDataImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult Function(SplTokenProgramAccountData parsed)? token2022,
     TResult Function(StakeProgramAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
     required TResult orElse(),
@@ -219,6 +231,8 @@ class _$ParsedSplTokenProgramAccountDataImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSplTokenProgramAccountData value) splToken,
+    required TResult Function(ParsedSplToken2022ProgramAccountData value)
+        token2022,
     required TResult Function(ParsedStakeProgramAccountData value) stake,
     required TResult Function(UnsupportedProgramAccountData value) unsupported,
   }) {
@@ -229,6 +243,7 @@ class _$ParsedSplTokenProgramAccountDataImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult? Function(ParsedSplToken2022ProgramAccountData value)? token2022,
     TResult? Function(ParsedStakeProgramAccountData value)? stake,
     TResult? Function(UnsupportedProgramAccountData value)? unsupported,
   }) {
@@ -239,6 +254,7 @@ class _$ParsedSplTokenProgramAccountDataImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult Function(ParsedSplToken2022ProgramAccountData value)? token2022,
     TResult Function(ParsedStakeProgramAccountData value)? stake,
     TResult Function(UnsupportedProgramAccountData value)? unsupported,
     required TResult orElse(),
@@ -270,6 +286,194 @@ abstract class ParsedSplTokenProgramAccountData implements ParsedAccountData {
   @JsonKey(ignore: true)
   _$$ParsedSplTokenProgramAccountDataImplCopyWith<
           _$ParsedSplTokenProgramAccountDataImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ParsedSplToken2022ProgramAccountDataImplCopyWith<$Res> {
+  factory _$$ParsedSplToken2022ProgramAccountDataImplCopyWith(
+          _$ParsedSplToken2022ProgramAccountDataImpl value,
+          $Res Function(_$ParsedSplToken2022ProgramAccountDataImpl) then) =
+      __$$ParsedSplToken2022ProgramAccountDataImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({SplTokenProgramAccountData parsed});
+
+  $SplTokenProgramAccountDataCopyWith<$Res> get parsed;
+}
+
+/// @nodoc
+class __$$ParsedSplToken2022ProgramAccountDataImplCopyWithImpl<$Res>
+    extends _$ParsedAccountDataCopyWithImpl<$Res,
+        _$ParsedSplToken2022ProgramAccountDataImpl>
+    implements _$$ParsedSplToken2022ProgramAccountDataImplCopyWith<$Res> {
+  __$$ParsedSplToken2022ProgramAccountDataImplCopyWithImpl(
+      _$ParsedSplToken2022ProgramAccountDataImpl _value,
+      $Res Function(_$ParsedSplToken2022ProgramAccountDataImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? parsed = null,
+  }) {
+    return _then(_$ParsedSplToken2022ProgramAccountDataImpl(
+      null == parsed
+          ? _value.parsed
+          : parsed // ignore: cast_nullable_to_non_nullable
+              as SplTokenProgramAccountData,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SplTokenProgramAccountDataCopyWith<$Res> get parsed {
+    return $SplTokenProgramAccountDataCopyWith<$Res>(_value.parsed, (value) {
+      return _then(_value.copyWith(parsed: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ParsedSplToken2022ProgramAccountDataImpl
+    implements ParsedSplToken2022ProgramAccountData {
+  const _$ParsedSplToken2022ProgramAccountDataImpl(this.parsed,
+      {final String? $type})
+      : $type = $type ?? 'spl-token-2022';
+
+  factory _$ParsedSplToken2022ProgramAccountDataImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ParsedSplToken2022ProgramAccountDataImplFromJson(json);
+
+  @override
+  final SplTokenProgramAccountData parsed;
+
+  @JsonKey(name: 'program')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'ParsedAccountData.token2022(parsed: $parsed)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ParsedSplToken2022ProgramAccountDataImpl &&
+            (identical(other.parsed, parsed) || other.parsed == parsed));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, parsed);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ParsedSplToken2022ProgramAccountDataImplCopyWith<
+          _$ParsedSplToken2022ProgramAccountDataImpl>
+      get copyWith => __$$ParsedSplToken2022ProgramAccountDataImplCopyWithImpl<
+          _$ParsedSplToken2022ProgramAccountDataImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(SplTokenProgramAccountData parsed) splToken,
+    required TResult Function(SplTokenProgramAccountData parsed) token2022,
+    required TResult Function(StakeProgramAccountData parsed) stake,
+    required TResult Function(Map<String, dynamic> parsed) unsupported,
+  }) {
+    return token2022(parsed);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult? Function(SplTokenProgramAccountData parsed)? token2022,
+    TResult? Function(StakeProgramAccountData parsed)? stake,
+    TResult? Function(Map<String, dynamic> parsed)? unsupported,
+  }) {
+    return token2022?.call(parsed);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult Function(SplTokenProgramAccountData parsed)? token2022,
+    TResult Function(StakeProgramAccountData parsed)? stake,
+    TResult Function(Map<String, dynamic> parsed)? unsupported,
+    required TResult orElse(),
+  }) {
+    if (token2022 != null) {
+      return token2022(parsed);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ParsedSplTokenProgramAccountData value) splToken,
+    required TResult Function(ParsedSplToken2022ProgramAccountData value)
+        token2022,
+    required TResult Function(ParsedStakeProgramAccountData value) stake,
+    required TResult Function(UnsupportedProgramAccountData value) unsupported,
+  }) {
+    return token2022(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult? Function(ParsedSplToken2022ProgramAccountData value)? token2022,
+    TResult? Function(ParsedStakeProgramAccountData value)? stake,
+    TResult? Function(UnsupportedProgramAccountData value)? unsupported,
+  }) {
+    return token2022?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult Function(ParsedSplToken2022ProgramAccountData value)? token2022,
+    TResult Function(ParsedStakeProgramAccountData value)? stake,
+    TResult Function(UnsupportedProgramAccountData value)? unsupported,
+    required TResult orElse(),
+  }) {
+    if (token2022 != null) {
+      return token2022(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ParsedSplToken2022ProgramAccountDataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ParsedSplToken2022ProgramAccountData
+    implements ParsedAccountData {
+  const factory ParsedSplToken2022ProgramAccountData(
+          final SplTokenProgramAccountData parsed) =
+      _$ParsedSplToken2022ProgramAccountDataImpl;
+
+  factory ParsedSplToken2022ProgramAccountData.fromJson(
+          Map<String, dynamic> json) =
+      _$ParsedSplToken2022ProgramAccountDataImpl.fromJson;
+
+  @override
+  SplTokenProgramAccountData get parsed;
+  @JsonKey(ignore: true)
+  _$$ParsedSplToken2022ProgramAccountDataImplCopyWith<
+          _$ParsedSplToken2022ProgramAccountDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -363,6 +567,7 @@ class _$ParsedStakeProgramAccountDataImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SplTokenProgramAccountData parsed) splToken,
+    required TResult Function(SplTokenProgramAccountData parsed) token2022,
     required TResult Function(StakeProgramAccountData parsed) stake,
     required TResult Function(Map<String, dynamic> parsed) unsupported,
   }) {
@@ -373,6 +578,7 @@ class _$ParsedStakeProgramAccountDataImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult? Function(SplTokenProgramAccountData parsed)? token2022,
     TResult? Function(StakeProgramAccountData parsed)? stake,
     TResult? Function(Map<String, dynamic> parsed)? unsupported,
   }) {
@@ -383,6 +589,7 @@ class _$ParsedStakeProgramAccountDataImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult Function(SplTokenProgramAccountData parsed)? token2022,
     TResult Function(StakeProgramAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
     required TResult orElse(),
@@ -397,6 +604,8 @@ class _$ParsedStakeProgramAccountDataImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSplTokenProgramAccountData value) splToken,
+    required TResult Function(ParsedSplToken2022ProgramAccountData value)
+        token2022,
     required TResult Function(ParsedStakeProgramAccountData value) stake,
     required TResult Function(UnsupportedProgramAccountData value) unsupported,
   }) {
@@ -407,6 +616,7 @@ class _$ParsedStakeProgramAccountDataImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult? Function(ParsedSplToken2022ProgramAccountData value)? token2022,
     TResult? Function(ParsedStakeProgramAccountData value)? stake,
     TResult? Function(UnsupportedProgramAccountData value)? unsupported,
   }) {
@@ -417,6 +627,7 @@ class _$ParsedStakeProgramAccountDataImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult Function(ParsedSplToken2022ProgramAccountData value)? token2022,
     TResult Function(ParsedStakeProgramAccountData value)? stake,
     TResult Function(UnsupportedProgramAccountData value)? unsupported,
     required TResult orElse(),
@@ -539,6 +750,7 @@ class _$UnsupportedProgramAccountDataImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SplTokenProgramAccountData parsed) splToken,
+    required TResult Function(SplTokenProgramAccountData parsed) token2022,
     required TResult Function(StakeProgramAccountData parsed) stake,
     required TResult Function(Map<String, dynamic> parsed) unsupported,
   }) {
@@ -549,6 +761,7 @@ class _$UnsupportedProgramAccountDataImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult? Function(SplTokenProgramAccountData parsed)? token2022,
     TResult? Function(StakeProgramAccountData parsed)? stake,
     TResult? Function(Map<String, dynamic> parsed)? unsupported,
   }) {
@@ -559,6 +772,7 @@ class _$UnsupportedProgramAccountDataImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SplTokenProgramAccountData parsed)? splToken,
+    TResult Function(SplTokenProgramAccountData parsed)? token2022,
     TResult Function(StakeProgramAccountData parsed)? stake,
     TResult Function(Map<String, dynamic> parsed)? unsupported,
     required TResult orElse(),
@@ -573,6 +787,8 @@ class _$UnsupportedProgramAccountDataImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSplTokenProgramAccountData value) splToken,
+    required TResult Function(ParsedSplToken2022ProgramAccountData value)
+        token2022,
     required TResult Function(ParsedStakeProgramAccountData value) stake,
     required TResult Function(UnsupportedProgramAccountData value) unsupported,
   }) {
@@ -583,6 +799,7 @@ class _$UnsupportedProgramAccountDataImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult? Function(ParsedSplToken2022ProgramAccountData value)? token2022,
     TResult? Function(ParsedStakeProgramAccountData value)? stake,
     TResult? Function(UnsupportedProgramAccountData value)? unsupported,
   }) {
@@ -593,6 +810,7 @@ class _$UnsupportedProgramAccountDataImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSplTokenProgramAccountData value)? splToken,
+    TResult Function(ParsedSplToken2022ProgramAccountData value)? token2022,
     TResult Function(ParsedStakeProgramAccountData value)? stake,
     TResult Function(UnsupportedProgramAccountData value)? unsupported,
     required TResult orElse(),

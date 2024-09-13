@@ -7,7 +7,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
-import '../../../utils/routing.dart';
+import '../../../ui/page_spacer_wrapper.dart';
 import '../../activities/screens/activities_screen.dart';
 import '../../dynamic_links/services/dynamic_links_notifier.dart';
 import '../../incoming_link_payments/widgets/pending_ilp_listener.dart';
@@ -21,8 +21,12 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   static void openWalletTab(BuildContext context) {
-    context.openFirstScreen();
-    context.read<TabNotifier>().value = 1;
+    final _HomeScreenState? state =
+        context.findAncestorStateOfType<_HomeScreenState>();
+    if (state != null) {
+      state._pageController.jumpToPage(1);
+      state._tabNotifier.value = 1;
+    }
   }
 
   static void openActivitiesTab(
@@ -30,8 +34,12 @@ class HomeScreen extends StatefulWidget {
     // ignore: avoid-unused-parameters, fix later
     ActivitiesTab tab = ActivitiesTab.pending,
   }) {
-    context.openFirstScreen();
-    context.read<TabNotifier>().value = 2;
+    final _HomeScreenState? state =
+        context.findAncestorStateOfType<_HomeScreenState>();
+    if (state != null) {
+      state._pageController.jumpToPage(2);
+      state._tabNotifier.value = 2;
+    }
   }
 
   @override
@@ -40,10 +48,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _tabNotifier = TabNotifier();
+  final _pageController = PageController();
 
   @override
   void dispose() {
     _tabNotifier.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -60,14 +70,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context, value, _) => Scaffold(
                       backgroundColor: Colors.white,
                       extendBody: true,
-                      body: _pages[value].builder(context),
+                      body: PageView(
+                        controller: _pageController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children:
+                            _pages.map((e) => e.builder(context)).toList(),
+                      ),
                       bottomNavigationBar: CPNavigationBar(
                         items: _pages
                             .mapIndexed(
                               (i, p) => CpNavigationButton(
                                 icon: p.icon,
                                 active: value == i,
-                                onPressed: () => _tabNotifier.value = i,
+                                onPressed: () {
+                                  _tabNotifier.value = i;
+                                  _pageController.jumpToPage(i);
+                                },
                               ),
                             )
                             .toList(),
@@ -106,25 +124,24 @@ class TabNotifier extends ValueNotifier<int> {
 }
 
 // ignore: avoid-function-type-in-records, fix later
-final List<({SvgGenImage icon, String path, WidgetBuilder builder})> _pages = [
+final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
   (
-    path: '/home',
     icon: Assets.icons.home,
-    builder: (context) => MainScreen(
-          onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
-          onTransactionsPressed: () => HomeScreen.openActivitiesTab(
-            context,
-            tab: ActivitiesTab.transactions,
+    builder: (context) => PageSpacerWrapper(
+          child: MainScreen(
+            onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
+            onTransactionsPressed: () => HomeScreen.openActivitiesTab(
+              context,
+              tab: ActivitiesTab.transactions,
+            ),
           ),
         ),
   ),
   (
-    path: '/wallet',
     icon: Assets.icons.wallet,
     builder: (context) => const WalletScreen(),
   ),
   (
-    path: '/activities',
     icon: Assets.icons.notifications,
     builder: (context) => ActivitiesScreen(
           initialTab: ActivitiesTab.pending,

@@ -1,3 +1,97 @@
+## 1.126.1
+
+ - **FIX**: moneygram ramp fixes (#1562).
+ - **FIX**: stellar recovery service init (#1561).
+
+## 1.126.0
+
+ - **FIX**: Solana v.2 tests (#1554).
+ - **FIX**: moneygram offramp bridge amount (#1556).
+ - **FEAT**: add stellar recovery service (#1549).
+
+## 1.125.0
+
+ - **FEAT**: enable moneygram for PT (#1558).
+
+## 1.124.1
+
+ - **FIX**: moneygram bridge precision (#1555).
+
+## 1.124.0
+
+ - **FIX**: moneygram ramp fixes (#1550).
+ - **FIX**: status screen UI theming (#1541).
+ - **FEAT**: add ramp analytics (#1552).
+ - **FEAT**: onboarding UI update (#1553).
+ - **FEAT**: store conversion rates to db (#1526).
+ - **FEAT**: remove the smart retry for all transactions (#1515).
+ - **FEAT**: moneygram updates (#1543).
+ - **FEAT**: request link creation to mixpanel logs (#1546).
+
+## 1.123.2
+
+ - **FIX**: moneygram stellar config (#1540).
+
+## 1.123.1
+
+ - **REFACTOR**: moneygram pr (#1533).
+ - **FIX**: Temporary change for webview package dependency (#1534).
+
+## 1.123.0
+
+ - **REFACTOR**: update outgoing escrow signing (#1500).
+ - **FIX**: coinflow additional verification redirect (#1516).
+ - **FIX**: portfolio amount value (#1504).
+ - **FEAT**: add moneygram cash out (#1506).
+ - **FEAT**: add moneygram cash in (#1502).
+ - **FEAT**: android target sdk version to 34 (#1523).
+ - **FEAT**: upgrade to Flutter 3.22 (#1517).
+ - **FEAT**: add logging for link tx creation (#1513).
+
+## 1.122.1
+
+ - **FIX**: durable tx signing.
+
+## 1.122.0
+
+ - **FIX**: home spacing (#1489).
+ - **FEAT**: use durable nonce for escrow txs (#1459).
+ - **FEAT**: integrate stellar wallet (#1497).
+ - **FEAT**: new lock screen theme  (#1494).
+
+## 1.121.1
+
+ - **FIX**: do not wait for intercom login (#1493).
+ - **FIX**: profile spacing colors (#1490).
+ - **FIX**: sol conversion matching (#1491).
+
+## 1.121.0
+
+ - **REFACTOR**: balances module (#1476).
+ - **FIX**: main screen flow (#1487).
+ - **FIX**: ignore usdc token on crypto portfolio (#1478).
+ - **FIX**: activity tile text color to white (#1477).
+ - **FEAT**: log total crypto balance (#1488).
+ - **FEAT**: sort crypto portfolio list (#1480).
+ - **FEAT**: home & payment improved buttons (#1468).
+
+## 1.120.0
+
+ - **REFACTOR**: request feature flag cleanup (#1455).
+ - **REFACTOR**: remove tx failure logging (#1453).
+ - **REFACTOR**: enable profiling (#1447).
+ - **FIX**: transaction request fixes (#1449).
+ - **FEAT**: show users list of tokens (#1433).
+ - **FEAT**: black background in activity and profile page (#1461).
+ - **FEAT**: fetch usd rate from backend (#1465).
+ - **FEAT**: homepage theme (#1452).
+ - **FEAT**: update local token list data (#1454).
+ - **FEAT**: update analytics (#1451).
+
+## 1.119.0
+
+ - **FEAT**: optmize startup time (#1444).
+
 ## 1.118.0
 
  - **REFACTOR**: use dcm 1.17.0 (#1441).

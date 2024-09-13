@@ -20,7 +20,7 @@ import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../payment_request/models/payment_request.dart';
 import '../../qr_scanner/models/qr_scanner_request.dart';
 import '../../qr_scanner/screens/qr_scanner_screen.dart';
-import '../../tokens/token_list.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../transaction_request/widgets/extensions.dart';
 
 extension BuildContextExt on BuildContext {
@@ -53,8 +53,10 @@ extension BuildContextExt on BuildContext {
       final name = request.mapOrNull(
         solanaPay: (r) => r.request.label,
       );
-      final requestAmount = request.whenOrNull(
-        solanaPay: (r) => r.cryptoAmount(sl<TokenList>()),
+      final requestAmount = await request.whenOrNull(
+        solanaPay: (r) => r.cryptoAmount(
+          sl<TokenRepository>().getToken,
+        ),
       );
 
       if (!mounted) return;

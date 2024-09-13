@@ -39,9 +39,8 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           text: context.l10n.carouselSendMoneyBtn,
           onPressed: widget.onSendMoneyPressed,
         ),
-        backgroundImage: isIos
-            ? Assets.images.carousel2Ios.image()
-            : Assets.images.carousel2.image(),
+        backgroundImage:
+            isIos ? Assets.images.carousel2Ios : Assets.images.carousel2,
       ),
       _Item(
         title: context.l10n.carousel2Title,
@@ -52,7 +51,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           text: context.l10n.carouselSendMoneyBtn,
           onPressed: widget.onSendMoneyPressed,
         ),
-        backgroundImage: Assets.images.carousel1.image(),
+        backgroundImage: Assets.images.carousel1,
       ),
       _Item(
         title: context.l10n.carousel4Title,
@@ -63,18 +62,24 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           text: context.l10n.carouselSendMoneyBtn,
           onPressed: widget.onSendMoneyPressed,
         ),
-        backgroundImage: Assets.images.carousel4.image(),
+        backgroundImage: Assets.images.carousel4,
       ),
       _Item(
         title: context.l10n.carousel3Title,
         subtitle: context.l10n.carousel3Subtitle,
-        backgroundImage: Assets.images.carousel3.image(),
+        button: CpButton(
+          minWidth: 250,
+          size: CpButtonSize.wide,
+          text: context.l10n.carouselSendMoneyBtn,
+          onPressed: widget.onSendMoneyPressed,
+        ),
+        backgroundImage: Assets.images.carousel3,
       ),
     ];
 
     return HomeTile(
       child: SizedBox(
-        height: 375,
+        height: 385,
         child: Stack(
           children: [
             PageView(
@@ -82,13 +87,13 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
               children: items,
             ),
             Align(
-              alignment: Alignment.center,
+              alignment: const Alignment(0, 0.1),
               child: SmoothPageIndicator(
                 controller: _controller,
                 count: items.length,
                 effect: const ExpandingDotsEffect(
-                  activeDotColor: CpColors.primaryColor,
-                  dotColor: Colors.black,
+                  activeDotColor: CpColors.carouselDotColor,
+                  dotColor: Colors.white,
                   dotHeight: 7,
                   dotWidth: 25,
                   expansionFactor: 2.4,
@@ -113,66 +118,59 @@ class _Item extends StatelessWidget {
   final String title;
   final String subtitle;
   final Widget? button;
-  final Widget backgroundImage;
+  final AssetGenImage backgroundImage;
 
   @override
-  Widget build(BuildContext context) => Stack(
+  Widget build(BuildContext context) => Column(
         children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: backgroundImage,
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: const [0.1, 0.4, 0.6],
-                  colors: [
-                    Colors.black.withOpacity(0),
-                    const Color(0x76CCCCCC),
-                    CpColors.dashboardBackgroundColor,
-                  ],
-                ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(32.0),
+              ),
+              child: backgroundImage.image(
+                height: 175,
+                width: 400,
+                fit: BoxFit.fitWidth,
               ),
             ),
           ),
-          Align(
-            alignment: const Alignment(0.0, 0.7),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  FittedBox(
-                    child: Text(
-                      title,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Color(0xFF2D2B2C),
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                      ),
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FittedBox(
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
+                ),
+                const SizedBox(height: 6),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
                     subtitle,
                     maxLines: 3,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      color: Color(0xFF2D2B2C),
+                      color: Colors.white,
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 15),
-                  button ?? const SizedBox(height: 44),
-                ],
-              ),
+                ),
+                const SizedBox(height: 15),
+                button ?? const SizedBox(height: 44),
+              ],
             ),
           ),
         ],

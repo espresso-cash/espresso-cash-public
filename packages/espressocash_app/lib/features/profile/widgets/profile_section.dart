@@ -25,7 +25,7 @@ class ProfileSection extends StatelessWidget {
     super.key,
     this.title,
     required this.actions,
-    this.color = Colors.white,
+    this.color = CpColors.darkBackgroundColor,
     required this.padding,
   });
 
@@ -51,7 +51,7 @@ class ProfileSection extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
-                  color: CpColors.menuPrimaryTextColor,
+                  color: CpColors.lightGreyBackground,
                 ),
               ),
             ),

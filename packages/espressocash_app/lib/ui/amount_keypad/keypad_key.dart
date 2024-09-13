@@ -33,6 +33,16 @@ class _BackspaceKey extends KeypadKey {
       );
 }
 
+class _EmptyKey extends KeypadKey {
+  const _EmptyKey();
+
+  @override
+  String get value => '';
+
+  @override
+  Widget build(BuildContext context) => const SizedBox();
+}
+
 class _DecimalSeparatorKey extends KeypadKey {
   const _DecimalSeparatorKey();
 
@@ -50,6 +60,8 @@ abstract class KeypadKey extends StatelessWidget {
   const KeypadKey({super.key});
 
   const factory KeypadKey.number({required int number}) = _NumericKey;
+
+  const factory KeypadKey.empty() = _EmptyKey;
 
   const factory KeypadKey.backspace() = _BackspaceKey;
 

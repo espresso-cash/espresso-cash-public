@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 import '../../../config.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
@@ -19,11 +20,17 @@ import '../models/outgoing_direct_payment.dart';
 
 @Singleton(scope: authScope)
 class ODPService {
-  ODPService(this._client, this._repository, this._txSender);
+  ODPService(
+    this._client,
+    this._repository,
+    this._txSender,
+    this._analyticsManager,
+  );
 
   final EspressoCashClient _client;
   final ODPRepository _repository;
   final TxSender _txSender;
+  final AnalyticsManager _analyticsManager;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -64,26 +71,6 @@ class ODPService {
     _subscribe(id);
 
     return payment;
-  }
-
-  Future<void> retry(
-    String paymentId, {
-    required ECWallet account,
-  }) async {
-    final payment = await _repository.load(paymentId);
-    if (payment == null || !payment.isRetriable) return;
-
-    final status = await _createTx(
-      account: account,
-      receiver: payment.receiver,
-      amount: payment.amount,
-      reference: payment.reference,
-    );
-
-    final newPayment = payment.copyWith(status: status);
-
-    await _repository.save(newPayment);
-    _subscribe(newPayment.id);
   }
 
   Future<void> cancel(String paymentId) async {
@@ -179,6 +166,10 @@ class ODPService {
       failure: (tx) => ODPStatus.txFailure(reason: tx.reason),
       networkError: (_) => null,
     );
+
+    if (newStatus is ODPStatusSuccess) {
+      _analyticsManager.directPaymentSent(amount: payment.amount.decimal);
+    }
 
     return newStatus == null ? payment : payment.copyWith(status: newStatus);
   }

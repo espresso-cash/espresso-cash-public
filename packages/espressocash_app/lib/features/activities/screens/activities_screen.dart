@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' hide Notification;
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
-import '../../../ui/page_fade_wrapper.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/tab_bar.dart';
 import '../widgets/pending_activities_list.dart';
 import '../widgets/transaction_list.dart';
@@ -72,11 +72,14 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
             ),
         };
 
-    return PageFadeWrapper(
+    return ColoredBox(
+      color: CpColors.dashboardBackgroundColor,
       child: Column(
         children: [
           CpAppBar(
-            title: Text(context.l10n.activities_lblTitle.toUpperCase()),
+            title: Text(
+              context.l10n.activities_lblTitle.toUpperCase(),
+            ),
           ),
           const SizedBox(height: 20),
           Padding(
@@ -110,9 +113,19 @@ class _Wrapper extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
         children: [
           child,
-          const FadeGradient(
-            height: _padding,
-            direction: FadeGradientDirection.topDown,
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              color: CpColors.dashboardBackgroundColor,
+              height: 10,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              color: CpColors.dashboardBackgroundColor,
+              height: 10,
+            ),
           ),
         ],
       );

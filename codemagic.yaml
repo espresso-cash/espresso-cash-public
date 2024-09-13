@@ -10,7 +10,7 @@ workflows:
       groups:
         - common
         - google_credentials
-      flutter: 3.19.6
+      flutter: 3.22.2
       xcode: 15.3
       java: 17
       cocoapods: 1.13.0
@@ -46,7 +46,10 @@ workflows:
             --dart-define GUARDARIAN_API_KEY=$GUARDARIAN_API_KEY \
             --dart-define INTERCOM_APP_ID=$INTERCOM_APP_ID \
             --dart-define INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY \
-            --dart-define INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY
+            --dart-define INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY \
+            --dart-define MIXPANEL_TOKEN=$MIXPANEL_TOKEN \
+            --dart-define STELLAR_PROD=true \
+            --dart-define SOROBAN_RPC_URL=$SOROBAN_RPC_URL
       - name: Build IPA with Flutter
         script: |
           BUILD_NUMBER=$(($PROJECT_BUILD_NUMBER + 200))
@@ -62,7 +65,10 @@ workflows:
             --dart-define GUARDARIAN_API_KEY=$GUARDARIAN_API_KEY \
             --dart-define INTERCOM_APP_ID=$INTERCOM_APP_ID \
             --dart-define INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY \
-            --dart-define INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY
+            --dart-define INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY \
+            --dart-define MIXPANEL_TOKEN=$MIXPANEL_TOKEN \
+            --dart-define STELLAR_PROD=true \
+            --dart-define SOROBAN_RPC_URL=$SOROBAN_RPC_URL
 
     artifacts:
       - build/**/outputs/**/*.aab

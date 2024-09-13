@@ -26,7 +26,7 @@ class IntercomService implements Disposable {
 
     final IntercomService instance = _instance ??= const IntercomService._();
 
-    await Intercom.instance.loginIdentifiedUser(userId: account.address);
+    unawaited(Intercom.instance.loginIdentifiedUser(userId: account.address));
 
     return instance;
   }
@@ -35,6 +35,10 @@ class IntercomService implements Disposable {
 
   void updateCountry(String? countryCode) => Intercom.instance
       .updateUser(customAttributes: {'countryCode': countryCode});
+
+  void updateStellarAddress(String address) => Intercom.instance.updateUser(
+        customAttributes: {'stellarAddress': address},
+      );
 
   @override
   Future<void> onDispose() => Intercom.instance.logout();

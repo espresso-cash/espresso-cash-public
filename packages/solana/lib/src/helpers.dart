@@ -35,14 +35,15 @@ bool isPointOnEd25519Curve(Iterable<int> data) {
 Future<Ed25519HDPublicKey> findAssociatedTokenAddress({
   required Ed25519HDPublicKey owner,
   required Ed25519HDPublicKey mint,
+  TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
 }) =>
     Ed25519HDPublicKey.findProgramAddress(
-      seeds: [owner.bytes, TokenProgram.id.toByteArray(), mint.bytes],
+      seeds: [owner.bytes, tokenProgramType.id.toByteArray(), mint.bytes],
       programId: AssociatedTokenAccountProgram.id,
     );
 
 Future<SignedTx> signTransaction(
-  RecentBlockhash recentBlockhash,
+  LatestBlockhash latestBlockhash,
   Message message,
   List<Ed25519HDKeyPair> signers,
 ) {
@@ -51,7 +52,7 @@ Future<SignedTx> signTransaction(
   }
 
   final CompiledMessage compiledMessage = message.compile(
-    recentBlockhash: recentBlockhash.blockhash,
+    recentBlockhash: latestBlockhash.blockhash,
     feePayer: signers.first.publicKey,
   );
 

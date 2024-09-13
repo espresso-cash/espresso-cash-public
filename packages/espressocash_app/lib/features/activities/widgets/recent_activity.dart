@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' hide Notification;
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
 import '../../../ui/theme.dart';
 import '../data/transaction_repository.dart';
@@ -45,7 +46,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
           if (data == null) return const SizedBox.shrink();
 
           return HomeTile(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -71,7 +72,9 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                           .map(
                             (e) => _KeepAlive(
                               key: ValueKey(e),
-                              child: TransactionItem(tx: e),
+                              child: CpTheme.black(
+                                child: TransactionItem(tx: e, showIcon: false),
+                              ),
                             ),
                           )
                           .toList(),
@@ -86,7 +89,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                       CpButton(
                         text: context.l10n.recentActivitySeeAll,
                         size: CpButtonSize.micro,
-                        variant: CpButtonVariant.black,
+                        variant: CpButtonVariant.dark,
                         onPressed: widget.onTransactionsPressed,
                       ),
                     ],
@@ -113,7 +116,7 @@ class _NoActivity extends StatelessWidget {
               Text(
                 context.l10n.recentActivityEmpty,
                 style: const TextStyle(
-                  color: Color(0xFF2D2B2C),
+                  color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
                 ),
@@ -137,9 +140,9 @@ class _Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         decoration: const ShapeDecoration(
-          color: Colors.white,
+          color: CpColors.darkBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(28),

@@ -6,7 +6,6 @@ import 'package:solana/solana_pay.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
-import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../services/odp_service.dart';
@@ -29,26 +28,13 @@ extension BuildContextExt on BuildContext {
           reference: reference,
         );
 
-        sl<AnalyticsManager>().directPaymentCreated();
-
         return payment.id;
-      });
-
-  Future<void> retryODP({required String paymentId}) =>
-      runWithLoader(this, () async {
-        await sl<ODPService>().retry(
-          paymentId,
-          account: sl<MyAccount>().wallet,
-        );
-        sl<AnalyticsManager>().directPaymentRetried();
       });
 
   Future<void> cancelODP({required String paymentId}) =>
       runWithLoader(this, () async {
         await sl<ODPService>().cancel(paymentId);
         Navigator.pop(this);
-
-        sl<AnalyticsManager>().directPaymentCancelled();
       });
 
   Future<bool> isSolanaPayRequestPaid({required SolanaPayRequest request}) =>

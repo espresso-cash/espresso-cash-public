@@ -10,9 +10,9 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Activity",
   "@activities_lblTitle": {},
-  "activities_lblAddCash": "Add Cash",
+  "activities_lblAddCash": "Deposit",
   "@activities_lblAddCash": {},
-  "activities_lblWithdraw": "Cash Out",
+  "activities_lblWithdraw": "Withdraw",
   "@activities_lblWithdraw": {},
   "appLock_lblAutoLock": "Auto-Lock",
   "@appLock_lblAutoLock": {},
@@ -68,8 +68,10 @@
   "@countryOfResidence": {},
   "create": "Create",
   "@create": {},
-  "cryptoCashBalance": "Your Cash Balance",
+  "cryptoCashBalance": "Cash Balance",
   "@cryptoCashBalance": {},
+  "cryptoPortfolio": "Crypto Portfolio",
+  "@cryptoPortfolio": {},
   "editProfile": "Edit Profile",
   "@editProfile": {},
   "enterAmount": "Enter amount",
@@ -102,8 +104,6 @@
       }
     }
   },
-  "fundYourAccount": "Add Cash to your account to start sending money",
-  "@fundYourAccount": {},
   "incorrectPasscode": "Incorrect passcode. Retry again",
   "@incorrectPasscode": {},
   "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
@@ -227,7 +227,7 @@
   "@noEmailInCryptoParagraph": {},
   "noResultsFound": "No results found",
   "@noResultsFound": {},
-  "offRampTopPartnerTitle": "Cash Out To Your Bank Account",
+  "offRampTopPartnerTitle": "Withdraw To Your Bank Account",
   "@offRampTopPartnerTitle": {},
   "ok": "OK",
   "@ok": {},
@@ -332,9 +332,9 @@
   },
   "rampBasicInfoRequired": "To get started, we need some basic information from you.",
   "@rampBasicInfoRequired": {},
-  "ramp_btnAddCash": "Add Cash",
+  "ramp_btnAddCash": "Deposit",
   "@ramp_btnAddCash": {},
-  "ramp_btnCashOut": "Cash Out",
+  "ramp_btnCashOut": "Withdraw",
   "@ramp_btnCashOut": {},
   "ramp_btnContinue": "Continue",
   "@ramp_btnContinue": {},
@@ -346,9 +346,9 @@
       }
     }
   },
-  "ramp_titleCashIn": "Cash In",
+  "ramp_titleCashIn": "Deposit",
   "@ramp_titleCashIn": {},
-  "ramp_titleCashOut": "Cash Out",
+  "ramp_titleCashOut": "Withdraw",
   "@ramp_titleCashOut": {},
   "receive": "Request",
   "@receive": {},
@@ -362,7 +362,7 @@
   "@reEnterPasscode": {},
   "remindMeLater": "Remind me later",
   "@remindMeLater": {},
-  "requestOrSendPayment": "Request or send a payment",
+  "requestOrSendPayment": "Pay or Request",
   "@requestOrSendPayment": {},
   "resendLink": "Resend",
   "@resendLink": {},
@@ -587,7 +587,7 @@
   },
   "zeroAmountTitle": "Invalid amount",
   "@zeroAmountTitle": {},
-  "offRampWithdrawTitle": "Withdrawal Progress",
+  "offRampWithdrawTitle": "Withdrawal",
   "@offRampWithdrawTitle": {},
   "offRampCancelTitle": "Cancel Withdrawal",
   "@offRampCancelTitle": {},
@@ -687,7 +687,7 @@
       }
     }
   },
-  "depositTitle": "Add Cash",
+  "depositTitle": "Deposit",
   "@depositTitle": {},
   "depositInstruction1": "Transfer money from your bank account to our local partner:",
   "@depositInstruction1": {},
@@ -779,11 +779,11 @@
   "@outgoingDlnNoQuoteFound": {},
   "continueHereBtn": "Continue here",
   "@continueHereBtn": {},
-  "onRampMorePartnersFooter": "Want more add cash options?",
+  "onRampMorePartnersFooter": "Want more deposit options?",
   "@onRampMorePartnersFooter": {},
   "offRampMorePartnersFooter": "Want more cash out options?",
   "@offRampMorePartnersFooter": {},
-  "onRampMorePartnersTitle": "Additional Add Cash Partners:",
+  "onRampMorePartnersTitle": "Additional Deposit Partners:",
   "@onRampMorePartnersTitle": {},
   "offRampMorePartnersTitle": "Additional Payment Partners:",
   "@offRampMorePartnersTitle": {},
@@ -823,5 +823,85 @@
   "received": "Received",
   "@received": {},
   "failed": "Failed",
-  "@failed": {}
+  "@failed": {},
+  "moreInfo": "More info",
+  "@moreInfo": {},
+  "continueToMoneygram": "Continue to MoneyGram",
+  "@continueToMoneygram": {},
+  "bridgingText": "Connecting to MoneyGram",
+  "@bridgingText": {},
+  "moneygramInstructionText": "After completing your transfer in person at your chosen MoneyGram payment location, please return here and confirm below.",
+  "@moneygramInstructionText": {},
+  "confirmTransfer": "Confirm Transfer",
+  "@confirmTransfer": {},
+  "viewMoneygramTransferInstructions": "View MoneyGram transfer instructions",
+  "@viewMoneygramTransferInstructions": {},
+  "confirmYourTransferOf": "Confirm your transfer of",
+  "@confirmYourTransferOf": {},
+  "transferInProgressText": "Transfer could take up to {minutes} minutes...",
+  "@transferInProgressText": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "openMoneygramIframeText": "Open Moneygram to continue",
+  "@openMoneygramIframeText": {},
+  "preparingWithdrawal": "Preparing your withdrawal",
+  "@preparingWithdrawal": {},
+  "processingRefund": "Processing refund",
+  "@processingRefund": {},
+  "refundInProgressText": "Amount being refunded",
+  "@refundInProgressText": {},
+  "refundSuccessText": "Your withdrawal refunded",
+  "@refundSuccessText": {},
+  "completed": "Completed",
+  "@completed": {},
+  "cancelled": "Cancelled",
+  "@cancelled": {},
+  "refunded": "Refunded",
+  "@refunded": {},
+  "onRampCancelTitle": "Cancel Deposit",
+  "@onRampCancelTitle": {},
+  "onRampCancelSubtitle": "Are you sure you want to cancel this deposit?",
+  "@onRampCancelSubtitle": {},
+  "moneyRecoveryTitle": "MONEY RECOVERY",
+  "@moneyRecoveryTitle": {},
+  "moneyRecoveryBtn": "Recover",
+  "@moneyRecoveryBtn": {},
+  "moneyRecoveryContent": "{amount} in unclaimed money has been detected and is ready for recovery.",
+  "@moneyRecoveryContent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "moneyRecoverySubContent": "The recovered amount will be added to your Espresso Cash account balance.",
+  "@moneyRecoverySubContent": {},
+  "moneyRecoveryDisclaimer": "*This can take up to 3 minutes to complete.",
+  "@moneyRecoveryDisclaimer": {},
+  "moneyRecoverySuccessNotice": "Success! Money will be recovered soon",
+  "@moneyRecoverySuccessNotice": {},
+  "moneyRecoveryNoticeTitle": "Unclaimed money has been detected.",
+  "@moneyRecoveryNoticeTitle": {},
+  "moneyRecoveryNoticeAction": "Click here to recover.",
+  "@moneyRecoveryNoticeAction": {},
+  "moneyRecoveryPending": "Your money is being recovered. Please wait a moment...",
+  "@moneyRecoveryPending": {},
+  "moneyRecoveryFailure": "There was an issue recovering your money.",
+  "@moneyRecoveryFailure": {},
+  "moneyRecoverySuccess": "{amount} has been successfully added to your balance.",
+  "@moneyRecoverySuccess": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawalInProgress": "Withdrawing in progress...",
+  "@offRampWithdrawalInProgress": {},
+  "moneygramCashAvailable": "Cash is available at Moneygram location",
+  "@moneygramCashAvailable": {}
 }

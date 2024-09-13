@@ -17,20 +17,15 @@ class CpUserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double fontSize = (_fontSizeFactor * radius).roundToDouble();
     final String text = substring(userName, 0, 2).toUpperCase();
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: CpColors.purple,
+      backgroundColor: CpColors.darkGoldBackgroundColor,
       foregroundImage: image,
       child: AnimatedDefaultTextStyle(
         duration: kThemeChangeDuration,
-        style: TextStyle(
-          fontSize: fontSize,
-          height: 1,
-          color: Colors.white,
-        ),
+        style: _textStyle,
         child: Text(
           text,
           textAlign: TextAlign.center,
@@ -40,4 +35,9 @@ class CpUserAvatar extends StatelessWidget {
   }
 }
 
-const _fontSizeFactor = 1.0;
+const TextStyle _textStyle = TextStyle(
+  height: 1.4,
+  fontSize: 32.0,
+  fontWeight: FontWeight.w500,
+  color: Colors.white,
+);

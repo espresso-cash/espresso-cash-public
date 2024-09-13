@@ -2,11 +2,9 @@
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 
@@ -38,19 +36,6 @@ class ILPRepository implements Disposable {
   }
 
   Future<void> save(IncomingLinkPayment payment) async {
-    await payment.status.maybeMap(
-      txFailure: (status) async {
-        await Sentry.captureMessage(
-          'ILP tx failure',
-          level: SentryLevel.warning,
-          withScope: (scope) => scope.setContexts('data', {
-            'reason': status.reason,
-          }),
-        );
-      },
-      orElse: () async {},
-    );
-
     await _db.into(_db.iLPRows).insertOnConflictUpdate(await payment.toDto());
   }
 
@@ -107,18 +92,16 @@ extension on ILPStatusDto {
   ILPStatus toModel(ILPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
-    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
       case ILPStatusDto.txCreated:
         return ILPStatus.txCreated(
           tx!,
-          slot: slot ?? BigInt.zero,
         );
       case ILPStatusDto.txSent:
         return ILPStatus.txSent(
           tx ?? StubSignedTx(txId!),
-          slot: slot ?? BigInt.zero,
+          signature: row.txId!,
         );
       case ILPStatusDto.success:
         final feeAmount = row.feeAmount;
@@ -145,7 +128,6 @@ extension on IncomingLinkPayment {
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
-        slot: status.toSlot()?.toString(),
         txFailureReason: status.toTxFailureReason(),
         feeAmount: switch (status) {
           ILPStatusSuccess(:final fee) => fee?.value,
@@ -168,15 +150,11 @@ extension on ILPStatus {
       );
 
   String? toTxId() => mapOrNull(
+        txSent: (it) => it.signature,
         success: (it) => it.tx.id,
       );
 
   TxFailureReason? toTxFailureReason() => mapOrNull(
         txFailure: (it) => it.reason,
-      );
-
-  BigInt? toSlot() => mapOrNull(
-        txCreated: (it) => it.slot,
-        txSent: (it) => it.slot,
       );
 }

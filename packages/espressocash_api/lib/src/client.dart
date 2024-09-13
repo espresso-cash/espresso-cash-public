@@ -36,6 +36,9 @@ abstract class EspressoCashClient {
         baseUrl: baseUrl,
       );
 
+  Dio get _dio;
+  String? get baseUrl;
+
   @POST('/createDirectPayment')
   Future<CreateDirectPaymentResponseDto> createDirectPayment(
     @Body() CreateDirectPaymentRequestDto request,
@@ -111,9 +114,12 @@ abstract class EspressoCashClient {
   Future<GetFreeNonceResponseDto> getFreeNonce();
 
   @POST('/submitDurableTx')
-  Future<void> submitDurableTx(
+  Future<SubmitDurableTxResponseDto> submitDurableTx(
     @Body() SubmitDurableTxRequestDto request,
   );
+
+  @POST('/getDurableFees')
+  Future<GetDurableFeesResponseDto> getDurableFees();
 
   @POST('/shortenLink')
   Future<ShortenLinkResponseDto> shortenLink(
@@ -124,4 +130,53 @@ abstract class EspressoCashClient {
   Future<UnshortenLinkResponseDto> unshortenLink(
     @Body() UnshortenLinkRequestDto request,
   );
+
+  @POST('/dln/incoming/gasFee')
+  Future<GasFeeResponseDto> getGasFees(
+    @Body() GasFeeRequestDto request,
+  );
+
+  @POST('/rates')
+  Future<GetRatesResponseDto> getRates();
+
+  @POST('/getPriorityFeeEstimate')
+  Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
+    @Body() PriorityFeesRequestDto request,
+  );
+
+  @POST('/moneygram/sign')
+  Future<MoneygramChallengeSignResponseDto> signChallenge(
+    @Body() MoneygramChallengeSignRequestDto request,
+  );
+
+  @POST('/moneygram/swapToSolana')
+  Future<MoneygramSwapResponseDto> swapToSolana(
+    @Body() SwapToSolanaRequestDto request,
+  );
+
+  @POST('/moneygram/swapToStellar')
+  Future<MoneygramSwapResponseDto> swapToStellar(
+    @Body() SwapToStellarRequestDto request,
+  );
+
+  @POST('/moneygram/calculateFee')
+  Future<MoneygramFeeResponseDto> calculateMoneygramFee(
+    @Body() MoneygramFeeRequestDto request,
+  );
+
+  @POST('/moneygram/fund')
+  Future<void> fundXlmRequest(
+    @Body() FundXlmRequestDto request,
+  );
+
+  @POST('/tokens/meta')
+  Future<GetTokensMetaResponseDto> getTokensMeta();
+}
+
+extension EspressoCashClientExt on EspressoCashClient {
+  Future<void> getTokensFile(String savePath) => _dio.download(
+        '${baseUrl ?? _dio.options.baseUrl}/tokens/file',
+        savePath,
+        options: Options(method: HttpMethod.POST),
+      );
 }

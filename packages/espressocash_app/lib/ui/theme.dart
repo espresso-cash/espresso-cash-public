@@ -141,7 +141,7 @@ class CpThemeData {
           brightness: brightness,
           primary: CpColors.primaryColor,
           secondary: CpColors.primaryColor,
-          background: backgroundColor,
+          surface: backgroundColor,
         ),
         appBarTheme: AppBarTheme(
           systemOverlayStyle: brightness.systemOverlayStyle,
@@ -183,7 +183,7 @@ const twelveWordsTextStyle = TextStyle(
 const dashboardSectionTitleTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 17,
-  color: CpColors.menuPrimaryTextColor,
+  color: Colors.white,
 );
 
 extension on Brightness {

@@ -12,9 +12,14 @@ import '../models/activity.dart';
 import 'activity_tile.dart';
 
 class OnRampTile extends StatelessWidget {
-  const OnRampTile({super.key, required this.activity});
+  const OnRampTile({
+    super.key,
+    required this.activity,
+    this.showIcon = true,
+  });
 
   final OnRampActivity activity;
+  final bool showIcon;
 
   @override
   Widget build(BuildContext context) => OnRampOrderDetails(
@@ -29,6 +34,10 @@ class OnRampTile extends StatelessWidget {
             OnRampOrderStatus.completed => CpActivityTileStatus.success,
             OnRampOrderStatus.waitingForDeposit ||
             OnRampOrderStatus.waitingForPartner ||
+            OnRampOrderStatus.pending ||
+            OnRampOrderStatus.preProcessing ||
+            OnRampOrderStatus.postProcessing ||
+            OnRampOrderStatus.waitingForBridge ||
             null =>
               CpActivityTileStatus.inProgress,
           },
@@ -38,6 +47,7 @@ class OnRampTile extends StatelessWidget {
             maxDecimals: 2,
           ),
           onTap: () => OnRampOrderScreen.push(context, id: order?.id ?? ''),
+          showIcon: showIcon,
         ),
       );
 }

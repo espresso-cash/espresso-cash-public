@@ -2,6 +2,8 @@ import 'package:decimal/decimal.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
+import '../ramp_partner/models/ramp_partner.dart';
+
 @lazySingleton
 class AnalyticsManager {
   const AnalyticsManager(this._analytics);
@@ -31,25 +33,105 @@ class AnalyticsManager {
     }
   }
 
+  void setStellarAddress(String? address) {
+    _analytics.getPeople().set('stellarWalletAddress', address);
+  }
+
   void setUsdcBalance(Decimal value) {
     _analytics.getPeople().set('usdcBalance', value.toDouble());
+  }
+
+  void setTotalInvestmentsBalance(Decimal value) {
+    _analytics.getPeople().set('investmentsBalance', value.toDouble());
   }
 
   void setProfileCountryCode(String countryCode) {
     _analytics.getPeople().set('profileCountryCode', countryCode);
   }
 
-  void singleLinkCreated() => _analytics.track('singleLinkCreated');
+  void singleLinkCreated({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'singleLinkCreated',
+        properties: {'amount': amount.toDouble()},
+      );
 
-  void singleLinkCanceled() => _analytics.track('singleLinkCanceled');
-
-  void singleLinkRetried() => _analytics.track('singleLinkRetried');
+  void singleLinkCanceled({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'singleLinkCanceled',
+        properties: {'amount': amount.toDouble()},
+      );
 
   void singleLinkReceived() => _analytics.track('singleLinkReceived');
 
-  void directPaymentCreated() => _analytics.track('directPaymentCreated');
+  void directPaymentSent({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'directPaymentSent',
+        properties: {'amount': amount.toDouble()},
+      );
 
-  void directPaymentRetried() => _analytics.track('directPaymentRetried');
+  void paymentRequestLinkCreated({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'paymentRequestLinkCreated',
+        properties: {'amount': amount.toDouble()},
+      );
 
-  void directPaymentCancelled() => _analytics.track('directPaymentCancelled');
+  void paymentRequestLinkPaid({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'paymentRequestLinkPaid',
+        properties: {'amount': amount.toDouble()},
+      );
+
+  void rampOpened({
+    required RampPartner partner,
+    required String rampType,
+  }) =>
+      _analytics.track(
+        'rampOpened',
+        properties: {
+          'partner': partner.name,
+          'type': rampType,
+        },
+      );
+
+  void rampInitiated({
+    required RampPartner partner,
+    required String rampType,
+    required String? amount,
+    required String countryCode,
+    required String id,
+  }) =>
+      _analytics.track(
+        'rampStarted',
+        properties: {
+          'partner': partner.name,
+          'type': rampType,
+          'amount': amount,
+          'countryCode': countryCode,
+          'id': id,
+        },
+      );
+
+  void rampCompleted({
+    required RampPartner partner,
+    required String rampType,
+    required String id,
+  }) =>
+      _analytics.track(
+        'rampCompleted',
+        properties: {
+          'partner': partner.name,
+          'type': rampType,
+          'id': id,
+        },
+      );
 }

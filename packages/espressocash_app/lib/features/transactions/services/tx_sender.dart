@@ -1,5 +1,3 @@
-import 'package:borsh_annotation/borsh_annotation.dart';
-import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -47,7 +45,9 @@ class TxSender {
         return const TxSendResult.networkError();
       }
 
-      if (error.isInsufficientFunds || error.invalidTransferAccount) {
+      if (error.isInsufficientFunds ||
+          error.invalidTransferAccount ||
+          error.hasNoAccount) {
         return const TxSendResult.failure(
           reason: TxFailureReason.insufficientFunds,
         );
@@ -78,12 +78,7 @@ class TxSender {
     )
       ..setData('txId', tx.id)
       // ignore: avoid-missing-interpolation, intentional string
-      ..setTag('txType', txType)
-      ..setMeasurement(
-        'compute_unit_price',
-        tx.computeUnitPrice?.toInt() ?? 0,
-        unit: CustomSentryMeasurementUnit('microlamports'),
-      );
+      ..setTag('txType', txType);
 
     const commitment = Commitment.confirmed;
     final start = DateTime.now();
@@ -296,23 +291,15 @@ extension on JsonRpcException {
 
     return instructionErrorData == 'InvalidAccountData';
   }
-}
 
-extension on SignedTx {
-  BigInt? get computeUnitPrice {
-    final message = decompileMessage();
+  bool get hasNoAccount {
+    final data = this.data;
+    if (data is! Map<String, dynamic>) return false;
 
-    final ix = message.instructions
-        .firstWhereOrNull((ix) => ix.programId == ComputeBudgetProgram.id);
-    if (ix == null) return null;
+    final error = data['err'];
+    if (error is! String) return false;
 
-    final data = ix.data;
-    final reader =
-        BinaryReader(Uint8List.fromList(data.toList()).buffer.asByteData());
-    final id = reader.readU8();
-    if (id != ComputeBudgetProgram.setComputeUnitPriceIndex.first) return null;
-
-    return reader.readU64();
+    return error == 'AccountNotFound';
   }
 }
 

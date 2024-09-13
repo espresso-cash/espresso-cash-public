@@ -21,6 +21,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../../stub_analytics_manager.dart';
 import 'odp_service_test.mocks.dart';
 
 final sender = MockTxSender();
@@ -71,7 +72,12 @@ Future<void> main() async {
     cryptoCurrency: CryptoCurrency(token: Token.usdc),
   );
 
-  ODPService createService() => ODPService(client, repository, sender);
+  ODPService createService() => ODPService(
+        client,
+        repository,
+        sender,
+        const StubAnalyticsManager(),
+      );
 
   Future<String> createODP(ODPService service) async {
     final payment = await service.create(

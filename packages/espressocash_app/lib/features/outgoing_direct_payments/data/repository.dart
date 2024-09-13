@@ -4,30 +4,28 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
+import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../../tokens/token_list.dart';
+import '../../tokens/data/token_repository.dart';
+import '../../tokens/token.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/outgoing_direct_payment.dart';
 
 @Singleton(scope: authScope)
 class ODPRepository implements Disposable {
-  const ODPRepository(this._db, this._tokens);
+  const ODPRepository(this._db);
 
   final MyDatabase _db;
-  final TokenList _tokens;
-
   Future<IList<String>> getNonCompletedPaymentIds() async {
     final query = _db.select(_db.oDPRows)
       ..where(
@@ -47,29 +45,16 @@ class ODPRepository implements Disposable {
   Future<OutgoingDirectPayment?> load(String id) {
     final query = _db.select(_db.oDPRows)..where((p) => p.id.equals(id));
 
-    return query.getSingleOrNull().then((row) => row?.toModel(_tokens));
+    return query.getSingleOrNull().then((row) => row?.toModel());
   }
 
   Stream<OutgoingDirectPayment> watch(String id) {
     final query = _db.select(_db.oDPRows)..where((p) => p.id.equals(id));
 
-    return query.watchSingle().map((row) => row.toModel(_tokens));
+    return query.watchSingle().asyncMap((row) => row.toModel());
   }
 
   Future<void> save(OutgoingDirectPayment payment) async {
-    await payment.status.maybeMap(
-      txFailure: (status) async {
-        await Sentry.captureMessage(
-          'ODP tx failure',
-          level: SentryLevel.warning,
-          withScope: (scope) => scope.setContexts('data', {
-            'reason': status.reason,
-          }),
-        );
-      },
-      orElse: () async {},
-    );
-
     await _db.into(_db.oDPRows).insertOnConflictUpdate(payment.toDto());
   }
 
@@ -105,13 +90,15 @@ enum ODPStatusDto {
 }
 
 extension ODPRowExt on ODPRow {
-  OutgoingDirectPayment toModel(TokenList tokens) => OutgoingDirectPayment(
+  Future<OutgoingDirectPayment> toModel() async => OutgoingDirectPayment(
         id: id,
         receiver: Ed25519HDPublicKey.fromBase58(receiver),
         reference: reference?.let(Ed25519HDPublicKey.fromBase58),
         amount: CryptoAmount(
           value: amount,
-          cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
+          cryptoCurrency: CryptoCurrency(
+            token: (await sl<TokenRepository>().getToken(token)) ?? Token.unk,
+          ),
         ),
         created: created,
         status: status.toModel(this),

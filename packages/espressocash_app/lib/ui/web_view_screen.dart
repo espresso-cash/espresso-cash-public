@@ -33,14 +33,16 @@ class WebViewScreen extends StatefulWidget {
     required this.url,
     this.title,
     this.onLoaded,
-    this.theme,
-  });
+    CpThemeData? theme,
+    this.onClosed,
+  }) : theme = theme ?? const CpThemeData.black();
 
   static Future<void> push(
     BuildContext context, {
     required Uri url,
     String? title,
     ValueSetter<InAppWebViewController>? onLoaded,
+    VoidCallback? onClosed,
     CpThemeData? theme,
   }) =>
       Navigator.of(context).push<void>(
@@ -50,6 +52,7 @@ class WebViewScreen extends StatefulWidget {
             title: title,
             onLoaded: onLoaded,
             theme: theme,
+            onClosed: onClosed,
           ),
         ),
       );
@@ -57,6 +60,7 @@ class WebViewScreen extends StatefulWidget {
   final Uri url;
   final String? title;
   final ValueSetter<InAppWebViewController>? onLoaded;
+  final VoidCallback? onClosed;
   final CpThemeData? theme;
 
   @override
@@ -90,6 +94,16 @@ class _WebViewScreenState extends State<WebViewScreen> {
     }
   }
 
+  void _handleWindowClosed() {
+    final onClosed = widget.onClosed;
+
+    if (onClosed != null) {
+      onClosed();
+    } else {
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = widget.theme ?? const CpThemeData.light();
@@ -105,6 +119,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           onPermissionRequest: (_, permissionRequest) =>
               _handlePermissionRequest(permissionRequest.resources),
           onLoadStop: (controller, _) => _handleLoaded(controller),
+          onCloseWindow: (_) => _handleWindowClosed(),
           initialSettings: InAppWebViewSettings(
             iframeAllowFullscreen: false,
             allowsInlineMediaPlayback: true,
