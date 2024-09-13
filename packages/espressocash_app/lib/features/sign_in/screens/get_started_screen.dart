@@ -36,10 +36,14 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
     super.initState();
 
     _imagesCache = Future(
-      () => Future.wait([
-        precacheImage(Assets.images.logo.provider(), context),
-        precacheImage(Assets.images.dollarBg.provider(), context),
-      ]),
+      () async {
+        if (!mounted) return;
+
+        await Future.wait([
+          precacheImage(Assets.images.logo.provider(), context),
+          precacheImage(Assets.images.dollarBg.provider(), context),
+        ]);
+      },
     );
   }
 
