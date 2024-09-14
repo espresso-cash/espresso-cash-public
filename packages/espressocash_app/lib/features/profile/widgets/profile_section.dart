@@ -12,13 +12,11 @@ import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/web_view_screen.dart';
 import '../../accounts/services/account_service.dart';
-import '../../kyc_sharing/screens/kyc_flow.dart';
 import '../screens/manage_profile_screen.dart';
 import 'profile_button.dart';
 
 part 'danger_section.dart';
 part 'edit_profile_section.dart';
-part 'kyc_section.dart';
 part 'share_section.dart';
 part 'version_section.dart';
 

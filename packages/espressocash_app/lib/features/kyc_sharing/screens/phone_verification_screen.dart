@@ -44,7 +44,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
         try {
           final service = sl<KycSharingService>();
 
-          await service.updateField(
+          await service.updateAndSendCode(
             key: OtpType.phone,
             value: _numberController.text,
           );
@@ -63,6 +63,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
       },
     );
     if (!mounted) return;
+
     if (success) PhoneConfirmationScreen.push(context, _numberController.text);
   }
 

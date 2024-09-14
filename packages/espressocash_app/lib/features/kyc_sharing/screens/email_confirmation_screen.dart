@@ -5,7 +5,6 @@ import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
 import '../../profile/data/profile_repository.dart';
-import '../data/kyc_repository.dart';
 import '../services/kyc_service.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
@@ -33,20 +32,19 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
   Future<void> _handleConfirm() async {
     final service = sl<KycSharingService>();
 
-    final isValid = await service.verifyField(
+    final isValid = await service.verifyAndValidateField(
       identifier: OtpType.email,
       value: _controller.text,
     );
 
-    if (isValid) {
-      if (!mounted) return;
+    if (!mounted) return;
 
+    if (isValid) {
       showCpSnackbar(context, message: 'Success, email verified');
-      sl<KycRepository>().hasValidatedEmail = true;
+
       Navigator.pop(context);
       PhoneVerificationScreen.pushReplacement(context);
     } else {
-      if (!mounted) return;
       showCpErrorSnackbar(
         context,
         message: 'Invalid verification code',

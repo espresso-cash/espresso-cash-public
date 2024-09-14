@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -11,7 +10,6 @@ import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
-import '../data/kyc_repository.dart';
 import '../services/kyc_service.dart';
 import 'bank_account_screen.dart';
 
@@ -42,15 +40,12 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
     try {
       final service = sl<KycSharingService>();
 
-      await service.updateInfo(
-        data: const V1UserData(),
-        photo: null,
-      );
+      await service.updatePhoto(photoSelfie: _capturedImage);
 
       if (!mounted) return;
 
       showCpSnackbar(context, message: 'Success, Data updated');
-      sl<KycRepository>().hasPassedKyc = true;
+
       BankAccountScreen.pushReplacement(context);
     } on Exception {
       showCpErrorSnackbar(context, message: 'Failed to update data');

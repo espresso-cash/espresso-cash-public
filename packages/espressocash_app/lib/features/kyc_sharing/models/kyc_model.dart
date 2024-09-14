@@ -1,6 +1,6 @@
 // ignore_for_file: invalid_annotation_target
 
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'kyc_model.freezed.dart';
@@ -18,11 +18,12 @@ class KycUserInfo with _$KycUserInfo {
     required String idNumber,
     required String email,
     required String phone,
-    required String photoIdCard,
-    required String photoSelfie,
     required String bankAccountNumber,
     required String bankCode,
-    @JsonKey(includeFromJson: false, includeToJson: false) File? photo,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    Uint8List? photoIdCard,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    Uint8List? photoSelfie,
   }) = _KycUserInfo;
 
   const KycUserInfo._();

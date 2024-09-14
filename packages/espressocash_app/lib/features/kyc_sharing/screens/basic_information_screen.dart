@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../ui/button.dart';
@@ -9,7 +8,6 @@ import '../../../ui/radio_button.dart';
 import '../../../ui/snackbar.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
-import '../data/kyc_repository.dart';
 import '../models/id_type.dart';
 import '../services/kyc_service.dart';
 import '../widgets/id_picker.dart';
@@ -49,8 +47,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   Country? _country;
   IdType? _idType;
 
-  bool _isLoading = true;
-
   bool get _isValid =>
       _firstNameController.text.isNotEmpty &&
       _lastNameController.text.isNotEmpty &&
@@ -66,23 +62,20 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
         try {
           final service = sl<KycSharingService>();
 
-          await service.updateInfo(
-            data: V1UserData(
-              firstName: _firstNameController.text,
-              middleName: _middleNameController.text,
-              lastName: _lastNameController.text,
-              dob: _dob?.toIso8601String() ?? '',
-              countryCode: _country!.code,
-              idType: _idType!.value,
-              idNumber: _idController.text,
-            ),
-            photo: null,
+          await service.updateUserInfo(
+            firstName: _firstNameController.text,
+            middleName: _middleNameController.text,
+            lastName: _lastNameController.text,
+            dob: _dob?.toIso8601String() ?? '',
+            countryCode: _country!.code,
+            idType: _idType!.value,
+            idNumber: _idController.text,
+            selfiePhoto: null,
           );
 
           if (!mounted) return false;
 
           showCpSnackbar(context, message: 'Success, Data updated');
-          sl<KycRepository>().hasPassedKyc = true;
 
           return true;
         } on Exception {
@@ -90,7 +83,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
           showCpErrorSnackbar(
             context,
-            message: 'Failed to send verification code',
+            message: 'Error. Please try again.',
           );
 
           return false;
@@ -119,38 +112,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
     }
   }
 
-  void _fetchKycInfo() {
-    setState(() => _isLoading = false);
-
-    // try {
-    //   final service = sl<KycSharingService>();
-    //   final kycInfo = await service.fetchUser();
-
-    //   if (!mounted) return;
-    //   if (kycInfo == null) return;
-
-    //   setState(() {
-    //     _firstNameController.text = kycInfo.firstName;
-    //     _middleNameController.text = kycInfo.middleName;
-    //     _lastNameController.text = kycInfo.lastName;
-    //     if (kycInfo.dob.isNotEmpty) {
-    //       _dob = DateTime.parse(kycInfo.dob);
-    //       _dobController.text = DateFormat('dd/MM/yyyy').format(_dob!);
-    //     }
-    //     _country = Country.findByCode(kycInfo.countryCode);
-    //     _idController.text = kycInfo.idNumber;
-    //   });
-    // } on Exception {
-    //   if (!mounted) return;
-
-    //   showCpErrorSnackbar(context, message: 'Failed to fetch KYC information');
-    // } finally {
-    //   if (mounted) {
-    //     setState(() => _isLoading = false);
-    //   }
-    // }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -158,8 +119,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
     // Hardcode values for now
     _country = Country.findByCode('NG');
     _idController.text = '0000000000000000004';
-
-    _fetchKycInfo();
   }
 
   @override
@@ -174,90 +133,87 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpLoader(
-        isLoading: _isLoading,
-        child: KycPage(
-          title: 'Basic Information',
-          children: [
-            const SizedBox(height: 30),
-            CountryPicker(
-              country: _country,
-              onSubmitted: (country) => setState(() => _country = country),
-            ),
-            const SizedBox(height: 16),
-            KycTextField(
-              controller: _firstNameController,
-              inputType: TextInputType.name,
-              placeholder: 'First Name',
-            ),
-            const SizedBox(height: 18),
-            KycTextField(
-              controller: _lastNameController,
-              inputType: TextInputType.name,
-              placeholder: 'Last Name',
-            ),
-            const SizedBox(height: 18),
-            GestureDetector(
-              onTap: _selectDob,
-              child: AbsorbPointer(
-                child: KycTextField(
-                  controller: _dobController,
-                  inputType: TextInputType.text,
-                  placeholder: 'Date of Birth',
-                ),
+  Widget build(BuildContext context) => KycPage(
+        title: 'Basic Information',
+        children: [
+          const SizedBox(height: 30),
+          CountryPicker(
+            country: _country,
+            onSubmitted: (country) => setState(() => _country = country),
+          ),
+          const SizedBox(height: 16),
+          KycTextField(
+            controller: _firstNameController,
+            inputType: TextInputType.name,
+            placeholder: 'First Name',
+          ),
+          const SizedBox(height: 18),
+          KycTextField(
+            controller: _lastNameController,
+            inputType: TextInputType.name,
+            placeholder: 'Last Name',
+          ),
+          const SizedBox(height: 18),
+          GestureDetector(
+            onTap: _selectDob,
+            child: AbsorbPointer(
+              child: KycTextField(
+                controller: _dobController,
+                inputType: TextInputType.text,
+                placeholder: 'Date of Birth',
               ),
             ),
-            const SizedBox(height: 18),
-            IdPicker(
-              type: _idType,
-              onSubmitted: (idType) => setState(() => _idType = idType),
-            ),
-            const SizedBox(height: 18),
-            KycTextField(
-              controller: _idController,
-              inputType: TextInputType.text,
-              placeholder: 'ID Number',
-            ),
-            const SizedBox(height: 18),
-            GestureDetector(
-              onTap: () => setState(() => _isShareData = !_isShareData),
-              child: Row(
-                children: [
-                  CpRadioButton(
-                    value: _isShareData,
-                    onChanged: (value) => setState(() => _isShareData = value),
-                  ),
-                  const SizedBox(width: 12),
-                  const Expanded(
-                    child: Text(
-                      'Allow Espresso Cash partners to share this data for the purposes of deposits and withdrawals.',
-                      style: TextStyle(
-                        fontSize: 14,
-                        height: 1.5,
-                        letterSpacing: 0.19,
-                      ),
+          ),
+          const SizedBox(height: 18),
+          IdPicker(
+            type: _idType,
+            onSubmitted: (idType) => setState(() => _idType = idType),
+          ),
+          const SizedBox(height: 18),
+          KycTextField(
+            controller: _idController,
+            inputType: TextInputType.text,
+            placeholder: 'ID Number',
+          ),
+          const SizedBox(height: 18),
+          GestureDetector(
+            onTap: () => setState(() => _isShareData = !_isShareData),
+            child: Row(
+              children: [
+                CpRadioButton(
+                  value: _isShareData,
+                  onChanged: (value) => setState(() => _isShareData = value),
+                ),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Text(
+                    'Allow Espresso Cash partners to share this data for the purposes of deposits and withdrawals.',
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.5,
+                      letterSpacing: 0.19,
                     ),
                   ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: ListenableBuilder(
-                listenable: Listenable.merge([
-                  _firstNameController,
-                  _lastNameController,
-                  _dobController,
-                ]),
-                builder: (context, child) => CpButton(
-                  width: double.infinity,
-                  text: 'Next',
-                  onPressed: _isValid ? _handleSubmitted : null,
                 ),
+              ],
+            ),
+          ),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: ListenableBuilder(
+              listenable: Listenable.merge([
+                _firstNameController,
+                _lastNameController,
+                _dobController,
+              ]),
+              builder: (context, child) => CpButton(
+                width: double.infinity,
+                text: 'Next',
+                onPressed: _isValid ? _handleSubmitted : null,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       );
 }

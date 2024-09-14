@@ -48,7 +48,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         try {
           final service = sl<KycSharingService>();
 
-          await service.updateField(
+          await service.updateAndSendCode(
             key: OtpType.email,
             value: _emailController.text,
           );

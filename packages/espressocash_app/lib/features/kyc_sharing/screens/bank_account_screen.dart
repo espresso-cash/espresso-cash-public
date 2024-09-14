@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../ui/button.dart';
@@ -41,12 +40,9 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
     try {
       final service = sl<KycSharingService>();
 
-      await service.updateInfo(
-        data: V1UserData(
-          bankAccountNumber: _bankAccountNumberController.text,
-          bankCode: _bankCodeController.text,
-        ),
-        photo: null,
+      await service.updateBankInfo(
+        bankAccountNumber: _bankAccountNumberController.text,
+        bankCode: _bankCodeController.text,
       );
 
       // uncomment to request smile kyc

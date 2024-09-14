@@ -1,166 +1,138 @@
-import 'dart:io';
-import 'dart:typed_data';
+// ignore_for_file: avoid_positional_boolean_parameters
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_app_client/kyc_app_client.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart' hide KycServiceClient;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../accounts/auth_scope.dart';
-import '../../accounts/models/ec_wallet.dart';
-import '../data/client.dart';
-import '../models/kyc_model.dart';
+import '../data/kyc_repository.dart';
+import 'state.dart';
 
 // Hardcoded for now
 const validatorAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 const partnerAuthPk = '5PcfzhA3saCwcJjRstKyytMwwxeK1XJt48WGUhZEyecp';
 
 @Singleton(scope: authScope)
-class KycSharingService {
-  KycSharingService(this._xFlowClient, this._ecWallet);
+class KycSharingService extends ValueNotifier<KycState> {
+  KycSharingService(
+    this._kycRepository,
+    this._storage,
+  ) : super(const KycState());
 
-  final XFlowClient _xFlowClient;
-  final ECWallet _ecWallet;
-
-  late final KycUserClient _kycUserClient;
-
-  late String _authPublicKey = '';
-  late String _rawSecretKey = '';
-  late String _userPublicKey = '';
-
-  KycServiceClient get _validatorClient => _xFlowClient.kycValidatorClient;
-  OtpServiceClient get _otpClient => _xFlowClient.otpServiceClient;
-  UserServiceClient get _userClient => _xFlowClient.userServiceClient;
+  final KycRepository _kycRepository;
+  final SharedPreferences _storage;
 
   @PostConstruct()
   Future<void> init() async {
-    _kycUserClient = KycUserClient(
-      sign: (data) async {
-        final signature =
-            await _ecWallet.sign([Uint8List.fromList(data.toList())]);
+    final user = await _kycRepository.fetchUser();
 
-        return signature.first;
-      },
-      baseUrl: 'https://kyc-backend-oxvpvdtvzq-ew.a.run.app/',
+    value = KycState(
+      user: user,
+      hasPassedKyc: _storage.getBool(_kycVerifiedKey) ?? false,
+      hasValidatedEmail: _storage.getBool(_emailValidatedKey) ?? false,
+      hasValidatedPhone: _storage.getBool(_phoneValidatedKey) ?? false,
     );
+  }
 
-    await _kycUserClient.init(
-      walletAddress: _ecWallet.publicKey.toString(),
-    );
-
-    _rawSecretKey = _kycUserClient.rawSecretKey;
-    _authPublicKey = _kycUserClient.authPublicKey;
-    _userPublicKey = _ecWallet.publicKey.toString();
-
-    try {
-      final rawData = await _kycUserClient.getData(
-        userPK: _authPublicKey,
-        secretKey: _rawSecretKey,
+  Future<void> updateUserInfo({
+    required String firstName,
+    required String middleName,
+    required String lastName,
+    required String dob,
+    required String countryCode,
+    required String idType,
+    required String idNumber,
+    required File? selfiePhoto,
+  }) =>
+      _kycRepository.updateInfo(
+        data: V1UserData(
+          firstName: firstName,
+          middleName: middleName,
+          lastName: lastName,
+          dob: dob,
+          countryCode: countryCode,
+          idType: idType,
+          idNumber: idNumber,
+        ),
+        photoSelfie: selfiePhoto,
       );
 
-      final user = KycUserInfo.fromJson(rawData);
-
-      print(user);
-    } on Exception catch (err) {
-      //ignore
-      print(err);
-    }
-  }
-
-  Future<KycUserInfo?> fetchUser() async {
-    try {
-      final data = await _kycUserClient.getData(
-        userPK: _authPublicKey,
-        secretKey: _rawSecretKey,
+  Future<void> updateBankInfo({
+    required String bankAccountNumber,
+    required String bankCode,
+  }) =>
+      _kycRepository.updateInfo(
+        data: V1UserData(
+          bankAccountNumber: bankAccountNumber,
+          bankCode: bankCode,
+        ),
       );
 
-      final selfie = data['photoSelfie'];
+  Future<void> updateUserEmailPhone({
+    String? email,
+    String? phone,
+  }) =>
+      _kycRepository.updateInfo(
+        data: V1UserData(
+          email: email,
+          phone: phone,
+        ),
+      );
 
-      if (selfie != null) {
-        //TODO
-        print(selfie);
+  Future<void> updatePhoto({
+    File? photoSelfie,
+    File? photoId,
+  }) =>
+      _kycRepository.updateInfo(
+        photoSelfie: photoSelfie,
+        photoId: photoId,
+      );
 
-        // final tempDir = await getTemporaryDirectory();
-        // final File file = await File('${tempDir.path}/image.png').create();
-        // file.writeAsBytesSync(photo);
-      }
-
-      return KycUserInfo.fromJson(data);
-    } on Exception catch (e) {
-      print(e);
-
-      return null;
-    }
-  }
-
-  Future<void> updateInfo({
-    required V1UserData data,
-    required File? photo,
-  }) async {
-    await _kycUserClient.setData(
-      data: V1UserData(
-        firstName: data.firstName,
-        middleName: data.middleName,
-        lastName: data.lastName,
-        dob: data.dob,
-        countryCode: data.countryCode,
-        idType: data.idType,
-        idNumber: data.idNumber,
-        bankAccountNumber: data.bankAccountNumber,
-        bankCode: data.bankCode,
-      ),
-      selfie: photo != null ? await photo.readAsBytes() : null,
-      idCard: null,
-    );
-  }
-
-  Future<void> updateField({
+  Future<void> updateAndSendCode({
     required OtpType key,
     required String value,
   }) async {
-    await _kycUserClient.setData(
-      data: V1UserData(
-        email: key == OtpType.email ? value : null,
-        phone: key == OtpType.phone ? value : null,
-      ),
-      selfie: null,
-      idCard: null,
-    );
-
-    switch (key) {
-      case OtpType.email:
-        await _sendEmailOtp();
-      case OtpType.phone:
-        await _sendSmsOtp();
-      case OtpType.unsupported:
-        return;
-    }
+    await _kycRepository.updateVerificationField(key: key, value: value);
+    await _kycRepository.sendVerificationCode(key: key);
   }
 
-  Future<bool> verifyField({
+  Future<bool> verifyAndValidateField({
     required OtpType identifier,
     required String value,
   }) async {
-    final response = await _otpClient.verifyOtp(
-      VerifyOtpRequest(
-        identifier: identifier,
-        otp: value,
-        userPk: _authPublicKey,
-        secretKey: _rawSecretKey,
-      ),
+    final result = await _kycRepository.verifyField(
+      identifier: identifier,
+      value: value,
     );
 
-    return response.isValid;
+    if (identifier == OtpType.email) {
+      hasValidatedEmail(result);
+    }
+
+    if (identifier == OtpType.phone) {
+      hasValidatedPhone(result);
+    }
+
+    return result;
   }
 
-  Future<void> requestKyc() async {
-    await _kycUserClient.grantPartnerAccess(validatorAuthPk);
-    await _validatorClient.requestKyc(
-      KycRequest(
-        secretKey: _rawSecretKey,
-        userAuthPk: _authPublicKey,
-        userPublicKey: _userPublicKey,
-      ),
-    );
+  void hasValidatedEmail(bool result) {
+    _storage.setBool(_emailValidatedKey, result);
+    value = value.copyWith(hasValidatedEmail: result);
+  }
+
+  void hasValidatedPhone(bool result) {
+    _storage.setBool(_phoneValidatedKey, result);
+    value = value.copyWith(hasValidatedPhone: result);
+  }
+
+  void hasPassedKyc(bool result) {
+    _storage.setBool(_kycVerifiedKey, result);
+    value = value.copyWith(hasPassedKyc: result);
   }
 
   Future<String> createOrder({
@@ -168,48 +140,31 @@ class KycSharingService {
     required String cryptoCurrency,
     required String partnerPK,
   }) =>
-      _kycUserClient.createOrder(
-        partnerPK: partnerPK,
+      _kycRepository.createOrder(
         cryptoAmount: cryptoAmount,
         cryptoCurrency: cryptoCurrency,
+        partnerPK: partnerPK,
       );
 
-  Future<void> shareDataWithPartner() async {
-    await _userClient.sendUserData(
-      SendUserDataRequest(
-        user: User(
-          userPk: _authPublicKey,
-          secretKey: _rawSecretKey,
-        ),
-        partnerPk: partnerAuthPk,
-      ),
-    );
-  }
+  Future<void> requestKyc() => _kycRepository.requestKyc();
 
-  Future<void> revokeDataFromPartner() async {
-    await _userClient.deleteUserData(
-      DeleteUserDataRequest(
-        userPk: _authPublicKey,
-        partnerPk: partnerAuthPk,
-      ),
-    );
-  }
+  Future<void> shareDataWithPartner() => _kycRepository.shareDataWithPartner();
 
-  Future<void> _sendEmailOtp() async {
-    await _otpClient.sendOtpByEmail(
-      SendOtpRequest(
-        secretKey: _rawSecretKey,
-        userPk: _authPublicKey,
-      ),
-    );
-  }
+  Future<void> revokeDataFromPartner() =>
+      _kycRepository.revokeDataFromPartner();
 
-  Future<void> _sendSmsOtp() async {
-    await _otpClient.sendOtpBySms(
-      SendOtpRequest(
-        secretKey: _rawSecretKey,
-        userPk: _authPublicKey,
-      ),
-    );
+  @override
+  @disposeMethod
+  void dispose() {
+    _storage
+      ..remove(_emailValidatedKey)
+      ..remove(_phoneValidatedKey)
+      ..remove(_kycVerifiedKey);
+
+    super.dispose();
   }
 }
+
+const _emailValidatedKey = 'kycEmailValidated';
+const _phoneValidatedKey = 'kycPhoneValidated';
+const _kycVerifiedKey = 'kycVerified';

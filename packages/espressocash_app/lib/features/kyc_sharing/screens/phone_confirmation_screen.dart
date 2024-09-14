@@ -4,7 +4,6 @@ import 'package:kyc_app_client/kyc_app_client.dart';
 import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
-import '../data/kyc_repository.dart';
 import '../services/kyc_service.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
@@ -34,20 +33,19 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
   Future<void> _handleConfirm() async {
     final service = sl<KycSharingService>();
 
-    final isValid = await service.verifyField(
+    final isValid = await service.verifyAndValidateField(
       identifier: OtpType.phone,
       value: _controller.text,
     );
 
-    if (isValid) {
-      if (!mounted) return;
+    if (!mounted) return;
 
+    if (isValid) {
       showCpSnackbar(context, message: 'Success, phone number verified');
-      sl<KycRepository>().hasValidatedPhone = true;
+
       Navigator.pop(context);
       Navigator.pop(context);
     } else {
-      if (!mounted) return;
       showCpErrorSnackbar(
         context,
         message: 'Invalid verification code',
