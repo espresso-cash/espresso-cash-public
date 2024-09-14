@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_app_client/kyc_app_client.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart' hide KycServiceClient;
-import 'package:path_provider/path_provider.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
@@ -51,6 +50,20 @@ class KycSharingService {
     _rawSecretKey = _kycUserClient.rawSecretKey;
     _authPublicKey = _kycUserClient.authPublicKey;
     _userPublicKey = _ecWallet.publicKey.toString();
+
+    try {
+      final rawData = await _kycUserClient.getData(
+        userPK: _authPublicKey,
+        secretKey: _rawSecretKey,
+      );
+
+      final user = KycUserInfo.fromJson(rawData);
+
+      print(user);
+    } on Exception catch (err) {
+      //ignore
+      print(err);
+    }
   }
 
   Future<KycUserInfo?> fetchUser() async {

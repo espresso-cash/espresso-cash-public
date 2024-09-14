@@ -12,7 +12,6 @@ import '../../../di.dart';
 import '../../../ui/clipboard.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
-import '../../feature_flags/services/feature_flags_manager.dart';
 import '../data/profile_repository.dart';
 import '../widgets/help_section.dart';
 import '../widgets/profile_section.dart';
@@ -105,23 +104,20 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
+                  const Padding(
+                    padding: EdgeInsets.symmetric(
                       vertical: 16,
                       horizontal: 24,
                     ),
                     child: Column(
                       children: [
-                        const EditProfileSection(),
-                        if (sl<FeatureFlagsManager>()
-                            .isKycSharingEnabled()) ...[
-                          const KycSection(),
-                        ],
-                        const SecuritySection(),
-                        const HelpSection(),
-                        const DangerSection(),
-                        const ShareSection(),
-                        const VersionSection(),
+                        EditProfileSection(),
+                        KycSection(),
+                        SecuritySection(),
+                        HelpSection(),
+                        DangerSection(),
+                        ShareSection(),
+                        VersionSection(),
                       ],
                     ),
                   ),

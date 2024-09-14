@@ -16,6 +16,12 @@ class KycUserInfo with _$KycUserInfo {
     required String countryCode,
     required String idType,
     required String idNumber,
+    required String email,
+    required String phone,
+    required String photoIdCard,
+    required String photoSelfie,
+    required String bankAccountNumber,
+    required String bankCode,
     @JsonKey(includeFromJson: false, includeToJson: false) File? photo,
   }) = _KycUserInfo;
 
@@ -23,4 +29,8 @@ class KycUserInfo with _$KycUserInfo {
 
   factory KycUserInfo.fromJson(Map<String, dynamic> json) =>
       _$KycUserInfoFromJson(json);
+}
+
+extension KycUserInfoExtensions on KycUserInfo {
+  bool get hasBankInfo => bankAccountNumber.isNotEmpty && bankCode.isNotEmpty;
 }
