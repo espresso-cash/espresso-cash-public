@@ -67,41 +67,41 @@ extension BuildContextExt on BuildContext {
     final kycPassed = await openKycFlow();
 
     if (!kycPassed) return;
-    // final service = sl<KycSharingService>();
+    final service = sl<KycSharingService>();
 
-    // final orderId = await service.createOrder(
-    //   cryptoAmount: submittedAmount.value.toString(),
-    //   cryptoCurrency: submittedAmount.cryptoCurrency.name,
-    //   partnerPK: partnerAuthPk,
-    // );
+    final orderId = await service.createOrder(
+      cryptoAmount: submittedAmount.value.toString(),
+      cryptoCurrency: submittedAmount.cryptoCurrency.name,
+      partnerPK: partnerAuthPk,
+    );
 
-    // final user = service.value.user;
+    final user = service.value.user;
 
-    // final transferAmount = Amount.fromDecimal(
-    //   value: submittedAmount.decimal,
-    //   currency: Currency.ngn,
-    // ) as FiatAmount;
+    final transferAmount = Amount.fromDecimal(
+      value: submittedAmount.decimal,
+      currency: Currency.ngn,
+    ) as FiatAmount;
 
-    // await sl<OnRampOrderService>()
-    //     .createForManualTransfer(
-    //   orderId: orderId,
-    //   receiveAmount: submittedAmount,
-    //   partner: RampPartner.scalex,
-    //   bankAccount: user?.bankAccountNumber ?? '',
-    //   bankName: user?.bankCode ?? '',
-    //   transferAmount: transferAmount,
-    //   transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
-    //   submittedAmount: submittedAmount,
-    //   countryCode: profile.country.code,
-    // )
-    //     .then((order) {
-    //   switch (order) {
-    //     case Left<Exception, String>():
-    //       break;
-    //     case Right<Exception, String>(:final value):
-    //       OnRampOrderScreen.push(this, id: value);
-    //   }
-    // });
+    await sl<OnRampOrderService>()
+        .createForManualTransfer(
+      orderId: orderId,
+      receiveAmount: submittedAmount,
+      partner: RampPartner.scalex,
+      bankAccount: user?.bankAccountNumber ?? '',
+      bankName: user?.bankCode ?? '',
+      transferAmount: transferAmount,
+      transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
+      submittedAmount: submittedAmount,
+      countryCode: profile.country.code,
+    )
+        .then((order) {
+      switch (order) {
+        case Left<Exception, String>():
+          break;
+        case Right<Exception, String>(:final value):
+          OnRampOrderScreen.push(this, id: value);
+      }
+    });
   }
 
   Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() =>
