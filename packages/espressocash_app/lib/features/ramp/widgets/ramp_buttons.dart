@@ -23,6 +23,7 @@ import '../partners/kado/widgets/launch.dart';
 import '../partners/moneygram/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
 import '../partners/scalex/widgets/launch.dart';
+import '../partners/scalex/widgets/launch_kyc.dart';
 import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
 import 'off_ramp_bottom_sheet.dart';
@@ -244,7 +245,9 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.guardarian:
         launchGuardarianOnRamp(profile: profile, address: address);
       case RampPartner.scalex:
-        launchScalexOnRamp(profile: profile, address: address);
+        sl<FeatureFlagsManager>().isKycSharingEnabled()
+            ? launchKycScalexOnRamp(profile: profile)
+            : launchScalexOnRamp(profile: profile, address: address);
       case RampPartner.moneygram:
         launchMoneygramOnRamp(profile: profile);
       case RampPartner.coinflow:

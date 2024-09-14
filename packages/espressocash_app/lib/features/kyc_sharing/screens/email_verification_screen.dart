@@ -14,18 +14,13 @@ import 'email_confirmation_screen.dart';
 class EmailVerificationScreen extends StatefulWidget {
   const EmailVerificationScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(
         MaterialPageRoute(
           builder: (context) => const EmailVerificationScreen(),
         ),
-      );
-
-  static void pushReplacement(BuildContext context) =>
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(
-          builder: (context) => const EmailVerificationScreen(),
-        ),
-      );
+      )
+      .then((result) => result ?? false);
 
   @override
   State<EmailVerificationScreen> createState() =>
@@ -67,7 +62,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       },
     );
     if (!mounted) return;
-    if (success) EmailConfirmationScreen.push(context);
+    if (success) Navigator.pop(context, true);
   }
 
   @override

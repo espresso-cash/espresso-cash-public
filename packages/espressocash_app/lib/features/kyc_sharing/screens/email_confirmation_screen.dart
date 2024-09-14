@@ -8,16 +8,17 @@ import '../../profile/data/profile_repository.dart';
 import '../services/kyc_service.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
-import 'phone_verification_screen.dart';
 
 class EmailConfirmationScreen extends StatefulWidget {
   const EmailConfirmationScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(
         MaterialPageRoute(
           builder: (context) => const EmailConfirmationScreen(),
         ),
-      );
+      )
+      .then((result) => result ?? false);
 
   @override
   State<EmailConfirmationScreen> createState() =>
@@ -42,8 +43,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
     if (isValid) {
       showCpSnackbar(context, message: 'Success, email verified');
 
-      Navigator.pop(context);
-      PhoneVerificationScreen.pushReplacement(context);
+      Navigator.pop(context, true);
     } else {
       showCpErrorSnackbar(
         context,

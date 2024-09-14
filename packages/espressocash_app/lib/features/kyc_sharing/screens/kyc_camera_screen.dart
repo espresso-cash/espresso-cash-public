@@ -11,17 +11,17 @@ import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
 import '../services/kyc_service.dart';
-import 'bank_account_screen.dart';
 
 class KycCameraScreen extends StatefulWidget {
   const KycCameraScreen({super.key});
 
-  static void pushReplacement(BuildContext context) =>
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(
+        MaterialPageRoute(
           builder: (context) => const KycCameraScreen(),
         ),
-      );
+      )
+      .then((result) => result ?? false);
 
   @override
   State<KycCameraScreen> createState() => _KycCameraScreenState();
@@ -46,7 +46,7 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
 
       showCpSnackbar(context, message: 'Success, Data updated');
 
-      BankAccountScreen.pushReplacement(context);
+      Navigator.pop(context, true);
     } on Exception {
       showCpErrorSnackbar(context, message: 'Failed to update data');
     } finally {

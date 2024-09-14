@@ -5,7 +5,7 @@ import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../profile/widgets/profile_button.dart';
 import '../../profile/widgets/profile_section.dart';
 import '../models/kyc_model.dart';
-import '../screens/kyc_flow.dart';
+import 'kyc_flow.dart';
 import '../services/kyc_service.dart';
 
 class KycSection extends StatefulWidget {
@@ -58,31 +58,31 @@ class _KycInfo extends StatelessWidget {
             ProfileButton(
               label: 'Email',
               description: user.email,
-              onPressed: () => KycFlow.open(context),
+              onPressed: () => context.openKycFlow(),
             ),
           if (user.phone.isNotEmpty)
             ProfileButton(
               label: 'Phone number',
               description: user.phone,
-              onPressed: () => KycFlow.open(context),
+              onPressed: () => context.openKycFlow(),
             ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: ProfileButton(
               label: 'Basic info',
               description: _getUserDescription(user),
-              onPressed: () => KycFlow.open(context),
+              onPressed: () => context.openKycFlow(),
             ),
           ),
           if (user.hasBankInfo)
             ProfileButton(
               label: 'Banking info',
               description: _getBankDescription(user),
-              onPressed: () => KycFlow.open(context),
+              onPressed: () => context.openKycFlow(),
             ),
           ProfileButton(
             label: 'Manage data access',
-            onPressed: () => KycFlow.open(context),
+            onPressed: () => context.openKycFlow(),
           ),
         ],
       );

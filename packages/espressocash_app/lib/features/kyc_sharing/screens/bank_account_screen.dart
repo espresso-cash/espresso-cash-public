@@ -6,23 +6,17 @@ import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
-import 'email_verification_screen.dart';
 
 class BankAccountScreen extends StatefulWidget {
   const BankAccountScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(
         MaterialPageRoute(
           builder: (context) => const BankAccountScreen(),
         ),
-      );
-
-  static void pushReplacement(BuildContext context) =>
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(
-          builder: (context) => const BankAccountScreen(),
-        ),
-      );
+      )
+      .then((result) => result ?? false);
 
   @override
   State<BankAccountScreen> createState() => _BankAccountScreenState();
@@ -51,7 +45,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
       if (!mounted) return;
 
       showCpSnackbar(context, message: 'Success, Data updated');
-      EmailVerificationScreen.pushReplacement(context);
+      Navigator.pop(context, true);
     } on Exception {
       showCpErrorSnackbar(context, message: 'Failed to update data');
     }

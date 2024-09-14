@@ -13,21 +13,17 @@ import '../services/kyc_service.dart';
 import '../widgets/id_picker.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
-import 'identity_verification_screen.dart';
 
 class BasicInformationScreen extends StatefulWidget {
   const BasicInformationScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
-        MaterialPageRoute(builder: (context) => const BasicInformationScreen()),
-      );
-
-  static void pushReplacement(BuildContext context) =>
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(
+        MaterialPageRoute(
           builder: (context) => const BasicInformationScreen(),
         ),
-      );
+      )
+      .then((result) => result ?? false);
 
   @override
   State<BasicInformationScreen> createState() => _BasicInformationScreenState();
@@ -53,6 +49,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
       _dobController.text.isNotEmpty &&
       _idController.text.isNotEmpty &&
       _isShareData &&
+      _idType != null &&
       _country != null;
 
   Future<void> _handleSubmitted() async {
@@ -91,7 +88,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
       },
     );
     if (!mounted) return;
-    if (success) IdentityVerificationScreen.push(context);
+    if (success) Navigator.pop(context, true);
   }
 
   Future<void> _selectDob() async {

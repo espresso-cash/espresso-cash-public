@@ -8,23 +8,17 @@ import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
-import 'phone_confirmation_screen.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
   const PhoneVerificationScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(
         MaterialPageRoute(
           builder: (context) => const PhoneVerificationScreen(),
         ),
-      );
-
-  static void pushReplacement(BuildContext context) =>
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(
-          builder: (context) => const PhoneVerificationScreen(),
-        ),
-      );
+      )
+      .then((result) => result ?? false);
 
   @override
   State<PhoneVerificationScreen> createState() => _PhoneInputScreenState();
@@ -64,7 +58,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
     );
     if (!mounted) return;
 
-    if (success) PhoneConfirmationScreen.push(context, _numberController.text);
+    if (success) Navigator.pop(context, true);
   }
 
   @override

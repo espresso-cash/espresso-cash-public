@@ -6,26 +6,18 @@ import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
-import 'kyc_camera_screen.dart';
+
 
 class IdentityVerificationScreen extends StatelessWidget {
   const IdentityVerificationScreen({super.key});
 
-  static void push(
-    BuildContext context,
-  ) =>
-      Navigator.of(context).push<void>(
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(
         MaterialPageRoute(
           builder: (context) => const IdentityVerificationScreen(),
         ),
-      );
-
-  static void pushReplacement(BuildContext context) =>
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(
-          builder: (context) => const IdentityVerificationScreen(),
-        ),
-      );
+      )
+      .then((result) => result ?? false);
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
@@ -58,9 +50,7 @@ class IdentityVerificationScreen extends StatelessWidget {
                     child: CpButton(
                       width: double.infinity,
                       text: 'Start Selfie Verification',
-                      onPressed: () {
-                        KycCameraScreen.pushReplacement(context);
-                      },
+                      onPressed: () => Navigator.pop(context, true),
                     ),
                   ),
                 ],

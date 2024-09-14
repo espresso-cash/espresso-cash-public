@@ -13,13 +13,14 @@ class PhoneConfirmationScreen extends StatefulWidget {
 
   final String phone;
 
-  static void push(BuildContext context, String phone) =>
-      Navigator.of(context).push<void>(
+  // Todo(vsumin): pass phone
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(
         MaterialPageRoute(
-          builder: (context) => PhoneConfirmationScreen(phone),
+          builder: (context) => const PhoneConfirmationScreen('phone'),
         ),
-      );
-
+      )
+      .then((result) => result ?? false);
   @override
   State<PhoneConfirmationScreen> createState() =>
       _PhoneConfirmationScreenState();
