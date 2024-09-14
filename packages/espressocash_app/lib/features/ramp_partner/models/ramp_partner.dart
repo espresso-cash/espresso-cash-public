@@ -54,7 +54,7 @@ enum RampPartner {
   ),
   moneygram(
     title: 'MoneyGram',
-    minimumAmount: r'$5',
+    minimumAmount: r'$10',
     paymentMethods: [],
   );
 

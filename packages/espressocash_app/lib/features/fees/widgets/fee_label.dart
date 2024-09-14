@@ -23,9 +23,11 @@ class _FeeLabelState extends State<FeeLabel> {
   @override
   void initState() {
     super.initState();
-    _amount = sl<FeeCalculator>()
-        .call(widget.type)
-        .then((value) => value.format(context.locale));
+    _amount = sl<FeeCalculator>().call(widget.type).then((value) {
+      if (!mounted) return '';
+
+      return value.format(context.locale);
+    });
   }
 
   @override

@@ -31,21 +31,33 @@ class _LimitsSectionState extends State<LimitsSection> {
         (authToken) => context
             .read<SeedVaultBloc>()
             .exceedMaxRequestedPublicKeys(authToken)
-            .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n')))),
+            .then((it) {
+          if (!mounted) return;
+
+          showSnackBar(context, it.map((e) => e.join('\n\n')));
+        }),
       );
 
   void _handleMaxSigningRequestsExceeded() => _validate()?.let(
         (authToken) => context
             .read<SeedVaultBloc>()
             .exceedMaxSigningRequests(authToken)
-            .then((it) => showSnackBar(context, it)),
+            .then((it) {
+          if (!mounted) return;
+
+          showSnackBar(context, it);
+        }),
       );
 
   void _handleMaxRequestedSignaturesExceeded() => _validate()?.let(
         (authToken) => context
             .read<SeedVaultBloc>()
             .exceedMaxRequestedSignatures(authToken)
-            .then((it) => showSnackBar(context, it)),
+            .then((it) {
+          if (!mounted) return;
+
+          showSnackBar(context, it);
+        }),
       );
 
   @override
