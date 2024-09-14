@@ -28,19 +28,29 @@ final offRampAmountScreenStory = Story(
     calculateEquivalent: (amount) async => Future.delayed(
       Duration.zero,
       () => Either.right(
-        (
-          amount: FiatAmount(
-            value: Currency.usd
-                .decimalToInt(amount.decimal * Decimal.parse('0.95')),
-            fiatCurrency: Currency.usd,
-          ),
-          rate: '1 USDC = 1234 USD'
+        FiatAmount(
+          value:
+              Currency.usd.decimalToInt(amount.decimal * Decimal.parse('0.95')),
+          fiatCurrency: Currency.usd,
         ),
       ),
     ),
-    calculateFee: (amount) => CryptoAmount(
-      value: Currency.usdc.decimalToInt(amount.decimal * Decimal.parse('0.05')),
-      cryptoCurrency: Currency.usdc,
+    calculateFee: (amount) => Future.delayed(
+      Duration.zero,
+      () => Either.right(
+        (
+          partnerFee: '1 USDC',
+          ourFee: '1 USDC',
+          totalFee: FiatAmount(
+            value: Currency.usd
+                .decimalToInt(amount.decimal * Decimal.parse('0.05')),
+            fiatCurrency: Currency.usd,
+          ),
+          extraFee: null,
+        ),
+      ),
     ),
+    exchangeRate: null,
+    receiveCurrency: null,
   ),
 );

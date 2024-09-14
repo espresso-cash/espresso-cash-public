@@ -917,5 +917,21 @@
   "countryNotSupportedText": "Country not supported",
   "@countryNotSupportedText": {},
   "countryNotSupportedAdditionalText": "We currently do not have a network partner\n operating in your country.",
-  "@countryNotSupportedAdditionalText": {}
+  "@countryNotSupportedAdditionalText": {},
+  "withdrawalAmountTitle": "Withdrawal Amount",
+  "@withdrawalAmountTitle": {},
+  "depositAmountTitle": "Deposit Amount",
+  "@depositAmountTitle": {},
+  "additionalFeesTitle": "Additional fees",
+  "@additionalFeesTitle": {},
+  "youReceiveTitle": "You Receive",
+  "@youReceiveTitle": {},
+  "totalFeesTitle": "Total Fees",
+  "@totalFeesTitle": {},
+  "partnerFeeTitle": "Partner Fee",
+  "@partnerFeeTitle": {},
+  "ourFeeTitle": "Our Fee",
+  "@ourFeeTitle": {},
+  "exchangeRateTitle": "Exchange Rate",
+  "@exchangeRateTitle": {}
 }
