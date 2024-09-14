@@ -1,3 +1,15 @@
+## 1.127.0
+
+ - **REFACTOR**: migrate to Flutter 3.24.3 (#1574).
+ - **FIX**: stellar recovery (#1570).
+ - **FIX**: home screen fixes (#1569).
+ - **FEAT**: update select partners UI (#1563).
+ - **FEAT**: ramp amount input screen (#1565).
+ - **FEAT**: update moneygram countries (#1573).
+ - **FEAT**: store token list localdb (#1498).
+ - **FEAT**: shows correct error message on outgoing link (#1530).
+ - **FEAT**: update moneygram bridge text (#1566).
+
 ## 1.126.1
 
  - **FIX**: moneygram ramp fixes (#1562).
