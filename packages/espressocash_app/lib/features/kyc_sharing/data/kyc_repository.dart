@@ -71,7 +71,6 @@ class KycRepository extends ChangeNotifier {
         photoIdCard: (id is Uint8List) ? id : null,
       );
     } on Exception {
-      // TODOcompare exception if un registered
       //ignore, user not registered
 
       return null;
@@ -166,6 +165,7 @@ class KycRepository extends ChangeNotifier {
       );
 
   Future<void> shareDataWithPartner() async {
+    await _kycUserClient.grantPartnerAccess(partnerAuthPk);
     await _userClient.sendUserData(
       SendUserDataRequest(
         user: User(

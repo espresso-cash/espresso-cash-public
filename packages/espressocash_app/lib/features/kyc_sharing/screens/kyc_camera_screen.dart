@@ -132,7 +132,7 @@ class _CameraView extends StatelessWidget {
             showControls: false,
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.only(bottom: 50),
             child: Stack(
               alignment: Alignment.center,
               children: [
