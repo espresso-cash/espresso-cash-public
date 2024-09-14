@@ -5,6 +5,7 @@ import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../profile/widgets/profile_button.dart';
 import '../../profile/widgets/profile_section.dart';
 import '../models/kyc_model.dart';
+import '../screens/bank_account_screen.dart';
 import 'kyc_flow.dart';
 import '../services/kyc_service.dart';
 
@@ -58,31 +59,31 @@ class _KycInfo extends StatelessWidget {
             ProfileButton(
               label: 'Email',
               description: user.email,
-              onPressed: () => context.openKycFlow(),
+              onPressed: () => context.openEmailFlow(),
             ),
           if (user.phone.isNotEmpty)
             ProfileButton(
               label: 'Phone number',
               description: user.phone,
-              onPressed: () => context.openKycFlow(),
+              onPressed: () => context.openPhoneFlow(),
             ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: ProfileButton(
               label: 'Basic info',
               description: _getUserDescription(user),
-              onPressed: () => context.openKycFlow(),
+              onPressed: () => context.openBasicInfoFlow(),
             ),
           ),
           if (user.hasBankInfo)
             ProfileButton(
               label: 'Banking info',
               description: _getBankDescription(user),
-              onPressed: () => context.openKycFlow(),
+              onPressed: () => BankAccountScreen.push(context),
             ),
           ProfileButton(
             label: 'Manage data access',
-            onPressed: () => context.openKycFlow(),
+            onPressed: () {},
           ),
         ],
       );

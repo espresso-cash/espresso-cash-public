@@ -13,36 +13,67 @@ import '../services/kyc_service.dart';
 
 typedef KycStepFunction = Future<bool?> Function(BuildContext ctx);
 
+const List<KycStepFunction> kycSteps = [
+  BasicInformationScreen.push,
+  IdentityVerificationScreen.push,
+  KycCameraScreen.push,
+];
+
+const List<KycStepFunction> emailSteps = [
+  EmailVerificationScreen.push,
+  EmailConfirmationScreen.push,
+];
+
+const List<KycStepFunction> phoneSteps = [
+  PhoneVerificationScreen.push,
+  PhoneConfirmationScreen.push,
+];
+
 extension KycFlowExtension on BuildContext {
   Future<bool> openKycFlow() async {
     final service = sl<KycSharingService>().value;
 
-    final List<KycStepFunction> kycSteps = [];
+    final List<KycStepFunction> steps = [];
 
     if (!service.hasPassedKyc) {
-      kycSteps.addAll([
-        BasicInformationScreen.push,
-        IdentityVerificationScreen.push,
-        KycCameraScreen.push,
-        BankAccountScreen.push,
-      ]);
+      steps
+        ..addAll(kycSteps)
+        ..add(BankAccountScreen.push);
     }
 
     if (!service.hasValidatedEmail) {
-      kycSteps.addAll([
-        EmailVerificationScreen.push,
-        EmailConfirmationScreen.push,
-      ]);
+      steps.addAll(emailSteps);
     }
 
     if (!service.hasValidatedPhone) {
-      kycSteps.addAll([
-        PhoneVerificationScreen.push,
-        PhoneConfirmationScreen.push,
-      ]);
+      steps.addAll(phoneSteps);
     }
 
     for (final step in kycSteps) {
+      if (!await _navigateToScreen(step)) return false;
+    }
+
+    return true;
+  }
+
+  Future<bool> openBasicInfoFlow() async {
+    for (final step in kycSteps) {
+      if (!await _navigateToScreen(step)) return false;
+    }
+
+    return true;
+  }
+
+  Future<bool> openEmailFlow() async {
+    for (final step in emailSteps) {
+      if (!await _navigateToScreen(step)) return false;
+    }
+
+    return true;
+  }
+
+  Future<bool> openPhoneFlow() async {
+    for (final step in phoneSteps) {
       if (!await _navigateToScreen(step)) return false;
     }
 
