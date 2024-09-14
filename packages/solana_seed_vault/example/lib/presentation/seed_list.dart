@@ -42,7 +42,11 @@ class _SeedItemState extends State<SeedItem> {
     context
         .read<SeedVaultBloc>()
         .requestPublicKeys(widget.seed.authToken)
-        .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n'))));
+        .then((it) {
+      if (!mounted) return;
+
+      showSnackBar(context, it.map((e) => e.join('\n\n')));
+    });
   }
 
   void _handleDeauthorize() {
@@ -53,14 +57,22 @@ class _SeedItemState extends State<SeedItem> {
     context
         .read<SeedVaultBloc>()
         .signMessages(widget.seed.authToken)
-        .then((it) => showSnackBar(context, it));
+        .then((it) {
+      if (!mounted) return;
+
+      showSnackBar(context, it);
+    });
   }
 
   void _handleSignTransactions() {
     context
         .read<SeedVaultBloc>()
         .signTransactions(widget.seed.authToken)
-        .then((it) => showSnackBar(context, it));
+        .then((it) {
+      if (!mounted) return;
+
+      showSnackBar(context, it);
+    });
   }
 
   @override

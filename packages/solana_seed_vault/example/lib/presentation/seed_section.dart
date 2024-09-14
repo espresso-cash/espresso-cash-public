@@ -14,24 +14,27 @@ class SeedSection extends StatefulWidget {
 
 class _SeedSectionState extends State<SeedSection> {
   void _handleAuthorizeSeed() {
-    context
-        .read<SeedVaultBloc>()
-        .authorizeSeed()
-        .then((it) => showSnackBar(context, it.map(always('Seed authorized'))));
+    context.read<SeedVaultBloc>().authorizeSeed().then((it) {
+      if (!mounted) return;
+
+      showSnackBar(context, it.map(always('Seed authorized')));
+    });
   }
 
   void _handleCreateSeed() {
-    context
-        .read<SeedVaultBloc>()
-        .createSeed()
-        .then((it) => showSnackBar(context, it.map(always('Seed created'))));
+    context.read<SeedVaultBloc>().createSeed().then((it) {
+      if (!mounted) return;
+
+      showSnackBar(context, it.map(always('Seed created')));
+    });
   }
 
   void _handleImportSeed() {
-    context
-        .read<SeedVaultBloc>()
-        .importSeed()
-        .then((it) => showSnackBar(context, it.map(always('Seed imported'))));
+    context.read<SeedVaultBloc>().importSeed().then((it) {
+      if (!mounted) return;
+
+      showSnackBar(context, it.map(always('Seed imported')));
+    });
   }
 
   @override
