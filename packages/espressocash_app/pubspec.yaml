@@ -174,3 +174,4 @@ dependency_overrides:
       ref: d89b1d32638b49dfc58c4b7c84153be0c269d057
   jupiter_aggregator:
     path: ../jupiter_aggregator/
+  pinenacl: ^0.6.0
