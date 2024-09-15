@@ -551,7 +551,7 @@
   "@walletAddress": {},
   "walletAddressFieldHint": "Type, Paste or Scan Address Here",
   "@walletAddressFieldHint": {},
-  "walletEspressoPayLabel": "Pay anyone by sharing the payment link using any messaging platform",
+  "walletEspressoPayLabel": "*Send money* using a payment link, qr code or wallet address.",
   "@walletEspressoPayLabel": {},
   "walletPayOther": "Want to pay using a wallet address?",
   "@walletPayOther": {},
