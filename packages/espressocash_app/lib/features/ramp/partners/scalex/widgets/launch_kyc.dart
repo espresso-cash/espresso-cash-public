@@ -77,15 +77,17 @@ extension BuildContextExt on BuildContext {
 
     final user = service.value.user;
 
-    final transferAmount = Amount.fromDecimal(
+    final receiveAmount = Amount.fromDecimal(
       value: submittedAmount.decimal,
-      currency: Currency.ngn,
-    ) as FiatAmount;
+      currency: Currency.usdc,
+    ) as CryptoAmount;
+
+    final transferAmount = amount!.calculateOnRampFee(exchangeRate: rampRate);
 
     await sl<OnRampOrderService>()
         .createForManualTransfer(
       orderId: orderId,
-      receiveAmount: submittedAmount,
+      receiveAmount: receiveAmount,
       partner: RampPartner.scalex,
       bankAccount: user?.bankAccountNumber ?? '',
       bankName: user?.bankCode ?? '',

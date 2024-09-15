@@ -11,7 +11,6 @@ import '../../../ui/colors.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/page_spacer_wrapper.dart';
-import '../../../ui/rounded_rectangle.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/web_view_screen.dart';
@@ -131,56 +130,46 @@ class _ScalexDepositContent extends StatelessWidget {
                 _ItemWidget(
                   title: context.l10n.depositTransferAmount,
                   value: formattedTransferAmount,
+                  trailing: _CopyButton(value: formattedTransferAmount),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 4),
                 _ItemWidget(
-                  title: '${deposit.bankName} Account',
+                  title: '${deposit.bankName} Account Number',
                   value: deposit.bankAccount,
+                  trailing: _CopyButton(value: deposit.bankAccount),
+                ),
+                const SizedBox(height: 4),
+                _ItemWidget(
+                  title: 'You Receive',
+                  value: '${formattedReceiveAmount ?? ''} ',
+                  trailing: Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: Text(
+                      deposit.receiveAmount?.currency.symbol.toUpperCase() ??
+                          '',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 34,
+                        height: 40 / 34,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 _InstructionItem(
                   index: 2,
                   text: context.l10n.depositInstruction2,
                 ),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.only(left: 42),
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: context.l10n.depositReceiveAmount(
-                            formattedReceiveAmount ?? '',
-                          ),
-                        ),
-                        TextSpan(
-                          text:
-                              ' ${deposit.receiveAmount?.currency.symbol.toUpperCase() ?? ''}',
-                          style: const TextStyle(
-                            color: CpColors.yellowColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.23,
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.only(left: 42),
-                  child: Text(
-                    context.l10n.depositDisclaimer,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
+                Text(
+                  context.l10n.depositDisclaimer,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: CpColors.lightGrey,
+                    fontSize: 14,
+                    height: 18 / 14,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ],
@@ -192,7 +181,7 @@ class _ScalexDepositContent extends StatelessWidget {
               child: CpButton(
                 width: double.infinity,
                 onPressed: onConfirmPress,
-                text: context.l10n.ramp_btnContinue,
+                text: context.l10n.confirmTransfer,
               ),
             ),
           ),
@@ -356,7 +345,6 @@ class _InstructionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: 32,
@@ -379,16 +367,14 @@ class _InstructionItem extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.23,
-                ),
+            child: Text(
+              text,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                height: 20 / 16,
+                letterSpacing: 0.23,
               ),
             ),
           ),
@@ -400,60 +386,76 @@ class _ItemWidget extends StatelessWidget {
   const _ItemWidget({
     required this.value,
     required this.title,
+    this.trailing = const SizedBox.shrink(),
   });
 
   final String title;
   final String value;
+  final Widget trailing;
 
   @override
   Widget build(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.23,
+          Padding(
+            padding: const EdgeInsets.only(left: 18),
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.17,
+              ),
             ),
           ),
-          const SizedBox(height: 12),
-          CpRoundedRectangle(
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-            backgroundColor: Colors.black,
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.fromLTRB(30, 10, 18, 10),
+            decoration: const BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.all(Radius.circular(40)),
+            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Center(
-                    child: Text(
-                      value,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                      ),
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 34,
+                      height: 40 / 34,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: CpButton(
-                    text: context.l10n.copy,
-                    minWidth: 80,
-                    onPressed: () {
-                      final data = ClipboardData(text: value);
-                      Clipboard.setData(data);
-                      showClipboardSnackbar(context);
-                    },
-                    size: CpButtonSize.micro,
-                  ),
-                ),
+                trailing,
               ],
             ),
           ),
         ],
+      );
+}
+
+class _CopyButton extends StatelessWidget {
+  const _CopyButton({required this.value});
+
+  final String value;
+
+  @override
+  Widget build(BuildContext context) => Align(
+        alignment: Alignment.centerRight,
+        child: CpButton(
+          text: context.l10n.copy,
+          minWidth: 60,
+          onPressed: () {
+            final data = ClipboardData(text: value);
+            Clipboard.setData(data);
+            showClipboardSnackbar(context);
+          },
+          size: CpButtonSize.micro,
+        ),
       );
 }
