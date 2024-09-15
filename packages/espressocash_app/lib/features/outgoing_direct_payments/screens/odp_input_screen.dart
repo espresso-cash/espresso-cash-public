@@ -5,9 +5,9 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/onboarding_screen.dart';
-import '../../../ui/pay_details_page.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../blockchain/models/blockchain.dart';
@@ -99,23 +99,21 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
                 DecoratedBox(
                   decoration: const ShapeDecoration(
-                    color: Colors.black,
+                    color: CpColors.darkBackgroundColor,
                     shape: StadiumBorder(),
                   ),
                   child: ListTile(
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 24),
                     onTap: _showNetworkPicker ? _handleOnNetworkTap : null,
                     title: Text(
                       _selectedNetwork.displayName,
                       maxLines: 1,
-                      textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                     trailing: _showNetworkPicker
@@ -139,7 +137,7 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 8),
                 _WalletTextField(
                   controller: _walletAddressController,
                   onQrScan: _handleOnQrScan,
@@ -174,41 +172,26 @@ class _WalletTextField extends StatelessWidget {
   final VoidCallback onQrScan;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: CpTextField(
-          controller: controller,
-          placeholder: context.l10n.walletAddressFieldHint,
-          backgroundColor: const Color(0xFF4D4B4C),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 20,
-          ),
-          textColor: Colors.white,
-          fontSize: 16,
-          suffix: Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: CpIconButton(
-              onPressed: onQrScan,
-              icon: Assets.icons.qrScanner.svg(color: Colors.white),
-              variant: CpIconButtonVariant.black,
-            ),
-          ),
-          multiLine: true,
-        ),
-      );
-}
-
-class _OthersTitle extends StatelessWidget {
-  const _OthersTitle();
-
-  @override
-  Widget build(BuildContext context) => Text(
-        '${context.l10n.walletAddress}:',
-        style: TextStyle(
-          fontSize: 19,
-          fontWeight: FontWeight.w500,
-          color: CpTheme.of(context).primaryTextColor,
-        ),
-      );
+  Widget build(BuildContext context) => CpTextField(
+    controller: controller,
+    placeholder: context.l10n.walletAddressFieldHint,
+    backgroundColor: CpColors.darkBackgroundColor,
+    padding: const EdgeInsets.only(
+      left: 24,
+      right: 12,
+      top: 20,
+      bottom: 20,
+    ),
+    textColor: Colors.white,
+    fontSize: 16,
+    suffix: Padding(
+      padding: const EdgeInsets.only(right: 24),
+      child: CpIconButton(
+        onPressed: onQrScan,
+        icon: Assets.icons.qrScanner.svg(color: Colors.white),
+        variant: CpIconButtonVariant.black,
+      ),
+    ),
+    multiLine: true,
+  );
 }

@@ -549,7 +549,7 @@
   "@viewTransaction": {},
   "walletAddress": "Wallet Address",
   "@walletAddress": {},
-  "walletAddressFieldHint": "Type, Paste or Scan Address Here",
+  "walletAddressFieldHint": "Type, paste or scan address here",
   "@walletAddressFieldHint": {},
   "walletEspressoPayLabel": "*Send money* using a payment link, qr code or wallet address.",
   "@walletEspressoPayLabel": {},

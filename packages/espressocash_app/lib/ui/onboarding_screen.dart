@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../gen/assets.gen.dart';
@@ -6,12 +7,12 @@ import 'button.dart';
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({
     super.key,
-    this.footer = const SizedBox.shrink(),
+    this.footer,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     required this.children,
   });
 
-  final Widget footer;
+  final Widget? footer;
   final CrossAxisAlignment crossAxisAlignment;
   final List<Widget> children;
 
@@ -30,9 +31,8 @@ class OnboardingScreen extends StatelessWidget {
                   crossAxisAlignment: crossAxisAlignment,
                   children: [
                     ...children,
-                    Expanded(
-                      child: footer,
-                    ),
+                    footer?.let((f) => Expanded(child: f)) ??
+                        const SizedBox.shrink(),
                   ],
                 ),
               ),
