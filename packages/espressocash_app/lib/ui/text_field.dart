@@ -29,7 +29,6 @@ class CpTextField extends StatelessWidget {
     this.textInputAction,
     this.multiLine = false,
     this.textCapitalization = TextCapitalization.none,
-    this.fontWeight = FontWeight.normal,
   });
 
   final TextEditingController? controller;
@@ -52,7 +51,6 @@ class CpTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool? multiLine;
   final TextCapitalization textCapitalization;
-  final FontWeight fontWeight;
 
   @override
   Widget build(BuildContext context) {

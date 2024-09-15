@@ -9,8 +9,8 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
-import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../kyc_sharing/services/kyc_service.dart';
+import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
@@ -39,6 +39,9 @@ extension BuildContextExt on BuildContext {
 
     const partner = RampPartner.scalex;
 
+    final minAmountNGN =
+        partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
+
     await RampAmountScreen.push(
       this,
       partner: partner,
@@ -46,17 +49,33 @@ extension BuildContextExt on BuildContext {
         Navigator.pop(this);
         amount = value;
       },
-      minAmount: partner.minimumAmountInDecimal,
-      currency: Currency.usdc,
+      minAmount: minAmountNGN,
+      currency: Currency.ngn,
+      receiveCurrency: Currency.usdc,
       calculateEquivalent: (Amount amount) async => Either.right(
-        (
-          amount: amount.calculateOnRampFee(
-            exchangeRate: rampRate,
-          ),
-          rate: '1 USDC = $rampRate NGN'
+        amount.calculateOnRampReceiveAmount(
+          exchangeRate: rampRate,
+          percentageFee: rampFeePercentage,
+          fixedFee: fixedFee,
         ),
       ),
-      partnerFeeLabel: 'Partner Fee: ${rampFeePercentage * 100}% + \$$fixedFee',
+      calculateFee: (amount) async {
+        final fee = amount.calculateOnRampFee(
+          exchangeRate: rampRate,
+          percentageFee: rampFeePercentage,
+          fixedFee: fixedFee,
+        );
+
+        return Either.right(
+          (
+            ourFee: null,
+            partnerFee: '${rampFeePercentage * 100}% + \$$fixedFee',
+            totalFee: fee,
+            extraFee: null,
+          ),
+        );
+      },
+      exchangeRate: '1 USDC = $rampRate NGN',
       type: RampType.onRamp,
     );
 
@@ -75,23 +94,23 @@ extension BuildContextExt on BuildContext {
       partnerPK: partnerAuthPk,
     );
 
-    final user = service.value.user;
+    const partnerBank = '';
+    const partnerAccountNumber = '';
 
     final receiveAmount = Amount.fromDecimal(
       value: submittedAmount.decimal,
       currency: Currency.usdc,
     ) as CryptoAmount;
 
-    final transferAmount = amount!.calculateOnRampFee(exchangeRate: rampRate);
-
     await sl<OnRampOrderService>()
         .createForManualTransfer(
       orderId: orderId,
       receiveAmount: receiveAmount,
       partner: RampPartner.scalex,
-      bankAccount: user?.bankAccountNumber ?? '',
-      bankName: user?.bankCode ?? '',
-      transferAmount: transferAmount,
+      bankAccount: partnerAccountNumber,
+      bankName: partnerBank,
+      transferAmount: submittedAmount as FiatAmount, //TODO
+      // transferAmount: transferAmount,
       transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
       submittedAmount: submittedAmount,
       countryCode: profile.country.code,
@@ -119,14 +138,51 @@ extension BuildContextExt on BuildContext {
 }
 
 extension on Amount {
-  FiatAmount calculateOnRampFee({
+  CryptoAmount calculateOnRampReceiveAmount({
     required double exchangeRate,
+    required double percentageFee,
+    required double fixedFee,
   }) {
-    final double inputAmount = decimal.toDouble() * exchangeRate;
-
-    return FiatAmount(
-      value: Currency.ngn.decimalToInt(Decimal.parse(inputAmount.toString())),
-      fiatCurrency: Currency.ngn,
+    final (amountInUSDC, feeInUSDC) = _calculateOnRampAmounts(
+      exchangeRate: exchangeRate,
+      percentageFee: percentageFee,
+      fixedFee: fixedFee,
     );
+    final double netAmountInUSDC = amountInUSDC - feeInUSDC;
+
+    return CryptoAmount(
+      value:
+          Currency.usdc.decimalToInt(Decimal.parse(netAmountInUSDC.toString())),
+      cryptoCurrency: Currency.usdc,
+    );
+  }
+
+  CryptoAmount calculateOnRampFee({
+    required double exchangeRate,
+    required double percentageFee,
+    required double fixedFee,
+  }) {
+    final (_, feeInUSDC) = _calculateOnRampAmounts(
+      exchangeRate: exchangeRate,
+      percentageFee: percentageFee,
+      fixedFee: fixedFee,
+    );
+
+    return CryptoAmount(
+      value: Currency.usdc.decimalToInt(Decimal.parse(feeInUSDC.toString())),
+      cryptoCurrency: Currency.usdc,
+    );
+  }
+
+  (double, double) _calculateOnRampAmounts({
+    required double exchangeRate,
+    required double percentageFee,
+    required double fixedFee,
+  }) {
+    final double inputAmountInNGN = decimal.toDouble();
+    final double amountInUSDC = inputAmountInNGN / exchangeRate;
+    final double feeInUSDC = (amountInUSDC * percentageFee) + fixedFee;
+
+    return (amountInUSDC, feeInUSDC);
   }
 }

@@ -6,8 +6,8 @@ import '../../profile/widgets/profile_button.dart';
 import '../../profile/widgets/profile_section.dart';
 import '../models/kyc_model.dart';
 import '../screens/bank_account_screen.dart';
-import 'kyc_flow.dart';
 import '../services/kyc_service.dart';
+import 'kyc_flow.dart';
 
 class KycSection extends StatefulWidget {
   const KycSection({super.key});

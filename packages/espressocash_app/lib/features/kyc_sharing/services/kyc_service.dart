@@ -14,7 +14,7 @@ import 'state.dart';
 
 // Hardcoded for now
 const validatorAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
-const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
+const partnerAuthPk = '5PcfzhA3saCwcJjRstKyytMwwxeK1XJt48WGUhZEyecp';
 
 @Singleton(scope: authScope)
 class KycSharingService extends ValueNotifier<KycState> {
