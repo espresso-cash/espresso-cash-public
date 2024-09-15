@@ -181,7 +181,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
             const Spacer(flex: 1),
             _Timeline(
               status: order.status,
-              amount: depositAmount ?? order.submittedAmount,
+              amount: depositAmount,
               receiveAmount: order.receiveAmount,
               manualDeposit: manualDeposit,
               created: order.created,
