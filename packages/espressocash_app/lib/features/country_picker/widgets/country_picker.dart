@@ -8,17 +8,19 @@ class CountryPicker extends StatelessWidget {
   const CountryPicker({
     super.key,
     this.country,
+    this.backgroundColor = Colors.black,
     required this.onSubmitted,
   });
 
   final Country? country;
+  final Color backgroundColor;
   final ValueSetter<Country> onSubmitted;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: const ShapeDecoration(
-          color: Colors.black,
-          shape: StadiumBorder(),
+        decoration: ShapeDecoration(
+          color: backgroundColor,
+          shape: const StadiumBorder(),
         ),
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 24),

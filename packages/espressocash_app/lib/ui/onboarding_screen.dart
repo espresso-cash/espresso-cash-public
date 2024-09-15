@@ -7,7 +7,7 @@ import 'button.dart';
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({
     super.key,
-    this.footer,
+    this.footer = const SizedBox.shrink(),
     required this.children,
   });
 

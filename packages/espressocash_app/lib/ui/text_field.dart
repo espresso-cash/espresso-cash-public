@@ -29,6 +29,7 @@ class CpTextField extends StatelessWidget {
     this.textInputAction,
     this.multiLine = false,
     this.textCapitalization = TextCapitalization.none,
+    this.fontWeight = FontWeight.normal,
   });
 
   final TextEditingController? controller;
@@ -51,6 +52,7 @@ class CpTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool? multiLine;
   final TextCapitalization textCapitalization;
+  final FontWeight fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -101,4 +103,33 @@ class CpTextField extends StatelessWidget {
       ),
     );
   }
+}
+
+class FittedTextEditingController extends TextEditingController {
+  FittedTextEditingController({super.text});
+
+  @override
+  TextSpan buildTextSpan({
+    required BuildContext context,
+    TextStyle? style,
+    required bool withComposing,
+  }) =>
+      TextSpan(
+        style: style,
+        children: [
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) =>
+                  FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  text,
+                  style: style,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
 }
