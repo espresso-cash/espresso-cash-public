@@ -153,9 +153,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? const _ContactUsButton()
         : null;
 
-    final depositAmount = isMoneygramOrder
-        ? manualDeposit?.transferAmount
-        : order.submittedAmount;
+    final depositAmount =
+        manualDeposit?.transferAmount ?? order.submittedAmount;
 
     final showCancelButton = order.status.isCancellable;
 

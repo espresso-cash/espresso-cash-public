@@ -87,13 +87,19 @@ extension BuildContextExt on BuildContext {
 
     final submittedAmount = amount;
 
-    if (submittedAmount is! CryptoAmount) return;
+    if (submittedAmount == null) return;
+
+    final equivalentAmount = submittedAmount.calculateOnRampReceiveAmount(
+      exchangeRate: rampRate,
+      percentageFee: rampFeePercentage,
+      fixedFee: fixedFee,
+    );
 
     final link = await _generateRampLink(
       address: address,
       profile: profile,
       type: RampType.onRamp,
-      amount: submittedAmount.decimal.toDouble() * rampRate,
+      amount: submittedAmount.decimal.toDouble(),
     );
 
     if (link == null) {
@@ -144,7 +150,7 @@ extension BuildContextExt on BuildContext {
               transferAmount: transferAmount,
               transferExpiryDate:
                   DateTime.now().add(const Duration(minutes: 30)),
-              submittedAmount: submittedAmount,
+              submittedAmount: equivalentAmount,
               countryCode: profile.country.code,
             )
                 .then((order) {
