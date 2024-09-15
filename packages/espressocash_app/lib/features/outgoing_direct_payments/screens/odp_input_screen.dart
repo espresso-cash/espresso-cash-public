@@ -173,25 +173,25 @@ class _WalletTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpTextField(
-    controller: controller,
-    placeholder: context.l10n.walletAddressFieldHint,
-    backgroundColor: CpColors.darkBackgroundColor,
-    padding: const EdgeInsets.only(
-      left: 24,
-      right: 12,
-      top: 20,
-      bottom: 20,
-    ),
-    textColor: Colors.white,
-    fontSize: 16,
-    suffix: Padding(
-      padding: const EdgeInsets.only(right: 24),
-      child: CpIconButton(
-        onPressed: onQrScan,
-        icon: Assets.icons.qrScanner.svg(color: Colors.white),
-        variant: CpIconButtonVariant.black,
-      ),
-    ),
-    multiLine: true,
-  );
+        controller: controller,
+        placeholder: context.l10n.walletAddressFieldHint,
+        backgroundColor: CpColors.darkBackgroundColor,
+        padding: const EdgeInsets.only(
+          left: 24,
+          right: 12,
+          top: 20,
+          bottom: 20,
+        ),
+        textColor: Colors.white,
+        fontSize: 16,
+        suffix: Padding(
+          padding: const EdgeInsets.only(right: 24),
+          child: CpIconButton(
+            onPressed: onQrScan,
+            icon: Assets.icons.qrScanner.svg(color: Colors.white),
+            variant: CpIconButtonVariant.black,
+          ),
+        ),
+        multiLine: true,
+      );
 }
