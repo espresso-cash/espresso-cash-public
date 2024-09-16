@@ -100,8 +100,8 @@ class _PayScreenState extends State<PayScreen> {
           ),
           body: OnboardingScreen(
             children: [
-              SizedBox(height: 20.h),
-              Assets.images.sendMoney.image(height: 100.h),
+              SizedBox(height: 10.h),
+              Assets.images.sendMoney.image(height: 90.h),
               SizedBox(height: 20.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 42.w),
@@ -117,7 +117,7 @@ class _PayScreenState extends State<PayScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 42.w),
                 child: Text(
-                  'Payment links are securely sent using any messaging platform.',
+                  context.l10n.walletEspressoPayDescription,
                   style: TextStyle(
                     fontSize: 16.sp,
                     height: 21 / 16,
@@ -128,7 +128,7 @@ class _PayScreenState extends State<PayScreen> {
               ),
               SizedBox(height: 20.h),
               _Item(
-                title: 'Payment link or QR code',
+                title: context.l10n.linkMethodText,
                 onPressed: _handlePrimaryPressed,
                 icon: Assets.icons.subtract,
                 subtitleIcons: [
@@ -144,7 +144,7 @@ class _PayScreenState extends State<PayScreen> {
               ),
               SizedBox(height: 20.h),
               _Item(
-                title: 'Pay with wallet address',
+                title: context.l10n.addressMethodText,
                 onPressed: _handleSecondaryPressed,
                 icon: Assets.icons.walletAddress,
                 subtitleIcons: [

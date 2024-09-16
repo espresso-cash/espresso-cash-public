@@ -553,8 +553,8 @@
   "@walletAddressFieldHint": {},
   "walletEspressoPayLabel": "*Send money* using a payment link, qr code or wallet address.",
   "@walletEspressoPayLabel": {},
-  "walletPayOther": "Want to pay using a wallet address?",
-  "@walletPayOther": {},
+  "walletEspressoPayDescription": "Payment links are securely sent using any messaging platform.",
+  "@walletEspressoPayDescription": {},
   "walletNetworks": "Networks",
   "@walletNetworks": {},
   "walletSendToAddressTitle": "Wallet Address",
@@ -933,5 +933,11 @@
   "ourFeeTitle": "Our Fee",
   "@ourFeeTitle": {},
   "exchangeRateTitle": "Exchange Rate",
-  "@exchangeRateTitle": {}
+  "@exchangeRateTitle": {},
+  "linkMethodText": "Payment link or QR code",
+  "@linkMethodText": {},
+  "addressMethodText": "Pay with wallet address",
+  "@addressMethodText": {},
+  "selectNetwork": "Select a Network",
+  "@selectNetwork": {}
 }

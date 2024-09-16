@@ -89,11 +89,11 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 40),
-                const Padding(
-                  padding: EdgeInsets.only(left: 18),
+                Padding(
+                  padding: const EdgeInsets.only(left: 18),
                   child: Text(
-                    'Select a Network',
-                    style: TextStyle(
+                    context.l10n.selectNetwork,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -146,11 +146,11 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
                 ListenableBuilder(
                   listenable: _walletAddressController,
                   builder: (context, child) => Container(
-                    margin: const EdgeInsets.symmetric(vertical: 24),
+                    margin: const EdgeInsets.all(16),
                     child: CpButton(
                       text: context.l10n.next,
                       onPressed: _isValid ? _handleSubmitted : null,
-                      size: CpButtonSize.big,
+                      size: CpButtonSize.normal,
                       width: double.infinity,
                     ),
                   ),
