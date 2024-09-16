@@ -199,9 +199,7 @@ class _Buttons extends StatelessWidget {
               children: [
                 Expanded(
                   child: PayOrRequestButton(
-                    voidCallback: () {
-                      BasicInformationScreen.push(context);
-                    },
+                    voidCallback: onSendMoneyPressed,
                   ),
                 ),
                 const Expanded(
