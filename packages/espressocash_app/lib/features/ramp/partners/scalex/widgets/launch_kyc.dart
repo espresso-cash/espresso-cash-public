@@ -81,7 +81,13 @@ extension BuildContextExt on BuildContext {
 
     final submittedAmount = amount;
 
-    if (submittedAmount is! CryptoAmount) return;
+    if (submittedAmount == null) return;
+
+    final equivalentAmount = submittedAmount.calculateOnRampReceiveAmount(
+      exchangeRate: rampRate,
+      percentageFee: rampFeePercentage,
+      fixedFee: fixedFee,
+    );
 
     final kycPassed = await openKycFlow();
 
@@ -89,30 +95,24 @@ extension BuildContextExt on BuildContext {
     final service = sl<KycSharingService>();
 
     final orderId = await service.createOrder(
-      cryptoAmount: submittedAmount.value.toString(),
-      cryptoCurrency: submittedAmount.cryptoCurrency.name,
+      cryptoAmount: equivalentAmount.value.toString(),
+      cryptoCurrency: equivalentAmount.cryptoCurrency.name,
       partnerPK: partnerAuthPk,
     );
 
-    const partnerBank = '';
-    const partnerAccountNumber = '';
-
-    final receiveAmount = Amount.fromDecimal(
-      value: submittedAmount.decimal,
-      currency: Currency.usdc,
-    ) as CryptoAmount;
+    const partnerBank = 'Partner Bank';
+    const partnerAccountNumber = '1234567';
 
     await sl<OnRampOrderService>()
         .createForManualTransfer(
       orderId: orderId,
-      receiveAmount: receiveAmount,
+      receiveAmount: equivalentAmount,
       partner: RampPartner.scalex,
       bankAccount: partnerAccountNumber,
       bankName: partnerBank,
-      transferAmount: submittedAmount as FiatAmount, //TODO
-      // transferAmount: transferAmount,
+      transferAmount: submittedAmount as FiatAmount,
       transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
-      submittedAmount: submittedAmount,
+      submittedAmount: equivalentAmount,
       countryCode: profile.country.code,
     )
         .then((order) {
