@@ -47,30 +47,36 @@ class KycSharingService extends ValueNotifier<KycState> {
     required String idType,
     required String idNumber,
     required File? selfiePhoto,
-  }) =>
-      _kycRepository.updateInfo(
-        data: V1UserData(
-          firstName: firstName,
-          middleName: middleName,
-          lastName: lastName,
-          dob: dob,
-          countryCode: countryCode,
-          idType: idType,
-          idNumber: idNumber,
-        ),
-        photoSelfie: selfiePhoto,
-      );
+  }) async {
+    await _kycRepository.updateInfo(
+      data: V1UserData(
+        firstName: firstName,
+        middleName: middleName,
+        lastName: lastName,
+        dob: dob,
+        countryCode: countryCode,
+        idType: idType,
+        idNumber: idNumber,
+      ),
+      photoSelfie: selfiePhoto,
+    );
+
+    await _kycRepository.shareDataWithPartner();
+  }
 
   Future<void> updateBankInfo({
     required String bankAccountNumber,
     required String bankCode,
-  }) =>
-      _kycRepository.updateInfo(
-        data: V1UserData(
-          bankAccountNumber: bankAccountNumber,
-          bankCode: bankCode,
-        ),
-      );
+  }) async {
+    await _kycRepository.updateInfo(
+      data: V1UserData(
+        bankAccountNumber: bankAccountNumber,
+        bankCode: bankCode,
+      ),
+    );
+
+    hasPassedKyc(true);
+  }
 
   Future<void> updateUserEmailPhone({
     String? email,
