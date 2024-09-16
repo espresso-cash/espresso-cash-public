@@ -59,20 +59,20 @@ class _KycInfo extends StatelessWidget {
             ProfileButton(
               label: 'Email',
               description: user.email,
-              onPressed: () => context.openEmailFlow(),
+              onPressed: context.openEmailFlow,
             ),
           if (user.phone.isNotEmpty)
             ProfileButton(
               label: 'Phone number',
               description: user.phone,
-              onPressed: () => context.openPhoneFlow(),
+              onPressed: context.openPhoneFlow,
             ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: ProfileButton(
               label: 'Basic info',
               description: _getUserDescription(user),
-              onPressed: () => context.openBasicInfoFlow(),
+              onPressed: context.openBasicInfoFlow,
             ),
           ),
           if (user.hasBankInfo)
