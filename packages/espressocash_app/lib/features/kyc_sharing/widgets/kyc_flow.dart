@@ -49,24 +49,14 @@ extension KycFlowExtension on BuildContext {
     return true;
   }
 
-  Future<bool> openBasicInfoFlow() async {
-    for (final step in kycSteps) {
-      if (!await _navigateToScreen(step)) return false;
-    }
+  Future<bool> openBasicInfoFlow() => _runFlow(kycSteps);
 
-    return true;
-  }
+  Future<bool> openEmailFlow() => _runFlow(emailSteps);
 
-  Future<bool> openEmailFlow() async {
-    for (final step in emailSteps) {
-      if (!await _navigateToScreen(step)) return false;
-    }
+  Future<bool> openPhoneFlow() => _runFlow(phoneSteps);
 
-    return true;
-  }
-
-  Future<bool> openPhoneFlow() async {
-    for (final step in phoneSteps) {
+  Future<bool> _runFlow(List<KycStepFunction> steps) async {
+    for (final step in steps) {
       if (!await _navigateToScreen(step)) return false;
     }
 
