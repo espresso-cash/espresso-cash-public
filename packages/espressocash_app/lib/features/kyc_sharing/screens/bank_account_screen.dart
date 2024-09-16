@@ -39,12 +39,8 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
         bankCode: _bankCodeController.text,
       );
 
-      // uncomment to request smile kyc
-      // await service.requestKyc();
-
       if (!mounted) return;
 
-      showCpSnackbar(context, message: 'Success, Data updated');
       Navigator.pop(context, true);
     } on Exception {
       showCpErrorSnackbar(context, message: 'Failed to update data');

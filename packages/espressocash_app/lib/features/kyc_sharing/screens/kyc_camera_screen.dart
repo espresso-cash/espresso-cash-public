@@ -44,7 +44,7 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
 
       if (!mounted) return;
 
-      showCpSnackbar(context, message: 'Success, Data updated');
+      // showCpSnackbar(context, message: 'Success, Data updated');
 
       Navigator.pop(context, true);
     } on Exception {
@@ -179,7 +179,7 @@ class _ResultView extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           children: [
             Transform.flip(
-              flipX: true,
+              flipX: false,
               child: Image.file(
                 capturedImage,
                 height: double.maxFinite,

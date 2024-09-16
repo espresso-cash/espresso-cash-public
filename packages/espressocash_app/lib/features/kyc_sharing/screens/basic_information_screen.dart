@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../../di.dart';
 import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/radio_button.dart';
 import '../../../ui/snackbar.dart';
@@ -72,8 +73,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
           if (!mounted) return false;
 
-          showCpSnackbar(context, message: 'Success, Data updated');
-
           return true;
         } on Exception {
           if (!mounted) return false;
@@ -97,6 +96,18 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
       initialDate: _dob ?? DateTime.now(),
       firstDate: DateTime(1900, 1),
       lastDate: DateTime.now(),
+      builder: (BuildContext context, Widget? child) => Theme(
+        data: ThemeData.dark().copyWith(
+          primaryColor: CpColors.primaryColor,
+          colorScheme: const ColorScheme.dark(
+            primary: CpColors.primaryColor,
+          ),
+          buttonTheme: const ButtonThemeData(
+            textTheme: ButtonTextTheme.primary,
+          ),
+        ),
+        child: child ?? Container(),
+      ),
     );
 
     if (!mounted) return;

@@ -42,10 +42,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
     if (!mounted) return;
 
     if (isValid) {
-      showCpSnackbar(context, message: 'Success, phone number verified');
-
-      Navigator.pop(context);
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     } else {
       showCpErrorSnackbar(
         context,

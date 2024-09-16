@@ -101,7 +101,7 @@ extension BuildContextExt on BuildContext {
     );
 
     const partnerBank = 'Partner Bank';
-    const partnerAccountNumber = '1234567';
+    const partnerAccountNumber = 'EC_1234';
 
     await sl<OnRampOrderService>()
         .createForManualTransfer(

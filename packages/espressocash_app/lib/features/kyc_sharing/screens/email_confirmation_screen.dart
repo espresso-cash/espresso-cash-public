@@ -41,8 +41,6 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
     if (!mounted) return;
 
     if (isValid) {
-      showCpSnackbar(context, message: 'Success, email verified');
-
       Navigator.pop(context, true);
     } else {
       showCpErrorSnackbar(
