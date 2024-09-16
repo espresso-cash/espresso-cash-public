@@ -933,5 +933,7 @@
   "ourFeeTitle": "Our Fee",
   "@ourFeeTitle": {},
   "exchangeRateTitle": "Exchange Rate",
-  "@exchangeRateTitle": {}
-}
+  "@exchangeRateTitle": {},
+  "followUsOn" : "Follow us on",
+  "@followUsOn": {}
+ }
