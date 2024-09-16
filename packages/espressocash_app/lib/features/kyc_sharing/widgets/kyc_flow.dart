@@ -33,24 +33,17 @@ extension KycFlowExtension on BuildContext {
   Future<bool> openKycFlow() async {
     final service = sl<KycSharingService>().value;
 
-    final List<KycStepFunction> steps = [];
-
     if (!service.hasPassedKyc) {
-      steps
-        ..addAll(kycSteps)
-        ..add(BankAccountScreen.push);
+      if (!await openBasicInfoFlow()) return false;
+      if (!await _navigateToScreen(BankAccountScreen.push)) return false;
     }
 
     if (!service.hasValidatedEmail) {
-      steps.addAll(emailSteps);
+      if (!await openEmailFlow()) return false;
     }
 
     if (!service.hasValidatedPhone) {
-      steps.addAll(phoneSteps);
-    }
-
-    for (final step in kycSteps) {
-      if (!await _navigateToScreen(step)) return false;
+      if (!await openPhoneFlow()) return false;
     }
 
     return true;
