@@ -1,3 +1,7 @@
+## 1.127.1
+
+ - **FIX**: scalex onramp (#1575).
+
 ## 1.127.0
 
  - **REFACTOR**: migrate to Flutter 3.24.3 (#1574).

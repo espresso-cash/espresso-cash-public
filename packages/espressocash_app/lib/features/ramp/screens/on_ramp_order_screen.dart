@@ -153,9 +153,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? const _ContactUsButton()
         : null;
 
-    final depositAmount = isMoneygramOrder
-        ? manualDeposit?.transferAmount
-        : order.submittedAmount;
+    final depositAmount =
+        manualDeposit?.transferAmount ?? order.submittedAmount;
 
     final showCancelButton = order.status.isCancellable;
 
@@ -182,7 +181,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
             const Spacer(flex: 1),
             _Timeline(
               status: order.status,
-              amount: depositAmount ?? order.submittedAmount,
+              amount: depositAmount,
               receiveAmount: order.receiveAmount,
               manualDeposit: manualDeposit,
               created: order.created,
