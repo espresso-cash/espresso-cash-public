@@ -14,6 +14,7 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../../../utils/errors.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
@@ -46,6 +47,7 @@ extension BuildContextExt on BuildContext {
           }
         }
 
+        reportError(exception);
         showCpErrorSnackbar(this, message: l10n.tryAgainLater);
 
         return;
