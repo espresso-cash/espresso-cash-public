@@ -1,3 +1,11 @@
+## 1.128.0
+
+ - **FIX**: navigation (#1579).
+ - **FEAT**: minor settings UI update (#1578).
+ - **FEAT**: ramp amount screen updates (#1580).
+ - **FEAT**: log coinflow exception (#1581).
+ - **FEAT**: send money ui update (#1577).
+
 ## 1.127.1
 
  - **FIX**: scalex onramp (#1575).
