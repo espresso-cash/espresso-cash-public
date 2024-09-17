@@ -157,6 +157,7 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
               if (_partners.isEmpty) ...[
                 const Spacer(),
                 const _CountryNotSupportedWidget(),
+                const Spacer(),
               ],
               SizedBox(height: 20.h),
               for (final partner in _partners)
