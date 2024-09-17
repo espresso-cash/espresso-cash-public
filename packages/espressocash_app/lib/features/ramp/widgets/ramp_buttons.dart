@@ -223,7 +223,9 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.coinflow:
         launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
-        launchScalexOffRamp(profile: profile, address: address);
+        sl<FeatureFlagsManager>().isKycSharingEnabled()
+            ? launchKycScalexOffRamp(profile: profile)
+            : launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.moneygram:
         launchMoneygramOffRamp(profile: profile);
       case RampPartner.rampNetwork:

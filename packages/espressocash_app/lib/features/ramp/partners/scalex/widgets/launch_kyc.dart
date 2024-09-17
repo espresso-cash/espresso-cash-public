@@ -14,8 +14,10 @@ import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
+import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
+import '../../../services/off_ramp_order_service.dart';
 import '../../../services/on_ramp_order_service.dart';
 import '../data/scalex_repository.dart';
 
@@ -125,6 +127,111 @@ extension BuildContextExt on BuildContext {
     });
   }
 
+  Future<void> launchKycScalexOffRamp({
+    required ProfileData profile,
+  }) async {
+    final rateAndFee = await _fetchRateAndFee();
+
+    if (rateAndFee == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+
+    Amount? amount;
+
+    final double rampRate = rateAndFee.offRampRate;
+    final double rampFeePercentage = rateAndFee.offRampFeePercentage;
+    final double fixedFee = rateAndFee.fixedOffRampFee;
+
+    const partner = RampPartner.scalex;
+
+    await RampAmountScreen.push(
+      this,
+      partner: partner,
+      onSubmitted: (value) {
+        Navigator.pop(this);
+        amount = value;
+      },
+      minAmount: partner.minimumAmountInDecimal,
+      currency: Currency.usdc,
+      receiveCurrency: Currency.ngn,
+      calculateEquivalent: (amount) async => Either.right(
+        amount.calculateOffRampReceiveAmount(
+          exchangeRate: rampRate,
+          percentageFee: rampFeePercentage,
+          fixedFee: fixedFee,
+        ),
+      ),
+      exchangeRate: '1 USDC = $rampRate NGN',
+      calculateFee: (amount) async {
+        final fee = amount.calculateOffRampFee(
+          exchangeRate: rampRate,
+          percentageFee: rampFeePercentage,
+          fixedFee: fixedFee,
+        );
+
+        return Either.right(
+          (
+            ourFee: null,
+            partnerFee: '${rampFeePercentage * 100}% + \$$fixedFee',
+            totalFee: fee,
+            extraFee: null,
+          ),
+        );
+      },
+      type: RampType.offRamp,
+    );
+
+    final submittedAmount = amount;
+
+    if (submittedAmount is! CryptoAmount) return;
+
+    final equivalentAmount = submittedAmount.calculateOffRampReceiveAmount(
+      exchangeRate: rampRate,
+      percentageFee: rampFeePercentage,
+      fixedFee: fixedFee,
+    );
+
+    //final kycPassed = await openKycFlow();
+
+    // if (!kycPassed) return;
+    // final service = sl<KycSharingService>();
+
+    // Mocked for now
+    // final orderId = await service.createOrder(
+    //   cryptoAmount: equivalentAmount.value.toString(),
+    //   cryptoCurrency: equivalentAmount.cryptoCurrency.name,
+    //   partnerPK: partnerAuthPk,
+    // );
+
+    const orderId = 'l8f98607-e6ba-4557-b2c8-cfab91d10963';
+    const address = '1234566789';
+
+    final fromAmount = Amount.fromDecimal(
+      value: submittedAmount.decimal,
+      currency: Currency.usdc,
+    ) as CryptoAmount;
+
+    await sl<OffRampOrderService>()
+        .create(
+      partnerOrderId: orderId,
+      amount: fromAmount,
+      partner: RampPartner.scalex,
+      receiveAmount: equivalentAmount,
+      depositAddress: address,
+      countryCode: profile.country.code,
+    )
+        .then((order) {
+      switch (order) {
+        case Left<Exception, String>():
+          break;
+        case Right<Exception, String>(:final value):
+          OffRampOrderScreen.pushReplacement(this, id: value);
+      }
+    });
+  }
+
   Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() =>
       runWithLoader<ScalexRateFeeResponseDto?>(this, () async {
         try {
@@ -157,6 +264,25 @@ extension on Amount {
     );
   }
 
+  FiatAmount calculateOffRampReceiveAmount({
+    required double exchangeRate,
+    required double percentageFee,
+    required double fixedFee,
+  }) {
+    final (amountInNGN, feeInUSDC) = _calculateOffRampAmounts(
+      exchangeRate: exchangeRate,
+      percentageFee: percentageFee,
+      fixedFee: fixedFee,
+    );
+    final double netAmountInNGN = amountInNGN - (feeInUSDC * exchangeRate);
+
+    return FiatAmount(
+      value:
+          Currency.ngn.decimalToInt(Decimal.parse(netAmountInNGN.toString())),
+      fiatCurrency: Currency.ngn,
+    );
+  }
+
   CryptoAmount calculateOnRampFee({
     required double exchangeRate,
     required double percentageFee,
@@ -184,5 +310,35 @@ extension on Amount {
     final double feeInUSDC = (amountInUSDC * percentageFee) + fixedFee;
 
     return (amountInUSDC, feeInUSDC);
+  }
+
+  FiatAmount calculateOffRampFee({
+    required double exchangeRate,
+    required double percentageFee,
+    required double fixedFee,
+  }) {
+    final (_, feeInUSDC) = _calculateOffRampAmounts(
+      exchangeRate: exchangeRate,
+      percentageFee: percentageFee,
+      fixedFee: fixedFee,
+    );
+    final double feeInNGN = feeInUSDC * exchangeRate;
+
+    return FiatAmount(
+      value: Currency.ngn.decimalToInt(Decimal.parse(feeInNGN.toString())),
+      fiatCurrency: Currency.ngn,
+    );
+  }
+
+  (double, double) _calculateOffRampAmounts({
+    required double exchangeRate,
+    required double percentageFee,
+    required double fixedFee,
+  }) {
+    final double inputAmountInUSDC = decimal.toDouble();
+    final double feeInUSDC = (inputAmountInUSDC * percentageFee) + fixedFee;
+    final double amountInNGN = inputAmountInUSDC * exchangeRate;
+
+    return (amountInNGN, feeInUSDC);
   }
 }
