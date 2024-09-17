@@ -20,6 +20,7 @@ import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
@@ -372,6 +373,10 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.waitingForPartner:
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
+          if (sl<FeatureFlagsManager>().isKycSharingEnabled()) {
+            return const Stream.empty();
+          }
+
           return Stream.fromFuture(
             order.partner == RampPartner.scalex
                 ? _createScalexTx(
