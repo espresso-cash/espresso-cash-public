@@ -7,11 +7,13 @@ import 'button.dart';
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({
     super.key,
-    this.footer = const SizedBox.shrink(),
+    this.footer,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
     required this.children,
   });
 
   final Widget? footer;
+  final CrossAxisAlignment crossAxisAlignment;
   final List<Widget> children;
 
   @override
@@ -26,6 +28,7 @@ class OnboardingScreen extends StatelessWidget {
               ),
               child: IntrinsicHeight(
                 child: Column(
+                  crossAxisAlignment: crossAxisAlignment,
                   children: [
                     ...children,
                     footer?.let((f) => Expanded(child: f)) ??

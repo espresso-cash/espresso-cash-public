@@ -10,6 +10,7 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/shake.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
@@ -18,6 +19,7 @@ import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 import '../widgets/debounce_mixin.dart';
+import '../widgets/error_chip.dart';
 import '../widgets/ramp_loader.dart';
 import '../widgets/ramp_textfield.dart';
 
@@ -123,7 +125,7 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
           ),
           body: SafeArea(
             top: false,
-            minimum: EdgeInsets.symmetric(vertical: 4.h),
+            minimum: EdgeInsets.symmetric(vertical: 6.h),
             child: Column(
               children: [
                 Expanded(
@@ -155,6 +157,17 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                           amount: _amount,
                           exchangeRate: widget.exchangeRate,
                           minAmount: widget.minAmount,
+                        ),
+                      ),
+                      ValueListenableBuilder(
+                        valueListenable: _controller,
+                        builder: (context, value, child) =>
+                            _MinimumAmountNotice(
+                          controller: _controller,
+                          currency: widget.currency,
+                          amount: _amount,
+                          minAmount: widget.minAmount,
+                          type: widget.type,
                         ),
                       ),
                     ],
@@ -194,11 +207,80 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                     ],
                   ),
                 ),
+                SizedBox(height: 24.h),
               ],
             ),
           ),
         ),
       );
+}
+
+class _MinimumAmountNotice extends StatefulWidget {
+  const _MinimumAmountNotice({
+    required this.controller,
+    required this.amount,
+    required this.minAmount,
+    required this.type,
+    required this.currency,
+  });
+
+  final TextEditingController controller;
+  final Amount amount;
+  final Decimal minAmount;
+  final RampType type;
+  final Currency currency;
+
+  @override
+  State<_MinimumAmountNotice> createState() => _MinimumAmountNoticeState();
+}
+
+class _MinimumAmountNoticeState extends State<_MinimumAmountNotice>
+    with DebounceMixin {
+  final _shakeKey = GlobalKey<ShakeState>();
+  bool _visible = false;
+
+  @override
+  void didUpdateWidget(covariant _MinimumAmountNotice oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.amount != widget.amount) {
+      _updateVisibility();
+    }
+  }
+
+  void _updateVisibility() {
+    final newVisible = widget.amount.decimal != Decimal.zero &&
+        widget.amount.decimal < widget.minAmount;
+    if (_visible != newVisible) {
+      _visible = newVisible;
+    }
+    if (_visible) {
+      _shakeKey.currentState?.shake();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final amount = Amount(
+      value: widget.currency.decimalToInt(widget.minAmount),
+      currency: widget.currency,
+    ).format(context.locale, roundInteger: true, maxDecimals: 0);
+
+    final message = switch (widget.type) {
+      RampType.onRamp => context.l10n.minAmountToOnRamp(amount),
+      RampType.offRamp => context.l10n.minAmountToOffRamp(amount),
+    }
+        .toUpperCase();
+
+    return Shake(
+      key: _shakeKey,
+      child: ErrorChip(
+        text: message,
+        visible: _visible,
+        margin: EdgeInsets.only(top: 32.h),
+      ),
+    );
+  }
 }
 
 class _ReceiveTextField extends StatefulWidget {
@@ -469,7 +551,7 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.symmetric(vertical: 2.h),
+        padding: EdgeInsets.symmetric(vertical: 4.h),
         child: Row(
           children: [
             Text(

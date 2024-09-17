@@ -131,7 +131,7 @@
   "@helpSectionTitle": {},
   "loading": "Loading...",
   "@loading": {},
-  "minAmountToOffRamp": "{amount} is the minimum you can cash out",
+  "minAmountToOffRamp": "{amount} withdrawal minimum",
   "@minAmountToOffRamp": {
     "placeholders": {
       "amount": {
@@ -139,7 +139,7 @@
       }
     }
   },
-  "minAmountToOnRamp": "{amount} is the minimum you can add",
+  "minAmountToOnRamp": "{amount} deposit minimum",
   "@minAmountToOnRamp": {
     "placeholders": {
       "amount": {
@@ -549,12 +549,12 @@
   "@viewTransaction": {},
   "walletAddress": "Wallet Address",
   "@walletAddress": {},
-  "walletAddressFieldHint": "Type, Paste or Scan Address Here",
+  "walletAddressFieldHint": "Type, paste or scan address here",
   "@walletAddressFieldHint": {},
-  "walletEspressoPayLabel": "Pay anyone by sharing the payment link using any messaging platform",
+  "walletEspressoPayLabel": "*Send money* using a payment link, qr code or wallet address.",
   "@walletEspressoPayLabel": {},
-  "walletPayOther": "Want to pay using a wallet address?",
-  "@walletPayOther": {},
+  "walletEspressoPayDescription": "Payment links are securely sent using any messaging platform.",
+  "@walletEspressoPayDescription": {},
   "walletNetworks": "Networks",
   "@walletNetworks": {},
   "walletSendToAddressTitle": "Wallet Address",
@@ -933,5 +933,13 @@
   "ourFeeTitle": "Our Fee",
   "@ourFeeTitle": {},
   "exchangeRateTitle": "Exchange Rate",
-  "@exchangeRateTitle": {}
+  "@exchangeRateTitle": {},
+  "followUsOn" : "Follow us on",
+  "@followUsOn": {},
+  "linkMethodText": "Payment link or QR code",
+  "@linkMethodText": {},
+  "addressMethodText": "Pay with wallet address",
+  "@addressMethodText": {},
+  "selectNetwork": "Select a Network",
+  "@selectNetwork": {}
 }
