@@ -131,7 +131,7 @@
   "@helpSectionTitle": {},
   "loading": "Loading...",
   "@loading": {},
-  "minAmountToOffRamp": "{amount} is the minimum you can cash out",
+  "minAmountToOffRamp": "{amount} withdrawal minimum",
   "@minAmountToOffRamp": {
     "placeholders": {
       "amount": {
@@ -139,7 +139,7 @@
       }
     }
   },
-  "minAmountToOnRamp": "{amount} is the minimum you can add",
+  "minAmountToOnRamp": "{amount} deposit minimum",
   "@minAmountToOnRamp": {
     "placeholders": {
       "amount": {
