@@ -23,10 +23,11 @@ class ViewRecoveryPhraseScreen extends StatefulWidget {
   }) =>
       (navigator ?? Navigator.of(context, rootNavigator: true))
           .pushAndRemoveUntil<void>(
-        MaterialPageRoute(
-          builder: (context) => ViewRecoveryPhraseScreen(
+        PageRouteBuilder(
+          pageBuilder: (context, _, __) => ViewRecoveryPhraseScreen(
             onConfirmed: onConfirmed,
           ),
+          transitionDuration: Duration.zero,
         ),
         F,
       );

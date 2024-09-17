@@ -32,8 +32,10 @@ class OnboardingProfileScreen extends StatefulWidget {
   }) =>
       (navigator ?? Navigator.of(context, rootNavigator: true))
           .pushAndRemoveUntil<void>(
-        MaterialPageRoute(
-          builder: (_) => OnboardingProfileScreen(onConfirmed: onConfirmed),
+        PageRouteBuilder(
+          pageBuilder: (context, _, __) =>
+              OnboardingProfileScreen(onConfirmed: onConfirmed),
+          transitionDuration: Duration.zero,
         ),
         F,
       );
