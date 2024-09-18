@@ -52,37 +52,34 @@ class _KycInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ProfileSection(
-        title: 'KYC INFO',
+        title: 'Account profile'.toUpperCase(),
         padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [
+          ProfileButton(
+            label: 'Edit Profile',
+            description: _getUserDescription(user),
+            onPressed: context.openBasicInfoFlow,
+          ),
+          if (user.hasBankInfo)
+            ProfileButton(
+              label: 'Banking Account',
+              description: _getBankDescription(user),
+              onPressed: () => BankAccountScreen.push(context),
+            ),
           if (user.email.isNotEmpty)
             ProfileButton(
-              label: 'Email',
+              label: 'Email Address',
               description: user.email,
               onPressed: context.openEmailFlow,
             ),
           if (user.phone.isNotEmpty)
             ProfileButton(
-              label: 'Phone number',
+              label: 'Phone Number',
               description: user.phone,
               onPressed: context.openPhoneFlow,
             ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: ProfileButton(
-              label: 'Basic info',
-              description: _getUserDescription(user),
-              onPressed: context.openBasicInfoFlow,
-            ),
-          ),
-          if (user.hasBankInfo)
-            ProfileButton(
-              label: 'Banking info',
-              description: _getBankDescription(user),
-              onPressed: () => BankAccountScreen.push(context),
-            ),
           ProfileButton(
-            label: 'Manage data access',
+            label: 'Manage Data Access',
             onPressed: () {},
           ),
         ],
