@@ -6,6 +6,7 @@ import '../../profile/widgets/profile_button.dart';
 import '../../profile/widgets/profile_section.dart';
 import '../models/kyc_model.dart';
 import '../screens/bank_account_screen.dart';
+import '../screens/manage_data_access_screen.dart';
 import '../services/kyc_service.dart';
 import 'kyc_flow.dart';
 
@@ -80,7 +81,7 @@ class _KycInfo extends StatelessWidget {
             ),
           ProfileButton(
             label: 'Manage Data Access',
-            onPressed: () {},
+            onPressed: () => ManageDataAccessScreen.push(context),
           ),
         ],
       );

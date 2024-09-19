@@ -227,7 +227,7 @@ extension BuildContextExt on BuildContext {
         case Left<Exception, String>():
           break;
         case Right<Exception, String>(:final value):
-          OffRampOrderScreen.pushReplacement(this, id: value);
+          OffRampOrderScreen.push(this, id: value);
       }
     });
   }
