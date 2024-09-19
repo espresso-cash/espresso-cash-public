@@ -1,3 +1,7 @@
+## 1.128.1
+
+ - **FIX**: minor select partner UI update (#1582).
+
 ## 1.128.0
 
  - **FIX**: navigation (#1579).
