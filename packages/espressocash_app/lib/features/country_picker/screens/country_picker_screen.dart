@@ -1,63 +1,60 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
-import '../../../ui/dialogs.dart';
-import '../../../ui/loader.dart';
 import '../../../ui/page_spacer_wrapper.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
-import '../../profile/service/update_profile.dart';
 import '../models/country.dart';
+
+typedef CountryOnTap = Future<void> Function(
+  Country updatedCountry,
+  BuildContext context,
+);
 
 class CountryPickerScreen extends StatelessWidget {
   const CountryPickerScreen({
     super.key,
     this.initial,
-    required this.shouldUpdateCountry,
+    this.onTap,
   });
 
-  static Future<Country?> open(
+  static Future<void> open(
     BuildContext context, {
     Country? initial,
+    CountryOnTap? onTap,
     NavigatorState? navigator,
   }) =>
       (navigator ?? Navigator.of(context, rootNavigator: true))
           .pushAndRemoveUntil<Country>(
-            PageRouteBuilder(
-              pageBuilder: (context, _, __) => CountryPickerScreen(
-                initial: initial,
-                shouldUpdateCountry: true,
-              ),
-              transitionDuration: Duration.zero,
-            ),
-            F,
-          )
-          .then((country) => country);
+        PageRouteBuilder(
+          pageBuilder: (context, _, __) => CountryPickerScreen(
+            initial: initial,
+            onTap: onTap,
+          ),
+          transitionDuration: Duration.zero,
+        ),
+        F,
+      );
 
-  static Future<Country?> push(
+  static Future<void> push(
     BuildContext context, {
     Country? initial,
-    NavigatorState? navigator,
+    CountryOnTap? onTap,
   }) =>
-      (navigator ?? Navigator.of(context, rootNavigator: true))
-          .pushAndRemoveUntil<Country>(
-            PageRouteBuilder(
-              pageBuilder: (context, _, __) => CountryPickerScreen(
-                initial: initial,
-                shouldUpdateCountry: false,
-              ),
-              transitionDuration: Duration.zero,
-            ),
-            F,
-          )
-          .then((country) => country);
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => CountryPickerScreen(
+            initial: initial,
+            onTap: onTap,
+          ),
+        ),
+      );
 
   final Country? initial;
-  final bool shouldUpdateCountry;
+  final CountryOnTap? onTap;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -69,7 +66,7 @@ class CountryPickerScreen extends StatelessWidget {
           body: _Wrapper(
             child: _Content(
               initial: initial,
-              shouldUpdateCountry: shouldUpdateCountry,
+              onTap: onTap,
             ),
           ),
         ),
@@ -77,10 +74,10 @@ class CountryPickerScreen extends StatelessWidget {
 }
 
 class _Content extends StatefulWidget {
-  const _Content({this.initial, required this.shouldUpdateCountry});
+  const _Content({this.initial, required this.onTap});
 
   final Country? initial;
-  final bool shouldUpdateCountry;
+  final CountryOnTap? onTap;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -94,24 +91,6 @@ class _ContentState extends State<_Content> {
   String _searchText = '';
 
   final _countries = Country.all;
-
-  Future<void> _updateCountry(Country country) => runWithLoader(
-        context,
-        () async {
-          await sl<UpdateProfile>()
-              .call(
-                countryCode: country.code,
-              )
-              .foldAsync((e) => throw e, ignore);
-
-          if (!context.mounted) return;
-        },
-        onError: (error) => showErrorDialog(
-          context,
-          context.l10n.lblProfileUpdateFailed,
-          error,
-        ),
-      );
 
   @override
   void initState() {
@@ -211,12 +190,11 @@ class _ContentState extends State<_Content> {
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
                     onTap: () async {
-                      if (widget.shouldUpdateCountry) {
-                        await _updateCountry(country);
-                      }
+                      await widget.onTap
+                          ?.let((onTap) => onTap(country, context));
 
                       if (!context.mounted) return;
-                      Navigator.pop(context, country);
+                      Navigator.pop(context);
                     },
                   ),
                 );
