@@ -25,12 +25,8 @@ class CountryPicker extends StatelessWidget {
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 24),
           onTap: () async {
-            final Country? updated = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CountryPickerScreen(initial: country),
-              ),
-            );
+            final Country? updated =
+                await CountryPickerScreen.push(context, initial: country);
 
             if (context.mounted && updated != null) {
               onSubmitted(updated);

@@ -1,20 +1,63 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/loader.dart';
 import '../../../ui/page_spacer_wrapper.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
+import '../../profile/service/update_profile.dart';
 import '../models/country.dart';
 
 class CountryPickerScreen extends StatelessWidget {
   const CountryPickerScreen({
     super.key,
     this.initial,
+    required this.shouldUpdateCountry,
   });
 
+  static Future<Country?> open(
+    BuildContext context, {
+    Country? initial,
+    NavigatorState? navigator,
+  }) =>
+      (navigator ?? Navigator.of(context, rootNavigator: true))
+          .pushAndRemoveUntil<Country>(
+            PageRouteBuilder(
+              pageBuilder: (context, _, __) => CountryPickerScreen(
+                initial: initial,
+                shouldUpdateCountry: true,
+              ),
+              transitionDuration: Duration.zero,
+            ),
+            F,
+          )
+          .then((country) => country);
+
+  static Future<Country?> push(
+    BuildContext context, {
+    Country? initial,
+    NavigatorState? navigator,
+  }) =>
+      (navigator ?? Navigator.of(context, rootNavigator: true))
+          .pushAndRemoveUntil<Country>(
+            PageRouteBuilder(
+              pageBuilder: (context, _, __) => CountryPickerScreen(
+                initial: initial,
+                shouldUpdateCountry: false,
+              ),
+              transitionDuration: Duration.zero,
+            ),
+            F,
+          )
+          .then((country) => country);
+
   final Country? initial;
+  final bool shouldUpdateCountry;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -23,15 +66,21 @@ class CountryPickerScreen extends StatelessWidget {
           appBar: CpAppBar(
             title: Text(context.l10n.selectCountryTitle.toUpperCase()),
           ),
-          body: _Wrapper(child: _Content(initial: initial)),
+          body: _Wrapper(
+            child: _Content(
+              initial: initial,
+              shouldUpdateCountry: shouldUpdateCountry,
+            ),
+          ),
         ),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({this.initial});
+  const _Content({this.initial, required this.shouldUpdateCountry});
 
   final Country? initial;
+  final bool shouldUpdateCountry;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -45,6 +94,24 @@ class _ContentState extends State<_Content> {
   String _searchText = '';
 
   final _countries = Country.all;
+
+  Future<void> _updateCountry(Country country) => runWithLoader(
+        context,
+        () async {
+          await sl<UpdateProfile>()
+              .call(
+                countryCode: country.code,
+              )
+              .foldAsync((e) => throw e, ignore);
+
+          if (!context.mounted) return;
+        },
+        onError: (error) => showErrorDialog(
+          context,
+          context.l10n.lblProfileUpdateFailed,
+          error,
+        ),
+      );
 
   @override
   void initState() {
@@ -143,7 +210,14 @@ class _ContentState extends State<_Content> {
                     ),
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
-                    onTap: () => Navigator.pop(context, country),
+                    onTap: () async {
+                      if (widget.shouldUpdateCountry) {
+                        await _updateCountry(country);
+                      }
+
+                      if (!context.mounted) return;
+                      Navigator.pop(context, country);
+                    },
                   ),
                 );
               },
