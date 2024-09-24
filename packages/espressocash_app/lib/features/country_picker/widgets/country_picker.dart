@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
@@ -25,13 +26,16 @@ class CountryPicker extends StatelessWidget {
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 24),
           onTap: () async {
+            Country? country;
             await CountryPickerScreen.push(
               context,
               initial: country,
-              onTap: (updated, _) async {
-                onSubmitted(updated);
-              },
+              onTap: (updated, _) async => country = updated,
             );
+
+            if (context.mounted) {
+              country?.let(onSubmitted);
+            }
           },
           title: Text(
             country?.name ?? context.l10n.countryOfResidence,
