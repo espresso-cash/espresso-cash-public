@@ -5,15 +5,12 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../balances/services/refresh_balance.dart';
-import '../../currency/models/amount.dart';
-import '../../currency/models/currency.dart';
 import '../../escrow/models/escrow_private_key.dart';
 import '../../escrow_payments/create_incoming_escrow.dart';
 import '../../escrow_payments/escrow_exception.dart';
@@ -147,23 +144,11 @@ class ILPService implements Disposable {
 
     await _txConfirm(txId: status.signature);
 
-    int? fee;
-    try {
-      fee = status.tx.containsAta
-          ? await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee)
-          : null;
-    } on Object {
-      fee = null;
-    }
-
     _refreshBalance();
 
     return payment.copyWith(
       status: ILPStatus.success(
         tx: status.tx,
-        fee: fee?.let(
-          (fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc),
-        ),
       ),
     );
   }
@@ -172,11 +157,4 @@ class ILPService implements Disposable {
   Future<void> onDispose() async {
     await Future.wait(_subscriptions.values.map((it) => it.cancel()));
   }
-}
-
-extension on SignedTx {
-  bool get containsAta => decompileMessage().let(
-        (m) => m.instructions
-            .any((ix) => ix.programId == AssociatedTokenAccountProgram.id),
-      );
 }
