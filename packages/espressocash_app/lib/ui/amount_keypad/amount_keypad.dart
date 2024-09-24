@@ -1,5 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../l10n/decimal_separator.dart';
 import '../../l10n/device_locale.dart';
@@ -103,7 +104,7 @@ class AmountKeypad extends StatelessWidget {
               getDecimalSeparator(DeviceLocale.localeOf(context));
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
             child: Column(
               children: List.generate(
                 4,

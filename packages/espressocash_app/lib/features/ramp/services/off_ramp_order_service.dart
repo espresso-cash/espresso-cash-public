@@ -17,13 +17,16 @@ import '../../../data/db/db.dart';
 import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
-import '../../tokens/token_list.dart';
+import '../../tokens/data/token_repository.dart';
+import '../../tokens/token.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
+import '../models/ramp_type.dart';
 import '../models/ramp_watcher.dart';
 import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
 import '../partners/kado/services/kado_off_ramp_order_watcher.dart';
@@ -56,7 +59,8 @@ class OffRampOrderService implements Disposable {
     this._client,
     this._sender,
     this._db,
-    this._tokens,
+    this._tokenRepository,
+    this._analytics,
   );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
@@ -66,7 +70,8 @@ class OffRampOrderService implements Disposable {
   final EspressoCashClient _client;
   final TxSender _sender;
   final MyDatabase _db;
-  final TokenList _tokens;
+  final TokenRepository _tokenRepository;
+  final AnalyticsManager _analytics;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
@@ -112,25 +117,22 @@ class OffRampOrderService implements Disposable {
     final query = _db.select(_db.offRampOrderRows)
       ..where((tbl) => tbl.id.equals(orderId));
 
-    return query.watchSingle().map((row) {
-      final amount = CryptoAmount(
-        value: row.amount,
-        cryptoCurrency: CryptoCurrency(
-          token: _tokens.requireTokenByMint(row.token),
-        ),
-      );
+    return query.watchSingle().asyncMap((row) async {
+      final amount = await _amount(row);
 
-      final fee = row.feeAmount?.let(
-        (amount) {
-          final token = row.feeToken;
+      final fee = await row.feeAmount?.let(
+        (amount) async {
+          final tokenAddress = row.feeToken;
+
+          if (tokenAddress == null) return null;
+
+          final token = await _tokenRepository.getToken(tokenAddress);
 
           if (token == null) return null;
 
           return CryptoAmount(
             value: amount,
-            cryptoCurrency: CryptoCurrency(
-              token: _tokens.requireTokenByMint(token),
-            ),
+            cryptoCurrency: CryptoCurrency(token: token),
           );
         },
       );
@@ -270,6 +272,7 @@ class OffRampOrderService implements Disposable {
     (SignedTx, BigInt)? transaction,
     FiatAmount? receiveAmount,
     CryptoAmount? fee,
+    required String countryCode,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -298,6 +301,14 @@ class OffRampOrderService implements Disposable {
           _subscribe(order.id);
           await _watch(order.id);
 
+          _analytics.rampInitiated(
+            partner: partner,
+            rampType: RampType.offRamp.name,
+            amount: amount.value.toString(),
+            countryCode: countryCode,
+            id: order.id,
+          );
+
           return order.id;
         }
       });
@@ -309,6 +320,7 @@ class OffRampOrderService implements Disposable {
     required RampPartner partner,
     required BigInt slot,
     FiatAmount? receiveAmount,
+    required String countryCode,
   }) =>
       tryEitherAsync((bind) async {
         {
@@ -321,6 +333,7 @@ class OffRampOrderService implements Disposable {
             depositAddress: '',
             receiveAmount: receiveAmount,
             transaction: (signed, slot),
+            countryCode: countryCode,
           ).letAsync(bind);
         }
       });
@@ -413,21 +426,21 @@ class OffRampOrderService implements Disposable {
     await _db.delete(_db.offRampOrderRows).go();
   }
 
-  CryptoAmount _amount(OffRampOrderRow order) => CryptoAmount(
+  Future<CryptoAmount> _amount(OffRampOrderRow order) async => CryptoAmount(
         value: order.amount,
         cryptoCurrency: CryptoCurrency(
-          token: _tokens.requireTokenByMint(order.token),
+          token: (await _tokenRepository.getToken(order.token)) ?? Token.unk,
         ),
       );
 
   Future<OffRampOrderRowsCompanion> _createTx({
-    required CryptoAmount amount,
+    required Future<CryptoAmount> amount,
     required Ed25519HDPublicKey receiver,
   }) async {
     final dto = CreateDirectPaymentRequestDto(
       senderAccount: _account.address,
       receiverAccount: receiver.toBase58(),
-      amount: amount.value,
+      amount: (await amount).value,
       referenceAccount: null,
       cluster: apiCluster,
     );

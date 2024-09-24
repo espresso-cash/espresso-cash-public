@@ -32,8 +32,10 @@ class OnboardingProfileScreen extends StatefulWidget {
   }) =>
       (navigator ?? Navigator.of(context, rootNavigator: true))
           .pushAndRemoveUntil<void>(
-        MaterialPageRoute(
-          builder: (_) => OnboardingProfileScreen(onConfirmed: onConfirmed),
+        PageRouteBuilder(
+          pageBuilder: (context, _, __) =>
+              OnboardingProfileScreen(onConfirmed: onConfirmed),
+          transitionDuration: Duration.zero,
         ),
         F,
       );
@@ -105,6 +107,7 @@ class _OnboardingProfileScreenState extends State<OnboardingProfileScreen> {
   @override
   Widget build(BuildContext context) => FormPage(
         title: Text(context.l10n.onboardingProfileTitle.toUpperCase()),
+        backgroundImage: Assets.images.blank,
         colorTheme: FormPageColorTheme.gold,
         header: FormPageHeader(
           title: const SizedBox.shrink(),
@@ -112,7 +115,7 @@ class _OnboardingProfileScreenState extends State<OnboardingProfileScreen> {
             context.l10n.yourEmailDisclaimer,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
           ),
-          icon: Assets.images.identityGraphic,
+          icon: Assets.images.profileGraphic,
         ),
         child: Column(
           children: [

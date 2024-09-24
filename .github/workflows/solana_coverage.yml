@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.22.2"
+  FLUTTER_VERSION: "3.24.3"
 
 jobs:
   solana_coverage:
@@ -25,7 +25,7 @@ jobs:
       METAPLEX_SO: "packages/solana/test/bpf-programs/metaplex.so"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
 
       - uses: subosito/flutter-action@v2
@@ -52,6 +52,6 @@ jobs:
       - name: Coverage
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_coverage
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           flags: solana-stable

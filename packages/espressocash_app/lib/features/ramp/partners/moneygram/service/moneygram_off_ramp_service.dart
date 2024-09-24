@@ -13,8 +13,10 @@ import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart' hide Currency;
 import 'package:uuid/uuid.dart';
 
 import '../../../../../data/db/db.dart';
+import '../../../../../utils/errors.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../accounts/models/ec_wallet.dart';
+import '../../../../analytics/analytics_manager.dart';
 import '../../../../balances/services/refresh_balance.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
@@ -48,12 +50,14 @@ class MoneygramOffRampOrderService implements Disposable {
     this._solanaClient,
     this._txConfirm,
     this._refreshBalance,
+    this._analytics,
   );
 
   final MyDatabase _db;
   final TxSender _sender;
   final TxConfirm _txConfirm;
   final RefreshBalance _refreshBalance;
+  final AnalyticsManager _analytics;
 
   final ECWallet _ecWallet;
   final StellarWallet _stellarWallet;
@@ -99,6 +103,11 @@ class MoneygramOffRampOrderService implements Disposable {
     _subscriptions[orderId] = query
         .watchSingle()
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
+          logMessage(
+            message: 'MGOffRampOrderStatusChange',
+            data: order.toSentry,
+          );
+
           switch (order.status) {
             case OffRampOrderStatus.preProcessing:
               return Stream.fromFuture(_preProcessOrder(order));
@@ -164,6 +173,7 @@ class MoneygramOffRampOrderService implements Disposable {
   AsyncResult<String> createMoneygramOrder({
     required CryptoAmount submittedAmount,
     required FiatAmount? receiveAmount,
+    required String countryCode,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -182,11 +192,19 @@ class MoneygramOffRampOrderService implements Disposable {
             transaction: '',
             depositAddress: '',
             slot: BigInt.zero,
-            bridgeAmount: 0,
+            bridgeAmount: null,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
           _subscribe(order.id);
+
+          _analytics.rampInitiated(
+            partner: RampPartner.moneygram,
+            rampType: RampType.offRamp.name,
+            amount: submittedAmount.value.toString(),
+            countryCode: countryCode,
+            id: order.id,
+          );
 
           return order.id;
         }
@@ -474,7 +492,7 @@ class MoneygramOffRampOrderService implements Disposable {
 
     final receiveAmount = Amount.fromDecimal(
       value: Decimal.parse(transaction.amountOut ?? '0'),
-      currency: Currency.usd,
+      currency: currencyFromString(transaction.amountOutAsset ?? 'USD'),
     ) as FiatAmount;
 
     final fee = Amount.fromDecimal(
@@ -535,11 +553,12 @@ class MoneygramOffRampOrderService implements Disposable {
         return;
       }
 
-      final response = await _allbridgeApiClient.fetchBridgeStatus(
-        BridgeStatusRequestDto(chain: Chain.solana, txId: hash),
+      final response = await _allbridgeApiClient.fetchStatus(
+        chain: Chain.solana,
+        hash: hash,
       );
 
-      final destination = response.receive;
+      final destination = response?.receive;
 
       if (destination == null) {
         return;
@@ -551,12 +570,16 @@ class MoneygramOffRampOrderService implements Disposable {
         return;
       }
 
-      final bridgeAmount = int.parse(destination.amount) ~/ 10;
+      final amount = int.parse(destination.amount) ~/ 10;
+
+      final bridgeAmount =
+          CryptoAmount(value: amount, cryptoCurrency: Currency.usdc)
+              .floor(Currency.usd.decimals);
 
       await statement.write(
         OffRampOrderRowsCompanion(
           status: const Value(OffRampOrderStatus.ready),
-          bridgeAmount: Value(bridgeAmount),
+          bridgeAmount: Value(bridgeAmount.value),
         ),
       );
 
@@ -602,6 +625,12 @@ class MoneygramOffRampOrderService implements Disposable {
             status: Value(OffRampOrderStatus.completed),
           ),
         );
+
+        _analytics.rampCompleted(
+          partner: RampPartner.moneygram,
+          rampType: RampType.offRamp.name,
+          id: id,
+        );
       }
 
       if (isRefunded) {
@@ -620,17 +649,23 @@ class MoneygramOffRampOrderService implements Disposable {
       cryptoCurrency: Currency.usdc,
     );
 
-    final transactionSucceed = await _stellarClient.sendUsdc(
-      destinationAddress: order.withdrawAnchorAccount ?? '',
-      memo: order.withdrawMemo ?? '',
-      amount: amount.decimal.toString(),
-    );
+    try {
+      final transactionSucceed = await _stellarClient.sendUsdc(
+        destinationAddress: order.withdrawAnchorAccount ?? '',
+        memo: order.withdrawMemo ?? '',
+        amount: amount.decimal.toString(),
+      );
 
-    return transactionSucceed
-        ? const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.waitingForPartner),
-          )
-        : null;
+      return transactionSucceed
+          ? const OffRampOrderRowsCompanion(
+              status: Value(OffRampOrderStatus.waitingForPartner),
+            )
+          : null;
+    } on Exception catch (error, stackTrace) {
+      reportError(error, stackTrace);
+
+      return null;
+    }
   }
 
   Future<OffRampOrderRowsCompanion?> _processRefund(
@@ -644,31 +679,16 @@ class MoneygramOffRampOrderService implements Disposable {
       );
     }
 
-    final response = await _allbridgeApiClient
-        .fetchBridgeStatus(
-          BridgeStatusRequestDto(
-            chain: Chain.solana,
-            txId: order.solanaBridgeTx ?? '',
-          ),
-        )
-        .then((e) => e.receive)
-        .catchError((_) => null);
-
-    if (response == null) {
-      return const OffRampOrderRowsCompanion(
-        status: Value(OffRampOrderStatus.processingRefund),
-      );
-    }
-
-    final amount = int.parse(response.amount) ~/ 10;
-
-    final solanaAddress = _ecWallet.address;
+    final amount = CryptoAmount(
+      value: order.bridgeAmount ?? 0,
+      cryptoCurrency: Currency.usdc,
+    );
 
     final refundAmount = await _ecClient
         .calculateMoneygramFee(
           MoneygramFeeRequestDto(
             type: RampTypeDto.onRamp,
-            amount: (int.parse(response.amount) / 10000000).toString(),
+            amount: amount.decimal.toString(),
           ),
         )
         .then(
@@ -681,9 +701,9 @@ class MoneygramOffRampOrderService implements Disposable {
     final bridgeTx = await _ecClient
         .swapToSolana(
           SwapToSolanaRequestDto(
-            amount: amount.toStringAsFixed(0),
+            amount: amount.value.toString(),
             stellarSenderAddress: _stellarWallet.address,
-            solanaReceiverAddress: solanaAddress,
+            solanaReceiverAddress: _ecWallet.address,
           ),
         )
         .then((e) => e.encodedTx);
@@ -720,8 +740,9 @@ class MoneygramOffRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] =
-        Stream<void>.periodic(const Duration(seconds: 60)).listen((_) async {
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 60))
+        .startWith(null)
+        .listen((_) async {
       final statement = _db.update(_db.offRampOrderRows)
         ..where(
           (tbl) => tbl.id.equals(id),
@@ -741,14 +762,12 @@ class MoneygramOffRampOrderService implements Disposable {
         return;
       }
 
-      final response = await _allbridgeApiClient.fetchBridgeStatus(
-        BridgeStatusRequestDto(
-          chain: Chain.stellar,
-          txId: hash,
-        ),
+      final response = await _allbridgeApiClient.fetchStatus(
+        chain: Chain.stellar,
+        hash: hash,
       );
 
-      final status = response.receive;
+      final status = response?.receive;
 
       if (status == null) {
         return;
@@ -804,3 +823,18 @@ class MoneygramOffRampOrderService implements Disposable {
 }
 
 const _minimumInitBalance = 1.5; // 1.5 XLM
+
+extension on OffRampOrderRow {
+  Map<String, dynamic> get toSentry {
+    final json = toJson();
+
+    const filter = ['transaction', 'slot'];
+
+    json.removeWhere(
+      (key, value) =>
+          value == null || value == '' || filter.contains(key) || value == 0.0,
+    );
+
+    return json;
+  }
+}

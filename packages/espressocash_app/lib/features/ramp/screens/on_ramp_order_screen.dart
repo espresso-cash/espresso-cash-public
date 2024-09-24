@@ -8,6 +8,7 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
+import '../../../ui/dialogs.dart';
 import '../../../ui/partner_order_id.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
@@ -138,7 +139,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.postProcessing =>
         context.l10n.onRampAwaitingFunds,
       OnRampOrderStatus.waitingForBridge =>
-        'Transfer could take a few minutes...',
+        context.l10n.transferInProgressText(3),
       OnRampOrderStatus.pending ||
       OnRampOrderStatus.preProcessing ||
       OnRampOrderStatus.waitingForDeposit ||
@@ -152,9 +153,10 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? const _ContactUsButton()
         : null;
 
-    final depositAmount = isMoneygramOrder
-        ? manualDeposit?.transferAmount
-        : order.submittedAmount;
+    final depositAmount =
+        manualDeposit?.transferAmount ?? order.submittedAmount;
+
+    final showCancelButton = order.status.isCancellable;
 
     return StatusScreen(
       theme: theme,
@@ -179,7 +181,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
             const Spacer(flex: 1),
             _Timeline(
               status: order.status,
-              amount: depositAmount ?? order.submittedAmount,
+              amount: depositAmount,
               receiveAmount: order.receiveAmount,
               manualDeposit: manualDeposit,
               created: order.created,
@@ -197,7 +199,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
               primaryButton,
             ],
             Visibility(
-              visible: order.status == OnRampOrderStatus.depositExpired,
+              visible: showCancelButton,
               maintainSize: true,
               maintainAnimation: true,
               maintainState: true,
@@ -221,10 +223,15 @@ class _CancelButton extends StatelessWidget {
         child: CpTextButton(
           text: context.l10n.offRampCancelTitle,
           variant: CpTextButtonVariant.light,
-          onPressed: () {
-            sl<OnRampOrderService>().delete(orderId);
-            Navigator.pop(context);
-          },
+          onPressed: () => showConfirmationDialog(
+            context,
+            title: context.l10n.onRampCancelTitle.toUpperCase(),
+            message: context.l10n.onRampCancelSubtitle,
+            onConfirm: () {
+              sl<OnRampOrderService>().delete(orderId);
+              Navigator.pop(context);
+            },
+          ),
         ),
       );
 }

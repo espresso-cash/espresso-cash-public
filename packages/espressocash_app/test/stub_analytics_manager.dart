@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:espressocash_app/features/analytics/analytics_manager.dart';
+import 'package:espressocash_app/features/ramp_partner/models/ramp_partner.dart';
 
 class StubAnalyticsManager implements AnalyticsManager {
   const StubAnalyticsManager();
@@ -43,6 +44,25 @@ class StubAnalyticsManager implements AnalyticsManager {
 
   @override
   void paymentRequestLinkPaid({required Decimal amount}) {}
+
+  @override
+  void rampCompleted({
+    required RampPartner partner,
+    required String rampType,
+    required String id,
+  }) {}
+
+  @override
+  void rampInitiated({
+    required RampPartner partner,
+    required String rampType,
+    required String? amount,
+    required String countryCode,
+    required String id,
+  }) {}
+
+  @override
+  void rampOpened({required RampPartner partner, required String rampType}) {}
 
   @override
   void ataCreated() {}

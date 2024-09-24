@@ -1,3 +1,61 @@
+## 1.128.1
+
+ - **FIX**: minor select partner UI update (#1582).
+
+## 1.128.0
+
+ - **FIX**: navigation (#1579).
+ - **FEAT**: minor settings UI update (#1578).
+ - **FEAT**: ramp amount screen updates (#1580).
+ - **FEAT**: log coinflow exception (#1581).
+ - **FEAT**: send money ui update (#1577).
+
+## 1.127.1
+
+ - **FIX**: scalex onramp (#1575).
+
+## 1.127.0
+
+ - **REFACTOR**: migrate to Flutter 3.24.3 (#1574).
+ - **FIX**: stellar recovery (#1570).
+ - **FIX**: home screen fixes (#1569).
+ - **FEAT**: update select partners UI (#1563).
+ - **FEAT**: ramp amount input screen (#1565).
+ - **FEAT**: update moneygram countries (#1573).
+ - **FEAT**: store token list localdb (#1498).
+ - **FEAT**: shows correct error message on outgoing link (#1530).
+ - **FEAT**: update moneygram bridge text (#1566).
+
+## 1.126.1
+
+ - **FIX**: moneygram ramp fixes (#1562).
+ - **FIX**: stellar recovery service init (#1561).
+
+## 1.126.0
+
+ - **FIX**: Solana v.2 tests (#1554).
+ - **FIX**: moneygram offramp bridge amount (#1556).
+ - **FEAT**: add stellar recovery service (#1549).
+
+## 1.125.0
+
+ - **FEAT**: enable moneygram for PT (#1558).
+
+## 1.124.1
+
+ - **FIX**: moneygram bridge precision (#1555).
+
+## 1.124.0
+
+ - **FIX**: moneygram ramp fixes (#1550).
+ - **FIX**: status screen UI theming (#1541).
+ - **FEAT**: add ramp analytics (#1552).
+ - **FEAT**: onboarding UI update (#1553).
+ - **FEAT**: store conversion rates to db (#1526).
+ - **FEAT**: remove the smart retry for all transactions (#1515).
+ - **FEAT**: moneygram updates (#1543).
+ - **FEAT**: request link creation to mixpanel logs (#1546).
+
 ## 1.123.2
 
  - **FIX**: moneygram stellar config (#1540).

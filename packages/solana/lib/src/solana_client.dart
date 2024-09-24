@@ -26,8 +26,9 @@ class SolanaClient {
     SignatureCallback onSigned = ignoreOnSigned,
     required Commitment commitment,
   }) async {
+    final bh = await rpcClient.getLatestBlockhash(commitment: commitment).value;
     final tx = await signTransaction(
-      await rpcClient.getRecentBlockhash(commitment: commitment).value,
+      bh,
       message,
       signers,
     );

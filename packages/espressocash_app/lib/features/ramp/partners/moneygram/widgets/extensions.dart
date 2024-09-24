@@ -12,6 +12,7 @@ import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../service/moneygram_off_ramp_service.dart';
+import 'style.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> openMoneygramWithdrawUrl(OffRampOrder order) async {
@@ -29,6 +30,8 @@ extension BuildContextExt on BuildContext {
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
+      await controller.evaluateJavascript(source: await loadMoneygramStyle());
+
       controller.addJavaScriptHandler(
         handlerName: 'moneygram',
         callback: (args) async {
@@ -72,6 +75,11 @@ window.addEventListener("message", (event) => {
       url: Uri.parse(order.moreInfoUrl ?? ''),
       title: l10n.offRampWithdrawTitle.toUpperCase(),
       theme: const CpThemeData.light(),
+      onLoaded: (controller) async {
+        await controller.evaluateJavascript(
+          source: await loadMoneygramStyle(),
+        );
+      },
     );
 
     await sl<MoneygramOffRampOrderService>().processRefund(order.id);

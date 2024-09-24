@@ -23,10 +23,11 @@ class ViewRecoveryPhraseScreen extends StatefulWidget {
   }) =>
       (navigator ?? Navigator.of(context, rootNavigator: true))
           .pushAndRemoveUntil<void>(
-        MaterialPageRoute(
-          builder: (context) => ViewRecoveryPhraseScreen(
+        PageRouteBuilder(
+          pageBuilder: (context, _, __) => ViewRecoveryPhraseScreen(
             onConfirmed: onConfirmed,
           ),
+          transitionDuration: Duration.zero,
         ),
         F,
       );
@@ -73,6 +74,7 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
   Widget build(BuildContext context) => FormPage(
         colorTheme: FormPageColorTheme.gold,
         title: const SizedBox(),
+        backgroundImage: Assets.images.dollarBg,
         header: FormPageHeader(
           title: Text(
             context.l10n.onboardingPhraseTitle,

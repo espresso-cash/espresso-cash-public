@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
@@ -10,8 +9,8 @@ import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../accounts/models/account.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../country_picker/models/country.dart';
-import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/profile_data.dart';
@@ -24,7 +23,6 @@ import '../partners/ramp_network/widgets/launch.dart';
 import '../partners/scalex/widgets/launch.dart';
 import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
-import 'off_ramp_bottom_sheet.dart';
 
 class PayOrRequestButton extends StatelessWidget {
   const PayOrRequestButton({
@@ -162,34 +160,12 @@ extension RampBuildContextExt on BuildContext {
     required ProfileData profile,
     required String address,
   }) {
-    final partners = _getOnRampPartners(profile.country.code);
-
-    if (partners.isEmpty) {
-      OffRampBottomSheet.show(this, title: l10n.ramp_btnAddCash);
-
-      return;
-    }
-
-    final [top, ...others] = partners.unlock;
-
-    if (others.isEmpty) {
-      _launchOnRampPartner(
-        top,
-        profile: profile,
-        address: address,
-      );
-
-      return;
-    }
-
     RampPartnerSelectScreen.push(
       this,
-      topPartner: top,
-      otherPartners: others.lock,
       type: RampType.onRamp,
-      onPartnerSelected: (RampPartner p) {
+      onPartnerSelected: (RampPartner partner) {
         Navigator.pop(this);
-        _launchOnRampPartner(p, profile: profile, address: address);
+        _launchOnRampPartner(partner, profile: profile, address: address);
       },
     );
   }
@@ -198,34 +174,12 @@ extension RampBuildContextExt on BuildContext {
     required ProfileData profile,
     required String address,
   }) {
-    final partners = _getOffRampPartners(profile.country.code);
-
-    if (partners.isEmpty) {
-      OffRampBottomSheet.show(this, title: l10n.ramp_btnCashOut);
-
-      return;
-    }
-
-    final [top, ...others] = partners.unlock;
-
-    if (others.isEmpty) {
-      _launchOffRampPartner(
-        top,
-        profile: profile,
-        address: address,
-      );
-
-      return;
-    }
-
     RampPartnerSelectScreen.push(
       this,
-      topPartner: top,
-      otherPartners: others.lock,
       type: RampType.offRamp,
-      onPartnerSelected: (RampPartner p) {
+      onPartnerSelected: (RampPartner partner) {
         Navigator.pop(this);
-        _launchOffRampPartner(p, profile: profile, address: address);
+        _launchOffRampPartner(partner, profile: profile, address: address);
       },
     );
   }
@@ -245,10 +199,13 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.scalex:
         launchScalexOnRamp(profile: profile, address: address);
       case RampPartner.moneygram:
-        launchMoneygramOnRamp();
+        launchMoneygramOnRamp(profile: profile);
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
+
+    sl<AnalyticsManager>()
+        .rampOpened(partner: partner, rampType: RampType.onRamp.name);
   }
 
   void _launchOffRampPartner(
@@ -264,78 +221,13 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.scalex:
         launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.moneygram:
-        launchMoneygramOffRamp();
+        launchMoneygramOffRamp(profile: profile);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');
     }
+
+    sl<AnalyticsManager>()
+        .rampOpened(partner: partner, rampType: RampType.offRamp.name);
   }
 }
-
-typedef PartnerOptions = ({RampPartner top, IList<RampPartner> other});
-
-IList<RampPartner> _getOnRampPartners(String countryCode) {
-  final partners = <RampPartner>{};
-
-  if (_kadoCountries.contains(countryCode)) {
-    partners.add(RampPartner.kado);
-  }
-
-  if (_scalexCountries.contains(countryCode)) {
-    partners.add(RampPartner.scalex);
-  }
-
-  partners.add(RampPartner.rampNetwork);
-
-  if (_guardarianCountries.contains(countryCode)) {
-    partners.add(RampPartner.guardarian);
-  }
-
-  final isMoneygramEnabled =
-      sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
-
-  if (isMoneygramEnabled && _moneygramCountries.contains(countryCode)) {
-    partners.add(RampPartner.moneygram);
-  }
-
-  return IList(partners);
-}
-
-IList<RampPartner> _getOffRampPartners(String countryCode) {
-  final partners = <RampPartner>{};
-
-  if (_coinflowCountries.contains(countryCode)) {
-    partners.add(RampPartner.coinflow);
-  }
-
-  if (_scalexCountries.contains(countryCode)) {
-    partners.add(RampPartner.scalex);
-  }
-
-  final isMoneygramEnabled =
-      sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
-
-  if (isMoneygramEnabled && _moneygramCountries.contains(countryCode)) {
-    partners.add(RampPartner.moneygram);
-  }
-
-  return IList(partners);
-}
-
-const _kadoCountries = {'US'};
-
-const _guardarianCountries = {
-  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
-  'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
-  'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'CH',
-};
-
-const _coinflowCountries = {
-  'AD', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', //
-  'GR', 'HU', 'IS', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT', 'MC', 'NL', 'NO',
-  'PL', 'PT', 'RO', 'SM', 'SK', 'SI', 'ES', 'SE', 'CH', 'US',
-};
-
-const _scalexCountries = {'NG'};
-
-const _moneygramCountries = {'US'};

@@ -15,6 +15,7 @@ sealed class Currency with _$Currency {
     required int decimals,
     required String symbol,
     required String sign,
+    String? countryCode,
   }) = FiatCurrency;
 
   const factory Currency.crypto({
@@ -32,6 +33,7 @@ sealed class Currency with _$Currency {
     sign: r'$',
     name: 'US dollar',
     decimals: 2,
+    countryCode: 'US',
   );
 
   static const FiatCurrency ngn = FiatCurrency(
@@ -39,6 +41,7 @@ sealed class Currency with _$Currency {
     sign: '₦',
     name: 'Nigerian Naira',
     decimals: 2,
+    countryCode: 'NG',
   );
 
   String get name => switch (this) {
