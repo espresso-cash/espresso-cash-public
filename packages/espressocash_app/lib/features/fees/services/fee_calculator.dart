@@ -35,7 +35,7 @@ class FeeCalculator {
                 RampPartner.rampNetwork =>
                   fees.withdrawFeePercentage.rampNetwork,
                 RampPartner.kado => fees.withdrawFeePercentage.kado,
-                RampPartner.moneygram => 0,
+                RampPartner.kyc || RampPartner.moneygram => 0,
               };
               final percentageFeeAmount = (amount * percentageFee).ceil();
 

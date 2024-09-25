@@ -49,6 +49,7 @@ class _OnRampOrderDetailsState extends State<OnRampOrderDetails> {
       RampPartner.kado => sl<KadoOnRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOnRampOrderWatcher>(),
       RampPartner.moneygram => null,
+      RampPartner.kyc ||
       RampPartner.rampNetwork ||
       RampPartner.coinflow ||
       RampPartner.guardarian =>

@@ -15,6 +15,7 @@ enum RampPartner {
       PaymentMethod.pix,
     ],
   ),
+
   rampNetwork(
     title: 'Ramp Network',
     minimumAmount: r'$7',
@@ -26,6 +27,7 @@ enum RampPartner {
       PaymentMethod.bank,
     ],
   ),
+
   coinflow(
     title: 'Coinflow',
     minimumAmount: r'$20',
@@ -35,6 +37,7 @@ enum RampPartner {
       PaymentMethod.bank,
     ],
   ),
+
   guardarian(
     title: 'Guardarian',
     minimumAmount: r'$5',
@@ -47,14 +50,22 @@ enum RampPartner {
       PaymentMethod.swift,
     ],
   ),
+
   scalex(
     title: 'Scalex',
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
   ),
+
   moneygram(
     title: 'MoneyGram',
     minimumAmount: r'$10',
+    paymentMethods: [],
+  ),
+
+  kyc(
+    title: 'Kyc Partner',
+    minimumAmount: r'$5',
     paymentMethods: [],
   );
 
@@ -87,6 +98,8 @@ extension RampPartnerAssets on RampPartner {
         return Assets.images.scalexIcon;
       case RampPartner.moneygram:
         return Assets.images.moneygramIcon;
+      case RampPartner.kyc:
+        return Assets.images.sendMoney;
     }
   }
 }

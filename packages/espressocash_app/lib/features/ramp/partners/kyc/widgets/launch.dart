@@ -19,10 +19,10 @@ import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../../services/on_ramp_order_service.dart';
-import '../data/scalex_repository.dart';
+import '../../scalex/data/scalex_repository.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchKycScalexOnRamp({
+  Future<void> launchKycOnRamp({
     required ProfileData profile,
   }) async {
     final rateAndFee = await _fetchRateAndFee();
@@ -127,7 +127,7 @@ extension BuildContextExt on BuildContext {
     });
   }
 
-  Future<void> launchKycScalexOffRamp({
+  Future<void> launchKycOffRamp({
     required ProfileData profile,
   }) async {
     final rateAndFee = await _fetchRateAndFee();

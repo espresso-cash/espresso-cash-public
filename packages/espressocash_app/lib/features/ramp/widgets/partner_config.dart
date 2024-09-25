@@ -12,6 +12,12 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
   final isMoneygramEnabled =
       sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
 
+  final isKycEnabled = sl<FeatureFlagsManager>().isKycSharingEnabled();
+
+  if (isKycEnabled) {
+    partners.add(RampPartner.kyc);
+  }
+
   if (isMoneygramEnabled && _moneygramOnRampCountries.contains(countryCode)) {
     partners.add(RampPartner.moneygram);
   }
@@ -40,6 +46,12 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
 
   final isMoneygramEnabled =
       sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
+
+  final isKycEnabled = sl<FeatureFlagsManager>().isKycSharingEnabled();
+
+  if (isKycEnabled) {
+    partners.add(RampPartner.kyc);
+  }
 
   if (isMoneygramEnabled && _moneygramOffRampCountries.contains(countryCode)) {
     partners.add(RampPartner.moneygram);

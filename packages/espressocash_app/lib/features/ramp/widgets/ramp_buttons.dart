@@ -11,7 +11,6 @@ import '../../../ui/icon_button.dart';
 import '../../accounts/models/account.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../country_picker/models/country.dart';
-import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/profile_data.dart';
@@ -19,10 +18,10 @@ import '../models/ramp_type.dart';
 import '../partners/coinflow/widgets/launch.dart';
 import '../partners/guardarian/widgets/launch.dart';
 import '../partners/kado/widgets/launch.dart';
+import '../partners/kyc/widgets/launch.dart';
 import '../partners/moneygram/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
 import '../partners/scalex/widgets/launch.dart';
-import '../partners/scalex/widgets/launch_kyc.dart';
 import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
 
@@ -199,9 +198,9 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.guardarian:
         launchGuardarianOnRamp(profile: profile, address: address);
       case RampPartner.scalex:
-        sl<FeatureFlagsManager>().isKycSharingEnabled()
-            ? launchKycScalexOnRamp(profile: profile)
-            : launchScalexOnRamp(profile: profile, address: address);
+        launchScalexOnRamp(profile: profile, address: address);
+      case RampPartner.kyc:
+        launchKycOnRamp(profile: profile);
       case RampPartner.moneygram:
         launchMoneygramOnRamp(profile: profile);
       case RampPartner.coinflow:
@@ -223,11 +222,11 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.coinflow:
         launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
-        sl<FeatureFlagsManager>().isKycSharingEnabled()
-            ? launchKycScalexOffRamp(profile: profile)
-            : launchScalexOffRamp(profile: profile, address: address);
+        launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.moneygram:
         launchMoneygramOffRamp(profile: profile);
+      case RampPartner.kyc:
+        launchKycOffRamp(profile: profile);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');
