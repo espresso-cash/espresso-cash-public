@@ -33,7 +33,6 @@ class KycRepository extends ChangeNotifier {
 
   KycServiceClient get _validatorClient => _xFlowClient.kycValidatorClient;
   OtpServiceClient get _otpClient => _xFlowClient.otpServiceClient;
-  UserServiceClient get _userClient => _xFlowClient.userServiceClient;
 
   @PostConstruct()
   Future<void> init() async {
@@ -164,27 +163,11 @@ class KycRepository extends ChangeNotifier {
         cryptoCurrency: cryptoCurrency,
       );
 
-  Future<void> shareDataWithPartner() async {
-    await _kycUserClient.grantPartnerAccess(partnerAuthPk);
-    await _userClient.sendUserData(
-      SendUserDataRequest(
-        user: User(
-          userPk: _authPublicKey,
-          secretKey: _rawSecretKey,
-        ),
-        partnerPk: partnerAuthPk,
-      ),
-    );
-  }
+  Future<void> shareDataWithPartner() =>
+      _kycUserClient.grantPartnerAccess(partnerAuthPk);
 
-  Future<void> revokeDataFromPartner() async {
-    await _userClient.deleteUserData(
-      DeleteUserDataRequest(
-        userPk: _authPublicKey,
-        partnerPk: partnerAuthPk,
-      ),
-    );
-  }
+  // TODO implement when backend ready
+  Future<void> revokeDataFromPartner() async {}
 
   Future<void> _sendEmailOtp() async {
     await _otpClient.sendOtpByEmail(

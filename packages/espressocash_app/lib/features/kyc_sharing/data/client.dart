@@ -17,5 +17,4 @@ class XFlowClient {
 
   KycServiceClient get kycValidatorClient => KycServiceClient(_channel);
   OtpServiceClient get otpServiceClient => OtpServiceClient(_channel);
-  UserServiceClient get userServiceClient => UserServiceClient(_channel);
 }
