@@ -156,8 +156,8 @@ class KycSharingService extends ValueNotifier<KycState> {
 
   Future<void> shareDataWithPartner() => _kycRepository.shareDataWithPartner();
 
-  Future<void> revokeDataFromPartner() =>
-      _kycRepository.revokeDataFromPartner();
+  // Future<void> revokeDataFromPartner() =>
+  //     _kycRepository.revokeDataFromPartner();
 
   @override
   @disposeMethod

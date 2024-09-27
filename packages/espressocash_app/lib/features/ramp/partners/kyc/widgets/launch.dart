@@ -39,7 +39,7 @@ extension BuildContextExt on BuildContext {
     final double rampFeePercentage = rateAndFee.onRampFeePercentage ?? 0;
     final double fixedFee = rateAndFee.fixedOnRampFee ?? 0;
 
-    const partner = RampPartner.scalex;
+    const partner = RampPartner.kyc;
 
     final minAmountNGN =
         partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
@@ -109,7 +109,7 @@ extension BuildContextExt on BuildContext {
         .createForManualTransfer(
       orderId: orderId,
       receiveAmount: equivalentAmount,
-      partner: RampPartner.scalex,
+      partner: RampPartner.kyc,
       bankAccount: partnerAccountNumber,
       bankName: partnerBank,
       transferAmount: submittedAmount as FiatAmount,
@@ -144,7 +144,7 @@ extension BuildContextExt on BuildContext {
     final double rampFeePercentage = rateAndFee.offRampFeePercentage;
     final double fixedFee = rateAndFee.fixedOffRampFee;
 
-    const partner = RampPartner.scalex;
+    const partner = RampPartner.kyc;
 
     await RampAmountScreen.push(
       this,
@@ -217,7 +217,7 @@ extension BuildContextExt on BuildContext {
         .create(
       partnerOrderId: orderId,
       amount: fromAmount,
-      partner: RampPartner.scalex,
+      partner: RampPartner.kyc,
       receiveAmount: equivalentAmount,
       depositAddress: address,
       countryCode: profile.country.code,

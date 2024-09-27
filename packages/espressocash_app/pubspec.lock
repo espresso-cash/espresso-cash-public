@@ -1248,7 +1248,7 @@ packages:
     description:
       path: kyc_app_client
       ref: HEAD
-      resolved-ref: "7aef2fda7f355b4e12724011d60c7cbd1aedf392"
+      resolved-ref: "904d779a1edc7660ff41698ff41c2da8567e74ed"
       url: "https://github.com/espresso-cash/kyc_validator.git"
     source: git
     version: "0.0.0"
@@ -1256,8 +1256,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: upd-api
-      resolved-ref: "1ff9cf1f9e7f44138423ef6e5c660db0010d6037"
+      ref: HEAD
+      resolved-ref: "8aae7afd1413f6713c5fa14147db3574d1fd8382"
       url: "https://github.com/espresso-cash/kyc_client_dart.git"
     source: git
     version: "1.0.0"

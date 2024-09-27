@@ -92,7 +92,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
             controller: _emailController,
             inputType: TextInputType.emailAddress,
             placeholder: 'Email Address',
-            readOnly: true,
           ),
           const SizedBox(height: 16),
           ListenableBuilder(
