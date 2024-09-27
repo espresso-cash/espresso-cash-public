@@ -12,8 +12,8 @@ import '../data/client.dart';
 import '../models/kyc_model.dart';
 
 // Hardcoded for now
-const validatorAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
-const partnerAuthPk = '5PcfzhA3saCwcJjRstKyytMwwxeK1XJt48WGUhZEyecp';
+const validatorAuthPk = '5PcfzhA3saCwcJjRstKyytMwwxeK1XJt48WGUhZEyecp';
+const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 
 @Singleton(scope: authScope)
 class KycRepository extends ChangeNotifier {
@@ -167,7 +167,7 @@ class KycRepository extends ChangeNotifier {
       _kycUserClient.grantPartnerAccess(partnerAuthPk);
 
   // TODO implement when backend ready
-  Future<void> revokeDataFromPartner() async {}
+  // Future<void> revokeDataFromPartner() async {}
 
   Future<void> _sendEmailOtp() async {
     await _otpClient.sendOtpByEmail(
