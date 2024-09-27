@@ -163,10 +163,10 @@ class KycRepository extends ChangeNotifier {
         cryptoCurrency: cryptoCurrency,
       );
 
-  Future<void> shareDataWithPartner() =>
-      _kycUserClient.grantPartnerAccess(partnerAuthPk);
+  Future<void> shareDataWithPartner(String partnerPk) =>
+      _kycUserClient.grantPartnerAccess(partnerPk);
 
-  // TODO implement when backend ready
+  // TODOimplement when backend ready
   // Future<void> revokeDataFromPartner() async {}
 
   Future<void> _sendEmailOtp() async {

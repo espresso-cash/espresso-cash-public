@@ -13,8 +13,8 @@ import '../data/kyc_repository.dart';
 import 'state.dart';
 
 // Hardcoded for now
-const validatorAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
-const partnerAuthPk = '5PcfzhA3saCwcJjRstKyytMwwxeK1XJt48WGUhZEyecp';
+const validatorAuthPk = '5PcfzhA3saCwcJjRstKyytMwwxeK1XJt48WGUhZEyecp';
+const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 
 @Singleton(scope: authScope)
 class KycSharingService extends ValueNotifier<KycState> {
@@ -61,7 +61,8 @@ class KycSharingService extends ValueNotifier<KycState> {
       photoSelfie: selfiePhoto,
     );
 
-    await _kycRepository.shareDataWithPartner();
+    await _kycRepository.shareDataWithPartner(partnerAuthPk);
+    await _kycRepository.shareDataWithPartner(validatorAuthPk);
   }
 
   Future<void> updateBankInfo({
@@ -154,7 +155,8 @@ class KycSharingService extends ValueNotifier<KycState> {
 
   Future<void> requestKyc() => _kycRepository.requestKyc();
 
-  Future<void> shareDataWithPartner() => _kycRepository.shareDataWithPartner();
+  Future<void> shareDataWithPartner(String partnerPk) =>
+      _kycRepository.shareDataWithPartner(partnerPk);
 
   // Future<void> revokeDataFromPartner() =>
   //     _kycRepository.revokeDataFromPartner();

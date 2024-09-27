@@ -98,7 +98,7 @@ extension BuildContextExt on BuildContext {
 
     final orderId = await service.createOrder(
       cryptoAmount: equivalentAmount.value.toString(),
-      cryptoCurrency: equivalentAmount.cryptoCurrency.name,
+      cryptoCurrency: equivalentAmount.cryptoCurrency.token.symbol,
       partnerPK: partnerAuthPk,
     );
 
