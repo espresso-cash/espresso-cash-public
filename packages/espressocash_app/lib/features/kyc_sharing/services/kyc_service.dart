@@ -145,13 +145,20 @@ class KycSharingService extends ValueNotifier<KycState> {
   Future<String> createOrder({
     required String cryptoAmount,
     required String cryptoCurrency,
+    required String fiatAmount,
+    required String fiatCurrency,
     required String partnerPK,
   }) =>
       _kycRepository.createOrder(
         cryptoAmount: cryptoAmount,
         cryptoCurrency: cryptoCurrency,
+        fiatAmount: fiatAmount,
+        fiatCurrency: fiatCurrency,
         partnerPK: partnerPK,
       );
+
+  Future<V1GetOrderResponse> fetchOrder(String orderId) =>
+      _kycRepository.fetchOrder(orderId);
 
   Future<void> requestKyc() => _kycRepository.requestKyc();
 

@@ -1257,7 +1257,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8aae7afd1413f6713c5fa14147db3574d1fd8382"
+      resolved-ref: cd79da3e38e9f3cb133beff54475496e575f0976
       url: "https://github.com/espresso-cash/kyc_client_dart.git"
     source: git
     version: "1.0.0"

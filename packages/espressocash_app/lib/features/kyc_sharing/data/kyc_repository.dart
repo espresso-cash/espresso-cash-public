@@ -155,13 +155,20 @@ class KycRepository extends ChangeNotifier {
   Future<String> createOrder({
     required String cryptoAmount,
     required String cryptoCurrency,
+    required String fiatAmount,
+    required String fiatCurrency,
     required String partnerPK,
   }) =>
       _kycUserClient.createOrder(
         partnerPK: partnerPK,
         cryptoAmount: cryptoAmount,
         cryptoCurrency: cryptoCurrency,
+        fiatAmount: fiatAmount,
+        fiatCurrency: fiatCurrency,
       );
+
+  Future<V1GetOrderResponse> fetchOrder(String orderId) =>
+      _kycUserClient.getOrder(orderId);
 
   Future<void> shareDataWithPartner(String partnerPk) =>
       _kycUserClient.grantPartnerAccess(partnerPk);
