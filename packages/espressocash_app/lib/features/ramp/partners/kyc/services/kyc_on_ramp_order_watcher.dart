@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:drift/drift.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -14,6 +13,10 @@ import '../../../data/my_database_ext.dart';
 import '../../../models/ramp_type.dart';
 import '../../../models/ramp_watcher.dart';
 
+
+// TODO 
+// 1) This watcher will be only init when u go to activities
+// 2) KycOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit might return step back (check this)
 @injectable
 class KycOnRampOrderWatcher implements RampWatcher {
   KycOnRampOrderWatcher(this._db, this._service, this._analytics);
@@ -37,18 +40,21 @@ class KycOnRampOrderWatcher implements RampWatcher {
           (tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false),
         );
 
-      final isCompleted = data.status == KycOrderStatus.completed.value;
-      final isExpired = data.status == KycOrderStatus.completed.value;
+      final status = switch (KycOrderStatus.fromString(data.status)) {
+        KycOrderStatus.completed => OnRampOrderStatus.completed,
+        KycOrderStatus.unknown ||
+        KycOrderStatus.rejected ||
+        KycOrderStatus.failed =>
+          OnRampOrderStatus.failure,
+        KycOrderStatus.pending => OnRampOrderStatus.waitingVerification,
+        KycOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit,
+      };
 
-      if (isCompleted || isExpired) await _subscription?.cancel();
-
-      final status = isCompleted
-          ? OnRampOrderStatus.completed
-          : isExpired
-              ? OnRampOrderStatus.depositExpired
-              : null;
+      final isCompleted = status == OnRampOrderStatus.completed;
 
       if (isCompleted) {
+        await _subscription?.cancel();
+
         _analytics.rampCompleted(
           partner: RampPartner.kyc,
           rampType: RampType.onRamp.name,
@@ -58,7 +64,7 @@ class KycOnRampOrderWatcher implements RampWatcher {
 
       await statement.write(
         OnRampOrderRowsCompanion(
-          status: Value.absentIfNull(status),
+          status: Value(status),
           isCompleted: Value(isCompleted),
         ),
       );

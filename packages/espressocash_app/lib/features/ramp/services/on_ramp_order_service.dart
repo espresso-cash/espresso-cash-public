@@ -132,6 +132,7 @@ class OnRampOrderService implements Disposable {
     required String? bankName,
     required DateTime? transferExpiryDate,
     required FiatAmount transferAmount,
+    OnRampOrderStatus status = OnRampOrderStatus.waitingForDeposit,
     required String countryCode,
   }) =>
       create(
@@ -143,7 +144,7 @@ class OnRampOrderService implements Disposable {
         bankName: bankName,
         transferExpiryDate: transferExpiryDate,
         transferAmount: transferAmount,
-        status: OnRampOrderStatus.waitingForDeposit,
+        status: status,
         countryCode: countryCode,
       );
 
@@ -163,6 +164,7 @@ class OnRampOrderService implements Disposable {
           ),
         );
       case OnRampOrderStatus.depositExpired:
+      case OnRampOrderStatus.waitingVerification:
       case OnRampOrderStatus.waitingForPartner:
       case OnRampOrderStatus.failure:
       case OnRampOrderStatus.completed:

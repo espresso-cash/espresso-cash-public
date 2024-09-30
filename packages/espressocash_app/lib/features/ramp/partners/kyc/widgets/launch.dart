@@ -3,6 +3,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../data/db/db.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/loader.dart';
@@ -99,9 +100,8 @@ extension BuildContextExt on BuildContext {
     final orderId = await service.createOrder(
       cryptoAmount: equivalentAmount.value.toString(),
       cryptoCurrency: equivalentAmount.cryptoCurrency.token.symbol,
-      // TODO
-      fiatAmount: '',
-      fiatCurrency: '',
+      fiatAmount: submittedAmount.value.toString(),
+      fiatCurrency: submittedAmount.currency.symbol,
       partnerPK: partnerAuthPk,
     );
 
@@ -116,6 +116,7 @@ extension BuildContextExt on BuildContext {
       bankAccount: partnerAccountNumber,
       bankName: partnerBank,
       transferAmount: submittedAmount as FiatAmount,
+      status: OnRampOrderStatus.waitingVerification,
       transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
       submittedAmount: equivalentAmount,
       countryCode: profile.country.code,

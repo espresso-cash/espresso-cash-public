@@ -126,6 +126,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.waitingForBridge ||
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.postProcessing ||
+      OnRampOrderStatus.waitingVerification ||
       OnRampOrderStatus.waitingForPartner =>
         context.l10n
             .onRampDepositOngoing(amount.format(locale, maxDecimals: 2)),
@@ -135,6 +136,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
     };
 
     final String? statusSubtitle = switch (order.status) {
+         OnRampOrderStatus.waitingVerification => 'Waiting for partner verification',
       OnRampOrderStatus.waitingForPartner ||
       OnRampOrderStatus.postProcessing =>
         context.l10n.onRampAwaitingFunds,
@@ -379,6 +381,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
+        OnRampOrderStatus.waitingVerification ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
@@ -393,6 +396,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
+        OnRampOrderStatus.waitingVerification ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
@@ -406,6 +410,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.pending ||
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.depositExpired ||
+        OnRampOrderStatus.waitingVerification ||
         OnRampOrderStatus.waitingForDeposit =>
           0,
         OnRampOrderStatus.waitingForPartner ||
@@ -420,6 +425,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.pending ||
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.waitingForBridge ||
+        OnRampOrderStatus.waitingVerification ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForPartner =>
