@@ -3,7 +3,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../data/db/db.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/loader.dart';
@@ -19,8 +18,8 @@ import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
-import '../../../services/on_ramp_order_service.dart';
 import '../../scalex/data/scalex_repository.dart';
+import '../services/kyc_on_ramp_order_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchKycOnRamp({
@@ -95,29 +94,26 @@ extension BuildContextExt on BuildContext {
     final kycPassed = await openKycFlow();
 
     if (!kycPassed) return;
+
     final service = sl<KycSharingService>();
 
-    final orderId = await service.createOrder(
-      cryptoAmount: equivalentAmount.value.toString(),
-      cryptoCurrency: equivalentAmount.cryptoCurrency.token.symbol,
-      fiatAmount: submittedAmount.value.toString(),
-      fiatCurrency: submittedAmount.currency.symbol,
-      partnerPK: partnerAuthPk,
+    final orderId = await runWithLoader<String>(
+      this,
+      () async => service.createOrder(
+        cryptoAmount: equivalentAmount.value.toString(),
+        cryptoCurrency: equivalentAmount.cryptoCurrency.token.symbol,
+        fiatAmount: submittedAmount.value.toString(),
+        fiatCurrency: submittedAmount.currency.symbol,
+        partnerPK: partnerAuthPk,
+      ),
     );
 
-    const partnerBank = 'Partner Bank';
-    const partnerAccountNumber = 'EC_1234';
-
-    await sl<OnRampOrderService>()
-        .createForManualTransfer(
+    await sl<XFlowOnRampOrderService>()
+        .create(
       orderId: orderId,
       receiveAmount: equivalentAmount,
       partner: RampPartner.kyc,
-      bankAccount: partnerAccountNumber,
-      bankName: partnerBank,
       transferAmount: submittedAmount as FiatAmount,
-      status: OnRampOrderStatus.waitingVerification,
-      transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
       submittedAmount: equivalentAmount,
       countryCode: profile.country.code,
     )

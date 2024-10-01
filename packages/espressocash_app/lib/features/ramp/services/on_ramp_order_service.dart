@@ -172,6 +172,7 @@ class OnRampOrderService implements Disposable {
       case OnRampOrderStatus.preProcessing:
       case OnRampOrderStatus.postProcessing:
       case OnRampOrderStatus.waitingForBridge:
+      case OnRampOrderStatus.rejected:
         break;
     }
   }
@@ -203,10 +204,8 @@ class OnRampOrderService implements Disposable {
         final fiatSymbol = row.fiatSymbol;
         final moreInfoUrl = row.moreInfoUrl;
 
-        final isManualDeposit = bankName != null &&
-            transferExpiryDate != null &&
-            transferAmount != null &&
-            fiatSymbol != null;
+        final isManualDeposit =
+            bankName != null && transferAmount != null && fiatSymbol != null;
 
         final Token? token = await _tokenRepository.getToken(row.token);
 
@@ -241,7 +240,7 @@ class OnRampOrderService implements Disposable {
               ? (
                   bankAccount: bankAccount ?? '',
                   bankName: bankName,
-                  transferExpiryDate: transferExpiryDate,
+                  transferExpiryDate: transferExpiryDate ?? DateTime.now(),
                   transferAmount: FiatAmount(
                     value: transferAmount,
                     fiatCurrency: currencyFromString(fiatSymbol),

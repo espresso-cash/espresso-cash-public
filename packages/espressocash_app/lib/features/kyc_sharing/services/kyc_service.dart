@@ -157,16 +157,10 @@ class KycSharingService extends ValueNotifier<KycState> {
         partnerPK: partnerPK,
       );
 
-  Future<V1GetOrderResponse> fetchOrder(String orderId) =>
-      _kycRepository.fetchOrder(orderId);
-
   Future<void> requestKyc() => _kycRepository.requestKyc();
 
   Future<void> shareDataWithPartner(String partnerPk) =>
       _kycRepository.shareDataWithPartner(partnerPk);
-
-  // Future<void> revokeDataFromPartner() =>
-  //     _kycRepository.revokeDataFromPartner();
 
   @override
   @disposeMethod

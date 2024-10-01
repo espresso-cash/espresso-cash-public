@@ -126,17 +126,19 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.waitingForBridge ||
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.postProcessing ||
-      OnRampOrderStatus.waitingVerification ||
       OnRampOrderStatus.waitingForPartner =>
         context.l10n
             .onRampDepositOngoing(amount.format(locale, maxDecimals: 2)),
       OnRampOrderStatus.depositExpired => context.l10n.onRampDepositExpired,
-      OnRampOrderStatus.failure => context.l10n.onRampDepositFailure,
+      OnRampOrderStatus.failure ||
+      OnRampOrderStatus.rejected =>
+        context.l10n.onRampDepositFailure,
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
+      OnRampOrderStatus.waitingVerification =>
+        'Waiting for partner verification',
     };
 
     final String? statusSubtitle = switch (order.status) {
-         OnRampOrderStatus.waitingVerification => 'Waiting for partner verification',
       OnRampOrderStatus.waitingForPartner ||
       OnRampOrderStatus.postProcessing =>
         context.l10n.onRampAwaitingFunds,
@@ -147,6 +149,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.depositExpired ||
       OnRampOrderStatus.failure ||
+      OnRampOrderStatus.rejected ||
+      OnRampOrderStatus.waitingVerification ||
       OnRampOrderStatus.completed =>
         null
     };
@@ -386,7 +390,8 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
         OnRampOrderStatus.depositExpired ||
-        OnRampOrderStatus.failure =>
+        OnRampOrderStatus.failure ||
+        OnRampOrderStatus.rejected =>
           CpStatusType.error,
         OnRampOrderStatus.completed => CpStatusType.success,
       };
@@ -401,7 +406,8 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
         OnRampOrderStatus.depositExpired ||
-        OnRampOrderStatus.failure =>
+        OnRampOrderStatus.failure ||
+        OnRampOrderStatus.rejected =>
           CpTimelineStatus.failure,
         OnRampOrderStatus.completed => CpTimelineStatus.success,
       };
@@ -410,8 +416,9 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.pending ||
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.depositExpired ||
+        OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingVerification ||
-        OnRampOrderStatus.waitingForDeposit =>
+        OnRampOrderStatus.rejected =>
           0,
         OnRampOrderStatus.waitingForPartner ||
         OnRampOrderStatus.postProcessing ||
@@ -428,7 +435,8 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.waitingVerification ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.postProcessing ||
-        OnRampOrderStatus.waitingForPartner =>
+        OnRampOrderStatus.waitingForPartner ||
+        OnRampOrderStatus.rejected =>
           'Pending',
         OnRampOrderStatus.depositExpired => 'Expired',
         OnRampOrderStatus.failure => 'Failed',

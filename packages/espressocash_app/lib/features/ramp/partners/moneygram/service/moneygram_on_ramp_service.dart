@@ -127,6 +127,7 @@ class MoneygramOnRampOrderService implements Disposable {
             case OnRampOrderStatus.waitingForDeposit:
             case OnRampOrderStatus.waitingVerification:
             case OnRampOrderStatus.depositExpired:
+            case OnRampOrderStatus.rejected:
               return const Stream.empty();
           }
         })
