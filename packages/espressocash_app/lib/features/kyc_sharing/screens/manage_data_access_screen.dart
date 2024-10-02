@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../ui/app_bar.dart';
-import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../../profile/widgets/profile_button.dart';

@@ -60,13 +60,20 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
         try {
           final service = sl<KycSharingService>();
 
+          final countryCode = _country?.code;
+          final idTypeValue = _idType?.value;
+
+          if (countryCode == null || idTypeValue == null) {
+            throw Exception();
+          }
+
           await service.updateUserInfo(
             firstName: _firstNameController.text,
             middleName: _middleNameController.text,
             lastName: _lastNameController.text,
             dob: _dob?.toIso8601String() ?? '',
-            countryCode: _country!.code,
-            idType: _idType!.value,
+            countryCode: countryCode,
+            idType: idTypeValue,
             idNumber: _idController.text,
             selfiePhoto: null,
           );

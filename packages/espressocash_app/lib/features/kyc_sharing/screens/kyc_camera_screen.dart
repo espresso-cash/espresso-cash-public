@@ -44,8 +44,6 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
 
       if (!mounted) return;
 
-      // showCpSnackbar(context, message: 'Success, Data updated');
-
       Navigator.pop(context, true);
     } on Exception {
       showCpErrorSnackbar(context, message: 'Failed to update data');
@@ -76,19 +74,23 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
             body: Stack(
               children: [
                 Builder(
-                  builder: (context) => _capturedImage != null
-                      ? _ResultView(
-                          capturedImage: _capturedImage!,
-                          onRetakePressed: () async {
-                            await _controller.startImageStream();
+                  builder: (context) {
+                    final capturedImage = _capturedImage;
 
-                            if (!mounted) return;
+                    return capturedImage != null
+                        ? _ResultView(
+                            capturedImage: capturedImage,
+                            onRetakePressed: () async {
+                              await _controller.startImageStream();
 
-                            setState(() => _capturedImage = null);
-                          },
-                          onSubmitPressed: _handleSubmitted,
-                        )
-                      : _CameraView(_controller),
+                              if (!mounted) return;
+
+                              setState(() => _capturedImage = null);
+                            },
+                            onSubmitPressed: _handleSubmitted,
+                          )
+                        : _CameraView(_controller);
+                  },
                 ),
                 Align(
                   alignment: Alignment.topRight,
