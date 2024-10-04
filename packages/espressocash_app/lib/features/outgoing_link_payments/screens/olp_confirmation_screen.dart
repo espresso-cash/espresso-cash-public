@@ -132,12 +132,14 @@ class _InformationView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FittedBox(
-            child: Text(
-              formattedAmount,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 48,
+          Center(
+            child: FittedBox(
+              child: Text(
+                formattedAmount,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 48,
+                ),
               ),
             ),
           ),
