@@ -9,7 +9,6 @@ import '../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/bottom_button.dart';
-import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/shake.dart';
 import '../../../ui/text_field.dart';
