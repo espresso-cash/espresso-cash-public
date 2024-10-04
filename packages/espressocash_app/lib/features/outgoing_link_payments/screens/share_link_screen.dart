@@ -32,7 +32,7 @@ class ShareLinkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = Text(
-      context.l10n.pay.toUpperCase(),
+      context.l10n.sendMoney.toUpperCase(),
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
     );
 

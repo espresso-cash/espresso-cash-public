@@ -84,26 +84,14 @@
   "@errorMessageInsufficientFunds": {},
   "faq": "Frequently Asked Questions (FAQ)",
   "@faq": {},
-  "feeAmount": "Fee: {value}",
-  "@feeAmount": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
+  "fee": "Fee",
+  "@fee": {},
   "feesCalculating": "calculating...",
   "@feesCalculating": {},
   "feesFailed": "failed to load",
   "@feesFailed": {},
-  "fiatEquivalent": "Equivalent to {value}",
-  "@fiatEquivalent": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
+  "fiatEquivalent": "Equivalent to",
+  "@fiatEquivalent": {},
   "incorrectPasscode": "Incorrect passcode. Retry again",
   "@incorrectPasscode": {},
   "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
@@ -392,7 +380,7 @@
   "@selectCountryTitle": {},
   "sendAs": "Send as",
   "@sendAs": {},
-  "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the link.",
+  "sendExplanation": "Proceed below to create a payment link for the amount displayed.",
   "@sendExplanation": {},
   "sendMoney": "Send Money",
   "@sendMoney": {},
@@ -553,7 +541,7 @@
   "@walletAddressFieldHint": {},
   "walletEspressoPayLabel": "*Send money* using a payment link, qr code or wallet address.",
   "@walletEspressoPayLabel": {},
-  "walletEspressoPayDescription": "Payment links are securely sent using any messaging platform.",
+  "walletEspressoPayDescription": "Send payment using any messaging platform.",
   "@walletEspressoPayDescription": {},
   "walletNetworks": "Networks",
   "@walletNetworks": {},
@@ -934,12 +922,10 @@
   "@ourFeeTitle": {},
   "exchangeRateTitle": "Exchange Rate",
   "@exchangeRateTitle": {},
-  "followUsOn" : "Follow us on",
+  "followUsOn": "Follow us on",
   "@followUsOn": {},
-  "linkMethodText": "Payment link or QR code",
-  "@linkMethodText": {},
-  "addressMethodText": "Pay with wallet address",
-  "@addressMethodText": {},
   "selectNetwork": "Select a Network",
-  "@selectNetwork": {}
+  "@selectNetwork": {},
+  "reviewPayment": "Review *payment*",
+  "@reviewPayment": {}
 }

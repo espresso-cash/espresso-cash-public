@@ -124,26 +124,14 @@
   "@failedToSearch": {},
   "faq": "Часто задаваемые вопросы (FAQ)",
   "@faq": {},
-  "feeAmount": "Комиссия: {value}\n ",
-  "@feeAmount": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
+  "fee": "Комиссия",
+  "@fee": {},
   "feesCalculating": " вычисление...\n\n",
   "@feesCalculating": {},
   "feesFailed": "не удалось загрузить",
   "@feesFailed": {},
-  "fiatEquivalent": "Эквивалентно {value}",
-  "@fiatEquivalent": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
+  "fiatEquivalent": "Эквивалентно",
+  "@fiatEquivalent": {},
   "following": "Закладки",
   "@following": {},
   "help": "Помощь",
