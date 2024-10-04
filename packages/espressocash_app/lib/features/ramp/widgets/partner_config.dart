@@ -12,9 +12,9 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
   final isMoneygramEnabled =
       sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
 
-  final isKycEnabled = sl<FeatureFlagsManager>().isXflowEnabled();
+  final isXflowEnabled = sl<FeatureFlagsManager>().isXflowEnabled();
 
-  if (isKycEnabled) {
+  if (isXflowEnabled && _xflowCountries.contains(countryCode)) {
     partners.add(RampPartner.xflow);
   }
 
@@ -107,3 +107,5 @@ const _moneygramOffRampCountries = {
   'TL', 'TG', 'TO', 'TT', 'TC', 'TV', 'UG', 'UA', 'AE', 'GB', 'US', 'UY', //
   'UZ', 'VU', 'VE', 'VN', 'VG', 'VI', 'ZM',
 };
+
+const _xflowCountries = {'NG'};
