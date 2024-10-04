@@ -8,6 +8,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/shake.dart';
@@ -184,25 +185,19 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 40.w,
-                          vertical: 16.h,
-                        ),
-                        child: ValueListenableBuilder(
-                          valueListenable: _controller,
-                          builder: (context, value, child) {
-                            final amount = _amount;
-
-                            return CpButton(
-                              width: double.infinity,
-                              text: context.l10n.next,
-                              onPressed: amount.decimal >= widget.minAmount
-                                  ? () => widget.onSubmitted(amount)
-                                  : null,
-                            );
-                          },
-                        ),
+                      SizedBox(height: 16.h),
+                      ValueListenableBuilder(
+                        valueListenable: _controller,
+                        builder: (context, value, child) {
+                          final amount = _amount;
+                      
+                          return CpBottomButton(
+                            text: context.l10n.next,
+                            onPressed: amount.decimal >= widget.minAmount
+                                ? () => widget.onSubmitted(amount)
+                                : null,
+                          );
+                        },
                       ),
                     ],
                   ),

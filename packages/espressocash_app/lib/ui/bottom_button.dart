@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'button.dart';
 
@@ -17,9 +18,9 @@ class CpBottomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         padding: EdgeInsets.only(
-          bottom: 20,
-          left: horizontalPadding,
-          right: horizontalPadding,
+          bottom: 20.h,
+          left: horizontalPadding.w,
+          right: horizontalPadding.w,
         ),
         child: CpButton(
           key: keyBottomButton,
