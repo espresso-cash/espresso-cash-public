@@ -190,7 +190,7 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                         valueListenable: _controller,
                         builder: (context, value, child) {
                           final amount = _amount;
-                      
+
                           return CpBottomButton(
                             text: context.l10n.next,
                             onPressed: amount.decimal >= widget.minAmount
