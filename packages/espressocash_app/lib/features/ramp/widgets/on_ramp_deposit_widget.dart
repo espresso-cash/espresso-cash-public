@@ -58,7 +58,7 @@ class OnRampDepositWidget extends StatelessWidget {
     );
 
     return switch (partner) {
-      RampPartner.kyc || RampPartner.scalex => _ScalexDepositContent(
+      RampPartner.xflow || RampPartner.scalex => _ScalexDepositContent(
           deposit: deposit,
           formattedTransferAmount: formattedTransferAmount,
           formattedReceiveAmount: formattedReceiveAmount,

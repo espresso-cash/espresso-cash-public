@@ -19,7 +19,7 @@ import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../scalex/data/scalex_repository.dart';
-import '../services/kyc_on_ramp_order_service.dart';
+import '../services/xflow_on_ramp_order_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchKycOnRamp({
@@ -39,7 +39,7 @@ extension BuildContextExt on BuildContext {
     final double rampFeePercentage = rateAndFee.onRampFeePercentage ?? 0;
     final double fixedFee = rateAndFee.fixedOnRampFee ?? 0;
 
-    const partner = RampPartner.kyc;
+    const partner = RampPartner.xflow;
 
     final minAmountNGN =
         partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
@@ -112,7 +112,7 @@ extension BuildContextExt on BuildContext {
         .create(
       orderId: orderId,
       receiveAmount: equivalentAmount,
-      partner: RampPartner.kyc,
+      partner: RampPartner.xflow,
       transferAmount: submittedAmount as FiatAmount,
       submittedAmount: equivalentAmount,
       countryCode: profile.country.code,
@@ -144,7 +144,7 @@ extension BuildContextExt on BuildContext {
     final double rampFeePercentage = rateAndFee.offRampFeePercentage;
     final double fixedFee = rateAndFee.fixedOffRampFee;
 
-    const partner = RampPartner.kyc;
+    const partner = RampPartner.xflow;
 
     await RampAmountScreen.push(
       this,
@@ -217,7 +217,7 @@ extension BuildContextExt on BuildContext {
         .create(
       partnerOrderId: orderId,
       amount: fromAmount,
-      partner: RampPartner.kyc,
+      partner: RampPartner.xflow,
       receiveAmount: equivalentAmount,
       depositAddress: address,
       countryCode: profile.country.code,

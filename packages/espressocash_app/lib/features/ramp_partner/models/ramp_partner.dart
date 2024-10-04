@@ -63,7 +63,7 @@ enum RampPartner {
     paymentMethods: [],
   ),
 
-  kyc(
+  xflow(
     title: 'Kyc Partner',
     minimumAmount: r'$5',
     paymentMethods: [],
@@ -98,7 +98,7 @@ extension RampPartnerAssets on RampPartner {
         return Assets.images.scalexIcon;
       case RampPartner.moneygram:
         return Assets.images.moneygramIcon;
-      case RampPartner.kyc:
+      case RampPartner.xflow:
         return Assets.images.sendMoney;
     }
   }

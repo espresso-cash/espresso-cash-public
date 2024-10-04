@@ -9,18 +9,21 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../../data/db/db.dart';
 import '../../../../accounts/auth_scope.dart';
+import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_order_status.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../tokens/token.dart';
+import '../../../models/ramp_type.dart';
 
 @Singleton(scope: authScope)
 class XFlowOnRampOrderService implements Disposable {
-  XFlowOnRampOrderService(this._db, this._kycRepository);
+  XFlowOnRampOrderService(this._db, this._kycRepository, this._analytics);
 
   final MyDatabase _db;
   final KycRepository _kycRepository;
+  final AnalyticsManager _analytics;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   final Map<String, StreamSubscription<void>> _watchers = {};
@@ -34,13 +37,13 @@ class XFlowOnRampOrderService implements Disposable {
               OnRampOrderStatus.completed,
               OnRampOrderStatus.failure,
             ]) &
-            tbl.partner.equalsValue(RampPartner.kyc),
+            tbl.partner.equalsValue(RampPartner.xflow),
       );
 
     final orders = await query.get();
 
     for (final order in orders) {
-      if (order.partner != RampPartner.kyc) {
+      if (order.partner != RampPartner.xflow) {
         continue;
       }
 
@@ -118,10 +121,16 @@ class XFlowOnRampOrderService implements Disposable {
             moreInfoUrl: null,
           );
 
-          print('countryCode: $countryCode'); //TODO might be needed in backend
-
           await _db.into(_db.onRampOrderRows).insert(order);
           _subscribe(order.id);
+
+          _analytics.rampInitiated(
+            partner: RampPartner.xflow,
+            rampType: RampType.onRamp.name,
+            amount: submittedAmount.value.toString(),
+            countryCode: countryCode,
+            id: order.id,
+          );
 
           return order.id;
         }

@@ -29,7 +29,7 @@ class _KycSectionState extends State<KycSection> {
 
   @override
   Widget build(BuildContext context) =>
-      !sl<FeatureFlagsManager>().isKycSharingEnabled()
+      !sl<FeatureFlagsManager>().isXflowEnabled()
           ? const SizedBox.shrink()
           : FutureBuilder<KycSharingService>(
               future: _future,

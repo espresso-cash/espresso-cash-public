@@ -349,7 +349,7 @@ class OffRampOrderService implements Disposable {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
-      RampPartner.kyc ||
+      RampPartner.xflow ||
       RampPartner.rampNetwork ||
       RampPartner.moneygram || // moneygram orders will not reach this point
       RampPartner.guardarian =>
@@ -374,7 +374,7 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.waitingForPartner:
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
-          if (sl<FeatureFlagsManager>().isKycSharingEnabled()) {
+          if (sl<FeatureFlagsManager>().isXflowEnabled()) {
             return const Stream.empty();
           }
 
