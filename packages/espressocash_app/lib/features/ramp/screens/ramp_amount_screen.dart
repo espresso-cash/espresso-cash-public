@@ -258,7 +258,7 @@ class _MinimumAmountNoticeState extends State<_MinimumAmountNotice>
     }
   }
 
-  // ignore: prefer-widget-private-members, used for controlling the animation
+  // ignore: prefer-widget-private-members, used for controlling state
   void showNotice() {
     setState(() {
       _visible = true;
