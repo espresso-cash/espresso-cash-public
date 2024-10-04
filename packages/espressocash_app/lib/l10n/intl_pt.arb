@@ -82,26 +82,14 @@
   "@failedToSearch": {},
   "faq": "Perguntas frequentes (FAQ)",
   "@faq": {},
-  "feeAmount": "Taxa: {value}",
-  "@feeAmount": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
+  "fee": "Taxa",
+  "@fee": {},
   "feesCalculating": "Calculando...",
   "@feesCalculating": {},
   "feesFailed": "Falha ao carregar",
   "@feesFailed": {},
-  "fiatEquivalent": "Equivalente a {value}",
-  "@fiatEquivalent": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
+  "fiatEquivalent": "Equivalente a",
+  "@fiatEquivalent": {},
   "following": "Seguindo",
   "@following": {},
   "help": "Ajuda",

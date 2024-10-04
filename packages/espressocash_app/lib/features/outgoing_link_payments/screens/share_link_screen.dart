@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
+import '../../../ui/bottom_button.dart';
+import '../../../ui/button.dart';
 import '../../../ui/share_link.dart';
 import '../../../ui/theme.dart';
+import '../../../utils/routing.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
@@ -32,7 +35,7 @@ class ShareLinkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = Text(
-      context.l10n.pay.toUpperCase(),
+      context.l10n.sendMoney.toUpperCase(),
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
     );
 
@@ -48,11 +51,21 @@ class ShareLinkScreen extends StatelessWidget {
         appBar: CpAppBar(title: title),
         body: SafeArea(
           top: false,
-          child: ShareCodeWidget(
-            title: context.l10n.scanToReceive,
-            amount: formattedAmount,
-            qrCode: status.link.toString(),
-            shareText: message,
+          child: Column(
+            children: [
+              ShareCodeWidget(
+                title: context.l10n.scanToReceive,
+                amount: formattedAmount,
+                qrCode: status.link.toString(),
+                shareText: message,
+              ),
+              const Spacer(),
+              CpBottomButton(
+                variant: CpButtonVariant.grey,
+                text: context.l10n.done,
+                onPressed: () => context.openFirstScreen(),
+              ),
+            ],
           ),
         ),
       ),

@@ -4,7 +4,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
-import '../../../ui/button.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/onboarding_screen.dart';
@@ -145,14 +145,10 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
                 const Spacer(),
                 ListenableBuilder(
                   listenable: _walletAddressController,
-                  builder: (context, child) => Container(
-                    margin: const EdgeInsets.all(16),
-                    child: CpButton(
-                      text: context.l10n.next,
-                      onPressed: _isValid ? _handleSubmitted : null,
-                      size: CpButtonSize.normal,
-                      width: double.infinity,
-                    ),
+                  builder: (context, child) => CpBottomButton(
+                    horizontalPadding: 16,
+                    text: context.l10n.next,
+                    onPressed: _isValid ? _handleSubmitted : null,
                   ),
                 ),
               ],

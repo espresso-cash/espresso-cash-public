@@ -59,6 +59,7 @@ class OffRampConfirmation extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         FeeLabel(
+                          keyText: '${context.l10n.fee}: ',
                           type: FeeType.withdraw(
                             amount: order.amount.value,
                             partner: order.partner,
