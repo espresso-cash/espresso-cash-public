@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/share_link.dart';
 import '../../../ui/theme.dart';
@@ -59,15 +60,10 @@ class ShareLinkScreen extends StatelessWidget {
                 shareText: message,
               ),
               const Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(24),
-                child: CpButton(
-                  text: context.l10n.done,
-                  size: CpButtonSize.big,
-                  variant: CpButtonVariant.grey,
-                  width: double.infinity,
-                  onPressed: () => context.openFirstScreen(),
-                ),
+              CpBottomButton(
+                variant: CpButtonVariant.grey,
+                text: context.l10n.done,
+                onPressed: () => context.openFirstScreen(),
               ),
             ],
           ),
