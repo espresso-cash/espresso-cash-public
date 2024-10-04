@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
+import '../../../ui/button.dart';
 import '../../../ui/share_link.dart';
 import '../../../ui/theme.dart';
+import '../../../utils/routing.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
@@ -48,11 +50,26 @@ class ShareLinkScreen extends StatelessWidget {
         appBar: CpAppBar(title: title),
         body: SafeArea(
           top: false,
-          child: ShareCodeWidget(
-            title: context.l10n.scanToReceive,
-            amount: formattedAmount,
-            qrCode: status.link.toString(),
-            shareText: message,
+          child: Column(
+            children: [
+              ShareCodeWidget(
+                title: context.l10n.scanToReceive,
+                amount: formattedAmount,
+                qrCode: status.link.toString(),
+                shareText: message,
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: CpButton(
+                  text: context.l10n.done,
+                  size: CpButtonSize.big,
+                  variant: CpButtonVariant.grey,
+                  width: double.infinity,
+                  onPressed: () => context.openFirstScreen(),
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -927,5 +927,7 @@
   "selectNetwork": "Select a Network",
   "@selectNetwork": {},
   "reviewPayment": "Review *payment*",
-  "@reviewPayment": {}
+  "@reviewPayment": {},
+  "done": "Done",
+  "@done": {}
 }
