@@ -64,7 +64,7 @@ enum RampPartner {
   ),
 
   xflow(
-    title: 'Kyc Partner',
+    title: 'Espresso Network',
     minimumAmount: r'$5',
     paymentMethods: [],
   );
@@ -94,12 +94,11 @@ extension RampPartnerAssets on RampPartner {
         return Assets.images.coinflowIcon;
       case RampPartner.guardarian:
         return Assets.images.guardianIcon;
-      case RampPartner.scalex:
-        return Assets.images.scalexIcon;
       case RampPartner.moneygram:
         return Assets.images.moneygramIcon;
+      case RampPartner.scalex:
       case RampPartner.xflow:
-        return Assets.images.sendMoney;
+        return Assets.images.scalexIcon;
     }
   }
 }
