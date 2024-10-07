@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
-import '../kyc_sharing/data/client.dart';
 import 'auth_scope.dart';
 import 'models/account.dart';
 import 'models/ec_wallet.dart';
@@ -30,7 +29,4 @@ abstract class AuthModule {
           publicKey: wallet.publicKey.toBase58(),
         ),
       );
-
-  @LazySingleton(scope: authScope)
-  XFlowClient get xflowClient => XFlowClient();
 }

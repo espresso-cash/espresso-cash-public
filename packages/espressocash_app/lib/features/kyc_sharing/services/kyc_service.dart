@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kyc_app_client/kyc_app_client.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart' hide KycServiceClient;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -99,32 +98,20 @@ class KycSharingService extends ValueNotifier<KycState> {
         photoId: photoId,
       );
 
-  Future<void> updateAndSendCode({
-    required OtpType key,
-    required String value,
-  }) async {
-    await _kycRepository.updateVerificationField(key: key, value: value);
-    await _kycRepository.sendVerificationCode(key: key);
+  Future<void> initEmailVerification(String value) async {
+    await _kycRepository.initEmailVerification(value);
   }
 
-  Future<bool> verifyAndValidateField({
-    required OtpType identifier,
-    required String value,
-  }) async {
-    final result = await _kycRepository.verifyField(
-      identifier: identifier,
-      value: value,
-    );
+  Future<void> initPhoneVerification(String value) async {
+    await _kycRepository.initPhoneVerification(value);
+  }
 
-    if (identifier == OtpType.email) {
-      hasValidatedEmail(result);
-    }
+  Future<void> verifyEmail(String code) async {
+    await _kycRepository.verifyEmail(code);
+  }
 
-    if (identifier == OtpType.phone) {
-      hasValidatedPhone(result);
-    }
-
-    return result;
+  Future<void> verifyPhone(String code) async {
+    await _kycRepository.verifyPhone(code);
   }
 
   void hasValidatedEmail(bool result) {
@@ -157,7 +144,7 @@ class KycSharingService extends ValueNotifier<KycState> {
         partnerPK: partnerPK,
       );
 
-  Future<void> requestKyc() => _kycRepository.requestKyc();
+  Future<void> requestKyc() => _kycRepository.initDocumentVerification();
 
   Future<void> shareDataWithPartner(String partnerPk) =>
       _kycRepository.shareDataWithPartner(partnerPk);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kyc_app_client/kyc_app_client.dart';
 
 import '../../../di.dart';
 import '../../../ui/button.dart';
@@ -51,10 +50,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         try {
           final service = sl<KycSharingService>();
 
-          await service.updateAndSendCode(
-            key: OtpType.email,
-            value: _emailController.text,
-          );
+          await service.initEmailVerification(_emailController.text);
 
           return true;
         } on Exception {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kyc_app_client/kyc_app_client.dart';
 
 import '../../../di.dart';
 import '../../../ui/button.dart';
@@ -38,10 +37,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
         try {
           final service = sl<KycSharingService>();
 
-          await service.updateAndSendCode(
-            key: OtpType.phone,
-            value: _numberController.text,
-          );
+          await service.initPhoneVerification(_numberController.text);
 
           return true;
         } on Exception {

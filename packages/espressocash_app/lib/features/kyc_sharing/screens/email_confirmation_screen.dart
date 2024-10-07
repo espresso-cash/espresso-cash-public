@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kyc_app_client/kyc_app_client.dart';
 
 import '../../../di.dart';
 import '../../../ui/button.dart';
@@ -33,19 +32,16 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
   Future<void> _handleConfirm() async {
     final service = sl<KycSharingService>();
 
-    final isValid = await service.verifyAndValidateField(
-      identifier: OtpType.email,
-      value: _controller.text,
-    );
+    try {
+      await service.verifyEmail(_controller.text);
 
-    if (!mounted) return;
+      if (!mounted) return;
 
-    if (isValid) {
       Navigator.pop(context, true);
-    } else {
+    } on Exception {
       showCpErrorSnackbar(
         context,
-        message: 'Invalid verification code',
+        message: 'Wrong verification code',
       );
     }
   }

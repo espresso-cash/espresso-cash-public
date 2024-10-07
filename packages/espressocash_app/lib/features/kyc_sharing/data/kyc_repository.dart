@@ -3,12 +3,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kyc_app_client/kyc_app_client.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart' hide KycServiceClient;
 
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
-import '../data/client.dart';
 import '../models/kyc_model.dart';
 
 // Hardcoded for now
@@ -18,11 +16,8 @@ const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 @Singleton(scope: authScope)
 class KycRepository extends ChangeNotifier {
   KycRepository(
-    this._xFlowClient,
     this._ecWallet,
   );
-
-  final XFlowClient _xFlowClient;
   final ECWallet _ecWallet;
 
   late final KycUserClient _kycUserClient;
@@ -30,9 +25,6 @@ class KycRepository extends ChangeNotifier {
   late String _authPublicKey = '';
   late String _rawSecretKey = '';
   late String _userPublicKey = '';
-
-  KycServiceClient get _validatorClient => _xFlowClient.kycValidatorClient;
-  OtpServiceClient get _otpClient => _xFlowClient.otpServiceClient;
 
   @PostConstruct()
   Future<void> init() async {
@@ -43,7 +35,6 @@ class KycRepository extends ChangeNotifier {
 
         return signature.first;
       },
-      baseUrl: 'https://kyc-backend-oxvpvdtvzq-ew.a.run.app/',
     );
 
     await _kycUserClient.init(
@@ -100,56 +91,39 @@ class KycRepository extends ChangeNotifier {
     );
   }
 
-  Future<void> updateVerificationField({
-    required OtpType key,
-    required String value,
-  }) async {
+  Future<void> initEmailVerification(String email) async {
     await _kycUserClient.setData(
       data: V1UserData(
-        email: key == OtpType.email ? value : null,
-        phone: key == OtpType.phone ? value : null,
+        email: email,
       ),
       selfie: null,
       idCard: null,
     );
+    await _kycUserClient.initEmailValidation();
   }
 
-  Future<void> sendVerificationCode({required OtpType key}) async {
-    switch (key) {
-      case OtpType.email:
-        await _sendEmailOtp();
-      case OtpType.phone:
-        await _sendSmsOtp();
-      case OtpType.unsupported:
-        return;
-    }
+  Future<void> verifyEmail(String code) async {
+    await _kycUserClient.validateEmail(code);
   }
 
-  Future<bool> verifyField({
-    required OtpType identifier,
-    required String value,
-  }) async {
-    final response = await _otpClient.verifyOtp(
-      VerifyOtpRequest(
-        identifier: identifier,
-        otp: value,
-        userPk: _authPublicKey,
-        secretKey: _rawSecretKey,
+  Future<void> initPhoneVerification(String phone) async {
+    await _kycUserClient.setData(
+      data: V1UserData(
+        phone: phone,
       ),
+      selfie: null,
+      idCard: null,
     );
-
-    return response.isValid;
+    await _kycUserClient.initPhoneValidation();
   }
 
-  Future<void> requestKyc() async {
+  Future<void> verifyPhone(String code) async {
+    await _kycUserClient.validatePhone(code);
+  }
+
+  Future<void> initDocumentVerification() async {
     await _kycUserClient.grantPartnerAccess(validatorAuthPk);
-    await _validatorClient.requestKyc(
-      KycRequest(
-        secretKey: _rawSecretKey,
-        userAuthPk: _authPublicKey,
-        userPublicKey: _userPublicKey,
-      ),
-    );
+    await _kycUserClient.initDocumentValidation();
   }
 
   Future<String> createOrder({
@@ -172,25 +146,4 @@ class KycRepository extends ChangeNotifier {
 
   Future<void> shareDataWithPartner(String partnerPk) =>
       _kycUserClient.grantPartnerAccess(partnerPk);
-
-  // TODOimplement when backend ready
-  // Future<void> revokeDataFromPartner() async {}
-
-  Future<void> _sendEmailOtp() async {
-    await _otpClient.sendOtpByEmail(
-      SendOtpRequest(
-        secretKey: _rawSecretKey,
-        userPk: _authPublicKey,
-      ),
-    );
-  }
-
-  Future<void> _sendSmsOtp() async {
-    await _otpClient.sendOtpBySms(
-      SendOtpRequest(
-        secretKey: _rawSecretKey,
-        userPk: _authPublicKey,
-      ),
-    );
-  }
 }
