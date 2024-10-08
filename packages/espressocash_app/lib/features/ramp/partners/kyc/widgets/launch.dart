@@ -112,7 +112,6 @@ extension BuildContextExt on BuildContext {
         .create(
       orderId: orderId,
       receiveAmount: equivalentAmount,
-      partner: RampPartner.xflow,
       transferAmount: submittedAmount as FiatAmount,
       submittedAmount: equivalentAmount,
       countryCode: profile.country.code,

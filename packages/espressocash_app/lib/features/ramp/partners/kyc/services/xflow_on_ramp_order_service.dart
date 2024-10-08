@@ -90,7 +90,6 @@ class XFlowOnRampOrderService implements Disposable {
 
   AsyncResult<String> create({
     required String orderId,
-    required RampPartner partner,
     required CryptoAmount submittedAmount,
     required CryptoAmount? receiveAmount,
     required FiatAmount transferAmount,
@@ -110,7 +109,7 @@ class XFlowOnRampOrderService implements Disposable {
             isCompleted: false,
             created: DateTime.now(),
             txHash: '',
-            partner: partner,
+            partner: RampPartner.xflow,
             receiveAmount: receiveAmount?.value,
             status: OnRampOrderStatus.waitingVerification,
             bankAccount: data.bankAccount,
