@@ -541,11 +541,7 @@ class MoneygramOffRampOrderService implements Disposable {
         .whereNotNull()
         .listen((order) async {
       final statement = _db.update(_db.offRampOrderRows)
-        ..where(
-          (tbl) =>
-              tbl.id.equals(id) &
-              tbl.status.equals(OnRampOrderStatus.postProcessing.name),
-        );
+        ..where((tbl) => tbl.id.equals(id));
 
       final hash = order.solanaBridgeTx;
 
@@ -710,19 +706,7 @@ class MoneygramOffRampOrderService implements Disposable {
 
     final hash = await _stellarClient.submitTransactionFromXdrString(bridgeTx);
 
-    if (hash == null) {
-      return const OffRampOrderRowsCompanion(
-        status: Value(OffRampOrderStatus.processingRefund),
-      );
-    }
-
-    final result = await _stellarClient.pollStatus(hash);
-
-    if (result?.status != GetTransactionResponse.STATUS_SUCCESS) {
-      return null;
-    }
-
-    return result?.status != GetTransactionResponse.STATUS_SUCCESS
+    return hash == null
         ? const OffRampOrderRowsCompanion(
             status: Value(OffRampOrderStatus.processingRefund),
           )
@@ -751,6 +735,19 @@ class MoneygramOffRampOrderService implements Disposable {
       final hash = order.stellarTxHash;
 
       if (hash == null) {
+        await statement.write(
+          const OffRampOrderRowsCompanion(
+            status: Value(OffRampOrderStatus.processingRefund),
+          ),
+        );
+
+        _removeWatcher(id);
+
+        return;
+      }
+
+      final stellarResult = await _stellarClient.pollStatus(hash);
+      if (stellarResult?.status != GetTransactionResponse.STATUS_SUCCESS) {
         await statement.write(
           const OffRampOrderRowsCompanion(
             status: Value(OffRampOrderStatus.processingRefund),
