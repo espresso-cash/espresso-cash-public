@@ -90,6 +90,7 @@ class RampAmountScreen extends StatefulWidget {
 
 class _RampAmountScreenState extends State<RampAmountScreen> {
   final _controller = TextEditingController();
+  final _minimumAmountNoticeKey = GlobalKey<_MinimumAmountNoticeState>();
 
   @override
   void dispose() {
@@ -107,6 +108,16 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
             value: widget.currency.decimalToInt(value),
             currency: widget.currency,
           );
+  }
+
+  void _onSubmit() {
+    final amount = _amount;
+
+    if (amount.decimal >= widget.minAmount) {
+      widget.onSubmitted(amount);
+    } else {
+      _minimumAmountNoticeKey.currentState?.showNotice();
+    }
   }
 
   @override
@@ -163,7 +174,7 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                         valueListenable: _controller,
                         builder: (context, value, child) =>
                             _MinimumAmountNotice(
-                          controller: _controller,
+                          key: _minimumAmountNoticeKey,
                           currency: widget.currency,
                           amount: _amount,
                           minAmount: widget.minAmount,
@@ -191,17 +202,11 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                         ),
                         child: ValueListenableBuilder(
                           valueListenable: _controller,
-                          builder: (context, value, child) {
-                            final amount = _amount;
-
-                            return CpButton(
-                              width: double.infinity,
-                              text: context.l10n.next,
-                              onPressed: amount.decimal >= widget.minAmount
-                                  ? () => widget.onSubmitted(amount)
-                                  : null,
-                            );
-                          },
+                          builder: (context, value, child) => CpButton(
+                            width: double.infinity,
+                            text: context.l10n.next,
+                            onPressed: _onSubmit,
+                          ),
                         ),
                       ),
                     ],
@@ -217,14 +222,13 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
 
 class _MinimumAmountNotice extends StatefulWidget {
   const _MinimumAmountNotice({
-    required this.controller,
-    required this.amount,
+    super.key,
     required this.minAmount,
     required this.type,
     required this.currency,
+    required this.amount,
   });
 
-  final TextEditingController controller;
   final Amount amount;
   final Decimal minAmount;
   final RampType type;
@@ -249,14 +253,17 @@ class _MinimumAmountNoticeState extends State<_MinimumAmountNotice>
   }
 
   void _updateVisibility() {
-    final newVisible = widget.amount.decimal != Decimal.zero &&
-        widget.amount.decimal < widget.minAmount;
-    if (_visible != newVisible) {
-      _visible = newVisible;
+    if (widget.amount.decimal >= widget.minAmount) {
+      _visible = false;
     }
-    if (_visible) {
+  }
+
+  // ignore: prefer-widget-private-members, used for controlling state
+  void showNotice() {
+    setState(() {
+      _visible = true;
       _shakeKey.currentState?.shake();
-    }
+    });
   }
 
   @override
