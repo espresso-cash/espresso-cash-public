@@ -12,12 +12,6 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
   final isMoneygramEnabled =
       sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
 
-  final isXflowEnabled = sl<FeatureFlagsManager>().isXflowEnabled();
-
-  if (isXflowEnabled && _xflowCountries.contains(countryCode)) {
-    partners.add(RampPartner.xflow);
-  }
-
   if (isMoneygramEnabled && _moneygramOnRampCountries.contains(countryCode)) {
     partners.add(RampPartner.moneygram);
   }
@@ -26,7 +20,11 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
     partners.add(RampPartner.kado);
   }
 
-  if (_scalexCountries.contains(countryCode)) {
+  final isXflowEnabled = sl<FeatureFlagsManager>().isXflowEnabled();
+
+  if (isXflowEnabled && _xflowCountries.contains(countryCode)) {
+    partners.add(RampPartner.xflow);
+  } else if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
   }
 
@@ -47,12 +45,6 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
   final isMoneygramEnabled =
       sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
 
-  final isKycEnabled = sl<FeatureFlagsManager>().isXflowEnabled();
-
-  if (isKycEnabled) {
-    partners.add(RampPartner.xflow);
-  }
-
   if (isMoneygramEnabled && _moneygramOffRampCountries.contains(countryCode)) {
     partners.add(RampPartner.moneygram);
   }
@@ -61,7 +53,11 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
     partners.add(RampPartner.coinflow);
   }
 
-  if (_scalexCountries.contains(countryCode)) {
+  final isKycEnabled = sl<FeatureFlagsManager>().isXflowEnabled();
+
+  if (isKycEnabled) {
+    partners.add(RampPartner.xflow);
+  } else if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
   }
 

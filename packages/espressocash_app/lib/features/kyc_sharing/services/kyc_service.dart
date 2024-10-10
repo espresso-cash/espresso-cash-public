@@ -129,22 +129,7 @@ class KycSharingService extends ValueNotifier<KycState> {
     value = value.copyWith(hasPassedKyc: result);
   }
 
-  Future<String> createOrder({
-    required String cryptoAmount,
-    required String cryptoCurrency,
-    required String fiatAmount,
-    required String fiatCurrency,
-    required String partnerPK,
-  }) =>
-      _kycRepository.createOrder(
-        cryptoAmount: cryptoAmount,
-        cryptoCurrency: cryptoCurrency,
-        fiatAmount: fiatAmount,
-        fiatCurrency: fiatCurrency,
-        partnerPK: partnerPK,
-      );
-
-  Future<void> requestKyc() => _kycRepository.initDocumentVerification();
+  // Future<void> requestKyc() => _kycRepository.initDocumentVerification(); //TODO
 
   Future<void> shareDataWithPartner(String partnerPk) =>
       _kycRepository.shareDataWithPartner(partnerPk);

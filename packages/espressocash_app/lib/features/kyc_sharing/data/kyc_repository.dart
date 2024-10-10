@@ -9,22 +9,16 @@ import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../models/kyc_model.dart';
 
-// Hardcoded for now
-const validatorAuthPk = '5PcfzhA3saCwcJjRstKyytMwwxeK1XJt48WGUhZEyecp';
-const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
-
 @Singleton(scope: authScope)
 class KycRepository extends ChangeNotifier {
-  KycRepository(
-    this._ecWallet,
-  );
+  KycRepository(this._ecWallet);
+
   final ECWallet _ecWallet;
 
   late final KycUserClient _kycUserClient;
 
   late String _authPublicKey = '';
   late String _rawSecretKey = '';
-  late String _userPublicKey = '';
 
   @PostConstruct()
   Future<void> init() async {
@@ -37,13 +31,10 @@ class KycRepository extends ChangeNotifier {
       },
     );
 
-    await _kycUserClient.init(
-      walletAddress: _ecWallet.publicKey.toString(),
-    );
+    await _kycUserClient.init(walletAddress: _ecWallet.publicKey.toString());
 
     _rawSecretKey = _kycUserClient.rawSecretKey;
     _authPublicKey = _kycUserClient.authPublicKey;
-    _userPublicKey = _ecWallet.publicKey.toString();
   }
 
   Future<KycUserInfo?> fetchUser() async {
@@ -93,40 +84,32 @@ class KycRepository extends ChangeNotifier {
 
   Future<void> initEmailVerification(String email) async {
     await _kycUserClient.setData(
-      data: V1UserData(
-        email: email,
-      ),
+      data: V1UserData(email: email),
       selfie: null,
       idCard: null,
     );
     await _kycUserClient.initEmailValidation();
   }
 
-  Future<void> verifyEmail(String code) async {
-    await _kycUserClient.validateEmail(code);
-  }
+  Future<void> verifyEmail(String code) => _kycUserClient.validateEmail(code);
 
   Future<void> initPhoneVerification(String phone) async {
     await _kycUserClient.setData(
-      data: V1UserData(
-        phone: phone,
-      ),
+      data: V1UserData(phone: phone),
       selfie: null,
       idCard: null,
     );
     await _kycUserClient.initPhoneValidation();
   }
 
-  Future<void> verifyPhone(String code) async {
-    await _kycUserClient.validatePhone(code);
-  }
+  Future<void> verifyPhone(String code) => _kycUserClient.validatePhone(code);
 
-  Future<void> initDocumentVerification() async {
-    await _kycUserClient.grantPartnerAccess(validatorAuthPk);
-    await _kycUserClient.initDocumentValidation();
-  }
+  // Future<void> initDocumentVerification() async {
+  //   await _kycUserClient.grantPartnerAccess(validatorAuthPk);
+  //   await _kycUserClient.initDocumentValidation();
+  // }
 
-  Future<String> createOrder({
+  Future<String> createOnRampOrder({
     required String cryptoAmount,
     required String cryptoCurrency,
     required String fiatAmount,
@@ -141,7 +124,28 @@ class KycRepository extends ChangeNotifier {
         fiatCurrency: fiatCurrency,
       );
 
-  Future<V1GetOrderResponse> fetchOrder(String orderId) =>
+  Future<String> createOffRampOrder({
+    required String cryptoAmount,
+    required String cryptoCurrency,
+    required String fiatAmount,
+    required String fiatCurrency,
+    required String partnerPK,
+    required String bankName,
+    required String bankAccount,
+  }) =>
+      _kycUserClient.createOffRampOrder(
+        partnerPK: partnerPK,
+        cryptoAmount: cryptoAmount,
+        cryptoCurrency: cryptoCurrency,
+        fiatAmount: fiatAmount,
+        fiatCurrency: fiatCurrency,
+        bankName: bankName,
+        bankAccount: bankAccount,
+      );
+
+  Future<V1GetOrderResponse> fetchOrder(
+    String orderId,
+  ) => //TODO update order object
       _kycUserClient.getOrder(orderId);
 
   Future<void> shareDataWithPartner(String partnerPk) =>

@@ -93,37 +93,33 @@ extension BuildContextExt on BuildContext {
 
     final kycPassed = await openKycFlow();
 
-    if (!kycPassed) return;
+    if (!kycPassed) {
+      showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
 
-    final service = sl<KycSharingService>();
+      return;
+    }
 
-    final orderId = await runWithLoader<String>(
+    final orderId = await runWithLoader<String?>(
       this,
-      () async => service.createOrder(
-        cryptoAmount: equivalentAmount.value.toString(),
-        cryptoCurrency: equivalentAmount.cryptoCurrency.token.symbol,
-        fiatAmount: submittedAmount.value.toString(),
-        fiatCurrency: submittedAmount.currency.symbol,
-        partnerPK: partnerAuthPk,
-      ),
+      () => sl<XFlowOnRampOrderService>()
+          .create(
+            receiveAmount: equivalentAmount,
+            submittedAmount: submittedAmount as FiatAmount,
+            countryCode: profile.country.code,
+          )
+          .then(
+            (order) => order.fold(
+              (error) => null,
+              (id) => id,
+            ),
+          ),
     );
 
-    await sl<XFlowOnRampOrderService>()
-        .create(
-      orderId: orderId,
-      receiveAmount: equivalentAmount,
-      transferAmount: submittedAmount as FiatAmount,
-      submittedAmount: equivalentAmount,
-      countryCode: profile.country.code,
-    )
-        .then((order) {
-      switch (order) {
-        case Left<Exception, String>():
-          break;
-        case Right<Exception, String>(:final value):
-          OnRampOrderScreen.push(this, id: value);
-      }
-    });
+    if (orderId != null) {
+      OnRampOrderScreen.push(this, id: orderId);
+    } else {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+    }
   }
 
   Future<void> launchKycOffRamp({
@@ -192,13 +188,16 @@ extension BuildContextExt on BuildContext {
       fixedFee: fixedFee,
     );
 
-    //final kycPassed = await openKycFlow();
+    final kycPassed = await openKycFlow();
 
-    // if (!kycPassed) return;
-    // final service = sl<KycSharingService>();
+    if (!kycPassed) {
+      showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
+
+      return;
+    }
 
     // Mocked for now
-    // final orderId = await service.createOrder(
+    // final orderId = await service.createOffRampOrder(
     //   cryptoAmount: equivalentAmount.value.toString(),
     //   cryptoCurrency: equivalentAmount.cryptoCurrency.name,
     //   partnerPK: partnerAuthPk,

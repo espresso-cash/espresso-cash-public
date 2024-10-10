@@ -13,6 +13,7 @@ import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_order_status.dart';
+import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../tokens/token.dart';
 import '../../../models/ramp_type.dart';
@@ -89,15 +90,19 @@ class XFlowOnRampOrderService implements Disposable {
   }
 
   AsyncResult<String> create({
-    required String orderId,
-    required CryptoAmount submittedAmount,
-    required CryptoAmount? receiveAmount,
-    required FiatAmount transferAmount,
+    required FiatAmount submittedAmount,
+    required CryptoAmount receiveAmount,
     required String countryCode,
   }) =>
       tryEitherAsync((_) async {
         {
-          final data = await _kycRepository.fetchOrder(orderId);
+          final orderId = await _kycRepository.createOnRampOrder(
+            cryptoAmount: receiveAmount.value.toString(),
+            cryptoCurrency: receiveAmount.cryptoCurrency.token.symbol,
+            fiatAmount: submittedAmount.value.toString(),
+            fiatCurrency: submittedAmount.currency.symbol,
+            partnerPK: partnerAuthPk,
+          );
 
           final order = OnRampOrderRow(
             id: const Uuid().v4(),
@@ -110,12 +115,12 @@ class XFlowOnRampOrderService implements Disposable {
             created: DateTime.now(),
             txHash: '',
             partner: RampPartner.xflow,
-            receiveAmount: receiveAmount?.value,
+            receiveAmount: receiveAmount.value,
             status: OnRampOrderStatus.waitingVerification,
-            bankAccount: data.bankAccount,
-            bankName: data.bankName,
-            bankTransferAmount: transferAmount.value,
-            fiatSymbol: transferAmount.currency.symbol,
+            bankAccount: null,
+            bankName: null,
+            bankTransferAmount: submittedAmount.value,
+            fiatSymbol: submittedAmount.currency.symbol,
             authToken: null,
             moreInfoUrl: null,
           );
@@ -151,9 +156,8 @@ class XFlowOnRampOrderService implements Disposable {
           (tbl) => tbl.id.equals(id),
         );
 
-      final data = await _kycRepository.fetchOrder(order.partnerOrderId);
-
-      final kycStatus = KycOrderStatus.fromString(data.status);
+      final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
+      final kycStatus = KycOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
         KycOrderStatus.completed => OnRampOrderStatus.completed,
@@ -169,6 +173,8 @@ class XFlowOnRampOrderService implements Disposable {
         await statement.write(
           OnRampOrderRowsCompanion(
             status: Value.absentIfNull(status),
+            bankAccount: Value.absentIfNull(orderData.bankAccount),
+            bankName: Value.absentIfNull(orderData.bankName),
             bankTransferExpiry: Value.absentIfNull(
               DateTime.now().add(const Duration(minutes: 30)),
             ),
@@ -196,9 +202,8 @@ class XFlowOnRampOrderService implements Disposable {
           (tbl) => tbl.id.equals(id),
         );
 
-      final data = await _kycRepository.fetchOrder(order.partnerOrderId);
-
-      final kycStatus = KycOrderStatus.fromString(data.status);
+      final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
+      final kycStatus = KycOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
         KycOrderStatus.completed => OnRampOrderStatus.completed,
@@ -216,6 +221,7 @@ class XFlowOnRampOrderService implements Disposable {
         await statement.write(
           OnRampOrderRowsCompanion(
             status: Value.absentIfNull(status),
+            txHash: Value.absentIfNull(orderData.transactionId),
           ),
         );
 

@@ -423,6 +423,8 @@ class _ItemWidget extends StatelessWidget {
                 Expanded(
                   child: Text(
                     value,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 34,
