@@ -133,7 +133,7 @@ class KycRepository extends ChangeNotifier {
     required String fiatCurrency,
     required String partnerPK,
   }) =>
-      _kycUserClient.createOrder(
+      _kycUserClient.createOnRampOrder(
         partnerPK: partnerPK,
         cryptoAmount: cryptoAmount,
         cryptoCurrency: cryptoCurrency,
