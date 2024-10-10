@@ -11,11 +11,7 @@ class ProfileRepository extends ChangeNotifier {
 
   final SharedPreferences _sharedPreferences;
 
-  bool get hasAllRequiredFields =>
-      firstName.isNotEmpty &&
-      lastName.isNotEmpty &&
-      email.isNotEmpty &&
-      country != null;
+  bool get hasAllRequiredFields => country != null;
 
   String get fullName =>
       [firstName, lastName].where((it) => it.isNotEmpty).join(' ');
