@@ -198,16 +198,10 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                       SizedBox(height: 16.h),
                       ValueListenableBuilder(
                         valueListenable: _controller,
-                        builder: (context, value, child) {
-                          final amount = _amount;
-
-                          return CpBottomButton(
-                            text: context.l10n.next,
-                            onPressed: amount.decimal >= widget.minAmount
-                                ? () => widget.onSubmitted(amount)
-                                : null,
-                          );
-                        },
+                        builder: (context, value, child) => CpBottomButton(
+                          text: context.l10n.next,
+                          onPressed: _onSubmit,
+                        ),
                       ),
                     ],
                   ),
