@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
@@ -8,13 +9,52 @@ import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../models/country.dart';
 
+typedef CountryOnTap = Future<void> Function(
+  Country updatedCountry,
+  BuildContext context,
+);
+
 class CountryPickerScreen extends StatelessWidget {
   const CountryPickerScreen({
     super.key,
     this.initial,
+    this.onTap,
   });
 
+  static Future<void> open(
+    BuildContext context, {
+    Country? initial,
+    CountryOnTap? onTap,
+    NavigatorState? navigator,
+  }) =>
+      (navigator ?? Navigator.of(context, rootNavigator: true))
+          .pushAndRemoveUntil<Country>(
+        PageRouteBuilder(
+          pageBuilder: (context, _, __) => CountryPickerScreen(
+            initial: initial,
+            onTap: onTap,
+          ),
+          transitionDuration: Duration.zero,
+        ),
+        F,
+      );
+
+  static Future<void> push(
+    BuildContext context, {
+    Country? initial,
+    CountryOnTap? onTap,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => CountryPickerScreen(
+            initial: initial,
+            onTap: onTap,
+          ),
+        ),
+      );
+
   final Country? initial;
+  final CountryOnTap? onTap;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -23,15 +63,21 @@ class CountryPickerScreen extends StatelessWidget {
           appBar: CpAppBar(
             title: Text(context.l10n.selectCountryTitle.toUpperCase()),
           ),
-          body: _Wrapper(child: _Content(initial: initial)),
+          body: _Wrapper(
+            child: _Content(
+              initial: initial,
+              onTap: onTap,
+            ),
+          ),
         ),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({this.initial});
+  const _Content({this.initial, required this.onTap});
 
   final Country? initial;
+  final CountryOnTap? onTap;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -143,7 +189,13 @@ class _ContentState extends State<_Content> {
                     ),
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
-                    onTap: () => Navigator.pop(context, country),
+                    onTap: () async {
+                      await widget.onTap
+                          ?.let((onTap) => onTap(country, context));
+
+                      if (!context.mounted) return;
+                      Navigator.pop(context);
+                    },
                   ),
                 );
               },
