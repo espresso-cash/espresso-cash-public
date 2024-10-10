@@ -541,11 +541,7 @@ class MoneygramOffRampOrderService implements Disposable {
         .whereNotNull()
         .listen((order) async {
       final statement = _db.update(_db.offRampOrderRows)
-        ..where(
-          (tbl) =>
-              tbl.id.equals(id) &
-              tbl.status.equals(OnRampOrderStatus.postProcessing.name),
-        );
+        ..where((tbl) => tbl.id.equals(id));
 
       final hash = order.solanaBridgeTx;
 
