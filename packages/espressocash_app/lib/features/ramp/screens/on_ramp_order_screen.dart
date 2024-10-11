@@ -435,11 +435,10 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.waitingVerification ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.postProcessing ||
-        OnRampOrderStatus.waitingForPartner ||
-        OnRampOrderStatus.rejected =>
+        OnRampOrderStatus.waitingForPartner =>
           'Pending',
         OnRampOrderStatus.depositExpired => 'Expired',
-        OnRampOrderStatus.failure => 'Failed',
+        OnRampOrderStatus.rejected || OnRampOrderStatus.failure => 'Failed',
         OnRampOrderStatus.completed => 'Completed',
       };
 }

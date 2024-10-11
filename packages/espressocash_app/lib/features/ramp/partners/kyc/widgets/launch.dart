@@ -9,16 +9,14 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
-import '../../../../kyc_sharing/services/kyc_service.dart';
-import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
-import '../../../services/off_ramp_order_service.dart';
 import '../../scalex/data/scalex_repository.dart';
+import '../services/xflow_off_ramp_order_service.dart';
 import '../services/xflow_on_ramp_order_service.dart';
 
 extension BuildContextExt on BuildContext {
@@ -91,13 +89,13 @@ extension BuildContextExt on BuildContext {
       fixedFee: fixedFee,
     );
 
-    final kycPassed = await openKycFlow();
+    // final kycPassed = await openKycFlow();
 
-    if (!kycPassed) {
-      showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
+    // if (!kycPassed) {
+    //   showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
 
-      return;
-    }
+    //   return;
+    // }
 
     final orderId = await runWithLoader<String?>(
       this,
@@ -188,46 +186,35 @@ extension BuildContextExt on BuildContext {
       fixedFee: fixedFee,
     );
 
-    final kycPassed = await openKycFlow();
+    // final kycPassed = await openKycFlow();
 
-    if (!kycPassed) {
-      showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
+    // if (!kycPassed) {
+    //   showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
 
-      return;
+    //   return;
+    // }
+
+    final orderId = await runWithLoader<String?>(
+      this,
+      () => sl<XFlowOffRampOrderService>()
+          .create(
+            receiveAmount: equivalentAmount,
+            submittedAmount: submittedAmount,
+            countryCode: profile.country.code,
+          )
+          .then(
+            (order) => order.fold(
+              (error) => null,
+              (id) => id,
+            ),
+          ),
+    );
+
+    if (orderId != null) {
+      OffRampOrderScreen.push(this, id: orderId);
+    } else {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
     }
-
-    // Mocked for now
-    // final orderId = await service.createOffRampOrder(
-    //   cryptoAmount: equivalentAmount.value.toString(),
-    //   cryptoCurrency: equivalentAmount.cryptoCurrency.name,
-    //   partnerPK: partnerAuthPk,
-    // );
-
-    const orderId = '131234-e6ba-4557-b2c8-cfab91d10963';
-    const address = '';
-
-    final fromAmount = Amount.fromDecimal(
-      value: submittedAmount.decimal,
-      currency: Currency.usdc,
-    ) as CryptoAmount;
-
-    await sl<OffRampOrderService>()
-        .create(
-      partnerOrderId: orderId,
-      amount: fromAmount,
-      partner: RampPartner.xflow,
-      receiveAmount: equivalentAmount,
-      depositAddress: address,
-      countryCode: profile.country.code,
-    )
-        .then((order) {
-      switch (order) {
-        case Left<Exception, String>():
-          break;
-        case Right<Exception, String>(:final value):
-          OffRampOrderScreen.push(this, id: value);
-      }
-    });
   }
 
   Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() =>

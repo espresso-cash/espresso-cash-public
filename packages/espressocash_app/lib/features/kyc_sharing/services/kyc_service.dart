@@ -60,8 +60,8 @@ class KycSharingService extends ValueNotifier<KycState> {
       photoSelfie: selfiePhoto,
     );
 
-    await _kycRepository.shareDataWithPartner(partnerAuthPk);
-    await _kycRepository.shareDataWithPartner(validatorAuthPk);
+    await _kycRepository.grantPartnerAccess(partnerAuthPk);
+    await _kycRepository.grantPartnerAccess(validatorAuthPk);
   }
 
   Future<void> updateBankInfo({
@@ -132,7 +132,7 @@ class KycSharingService extends ValueNotifier<KycState> {
   // Future<void> requestKyc() => _kycRepository.initDocumentVerification(); //TODO
 
   Future<void> shareDataWithPartner(String partnerPk) =>
-      _kycRepository.shareDataWithPartner(partnerPk);
+      _kycRepository.grantPartnerAccess(partnerPk);
 
   @override
   @disposeMethod

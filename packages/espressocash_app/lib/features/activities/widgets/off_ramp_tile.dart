@@ -33,7 +33,9 @@ class OffRampTile extends StatelessWidget {
           icon: Assets.icons.paymentIcon.svg(),
           status: switch (order?.status) {
             OffRampOrderStatus.completed => CpActivityTileStatus.success,
-            OffRampOrderStatus.failure => CpActivityTileStatus.failure,
+            OffRampOrderStatus.failure ||
+            OffRampOrderStatus.rejected =>
+              CpActivityTileStatus.failure,
             OffRampOrderStatus.refunded => CpActivityTileStatus.canceled,
             // ignore: avoid-wildcard-cases-with-enums, check if needed
             _ => CpActivityTileStatus.inProgress,

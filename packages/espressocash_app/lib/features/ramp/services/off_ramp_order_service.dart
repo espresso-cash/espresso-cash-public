@@ -87,7 +87,8 @@ class OffRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
-      if (order.partner == RampPartner.moneygram) {
+      if (order.partner == RampPartner.moneygram ||
+          order.partner == RampPartner.xflow) {
         continue;
       }
 
@@ -226,6 +227,8 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.refunded:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
+      case OffRampOrderStatus.waitingVerification:
+      case OffRampOrderStatus.rejected:
         break;
     }
   }
@@ -260,6 +263,8 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.preProcessing:
       case OffRampOrderStatus.postProcessing:
       case OffRampOrderStatus.refunded:
+      case OffRampOrderStatus.waitingVerification: //TODO
+      case OffRampOrderStatus.rejected: //TODO
         break;
     }
   }
@@ -374,10 +379,6 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.waitingForPartner:
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
-          if (sl<FeatureFlagsManager>().isXflowEnabled()) {
-            return const Stream.empty();
-          }
-
           return Stream.fromFuture(
             order.partner == RampPartner.scalex
                 ? _createScalexTx(
@@ -411,6 +412,8 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.waitingForRefundBridge:
         case OffRampOrderStatus.refunded:
         case OffRampOrderStatus.completed:
+        case OffRampOrderStatus.waitingVerification:
+        case OffRampOrderStatus.rejected:
           _subscriptions.remove(orderId)?.cancel();
 
           _watchers[orderId]?.close();

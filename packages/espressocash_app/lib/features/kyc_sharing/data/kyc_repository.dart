@@ -148,6 +148,6 @@ class KycRepository extends ChangeNotifier {
   ) => //TODO update order object
       _kycUserClient.getOrder(orderId);
 
-  Future<void> shareDataWithPartner(String partnerPk) =>
+  Future<void> grantPartnerAccess(String partnerPk) =>
       _kycUserClient.grantPartnerAccess(partnerPk);
 }
