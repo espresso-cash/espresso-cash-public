@@ -55,7 +55,7 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
 
   final isKycEnabled = sl<FeatureFlagsManager>().isXflowEnabled();
 
-  if (isKycEnabled) {
+  if (isKycEnabled && _xflowCountries.contains(countryCode)) {
     partners.add(RampPartner.xflow);
   } else if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
