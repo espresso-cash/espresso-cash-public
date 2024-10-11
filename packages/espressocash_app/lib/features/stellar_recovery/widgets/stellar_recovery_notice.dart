@@ -50,18 +50,20 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
                   child: child,
                 );
 
-            return switch (sl<StellarRecoveryService>().value) {
-              RecoveryNone() || RecoveryDismissed() => const SizedBox.shrink(),
-              RecoveryPending() => notice(
-                  _Pending(onRecoverPressed: _handleRecoverPressed),
-                ),
-              RecoveryProcessing() => notice(const _Processing()),
-              RecoveryCompleted(:final amount) =>
-                notice(_Completed(amount: amount)),
-              RecoveryFailed() => notice(
-                  _Failed(onRecoverPressed: _handleRecoverPressed),
-                ),
-            };
+            return notice(_Pending(onRecoverPressed: _handleRecoverPressed));
+
+            // return switch (sl<StellarRecoveryService>().value) {
+            //   RecoveryNone() || RecoveryDismissed() => const SizedBox.shrink(),
+            //   RecoveryPending() => notice(
+            //       _Pending(onRecoverPressed: _handleRecoverPressed),
+            //     ),
+            //   RecoveryProcessing() => notice(const _Processing()),
+            //   RecoveryCompleted(:final amount) =>
+            //     notice(_Completed(amount: amount)),
+            //   RecoveryFailed() => notice(
+            //       _Failed(onRecoverPressed: _handleRecoverPressed),
+            //     ),
+            // };
           },
         )
       : const SizedBox.shrink();
@@ -149,43 +151,58 @@ class _RecoveryNoticeContent extends StatelessWidget {
           fontSize: 14.5,
           fontWeight: FontWeight.w500,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: Center(
-            child: SizedBox(
-              width: 360,
-              child: CpInfoWidget(
-                message: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 4.0,
-                          vertical: 2,
-                        ),
-                        child: Center(child: child),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: onClosePressed,
-                      child: SizedBox.square(
-                        dimension: 12,
-                        child: Assets.icons.closeButtonIcon.svg(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                infoRadius: 12,
-                iconSize: 12,
-                variant: CpInfoVariant.black,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: SizedBox(
+          height: 70,
+          width: 360,
+          child: Stack(
+            children: [
+              Assets.rive.recovery.rive(
+                animations: ['playing'],
+                fit: BoxFit.fitWidth,
+                // stateMachines: ['idle'],
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Center(
+                  child: SizedBox(
+                    width: 360,
+                    child: CpInfoWidget(
+                      message: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4.0,
+                                vertical: 2,
+                              ),
+                              child: Center(child: child),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: onClosePressed,
+                            child: SizedBox.square(
+                              dimension: 12,
+                              child: Assets.icons.closeButtonIcon.svg(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      infoRadius: 12,
+                      iconSize: 12,
+                      variant: CpInfoVariant.transparent,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       );
