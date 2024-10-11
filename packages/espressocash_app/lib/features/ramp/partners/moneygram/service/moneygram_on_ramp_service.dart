@@ -303,15 +303,7 @@ class MoneygramOnRampOrderService implements Disposable {
 
     final hash = await _stellarClient.submitTransactionFromXdrString(bridgeTx);
 
-    if (hash == null) {
-      return const OnRampOrderRowsCompanion(
-        status: Value(OnRampOrderStatus.postProcessing),
-      );
-    }
-
-    final result = await _stellarClient.pollStatus(hash);
-
-    return result?.status != GetTransactionResponse.STATUS_SUCCESS
+    return hash == null
         ? const OnRampOrderRowsCompanion(
             status: Value(OnRampOrderStatus.postProcessing),
           )
@@ -339,6 +331,19 @@ class MoneygramOnRampOrderService implements Disposable {
       final hash = order.stellarTxHash;
 
       if (hash == null) {
+        await statement.write(
+          const OnRampOrderRowsCompanion(
+            status: Value(OnRampOrderStatus.postProcessing),
+          ),
+        );
+
+        _removeWatcher(id);
+
+        return;
+      }
+
+      final stellarResult = await _stellarClient.pollStatus(hash);
+      if (stellarResult?.status != GetTransactionResponse.STATUS_SUCCESS) {
         await statement.write(
           const OnRampOrderRowsCompanion(
             status: Value(OnRampOrderStatus.postProcessing),
