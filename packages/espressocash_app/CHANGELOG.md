@@ -1,3 +1,11 @@
+## 1.129.0
+
+ - **FIX**: moneygram bridge fix (#1591).
+ - **FEAT**: update Ramp network icon (#1585).
+ - **FEAT**: ui updates (#1589).
+ - **FEAT**: onboarding flow changes (#1584).
+ - **FEAT**: ramp amount screen updates (#1590).
+
 ## 1.128.1
 
  - **FIX**: minor select partner UI update (#1582).
