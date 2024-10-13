@@ -128,9 +128,9 @@ class _PayScreenState extends State<PayScreen> {
               ),
               SizedBox(height: 20.h),
               _Item(
-                title: context.l10n.linkMethodText,
+                title: context.l10n.pay,
                 onPressed: _handlePrimaryPressed,
-                icon: Assets.icons.subtract,
+                icon: Assets.icons.dollarSign,
                 subtitleIcons: [
                   Assets.icons.telegram,
                   Assets.icons.whatsapp,
@@ -144,7 +144,7 @@ class _PayScreenState extends State<PayScreen> {
               ),
               SizedBox(height: 20.h),
               _Item(
-                title: context.l10n.addressMethodText,
+                title: context.l10n.walletAddress,
                 onPressed: _handleSecondaryPressed,
                 icon: Assets.icons.walletAddress,
                 subtitleIcons: [
@@ -206,7 +206,7 @@ class _Item extends StatelessWidget {
               bottom: 10.h,
             ),
             title: Padding(
-              padding: const EdgeInsets.only(bottom: 4),
+              padding: const EdgeInsets.only(bottom: 6),
               child: Text(
                 title,
                 style: TextStyle(
