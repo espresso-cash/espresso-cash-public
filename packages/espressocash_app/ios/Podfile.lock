@@ -342,7 +342,7 @@ SPEC CHECKSUMS:
   GoogleUtilitiesComponents: 679b2c881db3b615a2777504623df6122dd20afe
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
-  integration_test: ce0a3ffa1de96d1a89ca0ac26fca7ea18a749ef4
+  integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
   Intercom: d6033516c223ca82fb3a905bc286d2ab75bb5a98
   intercom_flutter: ed91ded8495a89793850f4980b51c6b69cea2ccd
   Mixpanel-swift: e5dd85295923e6a875acf17ccbab8d2ecb10ea65

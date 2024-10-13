@@ -33,7 +33,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
     final service = sl<KycSharingService>();
 
     try {
-      await service.verifyEmail(_controller.text);
+      await service.verifyEmail(code: _controller.text);
 
       if (!mounted) return;
 

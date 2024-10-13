@@ -98,20 +98,20 @@ class KycSharingService extends ValueNotifier<KycState> {
         photoId: photoId,
       );
 
-  Future<void> initEmailVerification(String value) async {
-    await _kycRepository.initEmailVerification(value);
+  Future<void> initEmailVerification({required String email}) async {
+    await _kycRepository.initEmailVerification(email: email);
   }
 
-  Future<void> initPhoneVerification(String value) async {
-    await _kycRepository.initPhoneVerification(value);
+  Future<void> initPhoneVerification({required String phone}) async {
+    await _kycRepository.initPhoneVerification(phone: phone);
   }
 
-  Future<void> verifyEmail(String code) async {
-    await _kycRepository.verifyEmail(code);
+  Future<void> verifyEmail({required String code}) async {
+    await _kycRepository.verifyEmail(code: code);
   }
 
-  Future<void> verifyPhone(String code) async {
-    await _kycRepository.verifyPhone(code);
+  Future<void> verifyPhone({required String code}) async {
+    await _kycRepository.verifyPhone(code: code);
   }
 
   void hasValidatedEmail(bool result) {

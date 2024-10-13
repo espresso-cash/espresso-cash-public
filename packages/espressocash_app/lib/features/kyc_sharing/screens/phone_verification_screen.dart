@@ -37,7 +37,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
         try {
           final service = sl<KycSharingService>();
 
-          await service.initPhoneVerification(_numberController.text);
+          await service.initPhoneVerification(phone: _numberController.text);
 
           return true;
         } on Exception {

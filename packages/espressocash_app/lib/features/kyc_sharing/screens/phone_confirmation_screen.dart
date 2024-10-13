@@ -34,7 +34,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
     final service = sl<KycSharingService>();
 
     try {
-      await service.verifyPhone(_controller.text);
+      await service.verifyPhone(code: _controller.text);
 
       if (!mounted) return;
 

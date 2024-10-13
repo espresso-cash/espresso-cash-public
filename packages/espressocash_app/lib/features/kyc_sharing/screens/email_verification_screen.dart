@@ -50,7 +50,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         try {
           final service = sl<KycSharingService>();
 
-          await service.initEmailVerification(_emailController.text);
+          await service.initEmailVerification(email: _emailController.text);
 
           return true;
         } on Exception {

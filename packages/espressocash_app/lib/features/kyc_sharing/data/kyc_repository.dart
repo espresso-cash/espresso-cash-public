@@ -82,7 +82,7 @@ class KycRepository extends ChangeNotifier {
     );
   }
 
-  Future<void> initEmailVerification(String email) async {
+  Future<void> initEmailVerification({required String email}) async {
     await _kycUserClient.setData(
       data: V1UserData(email: email),
       selfie: null,
@@ -91,9 +91,10 @@ class KycRepository extends ChangeNotifier {
     await _kycUserClient.initEmailValidation();
   }
 
-  Future<void> verifyEmail(String code) => _kycUserClient.validateEmail(code);
+  Future<void> verifyEmail({required String code}) =>
+      _kycUserClient.validateEmail(code: code);
 
-  Future<void> initPhoneVerification(String phone) async {
+  Future<void> initPhoneVerification({required String phone}) async {
     await _kycUserClient.setData(
       data: V1UserData(phone: phone),
       selfie: null,
@@ -102,7 +103,8 @@ class KycRepository extends ChangeNotifier {
     await _kycUserClient.initPhoneValidation();
   }
 
-  Future<void> verifyPhone(String code) => _kycUserClient.validatePhone(code);
+  Future<void> verifyPhone({required String code}) =>
+      _kycUserClient.validatePhone(code: code);
 
   // Future<void> initDocumentVerification() async {
   //   await _kycUserClient.grantPartnerAccess(validatorAuthPk);
