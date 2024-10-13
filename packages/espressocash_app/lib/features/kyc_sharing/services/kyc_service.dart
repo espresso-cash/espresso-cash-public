@@ -12,7 +12,7 @@ import '../data/kyc_repository.dart';
 import 'state.dart';
 
 // Hardcoded for now
-const validatorAuthPk = '5PcfzhA3saCwcJjRstKyytMwwxeK1XJt48WGUhZEyecp';
+const validatorAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 
 @Singleton(scope: authScope)
@@ -108,10 +108,12 @@ class KycSharingService extends ValueNotifier<KycState> {
 
   Future<void> verifyEmail({required String code}) async {
     await _kycRepository.verifyEmail(code: code);
+    hasValidatedEmail(true);
   }
 
   Future<void> verifyPhone({required String code}) async {
     await _kycRepository.verifyPhone(code: code);
+    hasValidatedPhone(true);
   }
 
   void hasValidatedEmail(bool result) {

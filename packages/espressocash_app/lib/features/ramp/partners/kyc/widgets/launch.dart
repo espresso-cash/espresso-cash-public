@@ -9,6 +9,7 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
+import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
@@ -23,6 +24,14 @@ extension BuildContextExt on BuildContext {
   Future<void> launchKycOnRamp({
     required ProfileData profile,
   }) async {
+    final kycPassed = await openKycFlow();
+
+    if (!kycPassed) {
+      showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
+
+      return;
+    }
+
     final rateAndFee = await _fetchRateAndFee();
 
     if (rateAndFee == null) {
@@ -89,14 +98,6 @@ extension BuildContextExt on BuildContext {
       fixedFee: fixedFee,
     );
 
-    // final kycPassed = await openKycFlow();
-
-    // if (!kycPassed) {
-    //   showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
-
-    //   return;
-    // }
-
     final orderId = await runWithLoader<String?>(
       this,
       () => sl<XFlowOnRampOrderService>()
@@ -123,6 +124,14 @@ extension BuildContextExt on BuildContext {
   Future<void> launchKycOffRamp({
     required ProfileData profile,
   }) async {
+    final kycPassed = await openKycFlow();
+
+    if (!kycPassed) {
+      showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
+
+      return;
+    }
+
     final rateAndFee = await _fetchRateAndFee();
 
     if (rateAndFee == null) {
@@ -185,14 +194,6 @@ extension BuildContextExt on BuildContext {
       percentageFee: rampFeePercentage,
       fixedFee: fixedFee,
     );
-
-    // final kycPassed = await openKycFlow();
-
-    // if (!kycPassed) {
-    //   showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
-
-    //   return;
-    // }
 
     final orderId = await runWithLoader<String?>(
       this,

@@ -47,13 +47,14 @@ class KycRepository extends ChangeNotifier {
       final selfie = data['photoSelfie'];
       final id = data['photoIdCard'];
 
-      return KycUserInfo.fromJson(data).copyWith(
+      //TODO refactor this
+      final user = KycUserInfo.fromJson(data).copyWith(
         photoSelfie: (selfie is Uint8List) ? selfie : null,
         photoIdCard: (id is Uint8List) ? id : null,
       );
-    } on Exception {
-      //ignore, user not registered
 
+      return user.isInitialized ? user : null;
+    } on Exception {
       return null;
     }
   }

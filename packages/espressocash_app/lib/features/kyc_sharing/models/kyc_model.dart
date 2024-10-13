@@ -34,4 +34,11 @@ class KycUserInfo with _$KycUserInfo {
 
 extension KycUserInfoExtensions on KycUserInfo {
   bool get hasBankInfo => bankAccountNumber.isNotEmpty && bankCode.isNotEmpty;
+
+  //TODO refactor this
+  bool get isInitialized =>
+      email.isNotEmpty &&
+      phone.isNotEmpty &&
+      firstName.isNotEmpty &&
+      lastName.isNotEmpty;
 }
