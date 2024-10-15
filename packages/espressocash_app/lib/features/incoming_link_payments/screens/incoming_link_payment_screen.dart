@@ -1,14 +1,7 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../ui/colors.dart';
-import '../../../ui/info_icon.dart';
-import '../../../ui/message_info_widget.dart';
-import '../../conversion_rates/widgets/extensions.dart';
-import '../../currency/models/amount.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
@@ -60,7 +53,6 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
                   success: (e) => TransferSuccess(
                     onBack: () => Navigator.pop(context),
                     onOkPressed: () => Navigator.pop(context),
-                    content: e.fee?.let(_FeeNotice.new),
                     statusContent: context.l10n.moneyReceived,
                   ),
                   txFailure: (it) => it.reason == TxFailureReason.escrowFailure
@@ -73,49 +65,5 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
                   ),
                 );
         },
-      );
-}
-
-class _FeeNotice extends StatelessWidget {
-  const _FeeNotice(this.amount);
-
-  final CryptoAmount amount;
-
-  @override
-  Widget build(BuildContext context) => Expanded(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            CpMessageInfoWidget(
-              backgroundColor: Colors.black,
-              padding: const EdgeInsets.all(18),
-              content: Row(
-                children: [
-                  const CircleAvatar(
-                    maxRadius: 14,
-                    backgroundColor: CpColors.yellowColor,
-                    child: CpInfoIcon(
-                      iconColor: CpColors.darkBackgroundColor,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Text(
-                      context.l10n
-                          .incomingUsdcFeeNotice(amount.format(context.locale)),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.50,
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 32),
-          ],
-        ),
       );
 }

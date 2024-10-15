@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
-import '../../currency/models/amount.dart';
 import '../../escrow/models/escrow_private_key.dart';
 import '../../transactions/models/tx_results.dart';
 
@@ -31,7 +30,6 @@ sealed class ILPStatus with _$ILPStatus {
   /// Final state. Tx is successfully confirmed and payment is claimed.
   const factory ILPStatus.success({
     required SignedTx tx,
-    required CryptoAmount? fee,
   }) = ILPStatusSuccess;
 
   /// Failed to create the tx, a new tx should be created.
