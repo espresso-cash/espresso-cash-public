@@ -24,9 +24,7 @@ class ConversionRatesRepository {
     required JupiterPriceClient jupiterClient,
   })  : _db = db,
         _ecClient = ecClient,
-        _jupiterClient = jupiterClient {
-    _initCache();
-  }
+        _jupiterClient = jupiterClient;
 
   final MyDatabase _db;
   final JupiterPriceClient _jupiterClient;
@@ -35,6 +33,12 @@ class ConversionRatesRepository {
 
   final Map<String, Map<String, Decimal>> _ratesCache = {};
   StreamSubscription<void>? _cacheSubscription;
+
+  @postConstruct
+  void init() {
+    _initCache();
+    _fetchFiatRates();
+  }
 
   void _initCache() {
     _cacheSubscription =
@@ -123,20 +127,23 @@ class ConversionRatesRepository {
 
   AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) =>
       _cache.fetchEither(() async {
-        final data = await _ecClient.getRates().then((p) => p.usdc);
-
-        await _db.into(_db.conversionRatesRows).insert(
-              ConversionRatesRowsCompanion.insert(
-                token: Currency.usdc.token.address,
-                fiatCurrency: currency.symbol,
-                rate: data.toString(),
-                updatedAt: DateTime.now(),
-              ),
-              mode: InsertMode.replace,
-            );
-
+        await _fetchFiatRates(currency: currency);
         await _fetchTokens(currency, tokens);
       });
+
+  Future<void> _fetchFiatRates({FiatCurrency? currency}) async {
+    final data = await _ecClient.getRates().then((p) => p.usdc);
+
+    await _db.into(_db.conversionRatesRows).insert(
+          ConversionRatesRowsCompanion.insert(
+            token: Currency.usdc.token.address,
+            fiatCurrency: currency?.symbol ?? Currency.usd.symbol,
+            rate: data.toString(),
+            updatedAt: DateTime.now(),
+          ),
+          mode: InsertMode.replace,
+        );
+  }
 
   @disposeMethod
   void dispose() {

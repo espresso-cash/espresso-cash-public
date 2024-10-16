@@ -1,3 +1,7 @@
+## 1.129.1
+
+ - **FIX**: fetch fiat rates on start (#1592).
+
 ## 1.129.0
 
  - **FIX**: moneygram bridge fix (#1591).
