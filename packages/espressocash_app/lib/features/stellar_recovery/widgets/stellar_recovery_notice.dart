@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -50,20 +51,18 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
                   child: child,
                 );
 
-            return notice(_Pending(onRecoverPressed: _handleRecoverPressed));
-
-            // return switch (sl<StellarRecoveryService>().value) {
-            //   RecoveryNone() || RecoveryDismissed() => const SizedBox.shrink(),
-            //   RecoveryPending() => notice(
-            //       _Pending(onRecoverPressed: _handleRecoverPressed),
-            //     ),
-            //   RecoveryProcessing() => notice(const _Processing()),
-            //   RecoveryCompleted(:final amount) =>
-            //     notice(_Completed(amount: amount)),
-            //   RecoveryFailed() => notice(
-            //       _Failed(onRecoverPressed: _handleRecoverPressed),
-            //     ),
-            // };
+            return switch (sl<StellarRecoveryService>().value) {
+              RecoveryNone() || RecoveryDismissed() => const SizedBox.shrink(),
+              RecoveryPending() => notice(
+                  _Pending(onRecoverPressed: _handleRecoverPressed),
+                ),
+              RecoveryProcessing() => notice(const _Processing()),
+              RecoveryCompleted(:final amount) =>
+                notice(_Completed(amount: amount)),
+              RecoveryFailed() => notice(
+                  _Failed(onRecoverPressed: _handleRecoverPressed),
+                ),
+            };
           },
         )
       : const SizedBox.shrink();
@@ -135,7 +134,7 @@ class _Failed extends StatelessWidget {
       );
 }
 
-class _RecoveryNoticeContent extends StatelessWidget {
+class _RecoveryNoticeContent extends StatefulWidget {
   const _RecoveryNoticeContent({
     required this.onClosePressed,
     required this.child,
@@ -143,6 +142,43 @@ class _RecoveryNoticeContent extends StatelessWidget {
 
   final VoidCallback onClosePressed;
   final Widget child;
+
+  @override
+  State<_RecoveryNoticeContent> createState() => _RecoveryNoticeContentState();
+}
+
+class _RecoveryNoticeContentState extends State<_RecoveryNoticeContent> {
+  late RiveAnimationController<void> _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = OneShotAnimation(
+      'Timeline 1',
+      onStart: _onAnimationStart,
+    );
+  }
+
+  void _onAnimationStart() {
+    Future.delayed(const Duration(milliseconds: 1650), () {
+      _controller.isActive = false;
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant _RecoveryNoticeContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (!Widget.canUpdate(oldWidget.child, widget.child)) {
+      _controller.isActive = true;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => DefaultTextStyle(
@@ -157,12 +193,12 @@ class _RecoveryNoticeContent extends StatelessWidget {
           child: Stack(
             children: [
               Assets.rive.recovery.rive(
-                animations: ['playing'],
+                controllers: [_controller],
                 fit: BoxFit.fitWidth,
-                // stateMachines: ['idle'],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                 child: Center(
                   child: SizedBox(
                     width: 360,
@@ -177,11 +213,11 @@ class _RecoveryNoticeContent extends StatelessWidget {
                                 horizontal: 4.0,
                                 vertical: 2,
                               ),
-                              child: Center(child: child),
+                              child: Center(child: widget.child),
                             ),
                           ),
                           GestureDetector(
-                            onTap: onClosePressed,
+                            onTap: widget.onClosePressed,
                             child: SizedBox.square(
                               dimension: 12,
                               child: Assets.icons.closeButtonIcon.svg(
