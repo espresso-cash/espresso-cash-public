@@ -8,7 +8,7 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
-import '../models/kyc_model.dart';
+import '../models/kyc_user_info.dart';
 
 @Singleton(scope: authScope)
 class KycRepository extends ChangeNotifier {

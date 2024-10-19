@@ -8,7 +8,7 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../data/kyc_repository.dart';
-import '../models/id_type.dart';
+import '../models/document_type.dart';
 import 'state.dart';
 
 // Hardcoded for now

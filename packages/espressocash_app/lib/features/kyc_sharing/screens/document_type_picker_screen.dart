@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
-import '../models/id_type.dart';
+import '../models/document_type.dart';
 
-class IdTypePickerScreen extends StatelessWidget {
-  const IdTypePickerScreen({
+class DocumentTypePickerScreen extends StatelessWidget {
+  const DocumentTypePickerScreen({
     super.key,
     this.initial,
   });

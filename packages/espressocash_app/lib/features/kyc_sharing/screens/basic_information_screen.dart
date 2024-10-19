@@ -9,9 +9,9 @@ import '../../../ui/radio_button.dart';
 import '../../../ui/snackbar.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
-import '../models/id_type.dart';
+import '../models/document_type.dart';
 import '../services/kyc_service.dart';
-import '../widgets/id_picker.dart';
+import '../widgets/document_picker.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
@@ -178,7 +178,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             ),
           ),
           const SizedBox(height: 18),
-          IdPicker(
+          DocumentPicker(
             type: _idType,
             onSubmitted: (idType) => setState(() => _idType = idType),
           ),

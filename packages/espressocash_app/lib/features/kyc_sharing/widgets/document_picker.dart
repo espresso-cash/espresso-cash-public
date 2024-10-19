@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../models/id_type.dart';
-import '../screens/id_type_picker_screen.dart';
+import '../models/document_type.dart';
+import '../screens/document_type_picker_screen.dart';
 
-class IdPicker extends StatelessWidget {
-  const IdPicker({
+class DocumentPicker extends StatelessWidget {
+  const DocumentPicker({
     super.key,
     this.type,
     required this.onSubmitted,
@@ -25,7 +25,7 @@ class IdPicker extends StatelessWidget {
             final DocumentType? updated = await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => IdTypePickerScreen(initial: type),
+                builder: (context) => DocumentTypePickerScreen(initial: type),
               ),
             );
 

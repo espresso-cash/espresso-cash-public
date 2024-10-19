@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'kyc_model.freezed.dart';
+part 'kyc_user_info.freezed.dart';
 
 @freezed
 class KycUserInfo with _$KycUserInfo {

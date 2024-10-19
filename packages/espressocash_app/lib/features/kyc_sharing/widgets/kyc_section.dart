@@ -4,7 +4,7 @@ import '../../../di.dart';
 import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../profile/widgets/profile_button.dart';
 import '../../profile/widgets/profile_section.dart';
-import '../models/kyc_model.dart';
+import '../models/kyc_user_info.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/manage_data_access_screen.dart';
 import '../services/kyc_service.dart';

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../models/kyc_model.dart';
+import '../models/kyc_user_info.dart';
 
 part 'state.freezed.dart';
 
