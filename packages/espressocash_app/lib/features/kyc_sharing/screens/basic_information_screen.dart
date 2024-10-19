@@ -42,7 +42,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   DateTime? _dob;
 
   Country? _country;
-  IdType? _idType;
+  DocumentType? _idType;
 
   bool get _isValid =>
       _firstNameController.text.isNotEmpty &&
@@ -67,15 +67,13 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             throw Exception();
           }
 
-          await service.updateUserInfo(
+          await service.updateBasicInfo(
             firstName: _firstNameController.text,
-            middleName: _middleNameController.text,
             lastName: _lastNameController.text,
-            dob: _dob?.toIso8601String() ?? '',
+            dob: _dob,
             countryCode: countryCode,
-            idType: idTypeValue,
+            idType: _idType,
             idNumber: _idController.text,
-            selfiePhoto: null,
           );
 
           if (!mounted) return false;

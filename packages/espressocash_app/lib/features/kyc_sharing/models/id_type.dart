@@ -1,4 +1,4 @@
-enum IdType {
+enum DocumentType {
   bvn('BVN', 'BVN'),
   nin('NIN', 'NIN'),
   ninV2('NIN V2', 'NIN_V2'),
@@ -6,7 +6,7 @@ enum IdType {
   driversLicense('Driver\'s License', 'DRIVERS_LICENSE'),
   voterId('Voter ID', 'VOTER_ID');
 
-  const IdType(this.name, this.value);
+  const DocumentType(this.name, this.value);
 
   final String name;
   final String value;

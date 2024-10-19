@@ -11,7 +11,7 @@ class IdTypePickerScreen extends StatelessWidget {
     this.initial,
   });
 
-  final IdType? initial;
+  final DocumentType? initial;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -28,16 +28,16 @@ class IdTypePickerScreen extends StatelessWidget {
 class _Content extends StatefulWidget {
   const _Content({this.initial});
 
-  final IdType? initial;
+  final DocumentType? initial;
 
   @override
   State<_Content> createState() => _ContentState();
 }
 
 class _ContentState extends State<_Content> {
-  IdType? _selectedType;
+  DocumentType? _selectedType;
 
-  final _types = IdType.values;
+  final _types = DocumentType.values;
 
   @override
   void initState() {

@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart' hide KycServiceClient;
+import 'package:injectable/injectable.dart' hide Order;
+import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
@@ -37,80 +38,149 @@ class KycRepository extends ChangeNotifier {
     _authPublicKey = _kycUserClient.authPublicKey;
   }
 
-  Future<KycUserInfo?> fetchUser() async {
-    try {
-      final data = await _kycUserClient.getData(
+  Future<UserData> _getUserData() => _kycUserClient.getUserData(
         userPK: _authPublicKey,
         secretKey: _rawSecretKey,
       );
 
-      final selfie = data['photoSelfie'];
-      final id = data['photoIdCard'];
+  Future<KycUserInfo?> fetchUser() async {
+    try {
+      final data = await _getUserData();
 
-      //TODO refactor this
-      final user = KycUserInfo.fromJson(data).copyWith(
-        photoSelfie: (selfie is Uint8List) ? selfie : null,
-        photoIdCard: (id is Uint8List) ? id : null,
+      final name = data.name?.first;
+      final dob = data.birthDate?.first;
+      final email = data.email?.first;
+      final phone = data.phone?.first;
+      final selfie = data.selfie?.first;
+      final document = data.document?.first;
+      final bank = data.bankInfo?.first;
+
+      final isEmailVerified = email?.status == ValidationStatus.approved;
+      final isPhoneVerified = phone?.status == ValidationStatus.approved;
+
+      return KycUserInfo(
+        firstName: name?.firstName ?? '',
+        lastName: name?.lastName ?? '',
+        dob: dob?.value ?? DateTime.now(),
+        idType: document?.type.name ?? '',
+        idNumber: document?.number ?? '',
+        countryCode: document?.countryCode ?? '',
+        email: email?.value ?? '',
+        phone: phone?.value ?? '',
+        photoSelfie: selfie?.value.let(Uint8List.fromList),
+        bankAccountNumber: bank?.accountNumber ?? '',
+        bankCode: bank?.bankCode ?? '',
+        bankName: bank?.bankName ?? '',
+        isEmailVerified: isEmailVerified,
+        isPhoneVerified: isPhoneVerified,
+        isKycVerified: false,
       );
-
-      return user.isInitialized ? user : null;
     } on Exception {
       return null;
     }
   }
 
-  Future<void> updateInfo({
-    V1UserData? data,
+  // TODOrefactor this, should have ID to create or update
+  Future<void> updateUserData({
+    String? firstName,
+    String? lastName,
+    DateTime? dob,
+    String? idNumber,
+    IdType? idType,
+    String? countryCode,
+    String? bankAccountNumber,
+    String? bankCode,
+    String? bankName,
     File? photoSelfie,
-    File? photoId,
   }) async {
+    Email? email;
+    Phone? phone;
+    Name? name;
+    Document? document;
+    BankInfo? bankInfo;
+    BirthDate? birthDate;
+    Selfie? selfie;
+
+    if (firstName != null && lastName != null) {
+      name = Name(
+        firstName: firstName,
+        lastName: lastName,
+      );
+    }
+
+    if (dob != null) {
+      birthDate = BirthDate(value: dob);
+    }
+
+    if (idNumber != null && countryCode != null && idType != null) {
+      document = Document(
+        type: idType,
+        number: idNumber,
+        countryCode: countryCode,
+      );
+    }
+
+    if (bankAccountNumber != null && bankCode != null || bankName != null) {
+      bankInfo = BankInfo(
+        accountNumber: bankAccountNumber ?? '',
+        bankCode: bankCode ?? '',
+        bankName: bankName ?? '',
+      );
+    }
+
+    if (photoSelfie != null) {
+      selfie = Selfie(value: await photoSelfie.readAsBytes());
+    }
+
     await _kycUserClient.setData(
-      data: data != null
-          ? V1UserData(
-              firstName: data.firstName,
-              middleName: data.middleName,
-              lastName: data.lastName,
-              dob: data.dob,
-              countryCode: data.countryCode,
-              idType: data.idType,
-              idNumber: data.idNumber,
-              bankAccountNumber: data.bankAccountNumber,
-              bankCode: data.bankCode,
-            )
-          : const V1UserData(),
-      selfie: photoSelfie != null ? await photoSelfie.readAsBytes() : null,
-      idCard: photoId != null ? await photoId.readAsBytes() : null,
+      email: email,
+      phone: phone,
+      name: name,
+      dob: birthDate,
+      document: document,
+      bankInfo: bankInfo,
+      selfie: selfie,
     );
+  }
+
+  Future<String?> getEmailDataId() async {
+    final data = await _getUserData();
+
+    return data.email?.first.id;
+  }
+
+  Future<String?> getPhoneDataId() async {
+    final data = await _getUserData();
+
+    return data.phone?.first.id;
   }
 
   Future<void> initEmailVerification({required String email}) async {
-    await _kycUserClient.setData(
-      data: V1UserData(email: email),
-      selfie: null,
-      idCard: null,
-    );
-    await _kycUserClient.initEmailValidation();
+    await _kycUserClient.setData(email: Email(value: email));
+    final dataId = await getEmailDataId();
+
+    await _kycUserClient.initEmailValidation(dataId: dataId ?? '');
   }
 
-  Future<void> verifyEmail({required String code}) =>
-      _kycUserClient.validateEmail(code: code);
+  Future<void> verifyEmail({
+    required String code,
+    required String dataId,
+  }) async {
+    await _kycUserClient.validateEmail(code: code, dataId: dataId);
+  }
 
   Future<void> initPhoneVerification({required String phone}) async {
-    await _kycUserClient.setData(
-      data: V1UserData(phone: phone),
-      selfie: null,
-      idCard: null,
-    );
-    await _kycUserClient.initPhoneValidation();
+    await _kycUserClient.setData(phone: Phone(value: phone));
+    final dataId = await getPhoneDataId();
+
+    await _kycUserClient.initPhoneValidation(dataId: dataId ?? '');
   }
 
-  Future<void> verifyPhone({required String code}) =>
-      _kycUserClient.validatePhone(code: code);
-
-  // Future<void> initDocumentVerification() async {
-  //   await _kycUserClient.grantPartnerAccess(validatorAuthPk);
-  //   await _kycUserClient.initDocumentValidation();
-  // }
+  Future<void> verifyPhone({
+    required String code,
+    required String dataId,
+  }) =>
+      _kycUserClient.validatePhone(code: code, dataId: dataId);
 
   Future<String> createOnRampOrder({
     required String cryptoAmount,
@@ -146,10 +216,8 @@ class KycRepository extends ChangeNotifier {
         bankAccount: bankAccount,
       );
 
-  Future<V1GetOrderResponse> fetchOrder(
-    String orderId,
-  ) => //TODO update order object
-      _kycUserClient.getOrder(orderId);
+  Future<Order> fetchOrder(String orderId) =>
+      _kycUserClient.getOrder(orderId: OrderId.fromOrderId(orderId));
 
   Future<void> grantPartnerAccess(String partnerPk) =>
       _kycUserClient.grantPartnerAccess(partnerPk);

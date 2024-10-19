@@ -10,8 +10,8 @@ class IdPicker extends StatelessWidget {
     required this.onSubmitted,
   });
 
-  final IdType? type;
-  final ValueSetter<IdType> onSubmitted;
+  final DocumentType? type;
+  final ValueSetter<DocumentType> onSubmitted;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
@@ -22,7 +22,7 @@ class IdPicker extends StatelessWidget {
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 24),
           onTap: () async {
-            final IdType? updated = await Navigator.push(
+            final DocumentType? updated = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => IdTypePickerScreen(initial: type),

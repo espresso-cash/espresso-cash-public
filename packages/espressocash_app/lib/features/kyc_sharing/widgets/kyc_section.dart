@@ -49,6 +49,7 @@ class _KycInfo extends StatelessWidget {
   const _KycInfo({
     required this.user,
   });
+
   final KycUserInfo user;
 
   @override
@@ -63,7 +64,7 @@ class _KycInfo extends StatelessWidget {
           ),
           if (user.hasBankInfo)
             ProfileButton(
-              label: 'Banking Account',
+              label: 'Bank Account',
               description: _getBankDescription(user),
               onPressed: () => BankAccountScreen.push(context),
             ),
@@ -88,9 +89,10 @@ class _KycInfo extends StatelessWidget {
 }
 
 String _getUserDescription(KycUserInfo user) => '''
-${user.firstName.isNotEmpty ? user.firstName : ''} ${user.middleName.isNotEmpty ? user.middleName : ''} ${user.lastName.isNotEmpty ? user.lastName : ''}
-${user.dob.isNotEmpty ? user.dob : ''}
-${user.idNumber.isNotEmpty ? user.idNumber : ''}
+${user.firstName.isNotEmpty ? user.firstName : ''} ${user.lastName.isNotEmpty ? user.lastName : ''}
+DOB: ${user.dob}
+ID Type: ${user.idType}
+ID Number: ${user.idNumber.isNotEmpty ? user.idNumber : ''}
 ''';
 
 String _getBankDescription(KycUserInfo user) => '''
