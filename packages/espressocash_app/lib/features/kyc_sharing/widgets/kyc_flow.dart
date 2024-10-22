@@ -60,9 +60,9 @@ extension KycFlowExtension on BuildContext {
       if (!await openPhoneFlow()) return false;
     }
 
-   // if (service?.kycStatus == ValidationStatus.pending) {
-   //   if (!await _navigateToScreen(KycStatusScreen.push)) return false;
-   // }
+    if (service?.kycStatus != ValidationStatus.approved) {
+      if (!await _navigateToScreen(KycStatusScreen.push)) return false;
+    }
 
     return true;
   }

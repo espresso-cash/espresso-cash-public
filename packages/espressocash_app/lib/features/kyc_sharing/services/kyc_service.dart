@@ -7,7 +7,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../data/kyc_repository.dart';

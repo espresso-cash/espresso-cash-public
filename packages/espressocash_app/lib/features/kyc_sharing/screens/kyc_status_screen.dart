@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 import '../../../di.dart';
 import '../../../ui/button.dart';
-import '../../ramp/partners/kyc/services/xflow_off_ramp_order_service.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/kyc_page.dart';
-import '../widgets/kyc_section.dart';
 
 class KycStatusScreen extends StatefulWidget {
   const KycStatusScreen({super.key});
@@ -58,16 +56,16 @@ class _KycStatusScreenState extends State<KycStatusScreen> {
                 ),
               ),
               const Spacer(),
-              if (userData.kycStatus != ValidationStatus.approved) ...[
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: CpButton(
-                    width: double.infinity,
-                    text: 'Create Order',
-                    onPressed: () => Navigator.pop(context, true),
-                  ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: CpButton(
+                  width: double.infinity,
+                  text: 'Create Order',
+                  onPressed: (userData.kycStatus == ValidationStatus.approved)
+                      ? () => Navigator.pop(context, true)
+                      : null,
                 ),
-              ]
+              ),
             ],
           );
         },

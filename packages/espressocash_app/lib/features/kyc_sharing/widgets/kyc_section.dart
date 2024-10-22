@@ -82,6 +82,7 @@ class _KycInfo extends StatelessWidget {
               label: 'Phone Number',
               description: user.getPhone,
               onPressed: context.openPhoneFlow,
+              status: user.phoneStatus,
             ),
           KycButton(
             label: 'Manage Data Access',
