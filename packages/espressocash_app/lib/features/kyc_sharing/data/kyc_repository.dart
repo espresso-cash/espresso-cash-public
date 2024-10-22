@@ -55,9 +55,6 @@ class KycRepository extends ChangeNotifier {
       final document = data.document?.first;
       final bank = data.bankInfo?.first;
 
-      final isEmailVerified = email?.status == ValidationStatus.approved;
-      final isPhoneVerified = phone?.status == ValidationStatus.approved;
-
       return KycUserInfo(
         firstName: name?.firstName ?? '',
         lastName: name?.lastName ?? '',
@@ -71,9 +68,9 @@ class KycRepository extends ChangeNotifier {
         bankAccountNumber: bank?.accountNumber ?? '',
         bankCode: bank?.bankCode ?? '',
         bankName: bank?.bankName ?? '',
-        isEmailVerified: isEmailVerified,
-        isPhoneVerified: isPhoneVerified,
-        isKycVerified: false,
+        kycStatus: name?.status ?? ValidationStatus.unspecified,
+        phoneStatus: phone?.status ?? ValidationStatus.unspecified,
+        emailStatus: email?.status ?? ValidationStatus.unspecified,
       );
     } on Exception {
       return null;
@@ -181,6 +178,22 @@ class KycRepository extends ChangeNotifier {
     required String dataId,
   }) =>
       _kycUserClient.validatePhone(code: code, dataId: dataId);
+
+  Future<void> initKycVerification() async {
+    final data = await _getUserData();
+
+    final nameId = data.name?.first.id;
+    final birthDateId = data.birthDate?.first.id;
+    final documentId = data.document?.first.id;
+    final selfieImageId = data.selfie?.first.id;
+
+    await _kycUserClient.initDocumentValidation(
+      nameId: nameId ?? '',
+      birthDateId: birthDateId ?? '',
+      documentId: documentId ?? '',
+      selfieImageId: selfieImageId ?? '',
+    );
+  }
 
   Future<String> createOnRampOrder({
     required String cryptoAmount,

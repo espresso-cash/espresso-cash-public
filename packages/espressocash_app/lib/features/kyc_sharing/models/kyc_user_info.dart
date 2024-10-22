@@ -3,6 +3,7 @@
 import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 part 'kyc_user_info.freezed.dart';
 
@@ -21,9 +22,9 @@ class KycUserInfo with _$KycUserInfo {
     required String bankAccountNumber,
     required String bankCode,
     required Uint8List? photoSelfie,
-    required bool isEmailVerified,
-    required bool isPhoneVerified,
-    required bool isKycVerified,
+    required ValidationStatus kycStatus,
+    required ValidationStatus phoneStatus,
+    required ValidationStatus emailStatus,
   }) = _KycUserInfo;
 
   const KycUserInfo._();
@@ -32,3 +33,4 @@ class KycUserInfo with _$KycUserInfo {
 extension KycUserInfoExtensions on KycUserInfo {
   bool get hasBankInfo => bankAccountNumber.isNotEmpty && bankCode.isNotEmpty;
 }
+

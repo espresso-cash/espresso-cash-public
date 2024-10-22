@@ -29,9 +29,9 @@ class KycSharingService extends ValueNotifier<KycState> {
 
     value = KycState(
       user: user,
-      hasPassedKyc: user?.isKycVerified ?? false,
-      hasValidatedEmail: user?.isEmailVerified ?? false,
-      hasValidatedPhone: user?.isPhoneVerified ?? false,
+      kycStatus: user?.kycStatus ?? ValidationStatus.unspecified,
+      phoneStatus: user?.phoneStatus ?? ValidationStatus.unspecified,
+      emailStatus: user?.emailStatus ?? ValidationStatus.unspecified,
     );
   }
 
@@ -79,7 +79,6 @@ class KycSharingService extends ValueNotifier<KycState> {
   Future<void> verifyEmail({required String code}) async {
     final dataId = await _kycRepository.getEmailDataId();
     await _kycRepository.verifyEmail(code: code, dataId: dataId ?? '');
-    hasValidatedEmail(true);
   }
 
   Future<void> initPhoneVerification({required String phone}) =>
@@ -88,19 +87,6 @@ class KycSharingService extends ValueNotifier<KycState> {
   Future<void> verifyPhone({required String code}) async {
     final dataId = await _kycRepository.getPhoneDataId();
     await _kycRepository.verifyPhone(code: code, dataId: dataId ?? '');
-    hasValidatedPhone(true);
-  }
-
-  void hasValidatedEmail(bool result) {
-    value = value.copyWith(hasValidatedEmail: result);
-  }
-
-  void hasValidatedPhone(bool result) {
-    value = value.copyWith(hasValidatedPhone: result);
-  }
-
-  void hasPassedKyc(bool result) {
-    value = value.copyWith(hasPassedKyc: result);
   }
 
   Future<void> shareDataWithPartner(String partnerPk) =>

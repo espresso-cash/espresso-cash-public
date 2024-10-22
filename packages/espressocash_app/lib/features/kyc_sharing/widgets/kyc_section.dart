@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../feature_flags/services/feature_flags_manager.dart';
-import '../../profile/widgets/profile_button.dart';
 import '../../profile/widgets/profile_section.dart';
 import '../models/kyc_user_info.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/manage_data_access_screen.dart';
 import '../services/kyc_service.dart';
+import 'kyc_button.dart';
 import 'kyc_flow.dart';
 
 class KycSection extends StatefulWidget {
@@ -57,30 +57,32 @@ class _KycInfo extends StatelessWidget {
         title: 'Account profile'.toUpperCase(),
         padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [
-          ProfileButton(
+          KycButton(
             label: 'Edit Profile',
             description: _getUserDescription(user),
             onPressed: context.openBasicInfoFlow,
+            status: user.kycStatus,
           ),
           if (user.hasBankInfo)
-            ProfileButton(
+            KycButton(
               label: 'Bank Account',
               description: _getBankDescription(user),
               onPressed: () => BankAccountScreen.push(context),
             ),
           if (user.email.isNotEmpty)
-            ProfileButton(
+            KycButton(
               label: 'Email Address',
               description: user.email,
               onPressed: context.openEmailFlow,
+              status: user.emailStatus,
             ),
           if (user.phone.isNotEmpty)
-            ProfileButton(
+            KycButton(
               label: 'Phone Number',
               description: user.phone,
               onPressed: context.openPhoneFlow,
             ),
-          ProfileButton(
+          KycButton(
             label: 'Manage Data Access',
             onPressed: () => ManageDataAccessScreen.push(context),
           ),

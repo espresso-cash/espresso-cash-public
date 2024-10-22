@@ -43,6 +43,7 @@ abstract class CpColors {
   static const greyDarkAccentColor = Color(0xff9d9d9d);
   static const greenDropdownEnabled = Color(0xff4db43d);
   static const greenDropdownDisabled = Color(0xff2f6b25);
+  static const greenLightColor = Color(0xff8ae4bf);
 
   static const successBackgroundColor = Color(0xFF62D58F);
   static const errorBackgroundColor = Color(0xffff6640);
