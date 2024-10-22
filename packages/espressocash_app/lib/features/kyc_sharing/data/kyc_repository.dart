@@ -1,14 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart' hide Order;
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
-import '../models/kyc_user_info.dart';
 
 @Singleton(scope: authScope)
 class KycRepository extends ChangeNotifier {
@@ -43,35 +41,9 @@ class KycRepository extends ChangeNotifier {
         secretKey: _rawSecretKey,
       );
 
-  Future<KycUserInfo?> fetchUser() async {
+  Future<UserData?> fetchUser() async {
     try {
-      final data = await _getUserData();
-
-      final name = data.name?.first;
-      final dob = data.birthDate?.first;
-      final email = data.email?.first;
-      final phone = data.phone?.first;
-      final selfie = data.selfie?.first;
-      final document = data.document?.first;
-      final bank = data.bankInfo?.first;
-
-      return KycUserInfo(
-        firstName: name?.firstName ?? '',
-        lastName: name?.lastName ?? '',
-        dob: dob?.value ?? DateTime.now(),
-        idType: document?.type.name ?? '',
-        idNumber: document?.number ?? '',
-        countryCode: document?.countryCode ?? '',
-        email: email?.value ?? '',
-        phone: phone?.value ?? '',
-        photoSelfie: selfie?.value.let(Uint8List.fromList),
-        bankAccountNumber: bank?.accountNumber ?? '',
-        bankCode: bank?.bankCode ?? '',
-        bankName: bank?.bankName ?? '',
-        kycStatus: name?.status ?? ValidationStatus.unspecified,
-        phoneStatus: phone?.status ?? ValidationStatus.unspecified,
-        emailStatus: email?.status ?? ValidationStatus.unspecified,
-      );
+      return await _getUserData();
     } on Exception {
       return null;
     }
@@ -179,19 +151,17 @@ class KycRepository extends ChangeNotifier {
   }) =>
       _kycUserClient.validatePhone(code: code, dataId: dataId);
 
-  Future<void> initKycVerification() async {
-    final data = await _getUserData();
-
-    final nameId = data.name?.first.id;
-    final birthDateId = data.birthDate?.first.id;
-    final documentId = data.document?.first.id;
-    final selfieImageId = data.selfie?.first.id;
-
+  Future<void> initKycVerification({
+    required String nameId,
+    required String birthDateId,
+    required String documentId,
+    required String selfieImageId,
+  }) async {
     await _kycUserClient.initDocumentValidation(
-      nameId: nameId ?? '',
-      birthDateId: birthDateId ?? '',
-      documentId: documentId ?? '',
-      selfieImageId: selfieImageId ?? '',
+      nameId: nameId,
+      birthDateId: birthDateId,
+      documentId: documentId,
+      selfieImageId: selfieImageId,
     );
   }
 

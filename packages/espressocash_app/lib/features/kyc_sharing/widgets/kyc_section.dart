@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../profile/widgets/profile_section.dart';
-import '../models/kyc_user_info.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/manage_data_access_screen.dart';
 import '../services/kyc_service.dart';
+import '../utils/kyc_utils.dart';
 import 'kyc_button.dart';
 import 'kyc_flow.dart';
 
@@ -34,7 +35,7 @@ class _KycSectionState extends State<KycSection> {
           : FutureBuilder<KycSharingService>(
               future: _future,
               builder: (context, snapshot) {
-                final user = snapshot.data?.value.user;
+                final user = snapshot.data?.value;
 
                 return snapshot.connectionState == ConnectionState.waiting ||
                         snapshot.hasError ||
@@ -50,7 +51,7 @@ class _KycInfo extends StatelessWidget {
     required this.user,
   });
 
-  final KycUserInfo user;
+  final UserData user;
 
   @override
   Widget build(BuildContext context) => ProfileSection(
@@ -69,17 +70,17 @@ class _KycInfo extends StatelessWidget {
               description: _getBankDescription(user),
               onPressed: () => BankAccountScreen.push(context),
             ),
-          if (user.email.isNotEmpty)
+          if (user.getEmail.isNotEmpty)
             KycButton(
               label: 'Email Address',
-              description: user.email,
+              description: user.getEmail,
               onPressed: context.openEmailFlow,
               status: user.emailStatus,
             ),
-          if (user.phone.isNotEmpty)
+          if (user.getPhone.isNotEmpty)
             KycButton(
               label: 'Phone Number',
-              description: user.phone,
+              description: user.getPhone,
               onPressed: context.openPhoneFlow,
             ),
           KycButton(
@@ -90,15 +91,15 @@ class _KycInfo extends StatelessWidget {
       );
 }
 
-String _getUserDescription(KycUserInfo user) => '''
+String _getUserDescription(UserData user) => '''
 ${user.firstName.isNotEmpty ? user.firstName : ''} ${user.lastName.isNotEmpty ? user.lastName : ''}
 DOB: ${user.dob}
-ID Type: ${user.idType}
-ID Number: ${user.idNumber.isNotEmpty ? user.idNumber : ''}
+ID Type: ${user.documentType}
+ID Number: ${user.documentNumber.isNotEmpty ? user.documentNumber: ''}
 ''';
 
-String _getBankDescription(KycUserInfo user) => '''
+String _getBankDescription(UserData user) => '''
 ${user.countryCode.isNotEmpty ? user.countryCode : ''}
 ${user.bankCode.isNotEmpty ? user.bankCode : ''}
-${user.bankAccountNumber.isNotEmpty ? user.bankAccountNumber : ''}
+${user.accountNumber.isNotEmpty ? user.accountNumber : ''}
 ''';

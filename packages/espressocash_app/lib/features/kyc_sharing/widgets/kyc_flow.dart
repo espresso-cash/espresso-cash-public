@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
-import '../models/kyc_user_info.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/basic_information_screen.dart';
 import '../screens/email_confirmation_screen.dart';
 import '../screens/email_verification_screen.dart';
 import '../screens/identity_verification_screen.dart';
 import '../screens/kyc_camera_screen.dart';
-import '../screens/kyc_status_screen.dart';
 import '../screens/phone_confirmation_screen.dart';
 import '../screens/phone_verification_screen.dart';
 import '../services/kyc_service.dart';
@@ -37,25 +35,25 @@ extension KycFlowExtension on BuildContext {
   Future<bool> openKycFlow() async {
     final service = sl<KycSharingService>().value;
 
-    final kycProcessed = service.kycStatus.isApprovedOrPending;
+    final kycProcessed = service?.kycStatus.isApprovedOrPending ?? false;
 
     if (!kycProcessed) {
       if (!await openBasicInfoFlow()) return false;
     }
 
-    final hasBankInfo = service.user?.hasBankInfo ?? false;
+    final hasBankInfo = service?.hasBankInfo ?? false;
 
     if (!hasBankInfo) {
       if (!await _navigateToScreen(BankAccountScreen.push)) return false;
     }
 
-    final emailValidated = service.emailStatus == ValidationStatus.approved;
+    final emailValidated = service?.emailStatus == ValidationStatus.approved;
 
     if (!emailValidated) {
       if (!await openEmailFlow()) return false;
     }
 
-    final phoneValidated = service.phoneStatus == ValidationStatus.approved;
+    final phoneValidated = service?.phoneStatus == ValidationStatus.approved;
 
     if (!phoneValidated) {
       if (!await openPhoneFlow()) return false;

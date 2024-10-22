@@ -9,30 +9,28 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 import '../../accounts/auth_scope.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
-import 'state.dart';
 
 // Hardcoded for now
 const validatorAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 
 @Singleton(scope: authScope)
-class KycSharingService extends ValueNotifier<KycState> {
+class KycSharingService extends ValueNotifier<UserData?> {
   KycSharingService(
     this._kycRepository,
-  ) : super(const KycState());
+  ) : super(const UserData());
 
   final KycRepository _kycRepository;
 
   @PostConstruct()
   Future<void> init() async {
+    await fetchUserData();
+  }
+
+  Future<void> fetchUserData() async {
     final user = await _kycRepository.fetchUser();
 
-    value = KycState(
-      user: user,
-      kycStatus: user?.kycStatus ?? ValidationStatus.unspecified,
-      phoneStatus: user?.phoneStatus ?? ValidationStatus.unspecified,
-      emailStatus: user?.emailStatus ?? ValidationStatus.unspecified,
-    );
+    value = user;
   }
 
   Future<void> updateBasicInfo({
@@ -43,14 +41,13 @@ class KycSharingService extends ValueNotifier<KycState> {
     DocumentType? idType,
     String? countryCode,
   }) async {
-    print(idType); //TODO add mapping
 
     await _kycRepository.updateUserData(
       firstName: firstName,
       lastName: lastName,
       dob: dob,
       idNumber: idNumber,
-      idType: IdType.voterId,
+      idType: idType?.toIdType(),
       countryCode: countryCode,
     );
 
@@ -69,6 +66,13 @@ class KycSharingService extends ValueNotifier<KycState> {
       bankName: bankName ?? '',
     );
   }
+
+  Future<void> initDocumentValidation() => _kycRepository.initKycVerification(
+        nameId: value?.name?.first.id ?? '',
+        birthDateId: value?.birthDate?.first.id ?? '',
+        documentId: value?.document?.first.id ?? '',
+        selfieImageId: value?.selfie?.first.id ?? '',
+      );
 
   Future<void> updateSelfiePhoto({File? photoSelfie}) =>
       _kycRepository.updateUserData(photoSelfie: photoSelfie);
