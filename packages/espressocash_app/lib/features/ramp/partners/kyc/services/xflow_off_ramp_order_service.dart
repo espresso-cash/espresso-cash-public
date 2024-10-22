@@ -20,6 +20,7 @@ import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_order_status.dart';
 import '../../../../kyc_sharing/services/kyc_service.dart';
+import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
@@ -168,7 +169,7 @@ class XFlowOffRampOrderService implements Disposable {
             fiatAmount: receiveAmount.value.toString(),
             fiatCurrency: receiveAmount.currency.symbol,
             partnerPK: partnerAuthPk, //TODO
-            bankAccount: user?.bankAccountNumber ?? '123', //TODO
+            bankAccount: user?.accountNumber ?? '123', //TODO
             bankName: user?.bankCode ?? 'BANK', //TODO
           );
 
