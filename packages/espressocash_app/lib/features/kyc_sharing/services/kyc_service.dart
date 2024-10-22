@@ -1,10 +1,13 @@
 // ignore_for_file: avoid_positional_boolean_parameters
 
+import 'dart:async';
 import 'dart:io';
 
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../data/kyc_repository.dart';
@@ -16,11 +19,11 @@ const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 
 @Singleton(scope: authScope)
 class KycSharingService extends ValueNotifier<UserData?> {
-  KycSharingService(
-    this._kycRepository,
-  ) : super(const UserData());
+  KycSharingService(this._kycRepository) : super(const UserData());
 
   final KycRepository _kycRepository;
+
+  Timer? _fetchTimer;
 
   @PostConstruct()
   Future<void> init() async {
@@ -31,6 +34,22 @@ class KycSharingService extends ValueNotifier<UserData?> {
     final user = await _kycRepository.fetchUser();
 
     value = user;
+    notifyListeners();
+  }
+
+  void subscribeToUserData() {
+    unsubscribeFromUserData();
+
+    fetchUserData();
+
+    _fetchTimer = Timer.periodic(const Duration(seconds: 10), (_) {
+      fetchUserData();
+    });
+  }
+
+  void unsubscribeFromUserData() {
+    _fetchTimer?.cancel();
+    _fetchTimer = null;
   }
 
   Future<void> updateBasicInfo({
@@ -41,14 +60,24 @@ class KycSharingService extends ValueNotifier<UserData?> {
     DocumentType? idType,
     String? countryCode,
   }) async {
-
     await _kycRepository.updateUserData(
-      firstName: firstName,
-      lastName: lastName,
-      dob: dob,
-      idNumber: idNumber,
-      idType: idType?.toIdType(),
-      countryCode: countryCode,
+      name: Name(
+        firstName: firstName ?? '',
+        lastName: lastName ?? '',
+        id: value?.name?.first.id ?? '',
+      ),
+      birthDate: dob?.let(
+        (e) => BirthDate(
+          value: e,
+          id: value?.birthDate?.first.id ?? '',
+        ),
+      ),
+      document: Document(
+        type: idType?.toIdType() ?? IdType.other,
+        number: idNumber ?? '',
+        countryCode: countryCode ?? '',
+        id: value?.document?.first.id ?? '',
+      ),
     );
 
     await _kycRepository.grantPartnerAccess(partnerAuthPk);
@@ -61,9 +90,12 @@ class KycSharingService extends ValueNotifier<UserData?> {
     String? bankName,
   }) async {
     await _kycRepository.updateUserData(
-      bankAccountNumber: bankAccountNumber,
-      bankCode: bankCode,
-      bankName: bankName ?? '',
+      bankInfo: BankInfo(
+        accountNumber: bankAccountNumber,
+        bankCode: bankCode,
+        bankName: bankName ?? '',
+        id: value?.bankInfo?.first.id ?? '',
+      ),
     );
   }
 
@@ -74,8 +106,15 @@ class KycSharingService extends ValueNotifier<UserData?> {
         selfieImageId: value?.selfie?.first.id ?? '',
       );
 
-  Future<void> updateSelfiePhoto({File? photoSelfie}) =>
-      _kycRepository.updateUserData(photoSelfie: photoSelfie);
+  Future<void> updateSelfiePhoto({File? photoSelfie}) async =>
+      _kycRepository.updateUserData(
+        selfie: photoSelfie != null
+            ? Selfie(
+                value: await photoSelfie.readAsBytes(),
+                id: value?.selfie?.first.id ?? '',
+              )
+            : null,
+      );
 
   Future<void> initEmailVerification({required String email}) =>
       _kycRepository.initEmailVerification(email: email);

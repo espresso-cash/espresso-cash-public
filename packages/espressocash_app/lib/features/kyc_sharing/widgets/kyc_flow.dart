@@ -8,6 +8,7 @@ import '../screens/email_confirmation_screen.dart';
 import '../screens/email_verification_screen.dart';
 import '../screens/identity_verification_screen.dart';
 import '../screens/kyc_camera_screen.dart';
+import '../screens/kyc_status_screen.dart';
 import '../screens/phone_confirmation_screen.dart';
 import '../screens/phone_verification_screen.dart';
 import '../services/kyc_service.dart';
@@ -59,9 +60,9 @@ extension KycFlowExtension on BuildContext {
       if (!await openPhoneFlow()) return false;
     }
 
-    // if (service.kycStatus == ValidationStatus.pending) {
-    //   if (!await _navigateToScreen(KycStatusScreen.push)) return false;
-    // }
+   // if (service?.kycStatus == ValidationStatus.pending) {
+   //   if (!await _navigateToScreen(KycStatusScreen.push)) return false;
+   // }
 
     return true;
   }

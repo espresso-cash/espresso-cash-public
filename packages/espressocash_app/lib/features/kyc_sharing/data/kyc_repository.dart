@@ -49,58 +49,15 @@ class KycRepository extends ChangeNotifier {
     }
   }
 
-  // TODOrefactor this, should have ID to create or update
   Future<void> updateUserData({
-    String? firstName,
-    String? lastName,
-    DateTime? dob,
-    String? idNumber,
-    IdType? idType,
-    String? countryCode,
-    String? bankAccountNumber,
-    String? bankCode,
-    String? bankName,
-    File? photoSelfie,
+    Email? email,
+    Phone? phone,
+    Name? name,
+    Document? document,
+    BankInfo? bankInfo,
+    BirthDate? birthDate,
+    Selfie? selfie,
   }) async {
-    Email? email;
-    Phone? phone;
-    Name? name;
-    Document? document;
-    BankInfo? bankInfo;
-    BirthDate? birthDate;
-    Selfie? selfie;
-
-    if (firstName != null && lastName != null) {
-      name = Name(
-        firstName: firstName,
-        lastName: lastName,
-      );
-    }
-
-    if (dob != null) {
-      birthDate = BirthDate(value: dob);
-    }
-
-    if (idNumber != null && countryCode != null && idType != null) {
-      document = Document(
-        type: idType,
-        number: idNumber,
-        countryCode: countryCode,
-      );
-    }
-
-    if (bankAccountNumber != null && bankCode != null || bankName != null) {
-      bankInfo = BankInfo(
-        accountNumber: bankAccountNumber ?? '',
-        bankCode: bankCode ?? '',
-        bankName: bankName ?? '',
-      );
-    }
-
-    if (photoSelfie != null) {
-      selfie = Selfie(value: await photoSelfie.readAsBytes());
-    }
-
     await _kycUserClient.setData(
       email: email,
       phone: phone,

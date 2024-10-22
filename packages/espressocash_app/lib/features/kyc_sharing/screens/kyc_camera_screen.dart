@@ -42,6 +42,8 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
 
       await service.updateSelfiePhoto(photoSelfie: _capturedImage);
 
+      await service.initDocumentValidation();
+
       if (!mounted) return;
 
       Navigator.pop(context, true);
