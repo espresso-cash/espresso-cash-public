@@ -107,18 +107,18 @@ class _ScreenState extends State<WalletMainScreen> {
                   children: [
                     Expanded(
                       child: CpButton(
-                        text: context.l10n.receive,
+                        text: context.l10n.pay,
                         minWidth: width,
-                        onPressed: widget.onRequest,
+                        onPressed: widget.onPay,
                         size: CpButtonSize.big,
                       ),
                     ),
                     const SizedBox(width: 27.0),
                     Expanded(
                       child: CpButton(
-                        text: context.l10n.pay,
+                        text: context.l10n.receive,
                         minWidth: width,
-                        onPressed: widget.onPay,
+                        onPressed: widget.onRequest,
                         size: CpButtonSize.big,
                       ),
                     ),
