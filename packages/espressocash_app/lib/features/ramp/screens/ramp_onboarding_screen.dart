@@ -99,7 +99,6 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
           children: [
             _ProfileTextField(
               emailController: _firstNameController,
-              rampType: widget.rampType,
               inputType: TextInputType.name,
               placeholder: context.l10n.yourFirstNamePlaceholder,
               textCapitalization: TextCapitalization.words,
@@ -107,7 +106,6 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
             const SizedBox(height: 14),
             _ProfileTextField(
               emailController: _lastNameController,
-              rampType: widget.rampType,
               inputType: TextInputType.name,
               placeholder: context.l10n.yourLastNamePlaceholder,
               textCapitalization: TextCapitalization.words,
@@ -115,7 +113,6 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
             const SizedBox(height: 14),
             _ProfileTextField(
               emailController: _emailController,
-              rampType: widget.rampType,
               inputType: TextInputType.emailAddress,
               placeholder: context.l10n.yourEmailPlaceholder,
             ),
@@ -146,20 +143,17 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
 class _ProfileTextField extends StatelessWidget {
   const _ProfileTextField({
     required this.emailController,
-    required this.rampType,
     required this.inputType,
     required this.placeholder,
     this.textCapitalization = TextCapitalization.none,
   });
 
   final TextEditingController emailController;
-  final RampType rampType;
   final TextInputType inputType;
   final TextCapitalization textCapitalization;
   final String placeholder;
 
-  static const _onRampTextfieldColor = Color(0xFFB84D12);
-  static const _offRampTextfieldColor = Color(0xFF9D8A59);
+  static const _rampTextfieldColor = Color(0xFF9D8A59);
 
   @override
   Widget build(BuildContext context) => CpTextField(
@@ -173,10 +167,7 @@ class _ProfileTextField extends StatelessWidget {
         inputType: inputType,
         textInputAction: TextInputAction.next,
         textCapitalization: textCapitalization,
-        backgroundColor: switch (rampType) {
-          RampType.onRamp => _onRampTextfieldColor,
-          RampType.offRamp => _offRampTextfieldColor,
-        },
+        backgroundColor: _rampTextfieldColor,
         placeholder: placeholder,
         placeholderColor: Colors.white,
         textColor: Colors.white,
