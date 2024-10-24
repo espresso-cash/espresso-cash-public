@@ -19,7 +19,6 @@ import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_order_status.dart';
-import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../tokens/token.dart';
@@ -158,19 +157,31 @@ class XFlowOffRampOrderService implements Disposable {
     required CryptoAmount submittedAmount,
     required FiatAmount receiveAmount,
     required String countryCode,
+    required String partnerAuthPk,
   }) =>
       tryEitherAsync((_) async {
         {
           final user = await _kycRepository.fetchUser();
+
+          final validUser = user?.let(
+            (u) =>
+                u.accountNumber.isNotEmpty && u.bankCode.isNotEmpty ? u : null,
+          );
+
+          if (validUser == null) {
+            throw Exception(
+              'Invalid user data: User not found or missing bank information',
+            );
+          }
 
           final orderId = await _kycRepository.createOffRampOrder(
             cryptoAmount: submittedAmount.value.toString(),
             cryptoCurrency: submittedAmount.cryptoCurrency.token.symbol,
             fiatAmount: receiveAmount.value.toString(),
             fiatCurrency: receiveAmount.currency.symbol,
-            partnerPK: partnerAuthPk, // TODO(vsumin): add
-            bankAccount: user?.accountNumber ?? '123', // TODO(vsumin): add
-            bankName: user?.bankCode ?? 'BANK', // TODO(vsumin): add
+            partnerPK: partnerAuthPk,
+            bankAccount: validUser.accountNumber,
+            bankName: validUser.bankCode,
           );
 
           final order = OffRampOrderRow(

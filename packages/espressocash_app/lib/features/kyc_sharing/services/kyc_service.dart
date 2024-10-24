@@ -27,8 +27,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
   @PostConstruct()
   Future<void> init() async {
     await fetchUserData();
-    await _kycRepository.grantPartnerAccess(partnerAuthPk);
-    await _kycRepository.grantPartnerAccess(validatorAuthPk);
   }
 
   Future<void> fetchUserData() async {
@@ -174,4 +172,11 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<void> shareDataWithPartner(String partnerPk) =>
       _kycRepository.grantPartnerAccess(partnerPk);
+
+  @override
+  @disposeMethod
+  void dispose() {
+    unsubscribe();
+    super.dispose();
+  }
 }

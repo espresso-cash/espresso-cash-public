@@ -9,6 +9,7 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
+import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../models/profile_data.dart';
@@ -202,6 +203,7 @@ extension BuildContextExt on BuildContext {
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount,
             countryCode: profile.country.code,
+            partnerAuthPk: partnerAuthPk,
           )
           .then(
             (order) => order.fold(

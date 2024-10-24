@@ -267,8 +267,8 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.preProcessing:
       case OffRampOrderStatus.postProcessing:
       case OffRampOrderStatus.refunded:
-      case OffRampOrderStatus.waitingVerification: // TODO(vsumin): add
-      case OffRampOrderStatus.rejected: // TODO(vsumin): add
+      case OffRampOrderStatus.waitingVerification:
+      case OffRampOrderStatus.rejected:
         break;
     }
   }

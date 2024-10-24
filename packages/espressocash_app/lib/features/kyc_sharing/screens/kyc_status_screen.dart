@@ -22,26 +22,21 @@ class KycStatusScreen extends StatefulWidget {
 }
 
 class _KycStatusScreenState extends State<KycStatusScreen> {
-  late final KycSharingService _kycService;
-
   @override
   void initState() {
     super.initState();
-    _kycService = sl<KycSharingService>();
-    _kycService.subscribe();
+    sl<KycSharingService>().subscribe();
   }
 
   @override
   void dispose() {
-    _kycService
-      ..unsubscribe()
-      ..dispose();
+    sl<KycSharingService>().unsubscribe();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
-        valueListenable: _kycService,
+        valueListenable: sl<KycSharingService>(),
         builder: (context, userData, child) => userData == null
             ? const CircularProgressIndicator()
             : KycPage(
