@@ -101,7 +101,7 @@ class XFlowOnRampOrderService implements Disposable {
             cryptoCurrency: receiveAmount.cryptoCurrency.token.symbol,
             fiatAmount: submittedAmount.value.toString(),
             fiatCurrency: submittedAmount.currency.symbol,
-            partnerPK: partnerAuthPk, //TODO
+            partnerPK: partnerAuthPk, // TODO(vsumin): add
           );
 
           final order = OnRampOrderRow(

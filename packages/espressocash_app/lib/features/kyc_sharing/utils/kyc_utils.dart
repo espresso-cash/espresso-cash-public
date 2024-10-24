@@ -26,7 +26,7 @@ extension UserDataExtensions on UserData {
   String get bankName => bankInfo?.first.bankName ?? '';
   String get accountNumber => bankInfo?.first.accountNumber ?? '';
 
-  // Todo: This should check not only name status, but all fields related to KYC (?)
+  // TODO(vsumin): This should check not only name status, but all fields related to KYC (?)
   ValidationStatus get kycStatus =>
       document?.first.status ?? ValidationStatus.unspecified;
   ValidationStatus get phoneStatus =>
