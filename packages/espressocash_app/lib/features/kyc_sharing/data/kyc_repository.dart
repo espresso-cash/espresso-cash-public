@@ -80,8 +80,10 @@ class KycRepository extends ChangeNotifier {
     return data.phone?.first.id;
   }
 
-  Future<void> initEmailVerification({required String email}) async {
-    await _kycUserClient.setData(email: Email(value: email));
+  Future<void> initEmailVerification({required Email email}) async {
+    await _kycUserClient.setData(
+      email: Email(value: email.value, id: email.id),
+    );
     final dataId = await getEmailDataId();
 
     await _kycUserClient.initEmailValidation(dataId: dataId ?? '');
@@ -94,8 +96,10 @@ class KycRepository extends ChangeNotifier {
     await _kycUserClient.validateEmail(code: code, dataId: dataId);
   }
 
-  Future<void> initPhoneVerification({required String phone}) async {
-    await _kycUserClient.setData(phone: Phone(value: phone));
+  Future<void> initPhoneVerification({required Phone phone}) async {
+    await _kycUserClient.setData(
+      phone: Phone(value: phone.value, id: phone.id),
+    );
     final dataId = await getPhoneDataId();
 
     await _kycUserClient.initPhoneValidation(dataId: dataId ?? '');

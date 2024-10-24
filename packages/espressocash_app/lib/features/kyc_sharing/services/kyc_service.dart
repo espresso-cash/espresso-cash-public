@@ -27,6 +27,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
   @PostConstruct()
   Future<void> init() async {
     await fetchUserData();
+    await _kycRepository.grantPartnerAccess(partnerAuthPk);
+    await _kycRepository.grantPartnerAccess(validatorAuthPk);
   }
 
   Future<void> fetchUserData() async {
@@ -123,7 +125,12 @@ class KycSharingService extends ValueNotifier<UserData?> {
   }
 
   Future<void> initEmailVerification({required String email}) =>
-      _kycRepository.initEmailVerification(email: email);
+      _kycRepository.initEmailVerification(
+        email: Email(
+          value: email,
+          id: value?.email?.first.id ?? '',
+        ),
+      );
 
   Future<void> verifyEmail({required String code}) async {
     final dataId = await _kycRepository.getEmailDataId();
@@ -133,7 +140,12 @@ class KycSharingService extends ValueNotifier<UserData?> {
   }
 
   Future<void> initPhoneVerification({required String phone}) =>
-      _kycRepository.initPhoneVerification(phone: phone);
+      _kycRepository.initPhoneVerification(
+        phone: Phone(
+          value: phone,
+          id: value?.phone?.first.id ?? '',
+        ),
+      );
 
   Future<void> verifyPhone({required String code}) async {
     final dataId = await _kycRepository.getPhoneDataId();
