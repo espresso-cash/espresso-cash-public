@@ -36,22 +36,17 @@ class KycSharingService extends ValueNotifier<UserData?> {
     notifyListeners();
   }
 
-  void subscribeToUserData() {
-    unsubscribeFromUserData();
+  void subscribe() {
+    unsubscribe();
 
     fetchUserData();
 
     _fetchTimer = Timer.periodic(const Duration(seconds: 10), (_) async {
       await fetchUserData();
-      // Fake status update
-      // value = value?.copyWith(
-      //   name: [value!.name!.first.copyWith(status: ValidationStatus.approved)],
-      // );
-      // notifyListeners();
     });
   }
 
-  void unsubscribeFromUserData() {
+  void unsubscribe() {
     _fetchTimer?.cancel();
     _fetchTimer = null;
   }

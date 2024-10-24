@@ -28,50 +28,49 @@ class _KycStatusScreenState extends State<KycStatusScreen> {
   void initState() {
     super.initState();
     _kycService = sl<KycSharingService>();
-    _kycService.subscribeToUserData();
+    _kycService.subscribe();
   }
 
   @override
   void dispose() {
-    _kycService.unsubscribeFromUserData();
+    _kycService
+      ..unsubscribe()
+      ..dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
         valueListenable: _kycService,
-        builder: (context, userData, child) {
-          if (userData == null) {
-            return const CircularProgressIndicator();
-          }
-
-          return KycPage(
-            title: 'Verification Status',
-            children: [
-              const Spacer(),
-              Text(
-                getStatusText(userData.kycStatus),
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
+        builder: (context, userData, child) => userData == null
+            ? const CircularProgressIndicator()
+            : KycPage(
+                title: 'Verification Status',
+                children: [
+                  const Spacer(),
+                  Text(
+                    _getStatusText(userData.kycStatus),
+                    style: const TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: CpButton(
+                      width: double.infinity,
+                      text: 'Create Order',
+                      onPressed:
+                          (userData.kycStatus == ValidationStatus.approved)
+                              ? () => Navigator.pop(context, true)
+                              : null,
+                    ),
+                  ),
+                ],
               ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: CpButton(
-                  width: double.infinity,
-                  text: 'Create Order',
-                  onPressed: (userData.kycStatus == ValidationStatus.approved)
-                      ? () => Navigator.pop(context, true)
-                      : null,
-                ),
-              ),
-            ],
-          );
-        },
       );
 
-  String getStatusText(ValidationStatus status) {
+  String _getStatusText(ValidationStatus status) {
     switch (status) {
       case ValidationStatus.approved:
         return 'Great! You can proceed with you order now.';

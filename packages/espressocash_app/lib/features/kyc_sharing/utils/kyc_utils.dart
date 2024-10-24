@@ -28,7 +28,7 @@ extension UserDataExtensions on UserData {
 
   // Todo: This should check not only name status, but all fields related to KYC
   ValidationStatus get kycStatus =>
-      name?.first.status ?? ValidationStatus.unspecified;
+      document?.first.status ?? ValidationStatus.unspecified;
   ValidationStatus get phoneStatus =>
       phone?.first.status ?? ValidationStatus.unspecified;
   ValidationStatus get emailStatus =>
