@@ -64,12 +64,17 @@ class OnRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
-      if (order.partner == RampPartner.moneygram ||
-          order.partner == RampPartner.xflow) {
-        continue;
+      switch (order.partner) {
+        case RampPartner.moneygram:
+        case RampPartner.xflow:
+          continue;
+        case RampPartner.kado:
+        case RampPartner.coinflow:
+        case RampPartner.scalex:
+        case RampPartner.guardarian:
+        case RampPartner.rampNetwork:
+          _subscribe(order.id);
       }
-
-      _subscribe(order.id);
     }
   }
 
