@@ -124,32 +124,50 @@ class KycSharingService extends ValueNotifier<UserData?> {
     await fetchUserData();
   }
 
-  Future<void> initEmailVerification({required String email}) =>
-      _kycRepository.initEmailVerification(
-        email: Email(
-          value: email,
-          id: value?.email?.first.id ?? '',
-        ),
-      );
+  Future<void> initEmailVerification({required String email}) async {
+    await _kycRepository.updateUserData(
+      email: Email(
+        value: email,
+        id: value?.email?.first.id ?? '',
+      ),
+    );
+
+    await fetchUserData();
+
+    await _kycRepository.initEmailVerification(
+      emailId: value?.email?.first.id ?? '',
+    );
+  }
 
   Future<void> verifyEmail({required String code}) async {
-    final dataId = await _kycRepository.getEmailDataId();
-    await _kycRepository.verifyEmail(code: code, dataId: dataId ?? '');
+    await _kycRepository.verifyEmail(
+      code: code,
+      dataId: value?.email?.first.id ?? '',
+    );
 
     await fetchUserData();
   }
 
-  Future<void> initPhoneVerification({required String phone}) =>
-      _kycRepository.initPhoneVerification(
-        phone: Phone(
-          value: phone,
-          id: value?.phone?.first.id ?? '',
-        ),
-      );
+  Future<void> initPhoneVerification({required String phone}) async {
+    await _kycRepository.updateUserData(
+      phone: Phone(
+        value: phone,
+        id: value?.phone?.first.id ?? '',
+      ),
+    );
+
+    await fetchUserData();
+
+    await _kycRepository.initPhoneVerification(
+      phoneId: value?.phone?.first.id ?? '',
+    );
+  }
 
   Future<void> verifyPhone({required String code}) async {
-    final dataId = await _kycRepository.getPhoneDataId();
-    await _kycRepository.verifyPhone(code: code, dataId: dataId ?? '');
+    await _kycRepository.verifyPhone(
+      code: code,
+      dataId: value?.phone?.first.id ?? '',
+    );
 
     await fetchUserData();
   }

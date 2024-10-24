@@ -4,22 +4,21 @@ import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
+import '../utils/kyc_utils.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
 class PhoneConfirmationScreen extends StatefulWidget {
-  const PhoneConfirmationScreen(this.phone, {super.key});
+  const PhoneConfirmationScreen({super.key});
 
-  final String phone;
-
-  // Todo(vsumin): pass phone
   static Future<bool> push(BuildContext context) => Navigator.of(context)
       .push<bool>(
         MaterialPageRoute(
-          builder: (context) => const PhoneConfirmationScreen('phone'),
+          builder: (context) => const PhoneConfirmationScreen(),
         ),
       )
       .then((result) => result ?? false);
+
   @override
   State<PhoneConfirmationScreen> createState() =>
       _PhoneConfirmationScreenState();
@@ -29,6 +28,12 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
   final _controller = TextEditingController();
 
   bool get _isValid => _controller.text.length == 6;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   Future<void> _handleConfirm() async {
     final service = sl<KycSharingService>();
@@ -48,18 +53,12 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) => KycPage(
         title: 'Phone verification',
         children: [
           const SizedBox(height: 20),
           Text(
-            "Check your text messages. We've sent the code to ${widget.phone}",
+            "Check your text messages. We've sent the code to ${sl<KycSharingService>().value?.getPhone ?? ''}",
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 16,

@@ -5,7 +5,6 @@ import '../../../ui/button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/email.dart';
-import '../../profile/data/profile_repository.dart';
 import '../services/kyc_service.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
@@ -28,14 +27,6 @@ class EmailVerificationScreen extends StatefulWidget {
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   final _emailController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    final email = sl<ProfileRepository>().email;
-    _emailController.text = email;
-  }
 
   @override
   void dispose() {

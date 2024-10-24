@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
-import '../../profile/data/profile_repository.dart';
 import '../services/kyc_service.dart';
+import '../utils/kyc_utils.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
@@ -58,7 +58,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
         children: [
           const SizedBox(height: 20),
           Text(
-            "Check your email. We've sent the code to ${sl<ProfileRepository>().email}",
+            "Check your email. We've sent the code to ${sl<KycSharingService>().value?.getEmail ?? ''}",
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 16,

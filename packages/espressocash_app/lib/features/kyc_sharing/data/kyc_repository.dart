@@ -68,26 +68,8 @@ class KycRepository extends ChangeNotifier {
     );
   }
 
-  Future<String?> getEmailDataId() async {
-    final data = await _getUserData();
-
-    return data.email?.first.id;
-  }
-
-  Future<String?> getPhoneDataId() async {
-    final data = await _getUserData();
-
-    return data.phone?.first.id;
-  }
-
-  Future<void> initEmailVerification({required Email email}) async {
-    await _kycUserClient.setData(
-      email: Email(value: email.value, id: email.id),
-    );
-    final dataId = await getEmailDataId();
-
-    await _kycUserClient.initEmailValidation(dataId: dataId ?? '');
-  }
+  Future<void> initEmailVerification({required String emailId}) =>
+      _kycUserClient.initEmailValidation(dataId: emailId);
 
   Future<void> verifyEmail({
     required String code,
@@ -96,14 +78,8 @@ class KycRepository extends ChangeNotifier {
     await _kycUserClient.validateEmail(code: code, dataId: dataId);
   }
 
-  Future<void> initPhoneVerification({required Phone phone}) async {
-    await _kycUserClient.setData(
-      phone: Phone(value: phone.value, id: phone.id),
-    );
-    final dataId = await getPhoneDataId();
-
-    await _kycUserClient.initPhoneValidation(dataId: dataId ?? '');
-  }
+  Future<void> initPhoneVerification({required String phoneId}) =>
+      _kycUserClient.initPhoneValidation(dataId: phoneId);
 
   Future<void> verifyPhone({
     required String code,
