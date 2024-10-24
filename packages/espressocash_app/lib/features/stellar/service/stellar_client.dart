@@ -81,7 +81,7 @@ class StellarClient {
   Future<OperationResponse?> getPaymentByTxId(String txId) async {
     final operations = await _sdk.operations.forTransaction(txId).execute();
 
-    return operations.records?.firstOrNull;
+    return operations.records.firstOrNull;
   }
 
   Future<bool> hasUsdcTrustline({double? amount}) async {

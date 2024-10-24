@@ -20,7 +20,11 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
     partners.add(RampPartner.kado);
   }
 
-  if (_scalexCountries.contains(countryCode)) {
+  final isXflowEnabled = sl<FeatureFlagsManager>().isXflowEnabled();
+
+  if (isXflowEnabled && _xflowCountries.contains(countryCode)) {
+    partners.add(RampPartner.xflow);
+  } else if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
   }
 
@@ -49,7 +53,11 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
     partners.add(RampPartner.coinflow);
   }
 
-  if (_scalexCountries.contains(countryCode)) {
+  final isKycEnabled = sl<FeatureFlagsManager>().isXflowEnabled();
+
+  if (isKycEnabled && _xflowCountries.contains(countryCode)) {
+    partners.add(RampPartner.xflow);
+  } else if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
   }
 
@@ -95,3 +103,5 @@ const _moneygramOffRampCountries = {
   'TL', 'TG', 'TO', 'TT', 'TC', 'TV', 'UG', 'UA', 'AE', 'GB', 'US', 'UY', //
   'UZ', 'VU', 'VE', 'VN', 'VG', 'VI', 'ZM',
 };
+
+const _xflowCountries = {'NG'};

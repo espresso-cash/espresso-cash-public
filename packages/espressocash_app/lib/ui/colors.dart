@@ -32,6 +32,7 @@ abstract class CpColors {
   static const darkPrimaryColor = Color(0xffd74924);
 
   static const backgroundAccentColor = Color(0xffff9551);
+  static const grey = Color(0xff444444);
   static const greyBackground = Color(0xfff4f4f4);
   static const lightGrey = Color(0xff999999);
   static const menuPrimaryTextColor = Color(0xff34393c);
@@ -42,6 +43,7 @@ abstract class CpColors {
   static const greyDarkAccentColor = Color(0xff9d9d9d);
   static const greenDropdownEnabled = Color(0xff4db43d);
   static const greenDropdownDisabled = Color(0xff2f6b25);
+  static const greenLightColor = Color(0xff8ae4bf);
 
   static const successBackgroundColor = Color(0xFF62D58F);
   static const errorBackgroundColor = Color(0xffff6640);

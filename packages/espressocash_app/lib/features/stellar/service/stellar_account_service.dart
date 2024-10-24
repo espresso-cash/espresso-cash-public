@@ -23,7 +23,7 @@ class StellarAccountService {
     final address = _stellarWallet.address;
 
     Sentry.configureScope(
-      (scope) => scope.setExtra('stellarWalletAddress', address),
+      (scope) => scope.setContexts('stellarWalletAddress', address),
     );
     _analyticsManager.setStellarAddress(address);
     _intercomService.updateStellarAddress(address);
@@ -31,6 +31,8 @@ class StellarAccountService {
 
   @disposeMethod
   void dispose() {
-    Sentry.configureScope((scope) => scope.removeExtra('stellarWalletAddress'));
+    Sentry.configureScope(
+      (scope) => scope.removeContexts('stellarWalletAddress'),
+    );
   }
 }

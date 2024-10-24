@@ -86,12 +86,18 @@ class OffRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
-      if (order.partner == RampPartner.moneygram) {
-        continue;
+      switch (order.partner) {
+        case RampPartner.moneygram:
+        case RampPartner.xflow:
+          continue;
+        case RampPartner.kado:
+        case RampPartner.coinflow:
+        case RampPartner.scalex:
+        case RampPartner.guardarian:
+        case RampPartner.rampNetwork:
+          _subscribe(order.id);
+          unawaited(_watch(order.id));
       }
-
-      _subscribe(order.id);
-      unawaited(_watch(order.id));
     }
   }
 
@@ -225,6 +231,8 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.refunded:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
+      case OffRampOrderStatus.waitingVerification:
+      case OffRampOrderStatus.rejected:
         break;
     }
   }
@@ -259,6 +267,8 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.preProcessing:
       case OffRampOrderStatus.postProcessing:
       case OffRampOrderStatus.refunded:
+      case OffRampOrderStatus.waitingVerification:
+      case OffRampOrderStatus.rejected:
         break;
     }
   }
@@ -348,6 +358,7 @@ class OffRampOrderService implements Disposable {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
+      RampPartner.xflow ||
       RampPartner.rampNetwork ||
       RampPartner.moneygram || // moneygram orders will not reach this point
       RampPartner.guardarian =>
@@ -405,6 +416,8 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.waitingForRefundBridge:
         case OffRampOrderStatus.refunded:
         case OffRampOrderStatus.completed:
+        case OffRampOrderStatus.waitingVerification:
+        case OffRampOrderStatus.rejected:
           _subscriptions.remove(orderId)?.cancel();
 
           _watchers[orderId]?.close();

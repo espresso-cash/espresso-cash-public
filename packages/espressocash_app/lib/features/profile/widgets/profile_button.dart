@@ -43,7 +43,6 @@ class ProfileButton extends StatelessWidget {
       subtitle: description != null
           ? Text(
               description,
-              maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 14,

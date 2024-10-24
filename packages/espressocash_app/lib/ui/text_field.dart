@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'colors.dart';
 
@@ -12,20 +13,22 @@ class CpTextField extends StatelessWidget {
     this.placeholder,
     this.margin,
     this.inputType,
+    this.inputFormatters,
     this.placeholderColor = CpColors.placeholderLightColor,
     this.backgroundColor = CpColors.lightGreyBackground,
     this.readOnly = false,
     this.fontSize = 20,
+    this.fontWeight = FontWeight.normal,
     this.disabled = false,
     this.padding = const EdgeInsets.all(24),
     this.suffix,
     this.border = CpTextFieldBorder.stadium,
     this.prefix,
     this.textColor = CpColors.primaryTextColor,
+    this.textAlign = TextAlign.start,
     this.textInputAction,
     this.multiLine = false,
     this.textCapitalization = TextCapitalization.none,
-    this.fontWeight = FontWeight.normal,
   });
 
   final TextEditingController? controller;
@@ -36,16 +39,18 @@ class CpTextField extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final bool readOnly;
   final double fontSize;
+  final FontWeight fontWeight;
   final bool disabled;
   final TextInputType? inputType;
+  final List<TextInputFormatter>? inputFormatters;
   final Widget? suffix;
   final Widget? prefix;
   final CpTextFieldBorder border;
   final Color? textColor;
+  final TextAlign textAlign;
   final TextInputAction? textInputAction;
   final bool? multiLine;
   final TextCapitalization textCapitalization;
-  final FontWeight fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +84,10 @@ class CpTextField extends StatelessWidget {
           color: textColor,
           height: 1.2,
         ),
+        textAlign: textAlign,
         placeholder: placeholder,
         keyboardType: inputType,
+        inputFormatters: inputFormatters,
         textCapitalization: textCapitalization,
         keyboardAppearance: Theme.of(context).brightness,
         placeholderStyle: TextStyle(color: placeholderColor),
