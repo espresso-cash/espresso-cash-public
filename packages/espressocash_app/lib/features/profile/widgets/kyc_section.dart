@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
 import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../kyc_sharing/screens/bank_account_screen.dart';
 import '../../kyc_sharing/screens/manage_data_access_screen.dart';
@@ -60,37 +61,37 @@ class _KycInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ProfileSection(
-        title: 'Account profile'.toUpperCase(),
+        title: context.l10n.accountProfile.toUpperCase(),
         padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [
           KycButton(
-            label: 'Edit Profile',
+            label: context.l10n.editProfile,
             description: _getUserDescription(user),
             onPressed: context.openBasicInfoFlow,
             status: user.kycStatus,
           ),
           if (user.hasBankInfo)
             KycButton(
-              label: 'Bank Account',
+              label: context.l10n.bankAccount,
               description: _getBankDescription(user),
               onPressed: () => BankAccountScreen.push(context),
             ),
           if (user.getEmail.isNotEmpty)
             KycButton(
-              label: 'Email Address',
+              label: context.l10n.emailAddress,
               description: user.getEmail,
               onPressed: context.openEmailFlow,
               status: user.emailStatus,
             ),
           if (user.getPhone.isNotEmpty)
             KycButton(
-              label: 'Phone Number',
+              label: context.l10n.phoneNumber,
               description: user.getPhone,
               onPressed: context.openPhoneFlow,
               status: user.phoneStatus,
             ),
           KycButton(
-            label: 'Manage Data Access',
+            label: context.l10n.manageDataAccess,
             onPressed: () => ManageDataAccessScreen.push(context),
           ),
         ],

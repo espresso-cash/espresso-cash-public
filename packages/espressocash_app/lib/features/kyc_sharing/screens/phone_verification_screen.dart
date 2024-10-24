@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
@@ -65,13 +66,13 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: 'Phone verification',
+        title: context.l10n.phoneVerification,
         children: [
           const SizedBox(height: 20),
-          const Text(
-            'Enter your mobile phone number to receive your confirmation code.',
+          Text(
+            context.l10n.enterPhoneNumberHintText,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               height: 21 / 16,
               letterSpacing: .19,
@@ -81,13 +82,13 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
           KycTextField(
             controller: _numberController,
             inputType: TextInputType.phone,
-            placeholder: 'Phone Number',
+            placeholder: context.l10n.phoneNumber,
           ),
           const SizedBox(height: 16),
           ListenableBuilder(
             listenable: _numberController,
             builder: (context, child) => CpButton(
-              text: 'Send verification code',
+              text: context.l10n.sendVerificationCode,
               onPressed: _isValid ? _sendSms : null,
             ),
           ),

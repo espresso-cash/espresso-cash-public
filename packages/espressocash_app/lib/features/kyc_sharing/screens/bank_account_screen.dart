@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
@@ -46,7 +47,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
 
       Navigator.pop(context, true);
     } on Exception {
-      showCpErrorSnackbar(context, message: 'Failed to update data');
+      showCpErrorSnackbar(context, message: context.l10n.failedToUpdateData);
     }
   }
 
@@ -60,25 +61,25 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: 'Bank Account',
+        title: context.l10n.bankAccount,
         children: [
           const SizedBox(height: 30),
           KycTextField(
             controller: _bankAccountNumberController,
             inputType: TextInputType.name,
-            placeholder: 'Account Number',
+            placeholder: context.l10n.accountNumber,
           ),
           const SizedBox(height: 18),
           KycTextField(
             controller: _bankCodeController,
             inputType: TextInputType.name,
-            placeholder: 'Bank Code',
+            placeholder: context.l10n.bankCode,
           ),
           const SizedBox(height: 18),
           KycTextField(
             controller: _bankNameController,
             inputType: TextInputType.name,
-            placeholder: 'Bank Name',
+            placeholder: context.l10n.bankName,
           ),
           const SizedBox(height: 18),
           const Spacer(),
@@ -92,7 +93,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
               ]),
               builder: (context, child) => CpButton(
                 width: double.infinity,
-                text: 'Next',
+                text: context.l10n.next,
                 onPressed: _isValid ? _handleSubmitted : null,
               ),
             ),

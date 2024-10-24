@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
@@ -84,7 +85,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
           showCpErrorSnackbar(
             context,
-            message: 'Error. Please try again.',
+            message: context.l10n.failedToUpdateData,
           );
 
           return false;
@@ -147,7 +148,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: 'Basic Information',
+        title: context.l10n.basicInformation,
         children: [
           const SizedBox(height: 30),
           CountryPicker(
@@ -158,13 +159,13 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
           KycTextField(
             controller: _firstNameController,
             inputType: TextInputType.name,
-            placeholder: 'First Name',
+            placeholder: context.l10n.firstName,
           ),
           const SizedBox(height: 18),
           KycTextField(
             controller: _lastNameController,
             inputType: TextInputType.name,
-            placeholder: 'Last Name',
+            placeholder: context.l10n.lastName,
           ),
           const SizedBox(height: 18),
           GestureDetector(
@@ -173,7 +174,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
               child: KycTextField(
                 controller: _dobController,
                 inputType: TextInputType.text,
-                placeholder: 'Date of Birth',
+                placeholder: context.l10n.dateOfBirth,
               ),
             ),
           ),
@@ -186,7 +187,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
           KycTextField(
             controller: _idController,
             inputType: TextInputType.text,
-            placeholder: 'ID Number',
+            placeholder: context.l10n.idNumber,
           ),
           const SizedBox(height: 18),
           GestureDetector(
@@ -198,10 +199,10 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                   onChanged: (value) => setState(() => _isShareData = value),
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'Allow Espresso Cash partners to share this data for the purposes of deposits and withdrawals.',
-                    style: TextStyle(
+                    context.l10n.allowShareDataText,
+                    style: const TextStyle(
                       fontSize: 14,
                       height: 1.5,
                       letterSpacing: 0.19,
@@ -222,7 +223,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
               ]),
               builder: (context, child) => CpButton(
                 width: double.infinity,
-                text: 'Next',
+                text: context.l10n.next,
                 onPressed: _isValid ? _handleSubmitted : null,
               ),
             ),

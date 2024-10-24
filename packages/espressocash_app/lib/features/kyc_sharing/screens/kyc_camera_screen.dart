@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
@@ -48,7 +49,7 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
 
       Navigator.pop(context, true);
     } on Exception {
-      showCpErrorSnackbar(context, message: 'Failed to update data');
+      showCpErrorSnackbar(context, message: context.l10n.failedToUpdateData);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -201,13 +202,13 @@ class _ResultView extends StatelessWidget {
                   CpButton(
                     variant: CpButtonVariant.light,
                     width: double.infinity,
-                    text: 'Retake Selfie',
+                    text: context.l10n.retakeSelfie,
                     onPressed: onRetakePressed,
                   ),
                   const SizedBox(height: 16),
                   CpButton(
                     width: double.infinity,
-                    text: 'Submit',
+                    text: context.l10n.submit,
                     onPressed: onSubmitPressed,
                   ),
                 ],

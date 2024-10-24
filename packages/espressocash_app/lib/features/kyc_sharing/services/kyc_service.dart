@@ -156,7 +156,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     await fetchUserData();
 
-    // TODO(vsumin): Currently do not work, because test environment
+    // TODO(vsumin): Currently do not work on test environment
     // await _kycRepository.initPhoneVerification(
     //   phoneId: value?.phone?.first.id ?? '',
     // );

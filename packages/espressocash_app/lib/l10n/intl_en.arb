@@ -929,5 +929,81 @@
   "reviewPayment": "Review *payment*",
   "@reviewPayment": {},
   "done": "Done",
-  "@done": {}
+  "@done": {},
+  "failedToUpdateData": "Failed to update data",
+  "@failedToUpdateData": {},
+  "bankAccount": "Bank Account",
+  "@bankAccount": {},
+  "accountNumber": "Account Number",
+  "@accountNumber": {},
+  "bankCode": "Bank Code",
+  "@bankCode": {},
+  "bankName": "Bank Name",
+  "@bankName": {},
+  "basicInformation": "Basic Information",
+  "@basicInformation": {},
+  "firstName": "First Name",
+  "@firstName": {},
+  "lastName": "Last Name",
+  "@lastName": {},
+  "dateOfBirth": "Date of Birth",
+  "@dateOfBirth": {},
+  "idNumber": "ID Number",
+  "@idNumber": {},
+  "allowShareDataText": "Allow Espresso Cash partners to share this data for the purposes of deposits and withdrawals.",
+  "@allowShareDataText": {},
+  "selectIdMethod": "Select ID method",
+  "@selectIdMethod": {},
+  "emailVerification": "Email verification",
+  "@emailVerification": {},
+  "enterVerificationCode": "Enter Verification Code",
+  "@enterVerificationCode": {},
+  "checkEmailText": "Check your email. We've sent the code to {email}",
+  "@checkEmailText": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "sendVerificationCode": "Send Verification Code",
+  "@sendVerificationCode": {},
+  "enterEmailHintText": "Enter your email address to receive your confirmation code.",
+  "@enterEmailHintText": {},
+  "emailAddress": "Email Address",
+  "@emailAddress": {},
+  "phoneVerification": "Phone verification",
+  "@phoneVerification": {},
+  "enterPhoneNumberHintText": "Enter your mobile phone number to receive your confirmation code.",
+  "@enterPhoneNumberHintText": {},
+  "phoneNumber": "Phone Number",
+  "@phoneNumber": {},
+  "checkSmsText": "Check your text messages. We've sent the code to {phone}",
+  "@checkSmsText": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "submit": "Submit",
+  "@submit": {},
+  "retakeSelfie": "Retake Selfie",
+  "@retakeSelfie": {},
+  "identityVerification": "Identity Verification",
+  "@identityVerification": {},
+  "startSelfieVerification": "Start Selfie Verification",
+  "@startSelfieVerification": {},
+  "identityVerificationDescription": "For security purposes, we need you to take a quick selfie to verify your identity.",
+  "@identityVerificationDescription": {},
+  "identityInstruction1": "Make sure your face is clearly visible.",
+  "@identityInstructions1": {},
+  "identityInstruction2": "Avoid hats, sunglasses, or other facial coverings.",
+  "@identityInstruction2": {},
+  "identityInstruction3": "Good lighting helps us verify your identity quickly!",
+  "@identityInstruction3": {},
+  "manageDataAccess": "Manage Data Access",
+  "@manageDataAccess": {},
+  "accountProfile": "Account Profile",
+  "@accountProfile": {}
 }

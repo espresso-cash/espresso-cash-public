@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
@@ -54,11 +55,12 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: 'Phone verification',
+        title: context.l10n.phoneVerification,
         children: [
           const SizedBox(height: 20),
           Text(
-            "Check your text messages. We've sent the code to ${sl<KycSharingService>().value?.getPhone ?? ''}",
+            context.l10n
+                .checkSmsText(sl<KycSharingService>().value?.getPhone ?? ''),
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 16,
@@ -70,7 +72,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
           KycTextField(
             controller: _controller,
             inputType: TextInputType.number,
-            placeholder: 'Enter Verification Code',
+            placeholder: context.l10n.enterVerificationCode,
           ),
           const Spacer(),
           Padding(
@@ -79,7 +81,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
               listenable: _controller,
               builder: (context, child) => CpButton(
                 width: double.infinity,
-                text: 'Next',
+                text: context.l10n.next,
                 onPressed: _isValid ? _handleConfirm : null,
               ),
             ),

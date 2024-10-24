@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
@@ -62,13 +63,13 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: 'Email verification',
+        title: context.l10n.emailVerification,
         children: [
           const SizedBox(height: 20),
-          const Text(
-            'Enter your email address to receive your confirmation code.',
+          Text(
+            context.l10n.enterEmailHintText,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               height: 21 / 16,
               letterSpacing: .19,
@@ -78,13 +79,13 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           KycTextField(
             controller: _emailController,
             inputType: TextInputType.emailAddress,
-            placeholder: 'Email Address',
+            placeholder: context.l10n.emailAddress,
           ),
           const SizedBox(height: 16),
           ListenableBuilder(
             listenable: _emailController,
             builder: (context, child) => CpButton(
-              text: 'Send Verification Code',
+              text: context.l10n.sendVerificationCode,
               onPressed: _emailController.text.isValidEmail ? _sendEmail : null,
             ),
           ),

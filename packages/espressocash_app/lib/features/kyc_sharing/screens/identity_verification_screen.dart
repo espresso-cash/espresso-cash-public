@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
@@ -23,7 +24,7 @@ class IdentityVerificationScreen extends StatelessWidget {
         child: Scaffold(
           appBar: CpAppBar(
             leading: const CpBackButton(),
-            title: Text('Identity verification'.toUpperCase()),
+            title: Text(context.l10n.identityVerification.toUpperCase()),
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -33,10 +34,10 @@ class IdentityVerificationScreen extends StatelessWidget {
                 children: [
                   Assets.images.profileGraphic.image(height: 80),
                   const SizedBox(height: 20),
-                  const Text(
-                    'For security purposes, we need you to take a quick selfie to verify your identity.',
+                  Text(
+                    context.l10n.identityVerificationDescription,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       height: 21 / 16,
                       letterSpacing: .19,
@@ -48,7 +49,7 @@ class IdentityVerificationScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(16),
                     child: CpButton(
                       width: double.infinity,
-                      text: 'Start Selfie Verification',
+                      text: context.l10n.startSelfieVerification,
                       onPressed: () => Navigator.pop(context, true),
                     ),
                   ),
@@ -65,15 +66,15 @@ class _Timeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const items = [
+    final items = [
       CpTimelineItem(
-        subtitle: 'Make sure your face is clearly visible.',
+        subtitle: context.l10n.identityInstruction1,
       ),
       CpTimelineItem(
-        subtitle: 'Avoid hats, sunglasses, or other facial coverings.',
+        subtitle: context.l10n.identityInstruction2,
       ),
       CpTimelineItem(
-        subtitle: 'Good lighting helps us verify your identity quickly!',
+        subtitle: context.l10n.identityInstruction3,
       ),
     ];
 

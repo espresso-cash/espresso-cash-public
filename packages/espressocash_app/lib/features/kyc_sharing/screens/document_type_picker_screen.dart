@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
@@ -18,7 +19,7 @@ class DocumentTypePickerScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: CpColors.darkBackground,
           appBar: CpAppBar(
-            title: Text('Select id method'.toUpperCase()),
+            title: Text(context.l10n.selectIdMethod.toUpperCase()),
           ),
           body: _Content(initial: initial),
         ),
