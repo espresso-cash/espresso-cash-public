@@ -7,7 +7,6 @@ import '../../../ui/button.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
 
-
 class IdentityVerificationScreen extends StatelessWidget {
   const IdentityVerificationScreen({super.key});
 

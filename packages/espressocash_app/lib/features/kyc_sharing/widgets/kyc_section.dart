@@ -96,7 +96,7 @@ String _getUserDescription(UserData user) => '''
 ${user.firstName.isNotEmpty ? user.firstName : ''} ${user.lastName.isNotEmpty ? user.lastName : ''}
 DOB: ${user.dob}
 ID Type: ${user.documentType}
-ID Number: ${user.documentNumber.isNotEmpty ? user.documentNumber: ''}
+ID Number: ${user.documentNumber.isNotEmpty ? user.documentNumber : ''}
 ''';
 
 String _getBankDescription(UserData user) => '''
