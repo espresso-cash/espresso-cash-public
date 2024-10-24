@@ -38,7 +38,6 @@ _$SwapToStellarRequestDtoImpl _$$SwapToStellarRequestDtoImplFromJson(
       solanaSenderAddress: json['solanaSenderAddress'] as String,
       stellarReceiverAddress: json['stellarReceiverAddress'] as String,
       amount: json['amount'] as String,
-      priorityFee: json['priorityFee'] as String?,
     );
 
 Map<String, dynamic> _$$SwapToStellarRequestDtoImplToJson(
@@ -47,7 +46,6 @@ Map<String, dynamic> _$$SwapToStellarRequestDtoImplToJson(
       'solanaSenderAddress': instance.solanaSenderAddress,
       'stellarReceiverAddress': instance.stellarReceiverAddress,
       'amount': instance.amount,
-      'priorityFee': instance.priorityFee,
     };
 
 _$SwapToSolanaRequestDtoImpl _$$SwapToSolanaRequestDtoImplFromJson(
@@ -104,7 +102,6 @@ _$MoneygramFeeResponseDtoImpl _$$MoneygramFeeResponseDtoImplFromJson(
       bridgeFee: json['bridgeFee'] as String,
       moneygramFee: json['moneygramFee'] as String,
       gasFeeInUsdc: json['gasFeeInUsdc'] as String?,
-      priorityFee: json['priorityFee'] as String?,
     );
 
 Map<String, dynamic> _$$MoneygramFeeResponseDtoImplToJson(
@@ -114,7 +111,6 @@ Map<String, dynamic> _$$MoneygramFeeResponseDtoImplToJson(
       'bridgeFee': instance.bridgeFee,
       'moneygramFee': instance.moneygramFee,
       'gasFeeInUsdc': instance.gasFeeInUsdc,
-      'priorityFee': instance.priorityFee,
     };
 
 _$FundXlmRequestDtoImpl _$$FundXlmRequestDtoImplFromJson(
