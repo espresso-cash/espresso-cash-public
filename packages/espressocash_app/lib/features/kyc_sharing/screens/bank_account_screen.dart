@@ -25,10 +25,12 @@ class BankAccountScreen extends StatefulWidget {
 class _BankAccountScreenState extends State<BankAccountScreen> {
   final _bankAccountNumberController = TextEditingController();
   final _bankCodeController = TextEditingController();
+  final _bankNameController = TextEditingController();
 
   bool get _isValid =>
       _bankAccountNumberController.text.isNotEmpty &&
-      _bankCodeController.text.isNotEmpty;
+      _bankCodeController.text.isNotEmpty &&
+      _bankNameController.text.isNotEmpty;
 
   Future<void> _handleSubmitted() async {
     try {
@@ -37,6 +39,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
       await service.updateBankInfo(
         bankAccountNumber: _bankAccountNumberController.text,
         bankCode: _bankCodeController.text,
+        bankName: _bankNameController.text,
       );
 
       if (!mounted) return;
@@ -51,6 +54,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
   void dispose() {
     _bankAccountNumberController.dispose();
     _bankCodeController.dispose();
+    _bankNameController.dispose();
     super.dispose();
   }
 
@@ -71,6 +75,12 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
             placeholder: 'Bank Code',
           ),
           const SizedBox(height: 18),
+          KycTextField(
+            controller: _bankNameController,
+            inputType: TextInputType.name,
+            placeholder: 'Bank Name',
+          ),
+          const SizedBox(height: 18),
           const Spacer(),
           Padding(
             padding: const EdgeInsets.all(16),
@@ -78,6 +88,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
               listenable: Listenable.merge([
                 _bankAccountNumberController,
                 _bankCodeController,
+                _bankNameController,
               ]),
               builder: (context, child) => CpButton(
                 width: double.infinity,

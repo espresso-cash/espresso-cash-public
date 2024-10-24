@@ -41,7 +41,12 @@ class _KycSectionState extends State<KycSection> {
                         snapshot.hasError ||
                         user == null
                     ? const SizedBox.shrink()
-                    : _KycInfo(user: user);
+                    : ValueListenableBuilder<UserData?>(
+                        valueListenable: sl<KycSharingService>(),
+                        builder: (context, user, _) => user == null
+                            ? const SizedBox.shrink()
+                            : _KycInfo(user: user),
+                      );
               },
             );
 }

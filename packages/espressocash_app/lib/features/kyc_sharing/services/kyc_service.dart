@@ -81,6 +81,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     await _kycRepository.grantPartnerAccess(partnerAuthPk);
     await _kycRepository.grantPartnerAccess(validatorAuthPk);
+
+    await fetchUserData();
   }
 
   Future<void> updateBankInfo({
@@ -96,6 +98,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
         id: value?.bankInfo?.first.id ?? '',
       ),
     );
+
+    await fetchUserData();
   }
 
   Future<void> initDocumentValidation() => _kycRepository.initKycVerification(
@@ -105,15 +109,18 @@ class KycSharingService extends ValueNotifier<UserData?> {
         selfieImageId: value?.selfie?.first.id ?? '',
       );
 
-  Future<void> updateSelfiePhoto({File? photoSelfie}) async =>
-      _kycRepository.updateUserData(
-        selfie: photoSelfie != null
-            ? Selfie(
-                value: await photoSelfie.readAsBytes(),
-                id: value?.selfie?.first.id ?? '',
-              )
-            : null,
-      );
+  Future<void> updateSelfiePhoto({File? photoSelfie}) async {
+    await _kycRepository.updateUserData(
+      selfie: photoSelfie != null
+          ? Selfie(
+              value: await photoSelfie.readAsBytes(),
+              id: value?.selfie?.first.id ?? '',
+            )
+          : null,
+    );
+
+    await fetchUserData();
+  }
 
   Future<void> initEmailVerification({required String email}) =>
       _kycRepository.initEmailVerification(email: email);
@@ -121,6 +128,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
   Future<void> verifyEmail({required String code}) async {
     final dataId = await _kycRepository.getEmailDataId();
     await _kycRepository.verifyEmail(code: code, dataId: dataId ?? '');
+
+    await fetchUserData();
   }
 
   Future<void> initPhoneVerification({required String phone}) =>
@@ -129,6 +138,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
   Future<void> verifyPhone({required String code}) async {
     final dataId = await _kycRepository.getPhoneDataId();
     await _kycRepository.verifyPhone(code: code, dataId: dataId ?? '');
+
+    await fetchUserData();
   }
 
   Future<void> shareDataWithPartner(String partnerPk) =>
