@@ -12,9 +12,9 @@ import '../../../di.dart';
 import '../../../ui/clipboard.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
-import '../../kyc_sharing/widgets/kyc_section.dart';
 import '../data/profile_repository.dart';
 import '../widgets/help_section.dart';
+import '../widgets/kyc_section.dart';
 import '../widgets/profile_section.dart';
 import '../widgets/security_section.dart';
 

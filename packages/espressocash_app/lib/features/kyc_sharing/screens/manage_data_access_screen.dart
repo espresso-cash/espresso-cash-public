@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
-import '../../profile/widgets/profile_button.dart';
-import '../../profile/widgets/profile_section.dart';
+import '../widgets/kyc_button.dart';
 
 class ManageDataAccessScreen extends StatelessWidget {
   const ManageDataAccessScreen({super.key});
@@ -46,10 +45,11 @@ class _Content extends StatelessWidget {
               child: Text('Network partners'.toUpperCase()),
             ),
             const Spacer(),
-            ProfileSection(
-              padding: const EdgeInsets.only(bottom: 4),
-              actions: [
-                ProfileButton(
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(30)),
+              child: Material(
+                color: CpColors.darkBackgroundColor,
+                child: KycButton(
                   label: 'Delete All Data',
                   onPressed: () {},
                   textColor: CpColors.dangerButtonTextColor,
@@ -57,8 +57,7 @@ class _Content extends StatelessWidget {
                   showIcon: false,
                   centerText: true,
                 ),
-              ],
-              color: CpColors.darkOrangeButtonBackground,
+              ),
             ),
           ],
         ),

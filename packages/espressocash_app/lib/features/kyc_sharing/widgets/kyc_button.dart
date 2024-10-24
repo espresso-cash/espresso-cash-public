@@ -38,11 +38,12 @@ class KycButton extends StatelessWidget {
       onTap: onPressed,
       title: Row(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment:
+            centerText ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
           Flexible(
             child: Text(
               label,
-              textAlign: centerText ? TextAlign.center : TextAlign.start,
               style: TextStyle(
                 color: textColor,
                 fontSize: 17,

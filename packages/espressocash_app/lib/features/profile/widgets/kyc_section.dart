@@ -3,13 +3,13 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../feature_flags/services/feature_flags_manager.dart';
-import '../../profile/widgets/profile_section.dart';
-import '../screens/bank_account_screen.dart';
-import '../screens/manage_data_access_screen.dart';
-import '../services/kyc_service.dart';
-import '../utils/kyc_utils.dart';
-import 'kyc_button.dart';
-import 'kyc_flow.dart';
+import '../../kyc_sharing/screens/bank_account_screen.dart';
+import '../../kyc_sharing/screens/manage_data_access_screen.dart';
+import '../../kyc_sharing/services/kyc_service.dart';
+import '../../kyc_sharing/utils/kyc_utils.dart';
+import '../../kyc_sharing/widgets/kyc_button.dart';
+import '../../kyc_sharing/widgets/kyc_flow.dart';
+import 'profile_section.dart';
 
 class KycSection extends StatefulWidget {
   const KycSection({super.key});
