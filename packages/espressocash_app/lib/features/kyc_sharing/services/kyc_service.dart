@@ -14,7 +14,7 @@ import '../models/document_type.dart';
 
 // Hardcoded for now
 const validatorAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
-const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
+const partnerAuthPk = 'J4Bi8wQnvcX4kLyiA7xemJ7t4bikDncgWUZAscvymGPq';
 
 @Singleton(scope: authScope)
 class KycSharingService extends ValueNotifier<UserData?> {
@@ -156,9 +156,10 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     await fetchUserData();
 
-    await _kycRepository.initPhoneVerification(
-      phoneId: value?.phone?.first.id ?? '',
-    );
+    // TODO(vsumin): Currently do not work, because test environment
+    // await _kycRepository.initPhoneVerification(
+    //   phoneId: value?.phone?.first.id ?? '',
+    // );
   }
 
   Future<void> verifyPhone({required String code}) async {
