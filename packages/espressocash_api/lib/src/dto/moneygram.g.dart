@@ -38,7 +38,7 @@ _$SwapToStellarRequestDtoImpl _$$SwapToStellarRequestDtoImplFromJson(
       solanaSenderAddress: json['solanaSenderAddress'] as String,
       stellarReceiverAddress: json['stellarReceiverAddress'] as String,
       amount: json['amount'] as String,
-      priorityFee: json['priorityFee'] as String?,
+      priorityFee: (json['priorityFee'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$SwapToStellarRequestDtoImplToJson(
@@ -104,7 +104,7 @@ _$MoneygramFeeResponseDtoImpl _$$MoneygramFeeResponseDtoImplFromJson(
       bridgeFee: json['bridgeFee'] as String,
       moneygramFee: json['moneygramFee'] as String,
       gasFeeInUsdc: json['gasFeeInUsdc'] as String?,
-      priorityFee: json['priorityFee'] as String?,
+      priorityFee: (json['priorityFee'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$MoneygramFeeResponseDtoImplToJson(
