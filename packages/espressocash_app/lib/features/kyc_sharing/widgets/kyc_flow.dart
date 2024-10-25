@@ -36,18 +36,6 @@ extension KycFlowExtension on BuildContext {
   Future<bool> openKycFlow() async {
     final service = sl<KycSharingService>().value;
 
-    final kycProcessed = service?.kycStatus.isApprovedOrPending ?? false;
-
-    if (!kycProcessed) {
-      if (!await openBasicInfoFlow()) return false;
-    }
-
-    final hasBankInfo = service?.hasBankInfo ?? false;
-
-    if (!hasBankInfo) {
-      if (!await _navigateToScreen(BankAccountScreen.push)) return false;
-    }
-
     final emailValidated = service?.emailStatus == ValidationStatus.approved;
 
     if (!emailValidated) {
@@ -58,6 +46,18 @@ extension KycFlowExtension on BuildContext {
 
     if (!phoneValidated) {
       if (!await openPhoneFlow()) return false;
+    }
+
+    final hasBankInfo = service?.hasBankInfo ?? false;
+
+    if (!hasBankInfo) {
+      if (!await _navigateToScreen(BankAccountScreen.push)) return false;
+    }
+
+    final kycProcessed = service?.kycStatus.isApprovedOrPending ?? false;
+
+    if (!kycProcessed) {
+      if (!await openBasicInfoFlow()) return false;
     }
 
     if (service?.kycStatus != ValidationStatus.approved) {
