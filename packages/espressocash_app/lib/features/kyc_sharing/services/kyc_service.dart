@@ -28,9 +28,9 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   @PostConstruct()
   Future<void> init() async {
-    if (sl<FeatureFlagsManager>().isXflowEnabled()) {
-      await fetchUserData();
-    }
+    if (!sl<FeatureFlagsManager>().isXflowEnabled()) return;
+
+    await fetchUserData();
   }
 
   Future<void> fetchUserData() async {
