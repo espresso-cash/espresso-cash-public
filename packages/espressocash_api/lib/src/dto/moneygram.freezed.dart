@@ -356,7 +356,7 @@ mixin _$SwapToStellarRequestDto {
   String get solanaSenderAddress => throw _privateConstructorUsedError;
   String get stellarReceiverAddress => throw _privateConstructorUsedError;
   String get amount => throw _privateConstructorUsedError;
-  String? get priorityFee => throw _privateConstructorUsedError;
+  int? get priorityFee => throw _privateConstructorUsedError;
 
   /// Serializes this SwapToStellarRequestDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -378,7 +378,7 @@ abstract class $SwapToStellarRequestDtoCopyWith<$Res> {
       {String solanaSenderAddress,
       String stellarReceiverAddress,
       String amount,
-      String? priorityFee});
+      int? priorityFee});
 }
 
 /// @nodoc
@@ -418,7 +418,7 @@ class _$SwapToStellarRequestDtoCopyWithImpl<$Res,
       priorityFee: freezed == priorityFee
           ? _value.priorityFee
           : priorityFee // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
     ) as $Val);
   }
 }
@@ -436,7 +436,7 @@ abstract class _$$SwapToStellarRequestDtoImplCopyWith<$Res>
       {String solanaSenderAddress,
       String stellarReceiverAddress,
       String amount,
-      String? priorityFee});
+      int? priorityFee});
 }
 
 /// @nodoc
@@ -475,7 +475,7 @@ class __$$SwapToStellarRequestDtoImplCopyWithImpl<$Res>
       priorityFee: freezed == priorityFee
           ? _value.priorityFee
           : priorityFee // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
     ));
   }
 }
@@ -499,7 +499,7 @@ class _$SwapToStellarRequestDtoImpl implements _SwapToStellarRequestDto {
   @override
   final String amount;
   @override
-  final String? priorityFee;
+  final int? priorityFee;
 
   @override
   String toString() {
@@ -547,7 +547,7 @@ abstract class _SwapToStellarRequestDto implements SwapToStellarRequestDto {
       {required final String solanaSenderAddress,
       required final String stellarReceiverAddress,
       required final String amount,
-      final String? priorityFee}) = _$SwapToStellarRequestDtoImpl;
+      final int? priorityFee}) = _$SwapToStellarRequestDtoImpl;
 
   factory _SwapToStellarRequestDto.fromJson(Map<String, dynamic> json) =
       _$SwapToStellarRequestDtoImpl.fromJson;
@@ -559,7 +559,7 @@ abstract class _SwapToStellarRequestDto implements SwapToStellarRequestDto {
   @override
   String get amount;
   @override
-  String? get priorityFee;
+  int? get priorityFee;
 
   /// Create a copy of SwapToStellarRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -1113,7 +1113,7 @@ mixin _$MoneygramFeeResponseDto {
   String get bridgeFee => throw _privateConstructorUsedError;
   String get moneygramFee => throw _privateConstructorUsedError;
   String? get gasFeeInUsdc => throw _privateConstructorUsedError;
-  String? get priorityFee => throw _privateConstructorUsedError;
+  int? get priorityFee => throw _privateConstructorUsedError;
 
   /// Serializes this MoneygramFeeResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1136,7 +1136,7 @@ abstract class $MoneygramFeeResponseDtoCopyWith<$Res> {
       String bridgeFee,
       String moneygramFee,
       String? gasFeeInUsdc,
-      String? priorityFee});
+      int? priorityFee});
 }
 
 /// @nodoc
@@ -1181,7 +1181,7 @@ class _$MoneygramFeeResponseDtoCopyWithImpl<$Res,
       priorityFee: freezed == priorityFee
           ? _value.priorityFee
           : priorityFee // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
     ) as $Val);
   }
 }
@@ -1200,7 +1200,7 @@ abstract class _$$MoneygramFeeResponseDtoImplCopyWith<$Res>
       String bridgeFee,
       String moneygramFee,
       String? gasFeeInUsdc,
-      String? priorityFee});
+      int? priorityFee});
 }
 
 /// @nodoc
@@ -1244,7 +1244,7 @@ class __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>
       priorityFee: freezed == priorityFee
           ? _value.priorityFee
           : priorityFee // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
     ));
   }
 }
@@ -1271,7 +1271,7 @@ class _$MoneygramFeeResponseDtoImpl implements _MoneygramFeeResponseDto {
   @override
   final String? gasFeeInUsdc;
   @override
-  final String? priorityFee;
+  final int? priorityFee;
 
   @override
   String toString() {
@@ -1323,7 +1323,7 @@ abstract class _MoneygramFeeResponseDto implements MoneygramFeeResponseDto {
       required final String bridgeFee,
       required final String moneygramFee,
       final String? gasFeeInUsdc,
-      final String? priorityFee}) = _$MoneygramFeeResponseDtoImpl;
+      final int? priorityFee}) = _$MoneygramFeeResponseDtoImpl;
 
   factory _MoneygramFeeResponseDto.fromJson(Map<String, dynamic> json) =
       _$MoneygramFeeResponseDtoImpl.fromJson;
@@ -1337,7 +1337,7 @@ abstract class _MoneygramFeeResponseDto implements MoneygramFeeResponseDto {
   @override
   String? get gasFeeInUsdc;
   @override
-  String? get priorityFee;
+  int? get priorityFee;
 
   /// Create a copy of MoneygramFeeResponseDto
   /// with the given fields replaced by the non-null parameter values.
