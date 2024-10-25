@@ -3,7 +3,6 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../kyc_sharing/screens/bank_account_screen.dart';
 import '../../kyc_sharing/screens/manage_data_access_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
@@ -30,26 +29,23 @@ class _KycSectionState extends State<KycSection> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      !sl<FeatureFlagsManager>().isXflowEnabled()
-          ? const SizedBox.shrink()
-          : FutureBuilder<KycSharingService>(
-              future: _future,
-              builder: (context, snapshot) {
-                final user = snapshot.data?.value;
+  Widget build(BuildContext context) => FutureBuilder<KycSharingService>(
+        future: _future,
+        builder: (context, snapshot) {
+          final user = snapshot.data?.value;
 
-                return snapshot.connectionState == ConnectionState.waiting ||
-                        snapshot.hasError ||
-                        user == null
-                    ? const SizedBox.shrink()
-                    : ValueListenableBuilder<UserData?>(
-                        valueListenable: sl<KycSharingService>(),
-                        builder: (context, user, _) => user == null
-                            ? const SizedBox.shrink()
-                            : _KycInfo(user: user),
-                      );
-              },
-            );
+          return snapshot.connectionState == ConnectionState.waiting ||
+                  snapshot.hasError ||
+                  user == null
+              ? const SizedBox.shrink()
+              : ValueListenableBuilder<UserData?>(
+                  valueListenable: sl<KycSharingService>(),
+                  builder: (context, user, _) => user == null
+                      ? const SizedBox.shrink()
+                      : _KycInfo(user: user),
+                );
+        },
+      );
 }
 
 class _KycInfo extends StatelessWidget {

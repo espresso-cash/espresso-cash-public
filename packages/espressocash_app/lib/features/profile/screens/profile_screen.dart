@@ -12,6 +12,7 @@ import '../../../di.dart';
 import '../../../ui/clipboard.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../data/profile_repository.dart';
 import '../widgets/help_section.dart';
 import '../widgets/kyc_section.dart';
@@ -105,20 +106,23 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 16,
                       horizontal: 24,
                     ),
                     child: Column(
                       children: [
-                        EditProfileSection(),
-                        KycSection(),
-                        SecuritySection(),
-                        HelpSection(),
-                        DangerSection(),
-                        ShareSection(),
-                        VersionSection(),
+                        if (sl<FeatureFlagsManager>().isXflowEnabled()) ...[
+                          const KycSection(),
+                        ] else ...[
+                          const EditProfileSection(),
+                        ],
+                        const SecuritySection(),
+                        const HelpSection(),
+                        const DangerSection(),
+                        const ShareSection(),
+                        const VersionSection(),
                       ],
                     ),
                   ),
