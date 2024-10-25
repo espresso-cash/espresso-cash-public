@@ -8,7 +8,9 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
+import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
 
@@ -26,7 +28,9 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   @PostConstruct()
   Future<void> init() async {
-    await fetchUserData();
+    if (sl<FeatureFlagsManager>().isXflowEnabled()) {
+      await fetchUserData();
+    }
   }
 
   Future<void> fetchUserData() async {
