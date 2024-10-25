@@ -164,7 +164,7 @@ class MyDatabase extends _$MyDatabase {
           if (from < 58) {
             await m.createTable(tokenRows);
           }
-          if (from < 59) {
+          if (from >= 40 && from < 59) {
             await m.addColumn(offRampOrderRows, offRampOrderRows.priorityFee);
             await m.addColumn(offRampOrderRows, offRampOrderRows.gasFee);
           }
