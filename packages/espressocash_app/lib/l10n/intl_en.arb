@@ -1005,5 +1005,13 @@
   "manageDataAccess": "Manage Data Access",
   "@manageDataAccess": {},
   "accountProfile": "Account Profile",
-  "@accountProfile": {}
+  "@accountProfile": {},
+  "begin": "Begin",
+  "@begin": {},
+  "reVerificationNotice": "Re-verification is only needed if you update or change your ID.",
+  "@reVerificationNotice": {},
+  "onRampKycInitialDescription": "*Complete ID verification* to proceed with your deposit.",
+  "@onRampKycInitialDescription": {},
+  "offRampKycInitialDescription": "*Complete ID verification* to proceed with your withdrawal.",
+  "@offRampKycInitialDescription": {}
 }

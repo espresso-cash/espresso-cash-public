@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
+import '../../ramp/models/ramp_type.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/basic_information_screen.dart';
 import '../screens/email_confirmation_screen.dart';
 import '../screens/email_verification_screen.dart';
 import '../screens/identity_verification_screen.dart';
 import '../screens/kyc_camera_screen.dart';
+import '../screens/kyc_description_screen.dart';
 import '../screens/kyc_status_screen.dart';
 import '../screens/phone_confirmation_screen.dart';
 import '../screens/phone_verification_screen.dart';
@@ -33,8 +35,12 @@ const List<KycStepFunction> phoneSteps = [
 ];
 
 extension KycFlowExtension on BuildContext {
-  Future<bool> openKycFlow() async {
+  Future<bool> openKycFlow({required RampType rampType}) async {
     final service = sl<KycSharingService>().value;
+
+    if (!await _navigateToScreen(
+      (context) => KycDescriptionScreen.push(context, rampType),
+    )) return false;
 
     final emailValidated = service?.emailStatus == ValidationStatus.approved;
 

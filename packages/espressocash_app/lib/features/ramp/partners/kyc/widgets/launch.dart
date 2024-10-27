@@ -25,7 +25,7 @@ extension BuildContextExt on BuildContext {
   Future<void> launchKycOnRamp({
     required ProfileData profile,
   }) async {
-    final kycPassed = await openKycFlow();
+    final kycPassed = await openKycFlow(rampType: RampType.onRamp);
 
     if (!kycPassed) {
       showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
@@ -125,7 +125,7 @@ extension BuildContextExt on BuildContext {
   Future<void> launchKycOffRamp({
     required ProfileData profile,
   }) async {
-    final kycPassed = await openKycFlow();
+    final kycPassed = await openKycFlow(rampType: RampType.offRamp);
 
     if (!kycPassed) {
       showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
