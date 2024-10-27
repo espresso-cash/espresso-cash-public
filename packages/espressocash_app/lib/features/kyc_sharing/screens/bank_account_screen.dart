@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../ui/button.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
 import '../widgets/kyc_page.dart';
@@ -64,38 +64,46 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
         title: context.l10n.bankAccount,
         children: [
           const SizedBox(height: 30),
+          Text(
+            context.l10n.bankAccountInfoCorrectText,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 16,
+              height: 21 / 16,
+              letterSpacing: 0.19,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          const SizedBox(height: 20),
           KycTextField(
             controller: _bankAccountNumberController,
             inputType: TextInputType.name,
             placeholder: context.l10n.accountNumber,
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 16),
           KycTextField(
             controller: _bankCodeController,
             inputType: TextInputType.name,
             placeholder: context.l10n.bankCode,
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 16),
           KycTextField(
             controller: _bankNameController,
             inputType: TextInputType.name,
             placeholder: context.l10n.bankName,
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 16),
           const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListenableBuilder(
-              listenable: Listenable.merge([
-                _bankAccountNumberController,
-                _bankCodeController,
-                _bankNameController,
-              ]),
-              builder: (context, child) => CpButton(
-                width: double.infinity,
-                text: context.l10n.next,
-                onPressed: _isValid ? _handleSubmitted : null,
-              ),
+          ListenableBuilder(
+            listenable: Listenable.merge([
+              _bankAccountNumberController,
+              _bankCodeController,
+              _bankNameController,
+            ]),
+            builder: (context, child) => CpBottomButton(
+              horizontalPadding: 16,
+              text: context.l10n.next,
+              onPressed: _isValid ? _handleSubmitted : null,
             ),
           ),
         ],

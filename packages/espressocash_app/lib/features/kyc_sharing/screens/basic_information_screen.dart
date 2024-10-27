@@ -3,7 +3,8 @@ import 'package:intl/intl.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../ui/button.dart';
+import '../../../ui/bottom_button.dart';
+
 import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/radio_button.dart';
@@ -161,13 +162,13 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             inputType: TextInputType.name,
             placeholder: context.l10n.firstName,
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 16),
           KycTextField(
             controller: _lastNameController,
             inputType: TextInputType.name,
             placeholder: context.l10n.lastName,
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 16),
           GestureDetector(
             onTap: _selectDob,
             child: AbsorbPointer(
@@ -178,18 +179,18 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 16),
           DocumentPicker(
             type: _idType,
             onSubmitted: (idType) => setState(() => _idType = idType),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 16),
           KycTextField(
             controller: _idController,
             inputType: TextInputType.text,
             placeholder: context.l10n.idNumber,
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 16),
           GestureDetector(
             onTap: () => setState(() => _isShareData = !_isShareData),
             child: Row(
@@ -213,19 +214,16 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             ),
           ),
           const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListenableBuilder(
-              listenable: Listenable.merge([
-                _firstNameController,
-                _lastNameController,
-                _dobController,
-              ]),
-              builder: (context, child) => CpButton(
-                width: double.infinity,
-                text: context.l10n.next,
-                onPressed: _isValid ? _handleSubmitted : null,
-              ),
+          ListenableBuilder(
+            listenable: Listenable.merge([
+              _firstNameController,
+              _lastNameController,
+              _dobController,
+            ]),
+            builder: (context, child) => CpBottomButton(
+              horizontalPadding: 16,
+              text: context.l10n.next,
+              onPressed: _isValid ? _handleSubmitted : null,
             ),
           ),
         ],

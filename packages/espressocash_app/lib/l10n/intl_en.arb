@@ -1013,5 +1013,7 @@
   "onRampKycInitialDescription": "*Complete ID verification* to proceed with your deposit.",
   "@onRampKycInitialDescription": {},
   "offRampKycInitialDescription": "*Complete ID verification* to proceed with your withdrawal.",
-  "@offRampKycInitialDescription": {}
+  "@offRampKycInitialDescription": {},
+  "bankAccountInfoCorrectText": "Ensure your account info is correct to prevent delays.",
+  "@bankAccountInfoCorrectText": {}
 }

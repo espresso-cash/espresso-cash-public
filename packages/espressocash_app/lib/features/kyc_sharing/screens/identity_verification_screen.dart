@@ -4,6 +4,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
@@ -45,13 +46,10 @@ class IdentityVerificationScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 40),
                   const Expanded(child: _Timeline()),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: CpButton(
-                      width: double.infinity,
-                      text: context.l10n.startSelfieVerification,
-                      onPressed: () => Navigator.pop(context, true),
-                    ),
+                  CpBottomButton(
+                    horizontalPadding: 16,
+                    text: context.l10n.startSelfieVerification,
+                    onPressed: () => Navigator.pop(context, true),
                   ),
                 ],
               ),

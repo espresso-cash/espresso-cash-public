@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../ui/button.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_utils.dart';
@@ -75,15 +75,12 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
             placeholder: context.l10n.enterVerificationCode,
           ),
           const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListenableBuilder(
-              listenable: _controller,
-              builder: (context, child) => CpButton(
-                width: double.infinity,
-                text: context.l10n.next,
-                onPressed: _isValid ? _handleConfirm : null,
-              ),
+          ListenableBuilder(
+            listenable: _controller,
+            builder: (context, child) => CpBottomButton(
+              horizontalPadding: 16,
+              text: context.l10n.next,
+              onPressed: _isValid ? _handleConfirm : null,
             ),
           ),
         ],
