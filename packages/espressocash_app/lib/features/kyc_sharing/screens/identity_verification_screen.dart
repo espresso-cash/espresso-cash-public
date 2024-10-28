@@ -5,9 +5,8 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/bottom_button.dart';
-import '../../../ui/button.dart';
+import '../../../ui/info_list.dart';
 import '../../../ui/theme.dart';
-import '../../../ui/timeline.dart';
 
 class IdentityVerificationScreen extends StatelessWidget {
   const IdentityVerificationScreen({super.key});
@@ -65,22 +64,11 @@ class _Timeline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = [
-      CpTimelineItem(
-        subtitle: context.l10n.identityInstruction1,
-      ),
-      CpTimelineItem(
-        subtitle: context.l10n.identityInstruction2,
-      ),
-      CpTimelineItem(
-        subtitle: context.l10n.identityInstruction3,
-      ),
+      CpInfoListItem(subtitle: context.l10n.identityInstruction1),
+      CpInfoListItem(subtitle: context.l10n.identityInstruction2),
+      CpInfoListItem(subtitle: context.l10n.identityInstruction3),
     ];
 
-    return CpTimeline(
-      status: CpTimelineStatus.inProgress,
-      items: items,
-      active: items.length - 1,
-      animated: false,
-    );
+    return CpInfoList(items: items);
   }
 }
