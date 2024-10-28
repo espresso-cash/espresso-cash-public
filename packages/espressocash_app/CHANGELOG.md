@@ -1,3 +1,9 @@
+## 1.130.0
+
+ - **FEAT**: moneygram withdraw updates (#1599).
+ - **FEAT**: wallet screen changes (#1593).
+ - **FEAT**: ramp onboarding screen updates (#1594).
+
 ## 1.129.1
 
  - **FIX**: fetch fiat rates on start (#1592).
