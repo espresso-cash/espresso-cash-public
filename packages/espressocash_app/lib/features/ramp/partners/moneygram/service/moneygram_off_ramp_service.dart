@@ -174,8 +174,10 @@ class MoneygramOffRampOrderService implements Disposable {
 
   AsyncResult<String> createMoneygramOrder({
     required CryptoAmount submittedAmount,
-    required FiatAmount? receiveAmount,
+    required FiatAmount receiveAmount,
     required String countryCode,
+    required int priorityFee,
+    required CryptoAmount gasFee,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -184,8 +186,8 @@ class MoneygramOffRampOrderService implements Disposable {
             partnerOrderId: '',
             amount: submittedAmount.value,
             token: Token.usdc.address,
-            receiveAmount: receiveAmount?.value,
-            fiatSymbol: receiveAmount?.fiatCurrency.symbol,
+            receiveAmount: receiveAmount.value,
+            fiatSymbol: receiveAmount.fiatCurrency.symbol,
             created: DateTime.now(),
             humanStatus: '',
             machineStatus: '',
@@ -195,6 +197,8 @@ class MoneygramOffRampOrderService implements Disposable {
             depositAddress: '',
             slot: BigInt.zero,
             bridgeAmount: null,
+            priorityFee: priorityFee,
+            gasFee: gasFee.value,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
@@ -345,10 +349,17 @@ class MoneygramOffRampOrderService implements Disposable {
   ) async {
     final accountId = _stellarWallet.address;
 
-    final cashOutAmount = CryptoAmount(
+    final gasFee = CryptoAmount(
+      value: order.gasFee ?? 0,
+      cryptoCurrency: Currency.usdc,
+    );
+
+    final inputAmount = CryptoAmount(
       value: order.amount,
       cryptoCurrency: Currency.usdc,
     );
+
+    final cashOutAmount = inputAmount - gasFee;
 
     final xlmBalance = await _stellarClient.getXlmBalance();
 
@@ -364,15 +375,28 @@ class MoneygramOffRampOrderService implements Disposable {
       await _stellarClient.createUsdcTrustline(limit: 10000);
     }
 
-    final bridgeTx = await _ecClient
-        .swapToStellar(
-          SwapToStellarRequestDto(
-            amount: cashOutAmount.value.toString(),
-            solanaSenderAddress: _ecWallet.address,
-            stellarReceiverAddress: accountId,
-          ),
-        )
-        .then((e) => e.encodedTx);
+    String bridgeTx;
+    try {
+      bridgeTx = await _ecClient
+          .swapToStellar(
+            SwapToStellarRequestDto(
+              amount: cashOutAmount.value.toString(),
+              solanaSenderAddress: _ecWallet.address,
+              stellarReceiverAddress: accountId,
+              priorityFee: order.priorityFee,
+            ),
+          )
+          .then((e) => e.encodedTx);
+    } on Exception catch (__, stackTrace) {
+      reportError(
+        'Failed to swap to Stellar',
+        stackTrace,
+      );
+
+      return const OffRampOrderRowsCompanion(
+        status: Value(OffRampOrderStatus.depositError),
+      );
+    }
 
     final tx = await SignedTx.decode(bridgeTx).resign(_ecWallet);
 
@@ -381,7 +405,6 @@ class MoneygramOffRampOrderService implements Disposable {
     );
 
     final slot = latestBlockhash.context.slot;
-
     final send = await _sender.send(tx, minContextSlot: slot);
 
     if (send != const TxSendSent()) {
