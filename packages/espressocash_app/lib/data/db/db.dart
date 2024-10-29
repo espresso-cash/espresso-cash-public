@@ -265,6 +265,7 @@ enum OffRampOrderStatus {
   processingRefund, // MG
   waitingForRefundBridge, // MG
   refunded, // MG
+  waitingUserVerification, // Kyc
   waitingPartnerReview, // KYC
   rejected, // KYC
 }

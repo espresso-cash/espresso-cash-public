@@ -232,6 +232,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
       case OffRampOrderStatus.waitingPartnerReview:
+      case OffRampOrderStatus.waitingUserVerification:
       case OffRampOrderStatus.rejected:
         break;
     }
@@ -268,6 +269,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.postProcessing:
       case OffRampOrderStatus.refunded:
       case OffRampOrderStatus.waitingPartnerReview:
+      case OffRampOrderStatus.waitingUserVerification:
       case OffRampOrderStatus.rejected:
         break;
     }
@@ -417,6 +419,7 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.refunded:
         case OffRampOrderStatus.completed:
         case OffRampOrderStatus.waitingPartnerReview:
+        case OffRampOrderStatus.waitingUserVerification:
         case OffRampOrderStatus.rejected:
           _subscriptions.remove(orderId)?.cancel();
 

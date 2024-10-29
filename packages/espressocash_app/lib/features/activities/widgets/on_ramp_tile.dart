@@ -8,6 +8,7 @@ import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../ramp/screens/on_ramp_order_screen.dart';
 import '../../ramp/widgets/on_ramp_order_details.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
 import 'kyc_tile.dart';
@@ -35,9 +36,10 @@ class OnRampTile extends StatelessWidget {
                       maxDecimals: 2,
                     ),
                     preOrder: (
-                      orderId: activity.id,
-                      amount: order?.manualDeposit?.transferAmount,
+                      preOrderId: activity.id,
+                      preAmount: order?.manualDeposit?.transferAmount,
                     ),
+                    rampType: RampType.onRamp,
                   )
                 : CpActivityTile(
                     title: context.l10n.activities_lblAddCash,

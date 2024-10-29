@@ -5,7 +5,6 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../../currency/models/amount.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_status_icon.dart';
@@ -22,6 +21,7 @@ class CpKycTile extends StatelessWidget {
     this.outgoingAmount,
     this.onTap,
     required this.preOrder,
+    required this.rampType,
   });
 
   final String title;
@@ -29,7 +29,8 @@ class CpKycTile extends StatelessWidget {
   final String? incomingAmount;
   final String? outgoingAmount;
   final VoidCallback? onTap;
-  final ({String? orderId, Amount? amount})? preOrder;
+  final PreOrderData? preOrder;
+  final RampType rampType;
 
   @override
   Widget build(BuildContext context) {
@@ -100,20 +101,12 @@ class CpKycTile extends StatelessWidget {
                     style: _subtitleStyle,
                   ),
                   const SizedBox(height: 16),
-                  CpButton(
-                    minWidth: 180,
-                    text: 'Continue Deposit',
-                    onPressed: () async {
-                      final data =
-                          await context.ensureProfileData(RampType.onRamp);
-                      if (context.mounted && data != null) {
-                        await context.launchKycOnRamp(
-                          profile: data,
-                          preOrder: preOrder,
-                        );
-                      }
-                    },
-                  ),
+                  switch (rampType) {
+                    RampType.onRamp =>
+                      user.kycStatus.onRampButton(context, preOrder),
+                    RampType.offRamp =>
+                      user.kycStatus.offRampButton(context, preOrder),
+                  },
                 ],
               ),
             ),
@@ -156,6 +149,7 @@ extension on ValidationStatus {
     }
   }
 
+  // TODO(vsumin): add localization
   String description() {
     switch (this) {
       case ValidationStatus.approved:
@@ -168,5 +162,79 @@ extension on ValidationStatus {
       case ValidationStatus.unspecified:
         return 'Start your ID verification to continue.';
     }
+  }
+
+  // TODO(vsumin): add localization
+  Widget onRampButton(
+    BuildContext context,
+    PreOrderData? preOrder,
+  ) {
+    String title;
+    VoidCallback? onPressed;
+
+    switch (this) {
+      case ValidationStatus.approved:
+      case ValidationStatus.unverified:
+      case ValidationStatus.unspecified:
+        title = 'Continue Deposit';
+        onPressed = () async {
+          final data = await context.ensureProfileData(RampType.onRamp);
+          if (context.mounted && data != null) {
+            await context.launchKycOnRamp(
+              profile: data,
+              preOrder: preOrder,
+            );
+          }
+        };
+      case ValidationStatus.pending:
+        title = 'Continue Deposit';
+        onPressed = null;
+      case ValidationStatus.rejected:
+        title = 'Retry verification';
+        onPressed = () {};
+    }
+
+    return CpButton(
+      minWidth: 180,
+      text: title,
+      onPressed: onPressed,
+    );
+  }
+
+  // TODO(vsumin): add localization
+  Widget offRampButton(
+    BuildContext context,
+    PreOrderData? preOrder,
+  ) {
+    String title;
+    VoidCallback? onPressed;
+
+    switch (this) {
+      case ValidationStatus.approved:
+      case ValidationStatus.unverified:
+      case ValidationStatus.unspecified:
+        title = 'Continue Withdrawal';
+        onPressed = () async {
+          final data = await context.ensureProfileData(RampType.offRamp);
+          if (context.mounted && data != null) {
+            await context.launchKycOffRamp(
+              profile: data,
+              preOrder: preOrder,
+            );
+          }
+        };
+      case ValidationStatus.pending:
+        title = 'Continue Withdrawal';
+        onPressed = null;
+      case ValidationStatus.rejected:
+        title = 'Retry verification';
+        onPressed = () {};
+    }
+
+    return CpButton(
+      minWidth: 180,
+      text: title,
+      onPressed: onPressed,
+    );
   }
 }
