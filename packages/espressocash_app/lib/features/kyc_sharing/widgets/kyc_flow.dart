@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
-import '../../ramp/models/ramp_type.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/basic_information_screen.dart';
 import '../screens/email_confirmation_screen.dart';
