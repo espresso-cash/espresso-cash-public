@@ -134,11 +134,13 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.rejected =>
         context.l10n.onRampDepositFailure,
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
-      OnRampOrderStatus.waitingPartnerReview =>
-        'Waiting for partner review',
+      OnRampOrderStatus.waitingUserVerification =>
+        'Waiting for user verification',
+      OnRampOrderStatus.waitingPartnerReview => 'Waiting for partner review',
     };
 
     final String? statusSubtitle = switch (order.status) {
+      OnRampOrderStatus.waitingUserVerification ||
       OnRampOrderStatus.waitingForPartner ||
       OnRampOrderStatus.postProcessing =>
         context.l10n.onRampAwaitingFunds,
@@ -385,6 +387,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
+        OnRampOrderStatus.waitingUserVerification ||
         OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
@@ -401,6 +404,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
+        OnRampOrderStatus.waitingUserVerification ||
         OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
@@ -417,6 +421,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.depositExpired ||
         OnRampOrderStatus.waitingForDeposit ||
+        OnRampOrderStatus.waitingUserVerification ||
         OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.rejected =>
           0,
@@ -435,6 +440,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.postProcessing ||
+        OnRampOrderStatus.waitingUserVerification ||
         OnRampOrderStatus.waitingForPartner =>
           'Pending',
         OnRampOrderStatus.depositExpired => 'Expired',

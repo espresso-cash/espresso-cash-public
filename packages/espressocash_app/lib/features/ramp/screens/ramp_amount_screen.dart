@@ -44,6 +44,7 @@ class RampAmountScreen extends StatefulWidget {
     required this.partner,
     required this.exchangeRate,
     required this.receiveCurrency,
+    required this.initialAmount,
   });
 
   static Future<void> push(
@@ -57,6 +58,7 @@ class RampAmountScreen extends StatefulWidget {
     FeeCalculator? calculateFee,
     String? exchangeRate,
     Currency? receiveCurrency,
+    Amount? initialAmount,
   }) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
@@ -70,6 +72,7 @@ class RampAmountScreen extends StatefulWidget {
             calculateFee: calculateFee,
             exchangeRate: exchangeRate,
             receiveCurrency: receiveCurrency,
+            initialAmount: initialAmount,
           ),
         ),
       );
@@ -83,6 +86,7 @@ class RampAmountScreen extends StatefulWidget {
   final FeeCalculator? calculateFee;
   final String? exchangeRate;
   final Currency? receiveCurrency;
+  final Amount? initialAmount;
 
   @override
   State<RampAmountScreen> createState() => _RampAmountScreenState();
@@ -91,6 +95,14 @@ class RampAmountScreen extends StatefulWidget {
 class _RampAmountScreenState extends State<RampAmountScreen> {
   final _controller = TextEditingController();
   final _minimumAmountNoticeKey = GlobalKey<_MinimumAmountNoticeState>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialAmount != null) {
+      _controller.text = widget.initialAmount?.decimal.toString() ?? '';
+    }
+  }
 
   @override
   void dispose() {

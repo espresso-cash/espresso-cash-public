@@ -34,6 +34,7 @@ class OnRampTile extends StatelessWidget {
               CpActivityTileStatus.failure,
             OnRampOrderStatus.completed => CpActivityTileStatus.success,
             OnRampOrderStatus.waitingForDeposit ||
+            OnRampOrderStatus.waitingUserVerification ||
             OnRampOrderStatus.waitingPartnerReview ||
             OnRampOrderStatus.waitingForPartner ||
             OnRampOrderStatus.pending ||

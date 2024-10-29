@@ -25,6 +25,41 @@ extension BuildContextExt on BuildContext {
   Future<void> launchKycOnRamp({
     required ProfileData profile,
   }) async {
+    Amount? preAmount;
+
+    await RampAmountScreen.push(
+      this,
+      partner: RampPartner.xflow,
+      onSubmitted: (Amount? value) {
+        Navigator.pop(this);
+        preAmount = value;
+      },
+      minAmount: Decimal.fromInt(10000),
+      currency: Currency.ngn,
+      receiveCurrency: Currency.usdc,
+      type: RampType.onRamp,
+    );
+
+    final submittedPreAmount = preAmount;
+
+    if (submittedPreAmount == null) return;
+
+    final preOrderId = await runWithLoader<String?>(
+      this,
+      () => sl<XFlowOnRampOrderService>()
+          .createPreOrder(
+            submittedAmount: submittedPreAmount as FiatAmount,
+          )
+          .then(
+            (order) => order.fold(
+              (error) => null,
+              (id) => id,
+            ),
+          ),
+    );
+
+    //////////////////////////////////////////////////////////////
+
     final kycPassed = await openKycFlow(rampType: RampType.onRamp);
 
     if (!kycPassed) {
@@ -102,10 +137,11 @@ extension BuildContextExt on BuildContext {
     final orderId = await runWithLoader<String?>(
       this,
       () => sl<XFlowOnRampOrderService>()
-          .create(
+          .createOrUpdate(
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount as FiatAmount,
             countryCode: profile.country.code,
+            partnerAuthPk: partnerAuthPk,
           )
           .then(
             (order) => order.fold(

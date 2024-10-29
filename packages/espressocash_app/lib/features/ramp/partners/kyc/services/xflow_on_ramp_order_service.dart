@@ -69,6 +69,7 @@ class XFlowOnRampOrderService implements Disposable {
 
               return const Stream.empty();
 
+            case OnRampOrderStatus.waitingUserVerification:
             case OnRampOrderStatus.pending:
             case OnRampOrderStatus.preProcessing:
             case OnRampOrderStatus.postProcessing:
@@ -89,10 +90,43 @@ class XFlowOnRampOrderService implements Disposable {
         );
   }
 
-  AsyncResult<String> create({
+  AsyncResult<String> createPreOrder({
+    required FiatAmount submittedAmount,
+  }) =>
+      tryEitherAsync((_) async {
+        {
+          final order = OnRampOrderRow(
+            id: const Uuid().v4(),
+            partnerOrderId: '',
+            amount: submittedAmount.value,
+            token: Token.usdc.address,
+            humanStatus: '',
+            machineStatus: '',
+            isCompleted: false,
+            created: DateTime.now(),
+            txHash: '',
+            partner: RampPartner.xflow,
+            status: OnRampOrderStatus.waitingUserVerification,
+            bankAccount: null,
+            bankName: null,
+            bankTransferAmount: submittedAmount.value,
+            fiatSymbol: submittedAmount.currency.symbol,
+            authToken: null,
+            moreInfoUrl: null,
+          );
+
+          await _db.into(_db.onRampOrderRows).insert(order);
+
+          return order.id;
+        }
+      });
+
+  AsyncResult<String> createOrUpdate({
     required FiatAmount submittedAmount,
     required CryptoAmount receiveAmount,
     required String countryCode,
+    required String partnerAuthPk,
+    String? preOrderId,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -101,11 +135,11 @@ class XFlowOnRampOrderService implements Disposable {
             cryptoCurrency: receiveAmount.cryptoCurrency.token.symbol,
             fiatAmount: submittedAmount.value.toString(),
             fiatCurrency: submittedAmount.currency.symbol,
-            partnerPK: partnerAuthPk, // TODO(vsumin): add
+            partnerPK: partnerAuthPk,
           );
 
           final order = OnRampOrderRow(
-            id: const Uuid().v4(),
+            id: preOrderId ?? const Uuid().v4(),
             partnerOrderId: orderId,
             amount: submittedAmount.value,
             token: Token.usdc.address,
@@ -125,7 +159,7 @@ class XFlowOnRampOrderService implements Disposable {
             moreInfoUrl: null,
           );
 
-          await _db.into(_db.onRampOrderRows).insert(order);
+          await _db.into(_db.onRampOrderRows).insertOnConflictUpdate(order);
           _subscribe(order.id);
 
           _analytics.rampInitiated(

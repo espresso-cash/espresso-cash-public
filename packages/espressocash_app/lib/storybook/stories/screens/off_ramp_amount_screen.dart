@@ -52,5 +52,6 @@ final offRampAmountScreenStory = Story(
     ),
     exchangeRate: null,
     receiveCurrency: null,
+    initialAmount: null,
   ),
 );
