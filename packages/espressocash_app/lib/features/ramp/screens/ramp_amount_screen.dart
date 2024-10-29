@@ -17,7 +17,7 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
-import '../models/ramp_type.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 import '../widgets/debounce_mixin.dart';
 import '../widgets/error_chip.dart';
 import '../widgets/ramp_loader.dart';

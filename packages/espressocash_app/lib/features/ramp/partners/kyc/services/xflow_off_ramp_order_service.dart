@@ -21,11 +21,11 @@ import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_order_status.dart';
 import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
 import '../../../../transactions/services/resign_tx.dart';
 import '../../../../transactions/services/tx_sender.dart';
-import '../../../models/ramp_type.dart';
 
 @Singleton(scope: authScope)
 class XFlowOffRampOrderService implements Disposable {

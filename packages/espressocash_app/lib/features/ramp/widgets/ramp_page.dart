@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/form_page.dart';
-import '../models/ramp_type.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 
 class RampPage extends StatelessWidget {
   const RampPage({

@@ -15,8 +15,8 @@ import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_order_status.dart';
 import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
-import '../../../models/ramp_type.dart';
 
 @Singleton(scope: authScope)
 class XFlowOnRampOrderService implements Disposable {

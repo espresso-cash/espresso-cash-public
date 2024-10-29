@@ -3,7 +3,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
-import '../../ramp/models/ramp_type.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 import '../widgets/kyc_page.dart';
 
 class KycDescriptionScreen extends StatelessWidget {
