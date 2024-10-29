@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../ui/colors.dart';
-import 'kyc_status_icon.dart';
+import 'kyc_status_widget.dart';
 
 class KycButton extends StatelessWidget {
   const KycButton({
@@ -52,7 +52,7 @@ class KycButton extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          if (status != null) KycStatusIcon(status),
+          if (status != null) KycStatusWidget(status),
         ],
       ),
       subtitle: description != null

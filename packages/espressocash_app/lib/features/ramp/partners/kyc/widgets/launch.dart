@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
+import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
@@ -10,6 +11,7 @@ import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/services/kyc_service.dart';
+import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
@@ -24,41 +26,17 @@ import '../services/xflow_on_ramp_order_service.dart';
 extension BuildContextExt on BuildContext {
   Future<void> launchKycOnRamp({
     required ProfileData profile,
+    ({String? orderId, Amount? amount})? preOrder,
   }) async {
-    Amount? preAmount;
+    final kycStatus = sl<KycSharingService>().value?.kycStatus;
 
-    await RampAmountScreen.push(
-      this,
-      partner: RampPartner.xflow,
-      onSubmitted: (Amount? value) {
-        Navigator.pop(this);
-        preAmount = value;
-      },
-      minAmount: Decimal.fromInt(10000),
-      currency: Currency.ngn,
-      receiveCurrency: Currency.usdc,
-      type: RampType.onRamp,
-    );
+    if (preOrder?.orderId == null && kycStatus != ValidationStatus.approved) {
+      final (preOrderId, preAmount) = await _createPreOrder();
 
-    final submittedPreAmount = preAmount;
+      preOrder = (orderId: preOrderId, amount: preAmount);
 
-    if (submittedPreAmount == null) return;
-
-    final preOrderId = await runWithLoader<String?>(
-      this,
-      () => sl<XFlowOnRampOrderService>()
-          .createPreOrder(
-            submittedAmount: submittedPreAmount as FiatAmount,
-          )
-          .then(
-            (order) => order.fold(
-              (error) => null,
-              (id) => id,
-            ),
-          ),
-    );
-
-    //////////////////////////////////////////////////////////////
+      if (preAmount == null) return;
+    }
 
     final kycPassed = await openKycFlow(rampType: RampType.onRamp);
 
@@ -90,6 +68,7 @@ extension BuildContextExt on BuildContext {
     await RampAmountScreen.push(
       this,
       partner: partner,
+      initialAmount: preOrder?.amount,
       onSubmitted: (Amount? value) {
         Navigator.pop(this);
         amount = value;
@@ -138,6 +117,7 @@ extension BuildContextExt on BuildContext {
       this,
       () => sl<XFlowOnRampOrderService>()
           .createOrUpdate(
+            preOrderId: preOrder?.orderId,
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount as FiatAmount,
             countryCode: profile.country.code,
@@ -254,6 +234,66 @@ extension BuildContextExt on BuildContext {
     } else {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
     }
+  }
+
+  Future<(String?, Amount?)> _createPreOrder() async {
+    final rateAndFee = await _fetchRateAndFee();
+
+    if (rateAndFee == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return (null, null);
+    }
+
+    final double rampRate = rateAndFee.onRampRate ?? 0;
+    final double rampFeePercentage = rateAndFee.onRampFeePercentage ?? 0;
+    final double fixedFee = rateAndFee.fixedOnRampFee ?? 0;
+
+    const partner = RampPartner.xflow;
+
+    final minAmountNGN =
+        partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
+
+    Amount? preAmount;
+
+    await RampAmountScreen.push(
+      this,
+      partner: partner,
+      onSubmitted: (Amount? value) {
+        Navigator.pop(this);
+        preAmount = value;
+      },
+      minAmount: minAmountNGN,
+      currency: Currency.ngn,
+      receiveCurrency: Currency.usdc,
+      type: RampType.onRamp,
+    );
+
+    final submittedPreAmount = preAmount;
+    if (submittedPreAmount == null) return (null, null);
+
+    final preEquivalentAmount = submittedPreAmount.calculateOnRampReceiveAmount(
+      exchangeRate: rampRate,
+      percentageFee: rampFeePercentage,
+      fixedFee: fixedFee,
+    );
+
+    final preOrderId = await runWithLoader<String?>(
+      this,
+      () => sl<XFlowOnRampOrderService>()
+          .createPreOrder(
+            submittedAmount: submittedPreAmount as FiatAmount,
+            receiveAmount: preEquivalentAmount,
+          )
+          .then(
+            (order) => order.fold(
+              (error) => null,
+              (id) => id,
+            ),
+          ),
+    );
+
+    return (preOrderId, submittedPreAmount);
   }
 
   Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() =>

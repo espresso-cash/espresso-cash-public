@@ -8,50 +8,36 @@ class KycStatusIcon extends StatelessWidget {
   const KycStatusIcon(
     this.status, {
     super.key,
+    this.height = 16,
   });
 
   final ValidationStatus status;
-
+  final double height;
   @override
-  Widget build(BuildContext context) {
-    Color backgroundColor;
-    String statusText;
-    switch (status) {
+  Widget build(BuildContext context) => Stack(
+        alignment: Alignment.center,
+        children: [
+          Assets.icons.star.svg(
+            color: status.backgroundColor,
+            height: height,
+          ),
+          Assets.icons.xmark.svg(height: height / 2),
+        ],
+      );
+}
+
+extension on ValidationStatus {
+  Color get backgroundColor {
+    switch (this) {
       case ValidationStatus.approved:
-        backgroundColor = CpColors.greenLightColor;
-        statusText = 'Verified';
+        return CpColors.greenLightColor;
       case ValidationStatus.pending:
-        backgroundColor = CpColors.yellowColor;
-        statusText = 'Pending';
+        return CpColors.yellowColor;
       case ValidationStatus.unspecified:
       case ValidationStatus.unverified:
-        backgroundColor = CpColors.lightGrey;
-        statusText = 'Not Verified';
+        return CpColors.lightGrey;
       case ValidationStatus.rejected:
-        backgroundColor = CpColors.errorChipColor;
-        statusText = 'Error';
+        return CpColors.errorChipColor;
     }
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            Assets.icons.star.svg(color: backgroundColor),
-            Assets.icons.xmark.svg(),
-          ],
-        ),
-        const SizedBox(width: 4),
-        Text(
-          statusText,
-          style: TextStyle(
-            color: backgroundColor,
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ],
-    );
   }
 }

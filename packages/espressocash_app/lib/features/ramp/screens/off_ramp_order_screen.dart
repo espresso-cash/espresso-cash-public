@@ -151,8 +151,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.waitingForRefundBridge =>
         context.l10n.refundInProgressText,
       OffRampOrderStatus.refunded => context.l10n.refundSuccessText,
-      OffRampOrderStatus.waitingPartnerReview =>
-        'Waiting for partner review',
+      OffRampOrderStatus.waitingPartnerReview => 'Waiting for partner review',
     };
 
     final Widget? primaryButton = switch (order.status) {

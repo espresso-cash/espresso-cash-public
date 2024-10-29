@@ -10,6 +10,7 @@ import '../../ramp/screens/on_ramp_order_screen.dart';
 import '../../ramp/widgets/on_ramp_order_details.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
+import 'kyc_tile.dart';
 
 class OnRampTile extends StatelessWidget {
   const OnRampTile({
@@ -24,33 +25,49 @@ class OnRampTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => OnRampOrderDetails(
         orderId: activity.id,
-        builder: (context, order) => CpActivityTile(
-          title: context.l10n.activities_lblAddCash,
-          icon: Assets.icons.paymentIcon.svg(),
-          status: switch (order?.status) {
-            OnRampOrderStatus.depositExpired ||
-            OnRampOrderStatus.failure ||
-            OnRampOrderStatus.rejected =>
-              CpActivityTileStatus.failure,
-            OnRampOrderStatus.completed => CpActivityTileStatus.success,
-            OnRampOrderStatus.waitingForDeposit ||
-            OnRampOrderStatus.waitingUserVerification ||
-            OnRampOrderStatus.waitingPartnerReview ||
-            OnRampOrderStatus.waitingForPartner ||
-            OnRampOrderStatus.pending ||
-            OnRampOrderStatus.preProcessing ||
-            OnRampOrderStatus.postProcessing ||
-            OnRampOrderStatus.waitingForBridge ||
-            null =>
-              CpActivityTileStatus.inProgress,
-          },
-          timestamp: context.formatDate(activity.created),
-          incomingAmount: order?.receiveAmount?.format(
-            context.locale,
-            maxDecimals: 2,
-          ),
-          onTap: () => OnRampOrderScreen.push(context, id: order?.id ?? ''),
-          showIcon: showIcon,
-        ),
+        builder: (context, order) =>
+            order?.status == OnRampOrderStatus.waitingUserVerification
+                ? CpKycTile(
+                    title: context.l10n.activities_lblAddCash,
+                    timestamp: context.formatDate(activity.created),
+                    incomingAmount: order?.receiveAmount?.format(
+                      context.locale,
+                      maxDecimals: 2,
+                    ),
+                    preOrder: (
+                      orderId: activity.id,
+                      amount: order?.manualDeposit?.transferAmount,
+                    ),
+                  )
+                : CpActivityTile(
+                    title: context.l10n.activities_lblAddCash,
+                    icon: Assets.icons.paymentIcon.svg(),
+                    status: switch (order?.status) {
+                      OnRampOrderStatus.depositExpired ||
+                      OnRampOrderStatus.failure ||
+                      OnRampOrderStatus.rejected =>
+                        CpActivityTileStatus.failure,
+                      OnRampOrderStatus.completed =>
+                        CpActivityTileStatus.success,
+                      OnRampOrderStatus.waitingForDeposit ||
+                      OnRampOrderStatus.waitingUserVerification ||
+                      OnRampOrderStatus.waitingPartnerReview ||
+                      OnRampOrderStatus.waitingForPartner ||
+                      OnRampOrderStatus.pending ||
+                      OnRampOrderStatus.preProcessing ||
+                      OnRampOrderStatus.postProcessing ||
+                      OnRampOrderStatus.waitingForBridge ||
+                      null =>
+                        CpActivityTileStatus.inProgress,
+                    },
+                    timestamp: context.formatDate(activity.created),
+                    incomingAmount: order?.receiveAmount?.format(
+                      context.locale,
+                      maxDecimals: 2,
+                    ),
+                    onTap: () =>
+                        OnRampOrderScreen.push(context, id: order?.id ?? ''),
+                    showIcon: showIcon,
+                  ),
       );
 }

@@ -92,6 +92,7 @@ class XFlowOnRampOrderService implements Disposable {
 
   AsyncResult<String> createPreOrder({
     required FiatAmount submittedAmount,
+    required CryptoAmount receiveAmount,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -106,9 +107,10 @@ class XFlowOnRampOrderService implements Disposable {
             created: DateTime.now(),
             txHash: '',
             partner: RampPartner.xflow,
+            receiveAmount: receiveAmount.value,
             status: OnRampOrderStatus.waitingUserVerification,
             bankAccount: null,
-            bankName: null,
+            bankName: '',
             bankTransferAmount: submittedAmount.value,
             fiatSymbol: submittedAmount.currency.symbol,
             authToken: null,
