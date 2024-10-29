@@ -151,8 +151,8 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.waitingForRefundBridge =>
         context.l10n.refundInProgressText,
       OffRampOrderStatus.refunded => context.l10n.refundSuccessText,
-      OffRampOrderStatus.waitingVerification =>
-        'Waiting for partner verification',
+      OffRampOrderStatus.waitingPartnerReview =>
+        'Waiting for partner review',
     };
 
     final Widget? primaryButton = switch (order.status) {
@@ -181,7 +181,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.completed ||
       OffRampOrderStatus.refunded ||
       OffRampOrderStatus.cancelled ||
-      OffRampOrderStatus.waitingVerification =>
+      OffRampOrderStatus.waitingPartnerReview =>
         null,
     };
 
@@ -497,7 +497,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.sendingDepositTx ||
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
-        OffRampOrderStatus.waitingVerification ||
+        OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
         OffRampOrderStatus.depositError ||
@@ -522,7 +522,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.ready ||
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
-        OffRampOrderStatus.waitingVerification ||
+        OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
         OffRampOrderStatus.depositTxConfirmError ||
@@ -538,7 +538,7 @@ extension on OffRampOrderStatus {
       };
 
   int toActiveItem() => switch (this) {
-        OffRampOrderStatus.waitingVerification ||
+        OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.ready ||
@@ -562,7 +562,7 @@ extension on OffRampOrderStatus {
       };
 
   int toActiveItemForMoneygram() => switch (this) {
-        OffRampOrderStatus.waitingVerification ||
+        OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.rejected ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
@@ -613,13 +613,13 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.failure ||
         OffRampOrderStatus.cancelled ||
         OffRampOrderStatus.refunded ||
-        OffRampOrderStatus.waitingVerification ||
+        OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.rejected =>
           false,
       };
 
   String toMoneygramStatus(BuildContext context) => switch (this) {
-        OffRampOrderStatus.waitingVerification ||
+        OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.depositTxRequired ||

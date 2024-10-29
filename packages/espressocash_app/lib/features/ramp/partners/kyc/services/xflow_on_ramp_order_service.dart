@@ -59,8 +59,8 @@ class XFlowOnRampOrderService implements Disposable {
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
           switch (order.status) {
-            case OnRampOrderStatus.waitingVerification:
-              _waitingForVerificationWatcher(order);
+            case OnRampOrderStatus.waitingPartnerReview:
+              _waitingPartnerReviewWatcher(order);
 
               return const Stream.empty();
 
@@ -116,7 +116,7 @@ class XFlowOnRampOrderService implements Disposable {
             txHash: '',
             partner: RampPartner.xflow,
             receiveAmount: receiveAmount.value,
-            status: OnRampOrderStatus.waitingVerification,
+            status: OnRampOrderStatus.waitingPartnerReview,
             bankAccount: null,
             bankName: null,
             bankTransferAmount: submittedAmount.value,
@@ -141,7 +141,7 @@ class XFlowOnRampOrderService implements Disposable {
       });
 
   // Either approve or reject
-  void _waitingForVerificationWatcher(OnRampOrderRow order) {
+  void _waitingPartnerReviewWatcher(OnRampOrderRow order) {
     final id = order.id;
 
     if (_watchers.containsKey(id)) {
@@ -165,7 +165,7 @@ class XFlowOnRampOrderService implements Disposable {
         KycOrderStatus.rejected =>
           OnRampOrderStatus.rejected,
         KycOrderStatus.failed => OnRampOrderStatus.failure,
-        KycOrderStatus.pending => OnRampOrderStatus.waitingVerification,
+        KycOrderStatus.pending => OnRampOrderStatus.waitingPartnerReview,
         KycOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit,
       };
 
@@ -211,7 +211,7 @@ class XFlowOnRampOrderService implements Disposable {
         KycOrderStatus.rejected =>
           OnRampOrderStatus.rejected,
         KycOrderStatus.failed => OnRampOrderStatus.failure,
-        KycOrderStatus.pending => OnRampOrderStatus.waitingVerification,
+        KycOrderStatus.pending => OnRampOrderStatus.waitingPartnerReview,
         KycOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit,
       };
 

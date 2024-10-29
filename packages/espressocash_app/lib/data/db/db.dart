@@ -233,7 +233,8 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
 }
 
 enum OnRampOrderStatus {
-  waitingVerification, // KYC
+  //waitingUserVerification, // Kyc
+  waitingPartnerReview, // KYC
   rejected, // KYC
   waitingForDeposit,
   depositExpired,
@@ -264,7 +265,7 @@ enum OffRampOrderStatus {
   processingRefund, // MG
   waitingForRefundBridge, // MG
   refunded, // MG
-  waitingVerification, // KYC
+  waitingPartnerReview, // KYC
   rejected, // KYC
 }
 

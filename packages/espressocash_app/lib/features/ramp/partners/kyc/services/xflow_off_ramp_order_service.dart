@@ -81,8 +81,8 @@ class XFlowOffRampOrderService implements Disposable {
         .whereNotNull()
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
           switch (order.status) {
-            case OffRampOrderStatus.waitingVerification:
-              _waitingForVerificationWatcher(order);
+            case OffRampOrderStatus.waitingPartnerReview:
+              _waitingPartnerReviewWatcher(order);
 
               return const Stream.empty();
 
@@ -195,7 +195,7 @@ class XFlowOffRampOrderService implements Disposable {
             humanStatus: '',
             machineStatus: '',
             partner: RampPartner.xflow,
-            status: OffRampOrderStatus.waitingVerification,
+            status: OffRampOrderStatus.waitingPartnerReview,
             transaction: '',
             depositAddress: '',
             slot: BigInt.zero,
@@ -217,7 +217,7 @@ class XFlowOffRampOrderService implements Disposable {
         }
       });
 
-  void _waitingForVerificationWatcher(OffRampOrderRow order) {
+  void _waitingPartnerReviewWatcher(OffRampOrderRow order) {
     final id = order.id;
 
     if (_watchers.containsKey(id)) {
@@ -241,7 +241,7 @@ class XFlowOffRampOrderService implements Disposable {
         KycOrderStatus.rejected =>
           OffRampOrderStatus.rejected,
         KycOrderStatus.failed => OffRampOrderStatus.failure,
-        KycOrderStatus.pending => OffRampOrderStatus.waitingVerification,
+        KycOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
         KycOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
       };
 
@@ -283,7 +283,7 @@ class XFlowOffRampOrderService implements Disposable {
         KycOrderStatus.rejected =>
           OffRampOrderStatus.rejected,
         KycOrderStatus.failed => OffRampOrderStatus.failure,
-        KycOrderStatus.pending => OffRampOrderStatus.waitingVerification,
+        KycOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
         KycOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
       };
 

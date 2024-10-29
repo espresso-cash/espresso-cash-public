@@ -134,8 +134,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.rejected =>
         context.l10n.onRampDepositFailure,
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
-      OnRampOrderStatus.waitingVerification =>
-        'Waiting for partner verification',
+      OnRampOrderStatus.waitingPartnerReview =>
+        'Waiting for partner review',
     };
 
     final String? statusSubtitle = switch (order.status) {
@@ -150,7 +150,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.depositExpired ||
       OnRampOrderStatus.failure ||
       OnRampOrderStatus.rejected ||
-      OnRampOrderStatus.waitingVerification ||
+      OnRampOrderStatus.waitingPartnerReview ||
       OnRampOrderStatus.completed =>
         null
     };
@@ -385,7 +385,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
-        OnRampOrderStatus.waitingVerification ||
+        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
@@ -401,7 +401,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
-        OnRampOrderStatus.waitingVerification ||
+        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
@@ -417,7 +417,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.depositExpired ||
         OnRampOrderStatus.waitingForDeposit ||
-        OnRampOrderStatus.waitingVerification ||
+        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.rejected =>
           0,
         OnRampOrderStatus.waitingForPartner ||
@@ -432,7 +432,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.pending ||
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.waitingForBridge ||
-        OnRampOrderStatus.waitingVerification ||
+        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForPartner =>

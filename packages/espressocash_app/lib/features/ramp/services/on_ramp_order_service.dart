@@ -170,7 +170,7 @@ class OnRampOrderService implements Disposable {
           ),
         );
       case OnRampOrderStatus.depositExpired:
-      case OnRampOrderStatus.waitingVerification:
+      case OnRampOrderStatus.waitingPartnerReview:
       case OnRampOrderStatus.waitingForPartner:
       case OnRampOrderStatus.failure:
       case OnRampOrderStatus.completed:
