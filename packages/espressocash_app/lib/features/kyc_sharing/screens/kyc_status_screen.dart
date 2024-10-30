@@ -30,7 +30,6 @@ class KycStatusScreen extends StatefulWidget {
 }
 
 class _KycStatusScreenState extends State<KycStatusScreen> {
-
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
         valueListenable: sl<KycSharingService>(),
