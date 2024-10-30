@@ -24,22 +24,25 @@ class KycPage extends StatelessWidget {
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: SafeArea(
-              top: false,
-              child: LayoutBuilder(
-                builder: (context, constraints) => SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: constraints.copyWith(
-                      minHeight: constraints.maxHeight,
-                      maxHeight: double.infinity,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        children: [
-                          Assets.images.profileGraphic.image(height: 80),
-                          ...children,
-                        ],
-                      ),
+            child: LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: constraints.copyWith(
+                    minHeight: constraints.maxHeight,
+                    maxHeight: double.infinity,
+                  ),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        Assets.images.profileGraphic.image(height: 80),
+                        Expanded(
+                          child: SafeArea(
+                            top: false,
+                            minimum: const EdgeInsets.only(bottom: 40),
+                            child: Column(children: children),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

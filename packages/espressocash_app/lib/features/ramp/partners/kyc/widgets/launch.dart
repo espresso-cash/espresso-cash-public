@@ -264,13 +264,42 @@ extension BuildContextExt on BuildContext {
         partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
 
     Amount? preAmount;
+    String? preOrderId;
 
     await RampAmountScreen.push(
       this,
       partner: partner,
-      onSubmitted: (Amount? value) {
-        Navigator.pop(this);
-        preAmount = value;
+      onSubmitted: (Amount? value) async {
+        try {
+          preAmount = value;
+
+          final submittedPreAmount = preAmount;
+          if (submittedPreAmount == null) return;
+
+          final preEquivalentAmount =
+              submittedPreAmount.calculateOnRampReceiveAmount(
+            exchangeRate: rampRate,
+            percentageFee: rampFeePercentage,
+            fixedFee: fixedFee,
+          );
+
+          preOrderId = await runWithLoader<String?>(
+            this,
+            () => sl<XFlowOnRampOrderService>()
+                .createPreOrder(
+                  submittedAmount: submittedPreAmount as FiatAmount,
+                  receiveAmount: preEquivalentAmount,
+                )
+                .then(
+                  (order) => order.fold(
+                    (error) => null,
+                    (id) => id,
+                  ),
+                ),
+          );
+        } finally {
+          Navigator.pop(this);
+        }
       },
       minAmount: minAmountNGN,
       currency: Currency.ngn,
@@ -278,31 +307,7 @@ extension BuildContextExt on BuildContext {
       type: RampType.onRamp,
     );
 
-    final submittedPreAmount = preAmount;
-    if (submittedPreAmount == null) return null;
-
-    final preEquivalentAmount = submittedPreAmount.calculateOnRampReceiveAmount(
-      exchangeRate: rampRate,
-      percentageFee: rampFeePercentage,
-      fixedFee: fixedFee,
-    );
-
-    final preOrderId = await runWithLoader<String?>(
-      this,
-      () => sl<XFlowOnRampOrderService>()
-          .createPreOrder(
-            submittedAmount: submittedPreAmount as FiatAmount,
-            receiveAmount: preEquivalentAmount,
-          )
-          .then(
-            (order) => order.fold(
-              (error) => null,
-              (id) => id,
-            ),
-          ),
-    );
-
-    return (preOrderId: preOrderId, preAmount: submittedPreAmount);
+    return (preOrderId: preOrderId, preAmount: preAmount);
   }
 
   Future<PreOrderData?> _createOffRampPreOrder() async {
@@ -314,20 +319,49 @@ extension BuildContextExt on BuildContext {
       return null;
     }
 
-    Amount? preAmount;
-
     final double rampRate = rateAndFee.offRampRate;
     final double rampFeePercentage = rateAndFee.offRampFeePercentage;
     final double fixedFee = rateAndFee.fixedOffRampFee;
 
     const partner = RampPartner.xflow;
 
+    Amount? preAmount;
+    String? preOrderId;
+
     await RampAmountScreen.push(
       this,
       partner: partner,
-      onSubmitted: (value) {
-        Navigator.pop(this);
-        preAmount = value;
+      onSubmitted: (Amount? value) async {
+        try {
+          preAmount = value;
+
+          final submittedPreAmount = preAmount;
+          if (submittedPreAmount == null) return;
+
+          final equivalentAmount =
+              submittedPreAmount.calculateOffRampReceiveAmount(
+            exchangeRate: rampRate,
+            percentageFee: rampFeePercentage,
+            fixedFee: fixedFee,
+          );
+
+          preOrderId = await runWithLoader<String?>(
+            this,
+            () => sl<XFlowOffRampOrderService>()
+                .createPreOrder(
+                  receiveAmount: equivalentAmount,
+                  submittedAmount: submittedPreAmount as CryptoAmount,
+                )
+                .then(
+                  (order) => order.fold(
+                    (error) => null,
+                    (id) => id,
+                  ),
+                ),
+          );
+        } finally {
+          Navigator.pop(this);
+        }
       },
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
@@ -335,32 +369,7 @@ extension BuildContextExt on BuildContext {
       type: RampType.offRamp,
     );
 
-    final submittedPreAmount = preAmount;
-
-    if (submittedPreAmount == null) return null;
-
-    final equivalentAmount = submittedPreAmount.calculateOffRampReceiveAmount(
-      exchangeRate: rampRate,
-      percentageFee: rampFeePercentage,
-      fixedFee: fixedFee,
-    );
-
-    final preOrderId = await runWithLoader<String?>(
-      this,
-      () => sl<XFlowOffRampOrderService>()
-          .createPreOrder(
-            receiveAmount: equivalentAmount,
-            submittedAmount: submittedPreAmount as CryptoAmount,
-          )
-          .then(
-            (order) => order.fold(
-              (error) => null,
-              (id) => id,
-            ),
-          ),
-    );
-
-    return (preOrderId: preOrderId, preAmount: submittedPreAmount);
+    return (preOrderId: preOrderId, preAmount: preAmount);
   }
 
   Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() =>

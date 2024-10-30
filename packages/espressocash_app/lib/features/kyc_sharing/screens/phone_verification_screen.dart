@@ -88,6 +88,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
           ListenableBuilder(
             listenable: _numberController,
             builder: (context, child) => CpButton(
+              minWidth: 250,
               text: context.l10n.sendVerificationCode,
               onPressed: _isValid ? _sendSms : null,
             ),

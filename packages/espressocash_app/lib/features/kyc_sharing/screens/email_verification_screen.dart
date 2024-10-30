@@ -85,6 +85,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           ListenableBuilder(
             listenable: _emailController,
             builder: (context, child) => CpButton(
+              minWidth: 250,
               text: context.l10n.sendVerificationCode,
               onPressed: _emailController.text.isValidEmail ? _sendEmail : null,
             ),

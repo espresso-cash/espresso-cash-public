@@ -213,6 +213,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
               ],
             ),
           ),
+          const SizedBox(height: 28),
           const Spacer(),
           ListenableBuilder(
             listenable: Listenable.merge([

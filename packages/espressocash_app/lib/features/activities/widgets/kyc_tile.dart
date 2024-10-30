@@ -155,7 +155,7 @@ extension on ValidationStatus {
       case ValidationStatus.approved:
         return 'Your ID verification has been approved.';
       case ValidationStatus.pending:
-        return 'Your ID verification is under review and may take\n10–20 minutes to complete.';
+        return 'Your ID verification is under review and may take 10–20 minutes to complete.';
       case ValidationStatus.rejected:
         return 'Your ID verification failed.\nMake sure your information is correct and try again.';
       case ValidationStatus.unverified:
