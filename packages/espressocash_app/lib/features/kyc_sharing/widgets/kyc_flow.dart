@@ -38,7 +38,9 @@ extension KycFlowExtension on BuildContext {
   Future<bool> openKycFlow({required RampType rampType}) async {
     final service = sl<KycSharingService>().value;
 
-    if (service?.kycStatus != ValidationStatus.approved) {
+    final kycProcessed = service?.kycStatus.isApprovedOrPending ?? false;
+
+    if (!kycProcessed) {
       final success = await KycDescriptionScreen.push(this, rampType);
       if (!success) return false;
     }
@@ -60,8 +62,6 @@ extension KycFlowExtension on BuildContext {
     if (!hasBankInfo) {
       if (!await _navigateToScreen(BankAccountScreen.push)) return false;
     }
-
-    final kycProcessed = service?.kycStatus.isApprovedOrPending ?? false;
 
     if (!kycProcessed) {
       if (!await openBasicInfoFlow()) return false;
