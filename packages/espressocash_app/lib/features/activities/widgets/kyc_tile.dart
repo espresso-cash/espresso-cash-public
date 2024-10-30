@@ -173,10 +173,12 @@ extension on ValidationStatus {
 
     switch (this) {
       case ValidationStatus.approved:
-      case ValidationStatus.pending:
       case ValidationStatus.unverified:
       case ValidationStatus.unspecified:
         title = 'Continue Deposit';
+
+      case ValidationStatus.pending:
+        title = 'See details';
 
       case ValidationStatus.rejected:
         title = 'Retry verification';
@@ -206,10 +208,12 @@ extension on ValidationStatus {
 
     switch (this) {
       case ValidationStatus.approved:
-      case ValidationStatus.pending:
       case ValidationStatus.unverified:
       case ValidationStatus.unspecified:
         title = 'Continue Withdrawal';
+
+      case ValidationStatus.pending:
+        title = 'See details';
 
       case ValidationStatus.rejected:
         title = 'Retry verification';
