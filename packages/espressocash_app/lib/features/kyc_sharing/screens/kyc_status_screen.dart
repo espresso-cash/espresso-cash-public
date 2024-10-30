@@ -30,17 +30,6 @@ class KycStatusScreen extends StatefulWidget {
 }
 
 class _KycStatusScreenState extends State<KycStatusScreen> {
-  @override
-  void initState() {
-    super.initState();
-    sl<KycSharingService>().subscribe();
-  }
-
-  @override
-  void dispose() {
-    sl<KycSharingService>().unsubscribe();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(

@@ -185,6 +185,7 @@ class XFlowOffRampOrderService implements Disposable {
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
+          _subscribe(order.id);
 
           return order.id;
         }
