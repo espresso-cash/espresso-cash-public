@@ -55,17 +55,14 @@ class _KycStatusScreenState extends State<KycStatusScreen> {
                         Text(context.l10n.identityVerification.toUpperCase()),
                   ),
                   body: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: SafeArea(
                       top: false,
                       child: Column(
                         children: [
                           Assets.images.profileGraphic.image(height: 80),
                           const SizedBox(height: 20),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18),
-                            child: _getTitle(userData.kycStatus),
-                          ),
+                          _getTitle(userData.kycStatus),
                           const SizedBox(height: 20),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -115,6 +112,7 @@ class _KycStatusScreenState extends State<KycStatusScreen> {
       styleSheet: MarkdownStyleSheet(
         p: _titleStyle.copyWith(color: title.color),
         em: _titleStyle.copyWith(color: CpColors.yellowColor),
+        textAlign: WrapAlignment.center,
       ),
     );
   }
