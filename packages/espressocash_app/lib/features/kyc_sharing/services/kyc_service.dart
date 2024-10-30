@@ -26,8 +26,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Timer? _fetchTimer;
 
-  // TODO(vsumin): This takes too much time on real devide, (Mb due to encryption/decryption)
-  // need somehow to improve performance
   @PostConstruct()
   Future<void> init() async {
     if (!sl<FeatureFlagsManager>().isXflowEnabled()) return;
