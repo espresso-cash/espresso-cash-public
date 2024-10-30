@@ -38,9 +38,10 @@ extension KycFlowExtension on BuildContext {
   Future<bool> openKycFlow({required RampType rampType}) async {
     final service = sl<KycSharingService>().value;
 
-    if (!await _navigateToScreen(
-      (context) => KycDescriptionScreen.push(context, rampType),
-    )) return false;
+    if (service?.kycStatus != ValidationStatus.approved) {
+      final success = await KycDescriptionScreen.push(this, rampType);
+      if (!success) return false;
+    }
 
     final emailValidated = service?.emailStatus == ValidationStatus.approved;
 

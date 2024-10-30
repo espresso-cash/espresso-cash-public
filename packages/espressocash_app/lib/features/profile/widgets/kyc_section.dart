@@ -11,40 +11,14 @@ import '../../kyc_sharing/widgets/kyc_button.dart';
 import '../../kyc_sharing/widgets/kyc_flow.dart';
 import 'profile_section.dart';
 
-class KycSection extends StatefulWidget {
+class KycSection extends StatelessWidget {
   const KycSection({super.key});
 
   @override
-  State<KycSection> createState() => _KycSectionState();
-}
-
-class _KycSectionState extends State<KycSection> {
-  late Future<KycSharingService> _future;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _future = sl.getAsync<KycSharingService>();
-  }
-
-  @override
-  Widget build(BuildContext context) => FutureBuilder<KycSharingService>(
-        future: _future,
-        builder: (context, snapshot) {
-          final user = snapshot.data?.value;
-
-          return snapshot.connectionState == ConnectionState.waiting ||
-                  snapshot.hasError ||
-                  user == null
-              ? const SizedBox.shrink()
-              : ValueListenableBuilder<UserData?>(
-                  valueListenable: sl<KycSharingService>(),
-                  builder: (context, user, _) => user == null
-                      ? const SizedBox.shrink()
-                      : _KycInfo(user: user),
-                );
-        },
+  Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
+        valueListenable: sl<KycSharingService>(),
+        builder: (context, user, _) =>
+            user == null ? const SizedBox.shrink() : _KycInfo(user: user),
       );
 }
 

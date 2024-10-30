@@ -12,6 +12,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../../config.dart';
 import '../../../../../data/db/db.dart';
+import '../../../../../di.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../accounts/models/ec_wallet.dart';
 import '../../../../analytics/analytics_manager.dart';
@@ -19,6 +20,7 @@ import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_order_status.dart';
+import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
@@ -132,6 +134,10 @@ class XFlowOffRampOrderService implements Disposable {
               return const Stream.empty();
 
             case OffRampOrderStatus.waitingUserVerification:
+              sl<KycSharingService>().subscribe();
+
+              return const Stream.empty();
+
             case OffRampOrderStatus.preProcessing:
             case OffRampOrderStatus.postProcessing:
             case OffRampOrderStatus.ready:
@@ -250,6 +256,8 @@ class XFlowOffRampOrderService implements Disposable {
       });
 
   void _waitingPartnerReviewWatcher(OffRampOrderRow order) {
+    sl<KycSharingService>().unsubscribe();
+
     final id = order.id;
 
     if (_watchers.containsKey(id)) {

@@ -8,11 +8,13 @@ import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../data/db/db.dart';
+import '../../../../../di.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_order_status.dart';
+import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
@@ -69,6 +71,10 @@ class XFlowOnRampOrderService implements Disposable {
               return const Stream.empty();
 
             case OnRampOrderStatus.waitingUserVerification:
+              sl<KycSharingService>().subscribe();
+
+              return const Stream.empty();
+
             case OnRampOrderStatus.pending:
             case OnRampOrderStatus.preProcessing:
             case OnRampOrderStatus.postProcessing:
@@ -177,6 +183,8 @@ class XFlowOnRampOrderService implements Disposable {
 
   // Either approve or reject
   void _waitingPartnerReviewWatcher(OnRampOrderRow order) {
+    sl<KycSharingService>().unsubscribe();
+
     final id = order.id;
 
     if (_watchers.containsKey(id)) {
