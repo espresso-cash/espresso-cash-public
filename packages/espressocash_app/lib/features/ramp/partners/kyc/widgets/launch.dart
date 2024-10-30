@@ -43,11 +43,7 @@ extension BuildContextExt on BuildContext {
 
     final kycPassed = await openKycFlow(rampType: RampType.onRamp);
 
-    if (!kycPassed) {
-      showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
-
-      return;
-    }
+    if (!kycPassed) return;
 
     final rateAndFee = await _fetchRateAndFee();
 
@@ -158,11 +154,7 @@ extension BuildContextExt on BuildContext {
 
     final kycPassed = await openKycFlow(rampType: RampType.offRamp);
 
-    if (!kycPassed) {
-      showCpErrorSnackbar(this, message: 'Please pass KYC to continue');
-
-      return;
-    }
+    if (!kycPassed) return;
 
     final rateAndFee = await _fetchRateAndFee();
 

@@ -170,34 +170,30 @@ extension on ValidationStatus {
     PreOrderData? preOrder,
   ) {
     String title;
-    VoidCallback? onPressed;
 
     switch (this) {
       case ValidationStatus.approved:
+      case ValidationStatus.pending:
       case ValidationStatus.unverified:
       case ValidationStatus.unspecified:
         title = 'Continue Deposit';
-        onPressed = () async {
-          final data = await context.ensureProfileData(RampType.onRamp);
-          if (context.mounted && data != null) {
-            await context.launchKycOnRamp(
-              profile: data,
-              preOrder: preOrder,
-            );
-          }
-        };
-      case ValidationStatus.pending:
-        title = 'Continue Deposit';
-        onPressed = null;
+
       case ValidationStatus.rejected:
         title = 'Retry verification';
-        onPressed = () {};
     }
 
     return CpButton(
       minWidth: 180,
       text: title,
-      onPressed: onPressed,
+      onPressed: () async {
+        final data = await context.ensureProfileData(RampType.onRamp);
+        if (context.mounted && data != null) {
+          await context.launchKycOnRamp(
+            profile: data,
+            preOrder: preOrder,
+          );
+        }
+      },
     );
   }
 
@@ -207,34 +203,30 @@ extension on ValidationStatus {
     PreOrderData? preOrder,
   ) {
     String title;
-    VoidCallback? onPressed;
 
     switch (this) {
       case ValidationStatus.approved:
+      case ValidationStatus.pending:
       case ValidationStatus.unverified:
       case ValidationStatus.unspecified:
         title = 'Continue Withdrawal';
-        onPressed = () async {
-          final data = await context.ensureProfileData(RampType.offRamp);
-          if (context.mounted && data != null) {
-            await context.launchKycOffRamp(
-              profile: data,
-              preOrder: preOrder,
-            );
-          }
-        };
-      case ValidationStatus.pending:
-        title = 'Continue Withdrawal';
-        onPressed = null;
+
       case ValidationStatus.rejected:
         title = 'Retry verification';
-        onPressed = () {};
     }
 
     return CpButton(
       minWidth: 180,
       text: title,
-      onPressed: onPressed,
+      onPressed: () async {
+        final data = await context.ensureProfileData(RampType.offRamp);
+        if (context.mounted && data != null) {
+          await context.launchKycOffRamp(
+            profile: data,
+            preOrder: preOrder,
+          );
+        }
+      },
     );
   }
 }
