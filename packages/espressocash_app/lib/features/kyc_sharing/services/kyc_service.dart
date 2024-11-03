@@ -7,6 +7,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
@@ -24,7 +25,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   final KycRepository _kycRepository;
 
-  Timer? _fetchTimer;
+  StreamSubscription<void>? _pollingSubscription;
 
   @PostConstruct()
   Future<void> init() async {
@@ -43,16 +44,23 @@ class KycSharingService extends ValueNotifier<UserData?> {
   void subscribe() {
     unsubscribe();
 
-    fetchUserData();
-
-    _fetchTimer = Timer.periodic(const Duration(seconds: 10), (_) async {
-      await fetchUserData();
-    });
+    _pollingSubscription = Stream<void>.periodic(const Duration(seconds: 10))
+        .startWith(null)
+        .exhaustMap(
+          (_) => fetchUserData()
+              .timeout(
+                const Duration(seconds: 8),
+                onTimeout: () => null,
+              )
+              .asStream()
+              .onErrorReturn(null),
+        )
+        .listen((_) {});
   }
 
   void unsubscribe() {
-    _fetchTimer?.cancel();
-    _fetchTimer = null;
+    _pollingSubscription?.cancel();
+    _pollingSubscription = null;
   }
 
   Future<void> updateBasicInfo({
