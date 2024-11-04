@@ -11,13 +11,11 @@ import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../../utils/errors.dart';
-import '../../../../conversion_rates/services/amount_ext.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
-import '../../../../tokens/token.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
@@ -67,14 +65,10 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount == null) return;
 
-    final submittedAmountInUsdc =
-        submittedAmount.toTokenAmount(Token.usdc)?.round(Currency.usd.decimals);
-
-    if (submittedAmountInUsdc == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-      return;
-    }
+    final submittedAmountInUsdc = CryptoAmount(
+      value: Currency.usdc.decimalToInt(submittedAmount.decimal),
+      cryptoCurrency: Currency.usdc,
+    );
 
     final fees = await runWithLoader<MoneygramFees>(
       this,
