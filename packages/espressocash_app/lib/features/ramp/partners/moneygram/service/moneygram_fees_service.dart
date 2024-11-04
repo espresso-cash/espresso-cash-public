@@ -60,10 +60,7 @@ class MoneygramFeesService {
       ),
       moneygramFee: Amount.fromDecimal(
         value: Decimal.parse(fee.moneygramFee),
-        currency: switch (type) {
-          RampType.onRamp => Currency.usd,
-          RampType.offRamp => Currency.usdc
-        },
+        currency: Currency.usdc,
       ),
       bridgeFee: Amount.fromDecimal(
         value: Decimal.parse(fee.bridgeFee),

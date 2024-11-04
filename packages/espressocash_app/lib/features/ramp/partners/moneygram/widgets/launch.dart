@@ -12,7 +12,6 @@ import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../../utils/errors.dart';
 import '../../../../conversion_rates/services/amount_ext.dart';
-import '../../../../conversion_rates/widgets/extensions.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
@@ -68,24 +67,27 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount == null) return;
 
-    final usdcAmount =
+    final submittedAmountInUsdc =
         submittedAmount.toTokenAmount(Token.usdc)?.round(Currency.usd.decimals);
 
-    if (usdcAmount == null) {
+    if (submittedAmountInUsdc == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
 
       return;
     }
 
-    final receiveAmount = await runWithLoader<Amount>(
+    final fees = await runWithLoader<MoneygramFees>(
       this,
-      () async => sl<MoneygramFeesService>()
-          .fetchFees(amount: usdcAmount, type: type)
-          .letAsync((p) => p.receiveAmount),
-    ) as CryptoAmount;
+      () => sl<MoneygramFeesService>()
+          .fetchFees(amount: submittedAmount, type: type),
+    );
+
+    final receiveAmount = fees.receiveAmount as CryptoAmount;
+    final moneygramFee = fees.moneygramFee as CryptoAmount;
+    final bridgeAmountInUsdc = submittedAmountInUsdc - moneygramFee;
 
     final response = await _generateDepositLink(
-      amount: usdcAmount.decimal.toDouble(),
+      amount: bridgeAmountInUsdc.decimal.toDouble(),
     );
 
     if (response == null) {
@@ -105,7 +107,7 @@ extension BuildContextExt on BuildContext {
       authToken: token,
       receiveAmount: receiveAmount,
       countryCode: profile.country.code,
-      bridgeAmount: usdcAmount,
+      bridgeAmount: bridgeAmountInUsdc,
     )
         .then((order) {
       switch (order) {
@@ -288,34 +290,17 @@ window.addEventListener("message", (event) => {
     );
 
     final totalFees = switch (type) {
-      RampType.onRamp => fees.bridgeFee,
+      RampType.onRamp => fees.bridgeFee + fees.moneygramFee,
       RampType.offRamp =>
         fees.moneygramFee + fees.bridgeFee + fees.gasFeeInUsdc,
-    };
-
-    final moneygramFee = fees.moneygramFee.format(locale, maxDecimals: 2);
-    final bridgeFee = fees.bridgeFee.format(locale, maxDecimals: 2);
-    final withdrawFee = (fees.gasFeeInUsdc + fees.bridgeFee).format(
-      locale,
-      maxDecimals: 2,
-    );
-
-    final partnerFee = switch (type) {
-      RampType.onRamp => bridgeFee,
-      RampType.offRamp => '$moneygramFee + $withdrawFee ',
-    };
-
-    final extraFee = switch (type) {
-      RampType.onRamp => fees.moneygramFee,
-      RampType.offRamp => null,
     };
 
     return Either.right(
       (
         ourFee: null,
-        partnerFee: partnerFee,
+        partnerFee: null,
+        extraFee: null,
         totalFee: totalFees,
-        extraFee: extraFee,
       ),
     );
   }

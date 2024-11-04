@@ -442,10 +442,10 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
               value: ourFee,
               isLoading: rampFees == null,
             ),
-          if (rampFees?.partnerFee case final partnerFee)
+          if (rampFees?.partnerFee case final partnerFee?)
             _InfoRow(
               title: context.l10n.partnerFeeTitle,
-              value: partnerFee ?? '-',
+              value: partnerFee,
               isLoading: rampFees == null,
             ),
           if (rampFees?.totalFee case final totalFee)
