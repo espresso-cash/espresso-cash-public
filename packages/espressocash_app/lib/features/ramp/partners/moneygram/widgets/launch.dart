@@ -87,7 +87,7 @@ extension BuildContextExt on BuildContext {
           .fetchFees(amount: submittedAmount, type: type),
     );
 
-    final receiveAmount = fees.receiveAmount.convert(
+    final depositAmount = fees.receiveAmount.convert(
       rate: rate,
       to: receiveCurrency,
     ) as FiatAmount;
@@ -111,9 +111,9 @@ extension BuildContextExt on BuildContext {
     final id = await sl<MoneygramOnRampOrderService>()
         .createPendingMoneygram(
       orderId: orderId,
-      submittedAmount: submittedAmount,
+      submittedAmount: depositAmount,
       authToken: token,
-      receiveAmount: receiveAmount,
+      receiveAmount: submittedAmount,
       countryCode: profile.country.code,
       bridgeAmount: bridgeAmountInUsdc as CryptoAmount,
     )

@@ -139,9 +139,9 @@ class MoneygramOnRampOrderService implements Disposable {
 
   AsyncResult<String> createPendingMoneygram({
     required String orderId,
-    required CryptoAmount submittedAmount,
+    required FiatAmount submittedAmount,
     required String authToken,
-    required FiatAmount receiveAmount,
+    required CryptoAmount receiveAmount,
     required String countryCode,
     required CryptoAmount bridgeAmount,
   }) =>
@@ -151,7 +151,7 @@ class MoneygramOnRampOrderService implements Disposable {
             id: const Uuid().v4(),
             partnerOrderId: orderId,
             amount: submittedAmount.value,
-            fiatSymbol: receiveAmount.currency.symbol,
+            fiatSymbol: submittedAmount.currency.symbol,
             receiveAmount: receiveAmount.value,
             token: Token.usdc.address,
             created: DateTime.now(),
