@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -34,31 +35,41 @@ extension BuildContextExt on BuildContext {
   Future<void> launchMoneygramOnRamp({
     required ProfileData profile,
   }) async {
-    FiatAmount? amount;
+    CryptoAmount? amount;
 
     const partner = RampPartner.moneygram;
     const type = RampType.onRamp;
+
+    const inputCurrency = Currency.usdc;
+    const receiveCurrency = Currency.usd;
+
+    final rate = _getExchangeRate(from: inputCurrency, to: receiveCurrency);
 
     await RampAmountScreen.push(
       this,
       partner: partner,
       onSubmitted: (Amount? value) {
         Navigator.pop(this);
-        amount = value as FiatAmount?;
+        amount = value as CryptoAmount?;
       },
       minAmount: partner.minimumAmountInDecimal,
-      currency: Currency.usd,
-      receiveCurrency: Currency.usdc,
+      currency: inputCurrency,
+      receiveCurrency: receiveCurrency,
       type: type,
       calculateEquivalent: (amount) => _calculateReceiveAmount(
         amount: amount,
         type: type,
+        receiveCurrency: receiveCurrency,
+        rate: rate,
       ),
       calculateFee: (amount) => _calculateFees(
         amount: amount,
         type: type,
       ),
-      exchangeRate: '1 USDC = 1 USDC',
+      exchangeRate: _formatExchangeRate(
+        from: inputCurrency,
+        to: receiveCurrency,
+      ),
     );
 
     final submittedAmount = amount;
@@ -76,9 +87,12 @@ extension BuildContextExt on BuildContext {
           .fetchFees(amount: submittedAmount, type: type),
     );
 
-    final receiveAmount = fees.receiveAmount as CryptoAmount;
-    final moneygramFee = fees.moneygramFee as CryptoAmount;
-    final bridgeAmountInUsdc = submittedAmountInUsdc - moneygramFee;
+    final receiveAmount = fees.receiveAmount.convert(
+      rate: rate,
+      to: receiveCurrency,
+    ) as FiatAmount;
+
+    final bridgeAmountInUsdc = submittedAmountInUsdc + fees.bridgeFee;
 
     final response = await _generateDepositLink(
       amount: bridgeAmountInUsdc.decimal.toDouble(),
@@ -101,7 +115,7 @@ extension BuildContextExt on BuildContext {
       authToken: token,
       receiveAmount: receiveAmount,
       countryCode: profile.country.code,
-      bridgeAmount: bridgeAmountInUsdc,
+      bridgeAmount: bridgeAmountInUsdc as CryptoAmount,
     )
         .then((order) {
       switch (order) {
@@ -162,6 +176,11 @@ window.addEventListener("message", (event) => {
     const partner = RampPartner.moneygram;
     const type = RampType.offRamp;
 
+    const inputCurrency = Currency.usdc;
+    const receiveCurrency = Currency.usd;
+
+    final rate = _getExchangeRate(from: inputCurrency, to: receiveCurrency);
+
     await RampAmountScreen.push(
       this,
       partner: partner,
@@ -178,18 +197,23 @@ window.addEventListener("message", (event) => {
         );
       },
       minAmount: partner.minimumAmountInDecimal,
-      currency: Currency.usdc,
-      receiveCurrency: Currency.usd,
+      currency: inputCurrency,
+      receiveCurrency: receiveCurrency,
       type: type,
       calculateEquivalent: (amount) => _calculateReceiveAmount(
         amount: amount,
         type: type,
+        receiveCurrency: receiveCurrency,
+        rate: rate,
       ),
       calculateFee: (amount) => _calculateFees(
         amount: amount,
         type: type,
       ),
-      exchangeRate: '1 USDC = 1 USDC',
+      exchangeRate: _formatExchangeRate(
+        from: inputCurrency,
+        to: receiveCurrency,
+      ),
     );
 
     final submittedAmount = amount;
@@ -209,10 +233,15 @@ window.addEventListener("message", (event) => {
       return;
     }
 
+    final receiveAmount = fees.receiveAmount.convert(
+      rate: rate,
+      to: receiveCurrency,
+    );
+
     await sl<MoneygramOffRampOrderService>()
         .createMoneygramOrder(
       submittedAmount: submittedAmount,
-      receiveAmount: fees.receiveAmount as FiatAmount,
+      receiveAmount: receiveAmount as FiatAmount,
       countryCode: profile.country.code,
       priorityFee: priorityFee,
       gasFee: fees.gasFeeInUsdc as CryptoAmount,
@@ -258,20 +287,27 @@ window.addEventListener("message", (event) => {
         }
       });
 
-  /// For [RampType.onRamp], fee is added to input amount,
-  /// for [RampType.offRamp], fee is taken from input amount
-  ///
-  /// Since [RampType.onRamp] fee is added, we show total amount to pay
   Future<Either<Exception, Amount>> _calculateReceiveAmount({
     required Amount amount,
     required RampType type,
+    required Currency receiveCurrency,
+    required Decimal rate,
   }) async {
     final fees = await sl<MoneygramFeesService>().fetchFees(
       amount: amount,
       type: type,
     );
 
-    return Either.right(fees.receiveAmount);
+    final receiveAmount = fees.receiveAmount;
+
+    return Either.right(
+      receiveAmount.currency != receiveCurrency
+          ? receiveAmount.convert(
+              rate: rate,
+              to: receiveCurrency,
+            )
+          : fees.receiveAmount,
+    );
   }
 
   Future<Either<Exception, RampFees>> _calculateFees({
@@ -297,5 +333,19 @@ window.addEventListener("message", (event) => {
         totalFee: totalFees,
       ),
     );
+  }
+
+  Decimal _getExchangeRate({required Currency from, required Currency to}) {
+    // ignore: avoid_print
+    print('${from.symbol} -> ${to.symbol}');
+
+    // TODO(jenerio): implement fetching rates. 1:1 USDC for now
+    return Decimal.one;
+  }
+
+  String _formatExchangeRate({required Currency from, required Currency to}) {
+    final rate = _getExchangeRate(from: from, to: to);
+
+    return '1 ${from.symbol} = $rate ${to.symbol}';
   }
 }
