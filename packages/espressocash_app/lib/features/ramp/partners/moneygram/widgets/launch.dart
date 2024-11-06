@@ -347,7 +347,7 @@ window.addEventListener("message", (event) => {
   }
 
   Decimal _getExchangeRate({required Currency from, required Currency to}) {
-    // ignore: avoid_print
+    // ignore: avoid_print, will be removed on next PR
     print('${from.symbol} -> ${to.symbol}');
 
     // TODO(jenerio): implement fetching rates. 1:1 USDC for now
