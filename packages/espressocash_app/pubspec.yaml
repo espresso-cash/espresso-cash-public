@@ -65,6 +65,7 @@ dependencies:
   rive: ^0.13.2
   rxdart: ^0.27.7
   sealed_countries: ^1.5.1
+  sealed_currencies: ^1.5.1
   sentry_flutter: ^8.1.0
   share: ^2.0.4
   shared_preferences: ^2.2.2

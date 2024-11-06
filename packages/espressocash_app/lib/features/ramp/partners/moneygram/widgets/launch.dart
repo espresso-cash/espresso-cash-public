@@ -43,10 +43,14 @@ extension BuildContextExt on BuildContext {
     const type = RampType.onRamp;
 
     const inputCurrency = Currency.usdc;
-    final receiveCurrency =
-        country.WorldCountry.fromCodeShort(profile.country.code).toFiatCurrency;
+    final receiveCurrency = _fromCountryCode(profile.country.code);
 
     final rate = await _getExchangeRate(to: receiveCurrency);
+    if (rate == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
 
     await RampAmountScreen.push(
       this,
@@ -165,7 +169,7 @@ window.addEventListener("message", (event) => {
       this,
       url: Uri.parse(link),
       onLoaded: handleLoaded,
-      title: l10n.ramp_titleCashIn,
+      title: l10n.ramp_titleCashIn.toUpperCase(),
       theme: const CpThemeData.light(),
     );
 
@@ -183,10 +187,14 @@ window.addEventListener("message", (event) => {
     const type = RampType.offRamp;
 
     const inputCurrency = Currency.usdc;
-    final receiveCurrency =
-        country.WorldCountry.fromCodeShort(profile.country.code).toFiatCurrency;
+    final receiveCurrency = _fromCountryCode(profile.country.code);
 
     final rate = await _getExchangeRate(to: receiveCurrency);
+    if (rate == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
 
     await RampAmountScreen.push(
       this,
@@ -352,17 +360,21 @@ window.addEventListener("message", (event) => {
     );
   }
 
-  Future<Decimal> _getExchangeRate({
+  Future<Decimal?> _getExchangeRate({
     required Currency to,
   }) =>
-      runWithLoader<Decimal>(
+      runWithLoader<Decimal?>(
         this,
         () async {
-          final rates = await sl<FiatRatesClient>()
-              .getRates(target: to.symbol)
-              .then((rates) => rates.mid);
+          try {
+            final rates = await sl<FiatRatesClient>()
+                .getRates(target: to.symbol)
+                .then((rates) => rates.mid);
 
-          return Decimal.parse(rates.toString());
+            return Decimal.parse(rates.toString());
+          } on Exception {
+            return null;
+          }
         },
       );
 
@@ -375,20 +387,11 @@ window.addEventListener("message", (event) => {
 
     return '1 ${from.symbol} $symbol $rate ${to.symbol}';
   }
-}
 
-extension on country.WorldCountry? {
-  Currency get toFiatCurrency {
-    final currency = this?.currencies?.first;
+  FiatCurrency _fromCountryCode(String code) {
+    final currency =
+        country.WorldCountry.fromCodeShort(code).currencies?.firstOrNull;
 
-    return currency == null
-        ? defaultFiatCurrency
-        : FiatCurrency(
-            name: currency.name,
-            decimals: 2,
-            symbol: currency.code,
-            sign: currency.symbol ?? '',
-            countryCode: this?.codeShort,
-          );
+    return currency.toFiatCurrency.copyWith(countryCode: code);
   }
 }

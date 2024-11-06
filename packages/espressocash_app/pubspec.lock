@@ -1596,7 +1596,7 @@ packages:
     source: hosted
     version: "1.5.1"
   sealed_currencies:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sealed_currencies
       sha256: b8aa884a4b5c061883d818e8e58f62b9057d59530b71660e4ced4edfa6b514fc

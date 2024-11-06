@@ -128,10 +128,9 @@ class _NoticeContent extends StatelessWidget {
             CpButton(
               text: context.l10n.ramp_btnAddCash,
               onPressed: () async {
-                final data = await context.ensureProfileData(RampType.onRamp);
-                if (context.mounted && data != null) {
+                await context.ensureProfileData(RampType.onRamp);
+                if (context.mounted) {
                   context.launchOnRampFlow(
-                    profile: data,
                     address: sl<MyAccount>().address,
                   );
                 }
