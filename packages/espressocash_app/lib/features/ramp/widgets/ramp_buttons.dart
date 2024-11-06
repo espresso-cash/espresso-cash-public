@@ -70,9 +70,10 @@ class AddCashButton extends StatelessWidget {
             variant: CpIconButtonVariant.dark,
             size: CpIconButtonSize.large,
             onPressed: () async {
-              await context.ensureProfileData(RampType.onRamp);
+              final hasProfile =
+                  await context.ensureProfileData(RampType.onRamp) != null;
 
-              if (context.mounted) {
+              if (context.mounted && hasProfile) {
                 context.launchOnRampFlow(
                   address: sl<MyAccount>().wallet.publicKey.toBase58(),
                 );
@@ -107,8 +108,10 @@ class CashOutButton extends StatelessWidget {
             variant: CpIconButtonVariant.dark,
             size: CpIconButtonSize.large,
             onPressed: () async {
-              await context.ensureProfileData(RampType.offRamp);
-              if (context.mounted) {
+              final hasProfile =
+                  await context.ensureProfileData(RampType.offRamp) != null;
+
+              if (context.mounted && hasProfile) {
                 context.launchOffRampFlow(
                   address: sl<MyAccount>().wallet.publicKey.toBase58(),
                 );
@@ -155,14 +158,16 @@ extension RampBuildContextExt on BuildContext {
         : null;
   }
 
-  ProfileData? getProfile() {
+  ProfileData getProfileData() {
     final repository = sl<ProfileRepository>();
     final Country? country = repository.country?.let(Country.findByCode);
     final String email = repository.email;
 
-    if (country != null && email.isNotEmpty) {
-      return (country: country, email: email);
+    if (country == null || email.isEmpty) {
+      throw Exception('Profile data not available.');
     }
+
+    return (country: country, email: email);
   }
 
   void launchOnRampFlow({required String address}) {
@@ -171,7 +176,8 @@ extension RampBuildContextExt on BuildContext {
       type: RampType.onRamp,
       onPartnerSelected: (RampPartner partner) {
         Navigator.pop(this);
-        final profile = getProfile()!; //TODO
+
+        final profile = getProfileData();
         _launchOnRampPartner(partner, profile: profile, address: address);
       },
     );
@@ -183,7 +189,8 @@ extension RampBuildContextExt on BuildContext {
       type: RampType.offRamp,
       onPartnerSelected: (RampPartner partner) {
         Navigator.pop(this);
-        final profile = getProfile()!; //TODO
+
+        final profile = getProfileData();
         _launchOffRampPartner(partner, profile: profile, address: address);
       },
     );
