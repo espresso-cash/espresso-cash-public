@@ -59,12 +59,14 @@ extension BuildContextExt on BuildContext {
       calculateEquivalent: (amount) => _calculateReceiveAmount(
         amount: amount,
         type: type,
-        receiveCurrency: receiveCurrency,
+        currency: receiveCurrency,
         rate: rate,
       ),
       calculateFee: (amount) => _calculateFees(
         amount: amount,
         type: type,
+        currency: receiveCurrency,
+        rate: rate,
       ),
       exchangeRate: _formatExchangeRate(
         from: inputCurrency,
@@ -203,12 +205,14 @@ window.addEventListener("message", (event) => {
       calculateEquivalent: (amount) => _calculateReceiveAmount(
         amount: amount,
         type: type,
-        receiveCurrency: receiveCurrency,
+        currency: receiveCurrency,
         rate: rate,
       ),
       calculateFee: (amount) => _calculateFees(
         amount: amount,
         type: type,
+        currency: inputCurrency,
+        rate: rate,
       ),
       exchangeRate: _formatExchangeRate(
         from: inputCurrency,
@@ -290,7 +294,7 @@ window.addEventListener("message", (event) => {
   Future<Either<Exception, Amount>> _calculateReceiveAmount({
     required Amount amount,
     required RampType type,
-    required Currency receiveCurrency,
+    required Currency currency,
     required Decimal rate,
   }) async {
     final fees = await sl<MoneygramFeesService>().fetchFees(
@@ -301,10 +305,10 @@ window.addEventListener("message", (event) => {
     final receiveAmount = fees.receiveAmount;
 
     return Either.right(
-      receiveAmount.currency != receiveCurrency
+      receiveAmount.currency != currency
           ? receiveAmount.convert(
               rate: rate,
-              to: receiveCurrency,
+              to: currency,
             )
           : fees.receiveAmount,
     );
@@ -313,6 +317,8 @@ window.addEventListener("message", (event) => {
   Future<Either<Exception, RampFees>> _calculateFees({
     required Amount amount,
     required RampType type,
+    required Currency currency,
+    required Decimal rate,
   }) async {
     final fees = await sl<MoneygramFeesService>().fetchFees(
       amount: amount,
@@ -325,12 +331,17 @@ window.addEventListener("message", (event) => {
         fees.moneygramFee + fees.bridgeFee + fees.gasFeeInUsdc,
     };
 
+    final convertedTotalFees = totalFees.convert(
+      rate: rate,
+      to: currency,
+    );
+
     return Either.right(
       (
         ourFee: null,
         partnerFee: null,
         extraFee: null,
-        totalFee: totalFees,
+        totalFee: convertedTotalFees,
       ),
     );
   }

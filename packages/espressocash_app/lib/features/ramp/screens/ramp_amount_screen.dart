@@ -447,6 +447,16 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
     });
   }
 
+  String _formatAmount(Amount? amount) =>
+      amount?.let(
+        (value) => '${value.format(
+          context.locale,
+          maxDecimals: 2,
+          skipSymbol: true,
+        )} ${value.currency.symbol}',
+      ) ??
+      '-';
+
   Widget _buildFeeRows(RampFees? rampFees) => Column(
         children: [
           if (rampFees?.ourFee case final ourFee?)
@@ -464,25 +474,13 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
           if (rampFees?.totalFee case final totalFee)
             _InfoRow(
               title: context.l10n.totalFeesTitle,
-              value: totalFee?.let(
-                    (value) => value.format(
-                      context.locale,
-                      maxDecimals: 2,
-                    ),
-                  ) ??
-                  '-',
+              value: _formatAmount(totalFee),
               isLoading: rampFees == null,
             ),
           if (rampFees?.extraFee case final extraFee?)
             _InfoRow(
               title: context.l10n.additionalFeesTitle,
-              value: extraFee.let(
-                    (value) => value.format(
-                      context.locale,
-                      maxDecimals: 2,
-                    ),
-                  ) ??
-                  '-',
+              value: _formatAmount(extraFee),
               isLoading: rampFees == null,
             ),
         ],
