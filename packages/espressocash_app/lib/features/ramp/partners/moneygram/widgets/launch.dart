@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:sealed_countries/sealed_countries.dart' as country;
 
 import '../../../../../di.dart';
 import '../../../../../l10n/device_locale.dart';
@@ -12,6 +13,7 @@ import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../../utils/errors.dart';
+import '../../../../conversion_rates/data/fiat_rates_client.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
@@ -41,9 +43,10 @@ extension BuildContextExt on BuildContext {
     const type = RampType.onRamp;
 
     const inputCurrency = Currency.usdc;
-    const receiveCurrency = Currency.usd;
+    final receiveCurrency =
+        country.WorldCountry.fromCodeShort(profile.country.code).toFiatCurrency;
 
-    final rate = _getExchangeRate(from: inputCurrency, to: receiveCurrency);
+    final rate = await _getExchangeRate(to: receiveCurrency);
 
     await RampAmountScreen.push(
       this,
@@ -71,6 +74,7 @@ extension BuildContextExt on BuildContext {
       exchangeRate: _formatExchangeRate(
         from: inputCurrency,
         to: receiveCurrency,
+        rate: rate,
       ),
     );
 
@@ -179,9 +183,10 @@ window.addEventListener("message", (event) => {
     const type = RampType.offRamp;
 
     const inputCurrency = Currency.usdc;
-    const receiveCurrency = Currency.usd;
+    final receiveCurrency =
+        country.WorldCountry.fromCodeShort(profile.country.code).toFiatCurrency;
 
-    final rate = _getExchangeRate(from: inputCurrency, to: receiveCurrency);
+    final rate = await _getExchangeRate(to: receiveCurrency);
 
     await RampAmountScreen.push(
       this,
@@ -217,6 +222,7 @@ window.addEventListener("message", (event) => {
       exchangeRate: _formatExchangeRate(
         from: inputCurrency,
         to: receiveCurrency,
+        rate: rate,
       ),
     );
 
@@ -346,17 +352,43 @@ window.addEventListener("message", (event) => {
     );
   }
 
-  Decimal _getExchangeRate({required Currency from, required Currency to}) {
-    // ignore: avoid_print, will be removed on next PR
-    print('${from.symbol} -> ${to.symbol}');
+  Future<Decimal> _getExchangeRate({
+    required Currency to,
+  }) =>
+      runWithLoader<Decimal>(
+        this,
+        () async {
+          final rates = await sl<FiatRatesClient>()
+              .getRates(target: to.symbol)
+              .then((rates) => rates.mid);
 
-    // TODO(jenerio): implement fetching rates. 1:1 USDC for now
-    return Decimal.one;
+          return Decimal.parse(rates.toString());
+        },
+      );
+
+  String _formatExchangeRate({
+    required Currency from,
+    required Currency to,
+    required Decimal rate,
+  }) {
+    final symbol = to == Currency.usd ? '=' : '≈';
+
+    return '1 ${from.symbol} $symbol $rate ${to.symbol}';
   }
+}
 
-  String _formatExchangeRate({required Currency from, required Currency to}) {
-    final rate = _getExchangeRate(from: from, to: to);
+extension on country.WorldCountry? {
+  Currency get toFiatCurrency {
+    final currency = this?.currencies?.first;
 
-    return '1 ${from.symbol} = $rate ${to.symbol}';
+    return currency == null
+        ? defaultFiatCurrency
+        : FiatCurrency(
+            name: currency.name,
+            decimals: 2,
+            symbol: currency.code,
+            sign: currency.symbol ?? '',
+            countryCode: this?.codeShort,
+          );
   }
 }
