@@ -931,5 +931,7 @@
   "reviewPayment": "Review *payment*",
   "@reviewPayment": {},
   "done": "Done",
-  "@done": {}
+  "@done": {},
+  "exchangeRateDisclaimer": "Amounts displayed are estimates.\nContinue for exact totals.",
+  "@exchangeRateDisclaimer": {}
 }

@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:sealed_countries/sealed_countries.dart' as country;
@@ -13,7 +14,6 @@ import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../../utils/errors.dart';
-import '../../../../conversion_rates/data/fiat_rates_client.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
@@ -51,6 +51,8 @@ extension BuildContextExt on BuildContext {
 
       return;
     }
+    final showExchangeRateDisclaimer =
+        receiveCurrency.symbol != Currency.usd.symbol;
 
     await RampAmountScreen.push(
       this,
@@ -80,6 +82,7 @@ extension BuildContextExt on BuildContext {
         to: receiveCurrency,
         rate: rate,
       ),
+      showExchangeRateDisclaimer: showExchangeRateDisclaimer,
     );
 
     final submittedAmount = amount;
@@ -195,6 +198,8 @@ window.addEventListener("message", (event) => {
 
       return;
     }
+    final showExchangeRateDisclaimer =
+        receiveCurrency.symbol != Currency.usd.symbol;
 
     await RampAmountScreen.push(
       this,
@@ -232,6 +237,7 @@ window.addEventListener("message", (event) => {
         to: receiveCurrency,
         rate: rate,
       ),
+      showExchangeRateDisclaimer: showExchangeRateDisclaimer,
     );
 
     final submittedAmount = amount;
@@ -367,9 +373,9 @@ window.addEventListener("message", (event) => {
         this,
         () async {
           try {
-            final rates = await sl<FiatRatesClient>()
-                .getRates(target: to.symbol)
-                .then((rates) => rates.mid);
+            final rates = await sl<EspressoCashClient>()
+                .fetchFiatRate(FiatRateRequestDto(target: to.symbol))
+                .then((rates) => rates.rate);
 
             return Decimal.parse(rates.toString());
           } on Exception {
