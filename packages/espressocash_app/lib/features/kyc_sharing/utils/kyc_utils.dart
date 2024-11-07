@@ -40,14 +40,14 @@ extension UserDataExtensions on UserData {
     if (statuses.any((s) => s == ValidationStatus.rejected)) {
       return ValidationStatus.rejected;
     }
-    
+
     if (statuses.any((s) => s == ValidationStatus.pending)) {
       return ValidationStatus.pending;
     }
-    
+
     return statuses.every((s) => s == ValidationStatus.approved)
-            ? ValidationStatus.approved
-            : ValidationStatus.unspecified;
+        ? ValidationStatus.approved
+        : ValidationStatus.unspecified;
   }
 
   ValidationStatus get phoneStatus =>
