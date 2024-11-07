@@ -124,7 +124,7 @@ class _ScalexDepositContent extends StatelessWidget {
                 const SizedBox(height: 16),
                 _InstructionItem(
                   index: 1,
-                  text: context.l10n.depositInstruction1,
+                  text: context.l10n.depositInstruction1(deposit.bankName),
                 ),
                 const SizedBox(height: 8),
                 _ItemWidget(

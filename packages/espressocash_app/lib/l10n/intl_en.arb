@@ -677,8 +677,14 @@
   },
   "depositTitle": "Deposit",
   "@depositTitle": {},
-  "depositInstruction1": "Transfer the deposit amount from your bank account to our local partners PAGA:",
-  "@depositInstruction1": {},
+  "depositInstruction1": "Transfer the deposit amount from your bank account to our local partners {bankName}:",
+  "@depositInstruction1": {
+    "placeholders": {
+      "bankName": {
+        "type": "String"
+      }
+    }
+  },
   "depositInstruction2": "Once the transfer is complete, return to Espresso Cash and confirm below.",
   "@depositInstruction2": {},
   "depositTransferAmount": "Deposit Amount",
