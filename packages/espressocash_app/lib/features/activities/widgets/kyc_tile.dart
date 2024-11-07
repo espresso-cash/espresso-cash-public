@@ -33,83 +33,102 @@ class CpKycTile extends StatelessWidget {
   final RampType rampType;
 
   @override
+  Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
+        valueListenable: sl<KycSharingService>(),
+        builder: (context, user, _) => user == null
+            ? const SizedBox.shrink()
+            : _KycTileContent(
+                user: user,
+                title: title,
+                timestamp: timestamp,
+                incomingAmount: incomingAmount,
+                outgoingAmount: outgoingAmount,
+                preOrder: preOrder,
+                rampType: rampType,
+              ),
+      );
+}
+
+class _KycTileContent extends StatelessWidget {
+  const _KycTileContent({
+    required this.user,
+    required this.title,
+    required this.timestamp,
+    required this.incomingAmount,
+    required this.outgoingAmount,
+    required this.preOrder,
+    required this.rampType,
+  });
+
+  final UserData user;
+  final String title;
+  final String timestamp;
+  final String? incomingAmount;
+  final String? outgoingAmount;
+  final PreOrderData? preOrder;
+  final RampType rampType;
+
+  @override
   Widget build(BuildContext context) {
     final incomingAmount = this.incomingAmount;
     final outgoingAmount = this.outgoingAmount;
 
-    return ValueListenableBuilder<UserData?>(
-      valueListenable: sl<KycSharingService>(),
-      builder: (context, user, _) => user == null
-          ? const SizedBox.shrink()
-          : Container(
-              margin: const EdgeInsets.only(
-                right: 10,
-                left: 10,
-                bottom: 6,
-              ),
-              padding: const EdgeInsets.only(
-                top: 6,
-                right: 20,
-                left: 20,
-                bottom: 26,
-              ),
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-              ),
-              child: Column(
-                children: [
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: KycStatusIcon(user.kycStatus, height: 42),
-                    title: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            title,
-                            style: _titleStyle,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (incomingAmount != null)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child:
-                                Text('+$incomingAmount', style: _inAmountStyle),
-                          ),
-                        if (outgoingAmount != null)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: Text('-$outgoingAmount', style: _titleStyle),
-                          ),
-                      ],
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          user.kycStatus.subtitle(context),
-                          style: _subtitleStyle,
-                        ),
-                        Text(timestamp, style: _subtitleStyle),
-                      ],
-                    ),
+    return Container(
+      margin: const EdgeInsets.only(right: 10, left: 10, bottom: 6),
+      padding: const EdgeInsets.only(top: 6, right: 20, left: 20, bottom: 26),
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+      ),
+      child: Column(
+        children: [
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: KycStatusIcon(user.kycStatus, height: 42),
+            title: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    style: _titleStyle,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  Text(
-                    user.kycStatus.description(),
-                    textAlign: TextAlign.center,
-                    style: _subtitleStyle,
+                ),
+                if (incomingAmount != null)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text('+$incomingAmount', style: _inAmountStyle),
                   ),
-                  const SizedBox(height: 16),
-                  switch (rampType) {
-                    RampType.onRamp =>
-                      user.kycStatus.onRampButton(context, preOrder),
-                    RampType.offRamp =>
-                      user.kycStatus.offRampButton(context, preOrder),
-                  },
-                ],
-              ),
+                if (outgoingAmount != null)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text('-$outgoingAmount', style: _titleStyle),
+                  ),
+              ],
             ),
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  user.kycStatus.subtitle(context),
+                  style: _subtitleStyle,
+                ),
+                Text(timestamp, style: _subtitleStyle),
+              ],
+            ),
+          ),
+          Text(
+            user.kycStatus.description(context),
+            textAlign: TextAlign.center,
+            style: _subtitleStyle,
+          ),
+          const SizedBox(height: 16),
+          switch (rampType) {
+            RampType.onRamp => user.kycStatus.onRampButton(context, preOrder),
+            RampType.offRamp => user.kycStatus.offRampButton(context, preOrder),
+          },
+        ],
+      ),
     );
   }
 }
@@ -149,22 +168,20 @@ extension on ValidationStatus {
     }
   }
 
-  // TODO(vsumin): add localization
-  String description() {
+  String description(BuildContext context) {
     switch (this) {
       case ValidationStatus.approved:
-        return 'Your ID verification has been approved.';
+        return context.l10n.kycTileDescriptionApproved;
       case ValidationStatus.pending:
-        return 'Your ID verification is under review and may take 10–20 minutes to complete.';
+        return context.l10n.kycTileDescriptionPending;
       case ValidationStatus.rejected:
-        return 'Your ID verification failed.\nMake sure your information is correct and try again.';
+        return context.l10n.kycTileDescriptionRejected;
       case ValidationStatus.unverified:
       case ValidationStatus.unspecified:
-        return 'Start your ID verification to continue.';
+        return context.l10n.kycTileDescriptionUnverified;
     }
   }
 
-  // TODO(vsumin): add localization
   Widget onRampButton(
     BuildContext context,
     PreOrderData? preOrder,
@@ -175,13 +192,13 @@ extension on ValidationStatus {
       case ValidationStatus.approved:
       case ValidationStatus.unverified:
       case ValidationStatus.unspecified:
-        title = 'Continue Deposit';
+        title = context.l10n.continueDeposit;
 
       case ValidationStatus.pending:
-        title = 'See details';
+        title = context.l10n.seeDetails;
 
       case ValidationStatus.rejected:
-        title = 'Retry verification';
+        title = context.l10n.retryVerification;
     }
 
     return CpButton(
@@ -199,7 +216,6 @@ extension on ValidationStatus {
     );
   }
 
-  // TODO(vsumin): add localization
   Widget offRampButton(
     BuildContext context,
     PreOrderData? preOrder,
@@ -210,13 +226,13 @@ extension on ValidationStatus {
       case ValidationStatus.approved:
       case ValidationStatus.unverified:
       case ValidationStatus.unspecified:
-        title = 'Continue Withdrawal';
+        title = context.l10n.continueWithdrawal;
 
       case ValidationStatus.pending:
-        title = 'See details';
+        title = context.l10n.seeDetails;
 
       case ValidationStatus.rejected:
-        title = 'Retry verification';
+        title = context.l10n.retryVerification;
     }
 
     return CpButton(
