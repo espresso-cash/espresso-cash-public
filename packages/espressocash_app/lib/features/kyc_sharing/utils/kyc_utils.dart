@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
@@ -26,9 +27,29 @@ extension UserDataExtensions on UserData {
   String get bankName => bankInfo?.first.bankName ?? '';
   String get accountNumber => bankInfo?.first.accountNumber ?? '';
 
-  // TODO(vsumin): This should check not only document status, but all fields related to KYC (?)
-  ValidationStatus get kycStatus =>
-      document?.first.status ?? ValidationStatus.unspecified;
+  ValidationStatus get kycStatus {
+    final statuses = [
+      document?.first.status,
+      name?.first.status,
+      selfie?.first.status,
+      birthDate?.first.status,
+    ].whereNotNull().toList();
+
+    if (statuses.isEmpty) return ValidationStatus.unspecified;
+
+    if (statuses.any((s) => s == ValidationStatus.rejected)) {
+      return ValidationStatus.rejected;
+    }
+    
+    if (statuses.any((s) => s == ValidationStatus.pending)) {
+      return ValidationStatus.pending;
+    }
+    
+    return statuses.every((s) => s == ValidationStatus.approved)
+            ? ValidationStatus.approved
+            : ValidationStatus.unspecified;
+  }
+
   ValidationStatus get phoneStatus =>
       phone?.first.status ?? ValidationStatus.unspecified;
   ValidationStatus get emailStatus =>
