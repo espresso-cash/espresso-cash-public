@@ -51,8 +51,7 @@ extension BuildContextExt on BuildContext {
 
       return;
     }
-    final showExchangeRateDisclaimer =
-        receiveCurrency.symbol != Currency.usd.symbol;
+    final isEstimatedRate = receiveCurrency.symbol != Currency.usd.symbol;
 
     await RampAmountScreen.push(
       this,
@@ -82,7 +81,7 @@ extension BuildContextExt on BuildContext {
         to: receiveCurrency,
         rate: rate,
       ),
-      showExchangeRateDisclaimer: showExchangeRateDisclaimer,
+      isEstimatedRate: isEstimatedRate,
     );
 
     final submittedAmount = amount;
@@ -198,8 +197,7 @@ window.addEventListener("message", (event) => {
 
       return;
     }
-    final showExchangeRateDisclaimer =
-        receiveCurrency.symbol != Currency.usd.symbol;
+    final isEstimatedRate = receiveCurrency.symbol != Currency.usd.symbol;
 
     await RampAmountScreen.push(
       this,
@@ -237,7 +235,7 @@ window.addEventListener("message", (event) => {
         to: receiveCurrency,
         rate: rate,
       ),
-      showExchangeRateDisclaimer: showExchangeRateDisclaimer,
+      isEstimatedRate: isEstimatedRate,
     );
 
     final submittedAmount = amount;
@@ -389,7 +387,7 @@ window.addEventListener("message", (event) => {
     required Currency to,
     required Decimal rate,
   }) {
-    final symbol = to == Currency.usd ? '=' : '≈';
+    final symbol = to.symbol == Currency.usd.symbol ? '=' : '≈';
 
     return '1 ${from.symbol} $symbol $rate ${to.symbol}';
   }
