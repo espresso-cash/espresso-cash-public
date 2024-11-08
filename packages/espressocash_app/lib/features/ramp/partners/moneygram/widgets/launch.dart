@@ -4,6 +4,7 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:sealed_countries/sealed_countries.dart' as country;
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../../../di.dart';
 import '../../../../../l10n/device_locale.dart';
@@ -377,6 +378,12 @@ window.addEventListener("message", (event) => {
 
             return Decimal.parse(rates.toString());
           } on Exception {
+            logMessage(
+              message: 'Error fetching exchange rate',
+              data: {'currency': to.symbol},
+              level: SentryLevel.error,
+            );
+
             return null;
           }
         },
