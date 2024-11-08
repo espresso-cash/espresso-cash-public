@@ -115,11 +115,11 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
         RampType.offRamp => widget.isEstimatedRate
             ? context.l10n.approximateReceiveTitle
             : context.l10n.youReceiveTitle,
-        RampType.onRamp => _isCryptoInput
-            ? widget.isEstimatedRate
-                ? context.l10n.approximateRequiredDepositTitle
-                : context.l10n.requiredDepositTitle
-            : context.l10n.youReceiveTitle,
+        RampType.onRamp => switch ((_isCryptoInput, widget.isEstimatedRate)) {
+            (true, true) => context.l10n.approximateRequiredDepositTitle,
+            (true, false) => context.l10n.requiredDepositTitle,
+            (false, _) => context.l10n.youReceiveTitle,
+          },
       };
 
   Amount get _amount {
