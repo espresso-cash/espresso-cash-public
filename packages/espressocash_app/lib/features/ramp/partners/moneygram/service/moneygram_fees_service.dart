@@ -50,29 +50,36 @@ class MoneygramFeesService {
       ),
     );
 
+    final bridgeFee = Amount.fromDecimal(
+      value: Decimal.parse(fee.bridgeFee),
+      currency: Currency.usdc,
+    );
+
+    final moneygramFee = Amount.fromDecimal(
+      value: Decimal.parse(fee.moneygramFee),
+      currency: Currency.usdc,
+    );
+
+    final gasFeeInUsdc = Amount.fromDecimal(
+      value: Decimal.parse(fee.gasFeeInUsdc ?? '0'),
+      currency: Currency.usdc,
+    );
+
+    final totalFee = switch (type) {
+      RampType.onRamp => bridgeFee + moneygramFee,
+      RampType.offRamp => bridgeFee + moneygramFee + gasFeeInUsdc,
+    };
+
+    final receiveAmount = switch (type) {
+      RampType.onRamp => amount + totalFee,
+      RampType.offRamp => amount - totalFee,
+    };
+
     return (
-      receiveAmount: Amount.fromDecimal(
-        value: Decimal.parse(fee.totalAmount),
-        currency: switch (type) {
-          RampType.onRamp => Currency.usdc,
-          RampType.offRamp => Currency.usd
-        },
-      ),
-      moneygramFee: Amount.fromDecimal(
-        value: Decimal.parse(fee.moneygramFee),
-        currency: switch (type) {
-          RampType.onRamp => Currency.usd,
-          RampType.offRamp => Currency.usdc
-        },
-      ),
-      bridgeFee: Amount.fromDecimal(
-        value: Decimal.parse(fee.bridgeFee),
-        currency: Currency.usdc,
-      ),
-      gasFeeInUsdc: Amount.fromDecimal(
-        value: Decimal.parse(fee.gasFeeInUsdc ?? '0'),
-        currency: Currency.usdc,
-      ),
+      receiveAmount: receiveAmount,
+      moneygramFee: moneygramFee,
+      bridgeFee: bridgeFee,
+      gasFeeInUsdc: gasFeeInUsdc,
       priorityFee: fee.priorityFee,
     );
   }

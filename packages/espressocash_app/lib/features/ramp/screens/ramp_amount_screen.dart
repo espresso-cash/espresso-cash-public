@@ -98,6 +98,20 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
     super.dispose();
   }
 
+  bool get _isCryptoInput => widget.currency is CryptoCurrency;
+
+  String get _inputLabel => widget.type == RampType.offRamp
+      ? context.l10n.withdrawalAmountTitle
+      : _isCryptoInput
+          ? context.l10n.youReceiveTitle
+          : context.l10n.depositAmountTitle;
+
+  String get _outputLabel => widget.type == RampType.offRamp
+      ? context.l10n.youReceiveTitle
+      : _isCryptoInput
+          ? context.l10n.requiredDepositTitle
+          : context.l10n.youReceiveTitle;
+
   Amount get _amount {
     final text = _controller.text;
     final value = Decimal.tryParse(text);
@@ -143,15 +157,14 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                   child: Column(
                     children: [
                       RampTextField(
-                        label: widget.type == RampType.offRamp
-                            ? context.l10n.withdrawalAmountTitle
-                            : context.l10n.depositAmountTitle,
+                        label: _inputLabel,
                         controller: _controller,
                         currency: widget.currency,
                       ),
                       ValueListenableBuilder(
                         valueListenable: _controller,
                         builder: (context, value, child) => _ReceiveTextField(
+                          label: _outputLabel,
                           amount: _amount,
                           calculateEquivalent: widget.calculateEquivalent,
                           minAmount: widget.minAmount,
@@ -291,6 +304,7 @@ class _ReceiveTextField extends StatefulWidget {
     required this.type,
     required this.minAmount,
     required this.receiveCurrency,
+    required this.label,
   });
 
   final Amount amount;
@@ -298,6 +312,7 @@ class _ReceiveTextField extends StatefulWidget {
   final Decimal minAmount;
   final RampType type;
   final Currency? receiveCurrency;
+  final String label;
 
   @override
   State<_ReceiveTextField> createState() => _ReceiveTextFieldState();
@@ -347,11 +362,9 @@ class _ReceiveTextFieldState extends State<_ReceiveTextField>
                 FutureBuilder(
                   future: _result,
                   builder: (context, snapshot) {
-                    final label = context.l10n.youReceiveTitle;
-
                     if (snapshot.connectionState != ConnectionState.done) {
                       return RampTextField(
-                        label: label,
+                        label: widget.label,
                         controller: null,
                         currency: widget.receiveCurrency,
                       );
@@ -364,7 +377,7 @@ class _ReceiveTextFieldState extends State<_ReceiveTextField>
                         : data.fold(
                             (_) => const SizedBox.shrink(),
                             (data) => RampTextField(
-                              label: label,
+                              label: widget.label,
                               controller: FittedTextEditingController(
                                 text: data.format(
                                   context.locale,
@@ -434,6 +447,16 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
     });
   }
 
+  String _formatAmount(Amount? amount) =>
+      amount?.let(
+        (value) => '${value.format(
+          context.locale,
+          maxDecimals: 2,
+          skipSymbol: true,
+        )} ${value.currency.symbol}',
+      ) ??
+      '-';
+
   Widget _buildFeeRows(RampFees? rampFees) => Column(
         children: [
           if (rampFees?.ourFee case final ourFee?)
@@ -442,34 +465,22 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
               value: ourFee,
               isLoading: rampFees == null,
             ),
-          if (rampFees?.partnerFee case final partnerFee)
+          if (rampFees?.partnerFee case final partnerFee?)
             _InfoRow(
               title: context.l10n.partnerFeeTitle,
-              value: partnerFee ?? '-',
+              value: partnerFee,
               isLoading: rampFees == null,
             ),
           if (rampFees?.totalFee case final totalFee)
             _InfoRow(
               title: context.l10n.totalFeesTitle,
-              value: totalFee?.let(
-                    (value) => value.format(
-                      context.locale,
-                      maxDecimals: 2,
-                    ),
-                  ) ??
-                  '-',
+              value: _formatAmount(totalFee),
               isLoading: rampFees == null,
             ),
           if (rampFees?.extraFee case final extraFee?)
             _InfoRow(
               title: context.l10n.additionalFeesTitle,
-              value: extraFee.let(
-                    (value) => value.format(
-                      context.locale,
-                      maxDecimals: 2,
-                    ),
-                  ) ??
-                  '-',
+              value: _formatAmount(extraFee),
               isLoading: rampFees == null,
             ),
         ],
