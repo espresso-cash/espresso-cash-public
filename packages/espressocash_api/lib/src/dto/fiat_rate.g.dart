@@ -9,7 +9,7 @@ part of 'fiat_rate.dart';
 _$FiatRateRequestDtoImpl _$$FiatRateRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$FiatRateRequestDtoImpl(
-      base: json['base'] as String? ?? 'USD',
+      base: json['base'] as String,
       target: json['target'] as String,
     );
 

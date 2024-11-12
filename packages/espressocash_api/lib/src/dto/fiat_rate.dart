@@ -6,7 +6,7 @@ part 'fiat_rate.g.dart';
 @freezed
 class FiatRateRequestDto with _$FiatRateRequestDto {
   const factory FiatRateRequestDto({
-    @Default('USD') String base,
+    required String base,
     required String target,
   }) = _FiatRateRequestDto;
 
