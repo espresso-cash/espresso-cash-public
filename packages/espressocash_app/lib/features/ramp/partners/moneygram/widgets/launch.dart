@@ -373,7 +373,12 @@ window.addEventListener("message", (event) => {
         () async {
           try {
             final rates = await sl<EspressoCashClient>()
-                .fetchFiatRate(FiatRateRequestDto(target: to.symbol))
+                .fetchFiatRate(
+                  FiatRateRequestDto(
+                    base: Currency.usd.symbol,
+                    target: to.symbol,
+                  ),
+                )
                 .then((rates) => rates.rate);
 
             return Decimal.parse(rates.toString());
