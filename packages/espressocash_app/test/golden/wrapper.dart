@@ -11,7 +11,11 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: const Size(428, 926));
+    ScreenUtil.init(
+      context,
+      designSize: const Size(428, 926),
+      minTextAdapt: true,
+    );
 
     return CpTheme.light(
       child: Builder(
