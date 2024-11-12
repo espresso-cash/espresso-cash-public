@@ -1,9 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
+import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/shake.dart';
+import '../../balances/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -81,12 +83,23 @@ class _State extends State<WalletScreen> {
     PaymentRequestScreen.push(context, id: id);
   }
 
-  void _handlePay() {
+  Future<void> _handlePay() async {
     if (_fiatAmount < _minimumAmount) {
       _handleSmallAmount(WalletOperation.pay);
 
       return;
     }
+
+    final balance =
+        await sl<TokenBalancesRepository>().read(_cryptoCurrency.token);
+
+    if (balance < _cryptoAmount) {
+      _handleInsufficientBalance();
+
+      return;
+    }
+
+    if (!mounted) return;
 
     PayScreen.push(context, amount: _cryptoAmount);
 
@@ -104,6 +117,14 @@ class _State extends State<WalletScreen> {
         case WalletOperation.pay:
           _errorMessage = context.l10n.minimumAmountToSend(minimumAmount);
       }
+    });
+  }
+
+  void _handleInsufficientBalance() {
+    _shakeKey.currentState?.shake();
+
+    setState(() {
+      _errorMessage = context.l10n.insufficientBalance;
     });
   }
 

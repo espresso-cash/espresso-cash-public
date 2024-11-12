@@ -236,19 +236,7 @@ class _MoneygramDepositContent extends StatelessWidget {
           ),
           body: Stack(
             children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Stack(
-                  children: [
-                    Assets.icons.logoBgAlternative.svg(),
-                    const FadeGradient(
-                      height: 150,
-                      color: FadeGradientColor.white,
-                      direction: FadeGradientDirection.topDown,
-                    ),
-                  ],
-                ),
-              ),
+              const _MoneygramBackground(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Column(
@@ -300,8 +288,9 @@ class _MoneygramDepositContent extends StatelessWidget {
                         text: context.l10n.confirmTransfer,
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 20),
                     GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                       onTap: () {
                         WebViewScreen.push(
                           context,
@@ -315,22 +304,48 @@ class _MoneygramDepositContent extends StatelessWidget {
                           },
                         );
                       },
-                      child: Text(
-                        context.l10n.viewMoneygramTransferInstructions,
-                        style: const TextStyle(
-                          color: Color(0xffCB6E00),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          decoration: TextDecoration.underline,
+                      child: SizedBox(
+                        height: CpButtonSize.big.height,
+                        child: Center(
+                          child: Text(
+                            context.l10n.viewMoneygramTransferInstructions,
+                            style: const TextStyle(
+                              color: Color(0xffCB6E00),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
             ],
           ),
+        ),
+      );
+}
+
+class _MoneygramBackground extends StatelessWidget {
+  const _MoneygramBackground();
+
+  @override
+  Widget build(BuildContext context) => Align(
+        alignment: Alignment.bottomCenter,
+        child: Stack(
+          children: [
+            Assets.icons.logoBgAlternative.svg(
+              alignment: Alignment.bottomCenter,
+            ),
+            const FadeGradient(
+              height: 150,
+              color: FadeGradientColor.white,
+              direction: FadeGradientDirection.topDown,
+            ),
+          ],
         ),
       );
 }

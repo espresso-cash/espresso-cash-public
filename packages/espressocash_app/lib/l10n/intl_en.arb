@@ -94,6 +94,8 @@
   "@fiatEquivalent": {},
   "incorrectPasscode": "Incorrect passcode. Retry again",
   "@incorrectPasscode": {},
+  "insufficientBalance": "Insufficient Funds",
+  "@insufficientBalance": {},
   "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
   "@insufficientFundsMessage": {
     "placeholders": {
@@ -916,6 +918,12 @@
   "@withdrawalAmountTitle": {},
   "depositAmountTitle": "Deposit Amount",
   "@depositAmountTitle": {},
+  "requiredDepositTitle": "Required Deposit",
+  "@requiredDepositTitle": {},
+  "approximateRequiredDepositTitle": "Approximate Required Deposit",
+  "@approximateRequiredDepositTitle": {},
+  "approximateReceiveTitle": "You Receive Approximately",
+  "@approximateReceiveTitle": {},
   "additionalFeesTitle": "Additional fees",
   "@additionalFeesTitle": {},
   "youReceiveTitle": "You Receive",
@@ -936,6 +944,8 @@
   "@reviewPayment": {},
   "done": "Done",
   "@done": {},
+  "exchangeRateDisclaimer": "Amounts displayed are estimates.\nContinue for exact totals.",
+  "@exchangeRateDisclaimer": {}
   "failedToUpdateData": "Failed to update data",
   "@failedToUpdateData": {},
   "bankAccount": "Bank Account",
