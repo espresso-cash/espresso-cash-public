@@ -143,7 +143,7 @@ class MoneygramOnRampOrderService implements Disposable {
     required String authToken,
     required CryptoAmount receiveAmount,
     required String countryCode,
-    required Amount bridgeAmount,
+    required CryptoAmount bridgeAmount,
   }) =>
       tryEitherAsync((_) async {
         {

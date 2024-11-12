@@ -643,6 +643,34 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
+  Future<FiatRateResponseDto> fetchFiatRate(FiatRateRequestDto request) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<FiatRateResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/fiatRate',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = FiatRateResponseDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
       PriorityFeesRequestDto request) async {
     final _extra = <String, dynamic>{};
