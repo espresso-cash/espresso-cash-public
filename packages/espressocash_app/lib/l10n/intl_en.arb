@@ -94,6 +94,8 @@
   "@fiatEquivalent": {},
   "incorrectPasscode": "Incorrect passcode. Retry again",
   "@incorrectPasscode": {},
+  "insufficientBalance": "Insufficient Funds",
+  "@insufficientBalance": {},
   "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
   "@insufficientFundsMessage": {
     "placeholders": {
