@@ -62,7 +62,7 @@ dependencies:
   ramp_flutter: ^3.0.0
   recase: ^4.1.0
   retrofit: ^4.0.3
-  rive: ^0.13.2
+  rive: ^0.13.15
   rxdart: ^0.27.7
   sealed_countries: ^1.5.1
   sealed_currencies: ^1.5.1
