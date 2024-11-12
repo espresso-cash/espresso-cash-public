@@ -38,11 +38,13 @@ class XFlowOffRampOrderService implements Disposable {
     this._ecClient,
     this._sender,
     this._account,
+    this._kycSharingService,
   );
 
   final ECWallet _account;
   final MyDatabase _db;
   final KycRepository _kycRepository;
+  final KycSharingService _kycSharingService;
   final AnalyticsManager _analytics;
 
   final EspressoCashClient _ecClient;
@@ -134,7 +136,7 @@ class XFlowOffRampOrderService implements Disposable {
               return const Stream.empty();
 
             case OffRampOrderStatus.waitingUserVerification:
-              sl<KycSharingService>().subscribe();
+              _kycSharingService.subscribe();
 
               return const Stream.empty();
 
@@ -185,7 +187,7 @@ class XFlowOffRampOrderService implements Disposable {
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
-          _subscribe(order.id);
+          //TODO subscribe after
 
           return order.id;
         }
@@ -194,7 +196,6 @@ class XFlowOffRampOrderService implements Disposable {
   AsyncResult<String> createOrUpdate({
     required CryptoAmount submittedAmount,
     required FiatAmount receiveAmount,
-    required String countryCode,
     required String partnerAuthPk,
     String? preOrderId,
   }) =>
@@ -243,6 +244,10 @@ class XFlowOffRampOrderService implements Disposable {
           await _db.into(_db.offRampOrderRows).insertOnConflictUpdate(order);
           _subscribe(order.id);
 
+          final countryCode = await _kycRepository.fetchUser().letAsync(
+                (user) => user?.countryCode ?? '',
+              );
+
           _analytics.rampInitiated(
             partner: RampPartner.xflow,
             rampType: RampType.offRamp.name,
@@ -256,7 +261,7 @@ class XFlowOffRampOrderService implements Disposable {
       });
 
   void _waitingPartnerReviewWatcher(OffRampOrderRow order) {
-    sl<KycSharingService>().unsubscribe();
+    _kycSharingService.unsubscribe();
 
     final id = order.id;
 

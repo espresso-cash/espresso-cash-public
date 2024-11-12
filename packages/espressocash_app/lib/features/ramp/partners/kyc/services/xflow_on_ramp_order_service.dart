@@ -8,13 +8,13 @@ import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../data/db/db.dart';
-import '../../../../../di.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_order_status.dart';
 import '../../../../kyc_sharing/services/kyc_service.dart';
+import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
@@ -110,6 +110,7 @@ class XFlowOnRampOrderService implements Disposable {
           final order = OnRampOrderRow(
             id: const Uuid().v4(),
             amount: submittedAmount.value,
+            bankTransferAmount: submittedAmount.value,
             receiveAmount: receiveAmount.value,
             fiatSymbol: submittedAmount.currency.symbol,
             partnerOrderId: '',
@@ -123,13 +124,12 @@ class XFlowOnRampOrderService implements Disposable {
             status: OnRampOrderStatus.waitingUserVerification,
             bankAccount: null,
             bankName: null,
-            bankTransferAmount: null,
             authToken: null,
             moreInfoUrl: null,
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
-          _subscribe(order.id);
+          //TODO subscribe after
 
           return order.id;
         }
@@ -138,7 +138,6 @@ class XFlowOnRampOrderService implements Disposable {
   AsyncResult<String> createOrUpdate({
     required FiatAmount submittedAmount,
     required CryptoAmount receiveAmount,
-    required String countryCode,
     required String partnerAuthPk,
     String? preOrderId,
   }) =>
@@ -176,11 +175,13 @@ class XFlowOnRampOrderService implements Disposable {
           await _db.into(_db.onRampOrderRows).insertOnConflictUpdate(order);
           _subscribe(order.id);
 
+          final countryCode = _kycSharingService.value?.countryCode;
+
           _analytics.rampInitiated(
             partner: RampPartner.xflow,
             rampType: RampType.onRamp.name,
             amount: submittedAmount.value.toString(),
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
             id: order.id,
           );
 
