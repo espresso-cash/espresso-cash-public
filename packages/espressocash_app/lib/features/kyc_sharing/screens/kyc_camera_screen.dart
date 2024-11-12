@@ -40,7 +40,7 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
         try {
           final service = sl<KycSharingService>();
           await service.updateSelfiePhoto(photoSelfie: _capturedImage);
-          await service.initDocumentValidation(); //TODO move this in background
+          await service.initDocumentValidation(); //TODO(dev) move this in background
 
           return true;
         } on Exception {

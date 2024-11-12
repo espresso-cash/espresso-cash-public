@@ -12,7 +12,6 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../../config.dart';
 import '../../../../../data/db/db.dart';
-import '../../../../../di.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../accounts/models/ec_wallet.dart';
 import '../../../../analytics/analytics_manager.dart';
@@ -20,7 +19,6 @@ import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_order_status.dart';
-import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
@@ -38,13 +36,11 @@ class XFlowOffRampOrderService implements Disposable {
     this._ecClient,
     this._sender,
     this._account,
-    this._kycSharingService,
   );
 
   final ECWallet _account;
   final MyDatabase _db;
   final KycRepository _kycRepository;
-  final KycSharingService _kycSharingService;
   final AnalyticsManager _analytics;
 
   final EspressoCashClient _ecClient;
