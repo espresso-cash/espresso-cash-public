@@ -15,7 +15,6 @@ import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
-import '../../../models/profile_data.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
@@ -26,10 +25,7 @@ import '../services/xflow_on_ramp_order_service.dart';
 typedef PreOrderData = ({String? preOrderId, Amount? preAmount});
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchKycOnRamp({
-    required ProfileData profile,
-    PreOrderData? preOrder,
-  }) async {
+  Future<void> launchKycOnRamp({PreOrderData? preOrder}) async {
     final kycStatus = sl<KycSharingService>().value?.kycStatus;
 
     if (preOrder?.preOrderId == null &&
@@ -119,7 +115,6 @@ extension BuildContextExt on BuildContext {
             preOrderId: preOrder?.preOrderId,
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount as FiatAmount,
-            countryCode: profile.country.code,
             partnerAuthPk: partnerAuthPk,
           )
           .then(
@@ -137,10 +132,7 @@ extension BuildContextExt on BuildContext {
     }
   }
 
-  Future<void> launchKycOffRamp({
-    required ProfileData profile,
-    PreOrderData? preOrder,
-  }) async {
+  Future<void> launchKycOffRamp({PreOrderData? preOrder}) async {
     final kycStatus = sl<KycSharingService>().value?.kycStatus;
 
     if (preOrder?.preOrderId == null &&
@@ -227,7 +219,6 @@ extension BuildContextExt on BuildContext {
             preOrderId: preOrder?.preOrderId,
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount,
-            countryCode: profile.country.code,
             partnerAuthPk: partnerAuthPk,
           )
           .then(

@@ -11,8 +11,8 @@ import '../../kyc_sharing/widgets/kyc_status_icon.dart';
 import '../../ramp/partners/kyc/widgets/launch.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 
-class CpKycTile extends StatelessWidget {
-  const CpKycTile({
+class EcKycTile extends StatelessWidget {
+  const EcKycTile({
     super.key,
     required this.title,
     required this.timestamp,
@@ -63,8 +63,8 @@ class _KycTileContent extends StatelessWidget {
   final String title;
   final String timestamp;
   final String? incomingAmount;
-  final String? outgoingAmount; //TODO
-  final PreOrderData? preOrder; //TODO
+  final String? outgoingAmount;
+  final PreOrderData? preOrder;
   final RampType rampType;
 
   @override

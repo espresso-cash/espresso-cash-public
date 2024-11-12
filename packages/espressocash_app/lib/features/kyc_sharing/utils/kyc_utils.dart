@@ -66,3 +66,12 @@ extension UserDataExtensions on UserData {
 extension StringNullIfEmpty on String {
   String? get nullIfEmpty => this.isEmpty ? null : this;
 }
+
+extension IdTypeExtension on IdType {
+  String get name => switch (this) {
+        IdType.voterId => 'Voter ID',
+        IdType.passport => 'Passport',
+        IdType.driverLicense => 'Driver License',
+        IdType.other => 'Other',
+      };
+}

@@ -48,10 +48,10 @@ class _KycTile extends StatelessWidget {
   final OffRampOrder? order;
 
   @override
-  Widget build(BuildContext context) => CpKycTile(
+  Widget build(BuildContext context) => EcKycTile(
         title: context.l10n.activities_lblWithdraw,
         timestamp: context.formatDate(activity.created),
-        incomingAmount: order?.receiveAmount?.format(
+        outgoingAmount: order?.amount.format(
           context.locale,
           maxDecimals: 2,
         ),

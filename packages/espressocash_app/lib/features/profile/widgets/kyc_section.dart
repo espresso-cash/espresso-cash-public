@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
@@ -23,9 +24,7 @@ class KycSection extends StatelessWidget {
 }
 
 class _KycInfo extends StatelessWidget {
-  const _KycInfo({
-    required this.user,
-  });
+  const _KycInfo({required this.user});
 
   final UserData user;
 
@@ -38,7 +37,7 @@ class _KycInfo extends StatelessWidget {
             label: context.l10n.editProfile,
             description: _getUserDescription(user),
             onPressed: context.openBasicInfoFlow,
-            status: user.kycStatus,
+            status: user.kycStatus.isUnspecified ? null : user.kycStatus,
           ),
           if (user.hasBankInfo)
             KycButton(
@@ -46,37 +45,49 @@ class _KycInfo extends StatelessWidget {
               description: _getBankDescription(user),
               onPressed: () => BankAccountScreen.push(context),
             ),
-          if (user.getEmail.isNotEmpty)
+          if (user.getEmail != null)
             KycButton(
               label: context.l10n.emailAddress,
               description: user.getEmail,
               onPressed: context.openEmailFlow,
               status: user.emailStatus,
             ),
-          if (user.getPhone.isNotEmpty)
+          if (user.getPhone != null)
             KycButton(
               label: context.l10n.phoneNumber,
               description: user.getPhone,
               onPressed: context.openPhoneFlow,
               status: user.phoneStatus,
             ),
-          KycButton(
-            label: context.l10n.manageDataAccess,
-            onPressed: () => ManageDataAccessScreen.push(context),
-          ),
+          if (!user.kycStatus.isUnspecified)
+            KycButton(
+              label: context.l10n.manageDataAccess,
+              onPressed: () => ManageDataAccessScreen.push(context),
+            ),
         ],
       );
 }
 
-String _getUserDescription(UserData user) => '''
-${user.firstName.isNotEmpty ? user.firstName : ''} ${user.lastName.isNotEmpty ? user.lastName : ''}
-DOB: ${user.dob}
-ID Type: ${user.documentType}
-ID Number: ${user.documentNumber.isNotEmpty ? user.documentNumber : ''}
-''';
+String? _getUserDescription(UserData user) {
+  final items = [
+    [user.firstName, user.lastName].whereType<String>().join(' ').trim(),
+    if (user.dob case final dob?) 'DOB: ${_formatDate(dob)}',
+    if (user.documentType case final idType?) 'ID Type: ${idType.name}',
+    if (user.documentNumber case final documentNumber?)
+      'ID Number: $documentNumber',
+  ].where((s) => s.isNotEmpty);
 
-String _getBankDescription(UserData user) => '''
-${user.countryCode.isNotEmpty ? user.countryCode : ''}
-${user.bankCode.isNotEmpty ? user.bankCode : ''}
-${user.accountNumber.isNotEmpty ? user.accountNumber : ''}
-''';
+  return items.isEmpty ? null : items.join('\n');
+}
+
+String? _getBankDescription(UserData user) {
+  final items = [
+    user.countryCode,
+    user.bankCode,
+    user.accountNumber,
+  ].whereType<String>();
+
+  return items.isEmpty ? null : items.join('\n');
+}
+
+String _formatDate(DateTime date) => DateFormat('MMM d, yyyy').format(date);

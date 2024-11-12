@@ -92,7 +92,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     // TODO(dev): move selecting of partner, should not be here
     await _kycRepository.grantPartnerAccess(partnerAuthPk);
-    await _kycRepository.grantPartnerAccess(validatorAuthPk);
 
     await fetchUserData();
   }
@@ -144,7 +143,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
       ),
     );
 
-    await fetchUserData();
+    // await fetchUserData();
     await _kycRepository.grantPartnerAccess(validatorAuthPk);
 
     await _kycRepository.initEmailVerification(
@@ -169,7 +168,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
       ),
     );
 
-    await fetchUserData();
+    // await fetchUserData();
 
     // TODO(vsumin): Currently do not work on test environment
     // await _kycRepository.initPhoneVerification(

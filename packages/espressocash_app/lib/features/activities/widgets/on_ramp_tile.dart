@@ -47,7 +47,7 @@ class _KycTile extends StatelessWidget {
   final OnRampOrder? order;
 
   @override
-  Widget build(BuildContext context) => CpKycTile(
+  Widget build(BuildContext context) => EcKycTile(
         title: context.l10n.activities_lblAddCash,
         timestamp: context.formatDate(activity.created),
         incomingAmount: order?.receiveAmount?.format(
