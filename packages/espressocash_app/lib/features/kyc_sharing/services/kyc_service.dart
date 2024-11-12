@@ -180,10 +180,9 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     await fetchUserData();
 
-    // TODO(vsumin): Currently do not work on test environment
-    // await _kycRepository.initPhoneVerification(
-    //   phoneId: value?.phone?.first.id ?? '',
-    // );
+    await _kycRepository.initPhoneVerification(
+      phoneId: value?.phone?.first.id ?? '',
+    );
   }
 
   Future<void> verifyPhone({required String code}) async {

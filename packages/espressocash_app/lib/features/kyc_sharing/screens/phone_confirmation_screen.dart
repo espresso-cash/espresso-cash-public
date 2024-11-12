@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -46,11 +47,32 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
           await service.verifyPhone(code: _controller.text);
 
           return true;
+        } on DioException catch (exception) {
+          final errorMessage = (exception.response?.data
+              as Map<String, dynamic>?)?['message'] as String?;
+
+          if (errorMessage == 'invalid code') {
+            if (!mounted) return false;
+            showCpErrorSnackbar(
+              context,
+              message: 'Wrong verification code',
+            );
+
+            return false;
+          }
+
+          if (!mounted) return false;
+          showCpErrorSnackbar(
+            context,
+            message: context.l10n.tryAgainLater,
+          );
+
+          return false;
         } on Exception {
           if (!mounted) return false;
           showCpErrorSnackbar(
             context,
-            message: 'Wrong verification code',
+            message: context.l10n.tryAgainLater,
           );
 
           return false;

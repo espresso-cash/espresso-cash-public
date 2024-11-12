@@ -1836,10 +1836,9 @@ packages:
   solana:
     dependency: "direct main"
     description:
-      name: solana
-      sha256: "349ae373501cd83d2df2285c76a97e5531d580f0e327732d883dcd0957981604"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../solana"
+      relative: true
+    source: path
     version: "0.31.0"
   solana_mobile_wallet:
     dependency: "direct main"
