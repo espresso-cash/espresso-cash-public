@@ -158,13 +158,12 @@ extension on ValidationStatus {
     switch (this) {
       case ValidationStatus.approved:
         return context.l10n.verified;
-      case ValidationStatus.pending:
-        return context.l10n.activities_lblInProgress;
       case ValidationStatus.rejected:
         return context.l10n.failed;
+      case ValidationStatus.pending:
       case ValidationStatus.unverified:
       case ValidationStatus.unspecified:
-        return 'Unverified';
+        return context.l10n.activities_lblInProgress;
     }
   }
 

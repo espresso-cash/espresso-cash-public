@@ -16,7 +16,6 @@ import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
 
 // Hardcoded for now
-const validatorAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 const partnerAuthPk = 'J4Bi8wQnvcX4kLyiA7xemJ7t4bikDncgWUZAscvymGPq';
 
 @Singleton(scope: authScope)
@@ -91,6 +90,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
       ),
     );
 
+    // TODO(dev): move selecting of partner, should not be here
     await _kycRepository.grantPartnerAccess(partnerAuthPk);
     await _kycRepository.grantPartnerAccess(validatorAuthPk);
 
@@ -134,8 +134,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
             )
           : null,
     );
-
-    await fetchUserData();
   }
 
   Future<void> initEmailVerification({required String email}) async {
@@ -198,3 +196,5 @@ class KycSharingService extends ValueNotifier<UserData?> {
     super.dispose();
   }
 }
+
+const validatorAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';

@@ -31,30 +31,32 @@ class KycCameraScreen extends StatefulWidget {
 class _KycCameraScreenState extends State<KycCameraScreen> {
   File? _capturedImage;
 
-  bool _isLoading = false;
-
   late FaceCameraController _controller;
 
   Future<void> _handleSubmitted() async {
-    setState(() => _isLoading = true);
+    final success = await runWithLoader<bool>(
+      context,
+      () async {
+        try {
+          final service = sl<KycSharingService>();
+          await service.updateSelfiePhoto(photoSelfie: _capturedImage);
+          await service.initDocumentValidation(); //TODO move this in background
 
-    try {
-      final service = sl<KycSharingService>();
+          return true;
+        } on Exception {
+          if (!mounted) return false;
+          showCpErrorSnackbar(
+            context,
+            message: context.l10n.failedToUpdateData,
+          );
 
-      await service.updateSelfiePhoto(photoSelfie: _capturedImage);
+          return false;
+        }
+      },
+    );
 
-      await service.initDocumentValidation();
-
-      if (!mounted) return;
-
-      Navigator.pop(context, true);
-    } on Exception {
-      showCpErrorSnackbar(context, message: context.l10n.failedToUpdateData);
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
+    if (!mounted) return;
+    if (success) Navigator.pop(context, true);
   }
 
   @override
@@ -70,46 +72,43 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpLoader(
-        isLoading: _isLoading,
-        child: CpTheme.black(
-          child: Scaffold(
-            body: Stack(
-              children: [
-                Builder(
-                  builder: (context) {
-                    final capturedImage = _capturedImage;
+  Widget build(BuildContext context) => CpTheme.black(
+        child: Scaffold(
+          body: Stack(
+            children: [
+              Builder(
+                builder: (context) {
+                  final capturedImage = _capturedImage;
 
-                    return capturedImage != null
-                        ? _ResultView(
-                            capturedImage: capturedImage,
-                            onRetakePressed: () async {
-                              await _controller.startImageStream();
+                  return capturedImage != null
+                      ? _ResultView(
+                          capturedImage: capturedImage,
+                          onRetakePressed: () async {
+                            await _controller.startImageStream();
 
-                              if (!mounted) return;
+                            if (!mounted) return;
 
-                              setState(() => _capturedImage = null);
-                            },
-                            onSubmitPressed: _handleSubmitted,
-                          )
-                        : _CameraView(_controller);
+                            setState(() => _capturedImage = null);
+                          },
+                          onSubmitPressed: _handleSubmitted,
+                        )
+                      : _CameraView(_controller);
+                },
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.paddingOf(context).top + 16,
+                    right: 24,
+                  ),
+                  icon: const Icon(Icons.close, size: 28),
+                  onPressed: () {
+                    Navigator.of(context).pop();
                   },
                 ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.paddingOf(context).top + 16,
-                      right: 24,
-                    ),
-                    icon: const Icon(Icons.close, size: 28),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );

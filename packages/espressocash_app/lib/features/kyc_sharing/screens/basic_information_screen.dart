@@ -176,6 +176,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                 controller: _dobController,
                 inputType: TextInputType.text,
                 placeholder: context.l10n.dateOfBirth,
+                readOnly: true,
               ),
             ),
           ),

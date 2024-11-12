@@ -203,8 +203,7 @@ class XFlowOffRampOrderService implements Disposable {
           final user = await _kycRepository.fetchUser();
 
           final validUser = user?.let(
-            (u) =>
-                u.accountNumber.isNotEmpty && u.bankCode.isNotEmpty ? u : null,
+            (u) => u.accountNumber != null && u.bankCode != null ? u : null,
           );
 
           if (validUser == null) {
@@ -219,8 +218,8 @@ class XFlowOffRampOrderService implements Disposable {
             fiatAmount: receiveAmount.value.toString(),
             fiatCurrency: receiveAmount.currency.symbol,
             partnerPK: partnerAuthPk,
-            bankAccount: validUser.accountNumber,
-            bankName: validUser.bankCode,
+            bankAccount: validUser.accountNumber ?? '',
+            bankName: validUser.bankCode ?? '',
           );
 
           final order = OffRampOrderRow(

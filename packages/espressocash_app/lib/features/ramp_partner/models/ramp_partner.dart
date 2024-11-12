@@ -97,8 +97,9 @@ extension RampPartnerAssets on RampPartner {
       case RampPartner.moneygram:
         return Assets.images.moneygramIcon;
       case RampPartner.scalex:
-      case RampPartner.xflow:
         return Assets.images.scalexIcon;
+      case RampPartner.xflow:
+        return Assets.images.logoIcon;
     }
   }
 }

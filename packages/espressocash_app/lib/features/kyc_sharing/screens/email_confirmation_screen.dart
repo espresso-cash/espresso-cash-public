@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
+import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_utils.dart';
@@ -31,20 +32,28 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
   bool get _isValid => _controller.text.length == 6;
 
   Future<void> _handleConfirm() async {
-    final service = sl<KycSharingService>();
+    final success = await runWithLoader<bool>(
+      context,
+      () async {
+        try {
+          final service = sl<KycSharingService>();
+          await service.verifyEmail(code: _controller.text);
 
-    try {
-      await service.verifyEmail(code: _controller.text);
+          return true;
+        } on Exception {
+          if (!mounted) return false;
+          showCpErrorSnackbar(
+            context,
+            message: 'Wrong verification code',
+          );
 
-      if (!mounted) return;
+          return false;
+        }
+      },
+    );
 
-      Navigator.pop(context, true);
-    } on Exception {
-      showCpErrorSnackbar(
-        context,
-        message: 'Wrong verification code',
-      );
-    }
+    if (!mounted) return;
+    if (success) Navigator.pop(context, true);
   }
 
   @override

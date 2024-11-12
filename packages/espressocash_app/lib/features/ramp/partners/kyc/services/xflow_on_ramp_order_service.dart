@@ -21,10 +21,16 @@ import '../../../../tokens/token.dart';
 
 @Singleton(scope: authScope)
 class XFlowOnRampOrderService implements Disposable {
-  XFlowOnRampOrderService(this._db, this._kycRepository, this._analytics);
+  XFlowOnRampOrderService(
+    this._db,
+    this._kycRepository,
+    this._kycSharingService,
+    this._analytics,
+  );
 
   final MyDatabase _db;
   final KycRepository _kycRepository;
+  final KycSharingService _kycSharingService;
   final AnalyticsManager _analytics;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
@@ -71,7 +77,7 @@ class XFlowOnRampOrderService implements Disposable {
               return const Stream.empty();
 
             case OnRampOrderStatus.waitingUserVerification:
-              sl<KycSharingService>().subscribe();
+              _kycSharingService.subscribe();
 
               return const Stream.empty();
 
@@ -103,8 +109,10 @@ class XFlowOnRampOrderService implements Disposable {
         {
           final order = OnRampOrderRow(
             id: const Uuid().v4(),
-            partnerOrderId: '',
             amount: submittedAmount.value,
+            receiveAmount: receiveAmount.value,
+            fiatSymbol: submittedAmount.currency.symbol,
+            partnerOrderId: '',
             token: Token.usdc.address,
             humanStatus: '',
             machineStatus: '',
@@ -112,12 +120,10 @@ class XFlowOnRampOrderService implements Disposable {
             created: DateTime.now(),
             txHash: '',
             partner: RampPartner.xflow,
-            receiveAmount: receiveAmount.value,
             status: OnRampOrderStatus.waitingUserVerification,
             bankAccount: null,
-            bankName: '',
-            bankTransferAmount: submittedAmount.value,
-            fiatSymbol: submittedAmount.currency.symbol,
+            bankName: null,
+            bankTransferAmount: null,
             authToken: null,
             moreInfoUrl: null,
           );
@@ -184,7 +190,7 @@ class XFlowOnRampOrderService implements Disposable {
 
   // Either approve or reject
   void _waitingPartnerReviewWatcher(OnRampOrderRow order) {
-    sl<KycSharingService>().unsubscribe();
+    _kycSharingService.unsubscribe();
 
     final id = order.id;
 
