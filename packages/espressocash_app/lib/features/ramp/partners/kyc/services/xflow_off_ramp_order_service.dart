@@ -136,10 +136,6 @@ class XFlowOffRampOrderService implements Disposable {
               return const Stream.empty();
 
             case OffRampOrderStatus.waitingUserVerification:
-              _kycSharingService.subscribe();
-
-              return const Stream.empty();
-
             case OffRampOrderStatus.preProcessing:
             case OffRampOrderStatus.postProcessing:
             case OffRampOrderStatus.ready:
@@ -187,7 +183,6 @@ class XFlowOffRampOrderService implements Disposable {
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
-          //TODO subscribe after
 
           return order.id;
         }
@@ -261,8 +256,6 @@ class XFlowOffRampOrderService implements Disposable {
       });
 
   void _waitingPartnerReviewWatcher(OffRampOrderRow order) {
-    _kycSharingService.unsubscribe();
-
     final id = order.id;
 
     if (_watchers.containsKey(id)) {

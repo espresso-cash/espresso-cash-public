@@ -77,10 +77,6 @@ class XFlowOnRampOrderService implements Disposable {
               return const Stream.empty();
 
             case OnRampOrderStatus.waitingUserVerification:
-              _kycSharingService.subscribe();
-
-              return const Stream.empty();
-
             case OnRampOrderStatus.pending:
             case OnRampOrderStatus.preProcessing:
             case OnRampOrderStatus.postProcessing:
@@ -129,7 +125,6 @@ class XFlowOnRampOrderService implements Disposable {
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
-          //TODO subscribe after
 
           return order.id;
         }
@@ -191,8 +186,6 @@ class XFlowOnRampOrderService implements Disposable {
 
   // Either approve or reject
   void _waitingPartnerReviewWatcher(OnRampOrderRow order) {
-    _kycSharingService.unsubscribe();
-
     final id = order.id;
 
     if (_watchers.containsKey(id)) {

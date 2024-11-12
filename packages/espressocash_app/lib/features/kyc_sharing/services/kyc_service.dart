@@ -14,6 +14,7 @@ import '../../accounts/auth_scope.dart';
 import '../../feature_flags/services/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
+import '../utils/kyc_utils.dart';
 
 // Hardcoded for now
 const partnerAuthPk = 'J4Bi8wQnvcX4kLyiA7xemJ7t4bikDncgWUZAscvymGPq';
@@ -31,6 +32,10 @@ class KycSharingService extends ValueNotifier<UserData?> {
     if (!sl<FeatureFlagsManager>().isXflowEnabled()) return;
 
     await fetchUserData();
+
+    if (value?.kycStatus == ValidationStatus.pending) {
+      _subscribe();
+    }
   }
 
   Future<void> fetchUserData() async {
@@ -40,8 +45,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     notifyListeners();
   }
 
-  void subscribe() {
-    unsubscribe();
+  void _subscribe() {
+    _unsubscribe();
 
     _pollingSubscription = Stream<void>.periodic(const Duration(seconds: 10))
         .startWith(null)
@@ -54,10 +59,11 @@ class KycSharingService extends ValueNotifier<UserData?> {
               .asStream()
               .onErrorReturn(null),
         )
+        .takeWhile((_) => value?.kycStatus == ValidationStatus.pending)
         .listen((_) {});
   }
 
-  void unsubscribe() {
+  void _unsubscribe() {
     _pollingSubscription?.cancel();
     _pollingSubscription = null;
   }
@@ -122,6 +128,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
     );
 
     await fetchUserData();
+    _subscribe();
   }
 
   Future<void> updateSelfiePhoto({File? photoSelfie}) async {
@@ -191,7 +198,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
   @override
   @disposeMethod
   void dispose() {
-    unsubscribe();
+    _unsubscribe();
     super.dispose();
   }
 }
