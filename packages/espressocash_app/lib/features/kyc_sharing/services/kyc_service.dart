@@ -109,6 +109,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
         id: value?.bankInfo?.first.id ?? '',
       ),
     );
+
+    await fetchUserData();
   }
 
   Future<void> initDocumentValidation() async {
@@ -131,6 +133,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
             )
           : null,
     );
+
+    await fetchUserData();
   }
 
   Future<void> initEmailVerification({required String email}) async {
@@ -143,6 +147,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
       ),
     );
 
+    await fetchUserData();
+
     await _kycRepository.initEmailVerification(
       emailId: value?.email?.first.id ?? '',
     );
@@ -153,6 +159,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
       code: code,
       dataId: value?.email?.first.id ?? '',
     );
+
+    await fetchUserData();
   }
 
   Future<void> initPhoneVerification({required String phone}) async {
@@ -162,6 +170,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
         id: value?.phone?.first.id ?? '',
       ),
     );
+
+    await fetchUserData();
 
     // TODO(vsumin): Currently do not work on test environment
     // await _kycRepository.initPhoneVerification(
@@ -174,6 +184,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
       code: code,
       dataId: value?.phone?.first.id ?? '',
     );
+
+    await fetchUserData();
   }
 
   @override
