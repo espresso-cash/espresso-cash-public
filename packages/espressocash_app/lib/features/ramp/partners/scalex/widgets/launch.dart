@@ -75,7 +75,7 @@ extension BuildContextExt on BuildContext {
         return Either.right(
           (
             ourFee: null,
-            partnerFee: '${rampFeePercentage * 100}% + \$$fixedFee',
+            partnerFee: null,
             totalFee: fee,
             extraFee: null,
           ),
@@ -231,7 +231,7 @@ window.addEventListener("message", (event) => {
         return Either.right(
           (
             ourFee: null,
-            partnerFee: '${rampFeePercentage * 100}% + \$$fixedFee',
+            partnerFee: null,
             totalFee: fee,
             extraFee: null,
           ),
