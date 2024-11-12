@@ -9,7 +9,6 @@ import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_status_icon.dart';
 import '../../ramp/partners/kyc/widgets/launch.dart';
-import '../../ramp/widgets/ramp_buttons.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 
 class CpKycTile extends StatelessWidget {
@@ -38,7 +37,7 @@ class CpKycTile extends StatelessWidget {
         builder: (context, user, _) => user == null
             ? const SizedBox.shrink()
             : _KycTileContent(
-                user: user,
+                status: user.kycStatus,
                 title: title,
                 timestamp: timestamp,
                 incomingAmount: incomingAmount,
@@ -51,7 +50,7 @@ class CpKycTile extends StatelessWidget {
 
 class _KycTileContent extends StatelessWidget {
   const _KycTileContent({
-    required this.user,
+    required this.status,
     required this.title,
     required this.timestamp,
     required this.incomingAmount,
@@ -60,12 +59,12 @@ class _KycTileContent extends StatelessWidget {
     required this.rampType,
   });
 
-  final UserData user;
+  final ValidationStatus status;
   final String title;
   final String timestamp;
   final String? incomingAmount;
-  final String? outgoingAmount;
-  final PreOrderData? preOrder;
+  final String? outgoingAmount; //TODO
+  final PreOrderData? preOrder; //TODO
   final RampType rampType;
 
   @override
@@ -84,7 +83,7 @@ class _KycTileContent extends StatelessWidget {
         children: [
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: KycStatusIcon(user.kycStatus, height: 42),
+            leading: KycStatusIcon(status, height: 42),
             title: Row(
               children: [
                 Expanded(
@@ -110,7 +109,7 @@ class _KycTileContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  user.kycStatus.subtitle(context),
+                  status.subtitle(context),
                   style: _subtitleStyle,
                 ),
                 Text(timestamp, style: _subtitleStyle),
@@ -118,19 +117,56 @@ class _KycTileContent extends StatelessWidget {
             ),
           ),
           Text(
-            user.kycStatus.description(context),
+            status.description(context),
             textAlign: TextAlign.center,
             style: _subtitleStyle,
           ),
           const SizedBox(height: 16),
-          switch (rampType) {
-            RampType.onRamp => user.kycStatus.onRampButton(context, preOrder),
-            RampType.offRamp => user.kycStatus.offRampButton(context, preOrder),
-          },
+          CpButton(
+            minWidth: 180,
+            text: status.buttonTitle(context, rampType),
+            onPressed: switch (rampType) {
+              RampType.onRamp => () =>
+                  context.launchKycOnRamp(preOrder: preOrder),
+              RampType.offRamp => () =>
+                  context.launchKycOffRamp(preOrder: preOrder),
+            },
+          ),
         ],
       ),
     );
   }
+}
+
+extension on ValidationStatus {
+  String subtitle(BuildContext context) => switch (this) {
+        ValidationStatus.approved => context.l10n.verified,
+        ValidationStatus.rejected => context.l10n.failed,
+        ValidationStatus.pending ||
+        ValidationStatus.unverified ||
+        ValidationStatus.unspecified =>
+          context.l10n.activities_lblInProgress,
+      };
+
+  String description(BuildContext context) => switch (this) {
+        ValidationStatus.approved => context.l10n.kycTileDescriptionApproved,
+        ValidationStatus.pending => context.l10n.kycTileDescriptionPending,
+        ValidationStatus.rejected => context.l10n.kycTileDescriptionRejected,
+        ValidationStatus.unverified ||
+        ValidationStatus.unspecified =>
+          context.l10n.kycTileDescriptionUnverified,
+      };
+
+  String buttonTitle(BuildContext context, RampType rampType) => switch (this) {
+        ValidationStatus.approved => rampType == RampType.onRamp
+            ? context.l10n.continueDeposit
+            : context.l10n.continueWithdrawal,
+        ValidationStatus.unverified ||
+        ValidationStatus.unspecified =>
+          'Continue Verification',
+        ValidationStatus.pending => context.l10n.seeDetails,
+        ValidationStatus.rejected => context.l10n.retryVerification,
+      };
 }
 
 const _titleStyle = TextStyle(
@@ -152,100 +188,3 @@ const _subtitleStyle = TextStyle(
   color: Colors.white,
   letterSpacing: .19,
 );
-
-extension on ValidationStatus {
-  String subtitle(BuildContext context) {
-    switch (this) {
-      case ValidationStatus.approved:
-        return context.l10n.verified;
-      case ValidationStatus.rejected:
-        return context.l10n.failed;
-      case ValidationStatus.pending:
-      case ValidationStatus.unverified:
-      case ValidationStatus.unspecified:
-        return context.l10n.activities_lblInProgress;
-    }
-  }
-
-  String description(BuildContext context) {
-    switch (this) {
-      case ValidationStatus.approved:
-        return context.l10n.kycTileDescriptionApproved;
-      case ValidationStatus.pending:
-        return context.l10n.kycTileDescriptionPending;
-      case ValidationStatus.rejected:
-        return context.l10n.kycTileDescriptionRejected;
-      case ValidationStatus.unverified:
-      case ValidationStatus.unspecified:
-        return context.l10n.kycTileDescriptionUnverified;
-    }
-  }
-
-  Widget onRampButton(
-    BuildContext context,
-    PreOrderData? preOrder,
-  ) {
-    String title;
-
-    switch (this) {
-      case ValidationStatus.approved:
-      case ValidationStatus.unverified:
-      case ValidationStatus.unspecified:
-        title = context.l10n.continueDeposit;
-
-      case ValidationStatus.pending:
-        title = context.l10n.seeDetails;
-
-      case ValidationStatus.rejected:
-        title = context.l10n.retryVerification;
-    }
-
-    return CpButton(
-      minWidth: 180,
-      text: title,
-      onPressed: () async {
-        final data = await context.ensureProfileData(RampType.onRamp);
-        if (context.mounted && data != null) {
-          await context.launchKycOnRamp(
-            profile: data,
-            preOrder: preOrder,
-          );
-        }
-      },
-    );
-  }
-
-  Widget offRampButton(
-    BuildContext context,
-    PreOrderData? preOrder,
-  ) {
-    String title;
-
-    switch (this) {
-      case ValidationStatus.approved:
-      case ValidationStatus.unverified:
-      case ValidationStatus.unspecified:
-        title = context.l10n.continueWithdrawal;
-
-      case ValidationStatus.pending:
-        title = context.l10n.seeDetails;
-
-      case ValidationStatus.rejected:
-        title = context.l10n.retryVerification;
-    }
-
-    return CpButton(
-      minWidth: 180,
-      text: title,
-      onPressed: () async {
-        final data = await context.ensureProfileData(RampType.offRamp);
-        if (context.mounted && data != null) {
-          await context.launchKycOffRamp(
-            profile: data,
-            preOrder: preOrder,
-          );
-        }
-      },
-    );
-  }
-}

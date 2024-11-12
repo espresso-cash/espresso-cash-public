@@ -200,7 +200,7 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.scalex:
         launchScalexOnRamp(profile: profile, address: address);
       case RampPartner.xflow:
-        launchKycOnRamp(profile: profile);
+        launchKycOnRamp();
       case RampPartner.moneygram:
         launchMoneygramOnRamp(profile: profile);
       case RampPartner.coinflow:
@@ -226,7 +226,7 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.moneygram:
         launchMoneygramOffRamp(profile: profile);
       case RampPartner.xflow:
-        launchKycOffRamp(profile: profile);
+        launchKycOffRamp();
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');

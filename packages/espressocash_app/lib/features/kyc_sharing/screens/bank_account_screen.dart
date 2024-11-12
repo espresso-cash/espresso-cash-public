@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
+import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
 import '../widgets/kyc_page.dart';
@@ -34,21 +35,32 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
       _bankNameController.text.isNotEmpty;
 
   Future<void> _handleSubmitted() async {
-    try {
-      final service = sl<KycSharingService>();
+    final success = await runWithLoader<bool>(
+      context,
+      () async {
+        try {
+          final service = sl<KycSharingService>();
+          await service.updateBankInfo(
+            bankAccountNumber: _bankAccountNumberController.text,
+            bankCode: _bankCodeController.text,
+            bankName: _bankNameController.text,
+          );
 
-      await service.updateBankInfo(
-        bankAccountNumber: _bankAccountNumberController.text,
-        bankCode: _bankCodeController.text,
-        bankName: _bankNameController.text,
-      );
+          return true;
+        } on Exception {
+          if (!mounted) return false;
+          showCpErrorSnackbar(
+            context,
+            message: context.l10n.failedToUpdateData,
+          );
 
-      if (!mounted) return;
+          return false;
+        }
+      },
+    );
 
-      Navigator.pop(context, true);
-    } on Exception {
-      showCpErrorSnackbar(context, message: context.l10n.failedToUpdateData);
-    }
+    if (!mounted) return;
+    if (success) Navigator.pop(context, true);
   }
 
   @override

@@ -7,25 +7,27 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 extension ValidationStatusExtension on ValidationStatus {
   bool get isApprovedOrPending =>
       this == ValidationStatus.approved || this == ValidationStatus.pending;
+
+  bool get isUnspecified => this == ValidationStatus.unspecified;
 }
 
 extension UserDataExtensions on UserData {
-  String get firstName => name?.first.firstName ?? '';
-  String get lastName => name?.first.lastName ?? '';
-  DateTime get dob => birthDate?.first.value ?? DateTime.now();
+  String? get firstName => name?.first.firstName.nullIfEmpty;
+  String? get lastName => name?.first.lastName.nullIfEmpty;
+  DateTime? get dob => birthDate?.first.value;
 
-  String get getEmail => email?.first.value ?? '';
-  String get getPhone => phone?.first.value ?? '';
+  String? get getEmail => email?.first.value.nullIfEmpty;
+  String? get getPhone => phone?.first.value.nullIfEmpty;
 
-  IdType get documentType => document?.first.type ?? IdType.other;
-  String get documentNumber => document?.first.number ?? '';
-  String get countryCode => document?.first.countryCode ?? '';
+  IdType? get documentType => document?.first.type;
+  String? get documentNumber => document?.first.number.nullIfEmpty;
+  String? get countryCode => document?.first.countryCode.nullIfEmpty;
 
   Uint8List? get photo => selfie?.first.value.let(Uint8List.fromList);
 
-  String get bankCode => bankInfo?.first.bankCode ?? '';
-  String get bankName => bankInfo?.first.bankName ?? '';
-  String get accountNumber => bankInfo?.first.accountNumber ?? '';
+  String? get bankCode => bankInfo?.first.bankCode.nullIfEmpty;
+  String? get bankName => bankInfo?.first.bankName.nullIfEmpty;
+  String? get accountNumber => bankInfo?.first.accountNumber.nullIfEmpty;
 
   ValidationStatus get kycStatus {
     final statuses = [
@@ -59,4 +61,8 @@ extension UserDataExtensions on UserData {
       (bankInfo?.first.bankCode.isNotEmpty ?? false) &&
       (bankInfo?.first.accountNumber.isNotEmpty ?? false) &&
       (bankInfo?.first.bankName.isNotEmpty ?? false);
+}
+
+extension StringNullIfEmpty on String {
+  String? get nullIfEmpty => this.isEmpty ? null : this;
 }
