@@ -1,7 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:sealed_countries/sealed_countries.dart' as country;
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../../../di.dart';
 import '../../../../../l10n/device_locale.dart';
@@ -41,9 +44,15 @@ extension BuildContextExt on BuildContext {
     const type = RampType.onRamp;
 
     const inputCurrency = Currency.usdc;
-    const receiveCurrency = Currency.usd;
+    final receiveCurrency = _fromCountryCode(profile.country.code);
 
-    final rate = _getExchangeRate(from: inputCurrency, to: receiveCurrency);
+    final rate = await _getExchangeRate(to: receiveCurrency);
+    if (rate == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+    final isEstimatedRate = receiveCurrency.symbol != Currency.usd.symbol;
 
     await RampAmountScreen.push(
       this,
@@ -71,7 +80,9 @@ extension BuildContextExt on BuildContext {
       exchangeRate: _formatExchangeRate(
         from: inputCurrency,
         to: receiveCurrency,
+        rate: rate,
       ),
+      isEstimatedRate: isEstimatedRate,
     );
 
     final submittedAmount = amount;
@@ -161,7 +172,7 @@ window.addEventListener("message", (event) => {
       this,
       url: Uri.parse(link),
       onLoaded: handleLoaded,
-      title: l10n.ramp_titleCashIn,
+      title: l10n.ramp_titleCashIn.toUpperCase(),
       theme: const CpThemeData.light(),
     );
 
@@ -179,9 +190,15 @@ window.addEventListener("message", (event) => {
     const type = RampType.offRamp;
 
     const inputCurrency = Currency.usdc;
-    const receiveCurrency = Currency.usd;
+    final receiveCurrency = _fromCountryCode(profile.country.code);
 
-    final rate = _getExchangeRate(from: inputCurrency, to: receiveCurrency);
+    final rate = await _getExchangeRate(to: receiveCurrency);
+    if (rate == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+    final isEstimatedRate = receiveCurrency.symbol != Currency.usd.symbol;
 
     await RampAmountScreen.push(
       this,
@@ -217,7 +234,9 @@ window.addEventListener("message", (event) => {
       exchangeRate: _formatExchangeRate(
         from: inputCurrency,
         to: receiveCurrency,
+        rate: rate,
       ),
+      isEstimatedRate: isEstimatedRate,
     );
 
     final submittedAmount = amount;
@@ -346,17 +365,49 @@ window.addEventListener("message", (event) => {
     );
   }
 
-  Decimal _getExchangeRate({required Currency from, required Currency to}) {
-    // ignore: avoid_print, will be removed on next PR
-    print('${from.symbol} -> ${to.symbol}');
+  Future<Decimal?> _getExchangeRate({
+    required Currency to,
+  }) =>
+      runWithLoader<Decimal?>(
+        this,
+        () async {
+          try {
+            final rates = await sl<EspressoCashClient>()
+                .fetchFiatRate(
+                  FiatRateRequestDto(
+                    base: Currency.usd.symbol,
+                    target: to.symbol,
+                  ),
+                )
+                .then((rates) => rates.rate);
 
-    // TODO(jenerio): implement fetching rates. 1:1 USDC for now
-    return Decimal.one;
+            return Decimal.parse(rates.toString());
+          } on Exception {
+            logMessage(
+              message: 'Error fetching exchange rate',
+              data: {'currency': to.symbol},
+              level: SentryLevel.error,
+            );
+
+            return null;
+          }
+        },
+      );
+
+  String _formatExchangeRate({
+    required Currency from,
+    required Currency to,
+    required Decimal rate,
+  }) {
+    final symbol = to.symbol == Currency.usd.symbol ? '=' : '≈';
+
+    return '1 ${from.symbol} $symbol $rate ${to.symbol}';
   }
 
-  String _formatExchangeRate({required Currency from, required Currency to}) {
-    final rate = _getExchangeRate(from: from, to: to);
+  FiatCurrency _fromCountryCode(String code) {
+    final currency =
+        country.WorldCountry.fromCodeShort(code).currencies?.firstOrNull;
 
-    return '1 ${from.symbol} = $rate ${to.symbol}';
+    return currency.toFiatCurrency.copyWith(countryCode: code);
   }
 }

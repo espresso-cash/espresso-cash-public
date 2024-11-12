@@ -70,10 +70,11 @@ class AddCashButton extends StatelessWidget {
             variant: CpIconButtonVariant.dark,
             size: CpIconButtonSize.large,
             onPressed: () async {
-              final data = await context.ensureProfileData(RampType.onRamp);
-              if (context.mounted && data != null) {
+              final hasProfile =
+                  await context.ensureProfileData(RampType.onRamp) != null;
+
+              if (context.mounted && hasProfile) {
                 context.launchOnRampFlow(
-                  profile: data,
                   address: sl<MyAccount>().wallet.publicKey.toBase58(),
                 );
               }
@@ -107,10 +108,11 @@ class CashOutButton extends StatelessWidget {
             variant: CpIconButtonVariant.dark,
             size: CpIconButtonSize.large,
             onPressed: () async {
-              final data = await context.ensureProfileData(RampType.offRamp);
-              if (context.mounted && data != null) {
+              final hasProfile =
+                  await context.ensureProfileData(RampType.offRamp) != null;
+
+              if (context.mounted && hasProfile) {
                 context.launchOffRampFlow(
-                  profile: data,
                   address: sl<MyAccount>().wallet.publicKey.toBase58(),
                 );
               }
@@ -156,29 +158,39 @@ extension RampBuildContextExt on BuildContext {
         : null;
   }
 
-  void launchOnRampFlow({
-    required ProfileData profile,
-    required String address,
-  }) {
+  ProfileData getProfileData() {
+    final repository = sl<ProfileRepository>();
+    final Country? country = repository.country?.let(Country.findByCode);
+    final String email = repository.email;
+
+    if (country == null || email.isEmpty) {
+      throw Exception('Profile data not available.');
+    }
+
+    return (country: country, email: email);
+  }
+
+  void launchOnRampFlow({required String address}) {
     RampPartnerSelectScreen.push(
       this,
       type: RampType.onRamp,
       onPartnerSelected: (RampPartner partner) {
         Navigator.pop(this);
+
+        final profile = getProfileData();
         _launchOnRampPartner(partner, profile: profile, address: address);
       },
     );
   }
 
-  void launchOffRampFlow({
-    required ProfileData profile,
-    required String address,
-  }) {
+  void launchOffRampFlow({required String address}) {
     RampPartnerSelectScreen.push(
       this,
       type: RampType.offRamp,
       onPartnerSelected: (RampPartner partner) {
         Navigator.pop(this);
+
+        final profile = getProfileData();
         _launchOffRampPartner(partner, profile: profile, address: address);
       },
     );

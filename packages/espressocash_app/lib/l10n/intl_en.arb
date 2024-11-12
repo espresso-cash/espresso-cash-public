@@ -912,6 +912,10 @@
   "@depositAmountTitle": {},
   "requiredDepositTitle": "Required Deposit",
   "@requiredDepositTitle": {},
+  "approximateRequiredDepositTitle": "Approximate Required Deposit",
+  "@approximateRequiredDepositTitle": {},
+  "approximateReceiveTitle": "You Receive Approximately",
+  "@approximateReceiveTitle": {},
   "additionalFeesTitle": "Additional fees",
   "@additionalFeesTitle": {},
   "youReceiveTitle": "You Receive",
@@ -931,5 +935,7 @@
   "reviewPayment": "Review *payment*",
   "@reviewPayment": {},
   "done": "Done",
-  "@done": {}
+  "@done": {},
+  "exchangeRateDisclaimer": "Amounts displayed are estimates.\nContinue for exact totals.",
+  "@exchangeRateDisclaimer": {}
 }

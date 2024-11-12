@@ -44,6 +44,7 @@ class RampAmountScreen extends StatefulWidget {
     required this.partner,
     required this.exchangeRate,
     required this.receiveCurrency,
+    this.isEstimatedRate = false,
   });
 
   static Future<void> push(
@@ -57,6 +58,7 @@ class RampAmountScreen extends StatefulWidget {
     FeeCalculator? calculateFee,
     String? exchangeRate,
     Currency? receiveCurrency,
+    bool isEstimatedRate = false,
   }) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
@@ -70,6 +72,7 @@ class RampAmountScreen extends StatefulWidget {
             calculateFee: calculateFee,
             exchangeRate: exchangeRate,
             receiveCurrency: receiveCurrency,
+            isEstimatedRate: isEstimatedRate,
           ),
         ),
       );
@@ -83,6 +86,7 @@ class RampAmountScreen extends StatefulWidget {
   final FeeCalculator? calculateFee;
   final String? exchangeRate;
   final Currency? receiveCurrency;
+  final bool isEstimatedRate;
 
   @override
   State<RampAmountScreen> createState() => _RampAmountScreenState();
@@ -100,17 +104,23 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
 
   bool get _isCryptoInput => widget.currency is CryptoCurrency;
 
-  String get _inputLabel => widget.type == RampType.offRamp
-      ? context.l10n.withdrawalAmountTitle
-      : _isCryptoInput
-          ? context.l10n.youReceiveTitle
-          : context.l10n.depositAmountTitle;
+  String get _inputLabel => switch (widget.type) {
+        RampType.offRamp => context.l10n.withdrawalAmountTitle,
+        RampType.onRamp => _isCryptoInput
+            ? context.l10n.youReceiveTitle
+            : context.l10n.depositAmountTitle,
+      };
 
-  String get _outputLabel => widget.type == RampType.offRamp
-      ? context.l10n.youReceiveTitle
-      : _isCryptoInput
-          ? context.l10n.requiredDepositTitle
-          : context.l10n.youReceiveTitle;
+  String get _outputLabel => switch (widget.type) {
+        RampType.offRamp => widget.isEstimatedRate
+            ? context.l10n.approximateReceiveTitle
+            : context.l10n.youReceiveTitle,
+        RampType.onRamp => switch ((_isCryptoInput, widget.isEstimatedRate)) {
+            (true, true) => context.l10n.approximateRequiredDepositTitle,
+            (true, false) => context.l10n.requiredDepositTitle,
+            (false, _) => context.l10n.youReceiveTitle,
+          },
+      };
 
   Amount get _amount {
     final text = _controller.text;
@@ -181,6 +191,7 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                           amount: _amount,
                           exchangeRate: widget.exchangeRate,
                           minAmount: widget.minAmount,
+                          showExchangeRateDisclaimer: widget.isEstimatedRate,
                         ),
                       ),
                       ValueListenableBuilder(
@@ -400,12 +411,14 @@ class _AdditionalInfoLabel extends StatefulWidget {
     required this.amount,
     required this.minAmount,
     this.exchangeRate,
+    required this.showExchangeRateDisclaimer,
   });
 
   final String? exchangeRate;
   final FeeCalculator? feeCalculator;
   final Amount amount;
   final Decimal minAmount;
+  final bool showExchangeRateDisclaimer;
 
   @override
   State<_AdditionalInfoLabel> createState() => _AdditionalInfoLabelState();
@@ -490,38 +503,35 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
   Widget build(BuildContext context) =>
       widget.exchangeRate == null && widget.feeCalculator == null
           ? const SizedBox.shrink()
-          : _RampContainer(
-              content: Column(
-                children: [
-                  if (widget.exchangeRate case final exchangeRate?)
-                    _InfoRow(
-                      title: context.l10n.exchangeRateTitle,
-                      value: exchangeRate,
-                    ),
-                  if (widget.feeCalculator != null)
-                    FutureBuilder(
-                      future: _result,
-                      builder: (context, snapshot) {
-                        if (widget.amount.decimal < widget.minAmount) {
-                          return _buildFeeRows(_empty);
-                        }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return _buildFeeRows(null);
-                        }
+          : FutureBuilder(
+              future: _result,
+              builder: (context, snapshot) {
+                final fees = widget.amount.decimal < widget.minAmount
+                    ? _empty
+                    : snapshot.connectionState == ConnectionState.waiting
+                        ? null
+                        : snapshot.data?.fold((_) => null, (data) => data);
 
-                        final data = snapshot.data;
-
-                        return data == null || snapshot.hasError
-                            ? const SizedBox.shrink()
-                            : data.fold(
-                                (_) => const SizedBox.shrink(),
-                                _buildFeeRows,
-                              );
-                      },
+                return Column(
+                  children: [
+                    _RampContainer(
+                      content: Column(
+                        children: [
+                          if (widget.exchangeRate case final exchangeRate?)
+                            _InfoRow(
+                              title: context.l10n.exchangeRateTitle,
+                              value: exchangeRate,
+                            ),
+                          if (widget.feeCalculator != null) _buildFeeRows(fees),
+                        ],
+                      ),
                     ),
-                ],
-              ),
+                    if (widget.showExchangeRateDisclaimer &&
+                        fees?.totalFee != null)
+                      const _ExchangeRateDisclaimer(),
+                  ],
+                );
+              },
             );
 }
 
@@ -589,6 +599,24 @@ class _InfoRow extends StatelessWidget {
                 ),
               ),
           ],
+        ),
+      );
+}
+
+class _ExchangeRateDisclaimer extends StatelessWidget {
+  const _ExchangeRateDisclaimer();
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Text(
+          context.l10n.exchangeRateDisclaimer,
+          style: TextStyle(
+            fontSize: 13.sp,
+            fontWeight: FontWeight.w400,
+            color: Colors.grey,
+          ),
+          textAlign: TextAlign.center,
         ),
       );
 }
