@@ -41,33 +41,17 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
           await service.verifyEmail(code: _controller.text);
 
           return true;
-        } on DioException catch (exception) {
-          final errorMessage = (exception.response?.data
-              as Map<String, dynamic>?)?['message'] as String?;
-
-          if (errorMessage == 'invalid code') {
-            if (!mounted) return false;
-            showCpErrorSnackbar(
-              context,
-              message: 'Wrong verification code',
-            );
-
-            return false;
-          }
-
+        } on Exception catch (exception) {
           if (!mounted) return false;
-          showCpErrorSnackbar(
-            context,
-            message: context.l10n.tryAgainLater,
-          );
 
-          return false;
-        } on Exception {
-          if (!mounted) return false;
-          showCpErrorSnackbar(
-            context,
-            message: context.l10n.tryAgainLater,
-          );
+          final message = exception is DioException &&
+                  (exception.response?.data
+                          as Map<String, dynamic>?)?['message'] ==
+                      'invalid code'
+              ? 'Wrong verification code'
+              : context.l10n.tryAgainLater;
+
+          showCpErrorSnackbar(context, message: message);
 
           return false;
         }

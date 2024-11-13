@@ -48,7 +48,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
   void _subscribe() {
     _unsubscribe();
 
-    _pollingSubscription = Stream<void>.periodic(const Duration(seconds: 10))
+    _pollingSubscription = Stream<void>.periodic(const Duration(seconds: 15))
         .startWith(null)
         .exhaustMap(
           (_) => fetchUserData()
