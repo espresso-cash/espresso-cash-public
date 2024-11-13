@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart' hide Order;
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
+import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 
@@ -29,7 +30,13 @@ class KycRepository extends ChangeNotifier {
       },
     );
 
-    await _kycUserClient.init(walletAddress: _ecWallet.publicKey.toString());
+    try {
+      await _kycUserClient.init(
+        walletAddress: _ecWallet.publicKey.toString(),
+      );
+    } on Exception catch (exception) {
+      reportError(exception);
+    }
 
     _rawSecretKey = _kycUserClient.rawSecretKey;
     _authPublicKey = _kycUserClient.authPublicKey;
