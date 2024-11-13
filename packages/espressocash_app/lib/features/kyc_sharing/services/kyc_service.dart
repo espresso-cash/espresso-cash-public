@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
@@ -14,6 +15,7 @@ import '../../accounts/auth_scope.dart';
 import '../../feature_flags/services/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
+import '../utils/kyc_exception.dart';
 import '../utils/kyc_utils.dart';
 
 // Hardcoded for now
@@ -162,12 +164,22 @@ class KycSharingService extends ValueNotifier<UserData?> {
   }
 
   Future<void> verifyEmail({required String code}) async {
-    await _kycRepository.verifyEmail(
-      code: code,
-      dataId: value?.email?.first.id ?? '',
-    );
+    try {
+      await _kycRepository.verifyEmail(
+        code: code,
+        dataId: value?.email?.first.id ?? '',
+      );
+    } on Exception catch (exception) {
+      if (exception is DioException &&
+          (exception.response?.data as Map<String, dynamic>?)?['message'] ==
+              'invalid code') {
+        throw const WrongCodeException();
+      }
 
-    await fetchUserData();
+      rethrow;
+    } finally {
+      await fetchUserData();
+    }
   }
 
   Future<void> initPhoneVerification({required String phone}) async {
@@ -186,12 +198,21 @@ class KycSharingService extends ValueNotifier<UserData?> {
   }
 
   Future<void> verifyPhone({required String code}) async {
-    await _kycRepository.verifyPhone(
-      code: code,
-      dataId: value?.phone?.first.id ?? '',
-    );
-
-    await fetchUserData();
+    try {
+      await _kycRepository.verifyPhone(
+        code: code,
+        dataId: value?.phone?.first.id ?? '',
+      );
+    } on Exception catch (exception) {
+      if (exception is DioException &&
+          (exception.response?.data as Map<String, dynamic>?)?['message'] ==
+              'invalid code') {
+        throw const WrongCodeException();
+      }
+      rethrow;
+    } finally {
+      await fetchUserData();
+    }
   }
 
   @override

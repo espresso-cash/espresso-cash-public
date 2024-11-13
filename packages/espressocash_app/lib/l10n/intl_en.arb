@@ -1079,5 +1079,7 @@
   "kycTileDescriptionRejected": "Your ID verification failed.\nMake sure your information is correct and try again.",
   "@kycTileDescriptionRejected": {},
   "kycTileDescriptionUnverified": "Start your ID verification to continue.",
-  "@kycTileDescriptionUnverified": {}
+  "@kycTileDescriptionUnverified": {},
+  "wrongVerificationCode": "Wrong verification code",
+  "@wrongVerificationCode": {}
 }

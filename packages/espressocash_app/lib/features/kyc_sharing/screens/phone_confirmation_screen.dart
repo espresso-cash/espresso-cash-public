@@ -7,6 +7,7 @@ import '../../../ui/bottom_button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
+import '../utils/kyc_exception.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
@@ -47,17 +48,17 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
           await service.verifyPhone(code: _controller.text);
 
           return true;
-        } on Exception catch (exception) {
+        } on WrongCodeException {
           if (!mounted) return false;
+          showCpErrorSnackbar(
+            context,
+            message: context.l10n.wrongVerificationCode,
+          );
 
-          final message = exception is DioException &&
-                  (exception.response?.data
-                          as Map<String, dynamic>?)?['message'] ==
-                      'invalid code'
-              ? 'Wrong verification code'
-              : context.l10n.tryAgainLater;
-
-          showCpErrorSnackbar(context, message: message);
+          return false;
+        } on Exception {
+          if (!mounted) return false;
+          showCpErrorSnackbar(context, message: context.l10n.tryAgainLater);
 
           return false;
         }
