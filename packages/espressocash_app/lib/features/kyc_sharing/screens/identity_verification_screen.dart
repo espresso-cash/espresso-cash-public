@@ -7,6 +7,7 @@ import '../../../ui/back_button.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/info_list.dart';
 import '../../../ui/theme.dart';
+import 'kyc_camera_screen.dart';
 
 class IdentityVerificationScreen extends StatelessWidget {
   const IdentityVerificationScreen({super.key});
@@ -48,7 +49,14 @@ class IdentityVerificationScreen extends StatelessWidget {
                   CpBottomButton(
                     horizontalPadding: 16,
                     text: context.l10n.startSelfieVerification,
-                    onPressed: () => Navigator.pop(context, true),
+                    onPressed: () async {
+                      final success = await KycCameraScreen.push(context);
+
+                      if (!context.mounted) return;
+                      if (!success) return;
+
+                      Navigator.pop(context, true);
+                    },
                   ),
                 ],
               ),

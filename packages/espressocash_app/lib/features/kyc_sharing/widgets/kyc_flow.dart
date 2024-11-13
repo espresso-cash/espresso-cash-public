@@ -8,7 +8,6 @@ import '../screens/basic_information_screen.dart';
 import '../screens/email_confirmation_screen.dart';
 import '../screens/email_verification_screen.dart';
 import '../screens/identity_verification_screen.dart';
-import '../screens/kyc_camera_screen.dart';
 import '../screens/kyc_description_screen.dart';
 import '../screens/kyc_status_screen.dart';
 import '../screens/phone_confirmation_screen.dart';
@@ -21,7 +20,6 @@ typedef KycStepFunction = Future<bool?> Function(BuildContext ctx);
 const List<KycStepFunction> kycSteps = [
   BasicInformationScreen.push,
   IdentityVerificationScreen.push,
-  KycCameraScreen.push,
 ];
 
 const List<KycStepFunction> emailSteps = [

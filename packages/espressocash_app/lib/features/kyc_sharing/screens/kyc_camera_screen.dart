@@ -105,7 +105,7 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
                   ),
                   icon: const Icon(Icons.close, size: 28),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(false);
                   },
                 ),
               ),
