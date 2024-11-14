@@ -14,13 +14,17 @@ class KycRepository extends ChangeNotifier {
 
   final ECWallet _ecWallet;
 
-  late final KycUserClient _kycUserClient;
+  late KycUserClient _kycUserClient;
 
   late String _authPublicKey = '';
   late String _rawSecretKey = '';
 
-  @PostConstruct()
-  Future<void> init() async {
+  Future<void>? _initFuture;
+
+  @PostConstruct(preResolve: false)
+  Future<void> init() => _initFuture ??= _initCache();
+
+  Future<void> _initCache() async {
     _kycUserClient = KycUserClient(
       sign: (data) async {
         final signature =
@@ -30,16 +34,22 @@ class KycRepository extends ChangeNotifier {
       },
     );
 
-    try {
-      await _kycUserClient.init(
-        walletAddress: _ecWallet.publicKey.toString(),
-      );
-    } on Exception catch (exception) {
-      reportError(exception);
-    }
+    while (true) {
+      try {
+        await _kycUserClient.init(
+          walletAddress: _ecWallet.publicKey.toString(),
+        );
 
-    _rawSecretKey = _kycUserClient.rawSecretKey;
-    _authPublicKey = _kycUserClient.authPublicKey;
+        _rawSecretKey = _kycUserClient.rawSecretKey;
+        _authPublicKey = _kycUserClient.authPublicKey;
+
+        break;
+      } on Exception catch (exception) {
+        reportError(exception);
+
+        await Future<void>.delayed(const Duration(seconds: 15));
+      }
+    }
   }
 
   Future<UserData> _getUserData() => _kycUserClient.getUserData(

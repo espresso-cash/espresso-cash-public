@@ -28,7 +28,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   StreamSubscription<void>? _pollingSubscription;
 
-  @PostConstruct()
+  @PostConstruct(preResolve: false)
   Future<void> init() async {
     if (!sl<FeatureFlagsManager>().isXflowEnabled()) return;
 
