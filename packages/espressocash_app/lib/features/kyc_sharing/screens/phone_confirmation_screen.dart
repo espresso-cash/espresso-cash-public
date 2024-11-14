@@ -49,9 +49,8 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
         } on KycException catch (error) {
           if (!mounted) return false;
 
-          final message = switch (error.error) {
-            KycError.invalidCode => context.l10n.wrongVerificationCode,
-            // ignore: avoid-wildcard-cases-with-enums, check if needed
+          final message = switch (error) {
+            KycInvalidCode() => context.l10n.wrongVerificationCode,
             _ => context.l10n.tryAgainLater,
           };
 

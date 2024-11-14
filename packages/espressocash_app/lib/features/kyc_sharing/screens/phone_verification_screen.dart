@@ -44,9 +44,8 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
         } on KycException catch (error) {
           if (!mounted) return false;
 
-          final message = switch (error.error) {
-            KycError.invalidPhone => context.l10n.invalidPhone,
-            // ignore: avoid-wildcard-cases-with-enums, check if needed
+          final message = switch (error) {
+            KycInvalidPhone() => context.l10n.invalidPhone,
             _ => context.l10n.failedToSendVerificationCode,
           };
 

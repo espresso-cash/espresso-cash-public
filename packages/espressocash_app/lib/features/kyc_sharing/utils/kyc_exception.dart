@@ -1,23 +1,22 @@
 import 'package:dio/dio.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class KycException implements Exception {
-  const KycException({required this.error});
-  final KycError error;
-}
+part 'kyc_exception.freezed.dart';
 
-enum KycError {
-  invalidCode,
-  invalidEmail,
-  invalidPhone,
-  invalidData,
-  invalidToken,
-  genericError,
+@freezed
+sealed class KycException with _$KycException implements Exception {
+  const factory KycException.invalidCode() = KycInvalidCode;
+  const factory KycException.invalidEmail() = KycInvalidEmail;
+  const factory KycException.invalidPhone() = KycInvalidPhone;
+  const factory KycException.invalidData() = KycInvalidData;
+  const factory KycException.invalidToken() = KycInvalidToken;
+  const factory KycException.genericError() = KycGenericError;
 }
 
 extension ErrorExt on Exception {
   KycException toKycException() {
     if (this is! DioException) {
-      return const KycException(error: KycError.genericError);
+      return const KycException.genericError();
     }
 
     final dioException = this as DioException;
@@ -25,14 +24,12 @@ extension ErrorExt on Exception {
         as Map<String, dynamic>?)?['message'] as String?;
 
     return switch (message) {
-      'invalid token' => const KycException(error: KycError.invalidToken),
-      'invalid email' => const KycException(error: KycError.invalidEmail),
-      'invalid phone' => const KycException(error: KycError.invalidPhone),
-      'invalid code' => const KycException(error: KycError.invalidCode),
-      'invalid data' => const KycException(error: KycError.invalidData),
-      _ => const KycException(
-          error: KycError.genericError,
-        ),
+      'invalid token' => const KycException.invalidToken(),
+      'invalid email' => const KycException.invalidEmail(),
+      'invalid phone' => const KycException.invalidPhone(),
+      'invalid code' => const KycException.invalidCode(),
+      'invalid data' => const KycException.invalidData(),
+      _ => const KycException.genericError(),
     };
   }
 }

@@ -48,9 +48,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         } on KycException catch (error) {
           if (!mounted) return false;
 
-          final message = switch (error.error) {
-            KycError.invalidEmail => context.l10n.invalidEmail,
-            // ignore: avoid-wildcard-cases-with-enums, check if needed
+          final message = switch (error) {
+            KycInvalidEmail() => context.l10n.invalidEmail,
             _ => context.l10n.failedToSendVerificationCode,
           };
 
