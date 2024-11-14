@@ -7,6 +7,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/email.dart';
 import '../services/kyc_service.dart';
+import '../utils/kyc_exception.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
@@ -41,17 +42,19 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       () async {
         try {
           final service = sl<KycSharingService>();
-
           await service.initEmailVerification(email: _emailController.text);
 
           return true;
-        } on Exception {
+        } on KycException catch (error) {
           if (!mounted) return false;
 
-          showCpErrorSnackbar(
-            context,
-            message: 'Failed to send verification code',
-          );
+          final message = switch (error.error) {
+            KycError.invalidEmail => context.l10n.invalidEmail,
+            // ignore: avoid-wildcard-cases-with-enums, check if needed
+            _ => context.l10n.failedToSendVerificationCode,
+          };
+
+          showCpErrorSnackbar(context, message: message);
 
           return false;
         }

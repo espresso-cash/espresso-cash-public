@@ -6,6 +6,7 @@ import '../../../ui/button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
+import '../utils/kyc_exception.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
@@ -41,13 +42,16 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
           await service.initPhoneVerification(phone: _numberController.text);
 
           return true;
-        } on Exception {
+        } on KycException catch (error) {
           if (!mounted) return false;
 
-          showCpErrorSnackbar(
-            context,
-            message: 'Failed to send verification code',
-          );
+          final message = switch (error.error) {
+            KycError.invalidPhone => context.l10n.invalidPhone,
+            // ignore: avoid-wildcard-cases-with-enums, check if needed
+            _ => context.l10n.failedToSendVerificationCode,
+          };
+
+          showCpErrorSnackbar(context, message: message);
 
           return false;
         }

@@ -1081,5 +1081,11 @@
   "kycTileDescriptionUnverified": "Start your ID verification to continue.",
   "@kycTileDescriptionUnverified": {},
   "wrongVerificationCode": "Wrong verification code",
-  "@wrongVerificationCode": {}
+  "@wrongVerificationCode": {},
+  "invalidEmail": "Invalid email",
+  "@invalidEmail": {},
+  "invalidPhone": "Invalid phone",
+  "@invalidPhone": {},
+  "failedToSendVerificationCode": "Failed to send verification code",
+  "@failedToSendVerificationCode": {}
 }

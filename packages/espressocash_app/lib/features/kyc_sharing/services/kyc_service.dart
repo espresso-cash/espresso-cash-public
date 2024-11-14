@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
@@ -158,9 +157,13 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     await fetchUserData();
 
-    await _kycRepository.initEmailVerification(
-      emailId: value?.email?.first.id ?? '',
-    );
+    try {
+      await _kycRepository.initEmailVerification(
+        emailId: value?.email?.first.id ?? '',
+      );
+    } on Exception catch (exception) {
+      throw exception.toKycException();
+    }
   }
 
   Future<void> verifyEmail({required String code}) async {
@@ -170,13 +173,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
         dataId: value?.email?.first.id ?? '',
       );
     } on Exception catch (exception) {
-      if (exception is DioException &&
-          (exception.response?.data as Map<String, dynamic>?)?['message'] ==
-              'invalid code') {
-        throw const WrongCodeException();
-      }
-
-      rethrow;
+      throw exception.toKycException();
     } finally {
       await fetchUserData();
     }
@@ -192,9 +189,13 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     await fetchUserData();
 
-    await _kycRepository.initPhoneVerification(
-      phoneId: value?.phone?.first.id ?? '',
-    );
+    try {
+      await _kycRepository.initPhoneVerification(
+        phoneId: value?.phone?.first.id ?? '',
+      );
+    } on Exception catch (exception) {
+      throw exception.toKycException();
+    }
   }
 
   Future<void> verifyPhone({required String code}) async {
@@ -204,12 +205,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
         dataId: value?.phone?.first.id ?? '',
       );
     } on Exception catch (exception) {
-      if (exception is DioException &&
-          (exception.response?.data as Map<String, dynamic>?)?['message'] ==
-              'invalid code') {
-        throw const WrongCodeException();
-      }
-      rethrow;
+      throw exception.toKycException();
     } finally {
       await fetchUserData();
     }

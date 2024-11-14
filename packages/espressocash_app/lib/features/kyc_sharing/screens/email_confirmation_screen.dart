@@ -41,17 +41,16 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
           await service.verifyEmail(code: _controller.text);
 
           return true;
-        } on WrongCodeException {
+        } on KycException catch (error) {
           if (!mounted) return false;
-          showCpErrorSnackbar(
-            context,
-            message: context.l10n.wrongVerificationCode,
-          );
 
-          return false;
-        } on Exception {
-          if (!mounted) return false;
-          showCpErrorSnackbar(context, message: context.l10n.tryAgainLater);
+          final message = switch (error.error) {
+            KycError.invalidCode => context.l10n.wrongVerificationCode,
+            // ignore: avoid-wildcard-cases-with-enums, check if needed
+            _ => context.l10n.tryAgainLater,
+          };
+
+          showCpErrorSnackbar(context, message: message);
 
           return false;
         }
