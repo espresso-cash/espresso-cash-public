@@ -1,3 +1,10 @@
+## 1.131.0
+
+ - **FIX**: moneygram deposit screen updates (#1602).
+ - **FEAT**: check balance before Pay creation (#1604).
+ - **FEAT**: moneygram local currency (#1605).
+ - **FEAT**: moneygram deposit (#1603).
+
 ## 1.130.0
 
  - **FEAT**: moneygram withdraw updates (#1599).
