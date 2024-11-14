@@ -60,8 +60,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
       context,
       () async {
         try {
-          final service = sl<KycSharingService>();
-
           final countryCode = _country?.code;
           final idTypeValue = _idType?.value;
 
@@ -69,7 +67,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             throw Exception();
           }
 
-          await service.updateBasicInfo(
+          await sl<KycSharingService>().updateBasicInfo(
             firstName: _firstNameController.text,
             lastName: _lastNameController.text,
             dob: _dob,

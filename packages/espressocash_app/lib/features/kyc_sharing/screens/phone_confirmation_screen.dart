@@ -43,8 +43,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
       context,
       () async {
         try {
-          final service = sl<KycSharingService>();
-          await service.verifyPhone(code: _controller.text);
+          await sl<KycSharingService>().verifyPhone(code: _controller.text);
 
           return true;
         } on KycException catch (error) {

@@ -37,8 +37,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
       context,
       () async {
         try {
-          final service = sl<KycSharingService>();
-          await service.verifyEmail(code: _controller.text);
+          await sl<KycSharingService>().verifyEmail(code: _controller.text);
 
           return true;
         } on KycException catch (error) {

@@ -37,9 +37,8 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
       context,
       () async {
         try {
-          final service = sl<KycSharingService>();
-
-          await service.initPhoneVerification(phone: _numberController.text);
+          await sl<KycSharingService>()
+              .initPhoneVerification(phone: _numberController.text);
 
           return true;
         } on KycException catch (error) {
