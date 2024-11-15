@@ -4,7 +4,6 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:sealed_countries/sealed_countries.dart' as country;
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../../../di.dart';
 import '../../../../../l10n/device_locale.dart';
@@ -228,7 +227,7 @@ window.addEventListener("message", (event) => {
       calculateFee: (amount) => _calculateFees(
         amount: amount,
         type: type,
-        currency: inputCurrency,
+        currency: receiveCurrency,
         rate: rate,
       ),
       exchangeRate: _formatExchangeRate(
@@ -350,10 +349,9 @@ window.addEventListener("message", (event) => {
         fees.moneygramFee + fees.bridgeFee + fees.gasFeeInUsdc,
     };
 
-    final convertedTotalFees = totalFees.convert(
-      rate: rate,
-      to: currency,
-    );
+    final convertedTotalFees = totalFees.currency != currency
+        ? totalFees.convert(rate: rate, to: currency)
+        : totalFees;
 
     return Either.right(
       (
@@ -382,12 +380,8 @@ window.addEventListener("message", (event) => {
                 .then((rates) => rates.rate);
 
             return Decimal.parse(rates.toString());
-          } on Exception {
-            logMessage(
-              message: 'Error fetching exchange rate',
-              data: {'currency': to.symbol},
-              level: SentryLevel.error,
-            );
+          } on Exception catch (error) {
+            reportError(error);
 
             return null;
           }
