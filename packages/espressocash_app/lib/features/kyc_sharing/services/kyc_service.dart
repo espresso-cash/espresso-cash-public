@@ -22,16 +22,21 @@ const partnerAuthPk = 'J4Bi8wQnvcX4kLyiA7xemJ7t4bikDncgWUZAscvymGPq';
 
 @Singleton(scope: authScope)
 class KycSharingService extends ValueNotifier<UserData?> {
-  KycSharingService(this._kycRepository) : super(const UserData());
+  KycSharingService(this._kycRepository) : super(null);
 
   final KycRepository _kycRepository;
 
   StreamSubscription<void>? _pollingSubscription;
 
-  @PostConstruct(preResolve: false)
-  Future<void> init() async {
+  @PostConstruct()
+  void init() {
     if (!sl<FeatureFlagsManager>().isXflowEnabled()) return;
 
+    _initializeKyc();
+  }
+
+  Future<void> _initializeKyc() async {
+    await _kycRepository.init();
     await fetchUserData();
 
     if (value?.kycStatus == ValidationStatus.pending) {

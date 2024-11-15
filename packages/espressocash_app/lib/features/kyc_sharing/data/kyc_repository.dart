@@ -14,51 +14,41 @@ class KycRepository extends ChangeNotifier {
 
   final ECWallet _ecWallet;
 
-  late KycUserClient _kycUserClient;
+  late final KycUserClient _kycUserClient = KycUserClient(
+    sign: (data) async {
+      final signature =
+          await _ecWallet.sign([Uint8List.fromList(data.toList())]);
 
-  late String _authPublicKey = '';
-  late String _rawSecretKey = '';
+      return signature.first;
+    },
+  );
 
-  Future<void>? _initFuture;
+  Future<void>? _clientInitialization;
 
-  @PostConstruct(preResolve: false)
-  Future<void> init() => _initFuture ??= _initCache();
+  Future<void> init() => _clientInitialization ??= Future(() async {
+        while (true) {
+          try {
+            await _kycUserClient.init(
+              walletAddress: _ecWallet.publicKey.toString(),
+            );
+            break;
+          } on Exception catch (exception) {
+            reportError(exception);
 
-  Future<void> _initCache() async {
-    _kycUserClient = KycUserClient(
-      sign: (data) async {
-        final signature =
-            await _ecWallet.sign([Uint8List.fromList(data.toList())]);
-
-        return signature.first;
-      },
-    );
-
-    while (true) {
-      try {
-        await _kycUserClient.init(
-          walletAddress: _ecWallet.publicKey.toString(),
-        );
-
-        _rawSecretKey = _kycUserClient.rawSecretKey;
-        _authPublicKey = _kycUserClient.authPublicKey;
-
-        break;
-      } on Exception catch (exception) {
-        reportError(exception);
-
-        await Future<void>.delayed(const Duration(seconds: 15));
-      }
-    }
-  }
+            await Future<void>.delayed(const Duration(seconds: 15));
+          }
+        }
+      });
 
   Future<UserData> _getUserData() => _kycUserClient.getUserData(
-        userPK: _authPublicKey,
-        secretKey: _rawSecretKey,
+        userPK: _kycUserClient.authPublicKey,
+        secretKey: _kycUserClient.rawSecretKey,
       );
 
   Future<UserData?> fetchUser() async {
     try {
+      await _clientInitialization;
+
       return await _getUserData();
     } on Exception {
       return null;
