@@ -228,7 +228,7 @@ window.addEventListener("message", (event) => {
       calculateFee: (amount) => _calculateFees(
         amount: amount,
         type: type,
-        currency: inputCurrency,
+        currency: receiveCurrency,
         rate: rate,
       ),
       exchangeRate: _formatExchangeRate(
@@ -350,10 +350,9 @@ window.addEventListener("message", (event) => {
         fees.moneygramFee + fees.bridgeFee + fees.gasFeeInUsdc,
     };
 
-    final convertedTotalFees = totalFees.convert(
-      rate: rate,
-      to: currency,
-    );
+    final convertedTotalFees = totalFees.currency != currency
+        ? totalFees.convert(rate: rate, to: currency)
+        : totalFees;
 
     return Either.right(
       (
