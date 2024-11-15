@@ -381,12 +381,8 @@ window.addEventListener("message", (event) => {
                 .then((rates) => rates.rate);
 
             return Decimal.parse(rates.toString());
-          } on Exception {
-            logMessage(
-              message: 'Error fetching exchange rate',
-              data: {'currency': to.symbol},
-              level: SentryLevel.error,
-            );
+          } on Exception catch (error) {
+            reportError(error);
 
             return null;
           }
