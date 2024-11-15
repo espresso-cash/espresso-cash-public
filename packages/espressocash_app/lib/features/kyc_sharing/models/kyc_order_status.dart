@@ -4,7 +4,6 @@ enum KycOrderStatus {
   rejected('REJECTED'),
   completed('COMPLETED'),
   failed('FAILED'),
-  undelivered('UNDELIVERED'),
   unknown('UNKNOWN');
 
   const KycOrderStatus(this.value);

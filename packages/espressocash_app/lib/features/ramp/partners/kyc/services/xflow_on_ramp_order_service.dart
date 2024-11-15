@@ -206,7 +206,6 @@ class XFlowOnRampOrderService implements Disposable {
       final status = switch (kycStatus) {
         KycOrderStatus.completed => OnRampOrderStatus.completed,
         KycOrderStatus.unknown ||
-        KycOrderStatus.undelivered ||
         KycOrderStatus.rejected =>
           OnRampOrderStatus.rejected,
         KycOrderStatus.failed => OnRampOrderStatus.failure,
@@ -253,7 +252,6 @@ class XFlowOnRampOrderService implements Disposable {
       final status = switch (kycStatus) {
         KycOrderStatus.completed => OnRampOrderStatus.completed,
         KycOrderStatus.unknown ||
-        KycOrderStatus.undelivered ||
         KycOrderStatus.rejected =>
           OnRampOrderStatus.rejected,
         KycOrderStatus.failed => OnRampOrderStatus.failure,
