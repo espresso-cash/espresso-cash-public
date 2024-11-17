@@ -36,7 +36,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
   }
 
   Future<void> _initializeKyc() async {
-    await _kycRepository.init();
     await fetchUserData();
 
     if (value?.kycStatus == ValidationStatus.pending) {
