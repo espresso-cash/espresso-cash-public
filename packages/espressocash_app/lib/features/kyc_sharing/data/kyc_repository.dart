@@ -87,7 +87,8 @@ class KycRepository extends ChangeNotifier {
     required String dataId,
   }) async {
     await _initWrapper(
-        () => _kycUserClient.validateEmail(code: code, dataId: dataId));
+      () => _kycUserClient.validateEmail(code: code, dataId: dataId),
+    );
   }
 
   Future<void> initPhoneVerification({required String phoneId}) =>
@@ -98,7 +99,8 @@ class KycRepository extends ChangeNotifier {
     required String dataId,
   }) =>
       _initWrapper(
-          () => _kycUserClient.validatePhone(code: code, dataId: dataId));
+        () => _kycUserClient.validatePhone(code: code, dataId: dataId),
+      );
 
   Future<void> initKycVerification({
     required String nameId,
