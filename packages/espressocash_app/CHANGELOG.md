@@ -1,3 +1,7 @@
+## 1.131.1
+
+ - **FIX**: moneygram withdraw fee currency (#1607).
+
 ## 1.131.0
 
  - **FIX**: moneygram deposit screen updates (#1602).
