@@ -23,7 +23,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<CreateDirectPaymentResponseDto> createDirectPayment(
       CreateDirectPaymentRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -51,10 +51,10 @@ class _EspressoCashClient implements EspressoCashClient {
 
   @override
   Future<GetFeesResponseDto> getFees() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<GetFeesResponseDto>(Options(
       method: 'POST',
@@ -78,7 +78,7 @@ class _EspressoCashClient implements EspressoCashClient {
 
   @override
   Future<SwapRouteResponseDto> getSwapRoute(SwapRouteRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -107,7 +107,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<CreatePaymentResponseDto> createPaymentEc(
       CreatePaymentRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -136,7 +136,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<ReceivePaymentResponseDto> receivePaymentEc(
       ReceivePaymentRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -165,7 +165,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<CancelPaymentResponseDto> cancelPaymentEc(
       CancelPaymentRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -194,7 +194,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<GenerateScalexLinkResponseDto> generateScalexLink(
       GenerateScalexLinkRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -223,7 +223,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<OrderStatusScalexResponseDto> fetchScalexTransaction(
       OrderStatusScalexRequestDto referenceId) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -252,7 +252,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<ScalexWithdrawResponseDto> createScalexWithdraw(
       ScalexWithdrawRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -280,10 +280,10 @@ class _EspressoCashClient implements EspressoCashClient {
 
   @override
   Future<ScalexRateFeeResponseDto> fetchScalexFeesAndRate() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ScalexRateFeeResponseDto>(Options(
       method: 'POST',
@@ -307,7 +307,7 @@ class _EspressoCashClient implements EspressoCashClient {
 
   @override
   Future<void> updateUserWalletCountry(WalletCountryRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -333,7 +333,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<PaymentQuoteResponseDto> getDlnQuote(
       PaymentQuoteRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -362,7 +362,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<OrderIdDlnResponseDto> fetchDlnOrderId(
       OrderIdDlnRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -391,7 +391,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<OrderStatusDlnResponseDto> fetchDlnStatus(
       OrderStatusDlnRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -420,7 +420,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<IncomingQuoteResponseDto> getIncomingDlnQuote(
       IncomingQuoteRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -448,10 +448,10 @@ class _EspressoCashClient implements EspressoCashClient {
 
   @override
   Future<GetFreeNonceResponseDto> getFreeNonce() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<GetFreeNonceResponseDto>(Options(
       method: 'POST',
@@ -476,7 +476,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<SubmitDurableTxResponseDto> submitDurableTx(
       SubmitDurableTxRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -504,10 +504,10 @@ class _EspressoCashClient implements EspressoCashClient {
 
   @override
   Future<GetDurableFeesResponseDto> getDurableFees() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<GetDurableFeesResponseDto>(Options(
       method: 'POST',
@@ -532,7 +532,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<ShortenLinkResponseDto> shortenLink(
       ShortenLinkRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -561,7 +561,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<UnshortenLinkResponseDto> unshortenLink(
       UnshortenLinkRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -589,7 +589,7 @@ class _EspressoCashClient implements EspressoCashClient {
 
   @override
   Future<GasFeeResponseDto> getGasFees(GasFeeRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -617,10 +617,10 @@ class _EspressoCashClient implements EspressoCashClient {
 
   @override
   Future<GetRatesResponseDto> getRates() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<GetRatesResponseDto>(Options(
       method: 'POST',
@@ -644,7 +644,7 @@ class _EspressoCashClient implements EspressoCashClient {
 
   @override
   Future<FiatRateResponseDto> fetchFiatRate(FiatRateRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -673,7 +673,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
       PriorityFeesRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -702,7 +702,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<MoneygramChallengeSignResponseDto> signChallenge(
       MoneygramChallengeSignRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -731,7 +731,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<MoneygramSwapResponseDto> swapToSolana(
       SwapToSolanaRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -760,7 +760,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<MoneygramSwapResponseDto> swapToStellar(
       SwapToStellarRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -789,7 +789,7 @@ class _EspressoCashClient implements EspressoCashClient {
   @override
   Future<MoneygramFeeResponseDto> calculateMoneygramFee(
       MoneygramFeeRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -817,7 +817,7 @@ class _EspressoCashClient implements EspressoCashClient {
 
   @override
   Future<void> fundXlmRequest(FundXlmRequestDto request) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -842,10 +842,10 @@ class _EspressoCashClient implements EspressoCashClient {
 
   @override
   Future<GetTokensMetaResponseDto> getTokensMeta() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<GetTokensMetaResponseDto>(Options(
       method: 'POST',
@@ -865,6 +865,32 @@ class _EspressoCashClient implements EspressoCashClient {
             ))));
     final value = GetTokensMetaResponseDto.fromJson(_result.data!);
     return value;
+  }
+
+  @override
+  Future<void> addAmbassadorReferral(
+      AmbassadorReferralRequestDto request) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/ambassador/addReferral',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

@@ -16,3 +16,4 @@ export 'src/dto/shorten_link.dart';
 export 'src/dto/swap.dart';
 export 'src/dto/user.dart';
 export 'src/exception.dart';
+export 'src/dto/ambassador_referral.dart';

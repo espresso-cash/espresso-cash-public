@@ -176,6 +176,11 @@ abstract class EspressoCashClient {
 
   @POST('/tokens/meta')
   Future<GetTokensMetaResponseDto> getTokensMeta();
+
+  @POST('/ambassador/addReferral')
+  Future<void> addAmbassadorReferral(
+    @Body() AmbassadorReferralRequestDto request,
+  );
 }
 
 extension EspressoCashClientExt on EspressoCashClient {
