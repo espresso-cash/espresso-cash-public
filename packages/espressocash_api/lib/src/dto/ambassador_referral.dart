@@ -7,7 +7,6 @@ part 'ambassador_referral.g.dart';
 class AmbassadorReferralRequestDto with _$AmbassadorReferralRequestDto {
   const factory AmbassadorReferralRequestDto({
     required String ambassadorAddress,
-    required String userAddress,
   }) = _AmbassadorReferralRequestDto;
 
   factory AmbassadorReferralRequestDto.fromJson(Map<String, dynamic> json) =>

@@ -22,7 +22,6 @@ AmbassadorReferralRequestDto _$AmbassadorReferralRequestDtoFromJson(
 /// @nodoc
 mixin _$AmbassadorReferralRequestDto {
   String get ambassadorAddress => throw _privateConstructorUsedError;
-  String get userAddress => throw _privateConstructorUsedError;
 
   /// Serializes this AmbassadorReferralRequestDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,7 +41,7 @@ abstract class $AmbassadorReferralRequestDtoCopyWith<$Res> {
       _$AmbassadorReferralRequestDtoCopyWithImpl<$Res,
           AmbassadorReferralRequestDto>;
   @useResult
-  $Res call({String ambassadorAddress, String userAddress});
+  $Res call({String ambassadorAddress});
 }
 
 /// @nodoc
@@ -62,16 +61,11 @@ class _$AmbassadorReferralRequestDtoCopyWithImpl<$Res,
   @override
   $Res call({
     Object? ambassadorAddress = null,
-    Object? userAddress = null,
   }) {
     return _then(_value.copyWith(
       ambassadorAddress: null == ambassadorAddress
           ? _value.ambassadorAddress
           : ambassadorAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      userAddress: null == userAddress
-          ? _value.userAddress
-          : userAddress // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -86,7 +80,7 @@ abstract class _$$AmbassadorReferralRequestDtoImplCopyWith<$Res>
       __$$AmbassadorReferralRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String ambassadorAddress, String userAddress});
+  $Res call({String ambassadorAddress});
 }
 
 /// @nodoc
@@ -105,16 +99,11 @@ class __$$AmbassadorReferralRequestDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? ambassadorAddress = null,
-    Object? userAddress = null,
   }) {
     return _then(_$AmbassadorReferralRequestDtoImpl(
       ambassadorAddress: null == ambassadorAddress
           ? _value.ambassadorAddress
           : ambassadorAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      userAddress: null == userAddress
-          ? _value.userAddress
-          : userAddress // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -124,8 +113,7 @@ class __$$AmbassadorReferralRequestDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AmbassadorReferralRequestDtoImpl
     implements _AmbassadorReferralRequestDto {
-  const _$AmbassadorReferralRequestDtoImpl(
-      {required this.ambassadorAddress, required this.userAddress});
+  const _$AmbassadorReferralRequestDtoImpl({required this.ambassadorAddress});
 
   factory _$AmbassadorReferralRequestDtoImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -133,12 +121,10 @@ class _$AmbassadorReferralRequestDtoImpl
 
   @override
   final String ambassadorAddress;
-  @override
-  final String userAddress;
 
   @override
   String toString() {
-    return 'AmbassadorReferralRequestDto(ambassadorAddress: $ambassadorAddress, userAddress: $userAddress)';
+    return 'AmbassadorReferralRequestDto(ambassadorAddress: $ambassadorAddress)';
   }
 
   @override
@@ -147,14 +133,12 @@ class _$AmbassadorReferralRequestDtoImpl
         (other.runtimeType == runtimeType &&
             other is _$AmbassadorReferralRequestDtoImpl &&
             (identical(other.ambassadorAddress, ambassadorAddress) ||
-                other.ambassadorAddress == ambassadorAddress) &&
-            (identical(other.userAddress, userAddress) ||
-                other.userAddress == userAddress));
+                other.ambassadorAddress == ambassadorAddress));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, ambassadorAddress, userAddress);
+  int get hashCode => Object.hash(runtimeType, ambassadorAddress);
 
   /// Create a copy of AmbassadorReferralRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -177,16 +161,14 @@ class _$AmbassadorReferralRequestDtoImpl
 abstract class _AmbassadorReferralRequestDto
     implements AmbassadorReferralRequestDto {
   const factory _AmbassadorReferralRequestDto(
-      {required final String ambassadorAddress,
-      required final String userAddress}) = _$AmbassadorReferralRequestDtoImpl;
+          {required final String ambassadorAddress}) =
+      _$AmbassadorReferralRequestDtoImpl;
 
   factory _AmbassadorReferralRequestDto.fromJson(Map<String, dynamic> json) =
       _$AmbassadorReferralRequestDtoImpl.fromJson;
 
   @override
   String get ambassadorAddress;
-  @override
-  String get userAddress;
 
   /// Create a copy of AmbassadorReferralRequestDto
   /// with the given fields replaced by the non-null parameter values.
