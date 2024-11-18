@@ -29,10 +29,13 @@ class FeatureFlagsManager implements Disposable {
   bool isMoneygramAccessEnabled() =>
       _remoteConfig.getBool(FeatureFlag.moneygram.name);
 
+  bool isAmbassadorEnabled() =>
+      _remoteConfig.getBool(FeatureFlag.ambassador.name);
+
   @override
   void onDispose() {
     _subscription?.cancel();
   }
 }
 
-enum FeatureFlag { moneygram }
+enum FeatureFlag { moneygram, ambassador }
