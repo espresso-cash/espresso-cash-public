@@ -10,12 +10,10 @@ _$AmbassadorReferralRequestDtoImpl _$$AmbassadorReferralRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$AmbassadorReferralRequestDtoImpl(
       ambassadorAddress: json['ambassadorAddress'] as String,
-      userAddress: json['userAddress'] as String,
     );
 
 Map<String, dynamic> _$$AmbassadorReferralRequestDtoImplToJson(
         _$AmbassadorReferralRequestDtoImpl instance) =>
     <String, dynamic>{
       'ambassadorAddress': instance.ambassadorAddress,
-      'userAddress': instance.userAddress,
     };
