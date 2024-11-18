@@ -4,7 +4,6 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../kyc_sharing/data/kyc_repository.dart';
 import '../../kyc_sharing/screens/bank_account_screen.dart';
 import '../../kyc_sharing/screens/manage_data_access_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
