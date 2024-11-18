@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/snackbar.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/basic_information_screen.dart';
@@ -34,28 +36,34 @@ const List<KycStepFunction> phoneSteps = [
 
 extension KycFlowExtension on BuildContext {
   Future<bool> openKycFlow({required RampType rampType}) async {
-    final service = sl<KycSharingService>().value;
+    final user = sl<KycSharingService>().value;
 
-    final kycProcessed = service?.kycStatus.isApprovedOrPending ?? false;
+    if (user == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return false;
+    }
+
+    final kycProcessed = user.kycStatus.isApprovedOrPending;
 
     if (!kycProcessed) {
       final success = await KycDescriptionScreen.push(this, rampType);
       if (!success) return false;
     }
 
-    final emailValidated = service?.emailStatus == ValidationStatus.approved;
+    final emailValidated = user.emailStatus == ValidationStatus.approved;
 
     if (!emailValidated) {
       if (!await openEmailFlow()) return false;
     }
 
-    final phoneValidated = service?.phoneStatus == ValidationStatus.approved;
+    final phoneValidated = user.phoneStatus == ValidationStatus.approved;
 
     if (!phoneValidated) {
       if (!await openPhoneFlow()) return false;
     }
 
-    final hasBankInfo = service?.hasBankInfo ?? false;
+    final hasBankInfo = user.hasBankInfo;
 
     if (!hasBankInfo) {
       if (!await _navigateToScreen(BankAccountScreen.push)) return false;
@@ -65,7 +73,7 @@ extension KycFlowExtension on BuildContext {
       if (!await openBasicInfoFlow()) return false;
     }
 
-    if (service?.kycStatus != ValidationStatus.approved) {
+    if (user.kycStatus != ValidationStatus.approved) {
       if (!await _navigateToScreen(KycStatusScreen.push)) return false;
     }
 
