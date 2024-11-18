@@ -4,6 +4,7 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../kyc_sharing/data/kyc_repository.dart';
 import '../../kyc_sharing/screens/bank_account_screen.dart';
 import '../../kyc_sharing/screens/manage_data_access_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
@@ -12,8 +13,22 @@ import '../../kyc_sharing/widgets/kyc_button.dart';
 import '../../kyc_sharing/widgets/kyc_flow.dart';
 import 'profile_section.dart';
 
-class KycSection extends StatelessWidget {
+class KycSection extends StatefulWidget {
   const KycSection({super.key});
+
+  @override
+  State<KycSection> createState() => _KycSectionState();
+}
+
+class _KycSectionState extends State<KycSection> {
+  @override
+  void initState() {
+    super.initState();
+    final kycService = sl<KycSharingService>();
+    if (kycService.value == null) {
+      kycService.fetchUserData();
+    }
+  }
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
