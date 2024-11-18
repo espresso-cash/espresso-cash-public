@@ -26,6 +26,7 @@ class KycRepository extends ChangeNotifier {
         } on Exception catch (exception) {
           _clientInitialization = null;
           reportError(exception);
+          rethrow;
         }
       });
 
