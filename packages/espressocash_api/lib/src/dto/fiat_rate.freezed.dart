@@ -23,8 +23,12 @@ mixin _$FiatRateRequestDto {
   String get base => throw _privateConstructorUsedError;
   String get target => throw _privateConstructorUsedError;
 
+  /// Serializes this FiatRateRequestDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FiatRateRequestDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FiatRateRequestDtoCopyWith<FiatRateRequestDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$FiatRateRequestDtoCopyWithImpl<$Res, $Val extends FiatRateRequestDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FiatRateRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$FiatRateRequestDtoImplCopyWithImpl<$Res>
       $Res Function(_$FiatRateRequestDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FiatRateRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -132,11 +140,13 @@ class _$FiatRateRequestDtoImpl implements _FiatRateRequestDto {
             (identical(other.target, target) || other.target == target));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, base, target);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FiatRateRequestDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FiatRateRequestDtoImplCopyWith<_$FiatRateRequestDtoImpl> get copyWith =>
@@ -163,8 +173,11 @@ abstract class _FiatRateRequestDto implements FiatRateRequestDto {
   String get base;
   @override
   String get target;
+
+  /// Create a copy of FiatRateRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FiatRateRequestDtoImplCopyWith<_$FiatRateRequestDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -177,8 +190,12 @@ FiatRateResponseDto _$FiatRateResponseDtoFromJson(Map<String, dynamic> json) {
 mixin _$FiatRateResponseDto {
   double get rate => throw _privateConstructorUsedError;
 
+  /// Serializes this FiatRateResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FiatRateResponseDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FiatRateResponseDtoCopyWith<FiatRateResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -202,6 +219,8 @@ class _$FiatRateResponseDtoCopyWithImpl<$Res, $Val extends FiatRateResponseDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FiatRateResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -235,6 +254,8 @@ class __$$FiatRateResponseDtoImplCopyWithImpl<$Res>
       $Res Function(_$FiatRateResponseDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FiatRateResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -273,11 +294,13 @@ class _$FiatRateResponseDtoImpl implements _FiatRateResponseDto {
             (identical(other.rate, rate) || other.rate == rate));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, rate);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FiatRateResponseDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FiatRateResponseDtoImplCopyWith<_$FiatRateResponseDtoImpl> get copyWith =>
@@ -301,8 +324,11 @@ abstract class _FiatRateResponseDto implements FiatRateResponseDto {
 
   @override
   double get rate;
+
+  /// Create a copy of FiatRateResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FiatRateResponseDtoImplCopyWith<_$FiatRateResponseDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
