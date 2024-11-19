@@ -99,7 +99,8 @@ class _DateInputFormatter extends TextInputFormatter {
     if (currentLength == 6 && previousLength == 5) {
       if (!currentText.contains('/', 5)) {
         return _updateText(
-            '${currentText.substring(0, 5)}/${currentText.substring(5)}');
+          '${currentText.substring(0, 5)}/${currentText.substring(5)}',
+        );
       }
     }
 
