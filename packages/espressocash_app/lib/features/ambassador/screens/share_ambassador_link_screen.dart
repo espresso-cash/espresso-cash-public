@@ -1,5 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -51,29 +52,26 @@ class _ShareAmbassadorLinkScreenState extends State<ShareAmbassadorLinkScreen> {
   Widget build(BuildContext context) => AmbassadorPage(
         name: _name,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 24),
+          padding: EdgeInsets.only(top: 24.h, bottom: 24.h),
           child: Column(
-            mainAxisSize: MainAxisSize.max,
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Expanded(
-                child: Center(
-                  child: BarcodeWidget(
-                    height: 180,
-                    barcode: Barcode.qrCode(),
-                    data: _uri.toString(),
-                    padding: EdgeInsets.zero,
-                    color: CpColors.mediumSandColor,
-                  ),
+              Center(
+                child: BarcodeWidget(
+                  height: 190.h,
+                  barcode: Barcode.qrCode(),
+                  data: _uri.toString(),
+                  padding: EdgeInsets.zero,
+                  color: CpColors.mediumSandColor,
                 ),
               ),
+              const Spacer(),
               CpButton(
                 text: context.l10n.ambassador_viewUsersOnboarded,
                 size: CpButtonSize.big,
-                width: 340,
+                width: 340.w,
                 onPressed: () => AmbassadorCountScreen.push(context),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
             ],
           ),
         ),

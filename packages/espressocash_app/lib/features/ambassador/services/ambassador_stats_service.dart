@@ -15,7 +15,8 @@ class AmbassadorStatsService {
   Future<int> fetchReferralCount() => _cache.fetch(_fetch);
 
   Future<int> _fetch() async {
-    final stats = await _client.getAmbassadorStats();
+    final stats =
+        await _client.getAmbassadorStats().timeout(const Duration(seconds: 10));
 
     return stats.referralCount;
   }
