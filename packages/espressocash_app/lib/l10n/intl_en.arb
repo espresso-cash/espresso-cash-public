@@ -203,6 +203,14 @@
   "@mobileWalletTitle": {},
   "moneyReceived": "Money has been received",
   "@moneyReceived": {},
+  "moneyReceivedAmount": "{amount} Transaction successful received",
+  "@moneyReceivedAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "moreDetails": "View more details",
   "@moreDetails": {},
   "next": "Next",

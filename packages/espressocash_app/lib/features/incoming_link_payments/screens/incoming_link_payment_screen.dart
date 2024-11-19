@@ -57,12 +57,20 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
                   onBack: () => Navigator.pop(context),
                 )
               : payment.status.maybeMap(
-                  success: (e) => TransferSuccess(
-                    onBack: () => Navigator.pop(context),
-                    onOkPressed: () => Navigator.pop(context),
-                    content: e.fee?.let(_FeeNotice.new),
-                    statusContent: context.l10n.moneyReceived,
-                  ),
+                  success: (e) {
+                    final receiveAmount = e.receiveAmount?.let(
+                      (e) => e.format(context.locale, maxDecimals: 2),
+                    );
+
+                    return TransferSuccess(
+                      onBack: () => Navigator.pop(context),
+                      onOkPressed: () => Navigator.pop(context),
+                      content: e.fee?.let(_FeeNotice.new),
+                      statusContent: receiveAmount != null
+                          ? context.l10n.moneyReceivedAmount(receiveAmount)
+                          : context.l10n.moneyReceived,
+                    );
+                  },
                   txFailure: (it) => it.reason == TxFailureReason.escrowFailure
                       ? const InvalidEscrowErrorWidget()
                       : TransferError(
