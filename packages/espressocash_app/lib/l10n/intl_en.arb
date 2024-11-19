@@ -945,5 +945,11 @@
   "ambassador_userOnboardingLabel": "User Onboarding",
   "@ambassador_userOnboardingLabel": {},
   "ambassador_userOnboardingDescription": "QR code for Espresso Cash Ambassadors",
-  "@ambassador_userOnboardingDescription": {}
+  "@ambassador_userOnboardingDescription": {},
+  "ambassador_viewUsersOnboarded": "View Users Onboarded",
+  "@ambassador_viewUsersOnboarded": {},
+  "ambassador_ambassadorQrCode": "Ambassador QR Code",
+  "@ambassador_ambassadorQrCode": {},
+  "ambassador_newUsersOnboarded": "New Users Onboarded",
+  "@ambassador_newUsersOnboarded": {}
 }
