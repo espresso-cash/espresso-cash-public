@@ -4,8 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
-
-import '../../../ui/colors.dart';
+import '../../../ui/dob_text_field.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/radio_button.dart';
 import '../../../ui/snackbar.dart';
@@ -41,25 +40,28 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
   bool _isShareData = false;
 
-  DateTime? _dob;
-
   Country? _country;
   DocumentType? _idType;
 
-  bool get _isValid =>
-      _firstNameController.text.isNotEmpty &&
-      _lastNameController.text.isNotEmpty &&
-      _dobController.text.isNotEmpty &&
-      _idController.text.isNotEmpty &&
-      _isShareData &&
-      _idType != null &&
-      _country != null;
+  bool get _isValid {
+    final DateTime? dob = _parseDate(_dobController.text);
+
+    return _firstNameController.text.isNotEmpty &&
+        _lastNameController.text.isNotEmpty &&
+        dob != null &&
+        !dob.isAfter(DateTime.now()) &&
+        _idController.text.isNotEmpty &&
+        _isShareData &&
+        _idType != null &&
+        _country != null;
+  }
 
   Future<void> _handleSubmitted() async {
     final success = await runWithLoader<bool>(
       context,
       () async {
         try {
+          final DateTime? dob = _parseDate(_dobController.text);
           final countryCode = _country?.code;
           final idTypeValue = _idType?.value;
 
@@ -70,7 +72,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
           await sl<KycSharingService>().updateBasicInfo(
             firstName: _firstNameController.text,
             lastName: _lastNameController.text,
-            dob: _dob,
+            dob: dob,
             countryCode: countryCode,
             idType: _idType,
             idNumber: _idController.text,
@@ -95,43 +97,15 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
     if (success) Navigator.pop(context, true);
   }
 
-  Future<void> _selectDob() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _dob ?? DateTime.now(),
-      firstDate: DateTime(1900, 1),
-      lastDate: DateTime.now(),
-      builder: (BuildContext context, Widget? child) => Theme(
-        data: ThemeData.dark().copyWith(
-          primaryColor: CpColors.primaryColor,
-          colorScheme: const ColorScheme.dark(
-            primary: CpColors.primaryColor,
-          ),
-          buttonTheme: const ButtonThemeData(
-            textTheme: ButtonTextTheme.primary,
-          ),
-        ),
-        child: child ?? Container(),
-      ),
-    );
+  DateTime? _parseDate(String text) {
+    if (text.isEmpty) return null;
 
-    if (!mounted) return;
+    final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+    final date = dateFormat.tryParse(text);
 
-    if (picked != null) {
-      setState(() {
-        _dob = picked;
-        _dobController.text = DateFormat('dd/MM/yyyy').format(picked);
-      });
-    }
-  }
+    final List<String> parts = text.split('/');
 
-  @override
-  void initState() {
-    super.initState();
-
-    // Hardcode values for now
-    _country = Country.findByCode('NG');
-    _idController.text = '0000000000000000004';
+    return parts.length == 3 && parts[2].length == 4 ? date : null;
   }
 
   @override
@@ -167,16 +141,9 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             placeholder: context.l10n.lastName,
           ),
           const SizedBox(height: 16),
-          GestureDetector(
-            onTap: _selectDob,
-            child: AbsorbPointer(
-              child: KycTextField(
-                controller: _dobController,
-                inputType: TextInputType.text,
-                placeholder: context.l10n.dateOfBirth,
-                readOnly: true,
-              ),
-            ),
+          CpDobTextField(
+            controller: _dobController,
+            placeholder: context.l10n.dateOfBirth,
           ),
           const SizedBox(height: 16),
           DocumentPicker(
