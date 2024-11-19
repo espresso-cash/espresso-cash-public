@@ -2,6 +2,7 @@ export 'package:jupiter_aggregator/jupiter_aggregator.dart';
 
 export 'src/client.dart';
 export 'src/dto/ambassador_referral.dart';
+export 'src/dto/ambassador_stats.dart';
 export 'src/dto/create_payment.dart';
 export 'src/dto/dln_payment.dart';
 export 'src/dto/durable_transactions.dart';
