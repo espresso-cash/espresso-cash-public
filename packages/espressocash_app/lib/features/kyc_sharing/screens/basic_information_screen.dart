@@ -75,8 +75,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             countryCode: countryCode,
             idType: _idType,
             idNumber: _idController.text,
-            // TODO(dev): harcoded for now
-            partnerAuthPk: RampPartner.xflow.partnerPK ?? '',
           );
 
           if (!mounted) return false;

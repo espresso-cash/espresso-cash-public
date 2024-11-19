@@ -192,6 +192,8 @@ class XFlowOffRampOrderService implements Disposable {
   }) =>
       tryEitherAsync((_) async {
         {
+          await _kycRepository.grantPartnerAccess(partnerAuthPk);
+
           final user = await _kycRepository.fetchUser();
 
           final validUser = user?.let(

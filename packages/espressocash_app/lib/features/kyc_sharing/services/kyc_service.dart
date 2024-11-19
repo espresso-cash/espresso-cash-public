@@ -77,7 +77,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
     String? idNumber,
     DocumentType? idType,
     String? countryCode,
-    required String partnerAuthPk,
   }) async {
     await _kycRepository.updateUserData(
       name: Name(
@@ -99,9 +98,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
       ),
     );
 
-    // TODO(dev): move selecting of partner, should not be here
-    await _kycRepository.grantPartnerAccess(partnerAuthPk);
-
     await fetchUserData();
   }
 
@@ -110,6 +106,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     required String bankCode,
     String? bankName,
   }) async {
+    await _kycRepository.grantPartnerAccess(validatorAuthPk);
+
     await _kycRepository.updateUserData(
       bankInfo: BankInfo(
         accountNumber: bankAccountNumber,

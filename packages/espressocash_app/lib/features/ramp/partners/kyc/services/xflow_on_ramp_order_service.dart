@@ -138,6 +138,8 @@ class XFlowOnRampOrderService implements Disposable {
   }) =>
       tryEitherAsync((_) async {
         {
+          await _kycRepository.grantPartnerAccess(partnerAuthPk);
+
           final orderId = await _kycRepository.createOnRampOrder(
             cryptoAmount: receiveAmount.value.toString(),
             cryptoCurrency: receiveAmount.cryptoCurrency.token.symbol,
