@@ -115,7 +115,7 @@ extension BuildContextExt on BuildContext {
             preOrderId: preOrder?.preOrderId,
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount as FiatAmount,
-            partnerAuthPk: partnerAuthPk,
+            partnerAuthPk: partner.partnerPK ?? '',
           )
           .then(
             (order) => order.fold(
@@ -219,7 +219,7 @@ extension BuildContextExt on BuildContext {
             preOrderId: preOrder?.preOrderId,
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount,
-            partnerAuthPk: partnerAuthPk,
+            partnerAuthPk: partner.partnerPK ?? '',
           )
           .then(
             (order) => order.fold(

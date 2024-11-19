@@ -67,17 +67,20 @@ enum RampPartner {
     title: 'Espresso Network',
     minimumAmount: r'$5',
     paymentMethods: [],
+    partnerPK: 'J4Bi8wQnvcX4kLyiA7xemJ7t4bikDncgWUZAscvymGPq',
   );
 
   const RampPartner({
     required this.title,
     required this.minimumAmount,
     required this.paymentMethods,
+    this.partnerPK,
   });
 
   final String title;
   final String minimumAmount;
   final List<PaymentMethod> paymentMethods;
+  final String? partnerPK;
 
   Decimal get minimumAmountInDecimal =>
       Decimal.parse(minimumAmount.substring(1));

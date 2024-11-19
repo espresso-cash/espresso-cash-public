@@ -11,6 +11,7 @@ import '../../../ui/radio_button.dart';
 import '../../../ui/snackbar.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/document_type.dart';
 import '../services/kyc_service.dart';
 import '../widgets/document_picker.dart';
@@ -74,6 +75,8 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             countryCode: countryCode,
             idType: _idType,
             idNumber: _idController.text,
+            // TODO(dev): harcoded for now
+            partnerAuthPk: RampPartner.xflow.partnerPK ?? '',
           );
 
           if (!mounted) return false;

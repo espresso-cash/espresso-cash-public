@@ -17,9 +17,6 @@ import '../models/document_type.dart';
 import '../utils/kyc_exception.dart';
 import '../utils/kyc_utils.dart';
 
-// Hardcoded for now
-const partnerAuthPk = 'J4Bi8wQnvcX4kLyiA7xemJ7t4bikDncgWUZAscvymGPq';
-
 @Singleton(scope: authScope)
 class KycSharingService extends ValueNotifier<UserData?> {
   KycSharingService(this._kycRepository) : super(null);
@@ -80,6 +77,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
     String? idNumber,
     DocumentType? idType,
     String? countryCode,
+    required String partnerAuthPk,
   }) async {
     await _kycRepository.updateUserData(
       name: Name(
