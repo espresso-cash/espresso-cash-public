@@ -181,6 +181,9 @@ abstract class EspressoCashClient {
   Future<void> addAmbassadorReferral(
     @Body() AmbassadorReferralRequestDto request,
   );
+
+  @POST('/ambassador/stats')
+  Future<AmbassadorStatsResponseDto> getAmbassadorStats();
 }
 
 extension EspressoCashClientExt on EspressoCashClient {
