@@ -7,6 +7,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/text_field.dart';
 import '../../profile/data/profile_repository.dart';
+import '../services/ambassador_stats_service.dart';
 import '../widgets/ambassador_page.dart';
 import 'share_ambassador_link_screen.dart';
 
@@ -35,12 +36,7 @@ class _AmbassadorCountScreenState extends State<AmbassadorCountScreen> {
     _countFuture = _getCount();
   }
 
-  Future<int> _getCount() async {
-    //TODO get from client
-    await Future.delayed(const Duration(seconds: 2));
-
-    return 10;
-  }
+  Future<int> _getCount() => sl<AmbassadorStatsService>().fetchReferralCount();
 
   @override
   Widget build(BuildContext context) => FutureBuilder<int>(
