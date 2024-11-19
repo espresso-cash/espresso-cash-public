@@ -939,5 +939,11 @@
   "done": "Done",
   "@done": {},
   "exchangeRateDisclaimer": "Amounts displayed are estimates.\nContinue for exact totals.",
-  "@exchangeRateDisclaimer": {}
+  "@exchangeRateDisclaimer": {},
+  "ambassador_title": "AMBASSADOR",
+  "@ambassador_title": {},
+  "ambassador_userOnboardingLabel": "User Onboarding",
+  "@ambassador_userOnboardingLabel": {},
+  "ambassador_userOnboardingDescription": "QR code for Espresso Cash Ambassadors",
+  "@ambassador_userOnboardingDescription": {}
 }

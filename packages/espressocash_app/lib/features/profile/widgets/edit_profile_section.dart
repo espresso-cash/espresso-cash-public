@@ -11,11 +11,6 @@ class EditProfileSection extends StatelessWidget {
             label: context.l10n.editProfile,
             onPressed: () => ManageProfileScreen.push(context),
           ),
-          if (sl<FeatureFlagsManager>().isAmbassadorEnabled())
-            ProfileButton(
-              label: 'Share Ambassador Link',
-              onPressed: () => ShareAmbassadorLinkScreen.push(context),
-            ),
         ],
       );
 }
