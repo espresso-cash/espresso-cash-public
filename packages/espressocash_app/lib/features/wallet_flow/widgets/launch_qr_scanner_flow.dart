@@ -44,7 +44,7 @@ extension BuildContextExt on BuildContext {
       if (!mounted) return;
       IncomingLinkPaymentScreen.push(this, id: id);
     } else if (request is QrScannerAmbassadorRequest) {
-      await registerReferral(ambassador: request.referral);
+      showAmbassadorConfirmation(ambassador: request.referral);
 
       if (!mounted) return;
     } else if (request is QrScannerSolanaPayTransactionRequest) {

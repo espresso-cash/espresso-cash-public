@@ -9,25 +9,27 @@ import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
 import '../../profile/data/profile_repository.dart';
+import '../../tokens/token.dart';
+import '../../tokens/widgets/token_icon.dart';
 import '../services/ambassador_stats_service.dart';
 import '../widgets/ambassador_page.dart';
 import 'share_ambassador_link_screen.dart';
 
-class AmbassadorCountScreen extends StatefulWidget {
-  const AmbassadorCountScreen({super.key});
+class AmbassadorStatsScreen extends StatefulWidget {
+  const AmbassadorStatsScreen({super.key});
 
   static void push(BuildContext context) =>
       Navigator.of(context).pushReplacement(
         MaterialPageRoute<void>(
-          builder: (context) => const AmbassadorCountScreen(),
+          builder: (context) => const AmbassadorStatsScreen(),
         ),
       );
 
   @override
-  State<AmbassadorCountScreen> createState() => _AmbassadorCountScreenState();
+  State<AmbassadorStatsScreen> createState() => _AmbassadorStatsScreenState();
 }
 
-class _AmbassadorCountScreenState extends State<AmbassadorCountScreen> {
+class _AmbassadorStatsScreenState extends State<AmbassadorStatsScreen> {
   late final String _name;
   late final Future<int> _countFuture;
 
@@ -38,7 +40,7 @@ class _AmbassadorCountScreenState extends State<AmbassadorCountScreen> {
     _countFuture = _getCount();
   }
 
-  Future<int> _getCount() => sl<AmbassadorStatsService>().fetchReferralCount();
+  Future<int> _getCount() => sl<AmbassadorStatsService>().fetchStats();
 
   @override
   Widget build(BuildContext context) => FutureBuilder<int>(
@@ -95,7 +97,7 @@ class _ReferralCount extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16.w),
               child: Text(
-                context.l10n.ambassador_newUsersOnboarded,
+                context.l10n.ambassador_rewardsEarned,
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w500,
@@ -113,8 +115,24 @@ class _ReferralCount extends StatelessWidget {
               fontSize: 34.sp,
               fontWeight: FontWeight.w700,
               padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+              prefix: TokenIcon(
+                token: _rewardToken,
+                size: 40.w,
+              ),
+              suffix: Padding(
+                padding: EdgeInsets.only(right: 24.w),
+                child: Text(
+                  _rewardToken.symbol,
+                  style: TextStyle(
+                    fontSize: 34.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
       );
 }
+
+const _rewardToken = Token.usdc;

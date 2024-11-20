@@ -11,12 +11,12 @@ import '../../../ui/theme.dart';
 class AmbassadorPage extends StatelessWidget {
   const AmbassadorPage({
     super.key,
-    required this.name,
+    this.name,
     required this.child,
   });
 
   final Widget child;
-  final String name;
+  final String? name;
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
@@ -32,8 +32,31 @@ class AmbassadorPage extends StatelessWidget {
             children: [
               SizedBox(height: 24.h),
               Expanded(
-                child: Center(
-                  child: Assets.images.ambassador.svg(fit: BoxFit.fitWidth),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isTablet = constraints.maxWidth > 600;
+
+                    return isTablet
+                        ? DecoratedBox(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white,
+                                  offset: Offset(0, constraints.maxHeight - 2),
+                                ),
+                              ],
+                            ),
+                            child: Assets.images.ambassadorTab.svg(
+                              fit: BoxFit.fitWidth,
+                              alignment: Alignment.bottomCenter,
+                            ),
+                          )
+                        : Center(
+                            child: Assets.images.ambassador.svg(
+                              fit: BoxFit.fitWidth,
+                            ),
+                          );
+                  },
                 ),
               ),
               Expanded(
@@ -41,8 +64,8 @@ class AmbassadorPage extends StatelessWidget {
                   color: Colors.white,
                   child: Column(
                     children: [
-                      _AmbassadorHeader(name: name),
-                      Expanded(child: child),
+                      if (name case final name?) _AmbassadorHeader(name: name),
+                      Expanded(child: SafeArea(top: false, child: child)),
                     ],
                   ),
                 ),

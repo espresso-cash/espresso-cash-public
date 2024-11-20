@@ -12,7 +12,7 @@ class AmbassadorStatsService {
 
   final _cache = AsyncCache<int>(const Duration(minutes: 5));
 
-  Future<int> fetchReferralCount() => _cache.fetch(_fetch);
+  Future<int> fetchStats() => _cache.fetch(_fetch);
 
   Future<int> _fetch() async {
     final stats =

@@ -950,6 +950,6 @@
   "@ambassador_viewUsersOnboarded": {},
   "ambassador_ambassadorQrCode": "Ambassador QR Code",
   "@ambassador_ambassadorQrCode": {},
-  "ambassador_newUsersOnboarded": "New Users Onboarded",
-  "@ambassador_newUsersOnboarded": {}
+  "ambassador_rewardsEarned": "Rewards Earned",
+  "@ambassador_rewardsEarned": {}
 }

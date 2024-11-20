@@ -3,14 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../di.dart';
-import '../../../l10n/l10n.dart';
-import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../profile/data/profile_repository.dart';
 import '../models/ambassador_referral.dart';
 import '../widgets/ambassador_page.dart';
-import 'ambassador_count_screen.dart';
 
 class ShareAmbassadorLinkScreen extends StatefulWidget {
   const ShareAmbassadorLinkScreen({super.key});
@@ -55,23 +52,16 @@ class _ShareAmbassadorLinkScreenState extends State<ShareAmbassadorLinkScreen> {
           padding: EdgeInsets.only(top: 24.h, bottom: 24.h),
           child: Column(
             children: [
+              SizedBox(height: 8.h),
               Center(
                 child: BarcodeWidget(
-                  height: 190.h,
+                  height: 220.h,
                   barcode: Barcode.qrCode(),
                   data: _uri.toString(),
                   padding: EdgeInsets.zero,
                   color: CpColors.mediumSandColor,
                 ),
               ),
-              const Spacer(),
-              CpButton(
-                text: context.l10n.ambassador_viewUsersOnboarded,
-                size: CpButtonSize.big,
-                width: 340.w,
-                onPressed: () => AmbassadorCountScreen.push(context),
-              ),
-              SizedBox(height: 24.h),
             ],
           ),
         ),
