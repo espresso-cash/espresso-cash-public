@@ -1,892 +1,680 @@
 {
-  "@@locale": "ru",
-  "activities_lblAddCash": "Добавьте наличные",
-  "@activities_lblAddCash": {},
-  "activities_lblBoughtToken": "Куплено {amount}",
-  "@activities_lblBoughtToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "activities_lblCanceled": "Отменено",
-  "@activities_lblCanceled": {},
-  "activities_lblFailure": "Сбой",
-  "@activities_lblFailure": {},
-  "activities_lblInProgress": "Выполняется",
-  "@activities_lblInProgress": {},
-  "activities_lblSuccess": "Успешно",
-  "@activities_lblSuccess": {},
-  "activities_lblTitle": "Операции",
-  "@activities_lblTitle": {},
-  "activities_lblWithdraw": "Обналичить",
-  "@activities_lblWithdraw": {},
-  "appLock_lblAutoLock": "Автоматическая блокировка",
-  "@appLock_lblAutoLock": {},
-  "appLock_lblAutoLockDescription": "Требовать пин-код для доступа к приложению",
-  "@appLock_lblAutoLockDescription": {},
-  "balances_lblConnectionError": "Не удается подключиться к сети!",
-  "@balances_lblConnectionError": {},
-  "carousel1Subtitle": "Мгновенные денежные переводы с низкой комиссией в более чем  в 200 стран и территорий.",
-  "@carousel1Subtitle": {},
-  "carousel1Title": "Добро пожаловать в Espresso Cash!",
-  "@carousel1Title": {},
-  "carousel2Subtitle": "Деньги переводятся на Ваш банковский счет в местной валюте.",
-  "@carousel2Subtitle": {},
-  "carousel2Title": "Вывод наличных в местной валюте",
-  "@carousel2Title": {},
-  "carousel3Subtitle": "Платежи распределяются с помощью платформ обмена сообщениями, таких как WhatsApp, Messenger, Telegram или SMS.",
-  "@carousel3Subtitle": {},
-  "carousel3Title": "Отправляйте с помощью платформ обмена сообщениями",
-  "@carousel3Title": {},
-  "carousel4Subtitle": "Используйте QR-код Espresso Cash для мгновенной оплаты местным предприятиям",
-  "@carousel4Subtitle": {},
-  "carousel4Title": "Оплачивайте на месте",
-  "@carousel4Title": {},
-  "carouselSendMoneyBtn": "Отправьте деньги прямо сейчас",
-  "@carouselSendMoneyBtn": {},
-  "close": "Закрыть",
-  "@close": {},
-  "comingSoon": "Скоро будет!",
-  "@comingSoon": {},
-  "contactUs": "Связаться с нами",
-  "@contactUs": {},
-  "copiedFid": "Скопирован FID: {fid}",
-  "@copiedFid": {
-    "placeholders": {
-      "fid": {
-        "type": "String"
-      }
-    }
-  },
-  "copiedToClipboard": "Скопировано!",
-  "@copiedToClipboard": {},
-  "copy": "Копировать",
-  "@copy": {},
-  "core_and": " и ",
-  "@core_and": {},
-  "core_btnCancel": "Отменить",
-  "@core_btnCancel": {},
-  "countryOfResidence": "Страна проживания",
-  "@countryOfResidence": {},
-  "create": "Создать",
-  "@create": {},
-  "cryptoCashBalance": " Ваш баланс",
-  "@cryptoCashBalance": {},
-  "cryptoInvestments": "Ваши криптоинвестиции",
-  "@cryptoInvestments": {},
-  "decline": "Отклонить",
-  "@decline": {},
-  "depositDisclaimer": "Средства должны быть отправлены с вашего личного счета. Любые средства, отправленные через счет, который не соответствует вашим идентификационным данным, будут зарезервированы.",
-  "@depositDisclaimer": {},
-  "depositInstruction1": "Переведите деньги с вашего банковского счета нашему местному партнеру:",
-  "@depositInstruction1": {},
-  "depositInstruction2": "Как только деньги будут переведены, вернитесь в Espresso Cash и продолжайте ниже.",
-  "@depositInstruction2": {},
-  "depositReceiveAmount": "Вы получите:  {amount}",
-  "@depositReceiveAmount": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "depositTitle": "Добавьте наличные",
-  "@depositTitle": {},
-  "depositTransferAmount": "Сумма, подлежащая переводу",
-  "@depositTransferAmount": {},
-  "discover": "ПОКАЗАТЬ\n\n",
-  "@discover": {},
-  "displayEmptyBalanceSubtitle": "Покажет все ваши токены, в том числе, с нулевым балансом ",
-  "@displayEmptyBalanceSubtitle": {},
-  "displayEmptyBalanceTitle": "Показывать все токены",
-  "@displayEmptyBalanceTitle": {},
-  "editProfile": "Редактировать профиль",
-  "@editProfile": {},
-  "editProfileDescription": "Обновить текущий профиль",
-  "@editProfileDescription": {},
-  "emptySearch": "Токен не найден",
-  "@emptySearch": {},
-  "enterAmount": "Введите сумму",
-  "@enterAmount": {},
-  "enterPasscode": "Введите пин-код",
-  "@enterPasscode": {},
-  "enterYourSecretWords": "Введите секретную фразу для восстановления",
-  "@enterYourSecretWords": {},
-  "errorMessageInsufficientFunds": "У Вас недостаточно средств.",
-  "@errorMessageInsufficientFunds": {},
-  "failedToLoadDescription": "Не удалось загрузить описание",
-  "@failedToLoadDescription": {},
-  "failedToLoadTokens": "Не удалось загрузить токены",
-  "@failedToLoadTokens": {},
-  "failedToSearch": "Не удалось найти токен",
-  "@failedToSearch": {},
-  "faq": "Часто задаваемые вопросы (FAQ)",
-  "@faq": {},
-  "fee": "Комиссия",
-  "@fee": {},
-  "feesCalculating": " вычисление...\n\n",
-  "@feesCalculating": {},
-  "feesFailed": "не удалось загрузить",
-  "@feesFailed": {},
-  "fiatEquivalent": "Эквивалентно",
-  "@fiatEquivalent": {},
-  "following": "Закладки",
-  "@following": {},
-  "help": "Помощь",
-  "@help": {},
-  "incomingSplitKeyPayments_lblByClickingTheSecondLink": "Нажав на вторую ссылку в сообщении или кнопку \"Отмена\", вы соглашаетесь с нашими",
-  "@incomingSplitKeyPayments_lblByClickingTheSecondLink": {},
-  "incomingUsdcFeeNotice": "С вас была снята единовременная комиссия в размере {amount} за вашу первую входящую транзакцию.",
-  "@incomingUsdcFeeNotice": {},
-  "incorrectPasscode": "Неверный пин-код. Попробуйте еще раз.",
-  "@incorrectPasscode": {},
-  "insufficientFundsForFeeMessage": "У вас недостаточно {feeToken} для оплаты комиссии сети, вам нужно как минимум {amount}.",
-  "@insufficientFundsForFeeMessage": {
-    "placeholders": {
-      "feeToken": {
-        "type": "String"
-      },
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "insufficientFundsMessage": "Вы не можете отправить {amount}, Вам доступно только {balance}.",
-  "@insufficientFundsMessage": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "balance": {
-        "type": "String"
-      }
-    }
-  },
-  "inUsdc": "в USDC",
-  "@inUsdc": {},
-  "invalidEscrowError": "Ссылка неверна или деньги уже были выведены.",
-  "@invalidEscrowError": {},
-  "investingBannerTitle": "Криптоинвестирование упростилось",
-  "@investingBannerTitle": {},
-  "investingTitle": "Вкладывающий",
-  "@investingTitle": {},
-  "investmentHeaderButtonsTitle": "Я хочу",
-  "@investmentHeaderButtonsTitle": {},
-  "isWaitingForYou": "ожидают вас.",
-  "@isWaitingForYou": {},
-  "iUnderstand": "Я понимаю",
-  "@iUnderstand": {},
-  "iUnderstandIfLoseMySecret": "Я понимаю, что если я потеряю свою секретную фразу восстановления, я не смогу получить доступ к средствам.",
-  "@iUnderstandIfLoseMySecret": {},
-  "learnAboutCrypto": "Изучение криптографии",
-  "@learnAboutCrypto": {},
-  "learnAboutCryptoDescription": "Получите помощь по всем вопросам, связанным с криптовалютами",
-  "@learnAboutCryptoDescription": {},
-  "learningSectionTitle": "УЧЕБНЫЙ ЦЕНТР",
-  "@learningSectionTitle": {},
-  "less": "меньше",
-  "@less": {},
-  "loading": "Загрузка...",
-  "@loading": {},
-  "marketCapRank": "Рейтинг рыночной капитализации",
-  "@marketCapRank": {},
-  "minAmountToOffRamp": "{amount} это минимум, который вы можете обналичить",
-  "@minAmountToOffRamp": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "minAmountToOnRamp": "{amount} - это минимум, который вы можете добавить",
-  "@minAmountToOnRamp": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "minimumAmountToRequest": "{amount} это минимум, который можно запросить",
-  "@minimumAmountToRequest": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "minimumAmountToSend": "{amount} это минимум для отправки",
-  "@minimumAmountToSend": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "mobileWalletAcceptAuthorization": "Авторизовать",
-  "@mobileWalletAcceptAuthorization": {},
-  "mobileWalletAcceptSignAndSendPayloads": "Подписать и отправить",
-  "@mobileWalletAcceptSignAndSendPayloads": {},
-  "mobileWalletAcceptSignMessages": "Подписать сообщения",
-  "@mobileWalletAcceptSignMessages": {},
-  "mobileWalletAcceptSignTransactions": "Подписать транзакции",
-  "@mobileWalletAcceptSignTransactions": {},
-  "mobileWalletAuthorize": "Авторизовать {appName}?",
-  "@mobileWalletAuthorize": {
-    "placeholders": {
-      "appName": {
-        "type": "String"
-      }
-    }
-  },
-  "mobileWalletSendTransactions": "Эти транзакции будут отправлены сразу после подписания.",
-  "@mobileWalletSendTransactions": {},
-  "mobileWalletSignAndSendTransactions": "Подписать и отправить транзакцию(и)",
-  "@mobileWalletSignAndSendTransactions": {},
-  "mobileWalletSignMessages": "Подписать сообщение",
-  "@mobileWalletSignMessages": {},
-  "mobileWalletSignMessagesRequest": "{appName} просит вас подписать {count} сообщение(й)",
-  "@mobileWalletSignMessagesRequest": {
-    "placeholders": {
-      "appName": {
-        "type": "String"
-      },
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "mobileWalletSignTransactions": "Подписать транзакцию",
-  "@mobileWalletSignTransactions": {},
-  "mobileWalletSignTransactionsRequest": "{appName} запрашивает у вас подпись {count} транзакции(й)",
-  "@mobileWalletSignTransactionsRequest": {
-    "placeholders": {
-      "appName": {
-        "type": "String"
-      },
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "mobileWalletTitle": "Кошелек Espresso Cash ",
-  "@mobileWalletTitle": {},
-  "money": "Деньги",
-  "@money": {},
-  "moneyReceived": "Деньги были получены",
-  "@moneyReceived": {},
-  "more": "больше",
-  "@more": {},
-  "moreDetails": "Просмотреть подробнее",
-  "@moreDetails": {},
-  "next": "Следующий",
-  "@next": {},
-  "no": "Нет",
-  "@no": {},
-  "noActivity": "Пока никакой активности!",
-  "@noActivity": {},
-  "noEmailInCryptoInfo": "С Espresso Cash нет необходимости в электронной почте и пароле для доступа к вашим деньгам!",
-  "@noEmailInCryptoInfo": {},
-  "noEmailInCryptoParagraph": "Вам нужна секретная фраза для восстановления. Эта фраза состоит из случайно сгенерированных секретных слов, которые будут предоставлены вам. Без этих слов вы не сможете получить доступ к своим средствам. Эти слова никогда не смогут быть восстановлены.\n\nБерегите их!",
-  "@noEmailInCryptoParagraph": {},
-  "noResultsFound": "Результатов не найдено",
-  "@noResultsFound": {},
-  "offRampCancelSubtitle": "Вы уверены, что хотите отменить этот вывод средств?",
-  "@offRampCancelSubtitle": {},
-  "offRampCancelTitle": "Отменить вывод средств",
-  "@offRampCancelTitle": {},
-  "offRampDepositError": "Возникла проблема с выводом средств.",
-  "@offRampDepositError": {},
-  "offRampReceiveAmount": "Вы получите {value}",
-  "@offRampReceiveAmount": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
-  "offRampTopPartnerTitle": "Выводите наличные на банковский счет с помощью нашего ведущего партнера",
-  "@offRampTopPartnerTitle": {},
-  "offRampWaitingForPartner": "Ваши деньги уже в пути",
-  "@offRampWaitingForPartner": {},
-  "offRampWithdrawalFailure": "Возникла проблема с выводом средств. Пожалуйста, свяжитесь с нами.",
-  "@offRampWithdrawalFailure": {},
-  "offRampWithdrawCancelled": "{amount} вывод средств успешно отменен.",
-  "@offRampWithdrawCancelled": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "offRampWithdrawCancelledTitle": "Вывод средств отменен",
-  "@offRampWithdrawCancelledTitle": {},
-  "offRampWithdrawInitiated": "Начат вывод средств",
-  "@offRampWithdrawInitiated": {},
-  "offRampWithdrawNotice": "Получение средств на вывод средств обычно может занять до 3 рабочих дней.",
-  "@offRampWithdrawNotice": {},
-  "offRampWithdrawOngoing": "Отправка {amount}",
-  "@offRampWithdrawOngoing": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "offRampWithdrawReceived": "Деньги получены",
-  "@offRampWithdrawReceived": {},
-  "offRampWithdrawSent": "USDC отправлен партнеру",
-  "@offRampWithdrawSent": {},
-  "offRampWithdrawSuccess": "Ваш вывод средств прошел успешно.",
-  "@offRampWithdrawSuccess": {},
-  "offRampWithdrawTitle": "Ход вывода средств",
-  "@offRampWithdrawTitle": {},
-  "ok": "ОК",
-  "@ok": {},
-  "onboardingBullet": "Криптоинвестирование стало простым, независимо от того, новичок вы или опытный профессионал!",
-  "@onboardingBullet": {},
-  "onboardingIntro": "Получать и отправлять деньги быстрее и проще.",
-  "@onboardingIntro": {},
-  "onboardingNoticeFinishSetup": "Завершить настройку",
-  "@onboardingNoticeFinishSetup": {},
-  "oneMonth": "1 месяц",
-  "@oneMonth": {},
-  "oneWeek": "1 неделя",
-  "@oneWeek": {},
-  "onRampAwaitingFunds": "Ожидайте. Ваш заказ обрабатывается.",
-  "@onRampAwaitingFunds": {},
-  "onRampDepositExpired": "Срок действия вашего заказа истек. Пожалуйста, попробуйте снова.",
-  "@onRampDepositExpired": {},
-  "onRampDepositFailure": "Возникла проблема с вашим депозитом. Пожалуйста, свяжитесь с нами.",
-  "@onRampDepositFailure": {},
-  "onRampDepositInitiated": "Внесение начато",
-  "@onRampDepositInitiated": {},
-  "onRampDepositOngoing": "Внесение депозита {amount}",
-  "@onRampDepositOngoing": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "onRampDepositReceived": "USDC получил",
-  "@onRampDepositReceived": {},
-  "onRampDepositSuccess": "Ваш депозит был внесен успешно.",
-  "@onRampDepositSuccess": {},
-  "onRampDepositTitle": "Добавить денежный прогресс",
-  "@onRampDepositTitle": {},
-  "onRampLocalTransferTile": "Переведено в местной валюте\nОтправленная сумма: {amount}\n{name}: {account}",
-  "@onRampLocalTransferTile": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "name": {
-        "type": "String"
-      },
-      "account": {
-        "type": "String"
-      }
-    }
-  },
-  "onRampTopPartnerTitle": "Переведите деньги в Espresso с помощью нашего ведущего платежного партнера",
-  "@onRampTopPartnerTitle": {},
-  "openInAppScanner": "Открыть встроенный QR-сканер",
-  "@openInAppScanner": {},
-  "operationSend": "отправлено",
-  "@operationSend": {},
-  "orderId": "Идентификатор заказа: {orderId}",
-  "@orderId": {
-    "placeholders": {
-      "orderId": {
-        "type": "String"
-      }
-    }
-  },
-  "outgoingSplitKeyPayments_btnCancel": "Отменить перевод",
-  "@outgoingSplitKeyPayments_btnCancel": {},
-  "outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": "Вы уверены, что хотите отменить этот перевод?",
-  "@outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": {},
-  "outgoingSplitKeyPayments_lblCancelConfirmationTitle": "Отменить перевод",
-  "@outgoingSplitKeyPayments_lblCancelConfirmationTitle": {},
-  "outgoingSplitKeyPayments_lblMoneyWithdrawn": "Деньги уже сняты.",
-  "@outgoingSplitKeyPayments_lblMoneyWithdrawn": {},
-  "outgoingTransferSuccess": "{amount} были отправлены",
-  "@outgoingTransferSuccess": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "pay": "Оплатить",
-  "@pay": {},
-  "paymentInitiated": "Платеж инициирован",
-  "@paymentInitiated": {},
-  "paymentRequestCancel": "Отменить запрос",
-  "@paymentRequestCancel": {},
-  "paymentRequestFailureNotificationTitle": "Не удалось произвести оплату {amount}.",
-  "@paymentRequestFailureNotificationTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "paymentRequest_lblCancelConfirmationSubtitle": "Вы уверены, что хотите отменить этот платежный запрос?",
-  "@paymentRequest_lblCancelConfirmationSubtitle": {},
-  "paymentRequest_lblCancelConfirmationTitle": "Отменить платежный запрос",
-  "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestTitle": "Запросить оплату",
-  "pending": "Незавершено",
-  "@pending": {},
-  "photoLibrary": "Галерея",
-  "@photoLibrary": {},
-  "popularCryptoSubtitle": "Быстрый и простой способ купить и продать\nкриптовалюту в любой точке мира.",
-  "@popularCryptoSubtitle": {},
-  "popularCryptoTitle": "Популярные криптовалюты",
-  "@popularCryptoTitle": {},
-  "pressAndHoldToBuy": "Проведите для покупки {token}",
-  "@pressAndHoldToBuy": {
-    "placeholders": {
-      "token": {
-        "type": "String"
-      }
-    }
-  },
-  "pressAndHoldToSell": "Проведите для продажи {token}",
-  "@pressAndHoldToSell": {
-    "placeholders": {
-      "token": {
-        "type": "String"
-      }
-    }
-  },
-  "price": "Цена",
-  "@price": {},
-  "privacyPolicy": "Политика конфиденциальности",
-  "@privacyPolicy": {},
-  "processing": "Обработка...",
-  "@processing": {},
-  "profile_lblCamera": "Камера",
-  "@profile_lblCamera": {},
-  "protectWallet": "Защитите кошелек",
-  "@protectWallet": {},
-  "protectWalletTitle": "ЗАЩИТА КОШЕЛЬКА",
-  "@protectWalletTitle": {},
-  "protectYourWalletParagraph1": "Не рискуйте потерять свои средства. Защитите свой кошелек, сохранив секретную фразу для восстановления в месте, которому вы доверяете.",
-  "@protectYourWalletParagraph1": {},
-  "protectYourWalletParagraph2": "Это единственный способ восстановить свой кошелек, если вы заблокируете доступ к приложению или приобретете новое устройство.",
-  "@protectYourWalletParagraph2": {},
-  "qrCameraPermissionMessage": "Разрешите доступ к камере в настройках вашего устройства, чтобы включить считыватель QR-кодов.",
-  "@qrCameraPermissionMessage": {},
-  "qrCameraPermissionTitle": "Камера отключена",
-  "@qrCameraPermissionTitle": {},
-  "qrCodeScanErrorContent": "Мы не смогли распознать этот QR-код. Пожалуйста, попробуйте снова.",
-  "@qrCodeScanErrorContent": {},
-  "qrCodeScanErrorTitle": "Сканирование не удалось",
-  "@qrCodeScanErrorTitle": {},
-  "qrPaymentInstructions": "В целях безопасности, пожалуйста, отсканируйте QR-код отправителя с помощью встроенного в приложение сканера.",
-  "@qrPaymentInstructions": {},
-  "qrPaymentSubtitle": "Получатель получит деньги, отсканировав этот QR-код:",
-  "@qrPaymentSubtitle": {},
-  "qrTermsDisclaimer": "Открывая безопасный сканер QR-кода, вы соглашаетесь с нашими",
-  "@qrTermsDisclaimer": {},
-  "rampAmountEquivalent": "Вы получите приблизительно {amount}",
-  "@rampAmountEquivalent": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "rampAmountEquivalentError": "Ошибка при загрузке данных",
-  "@rampAmountEquivalentError": {},
-  "rampBasicInfoRequired": "Чтобы начать, нам нужна от вас некоторая базовая информация.",
-  "@rampBasicInfoRequired": {},
-  "ramp_btnAddCash": "Внести",
-  "@ramp_btnAddCash": {},
-  "ramp_btnCashOut": "Вывести",
-  "@ramp_btnCashOut": {},
-  "ramp_btnContinue": "Продолжать",
-  "@ramp_btnContinue": {},
-  "rampMinimumTransferAmount": "Минимальная сумма для перевода {amount}",
-  "@rampMinimumTransferAmount": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "rampOtherPartnersTitle": "Другие партнеры:",
-  "@rampOtherPartnersTitle": {},
-  "receive": "Запросить",
-  "@receive": {},
-  "receivedBy": "Полученный от {address}",
-  "@receivedBy": {
-    "placeholders": {
-      "address": {
-        "type": "String"
-      }
-    }
-  },
-  "recentActivityEmpty": "Недавней активности нет. Вы хотите отправить деньги семье прямо сейчас?",
-  "@recentActivityEmpty": {},
-  "recentActivityLbl": "Недавняя активность",
-  "@recentActivityLbl": {},
-  "recentActivitySeeAll": "Увидеть все",
-  "@recentActivitySeeAll": {},
-  "recoverySubHeading": "Пожалуйста, запишите следующую секретную фразу для восстановления и тщательно сохраните ее. Эта фраза состоит из случайно сгенерированных 12 слов. Вы не сможете вернуть свои средства, если потеряете эти слова.",
-  "@recoverySubHeading": {},
-  "reEnterPasscode": "Повторно введите пин-код",
-  "@reEnterPasscode": {},
-  "remindMeLater": "Напомнить позже",
-  "@remindMeLater": {},
-  "removePhoto": "Удалить фотографию",
-  "@removePhoto": {},
-  "requestNoteFor": "За",
-  "@requestNoteFor": {},
-  "requestNotePlaceholder": "Добавьте примечание к вашему запросу",
-  "@requestNotePlaceholder": {},
-  "requestNoteRequesting": " Запрос на",
-  "@requestNoteRequesting": {},
-  "requestOrSendPayment": "Отправить или запросить",
-  "@requestOrSendPayment": {},
-  "resendLink": "Отправить ссылки еще раз",
-  "@resendLink": {},
-  "retry": "Повторить",
-  "@retry": {},
-  "save": "Сохранить",
-  "@save": {},
-  "scanToReceive": "Сканируйте, чтобы получить",
-  "@scanToReceive": {},
-  "scanToSend": "Отсканировать для отправки",
-  "@scanToSend": {},
-  "search": "Поиск",
-  "@search": {},
-  "searchPlaceholder": "Поиск...",
-  "@searchPlaceholder": {},
-  "securitySectionTitle": "БЕЗОПАСНОСТЬ И КОНФИДЕНЦИАЛЬНОСТЬ",
-  "@securitySectionTitle": {},
-  "selectCountryTitle": "ВЫБЕРИТЕ СТРАНУ",
-  "@selectCountryTitle": {},
-  "sell": "Продать",
-  "@sell": {},
-  "send": "Отправить",
-  "@send": {},
-  "sendAs": "Отправить как",
-  "@sendAs": {},
-  "sendExplanation": "Как только вы создадите эту ссылку, вы можете отправить ее своему получателю! Он сможет получить отправленные средства, просто перейдя по ссылкам.",
-  "@sendExplanation": {},
-  "sendMoney": "Отправить деньги",
-  "@sendMoney": {},
-  "sentDirectly": "Отправлено",
-  "@sentDirectly": {},
-  "sentViaLink": "Отправлено по ссылкам",
-  "@sentViaLink": {},
-  "setReminder": "УСТАНОВИТЕ НАПОМИНАНИЕ НА {duration}",
-  "@setReminder": {
-    "placeholders": {
-      "duration": {
-        "type": "String"
-      }
-    }
-  },
-  "settings": "Настройки",
-  "@settings": {},
-  "share": "Поделиться",
-  "@share": {},
-  "shareInstructions": "Чтобы получить их, вам нужно перейти по двум ссылкам. Выполните следующие два шага:",
-  "@shareInstructions": {},
-  "shareIntroFt": "Привет!\n\nЯ только что отправил вам",
-  "@shareIntroFt": {},
-  "sharePaymentRequestLinkInstructions": "Чтобы заплатить мне одним нажатием, откройте ссылку:",
-  "@sharePaymentRequestLinkInstructions": {},
-  "sharePaymentRequestLinkIntro": "Привет!\n\nЯ отправил запрос на",
-  "@sharePaymentRequestLinkIntro": {},
-  "sharePaymentRequestLinkMessage": "Привет!\n\nЯ отправил запрос на {amount}. Чтобы заплатить мне одним нажатием, откройте ссылку:\n\n{link}",
-  "@sharePaymentRequestLinkMessage": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "link": {
-        "type": "String"
-      }
-    }
-  },
-  "sharePaymentRequestTitle": "Запрос создан!",
-  "@sharePaymentRequestTitle": {},
-  "shareStep1": "Шаг 1 – Нажмите на первую ссылку:",
-  "@shareStep1": {},
-  "shareStep2": "Шаг 2 – Когда приложение попросит вас, нажмите на вторую ссылку:",
-  "@shareStep2": {},
-  "shareText": "Привет!\n\nЯ только что отправил вам {amount}.\n\nЧтобы получить их, вам нужно перейти по ссылке:\n\n{firstLink}",
-  "@shareText": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "firstLink": {
-        "type": "Uri"
-      }
-    }
-  },
-  "signIn1": "У вас уже есть кошелек Solana?",
-  "@signIn1": {},
-  "signIn2": "Продолжить здесь",
-  "@signIn2": {},
-  "signIn_lblByCreatingWalletYouAgree": "Создавая кошелек или используя существующий кошелек, вы соглашаетесь с нашими",
-  "@signIn_lblByCreatingWalletYouAgree": {},
-  "signOut": "Удалить кошелек",
-  "@signOut": {},
-  "signOutConfirmation": "Вы уверены, что хотите удалить кошелек?",
-  "@signOutConfirmation": {},
-  "signUp": "Создать кошелек",
-  "@signUp": {},
-  "soldToken": "Продано {amount}",
-  "@soldToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "splitKeyCanceledMessage1": "Транзакция {amount} успешно отменена.",
-  "@splitKeyCanceledMessage1": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "splitKeyCancelErrorMessage": "Возникла проблема с отменой вашего перевода.",
-  "@splitKeyCancelErrorMessage": {},
-  "splitKeyConfirmationDialogContent": "Вы уверены, что не хотите получить доступные вам деньги?",
-  "@splitKeyConfirmationDialogContent": {},
-  "splitKeyErrorMessage2": "Возникла проблема с вашим переводом.",
-  "@splitKeyErrorMessage2": {},
-  "splitKeyErrorRetry": "Пожалуйста, повторите попытку.",
-  "@splitKeyErrorRetry": {},
-  "splitKeyProgressCanceled": "Перевод был отменен",
-  "@splitKeyProgressCanceled": {},
-  "splitKeyProgressCanceling": "Отмена перевода",
-  "@splitKeyProgressCanceling": {},
-  "splitKeyProgressCreated": "Ссылка готова",
-  "@splitKeyProgressCreated": {},
-  "splitKeyProgressOngoing": "Отправка {amount} по защищенной ссылке...",
-  "@splitKeyProgressOngoing": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "splitKeyProgressSuccess": "Деньги были успешно получены",
-  "@splitKeyProgressSuccess": {},
-  "splitKeySecondLinkMessage": "Пожалуйста, перейдите по второй ссылке в полученном вами сообщении.",
-  "@splitKeySecondLinkMessage": {},
-  "splitKeySecondLinkTitle": "Деньги ждут вас!",
-  "@splitKeySecondLinkTitle": {},
-  "splitKeySuccessMessage2": "Ваш перевод был отправлен.",
-  "@splitKeySuccessMessage2": {},
-  "splitKeyTransactionLoading": "Держитесь. Мы почти закончили...",
-  "@splitKeyTransactionLoading": {},
-  "splitKeyTransferTitle": "ПРОЦЕСС ПЕРЕДАЧИ",
-  "@splitKeyTransferTitle": {},
-  "startInvestingSubtitle": "Новичок в криптоинвестировании? Мы поможем вам.\nВот несколько популярных криптовалют, которые могут вам понравиться.",
-  "@startInvestingSubtitle": {},
-  "startInvestingTitle": "Начните инвестировать",
-  "@startInvestingTitle": {},
-  "swap": "Обменять",
-  "@swap": {},
-  "swapAmountAvailable": "{amount} доступно для использования.",
-  "@swapAmountAvailable": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "swapBuySuccess": "Покупка {token} прошла успешно.",
-  "@swapBuySuccess": {
-    "placeholders": {
-      "token": {
-        "type": "String"
-      }
-    }
-  },
-  "swapEquivalent": "За {input} вы получите приблизительно {output}",
-  "@swapEquivalent": {
-    "placeholders": {
-      "input": {
-        "type": "String"
-      },
-      "output": {
-        "type": "String"
-      }
-    }
-  },
-  "swapErrorTitle": "Есть проблема",
-  "@swapErrorTitle": {},
-  "swapFailRouteNotFound": "Не найдено маршрутов для заданных токенов и суммы!",
-  "@swapFailRouteNotFound": {},
-  "swapFailUnknown": "При отправке транзакции произошла неизвестная ошибка",
-  "@swapFailUnknown": {},
-  "swapSellSuccess": "Продажа {token} прошла успешно.",
-  "@swapSellSuccess": {
-    "placeholders": {
-      "token": {
-        "type": "String"
-      }
-    }
-  },
-  "swapSlippageExplanation": "Проскальзывание - это разница, наблюдаемая из-за изменения рыночных условий между моментом отправки транзакции и ее проверкой.",
-  "@swapSlippageExplanation": {},
-  "swapSlippageTitle": "Допуск на проскальзывание",
-  "@swapSlippageTitle": {},
-  "swapSlippageWarning": "Ваша транзакция будет отменена, если цена изменится более чем на",
-  "@swapSlippageWarning": {},
-  "terms": "Условия",
-  "@terms": {},
-  "termsOfUse": "Условия использования",
-  "@termsOfUse": {},
-  "to": "Кому",
-  "@to": {},
-  "todayAt": "Сегодня в {time}",
-  "@todayAt": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "tokenBalance": "Баланс {symbol}",
-  "@tokenBalance": {
-    "placeholders": {
-      "symbol": {
-        "type": "String"
-      }
-    }
-  },
-  "tokenChart_lblAllTime": "Все",
-  "@tokenChart_lblAllTime": {},
-  "tokenChart_lblPastMonth": "Прошедший месяц",
-  "@tokenChart_lblPastMonth": {},
-  "tokenChart_lblPastThreeMonths": "Последние три месяца",
-  "@tokenChart_lblPastThreeMonths": {},
-  "tokenChart_lblPastWeek": "Прошедшая неделя",
-  "@tokenChart_lblPastWeek": {},
-  "tokenChart_lblPastYear": "Прошедший год",
-  "@tokenChart_lblPastYear": {},
-  "tokenDetails_btnBuy": "Купить",
-  "@tokenDetails_btnBuy": {},
-  "tokenDetails_lblAboutToken": "Про {name}",
-  "@tokenDetails_lblAboutToken": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "tokenDetails_lblBalance": "Баланс",
-  "@tokenDetails_lblBalance": {},
-  "tokenEquivalent": "Эквивалентно {value}",
-  "@tokenEquivalent": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
-  "tomorrow": "Завтра",
-  "@tomorrow": {},
-  "toRestoreYourAccount": "Введите ниже секретную фразу восстановления. Эта фраза состоит из случайно сгенерированных 12 слов.",
-  "@toRestoreYourAccount": {},
-  "transactions": "Транзакции",
-  "@transactions": {},
-  "transferErrorTitle": "Ой!",
-  "@transferErrorTitle": {},
-  "transferInitiated": "Перевод инициирован",
-  "@transferInitiated": {},
-  "transferSuccessTitle": "УСПЕШНО!",
-  "@transferSuccessTitle": {},
-  "tryAgainLater": "Пожалуйста, попробуйте позже",
-  "@tryAgainLater": {},
-  "unavailableToken": "Токен {tokenName} в настоящее время недоступен для покупки. Вы все еще можете подписаться, чтобы отслеживать цены.",
-  "@unavailableToken": {
-    "placeholders": {
-      "tokenName": {
-        "type": "String"
-      }
-    }
-  },
-  "uploadPhoto": "Загрузить фотографию",
-  "@uploadPhoto": {},
-  "usdcExplanation": "USD Coin (USDC) - это цифровая стабильная монета, которая должна быть привязана к доллару США.",
-  "@usdcExplanation": {},
-  "usdcInfo": "US Dollar Coin (USDC) - это стейблкоин,  цифровая стабильная монета, которая должна быть привязана к доллару США. ($1 = 1USDC).",
-  "@usdcInfo": {},
-  "version": "Версия {versionNumber} ({buildNumber})",
-  "@version": {
-    "placeholders": {
-      "versionNumber": {
-        "type": "String"
-      },
-      "buildNumber": {
-        "type": "String"
-      }
-    }
-  },
-  "view": "Смотреть",
-  "@view": {},
-  "viewRecoveryPhrase": "Просмотреть секретную фразу восстановления",
-  "@viewRecoveryPhrase": {},
-  "viewRecoveryPhraseDescription": "Слова, сгенерированные вашим криптокошельком",
-  "@viewRecoveryPhraseDescription": {},
-  "viewTransaction": "Просмотреть транзакцию",
-  "@viewTransaction": {},
-  "walletAddress": "Адрес кошелька",
-  "@walletAddress": {},
-  "walletAddressFieldHint": "Введите, вставьте или отсканируйте адрес здесь",
-  "@walletAddressFieldHint": {},
-  "walletEspressoPayLabel": "Отправляйте деньги любому, кто использует платформу обмена сообщениями.",
-  "@walletEspressoPayLabel": {},
-  "walletManualPayLabel": "Отправить, используя адрес кошелька",
-  "@walletManualPayLabel": {},
-  "walletNetworks": "Сети",
-  "@walletNetworks": {},
-  "walletPayOther": "Другой способ оплаты:",
-  "@walletPayOther": {},
-  "walletSendToAddressTitle": "ОТПРАВИТЬ НА АДРЕС КОШЕЛЬКА",
-  "@walletSendToAddressTitle": {},
-  "walletTransactionMethodTitle": "СПОСОБ СОВЕРШЕНИЯ ТРАНЗАКЦИИ",
-  "@walletTransactionMethodTitle": {},
-  "weWereUnableToFetchTokenPrice": "Нам не удалось получить цены токенов.",
-  "@weWereUnableToFetchTokenPrice": {},
-  "yes": "Да",
-  "@yes": {},
-  "youOwn": "У вас",
-  "@youOwn": {},
-  "yourEmailDisclaimer": "Ваш адрес электронной почты хранится только локально и предоставляется только партнерам по вводу и обналичиванию средств",
-  "@yourEmailDisclaimer": {},
-  "yourEmailPlaceholder": "Адрес электронной почты",
-  "@yourEmailPlaceholder": {},
-  "yourFirstNamePlaceholder": "Ваше имя",
-  "@yourFirstNamePlaceholder": {},
-  "yourRecoveryPhrase": "Ваша секретная фраза восстановления",
-  "@yourRecoveryPhrase": {},
-  "yourRecoveryPhraseSub": "Пожалуйста, запишите следующую секретную фразу для восстановления и тщательно сохраните ее. Эта фраза состоит из случайно сгенерированных 12 слов. Вы не сможете вернуть свои средства, если потеряете эти слова.",
-  "@yourRecoveryPhraseSub": {},
-  "zeroAmountMessage": "Пожалуйста, введите сумму больше нуля.",
-  "@zeroAmountMessage": {
-    "placeholders": {
-      "operation": {
-        "type": "String"
-      }
-    }
-  },
-  "zeroAmountTitle": "Недопустимая сумма",
-  "@zeroAmountTitle": {}
+    "@@locale": "ru",
+    "activities_lblAddCash": "Добавьте наличные",
+    "@activities_lblAddCash": {},
+    "activities_lblCanceled": "Отменено",
+    "@activities_lblCanceled": {},
+    "activities_lblFailure": "Сбой",
+    "@activities_lblFailure": {},
+    "activities_lblInProgress": "Выполняется",
+    "@activities_lblInProgress": {},
+    "activities_lblSuccess": "Успешно",
+    "@activities_lblSuccess": {},
+    "activities_lblTitle": "Операции",
+    "@activities_lblTitle": {},
+    "activities_lblWithdraw": "Обналичить",
+    "@activities_lblWithdraw": {},
+    "appLock_lblAutoLock": "Автоматическая блокировка",
+    "@appLock_lblAutoLock": {},
+    "appLock_lblAutoLockDescription": "Требовать пин-код для доступа к приложению",
+    "@appLock_lblAutoLockDescription": {},
+    "balances_lblConnectionError": "Не удается подключиться к сети!",
+    "@balances_lblConnectionError": {},
+    "carousel1Subtitle": "Мгновенные денежные переводы с низкой комиссией в более чем  в 200 стран и территорий.",
+    "@carousel1Subtitle": {},
+    "carousel1Title": "Добро пожаловать в Espresso Cash!",
+    "@carousel1Title": {},
+    "carousel2Subtitle": "Деньги переводятся на Ваш банковский счет в местной валюте.",
+    "@carousel2Subtitle": {},
+    "carousel2Title": "Вывод наличных в местной валюте",
+    "@carousel2Title": {},
+    "carousel3Subtitle": "Платежи распределяются с помощью платформ обмена сообщениями, таких как WhatsApp, Messenger, Telegram или SMS.",
+    "@carousel3Subtitle": {},
+    "carousel3Title": "Отправляйте с помощью платформ обмена сообщениями",
+    "@carousel3Title": {},
+    "carousel4Subtitle": "Используйте QR-код Espresso Cash для мгновенной оплаты местным предприятиям",
+    "@carousel4Subtitle": {},
+    "carousel4Title": "Оплачивайте на месте",
+    "@carousel4Title": {},
+    "carouselSendMoneyBtn": "Отправьте деньги прямо сейчас",
+    "@carouselSendMoneyBtn": {},
+    "close": "Закрыть",
+    "@close": {},
+    "comingSoon": "Скоро будет!",
+    "@comingSoon": {},
+    "contactUs": "Связаться с нами",
+    "@contactUs": {},
+    "copiedFid": "Скопирован FID: {fid}",
+    "@copiedFid": {
+        "placeholders": {
+            "fid": {
+                "type": "String"
+            }
+        }
+    },
+    "copiedToClipboard": "Скопировано!",
+    "@copiedToClipboard": {},
+    "copy": "Копировать",
+    "@copy": {},
+    "core_and": " и ",
+    "@core_and": {},
+    "core_btnCancel": "Отменить",
+    "@core_btnCancel": {},
+    "countryOfResidence": "Страна проживания",
+    "@countryOfResidence": {},
+    "create": "Создать",
+    "@create": {},
+    "cryptoCashBalance": " Ваш баланс",
+    "@cryptoCashBalance": {},
+    "decline": "Отклонить",
+    "@decline": {},
+    "depositDisclaimer": "Средства должны быть отправлены с вашего личного счета. Любые средства, отправленные через счет, который не соответствует вашим идентификационным данным, будут зарезервированы.",
+    "@depositDisclaimer": {},
+    "depositInstruction1": "Переведите деньги с вашего банковского счета нашему местному партнеру:",
+    "@depositInstruction1": {},
+    "depositInstruction2": "Как только деньги будут переведены, вернитесь в Espresso Cash и продолжайте ниже.",
+    "@depositInstruction2": {},
+    "depositReceiveAmount": "Вы получите:  {amount}",
+    "@depositReceiveAmount": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "depositTitle": "Добавьте наличные",
+    "@depositTitle": {},
+    "depositTransferAmount": "Сумма, подлежащая переводу",
+    "@depositTransferAmount": {},
+    "editProfile": "Редактировать профиль",
+    "@editProfile": {},
+    "enterAmount": "Введите сумму",
+    "@enterAmount": {},
+    "enterPasscode": "Введите пин-код",
+    "@enterPasscode": {},
+    "enterYourSecretWords": "Введите секретную фразу для восстановления",
+    "@enterYourSecretWords": {},
+    "errorMessageInsufficientFunds": "У Вас недостаточно средств.",
+    "@errorMessageInsufficientFunds": {},
+    "faq": "Часто задаваемые вопросы (FAQ)",
+    "@faq": {},
+    "fee": "Комиссия",
+    "@fee": {},
+    "feesCalculating": " вычисление...\n\n",
+    "@feesCalculating": {},
+    "feesFailed": "не удалось загрузить",
+    "@feesFailed": {},
+    "fiatEquivalent": "Эквивалентно",
+    "@fiatEquivalent": {},
+    "following": "Закладки",
+    "@following": {},
+    "help": "Помощь",
+    "@help": {},
+    "incomingUsdcFeeNotice": "С вас была снята единовременная комиссия в размере {amount} за вашу первую входящую транзакцию.",
+    "@incomingUsdcFeeNotice": {},
+    "incorrectPasscode": "Неверный пин-код. Попробуйте еще раз.",
+    "@incorrectPasscode": {},
+    "insufficientFundsMessage": "Вы не можете отправить {amount}, Вам доступно только {balance}.",
+    "@insufficientFundsMessage": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "balance": {
+                "type": "String"
+            }
+        }
+    },
+    "inUsdc": "в USDC",
+    "@inUsdc": {},
+    "invalidEscrowError": "Ссылка неверна или деньги уже были выведены.",
+    "@invalidEscrowError": {},
+    "investmentHeaderButtonsTitle": "Я хочу",
+    "@investmentHeaderButtonsTitle": {},
+    "iUnderstand": "Я понимаю",
+    "@iUnderstand": {},
+    "iUnderstandIfLoseMySecret": "Я понимаю, что если я потеряю свою секретную фразу восстановления, я не смогу получить доступ к средствам.",
+    "@iUnderstandIfLoseMySecret": {},
+    "less": "меньше",
+    "@less": {},
+    "loading": "Загрузка...",
+    "@loading": {},
+    "minAmountToOffRamp": "{amount} это минимум, который вы можете обналичить",
+    "@minAmountToOffRamp": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "minAmountToOnRamp": "{amount} - это минимум, который вы можете добавить",
+    "@minAmountToOnRamp": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "minimumAmountToRequest": "{amount} это минимум, который можно запросить",
+    "@minimumAmountToRequest": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "minimumAmountToSend": "{amount} это минимум для отправки",
+    "@minimumAmountToSend": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "mobileWalletAcceptAuthorization": "Авторизовать",
+    "@mobileWalletAcceptAuthorization": {},
+    "mobileWalletAcceptSignAndSendPayloads": "Подписать и отправить",
+    "@mobileWalletAcceptSignAndSendPayloads": {},
+    "mobileWalletAcceptSignMessages": "Подписать сообщения",
+    "@mobileWalletAcceptSignMessages": {},
+    "mobileWalletAcceptSignTransactions": "Подписать транзакции",
+    "@mobileWalletAcceptSignTransactions": {},
+    "mobileWalletAuthorize": "Авторизовать {appName}?",
+    "@mobileWalletAuthorize": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "mobileWalletSendTransactions": "Эти транзакции будут отправлены сразу после подписания.",
+    "@mobileWalletSendTransactions": {},
+    "mobileWalletSignAndSendTransactions": "Подписать и отправить транзакцию(и)",
+    "@mobileWalletSignAndSendTransactions": {},
+    "mobileWalletSignMessages": "Подписать сообщение",
+    "@mobileWalletSignMessages": {},
+    "mobileWalletSignMessagesRequest": "{appName} просит вас подписать {count} сообщение(й)",
+    "@mobileWalletSignMessagesRequest": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            },
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "mobileWalletSignTransactions": "Подписать транзакцию",
+    "@mobileWalletSignTransactions": {},
+    "mobileWalletSignTransactionsRequest": "{appName} запрашивает у вас подпись {count} транзакции(й)",
+    "@mobileWalletSignTransactionsRequest": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            },
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "mobileWalletTitle": "Кошелек Espresso Cash ",
+    "@mobileWalletTitle": {},
+    "money": "Деньги",
+    "@money": {},
+    "moneyReceived": "Деньги были получены",
+    "@moneyReceived": {},
+    "more": "больше",
+    "@more": {},
+    "moreDetails": "Просмотреть подробнее",
+    "@moreDetails": {},
+    "next": "Следующий",
+    "@next": {},
+    "no": "Нет",
+    "@no": {},
+    "noActivity": "Пока никакой активности!",
+    "@noActivity": {},
+    "noEmailInCryptoInfo": "С Espresso Cash нет необходимости в электронной почте и пароле для доступа к вашим деньгам!",
+    "@noEmailInCryptoInfo": {},
+    "noEmailInCryptoParagraph": "Вам нужна секретная фраза для восстановления. Эта фраза состоит из случайно сгенерированных секретных слов, которые будут предоставлены вам. Без этих слов вы не сможете получить доступ к своим средствам. Эти слова никогда не смогут быть восстановлены.\n\nБерегите их!",
+    "@noEmailInCryptoParagraph": {},
+    "noResultsFound": "Результатов не найдено",
+    "@noResultsFound": {},
+    "offRampCancelSubtitle": "Вы уверены, что хотите отменить этот вывод средств?",
+    "@offRampCancelSubtitle": {},
+    "offRampCancelTitle": "Отменить вывод средств",
+    "@offRampCancelTitle": {},
+    "offRampDepositError": "Возникла проблема с выводом средств.",
+    "@offRampDepositError": {},
+    "offRampReceiveAmount": "Вы получите {value}",
+    "@offRampReceiveAmount": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "offRampTopPartnerTitle": "Выводите наличные на банковский счет с помощью нашего ведущего партнера",
+    "@offRampTopPartnerTitle": {},
+    "offRampWaitingForPartner": "Ваши деньги уже в пути",
+    "@offRampWaitingForPartner": {},
+    "offRampWithdrawalFailure": "Возникла проблема с выводом средств. Пожалуйста, свяжитесь с нами.",
+    "@offRampWithdrawalFailure": {},
+    "offRampWithdrawCancelled": "{amount} вывод средств успешно отменен.",
+    "@offRampWithdrawCancelled": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "offRampWithdrawCancelledTitle": "Вывод средств отменен",
+    "@offRampWithdrawCancelledTitle": {},
+    "offRampWithdrawInitiated": "Начат вывод средств",
+    "@offRampWithdrawInitiated": {},
+    "offRampWithdrawNotice": "Получение средств на вывод средств обычно может занять до 3 рабочих дней.",
+    "@offRampWithdrawNotice": {},
+    "offRampWithdrawOngoing": "Отправка {amount}",
+    "@offRampWithdrawOngoing": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "offRampWithdrawReceived": "Деньги получены",
+    "@offRampWithdrawReceived": {},
+    "offRampWithdrawSent": "USDC отправлен партнеру",
+    "@offRampWithdrawSent": {},
+    "offRampWithdrawSuccess": "Ваш вывод средств прошел успешно.",
+    "@offRampWithdrawSuccess": {},
+    "offRampWithdrawTitle": "Ход вывода средств",
+    "@offRampWithdrawTitle": {},
+    "ok": "ОК",
+    "@ok": {},
+    "onboardingIntro": "Получать и отправлять деньги быстрее и проще.",
+    "@onboardingIntro": {},
+    "onboardingNoticeFinishSetup": "Завершить настройку",
+    "@onboardingNoticeFinishSetup": {},
+    "oneMonth": "1 месяц",
+    "@oneMonth": {},
+    "oneWeek": "1 неделя",
+    "@oneWeek": {},
+    "onRampAwaitingFunds": "Ожидайте. Ваш заказ обрабатывается.",
+    "@onRampAwaitingFunds": {},
+    "onRampDepositExpired": "Срок действия вашего заказа истек. Пожалуйста, попробуйте снова.",
+    "@onRampDepositExpired": {},
+    "onRampDepositFailure": "Возникла проблема с вашим депозитом. Пожалуйста, свяжитесь с нами.",
+    "@onRampDepositFailure": {},
+    "onRampDepositInitiated": "Внесение начато",
+    "@onRampDepositInitiated": {},
+    "onRampDepositOngoing": "Внесение депозита {amount}",
+    "@onRampDepositOngoing": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "onRampDepositReceived": "USDC получил",
+    "@onRampDepositReceived": {},
+    "onRampDepositSuccess": "Ваш депозит был внесен успешно.",
+    "@onRampDepositSuccess": {},
+    "onRampDepositTitle": "Добавить денежный прогресс",
+    "@onRampDepositTitle": {},
+    "onRampLocalTransferTile": "Переведено в местной валюте\nОтправленная сумма: {amount}\n{name}: {account}",
+    "@onRampLocalTransferTile": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "name": {
+                "type": "String"
+            },
+            "account": {
+                "type": "String"
+            }
+        }
+    },
+    "onRampTopPartnerTitle": "Переведите деньги в Espresso с помощью нашего ведущего платежного партнера",
+    "@onRampTopPartnerTitle": {},
+    "operationSend": "отправлено",
+    "@operationSend": {},
+    "orderId": "Идентификатор заказа: {orderId}",
+    "@orderId": {
+        "placeholders": {
+            "orderId": {
+                "type": "String"
+            }
+        }
+    },
+    "outgoingSplitKeyPayments_btnCancel": "Отменить перевод",
+    "@outgoingSplitKeyPayments_btnCancel": {},
+    "outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": "Вы уверены, что хотите отменить этот перевод?",
+    "@outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": {},
+    "outgoingSplitKeyPayments_lblCancelConfirmationTitle": "Отменить перевод",
+    "@outgoingSplitKeyPayments_lblCancelConfirmationTitle": {},
+    "outgoingSplitKeyPayments_lblMoneyWithdrawn": "Деньги уже сняты.",
+    "@outgoingSplitKeyPayments_lblMoneyWithdrawn": {},
+    "outgoingTransferSuccess": "{amount} были отправлены",
+    "@outgoingTransferSuccess": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "pay": "Оплатить",
+    "@pay": {},
+    "paymentInitiated": "Платеж инициирован",
+    "@paymentInitiated": {},
+    "paymentRequestCancel": "Отменить запрос",
+    "@paymentRequestCancel": {},
+    "paymentRequestFailureNotificationTitle": "Не удалось произвести оплату {amount}.",
+    "@paymentRequestFailureNotificationTitle": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "paymentRequest_lblCancelConfirmationSubtitle": "Вы уверены, что хотите отменить этот платежный запрос?",
+    "@paymentRequest_lblCancelConfirmationSubtitle": {},
+    "paymentRequest_lblCancelConfirmationTitle": "Отменить платежный запрос",
+    "@paymentRequest_lblCancelConfirmationTitle": {},
+    "paymentRequestTitle": "Запросить оплату",
+    "pending": "Незавершено",
+    "@pending": {},
+    "photoLibrary": "Галерея",
+    "@photoLibrary": {},
+    "price": "Цена",
+    "@price": {},
+    "privacyPolicy": "Политика конфиденциальности",
+    "@privacyPolicy": {},
+    "processing": "Обработка...",
+    "@processing": {},
+    "profile_lblCamera": "Камера",
+    "@profile_lblCamera": {},
+    "protectWallet": "Защитите кошелек",
+    "@protectWallet": {},
+    "protectWalletTitle": "ЗАЩИТА КОШЕЛЬКА",
+    "@protectWalletTitle": {},
+    "protectYourWalletParagraph1": "Не рискуйте потерять свои средства. Защитите свой кошелек, сохранив секретную фразу для восстановления в месте, которому вы доверяете.",
+    "@protectYourWalletParagraph1": {},
+    "protectYourWalletParagraph2": "Это единственный способ восстановить свой кошелек, если вы заблокируете доступ к приложению или приобретете новое устройство.",
+    "@protectYourWalletParagraph2": {},
+    "qrCameraPermissionMessage": "Разрешите доступ к камере в настройках вашего устройства, чтобы включить считыватель QR-кодов.",
+    "@qrCameraPermissionMessage": {},
+    "qrCameraPermissionTitle": "Камера отключена",
+    "@qrCameraPermissionTitle": {},
+    "qrCodeScanErrorContent": "Мы не смогли распознать этот QR-код. Пожалуйста, попробуйте снова.",
+    "@qrCodeScanErrorContent": {},
+    "qrCodeScanErrorTitle": "Сканирование не удалось",
+    "@qrCodeScanErrorTitle": {},
+    "rampAmountEquivalent": "Вы получите приблизительно {amount}",
+    "@rampAmountEquivalent": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "rampBasicInfoRequired": "Чтобы начать, нам нужна от вас некоторая базовая информация.",
+    "@rampBasicInfoRequired": {},
+    "ramp_btnAddCash": "Внести",
+    "@ramp_btnAddCash": {},
+    "ramp_btnCashOut": "Вывести",
+    "@ramp_btnCashOut": {},
+    "ramp_btnContinue": "Продолжать",
+    "@ramp_btnContinue": {},
+    "rampMinimumTransferAmount": "Минимальная сумма для перевода {amount}",
+    "@rampMinimumTransferAmount": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "receive": "Запросить",
+    "@receive": {},
+    "recentActivityEmpty": "Недавней активности нет. Вы хотите отправить деньги семье прямо сейчас?",
+    "@recentActivityEmpty": {},
+    "recentActivityLbl": "Недавняя активность",
+    "@recentActivityLbl": {},
+    "recentActivitySeeAll": "Увидеть все",
+    "@recentActivitySeeAll": {},
+    "reEnterPasscode": "Повторно введите пин-код",
+    "@reEnterPasscode": {},
+    "remindMeLater": "Напомнить позже",
+    "@remindMeLater": {},
+    "requestOrSendPayment": "Отправить или запросить",
+    "@requestOrSendPayment": {},
+    "resendLink": "Отправить ссылки еще раз",
+    "@resendLink": {},
+    "retry": "Повторить",
+    "@retry": {},
+    "save": "Сохранить",
+    "@save": {},
+    "scanToReceive": "Сканируйте, чтобы получить",
+    "@scanToReceive": {},
+    "scanToSend": "Отсканировать для отправки",
+    "@scanToSend": {},
+    "search": "Поиск",
+    "@search": {},
+    "searchPlaceholder": "Поиск...",
+    "@searchPlaceholder": {},
+    "securitySectionTitle": "БЕЗОПАСНОСТЬ И КОНФИДЕНЦИАЛЬНОСТЬ",
+    "@securitySectionTitle": {},
+    "selectCountryTitle": "ВЫБЕРИТЕ СТРАНУ",
+    "@selectCountryTitle": {},
+    "sell": "Продать",
+    "@sell": {},
+    "send": "Отправить",
+    "@send": {},
+    "sendAs": "Отправить как",
+    "@sendAs": {},
+    "sendExplanation": "Как только вы создадите эту ссылку, вы можете отправить ее своему получателю! Он сможет получить отправленные средства, просто перейдя по ссылкам.",
+    "@sendExplanation": {},
+    "sendMoney": "Отправить деньги",
+    "@sendMoney": {},
+    "sentDirectly": "Отправлено",
+    "@sentDirectly": {},
+    "sentViaLink": "Отправлено по ссылкам",
+    "@sentViaLink": {},
+    "setReminder": "УСТАНОВИТЕ НАПОМИНАНИЕ НА {duration}",
+    "@setReminder": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "settings": "Настройки",
+    "@settings": {},
+    "share": "Поделиться",
+    "@share": {},
+    "shareInstructions": "Чтобы получить их, вам нужно перейти по двум ссылкам. Выполните следующие два шага:",
+    "@shareInstructions": {},
+    "shareIntroFt": "Привет!\n\nЯ только что отправил вам",
+    "@shareIntroFt": {},
+    "sharePaymentRequestLinkInstructions": "Чтобы заплатить мне одним нажатием, откройте ссылку:",
+    "@sharePaymentRequestLinkInstructions": {},
+    "sharePaymentRequestLinkIntro": "Привет!\n\nЯ отправил запрос на",
+    "@sharePaymentRequestLinkIntro": {},
+    "sharePaymentRequestLinkMessage": "Привет!\n\nЯ отправил запрос на {amount}. Чтобы заплатить мне одним нажатием, откройте ссылку:\n\n{link}",
+    "@sharePaymentRequestLinkMessage": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "link": {
+                "type": "String"
+            }
+        }
+    },
+    "sharePaymentRequestTitle": "Запрос создан!",
+    "@sharePaymentRequestTitle": {},
+    "shareText": "Привет!\n\nЯ только что отправил вам {amount}.\n\nЧтобы получить их, вам нужно перейти по ссылке:\n\n{firstLink}",
+    "@shareText": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "firstLink": {
+                "type": "Uri"
+            }
+        }
+    },
+    "signIn1": "У вас уже есть кошелек Solana?",
+    "@signIn1": {},
+    "signIn2": "Продолжить здесь",
+    "@signIn2": {},
+    "signIn_lblByCreatingWalletYouAgree": "Создавая кошелек или используя существующий кошелек, вы соглашаетесь с нашими",
+    "@signIn_lblByCreatingWalletYouAgree": {},
+    "signOut": "Удалить кошелек",
+    "@signOut": {},
+    "signOutConfirmation": "Вы уверены, что хотите удалить кошелек?",
+    "@signOutConfirmation": {},
+    "signUp": "Создать кошелек",
+    "@signUp": {},
+    "splitKeyCanceledMessage1": "Транзакция {amount} успешно отменена.",
+    "@splitKeyCanceledMessage1": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "splitKeyCancelErrorMessage": "Возникла проблема с отменой вашего перевода.",
+    "@splitKeyCancelErrorMessage": {},
+    "splitKeyErrorMessage2": "Возникла проблема с вашим переводом.",
+    "@splitKeyErrorMessage2": {},
+    "splitKeyErrorRetry": "Пожалуйста, повторите попытку.",
+    "@splitKeyErrorRetry": {},
+    "splitKeyProgressCanceled": "Перевод был отменен",
+    "@splitKeyProgressCanceled": {},
+    "splitKeyProgressCanceling": "Отмена перевода",
+    "@splitKeyProgressCanceling": {},
+    "splitKeyProgressCreated": "Ссылка готова",
+    "@splitKeyProgressCreated": {},
+    "splitKeyProgressOngoing": "Отправка {amount} по защищенной ссылке...",
+    "@splitKeyProgressOngoing": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "splitKeyProgressSuccess": "Деньги были успешно получены",
+    "@splitKeyProgressSuccess": {},
+    "splitKeySuccessMessage2": "Ваш перевод был отправлен.",
+    "@splitKeySuccessMessage2": {},
+    "splitKeyTransferTitle": "ПРОЦЕСС ПЕРЕДАЧИ",
+    "@splitKeyTransferTitle": {},
+    "swap": "Обменять",
+    "@swap": {},
+    "swapErrorTitle": "Есть проблема",
+    "@swapErrorTitle": {},
+    "swapFailUnknown": "При отправке транзакции произошла неизвестная ошибка",
+    "@swapFailUnknown": {},
+    "terms": "Условия",
+    "@terms": {},
+    "termsOfUse": "Условия использования",
+    "@termsOfUse": {},
+    "to": "Кому",
+    "@to": {},
+    "todayAt": "Сегодня в {time}",
+    "@todayAt": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "tokenBalance": "Баланс {symbol}",
+    "@tokenBalance": {
+        "placeholders": {
+            "symbol": {
+                "type": "String"
+            }
+        }
+    },
+    "tokenEquivalent": "Эквивалентно {value}",
+    "@tokenEquivalent": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "tomorrow": "Завтра",
+    "@tomorrow": {},
+    "toRestoreYourAccount": "Введите ниже секретную фразу восстановления. Эта фраза состоит из случайно сгенерированных 12 слов.",
+    "@toRestoreYourAccount": {},
+    "transactions": "Транзакции",
+    "@transactions": {},
+    "transferErrorTitle": "Ой!",
+    "@transferErrorTitle": {},
+    "transferSuccessTitle": "УСПЕШНО!",
+    "@transferSuccessTitle": {},
+    "tryAgainLater": "Пожалуйста, попробуйте позже",
+    "@tryAgainLater": {},
+    "usdcExplanation": "USD Coin (USDC) - это цифровая стабильная монета, которая должна быть привязана к доллару США.",
+    "@usdcExplanation": {},
+    "usdcInfo": "US Dollar Coin (USDC) - это стейблкоин,  цифровая стабильная монета, которая должна быть привязана к доллару США. ($1 = 1USDC).",
+    "@usdcInfo": {},
+    "version": "Версия {versionNumber} ({buildNumber})",
+    "@version": {
+        "placeholders": {
+            "versionNumber": {
+                "type": "String"
+            },
+            "buildNumber": {
+                "type": "String"
+            }
+        }
+    },
+    "view": "Смотреть",
+    "@view": {},
+    "viewRecoveryPhrase": "Просмотреть секретную фразу восстановления",
+    "@viewRecoveryPhrase": {},
+    "viewRecoveryPhraseDescription": "Слова, сгенерированные вашим криптокошельком",
+    "@viewRecoveryPhraseDescription": {},
+    "viewTransaction": "Просмотреть транзакцию",
+    "@viewTransaction": {},
+    "walletAddress": "Адрес кошелька",
+    "@walletAddress": {},
+    "walletAddressFieldHint": "Введите, вставьте или отсканируйте адрес здесь",
+    "@walletAddressFieldHint": {},
+    "walletEspressoPayLabel": "Отправляйте деньги любому, кто использует платформу обмена сообщениями.",
+    "@walletEspressoPayLabel": {},
+    "walletNetworks": "Сети",
+    "@walletNetworks": {},
+    "walletSendToAddressTitle": "ОТПРАВИТЬ НА АДРЕС КОШЕЛЬКА",
+    "@walletSendToAddressTitle": {},
+    "walletTransactionMethodTitle": "СПОСОБ СОВЕРШЕНИЯ ТРАНЗАКЦИИ",
+    "@walletTransactionMethodTitle": {},
+    "weWereUnableToFetchTokenPrice": "Нам не удалось получить цены токенов.",
+    "@weWereUnableToFetchTokenPrice": {},
+    "yes": "Да",
+    "@yes": {},
+    "yourEmailDisclaimer": "Ваш адрес электронной почты хранится только локально и предоставляется только партнерам по вводу и обналичиванию средств",
+    "@yourEmailDisclaimer": {},
+    "yourEmailPlaceholder": "Адрес электронной почты",
+    "@yourEmailPlaceholder": {},
+    "yourFirstNamePlaceholder": "Ваше имя",
+    "@yourFirstNamePlaceholder": {},
+    "yourRecoveryPhrase": "Ваша секретная фраза восстановления",
+    "@yourRecoveryPhrase": {},
+    "yourRecoveryPhraseSub": "Пожалуйста, запишите следующую секретную фразу для восстановления и тщательно сохраните ее. Эта фраза состоит из случайно сгенерированных 12 слов. Вы не сможете вернуть свои средства, если потеряете эти слова.",
+    "@yourRecoveryPhraseSub": {},
+    "zeroAmountMessage": "Пожалуйста, введите сумму больше нуля.",
+    "@zeroAmountMessage": {
+        "placeholders": {
+            "operation": {
+                "type": "String"
+            }
+        }
+    },
+    "zeroAmountTitle": "Недопустимая сумма",
+    "@zeroAmountTitle": {}
 }
