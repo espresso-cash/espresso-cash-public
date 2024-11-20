@@ -962,7 +962,7 @@
   "@firstName": {},
   "lastName": "Last Name",
   "@lastName": {},
-  "dateOfBirth": "Date of Birth",
+  "dateOfBirth": "Date of Birth (dd/mm/yyyy)",
   "@dateOfBirth": {},
   "idNumber": "ID Number",
   "@idNumber": {},
