@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/dob_text_field.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/radio_button.dart';
@@ -125,6 +126,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
         children: [
           const SizedBox(height: 30),
           CountryPicker(
+            backgroundColor: CpColors.darkBackgroundColor,
             country: _country,
             onSubmitted: (country) => setState(() => _country = country),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../ui/colors.dart';
 import '../models/document_type.dart';
 import '../screens/document_type_picker_screen.dart';
 
@@ -16,7 +17,7 @@ class DocumentPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedBox(
         decoration: const ShapeDecoration(
-          color: Colors.black,
+          color: CpColors.darkBackgroundColor,
           shape: StadiumBorder(),
         ),
         child: ListTile(
