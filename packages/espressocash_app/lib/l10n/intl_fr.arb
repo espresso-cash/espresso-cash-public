@@ -38,8 +38,6 @@
     "@carousel4Title": {},
     "carouselSendMoneyBtn": "Envoyez de l'argent",
     "@carouselSendMoneyBtn": {},
-    "comingSoon": "À venir!",
-    "@comingSoon": {},
     "contactUs": "Contactez-nous",
     "@contactUs": {},
     "copiedFid": "FID copié: {fid}",
@@ -88,8 +86,6 @@
     "@depositTransferAmount": {},
     "editProfile": "Editer mes infos",
     "@editProfile": {},
-    "enterAmount": "Entrer le montant",
-    "@enterAmount": {},
     "enterPasscode": "Entre ton code d'accès",
     "@enterPasscode": {},
     "enterYourSecretWords": "Entrez votre phrase de récupération secrète",
@@ -233,10 +229,6 @@
     "@no": {},
     "noActivity": "Pas d'activité pour le moment !",
     "@noActivity": {},
-    "noEmailInCryptoInfo": "Avec Espresso Cash, il n'y a pas besoin d'un e-mail et d'un mot de passe pour accéder à votre argent!",
-    "@noEmailInCryptoInfo": {},
-    "noEmailInCryptoParagraph": "Vous avez besoin d'une phrase de récupération secrète. Cette phrase est composée de 12 mots qui ont été générés au hasard et qui vous sont fournis. Sans ces mots, vous ne pourrez pas accéder à vos fonds. Ces mots ne peuvent jamais être récupérés.\n\nGarde les en sécurité!",
-    "@noEmailInCryptoParagraph": {},
     "noResultsFound": "Aucun résultat trouvé",
     "@noResultsFound": {},
     "offRampCancelSubtitle": "Êtes-vous sûr(e) de vouloir annuler ce retrait ?",
@@ -253,8 +245,6 @@
             }
         }
     },
-    "offRampTopPartnerTitle": "Encaissez sur votre compte bancaire en utilisant notre meilleur partenaire",
-    "@offRampTopPartnerTitle": {},
     "offRampWaitingForPartner": "Votre argent est en route",
     "@offRampWaitingForPartner": {},
     "offRampWithdrawalFailure": "Il y a eu un problème avec votre retrait. Veuillez nous contacter.",
@@ -293,8 +283,6 @@
     "@ok": {},
     "onboardingIntro": "Un moyen plus simple d'envoyer et de recevoir de l'argent.",
     "@onboardingIntro": {},
-    "onboardingNoticeFinishSetup": "Terminer",
-    "@onboardingNoticeFinishSetup": {},
     "oneMonth": "1 mois",
     "@oneMonth": {},
     "oneWeek": "1 semaine",
@@ -319,8 +307,6 @@
     "@onRampDepositReceived": {},
     "onRampDepositSuccess": "Votre dépôt a été effectué avec succès.",
     "@onRampDepositSuccess": {},
-    "onRampDepositTitle": "Status d'ajout d'argent",
-    "@onRampDepositTitle": {},
     "onRampLocalTransferTile": "Devise locale transférée\nMontant envoyé : {amount}\n{name}: {account}",
     "@onRampLocalTransferTile": {
         "placeholders": {
@@ -335,8 +321,6 @@
             }
         }
     },
-    "onRampTopPartnerTitle": "Transférez de l'argent vers Espresso en utilisant notre meilleur partenaire de paiement",
-    "@onRampTopPartnerTitle": {},
     "operationSend": "envoyer",
     "@operationSend": {},
     "orderId": "Order ID: {orderId}",
@@ -367,16 +351,6 @@
     "@pay": {},
     "paymentInitiated": "Paiement initié",
     "@paymentInitiated": {},
-    "paymentRequestCancel": "Annuler la demande",
-    "@paymentRequestCancel": {},
-    "paymentRequestFailureNotificationTitle": "Paiement échoué de {amount}.",
-    "@paymentRequestFailureNotificationTitle": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
-        }
-    },
     "paymentRequest_lblCancelConfirmationSubtitle": "Êtes-vous sûr que vous souhaitez annuler cette demande de paiement?",
     "@paymentRequest_lblCancelConfirmationSubtitle": {},
     "paymentRequest_lblCancelConfirmationTitle": "Annuler la demande de paiement",
@@ -410,14 +384,6 @@
     "@qrCodeScanErrorContent": {},
     "qrCodeScanErrorTitle": "Échec du scan",
     "@qrCodeScanErrorTitle": {},
-    "rampAmountEquivalent": "Vous obtiendrez env. {amount}",
-    "@rampAmountEquivalent": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
-        }
-    },
     "rampBasicInfoRequired": "Pour commencer, nous avons besoin de quelques informations de votre part.",
     "@rampBasicInfoRequired": {},
     "ramp_btnAddCash": "Déposer",
@@ -490,12 +456,6 @@
     "@settings": {},
     "share": "Partager",
     "@share": {},
-    "shareInstructions": "Pour les recevoir, tu dois cliquer sur ce lien :",
-    "@shareInstructions": {},
-    "shareIntroFt": "Hello!\n\nJe viens de t'envoyer ",
-    "@shareIntroFt": {},
-    "sharePaymentRequestLinkInstructions": "Pour me payer en un seul clic, visite:",
-    "@sharePaymentRequestLinkInstructions": {},
     "sharePaymentRequestLinkIntro": "Hello!\n\nJe t'envoie une demande de paiement ",
     "@sharePaymentRequestLinkIntro": {},
     "sharePaymentRequestLinkMessage": "Hello!\n\nJe t'envoie une demande de paiement de {amount}. Pour me payer en un seul clic, visite:\n\n{link}",
@@ -509,8 +469,6 @@
             }
         }
     },
-    "sharePaymentRequestTitle": "La demande a été créée!",
-    "@sharePaymentRequestTitle": {},
     "signIn1": "Vous avez déjà un portefeuille ? ",
     "@signIn1": {},
     "signIn2": "Continuez ici",
@@ -628,8 +586,6 @@
     "@viewRecoveryPhrase": {},
     "viewRecoveryPhraseDescription": "Mots générés par votre portefeuille crypto",
     "@viewRecoveryPhraseDescription": {},
-    "viewTransaction": "Afficher la transaction",
-    "@viewTransaction": {},
     "walletAddress": "Adresse du portefeuille",
     "@walletAddress": {},
     "walletAddressFieldHint": "Tapez, collez ou scannez l'adresse ici.",

@@ -40,8 +40,6 @@
     "@carouselSendMoneyBtn": {},
     "close": "Закрыть",
     "@close": {},
-    "comingSoon": "Скоро будет!",
-    "@comingSoon": {},
     "contactUs": "Связаться с нами",
     "@contactUs": {},
     "copiedFid": "Скопирован FID: {fid}",
@@ -88,8 +86,6 @@
     "@depositTransferAmount": {},
     "editProfile": "Редактировать профиль",
     "@editProfile": {},
-    "enterAmount": "Введите сумму",
-    "@enterAmount": {},
     "enterPasscode": "Введите пин-код",
     "@enterPasscode": {},
     "enterYourSecretWords": "Введите секретную фразу для восстановления",
@@ -233,10 +229,6 @@
     "@no": {},
     "noActivity": "Пока никакой активности!",
     "@noActivity": {},
-    "noEmailInCryptoInfo": "С Espresso Cash нет необходимости в электронной почте и пароле для доступа к вашим деньгам!",
-    "@noEmailInCryptoInfo": {},
-    "noEmailInCryptoParagraph": "Вам нужна секретная фраза для восстановления. Эта фраза состоит из случайно сгенерированных секретных слов, которые будут предоставлены вам. Без этих слов вы не сможете получить доступ к своим средствам. Эти слова никогда не смогут быть восстановлены.\n\nБерегите их!",
-    "@noEmailInCryptoParagraph": {},
     "noResultsFound": "Результатов не найдено",
     "@noResultsFound": {},
     "offRampCancelSubtitle": "Вы уверены, что хотите отменить этот вывод средств?",
@@ -253,8 +245,6 @@
             }
         }
     },
-    "offRampTopPartnerTitle": "Выводите наличные на банковский счет с помощью нашего ведущего партнера",
-    "@offRampTopPartnerTitle": {},
     "offRampWaitingForPartner": "Ваши деньги уже в пути",
     "@offRampWaitingForPartner": {},
     "offRampWithdrawalFailure": "Возникла проблема с выводом средств. Пожалуйста, свяжитесь с нами.",
@@ -293,8 +283,6 @@
     "@ok": {},
     "onboardingIntro": "Получать и отправлять деньги быстрее и проще.",
     "@onboardingIntro": {},
-    "onboardingNoticeFinishSetup": "Завершить настройку",
-    "@onboardingNoticeFinishSetup": {},
     "oneMonth": "1 месяц",
     "@oneMonth": {},
     "oneWeek": "1 неделя",
@@ -319,8 +307,6 @@
     "@onRampDepositReceived": {},
     "onRampDepositSuccess": "Ваш депозит был внесен успешно.",
     "@onRampDepositSuccess": {},
-    "onRampDepositTitle": "Добавить денежный прогресс",
-    "@onRampDepositTitle": {},
     "onRampLocalTransferTile": "Переведено в местной валюте\nОтправленная сумма: {amount}\n{name}: {account}",
     "@onRampLocalTransferTile": {
         "placeholders": {
@@ -335,8 +321,6 @@
             }
         }
     },
-    "onRampTopPartnerTitle": "Переведите деньги в Espresso с помощью нашего ведущего платежного партнера",
-    "@onRampTopPartnerTitle": {},
     "operationSend": "отправлено",
     "@operationSend": {},
     "orderId": "Идентификатор заказа: {orderId}",
@@ -367,16 +351,6 @@
     "@pay": {},
     "paymentInitiated": "Платеж инициирован",
     "@paymentInitiated": {},
-    "paymentRequestCancel": "Отменить запрос",
-    "@paymentRequestCancel": {},
-    "paymentRequestFailureNotificationTitle": "Не удалось произвести оплату {amount}.",
-    "@paymentRequestFailureNotificationTitle": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
-        }
-    },
     "paymentRequest_lblCancelConfirmationSubtitle": "Вы уверены, что хотите отменить этот платежный запрос?",
     "@paymentRequest_lblCancelConfirmationSubtitle": {},
     "paymentRequest_lblCancelConfirmationTitle": "Отменить платежный запрос",
@@ -410,14 +384,6 @@
     "@qrCodeScanErrorContent": {},
     "qrCodeScanErrorTitle": "Сканирование не удалось",
     "@qrCodeScanErrorTitle": {},
-    "rampAmountEquivalent": "Вы получите приблизительно {amount}",
-    "@rampAmountEquivalent": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
-        }
-    },
     "rampBasicInfoRequired": "Чтобы начать, нам нужна от вас некоторая базовая информация.",
     "@rampBasicInfoRequired": {},
     "ramp_btnAddCash": "Внести",
@@ -492,12 +458,6 @@
     "@settings": {},
     "share": "Поделиться",
     "@share": {},
-    "shareInstructions": "Чтобы получить их, вам нужно перейти по двум ссылкам. Выполните следующие два шага:",
-    "@shareInstructions": {},
-    "shareIntroFt": "Привет!\n\nЯ только что отправил вам",
-    "@shareIntroFt": {},
-    "sharePaymentRequestLinkInstructions": "Чтобы заплатить мне одним нажатием, откройте ссылку:",
-    "@sharePaymentRequestLinkInstructions": {},
     "sharePaymentRequestLinkIntro": "Привет!\n\nЯ отправил запрос на",
     "@sharePaymentRequestLinkIntro": {},
     "sharePaymentRequestLinkMessage": "Привет!\n\nЯ отправил запрос на {amount}. Чтобы заплатить мне одним нажатием, откройте ссылку:\n\n{link}",
@@ -511,8 +471,6 @@
             }
         }
     },
-    "sharePaymentRequestTitle": "Запрос создан!",
-    "@sharePaymentRequestTitle": {},
     "shareText": "Привет!\n\nЯ только что отправил вам {amount}.\n\nЧтобы получить их, вам нужно перейти по ссылке:\n\n{firstLink}",
     "@shareText": {
         "placeholders": {
@@ -639,8 +597,6 @@
     "@viewRecoveryPhrase": {},
     "viewRecoveryPhraseDescription": "Слова, сгенерированные вашим криптокошельком",
     "@viewRecoveryPhraseDescription": {},
-    "viewTransaction": "Просмотреть транзакцию",
-    "@viewTransaction": {},
     "walletAddress": "Адрес кошелька",
     "@walletAddress": {},
     "walletAddressFieldHint": "Введите, вставьте или отсканируйте адрес здесь",

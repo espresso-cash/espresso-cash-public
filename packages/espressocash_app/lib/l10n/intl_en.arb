@@ -42,8 +42,6 @@
     "@carouselSendMoneyBtn": {},
     "close": "Close",
     "@close": {},
-    "comingSoon": "Coming soon!",
-    "@comingSoon": {},
     "completeThePuzzle": "Did you write it down your recovery phrase correctly? Test it here:",
     "@completeThePuzzle": {},
     "contactUs": "Contact Us",
@@ -74,8 +72,6 @@
     "@cryptoPortfolio": {},
     "editProfile": "Edit Profile",
     "@editProfile": {},
-    "enterAmount": "Enter amount",
-    "@enterAmount": {},
     "enterPasscode": "Enter your passcode",
     "@enterPasscode": {},
     "enterYourSecretWords": "Enter Your Secret Recovery Phrase",
@@ -211,14 +207,8 @@
     "@no": {},
     "noActivity": "No activity yet!",
     "@noActivity": {},
-    "noEmailInCryptoInfo": "With Espresso Cash, there’s no need for an email and password to access your money!",
-    "@noEmailInCryptoInfo": {},
-    "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe! ",
-    "@noEmailInCryptoParagraph": {},
     "noResultsFound": "No results found",
     "@noResultsFound": {},
-    "offRampTopPartnerTitle": "Withdraw To Your Bank Account",
-    "@offRampTopPartnerTitle": {},
     "ok": "OK",
     "@ok": {},
     "onboardingIntro": "A faster, simpler way to send & receive money.",
@@ -227,10 +217,6 @@
     "@onboardingWithPaymentTitle": {},
     "onboardingWithPaymentSubtitle": "Create an espresso wallet to receive your payment.",
     "@onboardingWithPaymentSubtitle": {},
-    "onboardingNoticeFinishSetup": "Finish",
-    "@onboardingNoticeFinishSetup": {},
-    "onboardingNoticeMessage": "Complete setup by\nsecuring your account.",
-    "@onboardingNoticeMessage": {},
     "onboardingPhraseTitle": "Save your secret recovery phrase in a safe place.",
     "@onboardingPhraseTitle": {},
     "onboardingPhraseSubtitle": "Your recovery phrase is composed of randomly generated 12 words. Write it down and save it carefully. You will not be able to recover your funds if you lose these words.",
@@ -241,14 +227,10 @@
     "@onboardingPhraseConfirmTitle": {},
     "onboardingPhraseConfirmSubtitle": "Without the secret recovery phrase you will not be able to access your key or any assets associated with it.",
     "@onboardingPhraseConfirmSubtitle": {},
-    "onboardingProfileTitle": "Basic Information",
-    "@onboardingProfileTitle": {},
     "oneMonth": "1 month",
     "@oneMonth": {},
     "oneWeek": "1 week",
     "@oneWeek": {},
-    "onRampTopPartnerTitle": "Transfer Money Into Your Espresso Account",
-    "@onRampTopPartnerTitle": {},
     "operationSend": "sent",
     "@operationSend": {},
     "outgoingSplitKeyPayments_btnCancel": "Cancel transfer",
@@ -273,16 +255,6 @@
     "@paymentInitiated": {},
     "paymentRequestPaidMessage": "Request has already been paid.",
     "@paymentRequestPaidMessage": {},
-    "paymentRequestCancel": "Cancel request",
-    "@paymentRequestCancel": {},
-    "paymentRequestFailureNotificationTitle": "Failed payment of {amount}.",
-    "@paymentRequestFailureNotificationTitle": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
-        }
-    },
     "paymentRequest_lblCancelConfirmationSubtitle": "Are you sure you want to cancel this payment request?",
     "@paymentRequest_lblCancelConfirmationSubtitle": {},
     "paymentRequest_lblCancelConfirmationTitle": "Cancel Payment Request",
@@ -312,14 +284,6 @@
     "@qrCodeScanErrorContent": {},
     "qrCodeScanErrorTitle": "Scan Failed",
     "@qrCodeScanErrorTitle": {},
-    "rampAmountEquivalent": "You will get approx. {amount}",
-    "@rampAmountEquivalent": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
-        }
-    },
     "rampBasicInfoRequired": "To get started, we need some basic information from you.",
     "@rampBasicInfoRequired": {},
     "ramp_btnAddCash": "Deposit",
@@ -400,12 +364,6 @@
     },
     "share": "Share",
     "@share": {},
-    "shareInstructions": "To receive it, you need to click on the link:",
-    "@shareInstructions": {},
-    "shareIntroFt": "Hi!\n\nI’ve just sent you ",
-    "@shareIntroFt": {},
-    "sharePaymentRequestLinkInstructions": "To pay me with one click, visit:",
-    "@sharePaymentRequestLinkInstructions": {},
     "sharePaymentRequestLinkIntro": "Hi!\n\nI have sent a request for ",
     "@sharePaymentRequestLinkIntro": {},
     "sharePaymentRequestLinkMessage": "Hi!\n\nI have sent a request for {amount}. To pay me with one click, visit:\n\n{link}",
@@ -419,8 +377,6 @@
             }
         }
     },
-    "sharePaymentRequestTitle": "Request has been created!",
-    "@sharePaymentRequestTitle": {},
     "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on the link:\n\n{firstLink}",
     "@shareText": {
         "placeholders": {
@@ -535,8 +491,6 @@
     "@viewRecoveryPhrase": {},
     "viewRecoveryPhraseDescription": "Words generated by your crypto wallet",
     "@viewRecoveryPhraseDescription": {},
-    "viewTransaction": "View Transaction",
-    "@viewTransaction": {},
     "walletAddress": "Wallet Address",
     "@walletAddress": {},
     "walletAddressFieldHint": "Type, paste or scan address here",
@@ -633,8 +587,6 @@
             }
         }
     },
-    "onRampDepositTitle": "Add Cash Progress",
-    "@onRampDepositTitle": {},
     "onRampDepositInitiated": "Deposit initiated",
     "@onRampDepositInitiated": {},
     "onRampDepositReceived": "USDC received",
@@ -767,16 +719,6 @@
     "@outgoingDlnFailure": {},
     "outgoingDlnNoQuoteFound": "No Quote Found. Please try again.",
     "@outgoingDlnNoQuoteFound": {},
-    "continueHereBtn": "Continue here",
-    "@continueHereBtn": {},
-    "onRampMorePartnersFooter": "Want more deposit options?",
-    "@onRampMorePartnersFooter": {},
-    "offRampMorePartnersFooter": "Want more cash out options?",
-    "@offRampMorePartnersFooter": {},
-    "onRampMorePartnersTitle": "Additional Deposit Partners:",
-    "@onRampMorePartnersTitle": {},
-    "offRampMorePartnersTitle": "Additional Payment Partners:",
-    "@offRampMorePartnersTitle": {},
     "lblProfileUpdateFailed": "Failed to update profile",
     "lblConnectionError": "Please check your internet connection and try again.",
     "lblUnknownError": "Something went wrong. Please try again later.",
@@ -808,8 +750,6 @@
             }
         }
     },
-    "notReceived": "Not received",
-    "@notReceived": {},
     "received": "Received",
     "@received": {},
     "failed": "Failed",
