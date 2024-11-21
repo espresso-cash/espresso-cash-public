@@ -134,4 +134,6 @@ class AnalyticsManager {
           'id': id,
         },
       );
+
+  void ataCreated() => _analytics.track('ataCreated');
 }

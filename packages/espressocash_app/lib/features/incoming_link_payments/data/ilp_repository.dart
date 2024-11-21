@@ -11,8 +11,6 @@ import 'package:solana/encoder.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
 import '../../accounts/auth_scope.dart';
-import '../../currency/models/amount.dart';
-import '../../currency/models/currency.dart';
 import '../../escrow/models/escrow_private_key.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/incoming_link_payment.dart';
@@ -104,13 +102,8 @@ extension on ILPStatusDto {
           signature: row.txId!,
         );
       case ILPStatusDto.success:
-        final feeAmount = row.feeAmount;
-
         return ILPStatus.success(
           tx: tx ?? StubSignedTx(txId!),
-          fee: feeAmount != null
-              ? CryptoAmount(value: feeAmount, cryptoCurrency: Currency.usdc)
-              : null,
         );
       case ILPStatusDto.txFailure:
         return ILPStatus.txFailure(
@@ -129,10 +122,6 @@ extension on IncomingLinkPayment {
         tx: status.toTx(),
         txId: status.toTxId(),
         txFailureReason: status.toTxFailureReason(),
-        feeAmount: switch (status) {
-          ILPStatusSuccess(:final fee) => fee?.value,
-          _ => null,
-        },
       );
 }
 

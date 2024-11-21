@@ -63,4 +63,7 @@ class StubAnalyticsManager implements AnalyticsManager {
 
   @override
   void rampOpened({required RampPartner partner, required String rampType}) {}
+
+  @override
+  void ataCreated() {}
 }

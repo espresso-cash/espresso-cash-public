@@ -6,6 +6,7 @@ import 'package:solana/solana.dart';
 
 import '../../utils/transactions.dart';
 import '../accounts/models/ec_wallet.dart';
+import '../analytics/analytics_manager.dart';
 import '../priority_fees/services/add_priority_fees.dart';
 import '../tokens/token.dart';
 import '../transactions/services/resign_tx.dart';
@@ -18,11 +19,13 @@ class CreateIncomingEscrow {
     this._client,
     this._addPriorityFees,
     this._ecClient,
+    this._analyticsManager,
   );
 
   final SolanaClient _client;
   final AddPriorityFees _addPriorityFees;
   final EspressoCashClient _ecClient;
+  final AnalyticsManager _analyticsManager;
 
   Future<SignedTx> call({
     required Ed25519HDKeyPair escrowAccount,
@@ -67,7 +70,18 @@ class CreateIncomingEscrow {
         mint: mint,
       );
 
-      instructions.add(iCreateATA);
+      final newAuthorityIx = TokenInstruction.setAuthority(
+        mintOrAccount: ataReceiver,
+        authorityType: AuthorityType.closeAccount,
+        currentAuthority: ataReceiver,
+        newAuthority: platformAccount,
+      );
+
+      instructions
+        ..add(iCreateATA)
+        ..add(newAuthorityIx);
+
+      _analyticsManager.ataCreated();
     }
 
     final escrowIx = await EscrowInstruction.completeEscrow(
@@ -78,25 +92,6 @@ class CreateIncomingEscrow {
     );
 
     instructions.add(escrowIx);
-
-    final int fee;
-    if (shouldCreateAta) {
-      final transactionFees = await _ecClient.getFees();
-      fee = transactionFees.escrowPaymentAtaFee;
-      final ataPlatform = await findAssociatedTokenAddress(
-        owner: platformAccount,
-        mint: mint,
-      );
-      final iTransferFee = TokenInstruction.transfer(
-        amount: fee,
-        source: ataReceiver,
-        destination: ataPlatform,
-        owner: receiverAccount,
-      );
-      instructions.add(iTransferFee);
-    } else {
-      fee = 0;
-    }
 
     final message = Message(
       instructions: [

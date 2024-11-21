@@ -138,8 +138,6 @@
   "@help": {},
   "incomingSplitKeyPayments_lblByClickingTheSecondLink": "Нажав на вторую ссылку в сообщении или кнопку \"Отмена\", вы соглашаетесь с нашими",
   "@incomingSplitKeyPayments_lblByClickingTheSecondLink": {},
-  "incomingUsdcFeeNotice": "С вас была снята единовременная комиссия в размере {amount} за вашу первую входящую транзакцию.",
-  "@incomingUsdcFeeNotice": {},
   "incorrectPasscode": "Неверный пин-код. Попробуйте еще раз.",
   "@incorrectPasscode": {},
   "insufficientFundsForFeeMessage": "У вас недостаточно {feeToken} для оплаты комиссии сети, вам нужно как минимум {amount}.",

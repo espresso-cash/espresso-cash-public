@@ -138,8 +138,6 @@
   "@help": {},
   "incomingSplitKeyPayments_lblByClickingTheSecondLink": "En cliquant sur le deuxième lien du message ou sur le bouton d'annulation, vous acceptez nos ",
   "@incomingSplitKeyPayments_lblByClickingTheSecondLink": {},
-  "incomingUsdcFeeNotice": "Un frais unique de {amount} a été prélevé pour votre première transaction entrante.",
-  "@incomingUsdcFeeNotice": {},
   "incorrectPasscode": "Code d'accès incorrect. Réessayer à nouveau",
   "@incorrectPasscode": {},
   "insufficientFundsForFeeMessage": "Vous n'avez pas assez {feeToken} pour payer les frais de réseau, vous avez besoin d'au moins {amount}.",

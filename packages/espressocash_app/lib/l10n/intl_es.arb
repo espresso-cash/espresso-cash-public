@@ -138,8 +138,6 @@
   "@help": {},
   "incomingSplitKeyPayments_lblByClickingTheSecondLink": "Al hacer clic en el segundo enlace del mensaje o en el botón de cancelación, aceptas nuestra ",
   "@incomingSplitKeyPayments_lblByClickingTheSecondLink": {},
-  "incomingUsdcFeeNotice": "Se te ha cobrado una tarifa única de $0.10 por tu primera transacción entrante.",
-  "@incomingUsdcFeeNotice": {},
   "incorrectPasscode": "código de acceso incorrecto.Volver a intentarlo",
   "@incorrectPasscode": {},
   "insufficientFundsForFeeMessage": "No tienes suficiente {feeToken} para pagar la tarifa de la red, necesita al menos {amount}.",
