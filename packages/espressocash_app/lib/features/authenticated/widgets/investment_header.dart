@@ -57,7 +57,7 @@ class _Info extends StatelessWidget {
             const CircleAvatar(
               maxRadius: 14,
               backgroundColor: CpColors.yellowColor,
-              child: CpInfoIcon(iconColor: CpColors.darkBackgroundColor),
+              child: CpInfoIcon(iconColor: CpColors.blackGreyColor),
             ),
             const SizedBox(height: 16),
             Padding(

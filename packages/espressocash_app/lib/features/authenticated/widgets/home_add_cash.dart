@@ -201,7 +201,7 @@ class _BottomBalance extends StatelessWidget {
               topRight: Radius.circular(44),
             ),
           ),
-          color: CpColors.dashboardBackgroundColor,
+          color: CpColors.deepGreyColor,
         ),
         child: Padding(
           padding: EdgeInsets.only(

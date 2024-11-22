@@ -10,7 +10,7 @@ class ShareSection extends StatelessWidget {
           child: DecoratedBox(
             decoration: const ShapeDecoration(
               shape: CircleBorder(),
-              color: CpColors.dashboardBackgroundColor,
+              color: CpColors.deepGreyColor,
             ),
             child: Padding(
               padding: const EdgeInsets.all(8),

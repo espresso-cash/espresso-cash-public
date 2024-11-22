@@ -7,13 +7,13 @@ abstract class CpColors {
   static const primaryColor = Color(0xffff6640);
   static const yellowColor = Color(0xffFCC829);
   static const greenColor = Color(0xff8AE4BF);
-  static const greyColor = Color(0xff999999);
   static const sandColor = Color(0xFFA89767);
   static const lightSandColor = Color(0xFFB7A572);
   static const darkSandColor = Color(0xFF9E8B5A);
   static const alertRedColor = Color(0xffe8452f);
-  static const dashboardBackgroundColor = Color(0xFF2D2B2C); // TODOrename grey
-  static const darkBackgroundColor = Color(0xff181818); // TODOalso grey
+  static const greyColor = Color(0xff999999);
+  static const deepGreyColor = Color(0xFF2D2B2C);
+  static const blackGreyColor = Color(0xff181818);
 
   // Status colors
   static const successBackgroundColor = Color(0xFF62D58F);

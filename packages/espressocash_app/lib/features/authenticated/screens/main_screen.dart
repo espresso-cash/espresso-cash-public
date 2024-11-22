@@ -81,7 +81,7 @@ class _MainContent extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         CpColors.darkGoldBackgroundColor,
-                        CpColors.dashboardBackgroundColor,
+                        CpColors.deepGreyColor,
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -122,7 +122,7 @@ class _HomeScrollableRegion extends StatelessWidget {
               const InvestmentHeader(),
               DecoratedBox(
                 decoration: const BoxDecoration(
-                  color: CpColors.dashboardBackgroundColor,
+                  color: CpColors.deepGreyColor,
                   borderRadius: _borderRadius,
                   boxShadow: _dashboardBoxShadow,
                 ),
@@ -224,7 +224,7 @@ class _HomeDivider extends StatelessWidget {
           bottom: 18,
         ),
         decoration: const BoxDecoration(
-          color: CpColors.dashboardBackgroundColor,
+          color: CpColors.deepGreyColor,
           boxShadow: _dashboardBoxShadow,
         ),
         child: const Divider(
@@ -238,7 +238,7 @@ class _HomeDivider extends StatelessWidget {
 const _borderRadius = BorderRadius.vertical(top: Radius.circular(31));
 const _dashboardBoxShadow = [
   BoxShadow(
-    color: CpColors.dashboardBackgroundColor,
+    color: CpColors.deepGreyColor,
     offset: Offset(0, 2),
   ),
 ];

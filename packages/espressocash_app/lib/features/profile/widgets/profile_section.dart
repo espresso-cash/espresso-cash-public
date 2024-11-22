@@ -25,7 +25,7 @@ class ProfileSection extends StatelessWidget {
     super.key,
     this.title,
     required this.actions,
-    this.color = CpColors.darkBackgroundColor,
+    this.color = CpColors.blackGreyColor,
     required this.padding,
   });
 

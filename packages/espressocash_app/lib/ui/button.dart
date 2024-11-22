@@ -45,7 +45,7 @@ class CpButton extends StatelessWidget {
       case CpButtonVariant.dark:
         return CpColors.yellowColor;
       case CpButtonVariant.inverted:
-        return CpColors.dashboardBackgroundColor;
+        return CpColors.deepGreyColor;
       case CpButtonVariant.light:
         return CpColors.lightButtonBackgroundColor;
       case CpButtonVariant.secondary:
@@ -53,7 +53,7 @@ class CpButton extends StatelessWidget {
       case CpButtonVariant.black:
         return Colors.black;
       case CpButtonVariant.grey:
-        return CpColors.darkBackgroundColor;
+        return CpColors.blackGreyColor;
       case CpButtonVariant.muted:
         return const Color(0xff97875A);
     }

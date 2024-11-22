@@ -59,7 +59,7 @@ class CountryPickerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          backgroundColor: CpColors.dashboardBackgroundColor,
+          backgroundColor: CpColors.deepGreyColor,
           appBar: CpAppBar(
             title: Text(context.l10n.selectCountryTitle.toUpperCase()),
           ),

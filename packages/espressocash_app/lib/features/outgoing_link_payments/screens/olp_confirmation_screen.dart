@@ -125,7 +125,7 @@ class _InformationView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 49),
       width: double.infinity,
       decoration: const BoxDecoration(
-        color: CpColors.darkBackgroundColor,
+        color: CpColors.blackGreyColor,
         borderRadius: BorderRadius.all(Radius.circular(31)),
       ),
       child: Column(

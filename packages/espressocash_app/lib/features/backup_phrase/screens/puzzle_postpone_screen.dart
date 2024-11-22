@@ -96,7 +96,7 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
                   child: DropdownButton<Duration?>(
                     isExpanded: true,
                     items: _dropdownItems,
-                    dropdownColor: CpColors.dashboardBackgroundColor,
+                    dropdownColor: CpColors.deepGreyColor,
                     icon: const Icon(
                       Icons.keyboard_arrow_down_outlined,
                       color: Colors.white,

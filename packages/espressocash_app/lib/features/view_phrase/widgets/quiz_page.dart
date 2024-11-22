@@ -30,7 +30,7 @@ class QuizPage extends StatelessWidget {
 
   Color get backgroundColor => switch (type) {
         QuizPageType.light => CpColors.lightSandColor,
-        QuizPageType.dark => CpColors.dashboardBackgroundColor
+        QuizPageType.dark => CpColors.deepGreyColor
       };
 
   @override
