@@ -21,23 +21,21 @@ abstract class CpColors {
   static const infoBackgroundColor = Color(0xFFF6C83B);
   static const neutralBackgroundColor = Color(0xff5F6464);
 
-  // button state colors
-  static const translucentYellowColor = Color(0x30e7b11f);
-  static const lightButtonBackgroundColor = Color(0xffffffff);
-
   static const primaryTextColor = Color(0xff231f20); // black primary color
   static const secondaryTextColor = Color(0xff909090);
   static const placeholderLightColor = Color(0xffC2C2C2);
   static const listDividerColor = Color(0xffF5F5F5);
   static const homeDividerColor = Color(0xff3f3c3d);
 
-  static const lightGreyBackground = Color(0xffF5F5F5); // for menu buttons
-
-  static const backgroundAccentColor = Color(0xffff9551);
-  static const greyIconBackgroundColor = Color(0xfff0efe7);
-
   static const dangerButtonTextColor = Color(0xffEA4C37);
   static const dangerButtonBackground = Color(0xFF793C22);
+
+  // button state colors
+  static const translucentYellowColor = Color(0x30e7b11f);
+  static const lightButtonBackgroundColor = Color(0xffffffff);
+  static const lightGreyBackground = Color(0xffF5F5F5);
+  static const backgroundAccentColor = Color(0xffff9551);
+  static const greyIconBackgroundColor = Color(0xfff0efe7);
 
   static const darkDividerColor = Color(0xff454243);
   static const sliderDisabledColor = Color(0xff323232);
@@ -46,8 +44,6 @@ abstract class CpColors {
 
   static const darkOrangeBackgroundColor = Color(0xFFD86322);
   static const goldBackgroundColor = Color(0xFFC8B57D);
-  static const darkGoldBackgroundColor =
-      Color(0xffA08A4B); // could be darkSandColor
 }
 
 const bgGradient = LinearGradient(

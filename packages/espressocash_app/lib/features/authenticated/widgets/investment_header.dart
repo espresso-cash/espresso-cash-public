@@ -21,8 +21,7 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration:
-            const BoxDecoration(color: CpColors.darkGoldBackgroundColor),
+        decoration: const BoxDecoration(color: CpColors.darkSandColor),
         child: _HeaderSwitcher(
           first: Padding(
             padding: const EdgeInsets.all(16.0),

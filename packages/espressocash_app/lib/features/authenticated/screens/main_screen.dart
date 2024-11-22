@@ -72,7 +72,7 @@ class _MainContent extends StatelessWidget {
           color: CpColors.primaryColor,
           backgroundColor: Colors.white,
           child: Scaffold(
-            backgroundColor: CpColors.darkGoldBackgroundColor,
+            backgroundColor: CpColors.darkSandColor,
             appBar: const HomeScaffoldAppBar(),
             body: Stack(
               children: <Widget>[
@@ -80,7 +80,7 @@ class _MainContent extends StatelessWidget {
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        CpColors.darkGoldBackgroundColor,
+                        CpColors.darkSandColor,
                         CpColors.deepGreyColor,
                       ],
                       begin: Alignment.topCenter,
