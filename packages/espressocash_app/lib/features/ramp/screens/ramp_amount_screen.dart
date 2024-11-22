@@ -159,7 +159,7 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          backgroundColor: CpColors.darkBackground,
+          backgroundColor: CpColors.deepGreyColor,
           appBar: CpAppBar(
             leading: const CpBackButton(),
             title: Text(
@@ -560,7 +560,7 @@ class _RampContainer extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 24.w),
           decoration: const ShapeDecoration(
-            color: CpColors.darkBackgroundColor,
+            color: CpColors.blackGreyColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(28),

@@ -181,7 +181,7 @@ class _Item extends StatelessWidget {
         ),
         child: DecoratedBox(
           decoration: ShapeDecoration(
-            color: CpColors.darkBackgroundColor,
+            color: CpColors.blackGreyColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(30.r),
@@ -213,6 +213,7 @@ class _Item extends StatelessWidget {
                   fontSize: 18.sp,
                   height: 21 / 18,
                   fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
             ),

@@ -126,7 +126,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
         children: [
           const SizedBox(height: 30),
           CountryPicker(
-            backgroundColor: CpColors.darkBackgroundColor,
+            backgroundColor: CpColors.blackGreyColor,
             country: _country,
             onSubmitted: (country) => setState(() => _country = country),
           ),

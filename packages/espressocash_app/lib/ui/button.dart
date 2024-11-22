@@ -46,7 +46,7 @@ class CpButton extends StatelessWidget {
       case CpButtonVariant.dark:
         return CpColors.yellowColor;
       case CpButtonVariant.inverted:
-        return CpColors.darkBackground;
+        return CpColors.deepGreyColor;
       case CpButtonVariant.light:
         return CpColors.lightButtonBackgroundColor;
       case CpButtonVariant.secondary:
@@ -54,7 +54,7 @@ class CpButton extends StatelessWidget {
       case CpButtonVariant.black:
         return Colors.black;
       case CpButtonVariant.grey:
-        return CpColors.darkBackgroundColor;
+        return CpColors.blackGreyColor;
       case CpButtonVariant.muted:
         return const Color(0xff97875A);
     }
@@ -177,7 +177,7 @@ extension CpButtonSizeExt on CpButtonSize {
       case CpButtonSize.normal:
         return 51.h;
       case CpButtonSize.big:
-        return 63.h;
+        return 64.h;
       case CpButtonSize.wide:
       case CpButtonSize.small:
         return 44.h;

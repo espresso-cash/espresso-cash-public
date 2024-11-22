@@ -17,7 +17,7 @@ class ManageDataAccessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          backgroundColor: CpColors.darkBackground,
+          backgroundColor: CpColors.blackGreyColor,
           appBar: CpAppBar(
             title: Text('Manage Data Access'.toUpperCase()),
           ),
@@ -48,12 +48,12 @@ class _Content extends StatelessWidget {
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(30)),
               child: Material(
-                color: CpColors.darkBackgroundColor,
+                color: CpColors.blackGreyColor,
                 child: KycButton(
                   label: 'Delete All Data',
                   onPressed: () {},
                   textColor: CpColors.dangerButtonTextColor,
-                  backgroundColor: CpColors.darkOrangeButtonBackground,
+                  backgroundColor: CpColors.dangerButtonBackground,
                   showIcon: false,
                   centerText: true,
                 ),

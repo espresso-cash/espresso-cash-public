@@ -166,7 +166,7 @@ class _ScalexDepositContent extends StatelessWidget {
                   context.l10n.depositDisclaimer,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    color: CpColors.lightGrey,
+                    color: CpColors.greyColor,
                     fontSize: 14,
                     height: 18 / 14,
                     fontWeight: FontWeight.w400,

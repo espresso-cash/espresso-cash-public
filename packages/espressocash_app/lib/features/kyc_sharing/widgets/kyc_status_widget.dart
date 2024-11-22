@@ -18,17 +18,17 @@ class KycStatusWidget extends StatelessWidget {
     String statusText;
     switch (status) {
       case ValidationStatus.approved:
-        backgroundColor = CpColors.greenLightColor;
+        backgroundColor = CpColors.greenColor;
         statusText = 'Verified';
       case ValidationStatus.pending:
         backgroundColor = CpColors.yellowColor;
         statusText = 'Pending';
       case ValidationStatus.unspecified:
       case ValidationStatus.unverified:
-        backgroundColor = CpColors.lightGrey;
+        backgroundColor = CpColors.greyColor;
         statusText = 'Not Verified';
       case ValidationStatus.rejected:
-        backgroundColor = CpColors.errorChipColor;
+        backgroundColor = CpColors.alertRedColor;
         statusText = 'Error';
     }
 

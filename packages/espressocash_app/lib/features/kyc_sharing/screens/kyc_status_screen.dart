@@ -79,7 +79,7 @@ class _KycStatusScreenState extends State<KycStatusScreen> {
     final title = switch (status) {
       ValidationStatus.approved => (
           text: context.l10n.verified,
-          color: CpColors.greenLightColor,
+          color: CpColors.greenColor,
         ),
       ValidationStatus.pending => (
           text: context.l10n.pendingApproval,
@@ -87,11 +87,11 @@ class _KycStatusScreenState extends State<KycStatusScreen> {
         ),
       ValidationStatus.rejected => (
           text: context.l10n.verificationFailed,
-          color: CpColors.errorChipColor,
+          color: CpColors.alertRedColor,
         ),
       ValidationStatus.unspecified || ValidationStatus.unverified => (
           text: context.l10n.verificationNotStarted,
-          color: CpColors.grey,
+          color: CpColors.lightGreyColor,
         ),
     };
 

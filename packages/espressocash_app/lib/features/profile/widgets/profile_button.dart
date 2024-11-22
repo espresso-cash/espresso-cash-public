@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../ui/colors.dart';
+import '../../../ui/colors.dart';
 
 class ProfileButton extends StatelessWidget {
   const ProfileButton({
@@ -8,7 +8,7 @@ class ProfileButton extends StatelessWidget {
     required this.label,
     this.description,
     this.onPressed,
-    this.textColor = CpColors.lightGreyBackground,
+    this.textColor = Colors.white,
     this.iconColor,
     this.backgroundColor,
     this.showIcon = true,
@@ -46,6 +46,7 @@ class ProfileButton extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 14,
+                color: CpColors.greyColor,
                 fontWeight: FontWeight.w400,
               ),
             )

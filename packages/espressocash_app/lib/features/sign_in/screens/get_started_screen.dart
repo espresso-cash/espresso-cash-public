@@ -54,7 +54,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                 ConnectionState.done
             ? CpTheme.dark(
                 child: Scaffold(
-                  backgroundColor: CpColors.yellowSplashBackgroundColor,
+                  backgroundColor: CpColors.lightSandColor,
                   body: Stack(
                     children: [
                       Align(

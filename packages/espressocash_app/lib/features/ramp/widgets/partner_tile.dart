@@ -27,7 +27,7 @@ class PartnerTile extends StatelessWidget {
         ),
         child: DecoratedBox(
           decoration: ShapeDecoration(
-            color: CpColors.darkBackgroundColor,
+            color: CpColors.blackGreyColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(30.r),

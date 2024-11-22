@@ -30,14 +30,14 @@ extension on ValidationStatus {
   Color get backgroundColor {
     switch (this) {
       case ValidationStatus.approved:
-        return CpColors.greenLightColor;
+        return CpColors.greenColor;
       case ValidationStatus.pending:
         return CpColors.yellowColor;
       case ValidationStatus.unspecified:
       case ValidationStatus.unverified:
-        return CpColors.lightGrey;
+        return CpColors.greyColor;
       case ValidationStatus.rejected:
-        return CpColors.errorChipColor;
+        return CpColors.alertRedColor;
     }
   }
 }

@@ -92,7 +92,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
                 controller: _controller,
                 count: items.length,
                 effect: const ExpandingDotsEffect(
-                  activeDotColor: CpColors.carouselDotColor,
+                  activeDotColor: CpColors.yellowColor,
                   dotColor: Colors.white,
                   dotHeight: 7,
                   dotWidth: 25,

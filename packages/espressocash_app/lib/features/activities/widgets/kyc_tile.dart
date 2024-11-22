@@ -179,7 +179,7 @@ const _titleStyle = TextStyle(
 const _inAmountStyle = TextStyle(
   fontSize: 16,
   letterSpacing: .23,
-  color: CpColors.greenLightColor,
+  color: CpColors.greenColor,
   fontWeight: FontWeight.w500,
 );
 

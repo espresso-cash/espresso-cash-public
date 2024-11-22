@@ -73,7 +73,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
         };
 
     return ColoredBox(
-      color: CpColors.dashboardBackgroundColor,
+      color: CpColors.deepGreyColor,
       child: Column(
         children: [
           CpAppBar(
@@ -116,14 +116,14 @@ class _Wrapper extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              color: CpColors.dashboardBackgroundColor,
+              color: CpColors.deepGreyColor,
               height: 10,
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              color: CpColors.dashboardBackgroundColor,
+              color: CpColors.deepGreyColor,
               height: 10,
             ),
           ),
