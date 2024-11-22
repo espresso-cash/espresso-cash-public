@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
@@ -24,13 +23,13 @@ class AmbassadorPage extends StatelessWidget {
           appBar: CpAppBar(
             scrolledUnderColor: _backgroundColor,
             leading: const CpBackButton(),
-            title: Assets.images.logo.image(height: 36.h),
+            title: Assets.images.logo.image(height: 36),
           ),
           backgroundColor: _backgroundColor,
           extendBodyBehindAppBar: true,
           body: Column(
             children: [
-              SizedBox(height: 24.h),
+              const SizedBox(height: 24),
               Expanded(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
@@ -47,7 +46,7 @@ class AmbassadorPage extends StatelessWidget {
                               ],
                             ),
                             child: Assets.images.ambassadorTab.svg(
-                              fit: BoxFit.fitWidth,
+                              fit: BoxFit.scaleDown,
                               alignment: Alignment.bottomCenter,
                             ),
                           )
@@ -83,14 +82,14 @@ class _AmbassadorHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.only(top: 16.h, bottom: 4.h),
+        padding: const EdgeInsets.only(top: 16, bottom: 4),
         child: Column(
           children: [
             Text(
               context.l10n.ambassador_title,
-              style: TextStyle(
+              style: const TextStyle(
                 color: CpColors.darkBackgroundColor,
-                fontSize: 15.sp,
+                fontSize: 15,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.23,
               ),
@@ -98,9 +97,9 @@ class _AmbassadorHeader extends StatelessWidget {
             if (name.isNotEmpty)
               Text(
                 name,
-                style: TextStyle(
+                style: const TextStyle(
                   color: CpColors.darkBackgroundColor,
-                  fontSize: 26.sp,
+                  fontSize: 26,
                   fontWeight: FontWeight.w700,
                 ),
               ),

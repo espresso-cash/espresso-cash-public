@@ -1,6 +1,5 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../di.dart';
 import '../../../ui/colors.dart';
@@ -49,13 +48,13 @@ class _ShareAmbassadorLinkScreenState extends State<ShareAmbassadorLinkScreen> {
   Widget build(BuildContext context) => AmbassadorPage(
         name: _name,
         child: Padding(
-          padding: EdgeInsets.only(top: 24.h, bottom: 24.h),
+          padding: const EdgeInsets.symmetric(vertical: 24),
           child: Column(
             children: [
-              SizedBox(height: 8.h),
+              const SizedBox(height: 8),
               Center(
                 child: BarcodeWidget(
-                  height: 220.h,
+                  height: 220,
                   barcode: Barcode.qrCode(),
                   data: _uri.toString(),
                   padding: EdgeInsets.zero,

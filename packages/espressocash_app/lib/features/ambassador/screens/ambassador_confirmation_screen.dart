@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -73,55 +72,62 @@ class _AmbassadorConfirmationScreenState
   Widget build(BuildContext context) => CpLoader(
         isLoading: _isLoading,
         child: AmbassadorPage(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.l10n.ambassador_referralProgramWelcome,
-                  style: TextStyle(
-                    fontSize: 26.sp,
-                    fontWeight: FontWeight.w700,
-                    color: CpColors.darkBackgroundColor,
-                  ),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 500),
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.l10n.ambassador_referralProgramWelcome,
+                      style: const TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w700,
+                        color: CpColors.darkBackgroundColor,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      context.l10n.ambassador_referralProgramDescription,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.17,
+                        color: CpColors.darkBackgroundColor,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      context.l10n.ambassador_benefitsIntro,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.17,
+                        color: CpColors.darkBackgroundColor,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    _BenefitItem(
+                      text: context.l10n.ambassador_benefitMerchandise,
+                    ),
+                    const SizedBox(height: 12),
+                    _BenefitItem(
+                      text: context.l10n.ambassador_benefitCashBonus,
+                    ),
+                    const Spacer(),
+                    Center(
+                      child: CpButton(
+                        text: context.l10n.ambassador_joinButton,
+                        size: CpButtonSize.big,
+                        width: 340,
+                        onPressed: _onConfirm,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 16.h),
-                Text(
-                  context.l10n.ambassador_referralProgramDescription,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 0.17,
-                    color: CpColors.darkBackgroundColor,
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                Text(
-                  context.l10n.ambassador_benefitsIntro,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 0.17,
-                    color: CpColors.darkBackgroundColor,
-                  ),
-                ),
-                SizedBox(height: 16.h),
-                _BenefitItem(
-                  text: context.l10n.ambassador_benefitMerchandise,
-                ),
-                SizedBox(height: 12.h),
-                _BenefitItem(
-                  text: context.l10n.ambassador_benefitCashBonus,
-                ),
-                const Spacer(),
-                CpButton(
-                  text: context.l10n.ambassador_joinButton,
-                  size: CpButtonSize.big,
-                  width: double.infinity,
-                  onPressed: _onConfirm,
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -137,15 +143,15 @@ class _BenefitItem extends StatelessWidget {
   Widget build(BuildContext context) => Row(
         children: [
           Container(
-            padding: EdgeInsets.all(4.r),
+            padding: const EdgeInsets.all(4),
             child: Assets.icons.successBullet.svg(height: 28),
           ),
-          SizedBox(width: 12.w),
+          const SizedBox(width: 12),
           Expanded(
             child: Text(
               text,
-              style: TextStyle(
-                fontSize: 16.sp,
+              style: const TextStyle(
+                fontSize: 16,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.17,
                 color: CpColors.darkBackgroundColor,

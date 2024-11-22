@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
@@ -48,8 +47,8 @@ class AmbassadorResultScreen extends StatelessWidget {
                       child: Assets.icons.star.svg(
                         fit: BoxFit.cover,
                         color: _starColor,
-                        width: 600.w,
-                        height: 600.h,
+                        width: 600,
+                        height: 600,
                       ),
                     ),
                     Center(
@@ -61,11 +60,11 @@ class AmbassadorResultScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+                padding: const EdgeInsets.all(24),
                 child: CpButton(
                   text: context.l10n.ok,
                   size: CpButtonSize.big,
-                  width: double.infinity,
+                  width: 340,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ),
@@ -86,24 +85,24 @@ class _SuccessContent extends StatelessWidget {
             child: Stack(
               children: [
                 Align(
-                  child: Assets.icons.confetti.svg(width: 315.w),
+                  child: Assets.icons.confetti.svg(width: 315),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 24.h),
-                    child: Assets.icons.successCheck3.svg(width: 120.w),
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: Assets.icons.successCheck3.svg(width: 120),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 24.h),
+          const SizedBox(height: 24),
           Text(
             context.l10n.ambassador_enrollmentComplete,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24.sp,
+            style: const TextStyle(
+              fontSize: 24,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -118,22 +117,22 @@ class _ErrorContent extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Assets.icons.errorIcon2.svg(width: 111.w),
-          SizedBox(height: 24.h),
+          Assets.icons.errorIcon2.svg(width: 111),
+          const SizedBox(height: 24),
           Text(
             context.l10n.ambassador_alreadyEnrolledTitle,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24.sp,
+            style: const TextStyle(
+              fontSize: 24,
               fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(height: 16.h),
+          const SizedBox(height: 16),
           Text(
             context.l10n.ambassador_alreadyEnrolledDescription,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16.sp,
+            style: const TextStyle(
+              fontSize: 16,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.17,
             ),
