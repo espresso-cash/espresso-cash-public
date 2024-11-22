@@ -1029,5 +1029,5 @@
     "invalidPhone": "Invalid phone",
     "@invalidPhone": {},
     "failedToSendVerificationCode": "Failed to send verification code",
-   "@failedToSendVerificationCode": {}
+    "@failedToSendVerificationCode": {}
 }
