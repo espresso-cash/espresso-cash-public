@@ -10,7 +10,7 @@ import '../../wallet_flow/widgets/launch_qr_scanner_flow.dart';
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
     super.key,
-    this.backgroundColor = CpColors.darkGoldBackgroundColor,
+    this.backgroundColor = CpColors.darkSandColor,
   });
 
   final Color backgroundColor;
@@ -83,7 +83,7 @@ class HomeScaffoldAppBar extends StatelessWidget
             ),
           ),
           elevation: 0,
-          backgroundColor: CpColors.darkGoldBackgroundColor,
+          backgroundColor: CpColors.darkSandColor,
           actions: [
             CpIconButton(
               icon: Assets.icons.settingsButtonIcon.svg(color: Colors.black),

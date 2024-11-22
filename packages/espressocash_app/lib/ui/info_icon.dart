@@ -6,7 +6,7 @@ import 'colors.dart';
 class CpInfoIcon extends StatelessWidget {
   const CpInfoIcon({
     super.key,
-    this.iconColor = CpColors.backgroundAccentColor,
+    this.iconColor = CpColors.yellowColor,
     this.height = 20,
   });
   final Color iconColor;

@@ -16,10 +16,10 @@ class HomeTile extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: padding,
         decoration: const BoxDecoration(
-          color: CpColors.dashboardBackgroundColor,
+          color: CpColors.deepGreyColor,
           boxShadow: [
             BoxShadow(
-              color: CpColors.dashboardBackgroundColor,
+              color: CpColors.deepGreyColor,
               offset: Offset(0, 2),
             ),
           ],

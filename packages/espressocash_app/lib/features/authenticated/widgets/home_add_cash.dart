@@ -21,7 +21,7 @@ class HomeAddCashContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ColoredBox(
-        color: CpColors.yellowSplashBackgroundColor,
+        color: CpColors.sandColor,
         child: RefreshBalancesWrapper(
           builder: (context, onRefresh) => RefreshIndicator(
             displacement: 80,
@@ -178,7 +178,7 @@ class _Background extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Color(0x00C8B57D),
-                      CpColors.yellowSplashBackgroundColor,
+                      CpColors.sandColor,
                     ],
                   ),
                 ),
@@ -201,7 +201,7 @@ class _BottomBalance extends StatelessWidget {
               topRight: Radius.circular(44),
             ),
           ),
-          color: CpColors.darkSplashBackgroundColor,
+          color: CpColors.deepGreyColor,
         ),
         child: Padding(
           padding: EdgeInsets.only(

@@ -102,7 +102,7 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
                 const SizedBox(height: 8),
                 DecoratedBox(
                   decoration: const ShapeDecoration(
-                    color: CpColors.darkBackgroundColor,
+                    color: CpColors.blackGreyColor,
                     shape: StadiumBorder(),
                   ),
                   child: ListTile(
@@ -171,7 +171,7 @@ class _WalletTextField extends StatelessWidget {
   Widget build(BuildContext context) => CpTextField(
         controller: controller,
         placeholder: context.l10n.walletAddressFieldHint,
-        backgroundColor: CpColors.darkBackgroundColor,
+        backgroundColor: CpColors.blackGreyColor,
         padding: const EdgeInsets.only(
           left: 24,
           right: 12,
