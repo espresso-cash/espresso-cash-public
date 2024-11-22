@@ -20,6 +20,7 @@ class _AmbassadorLinkListenerState extends State<AmbassadorLinkListener>
     final referral = AmbassadorReferral.tryParse(uri.toString());
     if (referral != null) {
       context.showAmbassadorConfirmation(ambassador: referral);
+
       return true;
     }
 
