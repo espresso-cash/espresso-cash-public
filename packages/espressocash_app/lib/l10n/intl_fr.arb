@@ -511,6 +511,14 @@
   "@ramp_btnCashOut": {},
   "ramp_btnContinue": "Continuer",
   "@ramp_btnContinue": {},
+  "rampMinimumTransferAmount": "Min {amount}",
+  "@rampMinimumTransferAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "rampOtherPartnersTitle": "Autres partenaires :",
   "@rampOtherPartnersTitle": {},
   "receive": "Recevoir",
