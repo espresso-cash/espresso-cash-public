@@ -21,7 +21,7 @@ abstract class CpColors {
   static const infoBackgroundColor = Color(0xFFF6C83B);
   static const neutralBackgroundColor = Color(0xff5F6464);
 
-  static const primaryTextColor = Color(0xff231f20); // black primary color
+  static const primaryTextColor = Color(0xff231f20);
   static const secondaryTextColor = Color(0xff909090);
   static const placeholderLightColor = Color(0xffC2C2C2);
   static const listDividerColor = Color(0xffF5F5F5);
