@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
@@ -12,6 +13,7 @@ import '../../../ui/snackbar.dart';
 import '../../../utils/errors.dart';
 import '../models/ambassador_referral.dart';
 import '../widgets/ambassador_page.dart';
+import 'ambassador_result_screen.dart';
 
 class AmbassadorConfirmationScreen extends StatefulWidget {
   const AmbassadorConfirmationScreen({
@@ -51,21 +53,17 @@ class _AmbassadorConfirmationScreenState
 
       if (!mounted) return;
 
-      showCpSnackbar(
-        context,
-        message: 'Ambassador assigned successfully',
-      );
-      Navigator.of(context).pop();
+      AmbassadorResultScreen.push(context, AmbassadorResult.success);
     } on Exception catch (error) {
       if (!mounted) return;
 
-      final message = error is DioException &&
-              error.toEspressoCashError() ==
-                  EspressoCashError.ambassadorAlreadyAssigned
-          ? 'Ambassador already assigned'
-          : context.l10n.tryAgainLater;
-
-      showCpErrorSnackbar(context, message: message);
+      if (error is DioException &&
+          error.toEspressoCashError() ==
+              EspressoCashError.ambassadorAlreadyAssigned) {
+        AmbassadorResultScreen.push(context, AmbassadorResult.failure);
+      } else {
+        showCpErrorSnackbar(context, message: context.l10n.tryAgainLater);
+      }
     } finally {
       setState(() => _isLoading = false);
     }
@@ -81,24 +79,44 @@ class _AmbassadorConfirmationScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Join Referral Program',
+                  context.l10n.ambassador_referralProgramWelcome,
                   style: TextStyle(
-                    fontSize: 24.sp,
+                    fontSize: 26.sp,
                     fontWeight: FontWeight.w700,
                     color: CpColors.darkBackgroundColor,
                   ),
                 ),
                 SizedBox(height: 16.h),
                 Text(
-                  'By joining the referral program, you agree to be part of our ambassador network.',
+                  context.l10n.ambassador_referralProgramDescription,
                   style: TextStyle(
                     fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 0.17,
                     color: CpColors.darkBackgroundColor,
                   ),
                 ),
+                SizedBox(height: 24.h),
+                Text(
+                  context.l10n.ambassador_benefitsIntro,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 0.17,
+                    color: CpColors.darkBackgroundColor,
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                _BenefitItem(
+                  text: context.l10n.ambassador_benefitMerchandise,
+                ),
+                SizedBox(height: 12.h),
+                _BenefitItem(
+                  text: context.l10n.ambassador_benefitCashBonus,
+                ),
                 const Spacer(),
                 CpButton(
-                  text: 'Confirm',
+                  text: context.l10n.ambassador_joinButton,
                   size: CpButtonSize.big,
                   width: double.infinity,
                   onPressed: _onConfirm,
@@ -107,5 +125,33 @@ class _AmbassadorConfirmationScreenState
             ),
           ),
         ),
+      );
+}
+
+class _BenefitItem extends StatelessWidget {
+  const _BenefitItem({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          Container(
+            padding: EdgeInsets.all(4.r),
+            child: Assets.icons.successBullet.svg(height: 28),
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.17,
+                color: CpColors.darkBackgroundColor,
+              ),
+            ),
+          ),
+        ],
       );
 }

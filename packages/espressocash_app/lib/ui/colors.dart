@@ -77,6 +77,7 @@ abstract class CpColors {
   static const darkGoldLockBackgroundColor = Color(0xFFB7A572);
 
   static const mediumSandColor = Color(0xFFA89767);
+  static const lightSandColor = Color(0xFFB7A572);
 }
 
 const bgGradient = LinearGradient(
