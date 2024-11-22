@@ -29,8 +29,8 @@ class QuizPage extends StatelessWidget {
   final Widget? backButton;
 
   Color get backgroundColor => switch (type) {
-        QuizPageType.light => const Color(0xFFB7A572),
-        QuizPageType.dark => CpColors.darkSplashBackgroundColor
+        QuizPageType.light => CpColors.lightSandColor,
+        QuizPageType.dark => CpColors.dashboardBackgroundColor
       };
 
   @override

@@ -113,7 +113,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                         shape: BoxShape.circle,
                         color: isHighlighted || index > widget.active
                             ? Colors.white
-                            : CpColors.darkBackground,
+                            : CpColors.dashboardBackgroundColor,
                       ),
                       child: index <= lastIconIndex
                           ? isActive
@@ -135,7 +135,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                         width: _connectorWidth,
                         color: index >= widget.active
                             ? Colors.white
-                            : CpColors.darkBackground,
+                            : CpColors.dashboardBackgroundColor,
                       ),
                     ),
                   ),

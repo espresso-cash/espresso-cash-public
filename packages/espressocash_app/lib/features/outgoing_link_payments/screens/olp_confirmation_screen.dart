@@ -163,7 +163,7 @@ class _InformationView extends StatelessWidget {
                   maxLines: 1,
                   style: const TextStyle(
                     fontSize: 16,
-                    color: CpColors.lightGrey,
+                    color: CpColors.greyColor,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -179,7 +179,7 @@ class _InformationView extends StatelessWidget {
             ),
             valueTextStyle: TextStyle(
               fontSize: 16,
-              color: CpColors.lightGrey,
+              color: CpColors.greyColor,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -188,7 +188,7 @@ class _InformationView extends StatelessWidget {
             context.l10n.sendExplanation,
             style: const TextStyle(
               fontSize: 14.5,
-              color: CpColors.lightGrey,
+              color: CpColors.greyColor,
               fontWeight: FontWeight.w400,
             ),
           ),

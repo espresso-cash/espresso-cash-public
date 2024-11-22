@@ -24,7 +24,7 @@ class ErrorChip extends StatelessWidget {
             height: 55.h,
             child: CpChip(
               padding: CpChipPadding.small,
-              backgroundColor: CpColors.errorChipColor,
+              backgroundColor: CpColors.alertRedColor,
               child: Text(
                 text.toUpperCase(),
                 maxLines: 1,

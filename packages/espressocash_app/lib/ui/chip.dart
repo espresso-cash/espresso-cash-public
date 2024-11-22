@@ -19,7 +19,7 @@ class CpChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedBox(
         decoration: ShapeDecoration(
-          color: backgroundColor ?? CpColors.darkBackground,
+          color: backgroundColor ?? CpColors.dashboardBackgroundColor,
           shape: const StadiumBorder(),
         ),
         child: Center(

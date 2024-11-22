@@ -51,7 +51,7 @@ class ProfileSection extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
-                  color: CpColors.lightGreyBackground,
+                  color: Colors.white,
                 ),
               ),
             ),

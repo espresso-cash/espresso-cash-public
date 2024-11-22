@@ -147,7 +147,7 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          backgroundColor: CpColors.darkBackground,
+          backgroundColor: CpColors.dashboardBackgroundColor,
           appBar: CpAppBar(
             leading: const CpBackButton(),
             title: Text(

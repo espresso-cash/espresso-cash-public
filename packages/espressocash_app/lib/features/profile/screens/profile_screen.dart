@@ -30,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Material(
-          color: CpColors.darkBackground,
+          color: CpColors.dashboardBackgroundColor,
           child: SingleChildScrollView(
             child: SafeArea(
               maintainBottomViewPadding: true,

@@ -59,8 +59,8 @@ class FadeGradient extends StatelessWidget {
                       Colors.white.withOpacity(0),
                     ]
                   : [
-                      CpColors.darkBackground,
-                      CpColors.darkBackground.withOpacity(0),
+                      CpColors.dashboardBackgroundColor,
+                      CpColors.dashboardBackgroundColor.withOpacity(0),
                     ],
             ),
           ),
