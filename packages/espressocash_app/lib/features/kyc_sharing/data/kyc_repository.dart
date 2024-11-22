@@ -37,9 +37,7 @@ class KycRepository extends ChangeNotifier {
   }
 
   KycUserClient _createClient() => KycUserClient(
-        kycBaseUrl: 'https://storage.brij.fi/',
-        validatorBaseUrl: 'https://verifier.brij.fi/',
-        orderBaseUrl: 'https://orders.brij.fi/',
+        config: const AppConfig.production(),
         sign: (data) async {
           final signature =
               await _ecWallet.sign([Uint8List.fromList(data.toList())]);
