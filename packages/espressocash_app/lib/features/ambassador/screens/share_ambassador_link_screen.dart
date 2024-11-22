@@ -17,13 +17,6 @@ class ShareAmbassadorLinkScreen extends StatefulWidget {
         ),
       );
 
-  static void navigate(BuildContext context) =>
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(
-          builder: (context) => const ShareAmbassadorLinkScreen(),
-        ),
-      );
-
   @override
   State<ShareAmbassadorLinkScreen> createState() =>
       _ShareAmbassadorLinkScreenState();
