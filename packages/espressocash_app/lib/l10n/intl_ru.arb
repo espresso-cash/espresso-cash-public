@@ -511,14 +511,6 @@
   "@ramp_btnCashOut": {},
   "ramp_btnContinue": "Продолжать",
   "@ramp_btnContinue": {},
-  "rampMinimumTransferAmount": "Минимальная сумма для перевода {amount}",
-  "@rampMinimumTransferAmount": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "rampOtherPartnersTitle": "Другие партнеры:",
   "@rampOtherPartnersTitle": {},
   "receive": "Запросить",
