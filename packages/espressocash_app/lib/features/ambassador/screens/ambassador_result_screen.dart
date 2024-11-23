@@ -26,12 +26,12 @@ class AmbassadorResultScreen extends StatelessWidget {
       );
 
   Color get _backgroundColor => result == AmbassadorResult.success
-      ? CpColors.mediumSandColor
+      ? CpColors.sandColor
       : CpColors.lightSandColor;
 
   Color get _starColor => result == AmbassadorResult.success
       ? CpColors.lightSandColor
-      : CpColors.mediumSandColor;
+      : CpColors.sandColor;
 
   @override
   Widget build(BuildContext context) => Scaffold(
