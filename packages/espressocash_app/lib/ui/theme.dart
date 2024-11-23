@@ -80,7 +80,7 @@ class CpThemeData {
   const CpThemeData.black()
       : this._(
           brightness: Brightness.dark,
-          backgroundColor: CpColors.darkSplashBackgroundColor,
+          backgroundColor: CpColors.deepGreyColor,
           primaryTextColor: Colors.white,
           secondaryTextColor: CpColors.secondaryTextColor,
           dividerColor: Colors.white,

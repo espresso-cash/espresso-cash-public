@@ -78,7 +78,7 @@ class RampTextField extends StatelessWidget {
               inputType: const TextInputType.numberWithOptions(decimal: true),
               textInputAction: TextInputAction.next,
               textCapitalization: TextCapitalization.none,
-              backgroundColor: CpColors.darkBackgroundColor,
+              backgroundColor: CpColors.blackGreyColor,
               placeholder: '0',
               placeholderColor: Colors.white,
               textColor: Colors.white,
@@ -99,6 +99,6 @@ class RampTextField extends StatelessWidget {
 
 Widget get _defaultLogo => CircleAvatar(
       maxRadius: 20.w,
-      backgroundColor: CpColors.darkBackgroundColor,
+      backgroundColor: CpColors.blackGreyColor,
       child: Assets.icons.money.svg(),
     );

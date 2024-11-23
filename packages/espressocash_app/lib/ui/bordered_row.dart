@@ -21,7 +21,7 @@ class CpBorderedRow extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: dividerColor ?? CpColors.accentDisabledColor,
+              color: dividerColor ?? CpColors.darkDividerColor,
               width: 1,
             ),
           ),

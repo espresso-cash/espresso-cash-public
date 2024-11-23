@@ -27,7 +27,7 @@ class CpInfoWidget extends StatelessWidget {
       case CpInfoVariant.light:
         return CpColors.backgroundAccentColor;
       case CpInfoVariant.dark:
-        return CpColors.darkBackgroundColor;
+        return CpColors.blackGreyColor;
       case CpInfoVariant.black:
         return Colors.black;
     }

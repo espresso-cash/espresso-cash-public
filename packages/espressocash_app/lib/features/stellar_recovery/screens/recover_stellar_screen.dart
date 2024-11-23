@@ -35,9 +35,9 @@ class RecoverStellarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: CpColors.yellowSplashBackgroundColor,
+        backgroundColor: CpColors.lightSandColor,
         appBar: CpAppBar(
-          scrolledUnderColor: CpColors.yellowSplashBackgroundColor,
+          scrolledUnderColor: CpColors.lightSandColor,
           title: Text(context.l10n.moneyRecoveryTitle),
         ),
         extendBodyBehindAppBar: true,

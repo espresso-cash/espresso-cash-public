@@ -150,7 +150,7 @@ class _Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ColoredBox(
-        color: CpColors.darkBackgroundColor,
+        color: CpColors.blackGreyColor,
         child: Padding(
           padding: const EdgeInsets.only(left: _minBarWidth / 2),
           child: Center(
