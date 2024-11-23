@@ -42,7 +42,7 @@ Future<void> showConfirmationDialog(
       context: context,
       elevation: 0,
       barrierColor: _barrierColor,
-      backgroundColor: CpColors.yellowSplashBackgroundColor,
+      backgroundColor: CpColors.lightSandColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(44),

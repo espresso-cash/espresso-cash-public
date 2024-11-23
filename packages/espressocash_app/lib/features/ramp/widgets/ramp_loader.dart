@@ -17,7 +17,7 @@ class LoadingTextField extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         margin: null,
         decoration: const ShapeDecoration(
-          color: CpColors.darkBackgroundColor,
+          color: CpColors.blackGreyColor,
           shape: StadiumBorder(),
         ),
         padding: EdgeInsets.only(

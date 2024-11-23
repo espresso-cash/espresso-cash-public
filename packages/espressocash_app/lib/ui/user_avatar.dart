@@ -21,7 +21,7 @@ class CpUserAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: CpColors.darkGoldBackgroundColor,
+      backgroundColor: CpColors.darkSandColor,
       foregroundImage: image,
       child: AnimatedDefaultTextStyle(
         duration: kThemeChangeDuration,

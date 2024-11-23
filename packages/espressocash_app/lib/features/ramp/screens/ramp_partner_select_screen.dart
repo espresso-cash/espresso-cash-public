@@ -149,7 +149,7 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 18.w),
                 child: CountryPicker(
-                  backgroundColor: CpColors.darkBackgroundColor,
+                  backgroundColor: CpColors.blackGreyColor,
                   country: _country,
                   onSubmitted: _handleCountryChange,
                 ),

@@ -28,7 +28,7 @@ class FormPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bgColor = switch (colorTheme) {
       FormPageColorTheme.orange => CpColors.darkOrangeBackgroundColor,
-      FormPageColorTheme.gold => CpColors.goldBackgroundColor,
+      FormPageColorTheme.gold => CpColors.lightSandColor,
     };
 
     return CpTheme.black(

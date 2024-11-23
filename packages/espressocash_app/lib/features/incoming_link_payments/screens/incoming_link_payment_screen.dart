@@ -103,7 +103,7 @@ class _FeeNotice extends StatelessWidget {
                     maxRadius: 14,
                     backgroundColor: CpColors.yellowColor,
                     child: CpInfoIcon(
-                      iconColor: CpColors.darkBackgroundColor,
+                      iconColor: CpColors.blackGreyColor,
                     ),
                   ),
                   const SizedBox(width: 16),
