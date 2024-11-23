@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Material(
-          color: CpColors.darkBackground,
+          color: CpColors.deepGreyColor,
           child: SingleChildScrollView(
             child: SafeArea(
               maintainBottomViewPadding: true,
@@ -147,7 +147,7 @@ class _QrCodeWidget extends StatelessWidget {
         padding: EdgeInsets.zero,
         alignment: Alignment.centerLeft,
         decoration: const BoxDecoration(
-          color: CpColors.darkBackgroundColor,
+          color: CpColors.blackGreyColor,
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         child: Padding(
