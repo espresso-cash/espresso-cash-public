@@ -88,7 +88,7 @@ class _AmbassadorHeader extends StatelessWidget {
             Text(
               context.l10n.ambassador_title,
               style: const TextStyle(
-                color: CpColors.darkBackgroundColor,
+                color: CpColors.blackGreyColor,
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.23,
@@ -98,7 +98,7 @@ class _AmbassadorHeader extends StatelessWidget {
               Text(
                 name,
                 style: const TextStyle(
-                  color: CpColors.darkBackgroundColor,
+                  color: CpColors.blackGreyColor,
                   fontSize: 26,
                   fontWeight: FontWeight.w700,
                 ),
@@ -108,4 +108,4 @@ class _AmbassadorHeader extends StatelessWidget {
       );
 }
 
-const _backgroundColor = CpColors.mediumSandColor;
+const _backgroundColor = CpColors.sandColor;

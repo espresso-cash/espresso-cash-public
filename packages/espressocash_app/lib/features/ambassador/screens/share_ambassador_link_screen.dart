@@ -48,7 +48,7 @@ class ShareAmbassadorLinkScreen extends StatelessWidget {
                 barcode: Barcode.qrCode(),
                 data: uri.toString(),
                 padding: EdgeInsets.zero,
-                color: CpColors.mediumSandColor,
+                color: CpColors.sandColor,
               ),
             ),
           ],
