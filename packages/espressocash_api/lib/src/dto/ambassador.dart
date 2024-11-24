@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'ambassador.freezed.dart';
@@ -39,11 +41,19 @@ class AmbassadorVerificationRequestDto with _$AmbassadorVerificationRequestDto {
 class AmbassadorVerificationResponseDto
     with _$AmbassadorVerificationResponseDto {
   const factory AmbassadorVerificationResponseDto({
-    required bool isAmbassador,
+    @JsonKey(unknownEnumValue: AmbassadorStatus.none)
+    required AmbassadorStatus status,
   }) = _AmbassadorVerificationResponseDto;
 
   factory AmbassadorVerificationResponseDto.fromJson(
     Map<String, dynamic> json,
   ) =>
       _$AmbassadorVerificationResponseDtoFromJson(json);
+}
+
+@JsonEnum()
+enum AmbassadorStatus {
+  ambassador,
+  referee,
+  none,
 }
