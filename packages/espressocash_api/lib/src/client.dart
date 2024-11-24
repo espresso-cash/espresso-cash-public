@@ -186,9 +186,7 @@ abstract class EspressoCashClient {
   Future<AmbassadorStatsResponseDto> getAmbassadorStats();
 
   @POST('/ambassador/verify')
-  Future<AmbassadorVerificationResponseDto> verifyAmbassador(
-    @Body() AmbassadorVerificationRequestDto request,
-  );
+  Future<AmbassadorVerificationResponseDto> verifyAmbassador();
 }
 
 extension EspressoCashClientExt on EspressoCashClient {

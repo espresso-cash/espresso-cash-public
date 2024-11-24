@@ -30,19 +30,6 @@ Map<String, dynamic> _$$AmbassadorStatsResponseDtoImplToJson(
       'referralCount': instance.referralCount,
     };
 
-_$AmbassadorVerificationRequestDtoImpl
-    _$$AmbassadorVerificationRequestDtoImplFromJson(
-            Map<String, dynamic> json) =>
-        _$AmbassadorVerificationRequestDtoImpl(
-          address: json['address'] as String,
-        );
-
-Map<String, dynamic> _$$AmbassadorVerificationRequestDtoImplToJson(
-        _$AmbassadorVerificationRequestDtoImpl instance) =>
-    <String, dynamic>{
-      'address': instance.address,
-    };
-
 _$AmbassadorVerificationResponseDtoImpl
     _$$AmbassadorVerificationResponseDtoImplFromJson(
             Map<String, dynamic> json) =>

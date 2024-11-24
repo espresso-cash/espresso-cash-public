@@ -26,18 +26,6 @@ class AmbassadorStatsResponseDto with _$AmbassadorStatsResponseDto {
 }
 
 @freezed
-class AmbassadorVerificationRequestDto with _$AmbassadorVerificationRequestDto {
-  const factory AmbassadorVerificationRequestDto({
-    required String address,
-  }) = _AmbassadorVerificationRequestDto;
-
-  factory AmbassadorVerificationRequestDto.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$AmbassadorVerificationRequestDtoFromJson(json);
-}
-
-@freezed
 class AmbassadorVerificationResponseDto
     with _$AmbassadorVerificationResponseDto {
   const factory AmbassadorVerificationResponseDto({
