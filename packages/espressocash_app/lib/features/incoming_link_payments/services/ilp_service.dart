@@ -156,7 +156,7 @@ class ILPService implements Disposable {
 
     await _txConfirm(txId: status.signature);
 
-    final receiveAmount = await getUsdcAmount(status.signature);
+    final receiveAmount = await _getUsdcAmount(status.signature);
 
     int? fee;
     try {
@@ -182,49 +182,53 @@ class ILPService implements Disposable {
     );
   }
 
-  Future<CryptoAmount?> getUsdcAmount(String signature) async {
-    final details = await _solanaClient.rpcClient.getTransaction(
-      signature,
-      encoding: Encoding.base64,
-      commitment: Commitment.confirmed,
-    );
+  Future<CryptoAmount?> _getUsdcAmount(String signature) async {
+    try {
+      final details = await _solanaClient.rpcClient.getTransaction(
+        signature,
+        encoding: Encoding.base64,
+        commitment: Commitment.confirmed,
+      );
 
-    if (details == null) return null;
+      if (details == null) return null;
 
-    final usdcTokenAddress = await findAssociatedTokenAddress(
-      owner: _wallet.publicKey,
-      mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
-    );
+      final usdcTokenAddress = await findAssociatedTokenAddress(
+        owner: _wallet.publicKey,
+        mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
+      );
 
-    final rawTx = details.transaction as RawTransaction;
-    final tx = SignedTx.fromBytes(rawTx.data);
+      final rawTx = details.transaction as RawTransaction;
+      final tx = SignedTx.fromBytes(rawTx.data);
 
-    final accountIndex =
-        tx.compiledMessage.accountKeys.indexWhere((e) => e == usdcTokenAddress);
+      final accountIndex = tx.compiledMessage.accountKeys
+          .indexWhere((e) => e == usdcTokenAddress);
 
-    final postTokenBalance = details.meta?.postTokenBalances
-        .where((e) => e.mint == Token.usdc.address)
-        .where((e) => e.accountIndex == accountIndex)
-        .firstOrNull;
+      final postTokenBalance = details.meta?.postTokenBalances
+          .where((e) => e.mint == Token.usdc.address)
+          .where((e) => e.accountIndex == accountIndex)
+          .firstOrNull;
 
-    if (postTokenBalance == null) return null;
+      if (postTokenBalance == null) return null;
 
-    final preTokenBalance = details.meta?.preTokenBalances
-        .where((e) => e.mint == Token.usdc.address)
-        .where((e) => e.accountIndex == accountIndex)
-        .firstOrNull;
+      final preTokenBalance = details.meta?.preTokenBalances
+          .where((e) => e.mint == Token.usdc.address)
+          .where((e) => e.accountIndex == accountIndex)
+          .firstOrNull;
 
-    final preAmount = preTokenBalance?.uiTokenAmount.amount ?? '0';
-    final postAmount = postTokenBalance.uiTokenAmount.amount;
+      final preAmount = preTokenBalance?.uiTokenAmount.amount ?? '0';
+      final postAmount = postTokenBalance.uiTokenAmount.amount;
 
-    final rawAmount = int.parse(postAmount) - int.parse(preAmount);
+      final rawAmount = int.parse(postAmount) - int.parse(preAmount);
 
-    if (rawAmount <= 0) return null;
+      if (rawAmount <= 0) return null;
 
-    return CryptoAmount(
-      value: rawAmount,
-      cryptoCurrency: Currency.usdc,
-    );
+      return CryptoAmount(
+        value: rawAmount,
+        cryptoCurrency: Currency.usdc,
+      );
+    } on Exception {
+      return null;
+    }
   }
 
   @override
