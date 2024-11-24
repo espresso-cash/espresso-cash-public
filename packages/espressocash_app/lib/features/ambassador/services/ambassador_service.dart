@@ -11,6 +11,11 @@ class AmbassadorService extends ValueNotifier<AmbassadorStatus> {
   final EspressoCashClient _ecClient;
 
   @PostConstruct()
-  Future<void> init() async =>
+  Future<void> init() async {
+    try {
       value = await _ecClient.verifyAmbassador().then((e) => e.status);
+    } on Exception {
+      value = AmbassadorStatus.none;
+    }
+  }
 }

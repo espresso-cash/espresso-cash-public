@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-wildcard-cases-with-enums
+
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
@@ -56,13 +58,19 @@ class _AmbassadorConfirmationScreenState
     } on Exception catch (error) {
       if (!mounted) return;
 
-      if (error is DioException &&
-          error.toEspressoCashError() ==
-              EspressoCashError.ambassadorAlreadyAssigned) {
-        AmbassadorResultScreen.push(context, AmbassadorResult.failure);
-      } else {
-        showCpErrorSnackbar(context, message: context.l10n.tryAgainLater);
-      }
+      final result = error is DioException
+          ? switch (error.toEspressoCashError()) {
+              EspressoCashError.ambassadorAlreadyAssigned =>
+                AmbassadorResult.alreadyRegistered,
+              EspressoCashError.userIsNotAmbassador =>
+                AmbassadorResult.notAmbassador,
+              _ => null,
+            }
+          : null;
+
+      result != null
+          ? AmbassadorResultScreen.push(context, result)
+          : showCpErrorSnackbar(context, message: context.l10n.tryAgainLater);
     } finally {
       setState(() => _isLoading = false);
     }

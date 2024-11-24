@@ -909,5 +909,9 @@
     "ambassador_alreadyEnrolledTitle": "You're already enrolled!",
     "@ambassador_alreadyEnrolledTitle": {},
     "ambassador_alreadyEnrolledDescription": "Your member referral enrollment is\nalready assigned to an ambassador.",
-  "@ambassador_alreadyEnrolledDescription": {}
+    "@ambassador_alreadyEnrolledDescription": {},
+    "ambassador_notAmbassadorTitle": "Invalid Ambassador",
+    "@ambassador_notAmbassadorTitle": {},
+    "ambassador_notAmbassadorDescription": "The QR code you scanned does not\nbelong to an ambassador.",
+    "@ambassador_notAmbassadorDescription": {}
 }

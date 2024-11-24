@@ -7,7 +7,8 @@ import '../../../ui/colors.dart';
 
 enum AmbassadorResult {
   success,
-  failure,
+  alreadyRegistered,
+  notAmbassador,
 }
 
 class AmbassadorResultScreen extends StatelessWidget {
@@ -52,9 +53,13 @@ class AmbassadorResultScreen extends StatelessWidget {
                       ),
                     ),
                     Center(
-                      child: result == AmbassadorResult.success
-                          ? const _SuccessContent()
-                          : const _ErrorContent(),
+                      child: switch (result) {
+                        AmbassadorResult.success => const _SuccessContent(),
+                        AmbassadorResult.alreadyRegistered =>
+                          const _AlreadyRegisteredContent(),
+                        AmbassadorResult.notAmbassador =>
+                          const _NotAmbassadorContent(),
+                      },
                     ),
                   ],
                 ),
@@ -110,8 +115,8 @@ class _SuccessContent extends StatelessWidget {
       );
 }
 
-class _ErrorContent extends StatelessWidget {
-  const _ErrorContent();
+class _AlreadyRegisteredContent extends StatelessWidget {
+  const _AlreadyRegisteredContent();
 
   @override
   Widget build(BuildContext context) => Column(
@@ -130,6 +135,37 @@ class _ErrorContent extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             context.l10n.ambassador_alreadyEnrolledDescription,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 0.17,
+            ),
+          ),
+        ],
+      );
+}
+
+class _NotAmbassadorContent extends StatelessWidget {
+  const _NotAmbassadorContent();
+
+  @override
+  Widget build(BuildContext context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Assets.icons.errorIcon2.svg(width: 111),
+          const SizedBox(height: 24),
+          Text(
+            context.l10n.ambassador_notAmbassadorTitle,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            context.l10n.ambassador_notAmbassadorDescription,
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 16,
