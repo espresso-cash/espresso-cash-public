@@ -122,9 +122,9 @@ flutter:
     - assets/partners/moneygram/
     - assets/partners/scalex/
     - assets/partners/coinflow/
-    # - assets/partners/coinflow/static/
-    # - assets/partners/coinflow/static/js/
-    # - assets/partners/coinflow/static/css/
+    - assets/partners/coinflow/static/
+    - assets/partners/coinflow/static/js/
+    - assets/partners/coinflow/static/css/
 
   fonts:
     - family: RobotoApp
