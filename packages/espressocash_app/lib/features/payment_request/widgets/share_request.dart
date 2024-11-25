@@ -4,6 +4,7 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
@@ -60,7 +61,7 @@ class _ShareRequestPaymentState extends State<ShareRequestPayment> {
                 CpContentPadding(
                   bottom: false,
                   child: CpRoundedRectangle(
-                    backgroundColor: Colors.black,
+                    backgroundColor: CpColors.blackGreyColor,
                     scrollable: false,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 32,

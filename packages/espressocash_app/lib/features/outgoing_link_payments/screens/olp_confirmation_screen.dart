@@ -122,7 +122,7 @@ class _InformationView extends StatelessWidget {
     final formattedFiatAmount = fiatAmount.formatMinimum(locale);
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 49),
+      padding: const EdgeInsets.symmetric(vertical: 34, horizontal: 50),
       width: double.infinity,
       decoration: const BoxDecoration(
         color: CpColors.blackGreyColor,
@@ -143,7 +143,7 @@ class _InformationView extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           if (formattedFiatAmount != null)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -169,7 +169,7 @@ class _InformationView extends StatelessWidget {
                 ),
               ],
             ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           const FeeLabel(
             type: FeeType.link(),
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -183,7 +183,7 @@ class _InformationView extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Text(
             context.l10n.sendExplanation,
             style: const TextStyle(

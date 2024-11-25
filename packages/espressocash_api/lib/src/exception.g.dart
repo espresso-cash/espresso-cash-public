@@ -23,4 +23,5 @@ const _$EspressoCashErrorEnumMap = {
   EspressoCashError.insufficientFunds: 'InsufficientFunds',
   EspressoCashError.genericError: 'GenericError',
   EspressoCashError.ambassadorAlreadyAssigned: 'AmbassadorAlreadyAssigned',
+  EspressoCashError.userIsNotAmbassador: 'UserIsNotAmbassador',
 };
