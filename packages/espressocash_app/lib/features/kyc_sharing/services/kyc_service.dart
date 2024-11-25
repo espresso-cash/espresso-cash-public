@@ -78,6 +78,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     DocumentType? idType,
     String? countryCode,
   }) async {
+    await _kycRepository.grantPartnerAccess(verifierAuthPk);
+
     await _kycRepository.updateUserData(
       name: Name(
         firstName: firstName ?? '',
@@ -106,8 +108,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
     required String bankCode,
     String? bankName,
   }) async {
-    await _kycRepository.grantPartnerAccess(verifierAuthPk);
-
     await _kycRepository.updateUserData(
       bankInfo: BankInfo(
         accountNumber: bankAccountNumber,
@@ -146,18 +146,18 @@ class KycSharingService extends ValueNotifier<UserData?> {
   }
 
   Future<void> initEmailVerification({required String email}) async {
-    await _kycRepository.grantPartnerAccess(verifierAuthPk);
-
-    await _kycRepository.updateUserData(
-      email: Email(
-        value: email,
-        id: value?.email?.first.id ?? '',
-      ),
-    );
-
-    await fetchUserData();
-
     try {
+      await _kycRepository.grantPartnerAccess(verifierAuthPk);
+
+      await _kycRepository.updateUserData(
+        email: Email(
+          value: email,
+          id: value?.email?.first.id ?? '',
+        ),
+      );
+
+      await fetchUserData();
+
       await _kycRepository.initEmailVerification(
         emailId: value?.email?.first.id ?? '',
       );
@@ -180,16 +180,16 @@ class KycSharingService extends ValueNotifier<UserData?> {
   }
 
   Future<void> initPhoneVerification({required String phone}) async {
-    await _kycRepository.updateUserData(
-      phone: Phone(
-        value: phone,
-        id: value?.phone?.first.id ?? '',
-      ),
-    );
-
-    await fetchUserData();
-
     try {
+      await _kycRepository.updateUserData(
+        phone: Phone(
+          value: phone,
+          id: value?.phone?.first.id ?? '',
+        ),
+      );
+
+      await fetchUserData();
+
       await _kycRepository.initPhoneVerification(
         phoneId: value?.phone?.first.id ?? '',
       );
