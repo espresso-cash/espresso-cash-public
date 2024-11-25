@@ -27,7 +27,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   @PostConstruct()
   void init() {
-    if (!sl<FeatureFlagsManager>().isXflowEnabled()) return;
+    if (!sl<FeatureFlagsManager>().isBrijEnabled()) return;
 
     _initializeKyc();
   }

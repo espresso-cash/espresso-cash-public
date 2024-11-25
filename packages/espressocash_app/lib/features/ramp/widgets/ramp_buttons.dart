@@ -211,7 +211,7 @@ extension RampBuildContextExt on BuildContext {
         launchGuardarianOnRamp(profile: profile, address: address);
       case RampPartner.scalex:
         launchScalexOnRamp(profile: profile, address: address);
-      case RampPartner.xflow:
+      case RampPartner.brij:
         launchKycOnRamp();
       case RampPartner.moneygram:
         launchMoneygramOnRamp(profile: profile);
@@ -237,7 +237,7 @@ extension RampBuildContextExt on BuildContext {
         launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.moneygram:
         launchMoneygramOffRamp(profile: profile);
-      case RampPartner.xflow:
+      case RampPartner.brij:
         launchKycOffRamp();
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:

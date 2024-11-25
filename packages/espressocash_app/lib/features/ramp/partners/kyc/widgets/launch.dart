@@ -19,8 +19,8 @@ import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
 import '../../scalex/data/scalex_repository.dart';
-import '../services/xflow_off_ramp_order_service.dart';
-import '../services/xflow_on_ramp_order_service.dart';
+import '../services/brij_off_ramp_order_service.dart';
+import '../services/brij_on_ramp_order_service.dart';
 
 typedef PreOrderData = ({String? preOrderId, Amount? preAmount});
 
@@ -55,7 +55,7 @@ extension BuildContextExt on BuildContext {
     final double rampFeePercentage = rateAndFee.onRampFeePercentage ?? 0;
     final double fixedFee = rateAndFee.fixedOnRampFee ?? 0;
 
-    const partner = RampPartner.xflow;
+    const partner = RampPartner.brij;
 
     final minAmountNGN =
         partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
@@ -110,7 +110,7 @@ extension BuildContextExt on BuildContext {
 
     final orderId = await runWithLoader<String?>(
       this,
-      () => sl<XFlowOnRampOrderService>()
+      () => sl<BrijOnRampOrderService>()
           .createOrUpdate(
             preOrderId: preOrder?.preOrderId,
             receiveAmount: equivalentAmount,
@@ -162,7 +162,7 @@ extension BuildContextExt on BuildContext {
     final double rampFeePercentage = rateAndFee.offRampFeePercentage;
     final double fixedFee = rateAndFee.fixedOffRampFee;
 
-    const partner = RampPartner.xflow;
+    const partner = RampPartner.brij;
 
     await RampAmountScreen.push(
       this,
@@ -214,7 +214,7 @@ extension BuildContextExt on BuildContext {
 
     final orderId = await runWithLoader<String?>(
       this,
-      () => sl<XFlowOffRampOrderService>()
+      () => sl<BrijOffRampOrderService>()
           .createOrUpdate(
             preOrderId: preOrder?.preOrderId,
             receiveAmount: equivalentAmount,
@@ -249,7 +249,7 @@ extension BuildContextExt on BuildContext {
     final double rampFeePercentage = rateAndFee.onRampFeePercentage ?? 0;
     final double fixedFee = rateAndFee.fixedOnRampFee ?? 0;
 
-    const partner = RampPartner.xflow;
+    const partner = RampPartner.brij;
 
     final minAmountNGN =
         partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
@@ -276,7 +276,7 @@ extension BuildContextExt on BuildContext {
 
           preOrderId = await runWithLoader<String?>(
             this,
-            () => sl<XFlowOnRampOrderService>()
+            () => sl<BrijOnRampOrderService>()
                 .createPreOrder(
                   submittedAmount: submittedPreAmount as FiatAmount,
                   receiveAmount: preEquivalentAmount,
@@ -314,7 +314,7 @@ extension BuildContextExt on BuildContext {
     final double rampFeePercentage = rateAndFee.offRampFeePercentage;
     final double fixedFee = rateAndFee.fixedOffRampFee;
 
-    const partner = RampPartner.xflow;
+    const partner = RampPartner.brij;
 
     Amount? preAmount;
     String? preOrderId;
@@ -338,7 +338,7 @@ extension BuildContextExt on BuildContext {
 
           preOrderId = await runWithLoader<String?>(
             this,
-            () => sl<XFlowOffRampOrderService>()
+            () => sl<BrijOffRampOrderService>()
                 .createPreOrder(
                   receiveAmount: equivalentAmount,
                   submittedAmount: submittedPreAmount as CryptoAmount,

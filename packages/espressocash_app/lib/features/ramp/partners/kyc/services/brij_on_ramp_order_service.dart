@@ -20,8 +20,8 @@ import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
 
 @Singleton(scope: authScope)
-class XFlowOnRampOrderService implements Disposable {
-  XFlowOnRampOrderService(
+class BrijOnRampOrderService implements Disposable {
+  BrijOnRampOrderService(
     this._db,
     this._kycRepository,
     this._kycSharingService,
@@ -45,13 +45,13 @@ class XFlowOnRampOrderService implements Disposable {
               OnRampOrderStatus.completed,
               OnRampOrderStatus.failure,
             ]) &
-            tbl.partner.equalsValue(RampPartner.xflow),
+            tbl.partner.equalsValue(RampPartner.brij),
       );
 
     final orders = await query.get();
 
     for (final order in orders) {
-      if (order.partner != RampPartner.xflow) {
+      if (order.partner != RampPartner.brij) {
         continue;
       }
 
@@ -116,7 +116,7 @@ class XFlowOnRampOrderService implements Disposable {
             isCompleted: false,
             created: DateTime.now(),
             txHash: '',
-            partner: RampPartner.xflow,
+            partner: RampPartner.brij,
             status: OnRampOrderStatus.waitingUserVerification,
             bankAccount: null,
             bankName: null,
@@ -158,7 +158,7 @@ class XFlowOnRampOrderService implements Disposable {
             isCompleted: false,
             created: DateTime.now(),
             txHash: '',
-            partner: RampPartner.xflow,
+            partner: RampPartner.brij,
             receiveAmount: receiveAmount.value,
             status: OnRampOrderStatus.waitingPartnerReview,
             bankAccount: null,
@@ -175,7 +175,7 @@ class XFlowOnRampOrderService implements Disposable {
           final countryCode = _kycSharingService.value?.countryCode;
 
           _analytics.rampInitiated(
-            partner: RampPartner.xflow,
+            partner: RampPartner.brij,
             rampType: RampType.onRamp.name,
             amount: submittedAmount.value.toString(),
             countryCode: countryCode ?? '',

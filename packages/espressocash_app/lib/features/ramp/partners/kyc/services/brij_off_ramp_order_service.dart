@@ -28,8 +28,8 @@ import '../../../../transactions/services/resign_tx.dart';
 import '../../../../transactions/services/tx_sender.dart';
 
 @Singleton(scope: authScope)
-class XFlowOffRampOrderService implements Disposable {
-  XFlowOffRampOrderService(
+class BrijOffRampOrderService implements Disposable {
+  BrijOffRampOrderService(
     this._db,
     this._kycRepository,
     this._analytics,
@@ -60,13 +60,13 @@ class XFlowOffRampOrderService implements Disposable {
               OffRampOrderStatus.refunded,
               OffRampOrderStatus.rejected,
             ]) &
-            tbl.partner.equalsValue(RampPartner.xflow),
+            tbl.partner.equalsValue(RampPartner.brij),
       );
 
     final orders = await query.get();
 
     for (final order in orders) {
-      if (order.partner != RampPartner.xflow) {
+      if (order.partner != RampPartner.brij) {
         continue;
       }
 
@@ -170,7 +170,7 @@ class XFlowOffRampOrderService implements Disposable {
             created: DateTime.now(),
             humanStatus: '',
             machineStatus: '',
-            partner: RampPartner.xflow,
+            partner: RampPartner.brij,
             status: OffRampOrderStatus.waitingUserVerification,
             transaction: '',
             depositAddress: '',
@@ -226,7 +226,7 @@ class XFlowOffRampOrderService implements Disposable {
             created: DateTime.now(),
             humanStatus: '',
             machineStatus: '',
-            partner: RampPartner.xflow,
+            partner: RampPartner.brij,
             status: OffRampOrderStatus.waitingPartnerReview,
             transaction: '',
             depositAddress: '',
@@ -242,7 +242,7 @@ class XFlowOffRampOrderService implements Disposable {
               );
 
           _analytics.rampInitiated(
-            partner: RampPartner.xflow,
+            partner: RampPartner.brij,
             rampType: RampType.offRamp.name,
             amount: submittedAmount.value.toString(),
             countryCode: countryCode,

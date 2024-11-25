@@ -63,7 +63,7 @@ enum RampPartner {
     paymentMethods: [],
   ),
 
-  xflow(
+  brij(
     title: 'Espresso Network',
     minimumAmount: r'$5',
     paymentMethods: [],
@@ -101,7 +101,7 @@ extension RampPartnerAssets on RampPartner {
         return Assets.images.moneygramIcon;
       case RampPartner.scalex:
         return Assets.images.scalexIcon;
-      case RampPartner.xflow:
+      case RampPartner.brij:
         return Assets.images.logoIcon;
     }
   }

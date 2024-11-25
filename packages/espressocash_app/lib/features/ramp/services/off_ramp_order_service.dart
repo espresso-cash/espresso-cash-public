@@ -88,7 +88,7 @@ class OffRampOrderService implements Disposable {
     for (final order in orders) {
       switch (order.partner) {
         case RampPartner.moneygram:
-        case RampPartner.xflow:
+        case RampPartner.brij:
           continue;
         case RampPartner.kado:
         case RampPartner.coinflow:
@@ -360,7 +360,7 @@ class OffRampOrderService implements Disposable {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
-      RampPartner.xflow ||
+      RampPartner.brij ||
       RampPartner.rampNetwork ||
       RampPartner.moneygram || // moneygram orders will not reach this point
       RampPartner.guardarian =>
