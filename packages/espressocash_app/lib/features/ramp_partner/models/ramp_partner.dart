@@ -67,7 +67,7 @@ enum RampPartner {
     title: 'Espresso Network',
     minimumAmount: r'$5',
     paymentMethods: [],
-    partnerPK: 'J4Bi8wQnvcX4kLyiA7xemJ7t4bikDncgWUZAscvymGPq',
+    partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
   );
 
   const RampPartner({
