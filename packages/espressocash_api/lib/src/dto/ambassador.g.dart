@@ -34,18 +34,13 @@ _$AmbassadorVerificationResponseDtoImpl
     _$$AmbassadorVerificationResponseDtoImplFromJson(
             Map<String, dynamic> json) =>
         _$AmbassadorVerificationResponseDtoImpl(
-          status: $enumDecode(_$AmbassadorStatusEnumMap, json['status'],
-              unknownValue: AmbassadorStatus.none),
+          isAmbassador: json['isAmbassador'] as bool,
+          isReferral: json['isReferral'] as bool,
         );
 
 Map<String, dynamic> _$$AmbassadorVerificationResponseDtoImplToJson(
         _$AmbassadorVerificationResponseDtoImpl instance) =>
     <String, dynamic>{
-      'status': _$AmbassadorStatusEnumMap[instance.status]!,
+      'isAmbassador': instance.isAmbassador,
+      'isReferral': instance.isReferral,
     };
-
-const _$AmbassadorStatusEnumMap = {
-  AmbassadorStatus.ambassador: 'ambassador',
-  AmbassadorStatus.referee: 'referee',
-  AmbassadorStatus.none: 'none',
-};

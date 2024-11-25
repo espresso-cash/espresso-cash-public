@@ -346,8 +346,8 @@ AmbassadorVerificationResponseDto _$AmbassadorVerificationResponseDtoFromJson(
 
 /// @nodoc
 mixin _$AmbassadorVerificationResponseDto {
-  @JsonKey(unknownEnumValue: AmbassadorStatus.none)
-  AmbassadorStatus get status => throw _privateConstructorUsedError;
+  bool get isAmbassador => throw _privateConstructorUsedError;
+  bool get isReferral => throw _privateConstructorUsedError;
 
   /// Serializes this AmbassadorVerificationResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -367,9 +367,7 @@ abstract class $AmbassadorVerificationResponseDtoCopyWith<$Res> {
       _$AmbassadorVerificationResponseDtoCopyWithImpl<$Res,
           AmbassadorVerificationResponseDto>;
   @useResult
-  $Res call(
-      {@JsonKey(unknownEnumValue: AmbassadorStatus.none)
-      AmbassadorStatus status});
+  $Res call({bool isAmbassador, bool isReferral});
 }
 
 /// @nodoc
@@ -388,13 +386,18 @@ class _$AmbassadorVerificationResponseDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
+    Object? isAmbassador = null,
+    Object? isReferral = null,
   }) {
     return _then(_value.copyWith(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as AmbassadorStatus,
+      isAmbassador: null == isAmbassador
+          ? _value.isAmbassador
+          : isAmbassador // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isReferral: null == isReferral
+          ? _value.isReferral
+          : isReferral // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -408,9 +411,7 @@ abstract class _$$AmbassadorVerificationResponseDtoImplCopyWith<$Res>
       __$$AmbassadorVerificationResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(unknownEnumValue: AmbassadorStatus.none)
-      AmbassadorStatus status});
+  $Res call({bool isAmbassador, bool isReferral});
 }
 
 /// @nodoc
@@ -428,13 +429,18 @@ class __$$AmbassadorVerificationResponseDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
+    Object? isAmbassador = null,
+    Object? isReferral = null,
   }) {
     return _then(_$AmbassadorVerificationResponseDtoImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as AmbassadorStatus,
+      isAmbassador: null == isAmbassador
+          ? _value.isAmbassador
+          : isAmbassador // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isReferral: null == isReferral
+          ? _value.isReferral
+          : isReferral // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -444,19 +450,20 @@ class __$$AmbassadorVerificationResponseDtoImplCopyWithImpl<$Res>
 class _$AmbassadorVerificationResponseDtoImpl
     implements _AmbassadorVerificationResponseDto {
   const _$AmbassadorVerificationResponseDtoImpl(
-      {@JsonKey(unknownEnumValue: AmbassadorStatus.none) required this.status});
+      {required this.isAmbassador, required this.isReferral});
 
   factory _$AmbassadorVerificationResponseDtoImpl.fromJson(
           Map<String, dynamic> json) =>
       _$$AmbassadorVerificationResponseDtoImplFromJson(json);
 
   @override
-  @JsonKey(unknownEnumValue: AmbassadorStatus.none)
-  final AmbassadorStatus status;
+  final bool isAmbassador;
+  @override
+  final bool isReferral;
 
   @override
   String toString() {
-    return 'AmbassadorVerificationResponseDto(status: $status)';
+    return 'AmbassadorVerificationResponseDto(isAmbassador: $isAmbassador, isReferral: $isReferral)';
   }
 
   @override
@@ -464,12 +471,15 @@ class _$AmbassadorVerificationResponseDtoImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AmbassadorVerificationResponseDtoImpl &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.isAmbassador, isAmbassador) ||
+                other.isAmbassador == isAmbassador) &&
+            (identical(other.isReferral, isReferral) ||
+                other.isReferral == isReferral));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, status);
+  int get hashCode => Object.hash(runtimeType, isAmbassador, isReferral);
 
   /// Create a copy of AmbassadorVerificationResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -492,8 +502,7 @@ class _$AmbassadorVerificationResponseDtoImpl
 abstract class _AmbassadorVerificationResponseDto
     implements AmbassadorVerificationResponseDto {
   const factory _AmbassadorVerificationResponseDto(
-          {@JsonKey(unknownEnumValue: AmbassadorStatus.none)
-          required final AmbassadorStatus status}) =
+          {required final bool isAmbassador, required final bool isReferral}) =
       _$AmbassadorVerificationResponseDtoImpl;
 
   factory _AmbassadorVerificationResponseDto.fromJson(
@@ -501,8 +510,9 @@ abstract class _AmbassadorVerificationResponseDto
       _$AmbassadorVerificationResponseDtoImpl.fromJson;
 
   @override
-  @JsonKey(unknownEnumValue: AmbassadorStatus.none)
-  AmbassadorStatus get status;
+  bool get isAmbassador;
+  @override
+  bool get isReferral;
 
   /// Create a copy of AmbassadorVerificationResponseDto
   /// with the given fields replaced by the non-null parameter values.

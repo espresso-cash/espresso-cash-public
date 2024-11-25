@@ -29,19 +29,12 @@ class AmbassadorStatsResponseDto with _$AmbassadorStatsResponseDto {
 class AmbassadorVerificationResponseDto
     with _$AmbassadorVerificationResponseDto {
   const factory AmbassadorVerificationResponseDto({
-    @JsonKey(unknownEnumValue: AmbassadorStatus.none)
-    required AmbassadorStatus status,
+    required bool isAmbassador,
+    required bool isReferral,
   }) = _AmbassadorVerificationResponseDto;
 
   factory AmbassadorVerificationResponseDto.fromJson(
     Map<String, dynamic> json,
   ) =>
       _$AmbassadorVerificationResponseDtoFromJson(json);
-}
-
-@JsonEnum()
-enum AmbassadorStatus {
-  ambassador,
-  referee,
-  none,
 }
