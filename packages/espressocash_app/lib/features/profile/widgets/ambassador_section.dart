@@ -1,4 +1,3 @@
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -22,9 +21,8 @@ class AmbassadorSection extends StatelessWidget {
       builder: (context, child) {
         final status = sl<AmbassadorService>().value;
 
-        return status != AmbassadorStatus.ambassador
-            ? const SizedBox()
-            : ProfileSection(
+        return status.isAmbassador
+            ? ProfileSection(
                 title: l10n.ambassador_title,
                 padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
                 actions: [
@@ -43,7 +41,8 @@ class AmbassadorSection extends StatelessWidget {
                     },
                   ),
                 ],
-              );
+              )
+            : const SizedBox.shrink();
       },
     );
   }
