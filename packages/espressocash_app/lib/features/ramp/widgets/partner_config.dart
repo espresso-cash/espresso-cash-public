@@ -24,7 +24,9 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
 
   if (isBrijEnabled && _brijCountries.contains(countryCode)) {
     partners.add(RampPartner.brij);
-  } else if (_scalexCountries.contains(countryCode)) {
+  }
+
+  if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
   }
 
@@ -57,7 +59,9 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
 
   if (isBrijEnabled && _brijCountries.contains(countryCode)) {
     partners.add(RampPartner.brij);
-  } else if (_scalexCountries.contains(countryCode)) {
+  }
+
+  if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
   }
 

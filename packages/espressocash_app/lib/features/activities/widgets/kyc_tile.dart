@@ -11,8 +11,8 @@ import '../../kyc_sharing/widgets/kyc_status_icon.dart';
 import '../../ramp/partners/kyc/widgets/launch.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 
-class EcKycTile extends StatelessWidget {
-  const EcKycTile({
+class KycTile extends StatelessWidget {
+  const KycTile({
     super.key,
     required this.title,
     required this.timestamp,
