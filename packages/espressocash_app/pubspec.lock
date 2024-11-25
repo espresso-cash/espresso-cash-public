@@ -1231,8 +1231,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: ff425ef520526838f78d70355a04bc2d11b2527d
-      resolved-ref: ff425ef520526838f78d70355a04bc2d11b2527d
+      ref: ca8414ca31a5995a0dc47e7fdcf4841826df315e
+      resolved-ref: ca8414ca31a5995a0dc47e7fdcf4841826df315e
       url: "https://github.com/espresso-cash/kyc_client_dart.git"
     source: git
     version: "1.0.0"

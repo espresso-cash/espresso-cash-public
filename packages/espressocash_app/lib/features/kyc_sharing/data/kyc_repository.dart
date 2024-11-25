@@ -8,6 +8,8 @@ import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 
+const config = AppConfig.production();
+
 @Singleton(scope: authScope)
 class KycRepository extends ChangeNotifier {
   KycRepository(this._ecWallet);
@@ -37,7 +39,7 @@ class KycRepository extends ChangeNotifier {
   }
 
   KycUserClient _createClient() => KycUserClient(
-        config: const AppConfig.production(),
+        config: config,
         sign: (data) async {
           final signature =
               await _ecWallet.sign([Uint8List.fromList(data.toList())]);
@@ -164,5 +166,9 @@ class KycRepository extends ChangeNotifier {
 
   Future<void> grantPartnerAccess(String partnerPk) => _initWrapper(
         () => _kycUserClient.grantPartnerAccess(partnerPk),
+      );
+
+  Future<void> grantValidatorAccess() => _initWrapper(
+        () => _kycUserClient.grantPartnerAccess(config.verifierAuthPk),
       );
 }

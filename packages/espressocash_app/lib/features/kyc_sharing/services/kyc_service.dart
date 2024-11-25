@@ -78,7 +78,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
     DocumentType? idType,
     String? countryCode,
   }) async {
-    await _kycRepository.grantPartnerAccess(verifierAuthPk);
+    await _kycRepository.grantValidatorAccess();
 
     await _kycRepository.updateUserData(
       name: Name(
@@ -147,7 +147,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<void> initEmailVerification({required String email}) async {
     try {
-      await _kycRepository.grantPartnerAccess(verifierAuthPk);
+      await _kycRepository.grantValidatorAccess();
 
       await _kycRepository.updateUserData(
         email: Email(
@@ -218,5 +218,3 @@ class KycSharingService extends ValueNotifier<UserData?> {
     super.dispose();
   }
 }
-
-const verifierAuthPk = '88tFG8dt9ZacDZb7QP5yiDQeA7sVXvr7XCwZEQSsnCkJ';
