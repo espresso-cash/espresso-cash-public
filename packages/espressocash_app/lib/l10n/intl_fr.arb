@@ -392,7 +392,7 @@
     "@ramp_btnCashOut": {},
     "ramp_btnContinue": "Continuer",
     "@ramp_btnContinue": {},
-    "rampMinimumTransferAmount": "Montant minimum à transférer {amount}",
+    "rampMinimumTransferAmount": "Min {amount}",
     "@rampMinimumTransferAmount": {
         "placeholders": {
             "amount": {

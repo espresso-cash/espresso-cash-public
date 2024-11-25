@@ -392,7 +392,7 @@
     "@ramp_btnCashOut": {},
     "ramp_btnContinue": "Продолжать",
     "@ramp_btnContinue": {},
-    "rampMinimumTransferAmount": "Минимальная сумма для перевода {amount}",
+    "rampMinimumTransferAmount": "Min {amount}",
     "@rampMinimumTransferAmount": {
         "placeholders": {
             "amount": {
