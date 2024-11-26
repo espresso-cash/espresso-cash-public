@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:drift/drift.dart';
-
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -10,8 +9,8 @@ import '../../../../../../data/db/db.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../data/my_database_ext.dart';
-import '../../../models/ramp_type.dart';
 import '../../../models/ramp_watcher.dart';
 import '../data/kado_api_client.dart';
 

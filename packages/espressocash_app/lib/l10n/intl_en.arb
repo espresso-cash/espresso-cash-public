@@ -48,11 +48,11 @@
     "@contactUs": {},
     "copiedFid": "Copied FID: {fid}",
     "@copiedFid": {
-        "placeholders": {
-            "fid": {
-                "type": "String"
-            }
+      "placeholders": {
+        "fid": {
+          "type": "String"
         }
+      }
     },
     "copiedToClipboard": "Copied!",
     "@copiedToClipboard": {},
@@ -94,14 +94,14 @@
     "@insufficientBalance": {},
     "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
     "@insufficientFundsMessage": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            },
-            "balance": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
+        },
+        "balance": {
+          "type": "String"
         }
+      }
     },
     "inUsdc": "in USDC ",
     "@inUsdc": {},
@@ -119,35 +119,35 @@
     "@loading": {},
     "minAmountToOffRamp": "{amount} withdrawal minimum",
     "@minAmountToOffRamp": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "minAmountToOnRamp": "{amount} deposit minimum",
     "@minAmountToOnRamp": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "minimumAmountToRequest": "{amount} is the minimum to request",
     "@minimumAmountToRequest": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "minimumAmountToSend": "{amount} is the minimum to send",
     "@minimumAmountToSend": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "mobileWalletAcceptAuthorization": "Authorize",
     "@mobileWalletAcceptAuthorization": {},
@@ -159,11 +159,11 @@
     "@mobileWalletAcceptSignTransactions": {},
     "mobileWalletAuthorize": "Authorize {appName}?",
     "@mobileWalletAuthorize": {
-        "placeholders": {
-            "appName": {
-                "type": "String"
-            }
+      "placeholders": {
+        "appName": {
+          "type": "String"
         }
+      }
     },
     "mobileWalletSendTransactions": "These transactions will be immediately submitted after signing.",
     "@mobileWalletSendTransactions": {},
@@ -173,27 +173,27 @@
     "@mobileWalletSignMessages": {},
     "mobileWalletSignMessagesRequest": "{appName} is requesting you to sign {count} message(s)",
     "@mobileWalletSignMessagesRequest": {
-        "placeholders": {
-            "appName": {
-                "type": "String"
-            },
-            "count": {
-                "type": "int"
-            }
+      "placeholders": {
+        "appName": {
+          "type": "String"
+        },
+        "count": {
+          "type": "int"
         }
+      }
     },
     "mobileWalletSignTransactions": "Sign Transaction",
     "@mobileWalletSignTransactions": {},
     "mobileWalletSignTransactionsRequest": "{appName} is requesting you to sign {count} transaction(s)",
     "@mobileWalletSignTransactionsRequest": {
-        "placeholders": {
-            "appName": {
-                "type": "String"
-            },
-            "count": {
-                "type": "int"
-            }
+      "placeholders": {
+        "appName": {
+          "type": "String"
+        },
+        "count": {
+          "type": "int"
         }
+      }
     },
     "mobileWalletTitle": "Espresso Cash Wallet",
     "@mobileWalletTitle": {},
@@ -231,6 +231,8 @@
     "@oneMonth": {},
     "oneWeek": "1 week",
     "@oneWeek": {},
+    "onRampTopPartnerTitle": "Transfer Money Into Your Espresso Account",
+    "@onRampTopPartnerTitle": {},
     "operationSend": "sent",
     "@operationSend": {},
     "outgoingSplitKeyPayments_btnCancel": "Cancel transfer",
@@ -243,11 +245,11 @@
     "@outgoingSplitKeyPayments_lblMoneyWithdrawn": {},
     "outgoingTransferSuccess": "{amount} has been sent",
     "@outgoingTransferSuccess": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "pay": "Pay",
     "@pay": {},
@@ -294,11 +296,11 @@
     "@ramp_btnContinue": {},
     "rampMinimumTransferAmount": "Min {amount}",
     "@rampMinimumTransferAmount": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "ramp_titleCashIn": "Deposit",
     "@ramp_titleCashIn": {},
@@ -356,11 +358,11 @@
     "@sentViaLink": {},
     "setReminder": "SET A REMINDER FOR {duration}",
     "@setReminder": {
-        "placeholders": {
-            "duration": {
-                "type": "String"
-            }
+      "placeholders": {
+        "duration": {
+          "type": "String"
         }
+      }
     },
     "share": "Share",
     "@share": {},
@@ -368,25 +370,25 @@
     "@sharePaymentRequestLinkIntro": {},
     "sharePaymentRequestLinkMessage": "Hi!\n\nI have sent a request for {amount}. To pay me with one click, visit:\n\n{link}",
     "@sharePaymentRequestLinkMessage": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            },
-            "link": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
+        },
+        "link": {
+          "type": "String"
         }
+      }
     },
     "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on the link:\n\n{firstLink}",
     "@shareText": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            },
-            "firstLink": {
-                "type": "Uri"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
+        },
+        "firstLink": {
+          "type": "Uri"
         }
+      }
     },
     "signIn1": "Already have a wallet? ",
     "@signIn1": {},
@@ -402,11 +404,11 @@
     "@signUp": {},
     "splitKeyCanceledMessage1": "{amount} Transaction successfully canceled.",
     "@splitKeyCanceledMessage1": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "splitKeyCancelErrorMessage": "There was an issue canceling your transfer.",
     "@splitKeyCancelErrorMessage": {},
@@ -422,11 +424,11 @@
     "@splitKeyProgressCreated": {},
     "splitKeyProgressOngoing": "Sending {amount} using secure link...",
     "@splitKeyProgressOngoing": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "splitKeyProgressSuccess": "Money has been successfully received",
     "@splitKeyProgressSuccess": {},
@@ -446,19 +448,19 @@
     "@to": {},
     "todayAt": "Today at {time}",
     "@todayAt": {
-        "placeholders": {
-            "time": {
-                "type": "String"
-            }
+      "placeholders": {
+        "time": {
+          "type": "String"
         }
+      }
     },
     "tokenEquivalent": "Equivalent to {value}",
     "@tokenEquivalent": {
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
+      "placeholders": {
+        "value": {
+          "type": "String"
         }
+      }
     },
     "tomorrow": "Tomorrow",
     "@tomorrow": {},
@@ -478,14 +480,14 @@
     "@usdcInfo": {},
     "version": "Version {versionNumber} ({buildNumber})",
     "@version": {
-        "placeholders": {
-            "versionNumber": {
-                "type": "String"
-            },
-            "buildNumber": {
-                "type": "String"
-            }
+      "placeholders": {
+        "versionNumber": {
+          "type": "String"
+        },
+        "buildNumber": {
+          "type": "String"
         }
+      }
     },
     "viewRecoveryPhrase": "View secret recovery phrase",
     "@viewRecoveryPhrase": {},
@@ -523,11 +525,11 @@
     "@yourRecoveryPhraseSub": {},
     "zeroAmountMessage": "Please enter an amount greater than zero to be {operation}.",
     "@zeroAmountMessage": {
-        "placeholders": {
-            "operation": {
-                "type": "String"
-            }
+      "placeholders": {
+        "operation": {
+          "type": "String"
         }
+      }
     },
     "zeroAmountTitle": "Invalid amount",
     "@zeroAmountTitle": {},
@@ -555,37 +557,37 @@
     "@offRampWithdrawSuccess": {},
     "offRampWithdrawOngoing": "Sending {amount}",
     "@offRampWithdrawOngoing": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "offRampWithdrawCancelled": "{amount} withdrawal successfully canceled.",
     "@offRampWithdrawCancelled": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "offRampWithdrawNotice": "Withdrawals can normally take up to 3 business days to receive.",
     "@offRampWithdrawNotice": {},
     "offRampReceiveAmount": "You'll receive {value}",
     "@offRampReceiveAmount": {
-        "placeholders": {
-            "value": {
-                "type": "String"
-            }
+      "placeholders": {
+        "value": {
+          "type": "String"
         }
+      }
     },
     "orderId": "Order ID: {orderId}",
     "@orderId": {
-        "placeholders": {
-            "orderId": {
-                "type": "String"
-            }
+      "placeholders": {
+        "orderId": {
+          "type": "String"
         }
+      }
     },
     "onRampDepositInitiated": "Deposit initiated",
     "@onRampDepositInitiated": {},
@@ -599,53 +601,59 @@
     "@onRampDepositExpired": {},
     "onRampLocalTransferTile": "Local currency transferred\nAmount sent: {amount}\n{name}: {account}",
     "@onRampLocalTransferTile": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            },
-            "name": {
-                "type": "String"
-            },
-            "account": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
+        },
+        "name": {
+          "type": "String"
+        },
+        "account": {
+          "type": "String"
         }
+      }
     },
     "onRampDepositOngoing": "Depositing {amount}",
     "@onRampDepositOngoing": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "onRampAwaitingFunds": "Hang tight. Your order is being processed.",
     "@onRampAwaitingFunds": {},
     "incomingUsdcFeeNotice": "You were charged a one time {amount} fee for your first incoming transaction.",
     "@incomingUsdcFeeNotice": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "depositTitle": "Deposit",
     "@depositTitle": {},
-    "depositInstruction1": "Transfer money from your bank account to our local partner:",
-    "@depositInstruction1": {},
-    "depositInstruction2": "Once money has been transferred, return to Espresso Cash and continue below.",
+    "depositInstruction1": "Transfer the deposit amount from your bank account to our local partners {bankName}:",
+    "@depositInstruction1": {
+      "placeholders": {
+        "bankName": {
+          "type": "String"
+        }
+      }
+    },
+    "depositInstruction2": "Once the transfer is complete, return to Espresso Cash and confirm below.",
     "@depositInstruction2": {},
-    "depositTransferAmount": "Amount to be transferred",
+    "depositTransferAmount": "Deposit Amount",
     "@depositTransferAmount": {},
     "depositDisclaimer": "Funds must be sent from your personal account. Any funds sent through an account that does not match your identification details will be reserved.",
     "@depositDisclaimer": {},
     "depositReceiveAmount": "You will receive: {amount}",
     "@depositReceiveAmount": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "quizCorrect": "Correct!",
     "@quizCorrect": {},
@@ -703,11 +711,11 @@
     "@transactionAwaitingFulfillment": {},
     "paymentProgressOngoing": "Sending {amount}",
     "@paymentProgressOngoing": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "outgoingDlnDisclaimer1": "This feature is currently in BETA.\nPlease contact ",
     "@outgoingDlnDisclaimer1": {},
@@ -744,11 +752,11 @@
     "@addCash_sendReceiveMoney": {},
     "invoiceNumber": "Invoice {reference}",
     "@invoiceNumber": {
-        "placeholders": {
-            "reference": {
-                "type": "String"
-            }
+      "placeholders": {
+        "reference": {
+          "type": "String"
         }
+      }
     },
     "received": "Received",
     "@received": {},
@@ -770,11 +778,11 @@
     "@confirmYourTransferOf": {},
     "transferInProgressText": "Transfer could take up to {minutes} minutes...",
     "@transferInProgressText": {
-        "placeholders": {
-            "minutes": {
-                "type": "int"
-            }
+      "placeholders": {
+        "minutes": {
+          "type": "int"
         }
+      }
     },
     "openMoneygramIframeText": "Open Moneygram to continue",
     "@openMoneygramIframeText": {},
@@ -802,11 +810,11 @@
     "@moneyRecoveryBtn": {},
     "moneyRecoveryContent": "{amount} in unclaimed money has been detected and is ready for recovery.",
     "@moneyRecoveryContent": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "moneyRecoverySubContent": "The recovered amount will be added to your Espresso Cash account balance.",
     "@moneyRecoverySubContent": {},
@@ -824,11 +832,11 @@
     "@moneyRecoveryFailure": {},
     "moneyRecoverySuccess": "{amount} has been successfully added to your balance.",
     "@moneyRecoverySuccess": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            }
+      "placeholders": {
+        "amount": {
+          "type": "String"
         }
+      }
     },
     "offRampWithdrawalInProgress": "Withdrawing in progress...",
     "@offRampWithdrawalInProgress": {},
@@ -913,5 +921,199 @@
     "ambassador_notAmbassadorTitle": "Invalid Ambassador",
     "@ambassador_notAmbassadorTitle": {},
     "ambassador_notAmbassadorDescription": "The QR code you scanned does not\nbelong to an ambassador.",
-    "@ambassador_notAmbassadorDescription": {}
+    "@ambassador_notAmbassadorDescription": {},
+    "failedToUpdateData": "Failed to update data",
+    "@failedToUpdateData": {},
+    "bankAccount": "Bank Account",
+    "@bankAccount": {},
+    "accountNumber": "Account Number",
+    "@accountNumber": {},
+    "bankCode": "Bank Code",
+    "@bankCode": {},
+    "bankName": "Bank Name",
+    "@bankName": {},
+    "basicInformation": "Basic Information",
+    "@basicInformation": {},
+    "firstName": "First Name",
+    "@firstName": {},
+    "lastName": "Last Name",
+    "@lastName": {},
+    "dateOfBirth": "Date of Birth (dd/mm/yyyy)",
+    "@dateOfBirth": {},
+    "idNumber": "ID Number",
+    "@idNumber": {},
+    "allowShareDataText": "Allow Espresso Cash partners to share this data for the purposes of deposits and withdrawals.",
+    "@allowShareDataText": {},
+    "selectIdMethod": "Select ID method",
+    "@selectIdMethod": {},
+    "emailVerification": "Email verification",
+    "@emailVerification": {},
+    "enterVerificationCode": "Enter Verification Code",
+    "@enterVerificationCode": {},
+    "checkEmailText": "Check your email. We've sent the code to {email}",
+    "@checkEmailText": {
+      "placeholders": {
+        "email": {
+          "type": "String"
+        }
+      }
+    },
+    "sendVerificationCode": "Send Verification Code",
+    "@sendVerificationCode": {},
+    "enterEmailHintText": "Enter your email address to receive your confirmation code.",
+    "@enterEmailHintText": {},
+    "emailAddress": "Email Address",
+    "@emailAddress": {},
+    "phoneVerification": "Phone verification",
+    "@phoneVerification": {},
+    "enterPhoneNumberHintText": "Enter your mobile phone number to receive your confirmation code.",
+    "@enterPhoneNumberHintText": {},
+    "phoneNumber": "Phone Number",
+    "@phoneNumber": {},
+    "checkSmsText": "Check your text messages. We've sent the code to {phone}",
+    "@checkSmsText": {
+      "placeholders": {
+        "phone": {
+          "type": "String"
+        }
+      }
+    },
+    "submit": "Submit",
+    "@submit": {},
+    "retakeSelfie": "Retake Selfie",
+    "@retakeSelfie": {},
+    "identityVerification": "Identity Verification",
+    "@identityVerification": {},
+    "startSelfieVerification": "Start Selfie Verification",
+    "@startSelfieVerification": {},
+    "identityVerificationDescription": "For security purposes, we need you to take a quick selfie to verify your identity.",
+    "@identityVerificationDescription": {},
+    "identityInstruction1": "Make sure your face is clearly visible.",
+    "@identityInstruction1": {},
+    "identityInstruction2": "Avoid hats, sunglasses, or other facial coverings.",
+    "@identityInstruction2": {},
+    "identityInstruction3": "Good lighting helps us verify your identity quickly!",
+    "@identityInstruction3": {},
+    "manageDataAccess": "Manage Data Access",
+    "@manageDataAccess": {},
+    "accountProfile": "Account Profile",
+    "@accountProfile": {},
+    "begin": "Begin",
+    "@begin": {},
+    "reVerificationNotice": "Re-verification is only needed if you update or change your ID.",
+    "@reVerificationNotice": {},
+    "onRampKycInitialDescription": "*Complete ID verification* to proceed with your deposit.",
+    "@onRampKycInitialDescription": {},
+    "offRampKycInitialDescription": "*Complete ID verification* to proceed with your withdrawal.",
+    "@offRampKycInitialDescription": {},
+    "bankAccountInfoCorrectText": "Ensure your account info is correct to prevent delays.",
+    "@bankAccountInfoCorrectText": {},
+    "verified": "Verified",
+    "@verified": {},
+    "notVerified": "Not Verified",
+    "@notVerified": {},
+    "pendingApproval": "*Pending* approval",
+    "@pendingApproval": {},
+    "verificationFailed": "Verification failed",
+    "@verificationFailed": {},
+    "verificationNotStarted": "Verification not started",
+    "@verificationNotStarted": {},
+    "kycStatusApprovedDescription": "Great news!\nYour verification has been approved",
+    "@kycStatusApprovedDescription": {},
+    "kycStatusPendingDescription": "Your verification is being reviewed.\nYou can proceed once approved.",
+    "@kycStatusPendingDescription": {},
+    "kycStatusFailedDescription": "Your verification was not approved.",
+    "@kycStatusFailedDescription": {},
+    "kycTimelinePendingItem1": "The review process can take 10-20 minutes.",
+    "@kycTimelinePendingItem1": {},
+    "kycTimelinePendingItem2": "Don't worry, you can still send and receive money while your review is being processed.",
+    "@kycTimelinePendingItem2": {},
+    "kycTimelinePendingItem3": "Verification status updates will appear in your activity notifications.",
+    "@kycTimelinePendingItem3": {},
+    "kycTimelineApprovedItem1": "You can now make deposits and withdrawals.",
+    "@kycTimelineApprovedItem1": {},
+    "kycTimelineApprovedItem2": "Your verification covers all future transactions.",
+    "@kycTimelineApprovedItem2": {},
+    "kycTimelineApprovedItem3": "Re-verification will only be required if you change your identification.",
+    "@kycTimelineApprovedItem3": {},
+    "kycTimelineRejectedItem1": "Make sure all your information is correct.",
+    "@kycTimelineRejectedItem1": {},
+    "kycTimelineRejectedItem2": "Make sure your ID verification method is current.",
+    "@kycTimelineRejectedItem2": {},
+    "returnToDashboard": "Return to Dashboard",
+    "@returnToDashboard": {},
+    "continueDeposit": "Continue Deposit",
+    "@continueDeposit": {},
+    "continueWithdrawal": "Continue Withdrawal",
+    "@continueWithdrawal": {},
+    "seeDetails": "See details",
+    "@seeDetails": {},
+    "retryVerification": "Retry verification",
+    "@retryVerification": {},
+    "kycTileDescriptionApproved": "Your ID verification has been approved.",
+    "@kycTileDescriptionApproved": {},
+    "kycTileDescriptionPending": "Your ID verification is under review and may take 10–20 minutes to complete.",
+    "@kycTileDescriptionPending": {},
+    "kycTileDescriptionRejected": "Your ID verification failed.\nMake sure your information is correct and try again.",
+    "@kycTileDescriptionRejected": {},
+    "kycTileDescriptionUnverified": "Start your ID verification to continue.",
+    "@kycTileDescriptionUnverified": {},
+    "wrongVerificationCode": "Wrong verification code",
+    "@wrongVerificationCode": {},
+    "invalidEmail": "Invalid email",
+    "@invalidEmail": {},
+    "invalidPhone": "Invalid phone",
+    "@invalidPhone": {},
+    "failedToSendVerificationCode": "Failed to send verification code",
+    "@failedToSendVerificationCode": {},
+    "error": "Error",
+    "@error": {},
+    "userDescriptionItem1Text": "DOB: {dob}",
+    "@userDescriptionItem1Text": {
+      "placeholders": {
+        "dob": {
+          "type": "String"
+        }
+      }
+    },
+    "userDescriptionItem2Text": "ID Method: {idType}",
+    "@userDescriptionItem2Text": {
+      "placeholders": {
+        "idType": {
+          "type": "String"
+        }
+      }
+    },
+    "userDescriptionItem3Text": "ID Number: {documentNumber}",
+    "@userDescriptionItem3Text": {
+      "placeholders": {
+        "documentNumber": {
+          "type": "String"
+        }
+      }
+    },
+    "bankDescriptionItem1Text": "Country: {countryName}",
+    "@bankDescriptionItem1Text": {
+      "placeholders": {
+        "countryName": {
+          "type": "String"
+        }
+      }
+    },
+    "bankDescriptionItem2Text": "Account Number: {accountNumber}",
+    "@bankDescriptionItem2Text": {
+      "placeholders": {
+        "accountNumber": {
+          "type": "String"
+        }
+      }
+    },
+    "bankDescriptionItem3Text": "Bank Code: {bankCode}",
+    "@bankDescriptionItem3Text": {
+      "placeholders": {
+        "bankCode": {
+          "type": "String"
+        }
+      }
+    }
 }

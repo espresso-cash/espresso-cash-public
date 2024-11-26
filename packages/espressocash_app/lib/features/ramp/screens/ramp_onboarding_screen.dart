@@ -10,7 +10,7 @@ import '../../../utils/email.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../../profile/data/profile_repository.dart';
-import '../models/ramp_type.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 import '../widgets/ramp_page.dart';
 
 class RampOnboardingScreen extends StatefulWidget {

@@ -45,7 +45,7 @@ class AmbassadorResultScreen extends StatelessWidget {
                   children: [
                     Align(
                       alignment: Alignment.center,
-                      child: Assets.icons.star.svg(
+                      child: Assets.icons.starBackground.svg(
                         fit: BoxFit.cover,
                         color: _starColor,
                         width: 600,

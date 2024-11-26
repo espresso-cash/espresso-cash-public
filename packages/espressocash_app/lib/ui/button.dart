@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'colors.dart';
 
@@ -86,26 +87,26 @@ class CpButton extends StatelessWidget {
         case CpButtonSize.normal:
           return style;
         case CpButtonSize.big:
-          return style.copyWith(fontSize: 17);
+          return style.copyWith(fontSize: 17.sp);
         case CpButtonSize.small:
-          return style.copyWith(fontSize: 17, height: 1);
+          return style.copyWith(fontSize: 17.sp, height: 1);
         case CpButtonSize.wide:
-          return style.copyWith(fontSize: 16, height: 0);
+          return style.copyWith(fontSize: 16.sp, height: 0);
         case CpButtonSize.micro:
-          return style.copyWith(fontSize: 15, height: 0);
+          return style.copyWith(fontSize: 15.sp, height: 0);
       }
     })();
 
     final double horizontalPadding;
     switch (size) {
       case CpButtonSize.micro:
-        horizontalPadding = 8;
+        horizontalPadding = 8.w;
       case CpButtonSize.wide:
-        horizontalPadding = 4;
+        horizontalPadding = 4.w;
       case CpButtonSize.normal:
       case CpButtonSize.big:
       case CpButtonSize.small:
-        horizontalPadding = 16;
+        horizontalPadding = 16.w;
     }
 
     final button = TextButton(
@@ -113,7 +114,7 @@ class CpButton extends StatelessWidget {
       style: ButtonStyle(
         animationDuration: Duration.zero,
         minimumSize:
-            WidgetStateProperty.all(Size(minWidth ?? 100, size.height)),
+            WidgetStateProperty.all(Size(minWidth ?? 100.w, size.height)),
         fixedSize: WidgetStateProperty.all(
           Size.fromHeight(size.height),
         ),
@@ -128,11 +129,7 @@ class CpButton extends StatelessWidget {
               ? _backgroundColor.withOpacity(_disabledOpacity)
               : _backgroundColor,
         ),
-        foregroundColor: WidgetStateProperty.resolveWith(
-          (states) => states.contains(WidgetState.disabled)
-              ? _foregroundColor.withOpacity(_disabledOpacity)
-              : _foregroundColor,
-        ),
+        foregroundColor: WidgetStateProperty.all(_foregroundColor),
         textStyle: WidgetStateProperty.all(textStyle),
       ),
       child: SizedBox(
@@ -178,14 +175,14 @@ extension CpButtonSizeExt on CpButtonSize {
   double get height {
     switch (this) {
       case CpButtonSize.normal:
-        return 51;
+        return 51.h;
       case CpButtonSize.big:
-        return 64;
+        return 64.h;
       case CpButtonSize.wide:
       case CpButtonSize.small:
-        return 44;
+        return 44.h;
       case CpButtonSize.micro:
-        return 30;
+        return 30.h;
     }
   }
 }

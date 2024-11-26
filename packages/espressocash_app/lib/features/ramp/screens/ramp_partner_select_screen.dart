@@ -19,7 +19,7 @@ import '../../country_picker/widgets/country_picker.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/service/update_profile.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
-import '../models/ramp_type.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 import '../widgets/partner_config.dart';
 import '../widgets/partner_tile.dart';
 

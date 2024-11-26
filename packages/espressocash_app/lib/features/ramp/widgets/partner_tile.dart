@@ -5,7 +5,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../ramp_partner/models/payment_methods.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
-import '../models/ramp_type.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 
 class PartnerTile extends StatelessWidget {
   const PartnerTile({
