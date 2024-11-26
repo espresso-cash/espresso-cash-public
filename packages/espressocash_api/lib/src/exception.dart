@@ -27,4 +27,7 @@ enum EspressoCashError {
 
   /// User already has an ambassador assigned
   ambassadorAlreadyAssigned,
+
+  /// User is not an ambassador
+  userIsNotAmbassador,
 }
