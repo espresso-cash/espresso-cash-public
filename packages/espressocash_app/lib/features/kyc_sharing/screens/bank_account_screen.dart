@@ -6,6 +6,7 @@ import '../../../ui/bottom_button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../services/kyc_service.dart';
+import '../utils/kyc_utils.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
@@ -30,9 +31,9 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
   final _bankNameController = TextEditingController();
 
   bool get _isValid =>
-      _bankAccountNumberController.text.isNotEmpty &&
-      _bankCodeController.text.isNotEmpty &&
-      _bankNameController.text.isNotEmpty;
+      _bankAccountNumberController.text.trim().isNotEmpty &&
+      _bankCodeController.text.trim().isNotEmpty &&
+      _bankNameController.text.trim().isNotEmpty;
 
   Future<void> _handleSubmitted() async {
     final success = await runWithLoader<bool>(
@@ -60,6 +61,17 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
 
     if (!mounted) return;
     if (success) Navigator.pop(context, true);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    final user = sl<KycSharingService>().value;
+
+    _bankAccountNumberController.text = user?.accountNumber ?? '';
+    _bankCodeController.text = user?.bankCode ?? '';
+    _bankNameController.text = user?.bankName ?? '';
   }
 
   @override

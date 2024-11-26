@@ -13,6 +13,7 @@ import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../models/document_type.dart';
 import '../services/kyc_service.dart';
+import '../utils/kyc_utils.dart';
 import '../widgets/document_picker.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
@@ -33,9 +34,8 @@ class BasicInformationScreen extends StatefulWidget {
 }
 
 class _BasicInformationScreenState extends State<BasicInformationScreen> {
-  final _idController = TextEditingController();
+  final _idNumberController = TextEditingController();
   final _firstNameController = TextEditingController();
-  final _middleNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _dobController = TextEditingController();
 
@@ -47,14 +47,42 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   bool get _isValid {
     final DateTime? dob = _parseDate(_dobController.text);
 
-    return _firstNameController.text.isNotEmpty &&
-        _lastNameController.text.isNotEmpty &&
+    return _firstNameController.text.trim().isNotEmpty &&
+        _lastNameController.text.trim().isNotEmpty &&
         dob != null &&
         !dob.isAfter(DateTime.now()) &&
-        _idController.text.isNotEmpty &&
+        _idNumberController.text.trim().isNotEmpty &&
         _isShareData &&
         _idType != null &&
         _country != null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeUserData();
+  }
+
+  @override
+  void dispose() {
+    _idNumberController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _dobController.dispose();
+
+    super.dispose();
+  }
+
+  void _initializeUserData() {
+    final user = sl<KycSharingService>().value;
+    final dob = user?.dob;
+    _country = Country.findByCode(user?.countryCode ?? '');
+    _firstNameController.text = user?.firstName ?? '';
+    _lastNameController.text = user?.lastName ?? '';
+    _dobController.text =
+        dob != null ? DateFormat('dd/MM/yyyy').format(dob) : '';
+    _idType = user?.documentType?.toDocumentType();
+    _idNumberController.text = user?.documentNumber ?? '';
   }
 
   Future<void> _handleSubmitted() async {
@@ -76,7 +104,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             dob: dob,
             countryCode: countryCode,
             idType: _idType,
-            idNumber: _idController.text,
+            idNumber: _idNumberController.text,
           );
 
           if (!mounted) return false;
@@ -107,17 +135,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
     final List<String> parts = text.split('/');
 
     return parts.length == 3 && parts[2].length == 4 ? date : null;
-  }
-
-  @override
-  void dispose() {
-    _idController.dispose();
-    _firstNameController.dispose();
-    _middleNameController.dispose();
-    _lastNameController.dispose();
-    _dobController.dispose();
-
-    super.dispose();
   }
 
   @override
@@ -154,7 +171,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
           ),
           const SizedBox(height: 16),
           KycTextField(
-            controller: _idController,
+            controller: _idNumberController,
             inputType: TextInputType.text,
             placeholder: context.l10n.idNumber,
           ),

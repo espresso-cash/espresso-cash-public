@@ -12,18 +12,24 @@ enum DocumentType {
 
   final String name;
   final String value;
+}
 
-  IdType toIdType() {
-    switch (this) {
-      case DocumentType.bvn:
-      case DocumentType.nin:
-      case DocumentType.ninV2:
-      case DocumentType.ninSlip:
-        return IdType.other;
-      case DocumentType.driversLicense:
-        return IdType.driverLicense;
-      case DocumentType.voterId:
-        return IdType.voterId;
-    }
-  }
+extension DocumentTypeExtension on DocumentType {
+  IdType toIdType() => switch (this) {
+    DocumentType.bvn ||
+    DocumentType.nin ||
+    DocumentType.ninV2 ||
+    DocumentType.ninSlip => IdType.other,
+    DocumentType.driversLicense => IdType.driverLicense,
+    DocumentType.voterId => IdType.voterId,
+  };
+}
+
+extension IdTypeExtension on IdType {
+  DocumentType? toDocumentType() => switch (this) {
+    IdType.driverLicense => DocumentType.driversLicense,
+    IdType.voterId => DocumentType.voterId,
+    // ignore: avoid-wildcard-cases-with-enums, check if needed
+    _ => null,
+  };
 }

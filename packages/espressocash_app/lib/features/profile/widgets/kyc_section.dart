@@ -4,6 +4,7 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../country_picker/models/country.dart';
 import '../../kyc_sharing/screens/bank_account_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
@@ -95,11 +96,15 @@ String? _getUserDescription(UserData user) {
 }
 
 String? _getBankDescription(UserData user) {
+  final country = Country.findByCode(user.countryCode ?? '');
+  final accountNumber = user.accountNumber;
+  final bankCode = user.bankCode;
+
   final items = [
-    user.countryCode,
-    user.bankCode,
-    user.accountNumber,
-  ].whereType<String>();
+    if (country != null) 'Country: ${country.name}',
+    if (accountNumber != null) 'Account Number: $accountNumber',
+    if (bankCode != null) 'Bank Code: $bankCode',
+  ].where((s) => s.isNotEmpty);
 
   return items.isEmpty ? null : items.join('\n');
 }
