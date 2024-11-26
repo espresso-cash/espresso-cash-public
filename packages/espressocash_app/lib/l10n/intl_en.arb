@@ -1033,5 +1033,53 @@
     "failedToSendVerificationCode": "Failed to send verification code",
     "@failedToSendVerificationCode": {},
     "error": "Error",
-    "@error": {}
+    "@error": {},
+    "userDescriptionItem1Text": "DOB: {dob}",
+    "@userDescriptionItem1Text": {
+      "placeholders": {
+        "dob": {
+          "type": "String"
+        }
+      }
+    },
+    "userDescriptionItem2Text": "ID Method: {idType}",
+    "@userDescriptionItem2Text": {
+      "placeholders": {
+        "idType": {
+          "type": "String"
+        }
+      }
+    },
+    "userDescriptionItem3Text": "ID Number: {documentNumber}",
+    "@userDescriptionItem3Text": {
+      "placeholders": {
+        "documentNumber": {
+          "type": "String"
+        }
+      }
+    },
+    "bankDescriptionItem1Text": "Country: {countryName}",
+    "@bankDescriptionItem1Text": {
+      "placeholders": {
+        "countryName": {
+          "type": "String"
+        }
+      }
+    },
+    "bankDescriptionItem2Text": "Account Number: {accountNumber}",
+    "@bankDescriptionItem2Text": {
+      "placeholders": {
+        "accountNumber": {
+          "type": "String"
+        }
+      }
+    },
+    "bankDescriptionItem3Text": "Bank Code: {bankCode}",
+    "@bankDescriptionItem3Text": {
+      "placeholders": {
+        "bankCode": {
+          "type": "String"
+        }
+      }
+    }
 }

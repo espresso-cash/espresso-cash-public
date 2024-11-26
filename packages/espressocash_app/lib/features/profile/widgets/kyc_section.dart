@@ -49,14 +49,14 @@ class _KycInfo extends StatelessWidget {
         actions: [
           KycButton(
             label: context.l10n.editProfile,
-            description: _getUserDescription(user),
+            description: _getUserDescription(user, context),
             onPressed: context.openBasicInfoFlow,
             status: user.kycStatus.isUnspecified ? null : user.kycStatus,
           ),
           if (user.hasBankInfo)
             KycButton(
               label: context.l10n.bankAccount,
-              description: _getBankDescription(user),
+              description: _getBankDescription(user, context),
               onPressed: () => BankAccountScreen.push(context),
             ),
           if (user.getEmail != null)
@@ -83,30 +83,33 @@ class _KycInfo extends StatelessWidget {
       );
 }
 
-String? _getUserDescription(UserData user) {
+String? _getUserDescription(UserData user, BuildContext context) {
   final items = [
     [user.firstName, user.lastName].whereType<String>().join(' ').trim(),
-    if (user.dob case final dob?) 'DOB: ${_formatDate(dob)}',
-    if (user.documentType case final idType?) 'ID Type: ${idType.name}',
+    if (user.dob case final dob?)
+      context.l10n.userDescriptionItem1Text(_formatDate(dob)),
+    if (user.documentType case final idType?)
+      context.l10n.userDescriptionItem2Text(idType.name),
     if (user.documentNumber case final documentNumber?)
-      'ID Number: $documentNumber',
+      context.l10n.userDescriptionItem3Text(documentNumber),
   ].where((s) => s.isNotEmpty);
 
   return items.isEmpty ? null : items.join('\n');
 }
 
-String? _getBankDescription(UserData user) {
+String? _getBankDescription(UserData user, BuildContext context) {
   final country = Country.findByCode(user.countryCode ?? '');
-  final accountNumber = user.accountNumber;
-  final bankCode = user.bankCode;
 
   final items = [
-    if (country != null) 'Country: ${country.name}',
-    if (accountNumber != null) 'Account Number: $accountNumber',
-    if (bankCode != null) 'Bank Code: $bankCode',
+    if (country case final country?)
+      context.l10n.bankDescriptionItem1Text(country.name),
+    if (user.accountNumber case final accountNumber?)
+      context.l10n.bankDescriptionItem2Text(accountNumber),
+    if (user.bankCode case final bankCode?)
+      context.l10n.bankDescriptionItem3Text(bankCode),
   ].where((s) => s.isNotEmpty);
 
   return items.isEmpty ? null : items.join('\n');
 }
 
-String _formatDate(DateTime date) => DateFormat('MMM d, yyyy').format(date);
+String _formatDate(DateTime date) => DateFormat('MMMM d, yyyy').format(date);
