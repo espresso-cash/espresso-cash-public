@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../ui/colors.dart';
+import '../../../l10n/l10n.dart';
 import 'kyc_status_icon.dart';
 
 class KycStatusWidget extends StatelessWidget {
-  const KycStatusWidget(
-    this.status, {
-    super.key,
-  });
+  const KycStatusWidget(this.status, {super.key});
 
   final ValidationStatus status;
 
@@ -19,17 +17,17 @@ class KycStatusWidget extends StatelessWidget {
     switch (status) {
       case ValidationStatus.approved:
         backgroundColor = CpColors.greenColor;
-        statusText = 'Verified';
+        statusText = context.l10n.verified;
       case ValidationStatus.pending:
         backgroundColor = CpColors.yellowColor;
-        statusText = 'Pending';
+        statusText = context.l10n.pending;
       case ValidationStatus.unspecified:
       case ValidationStatus.unverified:
         backgroundColor = CpColors.greyColor;
-        statusText = 'Not Verified';
+        statusText = context.l10n.notVerified;
       case ValidationStatus.rejected:
         backgroundColor = CpColors.alertRedColor;
-        statusText = 'Error';
+        statusText = context.l10n.error;
     }
 
     return Row(

@@ -976,6 +976,8 @@
     "@bankAccountInfoCorrectText": {},
     "verified": "Verified",
     "@verified": {},
+    "notVerified": "Not Verified",
+    "@notVerified": {},
     "pendingApproval": "*Pending* approval",
     "@pendingApproval": {},
     "verificationFailed": "Verification failed",
@@ -1029,5 +1031,7 @@
     "invalidPhone": "Invalid phone",
     "@invalidPhone": {},
     "failedToSendVerificationCode": "Failed to send verification code",
-    "@failedToSendVerificationCode": {}
+    "@failedToSendVerificationCode": {},
+    "error": "Error",
+    "@error": {}
 }
