@@ -13,6 +13,7 @@ import '../../../ui/clipboard.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
 import '../data/profile_repository.dart';
+import '../widgets/ambassador_section.dart';
 import '../widgets/help_section.dart';
 import '../widgets/profile_section.dart';
 import '../widgets/security_section.dart';
@@ -109,6 +110,7 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         EditProfileSection(),
+                        AmbassadorSection(),
                         SecuritySection(),
                         HelpSection(),
                         DangerSection(),
