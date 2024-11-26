@@ -16,20 +16,21 @@ enum DocumentType {
 
 extension DocumentTypeExtension on DocumentType {
   IdType toIdType() => switch (this) {
-    DocumentType.bvn ||
-    DocumentType.nin ||
-    DocumentType.ninV2 ||
-    DocumentType.ninSlip => IdType.other,
-    DocumentType.driversLicense => IdType.driverLicense,
-    DocumentType.voterId => IdType.voterId,
-  };
+        DocumentType.bvn ||
+        DocumentType.nin ||
+        DocumentType.ninV2 ||
+        DocumentType.ninSlip =>
+          IdType.other,
+        DocumentType.driversLicense => IdType.driverLicense,
+        DocumentType.voterId => IdType.voterId,
+      };
 }
 
 extension IdTypeExtension on IdType {
   DocumentType? toDocumentType() => switch (this) {
-    IdType.driverLicense => DocumentType.driversLicense,
-    IdType.voterId => DocumentType.voterId,
-    // ignore: avoid-wildcard-cases-with-enums, check if needed
-    _ => null,
-  };
+        IdType.driverLicense => DocumentType.driversLicense,
+        IdType.voterId => DocumentType.voterId,
+        // ignore: avoid-wildcard-cases-with-enums, check if needed
+        _ => null,
+      };
 }
