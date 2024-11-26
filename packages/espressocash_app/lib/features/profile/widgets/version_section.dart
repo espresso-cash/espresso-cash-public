@@ -15,8 +15,10 @@ class _VersionSectionState extends State<VersionSection> {
     await Clipboard.setData(ClipboardData(text: id));
     if (!mounted) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(context.l10n.copiedFid(id))),
+    showCpSnackbar(
+      context,
+      message: context.l10n.copiedFid(id),
+      icon: const Icon(Icons.check, color: Colors.green),
     );
   }
 
