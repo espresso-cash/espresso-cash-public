@@ -1,3 +1,12 @@
+## 1.132.0
+
+ - **REFACTOR**: code cleanup (#1613).
+ - **FIX**: android intercom crash (#1619).
+ - **FIX**: ramp minimum amount label (#1614).
+ - **FEAT**: ambassador module (#1612).
+ - **FEAT**: share qr background color (#1618).
+ - **FEAT**: add webview error logging (#1615).
+
 ## 1.131.1
 
  - **FIX**: moneygram withdraw fee currency (#1607).
