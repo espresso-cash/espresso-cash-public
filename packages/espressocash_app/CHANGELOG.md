@@ -1,3 +1,7 @@
+## 1.133.0
+
+ - **FEAT**: xflow integration (#1597).
+
 ## 1.132.0
 
  - **REFACTOR**: code cleanup (#1613).
