@@ -13,6 +13,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/errors.dart';
 import '../models/ambassador_referral.dart';
+import '../services/ambassador_service.dart';
 import '../widgets/ambassador_page.dart';
 import 'ambassador_result_screen.dart';
 
@@ -46,11 +47,8 @@ class _AmbassadorConfirmationScreenState
     setState(() => _isLoading = true);
 
     try {
-      await sl<EspressoCashClient>().addAmbassadorReferral(
-        AmbassadorReferralRequestDto(
-          ambassadorAddress: widget.ambassador.address.toBase58(),
-        ),
-      );
+      await sl<AmbassadorService>()
+          .addReferral(widget.ambassador.address.toBase58());
 
       if (!mounted) return;
 

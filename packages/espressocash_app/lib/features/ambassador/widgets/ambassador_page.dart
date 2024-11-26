@@ -35,26 +35,22 @@ class AmbassadorPage extends StatelessWidget {
                   builder: (context, constraints) {
                     final isTablet = constraints.maxWidth > 600;
 
-                    return isTablet
-                        ? DecoratedBox(
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.white,
-                                  offset: Offset(0, constraints.maxHeight - 2),
-                                ),
-                              ],
-                            ),
-                            child: Assets.images.ambassadorTab.svg(
+                    return DecoratedBox(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white,
+                            offset: Offset(0, constraints.maxHeight - 2),
+                          ),
+                        ],
+                      ),
+                      child: isTablet
+                          ? Assets.images.ambassadorTab.svg(
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.bottomCenter,
-                            ),
-                          )
-                        : Center(
-                            child: Assets.images.ambassador.svg(
-                              fit: BoxFit.fitWidth,
-                            ),
-                          );
+                            )
+                          : Assets.images.ambassador.svg(fit: BoxFit.fill),
+                    );
                   },
                 ),
               ),
