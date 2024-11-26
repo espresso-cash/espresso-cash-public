@@ -4,6 +4,7 @@ import 'package:share/share.dart';
 
 import '../l10n/l10n.dart';
 import 'button.dart';
+import 'colors.dart';
 import 'rounded_rectangle.dart';
 
 class ShareCodeWidget extends StatelessWidget {
@@ -24,7 +25,7 @@ class ShareCodeWidget extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(24),
         child: CpRoundedRectangle(
-          backgroundColor: Colors.black,
+          backgroundColor: CpColors.blackGreyColor,
           scrollable: false,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 35),
           child: Column(
