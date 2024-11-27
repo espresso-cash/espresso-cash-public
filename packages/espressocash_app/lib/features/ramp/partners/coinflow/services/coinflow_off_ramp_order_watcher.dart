@@ -11,8 +11,8 @@ import '../../../../../data/db/db.dart';
 import '../../../../accounts/models/ec_wallet.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../data/my_database_ext.dart';
-import '../../../models/ramp_type.dart';
 import '../../../models/ramp_watcher.dart';
 import '../data/coinflow_api_client.dart';
 

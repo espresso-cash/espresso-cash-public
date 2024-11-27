@@ -15,6 +15,7 @@ enum RampPartner {
       PaymentMethod.pix,
     ],
   ),
+
   rampNetwork(
     title: 'Ramp Network',
     minimumAmount: r'$7',
@@ -26,6 +27,7 @@ enum RampPartner {
       PaymentMethod.bank,
     ],
   ),
+
   coinflow(
     title: 'Coinflow',
     minimumAmount: r'$20',
@@ -35,6 +37,7 @@ enum RampPartner {
       PaymentMethod.bank,
     ],
   ),
+
   guardarian(
     title: 'Guardarian',
     minimumAmount: r'$5',
@@ -47,26 +50,37 @@ enum RampPartner {
       PaymentMethod.swift,
     ],
   ),
+
   scalex(
     title: 'Scalex',
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
   ),
+
   moneygram(
     title: 'MoneyGram',
     minimumAmount: r'$10',
     paymentMethods: [],
+  ),
+
+  brij(
+    title: 'Espresso Network',
+    minimumAmount: r'$5',
+    paymentMethods: [],
+    partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
   );
 
   const RampPartner({
     required this.title,
     required this.minimumAmount,
     required this.paymentMethods,
+    this.partnerPK,
   });
 
   final String title;
   final String minimumAmount;
   final List<PaymentMethod> paymentMethods;
+  final String? partnerPK;
 
   Decimal get minimumAmountInDecimal =>
       Decimal.parse(minimumAmount.substring(1));
@@ -87,6 +101,8 @@ extension RampPartnerAssets on RampPartner {
         return Assets.brands.scalex;
       case RampPartner.moneygram:
         return Assets.brands.moneygram;
+      case RampPartner.brij:
+        return Assets.images.logoIcon;
     }
   }
 }

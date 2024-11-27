@@ -19,12 +19,12 @@ import '../../../../balances/services/refresh_balance.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
 import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
 import '../../../../transactions/services/tx_confirm.dart';
-import '../../../models/ramp_type.dart';
 import '../data/allbridge_client.dart';
 import '../data/allbridge_dto.dart' hide TransactionStatus;
 import '../data/dto.dart';
@@ -125,7 +125,10 @@ class MoneygramOnRampOrderService implements Disposable {
               return const Stream.empty();
 
             case OnRampOrderStatus.waitingForDeposit:
+            case OnRampOrderStatus.waitingUserVerification:
+            case OnRampOrderStatus.waitingPartnerReview:
             case OnRampOrderStatus.depositExpired:
+            case OnRampOrderStatus.rejected:
               return const Stream.empty();
           }
         })

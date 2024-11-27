@@ -12,8 +12,11 @@ import '../../../di.dart';
 import '../../../ui/clipboard.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../data/profile_repository.dart';
+import '../widgets/ambassador_section.dart';
 import '../widgets/help_section.dart';
+import '../widgets/kyc_section.dart';
 import '../widgets/profile_section.dart';
 import '../widgets/security_section.dart';
 
@@ -104,16 +107,24 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 24,
+                    ),
                     child: Column(
                       children: [
-                        EditProfileSection(),
-                        SecuritySection(),
-                        HelpSection(),
-                        DangerSection(),
-                        ShareSection(),
-                        VersionSection(),
+                        if (sl<FeatureFlagsManager>().isBrijEnabled()) ...[
+                          const KycSection(),
+                        ] else ...[
+                          const EditProfileSection(),
+                        ],
+                        const AmbassadorSection(),
+                        const SecuritySection(),
+                        const HelpSection(),
+                        const DangerSection(),
+                        const ShareSection(),
+                        const VersionSection(),
                       ],
                     ),
                   ),

@@ -3,8 +3,8 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../features/ramp/models/ramp_type.dart';
 import '../../../features/ramp/screens/ramp_partner_select_screen.dart';
+import '../../../features/ramp_partner/models/ramp_type.dart';
 import '../../app_wrapper.dart';
 import '../../utils.dart';
 

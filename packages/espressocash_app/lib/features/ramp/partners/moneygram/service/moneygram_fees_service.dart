@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
-import '../../../models/ramp_type.dart';
+import '../../../../ramp_partner/models/ramp_type.dart';
 
 typedef MoneygramFees = ({
   Amount receiveAmount,
