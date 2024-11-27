@@ -127,6 +127,10 @@ class _KycStatusScreenState extends State<KycStatusScreen> {
           ),
           CpInfoListItem(
             subtitle: context.l10n.kycTimelinePendingItem3,
+            icon: Assets.icons.notifications.svg(
+              color: Colors.black,
+              height: 19,
+            ),
           ),
         ],
       ValidationStatus.unverified ||
