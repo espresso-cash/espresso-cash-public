@@ -12,6 +12,7 @@ abstract class CpColors {
   static const darkSandColor = Color(0xFF9E8B5A);
   static const alertRedColor = Color(0xffe8452f);
   static const greyColor = Color(0xff999999);
+  static const lightGreyColor = Color(0xff444444);
   static const deepGreyColor = Color(0xFF2D2B2C);
   static const blackGreyColor = Color(0xff181818);
 

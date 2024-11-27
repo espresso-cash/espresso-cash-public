@@ -34,7 +34,7 @@ class CpActivityTile extends StatelessWidget {
 
     return ListTile(
       onTap: onTap,
-      contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 30),
       leading: showIcon
           ? SizedBox.square(
               dimension: 42,

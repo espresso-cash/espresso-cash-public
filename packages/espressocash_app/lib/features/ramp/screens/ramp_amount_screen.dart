@@ -17,7 +17,7 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
-import '../models/ramp_type.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 import '../widgets/debounce_mixin.dart';
 import '../widgets/error_chip.dart';
 import '../widgets/ramp_loader.dart';
@@ -44,6 +44,7 @@ class RampAmountScreen extends StatefulWidget {
     required this.partner,
     required this.exchangeRate,
     required this.receiveCurrency,
+    required this.initialAmount,
     this.isEstimatedRate = false,
   });
 
@@ -58,6 +59,7 @@ class RampAmountScreen extends StatefulWidget {
     FeeCalculator? calculateFee,
     String? exchangeRate,
     Currency? receiveCurrency,
+    Amount? initialAmount,
     bool isEstimatedRate = false,
   }) =>
       Navigator.of(context).push<void>(
@@ -72,6 +74,7 @@ class RampAmountScreen extends StatefulWidget {
             calculateFee: calculateFee,
             exchangeRate: exchangeRate,
             receiveCurrency: receiveCurrency,
+            initialAmount: initialAmount,
             isEstimatedRate: isEstimatedRate,
           ),
         ),
@@ -86,6 +89,7 @@ class RampAmountScreen extends StatefulWidget {
   final FeeCalculator? calculateFee;
   final String? exchangeRate;
   final Currency? receiveCurrency;
+  final Amount? initialAmount;
   final bool isEstimatedRate;
 
   @override
@@ -95,6 +99,14 @@ class RampAmountScreen extends StatefulWidget {
 class _RampAmountScreenState extends State<RampAmountScreen> {
   final _controller = TextEditingController();
   final _minimumAmountNoticeKey = GlobalKey<_MinimumAmountNoticeState>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialAmount != null) {
+      _controller.text = widget.initialAmount?.decimal.toString() ?? '';
+    }
+  }
 
   @override
   void dispose() {

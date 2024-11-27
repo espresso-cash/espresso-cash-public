@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.131.1
+version: 1.133.0
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
@@ -17,7 +17,7 @@ dependencies:
   country_flags: ^3.0.0
   crypto: ^3.0.2
   dart_jsonwebtoken: ^2.14.0
-  decimal: ^2.3.3
+  decimal: ^3.0.2
   device_preview: ^1.1.0
   dfunc: ^0.10.0
   dio: ^5.4.0
@@ -27,6 +27,7 @@ dependencies:
   espressocash_api:
     path: ../espressocash_api/
   ethereum_addresses: ^1.0.2
+  face_camera: ^0.1.2
   fast_immutable_collections: ^10.2.2
   firebase_app_installations: ^0.3.0+2
   firebase_core: ^3.1.1
@@ -50,6 +51,10 @@ dependencies:
   intercom_flutter: ^9.0.7
   intl: ^0.19.0
   json_annotation: ^4.8.1
+  kyc_client_dart:
+    git:
+      url: https://github.com/espresso-cash/kyc_client_dart.git
+      ref: ca8414ca31a5995a0dc47e7fdcf4841826df315e
   logging: ^1.2.0
   meta: ^1.10.0
   mixpanel_flutter: ^2.2.0
@@ -76,7 +81,7 @@ dependencies:
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
   sqlite3_flutter_libs: ^0.5.18
-  stellar_flutter_sdk: ^1.8.0
+  stellar_flutter_sdk: ^1.8.4
   storybook_flutter: ^0.14.0
   uni_links: ^0.5.1
   url_launcher: ^6.2.2
@@ -168,6 +173,7 @@ flutter_native_splash:
     color: "#B4A270"
 
 dependency_overrides:
+  decimal: ^3.0.2
   # TODO: Recheck once flutter_inappwebview version >6.0.0 is released
   flutter_inappwebview_android:
     git:
