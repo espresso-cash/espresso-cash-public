@@ -382,7 +382,7 @@ class MoneygramOnRampOrderService implements Disposable {
           status: const Value(OnRampOrderStatus.completed),
           isCompleted: const Value(true),
           txHash: Value(solanaTxId),
-          receiveAmount: Value.absentIfNull(receiveAmount),
+          receiveAmount: Value.ofNullable(receiveAmount),
         ),
       );
 
@@ -453,7 +453,7 @@ class MoneygramOnRampOrderService implements Disposable {
 
       await statement.write(
         OnRampOrderRowsCompanion(
-          status: const Value.absentIfNull(OnRampOrderStatus.postProcessing),
+          status: const Value.ofNullable(OnRampOrderStatus.postProcessing),
           referenceNumber: Value(transaction.externalTransactionId),
           moreInfoUrl: Value(transaction.moreInfoUrl),
           isCompleted: const Value(false),

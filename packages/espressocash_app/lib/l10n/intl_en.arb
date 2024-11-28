@@ -199,6 +199,14 @@
     "@mobileWalletTitle": {},
     "moneyReceived": "Money has been received",
     "@moneyReceived": {},
+    "moneyReceivedAmount": "{amount} Transaction successful received",
+    "@moneyReceivedAmount": {
+        "placeholders": {
+          "amount": {
+            "type": "String"
+          }
+        }
+    },
     "moreDetails": "View more details",
     "@moreDetails": {},
     "next": "Next",
@@ -1042,10 +1050,10 @@
     "@kycTimelineRejectedItem2": {},
     "returnToDashboard": "Return to Dashboard",
     "@returnToDashboard": {},
-    "continueDeposit": "Continue Deposit",
-    "@continueDeposit": {},
-    "continueWithdrawal": "Continue Withdrawal",
-    "@continueWithdrawal": {},
+    "completeDeposit": "Complete Deposit",
+    "@completeDeposit": {},
+    "completeWithdrawal": "Complete Withdrawal",
+    "@completeWithdrawal": {},
     "seeDetails": "See details",
     "@seeDetails": {},
     "retryVerification": "Retry verification",

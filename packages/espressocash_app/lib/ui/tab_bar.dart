@@ -51,7 +51,7 @@ Color _backgroundColor(CpTabBarVariant variant) {
     case CpTabBarVariant.inverted:
       return CpColors.yellowColor;
     case CpTabBarVariant.black:
-      return Colors.black;
+      return CpColors.blackGreyColor;
   }
 }
 
