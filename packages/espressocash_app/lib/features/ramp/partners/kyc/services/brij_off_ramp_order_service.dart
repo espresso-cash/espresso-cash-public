@@ -284,8 +284,8 @@ class BrijOffRampOrderService implements Disposable {
       if (status != order.status) {
         await statement.write(
           OffRampOrderRowsCompanion(
-            status: Value.absentIfNull(status),
-            depositAddress: Value.absentIfNull(orderData.cryptoWalletAddress),
+            status: Value.ofNullable(status),
+            depositAddress: Value.ofNullable(orderData.cryptoWalletAddress),
           ),
         );
 
@@ -328,7 +328,7 @@ class BrijOffRampOrderService implements Disposable {
       if (status != order.status) {
         await statement.write(
           OffRampOrderRowsCompanion(
-            status: Value.absentIfNull(status),
+            status: Value.ofNullable(status),
           ),
         );
 

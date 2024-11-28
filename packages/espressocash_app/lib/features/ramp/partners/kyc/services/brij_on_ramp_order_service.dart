@@ -218,10 +218,10 @@ class BrijOnRampOrderService implements Disposable {
       if (status != order.status) {
         await statement.write(
           OnRampOrderRowsCompanion(
-            status: Value.absentIfNull(status),
-            bankAccount: Value.absentIfNull(orderData.bankAccount),
-            bankName: Value.absentIfNull(orderData.bankName),
-            bankTransferExpiry: Value.absentIfNull(
+            status: Value.ofNullable(status),
+            bankAccount: Value.ofNullable(orderData.bankAccount),
+            bankName: Value.ofNullable(orderData.bankName),
+            bankTransferExpiry: Value.ofNullable(
               DateTime.now().add(const Duration(minutes: 30)),
             ),
           ),
@@ -266,8 +266,8 @@ class BrijOnRampOrderService implements Disposable {
       if (status != order.status) {
         await statement.write(
           OnRampOrderRowsCompanion(
-            status: Value.absentIfNull(status),
-            txHash: Value.absentIfNull(orderData.transactionId),
+            status: Value.ofNullable(status),
+            txHash: Value.ofNullable(orderData.transactionId),
           ),
         );
 
