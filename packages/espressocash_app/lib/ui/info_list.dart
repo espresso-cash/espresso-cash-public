@@ -11,12 +11,14 @@ class CpInfoListItem {
     this.title,
     this.subtitle,
     this.trailing,
+    this.icon = _defaultIcon,
   });
 
   final CpInfoListVariant variant;
   final String? title;
   final String? subtitle;
   final String? trailing;
+  final Widget icon;
 }
 
 class CpInfoList extends StatefulWidget {
@@ -57,6 +59,7 @@ class _State extends State<CpInfoList> with SingleTickerProviderStateMixin {
                     isFirst: isFirst,
                     isLast: isLast,
                     backgroundColor: indicatorColor,
+                    icon: widget.items[index].icon,
                   ),
                   if (!isLast)
                     _Connector(
@@ -117,11 +120,13 @@ class _Indicator extends StatelessWidget {
     required this.isFirst,
     required this.isLast,
     required this.backgroundColor,
+    required this.icon,
   });
 
   final bool isFirst;
   final bool isLast;
   final Color backgroundColor;
+  final Widget icon;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -132,7 +137,7 @@ class _Indicator extends StatelessWidget {
           child: CircleAvatar(
             maxRadius: _indicatorSize,
             backgroundColor: backgroundColor,
-            child: _icon,
+            child: icon,
           ),
         ),
       );
@@ -168,7 +173,7 @@ extension on CpInfoListVariant {
   }
 }
 
-const _icon = CpInfoIcon(height: 16, iconColor: Colors.black);
+const _defaultIcon = CpInfoIcon(height: 16, iconColor: Colors.black);
 
 const _titleStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 16);
 const _subtitleStyle = TextStyle(fontWeight: FontWeight.w400, fontSize: 14);
