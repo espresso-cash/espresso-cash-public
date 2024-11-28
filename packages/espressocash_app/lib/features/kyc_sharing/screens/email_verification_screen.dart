@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -6,6 +7,7 @@ import '../../../ui/button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/email.dart';
+import '../../profile/service/update_profile.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_exception.dart';
 import '../widgets/kyc_page.dart';
@@ -43,6 +45,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         try {
           await sl<KycSharingService>()
               .initEmailVerification(email: _emailController.text);
+
+          await sl<UpdateProfile>()
+              .call(email: _emailController.text)
+              .foldAsync((e) => throw e, ignore);
 
           return true;
         } on KycException catch (error) {

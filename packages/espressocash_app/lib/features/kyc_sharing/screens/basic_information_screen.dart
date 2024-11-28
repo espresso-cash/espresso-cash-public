@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -11,6 +12,8 @@ import '../../../ui/radio_button.dart';
 import '../../../ui/snackbar.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
+import '../../profile/data/profile_repository.dart';
+import '../../profile/service/update_profile.dart';
 import '../models/document_type.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_utils.dart';
@@ -75,10 +78,13 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
   void _initializeUserData() {
     final user = sl<KycSharingService>().value;
+
+    final profile = sl<ProfileRepository>();
+
     final dob = user?.dob;
-    _country = Country.findByCode(user?.countryCode ?? '');
-    _firstNameController.text = user?.firstName ?? '';
-    _lastNameController.text = user?.lastName ?? '';
+    _country = Country.findByCode(user?.countryCode ?? profile.country ?? '');
+    _firstNameController.text = user?.firstName ?? profile.firstName;
+    _lastNameController.text = user?.lastName ?? profile.lastName;
     _dobController.text =
         dob != null ? DateFormat('dd/MM/yyyy').format(dob) : '';
     _idType = user?.documentType?.toDocumentType();
@@ -106,6 +112,14 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             idType: _idType,
             idNumber: _idNumberController.text,
           );
+
+          await sl<UpdateProfile>()
+              .call(
+                firstName: _firstNameController.text,
+                lastName: _lastNameController.text,
+                countryCode: countryCode,
+              )
+              .foldAsync((e) => throw e, ignore);
 
           if (!mounted) return false;
 
