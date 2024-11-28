@@ -57,7 +57,7 @@ class ScalexOnRampOrderWatcher implements RampWatcher {
 
       await statement.write(
         OnRampOrderRowsCompanion(
-          status: Value.absentIfNull(status),
+          status: Value.ofNullable(status),
           isCompleted: Value(isCompleted),
         ),
       );
