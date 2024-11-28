@@ -66,7 +66,7 @@ enum RampPartner {
   brij(
     title: 'Espresso Network',
     minimumAmount: r'$5',
-    paymentMethods: [],
+    paymentMethods: [PaymentMethod.bank],
     partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
   );
 

@@ -76,7 +76,7 @@ class _KycTileContent extends StatelessWidget {
       margin: const EdgeInsets.only(right: 10, left: 10, bottom: 6),
       padding: const EdgeInsets.only(top: 6, right: 20, left: 20, bottom: 26),
       decoration: const BoxDecoration(
-        color: Colors.black,
+        color: CpColors.blackGreyColor,
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
       child: Column(
@@ -124,6 +124,7 @@ class _KycTileContent extends StatelessWidget {
           const SizedBox(height: 16),
           CpButton(
             minWidth: 180,
+            size: CpButtonSize.small,
             text: status.buttonTitle(context, rampType),
             onPressed: switch (rampType) {
               RampType.onRamp => () =>
@@ -159,8 +160,8 @@ extension on ValidationStatus {
 
   String buttonTitle(BuildContext context, RampType rampType) => switch (this) {
         ValidationStatus.approved => rampType == RampType.onRamp
-            ? context.l10n.continueDeposit
-            : context.l10n.continueWithdrawal,
+            ? context.l10n.completeDeposit
+            : context.l10n.completeWithdrawal,
         ValidationStatus.unverified ||
         ValidationStatus.unspecified =>
           'Continue Verification',

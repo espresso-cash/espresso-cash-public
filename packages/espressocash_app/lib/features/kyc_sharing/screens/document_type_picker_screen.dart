@@ -17,7 +17,7 @@ class DocumentTypePickerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          backgroundColor: CpColors.blackGreyColor,
+          backgroundColor: CpColors.deepGreyColor,
           appBar: CpAppBar(
             title: Text(context.l10n.selectIdMethod.toUpperCase()),
           ),

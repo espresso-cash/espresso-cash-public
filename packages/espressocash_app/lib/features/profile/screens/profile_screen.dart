@@ -74,9 +74,8 @@ class ProfileScreen extends StatelessWidget {
                                 top: 0,
                                 right: 0,
                                 child: CpIconButton(
-                                  icon: Assets.icons.closeButtonIcon.svg(
-                                    color: Colors.white,
-                                  ),
+                                  icon: Assets.icons.closeButtonIcon
+                                      .svg(color: Colors.white),
                                   onPressed: Navigator.of(context).pop,
                                   variant: CpIconButtonVariant.black,
                                 ),
@@ -157,7 +156,7 @@ class _QrCodeWidget extends StatelessWidget {
         alignment: Alignment.centerLeft,
         decoration: const BoxDecoration(
           color: CpColors.blackGreyColor,
-          borderRadius: BorderRadius.all(Radius.circular(16)),
+          borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
