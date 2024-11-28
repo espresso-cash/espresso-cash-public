@@ -1,4 +1,4 @@
-part of 'profile_section.dart';
+part of 'settings_section.dart';
 
 class ShareSection extends StatelessWidget {
   const ShareSection({super.key});

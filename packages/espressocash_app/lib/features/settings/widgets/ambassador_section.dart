@@ -5,9 +5,9 @@ import '../../../l10n/gen/app_localizations.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../ambassador/screens/share_ambassador_link_screen.dart';
 import '../../ambassador/services/ambassador_service.dart';
-import '../data/profile_repository.dart';
-import 'profile_button.dart';
-import 'profile_section.dart';
+import '../../profile/data/profile_repository.dart';
+import 'settings_button.dart';
+import 'settings_section.dart';
 
 class AmbassadorSection extends StatelessWidget {
   const AmbassadorSection({super.key});
@@ -22,11 +22,11 @@ class AmbassadorSection extends StatelessWidget {
         final status = sl<AmbassadorService>().value;
 
         return status.isAmbassador
-            ? ProfileSection(
+            ? SettingsSection(
                 title: l10n.ambassador_title,
                 padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
                 actions: [
-                  ProfileButton(
+                  SettingsButton(
                     label: l10n.ambassador_userOnboardingLabel,
                     description: l10n.ambassador_userOnboardingDescription,
                     onPressed: () {

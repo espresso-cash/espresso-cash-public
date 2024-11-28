@@ -4,7 +4,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../currency/models/currency.dart';
-import '../../profile/screens/profile_screen.dart';
+import '../../settings/screens/settings_screen.dart';
 import '../../wallet_flow/widgets/launch_qr_scanner_flow.dart';
 
 class HomeAppBar extends StatelessWidget {
@@ -47,7 +47,7 @@ class HomeAppBar extends StatelessWidget {
             child: CpIconButton(
               icon: Assets.icons.settingsButtonIcon.svg(color: Colors.black),
               variant: CpIconButtonVariant.dark,
-              onPressed: () => ProfileScreen.push(context),
+              onPressed: () => SettingsScreen.push(context),
             ),
           ),
           const SizedBox(width: 12),
@@ -88,7 +88,7 @@ class HomeScaffoldAppBar extends StatelessWidget
             CpIconButton(
               icon: Assets.icons.settingsButtonIcon.svg(color: Colors.black),
               variant: CpIconButtonVariant.dark,
-              onPressed: () => ProfileScreen.push(context),
+              onPressed: () => SettingsScreen.push(context),
             ),
             const SizedBox(width: 12),
           ],

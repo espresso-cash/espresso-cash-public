@@ -1,4 +1,4 @@
-part of 'profile_section.dart';
+part of 'settings_section.dart';
 
 class DangerSection extends StatelessWidget {
   const DangerSection({super.key});
@@ -15,10 +15,10 @@ class DangerSection extends StatelessWidget {
       );
 
   @override
-  Widget build(BuildContext context) => ProfileSection(
+  Widget build(BuildContext context) => SettingsSection(
         padding: const EdgeInsets.only(left: 4, bottom: 4),
         actions: [
-          ProfileButton(
+          SettingsButton(
             label: context.l10n.signOut,
             onPressed: () => _handleLogoutPressed(context),
             textColor: CpColors.dangerButtonTextColor,

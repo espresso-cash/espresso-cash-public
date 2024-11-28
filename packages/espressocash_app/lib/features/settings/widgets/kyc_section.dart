@@ -10,7 +10,7 @@ import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_button.dart';
 import '../../kyc_sharing/widgets/kyc_flow.dart';
-import 'profile_section.dart';
+import 'settings_section.dart';
 
 class KycSection extends StatefulWidget {
   const KycSection({super.key});
@@ -43,7 +43,7 @@ class _KycInfo extends StatelessWidget {
   final UserData user;
 
   @override
-  Widget build(BuildContext context) => ProfileSection(
+  Widget build(BuildContext context) => SettingsSection(
         title: context.l10n.accountProfile.toUpperCase(),
         padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [

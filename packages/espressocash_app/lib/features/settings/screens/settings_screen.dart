@@ -13,20 +13,20 @@ import '../../../ui/clipboard.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
 import '../../feature_flags/services/feature_flags_manager.dart';
-import '../data/profile_repository.dart';
+import '../../profile/data/profile_repository.dart';
 import '../widgets/ambassador_section.dart';
 import '../widgets/help_section.dart';
 import '../widgets/kyc_section.dart';
-import '../widgets/profile_section.dart';
 import '../widgets/security_section.dart';
+import '../widgets/settings_section.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
   static void push(BuildContext context) => Navigator.of(context).push<void>(
         MaterialPageRoute(
           fullscreenDialog: true,
-          builder: (context) => const ProfileScreen(),
+          builder: (context) => const SettingsScreen(),
         ),
       );
 

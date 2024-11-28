@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../ui/colors.dart';
 
-class ProfileButton extends StatelessWidget {
-  const ProfileButton({
+class SettingsButton extends StatelessWidget {
+  const SettingsButton({
     super.key,
     required this.label,
     this.description,
