@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../di.dart';
 import '../../accounts/models/wallet.dart';
-import '../../analytics/analytics_manager.dart';
 import '../../dynamic_links/widgets/dynamic_link_handler.dart';
 import '../../link_payments/models/link_payment.dart';
 import '../screens/incoming_link_payment_screen.dart';
@@ -36,7 +34,6 @@ class _PendingILPListenerState extends State<PendingILPListener>
     final payment = LinkPayment.tryParse(uri);
 
     if (payment != null) {
-      sl<AnalyticsManager>().singleLinkReceived();
       _processLink(payment);
 
       return true;

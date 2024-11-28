@@ -152,8 +152,8 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
           leading: Center(
             child: CpIconButton(
               onPressed: onQrScanner,
-              icon: Assets.icons.qrScanner.svg(color: Colors.white),
-              variant: CpIconButtonVariant.black,
+              icon: Assets.icons.qrScanner.svg(color: Colors.black),
+              variant: CpIconButtonVariant.dark,
             ),
           ),
         ),

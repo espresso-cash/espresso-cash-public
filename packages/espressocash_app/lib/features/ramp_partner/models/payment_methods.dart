@@ -15,21 +15,21 @@ extension PaymentMethodAssets on PaymentMethod {
   SvgGenImage get logo {
     switch (this) {
       case PaymentMethod.visa:
-        return Assets.icons.visaIcon;
+        return Assets.brands.visa;
       case PaymentMethod.mastercard:
-        return Assets.icons.mastercardIcon;
+        return Assets.brands.mastercard;
       case PaymentMethod.applePay:
-        return Assets.icons.applepayIcon;
+        return Assets.brands.applePay;
       case PaymentMethod.googlePay:
-        return Assets.icons.gpayIcon;
+        return Assets.brands.gpay;
       case PaymentMethod.bank:
-        return Assets.icons.bankIcon;
+        return Assets.brands.bank;
       case PaymentMethod.sepa:
-        return Assets.icons.sepaIcon;
+        return Assets.brands.sepa;
       case PaymentMethod.pix:
-        return Assets.icons.pixIcon;
+        return Assets.brands.pix;
       case PaymentMethod.swift:
-        return Assets.icons.swiftIcon;
+        return Assets.brands.swift;
     }
   }
 }

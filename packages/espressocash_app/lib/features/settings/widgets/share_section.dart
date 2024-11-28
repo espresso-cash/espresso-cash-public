@@ -19,7 +19,7 @@ class ShareSection extends StatelessWidget {
                 children: [
                   Text(context.l10n.followUsOn),
                   const SizedBox(width: 6),
-                  Assets.icons.x.svg(
+                  Assets.brands.x.svg(
                     height: 22,
                     width: 22,
                     color: Colors.white,

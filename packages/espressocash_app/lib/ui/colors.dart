@@ -6,7 +6,7 @@ abstract class CpColors {
   // Color style
   static const primaryColor = Color(0xffff6640);
   static const yellowColor = Color(0xffFCC829);
-  static const greenColor = Color(0xff8AE4BF);
+  static const greenColor = Color(0xff35D9A0);
   static const sandColor = Color(0xFFA89767);
   static const lightSandColor = Color(0xFFB7A572);
   static const darkSandColor = Color(0xFF9E8B5A);

@@ -456,7 +456,7 @@ extension on Amount {
 }
 
 Future<String> _loadCustomStyle() async {
-  final css = await rootBundle.loadString(Assets.scalex.style);
+  final css = await rootBundle.loadString(Assets.partners.scalex.style);
 
   return """
   (function() {
