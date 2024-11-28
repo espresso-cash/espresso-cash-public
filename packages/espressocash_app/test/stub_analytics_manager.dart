@@ -24,7 +24,7 @@ class StubAnalyticsManager implements AnalyticsManager {
   void singleLinkCreated({required Decimal amount}) {}
 
   @override
-  void singleLinkReceived() {}
+  void singleLinkReceived({required Decimal? amount}) {}
 
   @override
   void swapTransactionCreated({
