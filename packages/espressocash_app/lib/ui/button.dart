@@ -89,11 +89,10 @@ class CpButton extends StatelessWidget {
         case CpButtonSize.big:
           return style.copyWith(fontSize: 17.sp);
         case CpButtonSize.small:
-          return style.copyWith(fontSize: 17.sp, height: 1);
+          return style.copyWith(fontSize: 14.sp, height: 0);
         case CpButtonSize.wide:
-          return style.copyWith(fontSize: 16.sp, height: 0);
         case CpButtonSize.micro:
-          return style.copyWith(fontSize: 15.sp, height: 0);
+          return style.copyWith(fontSize: 16.sp, height: 0);
       }
     })();
 
@@ -179,10 +178,11 @@ extension CpButtonSizeExt on CpButtonSize {
       case CpButtonSize.big:
         return 64.h;
       case CpButtonSize.wide:
-      case CpButtonSize.small:
         return 44.h;
+      case CpButtonSize.small:
+        return 40.h;
       case CpButtonSize.micro:
-        return 30.h;
+        return 31.h;
     }
   }
 }
