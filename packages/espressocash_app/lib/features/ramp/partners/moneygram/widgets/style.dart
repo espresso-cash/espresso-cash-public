@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import '../../../../../gen/assets.gen.dart';
 
 Future<String> loadMoneygramStyle() async {
-  final css = await rootBundle.loadString(Assets.moneygram.style);
+  final css = await rootBundle.loadString(Assets.partners.moneygram.style);
 
   return """
   (function() {

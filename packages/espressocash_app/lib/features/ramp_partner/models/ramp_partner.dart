@@ -90,17 +90,17 @@ extension RampPartnerAssets on RampPartner {
   AssetGenImage get logo {
     switch (this) {
       case RampPartner.kado:
-        return Assets.images.kadoIcon;
+        return Assets.brands.kado;
       case RampPartner.rampNetwork:
-        return Assets.images.rampIcon;
+        return Assets.brands.ramp;
       case RampPartner.coinflow:
-        return Assets.images.coinflowIcon;
+        return Assets.brands.coinflow;
       case RampPartner.guardarian:
-        return Assets.images.guardianIcon;
-      case RampPartner.moneygram:
-        return Assets.images.moneygramIcon;
+        return Assets.brands.guardarian;
       case RampPartner.scalex:
-        return Assets.images.scalexIcon;
+        return Assets.brands.scalex;
+      case RampPartner.moneygram:
+        return Assets.brands.moneygram;
       case RampPartner.brij:
         return Assets.images.logoIcon;
     }

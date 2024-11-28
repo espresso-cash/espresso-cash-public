@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../config.dart';
 import '../../../../../di.dart';
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
@@ -70,7 +71,7 @@ extension BuildContextExt on BuildContext {
     Future<void> handleLoaded(InAppWebViewController controller) async {
       if (!hasLoaded) {
         await controller.loadFile(
-          assetFilePath: 'assets/coinflow/index.html',
+          assetFilePath: Assets.partners.coinflow.index,
         );
 
         controller.addJavaScriptHandler(
