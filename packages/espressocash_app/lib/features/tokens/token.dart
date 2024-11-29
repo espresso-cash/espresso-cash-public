@@ -150,11 +150,3 @@ class _UsdcDevToken extends SplToken {
           isStablecoin: true,
         );
 }
-
-extension TokenExt on Iterable<Token> {
-  Iterable<String> get addresses => map(
-        (t) => t.address == Token.sol.address
-            ? Token.wrappedSol.address
-            : t.address,
-      );
-}

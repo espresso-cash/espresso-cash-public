@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
+import 'package:dfunc/dfunc.dart' hide map;
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart' hide JupiterPriceClient;
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -157,3 +157,11 @@ class ConversionRatesRepository {
 }
 
 const _maxIds = 100;
+
+extension on Iterable<Token> {
+  Iterable<String> get addresses => map(
+        (t) => t.address == Token.sol.address
+            ? Token.wrappedSol.address
+            : t.address,
+      );
+}
