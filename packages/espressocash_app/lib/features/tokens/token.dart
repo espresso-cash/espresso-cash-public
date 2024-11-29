@@ -150,7 +150,3 @@ class _UsdcDevToken extends SplToken {
           isStablecoin: true,
         );
 }
-
-extension TokenExt on Iterable<Token> {
-  Iterable<String> get symbols => map((t) => t.symbol);
-}
