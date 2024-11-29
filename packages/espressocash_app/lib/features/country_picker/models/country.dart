@@ -16,8 +16,10 @@ class Country with _$Country {
   factory Country.fromJson(Map<String, dynamic> json) =>
       _$CountryFromJson(json);
 
-  static List<Country> get all =>
-      country.WorldCountry.list.map((e) => e.toCountry).toList();
+  static List<Country> get all => country.WorldCountry.list
+      .where((c) => !_excludedCountries.contains(c.codeShort))
+      .map((e) => e.toCountry)
+      .toList();
 
   static Country? findByCode(String code) {
     if (code.isEmpty) return null;
@@ -37,3 +39,10 @@ extension on country.WorldCountry {
         dialCode: idd.phoneCode(),
       );
 }
+
+const _excludedCountries = {
+  'IR',
+  'KP',
+  'SY',
+  'RU',
+};
