@@ -58,6 +58,7 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
           left: 8,
           right: 26,
         ),
+        autocorrect: false,
         fontWeight: FontWeight.w500,
         fontSize: 16,
         controller: widget.controller,

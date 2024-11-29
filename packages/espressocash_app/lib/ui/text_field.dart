@@ -29,6 +29,7 @@ class CpTextField extends StatelessWidget {
     this.textInputAction,
     this.multiLine = false,
     this.textCapitalization = TextCapitalization.none,
+    this.autocorrect = true,
   });
 
   final TextEditingController? controller;
@@ -51,6 +52,7 @@ class CpTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool? multiLine;
   final TextCapitalization textCapitalization;
+  final bool autocorrect;
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +71,7 @@ class CpTextField extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(8)),
             ),
       child: CupertinoTextField(
+        autocorrect: autocorrect,
         enabled: !disabled,
         decoration: const BoxDecoration(),
         suffix: suffix,

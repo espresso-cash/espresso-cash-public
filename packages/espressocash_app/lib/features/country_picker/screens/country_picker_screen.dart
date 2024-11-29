@@ -154,6 +154,7 @@ class _ContentState extends State<_Content> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: CpTextField(
             controller: _searchController,
+            autocorrect: false,
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             fontSize: 16,
             border: CpTextFieldBorder.stadium,
