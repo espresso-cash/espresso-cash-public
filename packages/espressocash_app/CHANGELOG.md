@@ -1,3 +1,15 @@
+## 1.134.0
+
+ - **REFACTOR**: assets (#1617).
+ - **REFACTOR**: migrate to Flutter 3.24.5 (#1623).
+ - **FIX**: recovery amount (#1626).
+ - **FEAT**: phone input field updates (#1624).
+ - **FEAT**: update kyc camera resolution (#1625).
+ - **FEAT**: update jupiter price api (#1628).
+ - **FEAT**: update kyc status screen (#1620).
+ - **FEAT**: updates of design (#1621).
+ - **FEAT**: show incoming link amount (#1610).
+
 ## 1.133.0
 
  - **FEAT**: xflow integration (#1597).
