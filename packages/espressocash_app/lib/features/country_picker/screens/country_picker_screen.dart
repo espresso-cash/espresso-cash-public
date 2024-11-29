@@ -19,6 +19,7 @@ class CountryPickerScreen extends StatelessWidget {
     super.key,
     this.initial,
     this.onTap,
+    this.showDialCode = false,
   });
 
   static Future<void> open(
@@ -26,6 +27,7 @@ class CountryPickerScreen extends StatelessWidget {
     Country? initial,
     CountryOnTap? onTap,
     NavigatorState? navigator,
+    bool showDialCode = false,
   }) =>
       (navigator ?? Navigator.of(context, rootNavigator: true))
           .pushAndRemoveUntil<Country>(
@@ -33,6 +35,7 @@ class CountryPickerScreen extends StatelessWidget {
           pageBuilder: (context, _, __) => CountryPickerScreen(
             initial: initial,
             onTap: onTap,
+            showDialCode: showDialCode,
           ),
           transitionDuration: Duration.zero,
         ),
@@ -43,18 +46,21 @@ class CountryPickerScreen extends StatelessWidget {
     BuildContext context, {
     Country? initial,
     CountryOnTap? onTap,
+    bool showDialCode = false,
   }) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
           builder: (context) => CountryPickerScreen(
             initial: initial,
             onTap: onTap,
+            showDialCode: showDialCode,
           ),
         ),
       );
 
   final Country? initial;
   final CountryOnTap? onTap;
+  final bool showDialCode;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -67,6 +73,7 @@ class CountryPickerScreen extends StatelessWidget {
             child: _Content(
               initial: initial,
               onTap: onTap,
+              showDialCode: showDialCode,
             ),
           ),
         ),
@@ -74,10 +81,15 @@ class CountryPickerScreen extends StatelessWidget {
 }
 
 class _Content extends StatefulWidget {
-  const _Content({this.initial, required this.onTap});
+  const _Content({
+    this.initial,
+    required this.onTap,
+    required this.showDialCode,
+  });
 
   final Country? initial;
   final CountryOnTap? onTap;
+  final bool showDialCode;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -129,7 +141,11 @@ class _ContentState extends State<_Content> {
       final codeMatches =
           country.code.toLowerCase().contains(_searchText.toLowerCase());
 
-      return nameMatches || codeMatches;
+      final dialCodeMatches = widget.showDialCode
+          ? country.dialCode.toLowerCase().contains(_searchText.toLowerCase())
+          : false;
+
+      return nameMatches || codeMatches || dialCodeMatches;
     }).toList();
 
     return Column(
@@ -138,6 +154,7 @@ class _ContentState extends State<_Content> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: CpTextField(
             controller: _searchController,
+            autocorrect: false,
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             fontSize: 16,
             border: CpTextFieldBorder.stadium,
@@ -183,9 +200,29 @@ class _ContentState extends State<_Content> {
                       : const BoxDecoration(),
                   child: ListTile(
                     dense: true,
-                    title: Text(
-                      country.name,
-                      style: TextStyle(fontSize: selected ? 19 : 17),
+                    title: Row(
+                      children: [
+                        if (widget.showDialCode)
+                          SizedBox(
+                            width: 70,
+                            child: Text(
+                              country.dialCode,
+                              style: TextStyle(
+                                fontSize: selected ? 19 : 17,
+                                color: CpColors.yellowColor,
+                              ),
+                            ),
+                          ),
+                        Expanded(
+                          child: Text(
+                            country.name,
+                            style: TextStyle(
+                              fontSize: selected ? 19 : 17,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,

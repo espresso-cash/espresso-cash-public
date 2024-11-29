@@ -5,10 +5,11 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
+import '../../country_picker/models/country.dart';
+import '../../country_picker/widgets/phone_text_field.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_exception.dart';
 import '../widgets/kyc_page.dart';
-import '../widgets/kyc_text_field.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
   const PhoneVerificationScreen({super.key});
@@ -27,10 +28,11 @@ class PhoneVerificationScreen extends StatefulWidget {
 
 class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
   final _numberController = TextEditingController();
+  String _fullPhoneNumber = '';
 
   bool get _isValid => RegExp(
-        r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$',
-      ).hasMatch(_numberController.text);
+        r'^\+[0-9]{1,4}[0-9]{6,14}$',
+      ).hasMatch(_fullPhoneNumber);
 
   Future<void> _sendSms() async {
     final success = await runWithLoader<bool>(
@@ -38,7 +40,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
       () async {
         try {
           await sl<KycSharingService>()
-              .initPhoneVerification(phone: _numberController.text);
+              .initPhoneVerification(phone: _fullPhoneNumber);
 
           return true;
         } on KycException catch (error) {
@@ -81,19 +83,18 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
             ),
           ),
           const SizedBox(height: 40),
-          KycTextField(
+          PhoneNumberTextField(
             controller: _numberController,
-            inputType: TextInputType.phone,
+            initialCountry: Country.findByCode('NG'),
             placeholder: context.l10n.phoneNumber,
+            onPhoneChanged: (fullNumber) =>
+                setState(() => _fullPhoneNumber = fullNumber),
           ),
           const SizedBox(height: 16),
-          ListenableBuilder(
-            listenable: _numberController,
-            builder: (context, child) => CpButton(
-              minWidth: 250,
-              text: context.l10n.sendVerificationCode,
-              onPressed: _isValid ? _sendSms : null,
-            ),
+          CpButton(
+            minWidth: 250,
+            text: context.l10n.sendVerificationCode,
+            onPressed: _isValid ? _sendSms : null,
           ),
         ],
       );
