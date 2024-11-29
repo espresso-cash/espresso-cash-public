@@ -91,15 +91,19 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
 
     if (usdcBalance == null || usdcBalance.isEmpty) return;
 
-    final fee = await _ecClient.calculateMoneygramFee(
-      MoneygramFeeRequestDto(
-        type: RampTypeDto.onRamp,
-        amount: usdcBalance.toString(),
-      ),
-    );
+    final fee = await _ecClient
+        .calculateMoneygramFee(
+          MoneygramFeeRequestDto(
+            type: RampTypeDto.onRamp,
+            amount: usdcBalance.toString(),
+          ),
+        )
+        .then((e) => e.bridgeFee);
+
+    final total = Decimal.parse(usdcBalance.toString()) - Decimal.parse(fee);
 
     final amount = Amount.fromDecimal(
-      value: Decimal.parse(fee.totalAmount),
+      value: total,
       currency: Currency.usdc,
     ) as CryptoAmount;
 
