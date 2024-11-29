@@ -76,12 +76,12 @@ class ConversionRatesRepository {
     Iterable<Token> tokens,
   ) =>
       tryEitherAsync((_) async {
-        final ids = await Stream.fromIterable(tokens.symbols)
+        final addresses = await Stream.fromIterable(tokens.addresses)
             .bufferCount(_maxIds)
             .toList();
 
         final results = await Future.wait(
-          ids.map((ids) async {
+          addresses.map((ids) async {
             final request = TokenRateRequestDto(ids: ids.lock);
 
             return _jupiterClient.getPrice(request);
@@ -91,6 +91,11 @@ class ConversionRatesRepository {
         final Map<String, TokenPricesMapDto> conversionRates = {};
         for (final element in results) {
           conversionRates.addAll(element.data);
+        }
+
+        if (conversionRates.containsKey(Token.wrappedSol.address)) {
+          conversionRates[Token.sol.address] =
+              conversionRates[Token.wrappedSol.address]!;
         }
 
         final usdcRateQuery = _db.select(_db.conversionRatesRows)
@@ -106,9 +111,9 @@ class ConversionRatesRepository {
 
         await _db.transaction(() async {
           for (final entry in conversionRates.entries) {
-            final matchingTokens = tokens.where((t) => t.symbol == entry.key);
+            final matchingTokens = tokens.where((t) => t.address == entry.key);
 
-            final rate = Decimal.parse(entry.value.price.toString()) * usdcRate;
+            final rate = Decimal.parse(entry.value.price ?? '0') * usdcRate;
 
             for (final token in matchingTokens) {
               await _db.into(_db.conversionRatesRows).insert(
