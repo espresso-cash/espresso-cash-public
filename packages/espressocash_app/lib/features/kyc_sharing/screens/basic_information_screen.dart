@@ -83,7 +83,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
         dob != null ? DateFormat('dd/MM/yyyy').format(dob) : '';
     _idType = user?.documentType?.toDocumentType();
     _idNumberController.text = user?.documentNumber ?? '';
-    _isShareData = user != null;
+    _isShareData = user?.firstName?.isNotEmpty ?? false;
   }
 
   Future<void> _handleSubmitted() async {

@@ -66,7 +66,7 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
     _controller = FaceCameraController(
       autoCapture: false,
       defaultCameraLens: CameraLens.front,
-      imageResolution: ImageResolution.veryHigh,
+      imageResolution: ImageResolution.high,
       onCapture: (image) {
         setState(() => _capturedImage = image);
       },
