@@ -92,12 +92,7 @@ class CpTextField extends StatelessWidget {
         keyboardAppearance: Theme.of(context).brightness,
         placeholderStyle: TextStyle(color: placeholderColor),
         textInputAction: textInputAction,
-        prefix: prefix == null
-            ? null
-            : Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: prefix,
-              ),
+        prefix: prefix,
       ),
     );
   }
