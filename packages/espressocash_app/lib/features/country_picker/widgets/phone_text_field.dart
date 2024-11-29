@@ -10,11 +10,13 @@ class PhoneNumberTextField extends StatefulWidget {
     super.key,
     required this.controller,
     required this.placeholder,
+    this.initialCountry,
     this.onPhoneChanged,
   });
 
   final TextEditingController controller;
   final String placeholder;
+  final Country? initialCountry;
   final ValueSetter<String>? onPhoneChanged;
 
   @override
@@ -38,6 +40,7 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
   @override
   void initState() {
     super.initState();
+    _selectedCountry = widget.initialCountry;
     widget.controller.addListener(_notifyPhoneChanged);
   }
 

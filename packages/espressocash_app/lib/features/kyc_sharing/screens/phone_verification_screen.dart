@@ -5,6 +5,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
+import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/phone_text_field.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_exception.dart';
@@ -84,6 +85,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
           const SizedBox(height: 40),
           PhoneNumberTextField(
             controller: _numberController,
+            initialCountry: Country.findByCode('NG'),
             placeholder: context.l10n.phoneNumber,
             onPhoneChanged: (fullNumber) =>
                 setState(() => _fullPhoneNumber = fullNumber),
