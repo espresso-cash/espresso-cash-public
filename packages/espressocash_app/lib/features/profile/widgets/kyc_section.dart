@@ -51,28 +51,25 @@ class _KycInfo extends StatelessWidget {
             label: context.l10n.editProfile,
             description: _getUserDescription(user, context),
             onPressed: context.openBasicInfoFlow,
-            status: user.kycStatus.isUnspecified ? null : user.kycStatus,
+            status: user.kycStatus,
           ),
-          if (user.hasBankInfo)
-            KycButton(
-              label: context.l10n.bankAccount,
-              description: _getBankDescription(user, context),
-              onPressed: () => BankAccountScreen.push(context),
-            ),
-          if (user.getEmail != null)
-            KycButton(
-              label: context.l10n.emailAddress,
-              description: user.getEmail,
-              onPressed: context.openEmailFlow,
-              status: user.emailStatus,
-            ),
-          if (user.getPhone != null)
-            KycButton(
-              label: context.l10n.phoneNumber,
-              description: user.getPhone,
-              onPressed: context.openPhoneFlow,
-              status: user.phoneStatus,
-            ),
+          KycButton(
+            label: context.l10n.bankAccount,
+            description: _getBankDescription(user, context),
+            onPressed: () => BankAccountScreen.push(context),
+          ),
+          KycButton(
+            label: context.l10n.emailAddress,
+            description: user.getEmail,
+            onPressed: context.openEmailFlow,
+            status: user.emailStatus,
+          ),
+          KycButton(
+            label: context.l10n.phoneNumber,
+            description: user.getPhone,
+            onPressed: context.openPhoneFlow,
+            status: user.phoneStatus,
+          )
           // TODO(dev): hidden for now, still in development
           // if (!user.kycStatus.isUnspecified)
           //   KycButton(
