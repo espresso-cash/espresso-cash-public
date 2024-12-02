@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -9,9 +8,9 @@ import '../../../ui/snackbar.dart';
 import '../../../utils/email.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_exception.dart';
+import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
-import '../widgets/styles.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
   const EmailVerificationScreen({super.key});
@@ -68,7 +67,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   @override
   Widget build(BuildContext context) => KycPage(
         children: [
-          const _Header(),
+          KycHeader(
+            title: context.l10n.emailVerificationTitle.toUpperCase(),
+            description: context.l10n.enterEmailHintText,
+          ),
           const SizedBox(height: 16),
           KycTextField(
             controller: _emailController,
@@ -84,32 +86,5 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
             ),
           ),
         ],
-      );
-}
-
-class _Header extends StatelessWidget {
-  const _Header();
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MarkdownBody(
-              data: context.l10n.emailVerificationTitle.toUpperCase(),
-              styleSheet: kycMarkdownStyleSheet,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              context.l10n.enterEmailHintText,
-              style: const TextStyle(
-                fontSize: 16,
-                height: 21 / 16,
-                letterSpacing: .19,
-              ),
-            ),
-          ],
-        ),
       );
 }
