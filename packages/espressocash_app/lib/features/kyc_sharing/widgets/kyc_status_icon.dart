@@ -13,6 +13,7 @@ class KycStatusIcon extends StatelessWidget {
 
   final ValidationStatus status;
   final double height;
+
   @override
   Widget build(BuildContext context) => Stack(
         alignment: Alignment.center,
@@ -21,23 +22,28 @@ class KycStatusIcon extends StatelessWidget {
             color: status.backgroundColor,
             height: height,
           ),
-          Assets.icons.xmark.svg(height: height / 2),
+          status.foregroundIcon(height / 2),
         ],
       );
 }
 
 extension on ValidationStatus {
-  Color get backgroundColor {
-    switch (this) {
-      case ValidationStatus.approved:
-        return CpColors.greenColor;
-      case ValidationStatus.pending:
-        return CpColors.yellowColor;
-      case ValidationStatus.unspecified:
-      case ValidationStatus.unverified:
-        return CpColors.greyColor;
-      case ValidationStatus.rejected:
-        return CpColors.alertRedColor;
-    }
-  }
+  Color get backgroundColor => switch (this) {
+        ValidationStatus.approved => CpColors.greenColor,
+        ValidationStatus.pending => CpColors.yellowColor,
+        ValidationStatus.unspecified ||
+        ValidationStatus.unverified =>
+          CpColors.greyColor,
+        ValidationStatus.rejected => CpColors.alertRedColor,
+      };
+
+  Widget foregroundIcon(double width) => switch (this) {
+        ValidationStatus.approved => Assets.icons.xmark.svg(width: width),
+        ValidationStatus.unspecified ||
+        ValidationStatus.unverified ||
+        ValidationStatus.pending =>
+          Assets.icons.threeDots.svg(width: width),
+        ValidationStatus.rejected =>
+          Assets.icons.exclamationMark.svg(height: width),
+      };
 }
