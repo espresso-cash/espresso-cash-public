@@ -32,7 +32,7 @@ class KycTextField extends StatelessWidget {
         textInputAction: TextInputAction.next,
         backgroundColor: CpColors.lightGreyColor,
         placeholder: placeholder,
-        placeholderColor: Colors.white,
+        placeholderColor: CpColors.greyColor,
         textColor: Colors.white,
         readOnly: readOnly,
       );

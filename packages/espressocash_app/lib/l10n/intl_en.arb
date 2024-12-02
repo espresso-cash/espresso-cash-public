@@ -966,7 +966,7 @@
         }
       }
     },
-    "sendVerificationCode": "Send Verification Code",
+    "sendVerificationCode": "Send",
     "@sendVerificationCode": {},
     "enterEmailHintText": "Enter your email address to receive your confirmation code.",
     "@enterEmailHintText": {},
@@ -994,14 +994,8 @@
     "@identityVerification": {},
     "startSelfieVerification": "Start Selfie Verification",
     "@startSelfieVerification": {},
-    "identityVerificationDescription": "For security purposes, we need you to take a quick selfie to verify your identity.",
+    "identityVerificationDescription": "To verify your identity, please take a clear selfie. Ensure your face is visible, avoid hats or sunglasses, and use good lighting for faster verification.",
     "@identityVerificationDescription": {},
-    "identityInstruction1": "Make sure your face is clearly visible.",
-    "@identityInstruction1": {},
-    "identityInstruction2": "Avoid hats, sunglasses, or other facial coverings.",
-    "@identityInstruction2": {},
-    "identityInstruction3": "Good lighting helps us verify your identity quickly!",
-    "@identityInstruction3": {},
     "manageDataAccess": "Manage Data Access",
     "@manageDataAccess": {},
     "accountProfile": "Account Profile",
@@ -1014,7 +1008,7 @@
     "@onRampKycInitialDescription": {},
     "offRampKycInitialDescription": "*Complete ID verification* to proceed with your withdrawal.",
     "@offRampKycInitialDescription": {},
-    "bankAccountInfoCorrectText": "Ensure your account info is correct to prevent delays.",
+    "bankAccountInfoCorrectText": "Please provide your bank account information. Ensure that your information is correct to prevent delays.",
     "@bankAccountInfoCorrectText": {},
     "verified": "Verified",
     "@verified": {},
@@ -1123,5 +1117,17 @@
           "type": "String"
         }
       }
-    }
+    },
+    "verify": "Verify",
+    "@verify": {},
+    "emailVerificationTitle": "Email Address *Verification.*",
+    "@emailVerificationTitle": {},
+    "phoneVerificationTitle": "Phone Number *Verification.*",
+    "@phoneVerificationTitle": {},
+    "bankAccountVerificationTitle": "Bank Account *Verification.*",
+    "@bankAccountVerificationTitle": {},
+    "idVerificationTitle": "Identity *Verification.*",
+    "@idVerificationTitle": {},
+    "selfieVerificationTitle": "Take a *selfie.*",
+    "@selfieVerificationTitle": {}
 }

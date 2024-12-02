@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
-import '../../../ui/colors.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 import '../widgets/kyc_page.dart';
+import '../widgets/styles.dart';
 
 class KycDescriptionScreen extends StatelessWidget {
   const KycDescriptionScreen({super.key, required this.rampType});
@@ -28,7 +28,6 @@ class KycDescriptionScreen extends StatelessWidget {
         }
             .toUpperCase(),
         children: [
-          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: MarkdownBody(
@@ -38,10 +37,7 @@ class KycDescriptionScreen extends StatelessWidget {
                 RampType.offRamp =>
                   context.l10n.offRampKycInitialDescription.toUpperCase(),
               },
-              styleSheet: MarkdownStyleSheet(
-                em: _markdownStyle.copyWith(color: CpColors.yellowColor),
-                p: _markdownStyle,
-              ),
+              styleSheet: kycMarkdownStyleSheet,
             ),
           ),
           const SizedBox(height: 20),
@@ -64,11 +60,3 @@ class KycDescriptionScreen extends StatelessWidget {
         ],
       );
 }
-
-const _markdownStyle = TextStyle(
-  fontStyle: FontStyle.normal,
-  fontSize: 32,
-  fontWeight: FontWeight.w900,
-  letterSpacing: 0.25,
-  height: 1,
-);

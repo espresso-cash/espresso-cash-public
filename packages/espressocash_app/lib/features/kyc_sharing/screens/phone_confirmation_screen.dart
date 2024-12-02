@@ -67,9 +67,8 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: context.l10n.phoneVerification,
+        title: context.l10n.phoneVerification.toUpperCase(),
         children: [
-          const SizedBox(height: 20),
           Text(
             context.l10n
                 .checkSmsText(sl<KycSharingService>().value?.getPhone ?? ''),
@@ -80,7 +79,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
               letterSpacing: .19,
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 16),
           KycTextField(
             controller: _controller,
             inputType: TextInputType.number,
@@ -91,7 +90,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
             listenable: _controller,
             builder: (context, child) => CpBottomButton(
               horizontalPadding: 16,
-              text: context.l10n.next,
+              text: context.l10n.verify,
               onPressed: _isValid ? _handleConfirm : null,
             ),
           ),
