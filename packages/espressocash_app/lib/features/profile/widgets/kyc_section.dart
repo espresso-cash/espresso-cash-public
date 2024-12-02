@@ -44,7 +44,7 @@ class _KycInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ProfileSection(
-        title: context.l10n.accountProfile.toUpperCase(),
+        title: context.l10n.identityVerification.toUpperCase(),
         padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [
           KycButton(
