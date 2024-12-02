@@ -4,16 +4,27 @@ import '../../../gen/assets.gen.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/theme.dart';
+import '../models/kyc_validation_status.dart';
+import 'kyc_status_icon.dart';
+
+enum KycIcon {
+  info,
+  pending,
+  success,
+  failure,
+}
 
 class KycPage extends StatelessWidget {
   const KycPage({
     super.key,
     this.title,
     required this.children,
+    this.icon = KycIcon.info,
   });
 
   final String? title;
   final List<Widget> children;
+  final KycIcon icon;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +54,19 @@ class KycPage extends StatelessWidget {
                 child: IntrinsicHeight(
                   child: Column(
                     children: [
-                      Assets.images.profileGraphic.image(height: 80),
+                      if (icon == KycIcon.info)
+                        Assets.images.profileGraphic.image(height: 80)
+                      else
+                        KycStatusIcon(
+                          switch (icon) {
+                            KycIcon.info ||
+                            KycIcon.pending =>
+                              KycValidationStatus.pending,
+                            KycIcon.success => KycValidationStatus.approved,
+                            KycIcon.failure => KycValidationStatus.rejected,
+                          },
+                          height: 75,
+                        ),
                       const SizedBox(height: 24),
                       Expanded(
                         child: SafeArea(
