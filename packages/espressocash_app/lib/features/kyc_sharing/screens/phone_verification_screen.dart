@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -12,7 +11,6 @@ import '../services/kyc_service.dart';
 import '../utils/kyc_exception.dart';
 import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
-import '../widgets/styles.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
   const PhoneVerificationScreen({super.key});

@@ -1000,14 +1000,8 @@
     "@manageDataAccess": {},
     "accountProfile": "Account Profile",
     "@accountProfile": {},
-    "begin": "Begin",
+    "begin": "Get Started",
     "@begin": {},
-    "reVerificationNotice": "Re-verification is only needed if you update or change your ID.",
-    "@reVerificationNotice": {},
-    "onRampKycInitialDescription": "*Complete ID verification* to proceed with your deposit.",
-    "@onRampKycInitialDescription": {},
-    "offRampKycInitialDescription": "*Complete ID verification* to proceed with your withdrawal.",
-    "@offRampKycInitialDescription": {},
     "bankAccountInfoCorrectText": "Please provide your bank account information. Ensure that your information is correct to prevent delays.",
     "@bankAccountInfoCorrectText": {},
     "verified": "Verified",
@@ -1129,5 +1123,11 @@
     "idVerificationTitle": "Identity *Verification.*",
     "@idVerificationTitle": {},
     "selfieVerificationTitle": "Take a *selfie.*",
-    "@selfieVerificationTitle": {}
+    "@selfieVerificationTitle": {},
+    "kycVerificationTitle": "Let's verify your *identity.*",
+    "@kycVerificationTitle": {},
+    "kycVerificationDescription": "The safety of our users is important to us. We need to verify your identity before you can deposit or withdraw.",
+    "@kycVerificationDescription": {},
+    "kycVerificationFooter": "Verification only takes a few minutes.\nA valid ID is required.",
+    "@kycVerificationFooter": {}
 }

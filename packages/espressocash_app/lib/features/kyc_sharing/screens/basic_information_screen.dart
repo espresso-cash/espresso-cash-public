@@ -160,13 +160,13 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             controller: _dobController,
             placeholder: context.l10n.dateOfBirth,
           ),
-          const _Divider(),
+          const SizedBox(height: 10),
           CountryPicker(
             backgroundColor: CpColors.blackGreyColor,
             country: _country,
             onSubmitted: (country) => setState(() => _country = country),
           ),
-          const _Divider(),
+          const SizedBox(height: 10),
           DocumentPicker(
             type: _idType,
             onSubmitted: (idType) => setState(() => _idType = idType),
