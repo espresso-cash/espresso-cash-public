@@ -48,7 +48,7 @@ class _KycInfo extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [
           KycButton(
-            label: context.l10n.editProfile,
+            label: context.l10n.personalDetails,
             description: _getUserDescription(user, context),
             onPressed: context.openBasicInfoFlow,
             status: user.kycStatus,

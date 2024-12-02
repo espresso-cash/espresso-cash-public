@@ -1129,5 +1129,7 @@
     "kycVerificationDescription": "The safety of our users is important to us. We need to verify your identity before you can deposit or withdraw.",
     "@kycVerificationDescription": {},
     "kycVerificationFooter": "Verification only takes a few minutes.\nA valid ID is required.",
-    "@kycVerificationFooter": {}
+    "@kycVerificationFooter": {},
+    "personalDetails": "Personal Details",
+    "@personalDetails": {}
 }
