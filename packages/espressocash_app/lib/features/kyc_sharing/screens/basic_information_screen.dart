@@ -15,6 +15,7 @@ import '../models/document_type.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/document_picker.dart';
+import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
@@ -140,43 +141,43 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: context.l10n.basicInformation,
         children: [
-          const SizedBox(height: 30),
-          CountryPicker(
-            backgroundColor: CpColors.blackGreyColor,
-            country: _country,
-            onSubmitted: (country) => setState(() => _country = country),
-          ),
-          const SizedBox(height: 16),
+          KycHeader(title: context.l10n.idVerificationTitle.toUpperCase()),
+          const SizedBox(height: 8),
           KycTextField(
             controller: _firstNameController,
             inputType: TextInputType.name,
             placeholder: context.l10n.firstName,
           ),
-          const SizedBox(height: 16),
+          const _Divider(),
           KycTextField(
             controller: _lastNameController,
             inputType: TextInputType.name,
             placeholder: context.l10n.lastName,
           ),
-          const SizedBox(height: 16),
+          const _Divider(),
           CpDobTextField(
             controller: _dobController,
             placeholder: context.l10n.dateOfBirth,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 10),
+          CountryPicker(
+            backgroundColor: CpColors.blackGreyColor,
+            country: _country,
+            onSubmitted: (country) => setState(() => _country = country),
+          ),
+          const SizedBox(height: 10),
           DocumentPicker(
             type: _idType,
             onSubmitted: (idType) => setState(() => _idType = idType),
           ),
-          const SizedBox(height: 16),
+          const _Divider(),
           KycTextField(
             controller: _idNumberController,
             inputType: TextInputType.text,
             placeholder: context.l10n.idNumber,
           ),
-          const SizedBox(height: 16),
+          const _Divider(),
           GestureDetector(
             onTap: () => setState(() => _isShareData = !_isShareData),
             child: Row(
@@ -206,6 +207,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
               _firstNameController,
               _lastNameController,
               _dobController,
+              _idNumberController,
             ]),
             builder: (context, child) => CpBottomButton(
               horizontalPadding: 16,
@@ -215,4 +217,11 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
           ),
         ],
       );
+}
+
+class _Divider extends StatelessWidget {
+  const _Divider();
+
+  @override
+  Widget build(BuildContext context) => const SizedBox(height: 12);
 }

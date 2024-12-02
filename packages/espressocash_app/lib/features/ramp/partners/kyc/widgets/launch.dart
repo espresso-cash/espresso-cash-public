@@ -37,7 +37,7 @@ extension BuildContextExt on BuildContext {
       if (data?.preAmount == null) return;
     }
 
-    final kycPassed = await openKycFlow(rampType: RampType.onRamp);
+    final kycPassed = await openKycFlow();
 
     if (!kycPassed) return;
 
@@ -144,7 +144,7 @@ extension BuildContextExt on BuildContext {
       if (data?.preAmount == null) return;
     }
 
-    final kycPassed = await openKycFlow(rampType: RampType.offRamp);
+    final kycPassed = await openKycFlow();
 
     if (!kycPassed) return;
 

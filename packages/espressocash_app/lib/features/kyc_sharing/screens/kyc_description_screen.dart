@@ -1,54 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
-import '../../../ui/colors.dart';
-import '../../ramp_partner/models/ramp_type.dart';
+import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
 
 class KycDescriptionScreen extends StatelessWidget {
-  const KycDescriptionScreen({super.key, required this.rampType});
+  const KycDescriptionScreen({super.key});
 
-  static Future<bool> push(BuildContext context, RampType rampType) =>
+  static Future<bool> push(
+    BuildContext context,
+  ) =>
       Navigator.of(context)
           .push<bool>(
             MaterialPageRoute(
-              builder: (context) => KycDescriptionScreen(rampType: rampType),
+              builder: (context) => const KycDescriptionScreen(),
             ),
           )
           .then((result) => result ?? false);
 
-  final RampType rampType;
-
   @override
   Widget build(BuildContext context) => KycPage(
-        title: switch (rampType) {
-          RampType.onRamp => context.l10n.ramp_btnAddCash,
-          RampType.offRamp => context.l10n.ramp_btnCashOut,
-        }
-            .toUpperCase(),
         children: [
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: MarkdownBody(
-              data: switch (rampType) {
-                RampType.onRamp =>
-                  context.l10n.onRampKycInitialDescription.toUpperCase(),
-                RampType.offRamp =>
-                  context.l10n.offRampKycInitialDescription.toUpperCase(),
-              },
-              styleSheet: MarkdownStyleSheet(
-                em: _markdownStyle.copyWith(color: CpColors.yellowColor),
-                p: _markdownStyle,
-              ),
-            ),
+          KycHeader(
+            title: context.l10n.kycVerificationTitle,
+            description: context.l10n.kycVerificationDescription,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
+            padding: const EdgeInsets.only(left: 12),
             child: Text(
-              context.l10n.reVerificationNotice,
+              context.l10n.kycVerificationFooter,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -64,11 +45,3 @@ class KycDescriptionScreen extends StatelessWidget {
         ],
       );
 }
-
-const _markdownStyle = TextStyle(
-  fontStyle: FontStyle.normal,
-  fontSize: 32,
-  fontWeight: FontWeight.w900,
-  letterSpacing: 0.25,
-  height: 1,
-);

@@ -4,7 +4,6 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
-import '../../ramp_partner/models/ramp_type.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/basic_information_screen.dart';
 import '../screens/email_confirmation_screen.dart';
@@ -35,7 +34,7 @@ const List<KycStepFunction> phoneSteps = [
 ];
 
 extension KycFlowExtension on BuildContext {
-  Future<bool> openKycFlow({required RampType rampType}) async {
+  Future<bool> openKycFlow() async {
     final user = sl<KycSharingService>().value;
 
     if (user == null) {
@@ -47,7 +46,7 @@ extension KycFlowExtension on BuildContext {
     final kycProcessed = user.kycStatus.isApprovedOrPending;
 
     if (!kycProcessed) {
-      final success = await KycDescriptionScreen.push(this, rampType);
+      final success = await KycDescriptionScreen.push(this);
       if (!success) return false;
     }
 

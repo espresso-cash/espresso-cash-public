@@ -113,10 +113,9 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
+                        const EditProfileSection(),
                         if (sl<FeatureFlagsManager>().isBrijEnabled()) ...[
                           const KycSection(),
-                        ] else ...[
-                          const EditProfileSection(),
                         ],
                         const AmbassadorSection(),
                         const SecuritySection(),

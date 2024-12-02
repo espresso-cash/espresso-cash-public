@@ -64,7 +64,7 @@ enum RampPartner {
   ),
 
   brij(
-    title: 'Espresso Network',
+    title: 'Brij Network',
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
     partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
@@ -102,7 +102,7 @@ extension RampPartnerAssets on RampPartner {
       case RampPartner.moneygram:
         return Assets.brands.moneygram;
       case RampPartner.brij:
-        return Assets.images.logoIcon;
+        return Assets.brands.brij;
     }
   }
 }

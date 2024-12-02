@@ -67,9 +67,8 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: context.l10n.emailVerification,
+        title: context.l10n.emailVerification.toUpperCase(),
         children: [
-          const SizedBox(height: 20),
           Text(
             context.l10n
                 .checkEmailText(sl<KycSharingService>().value?.getEmail ?? ''),
@@ -80,7 +79,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
               letterSpacing: .19,
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 16),
           KycTextField(
             controller: _controller,
             inputType: TextInputType.number,
@@ -91,7 +90,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
             listenable: _controller,
             builder: (context, child) => CpBottomButton(
               horizontalPadding: 16,
-              text: context.l10n.next,
+              text: context.l10n.verify,
               onPressed: _isValid ? _handleConfirm : null,
             ),
           ),

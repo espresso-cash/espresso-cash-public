@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../ui/colors.dart';
 import '../../../gen/assets.gen.dart';
+import '../models/kyc_validation_status.dart';
 
 class KycStatusIcon extends StatelessWidget {
   const KycStatusIcon(
@@ -11,8 +11,9 @@ class KycStatusIcon extends StatelessWidget {
     this.height = 16,
   });
 
-  final ValidationStatus status;
+  final KycValidationStatus status;
   final double height;
+
   @override
   Widget build(BuildContext context) => Stack(
         alignment: Alignment.center,
@@ -21,23 +22,25 @@ class KycStatusIcon extends StatelessWidget {
             color: status.backgroundColor,
             height: height,
           ),
-          Assets.icons.xmark.svg(height: height / 2),
+          status.foregroundIcon(height / 2),
         ],
       );
 }
 
-extension on ValidationStatus {
-  Color get backgroundColor {
-    switch (this) {
-      case ValidationStatus.approved:
-        return CpColors.greenColor;
-      case ValidationStatus.pending:
-        return CpColors.yellowColor;
-      case ValidationStatus.unspecified:
-      case ValidationStatus.unverified:
-        return CpColors.greyColor;
-      case ValidationStatus.rejected:
-        return CpColors.alertRedColor;
-    }
-  }
+extension on KycValidationStatus {
+  Color get backgroundColor => switch (this) {
+        KycValidationStatus.approved => CpColors.greenColor,
+        KycValidationStatus.pending => CpColors.yellowColor,
+        KycValidationStatus.unverified => CpColors.greyColor,
+        KycValidationStatus.rejected => CpColors.alertRedColor,
+      };
+
+  Widget foregroundIcon(double width) => switch (this) {
+        KycValidationStatus.approved => Assets.icons.xmark.svg(width: width),
+        KycValidationStatus.unverified ||
+        KycValidationStatus.pending =>
+          Assets.icons.threeDots.svg(width: width),
+        KycValidationStatus.rejected =>
+          Assets.icons.exclamationMark.svg(height: width),
+      };
 }

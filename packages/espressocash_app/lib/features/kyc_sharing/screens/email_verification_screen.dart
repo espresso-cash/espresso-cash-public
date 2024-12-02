@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../ui/button.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/email.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_exception.dart';
+import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
@@ -65,29 +66,21 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: context.l10n.emailVerification,
         children: [
-          const SizedBox(height: 20),
-          Text(
-            context.l10n.enterEmailHintText,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 16,
-              height: 21 / 16,
-              letterSpacing: .19,
-            ),
+          KycHeader(
+            title: context.l10n.emailVerificationTitle.toUpperCase(),
+            description: context.l10n.enterEmailHintText,
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 16),
           KycTextField(
             controller: _emailController,
             inputType: TextInputType.emailAddress,
             placeholder: context.l10n.emailAddress,
           ),
-          const SizedBox(height: 16),
+          const Spacer(),
           ListenableBuilder(
             listenable: _emailController,
-            builder: (context, child) => CpButton(
-              minWidth: 250,
+            builder: (context, child) => CpBottomButton(
               text: context.l10n.sendVerificationCode,
               onPressed: _emailController.text.isValidEmail ? _sendEmail : null,
             ),
