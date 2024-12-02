@@ -69,7 +69,7 @@ class _KycInfo extends StatelessWidget {
             description: user.getPhone,
             onPressed: context.openPhoneFlow,
             status: user.phoneStatus,
-          )
+          ),
           // TODO(dev): hidden for now, still in development
           // if (!user.kycStatus.isUnspecified)
           //   KycButton(
