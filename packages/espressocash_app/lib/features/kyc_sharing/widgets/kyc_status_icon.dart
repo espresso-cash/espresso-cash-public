@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../ui/colors.dart';
 import '../../../gen/assets.gen.dart';
+import '../models/kyc_validation_status.dart';
 
 class KycStatusIcon extends StatelessWidget {
   const KycStatusIcon(
@@ -11,7 +11,7 @@ class KycStatusIcon extends StatelessWidget {
     this.height = 16,
   });
 
-  final ValidationStatus status;
+  final KycValidationStatus status;
   final double height;
 
   @override
@@ -27,23 +27,20 @@ class KycStatusIcon extends StatelessWidget {
       );
 }
 
-extension on ValidationStatus {
+extension on KycValidationStatus {
   Color get backgroundColor => switch (this) {
-        ValidationStatus.approved => CpColors.greenColor,
-        ValidationStatus.pending => CpColors.yellowColor,
-        ValidationStatus.unspecified ||
-        ValidationStatus.unverified =>
-          CpColors.greyColor,
-        ValidationStatus.rejected => CpColors.alertRedColor,
+        KycValidationStatus.approved => CpColors.greenColor,
+        KycValidationStatus.pending => CpColors.yellowColor,
+        KycValidationStatus.unverified => CpColors.greyColor,
+        KycValidationStatus.rejected => CpColors.alertRedColor,
       };
 
   Widget foregroundIcon(double width) => switch (this) {
-        ValidationStatus.approved => Assets.icons.xmark.svg(width: width),
-        ValidationStatus.unspecified ||
-        ValidationStatus.unverified ||
-        ValidationStatus.pending =>
+        KycValidationStatus.approved => Assets.icons.xmark.svg(width: width),
+        KycValidationStatus.unverified ||
+        KycValidationStatus.pending =>
           Assets.icons.threeDots.svg(width: width),
-        ValidationStatus.rejected =>
+        KycValidationStatus.rejected =>
           Assets.icons.exclamationMark.svg(height: width),
       };
 }

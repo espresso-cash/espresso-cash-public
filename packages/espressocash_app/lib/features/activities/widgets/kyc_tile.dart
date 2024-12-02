@@ -5,6 +5,7 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
+import '../../kyc_sharing/models/kyc_validation_status.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_status_icon.dart';
@@ -83,7 +84,7 @@ class _KycTileContent extends StatelessWidget {
         children: [
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: KycStatusIcon(status, height: 42),
+            leading: KycStatusIcon(status.toKycValidationStatus(), height: 42),
             title: Row(
               children: [
                 Expanded(
