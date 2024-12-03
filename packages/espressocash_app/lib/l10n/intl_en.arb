@@ -1008,34 +1008,6 @@
     "@verified": {},
     "notVerified": "Not Verified",
     "@notVerified": {},
-    "pendingApproval": "*Pending* approval",
-    "@pendingApproval": {},
-    "verificationFailed": "Verification failed",
-    "@verificationFailed": {},
-    "verificationNotStarted": "Verification not started",
-    "@verificationNotStarted": {},
-    "kycStatusApprovedDescription": "Great news!\nYour verification has been approved",
-    "@kycStatusApprovedDescription": {},
-    "kycStatusPendingDescription": "Your verification is being reviewed.\nYou can proceed once approved.",
-    "@kycStatusPendingDescription": {},
-    "kycStatusFailedDescription": "Your verification was not approved.",
-    "@kycStatusFailedDescription": {},
-    "kycTimelinePendingItem1": "The review process can take 10-20 minutes.",
-    "@kycTimelinePendingItem1": {},
-    "kycTimelinePendingItem2": "Don't worry, you can still send and receive money while your review is being processed.",
-    "@kycTimelinePendingItem2": {},
-    "kycTimelinePendingItem3": "Verification status updates will appear in your activity notifications.",
-    "@kycTimelinePendingItem3": {},
-    "kycTimelineApprovedItem1": "You can now make deposits and withdrawals.",
-    "@kycTimelineApprovedItem1": {},
-    "kycTimelineApprovedItem2": "Your verification covers all future transactions.",
-    "@kycTimelineApprovedItem2": {},
-    "kycTimelineApprovedItem3": "Re-verification will only be required if you change your identification.",
-    "@kycTimelineApprovedItem3": {},
-    "kycTimelineRejectedItem1": "Make sure all your information is correct.",
-    "@kycTimelineRejectedItem1": {},
-    "kycTimelineRejectedItem2": "Make sure your ID verification method is current.",
-    "@kycTimelineRejectedItem2": {},
     "returnToDashboard": "Return to Dashboard",
     "@returnToDashboard": {},
     "completeDeposit": "Complete Deposit",
@@ -1131,5 +1103,83 @@
     "kycVerificationFooter": "Verification only takes a few minutes.\nA valid ID is required.",
     "@kycVerificationFooter": {},
     "personalDetails": "Personal Details",
-    "@personalDetails": {}
+    "@personalDetails": {},
+    "kycPendingStatusTitle": "Identity *Pending Approval*",
+    "@kycPendingStatusTitle": {},
+    "kycPendingStatusDescription": "Your verification is under review and will take 10-20 minutes. ",
+    "@kycPendingStatusDescription": {},
+    "kycPendingStatusDescription2": "You can still send and receive money during this time.",
+    "@kycPendingStatusDescription2": {},
+    "kycPendingStatusDescription3": "Updates on your status will appear in your activity feed.",
+    "@kycPendingStatusDescription3": {},
+    "kycRejectedStatusTitle": "Identity *Not Verified*",
+    "@kycRejectedStatusTitle": {},
+    "kycRejectedStatusDescription": "Your verification was not approved.\nPlease ensure all your information is accurate and your ID is up to date.",
+    "@kycRejectedStatusDescription": {},
+    "kycApprovedStatusTitle": "Identity *Verified*",
+    "@kycApprovedStatusTitle": {},
+    "kycApprovedStatusDescription": "Good news! Your ID verification is approved.",
+    "@kycApprovedStatusDescription": {},
+    "kycApprovedStatusDescription2": "You can now make deposits and withdrawals, and it applies to all future transactions.\nRe-verification is only necessary if you update your ID.",
+    "@kycApprovedStatusDescription2": {},
+    "emailPendingStatusTitle": "Email Address *Pending Approval*",
+    "@emailPendingStatusTitle": {},
+    "emailPendingStatusDescription": "Your email {email} has not been verified.",
+    "@emailPendingStatusDescription": {
+      "placeholders": {
+        "email": {
+          "type": "String"
+        }
+      }
+    },
+    "emailRejectedStatusTitle": "Email Address *Not Verified*",
+    "@emailRejectedStatusTitle": {},
+    "emailRejectedStatusDescription": "Your email {email} could not be verified. Enter your email address to receive a new confirmation code.",
+    "@emailRejectedStatusDescription": {
+      "placeholders": {
+        "email": {
+          "type": "String"
+        }
+      }
+    },
+    "emailApprovedStatusTitle": "Email Address *Verified*",
+    "@emailApprovedStatusTitle": {},
+    "emailApprovedStatusDescription": "Your email {email} has been successfully verified.",
+    "@emailApprovedStatusDescription": {
+      "placeholders": {
+        "email": {
+          "type": "String"
+        }
+      }
+    },
+    "phonePendingStatusTitle": "Phone Number *Pending Approval*",
+    "@phonePendingStatusTitle": {},
+    "phonePendingStatusDescription": "Your phone number {phone} has not been verified.",
+    "@phonePendingStatusDescription": {
+      "placeholders": {
+        "phone": {
+          "type": "String"
+        }
+      }
+    },
+    "phoneRejectedStatusTitle": "Phone Number *Not Verified*",
+    "@phoneRejectedStatusTitle": {},
+    "phoneRejectedStatusDescription": "Your phone number {phone} could not be verified. Re-enter your mobile phone number to receive a new confirmation code.",
+    "@phoneRejectedStatusDescription": {
+      "placeholders": {
+        "phone": {
+          "type": "String"
+        }
+      }
+    },
+    "phoneApprovedStatusTitle": "Phone Number *Verified*",
+    "@phoneApprovedStatusTitle": {},
+    "phoneApprovedStatusDescription": "Your phone number {phone} has been successfully verified.",
+    "@phoneApprovedStatusDescription": {
+      "placeholders": {
+        "phone": {
+          "type": "String"
+        }
+      }
+    }
 }

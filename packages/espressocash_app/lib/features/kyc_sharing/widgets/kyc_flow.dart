@@ -7,11 +7,13 @@ import '../../../ui/snackbar.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/basic_information_screen.dart';
 import '../screens/email_confirmation_screen.dart';
+import '../screens/email_status_screen.dart';
 import '../screens/email_verification_screen.dart';
 import '../screens/identity_verification_screen.dart';
 import '../screens/kyc_description_screen.dart';
 import '../screens/kyc_status_screen.dart';
 import '../screens/phone_confirmation_screen.dart';
+import '../screens/phone_status_screen.dart';
 import '../screens/phone_verification_screen.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_utils.dart';
@@ -53,13 +55,13 @@ extension KycFlowExtension on BuildContext {
     final emailValidated = user.emailStatus == ValidationStatus.approved;
 
     if (!emailValidated) {
-      if (!await openEmailFlow()) return false;
+      if (!await _runFlow(emailSteps)) return false;
     }
 
     final phoneValidated = user.phoneStatus == ValidationStatus.approved;
 
     if (!phoneValidated) {
-      if (!await openPhoneFlow()) return false;
+      if (!await _runFlow(phoneSteps)) return false;
     }
 
     final hasBankInfo = user.hasBankInfo;
@@ -69,7 +71,7 @@ extension KycFlowExtension on BuildContext {
     }
 
     if (!kycProcessed) {
-      if (!await openBasicInfoFlow()) return false;
+      if (!await _runFlow(kycSteps)) return false;
     }
 
     if (user.kycStatus != ValidationStatus.approved) {
@@ -79,11 +81,38 @@ extension KycFlowExtension on BuildContext {
     return true;
   }
 
-  Future<bool> openBasicInfoFlow() => _runFlow(kycSteps);
+  Future<bool> openBasicInfoFlow() async {
+    final user = sl<KycSharingService>().value;
 
-  Future<bool> openEmailFlow() => _runFlow(emailSteps);
+    if (user?.kycStatus == ValidationStatus.unverified ||
+        user?.kycStatus == ValidationStatus.unspecified) {
+      return _runFlow(kycSteps);
+    }
 
-  Future<bool> openPhoneFlow() => _runFlow(phoneSteps);
+    return _navigateToScreen(KycStatusScreen.push);
+  }
+
+  Future<bool> openEmailFlow() async {
+    final user = sl<KycSharingService>().value;
+
+    if (user?.emailStatus == ValidationStatus.unverified ||
+        user?.emailStatus == ValidationStatus.unspecified) {
+      return _runFlow(emailSteps);
+    }
+
+    return _navigateToScreen(EmailStatusScreen.push);
+  }
+
+  Future<bool> openPhoneFlow() async {
+    final user = sl<KycSharingService>().value;
+
+    if (user?.phoneStatus == ValidationStatus.unverified ||
+        user?.phoneStatus == ValidationStatus.unspecified) {
+      return _runFlow(phoneSteps);
+    }
+
+    return _navigateToScreen(PhoneStatusScreen.push);
+  }
 
   Future<bool> _runFlow(List<KycStepFunction> steps) async {
     for (final step in steps) {
