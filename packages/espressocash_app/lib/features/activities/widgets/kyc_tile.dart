@@ -9,7 +9,6 @@ import '../../kyc_sharing/models/kyc_validation_status.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_status_icon.dart';
-import '../../ramp/partners/kyc/widgets/launch.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 
 class KycTile extends StatelessWidget {
@@ -17,19 +16,13 @@ class KycTile extends StatelessWidget {
     super.key,
     required this.title,
     required this.timestamp,
-    this.incomingAmount,
-    this.outgoingAmount,
     this.onTap,
-    required this.preOrder,
     required this.rampType,
   });
 
   final String title;
   final String timestamp;
-  final String? incomingAmount;
-  final String? outgoingAmount;
   final VoidCallback? onTap;
-  final PreOrderData? preOrder;
   final RampType rampType;
 
   @override
@@ -40,11 +33,6 @@ class KycTile extends StatelessWidget {
             : _KycTileContent(
                 status: user.kycStatus,
                 title: title,
-                timestamp: timestamp,
-                incomingAmount: incomingAmount,
-                outgoingAmount: outgoingAmount,
-                preOrder: preOrder,
-                rampType: rampType,
               ),
       );
 }
@@ -53,91 +41,53 @@ class _KycTileContent extends StatelessWidget {
   const _KycTileContent({
     required this.status,
     required this.title,
-    required this.timestamp,
-    required this.incomingAmount,
-    required this.outgoingAmount,
-    required this.preOrder,
-    required this.rampType,
   });
 
   final ValidationStatus status;
   final String title;
-  final String timestamp;
-  final String? incomingAmount;
-  final String? outgoingAmount;
-  final PreOrderData? preOrder;
-  final RampType rampType;
 
   @override
-  Widget build(BuildContext context) {
-    final incomingAmount = this.incomingAmount;
-    final outgoingAmount = this.outgoingAmount;
-
-    return Container(
-      margin: const EdgeInsets.only(right: 10, left: 10, bottom: 6),
-      padding: const EdgeInsets.only(top: 6, right: 20, left: 20, bottom: 26),
-      decoration: const BoxDecoration(
-        color: CpColors.blackGreyColor,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-      ),
-      child: Column(
-        children: [
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: KycStatusIcon(status.toKycValidationStatus(), height: 42),
-            title: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: _titleStyle,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+  Widget build(BuildContext context) => Container(
+        margin: const EdgeInsets.only(right: 10, left: 10, bottom: 6),
+        padding: const EdgeInsets.only(top: 6, right: 20, left: 20, bottom: 26),
+        decoration: const BoxDecoration(
+          color: CpColors.blackGreyColor,
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+        ),
+        child: Column(
+          children: [
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading:
+                  KycStatusIcon(status.toKycValidationStatus(), height: 42),
+              title: Expanded(
+                child: Text(
+                  title,
+                  style: _titleStyle,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                if (incomingAmount != null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text('+$incomingAmount', style: _inAmountStyle),
-                  ),
-                if (outgoingAmount != null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text('-$outgoingAmount', style: _titleStyle),
-                  ),
-              ],
+              ),
+              subtitle: Text(
+                status.subtitle(context),
+                style: _subtitleStyle,
+              ),
             ),
-            subtitle: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  status.subtitle(context),
-                  style: _subtitleStyle,
-                ),
-                Text(timestamp, style: _subtitleStyle),
-              ],
+            Text(
+              status.description(context),
+              textAlign: TextAlign.center,
+              style: _subtitleStyle,
             ),
-          ),
-          Text(
-            status.description(context),
-            textAlign: TextAlign.center,
-            style: _subtitleStyle,
-          ),
-          const SizedBox(height: 16),
-          CpButton(
-            minWidth: 180,
-            size: CpButtonSize.small,
-            text: status.buttonTitle(context, rampType),
-            onPressed: switch (rampType) {
-              RampType.onRamp => () =>
-                  context.launchKycOnRamp(preOrder: preOrder),
-              RampType.offRamp => () =>
-                  context.launchKycOffRamp(preOrder: preOrder),
-            },
-          ),
-        ],
-      ),
-    );
-  }
+            const SizedBox(height: 16),
+            CpButton(
+              minWidth: 180,
+              size: CpButtonSize.small,
+              text: 'View details',
+              // TODO(dev): Implement
+              onPressed: () {},
+            ),
+          ],
+        ),
+      );
 }
 
 extension on ValidationStatus {
@@ -158,17 +108,6 @@ extension on ValidationStatus {
         ValidationStatus.unspecified =>
           context.l10n.kycTileDescriptionUnverified,
       };
-
-  String buttonTitle(BuildContext context, RampType rampType) => switch (this) {
-        ValidationStatus.approved => rampType == RampType.onRamp
-            ? context.l10n.completeDeposit
-            : context.l10n.completeWithdrawal,
-        ValidationStatus.unverified ||
-        ValidationStatus.unspecified =>
-          'Continue Verification',
-        ValidationStatus.pending => context.l10n.seeDetails,
-        ValidationStatus.rejected => context.l10n.retryVerification,
-      };
 }
 
 const _titleStyle = TextStyle(
@@ -176,13 +115,6 @@ const _titleStyle = TextStyle(
   letterSpacing: .23,
   color: Colors.white,
   fontWeight: FontWeight.w600,
-);
-
-const _inAmountStyle = TextStyle(
-  fontSize: 16,
-  letterSpacing: .23,
-  color: CpColors.greenColor,
-  fontWeight: FontWeight.w500,
 );
 
 const _subtitleStyle = TextStyle(

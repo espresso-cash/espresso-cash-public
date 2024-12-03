@@ -151,8 +151,6 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.waitingForRefundBridge =>
         context.l10n.refundInProgressText,
       OffRampOrderStatus.refunded => context.l10n.refundSuccessText,
-      OffRampOrderStatus.waitingUserVerification =>
-        'Waiting for user verification',
       OffRampOrderStatus.waitingPartnerReview => 'Waiting for partner review',
     };
 
@@ -182,8 +180,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.completed ||
       OffRampOrderStatus.refunded ||
       OffRampOrderStatus.cancelled ||
-      OffRampOrderStatus.waitingPartnerReview ||
-      OffRampOrderStatus.waitingUserVerification =>
+      OffRampOrderStatus.waitingPartnerReview =>
         null,
     };
 
@@ -499,7 +496,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.sendingDepositTx ||
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
@@ -525,7 +521,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.ready ||
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
@@ -542,7 +537,6 @@ extension on OffRampOrderStatus {
       };
 
   int toActiveItem() => switch (this) {
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
@@ -568,7 +562,6 @@ extension on OffRampOrderStatus {
 
   int toActiveItemForMoneygram() => switch (this) {
         OffRampOrderStatus.waitingPartnerReview ||
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.rejected ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
@@ -619,7 +612,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.failure ||
         OffRampOrderStatus.cancelled ||
         OffRampOrderStatus.refunded ||
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.rejected =>
           false,
@@ -636,7 +628,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.ready ||
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.waitingForPartner =>
           context.l10n.pending,
         OffRampOrderStatus.depositError ||
