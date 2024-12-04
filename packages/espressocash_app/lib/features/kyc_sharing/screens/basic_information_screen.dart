@@ -132,7 +132,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
     if (text.isEmpty) return null;
 
     final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
-    final date = dateFormat.tryParse(text);
+    final date = dateFormat.tryParseUtc(text);
 
     final List<String> parts = text.split('/');
 
