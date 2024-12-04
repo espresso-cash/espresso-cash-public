@@ -78,18 +78,22 @@ class KycStatusScreen extends StatelessWidget {
                 text: switch (status) {
                   KycValidationStatus.rejected => context.l10n.contactUs,
                   KycValidationStatus.pending => context.l10n.activityButton,
-                  _ => context.l10n.ok,
+                  KycValidationStatus.approved ||
+                  KycValidationStatus.unverified =>
+                    context.l10n.ok,
                 },
                 onPressed: () {
-                  if (status == KycValidationStatus.rejected) {
-                    sl<IntercomService>().displayMessenger();
-                  } else if (status == KycValidationStatus.pending) {
-                    HomeScreen.openActivitiesTab(
-                      context,
-                      tab: ActivitiesTab.pending,
-                    );
-                  } else {
-                    Navigator.of(context).pop();
+                  switch (status) {
+                    case KycValidationStatus.rejected:
+                      sl<IntercomService>().displayMessenger();
+                    case KycValidationStatus.pending:
+                      HomeScreen.openActivitiesTab(
+                        context,
+                        tab: ActivitiesTab.pending,
+                      );
+                    case KycValidationStatus.approved:
+                    case KycValidationStatus.unverified:
+                      Navigator.of(context).pop();
                   }
                 },
               ),

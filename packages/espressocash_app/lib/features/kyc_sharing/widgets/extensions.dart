@@ -11,7 +11,7 @@ extension KycBuildContext on BuildContext {
   Future<bool> sendEmailVerification(
     BuildContext context, {
     required String email,
-  }) async =>
+  }) =>
       runWithLoader<bool>(
         context,
         () async {
@@ -37,7 +37,7 @@ extension KycBuildContext on BuildContext {
   Future<bool> sendPhoneVerification(
     BuildContext context, {
     required String phone,
-  }) async =>
+  }) =>
       runWithLoader<bool>(
         context,
         () async {

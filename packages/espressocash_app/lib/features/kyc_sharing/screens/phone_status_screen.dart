@@ -75,7 +75,10 @@ class __UpdatePhoneContentState extends State<_UpdatePhoneContent> {
 
   String get _placeholderText => switch (widget.status) {
         KycValidationStatus.rejected => context.l10n.phoneNumber,
-        _ => context.l10n.updatePhoneNumber,
+        KycValidationStatus.approved ||
+        KycValidationStatus.pending ||
+        KycValidationStatus.unverified =>
+          context.l10n.updatePhoneNumber,
       };
 
   Future<void> _handleSendVerification() async {

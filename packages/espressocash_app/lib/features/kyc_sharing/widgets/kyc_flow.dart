@@ -81,37 +81,31 @@ extension KycFlowExtension on BuildContext {
     return true;
   }
 
-  Future<bool> openBasicInfoFlow() async {
+  Future<bool> openBasicInfoFlow() {
     final user = sl<KycSharingService>().value;
 
-    if (user?.kycStatus == ValidationStatus.unverified ||
-        user?.kycStatus == ValidationStatus.unspecified) {
-      return _runFlow(kycSteps);
-    }
-
-    return _navigateToScreen(KycStatusScreen.push);
+    return user?.kycStatus == ValidationStatus.unverified ||
+            user?.kycStatus == ValidationStatus.unspecified
+        ? _runFlow(kycSteps)
+        : _navigateToScreen(KycStatusScreen.push);
   }
 
-  Future<bool> openEmailFlow() async {
+  Future<bool> openEmailFlow() {
     final user = sl<KycSharingService>().value;
 
-    if (user?.emailStatus == ValidationStatus.unverified ||
-        user?.emailStatus == ValidationStatus.unspecified) {
-      return _runFlow(emailSteps);
-    }
-
-    return _navigateToScreen(EmailStatusScreen.push);
+    return user?.emailStatus == ValidationStatus.unverified ||
+            user?.emailStatus == ValidationStatus.unspecified
+        ? _runFlow(emailSteps)
+        : _navigateToScreen(EmailStatusScreen.push);
   }
 
-  Future<bool> openPhoneFlow() async {
+  Future<bool> openPhoneFlow() {
     final user = sl<KycSharingService>().value;
 
-    if (user?.phoneStatus == ValidationStatus.unverified ||
-        user?.phoneStatus == ValidationStatus.unspecified) {
-      return _runFlow(phoneSteps);
-    }
-
-    return _navigateToScreen(PhoneStatusScreen.push);
+    return user?.phoneStatus == ValidationStatus.unverified ||
+            user?.phoneStatus == ValidationStatus.unspecified
+        ? _runFlow(phoneSteps)
+        : _navigateToScreen(PhoneStatusScreen.push);
   }
 
   Future<bool> _runFlow(List<KycStepFunction> steps) async {

@@ -73,7 +73,10 @@ class __UpdateEmailContentState extends State<_UpdateEmailContent> {
 
   String get _placeholderText => switch (widget.status) {
         KycValidationStatus.rejected => context.l10n.emailAddress,
-        _ => context.l10n.updateEmailAddress,
+        KycValidationStatus.approved ||
+        KycValidationStatus.pending ||
+        KycValidationStatus.unverified =>
+          context.l10n.updateEmailAddress,
       };
 
   Future<void> _handleSendVerification() async {
