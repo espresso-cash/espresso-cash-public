@@ -966,7 +966,9 @@
         }
       }
     },
-    "sendVerificationCode": "Send",
+    "send": "Send",
+    "@send": {},
+    "sendVerificationCode": "Send Verification Code",
     "@sendVerificationCode": {},
     "enterEmailHintText": "Enter your email address to receive your confirmation code.",
     "@enterEmailHintText": {},
@@ -1120,7 +1122,7 @@
     "@kycApprovedStatusTitle": {},
     "kycApprovedStatusDescription": "Good news! Your ID verification is approved.",
     "@kycApprovedStatusDescription": {},
-    "kycApprovedStatusDescription2": "You can now make deposits and withdrawals, and it applies to all future transactions.\nRe-verification is only necessary if you update your ID.",
+    "kycApprovedStatusDescription2": "You can now make deposits and withdrawals, and it applies to all future transactions.",
     "@kycApprovedStatusDescription2": {},
     "emailPendingStatusTitle": "Email Address *Pending Approval*",
     "@emailPendingStatusTitle": {},
@@ -1181,5 +1183,7 @@
           "type": "String"
         }
       }
-    }
+    },
+    "activityButton": "Activity",
+    "@activityButton": {}
 }
