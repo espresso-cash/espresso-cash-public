@@ -18,29 +18,25 @@ import '../../transaction_request/widgets/tr_link_listener.dart';
 import '../../wallet_flow/screens/wallet_screen.dart';
 import 'main_screen.dart';
 
+final _tabNotifier = ValueNotifier<int>(0);
+final _activitiesTabNotifier =
+    ValueNotifier<ActivitiesTab>(ActivitiesTab.pending);
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   static void openWalletTab(BuildContext context) {
-    final _HomeScreenState? state =
-        context.findAncestorStateOfType<_HomeScreenState>();
-    if (state != null) {
-      state._pageController.jumpToPage(1);
-      state._tabNotifier.value = 1;
-    }
+    _tabNotifier.value = 1;
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   static void openActivitiesTab(
     BuildContext context, {
-    // ignore: avoid-unused-parameters, fix later
     ActivitiesTab tab = ActivitiesTab.pending,
   }) {
-    final _HomeScreenState? state =
-        context.findAncestorStateOfType<_HomeScreenState>();
-    if (state != null) {
-      state._pageController.jumpToPage(2);
-      state._tabNotifier.value = 2;
-    }
+    _tabNotifier.value = 2;
+    _activitiesTabNotifier.value = tab;
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   @override
@@ -48,12 +44,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _tabNotifier = TabNotifier();
   final _pageController = PageController();
 
   @override
+  void initState() {
+    super.initState();
+    _tabNotifier.addListener(_handleGlobalTabChange);
+  }
+
+  void _handleGlobalTabChange() {
+    if (mounted) {
+      _pageController.jumpToPage(_tabNotifier.value);
+    }
+  }
+
+  @override
   void dispose() {
-    _tabNotifier.dispose();
+    _tabNotifier.removeListener(_handleGlobalTabChange);
     _pageController.dispose();
     super.dispose();
   }
@@ -122,10 +129,6 @@ class LinkLoader extends StatelessWidget {
       );
 }
 
-class TabNotifier extends ValueNotifier<int> {
-  TabNotifier() : super(0);
-}
-
 // ignore: avoid-function-type-in-records, fix later
 final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
   (
@@ -147,7 +150,7 @@ final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
   (
     icon: Assets.icons.notifications,
     builder: (context) => ActivitiesScreen(
-          initialTab: ActivitiesTab.pending,
+          initialTab: _activitiesTabNotifier.value,
           onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
         ),
   ),

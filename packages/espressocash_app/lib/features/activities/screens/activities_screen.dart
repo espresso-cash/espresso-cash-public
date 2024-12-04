@@ -34,8 +34,9 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
   @override
   void didUpdateWidget(covariant ActivitiesScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.initialTab != widget.initialTab) {
-      _controller.index = widget.initialTab.index;
+
+    if (_controller.index != widget.initialTab.index) {
+      _controller.animateTo(widget.initialTab.index);
     }
   }
 
