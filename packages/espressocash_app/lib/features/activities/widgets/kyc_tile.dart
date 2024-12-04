@@ -14,11 +14,9 @@ import '../../kyc_sharing/widgets/kyc_status_icon.dart';
 class KycTile extends StatelessWidget {
   const KycTile({
     super.key,
-    required this.title,
     this.onTap,
   });
 
-  final String title;
   final VoidCallback? onTap;
 
   @override
@@ -28,7 +26,7 @@ class KycTile extends StatelessWidget {
             ? const SizedBox.shrink()
             : _KycTileContent(
                 status: user.kycStatus,
-                title: title,
+                title: 'KYC',
               ),
       );
 }
@@ -56,12 +54,10 @@ class _KycTileContent extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               leading:
                   KycStatusIcon(status.toKycValidationStatus(), height: 42),
-              title: Expanded(
-                child: Text(
-                  title,
-                  style: _titleStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
+              title: Text(
+                title,
+                style: _titleStyle,
+                overflow: TextOverflow.ellipsis,
               ),
               subtitle: Text(
                 status.subtitle(context),

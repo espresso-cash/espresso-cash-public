@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../data/db/db.dart';
+import '../../kyc_sharing/services/kyc_service.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
@@ -21,14 +22,29 @@ class PendingActivitiesRepository {
     this._onRampOrderService,
     this._offRampOrderService,
     this._trService,
+    this._kycService,
   );
 
   final MyDatabase _db;
   final OnRampOrderService _onRampOrderService;
   final OffRampOrderService _offRampOrderService;
   final TRService _trService;
+  final KycSharingService _kycService;
 
   Stream<IList<Activity>> watchAll() {
+    final kycStream = Stream<Iterable<Activity>>.multi((controller) {
+      void listener() => controller.add(
+            _kycService.showKycTile
+                ? [Activity.kyc(created: DateTime.now())]
+                : const [],
+          );
+      _kycService.addListener(listener);
+
+      listener();
+
+      controller.onCancel = () => _kycService.removeListener(listener);
+    });
+
     final opr = _db.select(_db.paymentRequestRows)
       ..where(
         (tbl) => tbl.state.equalsValue(PaymentRequestStateDto.completed).not(),
@@ -82,11 +98,14 @@ class PendingActivitiesRepository {
         olpStream,
         offRampStream,
         trStream,
+        kycStream,
       ],
-      (values) => values
-          .expand(identity)
-          .toIList()
-          .sortOrdered((a, b) => b.created.compareTo(a.created)),
+      (values) => values.expand(identity).toIList().sortOrdered((a, b) {
+        if (a is KycActivity) return -1;
+        if (b is KycActivity) return 1;
+
+        return b.created.compareTo(a.created);
+      }),
     );
   }
 }
