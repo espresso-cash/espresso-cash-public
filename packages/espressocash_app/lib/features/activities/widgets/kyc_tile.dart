@@ -6,24 +6,20 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../kyc_sharing/models/kyc_validation_status.dart';
+import '../../kyc_sharing/screens/kyc_status_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_status_icon.dart';
-import '../../ramp_partner/models/ramp_type.dart';
 
 class KycTile extends StatelessWidget {
   const KycTile({
     super.key,
     required this.title,
-    required this.timestamp,
     this.onTap,
-    required this.rampType,
   });
 
   final String title;
-  final String timestamp;
   final VoidCallback? onTap;
-  final RampType rampType;
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
@@ -82,8 +78,7 @@ class _KycTileContent extends StatelessWidget {
               minWidth: 180,
               size: CpButtonSize.small,
               text: 'View details',
-              // TODO(dev): Implement
-              onPressed: () {},
+              onPressed: () => KycStatusScreen.push(context),
             ),
           ],
         ),

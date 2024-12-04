@@ -31,6 +31,18 @@ class KycStatusScreen extends StatefulWidget {
 
 class _KycStatusScreenState extends State<KycStatusScreen> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final kycService = sl<KycSharingService>();
+      if (kycService.value?.kycStatus == ValidationStatus.approved) {
+        kycService.showKycTile = false;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
         valueListenable: sl<KycSharingService>(),
         builder: (context, userData, child) => userData == null

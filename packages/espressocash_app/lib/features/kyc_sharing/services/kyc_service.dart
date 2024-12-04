@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
@@ -19,9 +20,17 @@ import '../utils/kyc_utils.dart';
 
 @Singleton(scope: authScope)
 class KycSharingService extends ValueNotifier<UserData?> {
-  KycSharingService(this._kycRepository) : super(null);
+  KycSharingService(this._kycRepository, this._sharedPreferences) : super(null);
 
   final KycRepository _kycRepository;
+  final SharedPreferences _sharedPreferences;
+
+  bool get showKycTile => _sharedPreferences.getBool(_showKycTileKey) ?? false;
+
+  set showKycTile(bool value) {
+    _sharedPreferences.setBool(_showKycTileKey, value);
+    notifyListeners();
+  }
 
   StreamSubscription<void>? _pollingSubscription;
 
@@ -130,6 +139,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     await fetchUserData();
     _subscribe();
+    await _sharedPreferences.setBool(_showKycTileKey, true);
   }
 
   Future<void> updateSelfiePhoto({File? photoSelfie}) async {
@@ -218,3 +228,5 @@ class KycSharingService extends ValueNotifier<UserData?> {
     super.dispose();
   }
 }
+
+const _showKycTileKey = 'showKycTile';
