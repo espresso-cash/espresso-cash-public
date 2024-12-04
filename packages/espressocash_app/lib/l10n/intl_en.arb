@@ -1185,5 +1185,9 @@
       }
     },
     "activityButton": "Activity",
-    "@activityButton": {}
+    "@activityButton": {},
+    "updateEmailAddress": "Update Email Address",
+    "@updateEmailAddress": {},
+    "updatePhoneNumber": "Update Phone Number",
+    "@updatePhoneNumber": {}
 }
