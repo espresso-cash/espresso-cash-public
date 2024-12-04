@@ -264,8 +264,10 @@ class BrijOnRampOrderService implements Disposable {
       if (status == OnRampOrderStatus.waitingForDeposit) return;
 
       if (status != order.status) {
+        final isCompleted = status == OnRampOrderStatus.completed;
         await statement.write(
           OnRampOrderRowsCompanion(
+            isCompleted: Value.ofNullable(isCompleted),
             status: Value.ofNullable(status),
             txHash: Value.ofNullable(orderData.transactionId),
           ),
