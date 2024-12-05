@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
-import '../../activities/screens/activities_screen.dart';
-import '../../authenticated/screens/home_screen.dart';
+import '../../authenticated/service/navigation_service.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../models/kyc_validation_status.dart';
 import '../utils/kyc_utils.dart';
@@ -87,10 +86,7 @@ class KycStatusScreen extends StatelessWidget {
                     case KycValidationStatus.rejected:
                       sl<IntercomService>().displayMessenger();
                     case KycValidationStatus.pending:
-                      HomeScreen.openActivitiesTab(
-                        context,
-                        tab: ActivitiesTab.pending,
-                      );
+                      sl<HomeNavigationService>().openActivitiesTab(context);
                     case KycValidationStatus.approved:
                     case KycValidationStatus.unverified:
                       Navigator.of(context).pop();
