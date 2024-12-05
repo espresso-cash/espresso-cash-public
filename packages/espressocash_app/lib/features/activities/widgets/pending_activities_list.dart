@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide Notification;
 
 import '../../../di.dart';
 import '../../../ui/colors.dart';
+import '../../../utils/extensions.dart';
 import '../models/activity.dart';
 import '../services/pending_activities_repository.dart';
 import 'kyc_tile.dart';
@@ -65,7 +66,10 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                 SliverPadding(
                   padding: widget.padding ?? EdgeInsets.zero,
                   sliver: SliverToBoxAdapter(
-                    child: KycTile(key: ValueKey(data.first.created)),
+                    child: KycTile(
+                      key: ValueKey(data.first.created),
+                      timestamp: context.formatDate(data.first.created),
+                    ),
                   ),
                 ),
                 const SliverPadding(padding: EdgeInsets.only(top: 16)),

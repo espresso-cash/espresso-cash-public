@@ -1131,5 +1131,11 @@
     "kycVerificationFooter": "Verification only takes a few minutes.\nA valid ID is required.",
     "@kycVerificationFooter": {},
     "personalDetails": "Personal Details",
-    "@personalDetails": {}
+    "@personalDetails": {},
+    "idVerification": "ID Verification",
+    "@idVerification": {},
+    "viewDetails": "View Details",
+    "@viewDetails": {},
+    "approved": "Approved",
+    "@approved": {}
 }

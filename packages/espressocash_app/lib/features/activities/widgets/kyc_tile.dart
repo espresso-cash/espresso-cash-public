@@ -15,9 +15,11 @@ class KycTile extends StatelessWidget {
   const KycTile({
     super.key,
     this.onTap,
+    required this.timestamp,
   });
 
   final VoidCallback? onTap;
+  final String timestamp;
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
@@ -26,7 +28,8 @@ class KycTile extends StatelessWidget {
             ? const SizedBox.shrink()
             : _KycTileContent(
                 status: user.kycStatus,
-                title: 'KYC',
+                title: context.l10n.idVerification,
+                timestamp: timestamp,
               ),
       );
 }
@@ -35,10 +38,12 @@ class _KycTileContent extends StatelessWidget {
   const _KycTileContent({
     required this.status,
     required this.title,
+    required this.timestamp,
   });
 
   final ValidationStatus status;
   final String title;
+  final String timestamp;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -58,9 +63,12 @@ class _KycTileContent extends StatelessWidget {
                 style: _titleStyle,
                 overflow: TextOverflow.ellipsis,
               ),
-              subtitle: Text(
-                status.subtitle(context),
-                style: _subtitleStyle,
+              subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(status.subtitle(context), style: _subtitleStyle),
+                  Text(timestamp, style: _subtitleStyle),
+                ],
               ),
             ),
             Text(
@@ -72,7 +80,7 @@ class _KycTileContent extends StatelessWidget {
             CpButton(
               minWidth: 180,
               size: CpButtonSize.small,
-              text: 'View details',
+              text: context.l10n.viewDetails,
               onPressed: () => KycStatusScreen.push(context),
             ),
           ],
@@ -82,7 +90,7 @@ class _KycTileContent extends StatelessWidget {
 
 extension on ValidationStatus {
   String subtitle(BuildContext context) => switch (this) {
-        ValidationStatus.approved => context.l10n.verified,
+        ValidationStatus.approved => context.l10n.approved,
         ValidationStatus.rejected => context.l10n.failed,
         ValidationStatus.pending ||
         ValidationStatus.unverified ||
