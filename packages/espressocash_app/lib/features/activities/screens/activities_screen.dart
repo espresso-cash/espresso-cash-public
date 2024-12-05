@@ -48,7 +48,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
   @override
   Widget build(BuildContext context) {
     final bottom = MediaQuery.paddingOf(context).bottom;
-    const insets = EdgeInsets.only(left: 8, right: 8, top: _padding);
+    const insets = EdgeInsets.symmetric(horizontal: 24);
 
     Widget mapTab(ActivitiesTab tab) => Tab(
           text: switch (tab) {
@@ -101,8 +101,6 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
     );
   }
 }
-
-const double _padding = 40;
 
 class _Wrapper extends StatelessWidget {
   const _Wrapper({required this.child});

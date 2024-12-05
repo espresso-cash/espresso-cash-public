@@ -13,7 +13,6 @@ import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../models/document_type.dart';
 import '../services/kyc_service.dart';
-import '../services/pending_kyc_service.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/document_picker.dart';
 import '../widgets/kyc_header.dart';
@@ -109,8 +108,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             idType: _idType,
             idNumber: _idNumberController.text,
           );
-
-          sl<PendingKycService>().createPendingKyc();
 
           if (!mounted) return false;
 

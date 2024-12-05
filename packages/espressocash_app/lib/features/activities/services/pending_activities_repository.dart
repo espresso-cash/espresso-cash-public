@@ -92,10 +92,12 @@ class PendingActivitiesRepository {
         trStream,
         pendingKycStream,
       ],
-      (values) => values
-          .expand(identity)
-          .toIList()
-          .sortOrdered((a, b) => b.created.compareTo(a.created)),
+      (values) => values.expand(identity).toIList().sortOrdered((a, b) {
+        if (a is KycActivity) return -1;
+        if (b is KycActivity) return 1;
+
+        return b.created.compareTo(a.created);
+      }),
     );
   }
 }

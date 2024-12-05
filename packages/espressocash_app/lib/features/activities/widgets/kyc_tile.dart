@@ -42,7 +42,6 @@ class _KycTileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.only(right: 10, left: 10, bottom: 6),
         padding: const EdgeInsets.only(top: 6, right: 20, left: 20, bottom: 26),
         decoration: const BoxDecoration(
           color: CpColors.blackGreyColor,
