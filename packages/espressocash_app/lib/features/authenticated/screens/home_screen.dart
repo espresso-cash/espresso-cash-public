@@ -8,16 +8,16 @@ import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
 import '../../../ui/page_spacer_wrapper.dart';
-import '../../activities/models/activities_tab.dart';
 import '../../activities/screens/activities_screen.dart';
 import '../../ambassador/widgets/ambassador_link_listener.dart';
 import '../../dynamic_links/services/dynamic_links_notifier.dart';
 import '../../incoming_link_payments/widgets/pending_ilp_listener.dart';
 import '../../outgoing_direct_payments/widgets/link_listener.dart';
 import '../../ramp/partners/coinflow/widgets/coinflow_link_listener.dart';
+import '../../router/models/activities_tab.dart';
+import '../../router/service/navigation_service.dart';
 import '../../transaction_request/widgets/tr_link_listener.dart';
 import '../../wallet_flow/screens/wallet_screen.dart';
-import '../service/navigation_service.dart';
 import 'main_screen.dart';
 
 class HomeScreen extends StatefulWidget {
