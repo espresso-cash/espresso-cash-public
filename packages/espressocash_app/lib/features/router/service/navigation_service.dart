@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../accounts/auth_scope.dart';
-import '../../activities/models/activities_tab.dart';
+import '../models/activities_tab.dart';
 
 @Singleton(scope: authScope)
 class HomeNavigationService {
