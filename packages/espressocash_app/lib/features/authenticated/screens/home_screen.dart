@@ -16,28 +16,20 @@ import '../../outgoing_direct_payments/widgets/link_listener.dart';
 import '../../ramp/partners/coinflow/widgets/coinflow_link_listener.dart';
 import '../../transaction_request/widgets/tr_link_listener.dart';
 import '../../wallet_flow/screens/wallet_screen.dart';
+import '../service/navigation_service.dart';
 import 'main_screen.dart';
-
-final _tabNotifier = ValueNotifier<int>(0);
-final _activitiesTabNotifier =
-    ValueNotifier<ActivitiesTab>(ActivitiesTab.pending);
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  static void openWalletTab(BuildContext context) {
-    _tabNotifier.value = 1;
-    Navigator.of(context).popUntil((route) => route.isFirst);
-  }
+  static void openWalletTab(BuildContext context) =>
+      sl<HomeNavigationService>().openWalletTab(context);
 
   static void openActivitiesTab(
     BuildContext context, {
     ActivitiesTab tab = ActivitiesTab.pending,
-  }) {
-    _tabNotifier.value = 2;
-    _activitiesTabNotifier.value = tab;
-    Navigator.of(context).popUntil((route) => route.isFirst);
-  }
+  }) =>
+      sl<HomeNavigationService>().openActivitiesTab(context, tab: tab);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -49,25 +41,27 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _tabNotifier.addListener(_handleGlobalTabChange);
+    sl<HomeNavigationService>().tabNotifier.addListener(_handleGlobalTabChange);
   }
 
   void _handleGlobalTabChange() {
     if (mounted) {
-      _pageController.jumpToPage(_tabNotifier.value);
+      _pageController.jumpToPage(sl<HomeNavigationService>().tabNotifier.value);
     }
   }
 
   @override
   void dispose() {
-    _tabNotifier.removeListener(_handleGlobalTabChange);
+    sl<HomeNavigationService>()
+        .tabNotifier
+        .removeListener(_handleGlobalTabChange);
     _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider.value(
-        value: _tabNotifier,
+        value: sl<HomeNavigationService>().tabNotifier,
         child: LinkLoader(
           child: ODPLinkListener(
             child: PendingILPListener(
@@ -75,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: CoinflowLinkListener(
                   child: AmbassadorLinkListener(
                     child: ValueListenableBuilder(
-                      valueListenable: _tabNotifier,
+                      valueListenable: sl<HomeNavigationService>().tabNotifier,
                       builder: (context, value, _) => Scaffold(
                         backgroundColor: Colors.white,
                         extendBody: true,
@@ -92,7 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   icon: p.icon,
                                   active: value == i,
                                   onPressed: () {
-                                    _tabNotifier.value = i;
+                                    sl<HomeNavigationService>()
+                                        .tabNotifier
+                                        .value = i;
                                     _pageController.jumpToPage(i);
                                   },
                                 ),
@@ -150,7 +146,7 @@ final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
   (
     icon: Assets.icons.notifications,
     builder: (context) => ActivitiesScreen(
-          initialTab: _activitiesTabNotifier.value,
+          initialTab: sl<HomeNavigationService>().activitiesTabNotifier.value,
           onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
         ),
   ),
