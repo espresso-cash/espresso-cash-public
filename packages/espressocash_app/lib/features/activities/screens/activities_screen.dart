@@ -4,7 +4,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/tab_bar.dart';
-import '../../authenticated/service/navigation_service.dart';
+import '../models/activities_tab.dart';
 import '../widgets/pending_activities_list.dart';
 import '../widgets/transaction_list.dart';
 
