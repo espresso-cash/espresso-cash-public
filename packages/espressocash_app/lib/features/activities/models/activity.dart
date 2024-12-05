@@ -49,7 +49,6 @@ class Activity with _$Activity {
   }) = TransactionRequestActivity;
 
   const factory Activity.kyc({
-    @Default('') String id,
     required DateTime created,
   }) = KycActivity;
 }

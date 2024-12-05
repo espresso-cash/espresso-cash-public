@@ -92,7 +92,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                         key: ValueKey(it.id),
                         activity: it,
                       ),
-                      kyc: (it) => KycTile(key: ValueKey(it.id)),
+                      kyc: (it) => KycTile(key: ValueKey(it.created)),
                     );
                   },
                   itemCount: data.length,
