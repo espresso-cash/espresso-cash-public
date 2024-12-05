@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../accounts/auth_scope.dart';
-
-enum ActivitiesTab { pending, transactions }
+import '../../activities/models/activities_tab.dart';
 
 @Singleton(scope: authScope)
 class HomeNavigationService {

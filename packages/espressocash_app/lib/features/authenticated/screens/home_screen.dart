@@ -8,6 +8,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
 import '../../../ui/page_spacer_wrapper.dart';
+import '../../activities/models/activities_tab.dart';
 import '../../activities/screens/activities_screen.dart';
 import '../../ambassador/widgets/ambassador_link_listener.dart';
 import '../../dynamic_links/services/dynamic_links_notifier.dart';
