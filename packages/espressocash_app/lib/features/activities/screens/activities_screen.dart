@@ -4,10 +4,9 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/tab_bar.dart';
+import '../../router/models/activities_tab.dart';
 import '../widgets/pending_activities_list.dart';
 import '../widgets/transaction_list.dart';
-
-enum ActivitiesTab { pending, transactions }
 
 class ActivitiesScreen extends StatefulWidget {
   const ActivitiesScreen({
@@ -34,8 +33,9 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
   @override
   void didUpdateWidget(covariant ActivitiesScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.initialTab != widget.initialTab) {
-      _controller.index = widget.initialTab.index;
+
+    if (_controller.index != widget.initialTab.index) {
+      _controller.animateTo(widget.initialTab.index);
     }
   }
 
