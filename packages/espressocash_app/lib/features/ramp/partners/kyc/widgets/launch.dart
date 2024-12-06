@@ -2,13 +2,19 @@ import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/bottom_button.dart';
+import '../../../../../ui/button.dart';
+import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/loader.dart';
+import '../../../../../ui/markdown_text.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
+import '../../../../kyc_sharing/services/pending_kyc_service.dart';
 import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
@@ -21,6 +27,33 @@ import '../services/brij_on_ramp_order_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchKycOnRamp() async {
+    final pendingKyc = await sl<PendingKycService>().pendingKycStream.first;
+
+    if (pendingKyc != null) {
+      await showCustomDialog(
+        this,
+        title: EcMarkdownText(
+          text: l10n.pendingKycDialogTitle.toUpperCase(),
+          textAlign: WrapAlignment.center,
+        ),
+        message: Text(
+          l10n.pendingKycDialogMessage,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        actions: CpBottomButton(
+          text: l10n.activityButton,
+          horizontalPadding: 0,
+          // TODO(dev): Navigate to activity screen
+          onPressed: () => Navigator.pop(this),
+        ),
+      );
+
+      return;
+    }
+
     final kycPassed = await openKycFlow();
 
     if (!kycPassed) return;
@@ -115,6 +148,33 @@ extension BuildContextExt on BuildContext {
   }
 
   Future<void> launchKycOffRamp() async {
+    final pendingKyc = await sl<PendingKycService>().pendingKycStream.first;
+
+    if (pendingKyc != null) {
+      await showCustomDialog(
+        this,
+        title: EcMarkdownText(
+          text: l10n.pendingKycDialogTitle.toUpperCase(),
+          textAlign: WrapAlignment.center,
+        ),
+        message: Text(
+          l10n.pendingKycDialogMessage,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        actions: CpBottomButton(
+          text: l10n.activityButton,
+          horizontalPadding: 0,
+          // TODO(dev): Navigate to activity screen
+          onPressed: () => Navigator.pop(this),
+        ),
+      );
+
+      return;
+    }
+
     final kycPassed = await openKycFlow();
 
     if (!kycPassed) return;

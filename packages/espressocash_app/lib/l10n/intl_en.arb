@@ -1137,5 +1137,11 @@
     "viewDetails": "View Details",
     "@viewDetails": {},
     "approved": "Approved",
-    "@approved": {}
+    "@approved": {},
+    "activityButton": "Activity",
+    "@activityButton": {},
+    "pendingKycDialogTitle": "We’re still verifying your *identity.*",
+    "@pendingKycDialogTitle": {},
+    "pendingKycDialogMessage": "Your identity verification is currently under review and will be completed shortly. You can check the Activity page for real-time updates on your verification status.",
+    "@pendingKycDialogMessage": {}
 }
