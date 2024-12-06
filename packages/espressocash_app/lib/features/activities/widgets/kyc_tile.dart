@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-switch-with-enums
+
 import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
@@ -73,25 +75,20 @@ class _KycTileContent extends StatelessWidget {
       );
     }
 
-    if (kycStatus == ValidationStatus.unspecified ||
-        kycStatus == ValidationStatus.unverified) {
-      return _KycItem(
-        status: kycStatus,
-        timestamp: timestamp,
-        title: context.l10n.idVerification,
-        description: kycStatus.description(context),
-        onPressed: context.openKycFlow,
-        buttonText: context.l10n.continueVerification,
-      );
-    }
+    final isUnverified = kycStatus == ValidationStatus.unspecified ||
+        kycStatus == ValidationStatus.unverified;
 
     return _KycItem(
       status: kycStatus,
       timestamp: timestamp,
       title: context.l10n.idVerification,
       description: kycStatus.description(context),
-      onPressed: () => KycStatusScreen.push(context),
-      buttonText: context.l10n.viewDetails,
+      onPressed: isUnverified
+          ? context.openKycFlow
+          : () => KycStatusScreen.push(context),
+      buttonText: isUnverified
+          ? context.l10n.continueVerification
+          : context.l10n.viewDetails,
     );
   }
 }
