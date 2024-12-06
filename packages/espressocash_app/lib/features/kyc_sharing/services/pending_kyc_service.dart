@@ -13,19 +13,22 @@ class PendingKycService {
 
   Stream<DateTime?> get pendingKycStream => _controller.stream;
 
+  bool get hasPendingKyc =>
+      _sharedPreferences.getString(_kycStartedKey) != null;
+
   @PostConstruct()
   void init() {
     final currentDate = _getCurrentKycDate();
     _controller.add(currentDate);
   }
 
-  void createPendingKyc() {
+  void create() {
     final now = DateTime.now().toIso8601String();
     _sharedPreferences.setString(_kycStartedKey, now);
     _controller.add(_getCurrentKycDate());
   }
 
-  void removePendingKyc() {
+  void remove() {
     _sharedPreferences.remove(_kycStartedKey);
     _controller.add(null);
   }
