@@ -10,6 +10,7 @@ import '../../../ui/back_button.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/content_padding.dart';
+import '../../../ui/markdown_text.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/services/convert_to_usd.dart';
 import '../../conversion_rates/widgets/extensions.dart';
@@ -90,12 +91,8 @@ class _TokenCreateLinkContent extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
           Center(
-            child: MarkdownBody(
-              data: context.l10n.reviewPayment.toUpperCase(),
-              styleSheet: MarkdownStyleSheet(
-                em: _markdownStyle.copyWith(color: CpColors.yellowColor),
-                p: _markdownStyle,
-              ),
+            child: EcMarkdownText(
+              text: context.l10n.reviewPayment.toUpperCase(),
             ),
           ),
           const SizedBox(height: 30),
@@ -211,13 +208,5 @@ extension on Amount? {
     return formattedAmount;
   }
 }
-
-final _markdownStyle = TextStyle(
-  fontStyle: FontStyle.normal,
-  fontSize: 32.sp,
-  fontWeight: FontWeight.w900,
-  letterSpacing: 0.25,
-  height: 1,
-);
 
 const _minimumAmount = Amount.fiat(value: 1, fiatCurrency: Currency.usd);
