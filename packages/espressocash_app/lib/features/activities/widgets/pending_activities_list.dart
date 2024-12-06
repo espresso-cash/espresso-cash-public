@@ -82,43 +82,46 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                       color: CpColors.blackGreyColor,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
-                    sliver: SliverList.builder(
-                      itemCount: pendingActivities.length,
-                      itemBuilder: (context, index) {
-                        final item = pendingActivities[index];
+                    sliver: SliverPadding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      sliver: SliverList.builder(
+                        itemCount: pendingActivities.length,
+                        itemBuilder: (context, index) {
+                          final item = pendingActivities[index];
 
-                        return item.map(
-                          outgoingPaymentRequest: (p) => PaymentRequestTile(
-                            key: ValueKey(p.id),
-                            id: p.id,
-                          ),
-                          outgoingDirectPayment: (p) => ODPTile(
-                            key: ValueKey(p.id),
-                            activity: p,
-                          ),
-                          outgoingLinkPayment: (p) => OLPTile(
-                            key: ValueKey(p.id),
-                            activity: p,
-                          ),
-                          onRamp: (it) => OnRampTile(
-                            key: ValueKey(it.id),
-                            activity: it,
-                          ),
-                          offRamp: (it) => OffRampTile(
-                            key: ValueKey(it.id),
-                            activity: it,
-                          ),
-                          outgoingDlnPayment: (it) => OutgoingDlnTile(
-                            key: ValueKey(it.id),
-                            activity: it,
-                          ),
-                          transactionRequest: (it) => TrTile(
-                            key: ValueKey(it.id),
-                            activity: it,
-                          ),
-                          kyc: (it) => const SizedBox.shrink(),
-                        );
-                      },
+                          return item.map(
+                            outgoingPaymentRequest: (p) => PaymentRequestTile(
+                              key: ValueKey(p.id),
+                              id: p.id,
+                            ),
+                            outgoingDirectPayment: (p) => ODPTile(
+                              key: ValueKey(p.id),
+                              activity: p,
+                            ),
+                            outgoingLinkPayment: (p) => OLPTile(
+                              key: ValueKey(p.id),
+                              activity: p,
+                            ),
+                            onRamp: (it) => OnRampTile(
+                              key: ValueKey(it.id),
+                              activity: it,
+                            ),
+                            offRamp: (it) => OffRampTile(
+                              key: ValueKey(it.id),
+                              activity: it,
+                            ),
+                            outgoingDlnPayment: (it) => OutgoingDlnTile(
+                              key: ValueKey(it.id),
+                              activity: it,
+                            ),
+                            transactionRequest: (it) => TrTile(
+                              key: ValueKey(it.id),
+                              activity: it,
+                            ),
+                            kyc: (it) => const SizedBox.shrink(),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),

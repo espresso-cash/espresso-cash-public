@@ -65,21 +65,24 @@ class _TransactionListState extends State<TransactionList> {
                             color: CpColors.blackGreyColor,
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                           ),
-                          sliver: SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              (context, i) => _KeepAlive(
-                                key: ValueKey(data[i]),
-                                child: TransactionItem(tx: data[i]),
+                          sliver: SliverPadding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, i) => _KeepAlive(
+                                  key: ValueKey(data[i]),
+                                  child: TransactionItem(tx: data[i]),
+                                ),
+                                childCount: data.length,
+                                findChildIndexCallback: (Key key) {
+                                  final ValueKey<String> valueKey =
+                                      key as ValueKey<String>;
+                                  final String keyValue = valueKey.value;
+                                  final index = data.indexOf(keyValue);
+                            
+                                  return index == -1 ? null : index;
+                                },
                               ),
-                              childCount: data.length,
-                              findChildIndexCallback: (Key key) {
-                                final ValueKey<String> valueKey =
-                                    key as ValueKey<String>;
-                                final String keyValue = valueKey.value;
-                                final index = data.indexOf(keyValue);
-
-                                return index == -1 ? null : index;
-                              },
                             ),
                           ),
                         ),
