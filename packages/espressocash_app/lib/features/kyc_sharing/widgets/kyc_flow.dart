@@ -86,7 +86,7 @@ extension KycFlowExtension on BuildContext {
 
     return user?.kycStatus == ValidationStatus.unverified ||
             user?.kycStatus == ValidationStatus.unspecified
-        ? _runFlow(kycSteps)
+        ? openKycFlow()
         : _navigateToScreen(KycStatusScreen.push);
   }
 
@@ -95,7 +95,7 @@ extension KycFlowExtension on BuildContext {
 
     return user?.emailStatus == ValidationStatus.unverified ||
             user?.emailStatus == ValidationStatus.unspecified
-        ? _runFlow(emailSteps)
+        ? openKycFlow()
         : _navigateToScreen(EmailStatusScreen.push);
   }
 
@@ -104,7 +104,7 @@ extension KycFlowExtension on BuildContext {
 
     return user?.phoneStatus == ValidationStatus.unverified ||
             user?.phoneStatus == ValidationStatus.unspecified
-        ? _runFlow(phoneSteps)
+        ? openKycFlow()
         : _navigateToScreen(PhoneStatusScreen.push);
   }
 
