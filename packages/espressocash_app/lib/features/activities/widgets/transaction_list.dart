@@ -79,7 +79,7 @@ class _TransactionListState extends State<TransactionList> {
                                       key as ValueKey<String>;
                                   final String keyValue = valueKey.value;
                                   final index = data.indexOf(keyValue);
-                            
+
                                   return index == -1 ? null : index;
                                 },
                               ),
