@@ -12,7 +12,6 @@ import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
 import '../services/kyc_service.dart';
-import '../services/pending_kyc_service.dart';
 
 class KycCameraScreen extends StatefulWidget {
   const KycCameraScreen({super.key});
@@ -42,8 +41,6 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
           final service = sl<KycSharingService>();
           await service.updateSelfiePhoto(photoSelfie: _capturedImage);
           await service.initDocumentValidation();
-
-          sl<PendingKycService>().create();
 
           return true;
         } on Exception {

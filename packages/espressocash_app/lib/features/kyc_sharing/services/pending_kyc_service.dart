@@ -23,6 +23,8 @@ class PendingKycService {
   }
 
   void create() {
+    if (hasPendingKyc) return;
+
     final now = DateTime.now().toIso8601String();
     _sharedPreferences.setString(_kycStartedKey, now);
     _controller.add(_getCurrentKycDate());

@@ -14,6 +14,7 @@ import '../screens/kyc_status_screen.dart';
 import '../screens/phone_confirmation_screen.dart';
 import '../screens/phone_verification_screen.dart';
 import '../services/kyc_service.dart';
+import '../services/pending_kyc_service.dart';
 import '../utils/kyc_utils.dart';
 
 typedef KycStepFunction = Future<bool?> Function(BuildContext ctx);
@@ -47,6 +48,9 @@ extension KycFlowExtension on BuildContext {
 
     if (!kycProcessed) {
       final success = await KycDescriptionScreen.push(this);
+
+      sl<PendingKycService>().create();
+
       if (!success) return false;
     }
 

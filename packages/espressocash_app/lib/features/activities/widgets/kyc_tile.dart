@@ -9,6 +9,7 @@ import '../../kyc_sharing/models/kyc_validation_status.dart';
 import '../../kyc_sharing/screens/kyc_status_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
+import '../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../kyc_sharing/widgets/kyc_status_icon.dart';
 
 class KycTile extends StatelessWidget {
@@ -27,23 +28,90 @@ class KycTile extends StatelessWidget {
         builder: (context, user, _) => user == null
             ? const SizedBox.shrink()
             : _KycTileContent(
-                status: user.kycStatus,
-                title: context.l10n.idVerification,
                 timestamp: timestamp,
+                kycStatus: user.kycStatus,
+                emailStatus: user.emailStatus,
+                phoneStatus: user.phoneStatus,
               ),
       );
 }
 
 class _KycTileContent extends StatelessWidget {
   const _KycTileContent({
-    required this.status,
-    required this.title,
     required this.timestamp,
+    required this.emailStatus,
+    required this.phoneStatus,
+    required this.kycStatus,
+  });
+
+  final ValidationStatus emailStatus;
+  final ValidationStatus phoneStatus;
+  final ValidationStatus kycStatus;
+  final String timestamp;
+
+  @override
+  Widget build(BuildContext context) {
+    if (emailStatus != ValidationStatus.approved) {
+      return _KycItem(
+        status: emailStatus,
+        timestamp: timestamp,
+        title: 'Email Verification',
+        description: context.l10n.kycTileDescriptionUnverified,
+        onPressed: context.openKycFlow,
+        buttonText: 'Continue Verification',
+      );
+    }
+
+    if (phoneStatus != ValidationStatus.approved) {
+      return _KycItem(
+        status: phoneStatus,
+        timestamp: timestamp,
+        title: 'Phone Verification',
+        description: context.l10n.kycTileDescriptionUnverified,
+        onPressed: context.openKycFlow,
+        buttonText: 'Continue Verification',
+      );
+    }
+
+    if (kycStatus == ValidationStatus.unspecified ||
+        kycStatus == ValidationStatus.unverified) {
+      return _KycItem(
+        status: kycStatus,
+        timestamp: timestamp,
+        title: context.l10n.idVerification,
+        description: kycStatus.description(context),
+        onPressed: () => KycStatusScreen.push(context),
+        buttonText: 'Continue Verification',
+      );
+    }
+
+    return _KycItem(
+      status: kycStatus,
+      timestamp: timestamp,
+      title: context.l10n.idVerification,
+      description: kycStatus.description(context),
+      onPressed: () => KycStatusScreen.push(context),
+      buttonText: context.l10n.viewDetails,
+    );
+  }
+}
+
+class _KycItem extends StatelessWidget {
+  const _KycItem({
+    required this.status,
+    required this.timestamp,
+    required this.onPressed,
+    required this.title,
+    required this.description,
+    required this.buttonText,
   });
 
   final ValidationStatus status;
-  final String title;
   final String timestamp;
+  final VoidCallback onPressed;
+  final String title;
+  final String description;
+  final String buttonText;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -72,7 +140,7 @@ class _KycTileContent extends StatelessWidget {
               ),
             ),
             Text(
-              status.description(context),
+              description,
               textAlign: TextAlign.center,
               style: _subtitleStyle,
             ),
@@ -80,8 +148,8 @@ class _KycTileContent extends StatelessWidget {
             CpButton(
               minWidth: 180,
               size: CpButtonSize.small,
-              text: context.l10n.viewDetails,
-              onPressed: () => KycStatusScreen.push(context),
+              text: buttonText,
+              onPressed: onPressed,
             ),
           ],
         ),
