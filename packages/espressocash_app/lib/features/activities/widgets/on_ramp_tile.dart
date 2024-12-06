@@ -8,10 +8,8 @@ import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../ramp/screens/on_ramp_order_screen.dart';
 import '../../ramp/widgets/on_ramp_order_details.dart';
-import '../../ramp_partner/models/ramp_type.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
-import 'kyc_tile.dart';
 
 class OnRampTile extends StatelessWidget {
   const OnRampTile({
@@ -26,39 +24,11 @@ class OnRampTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => OnRampOrderDetails(
         orderId: activity.id,
-        builder: (context, order) =>
-            order?.status == OnRampOrderStatus.waitingUserVerification
-                ? _KycTile(activity: activity, order: order)
-                : _ActivityTile(
-                    order: order,
-                    activity: activity,
-                    showIcon: showIcon,
-                  ),
-      );
-}
-
-class _KycTile extends StatelessWidget {
-  const _KycTile({
-    required this.activity,
-    required this.order,
-  });
-
-  final OnRampActivity activity;
-  final OnRampOrder? order;
-
-  @override
-  Widget build(BuildContext context) => KycTile(
-        title: context.l10n.activities_lblAddCash,
-        timestamp: context.formatDate(activity.created),
-        incomingAmount: order?.receiveAmount?.format(
-          context.locale,
-          maxDecimals: 2,
+        builder: (context, order) => _ActivityTile(
+          order: order,
+          activity: activity,
+          showIcon: showIcon,
         ),
-        preOrder: (
-          preOrderId: activity.id,
-          preAmount: order?.manualDeposit?.transferAmount,
-        ),
-        rampType: RampType.onRamp,
       );
 }
 
@@ -84,7 +54,6 @@ class _ActivityTile extends StatelessWidget {
             CpActivityTileStatus.failure,
           OnRampOrderStatus.completed => CpActivityTileStatus.success,
           OnRampOrderStatus.waitingForDeposit ||
-          OnRampOrderStatus.waitingUserVerification ||
           OnRampOrderStatus.waitingPartnerReview ||
           OnRampOrderStatus.waitingForPartner ||
           OnRampOrderStatus.pending ||

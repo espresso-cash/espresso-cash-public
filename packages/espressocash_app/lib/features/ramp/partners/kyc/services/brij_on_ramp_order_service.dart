@@ -76,7 +76,6 @@ class BrijOnRampOrderService implements Disposable {
 
               return const Stream.empty();
 
-            case OnRampOrderStatus.waitingUserVerification:
             case OnRampOrderStatus.pending:
             case OnRampOrderStatus.preProcessing:
             case OnRampOrderStatus.postProcessing:
@@ -97,44 +96,10 @@ class BrijOnRampOrderService implements Disposable {
         );
   }
 
-  AsyncResult<String> createPreOrder({
-    required FiatAmount submittedAmount,
-    required CryptoAmount receiveAmount,
-  }) =>
-      tryEitherAsync((_) async {
-        {
-          final order = OnRampOrderRow(
-            id: const Uuid().v4(),
-            amount: submittedAmount.value,
-            bankTransferAmount: submittedAmount.value,
-            receiveAmount: receiveAmount.value,
-            fiatSymbol: submittedAmount.currency.symbol,
-            partnerOrderId: '',
-            token: Token.usdc.address,
-            humanStatus: '',
-            machineStatus: '',
-            isCompleted: false,
-            created: DateTime.now(),
-            txHash: '',
-            partner: RampPartner.brij,
-            status: OnRampOrderStatus.waitingUserVerification,
-            bankAccount: null,
-            bankName: null,
-            authToken: null,
-            moreInfoUrl: null,
-          );
-
-          await _db.into(_db.onRampOrderRows).insert(order);
-
-          return order.id;
-        }
-      });
-
-  AsyncResult<String> createOrUpdate({
+  AsyncResult<String> create({
     required FiatAmount submittedAmount,
     required CryptoAmount receiveAmount,
     required String partnerAuthPk,
-    String? preOrderId,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -149,7 +114,7 @@ class BrijOnRampOrderService implements Disposable {
           );
 
           final order = OnRampOrderRow(
-            id: preOrderId ?? const Uuid().v4(),
+            id: const Uuid().v4(),
             partnerOrderId: orderId,
             amount: submittedAmount.value,
             token: Token.usdc.address,

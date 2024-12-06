@@ -50,26 +50,44 @@ class _TransactionListState extends State<TransactionList> {
                       onSendMoneyPressed: widget.onSendMoneyPressed,
                     ),
                   )
-                : ListView.custom(
+                : CustomScrollView(
                     physics: const BouncingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics(),
                     ),
-                    padding: widget.padding,
-                    childrenDelegate: SliverChildBuilderDelegate(
-                      (context, i) => _KeepAlive(
-                        key: ValueKey(data[i]),
-                        child: TransactionItem(tx: data[i]),
+                    slivers: [
+                      const SliverPadding(
+                        padding: EdgeInsets.only(top: _topPadding),
                       ),
-                      childCount: data.length,
-                      findChildIndexCallback: (Key key) {
-                        final ValueKey<String> valueKey =
-                            key as ValueKey<String>;
-                        final String keyValue = valueKey.value;
-                        final index = data.indexOf(keyValue);
+                      SliverPadding(
+                        padding: widget.padding ?? EdgeInsets.zero,
+                        sliver: DecoratedSliver(
+                          decoration: const BoxDecoration(
+                            color: CpColors.blackGreyColor,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
+                          sliver: SliverPadding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, i) => _KeepAlive(
+                                  key: ValueKey(data[i]),
+                                  child: TransactionItem(tx: data[i]),
+                                ),
+                                childCount: data.length,
+                                findChildIndexCallback: (Key key) {
+                                  final ValueKey<String> valueKey =
+                                      key as ValueKey<String>;
+                                  final String keyValue = valueKey.value;
+                                  final index = data.indexOf(keyValue);
 
-                        return index == -1 ? null : index;
-                      },
-                    ),
+                                  return index == -1 ? null : index;
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   );
           },
         ),
@@ -100,3 +118,5 @@ class _KeepAliveState extends State<_KeepAlive>
     return widget.child;
   }
 }
+
+const double _topPadding = 30;

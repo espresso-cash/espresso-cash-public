@@ -4,10 +4,9 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/tab_bar.dart';
+import '../../router/models/activities_tab.dart';
 import '../widgets/pending_activities_list.dart';
 import '../widgets/transaction_list.dart';
-
-enum ActivitiesTab { pending, transactions }
 
 class ActivitiesScreen extends StatefulWidget {
   const ActivitiesScreen({
@@ -34,8 +33,9 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
   @override
   void didUpdateWidget(covariant ActivitiesScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.initialTab != widget.initialTab) {
-      _controller.index = widget.initialTab.index;
+
+    if (_controller.index != widget.initialTab.index) {
+      _controller.animateTo(widget.initialTab.index);
     }
   }
 
@@ -48,7 +48,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
   @override
   Widget build(BuildContext context) {
     final bottom = MediaQuery.paddingOf(context).bottom;
-    const insets = EdgeInsets.only(left: 8, right: 8, top: _padding);
+    const insets = EdgeInsets.symmetric(horizontal: 24);
 
     Widget mapTab(ActivitiesTab tab) => Tab(
           text: switch (tab) {
@@ -101,8 +101,6 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
     );
   }
 }
-
-const double _padding = 40;
 
 class _Wrapper extends StatelessWidget {
   const _Wrapper({required this.child});

@@ -131,7 +131,6 @@ class BrijOffRampOrderService implements Disposable {
 
               return const Stream.empty();
 
-            case OffRampOrderStatus.waitingUserVerification:
             case OffRampOrderStatus.preProcessing:
             case OffRampOrderStatus.postProcessing:
             case OffRampOrderStatus.ready:
@@ -154,41 +153,10 @@ class BrijOffRampOrderService implements Disposable {
         );
   }
 
-  AsyncResult<String> createPreOrder({
-    required CryptoAmount submittedAmount,
-    required FiatAmount receiveAmount,
-  }) =>
-      tryEitherAsync((_) async {
-        {
-          final order = OffRampOrderRow(
-            id: const Uuid().v4(),
-            partnerOrderId: '',
-            amount: submittedAmount.value,
-            token: Token.usdc.address,
-            receiveAmount: receiveAmount.value,
-            fiatSymbol: receiveAmount.fiatCurrency.symbol,
-            created: DateTime.now(),
-            humanStatus: '',
-            machineStatus: '',
-            partner: RampPartner.brij,
-            status: OffRampOrderStatus.waitingUserVerification,
-            transaction: '',
-            depositAddress: '',
-            slot: BigInt.zero,
-            bridgeAmount: null,
-          );
-
-          await _db.into(_db.offRampOrderRows).insert(order);
-
-          return order.id;
-        }
-      });
-
-  AsyncResult<String> createOrUpdate({
+  AsyncResult<String> create({
     required CryptoAmount submittedAmount,
     required FiatAmount receiveAmount,
     required String partnerAuthPk,
-    String? preOrderId,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -217,7 +185,7 @@ class BrijOffRampOrderService implements Disposable {
           );
 
           final order = OffRampOrderRow(
-            id: preOrderId ?? const Uuid().v4(),
+            id: const Uuid().v4(),
             partnerOrderId: orderId,
             amount: submittedAmount.value,
             token: Token.usdc.address,

@@ -84,6 +84,7 @@ class _TransactionItemState extends State<TransactionItem> {
                 activity: it,
                 showIcon: widget.showIcon,
               ),
+              kyc: (it) => const SizedBox.shrink(),
             ),
           );
         },
