@@ -249,6 +249,8 @@ class OffRampOrderService implements Disposable {
     switch (order.status) {
       case OffRampOrderStatus.depositError:
       case OffRampOrderStatus.insufficientFunds:
+      case OffRampOrderStatus.rejected:
+      case OffRampOrderStatus.failure:
         await updateQuery.write(_cancelled);
       case OffRampOrderStatus.ready:
         if (order.partner == RampPartner.moneygram) {
@@ -259,7 +261,6 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.depositTxReady:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
-      case OffRampOrderStatus.failure:
       case OffRampOrderStatus.processingRefund:
       case OffRampOrderStatus.waitingForRefundBridge:
       case OffRampOrderStatus.completed:
@@ -270,7 +271,6 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.refunded:
       case OffRampOrderStatus.waitingPartnerReview:
       case OffRampOrderStatus.waitingUserVerification:
-      case OffRampOrderStatus.rejected:
         break;
     }
   }
@@ -555,4 +555,13 @@ class OffRampOrderService implements Disposable {
   static const _processRefund = OffRampOrderRowsCompanion(
     status: Value(OffRampOrderStatus.processingRefund),
   );
+}
+
+extension OffRampOrderStatusExt on OffRampOrderStatus {
+  bool get isCancellable =>
+      this == OffRampOrderStatus.depositError ||
+      this == OffRampOrderStatus.insufficientFunds ||
+      this == OffRampOrderStatus.ready ||
+      this == OffRampOrderStatus.rejected ||
+      this == OffRampOrderStatus.failure;
 }
