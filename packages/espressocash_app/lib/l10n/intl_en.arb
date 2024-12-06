@@ -269,7 +269,7 @@
     "@paymentRequest_lblCancelConfirmationSubtitle": {},
     "paymentRequest_lblCancelConfirmationTitle": "Cancel Payment Request",
     "@paymentRequest_lblCancelConfirmationTitle": {},
-    "paymentRequestTitle": "Payment request",
+    "paymentRequestTitle": "Pay request",
     "pending": "Pending",
     "@pending": {},
     "photoLibrary": "Photo Library",
