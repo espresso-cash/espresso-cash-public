@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
+import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
@@ -12,10 +13,13 @@ import '../../../../../ui/markdown_text.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
+import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../kyc_sharing/services/pending_kyc_service.dart';
+import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
+import '../../../../router/service/navigation_service.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
@@ -25,9 +29,17 @@ import '../services/brij_on_ramp_order_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchKycOnRamp() async {
-    final hasPendingKyc = sl<PendingKycService>().hasPendingKyc;
+    final user = sl<KycSharingService>().value;
 
-    if (hasPendingKyc) {
+    if (user == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+
+    final isKycTileActive = sl<PendingKycService>().hasPendingKyc;
+
+    if (isKycTileActive && user.kycStatus != ValidationStatus.approved) {
       _showPendingKycDialog();
 
       return;
@@ -127,9 +139,17 @@ extension BuildContextExt on BuildContext {
   }
 
   Future<void> launchKycOffRamp() async {
-    final hasPendingKyc = sl<PendingKycService>().hasPendingKyc;
+    final user = sl<KycSharingService>().value;
 
-    if (hasPendingKyc) {
+    if (user == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+
+    final isKycTileActive = sl<PendingKycService>().hasPendingKyc;
+
+    if (isKycTileActive && user.kycStatus != ValidationStatus.approved) {
       _showPendingKycDialog();
 
       return;
@@ -253,8 +273,7 @@ extension BuildContextExt on BuildContext {
       actions: CpBottomButton(
         text: l10n.activityButton,
         horizontalPadding: 0,
-        // TODO(dev): Navigate to activity screen
-        onPressed: () => Navigator.pop(this),
+        onPressed: () => sl<HomeNavigationService>().openActivitiesTab(this),
       ),
     );
   }
