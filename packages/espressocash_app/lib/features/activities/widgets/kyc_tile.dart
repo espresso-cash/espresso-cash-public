@@ -55,10 +55,10 @@ class _KycTileContent extends StatelessWidget {
       return _KycItem(
         status: emailStatus,
         timestamp: timestamp,
-        title: 'Email Verification',
+        title: context.l10n.emailVerification,
         description: context.l10n.kycTileDescriptionUnverified,
         onPressed: context.openKycFlow,
-        buttonText: 'Continue Verification',
+        buttonText: context.l10n.continueVerification,
       );
     }
 
@@ -66,10 +66,10 @@ class _KycTileContent extends StatelessWidget {
       return _KycItem(
         status: phoneStatus,
         timestamp: timestamp,
-        title: 'Phone Verification',
+        title: context.l10n.phoneVerification,
         description: context.l10n.kycTileDescriptionUnverified,
         onPressed: context.openKycFlow,
-        buttonText: 'Continue Verification',
+        buttonText: context.l10n.continueVerification,
       );
     }
 
@@ -80,8 +80,8 @@ class _KycTileContent extends StatelessWidget {
         timestamp: timestamp,
         title: context.l10n.idVerification,
         description: kycStatus.description(context),
-        onPressed: () => KycStatusScreen.push(context),
-        buttonText: 'Continue Verification',
+        onPressed: context.openKycFlow,
+        buttonText: context.l10n.continueVerification,
       );
     }
 
