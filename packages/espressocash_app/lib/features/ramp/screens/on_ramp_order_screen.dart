@@ -227,7 +227,7 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 12, bottom: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: CpTextButton(
           text: context.l10n.onRampCancelTitle,
           variant: CpTextButtonVariant.light,
