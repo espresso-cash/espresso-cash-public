@@ -320,5 +320,7 @@ extension OnRampOrderStatusExt on OnRampOrderStatus {
       this == OnRampOrderStatus.depositExpired ||
       this == OnRampOrderStatus.pending ||
       this == OnRampOrderStatus.preProcessing ||
-      this == OnRampOrderStatus.postProcessing;
+      this == OnRampOrderStatus.postProcessing ||
+      this == OnRampOrderStatus.rejected ||
+      this == OnRampOrderStatus.failure;
 }
