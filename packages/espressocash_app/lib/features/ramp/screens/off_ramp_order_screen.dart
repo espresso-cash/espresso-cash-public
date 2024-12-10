@@ -194,10 +194,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
     final showMoneygramCancel = order.partner == RampPartner.moneygram &&
         order.status == OffRampOrderStatus.insufficientFunds;
 
-    final showCancelButton = order.status == OffRampOrderStatus.depositError ||
-        order.status == OffRampOrderStatus.insufficientFunds ||
-        order.status == OffRampOrderStatus.ready ||
-        showMoneygramCancel;
+    final showCancelButton = order.status.isCancellable || showMoneygramCancel;
 
     final bridgeTimeInMinutes =
         order.status == OffRampOrderStatus.waitingForRefundBridge ? 3 : 10;
@@ -300,7 +297,7 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: CpTextButton(
           text: context.l10n.offRampCancelTitle,
           variant: CpTextButtonVariant.light,
