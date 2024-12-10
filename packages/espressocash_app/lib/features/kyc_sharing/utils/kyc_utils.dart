@@ -12,29 +12,29 @@ extension ValidationStatusExtension on ValidationStatus {
 }
 
 extension UserDataExtensions on UserData {
-  String? get firstName => name?.first.firstName.nullIfEmpty;
-  String? get lastName => name?.first.lastName.nullIfEmpty;
-  DateTime? get dob => birthDate?.first.value;
+  String? get firstName => name?.firstName.nullIfEmpty;
+  String? get lastName => name?.lastName.nullIfEmpty;
+  DateTime? get dob => birthDate?.value;
 
-  String? get getEmail => email?.first.value.nullIfEmpty;
-  String? get getPhone => phone?.first.value.nullIfEmpty;
+  String? get getEmail => email?.value.nullIfEmpty;
+  String? get getPhone => phone?.value.nullIfEmpty;
 
-  IdType? get documentType => document?.first.type;
-  String? get documentNumber => document?.first.number.nullIfEmpty;
-  String? get countryCode => document?.first.countryCode.nullIfEmpty;
+  IdType? get documentType => document?.type;
+  String? get documentNumber => document?.number.nullIfEmpty;
+  String? get countryCode => document?.countryCode.nullIfEmpty;
 
-  Uint8List? get photo => selfie?.first.value.let(Uint8List.fromList);
+  Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
 
-  String? get bankCode => bankInfo?.first.bankCode.nullIfEmpty;
-  String? get bankName => bankInfo?.first.bankName.nullIfEmpty;
-  String? get accountNumber => bankInfo?.first.accountNumber.nullIfEmpty;
+  String? get bankCode => bankInfo?.bankCode.nullIfEmpty;
+  String? get bankName => bankInfo?.bankName.nullIfEmpty;
+  String? get accountNumber => bankInfo?.accountNumber.nullIfEmpty;
 
   ValidationStatus get kycStatus {
     final statuses = [
-      document?.first.status,
-      name?.first.status,
-      selfie?.first.status,
-      birthDate?.first.status,
+      document?.status,
+      name?.status,
+      selfie?.status,
+      birthDate?.status,
     ].whereNotNull().toList();
 
     if (statuses.isEmpty) return ValidationStatus.unspecified;
@@ -53,14 +53,14 @@ extension UserDataExtensions on UserData {
   }
 
   ValidationStatus get phoneStatus =>
-      phone?.first.status ?? ValidationStatus.unspecified;
+      phone?.status ?? ValidationStatus.unspecified;
   ValidationStatus get emailStatus =>
-      email?.first.status ?? ValidationStatus.unspecified;
+      email?.status ?? ValidationStatus.unspecified;
 
   bool get hasBankInfo =>
-      (bankInfo?.first.bankCode.isNotEmpty ?? false) &&
-      (bankInfo?.first.accountNumber.isNotEmpty ?? false) &&
-      (bankInfo?.first.bankName.isNotEmpty ?? false);
+      (bankInfo?.bankCode.isNotEmpty ?? false) &&
+      (bankInfo?.accountNumber.isNotEmpty ?? false) &&
+      (bankInfo?.bankName.isNotEmpty ?? false);
 }
 
 extension StringNullIfEmpty on String {
