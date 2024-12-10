@@ -84,19 +84,19 @@ class KycSharingService extends ValueNotifier<UserData?> {
       name: Name(
         firstName: firstName ?? '',
         lastName: lastName ?? '',
-        id: value?.name?.first.id ?? '',
+        id: value?.name?.id ?? '',
       ),
       birthDate: dob?.let(
         (e) => BirthDate(
           value: e,
-          id: value?.birthDate?.first.id ?? '',
+          id: value?.birthDate?.id ?? '',
         ),
       ),
       document: Document(
         type: idType?.toIdType() ?? IdType.other,
         number: idNumber ?? '',
         countryCode: countryCode ?? '',
-        id: value?.document?.first.id ?? '',
+        id: value?.document?.id ?? '',
       ),
     );
 
@@ -113,7 +113,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
         accountNumber: bankAccountNumber,
         bankCode: bankCode,
         bankName: bankName ?? '',
-        id: value?.bankInfo?.first.id ?? '',
+        id: value?.bankInfo?.id ?? '',
       ),
     );
 
@@ -122,10 +122,10 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<void> initDocumentValidation() async {
     await _kycRepository.initKycVerification(
-      nameId: value?.name?.first.id ?? '',
-      birthDateId: value?.birthDate?.first.id ?? '',
-      documentId: value?.document?.first.id ?? '',
-      selfieImageId: value?.selfie?.first.id ?? '',
+      nameId: value?.name?.id ?? '',
+      birthDateId: value?.birthDate?.id ?? '',
+      documentId: value?.document?.id ?? '',
+      selfieImageId: value?.selfie?.id ?? '',
     );
 
     await fetchUserData();
@@ -137,7 +137,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
       selfie: photoSelfie != null
           ? Selfie(
               value: await photoSelfie.readAsBytes(),
-              id: value?.selfie?.first.id ?? '',
+              id: value?.selfie?.id ?? '',
             )
           : null,
     );
@@ -152,14 +152,14 @@ class KycSharingService extends ValueNotifier<UserData?> {
       await _kycRepository.updateUserData(
         email: Email(
           value: email,
-          id: value?.email?.first.id ?? '',
+          id: value?.email?.id ?? '',
         ),
       );
 
       await fetchUserData();
 
       await _kycRepository.initEmailVerification(
-        emailId: value?.email?.first.id ?? '',
+        emailId: value?.email?.id ?? '',
       );
     } on Exception catch (exception) {
       throw exception.toKycException();
@@ -170,7 +170,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
     try {
       await _kycRepository.verifyEmail(
         code: code,
-        dataId: value?.email?.first.id ?? '',
+        dataId: value?.email?.id ?? '',
       );
     } on Exception catch (exception) {
       throw exception.toKycException();
@@ -184,14 +184,14 @@ class KycSharingService extends ValueNotifier<UserData?> {
       await _kycRepository.updateUserData(
         phone: Phone(
           value: phone,
-          id: value?.phone?.first.id ?? '',
+          id: value?.phone?.id ?? '',
         ),
       );
 
       await fetchUserData();
 
       await _kycRepository.initPhoneVerification(
-        phoneId: value?.phone?.first.id ?? '',
+        phoneId: value?.phone?.id ?? '',
       );
     } on Exception catch (exception) {
       throw exception.toKycException();
@@ -202,7 +202,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
     try {
       await _kycRepository.verifyPhone(
         code: code,
-        dataId: value?.phone?.first.id ?? '',
+        dataId: value?.phone?.id ?? '',
       );
     } on Exception catch (exception) {
       throw exception.toKycException();
