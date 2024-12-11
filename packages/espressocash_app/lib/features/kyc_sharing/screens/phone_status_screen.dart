@@ -110,10 +110,12 @@ class __UpdatePhoneContentState extends State<_UpdatePhoneContent> {
             onPhoneChanged: (fullNumber) =>
                 setState(() => _fullPhoneNumber = fullNumber),
           ),
+          const SizedBox(height: 16),
           const Spacer(),
           ListenableBuilder(
             listenable: _phoneController,
             builder: (context, child) => CpBottomButton(
+              horizontalPadding: 16,
               text: context.l10n.sendVerificationCode,
               onPressed: _fullPhoneNumber.isValidPhone
                   ? _handleSendVerification

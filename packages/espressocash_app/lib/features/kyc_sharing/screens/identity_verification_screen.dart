@@ -24,6 +24,7 @@ class IdentityVerificationScreen extends StatelessWidget {
             title: context.l10n.selfieVerificationTitle.toUpperCase(),
             description: context.l10n.identityVerificationDescription,
           ),
+          const SizedBox(height: 16),
           const Spacer(),
           CpBottomButton(
             horizontalPadding: 16,

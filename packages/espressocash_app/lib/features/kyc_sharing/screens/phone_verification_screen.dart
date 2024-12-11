@@ -59,10 +59,12 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
             onPhoneChanged: (fullNumber) =>
                 setState(() => _fullPhoneNumber = fullNumber),
           ),
+          const SizedBox(height: 16),
           const Spacer(),
           ListenableBuilder(
             listenable: _numberController,
             builder: (context, child) => CpBottomButton(
+              horizontalPadding: 16,
               text: context.l10n.sendVerificationCode,
               onPressed: _fullPhoneNumber.isValidPhone
                   ? _handleSendVerification

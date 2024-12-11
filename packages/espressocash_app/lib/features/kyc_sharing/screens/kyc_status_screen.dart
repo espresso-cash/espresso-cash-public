@@ -72,8 +72,10 @@ class KycStatusScreen extends StatelessWidget {
                     style: _textStyle,
                   ),
                 ),
+              const SizedBox(height: 16),
               const Spacer(),
               CpBottomButton(
+                horizontalPadding: 16,
                 text: switch (status) {
                   KycValidationStatus.rejected => context.l10n.contactUs,
                   KycValidationStatus.pending => context.l10n.activityButton,

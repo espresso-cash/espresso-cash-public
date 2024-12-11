@@ -56,10 +56,12 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
             inputType: TextInputType.emailAddress,
             placeholder: context.l10n.emailAddress,
           ),
+          const SizedBox(height: 16),
           const Spacer(),
           ListenableBuilder(
             listenable: _emailController,
             builder: (context, child) => CpBottomButton(
+              horizontalPadding: 16,
               text: context.l10n.send,
               onPressed: _emailController.text.isValidEmail
                   ? _handleSendVerification

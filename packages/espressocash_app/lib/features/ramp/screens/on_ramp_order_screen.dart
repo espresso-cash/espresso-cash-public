@@ -422,9 +422,9 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.depositExpired ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingUserVerification ||
-        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.rejected =>
           0,
+        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForPartner ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||

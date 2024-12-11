@@ -106,10 +106,12 @@ class __UpdateEmailContentState extends State<_UpdateEmailContent> {
             inputType: TextInputType.emailAddress,
             placeholder: _placeholderText,
           ),
+          const SizedBox(height: 16),
           const Spacer(),
           ListenableBuilder(
             listenable: _emailController,
             builder: (context, child) => CpBottomButton(
+              horizontalPadding: 16,
               text: context.l10n.sendVerificationCode,
               onPressed: _emailController.text.isValidEmail
                   ? _handleSendVerification
