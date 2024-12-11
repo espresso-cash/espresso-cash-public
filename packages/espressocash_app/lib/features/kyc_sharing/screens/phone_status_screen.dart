@@ -28,7 +28,7 @@ class PhoneStatusScreen extends StatelessWidget {
   Widget build(BuildContext context) => KycListener(
         builder: (context, userData) {
           final status = userData.phoneStatus.toKycValidationStatus();
-          final phone = userData.phone?.first.value ?? '-';
+          final phone = userData.getPhone ?? '-';
 
           return KycPage(
             icon: status.kycIcon,

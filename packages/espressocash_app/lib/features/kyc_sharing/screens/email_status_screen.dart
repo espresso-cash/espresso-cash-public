@@ -27,7 +27,7 @@ class EmailStatusScreen extends StatelessWidget {
   Widget build(BuildContext context) => KycListener(
         builder: (context, userData) {
           final status = userData.emailStatus.toKycValidationStatus();
-          final email = userData.email?.first.value ?? '-';
+          final email = userData.getEmail ?? '-';
 
           return KycPage(
             icon: status.kycIcon,
