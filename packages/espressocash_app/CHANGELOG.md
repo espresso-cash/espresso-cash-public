@@ -1,3 +1,13 @@
+## 1.135.0
+
+ - **FIX**: incorrect timezone for birthdate (#1633).
+ - **FIX**: brij orders (#1634).
+ - **FEAT**: update kyc flow (#1630).
+ - **FEAT**: update kyc client (#1638).
+ - **FEAT**: update home tab navigation (#1631).
+ - **FEAT**: update home tab navigation.
+ - **FEAT**: kyc screens ui update (#1629).
+
 ## 1.134.0
 
  - **REFACTOR**: assets (#1617).
