@@ -108,6 +108,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
             inputType: TextInputType.name,
             placeholder: context.l10n.bankName,
           ),
+          const SizedBox(height: 16),
           const Spacer(),
           ListenableBuilder(
             listenable: Listenable.merge([

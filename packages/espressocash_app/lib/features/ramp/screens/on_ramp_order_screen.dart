@@ -416,9 +416,9 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.depositExpired ||
         OnRampOrderStatus.waitingForDeposit ||
-        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.rejected =>
           0,
+        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForPartner ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||

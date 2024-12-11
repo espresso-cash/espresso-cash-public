@@ -10,6 +10,7 @@ import '../../../ui/colors.dart';
 import '../../kyc_sharing/models/kyc_validation_status.dart';
 import '../../kyc_sharing/screens/kyc_status_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
+import '../../kyc_sharing/services/pending_kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../kyc_sharing/widgets/kyc_status_icon.dart';
@@ -85,7 +86,12 @@ class _KycTileContent extends StatelessWidget {
       description: kycStatus.description(context),
       onPressed: isUnverified
           ? context.openKycFlow
-          : () => KycStatusScreen.push(context),
+          : () {
+              if (kycStatus == ValidationStatus.approved) {
+                sl<PendingKycService>().remove();
+              }
+              KycStatusScreen.push(context);
+            },
       buttonText: isUnverified
           ? context.l10n.continueVerification
           : context.l10n.viewDetails,
