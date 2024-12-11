@@ -47,13 +47,47 @@ class KycSharingService extends ValueNotifier<UserData?> {
     notifyListeners();
   }
 
+  Future<void> fetchStatuses() async {
+    final user = await _kycRepository.fetchUser(includeValues: false);
+
+    final emailStatus = user?.email?.status;
+    final phoneStatus = user?.phone?.status;
+    final nameStatus = user?.name?.status;
+    final birthDateStatus = user?.birthDate?.status;
+    final documentStatus = user?.document?.status;
+    final selfieStatus = user?.selfie?.status;
+
+    value = value?.copyWith(
+      email: emailStatus != null
+          ? value?.email?.copyWith(status: emailStatus)
+          : value?.email,
+      phone: phoneStatus != null
+          ? value?.phone?.copyWith(status: phoneStatus)
+          : value?.phone,
+      name: nameStatus != null
+          ? value?.name?.copyWith(status: nameStatus)
+          : value?.name,
+      birthDate: birthDateStatus != null
+          ? value?.birthDate?.copyWith(status: birthDateStatus)
+          : value?.birthDate,
+      document: documentStatus != null
+          ? value?.document?.copyWith(status: documentStatus)
+          : value?.document,
+      bankInfo: value?.bankInfo,
+      selfie: selfieStatus != null
+          ? value?.selfie?.copyWith(status: selfieStatus)
+          : value?.selfie,
+    );
+    notifyListeners();
+  }
+
   void _subscribe() {
     _unsubscribe();
 
     _pollingSubscription = Stream<void>.periodic(const Duration(seconds: 15))
         .startWith(null)
         .exhaustMap(
-          (_) => fetchUserData()
+          (_) => fetchStatuses()
               .timeout(
                 const Duration(seconds: 8),
                 onTimeout: () => null,
@@ -128,7 +162,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
       selfieImageId: value?.selfie?.id ?? '',
     );
 
-    await fetchUserData();
+    await fetchStatuses();
     _subscribe();
   }
 
@@ -175,7 +209,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
     } on Exception catch (exception) {
       throw exception.toKycException();
     } finally {
-      await fetchUserData();
+      await fetchStatuses();
     }
   }
 
@@ -207,7 +241,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
     } on Exception catch (exception) {
       throw exception.toKycException();
     } finally {
-      await fetchUserData();
+      await fetchStatuses();
     }
   }
 
