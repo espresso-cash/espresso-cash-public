@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
-import 'styles.dart';
+import '../../../ui/markdown_text.dart';
 
 class KycHeader extends StatelessWidget {
   const KycHeader({super.key, required this.title, this.description});
@@ -15,10 +14,7 @@ class KycHeader extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MarkdownBody(
-              data: title.toUpperCase(),
-              styleSheet: kycMarkdownStyleSheet,
-            ),
+            EcMarkdownText(text: title.toUpperCase()),
             if (description case final description?) ...[
               const SizedBox(height: 8),
               Text(
