@@ -38,31 +38,30 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _pageController = PageController();
+  final _navigationService = sl<HomeNavigationService>();
 
   @override
   void initState() {
     super.initState();
-    sl<HomeNavigationService>().tabNotifier.addListener(_handleGlobalTabChange);
+    _navigationService.tabNotifier.addListener(_handleGlobalTabChange);
   }
 
   void _handleGlobalTabChange() {
     if (mounted) {
-      _pageController.jumpToPage(sl<HomeNavigationService>().tabNotifier.value);
+      _pageController.jumpToPage(_navigationService.tabNotifier.value);
     }
   }
 
   @override
   void dispose() {
-    sl<HomeNavigationService>()
-        .tabNotifier
-        .removeListener(_handleGlobalTabChange);
+    _navigationService.tabNotifier.removeListener(_handleGlobalTabChange);
     _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider.value(
-        value: sl<HomeNavigationService>().tabNotifier,
+        value: _navigationService.tabNotifier,
         child: LinkLoader(
           child: ODPLinkListener(
             child: PendingILPListener(
@@ -70,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: CoinflowLinkListener(
                   child: AmbassadorLinkListener(
                     child: ValueListenableBuilder(
-                      valueListenable: sl<HomeNavigationService>().tabNotifier,
+                      valueListenable: _navigationService.tabNotifier,
                       builder: (context, value, _) => Scaffold(
                         backgroundColor: Colors.white,
                         extendBody: true,
@@ -87,9 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   icon: p.icon,
                                   active: value == i,
                                   onPressed: () {
-                                    sl<HomeNavigationService>()
-                                        .tabNotifier
-                                        .value = i;
+                                    _navigationService.tabNotifier.value = i;
                                     _pageController.jumpToPage(i);
                                   },
                                 ),
