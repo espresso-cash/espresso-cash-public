@@ -33,7 +33,7 @@ class NetworkPickerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          backgroundColor: CpColors.darkBackground,
+          backgroundColor: CpColors.deepGreyColor,
           appBar: CpAppBar(
             title: Text(context.l10n.walletNetworks.toUpperCase()),
           ),

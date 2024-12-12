@@ -5,10 +5,10 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
-import '../../../ui/button.dart';
-import '../../../ui/chip.dart';
+import '../../../ui/bottom_button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/content_padding.dart';
-import '../../../ui/info_widget.dart';
+import '../../../ui/markdown_text.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/services/convert_to_usd.dart';
 import '../../conversion_rates/widgets/extensions.dart';
@@ -56,7 +56,7 @@ class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
         child: Scaffold(
           appBar: CpAppBar(
             title: Text(
-              context.l10n.pay.toUpperCase(),
+              context.l10n.sendMoney.toUpperCase(),
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 17,
@@ -68,20 +68,9 @@ class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
             child: _TokenCreateLinkContent(amount: widget.tokenAmount),
           ),
           bottomNavigationBar: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const FeeLabel(type: FeeType.link()),
-                  const SizedBox(height: 21),
-                  CpButton(
-                    width: double.infinity,
-                    onPressed: _handleSubmit,
-                    text: context.l10n.create,
-                  ),
-                ],
-              ),
+            child: CpBottomButton(
+              onPressed: _handleSubmit,
+              text: context.l10n.create,
             ),
           ),
         ),
@@ -98,22 +87,21 @@ class _TokenCreateLinkContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          const SizedBox(height: 60),
-          _AmountView(amount: amount),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: CpInfoWidget(
-              message: Text(context.l10n.sendExplanation),
-              variant: CpInfoVariant.black,
+          const SizedBox(height: 20),
+          Center(
+            child: EcMarkdownText(
+              text: context.l10n.reviewPayment.toUpperCase(),
             ),
           ),
+          const SizedBox(height: 30),
+          _InformationView(amount: amount),
           const Spacer(),
         ],
       );
 }
 
-class _AmountView extends StatelessWidget {
-  const _AmountView({required this.amount});
+class _InformationView extends StatelessWidget {
+  const _InformationView({required this.amount});
 
   final Amount amount;
 
@@ -128,44 +116,79 @@ class _AmountView extends StatelessWidget {
     );
     final formattedFiatAmount = fiatAmount.formatMinimum(locale);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        FittedBox(
-          child: Text(
-            formattedAmount,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 55,
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 34, horizontal: 50),
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        color: CpColors.blackGreyColor,
+        borderRadius: BorderRadius.all(Radius.circular(31)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: FittedBox(
+              child: Text(
+                formattedAmount,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 48,
+                ),
+              ),
             ),
           ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 24),
-          child: CpChip(
-            // TODO(KB): Check if needed
-            // ignore: avoid-single-child-column-or-row
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+          const SizedBox(height: 12),
+          if (formattedFiatAmount != null)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (formattedFiatAmount != null)
-                  FittedBox(
-                    child: Text(
-                      context.l10n
-                          .fiatEquivalent(formattedFiatAmount)
-                          .toUpperCase(),
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
+                FittedBox(
+                  child: Text(
+                    context.l10n.fiatEquivalent,
+                    maxLines: 1,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                ),
+                Text(
+                  formattedFiatAmount,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: CpColors.greyColor,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ],
             ),
+          const SizedBox(height: 12),
+          const FeeLabel(
+            type: FeeType.link(),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            keyTextStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            valueTextStyle: TextStyle(
+              fontSize: 16,
+              color: CpColors.greyColor,
+              fontWeight: FontWeight.w400,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 12),
+          Text(
+            context.l10n.sendExplanation,
+            style: const TextStyle(
+              fontSize: 14.5,
+              color: CpColors.greyColor,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

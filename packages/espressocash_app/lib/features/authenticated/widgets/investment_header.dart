@@ -21,8 +21,7 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration:
-            const BoxDecoration(color: CpColors.darkGoldBackgroundColor),
+        decoration: const BoxDecoration(color: CpColors.darkSandColor),
         child: _HeaderSwitcher(
           first: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -57,7 +56,7 @@ class _Info extends StatelessWidget {
             const CircleAvatar(
               maxRadius: 14,
               backgroundColor: CpColors.yellowColor,
-              child: CpInfoIcon(iconColor: CpColors.darkBackgroundColor),
+              child: CpInfoIcon(iconColor: CpColors.blackGreyColor),
             ),
             const SizedBox(height: 16),
             Padding(

@@ -32,6 +32,8 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
 
   void _handleAccountChanged() {
     Future.microtask(() {
+      if (!mounted) return;
+
       if (sl<AccountService>().value == null) {
         SignInFlowScreen.open(context, navigator: _navigator.currentState);
       } else if (sl<OnboardingRepository>().hasFinishedOnboarding) {
@@ -43,12 +45,6 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
         OnboardingFlowScreen.open(
           context,
           navigator: _navigator.currentState,
-          onConfirmed: () {
-            AuthenticatedFlowScreen.open(
-              context,
-              navigator: _navigator.currentState,
-            );
-          },
         );
       }
     });

@@ -44,7 +44,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
     final iconSize = max(_tokenSize * ratio, 24.0);
 
     return Material(
-      color: CpColors.darkGoldBackgroundColor,
+      color: CpColors.darkSandColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Stack(

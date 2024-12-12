@@ -1,3 +1,95 @@
+## 1.135.0
+
+ - **FIX**: incorrect timezone for birthdate (#1633).
+ - **FIX**: brij orders (#1634).
+ - **FEAT**: update kyc flow (#1630).
+ - **FEAT**: update kyc client (#1638).
+ - **FEAT**: update home tab navigation (#1631).
+ - **FEAT**: update home tab navigation.
+ - **FEAT**: kyc screens ui update (#1629).
+
+## 1.134.0
+
+ - **REFACTOR**: assets (#1617).
+ - **REFACTOR**: migrate to Flutter 3.24.5 (#1623).
+ - **FIX**: recovery amount (#1626).
+ - **FEAT**: phone input field updates (#1624).
+ - **FEAT**: update kyc camera resolution (#1625).
+ - **FEAT**: update jupiter price api (#1628).
+ - **FEAT**: update kyc status screen (#1620).
+ - **FEAT**: updates of design (#1621).
+ - **FEAT**: show incoming link amount (#1610).
+
+## 1.133.0
+
+ - **FEAT**: xflow integration (#1597).
+
+## 1.132.0
+
+ - **REFACTOR**: code cleanup (#1613).
+ - **FIX**: android intercom crash (#1619).
+ - **FIX**: ramp minimum amount label (#1614).
+ - **FEAT**: ambassador module (#1612).
+ - **FEAT**: share qr background color (#1618).
+ - **FEAT**: add webview error logging (#1615).
+
+## 1.131.1
+
+ - **FIX**: moneygram withdraw fee currency (#1607).
+
+## 1.131.0
+
+ - **FIX**: moneygram deposit screen updates (#1602).
+ - **FEAT**: check balance before Pay creation (#1604).
+ - **FEAT**: moneygram local currency (#1605).
+ - **FEAT**: moneygram deposit (#1603).
+
+## 1.130.0
+
+ - **FEAT**: moneygram withdraw updates (#1599).
+ - **FEAT**: wallet screen changes (#1593).
+ - **FEAT**: ramp onboarding screen updates (#1594).
+
+## 1.129.1
+
+ - **FIX**: fetch fiat rates on start (#1592).
+
+## 1.129.0
+
+ - **FIX**: moneygram bridge fix (#1591).
+ - **FEAT**: update Ramp network icon (#1585).
+ - **FEAT**: ui updates (#1589).
+ - **FEAT**: onboarding flow changes (#1584).
+ - **FEAT**: ramp amount screen updates (#1590).
+
+## 1.128.1
+
+ - **FIX**: minor select partner UI update (#1582).
+
+## 1.128.0
+
+ - **FIX**: navigation (#1579).
+ - **FEAT**: minor settings UI update (#1578).
+ - **FEAT**: ramp amount screen updates (#1580).
+ - **FEAT**: log coinflow exception (#1581).
+ - **FEAT**: send money ui update (#1577).
+
+## 1.127.1
+
+ - **FIX**: scalex onramp (#1575).
+
+## 1.127.0
+
+ - **REFACTOR**: migrate to Flutter 3.24.3 (#1574).
+ - **FIX**: stellar recovery (#1570).
+ - **FIX**: home screen fixes (#1569).
+ - **FEAT**: update select partners UI (#1563).
+ - **FEAT**: ramp amount input screen (#1565).
+ - **FEAT**: update moneygram countries (#1573).
+ - **FEAT**: store token list localdb (#1498).
+ - **FEAT**: shows correct error message on outgoing link (#1530).
+ - **FEAT**: update moneygram bridge text (#1566).
+
 ## 1.126.1
 
  - **FIX**: moneygram ramp fixes (#1562).

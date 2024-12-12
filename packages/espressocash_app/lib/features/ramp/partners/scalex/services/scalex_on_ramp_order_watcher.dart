@@ -8,8 +8,8 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../../../data/db/db.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../data/my_database_ext.dart';
-import '../../../models/ramp_type.dart';
 import '../../../models/ramp_watcher.dart';
 import '../data/scalex_repository.dart';
 
@@ -57,7 +57,7 @@ class ScalexOnRampOrderWatcher implements RampWatcher {
 
       await statement.write(
         OnRampOrderRowsCompanion(
-          status: Value.absentIfNull(status),
+          status: Value.ofNullable(status),
           isCompleted: Value(isCompleted),
         ),
       );

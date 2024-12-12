@@ -12,8 +12,11 @@ import '../../../di.dart';
 import '../../../ui/clipboard.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../data/profile_repository.dart';
+import '../widgets/ambassador_section.dart';
 import '../widgets/help_section.dart';
+import '../widgets/kyc_section.dart';
 import '../widgets/profile_section.dart';
 import '../widgets/security_section.dart';
 
@@ -30,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Material(
-          color: CpColors.darkBackground,
+          color: CpColors.deepGreyColor,
           child: SingleChildScrollView(
             child: SafeArea(
               maintainBottomViewPadding: true,
@@ -71,9 +74,8 @@ class ProfileScreen extends StatelessWidget {
                                 top: 0,
                                 right: 0,
                                 child: CpIconButton(
-                                  icon: Assets.icons.closeButtonIcon.svg(
-                                    color: Colors.white,
-                                  ),
+                                  icon: Assets.icons.closeButtonIcon
+                                      .svg(color: Colors.white),
                                   onPressed: Navigator.of(context).pop,
                                   variant: CpIconButtonVariant.black,
                                 ),
@@ -104,16 +106,23 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 24,
+                    ),
                     child: Column(
                       children: [
-                        EditProfileSection(),
-                        SecuritySection(),
-                        HelpSection(),
-                        DangerSection(),
-                        ShareSection(),
-                        VersionSection(),
+                        const EditProfileSection(),
+                        if (sl<FeatureFlagsManager>().isBrijEnabled()) ...[
+                          const KycSection(),
+                        ],
+                        const AmbassadorSection(),
+                        const SecuritySection(),
+                        const HelpSection(),
+                        const DangerSection(),
+                        const ShareSection(),
+                        const VersionSection(),
                       ],
                     ),
                   ),
@@ -145,8 +154,8 @@ class _QrCodeWidget extends StatelessWidget {
         padding: EdgeInsets.zero,
         alignment: Alignment.centerLeft,
         decoration: const BoxDecoration(
-          color: CpColors.darkBackgroundColor,
-          borderRadius: BorderRadius.all(Radius.circular(16)),
+          color: CpColors.blackGreyColor,
+          borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(

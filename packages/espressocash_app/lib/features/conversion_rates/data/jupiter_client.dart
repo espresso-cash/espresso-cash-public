@@ -11,13 +11,13 @@ part 'jupiter_client.freezed.dart';
 part 'jupiter_client.g.dart';
 
 @injectable
-@RestApi(baseUrl: 'https://price.jup.ag/v6/')
+@RestApi(baseUrl: 'https://api.jup.ag/price/v2')
 abstract class JupiterPriceClient {
   @factoryMethod
   factory JupiterPriceClient(DioCacheClient client) =>
       _JupiterPriceClient(client.dio);
 
-  @GET('/price')
+  @GET('/')
   @Extra({maxAgeOption: Duration(minutes: 1)})
   Future<PriceResponseDto> getPrice(@Queries() TokenRateRequestDto request);
 }
@@ -35,8 +35,7 @@ class PriceResponseDto with _$PriceResponseDto {
 @freezed
 class TokenPricesMapDto with _$TokenPricesMapDto {
   const factory TokenPricesMapDto({
-    required double price,
-    required String vsTokenSymbol,
+    required String? price,
   }) = _TokenPricesMapDto;
 
   const TokenPricesMapDto._();

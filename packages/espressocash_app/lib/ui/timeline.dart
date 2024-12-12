@@ -10,12 +10,12 @@ typedef _AnimationTransformer = double Function(double value);
 
 class CpTimelineItem {
   const CpTimelineItem({
-    required this.title,
+    this.title,
     this.subtitle,
     this.trailing,
   });
 
-  final String title;
+  final String? title;
   final String? subtitle;
   final String? trailing;
 }
@@ -113,7 +113,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                         shape: BoxShape.circle,
                         color: isHighlighted || index > widget.active
                             ? Colors.white
-                            : CpColors.darkBackground,
+                            : CpColors.deepGreyColor,
                       ),
                       child: index <= lastIconIndex
                           ? isActive
@@ -135,7 +135,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                         width: _connectorWidth,
                         color: index >= widget.active
                             ? Colors.white
-                            : CpColors.darkBackground,
+                            : CpColors.deepGreyColor,
                       ),
                     ),
                   ),
@@ -163,6 +163,7 @@ class _TileInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final title = tile.title;
     final subtitle = tile.subtitle;
 
     return Padding(
@@ -174,8 +175,10 @@ class _TileInfo extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(tile.title, style: _titleStyle),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 2)),
+                if (title != null) ...[
+                  Text(title, style: _titleStyle),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 2)),
+                ],
                 if (subtitle != null) Text(subtitle, style: _subtitleStyle),
               ],
             ),

@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
@@ -8,30 +9,87 @@ import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../models/country.dart';
 
+typedef CountryOnTap = Future<void> Function(
+  Country updatedCountry,
+  BuildContext context,
+);
+
 class CountryPickerScreen extends StatelessWidget {
   const CountryPickerScreen({
     super.key,
     this.initial,
+    this.onTap,
+    this.showDialCode = false,
   });
 
+  static Future<void> open(
+    BuildContext context, {
+    Country? initial,
+    CountryOnTap? onTap,
+    NavigatorState? navigator,
+    bool showDialCode = false,
+  }) =>
+      (navigator ?? Navigator.of(context, rootNavigator: true))
+          .pushAndRemoveUntil<Country>(
+        PageRouteBuilder(
+          pageBuilder: (context, _, __) => CountryPickerScreen(
+            initial: initial,
+            onTap: onTap,
+            showDialCode: showDialCode,
+          ),
+          transitionDuration: Duration.zero,
+        ),
+        F,
+      );
+
+  static Future<void> push(
+    BuildContext context, {
+    Country? initial,
+    CountryOnTap? onTap,
+    bool showDialCode = false,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => CountryPickerScreen(
+            initial: initial,
+            onTap: onTap,
+            showDialCode: showDialCode,
+          ),
+        ),
+      );
+
   final Country? initial;
+  final CountryOnTap? onTap;
+  final bool showDialCode;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          backgroundColor: CpColors.darkBackground,
+          backgroundColor: CpColors.deepGreyColor,
           appBar: CpAppBar(
             title: Text(context.l10n.selectCountryTitle.toUpperCase()),
           ),
-          body: _Wrapper(child: _Content(initial: initial)),
+          body: _Wrapper(
+            child: _Content(
+              initial: initial,
+              onTap: onTap,
+              showDialCode: showDialCode,
+            ),
+          ),
         ),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({this.initial});
+  const _Content({
+    this.initial,
+    required this.onTap,
+    required this.showDialCode,
+  });
 
   final Country? initial;
+  final CountryOnTap? onTap;
+  final bool showDialCode;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -83,7 +141,11 @@ class _ContentState extends State<_Content> {
       final codeMatches =
           country.code.toLowerCase().contains(_searchText.toLowerCase());
 
-      return nameMatches || codeMatches;
+      final dialCodeMatches = widget.showDialCode
+          ? country.dialCode.toLowerCase().contains(_searchText.toLowerCase())
+          : false;
+
+      return nameMatches || codeMatches || dialCodeMatches;
     }).toList();
 
     return Column(
@@ -92,6 +154,7 @@ class _ContentState extends State<_Content> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: CpTextField(
             controller: _searchController,
+            autocorrect: false,
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             fontSize: 16,
             border: CpTextFieldBorder.stadium,
@@ -137,13 +200,39 @@ class _ContentState extends State<_Content> {
                       : const BoxDecoration(),
                   child: ListTile(
                     dense: true,
-                    title: Text(
-                      country.name,
-                      style: TextStyle(fontSize: selected ? 19 : 17),
+                    title: Row(
+                      children: [
+                        if (widget.showDialCode)
+                          SizedBox(
+                            width: 70,
+                            child: Text(
+                              country.dialCode,
+                              style: TextStyle(
+                                fontSize: selected ? 19 : 17,
+                                color: CpColors.yellowColor,
+                              ),
+                            ),
+                          ),
+                        Expanded(
+                          child: Text(
+                            country.name,
+                            style: TextStyle(
+                              fontSize: selected ? 19 : 17,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
-                    onTap: () => Navigator.pop(context, country),
+                    onTap: () async {
+                      await widget.onTap
+                          ?.let((onTap) => onTap(country, context));
+
+                      if (!context.mounted) return;
+                      Navigator.pop(context);
+                    },
                   ),
                 );
               },

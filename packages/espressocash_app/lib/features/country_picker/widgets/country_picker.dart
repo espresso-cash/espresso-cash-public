@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
@@ -8,30 +9,32 @@ class CountryPicker extends StatelessWidget {
   const CountryPicker({
     super.key,
     this.country,
+    this.backgroundColor = Colors.black,
     required this.onSubmitted,
   });
 
   final Country? country;
+  final Color backgroundColor;
   final ValueSetter<Country> onSubmitted;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: const ShapeDecoration(
-          color: Colors.black,
-          shape: StadiumBorder(),
+        decoration: ShapeDecoration(
+          color: backgroundColor,
+          shape: const StadiumBorder(),
         ),
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 24),
           onTap: () async {
-            final Country? updated = await Navigator.push(
+            Country? country;
+            await CountryPickerScreen.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => CountryPickerScreen(initial: country),
-              ),
+              initial: country,
+              onTap: (updated, _) async => country = updated,
             );
 
-            if (context.mounted && updated != null) {
-              onSubmitted(updated);
+            if (context.mounted) {
+              country?.let(onSubmitted);
             }
           },
           title: Text(

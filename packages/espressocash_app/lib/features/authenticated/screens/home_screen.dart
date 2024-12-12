@@ -9,10 +9,13 @@ import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
 import '../../../ui/page_spacer_wrapper.dart';
 import '../../activities/screens/activities_screen.dart';
+import '../../ambassador/widgets/ambassador_link_listener.dart';
 import '../../dynamic_links/services/dynamic_links_notifier.dart';
 import '../../incoming_link_payments/widgets/pending_ilp_listener.dart';
 import '../../outgoing_direct_payments/widgets/link_listener.dart';
 import '../../ramp/partners/coinflow/widgets/coinflow_link_listener.dart';
+import '../../router/models/activities_tab.dart';
+import '../../router/service/navigation_service.dart';
 import '../../transaction_request/widgets/tr_link_listener.dart';
 import '../../wallet_flow/screens/wallet_screen.dart';
 import 'main_screen.dart';
@@ -20,75 +23,79 @@ import 'main_screen.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  static void openWalletTab(BuildContext context) {
-    final _HomeScreenState? state =
-        context.findAncestorStateOfType<_HomeScreenState>();
-    if (state != null) {
-      state._pageController.jumpToPage(1);
-      state._tabNotifier.value = 1;
-    }
-  }
+  static void openWalletTab(BuildContext context) =>
+      sl<HomeNavigationService>().openWalletTab(context);
 
   static void openActivitiesTab(
     BuildContext context, {
-    // ignore: avoid-unused-parameters, fix later
     ActivitiesTab tab = ActivitiesTab.pending,
-  }) {
-    final _HomeScreenState? state =
-        context.findAncestorStateOfType<_HomeScreenState>();
-    if (state != null) {
-      state._pageController.jumpToPage(2);
-      state._tabNotifier.value = 2;
-    }
-  }
+  }) =>
+      sl<HomeNavigationService>().openActivitiesTab(context, tab: tab);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _tabNotifier = TabNotifier();
   final _pageController = PageController();
 
   @override
+  void initState() {
+    super.initState();
+    sl<HomeNavigationService>().tabNotifier.addListener(_handleGlobalTabChange);
+  }
+
+  void _handleGlobalTabChange() {
+    if (mounted) {
+      _pageController.jumpToPage(sl<HomeNavigationService>().tabNotifier.value);
+    }
+  }
+
+  @override
   void dispose() {
-    _tabNotifier.dispose();
+    sl<HomeNavigationService>()
+        .tabNotifier
+        .removeListener(_handleGlobalTabChange);
     _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider.value(
-        value: _tabNotifier,
+        value: sl<HomeNavigationService>().tabNotifier,
         child: LinkLoader(
           child: ODPLinkListener(
             child: PendingILPListener(
               child: TRLinkListener(
                 child: CoinflowLinkListener(
-                  child: ValueListenableBuilder(
-                    valueListenable: _tabNotifier,
-                    builder: (context, value, _) => Scaffold(
-                      backgroundColor: Colors.white,
-                      extendBody: true,
-                      body: PageView(
-                        controller: _pageController,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children:
-                            _pages.map((e) => e.builder(context)).toList(),
-                      ),
-                      bottomNavigationBar: CPNavigationBar(
-                        items: _pages
-                            .mapIndexed(
-                              (i, p) => CpNavigationButton(
-                                icon: p.icon,
-                                active: value == i,
-                                onPressed: () {
-                                  _tabNotifier.value = i;
-                                  _pageController.jumpToPage(i);
-                                },
-                              ),
-                            )
-                            .toList(),
+                  child: AmbassadorLinkListener(
+                    child: ValueListenableBuilder(
+                      valueListenable: sl<HomeNavigationService>().tabNotifier,
+                      builder: (context, value, _) => Scaffold(
+                        backgroundColor: Colors.white,
+                        extendBody: true,
+                        body: PageView(
+                          controller: _pageController,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children:
+                              _pages.map((e) => e.builder(context)).toList(),
+                        ),
+                        bottomNavigationBar: CPNavigationBar(
+                          items: _pages
+                              .mapIndexed(
+                                (i, p) => CpNavigationButton(
+                                  icon: p.icon,
+                                  active: value == i,
+                                  onPressed: () {
+                                    sl<HomeNavigationService>()
+                                        .tabNotifier
+                                        .value = i;
+                                    _pageController.jumpToPage(i);
+                                  },
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
                     ),
                   ),
@@ -119,10 +126,6 @@ class LinkLoader extends StatelessWidget {
       );
 }
 
-class TabNotifier extends ValueNotifier<int> {
-  TabNotifier() : super(0);
-}
-
 // ignore: avoid-function-type-in-records, fix later
 final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
   (
@@ -144,7 +147,7 @@ final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
   (
     icon: Assets.icons.notifications,
     builder: (context) => ActivitiesScreen(
-          initialTab: ActivitiesTab.pending,
+          initialTab: sl<HomeNavigationService>().activitiesTabNotifier.value,
           onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
         ),
   ),

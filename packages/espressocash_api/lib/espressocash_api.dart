@@ -1,9 +1,11 @@
 export 'package:jupiter_aggregator/jupiter_aggregator.dart';
 
 export 'src/client.dart';
+export 'src/dto/ambassador.dart';
 export 'src/dto/create_payment.dart';
 export 'src/dto/dln_payment.dart';
 export 'src/dto/durable_transactions.dart';
+export 'src/dto/fiat_rate.dart';
 export 'src/dto/gas.dart';
 export 'src/dto/get_fees.dart';
 export 'src/dto/get_rates.dart';

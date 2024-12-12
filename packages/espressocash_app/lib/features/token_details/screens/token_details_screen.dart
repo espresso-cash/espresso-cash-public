@@ -6,7 +6,6 @@ import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/data/transaction_repository.dart';
@@ -38,7 +37,7 @@ class TokenDetailsScreen extends StatelessWidget {
         value: token,
         child: CpTheme.dark(
           child: Scaffold(
-            backgroundColor: CpColors.darkGoldBackgroundColor,
+            backgroundColor: CpColors.darkSandColor,
             body: SafeArea(
               bottom: false,
               child: NestedScrollView(
@@ -91,7 +90,7 @@ class _TokenDetailsBody extends StatelessWidget {
                       Expanded(
                         child: DecoratedBox(
                           decoration: const BoxDecoration(
-                            color: CpColors.dashboardBackgroundColor,
+                            color: CpColors.deepGreyColor,
                             borderRadius:
                                 BorderRadius.vertical(top: Radius.circular(31)),
                           ),
@@ -244,26 +243,14 @@ class _SwapButton extends StatelessWidget {
               text: 'Swap',
               minWidth: 106,
               size: CpButtonSize.big,
-              onPressed: () => showInfoDialog(
-                context,
-                title: 'Swap',
-                message: 'Coming soon!',
-                confirmLabel: 'OK',
-                onConfirm: () {},
-              ),
+              onPressed: () {},
             ),
             const SizedBox(width: 14),
             CpButton(
               text: 'Send',
               minWidth: 106,
               size: CpButtonSize.big,
-              onPressed: () => showInfoDialog(
-                context,
-                title: 'Send',
-                message: 'Coming soon!',
-                confirmLabel: 'OK',
-                onConfirm: () {},
-              ),
+              onPressed: () {},
             ),
           ],
         ),

@@ -1,35 +1,78 @@
+import 'dart:async';
+
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/loader.dart';
+import '../../authenticated/screens/authenticated_flow_screen.dart';
+import '../../country_picker/models/country.dart';
+import '../../country_picker/screens/country_picker_screen.dart';
+import '../../profile/service/update_profile.dart';
 import '../data/onboarding_repository.dart';
-import 'profile_screen.dart';
 import 'view_recovery_phrase_screen.dart';
 
 class OnboardingFlowScreen {
-  static void open(
+  static Future<void> open(
     BuildContext context, {
-    required VoidCallback onConfirmed,
     NavigatorState? navigator,
-  }) {
+  }) async {
     final hasConfirmedPassphrase =
         sl<OnboardingRepository>().hasConfirmedPassphrase;
 
     if (hasConfirmedPassphrase) {
-      OnboardingProfileScreen.open(
+      await CountryPickerScreen.open(
         context,
         navigator: navigator,
-        onConfirmed: onConfirmed,
+        onTap: _updateCountry,
       );
+
+      if (context.mounted) {
+        AuthenticatedFlowScreen.open(
+          context,
+          navigator: navigator,
+        );
+      }
     } else {
       ViewRecoveryPhraseScreen.open(
         context,
         navigator: navigator,
-        onConfirmed: () => OnboardingProfileScreen.open(
-          context,
-          navigator: navigator,
-          onConfirmed: onConfirmed,
-        ),
+        onConfirmed: () async {
+          await CountryPickerScreen.open(
+            context,
+            navigator: navigator,
+            onTap: _updateCountry,
+          );
+
+          if (context.mounted) {
+            AuthenticatedFlowScreen.open(
+              context,
+              navigator: navigator,
+            );
+          }
+        },
       );
     }
   }
 }
+
+Future<void> _updateCountry(Country country, BuildContext context) =>
+    runWithLoader(
+      context,
+      () async {
+        await sl<UpdateProfile>()
+            .call(
+              countryCode: country.code,
+            )
+            .foldAsync((e) => throw e, ignore);
+
+        if (!context.mounted) return;
+      },
+      onError: (error) => showErrorDialog(
+        context,
+        context.l10n.lblProfileUpdateFailed,
+        error,
+      ),
+    );

@@ -59,8 +59,8 @@ class FadeGradient extends StatelessWidget {
                       Colors.white.withOpacity(0),
                     ]
                   : [
-                      CpColors.darkBackground,
-                      CpColors.darkBackground.withOpacity(0),
+                      CpColors.deepGreyColor,
+                      CpColors.deepGreyColor.withOpacity(0),
                     ],
             ),
           ),
@@ -85,7 +85,7 @@ class SolidPadding extends StatelessWidget {
         child: Container(
           height: height,
           decoration: const BoxDecoration(
-            color: CpColors.dashboardBackgroundColor,
+            color: CpColors.deepGreyColor,
           ),
         ),
       );
