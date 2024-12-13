@@ -26,7 +26,11 @@ class KycSharingService extends ValueNotifier<UserData?> {
   StreamSubscription<void>? _pollingSubscription;
 
   final _isInitialized = Completer<void>();
-  Future<void> get initialized => _isInitialized.future;
+  Future<void> get initialized => _isInitialized.future.then((_) async {
+        if (value == null) {
+          await fetchUserData();
+        }
+      });
 
   @PostConstruct()
   void init() {
