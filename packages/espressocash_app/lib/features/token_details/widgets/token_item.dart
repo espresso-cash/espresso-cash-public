@@ -33,9 +33,7 @@ class TokenItemContainer extends StatelessWidget {
               decoration: const ShapeDecoration(
                 color: CpColors.blackGreyColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(28)),
                 ),
               ),
               child: content,

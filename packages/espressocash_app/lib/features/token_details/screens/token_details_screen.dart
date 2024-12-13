@@ -43,7 +43,7 @@ class TokenDetailsScreen extends StatelessWidget {
               child: NestedScrollView(
                 headerSliverBuilder: (context, _) =>
                     [TokenAppBar(token: token)],
-                body: _TokenDetailsBody(token: token),
+                body: _TokenDetailsBody(token),
               ),
             ),
           ),
@@ -52,9 +52,7 @@ class TokenDetailsScreen extends StatelessWidget {
 }
 
 class _TokenDetailsBody extends StatelessWidget {
-  const _TokenDetailsBody({
-    required this.token,
-  });
+  const _TokenDetailsBody(this.token);
 
   final Token token;
 
@@ -76,9 +74,8 @@ class _TokenDetailsBody extends StatelessWidget {
                 parent: ClampingScrollPhysics(),
               ),
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight,
-                ),
+                constraints:
+                    BoxConstraints(minHeight: viewportConstraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Column(
                     children: [
@@ -96,14 +93,10 @@ class _TokenDetailsBody extends StatelessWidget {
                           ),
                           child: Center(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 41,
-                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 41),
                               child: Column(
                                 children: [
-                                  TokenInfo(
-                                    tokenAddress: token.address,
-                                  ),
+                                  TokenInfo(tokenAddress: token.address),
                                   RecentTokenActivityWidget(
                                     tokenAddress: token.address,
                                   ),
@@ -255,8 +248,4 @@ class _SwapButton extends StatelessWidget {
           ],
         ),
       );
-}
-
-extension on Token {
-  bool get isUsdcToken => address == Token.usdc.address;
 }

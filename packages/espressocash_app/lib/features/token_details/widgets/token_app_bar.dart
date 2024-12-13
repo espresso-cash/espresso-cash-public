@@ -12,10 +12,7 @@ import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 
 class TokenAppBar extends StatelessWidget {
-  const TokenAppBar({
-    super.key,
-    required this.token,
-  });
+  const TokenAppBar({super.key, required this.token});
 
   final Token token;
 
