@@ -148,7 +148,6 @@ final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
     icon: Assets.icons.notifications,
     builder: (context) => ActivitiesScreen(
           initialTab: sl<HomeNavigationService>().activitiesTabNotifier.value,
-          onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
         ),
   ),
 ];

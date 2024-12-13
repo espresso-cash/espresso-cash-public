@@ -9,14 +9,9 @@ import 'no_activity.dart';
 import 'transaction_item.dart';
 
 class TransactionList extends StatefulWidget {
-  const TransactionList({
-    super.key,
-    this.padding,
-    required this.onSendMoneyPressed,
-  });
+  const TransactionList({super.key, this.padding});
 
   final EdgeInsetsGeometry? padding;
-  final VoidCallback onSendMoneyPressed;
 
   @override
   State<TransactionList> createState() => _TransactionListState();
@@ -45,11 +40,7 @@ class _TransactionListState extends State<TransactionList> {
             if (data == null) return const SizedBox.shrink();
 
             return data.isEmpty
-                ? Center(
-                    child: NoActivity(
-                      onSendMoneyPressed: widget.onSendMoneyPressed,
-                    ),
-                  )
+                ? const Center(child: NoActivity())
                 : CustomScrollView(
                     physics: const BouncingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics(),

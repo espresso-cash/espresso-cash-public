@@ -17,14 +17,9 @@ import 'payment_request_tile.dart';
 import 'tr_tile.dart';
 
 class PendingActivitiesList extends StatefulWidget {
-  const PendingActivitiesList({
-    super.key,
-    this.padding,
-    required this.onSendMoneyPressed,
-  });
+  const PendingActivitiesList({super.key, this.padding});
 
   final EdgeInsetsGeometry? padding;
-  final VoidCallback onSendMoneyPressed;
 
   @override
   State<PendingActivitiesList> createState() => _PendingActivitiesListState();
@@ -47,9 +42,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
           final data = snapshot.data;
 
           if (data == null || data.isEmpty) {
-            return Center(
-              child: NoActivity(onSendMoneyPressed: widget.onSendMoneyPressed),
-            );
+            return const Center(child: NoActivity());
           }
 
           final hasKyc = data.first is KycActivity;
