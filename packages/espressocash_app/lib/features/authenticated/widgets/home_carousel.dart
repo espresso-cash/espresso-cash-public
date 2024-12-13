@@ -1,45 +1,22 @@
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
-import '../../../ui/value_stream_builder.dart';
-import '../../investments/services/watch_investments.dart';
-import '../../tokens/token.dart';
 
-class HomeCarouselWidget extends StatelessWidget {
+class HomeCarouselWidget extends StatefulWidget {
   const HomeCarouselWidget({super.key, required this.onSendMoneyPressed});
 
   final VoidCallback onSendMoneyPressed;
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<IList<Token>>(
-        create: () => (sl<WatchInvestments>().call(), const IListConst([])),
-        builder: (context, tokens) {
-          final hasTokens = tokens.isNotEmpty;
-
-          return hasTokens
-              ? const SizedBox.shrink()
-              : CarouselWidget(onSendMoneyPressed: onSendMoneyPressed);
-        },
-      );
+  State<HomeCarouselWidget> createState() => _HomeCarouselWidgetState();
 }
 
-class CarouselWidget extends StatefulWidget {
-  const CarouselWidget({super.key, required this.onSendMoneyPressed});
-
-  final VoidCallback onSendMoneyPressed;
-
-  @override
-  State<CarouselWidget> createState() => _CarouselWidgetState();
-}
-
-class _CarouselWidgetState extends State<CarouselWidget> {
+class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
   late final PageController _controller = PageController();
 
   @override
