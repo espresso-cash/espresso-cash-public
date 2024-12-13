@@ -29,7 +29,11 @@ import '../services/brij_on_ramp_order_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchKycOnRamp() async {
-    final user = sl<KycSharingService>().value;
+    final kycService = sl<KycSharingService>();
+
+    await runWithLoader(this, () async => kycService.initialized);
+
+    final user = kycService.value;
 
     if (user == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
@@ -139,7 +143,11 @@ extension BuildContextExt on BuildContext {
   }
 
   Future<void> launchKycOffRamp() async {
-    final user = sl<KycSharingService>().value;
+    final kycService = sl<KycSharingService>();
+
+    await runWithLoader(this, () async => kycService.initialized);
+
+    final user = kycService.value;
 
     if (user == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
