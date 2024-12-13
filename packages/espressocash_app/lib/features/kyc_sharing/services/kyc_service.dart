@@ -25,6 +25,13 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   StreamSubscription<void>? _pollingSubscription;
 
+  final _isInitialized = Completer<void>();
+  Future<void> get initialized => _isInitialized.future.then((_) async {
+        if (value == null) {
+          await fetchUserData();
+        }
+      });
+
   @PostConstruct()
   void init() {
     if (!sl<FeatureFlagsManager>().isBrijEnabled()) return;
@@ -34,6 +41,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<void> _initializeKyc() async {
     await fetchUserData();
+    _isInitialized.complete();
 
     if (value?.kycStatus == ValidationStatus.pending) {
       _subscribe();
