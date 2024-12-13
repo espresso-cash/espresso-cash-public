@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
@@ -148,7 +149,7 @@ class _TokenHeader extends StatelessWidget {
             children: [
               Text.rich(
                 TextSpan(
-                  text: 'Balance ',
+                  text: '${context.l10n.balance} ',
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
@@ -180,7 +181,7 @@ class _TokenHeader extends StatelessWidget {
               ),
               Text.rich(
                 TextSpan(
-                  text: 'Price ',
+                  text: '${context.l10n.price} ',
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,

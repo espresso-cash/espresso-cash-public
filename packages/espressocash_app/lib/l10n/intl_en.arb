@@ -1215,5 +1215,7 @@
     "today": "Today",
     "@today": {},
     "yesterday": "Yesterday",
-    "@yesterday": {}
+    "@yesterday": {},
+    "balance": "Balance",
+    "@balance": {}
 }
