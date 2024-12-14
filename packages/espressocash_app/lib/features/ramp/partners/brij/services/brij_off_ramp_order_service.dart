@@ -18,7 +18,6 @@ import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
-import '../../../../kyc_sharing/models/kyc_order_status.dart';
 import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
@@ -26,6 +25,7 @@ import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
 import '../../../../transactions/services/resign_tx.dart';
 import '../../../../transactions/services/tx_sender.dart';
+import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
 class BrijOffRampOrderService implements Disposable {
@@ -237,16 +237,16 @@ class BrijOffRampOrderService implements Disposable {
         );
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
-      final kycStatus = KycOrderStatus.fromString(orderData.status);
+      final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
-        KycOrderStatus.completed => OffRampOrderStatus.completed,
-        KycOrderStatus.unknown ||
-        KycOrderStatus.rejected =>
+        BrijOrderStatus.completed => OffRampOrderStatus.completed,
+        BrijOrderStatus.unknown ||
+        BrijOrderStatus.rejected =>
           OffRampOrderStatus.rejected,
-        KycOrderStatus.failed => OffRampOrderStatus.failure,
-        KycOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
-        KycOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
+        BrijOrderStatus.failed => OffRampOrderStatus.failure,
+        BrijOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
+        BrijOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
       };
 
       if (status != order.status) {
@@ -279,16 +279,16 @@ class BrijOffRampOrderService implements Disposable {
         );
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
-      final kycStatus = KycOrderStatus.fromString(orderData.status);
+      final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
-        KycOrderStatus.completed => OffRampOrderStatus.completed,
-        KycOrderStatus.unknown ||
-        KycOrderStatus.rejected =>
+        BrijOrderStatus.completed => OffRampOrderStatus.completed,
+        BrijOrderStatus.unknown ||
+        BrijOrderStatus.rejected =>
           OffRampOrderStatus.rejected,
-        KycOrderStatus.failed => OffRampOrderStatus.failure,
-        KycOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
-        KycOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
+        BrijOrderStatus.failed => OffRampOrderStatus.failure,
+        BrijOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
+        BrijOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
       };
 
       if (status == OffRampOrderStatus.creatingDepositTx) return;
