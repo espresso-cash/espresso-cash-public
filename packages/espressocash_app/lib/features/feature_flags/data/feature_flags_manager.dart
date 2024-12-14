@@ -31,10 +31,12 @@ class FeatureFlagsManager implements Disposable {
 
   bool isBrijEnabled() => _remoteConfig.getBool(FeatureFlag.brij.name);
 
+  bool isBrijDemoEnabled() => _remoteConfig.getBool(FeatureFlag.brijDemo.name);
+
   @override
   void onDispose() {
     _subscription?.cancel();
   }
 }
 
-enum FeatureFlag { moneygram, brij }
+enum FeatureFlag { moneygram, brij, brijDemo }

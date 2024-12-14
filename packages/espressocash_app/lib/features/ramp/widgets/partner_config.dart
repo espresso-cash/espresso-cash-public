@@ -1,7 +1,7 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../../../di.dart';
-import '../../feature_flags/services/feature_flags_manager.dart';
+import '../../feature_flags/data/feature_flags_manager.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 
 IList<RampPartner> getOnRampPartners(String? countryCode) {

@@ -11,7 +11,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
-import '../../feature_flags/services/feature_flags_manager.dart';
+import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
 import '../utils/kyc_exception.dart';
