@@ -27,7 +27,7 @@ import '../services/brij_off_ramp_order_service.dart';
 import '../services/brij_on_ramp_order_service.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchKycOnRamp() async {
+  Future<void> launchBrijOnRamp() async {
     final kycService = sl<KycSharingService>();
 
     await runWithLoader(this, () async => kycService.initialized);
@@ -139,7 +139,7 @@ extension BuildContextExt on BuildContext {
     }
   }
 
-  Future<void> launchKycOffRamp() async {
+  Future<void> launchBrijOffRamp() async {
     final kycService = sl<KycSharingService>();
 
     await runWithLoader(this, () async => kycService.initialized);

@@ -15,10 +15,10 @@ import '../../profile/data/profile_repository.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 import '../models/profile_data.dart';
+import '../partners/brij/widgets/launch.dart';
 import '../partners/coinflow/widgets/launch.dart';
 import '../partners/guardarian/widgets/launch.dart';
 import '../partners/kado/widgets/launch.dart';
-import '../partners/kyc/widgets/launch.dart';
 import '../partners/moneygram/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
 import '../partners/scalex/widgets/launch.dart';
@@ -212,7 +212,7 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.scalex:
         launchScalexOnRamp(profile: profile, address: address);
       case RampPartner.brij:
-        launchKycOnRamp();
+        launchBrijOnRamp();
       case RampPartner.moneygram:
         launchMoneygramOnRamp(profile: profile);
       case RampPartner.coinflow:
@@ -238,7 +238,7 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.moneygram:
         launchMoneygramOffRamp(profile: profile);
       case RampPartner.brij:
-        launchKycOffRamp();
+        launchBrijOffRamp();
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');
