@@ -4,6 +4,7 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
 import '../../intercom/services/intercom_service.dart';
+import '../../ramp/partners/brij/widgets/launch.dart';
 import '../../router/service/navigation_service.dart';
 import '../models/kyc_validation_status.dart';
 import '../utils/kyc_utils.dart';
@@ -74,27 +75,39 @@ class KycStatusScreen extends StatelessWidget {
                 ),
               const SizedBox(height: 16),
               const Spacer(),
-              CpBottomButton(
-                horizontalPadding: 16,
-                text: switch (status) {
-                  KycValidationStatus.rejected => context.l10n.contactUs,
-                  KycValidationStatus.pending => context.l10n.activityButton,
-                  KycValidationStatus.approved ||
-                  KycValidationStatus.unverified =>
-                    context.l10n.ok,
-                },
-                onPressed: () {
-                  switch (status) {
-                    case KycValidationStatus.rejected:
-                      sl<IntercomService>().displayMessenger();
-                    case KycValidationStatus.pending:
-                      sl<HomeNavigationService>().openActivitiesTab(context);
-                    case KycValidationStatus.approved:
-                    case KycValidationStatus.unverified:
-                      Navigator.of(context).pop();
-                  }
-                },
-              ),
+              if (status == KycValidationStatus.approved) ...[
+                CpBottomButton(
+                  horizontalPadding: 16,
+                  text: context.l10n.ramp_btnAddCash,
+                  onPressed: context.launchBrijOnRamp,
+                ),
+                CpBottomButton(
+                  horizontalPadding: 16,
+                  text: context.l10n.ramp_btnCashOut,
+                  onPressed: context.launchBrijOffRamp,
+                ),
+              ] else
+                CpBottomButton(
+                  horizontalPadding: 16,
+                  text: switch (status) {
+                    KycValidationStatus.rejected => context.l10n.contactUs,
+                    KycValidationStatus.pending => context.l10n.activityButton,
+                    KycValidationStatus.approved ||
+                    KycValidationStatus.unverified =>
+                      context.l10n.ok,
+                  },
+                  onPressed: () {
+                    switch (status) {
+                      case KycValidationStatus.rejected:
+                        sl<IntercomService>().displayMessenger();
+                      case KycValidationStatus.pending:
+                        sl<HomeNavigationService>().openActivitiesTab(context);
+                      case KycValidationStatus.approved:
+                      case KycValidationStatus.unverified:
+                        Navigator.of(context).pop();
+                    }
+                  },
+                ),
             ],
           );
         },
