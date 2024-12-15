@@ -65,7 +65,7 @@ class KycStatusScreen extends StatelessWidget {
                     ],
                   ),
                 )
-              else if (status == KycValidationStatus.approved)
+              else if (status == KycValidationStatus.approved) ...[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Text(
@@ -73,6 +73,15 @@ class KycStatusScreen extends StatelessWidget {
                     style: _textStyle,
                   ),
                 ),
+                const SizedBox(height: 14),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(
+                    context.l10n.kycApprovedStatusDescription3,
+                    style: _textStyle,
+                  ),
+                ),
+              ],
               const SizedBox(height: 16),
               const Spacer(),
               if (status == KycValidationStatus.approved) ...[
