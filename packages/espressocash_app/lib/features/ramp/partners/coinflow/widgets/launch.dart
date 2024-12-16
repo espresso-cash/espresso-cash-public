@@ -9,11 +9,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../config.dart';
 import '../../../../../di.dart';
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../../../utils/errors.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
@@ -46,6 +48,7 @@ extension BuildContextExt on BuildContext {
           }
         }
 
+        reportError(exception);
         showCpErrorSnackbar(this, message: l10n.tryAgainLater);
 
         return;
@@ -68,7 +71,7 @@ extension BuildContextExt on BuildContext {
     Future<void> handleLoaded(InAppWebViewController controller) async {
       if (!hasLoaded) {
         await controller.loadFile(
-          assetFilePath: 'assets/coinflow/index.html',
+          assetFilePath: Assets.partners.coinflow.index,
         );
 
         controller.addJavaScriptHandler(

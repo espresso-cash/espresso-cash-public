@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../ui/colors.dart';
+import '../../../ui/colors.dart';
 
 class ProfileButton extends StatelessWidget {
   const ProfileButton({
@@ -8,9 +8,11 @@ class ProfileButton extends StatelessWidget {
     required this.label,
     this.description,
     this.onPressed,
-    this.textColor = CpColors.lightGreyBackground,
+    this.textColor = Colors.white,
     this.iconColor,
     this.backgroundColor,
+    this.showIcon = true,
+    this.centerText = false,
   });
 
   final String label;
@@ -19,6 +21,8 @@ class ProfileButton extends StatelessWidget {
   final Color textColor;
   final Color? backgroundColor;
   final Color? iconColor;
+  final bool showIcon;
+  final bool centerText;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,7 @@ class ProfileButton extends StatelessWidget {
       onTap: onPressed,
       title: Text(
         label,
+        textAlign: centerText ? TextAlign.center : TextAlign.start,
         style: TextStyle(
           color: textColor,
           fontSize: 17,
@@ -38,15 +43,15 @@ class ProfileButton extends StatelessWidget {
       subtitle: description != null
           ? Text(
               description,
-              maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 14,
+                color: CpColors.greyColor,
                 fontWeight: FontWeight.w400,
               ),
             )
           : null,
-      trailing: Icon(Icons.chevron_right, color: iconColor),
+      trailing: showIcon ? Icon(Icons.chevron_right, color: iconColor) : null,
     );
   }
 }

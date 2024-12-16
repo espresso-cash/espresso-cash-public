@@ -10,6 +10,7 @@ import '../../../../../ui/colors.dart';
 import '../../../../../ui/dialogs.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
+import '../../../ui/snackbar.dart';
 import '../../../ui/web_view_screen.dart';
 import '../../accounts/services/account_service.dart';
 import '../screens/manage_profile_screen.dart';
@@ -25,7 +26,7 @@ class ProfileSection extends StatelessWidget {
     super.key,
     this.title,
     required this.actions,
-    this.color = CpColors.darkBackgroundColor,
+    this.color = CpColors.blackGreyColor,
     required this.padding,
   });
 
@@ -51,7 +52,7 @@ class ProfileSection extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
-                  color: CpColors.lightGreyBackground,
+                  color: Colors.white,
                 ),
               ),
             ),

@@ -130,8 +130,11 @@ class OnRampOrderScreenContent extends StatelessWidget {
         context.l10n
             .onRampDepositOngoing(amount.format(locale, maxDecimals: 2)),
       OnRampOrderStatus.depositExpired => context.l10n.onRampDepositExpired,
-      OnRampOrderStatus.failure => context.l10n.onRampDepositFailure,
+      OnRampOrderStatus.failure ||
+      OnRampOrderStatus.rejected =>
+        context.l10n.onRampDepositFailure,
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
+      OnRampOrderStatus.waitingPartnerReview => 'Waiting for partner review',
     };
 
     final String? statusSubtitle = switch (order.status) {
@@ -139,12 +142,14 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.postProcessing =>
         context.l10n.onRampAwaitingFunds,
       OnRampOrderStatus.waitingForBridge =>
-        'Transfer could take a few minutes...',
+        context.l10n.transferInProgressText(3),
       OnRampOrderStatus.pending ||
       OnRampOrderStatus.preProcessing ||
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.depositExpired ||
       OnRampOrderStatus.failure ||
+      OnRampOrderStatus.rejected ||
+      OnRampOrderStatus.waitingPartnerReview ||
       OnRampOrderStatus.completed =>
         null
     };
@@ -153,9 +158,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? const _ContactUsButton()
         : null;
 
-    final depositAmount = isMoneygramOrder
-        ? manualDeposit?.transferAmount
-        : order.submittedAmount;
+    final depositAmount =
+        manualDeposit?.transferAmount ?? order.submittedAmount;
 
     final showCancelButton = order.status.isCancellable;
 
@@ -182,7 +186,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
             const Spacer(flex: 1),
             _Timeline(
               status: order.status,
-              amount: depositAmount ?? order.submittedAmount,
+              amount: depositAmount,
               receiveAmount: order.receiveAmount,
               manualDeposit: manualDeposit,
               created: order.created,
@@ -220,9 +224,9 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: CpTextButton(
-          text: context.l10n.offRampCancelTitle,
+          text: context.l10n.onRampCancelTitle,
           variant: CpTextButtonVariant.light,
           onPressed: () => showConfirmationDialog(
             context,
@@ -380,11 +384,13 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
+        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
         OnRampOrderStatus.depositExpired ||
-        OnRampOrderStatus.failure =>
+        OnRampOrderStatus.failure ||
+        OnRampOrderStatus.rejected =>
           CpStatusType.error,
         OnRampOrderStatus.completed => CpStatusType.success,
       };
@@ -394,11 +400,13 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
+        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
         OnRampOrderStatus.depositExpired ||
-        OnRampOrderStatus.failure =>
+        OnRampOrderStatus.failure ||
+        OnRampOrderStatus.rejected =>
           CpTimelineStatus.failure,
         OnRampOrderStatus.completed => CpTimelineStatus.success,
       };
@@ -407,8 +415,10 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.pending ||
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.depositExpired ||
-        OnRampOrderStatus.waitingForDeposit =>
+        OnRampOrderStatus.waitingForDeposit ||
+        OnRampOrderStatus.rejected =>
           0,
+        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForPartner ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
@@ -421,12 +431,13 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.pending ||
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.waitingForBridge ||
+        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForPartner =>
           'Pending',
         OnRampOrderStatus.depositExpired => 'Expired',
-        OnRampOrderStatus.failure => 'Failed',
+        OnRampOrderStatus.rejected || OnRampOrderStatus.failure => 'Failed',
         OnRampOrderStatus.completed => 'Completed',
       };
 }

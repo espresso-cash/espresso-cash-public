@@ -139,6 +139,11 @@ abstract class EspressoCashClient {
   @POST('/rates')
   Future<GetRatesResponseDto> getRates();
 
+  @POST('/fiatRate')
+  Future<FiatRateResponseDto> fetchFiatRate(
+    @Body() FiatRateRequestDto request,
+  );
+
   @POST('/getPriorityFeeEstimate')
   Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
     @Body() PriorityFeesRequestDto request,
@@ -171,6 +176,17 @@ abstract class EspressoCashClient {
 
   @POST('/tokens/meta')
   Future<GetTokensMetaResponseDto> getTokensMeta();
+
+  @POST('/ambassador/addReferral')
+  Future<void> addAmbassadorReferral(
+    @Body() AmbassadorReferralRequestDto request,
+  );
+
+  @POST('/ambassador/stats')
+  Future<AmbassadorStatsResponseDto> getAmbassadorStats();
+
+  @POST('/ambassador/verify')
+  Future<AmbassadorVerificationResponseDto> verifyAmbassador();
 }
 
 extension EspressoCashClientExt on EspressoCashClient {

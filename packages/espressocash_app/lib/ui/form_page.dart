@@ -28,7 +28,7 @@ class FormPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bgColor = switch (colorTheme) {
       FormPageColorTheme.orange => CpColors.darkOrangeBackgroundColor,
-      FormPageColorTheme.gold => CpColors.goldBackgroundColor,
+      FormPageColorTheme.gold => CpColors.lightSandColor,
     };
 
     return CpTheme.black(
@@ -80,9 +80,11 @@ class FormPageHeader extends StatelessWidget {
     required this.title,
     required this.description,
     required this.icon,
+    this.iconAlignment = Alignment.bottomCenter,
   });
 
   final AssetGenImage icon;
+  final AlignmentGeometry iconAlignment;
   final Widget title;
   final Widget description;
 
@@ -91,7 +93,7 @@ class FormPageHeader extends StatelessWidget {
         children: [
           Expanded(
             child: Align(
-              alignment: Alignment.bottomCenter,
+              alignment: iconAlignment,
               child: icon.image(),
             ),
           ),

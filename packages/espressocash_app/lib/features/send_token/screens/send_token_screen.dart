@@ -137,7 +137,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                 'Send ${widget.token.symbol}',
               ),
             ),
-            backgroundColor: CpColors.dashboardBackgroundColor,
+            backgroundColor: CpColors.deepGreyColor,
             body: SafeArea(
               bottom: false,
               child: Padding(
@@ -230,7 +230,7 @@ class _WalletTextField extends StatelessWidget {
         inputType: TextInputType.text,
         textInputAction: TextInputAction.next,
         textCapitalization: TextCapitalization.none,
-        backgroundColor: CpColors.darkBackgroundColor,
+        backgroundColor: CpColors.blackGreyColor,
         placeholder: 'Enter a wallet address',
         placeholderColor: CpColors.secondaryTextColor,
         textColor: Colors.white,

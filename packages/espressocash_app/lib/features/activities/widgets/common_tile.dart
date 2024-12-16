@@ -7,6 +7,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/web_view_screen.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../tokens/token.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../models/transaction.dart';
 import 'activity_tile.dart';
@@ -25,13 +26,17 @@ class CommonTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final signature = txCommon.tx.id;
 
+    final isUnknown = txCommon.amount?.cryptoCurrency.token == Token.unk;
+
     final isOutgoing =
         txCommon.amount?.let((e) => e.value.isNegative || e.value == 0) ??
             false;
 
-    final amount = txCommon.amount
-        ?.let((e) => e.format(context.locale, maxDecimals: 9))
-        .let((e) => e.replaceAll('-', ''));
+    final amount = isUnknown
+        ? null
+        : txCommon.amount
+            ?.let((e) => e.format(context.locale, maxDecimals: 9))
+            .let((e) => e.replaceAll('-', ''));
 
     return CpActivityTile(
       title: isOutgoing ? context.l10n.sentDirectly : context.l10n.received,

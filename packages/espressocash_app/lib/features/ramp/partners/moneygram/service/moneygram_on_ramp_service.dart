@@ -19,12 +19,12 @@ import '../../../../balances/services/refresh_balance.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
 import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
 import '../../../../transactions/services/tx_confirm.dart';
-import '../../../models/ramp_type.dart';
 import '../data/allbridge_client.dart';
 import '../data/allbridge_dto.dart' hide TransactionStatus;
 import '../data/dto.dart';
@@ -91,11 +91,8 @@ class MoneygramOnRampOrderService implements Disposable {
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
           logMessage(
-            message: 'Moneygram on ramp order status update',
-            data: {
-              'orderId': orderId,
-              'status': order.status.name,
-            },
+            message: 'MGOnRampOrderStatusChange',
+            data: order.toSentry,
           );
 
           switch (order.status) {
@@ -128,7 +125,9 @@ class MoneygramOnRampOrderService implements Disposable {
               return const Stream.empty();
 
             case OnRampOrderStatus.waitingForDeposit:
+            case OnRampOrderStatus.waitingPartnerReview:
             case OnRampOrderStatus.depositExpired:
+            case OnRampOrderStatus.rejected:
               return const Stream.empty();
           }
         })
@@ -146,6 +145,7 @@ class MoneygramOnRampOrderService implements Disposable {
     required String authToken,
     required CryptoAmount receiveAmount,
     required String countryCode,
+    required CryptoAmount bridgeAmount,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -164,6 +164,7 @@ class MoneygramOnRampOrderService implements Disposable {
             partner: RampPartner.moneygram,
             status: OnRampOrderStatus.pending,
             authToken: authToken,
+            bridgeAmount: bridgeAmount.value,
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
@@ -229,7 +230,7 @@ class MoneygramOnRampOrderService implements Disposable {
 
     final feeAmount = Amount.fromDecimal(
       value: Decimal.parse(transaction.amountFee ?? '0'),
-      currency: currencyFromString(transaction.amountInAsset ?? 'USD'),
+      currency: currencyFromString(transaction.amountFeeAsset ?? 'USD'),
     ) as FiatAmount;
 
     return OnRampOrderRowsCompanion(
@@ -247,7 +248,7 @@ class MoneygramOnRampOrderService implements Disposable {
     OnRampOrderRow order,
   ) async {
     final cashInAmount = CryptoAmount(
-      value: order.amount,
+      value: order.bridgeAmount ?? 0,
       cryptoCurrency: Currency.usdc,
     );
 
@@ -283,8 +284,8 @@ class MoneygramOnRampOrderService implements Disposable {
       );
     }
 
-    final amount = CryptoAmount(
-      value: order.amount,
+    final amount = Amount.crypto(
+      value: order.bridgeAmount ?? 0,
       cryptoCurrency: Currency.usdc,
     );
 
@@ -302,15 +303,7 @@ class MoneygramOnRampOrderService implements Disposable {
 
     final hash = await _stellarClient.submitTransactionFromXdrString(bridgeTx);
 
-    if (hash == null) {
-      return const OnRampOrderRowsCompanion(
-        status: Value(OnRampOrderStatus.postProcessing),
-      );
-    }
-
-    final result = await _stellarClient.pollStatus(hash);
-
-    return result?.status != GetTransactionResponse.STATUS_SUCCESS
+    return hash == null
         ? const OnRampOrderRowsCompanion(
             status: Value(OnRampOrderStatus.postProcessing),
           )
@@ -349,6 +342,19 @@ class MoneygramOnRampOrderService implements Disposable {
         return;
       }
 
+      final stellarResult = await _stellarClient.pollStatus(hash);
+      if (stellarResult?.status != GetTransactionResponse.STATUS_SUCCESS) {
+        await statement.write(
+          const OnRampOrderRowsCompanion(
+            status: Value(OnRampOrderStatus.postProcessing),
+          ),
+        );
+
+        _removeWatcher(id);
+
+        return;
+      }
+
       final response = await _allbridgeApiClient.fetchStatus(
         chain: Chain.stellar,
         hash: hash,
@@ -375,7 +381,7 @@ class MoneygramOnRampOrderService implements Disposable {
           status: const Value(OnRampOrderStatus.completed),
           isCompleted: const Value(true),
           txHash: Value(solanaTxId),
-          receiveAmount: Value.absentIfNull(receiveAmount),
+          receiveAmount: Value.ofNullable(receiveAmount),
         ),
       );
 
@@ -405,7 +411,7 @@ class MoneygramOnRampOrderService implements Disposable {
         );
 
       final amount = CryptoAmount(
-        value: order.amount,
+        value: order.bridgeAmount ?? 0,
         cryptoCurrency: Currency.usdc,
       );
 
@@ -446,7 +452,7 @@ class MoneygramOnRampOrderService implements Disposable {
 
       await statement.write(
         OnRampOrderRowsCompanion(
-          status: const Value.absentIfNull(OnRampOrderStatus.postProcessing),
+          status: const Value.ofNullable(OnRampOrderStatus.postProcessing),
           referenceNumber: Value(transaction.externalTransactionId),
           moreInfoUrl: Value(transaction.moreInfoUrl),
           isCompleted: const Value(false),
@@ -481,3 +487,10 @@ class MoneygramOnRampOrderService implements Disposable {
 }
 
 const _minimumInitBalance = 1.5; // 1.5 XLM
+
+extension on OnRampOrderRow {
+  Map<String, dynamic> get toSentry => toJson()
+    ..removeWhere(
+      (key, value) => value == null || value == '' || value == 0.0,
+    );
+}

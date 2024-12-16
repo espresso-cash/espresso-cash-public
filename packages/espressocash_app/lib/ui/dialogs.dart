@@ -28,6 +28,45 @@ void showErrorDialog(BuildContext context, String title, Exception e) =>
       ),
     );
 
+Future<void> showCustomDialog(
+  BuildContext context, {
+  Widget? title,
+  Widget? message,
+  Widget? actions,
+}) =>
+    showModalBottomSheet(
+      context: context,
+      elevation: 0,
+      barrierColor: _barrierColor,
+      backgroundColor: CpColors.lightSandColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(44),
+          topRight: Radius.circular(44),
+        ),
+      ),
+      builder: (context) => CpTheme.black(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(40, 40, 40, 48),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (title != null) ...[
+                title,
+                const SizedBox(height: 24),
+              ],
+              if (message != null) ...[
+                message,
+                const SizedBox(height: 32),
+              ],
+              if (actions != null) actions,
+            ],
+          ),
+        ),
+      ),
+    );
+
 Future<void> showConfirmationDialog(
   BuildContext context, {
   required String title,
@@ -42,7 +81,7 @@ Future<void> showConfirmationDialog(
       context: context,
       elevation: 0,
       barrierColor: _barrierColor,
-      backgroundColor: CpColors.yellowSplashBackgroundColor,
+      backgroundColor: CpColors.lightSandColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(44),
@@ -100,72 +139,6 @@ Future<void> showConfirmationDialog(
                     ),
                   ),
                 ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-
-Future<void> showInfoDialog(
-  BuildContext context, {
-  required String title,
-  required String message,
-  required VoidCallback onConfirm,
-  String? confirmLabel,
-  TextStyle? titleStyle,
-  TextStyle? messageStyle,
-}) =>
-    showModalBottomSheet(
-      context: context,
-      elevation: 0,
-      barrierColor: _barrierColor,
-      backgroundColor: CpColors.yellowSplashBackgroundColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(44),
-          topRight: Radius.circular(44),
-        ),
-      ),
-      builder: (context) => CpTheme.black(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 58, horizontal: 40),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: titleStyle ??
-                    const TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
-              ),
-              const SizedBox(height: 24),
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: messageStyle ??
-                    const TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                    ),
-              ),
-              const SizedBox(height: 47),
-              SizedBox(
-                height: 60,
-                child: CpButton(
-                  text: confirmLabel ?? context.l10n.yes,
-                  width: MediaQuery.sizeOf(context).width * 0.6,
-                  onPressed: () {
-                    Navigator.pop(context);
-                    onConfirm();
-                  },
-                ),
               ),
             ],
           ),

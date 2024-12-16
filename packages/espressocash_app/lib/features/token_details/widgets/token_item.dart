@@ -31,11 +31,9 @@ class TokenItemContainer extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 28),
               decoration: const ShapeDecoration(
-                color: CpColors.darkBackgroundColor,
+                color: CpColors.blackGreyColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(28)),
                 ),
               ),
               child: content,

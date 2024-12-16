@@ -51,11 +51,11 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
     return (parsedDate.year == now.year &&
             parsedDate.month == now.month &&
             parsedDate.day == now.day)
-        ? 'Today'
+        ? context.l10n.today
         : (parsedDate.year == yesterday.year &&
                 parsedDate.month == yesterday.month &&
                 parsedDate.day == yesterday.day)
-            ? 'Yesterday'
+            ? context.l10n.yesterday
             : DateFormat('MMM d, yyyy').format(parsedDate);
   }
 
@@ -163,6 +163,7 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
                                         activity: it,
                                         showIcon: false,
                                       ),
+                                      kyc: (it) => const SizedBox.shrink(),
                                     ),
                                   ),
                                 )
@@ -326,7 +327,7 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         decoration: const ShapeDecoration(
-          color: CpColors.darkBackgroundColor,
+          color: CpColors.blackGreyColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(28),

@@ -64,7 +64,7 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
             inputType: const TextInputType.numberWithOptions(decimal: true),
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.none,
-            backgroundColor: CpColors.darkBackgroundColor,
+            backgroundColor: CpColors.blackGreyColor,
             placeholder: '0 ${widget.symbol}',
             placeholderColor: Colors.white,
             textColor: Colors.white,

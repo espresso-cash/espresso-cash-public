@@ -24,4 +24,10 @@ enum EspressoCashError {
 
   /// Generic error.
   genericError,
+
+  /// User already has an ambassador assigned
+  ambassadorAlreadyAssigned,
+
+  /// User is not an ambassador
+  userIsNotAmbassador,
 }

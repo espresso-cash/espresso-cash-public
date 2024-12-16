@@ -81,7 +81,7 @@ class StellarClient {
   Future<OperationResponse?> getPaymentByTxId(String txId) async {
     final operations = await _sdk.operations.forTransaction(txId).execute();
 
-    return operations.records?.firstOrNull;
+    return operations.records.firstOrNull;
   }
 
   Future<bool> hasUsdcTrustline({double? amount}) async {
@@ -182,6 +182,10 @@ class StellarClient {
       ..sign(_stellarWallet.keyPair, stellarNetwork);
 
     final response = await _sdk.submitTransaction(transaction);
+
+    if (!response.success) {
+      throw Exception('Send Stellar USDC failed: $response');
+    }
 
     return response.success;
   }

@@ -21,12 +21,12 @@ import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
-import '../models/ramp_type.dart';
 import '../models/ramp_watcher.dart';
 import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
 import '../partners/kado/services/kado_off_ramp_order_watcher.dart';
@@ -86,12 +86,18 @@ class OffRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
-      if (order.partner == RampPartner.moneygram) {
-        continue;
+      switch (order.partner) {
+        case RampPartner.moneygram:
+        case RampPartner.brij:
+          continue;
+        case RampPartner.kado:
+        case RampPartner.coinflow:
+        case RampPartner.scalex:
+        case RampPartner.guardarian:
+        case RampPartner.rampNetwork:
+          _subscribe(order.id);
+          unawaited(_watch(order.id));
       }
-
-      _subscribe(order.id);
-      unawaited(_watch(order.id));
     }
   }
 
@@ -113,9 +119,7 @@ class OffRampOrderService implements Disposable {
         .map((rows) => rows.toIList());
   }
 
-  Stream<OffRampOrder> watch(
-    String orderId,
-  ) {
+  Stream<OffRampOrder> watch(String orderId) {
     final query = _db.select(_db.offRampOrderRows)
       ..where((tbl) => tbl.id.equals(orderId));
 
@@ -134,9 +138,7 @@ class OffRampOrderService implements Disposable {
 
           return CryptoAmount(
             value: amount,
-            cryptoCurrency: CryptoCurrency(
-              token: token,
-            ),
+            cryptoCurrency: CryptoCurrency(token: token),
           );
         },
       );
@@ -229,6 +231,8 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.refunded:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
+      case OffRampOrderStatus.waitingPartnerReview:
+      case OffRampOrderStatus.rejected:
         break;
     }
   }
@@ -244,6 +248,8 @@ class OffRampOrderService implements Disposable {
     switch (order.status) {
       case OffRampOrderStatus.depositError:
       case OffRampOrderStatus.insufficientFunds:
+      case OffRampOrderStatus.rejected:
+      case OffRampOrderStatus.failure:
         await updateQuery.write(_cancelled);
       case OffRampOrderStatus.ready:
         if (order.partner == RampPartner.moneygram) {
@@ -254,7 +260,6 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.depositTxReady:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
-      case OffRampOrderStatus.failure:
       case OffRampOrderStatus.processingRefund:
       case OffRampOrderStatus.waitingForRefundBridge:
       case OffRampOrderStatus.completed:
@@ -263,6 +268,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.preProcessing:
       case OffRampOrderStatus.postProcessing:
       case OffRampOrderStatus.refunded:
+      case OffRampOrderStatus.waitingPartnerReview:
         break;
     }
   }
@@ -352,6 +358,7 @@ class OffRampOrderService implements Disposable {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
+      RampPartner.brij ||
       RampPartner.rampNetwork ||
       RampPartner.moneygram || // moneygram orders will not reach this point
       RampPartner.guardarian =>
@@ -409,6 +416,8 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.waitingForRefundBridge:
         case OffRampOrderStatus.refunded:
         case OffRampOrderStatus.completed:
+        case OffRampOrderStatus.waitingPartnerReview:
+        case OffRampOrderStatus.rejected:
           _subscriptions.remove(orderId)?.cancel();
 
           _watchers[orderId]?.close();
@@ -543,4 +552,13 @@ class OffRampOrderService implements Disposable {
   static const _processRefund = OffRampOrderRowsCompanion(
     status: Value(OffRampOrderStatus.processingRefund),
   );
+}
+
+extension OffRampOrderStatusExt on OffRampOrderStatus {
+  bool get isCancellable =>
+      this == OffRampOrderStatus.depositError ||
+      this == OffRampOrderStatus.insufficientFunds ||
+      this == OffRampOrderStatus.ready ||
+      this == OffRampOrderStatus.rejected ||
+      this == OffRampOrderStatus.failure;
 }
