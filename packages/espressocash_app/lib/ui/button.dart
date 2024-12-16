@@ -21,7 +21,6 @@ class CpButton extends StatelessWidget {
   const CpButton({
     super.key,
     required this.text,
-    this.fontSize,
     this.onPressed,
     this.width,
     this.variant = CpButtonVariant.dark,
@@ -33,7 +32,6 @@ class CpButton extends StatelessWidget {
   });
 
   final String text;
-  final double? fontSize;
   final double? width;
   final VoidCallback? onPressed;
   final CpButtonVariant variant;

@@ -8,7 +8,6 @@ enum CpIconButtonVariant {
   grey,
   light,
   black,
-  inverted,
   transparent,
 }
 
@@ -43,7 +42,6 @@ class CpIconButton extends StatelessWidget {
       case CpIconButtonVariant.light:
         return Colors.white;
       case CpIconButtonVariant.black:
-      case CpIconButtonVariant.inverted:
         return CpColors.blackGreyColor;
       case CpIconButtonVariant.transparent:
         return Colors.transparent;
