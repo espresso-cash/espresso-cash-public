@@ -1,44 +1,42 @@
 part of '../data/transaction_repository.dart';
 
 extension TxUpdater on TransactionRepository {
-  Future<void> update() => _callCache.fetchEither(
-        () => mostRecentTxId().letAsync(
-          (mostRecentTxId) async =>
-              _updateTokensTransactions(mostRecentTxId).letAsync(
-            (allTokensTxs) =>
-                _updateSolTransactions(mostRecentTxId: mostRecentTxId).letAsync(
-              (allSolTxs) => saveAll(
-                allTokensTxs +
-                    allSolTxs
-                        .where(
-                          (result) => !allTokensTxs.any(
-                            (tx) => tx.tx.id == result.tx.id,
-                          ),
-                        )
-                        .toList(),
-              ),
-            ),
-          ),
-        ),
-      );
+  Future<void> update() => _callCache.fetchEither(_updateAllTransactions);
 
-  Future<List<TxCommon>> _updateTokensTransactions(String? mostRecentTxId) =>
-      _getAllTokenAccounts(_wallet.publicKey).letAsync(
-        (tokenAccounts) async => (await Future.wait(
-          tokenAccounts.map(
-            (account) => getMintAddressForTokenAccount(account).letAsync(
-              (tokenAccountAddress) => _fetchTransactions(
-                account,
-                tokenAccountAddress,
-                mostRecentTxId,
-                15,
-              ),
-            ),
-          ),
-        ))
-            .expand((txs) => txs)
-            .toList(),
-      );
+  Future<void> _updateAllTransactions() async {
+    final mostRecentTxId = await this.mostRecentTxId();
+    final tokenTxs = await _updateTokensTransactions(mostRecentTxId);
+    final solTxs = await _updateSolTransactions(mostRecentTxId: mostRecentTxId);
+
+    final uniqueSolTxs = solTxs
+        .where(
+          (result) => !tokenTxs.any((tx) => tx.tx.id == result.tx.id),
+        )
+        .toList();
+
+    await saveAll(tokenTxs + uniqueSolTxs);
+  }
+
+  Future<List<TxCommon>> _updateTokensTransactions(
+      String? mostRecentTxId) async {
+    final tokenAccounts = await _getAllTokenAccounts(_wallet.publicKey);
+
+    final allTransactions = await Future.wait(
+      tokenAccounts.map((account) async {
+        final tokenAccountAddress =
+            await getMintAddressForTokenAccount(account);
+
+        return _fetchTransactions(
+          account,
+          tokenAccountAddress,
+          mostRecentTxId,
+          15,
+        );
+      }),
+    );
+
+    return allTransactions.expand((txs) => txs).toList();
+  }
 
   Future<List<TxCommon>> _updateSolTransactions({String? mostRecentTxId}) =>
       _fetchTransactions(
