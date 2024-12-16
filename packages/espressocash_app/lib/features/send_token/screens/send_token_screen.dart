@@ -241,7 +241,6 @@ class _WalletTextField extends StatelessWidget {
           child: CpIconButton(
             onPressed: onQrScan,
             icon: Assets.icons.qrScanner.svg(color: Colors.white),
-            variant: CpIconButtonVariant.inverted,
           ),
         ),
       );

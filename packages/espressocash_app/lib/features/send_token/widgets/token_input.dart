@@ -77,7 +77,6 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
               child: CpButton(
                 onPressed: _isMaxAmountZero ? _callback : null,
                 text: _buttonText,
-                fontSize: 12,
                 minWidth: 54,
                 size: CpButtonSize.small,
                 variant: CpButtonVariant.inverted,
