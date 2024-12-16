@@ -12,12 +12,12 @@ import '../../../../accounts/auth_scope.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
-import '../../../../kyc_sharing/models/kyc_order_status.dart';
 import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
+import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
 class BrijOnRampOrderService implements Disposable {
@@ -168,16 +168,16 @@ class BrijOnRampOrderService implements Disposable {
         );
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
-      final kycStatus = KycOrderStatus.fromString(orderData.status);
+      final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
-        KycOrderStatus.completed => OnRampOrderStatus.completed,
-        KycOrderStatus.unknown ||
-        KycOrderStatus.rejected =>
+        BrijOrderStatus.completed => OnRampOrderStatus.completed,
+        BrijOrderStatus.unknown ||
+        BrijOrderStatus.rejected =>
           OnRampOrderStatus.rejected,
-        KycOrderStatus.failed => OnRampOrderStatus.failure,
-        KycOrderStatus.pending => OnRampOrderStatus.waitingPartnerReview,
-        KycOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit,
+        BrijOrderStatus.failed => OnRampOrderStatus.failure,
+        BrijOrderStatus.pending => OnRampOrderStatus.waitingPartnerReview,
+        BrijOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit,
       };
 
       if (status != order.status) {
@@ -214,16 +214,16 @@ class BrijOnRampOrderService implements Disposable {
         );
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
-      final kycStatus = KycOrderStatus.fromString(orderData.status);
+      final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
-        KycOrderStatus.completed => OnRampOrderStatus.completed,
-        KycOrderStatus.unknown ||
-        KycOrderStatus.rejected =>
+        BrijOrderStatus.completed => OnRampOrderStatus.completed,
+        BrijOrderStatus.unknown ||
+        BrijOrderStatus.rejected =>
           OnRampOrderStatus.rejected,
-        KycOrderStatus.failed => OnRampOrderStatus.failure,
-        KycOrderStatus.pending => OnRampOrderStatus.waitingPartnerReview,
-        KycOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit,
+        BrijOrderStatus.failed => OnRampOrderStatus.failure,
+        BrijOrderStatus.pending => OnRampOrderStatus.waitingPartnerReview,
+        BrijOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit,
       };
 
       if (status == OnRampOrderStatus.waitingForDeposit) return;

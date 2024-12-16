@@ -11,7 +11,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
-import '../../feature_flags/services/feature_flags_manager.dart';
+import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
 import '../utils/kyc_exception.dart';
@@ -25,6 +25,13 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   StreamSubscription<void>? _pollingSubscription;
 
+  final _isInitialized = Completer<void>();
+  Future<void> get initialized => _isInitialized.future.then((_) async {
+        if (value == null) {
+          await fetchUserData();
+        }
+      });
+
   @PostConstruct()
   void init() {
     if (!sl<FeatureFlagsManager>().isBrijEnabled()) return;
@@ -34,6 +41,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<void> _initializeKyc() async {
     await fetchUserData();
+    _isInitialized.complete();
 
     if (value?.kycStatus == ValidationStatus.pending) {
       _subscribe();
