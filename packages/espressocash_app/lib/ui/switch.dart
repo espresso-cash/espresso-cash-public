@@ -17,6 +17,6 @@ class CpSwitch extends StatelessWidget {
         onChanged: onChanged,
         thumbColor: value ? const Color(0xffFCC829) : const Color(0xff555151),
         activeColor: const Color(0xff2D2B2B),
-        trackColor: CpColors.dashboardBackgroundColor,
+        trackColor: CpColors.deepGreyColor,
       );
 }

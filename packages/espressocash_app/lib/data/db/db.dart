@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 58;
+const int latestVersion = 60;
 
 const _tables = [
   OutgoingTransferRows,
@@ -164,6 +164,13 @@ class MyDatabase extends _$MyDatabase {
           if (from < 58) {
             await m.createTable(tokenRows);
           }
+          if (from >= 40 && from < 59) {
+            await m.addColumn(offRampOrderRows, offRampOrderRows.priorityFee);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.gasFee);
+          }
+          if (from >= 39 && from < 60) {
+            await m.addColumn(iLPRows, iLPRows.receiveAmount);
+          }
         },
       );
 }
@@ -224,9 +231,13 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   IntColumn get bridgeAmount => integer().nullable()();
   TextColumn get referenceNumber => text().nullable()();
   IntColumn get refundAmount => integer().nullable()();
+  IntColumn get priorityFee => integer().nullable()();
+  IntColumn get gasFee => integer().nullable()();
 }
 
 enum OnRampOrderStatus {
+  waitingPartnerReview, // KYC
+  rejected, // KYC
   waitingForDeposit,
   depositExpired,
   waitingForPartner,
@@ -256,6 +267,8 @@ enum OffRampOrderStatus {
   processingRefund, // MG
   waitingForRefundBridge, // MG
   refunded, // MG
+  waitingPartnerReview, // KYC
+  rejected, // KYC
 }
 
 class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {

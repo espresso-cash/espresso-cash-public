@@ -34,6 +34,7 @@ class SwapToStellarRequestDto with _$SwapToStellarRequestDto {
     required String solanaSenderAddress,
     required String stellarReceiverAddress,
     required String amount,
+    int? priorityFee,
   }) = _SwapToStellarRequestDto;
 
   factory SwapToStellarRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -79,6 +80,8 @@ class MoneygramFeeResponseDto with _$MoneygramFeeResponseDto {
     required String totalAmount,
     required String bridgeFee,
     required String moneygramFee,
+    String? gasFeeInUsdc,
+    int? priorityFee,
   }) = _MoneygramFeeResponseDto;
 
   factory MoneygramFeeResponseDto.fromJson(Map<String, dynamic> json) =>

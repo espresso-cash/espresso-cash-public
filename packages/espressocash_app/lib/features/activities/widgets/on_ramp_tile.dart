@@ -24,30 +24,51 @@ class OnRampTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => OnRampOrderDetails(
         orderId: activity.id,
-        builder: (context, order) => CpActivityTile(
-          title: context.l10n.activities_lblAddCash,
-          icon: Assets.icons.paymentIcon.svg(),
-          status: switch (order?.status) {
-            OnRampOrderStatus.depositExpired ||
-            OnRampOrderStatus.failure =>
-              CpActivityTileStatus.failure,
-            OnRampOrderStatus.completed => CpActivityTileStatus.success,
-            OnRampOrderStatus.waitingForDeposit ||
-            OnRampOrderStatus.waitingForPartner ||
-            OnRampOrderStatus.pending ||
-            OnRampOrderStatus.preProcessing ||
-            OnRampOrderStatus.postProcessing ||
-            OnRampOrderStatus.waitingForBridge ||
-            null =>
-              CpActivityTileStatus.inProgress,
-          },
-          timestamp: context.formatDate(activity.created),
-          incomingAmount: order?.receiveAmount?.format(
-            context.locale,
-            maxDecimals: 2,
-          ),
-          onTap: () => OnRampOrderScreen.push(context, id: order?.id ?? ''),
+        builder: (context, order) => _ActivityTile(
+          order: order,
+          activity: activity,
           showIcon: showIcon,
         ),
+      );
+}
+
+class _ActivityTile extends StatelessWidget {
+  const _ActivityTile({
+    required this.activity,
+    required this.order,
+    required this.showIcon,
+  });
+
+  final OnRampActivity activity;
+  final OnRampOrder? order;
+  final bool showIcon;
+
+  @override
+  Widget build(BuildContext context) => CpActivityTile(
+        title: context.l10n.activities_lblAddCash,
+        icon: Assets.icons.paymentIcon.svg(),
+        status: switch (order?.status) {
+          OnRampOrderStatus.depositExpired ||
+          OnRampOrderStatus.failure ||
+          OnRampOrderStatus.rejected =>
+            CpActivityTileStatus.failure,
+          OnRampOrderStatus.completed => CpActivityTileStatus.success,
+          OnRampOrderStatus.waitingForDeposit ||
+          OnRampOrderStatus.waitingPartnerReview ||
+          OnRampOrderStatus.waitingForPartner ||
+          OnRampOrderStatus.pending ||
+          OnRampOrderStatus.preProcessing ||
+          OnRampOrderStatus.postProcessing ||
+          OnRampOrderStatus.waitingForBridge ||
+          null =>
+            CpActivityTileStatus.inProgress,
+        },
+        timestamp: context.formatDate(activity.created),
+        incomingAmount: order?.receiveAmount?.format(
+          context.locale,
+          maxDecimals: 2,
+        ),
+        onTap: () => OnRampOrderScreen.push(context, id: order?.id ?? ''),
+        showIcon: showIcon,
       );
 }

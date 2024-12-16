@@ -3,6 +3,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../l10n/l10n.dart';
+import '../utils/errors.dart';
 import 'app_bar.dart';
 import 'snackbar.dart';
 import 'theme.dart';
@@ -104,6 +105,15 @@ class _WebViewScreenState extends State<WebViewScreen> {
     }
   }
 
+  void _handleError(String type, String details, [String? url]) {
+    final error = WebViewException(
+      type: type,
+      details: details,
+      url: url,
+    );
+    reportWebViewError(error);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = widget.theme ?? const CpThemeData.light();
@@ -120,6 +130,25 @@ class _WebViewScreenState extends State<WebViewScreen> {
               _handlePermissionRequest(permissionRequest.resources),
           onLoadStop: (controller, _) => _handleLoaded(controller),
           onCloseWindow: (_) => _handleWindowClosed(),
+          onConsoleMessage: (controller, consoleMessage) async {
+            if (consoleMessage.messageLevel != ConsoleMessageLevel.ERROR) {
+              return;
+            }
+
+            final url = await controller.getUrl();
+
+            _handleError('Console', consoleMessage.message, url?.toString());
+          },
+          onReceivedError: (_, request, error) => _handleError(
+            'JavaScript',
+            error.toString(),
+            request.url.toString(),
+          ),
+          onReceivedHttpError: (_, request, error) => _handleError(
+            'HTTP',
+            error.toString(),
+            request.url.toString(),
+          ),
           initialSettings: InAppWebViewSettings(
             iframeAllowFullscreen: false,
             allowsInlineMediaPlayback: true,
@@ -130,4 +159,23 @@ class _WebViewScreenState extends State<WebViewScreen> {
       ),
     );
   }
+}
+
+class WebViewException implements Exception {
+  const WebViewException({
+    required this.type,
+    required this.details,
+    this.url,
+  });
+
+  final String type;
+  final String details;
+  final String? url;
+
+  @override
+  String toString() => [
+        'WebView $type Error:',
+        details,
+        if (url case final url?) 'URL: $url',
+      ].join('\n');
 }

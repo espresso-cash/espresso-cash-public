@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.126.1
+version: 1.136.0
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
@@ -14,18 +14,20 @@ dependencies:
   borsh_annotation: ^0.3.1+5
   cached_network_image: ^3.3.1
   collection: ^1.18.0
+  country_flags: ^3.0.0
   crypto: ^3.0.2
   dart_jsonwebtoken: ^2.14.0
-  decimal: ^2.3.3
+  decimal: ^3.0.2
   device_preview: ^1.1.0
   dfunc: ^0.10.0
   dio: ^5.4.0
   dio_cache_interceptor: ^3.4.2
   dio_cache_interceptor_db_store: ^5.1.0
-  drift: ^2.14.1
+  drift: ^2.15.0
   espressocash_api:
     path: ../espressocash_api/
   ethereum_addresses: ^1.0.2
+  face_camera: ^0.1.2
   fast_immutable_collections: ^10.2.2
   firebase_app_installations: ^0.3.0+2
   firebase_core: ^3.1.1
@@ -33,7 +35,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
-  flutter_inappwebview: ^6.0.0
+  flutter_inappwebview: ^6.1.5
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.7.1
@@ -49,6 +51,10 @@ dependencies:
   intercom_flutter: ^9.0.7
   intl: ^0.19.0
   json_annotation: ^4.8.1
+  kyc_client_dart:
+    git:
+      url: https://github.com/espresso-cash/kyc_client_dart.git
+      ref: 67e55ba61a31e0debf26b14e7c7a057304d6de90
   logging: ^1.2.0
   meta: ^1.10.0
   mixpanel_flutter: ^2.2.0
@@ -63,6 +69,8 @@ dependencies:
   retrofit: ^4.0.3
   rive: ^0.13.2
   rxdart: ^0.27.7
+  sealed_countries: ^1.5.1
+  sealed_currencies: ^1.5.1
   sentry_flutter: ^8.1.0
   share: ^2.0.4
   shared_preferences: ^2.2.2
@@ -73,7 +81,7 @@ dependencies:
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
   sqlite3_flutter_libs: ^0.5.18
-  stellar_flutter_sdk: ^1.8.0
+  stellar_flutter_sdk: ^1.8.4
   storybook_flutter: ^0.14.0
   uni_links: ^0.5.1
   url_launcher: ^6.2.2
@@ -83,7 +91,7 @@ dev_dependencies:
   bloc_test: ^9.1.5
   borsh: ^0.3.1+4
   build_runner: ^2.4.7
-  drift_dev: ^2.14.1
+  drift_dev: ^2.15.0
   flutter_driver:
     sdk: flutter
   flutter_gen_runner: ^5.4.0
@@ -113,13 +121,15 @@ flutter:
     - assets/icons/
     - assets/rive/
     - assets/gifs/
-    - assets/coinflow/
-    - assets/coinflow/static/
-    - assets/coinflow/static/js/
-    - assets/coinflow/static/css/
-    - assets/scalex/
-    - assets/moneygram/
+    - assets/brands/
     - assets/tokens/
+    - assets/partners/
+    - assets/partners/moneygram/
+    - assets/partners/scalex/
+    - assets/partners/coinflow/
+    - assets/partners/coinflow/static/
+    - assets/partners/coinflow/static/js/
+    - assets/partners/coinflow/static/css/
 
   fonts:
     - family: RobotoApp
@@ -165,6 +175,7 @@ flutter_native_splash:
     color: "#B4A270"
 
 dependency_overrides:
+  decimal: ^3.0.2
   # TODO: Recheck once flutter_inappwebview version >6.0.0 is released
   flutter_inappwebview_android:
     git:
@@ -173,3 +184,4 @@ dependency_overrides:
       ref: d89b1d32638b49dfc58c4b7c84153be0c269d057
   jupiter_aggregator:
     path: ../jupiter_aggregator/
+  pinenacl: ^0.6.0

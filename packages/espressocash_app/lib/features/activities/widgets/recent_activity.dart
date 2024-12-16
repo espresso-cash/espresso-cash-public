@@ -142,7 +142,7 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         decoration: const ShapeDecoration(
-          color: CpColors.darkBackgroundColor,
+          color: CpColors.blackGreyColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(28),

@@ -32,6 +32,7 @@ sealed class ILPStatus with _$ILPStatus {
   const factory ILPStatus.success({
     required SignedTx tx,
     required CryptoAmount? fee,
+    required CryptoAmount? receiveAmount,
   }) = ILPStatusSuccess;
 
   /// Failed to create the tx, a new tx should be created.

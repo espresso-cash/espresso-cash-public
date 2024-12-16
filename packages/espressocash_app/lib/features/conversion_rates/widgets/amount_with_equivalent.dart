@@ -71,7 +71,7 @@ class AmountWithEquivalent extends StatelessWidget {
                               key: ValueKey(error),
                               value: error,
                               shouldDisplay: true,
-                              backgroundColor: CpColors.errorChipColor,
+                              backgroundColor: CpColors.alertRedColor,
                             ),
                           (true, false, true) => const _InfoChip(),
                           _ => _EquivalentDisplay(

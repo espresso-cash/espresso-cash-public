@@ -9,9 +9,20 @@ import '../models/fee_type.dart';
 import '../services/fee_calculator.dart';
 
 class FeeLabel extends StatefulWidget {
-  const FeeLabel({super.key, required this.type});
+  const FeeLabel({
+    super.key,
+    required this.type,
+    this.mainAxisAlignment = MainAxisAlignment.center,
+    this.keyText,
+    this.keyTextStyle = _defaultTextStyle,
+    this.valueTextStyle = _defaultTextStyle,
+  });
 
   final FeeType type;
+  final MainAxisAlignment mainAxisAlignment;
+  final String? keyText;
+  final TextStyle keyTextStyle;
+  final TextStyle valueTextStyle;
 
   @override
   State<FeeLabel> createState() => _FeeLabelState();
@@ -23,28 +34,38 @@ class _FeeLabelState extends State<FeeLabel> {
   @override
   void initState() {
     super.initState();
-    _amount = sl<FeeCalculator>()
-        .call(widget.type)
-        .then((value) => value.format(context.locale));
+    _amount = sl<FeeCalculator>().call(widget.type).then((value) {
+      if (!mounted) return '';
+
+      return value.format(context.locale);
+    });
   }
 
   @override
   Widget build(BuildContext context) => FutureBuilder<String>(
         future: _amount,
         builder: (context, snapshot) {
-          final String text = switch (snapshot.toResult()) {
+          final String value = switch (snapshot.toResult()) {
             AsyncSnapshotLoading() => context.l10n.feesCalculating,
             AsyncSnapshotError() => context.l10n.feesFailed,
             AsyncSnapshotData(:final data) => data,
           };
 
-          return Text(
-            context.l10n.feeAmount(text),
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-            ),
+          return Row(
+            mainAxisAlignment: widget.mainAxisAlignment,
+            children: [
+              Text(
+                widget.keyText ?? context.l10n.fee,
+                style: widget.keyTextStyle,
+              ),
+              Text(value, style: widget.valueTextStyle),
+            ],
           );
         },
       );
 }
+
+const TextStyle _defaultTextStyle = TextStyle(
+  fontSize: 13,
+  fontWeight: FontWeight.w500,
+);

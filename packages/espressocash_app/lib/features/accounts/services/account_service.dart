@@ -59,7 +59,7 @@ class AccountService extends ChangeNotifier
     if (_value == null) return;
 
     _analyticsManager.setWalletAddress(null);
-    Sentry.configureScope((scope) => scope.removeExtra('walletAddress'));
+    Sentry.configureScope((scope) => scope.removeContexts('walletAddress'));
 
     await _storage.deleteAll();
     await sl.dropScope(authScope);
@@ -69,7 +69,7 @@ class AccountService extends ChangeNotifier
 
   Future<void> _processLogIn(MyAccount account) async {
     Sentry.configureScope(
-      (scope) => scope.setExtra('walletAddress', account.address),
+      (scope) => scope.setContexts('walletAddress', account.address),
     );
     _analyticsManager.setWalletAddress(account.address);
 

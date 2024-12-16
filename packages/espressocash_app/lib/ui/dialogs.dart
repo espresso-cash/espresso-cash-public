@@ -28,6 +28,45 @@ void showErrorDialog(BuildContext context, String title, Exception e) =>
       ),
     );
 
+Future<void> showCustomDialog(
+  BuildContext context, {
+  Widget? title,
+  Widget? message,
+  Widget? actions,
+}) =>
+    showModalBottomSheet(
+      context: context,
+      elevation: 0,
+      barrierColor: _barrierColor,
+      backgroundColor: CpColors.lightSandColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(44),
+          topRight: Radius.circular(44),
+        ),
+      ),
+      builder: (context) => CpTheme.black(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(40, 40, 40, 48),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (title != null) ...[
+                title,
+                const SizedBox(height: 24),
+              ],
+              if (message != null) ...[
+                message,
+                const SizedBox(height: 32),
+              ],
+              if (actions != null) actions,
+            ],
+          ),
+        ),
+      ),
+    );
+
 Future<void> showConfirmationDialog(
   BuildContext context, {
   required String title,
@@ -42,7 +81,7 @@ Future<void> showConfirmationDialog(
       context: context,
       elevation: 0,
       barrierColor: _barrierColor,
-      backgroundColor: CpColors.yellowSplashBackgroundColor,
+      backgroundColor: CpColors.lightSandColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(44),

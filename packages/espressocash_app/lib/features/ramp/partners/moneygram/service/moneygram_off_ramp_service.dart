@@ -21,6 +21,7 @@ import '../../../../balances/services/refresh_balance.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
 import '../../../../tokens/token.dart';
@@ -29,7 +30,6 @@ import '../../../../transactions/services/resign_tx.dart';
 import '../../../../transactions/services/tx_confirm.dart';
 import '../../../../transactions/services/tx_sender.dart';
 import '../../../data/my_database_ext.dart';
-import '../../../models/ramp_type.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../data/allbridge_client.dart';
 import '../data/allbridge_dto.dart' hide TransactionStatus;
@@ -159,6 +159,8 @@ class MoneygramOffRampOrderService implements Disposable {
             case OffRampOrderStatus.insufficientFunds:
             case OffRampOrderStatus.depositTxRequired:
             case OffRampOrderStatus.failure:
+            case OffRampOrderStatus.waitingPartnerReview:
+            case OffRampOrderStatus.rejected:
               return const Stream.empty();
           }
         })
@@ -172,8 +174,10 @@ class MoneygramOffRampOrderService implements Disposable {
 
   AsyncResult<String> createMoneygramOrder({
     required CryptoAmount submittedAmount,
-    required FiatAmount? receiveAmount,
+    required FiatAmount receiveAmount,
     required String countryCode,
+    required int priorityFee,
+    required CryptoAmount gasFee,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -182,8 +186,8 @@ class MoneygramOffRampOrderService implements Disposable {
             partnerOrderId: '',
             amount: submittedAmount.value,
             token: Token.usdc.address,
-            receiveAmount: receiveAmount?.value,
-            fiatSymbol: receiveAmount?.fiatCurrency.symbol,
+            receiveAmount: receiveAmount.value,
+            fiatSymbol: receiveAmount.fiatCurrency.symbol,
             created: DateTime.now(),
             humanStatus: '',
             machineStatus: '',
@@ -193,6 +197,8 @@ class MoneygramOffRampOrderService implements Disposable {
             depositAddress: '',
             slot: BigInt.zero,
             bridgeAmount: null,
+            priorityFee: priorityFee,
+            gasFee: gasFee.value,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
@@ -343,10 +349,17 @@ class MoneygramOffRampOrderService implements Disposable {
   ) async {
     final accountId = _stellarWallet.address;
 
-    final cashOutAmount = CryptoAmount(
+    final gasFee = CryptoAmount(
+      value: order.gasFee ?? 0,
+      cryptoCurrency: Currency.usdc,
+    );
+
+    final inputAmount = CryptoAmount(
       value: order.amount,
       cryptoCurrency: Currency.usdc,
     );
+
+    final cashOutAmount = inputAmount - gasFee;
 
     final xlmBalance = await _stellarClient.getXlmBalance();
 
@@ -362,15 +375,28 @@ class MoneygramOffRampOrderService implements Disposable {
       await _stellarClient.createUsdcTrustline(limit: 10000);
     }
 
-    final bridgeTx = await _ecClient
-        .swapToStellar(
-          SwapToStellarRequestDto(
-            amount: cashOutAmount.value.toString(),
-            solanaSenderAddress: _ecWallet.address,
-            stellarReceiverAddress: accountId,
-          ),
-        )
-        .then((e) => e.encodedTx);
+    String bridgeTx;
+    try {
+      bridgeTx = await _ecClient
+          .swapToStellar(
+            SwapToStellarRequestDto(
+              amount: cashOutAmount.value.toString(),
+              solanaSenderAddress: _ecWallet.address,
+              stellarReceiverAddress: accountId,
+              priorityFee: order.priorityFee,
+            ),
+          )
+          .then((e) => e.encodedTx);
+    } on Exception catch (__, stackTrace) {
+      reportError(
+        'Failed to swap to Stellar',
+        stackTrace,
+      );
+
+      return const OffRampOrderRowsCompanion(
+        status: Value(OffRampOrderStatus.depositError),
+      );
+    }
 
     final tx = await SignedTx.decode(bridgeTx).resign(_ecWallet);
 
@@ -379,7 +405,6 @@ class MoneygramOffRampOrderService implements Disposable {
     );
 
     final slot = latestBlockhash.context.slot;
-
     final send = await _sender.send(tx, minContextSlot: slot);
 
     if (send != const TxSendSent()) {
@@ -541,11 +566,7 @@ class MoneygramOffRampOrderService implements Disposable {
         .whereNotNull()
         .listen((order) async {
       final statement = _db.update(_db.offRampOrderRows)
-        ..where(
-          (tbl) =>
-              tbl.id.equals(id) &
-              tbl.status.equals(OnRampOrderStatus.postProcessing.name),
-        );
+        ..where((tbl) => tbl.id.equals(id));
 
       final hash = order.solanaBridgeTx;
 
@@ -710,19 +731,7 @@ class MoneygramOffRampOrderService implements Disposable {
 
     final hash = await _stellarClient.submitTransactionFromXdrString(bridgeTx);
 
-    if (hash == null) {
-      return const OffRampOrderRowsCompanion(
-        status: Value(OffRampOrderStatus.processingRefund),
-      );
-    }
-
-    final result = await _stellarClient.pollStatus(hash);
-
-    if (result?.status != GetTransactionResponse.STATUS_SUCCESS) {
-      return null;
-    }
-
-    return result?.status != GetTransactionResponse.STATUS_SUCCESS
+    return hash == null
         ? const OffRampOrderRowsCompanion(
             status: Value(OffRampOrderStatus.processingRefund),
           )
@@ -751,6 +760,19 @@ class MoneygramOffRampOrderService implements Disposable {
       final hash = order.stellarTxHash;
 
       if (hash == null) {
+        await statement.write(
+          const OffRampOrderRowsCompanion(
+            status: Value(OffRampOrderStatus.processingRefund),
+          ),
+        );
+
+        _removeWatcher(id);
+
+        return;
+      }
+
+      final stellarResult = await _stellarClient.pollStatus(hash);
+      if (stellarResult?.status != GetTransactionResponse.STATUS_SUCCESS) {
         await statement.write(
           const OffRampOrderRowsCompanion(
             status: Value(OffRampOrderStatus.processingRefund),

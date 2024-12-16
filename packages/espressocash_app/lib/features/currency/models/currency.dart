@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sealed_currencies/sealed_currencies.dart' as curr;
 
 import '../../tokens/token.dart';
 
@@ -15,6 +16,7 @@ sealed class Currency with _$Currency {
     required int decimals,
     required String symbol,
     required String sign,
+    String? countryCode,
   }) = FiatCurrency;
 
   const factory Currency.crypto({
@@ -32,6 +34,7 @@ sealed class Currency with _$Currency {
     sign: r'$',
     name: 'US dollar',
     decimals: 2,
+    countryCode: 'US',
   );
 
   static const FiatCurrency ngn = FiatCurrency(
@@ -39,6 +42,7 @@ sealed class Currency with _$Currency {
     sign: '₦',
     name: 'Nigerian Naira',
     decimals: 2,
+    countryCode: 'NG',
   );
 
   String get name => switch (this) {
@@ -63,13 +67,10 @@ sealed class Currency with _$Currency {
 const defaultFiatCurrency = Currency.usd;
 
 FiatCurrency currencyFromString(String currency) {
-  switch (currency) {
-    case 'USD':
-      return Currency.usd;
-    case 'NGN':
-      return Currency.ngn;
-    default:
-      return _fallbackFiatCurrency(currency);
+  try {
+    return curr.FiatCurrency.fromAnyCode(currency).toFiatCurrency;
+  } on Exception {
+    return _fallbackFiatCurrency(currency);
   }
 }
 
@@ -79,3 +80,18 @@ FiatCurrency _fallbackFiatCurrency(String currency) => FiatCurrency(
       name: currency,
       decimals: 2,
     );
+
+extension FiatCurrencyExt on curr.FiatCurrency? {
+  FiatCurrency get toFiatCurrency {
+    final currency = this;
+
+    if (currency == null) return defaultFiatCurrency;
+
+    return FiatCurrency(
+      name: currency.name,
+      decimals: 2,
+      symbol: currency.code,
+      sign: currency.symbol ?? currency.code,
+    );
+  }
+}

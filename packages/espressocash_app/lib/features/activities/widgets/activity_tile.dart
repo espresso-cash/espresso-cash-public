@@ -34,7 +34,7 @@ class CpActivityTile extends StatelessWidget {
 
     return ListTile(
       onTap: onTap,
-      contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20),
       leading: showIcon
           ? SizedBox.square(
               dimension: 42,
@@ -83,7 +83,7 @@ const _titleStyle = TextStyle(
 const _inAmountStyle = TextStyle(
   fontSize: 16,
   letterSpacing: .23,
-  color: CpColors.incomingAmountColor,
+  color: CpColors.greenColor,
   fontWeight: FontWeight.w500,
 );
 

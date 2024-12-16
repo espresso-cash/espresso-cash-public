@@ -36,10 +36,14 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
     super.initState();
 
     _imagesCache = Future(
-      () => Future.wait([
-        precacheImage(Assets.images.logo.provider(), context),
-        precacheImage(Assets.images.dollarBg.provider(), context),
-      ]),
+      () async {
+        if (!mounted) return;
+
+        await Future.wait([
+          precacheImage(Assets.images.logo.provider(), context),
+          precacheImage(Assets.images.dollarBg.provider(), context),
+        ]);
+      },
     );
   }
 
@@ -50,7 +54,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                 ConnectionState.done
             ? CpTheme.dark(
                 child: Scaffold(
-                  backgroundColor: CpColors.yellowSplashBackgroundColor,
+                  backgroundColor: CpColors.lightSandColor,
                   body: Stack(
                     children: [
                       Align(

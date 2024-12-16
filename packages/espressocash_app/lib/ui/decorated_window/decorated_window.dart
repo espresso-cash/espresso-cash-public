@@ -66,7 +66,7 @@ class DecoratedWindow extends StatelessWidget {
           leading: backButton,
           nextButton: nextButton,
         ),
-        backgroundColor: CpColors.darkGoldLockBackgroundColor,
+        backgroundColor: CpColors.lightSandColor,
         body: isScrollable
             ? LayoutBuilder(
                 builder: (context, constraints) => SingleChildScrollView(

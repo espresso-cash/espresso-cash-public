@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'colors.dart';
 
@@ -12,19 +13,23 @@ class CpTextField extends StatelessWidget {
     this.placeholder,
     this.margin,
     this.inputType,
+    this.inputFormatters,
     this.placeholderColor = CpColors.placeholderLightColor,
     this.backgroundColor = CpColors.lightGreyBackground,
     this.readOnly = false,
     this.fontSize = 20,
+    this.fontWeight = FontWeight.normal,
     this.disabled = false,
     this.padding = const EdgeInsets.all(24),
     this.suffix,
     this.border = CpTextFieldBorder.stadium,
     this.prefix,
     this.textColor = CpColors.primaryTextColor,
+    this.textAlign = TextAlign.start,
     this.textInputAction,
     this.multiLine = false,
     this.textCapitalization = TextCapitalization.none,
+    this.autocorrect = true,
   });
 
   final TextEditingController? controller;
@@ -35,15 +40,19 @@ class CpTextField extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final bool readOnly;
   final double fontSize;
+  final FontWeight fontWeight;
   final bool disabled;
   final TextInputType? inputType;
+  final List<TextInputFormatter>? inputFormatters;
   final Widget? suffix;
   final Widget? prefix;
   final CpTextFieldBorder border;
   final Color? textColor;
+  final TextAlign textAlign;
   final TextInputAction? textInputAction;
   final bool? multiLine;
   final TextCapitalization textCapitalization;
+  final bool autocorrect;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +71,7 @@ class CpTextField extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(8)),
             ),
       child: CupertinoTextField(
+        autocorrect: autocorrect,
         enabled: !disabled,
         decoration: const BoxDecoration(),
         suffix: suffix,
@@ -72,24 +82,50 @@ class CpTextField extends StatelessWidget {
         maxLines: multiLine ? null : 1,
         cursorColor: CpColors.yellowColor,
         style: TextStyle(
-          fontWeight: FontWeight.normal,
+          fontWeight: fontWeight,
           fontSize: fontSize,
           color: textColor,
           height: 1.2,
         ),
+        textAlign: textAlign,
         placeholder: placeholder,
         keyboardType: inputType,
+        inputFormatters: inputFormatters,
         textCapitalization: textCapitalization,
         keyboardAppearance: Theme.of(context).brightness,
         placeholderStyle: TextStyle(color: placeholderColor),
         textInputAction: textInputAction,
-        prefix: prefix == null
-            ? null
-            : Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: prefix,
-              ),
+        prefix: prefix,
       ),
     );
   }
+}
+
+class FittedTextEditingController extends TextEditingController {
+  FittedTextEditingController({super.text});
+
+  @override
+  TextSpan buildTextSpan({
+    required BuildContext context,
+    TextStyle? style,
+    required bool withComposing,
+  }) =>
+      TextSpan(
+        style: style,
+        children: [
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) =>
+                  FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  text,
+                  style: style,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
 }

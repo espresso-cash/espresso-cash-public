@@ -4,7 +4,7 @@ import '../../../../../config.dart';
 import '../../../../../di.dart';
 import '../../../../accounts/models/account.dart';
 import '../../../../dynamic_links/widgets/dynamic_link_handler.dart';
-import '../../../models/ramp_type.dart';
+import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../widgets/ramp_buttons.dart';
 import 'launch.dart';
 

@@ -61,9 +61,10 @@ class _OLPScreenState extends State<OLPScreen> {
         .skip(1)
         .where((payment) => payment.status is OLPStatusLinkReady)
         .listen((payment) {
-      final status = payment.status as OLPStatusLinkReady;
-
-      ShareLinkScreen.push(context, amount: payment.amount, status: status);
+      if (mounted) {
+        final status = payment.status as OLPStatusLinkReady;
+        ShareLinkScreen.push(context, amount: payment.amount, status: status);
+      }
       _shareLinkSubscription?.cancel();
     });
   }
