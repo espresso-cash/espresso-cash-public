@@ -18,7 +18,8 @@ extension TxUpdater on TransactionRepository {
   }
 
   Future<List<TxCommon>> _updateTokensTransactions(
-      String? mostRecentTxId) async {
+    String? mostRecentTxId,
+  ) async {
     final tokenAccounts = await _getAllTokenAccounts(_wallet.publicKey);
 
     final allTransactions = await Future.wait(
