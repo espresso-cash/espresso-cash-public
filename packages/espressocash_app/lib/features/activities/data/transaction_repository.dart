@@ -11,7 +11,6 @@ import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
 import '../../../di.dart';
-import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../outgoing_direct_payments/data/repository.dart';

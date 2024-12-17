@@ -25,14 +25,14 @@ class TxUpdater implements Disposable {
   final ECWallet _wallet;
   final TransactionRepository _repo;
 
-  final AsyncCache<void> _callCache = AsyncCache.ephemeral();
+  final AsyncCache<void> _cache = AsyncCache.ephemeral();
 
   @PostConstruct()
   void init() {
     call();
   }
 
-  Future<void> call() => _callCache.fetch(_updateAllTransactions);
+  Future<void> call() => _cache.fetch(_updateAllTransactions);
 
   Future<void> _updateAllTransactions() async {
     final mostRecentTxId = await _repo.mostRecentTxId();
