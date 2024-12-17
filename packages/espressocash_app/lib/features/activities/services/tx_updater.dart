@@ -100,7 +100,7 @@ class TxUpdater implements Disposable {
         return filteredTxs.toSet().toList();
       });
 
-  Future<List<TokenAccountInfo>> _getAllTokenAccounts(
+  Future<List<_TokenAccountInfo>> _getAllTokenAccounts(
     Ed25519HDPublicKey owner,
   ) =>
       _client.rpcClient
@@ -118,7 +118,7 @@ class TxUpdater implements Disposable {
               final mintAddressBytes = data.data.sublist(0, 32);
               final mintAddress = base58encode(mintAddressBytes);
 
-              return TokenAccountInfo(
+              return _TokenAccountInfo(
                 account: Ed25519HDPublicKey.fromBase58(account.pubkey),
                 mintAddress: mintAddress,
               );
@@ -217,8 +217,8 @@ extension on TransactionDetails {
   }
 }
 
-class TokenAccountInfo {
-  const TokenAccountInfo({
+class _TokenAccountInfo {
+  const _TokenAccountInfo({
     required this.account,
     required this.mintAddress,
   });

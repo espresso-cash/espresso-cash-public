@@ -24,7 +24,7 @@ import '../models/activity.dart';
 import '../models/transaction.dart';
 import 'activity_builder.dart';
 
-@Singleton(scope: authScope)
+@injectable
 class TransactionRepository {
   const TransactionRepository(this._db);
 
