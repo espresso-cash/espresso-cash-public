@@ -22,7 +22,6 @@ import '../../../../router/service/navigation_service.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
-import '../../../widgets/ramp_buttons.dart';
 import '../../scalex/data/scalex_repository.dart';
 import '../services/brij_off_ramp_order_service.dart';
 import '../services/brij_on_ramp_order_service.dart';
@@ -47,10 +46,7 @@ extension BuildContextExt on BuildContext {
       return;
     }
 
-    final kycPassed = await openKycFlow(
-      onAddCashPressed: launchOnRampFlow,
-      onCashOutPressed: launchOffRampFlow,
-    );
+    final kycPassed = await openKycFlow();
 
     if (!kycPassed) return;
 
@@ -161,10 +157,7 @@ extension BuildContextExt on BuildContext {
 
       return;
     }
-    final kycPassed = await openKycFlow(
-      onAddCashPressed: launchOnRampFlow,
-      onCashOutPressed: launchOffRampFlow,
-    );
+    final kycPassed = await openKycFlow();
 
     if (!kycPassed) return;
 
