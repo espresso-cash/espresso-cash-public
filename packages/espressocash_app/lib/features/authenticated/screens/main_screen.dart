@@ -10,7 +10,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../activities/data/transaction_repository.dart';
+import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../balances/data/repository.dart';
 import '../../currency/models/amount.dart';
@@ -67,7 +67,7 @@ class _MainContent extends StatelessWidget {
           displacement: 80,
           onRefresh: () => Future.wait([
             onRefresh(),
-            sl<TransactionRepository>().update(),
+            sl<TxUpdater>().call(),
           ]),
           color: CpColors.primaryColor,
           backgroundColor: Colors.white,
