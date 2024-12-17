@@ -37,12 +37,10 @@ class TxUpdater implements Disposable {
   Future<void> _updateAllTransactions() async {
     final mostRecentTxId = await _repo.mostRecentTxId();
     final tokenTxs = await _updateTokensTransactions(mostRecentTxId);
-    final solTxs = await _updateSolTransactions(mostRecentTxId: mostRecentTxId);
+    final solTxs = await _updateSolTransactions(mostRecentTxId);
 
     final uniqueSolTxs = solTxs
-        .where(
-          (result) => !tokenTxs.any((tx) => tx.tx.id == result.tx.id),
-        )
+        .where((result) => !tokenTxs.any((tx) => tx.tx.id == result.tx.id))
         .toList();
 
     await _repo.saveAll(tokenTxs + uniqueSolTxs);
@@ -67,7 +65,7 @@ class TxUpdater implements Disposable {
     return allTransactions.expand((txs) => txs).toList();
   }
 
-  Future<List<TxCommon>> _updateSolTransactions({String? mostRecentTxId}) =>
+  Future<List<TxCommon>> _updateSolTransactions(String? mostRecentTxId) =>
       _fetchTransactions(
         _wallet.publicKey,
         Token.sol.address,
