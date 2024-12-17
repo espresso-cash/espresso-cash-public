@@ -37,7 +37,10 @@ const List<KycStepFunction> phoneSteps = [
 ];
 
 extension KycFlowExtension on BuildContext {
-  Future<bool> openKycFlow() async {
+  Future<bool> openKycFlow({
+    VoidCallback? onAddCashPressed,
+    VoidCallback? onCashOutPressed,
+  }) async {
     final user = sl<KycSharingService>().value;
 
     if (user == null) {
@@ -79,7 +82,13 @@ extension KycFlowExtension on BuildContext {
     }
 
     if (user.kycStatus != ValidationStatus.approved) {
-      if (!await _navigateToScreen(KycStatusScreen.push)) return false;
+      if (!await _navigateToScreen(
+        (ctx) => KycStatusScreen.push(
+          ctx,
+          onAddCashPressed: onAddCashPressed,
+          onCashOutPressed: onCashOutPressed,
+        ),
+      )) return false;
     }
 
     return true;
