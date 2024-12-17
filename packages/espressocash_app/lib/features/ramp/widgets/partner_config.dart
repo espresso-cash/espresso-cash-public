@@ -77,9 +77,9 @@ const _guardarianCountries = {
 };
 
 const _coinflowCountries = {
-  'AD', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', //
-  'GR', 'HU', 'IS', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT', 'MC', 'NL', 'NO',
-  'PL', 'PT', 'RO', 'SM', 'SK', 'SI', 'ES', 'SE', 'CH', 'US',
+  'AD', 'AT', 'BE', 'BR', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', //
+  'DE', 'GR', 'HU', 'IS', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT', 'MC',
+  'NL', 'NO', 'PL', 'PT', 'RO', 'SM', 'SK', 'SI', 'ES', 'SE', 'CH', 'US',
 };
 
 const _scalexCountries = {'NG'};
