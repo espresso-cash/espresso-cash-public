@@ -1,7 +1,9 @@
 import 'package:async/async.dart';
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:solana/base58.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
@@ -10,6 +12,7 @@ import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
 import '../data/transaction_repository.dart';
 import '../models/transaction.dart';
@@ -24,68 +27,184 @@ class TxUpdater implements Disposable {
 
   final AsyncCache<void> _cache = AsyncCache.ephemeral();
 
-  Future<void> call() => _cache.fetch(
-        () => tryEitherAsync((_) async {
-          final usdcTokenAccount = await findAssociatedTokenAddress(
-            owner: _wallet.publicKey,
-            mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
-          );
+  @PostConstruct()
+  void init() {
+    call();
+  }
 
-          final mostRecentTxId = await _repo.mostRecentTxId();
+  Future<void> call() => _cache.fetch(_updateAllTransactions);
 
-          const fetchLimit = 50;
+  Future<void> _updateAllTransactions() async {
+    final mostRecentTxId = await _repo.mostRecentTxId();
+    final tokenTxs = await _updateTokensTransactions(mostRecentTxId);
+    final solTxs = await _updateSolTransactions(mostRecentTxId);
 
-          final details = await _client.rpcClient.getTransactionsList(
-            usdcTokenAccount,
-            limit: fetchLimit,
-            until: mostRecentTxId,
-            encoding: Encoding.base64,
-            commitment: Commitment.confirmed,
-          );
+    final uniqueSolTxs = solTxs
+        .where((result) => !tokenTxs.any((tx) => tx.tx.id == result.tx.id))
+        .toList();
 
-          if (details.isNotEmpty) {
-            final txs = details.map((it) => it.toFetched(usdcTokenAccount));
+    await _repo.saveAll(tokenTxs + uniqueSolTxs);
+  }
 
-            final hasGap = mostRecentTxId != null && txs.length == fetchLimit;
+  Future<List<TxCommon>> _updateTokensTransactions(
+    String? mostRecentTxId,
+  ) async {
+    final tokenAccounts = await _getAllTokenAccounts(_wallet.publicKey);
 
-            await _repo.saveAll(txs, clear: hasGap);
-          }
-        }),
+    final allTransactions = await Future.wait(
+      tokenAccounts.map(
+        (account) => _fetchTransactions(
+          account.account,
+          account.mintAddress,
+          mostRecentTxId,
+          account.mintAddress == Token.usdc.address
+              ? _usdcFetchLimit
+              : _tokenFetchLimit,
+        ),
+      ),
+    );
+
+    return allTransactions.expand((txs) => txs).toList();
+  }
+
+  Future<List<TxCommon>> _updateSolTransactions(String? mostRecentTxId) =>
+      _fetchTransactions(
+        _wallet.publicKey,
+        Token.sol.address,
+        mostRecentTxId,
+        _tokenFetchLimit,
       );
+
+  Future<List<TxCommon>> _fetchTransactions(
+    Ed25519HDPublicKey account,
+    String tokenAddress,
+    String? until,
+    int limit,
+  ) =>
+      _client.rpcClient
+          .getTransactionsList(
+        account,
+        until: until,
+        limit: limit,
+        encoding: Encoding.base64,
+        commitment: Commitment.confirmed,
+      )
+          .letAsync((transactionDetails) async {
+        if (transactionDetails.isEmpty) return [];
+
+        final txs = await Future.wait(
+          transactionDetails.map((it) => it.toFetched(account, tokenAddress)),
+        );
+        final filteredTxs = txs.whereNotNull().toList();
+
+        return filteredTxs.toSet().toList();
+      });
+
+  Future<List<_TokenAccountInfo>> _getAllTokenAccounts(
+    Ed25519HDPublicKey owner,
+  ) =>
+      _client.rpcClient
+          .getTokenAccountsByOwner(
+            owner.toBase58(),
+            encoding: Encoding.base64,
+            const TokenAccountsFilter.byProgramId(TokenProgram.programId),
+          )
+          .letAsync(
+            (response) => response.value.map((account) {
+              final data = account.account.data as BinaryAccountData?;
+              if (data == null) {
+                throw Exception('Account info or data is null');
+              }
+              final mintAddressBytes = data.data.sublist(0, 32);
+              final mintAddress = base58encode(mintAddressBytes);
+
+              return _TokenAccountInfo(
+                account: Ed25519HDPublicKey.fromBase58(account.pubkey),
+                mintAddress: mintAddress,
+              );
+            }).toList(),
+          );
 
   @override
   Future<void> onDispose() => _repo.clear();
 }
 
 extension on TransactionDetails {
-  TxCommon toFetched(Ed25519HDPublicKey usdcTokenAddress) {
+  Future<TxCommon?> toFetched(
+    Ed25519HDPublicKey tokenAccount,
+    String? tokenAddress,
+  ) async {
     final rawTx = transaction as RawTransaction;
     final tx = SignedTx.fromBytes(rawTx.data);
-
     final accountIndex =
-        tx.compiledMessage.accountKeys.indexWhere((e) => e == usdcTokenAddress);
+        tx.compiledMessage.accountKeys.indexWhere((e) => e == tokenAccount);
 
-    final preTokenBalance = meta?.preTokenBalances
-        .where((e) => e.mint == Token.usdc.address)
-        .where((e) => e.accountIndex == accountIndex)
-        .firstOrNull;
+    int? getBalanceDifference(
+      List<Object>? preBalances,
+      List<Object>? postBalances,
+    ) {
+      if (preBalances != null && postBalances != null) {
+        final preBalance = preBalances[accountIndex] as int;
+        final postBalance = postBalances[accountIndex] as int;
+        if (preBalance == 0 && postBalance == 0) return null;
 
-    final postTokenBalance = meta?.postTokenBalances
-        .where((e) => e.mint == Token.usdc.address)
-        .where((e) => e.accountIndex == accountIndex)
-        .firstOrNull;
+        return postBalance - preBalance;
+      }
 
-    CryptoAmount? amount;
-
-    if (preTokenBalance != null && postTokenBalance != null) {
-      final rawAmount = int.parse(postTokenBalance.uiTokenAmount.amount) -
-          int.parse(preTokenBalance.uiTokenAmount.amount);
-
-      amount = CryptoAmount(
-        value: rawAmount,
-        cryptoCurrency: Currency.usdc,
-      );
+      return null;
     }
+
+    int? getTokenBalanceDifference(
+      List<TokenBalance>? preBalances,
+      List<TokenBalance>? postBalances,
+    ) {
+      final preBalance = preBalances
+          ?.firstWhereOrNull(
+            (e) => e.mint == tokenAddress && e.accountIndex == accountIndex,
+          )
+          ?.uiTokenAmount
+          .amount;
+
+      final postBalance = postBalances
+          ?.firstWhereOrNull(
+            (e) => e.mint == tokenAddress && e.accountIndex == accountIndex,
+          )
+          ?.uiTokenAmount
+          .amount;
+
+      final preReturnValue = preBalance != null ? int.parse(preBalance) : 0;
+      final postReturnValue = postBalance != null ? int.parse(postBalance) : 0;
+
+      if (preReturnValue == 0 && postReturnValue == 0) return null;
+
+      return postReturnValue - preReturnValue;
+    }
+
+    final rawAmount = tokenAddress == Token.sol.address
+        ? getBalanceDifference(meta?.preBalances, meta?.postBalances)
+        : getTokenBalanceDifference(
+            meta?.preTokenBalances,
+            meta?.postTokenBalances,
+          );
+
+    if (rawAmount == null || rawAmount == 0) return null;
+
+    final amount = await rawAmount.let((amount) async {
+      final tokenRepository = GetIt.I<TokenRepository>();
+      final cryptoCurrency = tokenAddress != null
+          ? tokenAddress == Token.sol.address
+              ? const CryptoCurrency(token: Token.sol)
+              : CryptoCurrency(
+                  token:
+                      await tokenRepository.getToken(tokenAddress) ?? Token.unk,
+                )
+          : const CryptoCurrency(token: Token.unk);
+
+      return CryptoAmount(
+        value: amount,
+        cryptoCurrency: cryptoCurrency,
+      );
+    });
 
     return TxCommon(
       tx,
@@ -97,3 +216,16 @@ extension on TransactionDetails {
     );
   }
 }
+
+class _TokenAccountInfo {
+  const _TokenAccountInfo({
+    required this.account,
+    required this.mintAddress,
+  });
+
+  final Ed25519HDPublicKey account;
+  final String mintAddress;
+}
+
+const _tokenFetchLimit = 15;
+const _usdcFetchLimit = 50;
