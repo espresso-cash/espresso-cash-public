@@ -57,7 +57,9 @@ class TxUpdater implements Disposable {
           account.account,
           account.mintAddress,
           mostRecentTxId,
-          15,
+          account.mintAddress == Token.usdc.address
+              ? _usdcFetchLimit
+              : _tokenFetchLimit,
         ),
       ),
     );
@@ -70,7 +72,7 @@ class TxUpdater implements Disposable {
         _wallet.publicKey,
         Token.sol.address,
         mostRecentTxId,
-        15,
+        _tokenFetchLimit,
       );
 
   Future<List<TxCommon>> _fetchTransactions(
@@ -224,3 +226,6 @@ class _TokenAccountInfo {
   final Ed25519HDPublicKey account;
   final String mintAddress;
 }
+
+const _tokenFetchLimit = 15;
+const _usdcFetchLimit = 50;
