@@ -1108,7 +1108,7 @@
     "@kycVerificationFooter": {},
     "personalDetails": "Personal Details",
     "@personalDetails": {},
-    "kycPendingStatusTitle": "Identity *Pending Approval*",
+    "kycPendingStatusTitle": "Identity *Pending Approval.*",
     "@kycPendingStatusTitle": {},
     "kycPendingStatusDescription": "Your verification is under review and will take 10-20 minutes. ",
     "@kycPendingStatusDescription": {},
@@ -1116,17 +1116,19 @@
     "@kycPendingStatusDescription2": {},
     "kycPendingStatusDescription3": "Updates on your status will appear in your activity feed.",
     "@kycPendingStatusDescription3": {},
-    "kycRejectedStatusTitle": "Identity *Not Verified*",
+    "kycRejectedStatusTitle": "Identity *Not Verified.*",
     "@kycRejectedStatusTitle": {},
     "kycRejectedStatusDescription": "Your verification was not approved.\nPlease ensure all your information is accurate and your ID is up to date.",
     "@kycRejectedStatusDescription": {},
-    "kycApprovedStatusTitle": "Identity *Verified*",
+    "kycApprovedStatusTitle": "Identity *Verified.*",
     "@kycApprovedStatusTitle": {},
-    "kycApprovedStatusDescription": "Good news! Your ID verification is approved.",
+    "kycApprovedStatusDescription": "Good news!",
     "@kycApprovedStatusDescription": {},
-    "kycApprovedStatusDescription2": "You can now make deposits and withdrawals, and it applies to all future transactions.",
+    "kycApprovedStatusDescription2": "Your ID verification has been successfully approved. You are now able to make deposits and withdrawals.",
     "@kycApprovedStatusDescription2": {},
-    "emailPendingStatusTitle": "Email Address *Pending Approval*",
+    "kycApprovedStatusDescription3": "Start by adding funds to your account.",
+    "@kycApprovedStatusDescription3": {},
+    "emailPendingStatusTitle": "Email Address *Pending Approval.*",
     "@emailPendingStatusTitle": {},
     "emailPendingStatusDescription": "Your email {email} has not been verified.",
     "@emailPendingStatusDescription": {
@@ -1136,7 +1138,7 @@
         }
       }
     },
-    "emailRejectedStatusTitle": "Email Address *Not Verified*",
+    "emailRejectedStatusTitle": "Email Address *Not Verified.*",
     "@emailRejectedStatusTitle": {},
     "emailRejectedStatusDescription": "Your email {email} could not be verified. Enter your email address to receive a new confirmation code.",
     "@emailRejectedStatusDescription": {
@@ -1146,7 +1148,7 @@
         }
       }
     },
-    "emailApprovedStatusTitle": "Email Address *Verified*",
+    "emailApprovedStatusTitle": "Email Address *Verified.*",
     "@emailApprovedStatusTitle": {},
     "emailApprovedStatusDescription": "Your email {email} has been successfully verified.",
     "@emailApprovedStatusDescription": {
@@ -1156,7 +1158,7 @@
         }
       }
     },
-    "phonePendingStatusTitle": "Phone Number *Pending Approval*",
+    "phonePendingStatusTitle": "Phone Number *Pending Approval.*",
     "@phonePendingStatusTitle": {},
     "phonePendingStatusDescription": "Your phone number {phone} has not been verified.",
     "@phonePendingStatusDescription": {
@@ -1166,7 +1168,7 @@
         }
       }
     },
-    "phoneRejectedStatusTitle": "Phone Number *Not Verified*",
+    "phoneRejectedStatusTitle": "Phone Number *Not Verified.*",
     "@phoneRejectedStatusTitle": {},
     "phoneRejectedStatusDescription": "Your phone number {phone} could not be verified. Re-enter your mobile phone number to receive a new confirmation code.",
     "@phoneRejectedStatusDescription": {
@@ -1176,7 +1178,7 @@
         }
       }
     },
-    "phoneApprovedStatusTitle": "Phone Number *Verified*",
+    "phoneApprovedStatusTitle": "Phone Number *Verified.*",
     "@phoneApprovedStatusTitle": {},
     "phoneApprovedStatusDescription": "Your phone number {phone} has been successfully verified.",
     "@phoneApprovedStatusDescription": {

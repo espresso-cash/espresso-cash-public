@@ -75,9 +75,7 @@ class AddCashButton extends StatelessWidget {
                   await context.ensureProfileData(RampType.onRamp) != null;
 
               if (context.mounted && hasProfile) {
-                context.launchOnRampFlow(
-                  address: sl<MyAccount>().wallet.publicKey.toBase58(),
-                );
+                context.launchOnRampFlow();
               }
             },
           ),
@@ -113,9 +111,7 @@ class CashOutButton extends StatelessWidget {
                   await context.ensureProfileData(RampType.offRamp) != null;
 
               if (context.mounted && hasProfile) {
-                context.launchOffRampFlow(
-                  address: sl<MyAccount>().wallet.publicKey.toBase58(),
-                );
+                context.launchOffRampFlow();
               }
             },
           ),
@@ -171,7 +167,9 @@ extension RampBuildContextExt on BuildContext {
     return (country: country, email: email);
   }
 
-  void launchOnRampFlow({required String address}) {
+  void launchOnRampFlow() {
+    final address = sl<MyAccount>().wallet.publicKey.toBase58();
+
     RampPartnerSelectScreen.push(
       this,
       type: RampType.onRamp,
@@ -184,7 +182,9 @@ extension RampBuildContextExt on BuildContext {
     );
   }
 
-  void launchOffRampFlow({required String address}) {
+  void launchOffRampFlow() {
+    final address = sl<MyAccount>().wallet.publicKey.toBase58();
+
     RampPartnerSelectScreen.push(
       this,
       type: RampType.offRamp,

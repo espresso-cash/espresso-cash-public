@@ -8,8 +8,7 @@ import '../../../ui/arrow.dart';
 import '../../../ui/bullet_item.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../../accounts/models/account.dart';
-import '../../activities/data/transaction_repository.dart';
+import '../../activities/services/tx_updater.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 import 'balance_amount.dart';
@@ -27,7 +26,7 @@ class HomeAddCashContent extends StatelessWidget {
             displacement: 80,
             onRefresh: () => Future.wait([
               onRefresh(),
-              sl<TransactionRepository>().update(),
+              sl<TxUpdater>().call(),
             ]),
             color: CpColors.primaryColor,
             backgroundColor: Colors.white,
@@ -132,9 +131,7 @@ class _NoticeContent extends StatelessWidget {
                     await context.ensureProfileData(RampType.onRamp) != null;
 
                 if (context.mounted && hasProfile) {
-                  context.launchOnRampFlow(
-                    address: sl<MyAccount>().address,
-                  );
+                  context.launchOnRampFlow();
                 }
               },
               width: double.infinity,

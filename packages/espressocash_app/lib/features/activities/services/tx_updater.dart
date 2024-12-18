@@ -1,20 +1,49 @@
-part of '../data/transaction_repository.dart';
+import 'package:async/async.dart';
+import 'package:collection/collection.dart';
+import 'package:dfunc/dfunc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:injectable/injectable.dart';
+import 'package:solana/base58.dart';
+import 'package:solana/dto.dart';
+import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
-extension TxUpdater on TransactionRepository {
-  Future<void> update() => _callCache.fetchEither(_updateAllTransactions);
+import '../../accounts/auth_scope.dart';
+import '../../accounts/models/ec_wallet.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
+import '../../tokens/data/token_repository.dart';
+import '../../tokens/token.dart';
+import '../data/transaction_repository.dart';
+import '../models/transaction.dart';
+
+@Singleton(scope: authScope)
+class TxUpdater implements Disposable {
+  TxUpdater(this._client, this._wallet, this._repo);
+
+  final SolanaClient _client;
+  final ECWallet _wallet;
+  final TransactionRepository _repo;
+
+  final AsyncCache<void> _cache = AsyncCache.ephemeral();
+
+  @PostConstruct()
+  void init() {
+    call();
+  }
+
+  Future<void> call() => _cache.fetch(_updateAllTransactions);
 
   Future<void> _updateAllTransactions() async {
-    final mostRecentTxId = await this.mostRecentTxId();
+    final mostRecentTxId = await _repo.mostRecentTxId();
     final tokenTxs = await _updateTokensTransactions(mostRecentTxId);
-    final solTxs = await _updateSolTransactions(mostRecentTxId: mostRecentTxId);
+    final solTxs = await _updateSolTransactions(mostRecentTxId);
 
     final uniqueSolTxs = solTxs
-        .where(
-          (result) => !tokenTxs.any((tx) => tx.tx.id == result.tx.id),
-        )
+        .where((result) => !tokenTxs.any((tx) => tx.tx.id == result.tx.id))
         .toList();
 
-    await saveAll(tokenTxs + uniqueSolTxs);
+    await _repo.saveAll(tokenTxs + uniqueSolTxs);
   }
 
   Future<List<TxCommon>> _updateTokensTransactions(
@@ -23,23 +52,20 @@ extension TxUpdater on TransactionRepository {
     final tokenAccounts = await _getAllTokenAccounts(_wallet.publicKey);
 
     final allTransactions = await Future.wait(
-      tokenAccounts.map((account) async {
-        final tokenAccountAddress =
-            await getMintAddressForTokenAccount(account);
-
-        return _fetchTransactions(
-          account,
-          tokenAccountAddress,
+      tokenAccounts.map(
+        (account) => _fetchTransactions(
+          account.account,
+          account.mintAddress,
           mostRecentTxId,
           15,
-        );
-      }),
+        ),
+      ),
     );
 
     return allTransactions.expand((txs) => txs).toList();
   }
 
-  Future<List<TxCommon>> _updateSolTransactions({String? mostRecentTxId}) =>
+  Future<List<TxCommon>> _updateSolTransactions(String? mostRecentTxId) =>
       _fetchTransactions(
         _wallet.publicKey,
         Token.sol.address,
@@ -72,7 +98,7 @@ extension TxUpdater on TransactionRepository {
         return filteredTxs.toSet().toList();
       });
 
-  Future<List<Ed25519HDPublicKey>> _getAllTokenAccounts(
+  Future<List<_TokenAccountInfo>> _getAllTokenAccounts(
     Ed25519HDPublicKey owner,
   ) =>
       _client.rpcClient
@@ -82,30 +108,23 @@ extension TxUpdater on TransactionRepository {
             const TokenAccountsFilter.byProgramId(TokenProgram.programId),
           )
           .letAsync(
-            (accounts) => accounts.value
-                .map((account) => Ed25519HDPublicKey.fromBase58(account.pubkey))
-                .toList(),
+            (response) => response.value.map((account) {
+              final data = account.account.data as BinaryAccountData?;
+              if (data == null) {
+                throw Exception('Account info or data is null');
+              }
+              final mintAddressBytes = data.data.sublist(0, 32);
+              final mintAddress = base58encode(mintAddressBytes);
+
+              return _TokenAccountInfo(
+                account: Ed25519HDPublicKey.fromBase58(account.pubkey),
+                mintAddress: mintAddress,
+              );
+            }).toList(),
           );
 
-  Future<String> getMintAddressForTokenAccount(
-    Ed25519HDPublicKey tokenAccount,
-  ) async {
-    final accountInfo = await _client.rpcClient.getAccountInfo(
-      tokenAccount.toBase58(),
-      encoding: Encoding.base64,
-    );
-
-    final accountData = accountInfo.value?.data;
-    if (accountData == null) {
-      throw Exception('Account info or data is null');
-    }
-
-    final data = accountData as BinaryAccountData;
-    final mintAddressBytes = data.data.sublist(0, 32);
-
-    return Ed25519HDPublicKey.fromBase58(base58encode(mintAddressBytes))
-        .toBase58();
-  }
+  @override
+  Future<void> onDispose() => _repo.clear();
 }
 
 extension on TransactionDetails {
@@ -194,4 +213,14 @@ extension on TransactionDetails {
       amount: amount,
     );
   }
+}
+
+class _TokenAccountInfo {
+  const _TokenAccountInfo({
+    required this.account,
+    required this.mintAddress,
+  });
+
+  final Ed25519HDPublicKey account;
+  final String mintAddress;
 }

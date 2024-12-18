@@ -1,24 +1,16 @@
 import 'dart:async';
 
-import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:solana/base58.dart';
-import 'package:solana/dto.dart' hide Transaction;
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
 import '../../../data/db/db.dart';
 import '../../../di.dart';
-import '../../../utils/async_cache.dart';
-import '../../accounts/auth_scope.dart';
-import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
@@ -31,19 +23,11 @@ import '../models/activity.dart';
 import '../models/transaction.dart';
 import 'activity_builder.dart';
 
-part '../services/tx_updater.dart';
-
-@Singleton(scope: authScope)
+@injectable
 class TransactionRepository {
-  TransactionRepository(this._db, this._client, this._wallet) {
-    update();
-  }
+  const TransactionRepository(this._db);
 
-  final SolanaClient _client;
-  final ECWallet _wallet;
   final MyDatabase _db;
-
-  final AsyncCache<void> _callCache = AsyncCache.ephemeral();
 
   Stream<IList<String>> watchAll() {
     final query = _db.select(_db.transactionRows)
