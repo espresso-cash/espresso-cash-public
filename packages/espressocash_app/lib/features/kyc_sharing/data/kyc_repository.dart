@@ -7,17 +7,21 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
-
-const config = AppConfig.production();
+import '../../feature_flags/data/feature_flags_manager.dart';
 
 @Singleton(scope: authScope)
 class KycRepository extends ChangeNotifier {
-  KycRepository(this._ecWallet);
+  KycRepository(this._ecWallet, this._featureFlagsManager);
 
   final ECWallet _ecWallet;
+  final FeatureFlagsManager _featureFlagsManager;
   late KycUserClient _kycUserClient;
 
   Future<void>? _clientInitialization;
+
+  late final _config = _featureFlagsManager.isBrijDemoEnabled()
+      ? const AppConfig.demo()
+      : const AppConfig.production();
 
   Future<void> _init() => _clientInitialization ??= Future(() async {
         try {
@@ -39,7 +43,7 @@ class KycRepository extends ChangeNotifier {
   }
 
   KycUserClient _createClient() => KycUserClient(
-        config: config,
+        config: _config,
         sign: (data) async {
           final signature =
               await _ecWallet.sign([Uint8List.fromList(data.toList())]);
@@ -48,14 +52,18 @@ class KycRepository extends ChangeNotifier {
         },
       );
 
-  Future<UserData> _getUserData() => _kycUserClient.getUserData(
+  Future<UserData> _getUserData({required bool includeValues}) =>
+      _kycUserClient.getUserData(
         userPK: _kycUserClient.authPublicKey,
         secretKey: _kycUserClient.rawSecretKey,
+        includeValues: includeValues,
       );
 
-  Future<UserData?> fetchUser() async {
+  Future<UserData?> fetchUser({bool includeValues = true}) async {
     try {
-      return await _initWrapper(_getUserData);
+      return await _initWrapper(
+        () => _getUserData(includeValues: includeValues),
+      );
     } on Exception {
       return null;
     }
@@ -169,6 +177,6 @@ class KycRepository extends ChangeNotifier {
       );
 
   Future<void> grantValidatorAccess() => _initWrapper(
-        () => _kycUserClient.grantPartnerAccess(config.verifierAuthPk),
+        () => _kycUserClient.grantPartnerAccess(_config.verifierAuthPk),
       );
 }

@@ -6,7 +6,10 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/bottom_button.dart';
+import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/loader.dart';
+import '../../../../../ui/markdown_text.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
@@ -15,6 +18,7 @@ import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
+import '../../../../router/service/navigation_service.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
@@ -22,19 +26,24 @@ import '../../scalex/data/scalex_repository.dart';
 import '../services/brij_off_ramp_order_service.dart';
 import '../services/brij_on_ramp_order_service.dart';
 
-typedef PreOrderData = ({String? preOrderId, Amount? preAmount});
-
 extension BuildContextExt on BuildContext {
-  Future<void> launchKycOnRamp({PreOrderData? preOrder}) async {
-    final kycStatus = sl<KycSharingService>().value?.kycStatus;
+  Future<void> launchBrijOnRamp() async {
+    final kycService = sl<KycSharingService>();
 
-    if (preOrder?.preOrderId == null &&
-        kycStatus != ValidationStatus.approved) {
-      final data = await _createOnRampPreOrder();
+    await runWithLoader(this, () async => kycService.initialized);
 
-      preOrder = data;
+    final user = kycService.value;
 
-      if (data?.preAmount == null) return;
+    if (user == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+
+    if (user.kycStatus == ValidationStatus.pending) {
+      _showPendingKycDialog();
+
+      return;
     }
 
     final kycPassed = await openKycFlow();
@@ -63,7 +72,6 @@ extension BuildContextExt on BuildContext {
     await RampAmountScreen.push(
       this,
       partner: partner,
-      initialAmount: preOrder?.preAmount,
       onSubmitted: (Amount? value) {
         Navigator.pop(this);
         amount = value;
@@ -111,8 +119,7 @@ extension BuildContextExt on BuildContext {
     final orderId = await runWithLoader<String?>(
       this,
       () => sl<BrijOnRampOrderService>()
-          .createOrUpdate(
-            preOrderId: preOrder?.preOrderId,
+          .create(
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount as FiatAmount,
             partnerAuthPk: partner.partnerPK ?? '',
@@ -132,18 +139,24 @@ extension BuildContextExt on BuildContext {
     }
   }
 
-  Future<void> launchKycOffRamp({PreOrderData? preOrder}) async {
-    final kycStatus = sl<KycSharingService>().value?.kycStatus;
+  Future<void> launchBrijOffRamp() async {
+    final kycService = sl<KycSharingService>();
 
-    if (preOrder?.preOrderId == null &&
-        kycStatus != ValidationStatus.approved) {
-      final data = await _createOffRampPreOrder();
+    await runWithLoader(this, () async => kycService.initialized);
 
-      preOrder = data;
+    final user = kycService.value;
 
-      if (data?.preAmount == null) return;
+    if (user == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
     }
 
+    if (user.kycStatus == ValidationStatus.pending) {
+      _showPendingKycDialog();
+
+      return;
+    }
     final kycPassed = await openKycFlow();
 
     if (!kycPassed) return;
@@ -167,7 +180,6 @@ extension BuildContextExt on BuildContext {
     await RampAmountScreen.push(
       this,
       partner: partner,
-      initialAmount: preOrder?.preAmount,
       onSubmitted: (value) {
         Navigator.pop(this);
         amount = value;
@@ -215,8 +227,7 @@ extension BuildContextExt on BuildContext {
     final orderId = await runWithLoader<String?>(
       this,
       () => sl<BrijOffRampOrderService>()
-          .createOrUpdate(
-            preOrderId: preOrder?.preOrderId,
+          .create(
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount,
             partnerAuthPk: partner.partnerPK ?? '',
@@ -236,133 +247,6 @@ extension BuildContextExt on BuildContext {
     }
   }
 
-  Future<PreOrderData?> _createOnRampPreOrder() async {
-    final rateAndFee = await _fetchRateAndFee();
-
-    if (rateAndFee == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-      return null;
-    }
-
-    final double rampRate = rateAndFee.onRampRate ?? 0;
-    final double rampFeePercentage = rateAndFee.onRampFeePercentage ?? 0;
-    final double fixedFee = rateAndFee.fixedOnRampFee ?? 0;
-
-    const partner = RampPartner.brij;
-
-    final minAmountNGN =
-        partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
-
-    Amount? preAmount;
-    String? preOrderId;
-
-    await RampAmountScreen.push(
-      this,
-      partner: partner,
-      onSubmitted: (Amount? value) async {
-        try {
-          preAmount = value;
-
-          final submittedPreAmount = preAmount;
-          if (submittedPreAmount == null) return;
-
-          final preEquivalentAmount =
-              submittedPreAmount.calculateOnRampReceiveAmount(
-            exchangeRate: rampRate,
-            percentageFee: rampFeePercentage,
-            fixedFee: fixedFee,
-          );
-
-          preOrderId = await runWithLoader<String?>(
-            this,
-            () => sl<BrijOnRampOrderService>()
-                .createPreOrder(
-                  submittedAmount: submittedPreAmount as FiatAmount,
-                  receiveAmount: preEquivalentAmount,
-                )
-                .then(
-                  (order) => order.fold(
-                    (error) => null,
-                    (id) => id,
-                  ),
-                ),
-          );
-        } finally {
-          Navigator.pop(this);
-        }
-      },
-      minAmount: minAmountNGN,
-      currency: Currency.ngn,
-      receiveCurrency: Currency.usdc,
-      type: RampType.onRamp,
-    );
-
-    return (preOrderId: preOrderId, preAmount: preAmount);
-  }
-
-  Future<PreOrderData?> _createOffRampPreOrder() async {
-    final rateAndFee = await _fetchRateAndFee();
-
-    if (rateAndFee == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-      return null;
-    }
-
-    final double rampRate = rateAndFee.offRampRate;
-    final double rampFeePercentage = rateAndFee.offRampFeePercentage;
-    final double fixedFee = rateAndFee.fixedOffRampFee;
-
-    const partner = RampPartner.brij;
-
-    Amount? preAmount;
-    String? preOrderId;
-
-    await RampAmountScreen.push(
-      this,
-      partner: partner,
-      onSubmitted: (Amount? value) async {
-        try {
-          preAmount = value;
-
-          final submittedPreAmount = preAmount;
-          if (submittedPreAmount == null) return;
-
-          final equivalentAmount =
-              submittedPreAmount.calculateOffRampReceiveAmount(
-            exchangeRate: rampRate,
-            percentageFee: rampFeePercentage,
-            fixedFee: fixedFee,
-          );
-
-          preOrderId = await runWithLoader<String?>(
-            this,
-            () => sl<BrijOffRampOrderService>()
-                .createPreOrder(
-                  receiveAmount: equivalentAmount,
-                  submittedAmount: submittedPreAmount as CryptoAmount,
-                )
-                .then(
-                  (order) => order.fold(
-                    (error) => null,
-                    (id) => id,
-                  ),
-                ),
-          );
-        } finally {
-          Navigator.pop(this);
-        }
-      },
-      minAmount: partner.minimumAmountInDecimal,
-      currency: Currency.usdc,
-      receiveCurrency: Currency.ngn,
-      type: RampType.offRamp,
-    );
-
-    return (preOrderId: preOrderId, preAmount: preAmount);
-  }
-
   Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() =>
       runWithLoader<ScalexRateFeeResponseDto?>(this, () async {
         try {
@@ -373,6 +257,28 @@ extension BuildContextExt on BuildContext {
           return null;
         }
       });
+
+  void _showPendingKycDialog() {
+    showCustomDialog(
+      this,
+      title: EcMarkdownText(
+        text: l10n.pendingKycDialogTitle.toUpperCase(),
+        textAlign: WrapAlignment.center,
+      ),
+      message: Text(
+        l10n.pendingKycDialogMessage,
+        style: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      actions: CpBottomButton(
+        text: l10n.activityButton,
+        horizontalPadding: 0,
+        onPressed: () => sl<HomeNavigationService>().openActivitiesTab(this),
+      ),
+    );
+  }
 }
 
 extension on Amount {

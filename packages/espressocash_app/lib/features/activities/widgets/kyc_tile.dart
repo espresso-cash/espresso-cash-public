@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-switch-with-enums
+
 import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
@@ -6,31 +8,22 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../kyc_sharing/models/kyc_validation_status.dart';
+import '../../kyc_sharing/screens/kyc_status_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
+import '../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../kyc_sharing/widgets/kyc_status_icon.dart';
-import '../../ramp/partners/kyc/widgets/launch.dart';
-import '../../ramp_partner/models/ramp_type.dart';
+import '../../ramp/widgets/ramp_buttons.dart';
 
 class KycTile extends StatelessWidget {
   const KycTile({
     super.key,
-    required this.title,
-    required this.timestamp,
-    this.incomingAmount,
-    this.outgoingAmount,
     this.onTap,
-    required this.preOrder,
-    required this.rampType,
+    required this.timestamp,
   });
 
-  final String title;
-  final String timestamp;
-  final String? incomingAmount;
-  final String? outgoingAmount;
   final VoidCallback? onTap;
-  final PreOrderData? preOrder;
-  final RampType rampType;
+  final String timestamp;
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
@@ -38,111 +31,138 @@ class KycTile extends StatelessWidget {
         builder: (context, user, _) => user == null
             ? const SizedBox.shrink()
             : _KycTileContent(
-                status: user.kycStatus,
-                title: title,
                 timestamp: timestamp,
-                incomingAmount: incomingAmount,
-                outgoingAmount: outgoingAmount,
-                preOrder: preOrder,
-                rampType: rampType,
+                kycStatus: user.kycStatus,
+                emailStatus: user.emailStatus,
+                phoneStatus: user.phoneStatus,
               ),
       );
 }
 
 class _KycTileContent extends StatelessWidget {
   const _KycTileContent({
-    required this.status,
-    required this.title,
     required this.timestamp,
-    required this.incomingAmount,
-    required this.outgoingAmount,
-    required this.preOrder,
-    required this.rampType,
+    required this.emailStatus,
+    required this.phoneStatus,
+    required this.kycStatus,
   });
 
-  final ValidationStatus status;
-  final String title;
+  final ValidationStatus emailStatus;
+  final ValidationStatus phoneStatus;
+  final ValidationStatus kycStatus;
   final String timestamp;
-  final String? incomingAmount;
-  final String? outgoingAmount;
-  final PreOrderData? preOrder;
-  final RampType rampType;
 
   @override
   Widget build(BuildContext context) {
-    final incomingAmount = this.incomingAmount;
-    final outgoingAmount = this.outgoingAmount;
+    if (emailStatus != ValidationStatus.approved) {
+      return _KycItem(
+        status: emailStatus,
+        timestamp: timestamp,
+        title: context.l10n.emailVerification,
+        description: context.l10n.kycTileDescriptionUnverified,
+        onPressed: context.openKycFlow,
+        buttonText: context.l10n.continueVerification,
+      );
+    }
 
-    return Container(
-      margin: const EdgeInsets.only(right: 10, left: 10, bottom: 6),
-      padding: const EdgeInsets.only(top: 6, right: 20, left: 20, bottom: 26),
-      decoration: const BoxDecoration(
-        color: CpColors.blackGreyColor,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-      ),
-      child: Column(
-        children: [
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: KycStatusIcon(status.toKycValidationStatus(), height: 42),
-            title: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: _titleStyle,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                if (incomingAmount != null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text('+$incomingAmount', style: _inAmountStyle),
-                  ),
-                if (outgoingAmount != null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text('-$outgoingAmount', style: _titleStyle),
-                  ),
-              ],
-            ),
-            subtitle: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  status.subtitle(context),
-                  style: _subtitleStyle,
-                ),
-                Text(timestamp, style: _subtitleStyle),
-              ],
-            ),
-          ),
-          Text(
-            status.description(context),
-            textAlign: TextAlign.center,
-            style: _subtitleStyle,
-          ),
-          const SizedBox(height: 16),
-          CpButton(
-            minWidth: 180,
-            size: CpButtonSize.small,
-            text: status.buttonTitle(context, rampType),
-            onPressed: switch (rampType) {
-              RampType.onRamp => () =>
-                  context.launchKycOnRamp(preOrder: preOrder),
-              RampType.offRamp => () =>
-                  context.launchKycOffRamp(preOrder: preOrder),
+    if (phoneStatus != ValidationStatus.approved) {
+      return _KycItem(
+        status: phoneStatus,
+        timestamp: timestamp,
+        title: context.l10n.phoneVerification,
+        description: context.l10n.kycTileDescriptionUnverified,
+        onPressed: context.openKycFlow,
+        buttonText: context.l10n.continueVerification,
+      );
+    }
+
+    final isUnverified = kycStatus == ValidationStatus.unspecified ||
+        kycStatus == ValidationStatus.unverified;
+
+    return _KycItem(
+      status: kycStatus,
+      timestamp: timestamp,
+      title: context.l10n.idVerification,
+      description: kycStatus.description(context),
+      onPressed: isUnverified
+          ? context.openKycFlow
+          : () {
+              KycStatusScreen.push(
+                context,
+                onAddCashPressed: context.launchOnRampFlow,
+                onCashOutPressed: context.launchOffRampFlow,
+              );
             },
-          ),
-        ],
-      ),
+      buttonText: isUnverified
+          ? context.l10n.continueVerification
+          : context.l10n.viewDetails,
     );
   }
 }
 
+class _KycItem extends StatelessWidget {
+  const _KycItem({
+    required this.status,
+    required this.timestamp,
+    required this.onPressed,
+    required this.title,
+    required this.description,
+    required this.buttonText,
+  });
+
+  final ValidationStatus status;
+  final String timestamp;
+  final VoidCallback onPressed;
+  final String title;
+  final String description;
+  final String buttonText;
+
+  @override
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.only(top: 6, right: 20, left: 20, bottom: 26),
+        decoration: const BoxDecoration(
+          color: CpColors.blackGreyColor,
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+        ),
+        child: Column(
+          children: [
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading:
+                  KycStatusIcon(status.toKycValidationStatus(), height: 42),
+              title: Text(
+                title,
+                style: _titleStyle,
+                overflow: TextOverflow.ellipsis,
+              ),
+              subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(status.subtitle(context), style: _subtitleStyle),
+                  Text(timestamp, style: _subtitleStyle),
+                ],
+              ),
+            ),
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: _subtitleStyle,
+            ),
+            const SizedBox(height: 16),
+            CpButton(
+              minWidth: 180,
+              size: CpButtonSize.small,
+              text: buttonText,
+              onPressed: onPressed,
+            ),
+          ],
+        ),
+      );
+}
+
 extension on ValidationStatus {
   String subtitle(BuildContext context) => switch (this) {
-        ValidationStatus.approved => context.l10n.verified,
+        ValidationStatus.approved => context.l10n.approved,
         ValidationStatus.rejected => context.l10n.failed,
         ValidationStatus.pending ||
         ValidationStatus.unverified ||
@@ -158,17 +178,6 @@ extension on ValidationStatus {
         ValidationStatus.unspecified =>
           context.l10n.kycTileDescriptionUnverified,
       };
-
-  String buttonTitle(BuildContext context, RampType rampType) => switch (this) {
-        ValidationStatus.approved => rampType == RampType.onRamp
-            ? context.l10n.completeDeposit
-            : context.l10n.completeWithdrawal,
-        ValidationStatus.unverified ||
-        ValidationStatus.unspecified =>
-          'Continue Verification',
-        ValidationStatus.pending => context.l10n.seeDetails,
-        ValidationStatus.rejected => context.l10n.retryVerification,
-      };
 }
 
 const _titleStyle = TextStyle(
@@ -176,13 +185,6 @@ const _titleStyle = TextStyle(
   letterSpacing: .23,
   color: Colors.white,
   fontWeight: FontWeight.w600,
-);
-
-const _inAmountStyle = TextStyle(
-  fontSize: 16,
-  letterSpacing: .23,
-  color: CpColors.greenColor,
-  fontWeight: FontWeight.w500,
 );
 
 const _subtitleStyle = TextStyle(

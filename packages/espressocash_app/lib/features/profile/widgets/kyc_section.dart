@@ -23,10 +23,7 @@ class _KycSectionState extends State<KycSection> {
   @override
   void initState() {
     super.initState();
-    final kycService = sl<KycSharingService>();
-    if (kycService.value == null) {
-      kycService.fetchUserData();
-    }
+    sl<KycSharingService>().initialized;
   }
 
   @override

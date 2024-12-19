@@ -89,3 +89,13 @@ class KycPage extends StatelessWidget {
     );
   }
 }
+
+extension KycValidationStatusX on KycValidationStatus {
+  KycIcon get kycIcon => switch (this) {
+        KycValidationStatus.pending ||
+        KycValidationStatus.unverified =>
+          KycIcon.pending,
+        KycValidationStatus.approved => KycIcon.success,
+        KycValidationStatus.rejected => KycIcon.failure,
+      };
+}

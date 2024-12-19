@@ -85,6 +85,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
             inputType: TextInputType.number,
             placeholder: context.l10n.enterVerificationCode,
           ),
+          const SizedBox(height: 16),
           const Spacer(),
           ListenableBuilder(
             listenable: _controller,

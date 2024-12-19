@@ -1,3 +1,23 @@
+## 1.136.0
+
+ - **REFACTOR**: update brij structure (#1645).
+ - **FIX**: kyc data first load waiting (#1643).
+ - **FIX**: navigation service (#1640).
+ - **FIX**: jupiter price api (#1641).
+ - **FIX**: pending kyc notice dialog (#1642).
+ - **FEAT**: add FF for brij demo (#1646).
+ - **FEAT**: update no activity screen (#1644).
+
+## 1.135.0
+
+ - **FIX**: incorrect timezone for birthdate (#1633).
+ - **FIX**: brij orders (#1634).
+ - **FEAT**: update kyc flow (#1630).
+ - **FEAT**: update kyc client (#1638).
+ - **FEAT**: update home tab navigation (#1631).
+ - **FEAT**: update home tab navigation.
+ - **FEAT**: kyc screens ui update (#1629).
+
 ## 1.134.0
 
  - **REFACTOR**: assets (#1617).

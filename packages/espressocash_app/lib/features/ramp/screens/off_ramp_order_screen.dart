@@ -151,8 +151,6 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.waitingForRefundBridge =>
         context.l10n.refundInProgressText,
       OffRampOrderStatus.refunded => context.l10n.refundSuccessText,
-      OffRampOrderStatus.waitingUserVerification =>
-        'Waiting for user verification',
       OffRampOrderStatus.waitingPartnerReview => 'Waiting for partner review',
     };
 
@@ -182,8 +180,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.completed ||
       OffRampOrderStatus.refunded ||
       OffRampOrderStatus.cancelled ||
-      OffRampOrderStatus.waitingPartnerReview ||
-      OffRampOrderStatus.waitingUserVerification =>
+      OffRampOrderStatus.waitingPartnerReview =>
         null,
     };
 
@@ -194,10 +191,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
     final showMoneygramCancel = order.partner == RampPartner.moneygram &&
         order.status == OffRampOrderStatus.insufficientFunds;
 
-    final showCancelButton = order.status == OffRampOrderStatus.depositError ||
-        order.status == OffRampOrderStatus.insufficientFunds ||
-        order.status == OffRampOrderStatus.ready ||
-        showMoneygramCancel;
+    final showCancelButton = order.status.isCancellable || showMoneygramCancel;
 
     final bridgeTimeInMinutes =
         order.status == OffRampOrderStatus.waitingForRefundBridge ? 3 : 10;
@@ -300,7 +294,7 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: CpTextButton(
           text: context.l10n.offRampCancelTitle,
           variant: CpTextButtonVariant.light,
@@ -499,7 +493,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.sendingDepositTx ||
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
@@ -525,7 +518,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.ready ||
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
@@ -542,7 +534,6 @@ extension on OffRampOrderStatus {
       };
 
   int toActiveItem() => switch (this) {
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
@@ -568,7 +559,6 @@ extension on OffRampOrderStatus {
 
   int toActiveItemForMoneygram() => switch (this) {
         OffRampOrderStatus.waitingPartnerReview ||
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.rejected ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
@@ -619,7 +609,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.failure ||
         OffRampOrderStatus.cancelled ||
         OffRampOrderStatus.refunded ||
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.rejected =>
           false,
@@ -636,7 +625,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.ready ||
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
-        OffRampOrderStatus.waitingUserVerification ||
         OffRampOrderStatus.waitingForPartner =>
           context.l10n.pending,
         OffRampOrderStatus.depositError ||

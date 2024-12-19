@@ -11,13 +11,13 @@ part 'jupiter_client.freezed.dart';
 part 'jupiter_client.g.dart';
 
 @injectable
-@RestApi(baseUrl: 'https://api.jup.ag/price/v2')
+@RestApi(baseUrl: 'https://api.jup.ag')
 abstract class JupiterPriceClient {
   @factoryMethod
   factory JupiterPriceClient(DioCacheClient client) =>
       _JupiterPriceClient(client.dio);
 
-  @GET('/')
+  @GET('/price/v2')
   @Extra({maxAgeOption: Duration(minutes: 1)})
   Future<PriceResponseDto> getPrice(@Queries() TokenRateRequestDto request);
 }

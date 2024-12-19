@@ -7,13 +7,16 @@ import '../../../ui/snackbar.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/basic_information_screen.dart';
 import '../screens/email_confirmation_screen.dart';
+import '../screens/email_status_screen.dart';
 import '../screens/email_verification_screen.dart';
 import '../screens/identity_verification_screen.dart';
 import '../screens/kyc_description_screen.dart';
 import '../screens/kyc_status_screen.dart';
 import '../screens/phone_confirmation_screen.dart';
+import '../screens/phone_status_screen.dart';
 import '../screens/phone_verification_screen.dart';
 import '../services/kyc_service.dart';
+import '../services/pending_kyc_service.dart';
 import '../utils/kyc_utils.dart';
 
 typedef KycStepFunction = Future<bool?> Function(BuildContext ctx);
@@ -47,19 +50,22 @@ extension KycFlowExtension on BuildContext {
 
     if (!kycProcessed) {
       final success = await KycDescriptionScreen.push(this);
+
+      sl<PendingKycService>().create();
+
       if (!success) return false;
     }
 
     final emailValidated = user.emailStatus == ValidationStatus.approved;
 
     if (!emailValidated) {
-      if (!await openEmailFlow()) return false;
+      if (!await _runFlow(emailSteps)) return false;
     }
 
     final phoneValidated = user.phoneStatus == ValidationStatus.approved;
 
     if (!phoneValidated) {
-      if (!await openPhoneFlow()) return false;
+      if (!await _runFlow(phoneSteps)) return false;
     }
 
     final hasBankInfo = user.hasBankInfo;
@@ -69,7 +75,7 @@ extension KycFlowExtension on BuildContext {
     }
 
     if (!kycProcessed) {
-      if (!await openBasicInfoFlow()) return false;
+      if (!await _runFlow(kycSteps)) return false;
     }
 
     if (user.kycStatus != ValidationStatus.approved) {
@@ -79,11 +85,32 @@ extension KycFlowExtension on BuildContext {
     return true;
   }
 
-  Future<bool> openBasicInfoFlow() => _runFlow(kycSteps);
+  Future<bool> openBasicInfoFlow() {
+    final user = sl<KycSharingService>().value;
 
-  Future<bool> openEmailFlow() => _runFlow(emailSteps);
+    return user?.kycStatus == ValidationStatus.unverified ||
+            user?.kycStatus == ValidationStatus.unspecified
+        ? openKycFlow()
+        : _navigateToScreen(KycStatusScreen.push);
+  }
 
-  Future<bool> openPhoneFlow() => _runFlow(phoneSteps);
+  Future<bool> openEmailFlow() {
+    final user = sl<KycSharingService>().value;
+
+    return user?.emailStatus == ValidationStatus.unverified ||
+            user?.emailStatus == ValidationStatus.unspecified
+        ? openKycFlow()
+        : _navigateToScreen(EmailStatusScreen.push);
+  }
+
+  Future<bool> openPhoneFlow() {
+    final user = sl<KycSharingService>().value;
+
+    return user?.phoneStatus == ValidationStatus.unverified ||
+            user?.phoneStatus == ValidationStatus.unspecified
+        ? openKycFlow()
+        : _navigateToScreen(PhoneStatusScreen.push);
+  }
 
   Future<bool> _runFlow(List<KycStepFunction> steps) async {
     for (final step in steps) {

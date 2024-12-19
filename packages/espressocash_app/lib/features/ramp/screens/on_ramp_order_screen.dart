@@ -134,13 +134,10 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.rejected =>
         context.l10n.onRampDepositFailure,
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
-      OnRampOrderStatus.waitingUserVerification =>
-        'Waiting for user verification',
       OnRampOrderStatus.waitingPartnerReview => 'Waiting for partner review',
     };
 
     final String? statusSubtitle = switch (order.status) {
-      OnRampOrderStatus.waitingUserVerification ||
       OnRampOrderStatus.waitingForPartner ||
       OnRampOrderStatus.postProcessing =>
         context.l10n.onRampAwaitingFunds,
@@ -227,9 +224,9 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: CpTextButton(
-          text: context.l10n.offRampCancelTitle,
+          text: context.l10n.onRampCancelTitle,
           variant: CpTextButtonVariant.light,
           onPressed: () => showConfirmationDialog(
             context,
@@ -387,7 +384,6 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
-        OnRampOrderStatus.waitingUserVerification ||
         OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
@@ -404,7 +400,6 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
-        OnRampOrderStatus.waitingUserVerification ||
         OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
@@ -421,10 +416,9 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.depositExpired ||
         OnRampOrderStatus.waitingForDeposit ||
-        OnRampOrderStatus.waitingUserVerification ||
-        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.rejected =>
           0,
+        OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForPartner ||
         OnRampOrderStatus.postProcessing ||
         OnRampOrderStatus.waitingForBridge ||
@@ -440,7 +434,6 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.waitingPartnerReview ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.postProcessing ||
-        OnRampOrderStatus.waitingUserVerification ||
         OnRampOrderStatus.waitingForPartner =>
           'Pending',
         OnRampOrderStatus.depositExpired => 'Expired',

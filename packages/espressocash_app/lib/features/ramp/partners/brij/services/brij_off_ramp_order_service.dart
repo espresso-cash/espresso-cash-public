@@ -18,7 +18,6 @@ import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
-import '../../../../kyc_sharing/models/kyc_order_status.dart';
 import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
@@ -26,6 +25,7 @@ import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
 import '../../../../transactions/services/resign_tx.dart';
 import '../../../../transactions/services/tx_sender.dart';
+import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
 class BrijOffRampOrderService implements Disposable {
@@ -131,7 +131,6 @@ class BrijOffRampOrderService implements Disposable {
 
               return const Stream.empty();
 
-            case OffRampOrderStatus.waitingUserVerification:
             case OffRampOrderStatus.preProcessing:
             case OffRampOrderStatus.postProcessing:
             case OffRampOrderStatus.ready:
@@ -154,41 +153,10 @@ class BrijOffRampOrderService implements Disposable {
         );
   }
 
-  AsyncResult<String> createPreOrder({
-    required CryptoAmount submittedAmount,
-    required FiatAmount receiveAmount,
-  }) =>
-      tryEitherAsync((_) async {
-        {
-          final order = OffRampOrderRow(
-            id: const Uuid().v4(),
-            partnerOrderId: '',
-            amount: submittedAmount.value,
-            token: Token.usdc.address,
-            receiveAmount: receiveAmount.value,
-            fiatSymbol: receiveAmount.fiatCurrency.symbol,
-            created: DateTime.now(),
-            humanStatus: '',
-            machineStatus: '',
-            partner: RampPartner.brij,
-            status: OffRampOrderStatus.waitingUserVerification,
-            transaction: '',
-            depositAddress: '',
-            slot: BigInt.zero,
-            bridgeAmount: null,
-          );
-
-          await _db.into(_db.offRampOrderRows).insert(order);
-
-          return order.id;
-        }
-      });
-
-  AsyncResult<String> createOrUpdate({
+  AsyncResult<String> create({
     required CryptoAmount submittedAmount,
     required FiatAmount receiveAmount,
     required String partnerAuthPk,
-    String? preOrderId,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -217,7 +185,7 @@ class BrijOffRampOrderService implements Disposable {
           );
 
           final order = OffRampOrderRow(
-            id: preOrderId ?? const Uuid().v4(),
+            id: const Uuid().v4(),
             partnerOrderId: orderId,
             amount: submittedAmount.value,
             token: Token.usdc.address,
@@ -269,16 +237,16 @@ class BrijOffRampOrderService implements Disposable {
         );
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
-      final kycStatus = KycOrderStatus.fromString(orderData.status);
+      final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
-        KycOrderStatus.completed => OffRampOrderStatus.completed,
-        KycOrderStatus.unknown ||
-        KycOrderStatus.rejected =>
+        BrijOrderStatus.completed => OffRampOrderStatus.completed,
+        BrijOrderStatus.unknown ||
+        BrijOrderStatus.rejected =>
           OffRampOrderStatus.rejected,
-        KycOrderStatus.failed => OffRampOrderStatus.failure,
-        KycOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
-        KycOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
+        BrijOrderStatus.failed => OffRampOrderStatus.failure,
+        BrijOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
+        BrijOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
       };
 
       if (status != order.status) {
@@ -311,16 +279,16 @@ class BrijOffRampOrderService implements Disposable {
         );
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
-      final kycStatus = KycOrderStatus.fromString(orderData.status);
+      final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
-        KycOrderStatus.completed => OffRampOrderStatus.completed,
-        KycOrderStatus.unknown ||
-        KycOrderStatus.rejected =>
+        BrijOrderStatus.completed => OffRampOrderStatus.completed,
+        BrijOrderStatus.unknown ||
+        BrijOrderStatus.rejected =>
           OffRampOrderStatus.rejected,
-        KycOrderStatus.failed => OffRampOrderStatus.failure,
-        KycOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
-        KycOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
+        BrijOrderStatus.failed => OffRampOrderStatus.failure,
+        BrijOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
+        BrijOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
       };
 
       if (status == OffRampOrderStatus.creatingDepositTx) return;

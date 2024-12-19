@@ -21,7 +21,7 @@ import '../../tokens/token.dart';
 typedef OnRampOrder = ({
   String id,
   DateTime created,
-  CryptoAmount submittedAmount,
+  Amount submittedAmount,
   CryptoAmount? receiveAmount,
   RampPartner partner,
   OnRampOrderStatus status,
@@ -171,7 +171,6 @@ class OnRampOrderService implements Disposable {
         );
       case OnRampOrderStatus.depositExpired:
       case OnRampOrderStatus.waitingPartnerReview:
-      case OnRampOrderStatus.waitingUserVerification:
       case OnRampOrderStatus.waitingForPartner:
       case OnRampOrderStatus.failure:
       case OnRampOrderStatus.completed:
@@ -223,15 +222,22 @@ class OnRampOrderService implements Disposable {
           ) as FiatAmount,
         );
 
+        final submittedAmount = row.partner == RampPartner.brij
+            ? FiatAmount(
+                value: row.amount,
+                fiatCurrency: currencyFromString(row.fiatSymbol ?? 'USD'),
+              )
+            : CryptoAmount(
+                value: row.amount,
+                cryptoCurrency: CryptoCurrency(
+                  token: token ?? Token.unk,
+                ),
+              );
+
         return (
           id: row.id,
           created: row.created,
-          submittedAmount: CryptoAmount(
-            value: row.amount,
-            cryptoCurrency: CryptoCurrency(
-              token: token ?? Token.unk,
-            ),
-          ),
+          submittedAmount: submittedAmount,
           receiveAmount: row.receiveAmount?.let(
             (amount) => CryptoAmount(
               value: amount,
@@ -321,5 +327,7 @@ extension OnRampOrderStatusExt on OnRampOrderStatus {
       this == OnRampOrderStatus.depositExpired ||
       this == OnRampOrderStatus.pending ||
       this == OnRampOrderStatus.preProcessing ||
-      this == OnRampOrderStatus.postProcessing;
+      this == OnRampOrderStatus.postProcessing ||
+      this == OnRampOrderStatus.rejected ||
+      this == OnRampOrderStatus.failure;
 }

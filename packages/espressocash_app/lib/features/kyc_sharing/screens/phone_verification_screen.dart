@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
-import '../../../ui/loader.dart';
-import '../../../ui/snackbar.dart';
+import '../../../utils/phone.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/phone_text_field.dart';
-import '../services/kyc_service.dart';
-import '../utils/kyc_exception.dart';
+import '../widgets/extensions.dart';
 import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
 
@@ -31,36 +28,14 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
   final _numberController = TextEditingController();
   String _fullPhoneNumber = '';
 
-  bool get _isValid => RegExp(
-        r'^\+[0-9]{1,4}[0-9]{6,14}$',
-      ).hasMatch(_fullPhoneNumber);
-
-  Future<void> _sendSms() async {
-    final success = await runWithLoader<bool>(
+  Future<void> _handleSendVerification() async {
+    final result = await context.sendPhoneVerification(
       context,
-      () async {
-        try {
-          await sl<KycSharingService>()
-              .initPhoneVerification(phone: _fullPhoneNumber);
-
-          return true;
-        } on KycException catch (error) {
-          if (!mounted) return false;
-
-          final message = switch (error) {
-            KycInvalidPhone() => context.l10n.invalidPhone,
-            _ => context.l10n.failedToSendVerificationCode,
-          };
-
-          showCpErrorSnackbar(context, message: message);
-
-          return false;
-        }
-      },
+      phone: _fullPhoneNumber,
     );
-    if (!mounted) return;
 
-    if (success) Navigator.pop(context, true);
+    if (!mounted) return;
+    if (result) Navigator.pop(context, true);
   }
 
   @override
@@ -84,12 +59,16 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
             onPhoneChanged: (fullNumber) =>
                 setState(() => _fullPhoneNumber = fullNumber),
           ),
+          const SizedBox(height: 16),
           const Spacer(),
           ListenableBuilder(
             listenable: _numberController,
             builder: (context, child) => CpBottomButton(
+              horizontalPadding: 16,
               text: context.l10n.sendVerificationCode,
-              onPressed: _isValid ? _sendSms : null,
+              onPressed: _fullPhoneNumber.isValidPhone
+                  ? _handleSendVerification
+                  : null,
             ),
           ),
         ],
