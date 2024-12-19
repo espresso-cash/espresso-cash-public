@@ -10,7 +10,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/services/tx_updater.dart';
-import '../../activities/widgets/recent_activity.dart';
+import '../../activities/widgets/recent_token_activity.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';

@@ -1221,5 +1221,7 @@
     "yesterday": "Yesterday",
     "@yesterday": {},
     "balance": "Balance",
-    "@balance": {}
+    "@balance": {},
+    "noRecentActivity": "No recent activity",
+    "@noRecentActivity": {}
 }
