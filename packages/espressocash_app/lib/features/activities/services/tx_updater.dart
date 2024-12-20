@@ -36,44 +36,68 @@ class TxUpdater implements Disposable {
 
   Future<void> _updateAllTransactions() async {
     final mostRecentTxId = await _repo.mostRecentTxId();
-    final tokenTxs = await _updateTokensTransactions(mostRecentTxId);
-    final solTxs = await _updateSolTransactions(mostRecentTxId);
+
+    final (tokenTxs, tokenHasGap) =
+        await _updateTokensTransactions(mostRecentTxId);
+    final (solTxs, solHasGap) = await _updateSolTransactions(mostRecentTxId);
 
     final uniqueSolTxs = solTxs
         .where((result) => !tokenTxs.any((tx) => tx.tx.id == result.tx.id))
         .toList();
 
-    await _repo.saveAll(tokenTxs + uniqueSolTxs);
+    final allTxs = uniqueSolTxs + tokenTxs;
+
+    if (allTxs.isNotEmpty) {
+      await _repo.saveAll(allTxs, clear: solHasGap || tokenHasGap);
+    }
   }
 
-  Future<List<TxCommon>> _updateTokensTransactions(
+  Future<(List<TxCommon>, bool)> _updateTokensTransactions(
     String? mostRecentTxId,
   ) async {
     final tokenAccounts = await _getAllTokenAccounts(_wallet.publicKey);
 
-    final allTransactions = await Future.wait(
-      tokenAccounts.map(
-        (account) => _fetchTransactions(
+    final results = await Future.wait(
+      tokenAccounts.map((account) async {
+        final limit = account.mintAddress == Token.usdc.address
+            ? _usdcFetchLimit
+            : _tokenFetchLimit;
+
+        final txs = await _fetchTransactions(
           account.account,
           account.mintAddress,
           mostRecentTxId,
-          account.mintAddress == Token.usdc.address
-              ? _usdcFetchLimit
-              : _tokenFetchLimit,
-        ),
-      ),
+          limit,
+        );
+
+        return (
+          transactions: txs,
+          hasGap: mostRecentTxId != null && txs.length == limit,
+        );
+      }),
     );
 
-    return allTransactions.expand((txs) => txs).toList();
+    return (
+      results.expand((r) => r.transactions).toList(),
+      results.any((r) => r.hasGap),
+    );
   }
 
-  Future<List<TxCommon>> _updateSolTransactions(String? mostRecentTxId) =>
-      _fetchTransactions(
-        _wallet.publicKey,
-        Token.sol.address,
-        mostRecentTxId,
-        _tokenFetchLimit,
-      );
+  Future<(List<TxCommon>, bool)> _updateSolTransactions(
+    String? mostRecentTxId,
+  ) async {
+    final txs = await _fetchTransactions(
+      _wallet.publicKey,
+      Token.sol.address,
+      mostRecentTxId,
+      _tokenFetchLimit,
+    );
+
+    return (
+      txs,
+      mostRecentTxId != null && txs.length == _tokenFetchLimit,
+    );
+  }
 
   Future<List<TxCommon>> _fetchTransactions(
     Ed25519HDPublicKey account,

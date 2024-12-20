@@ -85,13 +85,25 @@ class TransactionRepository {
         );
   }
 
-  Future<void> saveAll(Iterable<TxCommon> txs) => _db.batch(
-        (batch) => batch.insertAll(
-          _db.transactionRows,
-          txs.map((e) => e.toRow()),
-          mode: InsertMode.insertOrReplace,
-        ),
-      );
+  Future<void> saveAll(
+    Iterable<TxCommon> txs, {
+    required bool clear,
+  }) {
+    Future<void> save() => _db.batch(
+          (batch) => batch.insertAll(
+            _db.transactionRows,
+            txs.map((e) => e.toRow()),
+            mode: InsertMode.insertOrReplace,
+          ),
+        );
+
+    return clear
+        ? _db.transaction(() async {
+            await _db.delete(_db.transactionRows).go();
+            await save();
+          })
+        : save();
+  }
 
   Future<String?> mostRecentTxId() async {
     final query = _db.select(_db.transactionRows)
