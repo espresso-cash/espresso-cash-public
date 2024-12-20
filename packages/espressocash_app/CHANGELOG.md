@@ -1,3 +1,10 @@
+## 1.137.0
+
+ - **FIX**: brij onramp input amount (#1647).
+ - **FEAT**: update kyc success screens (#1649).
+ - **FEAT**: Coinflow supported countries update (#1648).
+ - **FEAT**: update document types (#1650).
+
 ## 1.136.0
 
  - **REFACTOR**: update brij structure (#1645).
