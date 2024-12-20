@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-wildcard-cases-with-enums
+
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -23,7 +25,12 @@ extension KycBuildContext on BuildContext {
             if (!mounted) return false;
 
             final message = switch (error) {
-              KycInvalidEmail() => context.l10n.invalidEmail,
+              KycInvalidCode() => context.l10n.invalidEmail,
+              KycEmailError(:final error) => switch (error) {
+                  EmailError.blocked => 'context.l10n.emailBlocked',
+                  EmailError.bounced => 'context.l10n.emailBounced',
+                  EmailError.spam => 'context.l10n.emailSpam',
+                },
               _ => context.l10n.failedToSendVerificationCode,
             };
 
@@ -49,7 +56,14 @@ extension KycBuildContext on BuildContext {
             if (!mounted) return false;
 
             final message = switch (error) {
-              KycInvalidPhone() => context.l10n.invalidPhone,
+              KycInvalidCode() => context.l10n.wrongVerificationCode,
+              KycPhoneError(:final error) => switch (error) {
+                  PhoneError.blocked => 'context.l10n.phoneBlocked',
+                  PhoneError.fraudBlock => 'context.l10n.phoneFraudBlock',
+                  PhoneError.tooManyAttempts =>
+                    'context.l10n.phoneTooManyAttempts',
+                  PhoneError.undeliverable => 'context.l10n.phoneUndeliverable',
+                },
               _ => context.l10n.failedToSendVerificationCode,
             };
 

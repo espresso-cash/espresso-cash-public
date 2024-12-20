@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-wildcard-cases-with-enums
+
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
