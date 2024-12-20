@@ -13,8 +13,8 @@ import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../tokens/data/extensions.dart';
 import '../../tokens/data/token_repository.dart';
-import '../../tokens/service/extensions.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 import 'swap_token_screen.dart';
@@ -36,7 +36,7 @@ class TokenPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedBox(
         decoration: const ShapeDecoration(
-          color: CpColors.darkBackgroundColor,
+          color: CpColors.blackGreyColor,
           shape: StadiumBorder(),
         ),
         child: ListTile(
@@ -107,7 +107,7 @@ class TokenPickerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          backgroundColor: CpColors.darkBackground,
+          backgroundColor: CpColors.deepGreyColor,
           appBar: CpAppBar(
             title: Text(title.toUpperCase()),
             leading: const SizedBox(),
@@ -181,7 +181,7 @@ class _ContentState extends State<_Content> {
             fontSize: 16,
             border: CpTextFieldBorder.stadium,
             placeholder: context.l10n.searchPlaceholder,
-            backgroundColor: CpColors.darkBackgroundColor,
+            backgroundColor: CpColors.blackGreyColor,
             textColor: Colors.white,
             inputType: TextInputType.text,
             prefix: const Icon(
@@ -305,7 +305,7 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(4),
         decoration: const ShapeDecoration(
-          color: CpColors.darkBackgroundColor,
+          color: CpColors.blackGreyColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10),

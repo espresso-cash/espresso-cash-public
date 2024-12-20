@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../stellar/constants.dart';
-import '../../../models/ramp_type.dart';
 import 'dto.dart';
 import 'moneygram_interceptor.dart';
 

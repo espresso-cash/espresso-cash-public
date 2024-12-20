@@ -187,7 +187,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
                     appBar: CpAppBar(
                       title: Text(context.l10n.swap),
                     ),
-                    backgroundColor: CpColors.dashboardBackgroundColor,
+                    backgroundColor: CpColors.deepGreyColor,
                     body: SafeArea(
                       bottom: false,
                       child: Column(
@@ -272,7 +272,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
                               Align(
                                 alignment: Alignment.topCenter,
                                 child: ColoredBox(
-                                  color: CpColors.darkBackground,
+                                  color: CpColors.deepGreyColor,
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 12.0,
@@ -474,7 +474,7 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
             inputType: TextInputType.number,
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.none,
-            backgroundColor: CpColors.darkBackgroundColor,
+            backgroundColor: CpColors.blackGreyColor,
             placeholder: '0 ${widget.maxButton ? widget.symbol : ''}',
             placeholderColor: Colors.white,
             textColor: Colors.white,
@@ -491,7 +491,6 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
                           : () => widget.quantityController.text =
                               '${widget.crypto.decimal}',
                       text: _isMax() ? 'Clear' : 'Max',
-                      fontSize: 12,
                       minWidth: 54,
                       size: CpButtonSize.small,
                       variant: CpButtonVariant.inverted,

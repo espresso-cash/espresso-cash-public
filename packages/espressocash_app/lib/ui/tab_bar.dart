@@ -47,11 +47,11 @@ Color _backgroundColor(CpTabBarVariant variant) {
   switch (variant) {
     case CpTabBarVariant.dark:
     case CpTabBarVariant.light:
-      return CpColors.darkBackground;
+      return CpColors.deepGreyColor;
     case CpTabBarVariant.inverted:
       return CpColors.yellowColor;
     case CpTabBarVariant.black:
-      return Colors.black;
+      return CpColors.blackGreyColor;
   }
 }
 
@@ -72,7 +72,7 @@ Color _labelColor(CpTabBarVariant variant) {
     case CpTabBarVariant.black:
     case CpTabBarVariant.dark:
     case CpTabBarVariant.light:
-      return Colors.black;
+      return CpColors.blackGreyColor;
     case CpTabBarVariant.inverted:
       return Colors.white;
   }

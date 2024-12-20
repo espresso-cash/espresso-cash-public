@@ -18,6 +18,16 @@ void reportError(dynamic error, [dynamic stackTrace]) {
   Sentry.captureException(error, stackTrace: stackTrace);
 }
 
+void reportWebViewError(dynamic error) {
+  Sentry.captureException(
+    error,
+    stackTrace: StackTrace.current,
+    withScope: (scope) {
+      scope.setTag('error_source', 'webview');
+    },
+  );
+}
+
 void logMessage({
   required String message,
   required Map<String, dynamic>? data,

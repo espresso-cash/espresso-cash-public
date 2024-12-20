@@ -65,7 +65,13 @@ class AnalyticsManager {
         properties: {'amount': amount.toDouble()},
       );
 
-  void singleLinkReceived() => _analytics.track('singleLinkReceived');
+  void singleLinkReceived({
+    required Decimal? amount,
+  }) =>
+      _analytics.track(
+        'singleLinkReceived',
+        properties: amount != null ? {'amount': amount.toDouble()} : {},
+      );
 
   void directPaymentSent({
     required String symbol,

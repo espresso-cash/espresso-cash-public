@@ -15,7 +15,7 @@ class TokenAppBar extends StatelessWidget {
   const TokenAppBar({
     super.key,
     required this.token,
-    this.color = CpColors.darkGoldBackgroundColor,
+    this.color = CpColors.darkSandColor,
     this.displayText = true,
   });
 

@@ -56,14 +56,22 @@ class _AccountItemState extends State<AccountItem> {
     context
         .read<SeedVaultBloc>()
         .signTransactionWithAccount(widget.authToken, widget.account)
-        .then((it) => showSnackBar(context, it));
+        .then((it) {
+      if (!mounted) return;
+
+      showSnackBar(context, it);
+    });
   }
 
   void _handleSignMessage() {
     context
         .read<SeedVaultBloc>()
         .signMessageWithAccount(widget.authToken, widget.account)
-        .then((it) => showSnackBar(context, it));
+        .then((it) {
+      if (!mounted) return;
+
+      showSnackBar(context, it);
+    });
   }
 
   @override

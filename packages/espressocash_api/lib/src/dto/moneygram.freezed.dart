@@ -330,6 +330,7 @@ mixin _$SwapToStellarRequestDto {
   String get solanaSenderAddress => throw _privateConstructorUsedError;
   String get stellarReceiverAddress => throw _privateConstructorUsedError;
   String get amount => throw _privateConstructorUsedError;
+  int? get priorityFee => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -346,7 +347,8 @@ abstract class $SwapToStellarRequestDtoCopyWith<$Res> {
   $Res call(
       {String solanaSenderAddress,
       String stellarReceiverAddress,
-      String amount});
+      String amount,
+      int? priorityFee});
 }
 
 /// @nodoc
@@ -366,6 +368,7 @@ class _$SwapToStellarRequestDtoCopyWithImpl<$Res,
     Object? solanaSenderAddress = null,
     Object? stellarReceiverAddress = null,
     Object? amount = null,
+    Object? priorityFee = freezed,
   }) {
     return _then(_value.copyWith(
       solanaSenderAddress: null == solanaSenderAddress
@@ -380,6 +383,10 @@ class _$SwapToStellarRequestDtoCopyWithImpl<$Res,
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
+      priorityFee: freezed == priorityFee
+          ? _value.priorityFee
+          : priorityFee // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -396,7 +403,8 @@ abstract class _$$SwapToStellarRequestDtoImplCopyWith<$Res>
   $Res call(
       {String solanaSenderAddress,
       String stellarReceiverAddress,
-      String amount});
+      String amount,
+      int? priorityFee});
 }
 
 /// @nodoc
@@ -415,6 +423,7 @@ class __$$SwapToStellarRequestDtoImplCopyWithImpl<$Res>
     Object? solanaSenderAddress = null,
     Object? stellarReceiverAddress = null,
     Object? amount = null,
+    Object? priorityFee = freezed,
   }) {
     return _then(_$SwapToStellarRequestDtoImpl(
       solanaSenderAddress: null == solanaSenderAddress
@@ -429,6 +438,10 @@ class __$$SwapToStellarRequestDtoImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
+      priorityFee: freezed == priorityFee
+          ? _value.priorityFee
+          : priorityFee // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -439,7 +452,8 @@ class _$SwapToStellarRequestDtoImpl implements _SwapToStellarRequestDto {
   const _$SwapToStellarRequestDtoImpl(
       {required this.solanaSenderAddress,
       required this.stellarReceiverAddress,
-      required this.amount});
+      required this.amount,
+      this.priorityFee});
 
   factory _$SwapToStellarRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$SwapToStellarRequestDtoImplFromJson(json);
@@ -450,10 +464,12 @@ class _$SwapToStellarRequestDtoImpl implements _SwapToStellarRequestDto {
   final String stellarReceiverAddress;
   @override
   final String amount;
+  @override
+  final int? priorityFee;
 
   @override
   String toString() {
-    return 'SwapToStellarRequestDto(solanaSenderAddress: $solanaSenderAddress, stellarReceiverAddress: $stellarReceiverAddress, amount: $amount)';
+    return 'SwapToStellarRequestDto(solanaSenderAddress: $solanaSenderAddress, stellarReceiverAddress: $stellarReceiverAddress, amount: $amount, priorityFee: $priorityFee)';
   }
 
   @override
@@ -465,13 +481,15 @@ class _$SwapToStellarRequestDtoImpl implements _SwapToStellarRequestDto {
                 other.solanaSenderAddress == solanaSenderAddress) &&
             (identical(other.stellarReceiverAddress, stellarReceiverAddress) ||
                 other.stellarReceiverAddress == stellarReceiverAddress) &&
-            (identical(other.amount, amount) || other.amount == amount));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.priorityFee, priorityFee) ||
+                other.priorityFee == priorityFee));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, solanaSenderAddress, stellarReceiverAddress, amount);
+  int get hashCode => Object.hash(runtimeType, solanaSenderAddress,
+      stellarReceiverAddress, amount, priorityFee);
 
   @JsonKey(ignore: true)
   @override
@@ -492,7 +510,8 @@ abstract class _SwapToStellarRequestDto implements SwapToStellarRequestDto {
   const factory _SwapToStellarRequestDto(
       {required final String solanaSenderAddress,
       required final String stellarReceiverAddress,
-      required final String amount}) = _$SwapToStellarRequestDtoImpl;
+      required final String amount,
+      final int? priorityFee}) = _$SwapToStellarRequestDtoImpl;
 
   factory _SwapToStellarRequestDto.fromJson(Map<String, dynamic> json) =
       _$SwapToStellarRequestDtoImpl.fromJson;
@@ -503,6 +522,8 @@ abstract class _SwapToStellarRequestDto implements SwapToStellarRequestDto {
   String get stellarReceiverAddress;
   @override
   String get amount;
+  @override
+  int? get priorityFee;
   @override
   @JsonKey(ignore: true)
   _$$SwapToStellarRequestDtoImplCopyWith<_$SwapToStellarRequestDtoImpl>
@@ -1013,6 +1034,8 @@ mixin _$MoneygramFeeResponseDto {
   String get totalAmount => throw _privateConstructorUsedError;
   String get bridgeFee => throw _privateConstructorUsedError;
   String get moneygramFee => throw _privateConstructorUsedError;
+  String? get gasFeeInUsdc => throw _privateConstructorUsedError;
+  int? get priorityFee => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1026,7 +1049,12 @@ abstract class $MoneygramFeeResponseDtoCopyWith<$Res> {
           $Res Function(MoneygramFeeResponseDto) then) =
       _$MoneygramFeeResponseDtoCopyWithImpl<$Res, MoneygramFeeResponseDto>;
   @useResult
-  $Res call({String totalAmount, String bridgeFee, String moneygramFee});
+  $Res call(
+      {String totalAmount,
+      String bridgeFee,
+      String moneygramFee,
+      String? gasFeeInUsdc,
+      int? priorityFee});
 }
 
 /// @nodoc
@@ -1046,6 +1074,8 @@ class _$MoneygramFeeResponseDtoCopyWithImpl<$Res,
     Object? totalAmount = null,
     Object? bridgeFee = null,
     Object? moneygramFee = null,
+    Object? gasFeeInUsdc = freezed,
+    Object? priorityFee = freezed,
   }) {
     return _then(_value.copyWith(
       totalAmount: null == totalAmount
@@ -1060,6 +1090,14 @@ class _$MoneygramFeeResponseDtoCopyWithImpl<$Res,
           ? _value.moneygramFee
           : moneygramFee // ignore: cast_nullable_to_non_nullable
               as String,
+      gasFeeInUsdc: freezed == gasFeeInUsdc
+          ? _value.gasFeeInUsdc
+          : gasFeeInUsdc // ignore: cast_nullable_to_non_nullable
+              as String?,
+      priorityFee: freezed == priorityFee
+          ? _value.priorityFee
+          : priorityFee // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -1073,7 +1111,12 @@ abstract class _$$MoneygramFeeResponseDtoImplCopyWith<$Res>
       __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String totalAmount, String bridgeFee, String moneygramFee});
+  $Res call(
+      {String totalAmount,
+      String bridgeFee,
+      String moneygramFee,
+      String? gasFeeInUsdc,
+      int? priorityFee});
 }
 
 /// @nodoc
@@ -1092,6 +1135,8 @@ class __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>
     Object? totalAmount = null,
     Object? bridgeFee = null,
     Object? moneygramFee = null,
+    Object? gasFeeInUsdc = freezed,
+    Object? priorityFee = freezed,
   }) {
     return _then(_$MoneygramFeeResponseDtoImpl(
       totalAmount: null == totalAmount
@@ -1106,6 +1151,14 @@ class __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>
           ? _value.moneygramFee
           : moneygramFee // ignore: cast_nullable_to_non_nullable
               as String,
+      gasFeeInUsdc: freezed == gasFeeInUsdc
+          ? _value.gasFeeInUsdc
+          : gasFeeInUsdc // ignore: cast_nullable_to_non_nullable
+              as String?,
+      priorityFee: freezed == priorityFee
+          ? _value.priorityFee
+          : priorityFee // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -1116,7 +1169,9 @@ class _$MoneygramFeeResponseDtoImpl implements _MoneygramFeeResponseDto {
   const _$MoneygramFeeResponseDtoImpl(
       {required this.totalAmount,
       required this.bridgeFee,
-      required this.moneygramFee});
+      required this.moneygramFee,
+      this.gasFeeInUsdc,
+      this.priorityFee});
 
   factory _$MoneygramFeeResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$MoneygramFeeResponseDtoImplFromJson(json);
@@ -1127,10 +1182,14 @@ class _$MoneygramFeeResponseDtoImpl implements _MoneygramFeeResponseDto {
   final String bridgeFee;
   @override
   final String moneygramFee;
+  @override
+  final String? gasFeeInUsdc;
+  @override
+  final int? priorityFee;
 
   @override
   String toString() {
-    return 'MoneygramFeeResponseDto(totalAmount: $totalAmount, bridgeFee: $bridgeFee, moneygramFee: $moneygramFee)';
+    return 'MoneygramFeeResponseDto(totalAmount: $totalAmount, bridgeFee: $bridgeFee, moneygramFee: $moneygramFee, gasFeeInUsdc: $gasFeeInUsdc, priorityFee: $priorityFee)';
   }
 
   @override
@@ -1143,13 +1202,17 @@ class _$MoneygramFeeResponseDtoImpl implements _MoneygramFeeResponseDto {
             (identical(other.bridgeFee, bridgeFee) ||
                 other.bridgeFee == bridgeFee) &&
             (identical(other.moneygramFee, moneygramFee) ||
-                other.moneygramFee == moneygramFee));
+                other.moneygramFee == moneygramFee) &&
+            (identical(other.gasFeeInUsdc, gasFeeInUsdc) ||
+                other.gasFeeInUsdc == gasFeeInUsdc) &&
+            (identical(other.priorityFee, priorityFee) ||
+                other.priorityFee == priorityFee));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, totalAmount, bridgeFee, moneygramFee);
+  int get hashCode => Object.hash(runtimeType, totalAmount, bridgeFee,
+      moneygramFee, gasFeeInUsdc, priorityFee);
 
   @JsonKey(ignore: true)
   @override
@@ -1170,7 +1233,9 @@ abstract class _MoneygramFeeResponseDto implements MoneygramFeeResponseDto {
   const factory _MoneygramFeeResponseDto(
       {required final String totalAmount,
       required final String bridgeFee,
-      required final String moneygramFee}) = _$MoneygramFeeResponseDtoImpl;
+      required final String moneygramFee,
+      final String? gasFeeInUsdc,
+      final int? priorityFee}) = _$MoneygramFeeResponseDtoImpl;
 
   factory _MoneygramFeeResponseDto.fromJson(Map<String, dynamic> json) =
       _$MoneygramFeeResponseDtoImpl.fromJson;
@@ -1181,6 +1246,10 @@ abstract class _MoneygramFeeResponseDto implements MoneygramFeeResponseDto {
   String get bridgeFee;
   @override
   String get moneygramFee;
+  @override
+  String? get gasFeeInUsdc;
+  @override
+  int? get priorityFee;
   @override
   @JsonKey(ignore: true)
   _$$MoneygramFeeResponseDtoImplCopyWith<_$MoneygramFeeResponseDtoImpl>

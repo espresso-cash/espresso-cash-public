@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
+import 'package:dfunc/dfunc.dart' hide map;
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart' hide JupiterPriceClient;
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -24,9 +24,7 @@ class ConversionRatesRepository {
     required JupiterPriceClient jupiterClient,
   })  : _db = db,
         _ecClient = ecClient,
-        _jupiterClient = jupiterClient {
-    _initCache();
-  }
+        _jupiterClient = jupiterClient;
 
   final MyDatabase _db;
   final JupiterPriceClient _jupiterClient;
@@ -35,6 +33,12 @@ class ConversionRatesRepository {
 
   final Map<String, Map<String, Decimal>> _ratesCache = {};
   StreamSubscription<void>? _cacheSubscription;
+
+  @postConstruct
+  void init() {
+    _initCache();
+    _fetchFiatRates();
+  }
 
   void _initCache() {
     _cacheSubscription =
@@ -72,12 +76,12 @@ class ConversionRatesRepository {
     Iterable<Token> tokens,
   ) =>
       tryEitherAsync((_) async {
-        final ids = await Stream.fromIterable(tokens.symbols)
+        final addresses = await Stream.fromIterable(tokens.addresses)
             .bufferCount(_maxIds)
             .toList();
 
         final results = await Future.wait(
-          ids.map((ids) async {
+          addresses.map((ids) async {
             final request = TokenRateRequestDto(ids: ids.lock);
 
             return _jupiterClient.getPrice(request);
@@ -87,6 +91,11 @@ class ConversionRatesRepository {
         final Map<String, TokenPricesMapDto> conversionRates = {};
         for (final element in results) {
           conversionRates.addAll(element.data);
+        }
+
+        if (conversionRates.containsKey(Token.wrappedSol.address)) {
+          conversionRates[Token.sol.address] =
+              conversionRates[Token.wrappedSol.address]!;
         }
 
         final usdcRateQuery = _db.select(_db.conversionRatesRows)
@@ -102,9 +111,9 @@ class ConversionRatesRepository {
 
         await _db.transaction(() async {
           for (final entry in conversionRates.entries) {
-            final matchingTokens = tokens.where((t) => t.symbol == entry.key);
+            final matchingTokens = tokens.where((t) => t.address == entry.key);
 
-            final rate = Decimal.parse(entry.value.price.toString()) * usdcRate;
+            final rate = Decimal.parse(entry.value.price ?? '0') * usdcRate;
 
             for (final token in matchingTokens) {
               await _db.into(_db.conversionRatesRows).insert(
@@ -123,20 +132,23 @@ class ConversionRatesRepository {
 
   AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) =>
       _cache.fetchEither(() async {
-        final data = await _ecClient.getRates().then((p) => p.usdc);
-
-        await _db.into(_db.conversionRatesRows).insert(
-              ConversionRatesRowsCompanion.insert(
-                token: Currency.usdc.token.address,
-                fiatCurrency: currency.symbol,
-                rate: data.toString(),
-                updatedAt: DateTime.now(),
-              ),
-              mode: InsertMode.replace,
-            );
-
+        await _fetchFiatRates(currency: currency);
         await _fetchTokens(currency, tokens);
       });
+
+  Future<void> _fetchFiatRates({FiatCurrency? currency}) async {
+    final data = await _ecClient.getRates().then((p) => p.usdc);
+
+    await _db.into(_db.conversionRatesRows).insert(
+          ConversionRatesRowsCompanion.insert(
+            token: Currency.usdc.token.address,
+            fiatCurrency: currency?.symbol ?? Currency.usd.symbol,
+            rate: data.toString(),
+            updatedAt: DateTime.now(),
+          ),
+          mode: InsertMode.replace,
+        );
+  }
 
   @disposeMethod
   void dispose() {
@@ -145,3 +157,11 @@ class ConversionRatesRepository {
 }
 
 const _maxIds = 100;
+
+extension on Iterable<Token> {
+  Iterable<String> get addresses => map(
+        (t) => t.address == Token.sol.address
+            ? Token.wrappedSol.address
+            : t.address,
+      );
+}

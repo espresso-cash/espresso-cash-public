@@ -14,14 +14,14 @@ import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
-import '../models/ramp_type.dart';
 
 typedef OnRampOrder = ({
   String id,
   DateTime created,
-  CryptoAmount submittedAmount,
+  Amount submittedAmount,
   CryptoAmount? receiveAmount,
   RampPartner partner,
   OnRampOrderStatus status,
@@ -64,11 +64,17 @@ class OnRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
-      if (order.partner == RampPartner.moneygram) {
-        continue;
+      switch (order.partner) {
+        case RampPartner.moneygram:
+        case RampPartner.brij:
+          continue;
+        case RampPartner.kado:
+        case RampPartner.coinflow:
+        case RampPartner.scalex:
+        case RampPartner.guardarian:
+        case RampPartner.rampNetwork:
+          _subscribe(order.id);
       }
-
-      _subscribe(order.id);
     }
   }
 
@@ -132,6 +138,7 @@ class OnRampOrderService implements Disposable {
     required String? bankName,
     required DateTime? transferExpiryDate,
     required FiatAmount transferAmount,
+    OnRampOrderStatus status = OnRampOrderStatus.waitingForDeposit,
     required String countryCode,
   }) =>
       create(
@@ -143,7 +150,7 @@ class OnRampOrderService implements Disposable {
         bankName: bankName,
         transferExpiryDate: transferExpiryDate,
         transferAmount: transferAmount,
-        status: OnRampOrderStatus.waitingForDeposit,
+        status: status,
         countryCode: countryCode,
       );
 
@@ -163,6 +170,7 @@ class OnRampOrderService implements Disposable {
           ),
         );
       case OnRampOrderStatus.depositExpired:
+      case OnRampOrderStatus.waitingPartnerReview:
       case OnRampOrderStatus.waitingForPartner:
       case OnRampOrderStatus.failure:
       case OnRampOrderStatus.completed:
@@ -170,6 +178,7 @@ class OnRampOrderService implements Disposable {
       case OnRampOrderStatus.preProcessing:
       case OnRampOrderStatus.postProcessing:
       case OnRampOrderStatus.waitingForBridge:
+      case OnRampOrderStatus.rejected:
         break;
     }
   }
@@ -201,10 +210,8 @@ class OnRampOrderService implements Disposable {
         final fiatSymbol = row.fiatSymbol;
         final moreInfoUrl = row.moreInfoUrl;
 
-        final isManualDeposit = bankName != null &&
-            transferExpiryDate != null &&
-            transferAmount != null &&
-            fiatSymbol != null;
+        final isManualDeposit =
+            bankName != null && transferAmount != null && fiatSymbol != null;
 
         final Token? token = await _tokenRepository.getToken(row.token);
 
@@ -215,15 +222,22 @@ class OnRampOrderService implements Disposable {
           ) as FiatAmount,
         );
 
+        final submittedAmount = row.partner == RampPartner.brij
+            ? FiatAmount(
+                value: row.amount,
+                fiatCurrency: currencyFromString(row.fiatSymbol ?? 'USD'),
+              )
+            : CryptoAmount(
+                value: row.amount,
+                cryptoCurrency: CryptoCurrency(
+                  token: token ?? Token.unk,
+                ),
+              );
+
         return (
           id: row.id,
           created: row.created,
-          submittedAmount: CryptoAmount(
-            value: row.amount,
-            cryptoCurrency: CryptoCurrency(
-              token: token ?? Token.unk,
-            ),
-          ),
+          submittedAmount: submittedAmount,
           receiveAmount: row.receiveAmount?.let(
             (amount) => CryptoAmount(
               value: amount,
@@ -239,7 +253,7 @@ class OnRampOrderService implements Disposable {
               ? (
                   bankAccount: bankAccount ?? '',
                   bankName: bankName,
-                  transferExpiryDate: transferExpiryDate,
+                  transferExpiryDate: transferExpiryDate ?? DateTime.now(),
                   transferAmount: FiatAmount(
                     value: transferAmount,
                     fiatCurrency: currencyFromString(fiatSymbol),
@@ -313,5 +327,7 @@ extension OnRampOrderStatusExt on OnRampOrderStatus {
       this == OnRampOrderStatus.depositExpired ||
       this == OnRampOrderStatus.pending ||
       this == OnRampOrderStatus.preProcessing ||
-      this == OnRampOrderStatus.postProcessing;
+      this == OnRampOrderStatus.postProcessing ||
+      this == OnRampOrderStatus.rejected ||
+      this == OnRampOrderStatus.failure;
 }

@@ -7,6 +7,7 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../accounts/models/wallet.dart';
+import '../../ambassador/widgets/extensions.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../conversion_rates/widgets/extensions.dart';
@@ -42,6 +43,10 @@ extension BuildContextExt on BuildContext {
 
       if (!mounted) return;
       IncomingLinkPaymentScreen.push(this, id: id);
+    } else if (request is QrScannerAmbassadorRequest) {
+      showAmbassadorConfirmation(ambassador: request.referral);
+
+      if (!mounted) return;
     } else if (request is QrScannerSolanaPayTransactionRequest) {
       final transaction = request.request;
 

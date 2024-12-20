@@ -8,10 +8,9 @@ import '../../../ui/arrow.dart';
 import '../../../ui/bullet_item.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../../accounts/models/account.dart';
-import '../../activities/data/transaction_repository.dart';
-import '../../ramp/models/ramp_type.dart';
+import '../../activities/services/tx_updater.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
+import '../../ramp_partner/models/ramp_type.dart';
 import 'balance_amount.dart';
 import 'home_app_bar.dart';
 import 'refresh_balance_wrapper.dart';
@@ -21,13 +20,13 @@ class HomeAddCashContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ColoredBox(
-        color: CpColors.yellowSplashBackgroundColor,
+        color: CpColors.sandColor,
         child: RefreshBalancesWrapper(
           builder: (context, onRefresh) => RefreshIndicator(
             displacement: 80,
             onRefresh: () => Future.wait([
               onRefresh(),
-              sl<TransactionRepository>().update(),
+              sl<TxUpdater>().call(),
             ]),
             color: CpColors.primaryColor,
             backgroundColor: Colors.white,
@@ -128,12 +127,11 @@ class _NoticeContent extends StatelessWidget {
             CpButton(
               text: context.l10n.ramp_btnAddCash,
               onPressed: () async {
-                final data = await context.ensureProfileData(RampType.onRamp);
-                if (context.mounted && data != null) {
-                  context.launchOnRampFlow(
-                    profile: data,
-                    address: sl<MyAccount>().address,
-                  );
+                final hasProfile =
+                    await context.ensureProfileData(RampType.onRamp) != null;
+
+                if (context.mounted && hasProfile) {
+                  context.launchOnRampFlow();
                 }
               },
               width: double.infinity,
@@ -177,7 +175,7 @@ class _Background extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Color(0x00C8B57D),
-                      CpColors.yellowSplashBackgroundColor,
+                      CpColors.sandColor,
                     ],
                   ),
                 ),
@@ -200,7 +198,7 @@ class _BottomBalance extends StatelessWidget {
               topRight: Radius.circular(44),
             ),
           ),
-          color: CpColors.darkSplashBackgroundColor,
+          color: CpColors.deepGreyColor,
         ),
         child: Padding(
           padding: EdgeInsets.only(

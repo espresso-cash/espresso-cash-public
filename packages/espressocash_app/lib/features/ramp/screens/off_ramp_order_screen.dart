@@ -128,12 +128,15 @@ class OffRampOrderScreenContent extends StatelessWidget {
         context.l10n.offRampWithdrawOngoing(
           totalAmount.format(locale),
         ),
-      OffRampOrderStatus.waitingForPartner =>
-        context.l10n.offRampWaitingForPartner,
+      OffRampOrderStatus.waitingForPartner => isMoneygramOrder
+          ? context.l10n.offRampWithdrawalInProgress
+          : context.l10n.offRampWaitingForPartner,
       OffRampOrderStatus.depositTxConfirmError ||
       OffRampOrderStatus.depositError =>
         context.l10n.offRampDepositError,
-      OffRampOrderStatus.failure => context.l10n.offRampWithdrawalFailure,
+      OffRampOrderStatus.failure ||
+      OffRampOrderStatus.rejected =>
+        context.l10n.offRampWithdrawalFailure,
       OffRampOrderStatus.completed => context.l10n.offRampWithdrawSuccess,
       OffRampOrderStatus.cancelled => context.l10n.offRampWithdrawCancelled(
           totalAmount.format(locale),
@@ -148,6 +151,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.waitingForRefundBridge =>
         context.l10n.refundInProgressText,
       OffRampOrderStatus.refunded => context.l10n.refundSuccessText,
+      OffRampOrderStatus.waitingPartnerReview => 'Waiting for partner review',
     };
 
     final Widget? primaryButton = switch (order.status) {
@@ -157,7 +161,9 @@ class OffRampOrderScreenContent extends StatelessWidget {
         order.partner != RampPartner.moneygram
             ? _RetryButton(handleRetry: handleRetry)
             : null,
-      OffRampOrderStatus.failure => const _ContactUsButton(),
+      OffRampOrderStatus.failure ||
+      OffRampOrderStatus.rejected =>
+        const _ContactUsButton(),
       OffRampOrderStatus.ready =>
         _ContinueButton(handleContinue: handleContinue),
       OffRampOrderStatus.waitingForPartner => isMoneygramOrder
@@ -173,7 +179,8 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.waitingForRefundBridge ||
       OffRampOrderStatus.completed ||
       OffRampOrderStatus.refunded ||
-      OffRampOrderStatus.cancelled =>
+      OffRampOrderStatus.cancelled ||
+      OffRampOrderStatus.waitingPartnerReview =>
         null,
     };
 
@@ -184,14 +191,15 @@ class OffRampOrderScreenContent extends StatelessWidget {
     final showMoneygramCancel = order.partner == RampPartner.moneygram &&
         order.status == OffRampOrderStatus.insufficientFunds;
 
-    final showCancelButton = order.status == OffRampOrderStatus.depositError ||
-        order.status == OffRampOrderStatus.ready ||
-        showMoneygramCancel;
+    final showCancelButton = order.status.isCancellable || showMoneygramCancel;
+
+    final bridgeTimeInMinutes =
+        order.status == OffRampOrderStatus.waitingForRefundBridge ? 3 : 10;
 
     final bridgeSubtitleContent = [
       const SizedBox(height: 6),
       Text(
-        context.l10n.transferInProgressText,
+        context.l10n.transferInProgressText(bridgeTimeInMinutes),
         style: const TextStyle(fontSize: 14),
       ),
     ];
@@ -286,7 +294,7 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: CpTextButton(
           text: context.l10n.offRampCancelTitle,
           variant: CpTextButtonVariant.light,
@@ -383,8 +391,11 @@ class _Timeline extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMoneygramOrder = order.partner == RampPartner.moneygram;
     final CpTimelineStatus timelineStatus = order.status.toTimelineStatus();
-    final animated = timelineStatus == CpTimelineStatus.inProgress &&
-        order.status != OffRampOrderStatus.ready;
+    final animatedForMoneygram = (order.status != OffRampOrderStatus.ready &&
+            order.status != OffRampOrderStatus.waitingForPartner) ||
+        !isMoneygramOrder;
+    final animated =
+        timelineStatus == CpTimelineStatus.inProgress && animatedForMoneygram;
 
     final int activeItem = isMoneygramOrder
         ? order.status.toActiveItemForMoneygram()
@@ -396,20 +407,30 @@ class _Timeline extends StatelessWidget {
       subtitle: order.created.let((t) => context.formatDate(t)),
     );
 
+    final showReceiveAmount =
+        isMoneygramOrder ? order.status.showMoneygramReceiveAmount : true;
+
+    final bridgeFeeAmount = order.bridgeAmount?.let((e) {
+      if (e.value == 0) return null;
+
+      return order.amount - e;
+    });
+
     final bridgingToStellar = CpTimelineItem(
       title: context.l10n.bridgingText,
+      subtitle: bridgeFeeAmount != null
+          ? '${bridgeFeeAmount.format(context.locale, maxDecimals: 2)} fee applied'
+          : null,
     );
     final amountSent = CpTimelineItem(
-      title: context.l10n.offRampWithdrawSent,
-      trailing: isMoneygramOrder
-          ? order.bridgeAmount?.let(
-              (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
-            )
-          : null,
+      title: isMoneygramOrder
+          ? context.l10n.moneygramCashAvailable
+          : context.l10n.offRampWithdrawSent,
     );
     final paymentSuccess = CpTimelineItem(
       title: context.l10n.offRampWithdrawReceived,
-      trailing: receiveAmount?.format(context.locale),
+      trailing:
+          showReceiveAmount ? receiveAmount?.format(context.locale) : null,
       subtitle: order.resolved?.let((t) => context.formatDate(t)),
     );
     final paymentCanceled = CpTimelineItem(
@@ -472,11 +493,13 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.sendingDepositTx ||
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
+        OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
         OffRampOrderStatus.depositError ||
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.insufficientFunds ||
+        OffRampOrderStatus.rejected ||
         OffRampOrderStatus.failure =>
           CpStatusType.error,
         OffRampOrderStatus.completed => CpStatusType.success,
@@ -495,11 +518,13 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.ready ||
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
+        OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.depositError ||
         OffRampOrderStatus.insufficientFunds ||
+        OffRampOrderStatus.rejected ||
         OffRampOrderStatus.failure =>
           CpTimelineStatus.failure,
         OffRampOrderStatus.completed => CpTimelineStatus.success,
@@ -509,6 +534,7 @@ extension on OffRampOrderStatus {
       };
 
   int toActiveItem() => switch (this) {
+        OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.ready ||
@@ -521,6 +547,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.insufficientFunds ||
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
+        OffRampOrderStatus.rejected ||
         OffRampOrderStatus.cancelled =>
           1,
         OffRampOrderStatus.waitingForPartner ||
@@ -531,6 +558,8 @@ extension on OffRampOrderStatus {
       };
 
   int toActiveItemForMoneygram() => switch (this) {
+        OffRampOrderStatus.waitingPartnerReview ||
+        OffRampOrderStatus.rejected ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.depositError ||
@@ -545,12 +574,10 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.depositTxReady ||
         OffRampOrderStatus.waitingForRefundBridge ||
         OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.waitingForPartner ||
         OffRampOrderStatus.refunded =>
           2,
-        OffRampOrderStatus.waitingForPartner ||
-        OffRampOrderStatus.failure ||
-        OffRampOrderStatus.completed =>
-          3,
+        OffRampOrderStatus.failure || OffRampOrderStatus.completed => 3,
       };
 
   bool get isRefunding =>
@@ -563,7 +590,32 @@ extension on OffRampOrderStatus {
       this == OffRampOrderStatus.waitingForRefundBridge ||
       this == OffRampOrderStatus.postProcessing;
 
+  bool get showMoneygramReceiveAmount => switch (this) {
+        OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.completed ||
+        OffRampOrderStatus.waitingForPartner =>
+          true,
+        OffRampOrderStatus.depositTxRequired ||
+        OffRampOrderStatus.depositTxReady ||
+        OffRampOrderStatus.processingRefund ||
+        OffRampOrderStatus.waitingForRefundBridge ||
+        OffRampOrderStatus.preProcessing ||
+        OffRampOrderStatus.postProcessing ||
+        OffRampOrderStatus.ready ||
+        OffRampOrderStatus.creatingDepositTx ||
+        OffRampOrderStatus.depositError ||
+        OffRampOrderStatus.depositTxConfirmError ||
+        OffRampOrderStatus.insufficientFunds ||
+        OffRampOrderStatus.failure ||
+        OffRampOrderStatus.cancelled ||
+        OffRampOrderStatus.refunded ||
+        OffRampOrderStatus.waitingPartnerReview ||
+        OffRampOrderStatus.rejected =>
+          false,
+      };
+
   String toMoneygramStatus(BuildContext context) => switch (this) {
+        OffRampOrderStatus.waitingPartnerReview ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.depositTxRequired ||
@@ -578,6 +630,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.depositError ||
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.insufficientFunds ||
+        OffRampOrderStatus.rejected ||
         OffRampOrderStatus.failure =>
           context.l10n.failed,
         OffRampOrderStatus.completed => context.l10n.completed,

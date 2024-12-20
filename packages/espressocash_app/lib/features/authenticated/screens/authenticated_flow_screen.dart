@@ -17,6 +17,7 @@ class AuthenticatedFlowScreen extends StatefulWidget {
           .pushAndRemoveUntil<void>(
         PageRouteBuilder(
           pageBuilder: (context, _, __) => const AuthenticatedFlowScreen(),
+          transitionDuration: Duration.zero,
         ),
         F,
       );

@@ -92,7 +92,7 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: CpColors.dashboardBackgroundColor,
+        backgroundColor: CpColors.deepGreyColor,
         body: Stack(
           children: <Widget>[
             SafeArea(
@@ -100,7 +100,7 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
                 headerSliverBuilder: (context, _) => [
                   TokenAppBar(
                     token: widget.token,
-                    color: CpColors.dashboardBackgroundColor,
+                    color: CpColors.deepGreyColor,
                     displayText: false,
                   ),
                 ],
@@ -124,7 +124,7 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
                             Expanded(
                               child: DecoratedBox(
                                 decoration: const BoxDecoration(
-                                  color: CpColors.dashboardBackgroundColor,
+                                  color: CpColors.deepGreyColor,
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(31),
                                     topRight: Radius.circular(31),
@@ -137,8 +137,7 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
                                         inputController: _amountController,
                                         token: widget.token,
                                         collapsed: widget.isEnabled,
-                                        backgroundColor:
-                                            CpColors.dashboardBackgroundColor,
+                                        backgroundColor: CpColors.deepGreyColor,
                                       ),
                                       const SizedBox(height: 72),
                                       FutureBuilder(
@@ -252,7 +251,7 @@ class _SendInfoContainer extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 22),
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 28),
         decoration: const ShapeDecoration(
-          color: CpColors.darkBackgroundColor,
+          color: CpColors.blackGreyColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(28),

@@ -151,6 +151,6 @@ class _UsdcDevToken extends SplToken {
         );
 }
 
-extension TokenExt on Iterable<Token> {
-  Iterable<String> get symbols => map((t) => t.symbol);
+extension TokenUtils on Token {
+  bool get isUsdcToken => address == Token.usdc.address;
 }

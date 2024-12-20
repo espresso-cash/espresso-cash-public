@@ -1,24 +1,16 @@
 import 'dart:async';
 
-import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:solana/base58.dart';
-import 'package:solana/dto.dart' hide Transaction;
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
 import '../../../data/db/db.dart';
 import '../../../di.dart';
-import '../../../utils/async_cache.dart';
-import '../../accounts/auth_scope.dart';
-import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
@@ -31,19 +23,11 @@ import '../models/activity.dart';
 import '../models/transaction.dart';
 import 'activity_builder.dart';
 
-part '../services/tx_updater.dart';
-
-@Singleton(scope: authScope)
+@injectable
 class TransactionRepository {
-  TransactionRepository(this._db, this._client, this._wallet) {
-    update();
-  }
+  const TransactionRepository(this._db);
 
-  final SolanaClient _client;
-  final ECWallet _wallet;
   final MyDatabase _db;
-
-  final AsyncCache<void> _callCache = AsyncCache.ephemeral();
 
   Stream<IList<String>> watchAll() {
     final query = _db.select(_db.transactionRows)
@@ -54,7 +38,7 @@ class TransactionRepository {
 
   Stream<IList<String>> watchByAddress(String tokenAddress) {
     final query = _db.select(_db.transactionRows)
-      ..where((t) => t.tokenAddress.equals(tokenAddress))
+      ..where((t) => t.token.equals(tokenAddress))
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.map((row) => row.id).watch().map((event) => event.toIList());
@@ -62,7 +46,7 @@ class TransactionRepository {
 
   Stream<Map<String, IList<TxCommon>>> watchGroupedByDate(String tokenAddress) {
     final query = _db.select(_db.transactionRows)
-      ..where((t) => t.tokenAddress.equals(tokenAddress))
+      ..where((t) => t.token.equals(tokenAddress))
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.watch().asyncMap((rows) async {
@@ -103,20 +87,19 @@ class TransactionRepository {
 
   Future<void> saveAll(
     Iterable<TxCommon> txs, {
-    bool clear = false,
-    InsertMode mode = InsertMode.insertOrReplace,
+    required bool clear,
   }) {
     Future<void> save() => _db.batch(
           (batch) => batch.insertAll(
             _db.transactionRows,
             txs.map((e) => e.toRow()),
-            mode: mode,
+            mode: InsertMode.insertOrReplace,
           ),
         );
 
     return clear
         ? _db.transaction(() async {
-            await this.clear();
+            await _db.delete(_db.transactionRows).go();
             await save();
           })
         : save();
@@ -202,32 +185,36 @@ class TransactionRepository {
 }
 
 extension TransactionRowExt on TransactionRow {
-  Future<TxCommon> toModel() =>
-      sl<TokenRepository>().getToken(tokenAddress).letAsync(
-            (e) => TxCommon(
-              SignedTx.decode(encodedTx),
-              created: created,
-              status: status,
-              amount: amount?.let(
-                (it) => CryptoAmount(
-                  value: it,
-                  cryptoCurrency: CryptoCurrency(
-                    token: e ?? Token.unk,
-                  ),
-                ),
-              ),
-            ),
-          );
+  Future<TxCommon> toModel() async {
+    final tokenAddress = this.token;
+    Token? token;
+
+    if (tokenAddress != null) {
+      token = await sl<TokenRepository>().getToken(tokenAddress);
+    }
+
+    return TxCommon(
+      SignedTx.decode(encodedTx),
+      created: created,
+      status: status,
+      amount: amount?.let(
+        (it) => CryptoAmount(
+          value: it,
+          cryptoCurrency: CryptoCurrency(token: token ?? Token.unk),
+        ),
+      ),
+    );
+  }
 }
 
 extension on TxCommon {
   TransactionRow toRow() => TransactionRow(
         id: tx.id,
         created: created,
-        tokenAddress: amount?.cryptoCurrency.token.address ?? Token.unk.address,
         encodedTx: tx.encode(),
         status: status,
         amount: amount?.value,
+        token: amount?.cryptoCurrency.token.address,
       );
 }
 

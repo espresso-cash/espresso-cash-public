@@ -7,7 +7,7 @@ class ProfileSwitch extends StatelessWidget {
   const ProfileSwitch({
     super.key,
     required this.label,
-    this.color = CpColors.lightGreyBackground,
+    this.color = Colors.white,
     required this.value,
     required this.onChanged,
     required this.subtitle,
@@ -37,6 +37,7 @@ class ProfileSwitch extends StatelessWidget {
         maxLines: 2,
         style: const TextStyle(
           fontSize: 14,
+          color: CpColors.greyColor,
           fontWeight: FontWeight.w400,
         ),
       ),

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
@@ -11,68 +12,56 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/file_manager.dart';
-import '../service/extensions.dart';
 import '../token.dart';
+import 'extensions.dart';
 
 @Singleton()
 class TokenRepository {
-  const TokenRepository(this._db, this.fileManager);
+  const TokenRepository(this._db, this._fileManager, this._tokensMetaStorage);
 
   final MyDatabase _db;
-  final FileManager fileManager;
+  final FileManager _fileManager;
+  final TokensMetaStorage _tokensMetaStorage;
 
   @PostConstruct(preResolve: true)
-  Future<void> init() =>
-      TokensMetaStorage.getHash().letAsync((actualHash) async {
+  Future<void> init() => tryEitherAsync((_) async {
+        final actualHash = _tokensMetaStorage.getHash();
         if (actualHash != null) return;
 
         final rootToken = ServicesBinding.rootIsolateToken;
 
-        if (rootToken == null) return;
-
         final assetFile = await rootBundle.load('assets/tokens/tokens.csv.gz');
+        final file = await _fileManager.loadFromAppDir('tokens.csv.gz');
+        final sink = file.openWrite()..add(assetFile.buffer.asUint8List());
+        await sink.flush();
+        await sink.close();
 
-        final platformFile = await fileManager.loadFromAppDir('tokens.csv.gz');
+        if (rootToken == null) return;
 
         await compute(
           _initializeFromAssets,
-          IsolateParams(
-            assetFile.buffer.asUint8List(),
-            platformFile,
-            rootToken,
-          ),
-        );
+          IsolateParams(rootToken, file.path),
+        ).doOnRightAsync((hash) async {
+          await _tokensMetaStorage.saveHash(hash);
+        });
       });
 
-  Future<Either<Exception, void>> _initializeFromAssets(
-    IsolateParams args,
-  ) =>
-      tryEitherAsync(
-        (_) async {
-          BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);
+  Future<void> update(EspressoCashClient ecClient) async {
+    final rootToken = ServicesBinding.rootIsolateToken;
 
-          final tokenStream = Stream.value(args.data)
-              .asyncExpand<List<int>>(
-                (data) => Stream.fromIterable([data]),
-              )
-              .decodeFile();
+    if (rootToken == null) return;
 
-          await tokenStream.forEach((tokenRows) async {
-            for (final tokenRow in tokenRows) {
-              await _db.transaction(
-                () => _db.into(_db.tokenRows).insert(
-                      tokenRow,
-                      mode: InsertMode.insertOrReplace,
-                    ),
-              );
-            }
-          });
+    final file = await _fileManager.loadFromAppDir('tokens.csv.gz');
 
-          // ignore: avoid-weak-cryptographic-algorithms, non sensitive
-          final hash = md5.convert(args.data);
-          await TokensMetaStorage.saveHash(hash.toString());
-        },
-      );
+    await ecClient.getTokensFile(file.path);
+
+    await compute(
+      _initializeFromAssets,
+      IsolateParams(rootToken, file.path),
+    ).doOnRightAsync((hash) async {
+      await _tokensMetaStorage.saveHash(hash);
+    });
+  }
 
   Future<Token?> getToken(String address) {
     final query = _db.select(_db.tokenRows)
@@ -89,25 +78,49 @@ class TokenRepository {
   }
 }
 
-class IsolateParams {
-  const IsolateParams(this.data, this.platformFile, this.rootToken);
+Future<Either<Exception, String>> _initializeFromAssets(IsolateParams args) =>
+    tryEitherAsync(
+      (_) async {
+        BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);
 
-  final Uint8List data;
-  final File platformFile;
+        final tokenStream = File(args.path).openRead().decodeFile();
+        final data = await File(args.path).readAsBytes();
+
+        final db = MyDatabase();
+
+        await db.transaction(() async {
+          await tokenStream.forEach((tokenRows) async {
+            for (final tokenRow in tokenRows) {
+              await db
+                  .into(db.tokenRows)
+                  .insert(tokenRow, mode: InsertMode.insertOrReplace);
+            }
+          });
+        });
+
+        // ignore: avoid-weak-cryptographic-algorithms, non sensitive
+        return md5.convert(data).toString();
+      },
+    );
+
+class IsolateParams {
+  const IsolateParams(this.rootToken, this.path);
+
   final RootIsolateToken rootToken;
+  final String path;
 }
 
-abstract final class TokensMetaStorage {
+@injectable
+class TokensMetaStorage {
+  const TokensMetaStorage(this._prefs);
+
   static const String _key = 'tokensFileHash';
 
-  static Future<void> saveHash(String hash) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_key, hash);
+  final SharedPreferences _prefs;
+
+  Future<void> saveHash(String hash) async {
+    await _prefs.setString(_key, hash);
   }
 
-  static Future<String?> getHash() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    return prefs.getString(_key);
-  }
+  String? getHash() => _prefs.getString(_key);
 }

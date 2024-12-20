@@ -10,7 +10,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../activities/data/transaction_repository.dart';
+import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../balances/data/repository.dart';
 import '../../currency/models/amount.dart';
@@ -67,12 +67,12 @@ class _MainContent extends StatelessWidget {
           displacement: 80,
           onRefresh: () => Future.wait([
             onRefresh(),
-            sl<TransactionRepository>().update(),
+            sl<TxUpdater>().call(),
           ]),
           color: CpColors.primaryColor,
           backgroundColor: Colors.white,
           child: Scaffold(
-            backgroundColor: CpColors.darkGoldBackgroundColor,
+            backgroundColor: CpColors.darkSandColor,
             appBar: const HomeScaffoldAppBar(),
             body: Stack(
               children: <Widget>[
@@ -80,8 +80,8 @@ class _MainContent extends StatelessWidget {
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        CpColors.darkGoldBackgroundColor,
-                        CpColors.dashboardBackgroundColor,
+                        CpColors.darkSandColor,
+                        CpColors.deepGreyColor,
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -111,79 +111,51 @@ class _HomeScrollableRegion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(31),
-          topRight: Radius.circular(31),
-        ),
+        borderRadius: _borderRadius,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           padding: EdgeInsets.only(
             bottom: MediaQuery.paddingOf(context).bottom,
           ),
-          child: Stack(
+          child: Column(
             children: [
-              Positioned(
-                top: 200,
-                child: Container(
-                  height: 300,
-                  width: MediaQuery.sizeOf(context).width,
-                  color: CpColors.dashboardBackgroundColor,
+              const InvestmentHeader(),
+              DecoratedBox(
+                decoration: const BoxDecoration(
+                  color: CpColors.deepGreyColor,
+                  borderRadius: _borderRadius,
+                  boxShadow: _dashboardBoxShadow,
+                ),
+                child: _Buttons(
+                  onSendMoneyPressed: onSendMoneyPressed,
                 ),
               ),
-              Column(
-                children: [
-                  const InvestmentHeader(),
-                  DecoratedBox(
-                    decoration: const BoxDecoration(
-                      color: CpColors.dashboardBackgroundColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(31),
-                        topRight: Radius.circular(31),
+              const _HomeDivider(),
+              ValueStreamBuilder<IList<CryptoAmount>>(
+                create: () => (
+                  sl<TokenBalancesRepository>().watchTokenBalances(
+                    ignoreTokens: [Token.usdc],
+                  ),
+                  const IListConst([])
+                ),
+                builder: (context, tokens) => tokens.isNotEmpty
+                    ? const SizedBox.shrink()
+                    : HomeCarouselWidget(
+                        onSendMoneyPressed: onSendMoneyPressed,
                       ),
-                    ),
-                    child: _Buttons(
-                      onSendMoneyPressed: onSendMoneyPressed,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(
-                      top: 28,
-                      bottom: 18,
-                    ),
-                    color: CpColors.dashboardBackgroundColor,
-                    child: const Divider(
-                      color: CpColors.homeDividerColor,
-                      thickness: 1.0,
-                      height: 1.0,
-                    ),
-                  ),
-                  ValueStreamBuilder<IList<CryptoAmount>>(
-                    create: () => (
-                      sl<TokenBalancesRepository>().watchTokenBalances(
-                        ignoreTokens: [Token.usdc],
-                      ),
-                      const IListConst([])
-                    ),
-                    builder: (context, tokens) => tokens.isNotEmpty
-                        ? const SizedBox.shrink()
-                        : HomeCarouselWidget(
-                            onSendMoneyPressed: onSendMoneyPressed,
-                          ),
-                  ),
-                  const PortfolioWidget(),
-                  RecentActivityWidget(
-                    onSendMoneyPressed: onSendMoneyPressed,
-                    onTransactionsPressed: onTransactionsPressed,
-                  ),
-                  SizedBox(
-                    height: max(
-                      0,
-                      MediaQuery.paddingOf(context).bottom -
-                          cpNavigationBarheight +
-                          16,
-                    ),
-                  ),
-                ],
+              ),
+              const PortfolioWidget(),
+              RecentActivityWidget(
+                onSendMoneyPressed: onSendMoneyPressed,
+                onTransactionsPressed: onTransactionsPressed,
+              ),
+              SizedBox(
+                height: max(
+                  0,
+                  MediaQuery.paddingOf(context).bottom -
+                      cpNavigationBarheight +
+                      16,
+                ),
               ),
             ],
           ),
@@ -241,3 +213,32 @@ class _Buttons extends StatelessWidget {
         ),
       );
 }
+
+class _HomeDivider extends StatelessWidget {
+  const _HomeDivider();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.only(
+          top: 28,
+          bottom: 18,
+        ),
+        decoration: const BoxDecoration(
+          color: CpColors.deepGreyColor,
+          boxShadow: _dashboardBoxShadow,
+        ),
+        child: const Divider(
+          color: CpColors.homeDividerColor,
+          thickness: 1.0,
+          height: 1.0,
+        ),
+      );
+}
+
+const _borderRadius = BorderRadius.vertical(top: Radius.circular(31));
+const _dashboardBoxShadow = [
+  BoxShadow(
+    color: CpColors.deepGreyColor,
+    offset: Offset(0, 2),
+  ),
+];

@@ -5,6 +5,7 @@ import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../utils/solana_pay.dart';
+import '../../ambassador/models/ambassador_referral.dart';
 import '../../link_payments/models/link_payment.dart';
 import 'qr_address_data.dart';
 
@@ -24,6 +25,9 @@ class QrScannerRequest with _$QrScannerRequest {
 
   const factory QrScannerRequest.linkPayment(LinkPayment payment) =
       QrScannerLinkPayment;
+
+  const factory QrScannerRequest.ambassador(AmbassadorReferral referral) =
+      QrScannerAmbassadorRequest;
 
   const QrScannerRequest._();
 
@@ -53,6 +57,11 @@ class QrScannerRequest with _$QrScannerRequest {
     if (payment != null) {
       return QrScannerRequest.linkPayment(payment);
     }
+
+    final ambassador = AmbassadorReferral.tryParse(code);
+    if (ambassador != null) {
+      return QrScannerRequest.ambassador(ambassador);
+    }
   }
 
   Ed25519HDPublicKey? get recipient => this.map(
@@ -63,6 +72,7 @@ class QrScannerRequest with _$QrScannerRequest {
         },
         linkPayment: always(null),
         transactionRequest: always(null),
+        ambassador: (r) => r.referral.address,
       );
 
   Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(

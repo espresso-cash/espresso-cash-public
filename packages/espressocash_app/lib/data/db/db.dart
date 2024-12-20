@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../features/activities/models/transaction.dart';
+import '../../features/currency/models/currency.dart';
 import '../../features/incoming_link_payments/data/ilp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
@@ -24,7 +25,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 58;
+const int latestVersion = 61;
 
 const _tables = [
   OutgoingTransferRows,
@@ -157,10 +158,25 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(conversionRatesRows);
           }
           if (from < 57) {
-            await m.createTable(tokenRows);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.bridgeAmount);
           }
           if (from < 58) {
-            await m.addColumn(transactionRows, transactionRows.tokenAddress);
+            await m.createTable(tokenRows);
+          }
+          if (from >= 40 && from < 59) {
+            await m.addColumn(offRampOrderRows, offRampOrderRows.priorityFee);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.gasFee);
+          }
+          if (from >= 39 && from < 60) {
+            await m.addColumn(iLPRows, iLPRows.receiveAmount);
+          }
+          if (from < 61) {
+            await m.addColumn(transactionRows, transactionRows.token);
+
+            await customStatement(
+              'UPDATE ${transactionRows.actualTableName} SET token = ?',
+              [Currency.usdc.token.address],
+            );
           }
         },
       );
@@ -190,6 +206,7 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get stellarTxHash => text().nullable()();
   IntColumn get feeAmount => integer().nullable()();
   TextColumn get referenceNumber => text().nullable()();
+  IntColumn get bridgeAmount => integer().nullable()();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
@@ -221,9 +238,13 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   IntColumn get bridgeAmount => integer().nullable()();
   TextColumn get referenceNumber => text().nullable()();
   IntColumn get refundAmount => integer().nullable()();
+  IntColumn get priorityFee => integer().nullable()();
+  IntColumn get gasFee => integer().nullable()();
 }
 
 enum OnRampOrderStatus {
+  waitingPartnerReview, // KYC
+  rejected, // KYC
   waitingForDeposit,
   depositExpired,
   waitingForPartner,
@@ -253,6 +274,8 @@ enum OffRampOrderStatus {
   processingRefund, // MG
   waitingForRefundBridge, // MG
   refunded, // MG
+  waitingPartnerReview, // KYC
+  rejected, // KYC
 }
 
 class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
@@ -287,10 +310,10 @@ class TransactionRows extends Table {
 
   TextColumn get id => text()();
   DateTimeColumn get created => dateTime().nullable()();
-  TextColumn get tokenAddress => text()();
   TextColumn get encodedTx => text()();
   IntColumn get status => intEnum<TxCommonStatus>()();
   IntColumn get amount => integer().nullable()();
+  TextColumn get token => text().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -344,22 +367,4 @@ class TokenRows extends Table {
 
   @override
   Set<Column> get primaryKey => {chainId, address};
-}
-
-class TagsConverter extends TypeConverter<List<String>, String> {
-  const TagsConverter();
-
-  @override
-  List<String> fromSql(String fromDb) {
-    if (fromDb.isEmpty) return [];
-
-    return fromDb.split(',');
-  }
-
-  @override
-  String toSql(List<String> value) {
-    if (value.isEmpty) return '';
-
-    return value.join(',');
-  }
 }
