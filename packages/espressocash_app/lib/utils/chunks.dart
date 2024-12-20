@@ -1,6 +1,6 @@
 extension IterableX<T> on Iterable<T> {
   Iterable<List<T>> chunks(int size) sync* {
-    if (this.isEmpty) return;
+    if (isEmpty) return;
 
     List<T> chunk = <T>[];
     for (final element in this) {
