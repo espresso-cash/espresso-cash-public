@@ -8,6 +8,7 @@ import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../../utils/chunks.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
@@ -16,6 +17,11 @@ import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
 import '../data/transaction_repository.dart';
 import '../models/transaction.dart';
+
+typedef TransactionUpdateResult = ({
+  List<TxCommon> txs,
+  bool hasGap,
+});
 
 @Singleton(scope: authScope)
 class TxUpdater implements Disposable {
@@ -36,44 +42,83 @@ class TxUpdater implements Disposable {
 
   Future<void> _updateAllTransactions() async {
     final mostRecentTxId = await _repo.mostRecentTxId();
-    final tokenTxs = await _updateTokensTransactions(mostRecentTxId);
-    final solTxs = await _updateSolTransactions(mostRecentTxId);
 
-    final uniqueSolTxs = solTxs
-        .where((result) => !tokenTxs.any((tx) => tx.tx.id == result.tx.id))
+    final tokenResult = await _updateTokensTransactions(mostRecentTxId);
+    final solResult = await _updateSolTransactions(mostRecentTxId);
+
+    final uniqueSolTxs = solResult.txs
+        .where(
+          (result) => !tokenResult.txs.any((tx) => tx.tx.id == result.tx.id),
+        )
         .toList();
 
-    await _repo.saveAll(tokenTxs + uniqueSolTxs);
+    final allTxs = uniqueSolTxs + tokenResult.txs;
+
+    if (allTxs.isNotEmpty) {
+      await _repo.saveAll(
+        allTxs,
+        clear: solResult.hasGap || tokenResult.hasGap,
+      );
+    }
   }
 
-  Future<List<TxCommon>> _updateTokensTransactions(
+  Future<TransactionUpdateResult> _updateTokensTransactions(
     String? mostRecentTxId,
   ) async {
     final tokenAccounts = await _getAllTokenAccounts(_wallet.publicKey);
+    final allResults = <TransactionUpdateResult>[];
 
-    final allTransactions = await Future.wait(
-      tokenAccounts.map(
-        (account) => _fetchTransactions(
-          account.account,
-          account.mintAddress,
-          mostRecentTxId,
-          account.mintAddress == Token.usdc.address
+    final batches = tokenAccounts.chunks(5).toList();
+    for (int i = 0; i < batches.length; i++) {
+      final batch = batches[i];
+      final batchResults = await Future.wait<TransactionUpdateResult>(
+        batch.map((account) async {
+          final limit = account.mintAddress == Token.usdc.address
               ? _usdcFetchLimit
-              : _tokenFetchLimit,
-        ),
-      ),
-    );
+              : _tokenFetchLimit;
 
-    return allTransactions.expand((txs) => txs).toList();
+          final txs = await _fetchTransactions(
+            account.account,
+            account.mintAddress,
+            mostRecentTxId,
+            limit,
+          );
+
+          return (
+            txs: txs,
+            hasGap: mostRecentTxId != null && txs.length == limit,
+          );
+        }),
+      );
+
+      allResults.addAll(batchResults);
+
+      if (i < batches.length - 1) {
+        await Future<void>.delayed(const Duration(milliseconds: 500));
+      }
+    }
+
+    return (
+      txs: allResults.expand((r) => r.txs).toList(),
+      hasGap: allResults.any((r) => r.hasGap),
+    );
   }
 
-  Future<List<TxCommon>> _updateSolTransactions(String? mostRecentTxId) =>
-      _fetchTransactions(
-        _wallet.publicKey,
-        Token.sol.address,
-        mostRecentTxId,
-        _tokenFetchLimit,
-      );
+  Future<TransactionUpdateResult> _updateSolTransactions(
+    String? mostRecentTxId,
+  ) async {
+    final txs = await _fetchTransactions(
+      _wallet.publicKey,
+      Token.sol.address,
+      mostRecentTxId,
+      _tokenFetchLimit,
+    );
+
+    return (
+      txs: txs,
+      hasGap: mostRecentTxId != null && txs.length == _tokenFetchLimit,
+    );
+  }
 
   Future<List<TxCommon>> _fetchTransactions(
     Ed25519HDPublicKey account,
