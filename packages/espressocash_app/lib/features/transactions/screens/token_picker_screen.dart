@@ -34,64 +34,66 @@ class TokenPicker extends StatelessWidget {
   final TokenPickerSize size;
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: const ShapeDecoration(
-          color: CpColors.blackGreyColor,
-          shape: StadiumBorder(),
-        ),
-        child: ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 13, vertical: 8),
-          onTap: () async {
-            final Token? updated = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    TokenPickerScreen(initial: token, title: title),
-              ),
-            );
+  Widget build(BuildContext context) {
+    final tokenLogo = token?.logoURI;
 
-            if (context.mounted && updated != null) {
-              onSubmitted(updated);
-            }
-          },
-          leading: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(100)),
-            child: token?.logoURI != null
-                // ignore: avoid-non-null-assertion, can not be null
-                ? CachedNetworkImage(
-                    imageUrl: token!.logoURI!,
-                    width: 42,
-                    height: 42,
-                  )
-                : const _DefaultIcon(
-                    size: 42,
-                  ),
-          ),
-          title: SizedBox(
-            height: 28,
-            child: Text(
-              size == TokenPickerSize.big
-                  ? (token?.symbol ?? Token.usdc.symbol)
-                  : '',
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 18,
-                color: Colors.white,
-                height: 1.5,
-                overflow: TextOverflow.fade,
-              ),
-              textAlign: TextAlign.center,
+    return DecoratedBox(
+      decoration: const ShapeDecoration(
+        color: CpColors.blackGreyColor,
+        shape: StadiumBorder(),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 13, vertical: 8),
+        onTap: () async {
+          final Token? updated = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  TokenPickerScreen(initial: token, title: title),
             ),
-          ),
-          titleAlignment: ListTileTitleAlignment.threeLine,
-          trailing: const Icon(
-            Icons.keyboard_arrow_down_outlined,
-            color: Colors.white,
-            size: 30,
+          );
+
+          if (context.mounted && updated != null) {
+            onSubmitted(updated);
+          }
+        },
+        leading: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(100)),
+          child: tokenLogo != null
+              ? CachedNetworkImage(
+                  imageUrl: tokenLogo,
+                  width: 42,
+                  height: 42,
+                )
+              : const _DefaultIcon(
+                  size: 42,
+                ),
+        ),
+        title: SizedBox(
+          height: 28,
+          child: Text(
+            size == TokenPickerSize.big
+                ? (token?.symbol ?? Token.usdc.symbol)
+                : '',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 18,
+              color: Colors.white,
+              height: 1.5,
+              overflow: TextOverflow.fade,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
-      );
+        titleAlignment: ListTileTitleAlignment.threeLine,
+        trailing: const Icon(
+          Icons.keyboard_arrow_down_outlined,
+          color: Colors.white,
+          size: 30,
+        ),
+      ),
+    );
+  }
 }
 
 class TokenPickerScreen extends StatelessWidget {
@@ -164,11 +166,12 @@ class _ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredTokens = _tokens.where((token) {
-      final nameMatches =
-          token.name.toLowerCase().contains(_searchText.toLowerCase());
-      return nameMatches;
-    }).toList();
+    final filteredTokens = _tokens
+        .where(
+          (token) =>
+              token.name.toLowerCase().contains(_searchText.toLowerCase()),
+        )
+        .toList();
 
     return Column(
       children: [
