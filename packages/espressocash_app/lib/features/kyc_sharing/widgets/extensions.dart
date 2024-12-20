@@ -27,9 +27,9 @@ extension KycBuildContext on BuildContext {
             final message = switch (error) {
               KycInvalidCode() => context.l10n.invalidEmail,
               KycEmailError(:final error) => switch (error) {
-                  EmailError.blocked => 'context.l10n.emailBlocked',
-                  EmailError.bounced => 'context.l10n.emailBounced',
-                  EmailError.spam => 'context.l10n.emailSpam',
+                  EmailError.blocked => context.l10n.emailBlocked,
+                  EmailError.bounced => context.l10n.emailBounced,
+                  EmailError.spam => context.l10n.emailSpam,
                 },
               _ => context.l10n.failedToSendVerificationCode,
             };
@@ -58,11 +58,11 @@ extension KycBuildContext on BuildContext {
             final message = switch (error) {
               KycInvalidCode() => context.l10n.wrongVerificationCode,
               KycPhoneError(:final error) => switch (error) {
-                  PhoneError.blocked => 'context.l10n.phoneBlocked',
-                  PhoneError.fraudBlock => 'context.l10n.phoneFraudBlock',
+                  PhoneError.blocked => context.l10n.phoneBlocked,
+                  PhoneError.fraudBlock => context.l10n.phoneFraudBlock,
                   PhoneError.tooManyAttempts =>
-                    'context.l10n.phoneTooManyAttempts',
-                  PhoneError.undeliverable => 'context.l10n.phoneUndeliverable',
+                    context.l10n.phoneTooManyAttempts,
+                  PhoneError.undeliverable => context.l10n.phoneUndeliverable,
                 },
               _ => context.l10n.failedToSendVerificationCode,
             };

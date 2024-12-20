@@ -1203,7 +1203,21 @@
     "pendingKycDialogTitle": "We’re still verifying your *identity.*",
     "@pendingKycDialogTitle": {},
     "pendingKycDialogMessage": "Your identity verification is currently under review and will be completed shortly. You can check the Activity page for real-time updates on your verification status.",
-    "@pendingKycDialogMessage": {},
+    "@pendingKycDialogMessage": {}, 
     "continueVerification": "Continue Verification",
-    "@continueVerification": {}
+    "@continueVerification": {},
+    "emailBlocked": "This email address has been blocked",
+    "@emailBlocked": {},
+    "emailBounced": "This email address is invalid or no longer exists",
+    "@emailBounced": {},
+    "emailSpam": "This email address has been marked as spam",
+    "@emailSpam": {},
+    "phoneBlocked": "This phone number has been blocked",
+    "@phoneBlocked": {},
+    "phoneFraudBlock": "This phone number has been flagged for suspicious activity",
+    "@phoneFraudBlock": {},
+    "phoneTooManyAttempts": "Too many verification attempts. Please try again later",
+    "@phoneTooManyAttempts": {},
+    "phoneUndeliverable": "Unable to deliver to this phone number",
+    "@phoneUndeliverable": {}
 }
