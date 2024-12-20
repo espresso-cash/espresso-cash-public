@@ -40,7 +40,7 @@ class CommonTile extends StatelessWidget {
 
     return CpActivityTile(
       title: isOutgoing ? context.l10n.sentDirectly : context.l10n.received,
-      subtitle: signature,
+      subtitle: signature.toShortAddress(),
       status: switch (txCommon.status) {
         TxCommonStatus.success => CpActivityTileStatus.success,
         TxCommonStatus.failure => CpActivityTileStatus.failure,
