@@ -64,7 +64,9 @@ class KycRepository extends ChangeNotifier {
       return await _initWrapper(
         () => _getUserData(includeValues: includeValues),
       );
-    } on Exception {
+    } on Exception catch (exception) {
+      reportError(exception);
+
       return null;
     }
   }
