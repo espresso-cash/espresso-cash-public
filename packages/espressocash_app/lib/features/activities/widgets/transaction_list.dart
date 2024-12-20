@@ -24,6 +24,7 @@ class _TransactionListState extends State<TransactionList> {
   void initState() {
     super.initState();
     _txs = sl<TransactionRepository>().watchAll();
+    sl<TxUpdater>().call();
   }
 
   @override
