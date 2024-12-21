@@ -119,7 +119,7 @@ extension BuildContextExt on BuildContext {
         );
 
         if (!mounted) return;
-        ODPDetailsScreen.open(this, id: id);
+        unawaited(ODPDetailsScreen.open(this, id: id));
       }
     }
   }
