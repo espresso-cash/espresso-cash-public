@@ -2,7 +2,7 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 enum DocumentType {
   voterId('Voter ID', 'VOTER_ID'),
-  ninV2('NIN Voter ID', 'NIN_V2');
+  ninV2('NIN_V2', 'NIN_V2');
 
   const DocumentType(this.name, this.value);
 
