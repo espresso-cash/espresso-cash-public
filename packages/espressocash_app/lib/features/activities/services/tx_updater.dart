@@ -68,7 +68,7 @@ class TxUpdater implements Disposable {
     final tokenAccounts = await _getAllTokenAccounts(_wallet.publicKey);
     final allResults = <TransactionUpdateResult>[];
 
-    final batches = tokenAccounts.chunks(5).toList();
+    final batches = tokenAccounts.chunks(_chunkSize).toList();
     for (int i = 0; i < batches.length; i++) {
       final batch = batches[i];
       final batchResults = await Future.wait<TransactionUpdateResult>(
@@ -271,6 +271,8 @@ class _TokenAccountInfo {
   final Ed25519HDPublicKey account;
   final String mintAddress;
 }
+
+const _chunkSize = 5;
 
 const _tokenFetchLimit = 15;
 const _usdcFetchLimit = 50;
