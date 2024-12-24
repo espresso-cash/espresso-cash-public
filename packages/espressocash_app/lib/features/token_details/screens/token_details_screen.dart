@@ -84,7 +84,10 @@ class _TokenDetailsBody extends StatelessWidget {
                       const SizedBox(height: 4),
                       const _TokenHeader(),
                       const SizedBox(height: 24),
-                      if (token.isUsdcToken) const _RampButtons(),
+                      if (token.isUsdcToken)
+                        const _RampButtons()
+                      else
+                        _ActionButtons(token: token),
                       const SizedBox(height: 24),
                       Expanded(
                         child: DecoratedBox(
@@ -224,25 +227,26 @@ class _RampButtons extends StatelessWidget {
       );
 }
 
-// ignore: unused_element, won't be available in first release
-class _SwapButton extends StatelessWidget {
-  const _SwapButton({required this.token});
+class _ActionButtons extends StatelessWidget {
+  const _ActionButtons({required this.token});
 
   final Token token;
 
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40),
+        // ignore:  avoid-single-child-column-or-row, won't be available in first release,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CpButton(
-              text: 'Swap',
-              minWidth: 106,
-              size: CpButtonSize.big,
-              onPressed: () {},
-            ),
-            const SizedBox(width: 14),
+            // TODO(dev): add swap button
+            // CpButton(
+            //   text: 'Swap',
+            //   minWidth: 106,
+            //   size: CpButtonSize.big,
+            //   onPressed: () {},
+            // ),
+            // const SizedBox(width: 14),
             CpButton(
               text: 'Send',
               minWidth: 106,
