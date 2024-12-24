@@ -17,9 +17,8 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
-import '../../send_token/screens/send_token_screen.dart';
-import '../../send_token/widgets/token_app_bar.dart';
 import '../../tokens/token.dart';
+import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
 
 class TokenDetailsScreen extends StatelessWidget {
@@ -226,9 +225,7 @@ class _RampButtons extends StatelessWidget {
 
 // ignore: unused_element, won't be available in first release
 class _SwapButton extends StatelessWidget {
-  const _SwapButton({required this.token});
-
-  final Token token;
+  const _SwapButton();
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -247,10 +244,7 @@ class _SwapButton extends StatelessWidget {
               text: 'Send',
               minWidth: 106,
               size: CpButtonSize.big,
-              onPressed: () => SendTokenScreen.push(
-                context,
-                token: token,
-              ),
+              onPressed: () {},
             ),
           ],
         ),
