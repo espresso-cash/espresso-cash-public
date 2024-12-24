@@ -1,3 +1,8 @@
+## 0.31.0+1
+
+ - **FIX**: ReturnData parsing (#1568).
+ - **FIX**: ReturnData serialization (#1567).
+
 ## 0.31.0
 
  - Removed deprecated methods
