@@ -1,3 +1,8 @@
+## 1.138.0
+
+ - **FEAT**: new document type support (#1654).
+ - **FEAT**: open link in twitter application (#1652).
+
 ## 1.137.0
 
  - **FIX**: brij onramp input amount (#1647).
