@@ -5,7 +5,7 @@ import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
 import '../../currency/models/amount.dart';
-import '../service/token_send_service.dart';
+import '../services/token_send_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<String> createTokenSend({
