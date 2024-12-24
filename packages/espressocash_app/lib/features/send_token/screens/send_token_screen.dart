@@ -134,7 +134,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
           return Scaffold(
             appBar: CpAppBar(
               title: Text(
-                'Send ${widget.token.symbol}',
+                'Send'.toUpperCase(),
               ),
             ),
             backgroundColor: CpColors.deepGreyColor,
@@ -240,6 +240,7 @@ class _WalletTextField extends StatelessWidget {
           padding: const EdgeInsets.only(right: 24),
           child: CpIconButton(
             onPressed: onQrScan,
+            variant: CpIconButtonVariant.inverted,
             icon: Assets.icons.qrScanner.svg(color: Colors.white),
           ),
         ),
