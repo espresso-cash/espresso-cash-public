@@ -82,6 +82,8 @@
     "@faq": {},
     "fee": "Fee",
     "@fee": {},
+    "fees": "Fees",
+    "@fees": {},
     "feesCalculating": "calculating...",
     "@feesCalculating": {},
     "feesFailed": "failed to load",

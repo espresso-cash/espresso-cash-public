@@ -25,25 +25,25 @@ import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../../tokens/token.dart';
 import '../widgets/extensions.dart';
 import '../widgets/token_input.dart';
-import 'confirmation_screen.dart';
+import 'token_send_confirmation_screen.dart';
 
-class SendTokenScreen extends StatefulWidget {
-  const SendTokenScreen({super.key, required this.token});
+class TokenSendInputScreen extends StatefulWidget {
+  const TokenSendInputScreen({super.key, required this.token});
 
   static void push(BuildContext context, {required Token token}) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => SendTokenScreen(token: token),
+          builder: (context) => TokenSendInputScreen(token: token),
         ),
       );
 
   final Token token;
 
   @override
-  State<SendTokenScreen> createState() => _SendTokenScreenState();
+  State<TokenSendInputScreen> createState() => _TokenSendInputScreenState();
 }
 
-class _SendTokenScreenState extends State<SendTokenScreen> {
+class _TokenSendInputScreenState extends State<TokenSendInputScreen> {
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _recipientController = TextEditingController();
 
@@ -81,7 +81,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
   Future<void> _handlePressed() async {
     final recipient = Ed25519HDPublicKey.fromBase58(_recipientController.text);
 
-    final confirmedAmount = await SendTokenConfirmationScreen.push(
+    final confirmedAmount = await TokenSendConfirmationScreen.push(
       context,
       token: widget.token,
       initialAmount: _quantityController.text,
@@ -90,13 +90,13 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
     );
 
     if (confirmedAmount == null) return;
-    if (!mounted) return;
 
     final cryptoAmount = Amount.fromDecimal(
       value: confirmedAmount,
       currency: Currency.crypto(token: widget.token),
     ) as CryptoAmount;
 
+    if (!mounted) return;
     final id = await context.createTokenSend(
       amount: cryptoAmount,
       receiver: recipient,

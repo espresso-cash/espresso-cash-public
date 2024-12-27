@@ -17,8 +17,8 @@ import '../../fees/services/fee_calculator.dart';
 import '../../tokens/token.dart';
 import '../widgets/token_app_bar.dart';
 
-class SendTokenConfirmationScreen extends StatefulWidget {
-  const SendTokenConfirmationScreen({
+class TokenSendConfirmationScreen extends StatefulWidget {
+  const TokenSendConfirmationScreen({
     super.key,
     required this.initialAmount,
     required this.recipient,
@@ -37,7 +37,7 @@ class SendTokenConfirmationScreen extends StatefulWidget {
   }) =>
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => SendTokenConfirmationScreen(
+          builder: (context) => TokenSendConfirmationScreen(
             initialAmount: initialAmount,
             recipient: recipient,
             label: label,
@@ -54,10 +54,10 @@ class SendTokenConfirmationScreen extends StatefulWidget {
   final bool isEnabled;
 
   @override
-  State<SendTokenConfirmationScreen> createState() => _ScreenState();
+  State<TokenSendConfirmationScreen> createState() => _ScreenState();
 }
 
-class _ScreenState extends State<SendTokenConfirmationScreen> {
+class _ScreenState extends State<TokenSendConfirmationScreen> {
   late final TextEditingController _amountController;
   late Future<CryptoAmount> _feeAmount;
 
@@ -79,9 +79,11 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
         title: context.l10n.zeroAmountTitle,
         message: context.l10n.zeroAmountMessage(context.l10n.operationSend),
       );
-    } else {
-      Navigator.pop(context, amount);
+
+      return;
     }
+
+    Navigator.pop(context, amount);
   }
 
   @override
@@ -94,7 +96,7 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: CpColors.deepGreyColor,
         body: Stack(
-          children: <Widget>[
+          children: [
             SafeArea(
               child: NestedScrollView(
                 headerSliverBuilder: (context, _) => [
@@ -142,9 +144,11 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
                                       const SizedBox(height: 72),
                                       FutureBuilder(
                                         future: _feeAmount,
-                                        builder: (context, fee) => _Info(
-                                          widget.recipient.toString().shortened,
-                                          context.feeStatus(fee),
+                                        builder: (context, fee) => _InfoTable(
+                                          walletAddress: widget.recipient
+                                              .toString()
+                                              .shortened,
+                                          fees: context.feeStatus(fee),
                                         ),
                                       ),
                                     ],
@@ -178,23 +182,34 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
       );
 }
 
-class _Info extends StatelessWidget {
-  const _Info(this.walletAddres, this.fees);
+class _InfoTable extends StatelessWidget {
+  const _InfoTable({
+    required this.walletAddress,
+    required this.fees,
+  });
 
-  final String walletAddres;
+  final String walletAddress;
   final String fees;
 
   @override
-  Widget build(BuildContext context) => _SendInfoContainer(
-        content: Column(
+  Widget build(BuildContext context) => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 22),
+        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 28),
+        decoration: const ShapeDecoration(
+          color: CpColors.blackGreyColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(28)),
+          ),
+        ),
+        child: Column(
           children: [
             _InfoItem(
-              label: 'Wallet address',
-              value: walletAddres,
+              label: context.l10n.walletAddress,
+              value: walletAddress,
             ),
             const SizedBox(height: 6),
             _InfoItem(
-              label: 'Fees',
+              label: context.l10n.fees,
               value: fees,
             ),
           ],
@@ -233,29 +248,6 @@ class _InfoItem extends StatelessWidget {
             ),
           ],
         ),
-      );
-}
-
-class _SendInfoContainer extends StatelessWidget {
-  const _SendInfoContainer({
-    required this.content,
-  });
-
-  final Widget content;
-
-  @override
-  Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 22),
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 28),
-        decoration: const ShapeDecoration(
-          color: CpColors.blackGreyColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(28),
-            ),
-          ),
-        ),
-        child: content,
       );
 }
 
