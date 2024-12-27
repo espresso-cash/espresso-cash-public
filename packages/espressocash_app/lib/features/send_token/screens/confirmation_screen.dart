@@ -186,7 +186,6 @@ class _Info extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _SendInfoContainer(
-        title: '',
         content: Column(
           children: [
             _InfoItem(
@@ -239,11 +238,9 @@ class _InfoItem extends StatelessWidget {
 
 class _SendInfoContainer extends StatelessWidget {
   const _SendInfoContainer({
-    required this.title,
     required this.content,
   });
 
-  final String title;
   final Widget content;
 
   @override

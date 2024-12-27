@@ -9,7 +9,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
-import '../../../ui/button.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/number_formatter.dart';
@@ -134,25 +134,24 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
           return Scaffold(
             appBar: CpAppBar(
               title: Text(
-                'Send'.toUpperCase(),
+                context.l10n.send.toUpperCase(),
               ),
             ),
             backgroundColor: CpColors.deepGreyColor,
             body: SafeArea(
-              bottom: false,
+              top: false,
+              minimum: const EdgeInsets.only(bottom: 40),
               child: Padding(
-                padding: const EdgeInsets.all(23.0),
+                padding: const EdgeInsets.symmetric(horizontal: 23),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 25.0),
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0),
                       child: Text(
-                        'Quantity',
-                        style: TextStyle(
+                        context.l10n.quantity,
+                        style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
                         ),
@@ -166,11 +165,11 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                       rate: _rate,
                     ),
                     const SizedBox(height: 32),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 25.0),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0),
                       child: Text(
-                        'Recipient',
-                        style: TextStyle(
+                        context.l10n.recipient,
+                        style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
                         ),
@@ -182,23 +181,14 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                       onQrScan: _handleOnQrScan,
                     ),
                     const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 47.0,
-                        left: 25,
-                        right: 25,
+                    ListenableBuilder(
+                      listenable: Listenable.merge(
+                        [_quantityController, _recipientController],
                       ),
-                      child: ListenableBuilder(
-                        listenable: Listenable.merge(
-                          [_quantityController, _recipientController],
-                        ),
-                        builder: (context, child) => CpButton(
-                          width: MediaQuery.sizeOf(context).width,
-                          alignment: CpButtonAlignment.center,
-                          size: CpButtonSize.big,
-                          onPressed: _isValid ? _handlePressed : null,
-                          text: context.l10n.next,
-                        ),
+                      builder: (context, child) => CpBottomButton(
+                        horizontalPadding: 16,
+                        text: context.l10n.next,
+                        onPressed: _isValid ? _handlePressed : null,
                       ),
                     ),
                   ],
@@ -231,7 +221,7 @@ class _WalletTextField extends StatelessWidget {
         textInputAction: TextInputAction.next,
         textCapitalization: TextCapitalization.none,
         backgroundColor: CpColors.blackGreyColor,
-        placeholder: 'Enter a wallet address',
+        placeholder: context.l10n.enterWalletAddress,
         placeholderColor: CpColors.secondaryTextColor,
         textColor: Colors.white,
         fontSize: 16,

@@ -1223,5 +1223,11 @@
     "balance": "Balance",
     "@balance": {},
     "noRecentActivity": "No recent activity",
-    "@noRecentActivity": {}
+    "@noRecentActivity": {},
+    "quantity": "Quantity",
+    "@quantity": {},
+    "recipient": "Recipient",
+    "@recipient": {},
+    "enterWalletAddress": "Enter a wallet address",
+    "@enterWalletAddress": {}
 }
