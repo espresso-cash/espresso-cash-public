@@ -99,7 +99,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener>
     );
 
     if (!mounted) return;
-    unawaited(ODPDetailsScreen.open(context, id: id));
+    ODPDetailsScreen.open(context, id: id);
   }
 
   @override

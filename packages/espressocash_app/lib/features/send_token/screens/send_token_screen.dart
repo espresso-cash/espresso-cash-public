@@ -103,7 +103,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
     );
 
     if (!mounted) return;
-    unawaited(ODPDetailsScreen.open(context, id: id));
+    ODPDetailsScreen.open(context, id: id);
   }
 
   bool _validateQuantity() {
