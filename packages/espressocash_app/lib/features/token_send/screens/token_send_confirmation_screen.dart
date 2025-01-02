@@ -5,7 +5,7 @@ import 'package:solana/solana.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../ui/button.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/number_formatter.dart';
@@ -98,6 +98,7 @@ class _ScreenState extends State<TokenSendConfirmationScreen> {
         body: Stack(
           children: [
             SafeArea(
+              minimum: const EdgeInsets.only(bottom: 40),
               child: NestedScrollView(
                 headerSliverBuilder: (context, _) => [
                   TokenAppBar(
@@ -156,18 +157,9 @@ class _ScreenState extends State<TokenSendConfirmationScreen> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 47.0,
-                                left: 25,
-                                right: 25,
-                              ),
-                              child: CpButton(
-                                text: context.l10n.pay,
-                                minWidth: MediaQuery.sizeOf(context).width,
-                                onPressed: _handleSubmitted,
-                                size: CpButtonSize.big,
-                              ),
+                            CpBottomButton(
+                              text: context.l10n.send,
+                              onPressed: _handleSubmitted,
                             ),
                           ],
                         ),

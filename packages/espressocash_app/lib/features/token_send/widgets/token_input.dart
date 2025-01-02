@@ -28,7 +28,7 @@ class TokenQuantityInput extends StatefulWidget {
 }
 
 class _TokenQuantityInputState extends State<TokenQuantityInput> {
-  bool _visibility = false;
+  bool _showUsdcEquivalent = false;
   double _textHeight = 1.2;
 
   @override
@@ -43,10 +43,10 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
     setState(() {
       if (isValueValid) {
         _textHeight = 0.9;
-        _visibility = true;
+        _showUsdcEquivalent = true;
       } else {
         _textHeight = 1.2;
-        _visibility = false;
+        _showUsdcEquivalent = false;
       }
     });
   }
@@ -84,16 +84,13 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
             ),
           ),
           Visibility(
-            visible: _visibility,
+            visible: _showUsdcEquivalent,
             child: Positioned(
               left: 28,
               bottom: 4,
               child: Text(
                 _usdcAmount,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ),
           ),
