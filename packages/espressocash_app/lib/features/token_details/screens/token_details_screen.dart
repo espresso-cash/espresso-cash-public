@@ -18,8 +18,8 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../token_send/screens/token_send_input_screen.dart';
+import '../../token_send/widgets/token_app_bar.dart';
 import '../../tokens/token.dart';
-import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
 
 class TokenDetailsScreen extends StatelessWidget {
