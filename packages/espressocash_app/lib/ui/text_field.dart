@@ -31,7 +31,7 @@ class CpTextField extends StatelessWidget {
     this.textCapitalization = TextCapitalization.none,
     this.autocorrect = true,
     this.height,
-    this.textHeight,
+    this.textHeight = 1.2,
     this.maxLength,
   });
 
@@ -45,7 +45,7 @@ class CpTextField extends StatelessWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final double? height;
-  final double? textHeight;
+  final double textHeight;
   final int? maxLength;
   final bool disabled;
   final TextInputType? inputType;
