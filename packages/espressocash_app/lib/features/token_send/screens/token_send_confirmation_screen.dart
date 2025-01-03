@@ -22,36 +22,28 @@ class TokenSendConfirmationScreen extends StatefulWidget {
     super.key,
     required this.initialAmount,
     required this.recipient,
-    required this.label,
     required this.token,
-    this.isEnabled = true,
   });
 
   static Future<Decimal?> push(
     BuildContext context, {
     required String initialAmount,
     required Ed25519HDPublicKey recipient,
-    String? label,
     required Token token,
-    required bool isEnabled,
   }) =>
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => TokenSendConfirmationScreen(
             initialAmount: initialAmount,
             recipient: recipient,
-            label: label,
             token: token,
-            isEnabled: isEnabled,
           ),
         ),
       );
 
   final String initialAmount;
   final Ed25519HDPublicKey recipient;
-  final String? label;
   final Token token;
-  final bool isEnabled;
 
   @override
   State<TokenSendConfirmationScreen> createState() => _ScreenState();
@@ -139,7 +131,7 @@ class _ScreenState extends State<TokenSendConfirmationScreen> {
                                       AmountWithEquivalent(
                                         inputController: _amountController,
                                         token: widget.token,
-                                        collapsed: widget.isEnabled,
+                                        collapsed: false,
                                         backgroundColor: CpColors.deepGreyColor,
                                       ),
                                       const SizedBox(height: 72),

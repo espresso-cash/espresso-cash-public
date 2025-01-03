@@ -85,7 +85,6 @@ class _TokenSendInputScreenState extends State<TokenSendInputScreen> {
       context,
       token: widget.token,
       initialAmount: _quantityController.text,
-      isEnabled: false,
       recipient: recipient,
     );
 
