@@ -1,3 +1,7 @@
+## 0.31.1
+
+ - **FEAT**: update web_socket_channel dependency (#1659).
+
 ## 0.31.0+1
 
  - **FIX**: ReturnData parsing (#1568).
