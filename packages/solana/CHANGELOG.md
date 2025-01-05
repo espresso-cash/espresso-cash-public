@@ -1,3 +1,7 @@
+## 0.31.1+1
+
+ - **FIX**: pass tokenProgramId to createAccount method in createAssociatedTokenAccount (#1660).
+
 ## 0.31.1
 
  - **FEAT**: update web_socket_channel dependency (#1659).
