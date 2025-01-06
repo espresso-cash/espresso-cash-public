@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-wildcard-cases-with-enums
-
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -31,7 +29,12 @@ extension KycBuildContext on BuildContext {
                   EmailError.bounced => context.l10n.emailBounced,
                   EmailError.spam => context.l10n.emailSpam,
                 },
-              _ => context.l10n.failedToSendVerificationCode,
+              KycPhoneError() => throw UnimplementedError(),
+              KycInvalidToken() ||
+              KycInvalidData() ||
+              KycGenericError() ||
+              KycInvalid() =>
+                context.l10n.failedToSendVerificationCode
             };
 
             showCpErrorSnackbar(context, message: message);

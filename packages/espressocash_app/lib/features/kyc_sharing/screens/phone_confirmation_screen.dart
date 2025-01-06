@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-wildcard-cases-with-enums
-
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -53,7 +51,13 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
 
           final message = switch (error) {
             KycInvalidCode() => context.l10n.wrongVerificationCode,
-            _ => context.l10n.tryAgainLater,
+            KycEmailError() ||
+            KycPhoneError() ||
+            KycInvalidToken() ||
+            KycInvalidData() ||
+            KycGenericError() ||
+            KycInvalid() =>
+              context.l10n.tryAgainLater
           };
 
           showCpErrorSnackbar(context, message: message);
