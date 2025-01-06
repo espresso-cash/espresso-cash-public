@@ -665,10 +665,10 @@ packages:
     dependency: "direct main"
     description:
       name: solana
-      sha256: "349ae373501cd83d2df2285c76a97e5531d580f0e327732d883dcd0957981604"
+      sha256: "3f8c9ad84af6fbce1e5d76ab67b17c9ec944185235a6032b578ecab0b1f59ee3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.31.0"
+    version: "0.31.0+1"
   solana_mobile_wallet:
     dependency: "direct main"
     description:

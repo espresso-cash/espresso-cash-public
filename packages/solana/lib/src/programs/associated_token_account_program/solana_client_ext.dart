@@ -66,6 +66,7 @@ extension SolanaClientAssociatedTokenAccontProgram on SolanaClient {
       address: derivedAddress,
       owner: effectiveOwner,
       funder: funder.publicKey,
+      tokenProgramId: tokenProgramType.id,
     );
 
     await sendAndConfirmTransaction(
