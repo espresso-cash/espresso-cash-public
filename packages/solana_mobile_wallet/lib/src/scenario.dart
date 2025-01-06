@@ -79,6 +79,10 @@ class Scenario {
   void close() {
     _host.close(id);
   }
+
+  Future<WalletConfigDto?> getWalletConfig() async {
+    return await _host.getWalletConfig(id);
+  }
 }
 
 abstract class ScenarioCallbacks {
@@ -105,6 +109,7 @@ abstract class ScenarioCallbacks {
     SignAndSendTransactionsRequest request,
   );
   Future<void> onDeauthorizeEvent(DeauthorizeEvent event);
+  Future<WalletConfigDto?> getWalletConfig(int id);
 }
 
 class Api implements ApiFlutter {
@@ -357,5 +362,10 @@ class Api implements ApiFlutter {
       callbacks: callbacks,
     );
     scenario?.start();
+  }
+
+  @override
+  Future<WalletConfigDto?> getWalletConfig(int id) async {
+    return await _scenarios[id]?.callbacks.getWalletConfig(id);
   }
 }

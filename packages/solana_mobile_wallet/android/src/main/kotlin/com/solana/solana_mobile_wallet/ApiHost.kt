@@ -86,6 +86,21 @@ class ApiHost(private val context: Context, private val api: Api.ApiFlutter) : A
         }
     }
 
+    override fun getWalletConfig(id: Long, result: Api.Result<Api.WalletConfigDto>?) {
+        val scenario = scenarios[id]
+        if (scenario == null) {
+            result?.success(null)
+        } else {
+            val walletConfig = Api.WalletConfigDto(
+                supportsSignAndSendTransactions = scenario.config.supportsSignAndSendTransactions,
+                maxTransactionsPerSigningRequest = scenario.config.maxTransactionsPerSigningRequest.toLong(),
+                maxMessagesPerSigningRequest = scenario.config.maxMessagesPerSigningRequest.toLong(),
+                supportedTransactionVersions = scenario.config.supportedTransactionVersions.toList(),
+                noConnectionWarningTimeoutInMs = scenario.config.noConnectionWarningTimeoutInMs
+            )
+            result?.success(walletConfig)
+        }
+    }
 
     companion object {
         private const val TAG = "SolanaMobileWalletPlugin"

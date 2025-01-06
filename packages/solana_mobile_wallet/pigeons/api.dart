@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_positional_boolean_parameters
-
 import 'package:pigeon/pigeon.dart';
 
 class AuthorizeRequestDto {
@@ -334,6 +332,9 @@ abstract class ApiFlutter {
   );
 
   void onNewIntent(bool isInitialIntent);
+
+  @async
+  WalletConfigDto? getWalletConfig(int id);
 }
 
 @HostApi()
@@ -348,4 +349,7 @@ abstract class ApiHost {
     WalletConfigDto walletConfig,
     AuthIssuerConfigDto authIssuerConfig,
   );
+
+  @async
+  WalletConfigDto? getWalletConfig(int id);
 }
