@@ -7,7 +7,6 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_token_activity.dart';
@@ -36,16 +35,13 @@ class TokenDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Provider<Token>.value(
         value: token,
-        child: CpTheme.dark(
-          child: Scaffold(
-            backgroundColor: CpColors.darkSandColor,
-            body: SafeArea(
-              bottom: false,
-              child: NestedScrollView(
-                headerSliverBuilder: (context, _) =>
-                    [TokenAppBar(token: token)],
-                body: _TokenDetailsBody(token),
-              ),
+        child: Scaffold(
+          backgroundColor: CpColors.darkSandColor,
+          body: SafeArea(
+            bottom: false,
+            child: NestedScrollView(
+              headerSliverBuilder: (context, _) => [TokenAppBar(token: token)],
+              body: _TokenDetailsBody(token),
             ),
           ),
         ),
@@ -58,8 +54,18 @@ class _TokenDetailsBody extends StatelessWidget {
   final Token token;
 
   @override
-  Widget build(BuildContext context) => ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(31)),
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              CpColors.darkSandColor,
+              CpColors.deepGreyColor,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.55, 0.56],
+          ),
+        ),
         child: LayoutBuilder(
           builder: (
             BuildContext context,
