@@ -99,7 +99,7 @@ class TxUpdater implements Disposable {
 
     final allAddresses = [
       _wallet.publicKey,
-      ...nonUsdcTokenAccounts.map((a) => a.account)
+      ...nonUsdcTokenAccounts.map((a) => a.account),
     ];
 
     final details = await _client.rpcClient.getTransactionListForAddresses(
