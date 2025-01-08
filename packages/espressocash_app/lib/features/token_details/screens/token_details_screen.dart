@@ -174,10 +174,7 @@ class _TokenHeader extends StatelessWidget {
               const SizedBox(height: 24),
               FittedBox(
                 child: Text(
-                  crypto.format(
-                    context.locale,
-                    maxDecimals: 4,
-                  ),
+                  context.formatWithMinAmount(crypto),
                   maxLines: 1,
                   style: const TextStyle(
                     fontSize: 59,
@@ -256,3 +253,15 @@ class _SwapButton extends StatelessWidget {
         ),
       );
 }
+
+extension CryptoAmountFormatting on BuildContext {
+  String formatWithMinAmount(CryptoAmount cryptoAmount) =>
+      cryptoAmount.decimal < Decimal.parse(_minCryptoAmount.toString())
+          ? '<${Amount.fromDecimal(
+              value: Decimal.parse(_minCryptoAmount.toString()),
+              currency: cryptoAmount.currency,
+            ).format(locale)}'
+          : cryptoAmount.format(locale, maxDecimals: 4);
+}
+
+const double _minCryptoAmount = 0.0001;
