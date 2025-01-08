@@ -49,15 +49,26 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
         } on KycException catch (error) {
           if (!mounted) return false;
 
-          final message = switch (error) {
-            KycInvalidCode() => context.l10n.wrongVerificationCode,
-            KycEmailError() ||
-            KycPhoneError() ||
-            KycInvalidToken() ||
-            KycInvalidData() ||
-            KycGenericError() ||
-            KycInvalid() =>
-              context.l10n.tryAgainLater
+          final message = switch (error.type) {
+            KycErrorType.invalidCode => context.l10n.wrongVerificationCode,
+            KycErrorType.invalidToken ||
+            KycErrorType.invalidData ||
+            KycErrorType.phoneBlocked ||
+            KycErrorType.phoneFraudBlock ||
+            KycErrorType.phoneTooManyAttempts ||
+            KycErrorType.phoneUndeliverable ||
+            KycErrorType.invalidPhone ||
+            KycErrorType.emailBlocked ||
+            KycErrorType.emailBounced ||
+            KycErrorType.emailSpam ||
+            KycErrorType.emailUndeliverable ||
+            KycErrorType.invalidEmail ||
+            KycErrorType.unverifiedContact ||
+            KycErrorType.validationInProgress ||
+            KycErrorType.smileIDJobNotCompleted ||
+            KycErrorType.smileIDCannotUpload ||
+            KycErrorType.generic =>
+              context.l10n.tryAgainLater,
           };
 
           showCpErrorSnackbar(context, message: message);

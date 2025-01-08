@@ -1212,12 +1212,14 @@
     "@emailBounced": {},
     "emailSpam": "This email address has been marked as spam",
     "@emailSpam": {},
+    "emailUndeliverable": "Unable to send to this email address",
+    "@emailUndeliverable": {},
     "phoneBlocked": "This phone number has been blocked",
     "@phoneBlocked": {},
     "phoneFraudBlock": "This phone number has been flagged for suspicious activity",
     "@phoneFraudBlock": {},
     "phoneTooManyAttempts": "Too many verification attempts. Please try again later",
     "@phoneTooManyAttempts": {},
-    "phoneUndeliverable": "Unable to deliver to this phone number",
+    "phoneUndeliverable": "Unable to send to this phone number",
     "@phoneUndeliverable": {}
 }
