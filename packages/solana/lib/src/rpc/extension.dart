@@ -71,6 +71,90 @@ extension RpcClientExt on RpcClient {
     );
   }
 
+  /// Get multiple transactions for multiple addresses in 1 call.
+  ///
+  /// For [commitment] parameter description [see this document][see this document]
+  /// [Commitment.processed] is not supported as [commitment].
+  ///
+  /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
+  Future<List<TransactionDetails>> getTransactionListForAddresses(
+    List<Ed25519HDPublicKey> addresses, {
+    int limit = 10,
+    String? before,
+    String? until,
+    Commitment? commitment,
+    Encoding? encoding,
+    // ignore: avoid-nullable-parameters-with-default-values, null has a meaning here
+    num? maxSupportedTransactionVersion = 0,
+    num? minContextSlot,
+  }) async {
+    final signatures = await getMultipleSignaturesForAddresses(
+      addresses,
+      limit: limit,
+      before: before,
+      until: until,
+      commitment: commitment,
+      minContextSlot: minContextSlot,
+    );
+
+    final allSignatures = signatures.expand((s) => s).toList();
+    if (allSignatures.isEmpty) return [];
+
+    return getMultipleTransactions(
+      allSignatures,
+      commitment: commitment,
+      encoding: encoding ?? Encoding.jsonParsed,
+      maxSupportedTransactionVersion: maxSupportedTransactionVersion,
+    );
+  }
+
+  /// Get multiple signatures for multiple addresses in 1 call.
+  /// The parameters are "passed as is"
+  /// to the internal call to [RpcClient.getSignaturesForAddress()]
+  Future<List<List<TransactionSignatureInformation>>>
+      getMultipleSignaturesForAddresses(
+    List<Ed25519HDPublicKey> addresses, {
+    int limit = 10,
+    String? before,
+    String? until,
+    Commitment? commitment,
+    num? minContextSlot,
+  }) async {
+    final response = await _jsonRpcClient.bulkRequest(
+      'getSignaturesForAddress',
+      addresses
+          .map(
+            (address) => [
+              address.toBase58(),
+              GetSignaturesForAddressConfig(
+                limit: limit,
+                before: before,
+                until: until,
+                commitment: commitment,
+                minContextSlot: minContextSlot,
+              ).toJson(),
+            ],
+          )
+          .toList(),
+    );
+
+    return response
+        .map<List<TransactionSignatureInformation>>((dynamic result) {
+      if (result == null) return [];
+      final data = getResult(result);
+      if (data == null) return [];
+      if (data is! List) return [];
+
+      return data
+          .map(
+            (dynamic s) => TransactionSignatureInformation.fromJson(
+              s as Map<String, dynamic>,
+            ),
+          )
+          .toList();
+    }).toList();
+  }
+
   /// Get multiple transactions in 1 call.
   ///
   /// Gets one transaction for each signature in the [signatures] list.
@@ -102,6 +186,7 @@ extension RpcClientExt on RpcClient {
     final Iterable<dynamic> transactions = response.map<dynamic>(getResult);
 
     return transactions
+        .where((t) => t != null)
         .map(
           (dynamic t) => TransactionDetails.fromJson(t as Map<String, dynamic>),
         )

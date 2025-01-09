@@ -230,6 +230,32 @@ void main() {
       expect(txs.length, greaterThan(0));
     });
 
+    test('List recent transactions for multiple addresses', () async {
+      final secondWallet = await Ed25519HDKeyPair.fromMnemonic(
+        generateMnemonic(),
+        account: 2,
+      );
+
+      await client.rpcClient.requestAirdrop(
+        secondWallet.address,
+        _transferredAmount,
+        commitment: Commitment.confirmed,
+      );
+
+      final txs = await client.rpcClient.getTransactionListForAddresses(
+        [source.publicKey, secondWallet.publicKey],
+        commitment: Commitment.confirmed,
+      );
+
+      expect(txs, isNot(null));
+
+      for (final tx in txs) {
+        expect(tx, isNot(null));
+      }
+
+      expect(txs.length, greaterThan(0));
+    });
+
     test('Transfer SOL with Versioned Transaction', () async {
       final bh = await client.rpcClient
           .getLatestBlockhash(commitment: Commitment.confirmed)
