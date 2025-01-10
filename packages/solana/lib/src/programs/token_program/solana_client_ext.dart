@@ -131,7 +131,7 @@ extension SolanaClientTokenProgram on SolanaClient {
     String? memo,
     SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
-    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
+    TokenProgramType tokenProgram = TokenProgramType.tokenProgram,
   }) async {
     final associatedRecipientAccount = await getAssociatedTokenAccount(
       owner: destination,
@@ -163,7 +163,7 @@ extension SolanaClientTokenProgram on SolanaClient {
           Ed25519HDPublicKey.fromBase58(associatedRecipientAccount.pubkey),
       owner: owner.publicKey,
       amount: amount,
-      tokenProgram: tokenProgramType,
+      tokenProgram: tokenProgram,
     );
 
     final message = Message(
