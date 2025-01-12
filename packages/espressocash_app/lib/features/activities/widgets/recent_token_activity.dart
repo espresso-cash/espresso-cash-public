@@ -145,6 +145,7 @@ class _ActivityGroupWidget extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 40),
         ],
       );
 }
