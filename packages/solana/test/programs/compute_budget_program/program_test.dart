@@ -64,7 +64,7 @@ void main() {
     const micro = 1000000;
     expect(
       feeWithComputeUnitPrice! - feeWithoutComputeUnitPrice!,
-      defaultUnitLimit * unitPriceMicroLamports / micro,
+      (defaultUnitLimit * unitPriceMicroLamports) ~/ micro,
     );
   });
 }
