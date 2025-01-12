@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-single-child-column-or-row
-
 import 'dart:math';
 
 import 'package:dfunc/dfunc.dart';
@@ -48,15 +46,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
           children: [
             _buildIcon(ratio, iconSize),
             _buildText(ratio, iconSize),
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: _Buttons(
-                token: token,
-                opacity: ratio,
-              ),
-            ),
+            const _BackButton(),
           ],
         ),
       ),
@@ -110,22 +100,16 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
       );
 }
 
-class _Buttons extends StatelessWidget {
-  const _Buttons({required this.token, required this.opacity});
-
-  final Token token;
-  final double opacity;
+class _BackButton extends StatelessWidget {
+  const _BackButton();
 
   @override
-  Widget build(BuildContext context) => const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: _minExtent,
-            child: CpBackButton(),
-          ),
-        ],
+  Widget build(BuildContext context) => const Align(
+        alignment: Alignment.topLeft,
+        child: SizedBox(
+          height: _minExtent,
+          child: CpBackButton(),
+        ),
       );
 }
 
