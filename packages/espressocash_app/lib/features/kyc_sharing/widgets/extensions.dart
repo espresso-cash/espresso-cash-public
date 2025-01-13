@@ -24,7 +24,13 @@ extension KycBuildContext on BuildContext {
 
             final message = switch (error) {
               KycInvalidEmail() => context.l10n.invalidEmail,
-              _ => context.l10n.failedToSendVerificationCode,
+              KycInvalidCode() ||
+              KycInvalidData() ||
+              KycInvalidToken() ||
+              KycInvalidPhone() ||
+              KycPhoneTooManyAttempts() ||
+              KycGenericError() =>
+                context.l10n.failedToSendVerificationCode,
             };
 
             showCpErrorSnackbar(context, message: message);
@@ -50,7 +56,13 @@ extension KycBuildContext on BuildContext {
 
             final message = switch (error) {
               KycInvalidPhone() => context.l10n.invalidPhone,
-              _ => context.l10n.failedToSendVerificationCode,
+              KycPhoneTooManyAttempts() => context.l10n.phoneTooManyAttempts,
+              KycInvalidCode() ||
+              KycInvalidEmail() ||
+              KycInvalidData() ||
+              KycInvalidToken() ||
+              KycGenericError() =>
+                context.l10n.failedToSendVerificationCode,
             };
 
             showCpErrorSnackbar(context, message: message);
