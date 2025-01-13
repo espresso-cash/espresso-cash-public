@@ -22,27 +22,9 @@ extension KycBuildContext on BuildContext {
           } on KycException catch (error) {
             if (!mounted) return false;
 
-            final message = switch (error.type) {
-              KycErrorType.invalidEmail => context.l10n.invalidEmail,
-              KycErrorType.emailBlocked => context.l10n.emailBlocked,
-              KycErrorType.emailBounced => context.l10n.emailBounced,
-              KycErrorType.emailSpam => context.l10n.emailSpam,
-              KycErrorType.emailUndeliverable =>
-                context.l10n.emailUndeliverable,
-              KycErrorType.phoneBlocked ||
-              KycErrorType.phoneFraudBlock ||
-              KycErrorType.phoneTooManyAttempts ||
-              KycErrorType.phoneUndeliverable ||
-              KycErrorType.unverifiedContact ||
-              KycErrorType.validationInProgress ||
-              KycErrorType.smileIDJobNotCompleted ||
-              KycErrorType.smileIDCannotUpload ||
-              KycErrorType.invalidToken ||
-              KycErrorType.invalidData ||
-              KycErrorType.invalidCode ||
-              KycErrorType.invalidPhone ||
-              KycErrorType.generic =>
-                context.l10n.failedToSendVerificationCode,
+            final message = switch (error) {
+              KycInvalidEmail() => context.l10n.invalidEmail,
+              _ => context.l10n.failedToSendVerificationCode,
             };
 
             showCpErrorSnackbar(context, message: message);
@@ -66,28 +48,10 @@ extension KycBuildContext on BuildContext {
           } on KycException catch (error) {
             if (!mounted) return false;
 
-            final message = switch (error.type) {
-              KycErrorType.invalidPhone => context.l10n.invalidPhone,
-              KycErrorType.phoneBlocked => context.l10n.phoneBlocked,
-              KycErrorType.phoneFraudBlock => context.l10n.phoneFraudBlock,
-              KycErrorType.phoneTooManyAttempts =>
-                context.l10n.phoneTooManyAttempts,
-              KycErrorType.phoneUndeliverable =>
-                context.l10n.phoneUndeliverable,
-              KycErrorType.invalidToken ||
-              KycErrorType.invalidData ||
-              KycErrorType.emailBlocked ||
-              KycErrorType.emailBounced ||
-              KycErrorType.emailSpam ||
-              KycErrorType.emailUndeliverable ||
-              KycErrorType.unverifiedContact ||
-              KycErrorType.validationInProgress ||
-              KycErrorType.smileIDJobNotCompleted ||
-              KycErrorType.smileIDCannotUpload ||
-              KycErrorType.invalidEmail ||
-              KycErrorType.invalidCode ||
-              KycErrorType.generic =>
-                context.l10n.failedToSendVerificationCode,
+            final message = switch (error) {
+              KycInvalidPhone() => context.l10n.invalidPhone,
+              KycPhoneTooManyAttempts() => context.l10n.phoneTooManyAttempts,
+              _ => context.l10n.failedToSendVerificationCode,
             };
 
             showCpErrorSnackbar(context, message: message);
