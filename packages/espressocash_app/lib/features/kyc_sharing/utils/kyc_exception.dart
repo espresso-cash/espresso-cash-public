@@ -11,6 +11,7 @@ sealed class KycException with _$KycException implements Exception {
   const factory KycException.invalidData() = KycInvalidData;
   const factory KycException.invalidToken() = KycInvalidToken;
   const factory KycException.genericError() = KycGenericError;
+  const factory KycException.phoneTooManyAttempts() = KycPhoneTooManyAttempts;
 }
 
 extension ErrorExt on Exception {
@@ -29,6 +30,8 @@ extension ErrorExt on Exception {
       'invalid phone' => const KycException.invalidPhone(),
       'invalid code' => const KycException.invalidCode(),
       'invalid data' => const KycException.invalidData(),
+      'too many verification attempts' =>
+        const KycException.phoneTooManyAttempts(),
       _ => const KycException.genericError(),
     };
   }
