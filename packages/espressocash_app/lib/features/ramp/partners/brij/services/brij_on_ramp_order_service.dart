@@ -140,7 +140,7 @@ class BrijOnRampOrderService implements Disposable {
           final countryCode = _kycSharingService.value?.countryCode;
 
           _analytics.rampInitiated(
-            partner: RampPartner.brij,
+            partnerName: RampPartner.brij.name,
             rampType: RampType.onRamp.name,
             amount: submittedAmount.value.toString(),
             countryCode: countryCode ?? '',

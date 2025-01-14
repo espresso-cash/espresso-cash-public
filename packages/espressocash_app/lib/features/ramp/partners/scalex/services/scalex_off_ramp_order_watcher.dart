@@ -51,7 +51,7 @@ class ScalexOffRampOrderWatcher implements RampWatcher {
         await _subscription?.cancel();
 
         _analytics.rampCompleted(
-          partner: RampPartner.scalex,
+          partnerName: RampPartner.scalex.name,
           rampType: RampType.offRamp.name,
           id: orderId,
         );

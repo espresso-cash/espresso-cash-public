@@ -205,7 +205,7 @@ class MoneygramOffRampOrderService implements Disposable {
           _subscribe(order.id);
 
           _analytics.rampInitiated(
-            partner: RampPartner.moneygram,
+            partnerName: RampPartner.moneygram.name,
             rampType: RampType.offRamp.name,
             amount: submittedAmount.value.toString(),
             countryCode: countryCode,
@@ -648,7 +648,7 @@ class MoneygramOffRampOrderService implements Disposable {
         );
 
         _analytics.rampCompleted(
-          partner: RampPartner.moneygram,
+          partnerName: RampPartner.moneygram.name,
           rampType: RampType.offRamp.name,
           id: id,
         );
