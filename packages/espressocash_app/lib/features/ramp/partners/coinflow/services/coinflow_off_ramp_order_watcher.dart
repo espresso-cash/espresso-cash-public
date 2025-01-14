@@ -63,7 +63,7 @@ class CoinflowOffRampOrderWatcher implements RampWatcher {
         await _subscription?.cancel();
 
         _analytics.rampCompleted(
-          partner: RampPartner.coinflow,
+          partnerName: RampPartner.coinflow.name,
           rampType: RampType.offRamp.name,
           id: orderId,
         );

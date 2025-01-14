@@ -49,7 +49,7 @@ class ScalexOnRampOrderWatcher implements RampWatcher {
 
       if (isCompleted) {
         _analytics.rampCompleted(
-          partner: RampPartner.scalex,
+          partnerName: RampPartner.scalex.name,
           rampType: RampType.onRamp.name,
           id: orderId,
         );

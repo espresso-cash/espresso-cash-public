@@ -312,7 +312,7 @@ class OffRampOrderService implements Disposable {
           await _watch(order.id);
 
           _analytics.rampInitiated(
-            partner: partner,
+            partnerName: partner.name,
             rampType: RampType.offRamp.name,
             amount: amount.value.toString(),
             countryCode: countryCode,

@@ -48,7 +48,7 @@ class KadoOnRampOrderWatcher implements RampWatcher {
           status = OnRampOrderStatus.completed;
 
           _analytics.rampCompleted(
-            partner: RampPartner.kado,
+            partnerName: RampPartner.kado.name,
             rampType: RampType.onRamp.name,
             id: orderId,
           );
