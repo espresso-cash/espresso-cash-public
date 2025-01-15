@@ -41,10 +41,12 @@ void main() {
     );
 
     const unitPriceMicroLamports = 1000;
+    const computeUnitLimit = 200000;
 
     message = message.copyWith(
       instructions: [
         ...message.instructions,
+        ComputeBudgetInstruction.setComputeUnitLimit(units: computeUnitLimit),
         ComputeBudgetInstruction.setComputeUnitPrice(
           microLamports: unitPriceMicroLamports,
         ),
@@ -60,11 +62,10 @@ void main() {
       commitment: commitment,
     );
 
-    const defaultUnitLimit = 200000;
     const micro = 1000000;
     expect(
       feeWithComputeUnitPrice! - feeWithoutComputeUnitPrice!,
-      defaultUnitLimit * unitPriceMicroLamports / micro,
+      (computeUnitLimit * unitPriceMicroLamports) ~/ micro,
     );
   });
 }

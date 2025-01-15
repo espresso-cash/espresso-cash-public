@@ -170,7 +170,7 @@ class MoneygramOnRampOrderService implements Disposable {
           await _db.into(_db.onRampOrderRows).insert(order);
 
           _analytics.rampInitiated(
-            partner: RampPartner.moneygram,
+            partnerName: RampPartner.moneygram.name,
             rampType: RampType.onRamp.name,
             amount: submittedAmount.value.toString(),
             countryCode: countryCode,
@@ -386,7 +386,7 @@ class MoneygramOnRampOrderService implements Disposable {
       );
 
       _analytics.rampCompleted(
-        partner: RampPartner.moneygram,
+        partnerName: RampPartner.moneygram.name,
         rampType: RampType.onRamp.name,
         id: id,
       );

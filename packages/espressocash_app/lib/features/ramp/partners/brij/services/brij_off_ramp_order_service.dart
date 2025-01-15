@@ -210,7 +210,7 @@ class BrijOffRampOrderService implements Disposable {
               );
 
           _analytics.rampInitiated(
-            partner: RampPartner.brij,
+            partnerName: RampPartner.brij.name,
             rampType: RampType.offRamp.name,
             amount: submittedAmount.value.toString(),
             countryCode: countryCode,

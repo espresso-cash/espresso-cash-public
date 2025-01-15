@@ -34,10 +34,6 @@ class TxUpdater implements Disposable {
   final AsyncCache<void> _cache = AsyncCache.ephemeral();
 
   @PostConstruct()
-  void init() {
-    call();
-  }
-
   Future<void> call() => _cache.fetch(_updateAllTransactions);
 
   Future<void> _updateAllTransactions() async {
