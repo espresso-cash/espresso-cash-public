@@ -71,7 +71,7 @@ enum RampPartner {
   ),
 
   scalexBrij(
-    title: 'Scalex BRIJ (BETA)',
+    title: 'Scalex',
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
     partnerPK: '342yN5YEX6bgGaTCuprVquFXhpZ8twyPzBo5kMZWQpDQ',
