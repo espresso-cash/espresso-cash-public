@@ -2,8 +2,6 @@ import 'package:decimal/decimal.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
-import '../ramp_partner/models/ramp_partner.dart';
-
 @lazySingleton
 class AnalyticsManager {
   const AnalyticsManager(this._analytics);
@@ -98,19 +96,19 @@ class AnalyticsManager {
       );
 
   void rampOpened({
-    required RampPartner partner,
+    required String partnerName,
     required String rampType,
   }) =>
       _analytics.track(
         'rampOpened',
         properties: {
-          'partner': partner.name,
+          'partner': partnerName,
           'type': rampType,
         },
       );
 
   void rampInitiated({
-    required RampPartner partner,
+    required String partnerName,
     required String rampType,
     required String? amount,
     required String countryCode,
@@ -119,7 +117,7 @@ class AnalyticsManager {
       _analytics.track(
         'rampStarted',
         properties: {
-          'partner': partner.name,
+          'partner': partnerName,
           'type': rampType,
           'amount': amount,
           'countryCode': countryCode,
@@ -128,14 +126,14 @@ class AnalyticsManager {
       );
 
   void rampCompleted({
-    required RampPartner partner,
+    required String partnerName,
     required String rampType,
     required String id,
   }) =>
       _analytics.track(
         'rampCompleted',
         properties: {
-          'partner': partner.name,
+          'partner': partnerName,
           'type': rampType,
           'id': id,
         },

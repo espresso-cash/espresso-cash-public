@@ -89,6 +89,7 @@ class OffRampOrderService implements Disposable {
       switch (order.partner) {
         case RampPartner.moneygram:
         case RampPartner.brij:
+        case RampPartner.scalexBrij:
           continue;
         case RampPartner.kado:
         case RampPartner.coinflow:
@@ -312,7 +313,7 @@ class OffRampOrderService implements Disposable {
           await _watch(order.id);
 
           _analytics.rampInitiated(
-            partner: partner,
+            partnerName: partner.name,
             rampType: RampType.offRamp.name,
             amount: amount.value.toString(),
             countryCode: countryCode,
@@ -359,6 +360,7 @@ class OffRampOrderService implements Disposable {
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
       RampPartner.brij ||
+      RampPartner.scalexBrij ||
       RampPartner.rampNetwork ||
       RampPartner.moneygram || // moneygram orders will not reach this point
       RampPartner.guardarian =>

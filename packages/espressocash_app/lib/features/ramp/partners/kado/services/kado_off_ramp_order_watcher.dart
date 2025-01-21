@@ -44,7 +44,7 @@ class KadoOffRampOrderWatcher implements RampWatcher {
           await _subscription?.cancel();
 
           _analytics.rampCompleted(
-            partner: RampPartner.kado,
+            partnerName: RampPartner.kado.name,
             rampType: RampType.offRamp.name,
             id: orderId,
           );
