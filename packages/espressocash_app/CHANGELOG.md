@@ -1,3 +1,11 @@
+## 1.139.0
+
+ - **REFACTOR**: break analytics dependency on ramp_partner (#1668).
+ - **FEAT**: added scalex brij partner (#1669).
+ - **FEAT**: token details page (#1501).
+ - **FEAT**: brij error handling (#1651).
+ - **FEAT**: update web_socket_channel dependency (#1659).
+
 ## 1.138.0
 
  - **FEAT**: new document type support (#1654).

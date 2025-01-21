@@ -67,6 +67,7 @@ class OnRampOrderService implements Disposable {
       switch (order.partner) {
         case RampPartner.moneygram:
         case RampPartner.brij:
+        case RampPartner.scalexBrij:
           continue;
         case RampPartner.kado:
         case RampPartner.coinflow:

@@ -27,7 +27,10 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
   }
 
   if (_scalexCountries.contains(countryCode)) {
-    partners.add(RampPartner.scalex);
+    final isScalexBrijEnabled = sl<FeatureFlagsManager>().isScalexBrijEnabled();
+
+    partners
+        .add(isScalexBrijEnabled ? RampPartner.scalexBrij : RampPartner.scalex);
   }
 
   partners.add(RampPartner.rampNetwork);
@@ -62,7 +65,10 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
   }
 
   if (_scalexCountries.contains(countryCode)) {
-    partners.add(RampPartner.scalex);
+    final isScalexBrijEnabled = sl<FeatureFlagsManager>().isScalexBrijEnabled();
+
+    partners
+        .add(isScalexBrijEnabled ? RampPartner.scalexBrij : RampPartner.scalex);
   }
 
   return IList(partners);
