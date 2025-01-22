@@ -842,6 +842,7 @@ mixin _$CreateDirectPaymentRequestDto {
   String? get referenceAccount => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
   Cluster get cluster => throw _privateConstructorUsedError;
+  String? get mintAddress => throw _privateConstructorUsedError;
   bool get durable => throw _privateConstructorUsedError;
 
   /// Serializes this CreateDirectPaymentRequestDto to a JSON map.
@@ -868,6 +869,7 @@ abstract class $CreateDirectPaymentRequestDtoCopyWith<$Res> {
       String? referenceAccount,
       int amount,
       Cluster cluster,
+      String? mintAddress,
       bool durable});
 }
 
@@ -892,6 +894,7 @@ class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res,
     Object? referenceAccount = freezed,
     Object? amount = null,
     Object? cluster = null,
+    Object? mintAddress = freezed,
     Object? durable = null,
   }) {
     return _then(_value.copyWith(
@@ -915,6 +918,10 @@ class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res,
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
+      mintAddress: freezed == mintAddress
+          ? _value.mintAddress
+          : mintAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       durable: null == durable
           ? _value.durable
           : durable // ignore: cast_nullable_to_non_nullable
@@ -938,6 +945,7 @@ abstract class _$$CreateDirectPaymentRequestDtoImplCopyWith<$Res>
       String? referenceAccount,
       int amount,
       Cluster cluster,
+      String? mintAddress,
       bool durable});
 }
 
@@ -961,6 +969,7 @@ class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
     Object? referenceAccount = freezed,
     Object? amount = null,
     Object? cluster = null,
+    Object? mintAddress = freezed,
     Object? durable = null,
   }) {
     return _then(_$CreateDirectPaymentRequestDtoImpl(
@@ -984,6 +993,10 @@ class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
+      mintAddress: freezed == mintAddress
+          ? _value.mintAddress
+          : mintAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       durable: null == durable
           ? _value.durable
           : durable // ignore: cast_nullable_to_non_nullable
@@ -1002,6 +1015,7 @@ class _$CreateDirectPaymentRequestDtoImpl
       required this.referenceAccount,
       required this.amount,
       required this.cluster,
+      this.mintAddress,
       this.durable = false});
 
   factory _$CreateDirectPaymentRequestDtoImpl.fromJson(
@@ -1019,12 +1033,14 @@ class _$CreateDirectPaymentRequestDtoImpl
   @override
   final Cluster cluster;
   @override
+  final String? mintAddress;
+  @override
   @JsonKey()
   final bool durable;
 
   @override
   String toString() {
-    return 'CreateDirectPaymentRequestDto(senderAccount: $senderAccount, receiverAccount: $receiverAccount, referenceAccount: $referenceAccount, amount: $amount, cluster: $cluster, durable: $durable)';
+    return 'CreateDirectPaymentRequestDto(senderAccount: $senderAccount, receiverAccount: $receiverAccount, referenceAccount: $referenceAccount, amount: $amount, cluster: $cluster, mintAddress: $mintAddress, durable: $durable)';
   }
 
   @override
@@ -1040,13 +1056,15 @@ class _$CreateDirectPaymentRequestDtoImpl
                 other.referenceAccount == referenceAccount) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.cluster, cluster) || other.cluster == cluster) &&
+            (identical(other.mintAddress, mintAddress) ||
+                other.mintAddress == mintAddress) &&
             (identical(other.durable, durable) || other.durable == durable));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, senderAccount, receiverAccount,
-      referenceAccount, amount, cluster, durable);
+      referenceAccount, amount, cluster, mintAddress, durable);
 
   /// Create a copy of CreateDirectPaymentRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -1074,6 +1092,7 @@ abstract class _CreateDirectPaymentRequestDto
       required final String? referenceAccount,
       required final int amount,
       required final Cluster cluster,
+      final String? mintAddress,
       final bool durable}) = _$CreateDirectPaymentRequestDtoImpl;
 
   factory _CreateDirectPaymentRequestDto.fromJson(Map<String, dynamic> json) =
@@ -1089,6 +1108,8 @@ abstract class _CreateDirectPaymentRequestDto
   int get amount;
   @override
   Cluster get cluster;
+  @override
+  String? get mintAddress;
   @override
   bool get durable;
 
