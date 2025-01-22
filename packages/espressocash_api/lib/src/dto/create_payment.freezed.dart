@@ -27,8 +27,12 @@ mixin _$CreatePaymentRequestDto {
   Cluster get cluster => throw _privateConstructorUsedError;
   bool get durable => throw _privateConstructorUsedError;
 
+  /// Serializes this CreatePaymentRequestDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreatePaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreatePaymentRequestDtoCopyWith<CreatePaymentRequestDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,6 +62,8 @@ class _$CreatePaymentRequestDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreatePaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,6 +125,8 @@ class __$$CreatePaymentRequestDtoImplCopyWithImpl<$Res>
       $Res Function(_$CreatePaymentRequestDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreatePaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -197,12 +205,14 @@ class _$CreatePaymentRequestDtoImpl implements _CreatePaymentRequestDto {
             (identical(other.durable, durable) || other.durable == durable));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, senderAccount, escrowAccount, amount, cluster, durable);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreatePaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreatePaymentRequestDtoImplCopyWith<_$CreatePaymentRequestDtoImpl>
@@ -238,8 +248,11 @@ abstract class _CreatePaymentRequestDto implements CreatePaymentRequestDto {
   Cluster get cluster;
   @override
   bool get durable;
+
+  /// Create a copy of CreatePaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreatePaymentRequestDtoImplCopyWith<_$CreatePaymentRequestDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -254,8 +267,12 @@ mixin _$CreatePaymentResponseDto {
   String get transaction => throw _privateConstructorUsedError;
   BigInt get slot => throw _privateConstructorUsedError;
 
+  /// Serializes this CreatePaymentResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreatePaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreatePaymentResponseDtoCopyWith<CreatePaymentResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -280,6 +297,8 @@ class _$CreatePaymentResponseDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreatePaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -321,6 +340,8 @@ class __$$CreatePaymentResponseDtoImplCopyWithImpl<$Res>
       $Res Function(_$CreatePaymentResponseDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreatePaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -369,11 +390,13 @@ class _$CreatePaymentResponseDtoImpl implements _CreatePaymentResponseDto {
             (identical(other.slot, slot) || other.slot == slot));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, transaction, slot);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreatePaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreatePaymentResponseDtoImplCopyWith<_$CreatePaymentResponseDtoImpl>
@@ -400,8 +423,11 @@ abstract class _CreatePaymentResponseDto implements CreatePaymentResponseDto {
   String get transaction;
   @override
   BigInt get slot;
+
+  /// Create a copy of CreatePaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreatePaymentResponseDtoImplCopyWith<_$CreatePaymentResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -418,8 +444,12 @@ mixin _$ReceivePaymentRequestDto {
   Cluster get cluster => throw _privateConstructorUsedError;
   bool get durable => throw _privateConstructorUsedError;
 
+  /// Serializes this ReceivePaymentRequestDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ReceivePaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ReceivePaymentRequestDtoCopyWith<ReceivePaymentRequestDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -448,6 +478,8 @@ class _$ReceivePaymentRequestDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ReceivePaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -503,6 +535,8 @@ class __$$ReceivePaymentRequestDtoImplCopyWithImpl<$Res>
       $Res Function(_$ReceivePaymentRequestDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ReceivePaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -572,12 +606,14 @@ class _$ReceivePaymentRequestDtoImpl implements _ReceivePaymentRequestDto {
             (identical(other.durable, durable) || other.durable == durable));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, receiverAccount, escrowAccount, cluster, durable);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ReceivePaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ReceivePaymentRequestDtoImplCopyWith<_$ReceivePaymentRequestDtoImpl>
@@ -610,8 +646,11 @@ abstract class _ReceivePaymentRequestDto implements ReceivePaymentRequestDto {
   Cluster get cluster;
   @override
   bool get durable;
+
+  /// Create a copy of ReceivePaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ReceivePaymentRequestDtoImplCopyWith<_$ReceivePaymentRequestDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -626,8 +665,12 @@ mixin _$ReceivePaymentResponseDto {
   String get transaction => throw _privateConstructorUsedError;
   BigInt get slot => throw _privateConstructorUsedError;
 
+  /// Serializes this ReceivePaymentResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ReceivePaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ReceivePaymentResponseDtoCopyWith<ReceivePaymentResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -652,6 +695,8 @@ class _$ReceivePaymentResponseDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ReceivePaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -693,6 +738,8 @@ class __$$ReceivePaymentResponseDtoImplCopyWithImpl<$Res>
       $Res Function(_$ReceivePaymentResponseDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ReceivePaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -741,11 +788,13 @@ class _$ReceivePaymentResponseDtoImpl implements _ReceivePaymentResponseDto {
             (identical(other.slot, slot) || other.slot == slot));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, transaction, slot);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ReceivePaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ReceivePaymentResponseDtoImplCopyWith<_$ReceivePaymentResponseDtoImpl>
@@ -772,8 +821,11 @@ abstract class _ReceivePaymentResponseDto implements ReceivePaymentResponseDto {
   String get transaction;
   @override
   BigInt get slot;
+
+  /// Create a copy of ReceivePaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ReceivePaymentResponseDtoImplCopyWith<_$ReceivePaymentResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -792,8 +844,12 @@ mixin _$CreateDirectPaymentRequestDto {
   Cluster get cluster => throw _privateConstructorUsedError;
   bool get durable => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateDirectPaymentRequestDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateDirectPaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateDirectPaymentRequestDtoCopyWith<CreateDirectPaymentRequestDto>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -826,6 +882,8 @@ class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateDirectPaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -893,6 +951,8 @@ class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
       $Res Function(_$CreateDirectPaymentRequestDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateDirectPaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -983,12 +1043,14 @@ class _$CreateDirectPaymentRequestDtoImpl
             (identical(other.durable, durable) || other.durable == durable));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, senderAccount, receiverAccount,
       referenceAccount, amount, cluster, durable);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateDirectPaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateDirectPaymentRequestDtoImplCopyWith<
@@ -1029,8 +1091,11 @@ abstract class _CreateDirectPaymentRequestDto
   Cluster get cluster;
   @override
   bool get durable;
+
+  /// Create a copy of CreateDirectPaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateDirectPaymentRequestDtoImplCopyWith<
           _$CreateDirectPaymentRequestDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1047,8 +1112,12 @@ mixin _$CreateDirectPaymentResponseDto {
   String get transaction => throw _privateConstructorUsedError;
   BigInt get slot => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateDirectPaymentResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateDirectPaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateDirectPaymentResponseDtoCopyWith<CreateDirectPaymentResponseDto>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1075,6 +1144,8 @@ class _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateDirectPaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1121,6 +1192,8 @@ class __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<$Res>
       $Res Function(_$CreateDirectPaymentResponseDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateDirectPaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1179,11 +1252,13 @@ class _$CreateDirectPaymentResponseDtoImpl
             (identical(other.slot, slot) || other.slot == slot));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fee, transaction, slot);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateDirectPaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateDirectPaymentResponseDtoImplCopyWith<
@@ -1215,8 +1290,11 @@ abstract class _CreateDirectPaymentResponseDto
   String get transaction;
   @override
   BigInt get slot;
+
+  /// Create a copy of CreateDirectPaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateDirectPaymentResponseDtoImplCopyWith<
           _$CreateDirectPaymentResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1234,8 +1312,12 @@ mixin _$CancelPaymentRequestDto {
   Cluster get cluster => throw _privateConstructorUsedError;
   bool get durable => throw _privateConstructorUsedError;
 
+  /// Serializes this CancelPaymentRequestDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CancelPaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CancelPaymentRequestDtoCopyWith<CancelPaymentRequestDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1264,6 +1346,8 @@ class _$CancelPaymentRequestDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CancelPaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1319,6 +1403,8 @@ class __$$CancelPaymentRequestDtoImplCopyWithImpl<$Res>
       $Res Function(_$CancelPaymentRequestDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CancelPaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1388,12 +1474,14 @@ class _$CancelPaymentRequestDtoImpl implements _CancelPaymentRequestDto {
             (identical(other.durable, durable) || other.durable == durable));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, senderAccount, escrowAccount, cluster, durable);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CancelPaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CancelPaymentRequestDtoImplCopyWith<_$CancelPaymentRequestDtoImpl>
@@ -1426,8 +1514,11 @@ abstract class _CancelPaymentRequestDto implements CancelPaymentRequestDto {
   Cluster get cluster;
   @override
   bool get durable;
+
+  /// Create a copy of CancelPaymentRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CancelPaymentRequestDtoImplCopyWith<_$CancelPaymentRequestDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1442,8 +1533,12 @@ mixin _$CancelPaymentResponseDto {
   String get transaction => throw _privateConstructorUsedError;
   BigInt get slot => throw _privateConstructorUsedError;
 
+  /// Serializes this CancelPaymentResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CancelPaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CancelPaymentResponseDtoCopyWith<CancelPaymentResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1468,6 +1563,8 @@ class _$CancelPaymentResponseDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CancelPaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1509,6 +1606,8 @@ class __$$CancelPaymentResponseDtoImplCopyWithImpl<$Res>
       $Res Function(_$CancelPaymentResponseDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CancelPaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1557,11 +1656,13 @@ class _$CancelPaymentResponseDtoImpl implements _CancelPaymentResponseDto {
             (identical(other.slot, slot) || other.slot == slot));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, transaction, slot);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CancelPaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CancelPaymentResponseDtoImplCopyWith<_$CancelPaymentResponseDtoImpl>
@@ -1588,8 +1689,11 @@ abstract class _CancelPaymentResponseDto implements CancelPaymentResponseDto {
   String get transaction;
   @override
   BigInt get slot;
+
+  /// Create a copy of CancelPaymentResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CancelPaymentResponseDtoImplCopyWith<_$CancelPaymentResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
