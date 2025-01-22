@@ -27,7 +27,7 @@ import '../services/brij_off_ramp_order_service.dart';
 import '../services/brij_on_ramp_order_service.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchBrijOnRamp() async {
+  Future<void> launchBrijOnRamp(RampPartner partner) async {
     final kycService = sl<KycSharingService>();
 
     await runWithLoader(this, () async => kycService.initialized);
@@ -63,8 +63,6 @@ extension BuildContextExt on BuildContext {
     final double rampRate = rateAndFee.onRampRate ?? 0;
     final double rampFeePercentage = rateAndFee.onRampFeePercentage ?? 0;
     final double fixedFee = rateAndFee.fixedOnRampFee ?? 0;
-
-    const partner = RampPartner.brij;
 
     final minAmountNGN =
         partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
@@ -139,7 +137,7 @@ extension BuildContextExt on BuildContext {
     }
   }
 
-  Future<void> launchBrijOffRamp() async {
+  Future<void> launchBrijOffRamp(RampPartner partner) async {
     final kycService = sl<KycSharingService>();
 
     await runWithLoader(this, () async => kycService.initialized);
@@ -174,8 +172,6 @@ extension BuildContextExt on BuildContext {
     final double rampRate = rateAndFee.offRampRate;
     final double rampFeePercentage = rateAndFee.offRampFeePercentage;
     final double fixedFee = rateAndFee.fixedOffRampFee;
-
-    const partner = RampPartner.brij;
 
     await RampAmountScreen.push(
       this,
