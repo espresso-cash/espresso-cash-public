@@ -1,3 +1,7 @@
+## 1.139.1
+
+ - **FIX**: pass partner to brij (#1671).
+
 ## 1.139.0
 
  - **REFACTOR**: break analytics dependency on ramp_partner (#1668).
