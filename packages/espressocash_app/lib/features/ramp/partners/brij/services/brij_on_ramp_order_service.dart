@@ -69,7 +69,7 @@ class BrijOnRampOrderService implements Disposable {
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
           logMessage(
             message: 'BrijOnRampOrderStatusChange',
-            data: order.toSentry,
+            data: order.toSentry(),
           );
           switch (order.status) {
             case OnRampOrderStatus.waitingPartnerReview:

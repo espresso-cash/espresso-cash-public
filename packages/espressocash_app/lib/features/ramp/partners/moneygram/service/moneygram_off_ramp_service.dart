@@ -106,7 +106,7 @@ class MoneygramOffRampOrderService implements Disposable {
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
           logMessage(
             message: 'MGOffRampOrderStatusChange',
-            data: order.toSentry,
+            data: order.toSentry(),
           );
 
           switch (order.status) {

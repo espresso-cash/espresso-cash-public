@@ -1,7 +1,7 @@
 import '../../../data/db/db.dart';
 
 extension OffRampOrderRowExt on OffRampOrderRow {
-  Map<String, dynamic> get toSentry {
+  Map<String, dynamic> toSentry() {
     final json = toJson();
 
     const filter = ['transaction', 'slot'];
@@ -16,7 +16,7 @@ extension OffRampOrderRowExt on OffRampOrderRow {
 }
 
 extension OnRampOrderRowExt on OnRampOrderRow {
-  Map<String, dynamic> get toSentry => toJson()
+  Map<String, dynamic> toSentry() => toJson()
     ..removeWhere(
       (key, value) => value == null || value == '' || value == 0.0,
     );
