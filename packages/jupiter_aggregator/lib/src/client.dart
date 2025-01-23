@@ -36,8 +36,8 @@ abstract class JupiterAggregatorClient {
   );
 }
 
-/// For docs head to https://docs.jup.ag/jupiter-api/price-api-for-solana
-@RestApi(baseUrl: 'https://price.jup.ag/v4')
+/// For docs head to https://station.jup.ag/docs/apis/price-api-v2
+@RestApi(baseUrl: 'https://api.jup.ag')
 abstract class JupiterPriceClient {
   factory JupiterPriceClient() => _JupiterPriceClient(
         Dio()
@@ -53,7 +53,7 @@ abstract class JupiterPriceClient {
       );
 
   /// Get the current USDC price for a given coin id
-  @GET('/price')
+  @GET('/price/v2')
   Future<PriceResponseDto> getPrice(
     @Queries() PriceRequestDto priceRequestDto,
   );

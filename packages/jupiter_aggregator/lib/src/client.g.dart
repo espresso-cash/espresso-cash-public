@@ -6,107 +6,125 @@ part of 'client.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _JupiterAggregatorClient implements JupiterAggregatorClient {
   _JupiterAggregatorClient(
     this._dio, {
     this.baseUrl,
+    this.errorLogger,
   }) {
-    baseUrl ??= String.fromEnvironment(
-      'QUOTE_API_BASE',
-      defaultValue: 'https://quote-api.jup.ag/v6',
-    );
+    baseUrl ??= 'https://quote-api.jup.ag/v6';
   }
 
   final Dio _dio;
 
   String? baseUrl;
 
+  final ParseErrorLogger? errorLogger;
+
   @override
   Future<JupiterIndexedRouteMap> getIndexedRouteMap(
       IndexedRouteMapRequestDto routeMapRequestDto) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(routeMapRequestDto.toJson());
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<JupiterIndexedRouteMap>(Options(
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<JupiterIndexedRouteMap>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/indexed-route-map',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = JupiterIndexedRouteMap.fromJson(_result.data!);
-    return value;
+        .compose(
+          _dio.options,
+          '/indexed-route-map',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late JupiterIndexedRouteMap _value;
+    try {
+      _value = JupiterIndexedRouteMap.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
   Future<QuoteResponseDto> getQuote(QuoteRequestDto quoteRequestDto) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(quoteRequestDto.toJson());
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<QuoteResponseDto>(Options(
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<QuoteResponseDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/quote',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = QuoteResponseDto.fromJson(_result.data!);
-    return value;
+        .compose(
+          _dio.options,
+          '/quote',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late QuoteResponseDto _value;
+    try {
+      _value = QuoteResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
   Future<JupiterSwapResponseDto> getSwapTransactions(
       JupiterSwapRequestDto swapRequestDto) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(swapRequestDto.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<JupiterSwapResponseDto>(Options(
+    final _options = _setStreamType<JupiterSwapResponseDto>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/swap',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = JupiterSwapResponseDto.fromJson(_result.data!);
-    return value;
+        .compose(
+          _dio.options,
+          '/swap',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late JupiterSwapResponseDto _value;
+    try {
+      _value = JupiterSwapResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
@@ -140,46 +158,55 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
   }
 }
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _JupiterPriceClient implements JupiterPriceClient {
   _JupiterPriceClient(
     this._dio, {
     this.baseUrl,
+    this.errorLogger,
   }) {
-    baseUrl ??= 'https://price.jup.ag/v4';
+    baseUrl ??= 'https://api.jup.ag';
   }
 
   final Dio _dio;
 
   String? baseUrl;
 
+  final ParseErrorLogger? errorLogger;
+
   @override
   Future<PriceResponseDto> getPrice(PriceRequestDto priceRequestDto) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(priceRequestDto.toJson());
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<PriceResponseDto>(Options(
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<PriceResponseDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/price',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = PriceResponseDto.fromJson(_result.data!);
-    return value;
+        .compose(
+          _dio.options,
+          '/price/v2',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late PriceResponseDto _value;
+    try {
+      _value = PriceResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
