@@ -60,17 +60,24 @@ class BrijOffRampOrderService implements Disposable {
               OffRampOrderStatus.refunded,
               OffRampOrderStatus.rejected,
             ]) &
-            tbl.partner.equalsValue(RampPartner.brij),
+            tbl.partner.isInValues([RampPartner.brij, RampPartner.scalexBrij]),
       );
 
     final orders = await query.get();
 
     for (final order in orders) {
-      if (order.partner != RampPartner.brij) {
-        continue;
+      switch (order.partner) {
+        case RampPartner.kado:
+        case RampPartner.coinflow:
+        case RampPartner.scalex:
+        case RampPartner.guardarian:
+        case RampPartner.rampNetwork:
+        case RampPartner.moneygram:
+          continue;
+        case RampPartner.brij:
+        case RampPartner.scalexBrij:
+          _subscribe(order.id);
       }
-
-      _subscribe(order.id);
     }
   }
 
@@ -156,10 +163,11 @@ class BrijOffRampOrderService implements Disposable {
   AsyncResult<String> create({
     required CryptoAmount submittedAmount,
     required FiatAmount receiveAmount,
-    required String partnerAuthPk,
+    required RampPartner partner,
   }) =>
       tryEitherAsync((_) async {
         {
+          final partnerAuthPk = partner.partnerPK ?? '';
           await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
           final user = await _kycRepository.fetchUser();
@@ -194,7 +202,7 @@ class BrijOffRampOrderService implements Disposable {
             created: DateTime.now(),
             humanStatus: '',
             machineStatus: '',
-            partner: RampPartner.brij,
+            partner: partner,
             status: OffRampOrderStatus.waitingPartnerReview,
             transaction: '',
             depositAddress: '',
@@ -210,7 +218,7 @@ class BrijOffRampOrderService implements Disposable {
               );
 
           _analytics.rampInitiated(
-            partnerName: RampPartner.brij.name,
+            partnerName: partner.name,
             rampType: RampType.offRamp.name,
             amount: submittedAmount.value.toString(),
             countryCode: countryCode,
