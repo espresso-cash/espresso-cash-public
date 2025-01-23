@@ -12,6 +12,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../../config.dart';
 import '../../../../../data/db/db.dart';
+import '../../../../../utils/errors.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../accounts/models/ec_wallet.dart';
 import '../../../../analytics/analytics_manager.dart';
@@ -25,6 +26,7 @@ import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
 import '../../../../transactions/services/resign_tx.dart';
 import '../../../../transactions/services/tx_sender.dart';
+import '../../../services/extensions.dart';
 import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
@@ -87,6 +89,10 @@ class BrijOffRampOrderService implements Disposable {
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
+          logMessage(
+            message: 'BrijOffRampOrderStatusChange',
+            data: order.toSentry(),
+          );
           switch (order.status) {
             case OffRampOrderStatus.waitingPartnerReview:
               _waitingPartnerReviewWatcher(order);

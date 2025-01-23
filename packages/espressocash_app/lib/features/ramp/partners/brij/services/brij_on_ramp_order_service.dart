@@ -8,6 +8,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../data/db/db.dart';
+import '../../../../../utils/errors.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
@@ -17,6 +18,7 @@ import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
+import '../../../services/extensions.dart';
 import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
@@ -72,6 +74,10 @@ class BrijOnRampOrderService implements Disposable {
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
+          logMessage(
+            message: 'BrijOnRampOrderStatusChange',
+            data: order.toSentry(),
+          );
           switch (order.status) {
             case OnRampOrderStatus.waitingPartnerReview:
               _waitingPartnerReviewWatcher(order);
