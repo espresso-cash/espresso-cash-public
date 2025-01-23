@@ -93,6 +93,7 @@ class ODPService {
         referenceAccount: reference?.toBase58(),
         amount: amount.value,
         cluster: apiCluster,
+        mintAddress: amount.token.address,
       );
       final response = await _client.createDirectPayment(dto);
       final tx = await response
