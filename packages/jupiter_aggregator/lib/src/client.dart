@@ -6,22 +6,33 @@ import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
 
-/// For docs head to https://station.jup.ag/api-v6
-@RestApi(
-  baseUrl: String.fromEnvironment(
-    'QUOTE_API_BASE',
-    defaultValue: 'https://quote-api.jup.ag/v6',
-  ),
-)
-abstract class JupiterAggregatorClient {
-  factory JupiterAggregatorClient() => _JupiterAggregatorClient(Dio());
+const _defaultSwapApiUrl = 'https://quote-api.jup.ag/v6';
+const _defaultPriceApiUrl = 'https://api.jup.ag/';
 
-  /// Returns a hash map, input mint as key and an array of valid output mint
-  /// as values, token mints are indexed to reduce the file size
-  @GET('/indexed-route-map')
-  Future<JupiterIndexedRouteMap> getIndexedRouteMap(
-    @Queries() IndexedRouteMapRequestDto routeMapRequestDto,
-  );
+/// For docs head to https://station.jup.ag/api-v6
+@RestApi()
+abstract class JupiterAggregatorClient {
+  factory JupiterAggregatorClient({
+    String? baseUrl,
+    String? apiKey,
+  }) =>
+      _JupiterAggregatorClient(
+        Dio()
+          ..interceptors.addAll([
+            if (apiKey != null)
+              InterceptorsWrapper(
+                onRequest: (options, handler) {
+                  options.headers['x-api-key'] = apiKey;
+                  handler.next(options);
+                },
+              ),
+          ]),
+        baseUrl: baseUrl ??
+            const String.fromEnvironment(
+              'QUOTE_API_BASE',
+              defaultValue: _defaultSwapApiUrl,
+            ),
+      );
 
   /// Get quote for a given input mint, output mint and amount
   @GET('/quote')
@@ -37,11 +48,15 @@ abstract class JupiterAggregatorClient {
 }
 
 /// For docs head to https://station.jup.ag/docs/apis/price-api-v2
-@RestApi(baseUrl: 'https://api.jup.ag')
+@RestApi()
 abstract class JupiterPriceClient {
-  factory JupiterPriceClient() => _JupiterPriceClient(
+  factory JupiterPriceClient({
+    String? baseUrl,
+    String? apiKey,
+  }) =>
+      _JupiterPriceClient(
         Dio()
-          ..interceptors.add(
+          ..interceptors.addAll([
             InterceptorsWrapper(
               onResponse: (response, handler) {
                 final content = response.data;
@@ -49,12 +64,18 @@ abstract class JupiterPriceClient {
                 handler.next(response);
               },
             ),
-          ),
+            if (apiKey != null)
+              InterceptorsWrapper(
+                onRequest: (options, handler) {
+                  options.headers['x-api-key'] = apiKey;
+                  handler.next(options);
+                },
+              ),
+          ]),
+        baseUrl: baseUrl ?? _defaultPriceApiUrl,
       );
 
   /// Get the current USDC price for a given coin id
   @GET('/price/v2')
-  Future<PriceResponseDto> getPrice(
-    @Queries() PriceRequestDto priceRequestDto,
-  );
+  Future<PriceResponseDto> getPrice(@Queries() PriceRequestDto priceRequestDto);
 }

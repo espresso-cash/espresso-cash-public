@@ -6,24 +6,6 @@ part of 'model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$JupiterIndexedRouteMapImpl _$$JupiterIndexedRouteMapImplFromJson(
-        Map<String, dynamic> json) =>
-    _$JupiterIndexedRouteMapImpl(
-      mintKeys:
-          (json['mintKeys'] as List<dynamic>).map((e) => e as String).toList(),
-      indexedRouteMap: (json['indexedRouteMap'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(
-            k, (e as List<dynamic>).map((e) => (e as num).toInt()).toList()),
-      ),
-    );
-
-Map<String, dynamic> _$$JupiterIndexedRouteMapImplToJson(
-        _$JupiterIndexedRouteMapImpl instance) =>
-    <String, dynamic>{
-      'mintKeys': instance.mintKeys,
-      'indexedRouteMap': instance.indexedRouteMap,
-    };
-
 _$JupiterMarketFeeImpl _$$JupiterMarketFeeImplFromJson(
         Map<String, dynamic> json) =>
     _$JupiterMarketFeeImpl(
@@ -123,19 +105,6 @@ const _$SwapModeEnumMap = {
   SwapMode.exactOut: 'ExactOut',
 };
 
-_$IndexedRouteMapRequestDtoImpl _$$IndexedRouteMapRequestDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$IndexedRouteMapRequestDtoImpl(
-      onlyDirectRoutes: json['onlyDirectRoutes'] as bool?,
-    );
-
-Map<String, dynamic> _$$IndexedRouteMapRequestDtoImplToJson(
-        _$IndexedRouteMapRequestDtoImpl instance) =>
-    <String, dynamic>{
-      if (instance.onlyDirectRoutes case final value?)
-        'onlyDirectRoutes': value,
-    };
-
 _$QuoteRequestDtoImpl _$$QuoteRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$QuoteRequestDtoImpl(
@@ -154,6 +123,11 @@ _$QuoteRequestDtoImpl _$$QuoteRequestDtoImplFromJson(
       asLegacyTransaction: json['asLegacyTransaction'] as bool?,
       platformFeeBps: (json['platformFeeBps'] as num?)?.toInt(),
       maxAccounts: (json['maxAccounts'] as num?)?.toInt(),
+      restrictIntermediateTokens: json['restrictIntermediateTokens'] as bool?,
+      autoSlippage: json['autoSlippage'] as bool?,
+      maxAutoSlippageBps: (json['maxAutoSlippageBps'] as num?)?.toInt(),
+      autoSlippageCollisionUsdValue:
+          (json['autoSlippageCollisionUsdValue'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$QuoteRequestDtoImplToJson(
@@ -172,6 +146,13 @@ Map<String, dynamic> _$$QuoteRequestDtoImplToJson(
         'asLegacyTransaction': value,
       if (instance.platformFeeBps case final value?) 'platformFeeBps': value,
       if (instance.maxAccounts case final value?) 'maxAccounts': value,
+      if (instance.restrictIntermediateTokens case final value?)
+        'restrictIntermediateTokens': value,
+      if (instance.autoSlippage case final value?) 'autoSlippage': value,
+      if (instance.maxAutoSlippageBps case final value?)
+        'maxAutoSlippageBps': value,
+      if (instance.autoSlippageCollisionUsdValue case final value?)
+        'autoSlippageCollisionUsdValue': value,
     };
 
 _$JupiterSwapRequestDtoImpl _$$JupiterSwapRequestDtoImplFromJson(
@@ -193,6 +174,11 @@ _$JupiterSwapRequestDtoImpl _$$JupiterSwapRequestDtoImplFromJson(
       destinationTokenAccount: json['destinationTokenAccount'] as String?,
       dynamicComputeUnitLimit: json['dynamicComputeUnitLimit'] as bool?,
       skipUserAccountsRpcCalls: json['skipUserAccountsRpcCalls'] as bool?,
+      trackingAccount: json['trackingAccount'] as String?,
+      dynamicSlippage: json['dynamicSlippage'] == null
+          ? null
+          : DynamicSlippage.fromJson(
+              json['dynamicSlippage'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$JupiterSwapRequestDtoImplToJson(
@@ -220,6 +206,23 @@ Map<String, dynamic> _$$JupiterSwapRequestDtoImplToJson(
         'dynamicComputeUnitLimit': value,
       if (instance.skipUserAccountsRpcCalls case final value?)
         'skipUserAccountsRpcCalls': value,
+      if (instance.trackingAccount case final value?) 'trackingAccount': value,
+      if (instance.dynamicSlippage?.toJson() case final value?)
+        'dynamicSlippage': value,
+    };
+
+_$DynamicSlippageImpl _$$DynamicSlippageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DynamicSlippageImpl(
+      minBps: (json['minBps'] as num).toInt(),
+      maxBps: (json['maxBps'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$DynamicSlippageImplToJson(
+        _$DynamicSlippageImpl instance) =>
+    <String, dynamic>{
+      'minBps': instance.minBps,
+      'maxBps': instance.maxBps,
     };
 
 _$JupiterSwapResponseDtoImpl _$$JupiterSwapResponseDtoImplFromJson(
@@ -227,6 +230,12 @@ _$JupiterSwapResponseDtoImpl _$$JupiterSwapResponseDtoImplFromJson(
     _$JupiterSwapResponseDtoImpl(
       swapTransaction: json['swapTransaction'] as String,
       lastValidBlockHeight: (json['lastValidBlockHeight'] as num).toInt(),
+      prioritizationFeeLamports:
+          (json['prioritizationFeeLamports'] as num?)?.toInt(),
+      dynamicSlippageReport: json['dynamicSlippageReport'] == null
+          ? null
+          : DynamicSlippageReport.fromJson(
+              json['dynamicSlippageReport'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$JupiterSwapResponseDtoImplToJson(
@@ -234,6 +243,31 @@ Map<String, dynamic> _$$JupiterSwapResponseDtoImplToJson(
     <String, dynamic>{
       'swapTransaction': instance.swapTransaction,
       'lastValidBlockHeight': instance.lastValidBlockHeight,
+      if (instance.prioritizationFeeLamports case final value?)
+        'prioritizationFeeLamports': value,
+      if (instance.dynamicSlippageReport?.toJson() case final value?)
+        'dynamicSlippageReport': value,
+    };
+
+_$DynamicSlippageReportImpl _$$DynamicSlippageReportImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DynamicSlippageReportImpl(
+      slippageBps: (json['slippageBps'] as num?)?.toInt(),
+      otherAmount: (json['otherAmount'] as num?)?.toInt(),
+      simulatedIncurredSlippageBps:
+          (json['simulatedIncurredSlippageBps'] as num?)?.toInt(),
+      amplificationRatio: json['amplificationRatio'] as String?,
+    );
+
+Map<String, dynamic> _$$DynamicSlippageReportImplToJson(
+        _$DynamicSlippageReportImpl instance) =>
+    <String, dynamic>{
+      if (instance.slippageBps case final value?) 'slippageBps': value,
+      if (instance.otherAmount case final value?) 'otherAmount': value,
+      if (instance.simulatedIncurredSlippageBps case final value?)
+        'simulatedIncurredSlippageBps': value,
+      if (instance.amplificationRatio case final value?)
+        'amplificationRatio': value,
     };
 
 _$PriceRequestDtoImpl _$$PriceRequestDtoImplFromJson(
@@ -245,7 +279,7 @@ _$PriceRequestDtoImpl _$$PriceRequestDtoImplFromJson(
 Map<String, dynamic> _$$PriceRequestDtoImplToJson(
         _$PriceRequestDtoImpl instance) =>
     <String, dynamic>{
-      'ids': instance.ids,
+      'ids': _listToString(instance.ids),
     };
 
 _$PriceResponseDtoImpl _$$PriceResponseDtoImplFromJson(
