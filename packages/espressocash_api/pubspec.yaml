@@ -14,6 +14,7 @@ dependencies:
     git:
       url: https://github.com/espresso-cash/espresso-cash-public.git
       path: packages/jupiter_aggregator
+      ref: 077136b1b0fe9d85b3960790166ac0b5d7ba64a0
   retrofit: ^4.0.3
 
 dev_dependencies:
