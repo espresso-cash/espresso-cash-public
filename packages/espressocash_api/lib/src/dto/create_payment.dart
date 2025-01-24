@@ -60,6 +60,7 @@ class CreateDirectPaymentRequestDto with _$CreateDirectPaymentRequestDto {
     required String? referenceAccount,
     required int amount,
     required Cluster cluster,
+    String? mintAddress,
     @Default(false) bool durable,
   }) = _CreateDirectPaymentRequestDto;
 
