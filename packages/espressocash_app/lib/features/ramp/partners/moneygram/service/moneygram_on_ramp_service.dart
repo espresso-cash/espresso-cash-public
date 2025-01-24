@@ -25,6 +25,7 @@ import '../../../../stellar/service/stellar_client.dart';
 import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
 import '../../../../transactions/services/tx_confirm.dart';
+import '../../../services/extensions.dart';
 import '../data/allbridge_client.dart';
 import '../data/allbridge_dto.dart' hide TransactionStatus;
 import '../data/dto.dart';
@@ -92,7 +93,7 @@ class MoneygramOnRampOrderService implements Disposable {
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
           logMessage(
             message: 'MGOnRampOrderStatusChange',
-            data: order.toSentry,
+            data: order.toSentry(),
           );
 
           switch (order.status) {
@@ -487,10 +488,3 @@ class MoneygramOnRampOrderService implements Disposable {
 }
 
 const _minimumInitBalance = 1.5; // 1.5 XLM
-
-extension on OnRampOrderRow {
-  Map<String, dynamic> get toSentry => toJson()
-    ..removeWhere(
-      (key, value) => value == null || value == '' || value == 0.0,
-    );
-}

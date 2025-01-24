@@ -8,6 +8,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../data/db/db.dart';
+import '../../../../../utils/errors.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
@@ -17,6 +18,7 @@ import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
+import '../../../services/extensions.dart';
 import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
@@ -45,17 +47,24 @@ class BrijOnRampOrderService implements Disposable {
               OnRampOrderStatus.completed,
               OnRampOrderStatus.failure,
             ]) &
-            tbl.partner.equalsValue(RampPartner.brij),
+            tbl.partner.isInValues([RampPartner.brij, RampPartner.scalexBrij]),
       );
 
     final orders = await query.get();
 
     for (final order in orders) {
-      if (order.partner != RampPartner.brij) {
-        continue;
+      switch (order.partner) {
+        case RampPartner.kado:
+        case RampPartner.coinflow:
+        case RampPartner.scalex:
+        case RampPartner.guardarian:
+        case RampPartner.rampNetwork:
+        case RampPartner.moneygram:
+          continue;
+        case RampPartner.brij:
+        case RampPartner.scalexBrij:
+          _subscribe(order.id);
       }
-
-      _subscribe(order.id);
     }
   }
 
@@ -65,6 +74,10 @@ class BrijOnRampOrderService implements Disposable {
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
+          logMessage(
+            message: 'BrijOnRampOrderStatusChange',
+            data: order.toSentry(),
+          );
           switch (order.status) {
             case OnRampOrderStatus.waitingPartnerReview:
               _waitingPartnerReviewWatcher(order);
@@ -99,10 +112,11 @@ class BrijOnRampOrderService implements Disposable {
   AsyncResult<String> create({
     required FiatAmount submittedAmount,
     required CryptoAmount receiveAmount,
-    required String partnerAuthPk,
+    required RampPartner partner,
   }) =>
       tryEitherAsync((_) async {
         {
+          final partnerAuthPk = partner.partnerPK ?? '';
           await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
           final orderId = await _kycRepository.createOnRampOrder(
@@ -123,7 +137,7 @@ class BrijOnRampOrderService implements Disposable {
             isCompleted: false,
             created: DateTime.now(),
             txHash: '',
-            partner: RampPartner.brij,
+            partner: partner,
             receiveAmount: receiveAmount.value,
             status: OnRampOrderStatus.waitingPartnerReview,
             bankAccount: null,
@@ -140,7 +154,7 @@ class BrijOnRampOrderService implements Disposable {
           final countryCode = _kycSharingService.value?.countryCode;
 
           _analytics.rampInitiated(
-            partnerName: RampPartner.brij.name,
+            partnerName: partner.name,
             rampType: RampType.onRamp.name,
             amount: submittedAmount.value.toString(),
             countryCode: countryCode ?? '',
