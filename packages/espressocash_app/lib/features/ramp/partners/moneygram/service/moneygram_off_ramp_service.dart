@@ -30,6 +30,7 @@ import '../../../../transactions/services/resign_tx.dart';
 import '../../../../transactions/services/tx_confirm.dart';
 import '../../../../transactions/services/tx_sender.dart';
 import '../../../data/my_database_ext.dart';
+import '../../../services/extensions.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../data/allbridge_client.dart';
 import '../data/allbridge_dto.dart' hide TransactionStatus;
@@ -105,7 +106,7 @@ class MoneygramOffRampOrderService implements Disposable {
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
           logMessage(
             message: 'MGOffRampOrderStatusChange',
-            data: order.toSentry,
+            data: order.toSentry(),
           );
 
           switch (order.status) {
@@ -845,18 +846,3 @@ class MoneygramOffRampOrderService implements Disposable {
 }
 
 const _minimumInitBalance = 1.5; // 1.5 XLM
-
-extension on OffRampOrderRow {
-  Map<String, dynamic> get toSentry {
-    final json = toJson();
-
-    const filter = ['transaction', 'slot'];
-
-    json.removeWhere(
-      (key, value) =>
-          value == null || value == '' || filter.contains(key) || value == 0.0,
-    );
-
-    return json;
-  }
-}

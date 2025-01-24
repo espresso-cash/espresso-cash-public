@@ -120,7 +120,7 @@ extension BuildContextExt on BuildContext {
           .create(
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount as FiatAmount,
-            partnerAuthPk: partner.partnerPK ?? '',
+            partner: partner,
           )
           .then(
             (order) => order.fold(
@@ -226,7 +226,7 @@ extension BuildContextExt on BuildContext {
           .create(
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount,
-            partnerAuthPk: partner.partnerPK ?? '',
+            partner: partner,
           )
           .then(
             (order) => order.fold(

@@ -1,3 +1,8 @@
+## 1.140.0
+
+ - **FIX**: passing correct partner (#1672).
+ - **FEAT**: add brij logging (#1673).
+
 ## 1.139.1
 
  - **FIX**: pass partner to brij (#1671).
