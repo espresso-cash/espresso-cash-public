@@ -9,7 +9,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
-import '../../../ui/button.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/number_formatter.dart';
@@ -25,25 +25,25 @@ import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../../tokens/token.dart';
 import '../widgets/extensions.dart';
 import '../widgets/token_input.dart';
-import 'confirmation_screen.dart';
+import 'token_send_confirmation_screen.dart';
 
-class SendTokenScreen extends StatefulWidget {
-  const SendTokenScreen({super.key, required this.token});
+class TokenSendInputScreen extends StatefulWidget {
+  const TokenSendInputScreen({super.key, required this.token});
 
   static void push(BuildContext context, {required Token token}) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => SendTokenScreen(token: token),
+          builder: (context) => TokenSendInputScreen(token: token),
         ),
       );
 
   final Token token;
 
   @override
-  State<SendTokenScreen> createState() => _SendTokenScreenState();
+  State<TokenSendInputScreen> createState() => _TokenSendInputScreenState();
 }
 
-class _SendTokenScreenState extends State<SendTokenScreen> {
+class _TokenSendInputScreenState extends State<TokenSendInputScreen> {
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _recipientController = TextEditingController();
 
@@ -81,29 +81,28 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
   Future<void> _handlePressed() async {
     final recipient = Ed25519HDPublicKey.fromBase58(_recipientController.text);
 
-    final confirmedAmount = await SendTokenConfirmationScreen.push(
+    final confirmedAmount = await TokenSendConfirmationScreen.push(
       context,
       token: widget.token,
       initialAmount: _quantityController.text,
-      isEnabled: false,
       recipient: recipient,
     );
 
     if (confirmedAmount == null) return;
-    if (!mounted) return;
 
     final cryptoAmount = Amount.fromDecimal(
       value: confirmedAmount,
       currency: Currency.crypto(token: widget.token),
     ) as CryptoAmount;
 
+    if (!mounted) return;
     final id = await context.createTokenSend(
       amount: cryptoAmount,
       receiver: recipient,
     );
 
     if (!mounted) return;
-    unawaited(ODPDetailsScreen.open(context, id: id));
+    ODPDetailsScreen.open(context, id: id);
   }
 
   bool _validateQuantity() {
@@ -134,25 +133,24 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
           return Scaffold(
             appBar: CpAppBar(
               title: Text(
-                'Send ${widget.token.symbol}',
+                context.l10n.send.toUpperCase(),
               ),
             ),
             backgroundColor: CpColors.deepGreyColor,
             body: SafeArea(
-              bottom: false,
+              top: false,
+              minimum: const EdgeInsets.only(bottom: 40),
               child: Padding(
-                padding: const EdgeInsets.all(23.0),
+                padding: const EdgeInsets.symmetric(horizontal: 23),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 25.0),
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0),
                       child: Text(
-                        'Quantity',
-                        style: TextStyle(
+                        context.l10n.quantity,
+                        style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
                         ),
@@ -166,11 +164,11 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                       rate: _rate,
                     ),
                     const SizedBox(height: 32),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 25.0),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0),
                       child: Text(
-                        'Recipient',
-                        style: TextStyle(
+                        context.l10n.recipient,
+                        style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
                         ),
@@ -182,23 +180,14 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                       onQrScan: _handleOnQrScan,
                     ),
                     const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 47.0,
-                        left: 25,
-                        right: 25,
+                    ListenableBuilder(
+                      listenable: Listenable.merge(
+                        [_quantityController, _recipientController],
                       ),
-                      child: ListenableBuilder(
-                        listenable: Listenable.merge(
-                          [_quantityController, _recipientController],
-                        ),
-                        builder: (context, child) => CpButton(
-                          width: MediaQuery.sizeOf(context).width,
-                          alignment: CpButtonAlignment.center,
-                          size: CpButtonSize.big,
-                          onPressed: _isValid ? _handlePressed : null,
-                          text: context.l10n.next,
-                        ),
+                      builder: (context, child) => CpBottomButton(
+                        horizontalPadding: 16,
+                        text: context.l10n.next,
+                        onPressed: _isValid ? _handlePressed : null,
                       ),
                     ),
                   ],
@@ -231,7 +220,7 @@ class _WalletTextField extends StatelessWidget {
         textInputAction: TextInputAction.next,
         textCapitalization: TextCapitalization.none,
         backgroundColor: CpColors.blackGreyColor,
-        placeholder: 'Enter a wallet address',
+        placeholder: context.l10n.enterWalletAddress,
         placeholderColor: CpColors.secondaryTextColor,
         textColor: Colors.white,
         fontSize: 16,
@@ -240,6 +229,7 @@ class _WalletTextField extends StatelessWidget {
           padding: const EdgeInsets.only(right: 24),
           child: CpIconButton(
             onPressed: onQrScan,
+            variant: CpIconButtonVariant.inverted,
             icon: Assets.icons.qrScanner.svg(color: Colors.white),
           ),
         ),

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +97,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener>
     );
 
     if (!mounted) return;
-    unawaited(ODPDetailsScreen.open(context, id: id));
+    ODPDetailsScreen.open(context, id: id);
   }
 
   @override

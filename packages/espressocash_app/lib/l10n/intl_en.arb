@@ -82,6 +82,8 @@
     "@faq": {},
     "fee": "Fee",
     "@fee": {},
+    "fees": "Fees",
+    "@fees": {},
     "feesCalculating": "calculating...",
     "@feesCalculating": {},
     "feesFailed": "failed to load",
@@ -1226,6 +1228,12 @@
     "@balance": {},
     "noRecentActivity": "No recent activity",
     "@noRecentActivity": {},
+    "quantity": "Quantity",
+    "@quantity": {},
+    "recipient": "Recipient",
+    "@recipient": {},
+    "enterWalletAddress": "Enter a wallet address",
+    "@enterWalletAddress": {}
     "swap": "Swap",
     "@swap": {}
 }

@@ -5,7 +5,7 @@ import 'package:solana/solana.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../ui/button.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/number_formatter.dart';
@@ -17,47 +17,39 @@ import '../../fees/services/fee_calculator.dart';
 import '../../tokens/token.dart';
 import '../widgets/token_app_bar.dart';
 
-class SendTokenConfirmationScreen extends StatefulWidget {
-  const SendTokenConfirmationScreen({
+class TokenSendConfirmationScreen extends StatefulWidget {
+  const TokenSendConfirmationScreen({
     super.key,
     required this.initialAmount,
     required this.recipient,
-    required this.label,
     required this.token,
-    this.isEnabled = true,
   });
 
   static Future<Decimal?> push(
     BuildContext context, {
     required String initialAmount,
     required Ed25519HDPublicKey recipient,
-    String? label,
     required Token token,
-    required bool isEnabled,
   }) =>
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => SendTokenConfirmationScreen(
+          builder: (context) => TokenSendConfirmationScreen(
             initialAmount: initialAmount,
             recipient: recipient,
-            label: label,
             token: token,
-            isEnabled: isEnabled,
           ),
         ),
       );
 
   final String initialAmount;
   final Ed25519HDPublicKey recipient;
-  final String? label;
   final Token token;
-  final bool isEnabled;
 
   @override
-  State<SendTokenConfirmationScreen> createState() => _ScreenState();
+  State<TokenSendConfirmationScreen> createState() => _ScreenState();
 }
 
-class _ScreenState extends State<SendTokenConfirmationScreen> {
+class _ScreenState extends State<TokenSendConfirmationScreen> {
   late final TextEditingController _amountController;
   late Future<CryptoAmount> _feeAmount;
 
@@ -79,9 +71,11 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
         title: context.l10n.zeroAmountTitle,
         message: context.l10n.zeroAmountMessage(context.l10n.operationSend),
       );
-    } else {
-      Navigator.pop(context, amount);
+
+      return;
     }
+
+    Navigator.pop(context, amount);
   }
 
   @override
@@ -94,8 +88,9 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: CpColors.deepGreyColor,
         body: Stack(
-          children: <Widget>[
+          children: [
             SafeArea(
+              minimum: const EdgeInsets.only(bottom: 40),
               child: NestedScrollView(
                 headerSliverBuilder: (context, _) => [
                   TokenAppBar(
@@ -136,15 +131,17 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
                                       AmountWithEquivalent(
                                         inputController: _amountController,
                                         token: widget.token,
-                                        collapsed: widget.isEnabled,
+                                        collapsed: false,
                                         backgroundColor: CpColors.deepGreyColor,
                                       ),
                                       const SizedBox(height: 72),
                                       FutureBuilder(
                                         future: _feeAmount,
-                                        builder: (context, fee) => _Info(
-                                          widget.recipient.toString().shortened,
-                                          context.feeStatus(fee),
+                                        builder: (context, fee) => _InfoTable(
+                                          walletAddress: widget.recipient
+                                              .toString()
+                                              .shortened,
+                                          fees: context.feeStatus(fee),
                                         ),
                                       ),
                                     ],
@@ -152,18 +149,9 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 47.0,
-                                left: 25,
-                                right: 25,
-                              ),
-                              child: CpButton(
-                                text: context.l10n.pay,
-                                minWidth: MediaQuery.sizeOf(context).width,
-                                onPressed: _handleSubmitted,
-                                size: CpButtonSize.big,
-                              ),
+                            CpBottomButton(
+                              text: context.l10n.send,
+                              onPressed: _handleSubmitted,
                             ),
                           ],
                         ),
@@ -178,24 +166,34 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
       );
 }
 
-class _Info extends StatelessWidget {
-  const _Info(this.walletAddres, this.fees);
+class _InfoTable extends StatelessWidget {
+  const _InfoTable({
+    required this.walletAddress,
+    required this.fees,
+  });
 
-  final String walletAddres;
+  final String walletAddress;
   final String fees;
 
   @override
-  Widget build(BuildContext context) => _SendInfoContainer(
-        title: '',
-        content: Column(
+  Widget build(BuildContext context) => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 22),
+        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 28),
+        decoration: const ShapeDecoration(
+          color: CpColors.blackGreyColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(28)),
+          ),
+        ),
+        child: Column(
           children: [
             _InfoItem(
-              label: 'Wallet address',
-              value: walletAddres,
+              label: context.l10n.walletAddress,
+              value: walletAddress,
             ),
             const SizedBox(height: 6),
             _InfoItem(
-              label: 'Fees',
+              label: context.l10n.fees,
               value: fees,
             ),
           ],
@@ -234,31 +232,6 @@ class _InfoItem extends StatelessWidget {
             ),
           ],
         ),
-      );
-}
-
-class _SendInfoContainer extends StatelessWidget {
-  const _SendInfoContainer({
-    required this.title,
-    required this.content,
-  });
-
-  final String title;
-  final Widget content;
-
-  @override
-  Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 22),
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 28),
-        decoration: const ShapeDecoration(
-          color: CpColors.blackGreyColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(28),
-            ),
-          ),
-        ),
-        child: content,
       );
 }
 

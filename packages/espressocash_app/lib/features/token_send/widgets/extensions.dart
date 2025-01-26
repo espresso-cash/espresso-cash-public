@@ -5,7 +5,7 @@ import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
 import '../../currency/models/amount.dart';
-import '../service/token_send_service.dart';
+import '../../outgoing_direct_payments/services/odp_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<String> createTokenSend({
@@ -13,10 +13,11 @@ extension BuildContextExt on BuildContext {
     required Ed25519HDPublicKey receiver,
   }) =>
       runWithLoader(this, () async {
-        final payment = await sl<TokenSendService>().create(
+        final payment = await sl<ODPService>().create(
           account: sl<MyAccount>().wallet,
           amount: amount,
           receiver: receiver,
+          reference: null,
         );
 
         return payment.id;
