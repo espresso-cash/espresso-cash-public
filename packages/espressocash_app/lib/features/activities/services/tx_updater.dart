@@ -8,7 +8,7 @@ import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../../utils/chunks.dart';
+import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
@@ -34,116 +34,124 @@ class TxUpdater implements Disposable {
   final AsyncCache<void> _cache = AsyncCache.ephemeral();
 
   @PostConstruct()
-  void init() {
-    call();
-  }
-
   Future<void> call() => _cache.fetch(_updateAllTransactions);
 
   Future<void> _updateAllTransactions() async {
-    final mostRecentTxId = await _repo.mostRecentTxId();
+    try {
+      final mostRecentTxId = await _repo.mostRecentTxId();
 
-    final tokenResult = await _updateTokensTransactions(mostRecentTxId);
-    final solResult = await _updateSolTransactions(mostRecentTxId);
+      final usdcTxs = await _fetchUsdcTransactions(mostRecentTxId);
 
-    final uniqueSolTxs = solResult.txs
-        .where(
-          (result) => !tokenResult.txs.any((tx) => tx.tx.id == result.tx.id),
-        )
-        .toList();
+      final nonUsdcTxs = await _fetchNonUsdcTransactions(mostRecentTxId);
 
-    final allTxs = uniqueSolTxs + tokenResult.txs;
+      final allTxs = [...usdcTxs.txs, ...nonUsdcTxs.txs];
 
-    if (allTxs.isNotEmpty) {
-      await _repo.saveAll(
-        allTxs,
-        clear: solResult.hasGap || tokenResult.hasGap,
-      );
+      if (allTxs.isNotEmpty) {
+        await _repo.saveAll(
+          allTxs,
+          clear: usdcTxs.hasGap || nonUsdcTxs.hasGap,
+        );
+      }
+    } on Exception catch (exception) {
+      reportError(exception);
     }
   }
 
-  Future<TransactionUpdateResult> _updateTokensTransactions(
+  Future<TransactionUpdateResult> _fetchUsdcTransactions(
+    String? mostRecentTxId,
+  ) async {
+    final usdcTokenAccount = await findAssociatedTokenAddress(
+      owner: _wallet.publicKey,
+      mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
+    );
+
+    final details = await _client.rpcClient.getTransactionsList(
+      usdcTokenAccount,
+      limit: _usdcFetchLimit,
+      until: mostRecentTxId,
+      encoding: Encoding.base64,
+      commitment: Commitment.confirmed,
+    );
+
+    final txs = await Future.wait(
+      details.map((it) => it.toFetched(usdcTokenAccount, Token.usdc.address)),
+    );
+    final hasGap = mostRecentTxId != null && txs.length == _usdcFetchLimit;
+
+    return (
+      txs: txs.whereNotNull().toList(),
+      hasGap: hasGap,
+    );
+  }
+
+  Future<TransactionUpdateResult> _fetchNonUsdcTransactions(
     String? mostRecentTxId,
   ) async {
     final tokenAccounts = await _getAllTokenAccounts(_wallet.publicKey);
-    final allResults = <TransactionUpdateResult>[];
 
-    final batches = tokenAccounts.chunks(5).toList();
-    for (int i = 0; i < batches.length; i++) {
-      final batch = batches[i];
-      final batchResults = await Future.wait<TransactionUpdateResult>(
-        batch.map((account) async {
-          final limit = account.mintAddress == Token.usdc.address
-              ? _usdcFetchLimit
-              : _tokenFetchLimit;
+    final nonUsdcTokenAccounts = tokenAccounts
+        .where((account) => account.mintAddress != Token.usdc.address)
+        .toList();
 
-          final txs = await _fetchTransactions(
-            account.account,
-            account.mintAddress,
-            mostRecentTxId,
-            limit,
+    final allAddresses = [
+      _wallet.publicKey,
+      ...nonUsdcTokenAccounts.map((a) => a.account),
+    ];
+
+    final details = await _client.rpcClient.getTransactionListForAddresses(
+      allAddresses,
+      limit: _tokensFetchLimit,
+      until: mostRecentTxId,
+      commitment: Commitment.confirmed,
+      encoding: Encoding.base64,
+    );
+
+    final txs = await Future.wait(
+      details.map((detail) async {
+        final tx = SignedTx.fromBytes(
+          (detail.transaction as RawTransaction).data,
+        );
+
+        final tokenAccount = nonUsdcTokenAccounts.firstWhereOrNull(
+          (acc) => tx.compiledMessage.accountKeys.contains(acc.account),
+        );
+
+        if (tokenAccount != null) {
+          return detail.toFetched(
+            tokenAccount.account,
+            tokenAccount.mintAddress,
           );
+        }
 
-          return (
-            txs: txs,
-            hasGap: mostRecentTxId != null && txs.length == limit,
-          );
-        }),
+        return tx.compiledMessage.accountKeys.contains(_wallet.publicKey)
+            ? detail.toFetched(_wallet.publicKey, Token.sol.address)
+            : null;
+      }),
+    );
+
+    final validTxs = txs.whereNotNull().toList();
+
+    final uniqueTxs = validTxs.toSet().toList();
+
+    final txsByAddress = details.groupListsBy((detail) {
+      final tx = SignedTx.fromBytes(
+        (detail.transaction as RawTransaction).data,
       );
 
-      allResults.addAll(batchResults);
+      return tx.compiledMessage.accountKeys.firstWhere(
+        allAddresses.contains,
+        orElse: () => _wallet.publicKey,
+      );
+    });
 
-      if (i < batches.length - 1) {
-        await Future<void>.delayed(const Duration(milliseconds: 500));
-      }
-    }
-
-    return (
-      txs: allResults.expand((r) => r.txs).toList(),
-      hasGap: allResults.any((r) => r.hasGap),
-    );
-  }
-
-  Future<TransactionUpdateResult> _updateSolTransactions(
-    String? mostRecentTxId,
-  ) async {
-    final txs = await _fetchTransactions(
-      _wallet.publicKey,
-      Token.sol.address,
-      mostRecentTxId,
-      _tokenFetchLimit,
-    );
+    final hasGap =
+        txsByAddress.values.any((txs) => txs.length >= _tokensFetchLimit);
 
     return (
-      txs: txs,
-      hasGap: mostRecentTxId != null && txs.length == _tokenFetchLimit,
+      txs: uniqueTxs,
+      hasGap: mostRecentTxId != null && hasGap,
     );
   }
-
-  Future<List<TxCommon>> _fetchTransactions(
-    Ed25519HDPublicKey account,
-    String tokenAddress,
-    String? until,
-    int limit,
-  ) =>
-      _client.rpcClient
-          .getTransactionsList(
-        account,
-        until: until,
-        limit: limit,
-        encoding: Encoding.base64,
-        commitment: Commitment.confirmed,
-      )
-          .letAsync((transactionDetails) async {
-        if (transactionDetails.isEmpty) return [];
-
-        final txs = await Future.wait(
-          transactionDetails.map((it) => it.toFetched(account, tokenAddress)),
-        );
-        final filteredTxs = txs.whereNotNull().toList();
-
-        return filteredTxs.toSet().toList();
-      });
 
   Future<List<_TokenAccountInfo>> _getAllTokenAccounts(
     Ed25519HDPublicKey owner,
@@ -272,5 +280,5 @@ class _TokenAccountInfo {
   final String mintAddress;
 }
 
-const _tokenFetchLimit = 15;
+const _tokensFetchLimit = 15;
 const _usdcFetchLimit = 50;

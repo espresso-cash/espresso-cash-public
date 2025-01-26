@@ -147,7 +147,7 @@ class _TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String fiatAmountText =
-        context.portfilioTotalAmountText(fiatAmount, _minFiatAmount);
+        context.portfolioTotalAmountText(fiatAmount, _minFiatAmount);
 
     return _Card(
       child: ListTile(
@@ -217,7 +217,7 @@ class _Card extends StatelessWidget {
 }
 
 extension TotalPortfolioTextExtension on BuildContext {
-  String portfilioTotalAmountText(FiatAmount? fiatAmount, num minFiatAmount) {
+  String portfolioTotalAmountText(FiatAmount? fiatAmount, num minFiatAmount) {
     if (fiatAmount != null) {
       if (fiatAmount.value < minFiatAmount) {
         return r'<$0.01';

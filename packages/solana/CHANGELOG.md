@@ -1,3 +1,22 @@
+## 0.31.2
+
+ - **FIX**: SetComputeUnitPrice test (#1667).
+ - **FIX**: transferSplToken not supporting different program types (#1665).
+ - **FEAT**: fetching multiple txs for multiple accounts (#1664).
+
+## 0.31.1+1
+
+ - **FIX**: pass tokenProgramId to createAccount method in createAssociatedTokenAccount (#1660).
+
+## 0.31.1
+
+ - **FEAT**: update web_socket_channel dependency (#1659).
+
+## 0.31.0+1
+
+ - **FIX**: ReturnData parsing (#1568).
+ - **FIX**: ReturnData serialization (#1567).
+
 ## 0.31.0
 
  - Removed deprecated methods

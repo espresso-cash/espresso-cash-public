@@ -6,24 +6,6 @@ part of 'model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$JupiterIndexedRouteMapImpl _$$JupiterIndexedRouteMapImplFromJson(
-        Map<String, dynamic> json) =>
-    _$JupiterIndexedRouteMapImpl(
-      mintKeys:
-          (json['mintKeys'] as List<dynamic>).map((e) => e as String).toList(),
-      indexedRouteMap: (json['indexedRouteMap'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, (e as List<dynamic>).map((e) => e as int).toList()),
-      ),
-    );
-
-Map<String, dynamic> _$$JupiterIndexedRouteMapImplToJson(
-        _$JupiterIndexedRouteMapImpl instance) =>
-    <String, dynamic>{
-      'mintKeys': instance.mintKeys,
-      'indexedRouteMap': instance.indexedRouteMap,
-    };
-
 _$JupiterMarketFeeImpl _$$JupiterMarketFeeImplFromJson(
         Map<String, dynamic> json) =>
     _$JupiterMarketFeeImpl(
@@ -32,25 +14,17 @@ _$JupiterMarketFeeImpl _$$JupiterMarketFeeImplFromJson(
     );
 
 Map<String, dynamic> _$$JupiterMarketFeeImplToJson(
-    _$JupiterMarketFeeImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('amount', instance.amount);
-  writeNotNull('feeBps', instance.feeBps);
-  return val;
-}
+        _$JupiterMarketFeeImpl instance) =>
+    <String, dynamic>{
+      if (instance.amount case final value?) 'amount': value,
+      if (instance.feeBps case final value?) 'feeBps': value,
+    };
 
 _$RoutePlanImpl _$$RoutePlanImplFromJson(Map<String, dynamic> json) =>
     _$RoutePlanImpl(
       swapInfo:
           JupiterSwapInfo.fromJson(json['swapInfo'] as Map<String, dynamic>),
-      percent: json['percent'] as int,
+      percent: (json['percent'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$RoutePlanImplToJson(_$RoutePlanImpl instance) =>
@@ -73,26 +47,17 @@ _$JupiterSwapInfoImpl _$$JupiterSwapInfoImplFromJson(
     );
 
 Map<String, dynamic> _$$JupiterSwapInfoImplToJson(
-    _$JupiterSwapInfoImpl instance) {
-  final val = <String, dynamic>{
-    'ammKey': instance.ammKey,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('label', instance.label);
-  val['inputMint'] = instance.inputMint;
-  val['outputMint'] = instance.outputMint;
-  val['inAmount'] = instance.inAmount;
-  val['outAmount'] = instance.outAmount;
-  val['feeAmount'] = instance.feeAmount;
-  val['feeMint'] = instance.feeMint;
-  return val;
-}
+        _$JupiterSwapInfoImpl instance) =>
+    <String, dynamic>{
+      'ammKey': instance.ammKey,
+      if (instance.label case final value?) 'label': value,
+      'inputMint': instance.inputMint,
+      'outputMint': instance.outputMint,
+      'inAmount': instance.inAmount,
+      'outAmount': instance.outAmount,
+      'feeAmount': instance.feeAmount,
+      'feeMint': instance.feeMint,
+    };
 
 _$QuoteResponseDtoImpl _$$QuoteResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
@@ -104,7 +69,7 @@ _$QuoteResponseDtoImpl _$$QuoteResponseDtoImplFromJson(
       otherAmountThreshold: json['otherAmountThreshold'] as String,
       swapMode: $enumDecodeNullable(_$SwapModeEnumMap, json['swapMode']) ??
           SwapMode.exactIn,
-      slippageBps: json['slippageBps'] as int,
+      slippageBps: (json['slippageBps'] as num).toInt(),
       platformFee: json['platformFee'] == null
           ? null
           : JupiterMarketFee.fromJson(
@@ -118,63 +83,35 @@ _$QuoteResponseDtoImpl _$$QuoteResponseDtoImplFromJson(
     );
 
 Map<String, dynamic> _$$QuoteResponseDtoImplToJson(
-    _$QuoteResponseDtoImpl instance) {
-  final val = <String, dynamic>{
-    'inputMint': instance.inputMint,
-    'inAmount': instance.inAmount,
-    'outputMint': instance.outputMint,
-    'outAmount': instance.outAmount,
-    'otherAmountThreshold': instance.otherAmountThreshold,
-    'swapMode': _$SwapModeEnumMap[instance.swapMode]!,
-    'slippageBps': instance.slippageBps,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('platformFee', instance.platformFee?.toJson());
-  val['priceImpactPct'] = instance.priceImpactPct;
-  val['routePlan'] = instance.routePlan.map((e) => e.toJson()).toList();
-  writeNotNull('contextSlot', instance.contextSlot);
-  writeNotNull('timeTaken', instance.timeTaken);
-  return val;
-}
+        _$QuoteResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'inputMint': instance.inputMint,
+      'inAmount': instance.inAmount,
+      'outputMint': instance.outputMint,
+      'outAmount': instance.outAmount,
+      'otherAmountThreshold': instance.otherAmountThreshold,
+      'swapMode': _$SwapModeEnumMap[instance.swapMode]!,
+      'slippageBps': instance.slippageBps,
+      if (instance.platformFee?.toJson() case final value?)
+        'platformFee': value,
+      'priceImpactPct': instance.priceImpactPct,
+      'routePlan': instance.routePlan.map((e) => e.toJson()).toList(),
+      if (instance.contextSlot case final value?) 'contextSlot': value,
+      if (instance.timeTaken case final value?) 'timeTaken': value,
+    };
 
 const _$SwapModeEnumMap = {
   SwapMode.exactIn: 'ExactIn',
   SwapMode.exactOut: 'ExactOut',
 };
 
-_$IndexedRouteMapRequestDtoImpl _$$IndexedRouteMapRequestDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$IndexedRouteMapRequestDtoImpl(
-      onlyDirectRoutes: json['onlyDirectRoutes'] as bool?,
-    );
-
-Map<String, dynamic> _$$IndexedRouteMapRequestDtoImplToJson(
-    _$IndexedRouteMapRequestDtoImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('onlyDirectRoutes', instance.onlyDirectRoutes);
-  return val;
-}
-
 _$QuoteRequestDtoImpl _$$QuoteRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$QuoteRequestDtoImpl(
       inputMint: json['inputMint'] as String,
       outputMint: json['outputMint'] as String,
-      amount: json['amount'] as int,
-      slippageBps: json['slippageBps'] as int?,
+      amount: (json['amount'] as num).toInt(),
+      slippageBps: (json['slippageBps'] as num?)?.toInt(),
       swapMode: $enumDecodeNullable(_$SwapModeEnumMap, json['swapMode']) ??
           SwapMode.exactIn,
       dexes:
@@ -184,34 +121,39 @@ _$QuoteRequestDtoImpl _$$QuoteRequestDtoImplFromJson(
           .toList(),
       onlyDirectRoutes: json['onlyDirectRoutes'] as bool?,
       asLegacyTransaction: json['asLegacyTransaction'] as bool?,
-      platformFeeBps: json['platformFeeBps'] as int?,
-      maxAccounts: json['maxAccounts'] as int?,
+      platformFeeBps: (json['platformFeeBps'] as num?)?.toInt(),
+      maxAccounts: (json['maxAccounts'] as num?)?.toInt(),
+      restrictIntermediateTokens: json['restrictIntermediateTokens'] as bool?,
+      autoSlippage: json['autoSlippage'] as bool?,
+      maxAutoSlippageBps: (json['maxAutoSlippageBps'] as num?)?.toInt(),
+      autoSlippageCollisionUsdValue:
+          (json['autoSlippageCollisionUsdValue'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$QuoteRequestDtoImplToJson(
-    _$QuoteRequestDtoImpl instance) {
-  final val = <String, dynamic>{
-    'inputMint': instance.inputMint,
-    'outputMint': instance.outputMint,
-    'amount': instance.amount,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('slippageBps', instance.slippageBps);
-  val['swapMode'] = _$SwapModeEnumMap[instance.swapMode]!;
-  writeNotNull('dexes', instance.dexes);
-  writeNotNull('excludeDexes', instance.excludeDexes);
-  writeNotNull('onlyDirectRoutes', instance.onlyDirectRoutes);
-  writeNotNull('asLegacyTransaction', instance.asLegacyTransaction);
-  writeNotNull('platformFeeBps', instance.platformFeeBps);
-  writeNotNull('maxAccounts', instance.maxAccounts);
-  return val;
-}
+        _$QuoteRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'inputMint': instance.inputMint,
+      'outputMint': instance.outputMint,
+      'amount': instance.amount,
+      if (instance.slippageBps case final value?) 'slippageBps': value,
+      'swapMode': _$SwapModeEnumMap[instance.swapMode]!,
+      if (instance.dexes case final value?) 'dexes': value,
+      if (instance.excludeDexes case final value?) 'excludeDexes': value,
+      if (instance.onlyDirectRoutes case final value?)
+        'onlyDirectRoutes': value,
+      if (instance.asLegacyTransaction case final value?)
+        'asLegacyTransaction': value,
+      if (instance.platformFeeBps case final value?) 'platformFeeBps': value,
+      if (instance.maxAccounts case final value?) 'maxAccounts': value,
+      if (instance.restrictIntermediateTokens case final value?)
+        'restrictIntermediateTokens': value,
+      if (instance.autoSlippage case final value?) 'autoSlippage': value,
+      if (instance.maxAutoSlippageBps case final value?)
+        'maxAutoSlippageBps': value,
+      if (instance.autoSlippageCollisionUsdValue case final value?)
+        'autoSlippageCollisionUsdValue': value,
+    };
 
 _$JupiterSwapRequestDtoImpl _$$JupiterSwapRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
@@ -223,50 +165,77 @@ _$JupiterSwapRequestDtoImpl _$$JupiterSwapRequestDtoImplFromJson(
       useSharedAccounts: json['useSharedAccounts'] as bool? ?? true,
       feeAccount: json['feeAccount'] as String?,
       computeUnitPriceMicroLamports:
-          json['computeUnitPriceMicroLamports'] as int?,
-      prioritizationFeeLamports: json['prioritizationFeeLamports'] as int?,
+          (json['computeUnitPriceMicroLamports'] as num?)?.toInt(),
+      prioritizationFeeLamports:
+          (json['prioritizationFeeLamports'] as num?)?.toInt(),
       asLegacyTransaction: json['asLegacyTransaction'] as bool?,
       restrictIntermediateTokens: json['restrictIntermediateTokens'] as bool?,
       useTokenLedger: json['useTokenLedger'] as bool?,
       destinationTokenAccount: json['destinationTokenAccount'] as String?,
       dynamicComputeUnitLimit: json['dynamicComputeUnitLimit'] as bool?,
       skipUserAccountsRpcCalls: json['skipUserAccountsRpcCalls'] as bool?,
+      trackingAccount: json['trackingAccount'] as String?,
+      dynamicSlippage: json['dynamicSlippage'] == null
+          ? null
+          : DynamicSlippage.fromJson(
+              json['dynamicSlippage'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$JupiterSwapRequestDtoImplToJson(
-    _$JupiterSwapRequestDtoImpl instance) {
-  final val = <String, dynamic>{
-    'userPublicKey': instance.userPublicKey,
-    'quoteResponse': instance.quoteResponse.toJson(),
-  };
+        _$JupiterSwapRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'userPublicKey': instance.userPublicKey,
+      'quoteResponse': instance.quoteResponse.toJson(),
+      if (instance.wrapAndUnwrapSol case final value?)
+        'wrapAndUnwrapSol': value,
+      if (instance.useSharedAccounts case final value?)
+        'useSharedAccounts': value,
+      if (instance.feeAccount case final value?) 'feeAccount': value,
+      if (instance.computeUnitPriceMicroLamports case final value?)
+        'computeUnitPriceMicroLamports': value,
+      if (instance.prioritizationFeeLamports case final value?)
+        'prioritizationFeeLamports': value,
+      if (instance.asLegacyTransaction case final value?)
+        'asLegacyTransaction': value,
+      if (instance.restrictIntermediateTokens case final value?)
+        'restrictIntermediateTokens': value,
+      if (instance.useTokenLedger case final value?) 'useTokenLedger': value,
+      if (instance.destinationTokenAccount case final value?)
+        'destinationTokenAccount': value,
+      if (instance.dynamicComputeUnitLimit case final value?)
+        'dynamicComputeUnitLimit': value,
+      if (instance.skipUserAccountsRpcCalls case final value?)
+        'skipUserAccountsRpcCalls': value,
+      if (instance.trackingAccount case final value?) 'trackingAccount': value,
+      if (instance.dynamicSlippage?.toJson() case final value?)
+        'dynamicSlippage': value,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
+_$DynamicSlippageImpl _$$DynamicSlippageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DynamicSlippageImpl(
+      minBps: (json['minBps'] as num).toInt(),
+      maxBps: (json['maxBps'] as num).toInt(),
+    );
 
-  writeNotNull('wrapAndUnwrapSol', instance.wrapAndUnwrapSol);
-  writeNotNull('useSharedAccounts', instance.useSharedAccounts);
-  writeNotNull('feeAccount', instance.feeAccount);
-  writeNotNull(
-      'computeUnitPriceMicroLamports', instance.computeUnitPriceMicroLamports);
-  writeNotNull('prioritizationFeeLamports', instance.prioritizationFeeLamports);
-  writeNotNull('asLegacyTransaction', instance.asLegacyTransaction);
-  writeNotNull(
-      'restrictIntermediateTokens', instance.restrictIntermediateTokens);
-  writeNotNull('useTokenLedger', instance.useTokenLedger);
-  writeNotNull('destinationTokenAccount', instance.destinationTokenAccount);
-  writeNotNull('dynamicComputeUnitLimit', instance.dynamicComputeUnitLimit);
-  writeNotNull('skipUserAccountsRpcCalls', instance.skipUserAccountsRpcCalls);
-  return val;
-}
+Map<String, dynamic> _$$DynamicSlippageImplToJson(
+        _$DynamicSlippageImpl instance) =>
+    <String, dynamic>{
+      'minBps': instance.minBps,
+      'maxBps': instance.maxBps,
+    };
 
 _$JupiterSwapResponseDtoImpl _$$JupiterSwapResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$JupiterSwapResponseDtoImpl(
       swapTransaction: json['swapTransaction'] as String,
-      lastValidBlockHeight: json['lastValidBlockHeight'] as int,
+      lastValidBlockHeight: (json['lastValidBlockHeight'] as num).toInt(),
+      prioritizationFeeLamports:
+          (json['prioritizationFeeLamports'] as num?)?.toInt(),
+      dynamicSlippageReport: json['dynamicSlippageReport'] == null
+          ? null
+          : DynamicSlippageReport.fromJson(
+              json['dynamicSlippageReport'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$JupiterSwapResponseDtoImplToJson(
@@ -274,18 +243,43 @@ Map<String, dynamic> _$$JupiterSwapResponseDtoImplToJson(
     <String, dynamic>{
       'swapTransaction': instance.swapTransaction,
       'lastValidBlockHeight': instance.lastValidBlockHeight,
+      if (instance.prioritizationFeeLamports case final value?)
+        'prioritizationFeeLamports': value,
+      if (instance.dynamicSlippageReport?.toJson() case final value?)
+        'dynamicSlippageReport': value,
+    };
+
+_$DynamicSlippageReportImpl _$$DynamicSlippageReportImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DynamicSlippageReportImpl(
+      slippageBps: (json['slippageBps'] as num?)?.toInt(),
+      otherAmount: (json['otherAmount'] as num?)?.toInt(),
+      simulatedIncurredSlippageBps:
+          (json['simulatedIncurredSlippageBps'] as num?)?.toInt(),
+      amplificationRatio: json['amplificationRatio'] as String?,
+    );
+
+Map<String, dynamic> _$$DynamicSlippageReportImplToJson(
+        _$DynamicSlippageReportImpl instance) =>
+    <String, dynamic>{
+      if (instance.slippageBps case final value?) 'slippageBps': value,
+      if (instance.otherAmount case final value?) 'otherAmount': value,
+      if (instance.simulatedIncurredSlippageBps case final value?)
+        'simulatedIncurredSlippageBps': value,
+      if (instance.amplificationRatio case final value?)
+        'amplificationRatio': value,
     };
 
 _$PriceRequestDtoImpl _$$PriceRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$PriceRequestDtoImpl(
-      ids: json['ids'] as String,
+      ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$PriceRequestDtoImplToJson(
         _$PriceRequestDtoImpl instance) =>
     <String, dynamic>{
-      'ids': instance.ids,
+      'ids': _listToString(instance.ids),
     };
 
 _$PriceResponseDtoImpl _$$PriceResponseDtoImplFromJson(
@@ -304,10 +298,10 @@ Map<String, dynamic> _$$PriceResponseDtoImplToJson(
 
 _$PriceDtoImpl _$$PriceDtoImplFromJson(Map<String, dynamic> json) =>
     _$PriceDtoImpl(
-      price: (json['price'] as num).toDouble(),
+      price: json['price'] as String?,
     );
 
 Map<String, dynamic> _$$PriceDtoImplToJson(_$PriceDtoImpl instance) =>
     <String, dynamic>{
-      'price': instance.price,
+      if (instance.price case final value?) 'price': value,
     };

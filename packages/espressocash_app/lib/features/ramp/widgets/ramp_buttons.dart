@@ -212,15 +212,18 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.scalex:
         launchScalexOnRamp(profile: profile, address: address);
       case RampPartner.brij:
-        launchBrijOnRamp();
+      case RampPartner.scalexBrij:
+        launchBrijOnRamp(partner);
       case RampPartner.moneygram:
         launchMoneygramOnRamp(profile: profile);
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
 
-    sl<AnalyticsManager>()
-        .rampOpened(partner: partner, rampType: RampType.onRamp.name);
+    sl<AnalyticsManager>().rampOpened(
+      partnerName: partner.name,
+      rampType: RampType.onRamp.name,
+    );
   }
 
   void _launchOffRampPartner(
@@ -238,13 +241,16 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.moneygram:
         launchMoneygramOffRamp(profile: profile);
       case RampPartner.brij:
-        launchBrijOffRamp();
+      case RampPartner.scalexBrij:
+        launchBrijOffRamp(partner);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');
     }
 
-    sl<AnalyticsManager>()
-        .rampOpened(partner: partner, rampType: RampType.offRamp.name);
+    sl<AnalyticsManager>().rampOpened(
+      partnerName: partner.name,
+      rampType: RampType.offRamp.name,
+    );
   }
 }

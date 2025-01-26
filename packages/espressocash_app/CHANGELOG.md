@@ -1,3 +1,32 @@
+## 1.140.0
+
+ - **FIX**: passing correct partner (#1672).
+ - **FEAT**: add brij logging (#1673).
+
+## 1.139.1
+
+ - **FIX**: pass partner to brij (#1671).
+
+## 1.139.0
+
+ - **REFACTOR**: break analytics dependency on ramp_partner (#1668).
+ - **FEAT**: added scalex brij partner (#1669).
+ - **FEAT**: token details page (#1501).
+ - **FEAT**: brij error handling (#1651).
+ - **FEAT**: update web_socket_channel dependency (#1659).
+
+## 1.138.0
+
+ - **FEAT**: new document type support (#1654).
+ - **FEAT**: open link in twitter application (#1652).
+
+## 1.137.0
+
+ - **FIX**: brij onramp input amount (#1647).
+ - **FEAT**: update kyc success screens (#1649).
+ - **FEAT**: Coinflow supported countries update (#1648).
+ - **FEAT**: update document types (#1650).
+
 ## 1.136.0
 
  - **REFACTOR**: update brij structure (#1645).

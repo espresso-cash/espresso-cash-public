@@ -7,7 +7,6 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_token_activity.dart';
@@ -17,10 +16,8 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
-import '../../send_token/screens/send_token_screen.dart';
-import '../../send_token/widgets/token_app_bar.dart';
 import '../../tokens/token.dart';
-import '../../transactions/screens/swap_token_screen.dart';
+import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
 
 class TokenDetailsScreen extends StatelessWidget {
@@ -38,16 +35,13 @@ class TokenDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Provider<Token>.value(
         value: token,
-        child: CpTheme.dark(
-          child: Scaffold(
-            backgroundColor: CpColors.darkSandColor,
-            body: SafeArea(
-              bottom: false,
-              child: NestedScrollView(
-                headerSliverBuilder: (context, _) =>
-                    [TokenAppBar(token: token)],
-                body: _TokenDetailsBody(token),
-              ),
+        child: Scaffold(
+          backgroundColor: CpColors.darkSandColor,
+          body: SafeArea(
+            bottom: false,
+            child: NestedScrollView(
+              headerSliverBuilder: (context, _) => [TokenAppBar(token: token)],
+              body: _TokenDetailsBody(token),
             ),
           ),
         ),
@@ -60,8 +54,18 @@ class _TokenDetailsBody extends StatelessWidget {
   final Token token;
 
   @override
-  Widget build(BuildContext context) => ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(31)),
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              CpColors.darkSandColor,
+              CpColors.deepGreyColor,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.55, 0.56],
+          ),
+        ),
         child: LayoutBuilder(
           builder: (
             BuildContext context,
@@ -170,10 +174,7 @@ class _TokenHeader extends StatelessWidget {
               const SizedBox(height: 24),
               FittedBox(
                 child: Text(
-                  crypto.format(
-                    context.locale,
-                    maxDecimals: 4,
-                  ),
+                  context.formatWithMinAmount(crypto),
                   maxLines: 1,
                   style: const TextStyle(
                     fontSize: 59,
@@ -227,9 +228,7 @@ class _RampButtons extends StatelessWidget {
 
 // ignore: unused_element, won't be available in first release
 class _SwapButton extends StatelessWidget {
-  const _SwapButton({required this.token});
-
-  final Token token;
+  const _SwapButton();
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -241,22 +240,28 @@ class _SwapButton extends StatelessWidget {
               text: 'Swap',
               minWidth: 106,
               size: CpButtonSize.big,
-              onPressed: () => SwapTokenScreen.push(
-                context,
-                token: token,
-              ),
+              onPressed: () {},
             ),
             const SizedBox(width: 14),
             CpButton(
               text: 'Send',
               minWidth: 106,
               size: CpButtonSize.big,
-              onPressed: () => SendTokenScreen.push(
-                context,
-                token: token,
-              ),
+              onPressed: () {},
             ),
           ],
         ),
       );
 }
+
+extension CryptoAmountFormatting on BuildContext {
+  String formatWithMinAmount(CryptoAmount cryptoAmount) =>
+      cryptoAmount.decimal < Decimal.parse(_minCryptoAmount.toString())
+          ? '<${Amount.fromDecimal(
+              value: Decimal.parse(_minCryptoAmount.toString()),
+              currency: cryptoAmount.currency,
+            ).format(locale)}'
+          : cryptoAmount.format(locale, maxDecimals: 4);
+}
+
+const double _minCryptoAmount = 0.0001;

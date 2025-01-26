@@ -131,32 +131,28 @@ extension FormattedAmount on Amount {
       ).format(rate);
     }
 
-    String formattedRate = rate.toStringAsFixed(10);
-    int significantDigits = 0;
-    bool pastDecimalPoint = false;
-    bool trailingZero = true;
+    if (rate == 0.0 || rate >= 0.01) {
+      return rate.toStringAsFixed(2);
+    }
 
-    for (int i = 0; i < formattedRate.length; i++) {
-      if (formattedRate[i] == '.') {
-        pastDecimalPoint = true;
-      } else if (pastDecimalPoint) {
-        if (formattedRate[i] != '0') {
-          trailingZero = false;
-          significantDigits++;
-        } else if (!trailingZero) {
-          significantDigits++;
-        }
-        if (significantDigits >= 2) {
-          formattedRate = formattedRate.substring(0, i + 1);
-          break;
-        }
+    final initialString = rate.toStringAsFixed(10);
+    final decimalPointIndex = initialString.indexOf('.');
+    int significantCount = 0;
+    bool foundFirstNonZero = false;
+
+    for (int i = decimalPointIndex + 1; i < initialString.length; i++) {
+      if (initialString[i] != '0') {
+        foundFirstNonZero = true;
+        significantCount++;
+      } else if (foundFirstNonZero) {
+        significantCount++;
+      }
+
+      if (significantCount == 2) {
+        return initialString.substring(0, i + 1);
       }
     }
 
-    if (significantDigits < 2) {
-      formattedRate = rate.toStringAsFixed(2);
-    }
-
-    return formattedRate;
+    return initialString;
   }
 }

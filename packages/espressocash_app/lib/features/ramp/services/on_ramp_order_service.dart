@@ -67,6 +67,7 @@ class OnRampOrderService implements Disposable {
       switch (order.partner) {
         case RampPartner.moneygram:
         case RampPartner.brij:
+        case RampPartner.scalexBrij:
           continue;
         case RampPartner.kado:
         case RampPartner.coinflow:
@@ -118,7 +119,7 @@ class OnRampOrderService implements Disposable {
           _subscribe(order.id);
 
           _analytics.rampInitiated(
-            partner: partner,
+            partnerName: partner.name,
             rampType: RampType.onRamp.name,
             amount: submittedAmount.value.toString(),
             countryCode: countryCode,
@@ -222,7 +223,10 @@ class OnRampOrderService implements Disposable {
           ) as FiatAmount,
         );
 
-        final submittedAmount = row.partner == RampPartner.brij
+        final isFiat = row.partner == RampPartner.brij ||
+            row.partner == RampPartner.scalexBrij;
+
+        final submittedAmount = isFiat
             ? FiatAmount(
                 value: row.amount,
                 fiatCurrency: currencyFromString(row.fiatSymbol ?? 'USD'),

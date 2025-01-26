@@ -80,9 +80,9 @@ class TransactionRepository {
     final query = _db.select(_db.transactionRows)
       ..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().asyncMap(
-          (row) async => row.toModel().then((value) => _match(value).first),
-        );
+    return query
+        .watchSingle()
+        .asyncMap((row) => row.toModel().then((value) => _match(value).first));
   }
 
   Future<void> saveAll(

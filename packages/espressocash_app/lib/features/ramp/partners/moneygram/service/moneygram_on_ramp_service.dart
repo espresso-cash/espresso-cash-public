@@ -25,6 +25,7 @@ import '../../../../stellar/service/stellar_client.dart';
 import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
 import '../../../../transactions/services/tx_confirm.dart';
+import '../../../services/extensions.dart';
 import '../data/allbridge_client.dart';
 import '../data/allbridge_dto.dart' hide TransactionStatus;
 import '../data/dto.dart';
@@ -90,10 +91,12 @@ class MoneygramOnRampOrderService implements Disposable {
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
-          logMessage(
-            message: 'MGOnRampOrderStatusChange',
-            data: order.toSentry,
-          );
+          if (order.shouldReportToSentry) {
+            logMessage(
+              message: 'MGOnRampOrderStatusChange',
+              data: order.toSentry(),
+            );
+          }
 
           switch (order.status) {
             case OnRampOrderStatus.pending:
@@ -170,7 +173,7 @@ class MoneygramOnRampOrderService implements Disposable {
           await _db.into(_db.onRampOrderRows).insert(order);
 
           _analytics.rampInitiated(
-            partner: RampPartner.moneygram,
+            partnerName: RampPartner.moneygram.name,
             rampType: RampType.onRamp.name,
             amount: submittedAmount.value.toString(),
             countryCode: countryCode,
@@ -386,7 +389,7 @@ class MoneygramOnRampOrderService implements Disposable {
       );
 
       _analytics.rampCompleted(
-        partner: RampPartner.moneygram,
+        partnerName: RampPartner.moneygram.name,
         rampType: RampType.onRamp.name,
         id: id,
       );
@@ -487,10 +490,3 @@ class MoneygramOnRampOrderService implements Disposable {
 }
 
 const _minimumInitBalance = 1.5; // 1.5 XLM
-
-extension on OnRampOrderRow {
-  Map<String, dynamic> get toSentry => toJson()
-    ..removeWhere(
-      (key, value) => value == null || value == '' || value == 0.0,
-    );
-}

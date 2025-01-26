@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/l10n.dart';
 import '../utils/errors.dart';
@@ -9,9 +10,22 @@ import 'snackbar.dart';
 import 'theme.dart';
 
 extension LinkOpenerExt on BuildContext {
-  Future<void> openLink(String link) async {
+  Future<void> openLink(
+    String link, {
+    bool openInApp = false,
+  }) async {
     try {
       final url = Uri.parse(link);
+
+      if (openInApp) {
+        final launched = await launchUrl(
+          url,
+          mode: LaunchMode.externalNonBrowserApplication,
+        );
+
+        if (launched) return;
+      }
+
       await WebViewScreen.push(
         this,
         url: url,
