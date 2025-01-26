@@ -17,7 +17,7 @@ import '../../tokens/data/extensions.dart';
 import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
-import 'swap_token_screen.dart';
+import 'token_swap_screen.dart';
 
 class TokenPicker extends StatelessWidget {
   const TokenPicker({

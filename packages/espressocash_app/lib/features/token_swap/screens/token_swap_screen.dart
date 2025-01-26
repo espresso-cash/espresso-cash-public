@@ -20,25 +20,25 @@ import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import 'token_picker_screen.dart';
 
-class SwapTokenScreen extends StatefulWidget {
-  const SwapTokenScreen({super.key, required this.token});
+class TokenSwapScreen extends StatefulWidget {
+  const TokenSwapScreen({super.key, required this.token});
 
   static void push(BuildContext context, {required Token token}) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => SwapTokenScreen(token: token),
+          builder: (context) => TokenSwapScreen(token: token),
         ),
       );
 
   final Token token;
 
   @override
-  State<SwapTokenScreen> createState() => _SwapTokenScreenState();
+  State<TokenSwapScreen> createState() => _TokenSwapScreenState();
 }
 
-class _SwapTokenScreenState extends State<SwapTokenScreen> {
+class _TokenSwapScreenState extends State<TokenSwapScreen> {
   final TextEditingController _quantityPayController = TextEditingController();
-  final TextEditingController _quantityReveiveController =
+  final TextEditingController _quantityReceiveController =
       TextEditingController();
 
   bool _isPayAmountChanging = false;
@@ -62,13 +62,13 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
     _updateRate(widget.token, Token.usdc);
 
     _quantityPayController.addListener(_onPayAmountChanged);
-    _quantityReveiveController.addListener(_onReceiveAmountChanged);
+    _quantityReceiveController.addListener(_onReceiveAmountChanged);
   }
 
   @override
   void dispose() {
     _quantityPayController.dispose();
-    _quantityReveiveController.dispose();
+    _quantityReceiveController.dispose();
     super.dispose();
   }
 
@@ -97,7 +97,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
         _f4Width = 180;
         _isExpanded = false;
       });
-      _quantityReveiveController.text = '';
+      _quantityReceiveController.text = '';
 
       return;
     }
@@ -107,7 +107,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
     final payAmount =
         Decimal.tryParse(_quantityPayController.text) ?? Decimal.zero;
     final receiveAmount = payAmount * _payTokenRate;
-    _quantityReveiveController.text = receiveAmount.round(scale: 2).toString();
+    _quantityReceiveController.text = receiveAmount.round(scale: 2).toString();
 
     setState(() {
       _f1Width = 260;
@@ -122,7 +122,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
 
   void _onReceiveAmountChanged() {
     if (_isPayAmountChanging) return;
-    if (_quantityReveiveController.text.isEmpty) {
+    if (_quantityReceiveController.text.isEmpty) {
       setState(() {
         _f1Width = 180;
         _f3Width = 180;
@@ -138,7 +138,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
     _isReceiveAmountChanging = true;
 
     final receiveAmount =
-        Decimal.tryParse(_quantityReveiveController.text) ?? Decimal.zero;
+        Decimal.tryParse(_quantityReceiveController.text) ?? Decimal.zero;
 
     final payAmount = receiveAmount / _payTokenRate;
     _quantityPayController.text = payAmount.toDouble().toStringAsFixed(2);
@@ -315,7 +315,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
                                       width: _f3Width,
                                       child: _TokenQuantityInput(
                                         quantityController:
-                                            _quantityReveiveController,
+                                            _quantityReceiveController,
                                         crypto: crypto,
                                         symbol: _recieveToken.symbol,
                                         fiatRate: fiatRateReceive,
