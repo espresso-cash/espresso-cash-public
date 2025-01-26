@@ -74,10 +74,13 @@ class BrijOnRampOrderService implements Disposable {
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
-          logMessage(
-            message: 'BrijOnRampOrderStatusChange',
-            data: order.toSentry(),
-          );
+          if (order.shouldReportToSentry) {
+            logMessage(
+              message: 'BrijOnRampOrderStatusChange',
+              data: order.toSentry(),
+            );
+          }
+
           switch (order.status) {
             case OnRampOrderStatus.waitingPartnerReview:
               _waitingPartnerReviewWatcher(order);

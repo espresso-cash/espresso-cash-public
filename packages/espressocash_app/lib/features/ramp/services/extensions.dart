@@ -13,6 +13,16 @@ extension OffRampOrderRowExt on OffRampOrderRow {
 
     return json;
   }
+
+  bool get shouldReportToSentry => [
+        OffRampOrderStatus.failure,
+        OffRampOrderStatus.depositError,
+        OffRampOrderStatus.depositTxConfirmError,
+        OffRampOrderStatus.insufficientFunds,
+        OffRampOrderStatus.rejected,
+        OffRampOrderStatus.processingRefund,
+        OffRampOrderStatus.waitingForRefundBridge,
+      ].contains(status);
 }
 
 extension OnRampOrderRowExt on OnRampOrderRow {
@@ -20,4 +30,11 @@ extension OnRampOrderRowExt on OnRampOrderRow {
     ..removeWhere(
       (key, value) => value == null || value == '' || value == 0.0,
     );
+
+  bool get shouldReportToSentry => [
+        OnRampOrderStatus.failure,
+        OnRampOrderStatus.rejected,
+        OnRampOrderStatus.depositExpired,
+        OnRampOrderStatus.waitingForBridge,
+      ].contains(status);
 }

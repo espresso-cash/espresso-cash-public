@@ -104,10 +104,12 @@ class MoneygramOffRampOrderService implements Disposable {
     _subscriptions[orderId] = query
         .watchSingle()
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
-          logMessage(
-            message: 'MGOffRampOrderStatusChange',
-            data: order.toSentry(),
-          );
+          if (order.shouldReportToSentry) {
+            logMessage(
+              message: 'MGOffRampOrderStatusChange',
+              data: order.toSentry(),
+            );
+          }
 
           switch (order.status) {
             case OffRampOrderStatus.preProcessing:
