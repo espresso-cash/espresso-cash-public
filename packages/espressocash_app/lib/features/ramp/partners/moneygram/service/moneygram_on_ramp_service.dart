@@ -91,10 +91,12 @@ class MoneygramOnRampOrderService implements Disposable {
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
-          logMessage(
-            message: 'MGOnRampOrderStatusChange',
-            data: order.toSentry(),
-          );
+          if (order.shouldReportToSentry) {
+            logMessage(
+              message: 'MGOnRampOrderStatusChange',
+              data: order.toSentry(),
+            );
+          }
 
           switch (order.status) {
             case OnRampOrderStatus.pending:

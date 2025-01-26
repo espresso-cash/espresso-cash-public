@@ -89,10 +89,13 @@ class BrijOffRampOrderService implements Disposable {
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
-          logMessage(
-            message: 'BrijOffRampOrderStatusChange',
-            data: order.toSentry(),
-          );
+          if (order.shouldReportToSentry) {
+            logMessage(
+              message: 'BrijOffRampOrderStatusChange',
+              data: order.toSentry(),
+            );
+          }
+
           switch (order.status) {
             case OffRampOrderStatus.waitingPartnerReview:
               _waitingPartnerReviewWatcher(order);
