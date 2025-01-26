@@ -17,7 +17,6 @@ import '../../tokens/data/extensions.dart';
 import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
-import 'token_swap_screen.dart';
 
 class TokenPicker extends StatelessWidget {
   const TokenPicker({
@@ -25,13 +24,13 @@ class TokenPicker extends StatelessWidget {
     this.token,
     required this.title,
     required this.onSubmitted,
-    this.size = TokenPickerSize.big,
+    this.isExpanded = false,
   });
 
   final Token? token;
   final String title;
   final ValueSetter<Token> onSubmitted;
-  final TokenPickerSize size;
+  final bool isExpanded;
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +71,7 @@ class TokenPicker extends StatelessWidget {
         title: SizedBox(
           height: 28,
           child: Text(
-            size == TokenPickerSize.big
-                ? (token?.symbol ?? Token.usdc.symbol)
-                : '',
+            isExpanded ? (token?.symbol ?? Token.usdc.symbol) : '',
             style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 18,

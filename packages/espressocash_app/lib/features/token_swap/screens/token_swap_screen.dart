@@ -249,9 +249,7 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
                                           });
                                         },
                                         token: _payToken,
-                                        size: !_isExpanded
-                                            ? TokenPickerSize.big
-                                            : TokenPickerSize.small,
+                                        isExpanded: !_isExpanded,
                                       ),
                                     ),
                                   ],
@@ -336,9 +334,7 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
                                             _recieveToken = value;
                                           });
                                         },
-                                        size: !_isExpanded
-                                            ? TokenPickerSize.big
-                                            : TokenPickerSize.small,
+                                        isExpanded: !_isExpanded,
                                       ),
                                     ),
                                   ],
@@ -373,11 +369,6 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
           );
         },
       );
-}
-
-enum TokenPickerSize {
-  small,
-  big,
 }
 
 class _TokenQuantityInput extends StatefulWidget {
