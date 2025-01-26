@@ -1233,7 +1233,7 @@
     "recipient": "Recipient",
     "@recipient": {},
     "enterWalletAddress": "Enter a wallet address",
-    "@enterWalletAddress": {}
+    "@enterWalletAddress": {},
     "swap": "Swap",
     "@swap": {}
 }
