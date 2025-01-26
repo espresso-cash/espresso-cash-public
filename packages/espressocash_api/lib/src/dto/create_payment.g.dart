@@ -85,6 +85,7 @@ _$CreateDirectPaymentRequestDtoImpl
           referenceAccount: json['referenceAccount'] as String?,
           amount: (json['amount'] as num).toInt(),
           cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
+          mintAddress: json['mintAddress'] as String?,
           durable: json['durable'] as bool? ?? false,
         );
 
@@ -96,6 +97,7 @@ Map<String, dynamic> _$$CreateDirectPaymentRequestDtoImplToJson(
       'referenceAccount': instance.referenceAccount,
       'amount': instance.amount,
       'cluster': _$ClusterEnumMap[instance.cluster]!,
+      'mintAddress': instance.mintAddress,
       'durable': instance.durable,
     };
 
