@@ -223,7 +223,10 @@ class OnRampOrderService implements Disposable {
           ) as FiatAmount,
         );
 
-        final submittedAmount = row.partner == RampPartner.brij
+        final isFiat = row.partner == RampPartner.brij ||
+            row.partner == RampPartner.scalexBrij;
+
+        final submittedAmount = isFiat
             ? FiatAmount(
                 value: row.amount,
                 fiatCurrency: currencyFromString(row.fiatSymbol ?? 'USD'),

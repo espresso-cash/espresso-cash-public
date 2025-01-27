@@ -1,3 +1,9 @@
+## 0.31.2
+
+ - **FIX**: SetComputeUnitPrice test (#1667).
+ - **FIX**: transferSplToken not supporting different program types (#1665).
+ - **FEAT**: fetching multiple txs for multiple accounts (#1664).
+
 ## 0.31.1+1
 
  - **FIX**: pass tokenProgramId to createAccount method in createAssociatedTokenAccount (#1660).
