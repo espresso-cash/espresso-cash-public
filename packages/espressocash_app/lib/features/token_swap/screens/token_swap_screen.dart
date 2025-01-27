@@ -5,13 +5,14 @@ import 'package:provider/provider.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
+import '../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../ui/app_bar.dart';
+import '../../../ui/bottom_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../app_lock/widgets/pin_keypad.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../currency/models/amount.dart';
@@ -36,27 +37,27 @@ class TokenSwapScreen extends StatefulWidget {
 }
 
 class _TokenSwapScreenState extends State<TokenSwapScreen> {
-  final TextEditingController _quantityPayController = TextEditingController();
-  final TextEditingController _quantityReceiveController =
-      TextEditingController();
+  final _quantityPayController = TextEditingController();
+  final _quantityReceiveController = TextEditingController();
 
-  bool _isPayAmountChanging = false;
-  bool _isReceiveAmountChanging = false;
-  double _f1Width = 180;
-  double _f2Width = 180;
-  double _f3Width = 180;
-  double _f4Width = 180;
-  bool _isExpanded = false;
-  Token _receiveToken = Token.usdc;
+  late Token _receiveToken;
+  late Token _payToken;
 
   late Decimal _payTokenRate = Decimal.fromInt(0);
   late Decimal _receiveTokenRate = Decimal.fromInt(0);
-  late Token _payToken;
+
+  double _amountInputWidth = 180;
+  double _symbolInputWidth = 180;
+
+  bool _isPayAmountChanging = false;
+  bool _isReceiveAmountChanging = false;
+  bool _isExpanded = false;
 
   @override
   void initState() {
     super.initState();
     _payToken = widget.token;
+    _receiveToken = Token.usdc;
 
     _updateRate(widget.token, Token.usdc);
 
@@ -90,10 +91,8 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
     if (_isReceiveAmountChanging) return;
     if (_quantityPayController.text.isEmpty) {
       setState(() {
-        _f1Width = 180;
-        _f3Width = 180;
-        _f2Width = 180;
-        _f4Width = 180;
+        _amountInputWidth = 180;
+        _symbolInputWidth = 180;
         _isExpanded = false;
       });
       _quantityReceiveController.text = '';
@@ -109,10 +108,8 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
     _quantityReceiveController.text = receiveAmount.round(scale: 2).toString();
 
     setState(() {
-      _f1Width = 260;
-      _f3Width = 260;
-      _f2Width = 100;
-      _f4Width = 100;
+      _amountInputWidth = 260;
+      _symbolInputWidth = 100;
       _isExpanded = true;
     });
 
@@ -123,10 +120,8 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
     if (_isPayAmountChanging) return;
     if (_quantityReceiveController.text.isEmpty) {
       setState(() {
-        _f1Width = 180;
-        _f3Width = 180;
-        _f2Width = 180;
-        _f4Width = 180;
+        _amountInputWidth = 180;
+        _symbolInputWidth = 180;
         _isExpanded = false;
       });
       _quantityPayController.text = '';
@@ -143,10 +138,8 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
     _quantityPayController.text = payAmount.toDouble().toStringAsFixed(2);
 
     setState(() {
-      _f1Width = 260;
-      _f3Width = 260;
-      _f2Width = 100;
-      _f4Width = 100;
+      _amountInputWidth = 260;
+      _symbolInputWidth = 100;
       _isExpanded = true;
     });
 
@@ -184,13 +177,11 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
                 ),
                 backgroundColor: CpColors.deepGreyColor,
                 body: SafeArea(
-                  bottom: false,
+                  top: false,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 23.0),
                         child: Column(
@@ -213,7 +204,7 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
                                 AnimatedContainer(
                                   curve: Curves.easeInOut,
                                   duration: const Duration(milliseconds: 300),
-                                  width: _f1Width,
+                                  width: _amountInputWidth,
                                   child: _TokenQuantityInput(
                                     quantityController: _quantityPayController,
                                     crypto: crypto,
@@ -225,7 +216,7 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
                                 AnimatedContainer(
                                   curve: Curves.easeInOut,
                                   duration: const Duration(milliseconds: 300),
-                                  width: _f2Width,
+                                  width: _symbolInputWidth,
                                   child: TokenPicker(
                                     title: 'You Pay',
                                     onSubmitted: (value) async {
@@ -297,7 +288,7 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
                                 AnimatedContainer(
                                   curve: Curves.easeInOut,
                                   duration: const Duration(milliseconds: 300),
-                                  width: _f3Width,
+                                  width: _amountInputWidth,
                                   child: _TokenQuantityInput(
                                     quantityController:
                                         _quantityReceiveController,
@@ -309,7 +300,7 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
                                 ),
                                 AnimatedContainer(
                                   duration: const Duration(milliseconds: 300),
-                                  width: _f4Width,
+                                  width: _symbolInputWidth,
                                   child: TokenPicker(
                                     title: 'You Receive',
                                     token: _receiveToken,
@@ -328,22 +319,18 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
                           ],
                         ),
                       ),
-                      PinKeypad(
-                        maxDigits: 30,
-                        controller: TextEditingController(),
-                        heightFactor: 0.415,
-                        hasDacimalSeparator: true,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 45.0),
-                        child: CpButton(
-                          width: MediaQuery.sizeOf(context).width,
-                          alignment: CpButtonAlignment.center,
-                          size: CpButtonSize.big,
-                          onPressed: () {},
-                          text: 'Review Swap',
+                      Expanded(
+                        child: AmountKeypad(
+                          controller: TextEditingController(),
+                          maxDecimals: 4,
                         ),
                       ),
+                      const SizedBox(height: 16),
+                      CpBottomButton(
+                        text: 'Review Swap',
+                        onPressed: () {},
+                      ),
+                      const SizedBox(height: 24),
                     ],
                   ),
                 ),
