@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/db/db.dart';
 import '../../../di.dart';
-import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
@@ -18,87 +16,24 @@ import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 
-class TokenPicker extends StatelessWidget {
-  const TokenPicker({
-    super.key,
-    this.token,
-    required this.title,
-    required this.onSubmitted,
-    this.isExpanded = false,
-  });
-
-  final Token? token;
-  final String title;
-  final ValueSetter<Token> onSubmitted;
-  final bool isExpanded;
-
-  @override
-  Widget build(BuildContext context) {
-    final tokenLogo = token?.logoURI;
-
-    return DecoratedBox(
-      decoration: const ShapeDecoration(
-        color: CpColors.blackGreyColor,
-        shape: StadiumBorder(),
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 13, vertical: 8),
-        onTap: () async {
-          final Token? updated = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  TokenPickerScreen(initial: token, title: title),
-            ),
-          );
-
-          if (context.mounted && updated != null) {
-            onSubmitted(updated);
-          }
-        },
-        leading: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(100)),
-          child: tokenLogo != null
-              ? CachedNetworkImage(
-                  imageUrl: tokenLogo,
-                  width: 42,
-                  height: 42,
-                )
-              : const _DefaultIcon(
-                  size: 42,
-                ),
-        ),
-        title: SizedBox(
-          height: 28,
-          child: Text(
-            isExpanded ? (token?.symbol ?? Token.usdc.symbol) : '',
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 18,
-              color: Colors.white,
-              height: 1.5,
-              overflow: TextOverflow.fade,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        titleAlignment: ListTileTitleAlignment.threeLine,
-        trailing: const Icon(
-          Icons.keyboard_arrow_down_outlined,
-          color: Colors.white,
-          size: 30,
-        ),
-      ),
-    );
-  }
-}
-
 class TokenPickerScreen extends StatelessWidget {
   const TokenPickerScreen({
     super.key,
     this.initial,
     required this.title,
   });
+
+  static Future<Token?> push(
+    BuildContext context, {
+    Token? initial,
+    required String title,
+  }) =>
+      Navigator.of(context).push<Token?>(
+        MaterialPageRoute(
+          builder: (context) =>
+              TokenPickerScreen(initial: initial, title: title),
+        ),
+      );
 
   final Token? initial;
   final String title;
@@ -314,17 +249,4 @@ class _Card extends StatelessWidget {
         ),
         child: child,
       );
-}
-
-class _DefaultIcon extends StatelessWidget {
-  const _DefaultIcon({this.size});
-
-  @override
-  Widget build(BuildContext context) => Image.asset(
-        Assets.images.tokenLogo.path,
-        width: size,
-        height: size,
-      );
-
-  final double? size;
 }

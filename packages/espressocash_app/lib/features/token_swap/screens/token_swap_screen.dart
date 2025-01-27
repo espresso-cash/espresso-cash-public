@@ -12,13 +12,12 @@ import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../app_lock/widgets/pin_keypad.dart';
-import '../../authenticated/widgets/refresh_balance_wrapper.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
-import 'token_picker_screen.dart';
+import '../widgets/token_picker.dart';
 
 class TokenSwapScreen extends StatefulWidget {
   const TokenSwapScreen({super.key, required this.token});
@@ -48,7 +47,7 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
   double _f3Width = 180;
   double _f4Width = 180;
   bool _isExpanded = false;
-  Token _recieveToken = Token.usdc;
+  Token _receiveToken = Token.usdc;
 
   late Decimal _payTokenRate = Decimal.fromInt(0);
   late Decimal _receiveTokenRate = Decimal.fromInt(0);
@@ -74,7 +73,7 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
 
   Future<void> _updateRate(Token payToken, Token receiveToken) async {
     await sl<ConversionRatesRepository>()
-        .refresh(defaultFiatCurrency, [_payToken, _recieveToken]);
+        .refresh(defaultFiatCurrency, [_payToken, _receiveToken]);
     _payTokenRate = sl<ConversionRatesRepository>().readRate(
           CryptoCurrency(token: payToken),
           to: defaultFiatCurrency,
@@ -155,217 +154,201 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => RefreshBalancesWrapper(
-        builder: (context, onRefresh) {
-          onRefresh();
+  Widget build(BuildContext context) => ValueStreamBuilder<CryptoFiatAmount>(
+        create: () => (
+          sl<TokenFiatBalanceService>().readInvestmentBalance(widget.token),
+          (
+            Amount.zero(currency: Currency.usdc) as CryptoAmount,
+            Amount.zero(currency: Currency.usd) as FiatAmount
+          )
+        ),
+        builder: (context, value) {
+          final crypto = value.$1;
 
-          return ValueStreamBuilder<CryptoFiatAmount>(
-            create: () => (
-              sl<TokenFiatBalanceService>().readInvestmentBalance(widget.token),
-              (
-                Amount.zero(currency: Currency.usdc) as CryptoAmount,
-                Amount.zero(currency: Currency.usd) as FiatAmount
-              )
-            ),
-            builder: (context, value) {
-              final crypto = value.$1;
+          final fiatRatePay = Amount.fromDecimal(
+            value: _payTokenRate,
+            currency: Currency.usd,
+          );
 
-              final fiatRatePay = Amount.fromDecimal(
-                value: _payTokenRate,
-                currency: Currency.usd,
-              );
+          final fiatRateReceive = Amount.fromDecimal(
+            value: _receiveTokenRate,
+            currency: Currency.usd,
+          );
 
-              final fiatRateReceive = Amount.fromDecimal(
-                value: _receiveTokenRate,
-                currency: Currency.usd,
-              );
-
-              return Provider<Token>.value(
-                value: widget.token,
-                child: CpTheme.dark(
-                  child: Scaffold(
-                    appBar: CpAppBar(
-                      title: Text(context.l10n.swap),
-                    ),
-                    backgroundColor: CpColors.deepGreyColor,
-                    body: SafeArea(
-                      bottom: false,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+          return Provider<Token>.value(
+            value: widget.token,
+            child: CpTheme.dark(
+              child: Scaffold(
+                appBar: CpAppBar(
+                  title: Text(context.l10n.swap),
+                ),
+                backgroundColor: CpColors.deepGreyColor,
+                body: SafeArea(
+                  bottom: false,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 25.0),
+                              child: Text(
+                                'You Pay',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AnimatedContainer(
+                                  curve: Curves.easeInOut,
+                                  duration: const Duration(milliseconds: 300),
+                                  width: _f1Width,
+                                  child: _TokenQuantityInput(
+                                    quantityController: _quantityPayController,
+                                    crypto: crypto,
+                                    symbol: _payToken.symbol,
+                                    fiatRate: fiatRatePay,
+                                    maxButton: false,
+                                  ),
+                                ),
+                                AnimatedContainer(
+                                  curve: Curves.easeInOut,
+                                  duration: const Duration(milliseconds: 300),
+                                  width: _f2Width,
+                                  child: TokenPicker(
+                                    title: 'You Pay',
+                                    onSubmitted: (value) async {
+                                      await _updateRate(
+                                        value,
+                                        _receiveToken,
+                                      );
+                                      if (!mounted) return;
+                                      setState(() {
+                                        _payToken = value;
+                                      });
+                                    },
+                                    token: _payToken,
+                                    isExpanded: !_isExpanded,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      Stack(
                         children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 23.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 25.0),
-                                  child: Text(
-                                    'You Pay',
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AnimatedContainer(
-                                      curve: Curves.easeInOut,
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      width: _f1Width,
-                                      child: _TokenQuantityInput(
-                                        quantityController:
-                                            _quantityPayController,
-                                        crypto: crypto,
-                                        symbol: _payToken.symbol,
-                                        fiatRate: fiatRatePay,
-                                        maxButton: false,
-                                      ),
-                                    ),
-                                    AnimatedContainer(
-                                      curve: Curves.easeInOut,
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      width: _f2Width,
-                                      child: TokenPicker(
-                                        title: 'You Pay',
-                                        onSubmitted: (value) async {
-                                          await _updateRate(
-                                            value,
-                                            _recieveToken,
-                                          );
-                                          if (!mounted) return;
-                                          setState(() {
-                                            _payToken = value;
-                                          });
-                                        },
-                                        token: _payToken,
-                                        isExpanded: !_isExpanded,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5.0),
+                            child: Divider(
+                              thickness: 1,
+                              color: Color.fromRGBO(63, 60, 61, 1),
                             ),
                           ),
-                          const SizedBox(height: 32),
-                          Stack(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(top: 5.0),
-                                child: Divider(
-                                  thickness: 1,
-                                  color: Color.fromRGBO(63, 60, 61, 1),
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: ColoredBox(
+                              color: CpColors.deepGreyColor,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0,
+                                ),
+                                child: Assets.icons.swap.svg(
+                                  height: 26.69,
+                                  width: 17.74,
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.topCenter,
-                                child: ColoredBox(
-                                  color: CpColors.deepGreyColor,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0,
-                                    ),
-                                    child: Assets.icons.swap.svg(
-                                      height: 26.69,
-                                      width: 17.74,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 23.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 25.0),
-                                  child: Text(
-                                    'You Receive',
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AnimatedContainer(
-                                      curve: Curves.easeInOut,
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      width: _f3Width,
-                                      child: _TokenQuantityInput(
-                                        quantityController:
-                                            _quantityReceiveController,
-                                        crypto: crypto,
-                                        symbol: _recieveToken.symbol,
-                                        fiatRate: fiatRateReceive,
-                                        maxButton: false,
-                                      ),
-                                    ),
-                                    AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      width: _f4Width,
-                                      child: TokenPicker(
-                                        title: 'You Receive',
-                                        token: _recieveToken,
-                                        onSubmitted: (value) async {
-                                          await _updateRate(_payToken, value);
-                                          if (!mounted) return;
-                                          setState(() {
-                                            _recieveToken = value;
-                                          });
-                                        },
-                                        isExpanded: !_isExpanded,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          PinKeypad(
-                            maxDigits: 30,
-                            controller: TextEditingController(),
-                            heightFactor: 0.415,
-                            hasDacimalSeparator: true,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 45.0),
-                            child: CpButton(
-                              width: MediaQuery.sizeOf(context).width,
-                              alignment: CpButtonAlignment.center,
-                              size: CpButtonSize.big,
-                              onPressed: () {},
-                              text: 'Review Swap',
                             ),
                           ),
                         ],
                       ),
-                    ),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 25.0),
+                              child: Text(
+                                'You Receive',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AnimatedContainer(
+                                  curve: Curves.easeInOut,
+                                  duration: const Duration(milliseconds: 300),
+                                  width: _f3Width,
+                                  child: _TokenQuantityInput(
+                                    quantityController:
+                                        _quantityReceiveController,
+                                    crypto: crypto,
+                                    symbol: _receiveToken.symbol,
+                                    fiatRate: fiatRateReceive,
+                                    maxButton: false,
+                                  ),
+                                ),
+                                AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  width: _f4Width,
+                                  child: TokenPicker(
+                                    title: 'You Receive',
+                                    token: _receiveToken,
+                                    onSubmitted: (value) async {
+                                      await _updateRate(_payToken, value);
+                                      if (!mounted) return;
+                                      setState(() {
+                                        _receiveToken = value;
+                                      });
+                                    },
+                                    isExpanded: !_isExpanded,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      PinKeypad(
+                        maxDigits: 30,
+                        controller: TextEditingController(),
+                        heightFactor: 0.415,
+                        hasDacimalSeparator: true,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 45.0),
+                        child: CpButton(
+                          width: MediaQuery.sizeOf(context).width,
+                          alignment: CpButtonAlignment.center,
+                          size: CpButtonSize.big,
+                          onPressed: () {},
+                          text: 'Review Swap',
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              );
-            },
+              ),
+            ),
           );
         },
       );
