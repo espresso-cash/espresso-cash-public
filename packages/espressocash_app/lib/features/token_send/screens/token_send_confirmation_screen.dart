@@ -56,7 +56,7 @@ class _ScreenState extends State<TokenSendConfirmationScreen> {
   @override
   void initState() {
     super.initState();
-    final feeType = FeeTypeDirect(widget.recipient);
+    final feeType = FeeTypeDirect(widget.recipient, token: widget.token);
 
     _amountController = TextEditingController(text: widget.initialAmount);
     _feeAmount = sl<FeeCalculator>().call(feeType);
@@ -250,13 +250,13 @@ extension on BuildContext {
     }
 
     final data = fee.data;
-    if (!fee.hasData || data == null) {
-      return 'Unable to fetch fee';
-    }
 
-    final formattedFee =
-        data.format(DeviceLocale.localeOf(this), skipSymbol: true);
-
-    return '\$$formattedFee';
+    return !fee.hasData || data == null
+        ? 'Unable to fetch fee'
+        : data.format(
+            DeviceLocale.localeOf(this),
+            skipSymbol: false,
+            maxDecimals: 2,
+          );
   }
 }

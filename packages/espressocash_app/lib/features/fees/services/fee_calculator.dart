@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:espressocash_api/espressocash_api.dart';
-
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 
@@ -21,8 +20,8 @@ class FeeCalculator {
   Future<CryptoAmount> call(FeeType type) => _ecClient.getFees().then(
         (fees) async {
           switch (type) {
-            case FeeTypeDirect(:final address):
-              return await _hasUsdcAta(address)
+            case FeeTypeDirect(:final address, :final token):
+              return await _hasAta(address: address, token: token)
                   ? fees.directPayment.ataExists
                   : fees.directPayment.ataDoesNotExist;
             case FeeTypeLink():
@@ -43,7 +42,7 @@ class FeeCalculator {
 
               final accountCreationFeeAmount = address == null
                   ? 0
-                  : await _hasUsdcAta(address)
+                  : await _hasAta(address: address, token: Token.usdc)
                       ? fees.directPayment.ataExists
                       : fees.directPayment.ataDoesNotExist;
 
@@ -52,9 +51,12 @@ class FeeCalculator {
         },
       ).then((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc));
 
-  Future<bool> _hasUsdcAta(Ed25519HDPublicKey address) =>
+  Future<bool> _hasAta({
+    required Ed25519HDPublicKey address,
+    required Token token,
+  }) =>
       _solanaClient.hasAssociatedTokenAccount(
         owner: address,
-        mint: Token.usdc.publicKey,
+        mint: token.publicKey,
       );
 }
