@@ -154,3 +154,59 @@ Map<String, dynamic> _$$ScalexRateFeeResponseDtoImplToJson(
       'fixedOnRampFee': instance.fixedOnRampFee,
       'espressoFeePercentage': instance.espressoFeePercentage,
     };
+
+_$ScalexBrijFeeRequestDtoImpl _$$ScalexBrijFeeRequestDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ScalexBrijFeeRequestDtoImpl(
+      amount: json['amount'] as String,
+      type: $enumDecode(_$RampTypeDtoEnumMap, json['type']),
+    );
+
+Map<String, dynamic> _$$ScalexBrijFeeRequestDtoImplToJson(
+        _$ScalexBrijFeeRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'amount': instance.amount,
+      'type': _$RampTypeDtoEnumMap[instance.type]!,
+    };
+
+const _$RampTypeDtoEnumMap = {
+  RampTypeDto.onRamp: 'onRamp',
+  RampTypeDto.offRamp: 'offRamp',
+};
+
+_$ScalexFeesImpl _$$ScalexFeesImplFromJson(Map<String, dynamic> json) =>
+    _$ScalexFeesImpl(
+      fixedFee: (json['fixedFee'] as num).toDouble(),
+      marginFee: (json['marginFee'] as num).toDouble(),
+      percentageFee: (json['percentageFee'] as num).toDouble(),
+      percentageFeeAmount: (json['percentageFeeAmount'] as num).toDouble(),
+      totalFee: (json['totalFee'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$$ScalexFeesImplToJson(_$ScalexFeesImpl instance) =>
+    <String, dynamic>{
+      'fixedFee': instance.fixedFee,
+      'marginFee': instance.marginFee,
+      'percentageFee': instance.percentageFee,
+      'percentageFeeAmount': instance.percentageFeeAmount,
+      'totalFee': instance.totalFee,
+    };
+
+_$ScalexBrijFeeResponseDtoImpl _$$ScalexBrijFeeResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ScalexBrijFeeResponseDtoImpl(
+      fiatAmount: (json['fiatAmount'] as num).toInt(),
+      cryptoAmount: (json['cryptoAmount'] as num).toDouble(),
+      rate: (json['rate'] as num).toDouble(),
+      scalexFees:
+          ScalexFees.fromJson(json['scalexFees'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ScalexBrijFeeResponseDtoImplToJson(
+        _$ScalexBrijFeeResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'fiatAmount': instance.fiatAmount,
+      'cryptoAmount': instance.cryptoAmount,
+      'rate': instance.rate,
+      'scalexFees': instance.scalexFees,
+    };
