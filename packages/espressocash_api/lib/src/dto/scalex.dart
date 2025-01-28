@@ -105,6 +105,44 @@ class ScalexRateFeeResponseDto with _$ScalexRateFeeResponseDto {
       _$ScalexRateFeeResponseDtoFromJson(json);
 }
 
+@freezed
+class ScalexBrijFeeRequestDto with _$ScalexBrijFeeRequestDto {
+  const factory ScalexBrijFeeRequestDto({
+    required String amount,
+    required RampTypeDto type,
+  }) = _ScalexBrijFeeRequestDto;
+
+  factory ScalexBrijFeeRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$ScalexBrijFeeRequestDtoFromJson(json);
+}
+
+@freezed
+class ScalexFees with _$ScalexFees {
+  const factory ScalexFees({
+    required double fixedFee,
+    required double marginFee,
+    required double percentageFee,
+    required double percentageFeeAmount,
+    required double totalFee,
+  }) = _ScalexFees;
+
+  factory ScalexFees.fromJson(Map<String, dynamic> json) =>
+      _$ScalexFeesFromJson(json);
+}
+
+@freezed
+class ScalexBrijFeeResponseDto with _$ScalexBrijFeeResponseDto {
+  const factory ScalexBrijFeeResponseDto({
+    required int fiatAmount,
+    required double cryptoAmount,
+    required double rate,
+    required ScalexFees scalexFees,
+  }) = _ScalexBrijFeeResponseDto;
+
+  factory ScalexBrijFeeResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$ScalexBrijFeeResponseDtoFromJson(json);
+}
+
 @JsonEnum()
 enum ScalexOrderStatus {
   pending,

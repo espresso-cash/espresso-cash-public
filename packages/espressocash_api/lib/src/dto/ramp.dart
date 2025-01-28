@@ -1,0 +1,1 @@
+enum RampTypeDto { onRamp, offRamp }

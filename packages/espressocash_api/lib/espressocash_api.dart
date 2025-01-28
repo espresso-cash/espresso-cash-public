@@ -12,6 +12,7 @@ export 'src/dto/get_rates.dart';
 export 'src/dto/get_tokens.dart';
 export 'src/dto/moneygram.dart';
 export 'src/dto/priority_fees.dart';
+export 'src/dto/ramp.dart';
 export 'src/dto/scalex.dart';
 export 'src/dto/shorten_link.dart';
 export 'src/dto/swap.dart';
