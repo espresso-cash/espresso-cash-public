@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
