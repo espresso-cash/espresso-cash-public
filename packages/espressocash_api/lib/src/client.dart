@@ -85,6 +85,11 @@ abstract class EspressoCashClient {
   @POST('/scalex/fees')
   Future<ScalexRateFeeResponseDto> fetchScalexFeesAndRate();
 
+  @POST('/scalex/brij/fees')
+  Future<ScalexBrijFeeResponseDto> fetchScalexBrijFees(
+    @Body() ScalexBrijFeeRequestDto request,
+  );
+
   @POST('/updateUserWalletCountry')
   Future<void> updateUserWalletCountry(
     @Body() WalletCountryRequestDto request,
