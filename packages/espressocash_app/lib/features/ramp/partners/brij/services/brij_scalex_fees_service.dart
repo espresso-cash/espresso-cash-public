@@ -61,8 +61,7 @@ class BrijScalexFeesService {
 
     final totalFee = Amount.fromDecimal(
       value: Decimal.parse(response.scalexFees.totalFee.toString()),
-      currency: Currency
-          .usdc, //TODO, might be different depending on the ramp type, withdraw could be in NGN
+      currency: Currency.usdc,
     );
 
     final receiveAmount = switch (type) {
