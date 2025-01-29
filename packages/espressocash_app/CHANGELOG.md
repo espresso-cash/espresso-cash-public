@@ -1,3 +1,8 @@
+## 1.141.0
+
+ - **FEAT**: update scalex brij rates (#1678).
+ - **FEAT**: update ramp sentry reporting (#1676).
+
 ## 1.140.0
 
  - **FIX**: passing correct partner (#1672).

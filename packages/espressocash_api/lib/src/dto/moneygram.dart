@@ -1,3 +1,4 @@
+import 'package:espressocash_api/src/dto/ramp.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'moneygram.freezed.dart';
@@ -87,8 +88,6 @@ class MoneygramFeeResponseDto with _$MoneygramFeeResponseDto {
   factory MoneygramFeeResponseDto.fromJson(Map<String, dynamic> json) =>
       _$MoneygramFeeResponseDtoFromJson(json);
 }
-
-enum RampTypeDto { onRamp, offRamp }
 
 @freezed
 class FundXlmRequestDto with _$FundXlmRequestDto {

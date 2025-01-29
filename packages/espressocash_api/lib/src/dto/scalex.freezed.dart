@@ -23,12 +23,8 @@ GenerateScalexLinkResponseDto _$GenerateScalexLinkResponseDtoFromJson(
 mixin _$GenerateScalexLinkResponseDto {
   String get signedUrl => throw _privateConstructorUsedError;
 
-  /// Serializes this GenerateScalexLinkResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of GenerateScalexLinkResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $GenerateScalexLinkResponseDtoCopyWith<GenerateScalexLinkResponseDto>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -55,8 +51,6 @@ class _$GenerateScalexLinkResponseDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of GenerateScalexLinkResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,8 +87,6 @@ class __$$GenerateScalexLinkResponseDtoImplCopyWithImpl<$Res>
       $Res Function(_$GenerateScalexLinkResponseDtoImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GenerateScalexLinkResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -136,13 +128,11 @@ class _$GenerateScalexLinkResponseDtoImpl
                 other.signedUrl == signedUrl));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, signedUrl);
 
-  /// Create a copy of GenerateScalexLinkResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$GenerateScalexLinkResponseDtoImplCopyWith<
@@ -168,11 +158,8 @@ abstract class _GenerateScalexLinkResponseDto
 
   @override
   String get signedUrl;
-
-  /// Create a copy of GenerateScalexLinkResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$GenerateScalexLinkResponseDtoImplCopyWith<
           _$GenerateScalexLinkResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -191,12 +178,8 @@ mixin _$GenerateScalexLinkRequestDto {
   double? get amount => throw _privateConstructorUsedError;
   String? get currency => throw _privateConstructorUsedError;
 
-  /// Serializes this GenerateScalexLinkRequestDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of GenerateScalexLinkRequestDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $GenerateScalexLinkRequestDtoCopyWith<GenerateScalexLinkRequestDto>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -228,8 +211,6 @@ class _$GenerateScalexLinkRequestDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of GenerateScalexLinkRequestDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -291,8 +272,6 @@ class __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>
       $Res Function(_$GenerateScalexLinkRequestDtoImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GenerateScalexLinkRequestDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -371,14 +350,12 @@ class _$GenerateScalexLinkRequestDtoImpl
                 other.currency == currency));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, type, address, email, amount, currency);
 
-  /// Create a copy of GenerateScalexLinkRequestDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$GenerateScalexLinkRequestDtoImplCopyWith<
@@ -416,11 +393,8 @@ abstract class _GenerateScalexLinkRequestDto
   double? get amount;
   @override
   String? get currency;
-
-  /// Create a copy of GenerateScalexLinkRequestDto
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$GenerateScalexLinkRequestDtoImplCopyWith<
           _$GenerateScalexLinkRequestDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -435,12 +409,8 @@ OrderStatusScalexRequestDto _$OrderStatusScalexRequestDtoFromJson(
 mixin _$OrderStatusScalexRequestDto {
   String get referenceId => throw _privateConstructorUsedError;
 
-  /// Serializes this OrderStatusScalexRequestDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of OrderStatusScalexRequestDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $OrderStatusScalexRequestDtoCopyWith<OrderStatusScalexRequestDto>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -467,8 +437,6 @@ class _$OrderStatusScalexRequestDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of OrderStatusScalexRequestDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -505,8 +473,6 @@ class __$$OrderStatusScalexRequestDtoImplCopyWithImpl<$Res>
       $Res Function(_$OrderStatusScalexRequestDtoImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of OrderStatusScalexRequestDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -548,13 +514,11 @@ class _$OrderStatusScalexRequestDtoImpl
                 other.referenceId == referenceId));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, referenceId);
 
-  /// Create a copy of OrderStatusScalexRequestDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$OrderStatusScalexRequestDtoImplCopyWith<_$OrderStatusScalexRequestDtoImpl>
@@ -579,11 +543,8 @@ abstract class _OrderStatusScalexRequestDto
 
   @override
   String get referenceId;
-
-  /// Create a copy of OrderStatusScalexRequestDto
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$OrderStatusScalexRequestDtoImplCopyWith<_$OrderStatusScalexRequestDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -599,12 +560,8 @@ mixin _$OrderStatusScalexResponseDto {
   ScalexOrderStatus get status => throw _privateConstructorUsedError;
   OnRampScalexDetails? get onRampDetails => throw _privateConstructorUsedError;
 
-  /// Serializes this OrderStatusScalexResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of OrderStatusScalexResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $OrderStatusScalexResponseDtoCopyWith<OrderStatusScalexResponseDto>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -636,8 +593,6 @@ class _$OrderStatusScalexResponseDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of OrderStatusScalexResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -656,8 +611,6 @@ class _$OrderStatusScalexResponseDtoCopyWithImpl<$Res,
     ) as $Val);
   }
 
-  /// Create a copy of OrderStatusScalexResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $OnRampScalexDetailsCopyWith<$Res>? get onRampDetails {
@@ -699,8 +652,6 @@ class __$$OrderStatusScalexResponseDtoImplCopyWithImpl<$Res>
       $Res Function(_$OrderStatusScalexResponseDtoImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of OrderStatusScalexResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -754,13 +705,11 @@ class _$OrderStatusScalexResponseDtoImpl
                 other.onRampDetails == onRampDetails));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, status, onRampDetails);
 
-  /// Create a copy of OrderStatusScalexResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$OrderStatusScalexResponseDtoImplCopyWith<
@@ -792,11 +741,8 @@ abstract class _OrderStatusScalexResponseDto
   ScalexOrderStatus get status;
   @override
   OnRampScalexDetails? get onRampDetails;
-
-  /// Create a copy of OrderStatusScalexResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$OrderStatusScalexResponseDtoImplCopyWith<
           _$OrderStatusScalexResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -812,12 +758,8 @@ mixin _$ScalexWithdrawRequestDto {
   String get orderId => throw _privateConstructorUsedError;
   Cluster get cluster => throw _privateConstructorUsedError;
 
-  /// Serializes this ScalexWithdrawRequestDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ScalexWithdrawRequestDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ScalexWithdrawRequestDtoCopyWith<ScalexWithdrawRequestDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -842,8 +784,6 @@ class _$ScalexWithdrawRequestDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ScalexWithdrawRequestDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -885,8 +825,6 @@ class __$$ScalexWithdrawRequestDtoImplCopyWithImpl<$Res>
       $Res Function(_$ScalexWithdrawRequestDtoImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ScalexWithdrawRequestDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -934,13 +872,11 @@ class _$ScalexWithdrawRequestDtoImpl implements _ScalexWithdrawRequestDto {
             (identical(other.cluster, cluster) || other.cluster == cluster));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, orderId, cluster);
 
-  /// Create a copy of ScalexWithdrawRequestDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ScalexWithdrawRequestDtoImplCopyWith<_$ScalexWithdrawRequestDtoImpl>
@@ -967,11 +903,8 @@ abstract class _ScalexWithdrawRequestDto implements ScalexWithdrawRequestDto {
   String get orderId;
   @override
   Cluster get cluster;
-
-  /// Create a copy of ScalexWithdrawRequestDto
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ScalexWithdrawRequestDtoImplCopyWith<_$ScalexWithdrawRequestDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -987,12 +920,8 @@ mixin _$ScalexWithdrawResponseDto {
   String get transaction => throw _privateConstructorUsedError;
   BigInt get slot => throw _privateConstructorUsedError;
 
-  /// Serializes this ScalexWithdrawResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ScalexWithdrawResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ScalexWithdrawResponseDtoCopyWith<ScalexWithdrawResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1017,8 +946,6 @@ class _$ScalexWithdrawResponseDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ScalexWithdrawResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1065,8 +992,6 @@ class __$$WithdrawPaymentResponseDtoImplCopyWithImpl<$Res>
       $Res Function(_$WithdrawPaymentResponseDtoImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ScalexWithdrawResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1124,13 +1049,11 @@ class _$WithdrawPaymentResponseDtoImpl implements _WithdrawPaymentResponseDto {
             (identical(other.slot, slot) || other.slot == slot));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, fee, transaction, slot);
 
-  /// Create a copy of ScalexWithdrawResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$WithdrawPaymentResponseDtoImplCopyWith<_$WithdrawPaymentResponseDtoImpl>
@@ -1161,11 +1084,8 @@ abstract class _WithdrawPaymentResponseDto
   String get transaction;
   @override
   BigInt get slot;
-
-  /// Create a copy of ScalexWithdrawResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$WithdrawPaymentResponseDtoImplCopyWith<_$WithdrawPaymentResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1182,12 +1102,8 @@ mixin _$OnRampScalexDetails {
   num get fromAmount => throw _privateConstructorUsedError;
   String get fiatCurrency => throw _privateConstructorUsedError;
 
-  /// Serializes this OnRampScalexDetails to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of OnRampScalexDetails
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $OnRampScalexDetailsCopyWith<OnRampScalexDetails> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1216,8 +1132,6 @@ class _$OnRampScalexDetailsCopyWithImpl<$Res, $Val extends OnRampScalexDetails>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of OnRampScalexDetails
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1276,8 +1190,6 @@ class __$$OnRampScalexDetailsImplCopyWithImpl<$Res>
       $Res Function(_$OnRampScalexDetailsImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of OnRampScalexDetails
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1358,14 +1270,12 @@ class _$OnRampScalexDetailsImpl implements _OnRampScalexDetails {
                 other.fiatCurrency == fiatCurrency));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, currency, bankName, bankAccount, fromAmount, fiatCurrency);
 
-  /// Create a copy of OnRampScalexDetails
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$OnRampScalexDetailsImplCopyWith<_$OnRampScalexDetailsImpl> get copyWith =>
@@ -1401,11 +1311,8 @@ abstract class _OnRampScalexDetails implements OnRampScalexDetails {
   num get fromAmount;
   @override
   String get fiatCurrency;
-
-  /// Create a copy of OnRampScalexDetails
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$OnRampScalexDetailsImplCopyWith<_$OnRampScalexDetailsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1425,12 +1332,8 @@ mixin _$ScalexRateFeeResponseDto {
   double? get fixedOnRampFee => throw _privateConstructorUsedError;
   double get espressoFeePercentage => throw _privateConstructorUsedError;
 
-  /// Serializes this ScalexRateFeeResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ScalexRateFeeResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ScalexRateFeeResponseDtoCopyWith<ScalexRateFeeResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1462,8 +1365,6 @@ class _$ScalexRateFeeResponseDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ScalexRateFeeResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1537,8 +1438,6 @@ class __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>
       $Res Function(_$ScalexRateFeeResponseDtoImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ScalexRateFeeResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1639,7 +1538,7 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
                 other.espressoFeePercentage == espressoFeePercentage));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -1651,9 +1550,7 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
       fixedOnRampFee,
       espressoFeePercentage);
 
-  /// Create a copy of ScalexRateFeeResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ScalexRateFeeResponseDtoImplCopyWith<_$ScalexRateFeeResponseDtoImpl>
@@ -1696,11 +1593,618 @@ abstract class _ScalexRateFeeResponseDto implements ScalexRateFeeResponseDto {
   double? get fixedOnRampFee;
   @override
   double get espressoFeePercentage;
-
-  /// Create a copy of ScalexRateFeeResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ScalexRateFeeResponseDtoImplCopyWith<_$ScalexRateFeeResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ScalexBrijFeeRequestDto _$ScalexBrijFeeRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _ScalexBrijFeeRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ScalexBrijFeeRequestDto {
+  String get amount => throw _privateConstructorUsedError;
+  RampTypeDto get type => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ScalexBrijFeeRequestDtoCopyWith<ScalexBrijFeeRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ScalexBrijFeeRequestDtoCopyWith<$Res> {
+  factory $ScalexBrijFeeRequestDtoCopyWith(ScalexBrijFeeRequestDto value,
+          $Res Function(ScalexBrijFeeRequestDto) then) =
+      _$ScalexBrijFeeRequestDtoCopyWithImpl<$Res, ScalexBrijFeeRequestDto>;
+  @useResult
+  $Res call({String amount, RampTypeDto type});
+}
+
+/// @nodoc
+class _$ScalexBrijFeeRequestDtoCopyWithImpl<$Res,
+        $Val extends ScalexBrijFeeRequestDto>
+    implements $ScalexBrijFeeRequestDtoCopyWith<$Res> {
+  _$ScalexBrijFeeRequestDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? amount = null,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RampTypeDto,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ScalexBrijFeeRequestDtoImplCopyWith<$Res>
+    implements $ScalexBrijFeeRequestDtoCopyWith<$Res> {
+  factory _$$ScalexBrijFeeRequestDtoImplCopyWith(
+          _$ScalexBrijFeeRequestDtoImpl value,
+          $Res Function(_$ScalexBrijFeeRequestDtoImpl) then) =
+      __$$ScalexBrijFeeRequestDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String amount, RampTypeDto type});
+}
+
+/// @nodoc
+class __$$ScalexBrijFeeRequestDtoImplCopyWithImpl<$Res>
+    extends _$ScalexBrijFeeRequestDtoCopyWithImpl<$Res,
+        _$ScalexBrijFeeRequestDtoImpl>
+    implements _$$ScalexBrijFeeRequestDtoImplCopyWith<$Res> {
+  __$$ScalexBrijFeeRequestDtoImplCopyWithImpl(
+      _$ScalexBrijFeeRequestDtoImpl _value,
+      $Res Function(_$ScalexBrijFeeRequestDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? amount = null,
+    Object? type = null,
+  }) {
+    return _then(_$ScalexBrijFeeRequestDtoImpl(
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RampTypeDto,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ScalexBrijFeeRequestDtoImpl implements _ScalexBrijFeeRequestDto {
+  const _$ScalexBrijFeeRequestDtoImpl(
+      {required this.amount, required this.type});
+
+  factory _$ScalexBrijFeeRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ScalexBrijFeeRequestDtoImplFromJson(json);
+
+  @override
+  final String amount;
+  @override
+  final RampTypeDto type;
+
+  @override
+  String toString() {
+    return 'ScalexBrijFeeRequestDto(amount: $amount, type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ScalexBrijFeeRequestDtoImpl &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, amount, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ScalexBrijFeeRequestDtoImplCopyWith<_$ScalexBrijFeeRequestDtoImpl>
+      get copyWith => __$$ScalexBrijFeeRequestDtoImplCopyWithImpl<
+          _$ScalexBrijFeeRequestDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ScalexBrijFeeRequestDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ScalexBrijFeeRequestDto implements ScalexBrijFeeRequestDto {
+  const factory _ScalexBrijFeeRequestDto(
+      {required final String amount,
+      required final RampTypeDto type}) = _$ScalexBrijFeeRequestDtoImpl;
+
+  factory _ScalexBrijFeeRequestDto.fromJson(Map<String, dynamic> json) =
+      _$ScalexBrijFeeRequestDtoImpl.fromJson;
+
+  @override
+  String get amount;
+  @override
+  RampTypeDto get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$ScalexBrijFeeRequestDtoImplCopyWith<_$ScalexBrijFeeRequestDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ScalexFees _$ScalexFeesFromJson(Map<String, dynamic> json) {
+  return _ScalexFees.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ScalexFees {
+  double get fixedFee => throw _privateConstructorUsedError;
+  double get marginFee => throw _privateConstructorUsedError;
+  double get percentageFee => throw _privateConstructorUsedError;
+  double get percentageFeeAmount => throw _privateConstructorUsedError;
+  double get totalFee => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ScalexFeesCopyWith<ScalexFees> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ScalexFeesCopyWith<$Res> {
+  factory $ScalexFeesCopyWith(
+          ScalexFees value, $Res Function(ScalexFees) then) =
+      _$ScalexFeesCopyWithImpl<$Res, ScalexFees>;
+  @useResult
+  $Res call(
+      {double fixedFee,
+      double marginFee,
+      double percentageFee,
+      double percentageFeeAmount,
+      double totalFee});
+}
+
+/// @nodoc
+class _$ScalexFeesCopyWithImpl<$Res, $Val extends ScalexFees>
+    implements $ScalexFeesCopyWith<$Res> {
+  _$ScalexFeesCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fixedFee = null,
+    Object? marginFee = null,
+    Object? percentageFee = null,
+    Object? percentageFeeAmount = null,
+    Object? totalFee = null,
+  }) {
+    return _then(_value.copyWith(
+      fixedFee: null == fixedFee
+          ? _value.fixedFee
+          : fixedFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      marginFee: null == marginFee
+          ? _value.marginFee
+          : marginFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      percentageFee: null == percentageFee
+          ? _value.percentageFee
+          : percentageFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      percentageFeeAmount: null == percentageFeeAmount
+          ? _value.percentageFeeAmount
+          : percentageFeeAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalFee: null == totalFee
+          ? _value.totalFee
+          : totalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ScalexFeesImplCopyWith<$Res>
+    implements $ScalexFeesCopyWith<$Res> {
+  factory _$$ScalexFeesImplCopyWith(
+          _$ScalexFeesImpl value, $Res Function(_$ScalexFeesImpl) then) =
+      __$$ScalexFeesImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {double fixedFee,
+      double marginFee,
+      double percentageFee,
+      double percentageFeeAmount,
+      double totalFee});
+}
+
+/// @nodoc
+class __$$ScalexFeesImplCopyWithImpl<$Res>
+    extends _$ScalexFeesCopyWithImpl<$Res, _$ScalexFeesImpl>
+    implements _$$ScalexFeesImplCopyWith<$Res> {
+  __$$ScalexFeesImplCopyWithImpl(
+      _$ScalexFeesImpl _value, $Res Function(_$ScalexFeesImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fixedFee = null,
+    Object? marginFee = null,
+    Object? percentageFee = null,
+    Object? percentageFeeAmount = null,
+    Object? totalFee = null,
+  }) {
+    return _then(_$ScalexFeesImpl(
+      fixedFee: null == fixedFee
+          ? _value.fixedFee
+          : fixedFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      marginFee: null == marginFee
+          ? _value.marginFee
+          : marginFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      percentageFee: null == percentageFee
+          ? _value.percentageFee
+          : percentageFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      percentageFeeAmount: null == percentageFeeAmount
+          ? _value.percentageFeeAmount
+          : percentageFeeAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalFee: null == totalFee
+          ? _value.totalFee
+          : totalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ScalexFeesImpl implements _ScalexFees {
+  const _$ScalexFeesImpl(
+      {required this.fixedFee,
+      required this.marginFee,
+      required this.percentageFee,
+      required this.percentageFeeAmount,
+      required this.totalFee});
+
+  factory _$ScalexFeesImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ScalexFeesImplFromJson(json);
+
+  @override
+  final double fixedFee;
+  @override
+  final double marginFee;
+  @override
+  final double percentageFee;
+  @override
+  final double percentageFeeAmount;
+  @override
+  final double totalFee;
+
+  @override
+  String toString() {
+    return 'ScalexFees(fixedFee: $fixedFee, marginFee: $marginFee, percentageFee: $percentageFee, percentageFeeAmount: $percentageFeeAmount, totalFee: $totalFee)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ScalexFeesImpl &&
+            (identical(other.fixedFee, fixedFee) ||
+                other.fixedFee == fixedFee) &&
+            (identical(other.marginFee, marginFee) ||
+                other.marginFee == marginFee) &&
+            (identical(other.percentageFee, percentageFee) ||
+                other.percentageFee == percentageFee) &&
+            (identical(other.percentageFeeAmount, percentageFeeAmount) ||
+                other.percentageFeeAmount == percentageFeeAmount) &&
+            (identical(other.totalFee, totalFee) ||
+                other.totalFee == totalFee));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fixedFee, marginFee,
+      percentageFee, percentageFeeAmount, totalFee);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ScalexFeesImplCopyWith<_$ScalexFeesImpl> get copyWith =>
+      __$$ScalexFeesImplCopyWithImpl<_$ScalexFeesImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ScalexFeesImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ScalexFees implements ScalexFees {
+  const factory _ScalexFees(
+      {required final double fixedFee,
+      required final double marginFee,
+      required final double percentageFee,
+      required final double percentageFeeAmount,
+      required final double totalFee}) = _$ScalexFeesImpl;
+
+  factory _ScalexFees.fromJson(Map<String, dynamic> json) =
+      _$ScalexFeesImpl.fromJson;
+
+  @override
+  double get fixedFee;
+  @override
+  double get marginFee;
+  @override
+  double get percentageFee;
+  @override
+  double get percentageFeeAmount;
+  @override
+  double get totalFee;
+  @override
+  @JsonKey(ignore: true)
+  _$$ScalexFeesImplCopyWith<_$ScalexFeesImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ScalexBrijFeeResponseDto _$ScalexBrijFeeResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _ScalexBrijFeeResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ScalexBrijFeeResponseDto {
+  double get fiatAmount => throw _privateConstructorUsedError;
+  double get cryptoAmount => throw _privateConstructorUsedError;
+  double get rate => throw _privateConstructorUsedError;
+  ScalexFees get scalexFees => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ScalexBrijFeeResponseDtoCopyWith<ScalexBrijFeeResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ScalexBrijFeeResponseDtoCopyWith<$Res> {
+  factory $ScalexBrijFeeResponseDtoCopyWith(ScalexBrijFeeResponseDto value,
+          $Res Function(ScalexBrijFeeResponseDto) then) =
+      _$ScalexBrijFeeResponseDtoCopyWithImpl<$Res, ScalexBrijFeeResponseDto>;
+  @useResult
+  $Res call(
+      {double fiatAmount,
+      double cryptoAmount,
+      double rate,
+      ScalexFees scalexFees});
+
+  $ScalexFeesCopyWith<$Res> get scalexFees;
+}
+
+/// @nodoc
+class _$ScalexBrijFeeResponseDtoCopyWithImpl<$Res,
+        $Val extends ScalexBrijFeeResponseDto>
+    implements $ScalexBrijFeeResponseDtoCopyWith<$Res> {
+  _$ScalexBrijFeeResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fiatAmount = null,
+    Object? cryptoAmount = null,
+    Object? rate = null,
+    Object? scalexFees = null,
+  }) {
+    return _then(_value.copyWith(
+      fiatAmount: null == fiatAmount
+          ? _value.fiatAmount
+          : fiatAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      cryptoAmount: null == cryptoAmount
+          ? _value.cryptoAmount
+          : cryptoAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      rate: null == rate
+          ? _value.rate
+          : rate // ignore: cast_nullable_to_non_nullable
+              as double,
+      scalexFees: null == scalexFees
+          ? _value.scalexFees
+          : scalexFees // ignore: cast_nullable_to_non_nullable
+              as ScalexFees,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ScalexFeesCopyWith<$Res> get scalexFees {
+    return $ScalexFeesCopyWith<$Res>(_value.scalexFees, (value) {
+      return _then(_value.copyWith(scalexFees: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ScalexBrijFeeResponseDtoImplCopyWith<$Res>
+    implements $ScalexBrijFeeResponseDtoCopyWith<$Res> {
+  factory _$$ScalexBrijFeeResponseDtoImplCopyWith(
+          _$ScalexBrijFeeResponseDtoImpl value,
+          $Res Function(_$ScalexBrijFeeResponseDtoImpl) then) =
+      __$$ScalexBrijFeeResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {double fiatAmount,
+      double cryptoAmount,
+      double rate,
+      ScalexFees scalexFees});
+
+  @override
+  $ScalexFeesCopyWith<$Res> get scalexFees;
+}
+
+/// @nodoc
+class __$$ScalexBrijFeeResponseDtoImplCopyWithImpl<$Res>
+    extends _$ScalexBrijFeeResponseDtoCopyWithImpl<$Res,
+        _$ScalexBrijFeeResponseDtoImpl>
+    implements _$$ScalexBrijFeeResponseDtoImplCopyWith<$Res> {
+  __$$ScalexBrijFeeResponseDtoImplCopyWithImpl(
+      _$ScalexBrijFeeResponseDtoImpl _value,
+      $Res Function(_$ScalexBrijFeeResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fiatAmount = null,
+    Object? cryptoAmount = null,
+    Object? rate = null,
+    Object? scalexFees = null,
+  }) {
+    return _then(_$ScalexBrijFeeResponseDtoImpl(
+      fiatAmount: null == fiatAmount
+          ? _value.fiatAmount
+          : fiatAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      cryptoAmount: null == cryptoAmount
+          ? _value.cryptoAmount
+          : cryptoAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      rate: null == rate
+          ? _value.rate
+          : rate // ignore: cast_nullable_to_non_nullable
+              as double,
+      scalexFees: null == scalexFees
+          ? _value.scalexFees
+          : scalexFees // ignore: cast_nullable_to_non_nullable
+              as ScalexFees,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ScalexBrijFeeResponseDtoImpl implements _ScalexBrijFeeResponseDto {
+  const _$ScalexBrijFeeResponseDtoImpl(
+      {required this.fiatAmount,
+      required this.cryptoAmount,
+      required this.rate,
+      required this.scalexFees});
+
+  factory _$ScalexBrijFeeResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ScalexBrijFeeResponseDtoImplFromJson(json);
+
+  @override
+  final double fiatAmount;
+  @override
+  final double cryptoAmount;
+  @override
+  final double rate;
+  @override
+  final ScalexFees scalexFees;
+
+  @override
+  String toString() {
+    return 'ScalexBrijFeeResponseDto(fiatAmount: $fiatAmount, cryptoAmount: $cryptoAmount, rate: $rate, scalexFees: $scalexFees)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ScalexBrijFeeResponseDtoImpl &&
+            (identical(other.fiatAmount, fiatAmount) ||
+                other.fiatAmount == fiatAmount) &&
+            (identical(other.cryptoAmount, cryptoAmount) ||
+                other.cryptoAmount == cryptoAmount) &&
+            (identical(other.rate, rate) || other.rate == rate) &&
+            (identical(other.scalexFees, scalexFees) ||
+                other.scalexFees == scalexFees));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, fiatAmount, cryptoAmount, rate, scalexFees);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ScalexBrijFeeResponseDtoImplCopyWith<_$ScalexBrijFeeResponseDtoImpl>
+      get copyWith => __$$ScalexBrijFeeResponseDtoImplCopyWithImpl<
+          _$ScalexBrijFeeResponseDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ScalexBrijFeeResponseDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ScalexBrijFeeResponseDto implements ScalexBrijFeeResponseDto {
+  const factory _ScalexBrijFeeResponseDto(
+      {required final double fiatAmount,
+      required final double cryptoAmount,
+      required final double rate,
+      required final ScalexFees scalexFees}) = _$ScalexBrijFeeResponseDtoImpl;
+
+  factory _ScalexBrijFeeResponseDto.fromJson(Map<String, dynamic> json) =
+      _$ScalexBrijFeeResponseDtoImpl.fromJson;
+
+  @override
+  double get fiatAmount;
+  @override
+  double get cryptoAmount;
+  @override
+  double get rate;
+  @override
+  ScalexFees get scalexFees;
+  @override
+  @JsonKey(ignore: true)
+  _$$ScalexBrijFeeResponseDtoImplCopyWith<_$ScalexBrijFeeResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
