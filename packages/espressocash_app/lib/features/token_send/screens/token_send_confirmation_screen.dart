@@ -46,10 +46,12 @@ class TokenSendConfirmationScreen extends StatefulWidget {
   final Token token;
 
   @override
-  State<TokenSendConfirmationScreen> createState() => _ScreenState();
+  State<TokenSendConfirmationScreen> createState() =>
+      _TokenSendConfirmationScreenState();
 }
 
-class _ScreenState extends State<TokenSendConfirmationScreen> {
+class _TokenSendConfirmationScreenState
+    extends State<TokenSendConfirmationScreen> {
   late final TextEditingController _amountController;
   late Future<CryptoAmount> _feeAmount;
 

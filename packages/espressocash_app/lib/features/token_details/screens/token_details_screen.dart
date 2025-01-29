@@ -18,7 +18,7 @@ import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../token_send/screens/token_send_input_screen.dart';
 import '../../token_send/widgets/token_app_bar.dart';
-import '../../token_swap/screens/token_swap_screen.dart';
+import '../../token_swap/screens/token_swap_input_screen.dart';
 import '../../tokens/token.dart';
 import '../widgets/token_info.dart';
 
@@ -246,7 +246,7 @@ class _ActionButtons extends StatelessWidget {
               text: 'Swap',
               minWidth: 106,
               size: CpButtonSize.big,
-              onPressed: () => TokenSwapScreen.push(
+              onPressed: () => TokenSwapInputScreen.push(
                 context,
                 token: token,
               ),

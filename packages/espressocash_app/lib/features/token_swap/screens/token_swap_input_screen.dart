@@ -10,7 +10,6 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../conversion_rates/data/repository.dart';
@@ -19,26 +18,27 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../widgets/token_picker.dart';
+import 'token_swap_confirmation_screen.dart';
 
-class TokenSwapScreen extends StatefulWidget {
-  const TokenSwapScreen({super.key, required this.token});
+class TokenSwapInputScreen extends StatefulWidget {
+  const TokenSwapInputScreen({super.key, required this.token});
 
   static void push(BuildContext context, {required Token token}) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => TokenSwapScreen(token: token),
+          builder: (context) => TokenSwapInputScreen(token: token),
         ),
       );
 
   final Token token;
 
   @override
-  State<TokenSwapScreen> createState() => _TokenSwapScreenState();
+  State<TokenSwapInputScreen> createState() => _TokenSwapInputScreenState();
 }
 
-class _TokenSwapScreenState extends State<TokenSwapScreen> {
-  final _quantityPayController = TextEditingController();
-  final _quantityReceiveController = TextEditingController();
+class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
+  final _payAmountController = TextEditingController();
+  final _receiveAmountController = TextEditingController();
 
   late Token _receiveToken;
   late Token _payToken;
@@ -53,6 +53,8 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
   bool _isReceiveAmountChanging = false;
   bool _isExpanded = false;
 
+  bool _isPayFocused = true;
+
   @override
   void initState() {
     super.initState();
@@ -61,14 +63,14 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
 
     _updateRate(widget.token, Token.usdc);
 
-    _quantityPayController.addListener(_onPayAmountChanged);
-    _quantityReceiveController.addListener(_onReceiveAmountChanged);
+    _payAmountController.addListener(_onPayAmountChanged);
+    _receiveAmountController.addListener(_onReceiveAmountChanged);
   }
 
   @override
   void dispose() {
-    _quantityPayController.dispose();
-    _quantityReceiveController.dispose();
+    _payAmountController.dispose();
+    _receiveAmountController.dispose();
     super.dispose();
   }
 
@@ -89,13 +91,13 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
 
   void _onPayAmountChanged() {
     if (_isReceiveAmountChanging) return;
-    if (_quantityPayController.text.isEmpty) {
+    if (_payAmountController.text.isEmpty) {
       setState(() {
         _amountInputWidth = 180;
         _symbolInputWidth = 180;
         _isExpanded = false;
       });
-      _quantityReceiveController.text = '';
+      _receiveAmountController.text = '';
 
       return;
     }
@@ -103,9 +105,9 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
     _isPayAmountChanging = true;
 
     final payAmount =
-        Decimal.tryParse(_quantityPayController.text) ?? Decimal.zero;
+        Decimal.tryParse(_payAmountController.text) ?? Decimal.zero;
     final receiveAmount = payAmount * _payTokenRate;
-    _quantityReceiveController.text = receiveAmount.round(scale: 2).toString();
+    _receiveAmountController.text = receiveAmount.round(scale: 2).toString();
 
     setState(() {
       _amountInputWidth = 260;
@@ -118,13 +120,13 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
 
   void _onReceiveAmountChanged() {
     if (_isPayAmountChanging) return;
-    if (_quantityReceiveController.text.isEmpty) {
+    if (_receiveAmountController.text.isEmpty) {
       setState(() {
         _amountInputWidth = 180;
         _symbolInputWidth = 180;
         _isExpanded = false;
       });
-      _quantityPayController.text = '';
+      _payAmountController.text = '';
 
       return;
     }
@@ -132,10 +134,10 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
     _isReceiveAmountChanging = true;
 
     final receiveAmount =
-        Decimal.tryParse(_quantityReceiveController.text) ?? Decimal.zero;
+        Decimal.tryParse(_receiveAmountController.text) ?? Decimal.zero;
 
     final payAmount = receiveAmount / _payTokenRate;
-    _quantityPayController.text = payAmount.toDouble().toStringAsFixed(2);
+    _payAmountController.text = payAmount.toDouble().toStringAsFixed(2);
 
     setState(() {
       _amountInputWidth = 260;
@@ -144,6 +146,18 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
     });
 
     _isReceiveAmountChanging = false;
+  }
+
+  void _onPayInputTap() {
+    if (!_isPayFocused) {
+      setState(() => _isPayFocused = true);
+    }
+  }
+
+  void _onReceiveInputTap() {
+    if (_isPayFocused) {
+      setState(() => _isPayFocused = false);
+    }
   }
 
   @override
@@ -205,12 +219,13 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
                                   curve: Curves.easeInOut,
                                   duration: const Duration(milliseconds: 300),
                                   width: _amountInputWidth,
-                                  child: _TokenQuantityInput(
-                                    quantityController: _quantityPayController,
+                                  child: _TokenAmountInput(
+                                    controller: _payAmountController,
                                     crypto: crypto,
-                                    symbol: _payToken.symbol,
                                     fiatRate: fiatRatePay,
-                                    maxButton: false,
+                                    showMaxButton: false,
+                                    isFocused: _isPayFocused,
+                                    onTap: _onPayInputTap,
                                   ),
                                 ),
                                 AnimatedContainer(
@@ -289,13 +304,13 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
                                   curve: Curves.easeInOut,
                                   duration: const Duration(milliseconds: 300),
                                   width: _amountInputWidth,
-                                  child: _TokenQuantityInput(
-                                    quantityController:
-                                        _quantityReceiveController,
+                                  child: _TokenAmountInput(
+                                    controller: _receiveAmountController,
                                     crypto: crypto,
-                                    symbol: _receiveToken.symbol,
                                     fiatRate: fiatRateReceive,
-                                    maxButton: false,
+                                    showMaxButton: false,
+                                    isFocused: !_isPayFocused,
+                                    onTap: _onReceiveInputTap,
                                   ),
                                 ),
                                 AnimatedContainer(
@@ -321,14 +336,22 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
                       ),
                       Expanded(
                         child: AmountKeypad(
-                          controller: TextEditingController(),
+                          controller: _isPayFocused
+                              ? _payAmountController
+                              : _receiveAmountController,
                           maxDecimals: 4,
                         ),
                       ),
                       const SizedBox(height: 16),
                       CpBottomButton(
                         text: 'Review Swap',
-                        onPressed: () {},
+                        onPressed: () => TokenSwapConfirmationScreen.push(
+                          context,
+                          payToken: _payToken,
+                          receiveToken: _receiveToken,
+                          payAmount: _payAmountController.text,
+                          receiveAmount: _receiveAmountController.text,
+                        ),
                       ),
                       const SizedBox(height: 24),
                     ],
@@ -341,26 +364,28 @@ class _TokenSwapScreenState extends State<TokenSwapScreen> {
       );
 }
 
-class _TokenQuantityInput extends StatefulWidget {
-  const _TokenQuantityInput({
-    required this.quantityController,
+class _TokenAmountInput extends StatefulWidget {
+  const _TokenAmountInput({
+    required this.controller,
     required this.crypto,
-    required this.symbol,
-    required this.maxButton,
     required this.fiatRate,
+    this.showMaxButton = false,
+    required this.isFocused,
+    required this.onTap,
   });
 
-  final TextEditingController quantityController;
+  final TextEditingController controller;
   final CryptoAmount crypto;
-  final String symbol;
   final Amount fiatRate;
-  final bool maxButton;
+  final bool showMaxButton;
+  final bool isFocused;
+  final VoidCallback onTap;
 
   @override
-  State<_TokenQuantityInput> createState() => __TokenQuantityInputState();
+  State<_TokenAmountInput> createState() => _TokenAmountInputState();
 }
 
-class __TokenQuantityInputState extends State<_TokenQuantityInput> {
+class _TokenAmountInputState extends State<_TokenAmountInput> {
   bool _visibility = false;
   double _textHeight = 1.2;
   double _fontSize = 34.0;
@@ -368,13 +393,11 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
   @override
   void initState() {
     super.initState();
-    widget.quantityController.addListener(
-      _quantityListener,
-    );
+    widget.controller.addListener(_quantityListener);
   }
 
   void _quantityListener() {
-    final isValueValid = widget.quantityController.text.isNotEmpty;
+    final isValueValid = widget.controller.text.isNotEmpty;
 
     setState(() {
       if (isValueValid) {
@@ -385,13 +408,9 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
         _visibility = false;
       }
 
-      _fontSize = _calculateFontSize(widget.quantityController.text);
+      _fontSize = _calculateFontSize(widget.controller.text);
     });
   }
-
-  // void _quantityListener2() {
-  //   _fontSize = _calculateFontSize(widget.quantityController.text);
-  // }
 
   double _calculateFontSize(String text) {
     double fontSize = 34;
@@ -421,69 +440,82 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
   }
 
   @override
-  Widget build(BuildContext context) => Stack(
-        children: [
-          CpTextField(
-            padding: const EdgeInsets.only(
-              top: 16,
-              bottom: 20,
-              left: 24,
-              right: 24,
-            ),
-            height: 72,
-            controller: widget.quantityController,
-            inputType: TextInputType.number,
-            textInputAction: TextInputAction.next,
-            textCapitalization: TextCapitalization.none,
-            backgroundColor: CpColors.blackGreyColor,
-            placeholder: '0 ${widget.maxButton ? widget.symbol : ''}',
-            placeholderColor: Colors.white,
-            textColor: Colors.white,
-            fontSize: _fontSize,
-            fontWeight: FontWeight.w700,
-            maxLength: 30,
-            textHeight: _textHeight,
-            suffix: widget.maxButton
-                ? Padding(
-                    padding: const EdgeInsets.only(right: 14),
-                    child: CpButton(
-                      onPressed: _isMax()
-                          ? () => widget.quantityController.text = ''
-                          : () => widget.quantityController.text =
-                              '${widget.crypto.decimal}',
-                      text: _isMax() ? 'Clear' : 'Max',
-                      minWidth: 54,
-                      size: CpButtonSize.small,
-                      variant: CpButtonVariant.inverted,
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: widget.onTap,
+        child: Stack(
+          children: [
+            Container(
+              height: 72,
+              padding: const EdgeInsets.only(
+                top: 16,
+                bottom: 20,
+                left: 24,
+                right: 24,
+              ),
+              decoration: BoxDecoration(
+                color: CpColors.blackGreyColor,
+                borderRadius: const BorderRadius.all(Radius.circular(100)),
+                border: Border.all(
+                  color: widget.isFocused ? Colors.white : Colors.transparent,
+                  width: 1,
+                ),
+              ),
+              child: ValueListenableBuilder<TextEditingValue>(
+                valueListenable: widget.controller,
+                builder: (context, value, child) => Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        value.text.isEmpty ? '0' : value.text,
+                        style: TextStyle(
+                          fontSize: _fontSize,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                          height: _textHeight,
+                        ),
+                      ),
                     ),
-                  )
-                : null,
-          ),
-          Visibility(
-            visible: _visibility,
-            child: Positioned(
-              left: 26,
-              bottom: 9,
-              child: Text(
-                r'≈ $' + _buildUsdcAmountText,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
+                    if (widget.showMaxButton)
+                      CpButton(
+                        onPressed: _isMax()
+                            ? () => widget.controller.text = ''
+                            : () => widget.controller.text =
+                                '${widget.crypto.decimal}',
+                        text: _isMax() ? 'Clear' : 'Max',
+                        minWidth: 54,
+                        size: CpButtonSize.small,
+                        variant: CpButtonVariant.inverted,
+                      ),
+                  ],
                 ),
               ),
             ),
-          ),
-        ],
+            Visibility(
+              visible: _visibility,
+              child: Positioned(
+                left: 26,
+                bottom: 9,
+                child: Text(
+                  r'≈ $' + _buildUsdcAmountText,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       );
 
   String get _buildUsdcAmountText =>
-      ((num.tryParse(widget.quantityController.text) ?? 1) *
+      ((num.tryParse(widget.controller.text) ?? 1) *
               widget.fiatRate.decimal.toDouble())
           .toStringAsFixed(2);
 
   bool _isMax() =>
       (num.tryParse(
-            widget.quantityController.text,
+            widget.controller.text,
           ) ??
           -1) ==
       widget.crypto.decimal.toDouble();
