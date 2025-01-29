@@ -195,7 +195,7 @@ Map<String, dynamic> _$$ScalexFeesImplToJson(_$ScalexFeesImpl instance) =>
 _$ScalexBrijFeeResponseDtoImpl _$$ScalexBrijFeeResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$ScalexBrijFeeResponseDtoImpl(
-      fiatAmount: (json['fiatAmount'] as num).toInt(),
+      fiatAmount: (json['fiatAmount'] as num).toDouble(),
       cryptoAmount: (json['cryptoAmount'] as num).toDouble(),
       rate: (json['rate'] as num).toDouble(),
       scalexFees:

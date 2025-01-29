@@ -133,7 +133,7 @@ class ScalexFees with _$ScalexFees {
 @freezed
 class ScalexBrijFeeResponseDto with _$ScalexBrijFeeResponseDto {
   const factory ScalexBrijFeeResponseDto({
-    required int fiatAmount,
+    required double fiatAmount,
     required double cryptoAmount,
     required double rate,
     required ScalexFees scalexFees,
