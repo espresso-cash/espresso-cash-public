@@ -1993,7 +1993,7 @@ ScalexBrijFeeResponseDto _$ScalexBrijFeeResponseDtoFromJson(
 
 /// @nodoc
 mixin _$ScalexBrijFeeResponseDto {
-  int get fiatAmount => throw _privateConstructorUsedError;
+  double get fiatAmount => throw _privateConstructorUsedError;
   double get cryptoAmount => throw _privateConstructorUsedError;
   double get rate => throw _privateConstructorUsedError;
   ScalexFees get scalexFees => throw _privateConstructorUsedError;
@@ -2011,7 +2011,7 @@ abstract class $ScalexBrijFeeResponseDtoCopyWith<$Res> {
       _$ScalexBrijFeeResponseDtoCopyWithImpl<$Res, ScalexBrijFeeResponseDto>;
   @useResult
   $Res call(
-      {int fiatAmount,
+      {double fiatAmount,
       double cryptoAmount,
       double rate,
       ScalexFees scalexFees});
@@ -2042,7 +2042,7 @@ class _$ScalexBrijFeeResponseDtoCopyWithImpl<$Res,
       fiatAmount: null == fiatAmount
           ? _value.fiatAmount
           : fiatAmount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       cryptoAmount: null == cryptoAmount
           ? _value.cryptoAmount
           : cryptoAmount // ignore: cast_nullable_to_non_nullable
@@ -2077,7 +2077,7 @@ abstract class _$$ScalexBrijFeeResponseDtoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int fiatAmount,
+      {double fiatAmount,
       double cryptoAmount,
       double rate,
       ScalexFees scalexFees});
@@ -2108,7 +2108,7 @@ class __$$ScalexBrijFeeResponseDtoImplCopyWithImpl<$Res>
       fiatAmount: null == fiatAmount
           ? _value.fiatAmount
           : fiatAmount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       cryptoAmount: null == cryptoAmount
           ? _value.cryptoAmount
           : cryptoAmount // ignore: cast_nullable_to_non_nullable
@@ -2138,7 +2138,7 @@ class _$ScalexBrijFeeResponseDtoImpl implements _ScalexBrijFeeResponseDto {
       _$$ScalexBrijFeeResponseDtoImplFromJson(json);
 
   @override
-  final int fiatAmount;
+  final double fiatAmount;
   @override
   final double cryptoAmount;
   @override
@@ -2187,7 +2187,7 @@ class _$ScalexBrijFeeResponseDtoImpl implements _ScalexBrijFeeResponseDto {
 
 abstract class _ScalexBrijFeeResponseDto implements ScalexBrijFeeResponseDto {
   const factory _ScalexBrijFeeResponseDto(
-      {required final int fiatAmount,
+      {required final double fiatAmount,
       required final double cryptoAmount,
       required final double rate,
       required final ScalexFees scalexFees}) = _$ScalexBrijFeeResponseDtoImpl;
@@ -2196,7 +2196,7 @@ abstract class _ScalexBrijFeeResponseDto implements ScalexBrijFeeResponseDto {
       _$ScalexBrijFeeResponseDtoImpl.fromJson;
 
   @override
-  int get fiatAmount;
+  double get fiatAmount;
   @override
   double get cryptoAmount;
   @override
