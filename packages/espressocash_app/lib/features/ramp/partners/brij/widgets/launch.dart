@@ -25,6 +25,7 @@ import '../../../screens/ramp_amount_screen.dart';
 import '../../scalex/data/scalex_repository.dart';
 import '../services/brij_off_ramp_order_service.dart';
 import '../services/brij_on_ramp_order_service.dart';
+import '../services/brij_scalex_fees_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchBrijOnRamp(RampPartner partner) async {
@@ -159,19 +160,12 @@ extension BuildContextExt on BuildContext {
 
     if (!kycPassed) return;
 
-    final rateAndFee = await _fetchRateAndFee();
+    const type = RampType.offRamp;
 
-    if (rateAndFee == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-      return;
-    }
-
+    final rate = await _fetchRate(type);
     Amount? amount;
 
-    final double rampRate = rateAndFee.offRampRate;
-    final double rampFeePercentage = rateAndFee.offRampFeePercentage;
-    final double fixedFee = rateAndFee.fixedOffRampFee;
+    final double rampRate = rate;
 
     await RampAmountScreen.push(
       this,
@@ -183,30 +177,15 @@ extension BuildContextExt on BuildContext {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       receiveCurrency: Currency.ngn,
-      calculateEquivalent: (amount) async => Either.right(
-        amount.calculateOffRampReceiveAmount(
-          exchangeRate: rampRate,
-          percentageFee: rampFeePercentage,
-          fixedFee: fixedFee,
-        ),
+      calculateEquivalent: (amount) => _calculateReceiveAmount(
+        amount: amount,
+        type: type,
       ),
       exchangeRate: '1 USDC = $rampRate NGN',
-      calculateFee: (amount) async {
-        final fee = amount.calculateOffRampFee(
-          exchangeRate: rampRate,
-          percentageFee: rampFeePercentage,
-          fixedFee: fixedFee,
-        );
-
-        return Either.right(
-          (
-            ourFee: null,
-            partnerFee: '${rampFeePercentage * 100}% + \$$fixedFee',
-            totalFee: fee,
-            extraFee: null,
-          ),
-        );
-      },
+      calculateFee: (amount) => _calculateFees(
+        amount: amount,
+        type: type,
+      ),
       type: RampType.offRamp,
     );
 
@@ -214,11 +193,15 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount is! CryptoAmount) return;
 
-    final equivalentAmount = submittedAmount.calculateOffRampReceiveAmount(
-      exchangeRate: rampRate,
-      percentageFee: rampFeePercentage,
-      fixedFee: fixedFee,
-    );
+    final equivalentAmount = await runWithLoader<Amount>(
+      this,
+      () => sl<BrijScalexFeesService>()
+          .fetchFees(
+            amount: submittedAmount,
+            type: type,
+          )
+          .then((fees) => fees.receiveAmount),
+    ) as FiatAmount;
 
     final orderId = await runWithLoader<String?>(
       this,
@@ -243,6 +226,7 @@ extension BuildContextExt on BuildContext {
     }
   }
 
+  //TODO delete
   Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() =>
       runWithLoader<ScalexRateFeeResponseDto?>(this, () async {
         try {
@@ -253,6 +237,44 @@ extension BuildContextExt on BuildContext {
           return null;
         }
       });
+
+  Future<double> _fetchRate(RampType type) => runWithLoader<double>(
+        this,
+        () async => sl<BrijScalexFeesService>().fetchRate(type),
+      );
+
+  Future<Either<Exception, Amount>> _calculateReceiveAmount({
+    required Amount amount,
+    required RampType type,
+  }) async {
+    final fees = await sl<BrijScalexFeesService>().fetchFees(
+      amount: amount,
+      type: type,
+    );
+
+    final receiveAmount = fees.receiveAmount;
+
+    return Either.right(receiveAmount);
+  }
+
+  Future<Either<Exception, RampFees>> _calculateFees({
+    required Amount amount,
+    required RampType type,
+  }) async {
+    final fees = await sl<BrijScalexFeesService>().fetchFees(
+      amount: amount,
+      type: type,
+    );
+
+    return Either.right(
+      (
+        ourFee: null,
+        partnerFee: null,
+        extraFee: null,
+        totalFee: fees.totalFee,
+      ),
+    );
+  }
 
   void _showPendingKycDialog() {
     showCustomDialog(
@@ -297,25 +319,6 @@ extension on Amount {
     );
   }
 
-  FiatAmount calculateOffRampReceiveAmount({
-    required double exchangeRate,
-    required double percentageFee,
-    required double fixedFee,
-  }) {
-    final (amountInNGN, feeInUSDC) = _calculateOffRampAmounts(
-      exchangeRate: exchangeRate,
-      percentageFee: percentageFee,
-      fixedFee: fixedFee,
-    );
-    final double netAmountInNGN = amountInNGN - (feeInUSDC * exchangeRate);
-
-    return FiatAmount(
-      value:
-          Currency.ngn.decimalToInt(Decimal.parse(netAmountInNGN.toString())),
-      fiatCurrency: Currency.ngn,
-    );
-  }
-
   CryptoAmount calculateOnRampFee({
     required double exchangeRate,
     required double percentageFee,
@@ -343,35 +346,5 @@ extension on Amount {
     final double feeInUSDC = (amountInUSDC * percentageFee) + fixedFee;
 
     return (amountInUSDC, feeInUSDC);
-  }
-
-  FiatAmount calculateOffRampFee({
-    required double exchangeRate,
-    required double percentageFee,
-    required double fixedFee,
-  }) {
-    final (_, feeInUSDC) = _calculateOffRampAmounts(
-      exchangeRate: exchangeRate,
-      percentageFee: percentageFee,
-      fixedFee: fixedFee,
-    );
-    final double feeInNGN = feeInUSDC * exchangeRate;
-
-    return FiatAmount(
-      value: Currency.ngn.decimalToInt(Decimal.parse(feeInNGN.toString())),
-      fiatCurrency: Currency.ngn,
-    );
-  }
-
-  (double, double) _calculateOffRampAmounts({
-    required double exchangeRate,
-    required double percentageFee,
-    required double fixedFee,
-  }) {
-    final double inputAmountInUSDC = decimal.toDouble();
-    final double feeInUSDC = (inputAmountInUSDC * percentageFee) + fixedFee;
-    final double amountInNGN = inputAmountInUSDC * exchangeRate;
-
-    return (amountInNGN, feeInUSDC);
   }
 }
