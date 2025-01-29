@@ -256,7 +256,6 @@ extension on BuildContext {
         : data.format(
             DeviceLocale.localeOf(this),
             skipSymbol: false,
-            maxDecimals: 2,
           );
   }
 }

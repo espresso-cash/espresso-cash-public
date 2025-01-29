@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:espressocash_api/espressocash_api.dart';
@@ -21,11 +22,23 @@ class FeeCalculator {
         (fees) async {
           switch (type) {
             case FeeTypeDirect(:final address, :final token):
-              return await _hasAta(address: address, token: token)
+              if (token == Token.sol) {
+                return const CryptoAmount(
+                  value: 5000,
+                  cryptoCurrency: Currency.sol,
+                );
+              }
+
+              final fee = await _hasAta(address: address, token: token)
                   ? fees.directPayment.ataExists
                   : fees.directPayment.ataDoesNotExist;
+
+              return CryptoAmount(value: fee, cryptoCurrency: Currency.usdc);
             case FeeTypeLink():
-              return fees.escrowPayment;
+              return CryptoAmount(
+                value: fees.escrowPayment,
+                cryptoCurrency: Currency.usdc,
+              );
             case FeeTypeWithdraw(:final amount, :final partner, :final address):
               final percentageFee = switch (partner) {
                 RampPartner.scalex ||
@@ -46,10 +59,12 @@ class FeeCalculator {
                       ? fees.directPayment.ataExists
                       : fees.directPayment.ataDoesNotExist;
 
-              return max(percentageFeeAmount, accountCreationFeeAmount);
+              final fee = max(percentageFeeAmount, accountCreationFeeAmount);
+
+              return CryptoAmount(value: fee, cryptoCurrency: Currency.usdc);
           }
         },
-      ).then((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc));
+      );
 
   Future<bool> _hasAta({
     required Ed25519HDPublicKey address,
