@@ -71,17 +71,18 @@ class _Content extends StatefulWidget {
 }
 
 class _ContentState extends State<_Content> {
+  late final Future<List<TokenRow>> _tokensFuture;
+
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   Token? _selectedToken;
   String _searchText = '';
-  List<TokenRow> _tokens = [];
 
   @override
   void initState() {
     super.initState();
-    sl<TokenRepository>().getAll().then((value) => _tokens = value);
+    _tokensFuture = sl<TokenRepository>().getAll();
     _selectedToken = widget.initial;
 
     _searchController.addListener(() {
@@ -97,86 +98,107 @@ class _ContentState extends State<_Content> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final filteredTokens = _tokens
-        .where(
-          (token) =>
-              token.name.toLowerCase().contains(_searchText.toLowerCase()),
-        )
-        .toList();
-
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: CpTextField(
-            controller: _searchController,
-            padding:
-                const EdgeInsets.symmetric(vertical: 16, horizontal: 14.75),
-            fontSize: 16,
-            border: CpTextFieldBorder.stadium,
-            placeholder: context.l10n.searchPlaceholder,
-            backgroundColor: CpColors.blackGreyColor,
-            textColor: Colors.white,
-            inputType: TextInputType.text,
-            prefix: const Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        if (filteredTokens.isEmpty)
-          Expanded(
-            child: Center(
-              child: Text(
-                context.l10n.noResultsFound,
-                style: const TextStyle(
+  Widget build(BuildContext context) => Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: CpTextField(
+              controller: _searchController,
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16, horizontal: 14.75),
+              fontSize: 16,
+              border: CpTextFieldBorder.stadium,
+              placeholder: context.l10n.searchPlaceholder,
+              backgroundColor: CpColors.blackGreyColor,
+              textColor: Colors.white,
+              inputType: TextInputType.text,
+              prefix: const Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: Icon(
+                  Icons.search,
                   color: Colors.white,
-                  fontSize: 16,
                 ),
               ),
             ),
-          )
-        else
+          ),
           Expanded(
-            child: ListView.separated(
-              controller: _scrollController,
-              padding: EdgeInsets.only(
-                left: 20,
-                right: 20,
-                top: 20,
-                bottom: MediaQuery.paddingOf(context).bottom,
-              ),
-              itemCount: filteredTokens.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 8),
-              itemBuilder: (BuildContext context, int index) {
-                final token = filteredTokens[index];
-                final selected = token.toModel() == _selectedToken;
+            child: FutureBuilder<List<TokenRow>>(
+              future: _tokensFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-                return DecoratedBox(
-                  decoration: selected
-                      ? const ShapeDecoration(
-                          color: CpColors.blackTextFieldBackgroundColor,
-                          shape: StadiumBorder(),
-                        )
-                      : const BoxDecoration(),
-                  child: _TokenItem(
-                    cryptoAmount: CryptoAmount(
-                      value: 0,
-                      cryptoCurrency: CryptoCurrency(token: token.toModel()),
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text(
+                      'Error loading tokens',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    fiatAmount: const FiatAmount(
-                      value: 0,
-                      fiatCurrency: defaultFiatCurrency,
-                    ),
-                  ),
-                );
+                  );
+                }
+
+                final tokens = snapshot.data ?? [];
+                final filteredTokens = tokens
+                    .where(
+                      (token) => token.name
+                          .toLowerCase()
+                          .contains(_searchText.toLowerCase()),
+                    )
+                    .toList();
+
+                return filteredTokens.isEmpty
+                    ? Center(
+                        child: Text(
+                          context.l10n.noResultsFound,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      )
+                    : ListView.separated(
+                        controller: _scrollController,
+                        padding: EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          top: 20,
+                          bottom: MediaQuery.paddingOf(context).bottom,
+                        ),
+                        itemCount: filteredTokens.length,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 8),
+                        itemBuilder: (BuildContext context, int index) {
+                          final token = filteredTokens[index];
+                          final selected = token.toModel() == _selectedToken;
+
+                          return DecoratedBox(
+                            decoration: selected
+                                ? const ShapeDecoration(
+                                    color:
+                                        CpColors.blackTextFieldBackgroundColor,
+                                    shape: StadiumBorder(),
+                                  )
+                                : const BoxDecoration(),
+                            child: _TokenItem(
+                              cryptoAmount: CryptoAmount(
+                                value: 0,
+                                cryptoCurrency:
+                                    CryptoCurrency(token: token.toModel()),
+                              ),
+                              fiatAmount: const FiatAmount(
+                                value: 0,
+                                fiatCurrency: defaultFiatCurrency,
+                              ),
+                            ),
+                          );
+                        },
+                      );
               },
             ),
           ),
-      ],
-    );
-  }
+        ],
+      );
 }
 
 class _TokenItem extends StatelessWidget {

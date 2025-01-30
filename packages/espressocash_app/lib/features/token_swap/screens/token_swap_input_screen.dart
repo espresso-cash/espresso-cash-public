@@ -242,10 +242,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                                 child: TokenPicker(
                                   title: context.l10n.youPay,
                                   onSubmitted: (value) async {
-                                    await _updateRate(
-                                      value,
-                                      _receiveToken,
-                                    );
+                                    await _updateRate(value, _receiveToken);
                                     if (!mounted) return;
                                     setState(() {
                                       _payToken = value;
