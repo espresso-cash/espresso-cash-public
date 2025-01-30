@@ -248,7 +248,7 @@ class _ActionButtons extends StatelessWidget {
               size: CpButtonSize.big,
               onPressed: () => TokenSwapInputScreen.push(
                 context,
-                token: token,
+                initialToken: token,
               ),
             ),
             const SizedBox(width: 14),

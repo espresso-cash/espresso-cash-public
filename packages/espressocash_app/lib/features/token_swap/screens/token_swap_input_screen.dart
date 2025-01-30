@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -18,19 +17,20 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../widgets/token_picker.dart';
-import 'token_swap_confirmation_screen.dart';
+import 'token_swap_review_screen.dart';
 
 class TokenSwapInputScreen extends StatefulWidget {
-  const TokenSwapInputScreen({super.key, required this.token});
+  const TokenSwapInputScreen({super.key, required this.initialToken});
 
-  static void push(BuildContext context, {required Token token}) =>
+  static void push(BuildContext context, {required Token initialToken}) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => TokenSwapInputScreen(token: token),
+          builder: (context) =>
+              TokenSwapInputScreen(initialToken: initialToken),
         ),
       );
 
-  final Token token;
+  final Token initialToken;
 
   @override
   State<TokenSwapInputScreen> createState() => _TokenSwapInputScreenState();
@@ -40,8 +40,8 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   final _payAmountController = TextEditingController();
   final _receiveAmountController = TextEditingController();
 
-  late Token _receiveToken;
   late Token _payToken;
+  late Token _receiveToken;
 
   late Decimal _payTokenRate = Decimal.fromInt(0);
   late Decimal _receiveTokenRate = Decimal.fromInt(0);
@@ -53,18 +53,16 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   bool _isReceiveAmountChanging = false;
   bool _isExpanded = false;
 
-  bool _isPayFocused = true;
-
   @override
   void initState() {
     super.initState();
-    _payToken = widget.token;
+    _payToken = widget.initialToken;
     _receiveToken = Token.usdc;
 
-    _updateRate(widget.token, Token.usdc);
+    _updateRate(_payToken, _receiveToken);
 
-    _payAmountController.addListener(_onPayAmountChanged);
-    _receiveAmountController.addListener(_onReceiveAmountChanged);
+    _payAmountController.addListener(_handlePayAmountChanged);
+    _receiveAmountController.addListener(_handleReceiveAmountChanged);
   }
 
   @override
@@ -72,6 +70,89 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     _payAmountController.dispose();
     _receiveAmountController.dispose();
     super.dispose();
+  }
+
+  void _handlePayAmountChanged() {
+    if (_isReceiveAmountChanging) return;
+    if (_payAmountController.text.isEmpty) {
+      setState(() {
+        _amountInputWidth = 180;
+        _symbolInputWidth = 180;
+        _isExpanded = false;
+      });
+      _receiveAmountController.text = '';
+
+      return;
+    }
+
+    _isPayAmountChanging = true;
+
+    final payAmount =
+        Decimal.tryParse(_payAmountController.text) ?? Decimal.zero;
+    final usdAmount = payAmount * _payTokenRate;
+    final receiveAmount = usdAmount / _receiveTokenRate;
+
+    _receiveAmountController.text = receiveAmount.toDouble().toStringAsFixed(2);
+
+    setState(() {
+      _amountInputWidth = 260;
+      _symbolInputWidth = 100;
+      _isExpanded = true;
+    });
+
+    _isPayAmountChanging = false;
+  }
+
+  void _handleReceiveAmountChanged() {
+    if (_isPayAmountChanging) return;
+    if (_receiveAmountController.text.isEmpty) {
+      setState(() {
+        _amountInputWidth = 180;
+        _symbolInputWidth = 180;
+        _isExpanded = false;
+      });
+      _payAmountController.text = '';
+
+      return;
+    }
+
+    _isReceiveAmountChanging = true;
+
+    final receiveAmount =
+        Decimal.tryParse(_receiveAmountController.text) ?? Decimal.zero;
+    final usdAmount = receiveAmount * _receiveTokenRate;
+    final payAmount = usdAmount / _payTokenRate;
+
+    _payAmountController.text = payAmount.toDouble().toStringAsFixed(2);
+
+    setState(() {
+      _amountInputWidth = 260;
+      _symbolInputWidth = 100;
+      _isExpanded = true;
+    });
+
+    _isReceiveAmountChanging = false;
+  }
+
+  Future<void> _handleSwitchTokens() async {
+    final tempToken = _payToken;
+    final tempAmount = _payAmountController.text;
+    if (!mounted) return;
+
+    _isPayAmountChanging = true;
+    _isReceiveAmountChanging = true;
+
+    setState(() {
+      _payToken = _receiveToken;
+      _receiveToken = tempToken;
+      _payAmountController.text = _receiveAmountController.text;
+      _receiveAmountController.text = tempAmount;
+    });
+
+    await _updateRate(_payToken, _receiveToken);
+
+    _isPayAmountChanging = false;
+    _isReceiveAmountChanging = false;
   }
 
   Future<void> _updateRate(Token payToken, Token receiveToken) async {
@@ -89,81 +170,11 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
         Decimal.zero;
   }
 
-  void _onPayAmountChanged() {
-    if (_isReceiveAmountChanging) return;
-    if (_payAmountController.text.isEmpty) {
-      setState(() {
-        _amountInputWidth = 180;
-        _symbolInputWidth = 180;
-        _isExpanded = false;
-      });
-      _receiveAmountController.text = '';
-
-      return;
-    }
-
-    _isPayAmountChanging = true;
-
-    final payAmount =
-        Decimal.tryParse(_payAmountController.text) ?? Decimal.zero;
-    final receiveAmount = payAmount * _payTokenRate;
-    _receiveAmountController.text = receiveAmount.round(scale: 2).toString();
-
-    setState(() {
-      _amountInputWidth = 260;
-      _symbolInputWidth = 100;
-      _isExpanded = true;
-    });
-
-    _isPayAmountChanging = false;
-  }
-
-  void _onReceiveAmountChanged() {
-    if (_isPayAmountChanging) return;
-    if (_receiveAmountController.text.isEmpty) {
-      setState(() {
-        _amountInputWidth = 180;
-        _symbolInputWidth = 180;
-        _isExpanded = false;
-      });
-      _payAmountController.text = '';
-
-      return;
-    }
-
-    _isReceiveAmountChanging = true;
-
-    final receiveAmount =
-        Decimal.tryParse(_receiveAmountController.text) ?? Decimal.zero;
-
-    final payAmount = receiveAmount / _payTokenRate;
-    _payAmountController.text = payAmount.toDouble().toStringAsFixed(2);
-
-    setState(() {
-      _amountInputWidth = 260;
-      _symbolInputWidth = 100;
-      _isExpanded = true;
-    });
-
-    _isReceiveAmountChanging = false;
-  }
-
-  void _onPayInputTap() {
-    if (!_isPayFocused) {
-      setState(() => _isPayFocused = true);
-    }
-  }
-
-  void _onReceiveInputTap() {
-    if (_isPayFocused) {
-      setState(() => _isPayFocused = false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<CryptoFiatAmount>(
         create: () => (
-          sl<TokenFiatBalanceService>().readInvestmentBalance(widget.token),
+          sl<TokenFiatBalanceService>()
+              .readInvestmentBalance(widget.initialToken),
           (
             Amount.zero(currency: Currency.usdc) as CryptoAmount,
             Amount.zero(currency: Currency.usd) as FiatAmount
@@ -182,95 +193,93 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
             currency: Currency.usd,
           );
 
-          return Provider<Token>.value(
-            value: widget.token,
-            child: CpTheme.dark(
-              child: Scaffold(
-                appBar: CpAppBar(
-                  title: Text(context.l10n.swap),
-                ),
-                backgroundColor: CpColors.deepGreyColor,
-                body: SafeArea(
-                  top: false,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(left: 25.0),
-                              child: Text(
-                                'You Pay',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500,
-                                ),
+          return CpTheme.dark(
+            child: Scaffold(
+              appBar: CpAppBar(
+                title: Text(context.l10n.swap),
+              ),
+              backgroundColor: CpColors.deepGreyColor,
+              body: SafeArea(
+                top: false,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25.0),
+                            child: Text(
+                              context.l10n.youPay,
+                              style: const TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                            const SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                AnimatedContainer(
-                                  curve: Curves.easeInOut,
-                                  duration: const Duration(milliseconds: 300),
-                                  width: _amountInputWidth,
-                                  child: _TokenAmountInput(
-                                    controller: _payAmountController,
-                                    crypto: crypto,
-                                    fiatRate: fiatRatePay,
-                                    showMaxButton: false,
-                                    isFocused: _isPayFocused,
-                                    onTap: _onPayInputTap,
-                                  ),
-                                ),
-                                AnimatedContainer(
-                                  curve: Curves.easeInOut,
-                                  duration: const Duration(milliseconds: 300),
-                                  width: _symbolInputWidth,
-                                  child: TokenPicker(
-                                    title: 'You Pay',
-                                    onSubmitted: (value) async {
-                                      await _updateRate(
-                                        value,
-                                        _receiveToken,
-                                      );
-                                      if (!mounted) return;
-                                      setState(() {
-                                        _payToken = value;
-                                      });
-                                    },
-                                    token: _payToken,
-                                    isExpanded: !_isExpanded,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 32),
-                      Stack(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5.0),
-                            child: Divider(
-                              thickness: 1,
-                              color: Color.fromRGBO(63, 60, 61, 1),
-                            ),
                           ),
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: ColoredBox(
-                              color: CpColors.deepGreyColor,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12.0,
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AnimatedContainer(
+                                curve: Curves.easeInOut,
+                                duration: const Duration(milliseconds: 300),
+                                width: _amountInputWidth,
+                                child: _TokenAmountInput(
+                                  controller: _payAmountController,
+                                  crypto: crypto,
+                                  fiatRate: fiatRatePay,
+                                  showMaxButton: false,
                                 ),
+                              ),
+                              AnimatedContainer(
+                                curve: Curves.easeInOut,
+                                duration: const Duration(milliseconds: 300),
+                                width: _symbolInputWidth,
+                                child: TokenPicker(
+                                  title: context.l10n.youPay,
+                                  onSubmitted: (value) async {
+                                    await _updateRate(
+                                      value,
+                                      _receiveToken,
+                                    );
+                                    if (!mounted) return;
+                                    setState(() {
+                                      _payToken = value;
+                                    });
+                                  },
+                                  token: _payToken,
+                                  isExpanded: !_isExpanded,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    Stack(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 5.0),
+                          child: Divider(
+                            thickness: 1,
+                            color: Color.fromRGBO(63, 60, 61, 1),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: ColoredBox(
+                            color: CpColors.deepGreyColor,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                              ),
+                              child: GestureDetector(
+                                onTap: _handleSwitchTokens,
                                 child: Assets.icons.swap.svg(
                                   height: 26.69,
                                   width: 17.74,
@@ -278,84 +287,80 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 23.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(left: 25.0),
-                              child: Text(
-                                'You Receive',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25.0),
+                            child: Text(
+                              context.l10n.youReceive,
+                              style: const TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                            const SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                AnimatedContainer(
-                                  curve: Curves.easeInOut,
-                                  duration: const Duration(milliseconds: 300),
-                                  width: _amountInputWidth,
-                                  child: _TokenAmountInput(
-                                    controller: _receiveAmountController,
-                                    crypto: crypto,
-                                    fiatRate: fiatRateReceive,
-                                    showMaxButton: false,
-                                    isFocused: !_isPayFocused,
-                                    onTap: _onReceiveInputTap,
-                                  ),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AnimatedContainer(
+                                curve: Curves.easeInOut,
+                                duration: const Duration(milliseconds: 300),
+                                width: _amountInputWidth,
+                                child: _TokenAmountInput(
+                                  controller: _receiveAmountController,
+                                  crypto: crypto,
+                                  fiatRate: fiatRateReceive,
+                                  showMaxButton: false,
                                 ),
-                                AnimatedContainer(
-                                  duration: const Duration(milliseconds: 300),
-                                  width: _symbolInputWidth,
-                                  child: TokenPicker(
-                                    title: 'You Receive',
-                                    token: _receiveToken,
-                                    onSubmitted: (value) async {
-                                      await _updateRate(_payToken, value);
-                                      if (!mounted) return;
-                                      setState(() {
-                                        _receiveToken = value;
-                                      });
-                                    },
-                                    isExpanded: !_isExpanded,
-                                  ),
+                              ),
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                width: _symbolInputWidth,
+                                child: TokenPicker(
+                                  title: context.l10n.youReceive,
+                                  token: _receiveToken,
+                                  onSubmitted: (value) async {
+                                    await _updateRate(_payToken, value);
+                                    if (!mounted) return;
+                                    setState(() {
+                                      _receiveToken = value;
+                                    });
+                                  },
+                                  isExpanded: !_isExpanded,
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: AmountKeypad(
-                          controller: _isPayFocused
-                              ? _payAmountController
-                              : _receiveAmountController,
-                          maxDecimals: 4,
-                        ),
+                    ),
+                    Expanded(
+                      child: AmountKeypad(
+                        controller: _payAmountController,
+                        maxDecimals: 4,
                       ),
-                      const SizedBox(height: 16),
-                      CpBottomButton(
-                        text: 'Review Swap',
-                        onPressed: () => TokenSwapConfirmationScreen.push(
-                          context,
-                          payToken: _payToken,
-                          receiveToken: _receiveToken,
-                          payAmount: _payAmountController.text,
-                          receiveAmount: _receiveAmountController.text,
-                        ),
+                    ),
+                    const SizedBox(height: 16),
+                    CpBottomButton(
+                      text: context.l10n.reviewSwap,
+                      onPressed: () => TokenSwapReviewScreen.push(
+                        context,
+                        payToken: _payToken,
+                        receiveToken: _receiveToken,
+                        payAmount: _payAmountController.text,
+                        receiveAmount: _receiveAmountController.text,
                       ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
                 ),
               ),
             ),
@@ -370,22 +375,19 @@ class _TokenAmountInput extends StatefulWidget {
     required this.crypto,
     required this.fiatRate,
     this.showMaxButton = false,
-    required this.isFocused,
-    required this.onTap,
   });
 
   final TextEditingController controller;
   final CryptoAmount crypto;
   final Amount fiatRate;
   final bool showMaxButton;
-  final bool isFocused;
-  final VoidCallback onTap;
 
   @override
   State<_TokenAmountInput> createState() => _TokenAmountInputState();
 }
 
 class _TokenAmountInputState extends State<_TokenAmountInput> {
+  late final TextPainter _textPainter;
   bool _visibility = false;
   double _textHeight = 1.2;
   double _fontSize = 34.0;
@@ -393,7 +395,17 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
   @override
   void initState() {
     super.initState();
+    _textPainter = TextPainter(
+      textDirection: TextDirection.ltr,
+      maxLines: 1,
+    );
     widget.controller.addListener(_quantityListener);
+  }
+
+  @override
+  void dispose() {
+    _textPainter.dispose();
+    super.dispose();
   }
 
   void _quantityListener() {
@@ -413,105 +425,90 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
   }
 
   double _calculateFontSize(String text) {
-    double fontSize = 34;
+    const maxWidth = 245.0;
+    const defaultFontSize = 34.0;
+    const minFontSize = 16.0;
 
-    final double textWidth = _calculateTextWidth(text, fontSize);
+    if (text.isEmpty) return defaultFontSize;
 
-    if (textWidth > 245) {
-      fontSize *= 245 / textWidth;
-    }
+    _textPainter
+      ..text = TextSpan(
+        text: text,
+        style: const TextStyle(fontSize: defaultFontSize),
+      )
+      ..layout(minWidth: 0, maxWidth: double.infinity);
 
-    return fontSize;
-  }
+    final textWidth = _textPainter.size.width;
+    final calculatedSize = defaultFontSize * maxWidth / textWidth;
 
-  double _calculateTextWidth(String text, double fontSize) {
-    final textSpan = TextSpan(
-      text: text,
-      style: TextStyle(fontSize: fontSize),
-    );
-
-    final textPainter = TextPainter(
-      text: textSpan,
-      maxLines: 1,
-      textDirection: TextDirection.ltr,
-    )..layout(minWidth: 0, maxWidth: double.infinity);
-
-    return textPainter.size.width;
+    return calculatedSize.clamp(minFontSize, defaultFontSize);
   }
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: widget.onTap,
-        child: Stack(
-          children: [
-            Container(
-              height: 72,
-              padding: const EdgeInsets.only(
-                top: 16,
-                bottom: 20,
-                left: 24,
-                right: 24,
-              ),
-              decoration: BoxDecoration(
-                color: CpColors.blackGreyColor,
-                borderRadius: const BorderRadius.all(Radius.circular(100)),
-                border: Border.all(
-                  color: widget.isFocused ? Colors.white : Colors.transparent,
-                  width: 1,
-                ),
-              ),
-              child: ValueListenableBuilder<TextEditingValue>(
-                valueListenable: widget.controller,
-                builder: (context, value, child) => Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        value.text.isEmpty ? '0' : value.text,
-                        style: TextStyle(
-                          fontSize: _fontSize,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                          height: _textHeight,
-                        ),
+  Widget build(BuildContext context) => Stack(
+        children: [
+          Container(
+            height: 72,
+            padding:
+                const EdgeInsets.only(top: 16, bottom: 20, left: 24, right: 24),
+            decoration: const BoxDecoration(
+              color: CpColors.blackGreyColor,
+              borderRadius: BorderRadius.all(Radius.circular(100)),
+            ),
+            child: ValueListenableBuilder<TextEditingValue>(
+              valueListenable: widget.controller,
+              builder: (context, value, child) => Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      value.text.isEmpty ? '0' : value.text,
+                      style: TextStyle(
+                        fontSize: _fontSize,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        height: _textHeight,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    if (widget.showMaxButton)
-                      CpButton(
-                        onPressed: _isMax()
-                            ? () => widget.controller.text = ''
-                            : () => widget.controller.text =
-                                '${widget.crypto.decimal}',
-                        text: _isMax() ? 'Clear' : 'Max',
-                        minWidth: 54,
-                        size: CpButtonSize.small,
-                        variant: CpButtonVariant.inverted,
-                      ),
-                  ],
-                ),
-              ),
-            ),
-            Visibility(
-              visible: _visibility,
-              child: Positioned(
-                left: 26,
-                bottom: 9,
-                child: Text(
-                  r'≈ $' + _buildUsdcAmountText,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
                   ),
+                  if (widget.showMaxButton)
+                    CpButton(
+                      onPressed: _isMax()
+                          ? () => widget.controller.text = ''
+                          : () => widget.controller.text =
+                              '${widget.crypto.decimal}',
+                      text: _isMax() ? 'Clear' : 'Max',
+                      minWidth: 54,
+                      size: CpButtonSize.small,
+                      variant: CpButtonVariant.inverted,
+                    ),
+                ],
+              ),
+            ),
+          ),
+          Visibility(
+            visible: _visibility,
+            child: Positioned(
+              left: 26,
+              bottom: 9,
+              child: Text(
+                r'≈ $' + _buildUsdcAmountText,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       );
 
-  String get _buildUsdcAmountText =>
-      ((num.tryParse(widget.controller.text) ?? 1) *
-              widget.fiatRate.decimal.toDouble())
-          .toStringAsFixed(2);
+  String get _buildUsdcAmountText {
+    final amount = num.tryParse(widget.controller.text);
+    if (amount == null) return '0.00';
+
+    return (amount * widget.fiatRate.decimal.toDouble()).toStringAsFixed(2);
+  }
 
   bool _isMax() =>
       (num.tryParse(

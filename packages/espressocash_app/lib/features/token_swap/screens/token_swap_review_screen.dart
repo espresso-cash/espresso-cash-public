@@ -5,8 +5,8 @@ import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../tokens/token.dart';
 
-class TokenSwapConfirmationScreen extends StatelessWidget {
-  const TokenSwapConfirmationScreen({
+class TokenSwapReviewScreen extends StatelessWidget {
+  const TokenSwapReviewScreen({
     super.key,
     required this.payAmount,
     required this.payToken,
@@ -23,7 +23,7 @@ class TokenSwapConfirmationScreen extends StatelessWidget {
   }) =>
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => TokenSwapConfirmationScreen(
+          builder: (context) => TokenSwapReviewScreen(
             payAmount: payAmount,
             payToken: payToken,
             receiveAmount: receiveAmount,

@@ -1235,5 +1235,11 @@
     "enterWalletAddress": "Enter a wallet address",
     "@enterWalletAddress": {},
     "swap": "Swap",
-    "@swap": {}
+    "@swap": {},
+    "reviewSwap": "Review Swap",
+    "@reviewSwap": {},
+    "youPay": "You Pay",
+    "@youPay": {},
+    "youReceive": "You Receive",
+    "@youReceive": {}
 }
