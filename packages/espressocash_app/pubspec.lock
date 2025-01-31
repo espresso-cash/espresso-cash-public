@@ -1234,16 +1234,16 @@ packages:
       path: "../jupiter_aggregator"
       relative: true
     source: path
-    version: "0.0.4"
+    version: "0.0.5"
   kyc_client_dart:
     dependency: "direct main"
     description:
       path: "."
-      ref: "1ed0206a55b3dc33b255a0164c6eefa4008b6d76"
-      resolved-ref: "1ed0206a55b3dc33b255a0164c6eefa4008b6d76"
+      ref: "6e43008b3a95e3cb503244c437f7c336a280d65d"
+      resolved-ref: "6e43008b3a95e3cb503244c437f7c336a280d65d"
       url: "https://github.com/espresso-cash/kyc_client_dart.git"
     source: git
-    version: "1.0.0"
+    version: "1.0.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -1847,7 +1847,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.31.0+1"
+    version: "0.31.2"
   solana_mobile_wallet:
     dependency: "direct main"
     description:
