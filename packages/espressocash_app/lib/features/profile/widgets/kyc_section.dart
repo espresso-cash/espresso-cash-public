@@ -5,6 +5,7 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../country_picker/models/country.dart';
+import '../../feature_flags/data/feature_flags_manager.dart';
 import '../../kyc_sharing/screens/bank_account_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
@@ -41,7 +42,8 @@ class _KycInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ProfileSection(
-        title: context.l10n.identityVerification.toUpperCase(),
+        title: context.l10n.identityVerification.toUpperCase() +
+            (sl<FeatureFlagsManager>().isBrijDemoEnabled() ? ' (Demo)' : ''),
         padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [
           KycButton(
