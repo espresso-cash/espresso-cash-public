@@ -192,9 +192,9 @@ class BrijOffRampOrderService implements Disposable {
           }
 
           final orderId = await _kycRepository.createOffRampOrder(
-            cryptoAmount: submittedAmount.decimal.toDouble().toString(),
+            cryptoAmount: submittedAmount.decimal.toDouble(),
             cryptoCurrency: submittedAmount.cryptoCurrency.token.symbol,
-            fiatAmount: receiveAmount.decimal.toDouble().toString(),
+            fiatAmount: receiveAmount.decimal.toDouble(),
             fiatCurrency: receiveAmount.currency.symbol,
             partnerPK: partnerAuthPk,
             bankAccount: validUser.accountNumber ?? '',

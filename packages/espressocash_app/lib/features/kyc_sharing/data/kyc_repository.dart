@@ -133,9 +133,9 @@ class KycRepository extends ChangeNotifier {
   }
 
   Future<String> createOnRampOrder({
-    required String cryptoAmount,
+    required double cryptoAmount,
     required String cryptoCurrency,
-    required String fiatAmount,
+    required double fiatAmount,
     required String fiatCurrency,
     required String partnerPK,
   }) =>
@@ -150,9 +150,9 @@ class KycRepository extends ChangeNotifier {
       );
 
   Future<String> createOffRampOrder({
-    required String cryptoAmount,
+    required double cryptoAmount,
     required String cryptoCurrency,
-    required String fiatAmount,
+    required double fiatAmount,
     required String fiatCurrency,
     required String partnerPK,
     required String bankName,
