@@ -1,3 +1,7 @@
+## 1.142.0
+
+ - **FEAT**: decimal format for brij order (#1679).
+
 ## 1.141.0
 
  - **FEAT**: update scalex brij rates (#1678).
