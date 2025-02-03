@@ -1,3 +1,7 @@
+## 1.143.0
+
+ - **FEAT**: update signature handling (#1681).
+
 ## 1.142.0
 
  - **FEAT**: decimal format for brij order (#1679).
