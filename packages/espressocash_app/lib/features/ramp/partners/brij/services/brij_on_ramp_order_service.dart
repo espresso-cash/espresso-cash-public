@@ -123,9 +123,9 @@ class BrijOnRampOrderService implements Disposable {
           await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
           final orderId = await _kycRepository.createOnRampOrder(
-            cryptoAmount: receiveAmount.value.toString(),
+            cryptoAmount: receiveAmount.decimal.toDouble(),
             cryptoCurrency: receiveAmount.cryptoCurrency.token.symbol,
-            fiatAmount: submittedAmount.value.toString(),
+            fiatAmount: submittedAmount.decimal.toDouble(),
             fiatCurrency: submittedAmount.currency.symbol,
             partnerPK: partnerAuthPk,
           );
