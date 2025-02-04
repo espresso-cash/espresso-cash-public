@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../ui/colors.dart';
 import '../../tokens/token.dart';
@@ -26,8 +27,7 @@ class TokenPicker extends StatelessWidget {
           shape: StadiumBorder(),
         ),
         child: ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 13, vertical: 8),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           onTap: () async {
             final Token? updated = await TokenPickerScreen.push(
               context,
@@ -39,26 +39,20 @@ class TokenPicker extends StatelessWidget {
               onSubmitted(updated);
             }
           },
-          leading: TokenIcon(token: token, size: 42),
-          title: SizedBox(
-            height: 28,
-            child: Text(
-              isExpanded ? (token.symbol) : '',
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 18,
-                color: Colors.white,
-                height: 1.5,
-                overflow: TextOverflow.fade,
-              ),
-              textAlign: TextAlign.center,
+          leading: TokenIcon(token: token, size: 42.w),
+          title: Text(
+            isExpanded ? (token.symbol) : '',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 18.sp,
+              overflow: TextOverflow.fade,
             ),
+            textAlign: TextAlign.center,
           ),
           titleAlignment: ListTileTitleAlignment.threeLine,
           trailing: const Icon(
             Icons.keyboard_arrow_down_outlined,
             color: Colors.white,
-            size: 30,
           ),
         ),
       );

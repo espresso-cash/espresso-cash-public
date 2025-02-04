@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -43,11 +44,11 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   late Token _payToken;
   late Token _receiveToken;
 
-  late Decimal _payTokenRate = Decimal.fromInt(0);
-  late Decimal _receiveTokenRate = Decimal.fromInt(0);
+  Decimal _payTokenRate = Decimal.fromInt(0);
+  Decimal _receiveTokenRate = Decimal.fromInt(0);
 
-  double _amountInputWidth = 180;
-  double _symbolInputWidth = 180;
+  double _amountInputWidth = 180.w;
+  double _symbolInputWidth = 180.w;
 
   bool _isPayAmountChanging = false;
   bool _isReceiveAmountChanging = false;
@@ -76,8 +77,8 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     if (_isReceiveAmountChanging) return;
     if (_payAmountController.text.isEmpty) {
       setState(() {
-        _amountInputWidth = 180;
-        _symbolInputWidth = 180;
+        _amountInputWidth = 180.w;
+        _symbolInputWidth = 180.w;
         _isExpanded = false;
       });
       _receiveAmountController.text = '';
@@ -95,8 +96,8 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     _receiveAmountController.text = receiveAmount.toDouble().toStringAsFixed(2);
 
     setState(() {
-      _amountInputWidth = 260;
-      _symbolInputWidth = 100;
+      _amountInputWidth = 260.w;
+      _symbolInputWidth = 100.w;
       _isExpanded = true;
     });
 
@@ -107,8 +108,8 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     if (_isPayAmountChanging) return;
     if (_receiveAmountController.text.isEmpty) {
       setState(() {
-        _amountInputWidth = 180;
-        _symbolInputWidth = 180;
+        _amountInputWidth = 180.w;
+        _symbolInputWidth = 180.w;
         _isExpanded = false;
       });
       _payAmountController.text = '';
@@ -126,8 +127,8 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     _payAmountController.text = payAmount.toDouble().toStringAsFixed(2);
 
     setState(() {
-      _amountInputWidth = 260;
-      _symbolInputWidth = 100;
+      _amountInputWidth = 260.w;
+      _symbolInputWidth = 100.w;
       _isExpanded = true;
     });
 
@@ -204,23 +205,23 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                      padding: EdgeInsets.symmetric(horizontal: 23.w),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 25.0),
+                            padding: EdgeInsets.only(left: 25.w),
                             child: Text(
                               context.l10n.youPay,
-                              style: const TextStyle(
-                                fontSize: 17,
+                              style: TextStyle(
+                                fontSize: 17.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -257,12 +258,12 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32.h),
                     Stack(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5.0),
-                          child: Divider(
+                        Padding(
+                          padding: EdgeInsets.only(top: 5.h),
+                          child: const Divider(
                             thickness: 1,
                             color: CpColors.darkDividerColor,
                           ),
@@ -272,38 +273,34 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                           child: ColoredBox(
                             color: CpColors.deepGreyColor,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12.0,
-                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 12.w),
                               child: GestureDetector(
                                 onTap: _handleSwitchTokens,
-                                child: Assets.icons.swap.svg(
-                                  height: 26.69,
-                                  width: 17.74,
-                                ),
+                                child: Assets.icons.swap
+                                    .svg(height: 26.h, width: 18.w),
                               ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                      padding: EdgeInsets.symmetric(horizontal: 23.w),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 25.0),
+                            padding: EdgeInsets.only(left: 25.w),
                             child: Text(
                               context.l10n.youReceive,
-                              style: const TextStyle(
-                                fontSize: 17,
+                              style: TextStyle(
+                                fontSize: 17.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -345,7 +342,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                         maxDecimals: 4,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     CpBottomButton(
                       text: context.l10n.reviewSwap,
                       onPressed: () => TokenSwapReviewScreen.push(
@@ -356,7 +353,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                         receiveAmount: _receiveAmountController.text,
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                   ],
                 ),
               ),
@@ -386,8 +383,8 @@ class _TokenAmountInput extends StatefulWidget {
 class _TokenAmountInputState extends State<_TokenAmountInput> {
   late final TextPainter _textPainter;
   bool _visibility = false;
-  double _textHeight = 1.2;
-  double _fontSize = 34.0;
+  double _textHeight = 1.2.h;
+  double _fontSize = 34.sp;
 
   @override
   void initState() {
@@ -410,10 +407,10 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
 
     setState(() {
       if (isValueValid) {
-        _textHeight = 0.9;
+        _textHeight = 0.9.h;
         _visibility = true;
       } else {
-        _textHeight = 1.2;
+        _textHeight = 1.2.h;
         _visibility = false;
       }
 
@@ -422,16 +419,16 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
   }
 
   double _calculateFontSize(String text) {
-    const maxWidth = 245.0;
-    const defaultFontSize = 34.0;
-    const minFontSize = 16.0;
+    final maxWidth = 245.w;
+    final defaultFontSize = 34.sp;
+    final minFontSize = 16.sp;
 
     if (text.isEmpty) return defaultFontSize;
 
     _textPainter
       ..text = TextSpan(
         text: text,
-        style: const TextStyle(fontSize: defaultFontSize),
+        style: TextStyle(fontSize: defaultFontSize),
       )
       ..layout(minWidth: 0, maxWidth: double.infinity);
 
@@ -446,8 +443,12 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
         children: [
           Container(
             height: 72,
-            padding:
-                const EdgeInsets.only(top: 16, bottom: 20, left: 24, right: 24),
+            padding: EdgeInsets.only(
+             top: 16.h,
+              bottom: 20.h,
+              left: 24.w,
+              right: 24.w,
+            ),
             decoration: const BoxDecoration(
               color: CpColors.blackGreyColor,
               borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -462,7 +463,6 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
                       style: TextStyle(
                         fontSize: _fontSize,
                         fontWeight: FontWeight.w700,
-                        color: Colors.white,
                         height: _textHeight,
                       ),
                       overflow: TextOverflow.ellipsis,

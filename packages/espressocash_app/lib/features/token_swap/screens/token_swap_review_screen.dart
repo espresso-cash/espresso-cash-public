@@ -7,6 +7,7 @@ import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TokenSwapReviewScreen extends StatelessWidget {
   const TokenSwapReviewScreen({
@@ -49,39 +50,36 @@ class TokenSwapReviewScreen extends StatelessWidget {
         body: Stack(
           children: [
             SafeArea(
-              minimum: const EdgeInsets.only(bottom: 40),
+              minimum: EdgeInsets.only(bottom: 40.h),
               child: LayoutBuilder(
                 builder: (
                   BuildContext context,
                   BoxConstraints viewportConstraints,
                 ) =>
-                    DecoratedBox(
-                  decoration: const BoxDecoration(),
-                  child: Column(
-                    children: [
-                      _TokensInfo(
-                        payToken: payToken,
-                        payAmount: payAmount,
-                        payUsdAmount: r'$3,600.820129',
-                        receiveToken: receiveToken,
-                        receiveAmount: receiveAmount,
-                        receiveUsdAmount: r'$3,196.0182',
-                      ),
-                      const SizedBox(height: 36),
-                      const _SwapInfo(
-                        provider: 'provider',
-                        bestPrice: 'bestPrice',
-                        fees: 'fees',
-                        slippage: 'slippage',
-                        priceImpact: 'priceImpact',
-                      ),
-                      const Spacer(),
-                      CpBottomButton(
-                        text: context.l10n.swap,
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
+                    Column(
+                  children: [
+                    _TokensInfo(
+                      payToken: payToken,
+                      payAmount: payAmount,
+                      payUsdAmount: '',
+                      receiveToken: receiveToken,
+                      receiveAmount: receiveAmount,
+                      receiveUsdAmount: '',
+                    ),
+                    SizedBox(height: 36.h),
+                    const _SwapInfo(
+                      provider: '',
+                      bestPrice: '',
+                      fees: '',
+                      slippage: '',
+                      priceImpact: '',
+                    ),
+                    const Spacer(),
+                    CpBottomButton(
+                      text: context.l10n.swap,
+                      onPressed: () {},
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -142,37 +140,40 @@ class _TokenRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 16),
+        padding: EdgeInsets.symmetric(horizontal: 56.w, vertical: 16.h),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
+            SizedBox(
+              width: MediaQuery.sizeOf(context).width / 3,
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
             Row(
               children: [
-                TokenIcon(token: token, size: 42),
-                const SizedBox(width: 12),
+                TokenIcon(token: token, size: 42.w),
+                SizedBox(width: 12.w),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '$amount ${token.symbol}',
-                      style: const TextStyle(
-                        fontSize: 17,
+                      style: TextStyle(
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.w700,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    SizedBox(height: 2.h),
                     Text(
                       usdAmount,
-                      style: const TextStyle(
-                        fontSize: 15,
+                      style: TextStyle(
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -202,12 +203,12 @@ class _SwapInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 22),
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 28),
-        decoration: const ShapeDecoration(
+        margin: EdgeInsets.symmetric(horizontal: 22.w),
+        padding: EdgeInsets.symmetric(vertical: 32.h, horizontal: 28.w),
+        decoration: ShapeDecoration(
           color: CpColors.blackGreyColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(28)),
+            borderRadius: BorderRadius.all(Radius.circular(28.w)),
           ),
         ),
         child: Column(
@@ -216,22 +217,22 @@ class _SwapInfo extends StatelessWidget {
               label: 'Provider',
               value: provider,
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6.h),
             _InfoItem(
               label: 'Best Price',
               value: bestPrice,
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6.h),
             _InfoItem(
               label: context.l10n.fees,
               value: fees,
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6.h),
             _InfoItem(
               label: 'Slippage',
               value: slippage,
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6.h),
             _InfoItem(
               label: 'Price Impact',
               value: priceImpact,
@@ -251,23 +252,23 @@ class _InfoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 16,
+              style: TextStyle(
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 16,
+              style: TextStyle(
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
-                color: Color(0xff999999),
+                color: CpColors.deepGreyColor,
               ),
             ),
           ],
