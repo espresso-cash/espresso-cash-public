@@ -116,10 +116,7 @@ class _TokensInfo extends StatelessWidget {
             amount: payAmount,
             usdAmount: payUsdAmount,
           ),
-          const Divider(
-            color: CpColors.backgroundAccentColor,
-            thickness: 1,
-          ),
+          const Divider(color: CpColors.darkDividerColor, thickness: 1),
           _TokenRow(
             label: 'You Receive',
             token: receiveToken,
@@ -145,42 +142,43 @@ class _TokenRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 16),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               label,
               style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff999999),
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(width: 12),
-            TokenIcon(token: token, size: 32),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    amount,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
+            Row(
+              children: [
+                TokenIcon(token: token, size: 42),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$amount ${token.symbol}',
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    usdAmount,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xff999999),
+                    const SizedBox(height: 2),
+                    Text(
+                      usdAmount,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),

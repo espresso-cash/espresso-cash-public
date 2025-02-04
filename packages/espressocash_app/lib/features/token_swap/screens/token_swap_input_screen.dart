@@ -264,7 +264,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                           padding: EdgeInsets.only(top: 5.0),
                           child: Divider(
                             thickness: 1,
-                            color: Color.fromRGBO(63, 60, 61, 1),
+                            color: CpColors.darkDividerColor,
                           ),
                         ),
                         Align(
