@@ -47,6 +47,7 @@ class TokenPicker extends StatelessWidget {
               fontSize: 18.sp,
               overflow: TextOverflow.fade,
             ),
+            maxLines: 2,
             textAlign: TextAlign.center,
           ),
           titleAlignment: ListTileTitleAlignment.threeLine,

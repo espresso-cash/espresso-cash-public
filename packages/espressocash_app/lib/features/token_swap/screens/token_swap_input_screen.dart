@@ -233,13 +233,14 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                                   controller: _payAmountController,
                                   crypto: crypto,
                                   fiatRate: fiatRatePay,
-                                  showMaxButton: false,
+                                  showMaxButton: true,
                                 ),
                               ),
                               AnimatedContainer(
                                 curve: Curves.easeInOut,
                                 duration: const Duration(milliseconds: 300),
                                 width: _symbolInputWidth,
+                                height: _inputHeight,
                                 child: TokenPicker(
                                   title: context.l10n.youPay,
                                   onSubmitted: (value) async {
@@ -318,6 +319,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                               AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
                                 width: _symbolInputWidth,
+                                height: _inputHeight,
                                 child: TokenPicker(
                                   title: context.l10n.youReceive,
                                   token: _receiveToken,
@@ -339,7 +341,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                     Expanded(
                       child: AmountKeypad(
                         controller: _payAmountController,
-                        maxDecimals: 4,
+                        maxDecimals: _payToken.decimals,
                       ),
                     ),
                     SizedBox(height: 16.h),
@@ -382,17 +384,14 @@ class _TokenAmountInput extends StatefulWidget {
 
 class _TokenAmountInputState extends State<_TokenAmountInput> {
   late final TextPainter _textPainter;
-  bool _visibility = false;
-  double _textHeight = 1.2.h;
+  bool _showEquivalent = false;
+  double _textHeight = 1.2;
   double _fontSize = 34.sp;
 
   @override
   void initState() {
     super.initState();
-    _textPainter = TextPainter(
-      textDirection: TextDirection.ltr,
-      maxLines: 1,
-    );
+    _textPainter = TextPainter(textDirection: TextDirection.ltr, maxLines: 1);
     widget.controller.addListener(_quantityListener);
   }
 
@@ -407,11 +406,11 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
 
     setState(() {
       if (isValueValid) {
-        _textHeight = 0.9.h;
-        _visibility = true;
+        _textHeight = 0.9;
+        _showEquivalent = true;
       } else {
-        _textHeight = 1.2.h;
-        _visibility = false;
+        _textHeight = 1.2;
+        _showEquivalent = false;
       }
 
       _fontSize = _calculateFontSize(widget.controller.text);
@@ -419,7 +418,7 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
   }
 
   double _calculateFontSize(String text) {
-    final maxWidth = 245.w;
+    final maxWidth = widget.showMaxButton ? 140.w : 230.w;
     final defaultFontSize = 34.sp;
     final minFontSize = 16.sp;
 
@@ -442,13 +441,8 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
   Widget build(BuildContext context) => Stack(
         children: [
           Container(
-            height: 72,
-            padding: EdgeInsets.only(
-             top: 16.h,
-              bottom: 20.h,
-              left: 24.w,
-              right: 24.w,
-            ),
+            height: _inputHeight,
+            padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
             decoration: const BoxDecoration(
               color: CpColors.blackGreyColor,
               borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -471,7 +465,7 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
                   if (widget.showMaxButton)
                     CpButton(
                       onPressed: _isMax()
-                          ? () => widget.controller.text = ''
+                          ? () => widget.controller.clear()
                           : () => widget.controller.text =
                               '${widget.crypto.decimal}',
                       text: _isMax() ? 'Clear' : 'Max',
@@ -484,14 +478,14 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
             ),
           ),
           Visibility(
-            visible: _visibility,
+            visible: _showEquivalent,
             child: Positioned(
               left: 26,
               bottom: 9,
               child: Text(
                 r'≈ $' + _buildUsdcAmountText,
-                style: const TextStyle(
-                  fontSize: 12,
+                style: TextStyle(
+                  fontSize: 12.sp,
                   color: Colors.grey,
                 ),
               ),
@@ -514,3 +508,5 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
           -1) ==
       widget.crypto.decimal.toDouble();
 }
+
+const _inputHeight = 72.0;
