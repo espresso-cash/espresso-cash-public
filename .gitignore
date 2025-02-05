@@ -54,9 +54,9 @@ analysis_benchmark.json
 .pub/
 build/
 flutter_*.png
-linked_*.ds
-unlinked.ds
-unlinked_spec.ds
+/pubspec.lock
+pubspec_overrides.yaml
+.fvm/flutter_sdk
 
 # Android related
 **/android/.gradle
@@ -112,9 +112,8 @@ app.*.symbols
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
 
+linked_*.ds
+unlinked.ds
+unlinked_spec.ds
 test-ledger
 .packages~master
-
-**/pubspec_overrides.yaml
-
-.fvm/flutter_sdk
