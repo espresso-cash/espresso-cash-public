@@ -4,7 +4,7 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: ">=2.14.3 <3.0.0"
+  sdk: ">=2.14.3 <4.0.0"
 
 dependencies:
   analyzer: ">=4.4.0 <6.0.0"
