@@ -10,6 +10,7 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/scaling_text.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../conversion_rates/data/repository.dart';
@@ -383,22 +384,13 @@ class _TokenAmountInput extends StatefulWidget {
 }
 
 class _TokenAmountInputState extends State<_TokenAmountInput> {
-  late final TextPainter _textPainter;
   bool _showEquivalent = false;
   double _textHeight = 1.2;
-  double _fontSize = 34.sp;
 
   @override
   void initState() {
     super.initState();
-    _textPainter = TextPainter(textDirection: TextDirection.ltr, maxLines: 1);
     widget.controller.addListener(_quantityListener);
-  }
-
-  @override
-  void dispose() {
-    _textPainter.dispose();
-    super.dispose();
   }
 
   void _quantityListener() {
@@ -412,29 +404,7 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
         _textHeight = 1.2;
         _showEquivalent = false;
       }
-
-      _fontSize = _calculateFontSize(widget.controller.text);
     });
-  }
-
-  double _calculateFontSize(String text) {
-    final maxWidth = widget.showMaxButton ? 140.w : 230.w;
-    final defaultFontSize = 34.sp;
-    final minFontSize = 16.sp;
-
-    if (text.isEmpty) return defaultFontSize;
-
-    _textPainter
-      ..text = TextSpan(
-        text: text,
-        style: TextStyle(fontSize: defaultFontSize),
-      )
-      ..layout(minWidth: 0, maxWidth: double.infinity);
-
-    final textWidth = _textPainter.size.width;
-    final calculatedSize = defaultFontSize * maxWidth / textWidth;
-
-    return calculatedSize.clamp(minFontSize, defaultFontSize);
   }
 
   @override
@@ -443,26 +413,26 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
           Container(
             height: _inputHeight,
             padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
-            decoration: const BoxDecoration(
+            decoration: const ShapeDecoration(
               color: CpColors.blackGreyColor,
-              borderRadius: BorderRadius.all(Radius.circular(100)),
+              shape: StadiumBorder(),
             ),
             child: ValueListenableBuilder<TextEditingValue>(
               valueListenable: widget.controller,
               builder: (context, value, child) => Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      value.text.isEmpty ? '0' : value.text,
+                    child: ScalingText(
+                      text: value.text.isEmpty ? '0' : value.text,
                       style: TextStyle(
-                        fontSize: _fontSize,
+                        fontSize: 34.sp,
                         fontWeight: FontWeight.w700,
                         height: _textHeight,
                       ),
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  if (widget.showMaxButton)
+                  if (widget.showMaxButton) ...[
+                    SizedBox(width: 12.w),
                     CpButton(
                       onPressed: _isMax()
                           ? () => widget.controller.clear()
@@ -473,6 +443,7 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
                       size: CpButtonSize.small,
                       variant: CpButtonVariant.inverted,
                     ),
+                  ],
                 ],
               ),
             ),

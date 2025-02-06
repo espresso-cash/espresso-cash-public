@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
@@ -7,7 +8,6 @@ import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TokenSwapReviewScreen extends StatelessWidget {
   const TokenSwapReviewScreen({
@@ -140,7 +140,7 @@ class _TokenRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 56.w, vertical: 16.h),
+        padding: EdgeInsets.only(left: 56.w, right: 20.w, top: 16.h),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -154,32 +154,51 @@ class _TokenRow extends StatelessWidget {
                 ),
               ),
             ),
-            Row(
-              children: [
-                TokenIcon(token: token, size: 42.w),
-                SizedBox(width: 12.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '$amount ${token.symbol}',
-                      style: TextStyle(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w700,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+            Expanded(
+              child: Row(
+                children: [
+                  TokenIcon(token: token, size: 42.w),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                amount,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 17.sp,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              ' ${token.symbol}',
+                              style: TextStyle(
+                                fontSize: 17.sp,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          usdAmount,
+                          maxLines: 2,
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      usdAmount,
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
