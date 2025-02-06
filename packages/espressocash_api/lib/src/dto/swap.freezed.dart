@@ -291,6 +291,9 @@ mixin _$SwapRouteResponseDto {
   String get inAmount => throw _privateConstructorUsedError;
   String get outAmount => throw _privateConstructorUsedError;
   String get amount => throw _privateConstructorUsedError;
+  int get slippageBps => throw _privateConstructorUsedError;
+  String get priceImpact => throw _privateConstructorUsedError;
+  String get providerLabel => throw _privateConstructorUsedError;
   String get encodedTx => throw _privateConstructorUsedError;
   int get feeInUsdc => throw _privateConstructorUsedError;
   BigInt get slot => throw _privateConstructorUsedError;
@@ -311,6 +314,9 @@ abstract class $SwapRouteResponseDtoCopyWith<$Res> {
       {String inAmount,
       String outAmount,
       String amount,
+      int slippageBps,
+      String priceImpact,
+      String providerLabel,
       String encodedTx,
       int feeInUsdc,
       BigInt slot});
@@ -333,6 +339,9 @@ class _$SwapRouteResponseDtoCopyWithImpl<$Res,
     Object? inAmount = null,
     Object? outAmount = null,
     Object? amount = null,
+    Object? slippageBps = null,
+    Object? priceImpact = null,
+    Object? providerLabel = null,
     Object? encodedTx = null,
     Object? feeInUsdc = null,
     Object? slot = null,
@@ -349,6 +358,18 @@ class _$SwapRouteResponseDtoCopyWithImpl<$Res,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      slippageBps: null == slippageBps
+          ? _value.slippageBps
+          : slippageBps // ignore: cast_nullable_to_non_nullable
+              as int,
+      priceImpact: null == priceImpact
+          ? _value.priceImpact
+          : priceImpact // ignore: cast_nullable_to_non_nullable
+              as String,
+      providerLabel: null == providerLabel
+          ? _value.providerLabel
+          : providerLabel // ignore: cast_nullable_to_non_nullable
               as String,
       encodedTx: null == encodedTx
           ? _value.encodedTx
@@ -378,6 +399,9 @@ abstract class _$$SwapRouteResponseDtoImplCopyWith<$Res>
       {String inAmount,
       String outAmount,
       String amount,
+      int slippageBps,
+      String priceImpact,
+      String providerLabel,
       String encodedTx,
       int feeInUsdc,
       BigInt slot});
@@ -397,6 +421,9 @@ class __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>
     Object? inAmount = null,
     Object? outAmount = null,
     Object? amount = null,
+    Object? slippageBps = null,
+    Object? priceImpact = null,
+    Object? providerLabel = null,
     Object? encodedTx = null,
     Object? feeInUsdc = null,
     Object? slot = null,
@@ -413,6 +440,18 @@ class __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      slippageBps: null == slippageBps
+          ? _value.slippageBps
+          : slippageBps // ignore: cast_nullable_to_non_nullable
+              as int,
+      priceImpact: null == priceImpact
+          ? _value.priceImpact
+          : priceImpact // ignore: cast_nullable_to_non_nullable
+              as String,
+      providerLabel: null == providerLabel
+          ? _value.providerLabel
+          : providerLabel // ignore: cast_nullable_to_non_nullable
               as String,
       encodedTx: null == encodedTx
           ? _value.encodedTx
@@ -437,6 +476,9 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
       {required this.inAmount,
       required this.outAmount,
       required this.amount,
+      required this.slippageBps,
+      required this.priceImpact,
+      required this.providerLabel,
       required this.encodedTx,
       required this.feeInUsdc,
       required this.slot});
@@ -451,6 +493,12 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
   @override
   final String amount;
   @override
+  final int slippageBps;
+  @override
+  final String priceImpact;
+  @override
+  final String providerLabel;
+  @override
   final String encodedTx;
   @override
   final int feeInUsdc;
@@ -459,7 +507,7 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
 
   @override
   String toString() {
-    return 'SwapRouteResponseDto(inAmount: $inAmount, outAmount: $outAmount, amount: $amount, encodedTx: $encodedTx, feeInUsdc: $feeInUsdc, slot: $slot)';
+    return 'SwapRouteResponseDto(inAmount: $inAmount, outAmount: $outAmount, amount: $amount, slippageBps: $slippageBps, priceImpact: $priceImpact, providerLabel: $providerLabel, encodedTx: $encodedTx, feeInUsdc: $feeInUsdc, slot: $slot)';
   }
 
   @override
@@ -472,6 +520,12 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
             (identical(other.outAmount, outAmount) ||
                 other.outAmount == outAmount) &&
             (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.slippageBps, slippageBps) ||
+                other.slippageBps == slippageBps) &&
+            (identical(other.priceImpact, priceImpact) ||
+                other.priceImpact == priceImpact) &&
+            (identical(other.providerLabel, providerLabel) ||
+                other.providerLabel == providerLabel) &&
             (identical(other.encodedTx, encodedTx) ||
                 other.encodedTx == encodedTx) &&
             (identical(other.feeInUsdc, feeInUsdc) ||
@@ -481,8 +535,8 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, inAmount, outAmount, amount, encodedTx, feeInUsdc, slot);
+  int get hashCode => Object.hash(runtimeType, inAmount, outAmount, amount,
+      slippageBps, priceImpact, providerLabel, encodedTx, feeInUsdc, slot);
 
   @JsonKey(ignore: true)
   @override
@@ -505,6 +559,9 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
       {required final String inAmount,
       required final String outAmount,
       required final String amount,
+      required final int slippageBps,
+      required final String priceImpact,
+      required final String providerLabel,
       required final String encodedTx,
       required final int feeInUsdc,
       required final BigInt slot}) = _$SwapRouteResponseDtoImpl;
@@ -518,6 +575,12 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
   String get outAmount;
   @override
   String get amount;
+  @override
+  int get slippageBps;
+  @override
+  String get priceImpact;
+  @override
+  String get providerLabel;
   @override
   String get encodedTx;
   @override
