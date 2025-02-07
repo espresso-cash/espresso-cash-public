@@ -11,6 +11,9 @@ class SwapSeed with _$SwapSeed {
   const factory SwapSeed({
     required CryptoAmount input,
     required CryptoAmount output,
+    required int platformFeeBps,
+    required String priceImpact,
+    required String providerLabel,
     required Slippage slippage,
   }) = _SwapSeed;
 }

@@ -43,8 +43,6 @@ class TokenSwapInputScreen extends StatefulWidget {
 }
 
 class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
-  final _quoteService = sl<QuoteService>();
-
   final _payAmountController = TextEditingController();
   final _receiveAmountController = TextEditingController();
 
@@ -57,8 +55,6 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   double _amountInputWidth = 180.w;
   double _symbolInputWidth = 180.w;
 
-  bool _isPayAmountChanging = false;
-  bool _isReceiveAmountChanging = false;
   bool _isExpanded = false;
 
   @override
@@ -69,22 +65,24 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
     _updateRate(_payToken, _receiveToken);
 
-    _quoteService.addListener(_handleQuoteUpdate);
+    sl<QuoteService>().addListener(_handleQuoteUpdate);
 
-    _payAmountController.addListener(_handlePayAmountChanged);
-    _receiveAmountController.addListener(_handleReceiveAmountChanged);
+    _payAmountController.addListener(_handleAmountChanged);
   }
 
   void _handleQuoteUpdate() {
-    final quote = _quoteService.value;
+    final quote = sl<QuoteService>().value;
     if (quote == null) {
       // Handle null quote (error or invalid input)
+      _receiveAmountController.text = '';
+
       return;
     }
 
     // Update UI with quote information
     setState(() {
       // Update relevant state variables
+      _receiveAmountController.text = quote.output.value.toString();
     });
   }
 
@@ -98,7 +96,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
       currency: CryptoCurrency(token: _payToken),
     ) as CryptoAmount;
 
-    _quoteService.updateInput(
+    sl<QuoteService>().updateInput(
       inputAmount: inputAmount,
       outputToken: _receiveToken,
       slippage: Slippage.zpFive, // TODO
@@ -107,14 +105,13 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
   @override
   void dispose() {
-    _quoteService.dispose();
+    sl<QuoteService>().clear();
     _payAmountController.dispose();
     _receiveAmountController.dispose();
     super.dispose();
   }
 
-  void _handlePayAmountChanged() {
-    if (_isReceiveAmountChanging) return;
+  void _handleAmountChanged() {
     if (_payAmountController.text.isEmpty) {
       setState(() {
         _amountInputWidth = 180.w;
@@ -126,15 +123,6 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
       return;
     }
 
-    _isPayAmountChanging = true;
-
-    final payAmount =
-        Decimal.tryParse(_payAmountController.text) ?? Decimal.zero;
-    final usdAmount = payAmount * _payTokenRate;
-    final receiveAmount = usdAmount / _receiveTokenRate;
-
-    _receiveAmountController.text = receiveAmount.toDouble().toStringAsFixed(2);
-
     setState(() {
       _amountInputWidth = 260.w;
       _symbolInputWidth = 100.w;
@@ -142,48 +130,12 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     });
 
     _updateQuote();
-
-    _isPayAmountChanging = false;
-  }
-
-  void _handleReceiveAmountChanged() {
-    if (_isPayAmountChanging) return;
-    if (_receiveAmountController.text.isEmpty) {
-      setState(() {
-        _amountInputWidth = 180.w;
-        _symbolInputWidth = 180.w;
-        _isExpanded = false;
-      });
-      _payAmountController.text = '';
-
-      return;
-    }
-
-    _isReceiveAmountChanging = true;
-
-    final receiveAmount =
-        Decimal.tryParse(_receiveAmountController.text) ?? Decimal.zero;
-    final usdAmount = receiveAmount * _receiveTokenRate;
-    final payAmount = usdAmount / _payTokenRate;
-
-    _payAmountController.text = payAmount.toDouble().toStringAsFixed(2);
-
-    setState(() {
-      _amountInputWidth = 260.w;
-      _symbolInputWidth = 100.w;
-      _isExpanded = true;
-    });
-
-    _isReceiveAmountChanging = false;
   }
 
   Future<void> _handleSwitchTokens() async {
     final tempToken = _payToken;
     final tempAmount = _payAmountController.text;
     if (!mounted) return;
-
-    _isPayAmountChanging = true;
-    _isReceiveAmountChanging = true;
 
     setState(() {
       _payToken = _receiveToken;
@@ -193,9 +145,6 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     });
 
     await _updateRate(_payToken, _receiveToken);
-
-    _isPayAmountChanging = false;
-    _isReceiveAmountChanging = false;
   }
 
   Future<void> _updateRate(Token payToken, Token receiveToken) async {

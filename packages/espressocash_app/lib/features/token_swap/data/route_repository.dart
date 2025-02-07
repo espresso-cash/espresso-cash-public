@@ -45,6 +45,9 @@ class RouteRepository {
         cryptoCurrency: CryptoCurrency(token: outputToken),
         value: int.parse(route.outAmount),
       ),
+      platformFeeBps: route.platformFeeBps,
+      priceImpact: route.priceImpact,
+      providerLabel: route.providerLabel,
     );
 
     return SwapRoute(

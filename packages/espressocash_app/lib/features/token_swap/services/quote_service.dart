@@ -39,6 +39,10 @@ class QuoteService extends ValueNotifier<SwapQuote?> {
           ) as CryptoAmount,
           input: inputAmount,
           slippage: slippage,
+          // TODO: make nullable
+          platformFeeBps: 0,
+          priceImpact: '0',
+          providerLabel: '0',
         ),
       ),
     );
@@ -77,6 +81,13 @@ class QuoteService extends ValueNotifier<SwapQuote?> {
       //TODO
       value = null;
     }
+    notifyListeners();
+  }
+
+  void clear() {
+    _refreshTimer?.cancel();
+    _debounceTimer?.cancel();
+    value = null;
   }
 
   @override
