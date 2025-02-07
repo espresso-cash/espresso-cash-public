@@ -30,6 +30,7 @@ class SwapRouteResponseDto with _$SwapRouteResponseDto {
     required String outAmount,
     required String amount,
     required int slippageBps,
+    required int platformFeeBps,
     required String priceImpact,
     required String providerLabel,
     required String encodedTx,
