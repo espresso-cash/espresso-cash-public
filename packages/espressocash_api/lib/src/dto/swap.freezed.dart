@@ -292,6 +292,7 @@ mixin _$SwapRouteResponseDto {
   String get outAmount => throw _privateConstructorUsedError;
   String get amount => throw _privateConstructorUsedError;
   int get slippageBps => throw _privateConstructorUsedError;
+  int get platformFeeBps => throw _privateConstructorUsedError;
   String get priceImpact => throw _privateConstructorUsedError;
   String get providerLabel => throw _privateConstructorUsedError;
   String get encodedTx => throw _privateConstructorUsedError;
@@ -315,6 +316,7 @@ abstract class $SwapRouteResponseDtoCopyWith<$Res> {
       String outAmount,
       String amount,
       int slippageBps,
+      int platformFeeBps,
       String priceImpact,
       String providerLabel,
       String encodedTx,
@@ -340,6 +342,7 @@ class _$SwapRouteResponseDtoCopyWithImpl<$Res,
     Object? outAmount = null,
     Object? amount = null,
     Object? slippageBps = null,
+    Object? platformFeeBps = null,
     Object? priceImpact = null,
     Object? providerLabel = null,
     Object? encodedTx = null,
@@ -362,6 +365,10 @@ class _$SwapRouteResponseDtoCopyWithImpl<$Res,
       slippageBps: null == slippageBps
           ? _value.slippageBps
           : slippageBps // ignore: cast_nullable_to_non_nullable
+              as int,
+      platformFeeBps: null == platformFeeBps
+          ? _value.platformFeeBps
+          : platformFeeBps // ignore: cast_nullable_to_non_nullable
               as int,
       priceImpact: null == priceImpact
           ? _value.priceImpact
@@ -400,6 +407,7 @@ abstract class _$$SwapRouteResponseDtoImplCopyWith<$Res>
       String outAmount,
       String amount,
       int slippageBps,
+      int platformFeeBps,
       String priceImpact,
       String providerLabel,
       String encodedTx,
@@ -422,6 +430,7 @@ class __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>
     Object? outAmount = null,
     Object? amount = null,
     Object? slippageBps = null,
+    Object? platformFeeBps = null,
     Object? priceImpact = null,
     Object? providerLabel = null,
     Object? encodedTx = null,
@@ -444,6 +453,10 @@ class __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>
       slippageBps: null == slippageBps
           ? _value.slippageBps
           : slippageBps // ignore: cast_nullable_to_non_nullable
+              as int,
+      platformFeeBps: null == platformFeeBps
+          ? _value.platformFeeBps
+          : platformFeeBps // ignore: cast_nullable_to_non_nullable
               as int,
       priceImpact: null == priceImpact
           ? _value.priceImpact
@@ -477,6 +490,7 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
       required this.outAmount,
       required this.amount,
       required this.slippageBps,
+      required this.platformFeeBps,
       required this.priceImpact,
       required this.providerLabel,
       required this.encodedTx,
@@ -495,6 +509,8 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
   @override
   final int slippageBps;
   @override
+  final int platformFeeBps;
+  @override
   final String priceImpact;
   @override
   final String providerLabel;
@@ -507,7 +523,7 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
 
   @override
   String toString() {
-    return 'SwapRouteResponseDto(inAmount: $inAmount, outAmount: $outAmount, amount: $amount, slippageBps: $slippageBps, priceImpact: $priceImpact, providerLabel: $providerLabel, encodedTx: $encodedTx, feeInUsdc: $feeInUsdc, slot: $slot)';
+    return 'SwapRouteResponseDto(inAmount: $inAmount, outAmount: $outAmount, amount: $amount, slippageBps: $slippageBps, platformFeeBps: $platformFeeBps, priceImpact: $priceImpact, providerLabel: $providerLabel, encodedTx: $encodedTx, feeInUsdc: $feeInUsdc, slot: $slot)';
   }
 
   @override
@@ -522,6 +538,8 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.slippageBps, slippageBps) ||
                 other.slippageBps == slippageBps) &&
+            (identical(other.platformFeeBps, platformFeeBps) ||
+                other.platformFeeBps == platformFeeBps) &&
             (identical(other.priceImpact, priceImpact) ||
                 other.priceImpact == priceImpact) &&
             (identical(other.providerLabel, providerLabel) ||
@@ -535,8 +553,18 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, inAmount, outAmount, amount,
-      slippageBps, priceImpact, providerLabel, encodedTx, feeInUsdc, slot);
+  int get hashCode => Object.hash(
+      runtimeType,
+      inAmount,
+      outAmount,
+      amount,
+      slippageBps,
+      platformFeeBps,
+      priceImpact,
+      providerLabel,
+      encodedTx,
+      feeInUsdc,
+      slot);
 
   @JsonKey(ignore: true)
   @override
@@ -560,6 +588,7 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
       required final String outAmount,
       required final String amount,
       required final int slippageBps,
+      required final int platformFeeBps,
       required final String priceImpact,
       required final String providerLabel,
       required final String encodedTx,
@@ -577,6 +606,8 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
   String get amount;
   @override
   int get slippageBps;
+  @override
+  int get platformFeeBps;
   @override
   String get priceImpact;
   @override
