@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,6 +19,8 @@ import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
+import '../models/swap_seed.dart';
+import '../services/quote_service.dart';
 import '../widgets/token_picker.dart';
 import 'token_swap_review_screen.dart';
 
@@ -38,6 +42,8 @@ class TokenSwapInputScreen extends StatefulWidget {
 }
 
 class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
+  final _quoteService = sl<QuoteService>();
+
   final _payAmountController = TextEditingController();
   final _receiveAmountController = TextEditingController();
 
@@ -62,12 +68,45 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
     _updateRate(_payToken, _receiveToken);
 
+    _quoteService.addListener(_handleQuoteUpdate);
+
     _payAmountController.addListener(_handlePayAmountChanged);
     _receiveAmountController.addListener(_handleReceiveAmountChanged);
   }
 
+  void _handleQuoteUpdate() {
+    final quote = _quoteService.value;
+    if (quote == null) {
+      // Handle null quote (error or invalid input)
+      return;
+    }
+
+    // Update UI with quote information
+    setState(() {
+      // Update relevant state variables
+    });
+  }
+
+  void _updateQuote() {
+    final amount = Decimal.tryParse(_payAmountController.text);
+
+    if (amount == null) return;
+
+    final inputAmount = Amount.fromDecimal(
+      value: amount,
+      currency: CryptoCurrency(token: _payToken),
+    ) as CryptoAmount;
+
+    _quoteService.updateInput(
+      inputAmount: inputAmount,
+      outputToken: _receiveToken,
+      slippage: Slippage.zpFive, // TODO
+    );
+  }
+
   @override
   void dispose() {
+    _quoteService.dispose();
     _payAmountController.dispose();
     _receiveAmountController.dispose();
     super.dispose();
@@ -100,6 +139,8 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
       _symbolInputWidth = 100.w;
       _isExpanded = true;
     });
+
+    _updateQuote();
 
     _isPayAmountChanging = false;
   }
