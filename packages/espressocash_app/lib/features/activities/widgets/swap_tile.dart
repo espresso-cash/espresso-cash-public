@@ -29,7 +29,7 @@ class SwapTile extends StatelessWidget {
     final inputToken = data.input.cryptoCurrency.token;
     final outputToken = data.output.cryptoCurrency.token;
 
-    final subtitle = '${inputToken.symbol} - ${outputToken.symbol}';
+    final subtitle = '${inputToken.symbol}-${outputToken.symbol}';
 
     final swapFrom = data.input.maybeFlatMap((it) => it.format(locale));
     final swapTo = data.output.maybeFlatMap((it) => it.format(locale));
