@@ -8,84 +8,76 @@ import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
+import '../models/swap_route.dart';
 
 class TokenSwapReviewScreen extends StatelessWidget {
   const TokenSwapReviewScreen({
     super.key,
-    required this.payAmount,
-    required this.payToken,
-    required this.receiveAmount,
-    required this.receiveToken,
+    required this.route,
   });
 
   static Future<Decimal?> push(
     BuildContext context, {
-    required Token payToken,
-    required String payAmount,
-    required Token receiveToken,
-    required String receiveAmount,
+    required SwapRoute route,
   }) =>
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => TokenSwapReviewScreen(
-            payAmount: payAmount,
-            payToken: payToken,
-            receiveAmount: receiveAmount,
-            receiveToken: receiveToken,
-          ),
+          builder: (context) => TokenSwapReviewScreen(route: route),
         ),
       );
 
-  final String payAmount;
-  final Token payToken;
-  final String receiveAmount;
-  final Token receiveToken;
+  final SwapRoute route;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: CpColors.deepGreyColor,
-        appBar: CpAppBar(
-          title: Text(context.l10n.reviewSwap.toUpperCase()),
-        ),
-        body: Stack(
-          children: [
-            SafeArea(
-              minimum: EdgeInsets.only(bottom: 40.h),
-              child: LayoutBuilder(
-                builder: (
-                  BuildContext context,
-                  BoxConstraints viewportConstraints,
-                ) =>
-                    Column(
-                  children: [
-                    _TokensInfo(
-                      payToken: payToken,
-                      payAmount: payAmount,
-                      payUsdAmount: '',
-                      receiveToken: receiveToken,
-                      receiveAmount: receiveAmount,
-                      receiveUsdAmount: '',
-                    ),
-                    SizedBox(height: 36.h),
-                    const _SwapInfo(
-                      provider: '',
-                      bestPrice: '',
-                      fees: '',
-                      slippage: '',
-                      priceImpact: '',
-                    ),
-                    const Spacer(),
-                    CpBottomButton(
-                      text: context.l10n.swap,
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
+  Widget build(BuildContext context) {
+    final input = route.seed.input;
+    final output = route.seed.output;
+
+    return Scaffold(
+      backgroundColor: CpColors.deepGreyColor,
+      appBar: CpAppBar(
+        title: Text(context.l10n.reviewSwap.toUpperCase()),
+      ),
+      body: Stack(
+        children: [
+          SafeArea(
+            minimum: EdgeInsets.only(bottom: 40.h),
+            child: LayoutBuilder(
+              builder: (
+                BuildContext context,
+                BoxConstraints viewportConstraints,
+              ) =>
+                  Column(
+                children: [
+                  _TokensInfo(
+                    payToken: input.cryptoCurrency.token,
+                    payAmount: input.value.toString(),
+                    payUsdAmount: '',
+                    receiveToken: output.cryptoCurrency.token,
+                    receiveAmount: output.value.toString(),
+                    receiveUsdAmount: '',
+                  ),
+                  SizedBox(height: 36.h),
+                  const _SwapInfo(
+                    provider: '',
+                    bestPrice: '',
+                    fees: '',
+                    slippage: '',
+                    priceImpact: '',
+                  ),
+                  const Spacer(),
+                  CpBottomButton(
+                    text: context.l10n.swap,
+                    onPressed: () {},
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _TokensInfo extends StatelessWidget {

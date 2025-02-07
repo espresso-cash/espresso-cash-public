@@ -389,13 +389,13 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                     SizedBox(height: 16.h),
                     CpBottomButton(
                       text: context.l10n.reviewSwap,
-                      onPressed: () => TokenSwapReviewScreen.push(
-                        context,
-                        payToken: _payToken,
-                        receiveToken: _receiveToken,
-                        payAmount: _payAmountController.text,
-                        receiveAmount: _receiveAmountController.text,
-                      ),
+                      onPressed: () {
+                        //TODO get route from service
+
+                        // TokenSwapReviewScreen.push(
+                        // context,
+                        // route: );
+                      },
                     ),
                     SizedBox(height: 24.h),
                   ],
