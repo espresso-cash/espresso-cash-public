@@ -138,6 +138,7 @@ class KycRepository extends ChangeNotifier {
     required double fiatAmount,
     required String fiatCurrency,
     required String partnerPK,
+    required String cryptoWalletAddress,
   }) =>
       _initWrapper(
         () => _kycUserClient.createOnRampOrder(
@@ -146,6 +147,7 @@ class KycRepository extends ChangeNotifier {
           cryptoCurrency: cryptoCurrency,
           fiatAmount: fiatAmount,
           fiatCurrency: fiatCurrency,
+          cryptoWalletAddress: cryptoWalletAddress,
         ),
       );
 
