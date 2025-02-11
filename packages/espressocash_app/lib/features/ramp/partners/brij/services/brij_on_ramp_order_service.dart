@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../../data/db/db.dart';
 import '../../../../../utils/errors.dart';
 import '../../../../accounts/auth_scope.dart';
+import '../../../../accounts/models/ec_wallet.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
@@ -26,12 +27,14 @@ class BrijOnRampOrderService implements Disposable {
   BrijOnRampOrderService(
     this._db,
     this._kycRepository,
+    this._ecWallet,
     this._kycSharingService,
     this._analytics,
   );
 
   final MyDatabase _db;
   final KycRepository _kycRepository;
+  final ECWallet _ecWallet;
   final KycSharingService _kycSharingService;
   final AnalyticsManager _analytics;
 
@@ -128,6 +131,7 @@ class BrijOnRampOrderService implements Disposable {
             fiatAmount: submittedAmount.decimal.toDouble(),
             fiatCurrency: submittedAmount.currency.symbol,
             partnerPK: partnerAuthPk,
+            cryptoWalletAddress: _ecWallet.publicKey.toString(),
           );
 
           final order = OnRampOrderRow(
