@@ -1,3 +1,7 @@
+## 1.145.0
+
+ - **FEAT**: add wallet address  (#1687).
+
 ## 1.144.0
 
  - **FIX**: coinflow response parsing (#1686).
