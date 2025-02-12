@@ -71,15 +71,16 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   }
 
   void _handleQuoteUpdate() {
+    if (!mounted) return;
+
     final quote = sl<QuoteService>().value;
     if (quote == null) {
-      // Handle null quote (error or invalid input)
+      // TODO(VS): Handle null quote (error or invalid input)
       _outputAmountController.text = '';
 
       return;
     }
 
-    // Update UI with quote information
     setState(() {
       _outputAmountController.text = quote.seed.output.decimal.toString();
     });
@@ -98,12 +99,13 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     sl<QuoteService>().updateInput(
       inputAmount: inputAmount,
       outputToken: _outputToken,
-      slippage: Slippage.zpFive, // TODO
+      slippage: Slippage.zpFive, // TODO(VS): verify if this is correct
     );
   }
 
   @override
   void dispose() {
+    sl<QuoteService>().removeListener(_handleQuoteUpdate);
     sl<QuoteService>().clear();
     _inputAmountController.dispose();
     _outputAmountController.dispose();
@@ -146,6 +148,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     await _updateRate(_inputToken, _outputToken);
   }
 
+  // TODO(VS): refactor this
   Future<void> _updateRate(Token inputToken, Token outputToken) async {
     await sl<ConversionRatesRepository>()
         .refresh(defaultFiatCurrency, [inputToken, outputToken]);
@@ -469,6 +472,7 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
         ],
       );
 
+  // TODO(VS): refactor this
   String get _buildUsdcAmountText {
     final amount = num.tryParse(widget.controller.text);
     if (amount == null) return '0.00';
@@ -476,6 +480,7 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
     return (amount * widget.fiatRate.decimal.toDouble()).toStringAsFixed(2);
   }
 
+  // TODO(VS): refactor this
   bool _isMax() =>
       (num.tryParse(
             widget.controller.text,

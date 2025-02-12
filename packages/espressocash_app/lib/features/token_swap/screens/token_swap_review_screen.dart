@@ -2,13 +2,20 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../di.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
+import '../../conversion_rates/data/repository.dart';
+import '../../conversion_rates/services/amount_ext.dart';
+import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 import '../models/swap_route.dart';
+import '../models/swap_seed.dart';
 
 class TokenSwapReviewScreen extends StatelessWidget {
   const TokenSwapReviewScreen({
@@ -30,8 +37,33 @@ class TokenSwapReviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = DeviceLocale.localeOf(context);
+
     final input = route.seed.input;
     final output = route.seed.output;
+
+    final provider = route.providerLabel;
+    final slippage = route.seed.slippage.toPercent();
+    final feesInUsdc = route.fee.format(
+      locale,
+      roundInteger: true,
+    );
+    final priceImpact = route.priceImpact;
+    final platformFeePercent = route.platformFeePercent;
+
+    final payUsdAmount = input
+        .toFiatAmount(
+          defaultFiatCurrency,
+          ratesRepository: sl<ConversionRatesRepository>(),
+        )
+        ?.format(locale);
+
+    final receiveUsdAmount = output
+        .toFiatAmount(
+          defaultFiatCurrency,
+          ratesRepository: sl<ConversionRatesRepository>(),
+        )
+        ?.format(locale);
 
     return Scaffold(
       backgroundColor: CpColors.deepGreyColor,
@@ -51,23 +83,33 @@ class TokenSwapReviewScreen extends StatelessWidget {
                 children: [
                   _TokensInfo(
                     payToken: input.cryptoCurrency.token,
-                    payAmount: input.value.toString(),
-                    payUsdAmount: '',
+                    payAmount: input.decimal.toString(),
+                    payUsdAmount: payUsdAmount ?? '',
                     receiveToken: output.cryptoCurrency.token,
-                    receiveAmount: output.value.toString(),
-                    receiveUsdAmount: '',
+                    receiveAmount: output.decimal.toString(),
+                    receiveUsdAmount: receiveUsdAmount ?? '',
                   ),
                   SizedBox(height: 36.h),
-                  const _SwapInfo(
-                    provider: '',
+                  _SwapInfo(
+                    provider: provider,
                     bestPrice: '',
-                    fees: '',
-                    slippage: '',
-                    priceImpact: '',
+                    fees: feesInUsdc,
+                    slippage: '$slippage%',
+                    priceImpact: '$priceImpact%',
+                  ),
+                  SizedBox(height: 16.h),
+                  Text(
+                    context.l10n.espressoCashFee(platformFeePercent),
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: CpColors.greyColor,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                   const Spacer(),
                   CpBottomButton(
                     text: context.l10n.swap,
+                    // TODO(VS): add create swap
                     onPressed: () {},
                   ),
                 ],
@@ -101,14 +143,14 @@ class _TokensInfo extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         children: [
           _TokenRow(
-            label: 'You Pay',
+            label: context.l10n.youPay,
             token: payToken,
             amount: payAmount,
             usdAmount: payUsdAmount,
           ),
           const Divider(color: CpColors.darkDividerColor, thickness: 1),
           _TokenRow(
-            label: 'You Receive',
+            label: context.l10n.youReceive,
             token: receiveToken,
             amount: receiveAmount,
             usdAmount: receiveUsdAmount,
@@ -225,12 +267,12 @@ class _SwapInfo extends StatelessWidget {
         child: Column(
           children: [
             _InfoItem(
-              label: 'Provider',
+              label: context.l10n.provider,
               value: provider,
             ),
             SizedBox(height: 6.h),
             _InfoItem(
-              label: 'Best Price',
+              label: context.l10n.bestPrice,
               value: bestPrice,
             ),
             SizedBox(height: 6.h),
@@ -240,12 +282,12 @@ class _SwapInfo extends StatelessWidget {
             ),
             SizedBox(height: 6.h),
             _InfoItem(
-              label: 'Slippage',
+              label: context.l10n.slippage,
               value: slippage,
             ),
             SizedBox(height: 6.h),
             _InfoItem(
-              label: 'Price Impact',
+              label: context.l10n.priceImpact,
               value: priceImpact,
             ),
           ],
@@ -279,7 +321,7 @@ class _InfoItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
-                color: CpColors.deepGreyColor,
+                color: CpColors.greyColor,
               ),
             ),
           ],

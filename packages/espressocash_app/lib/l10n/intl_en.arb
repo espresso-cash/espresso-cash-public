@@ -1241,5 +1241,21 @@
     "youPay": "You Pay",
     "@youPay": {},
     "youReceive": "You Receive",
-    "@youReceive": {}
+    "@youReceive": {},
+    "provider": "Provider",
+    "@provider": {},
+    "bestPrice": "Best Price",
+    "@bestPrice": {},
+    "slippage": "Slippage",
+    "@slippage": {},
+    "priceImpact": "Price Impact",
+    "@priceImpact": {},
+    "espressoCashFee": "{percent}% Espresso Cash fee included",
+    "@espressoCashFee": {
+      "placeholders": {
+        "percent": {
+          "type": "double"
+        }
+      }
+    }
 }

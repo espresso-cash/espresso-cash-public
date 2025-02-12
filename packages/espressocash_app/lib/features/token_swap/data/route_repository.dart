@@ -16,11 +16,8 @@ class RouteRepository {
   Future<SwapRoute> findRoute({
     required SwapSeed seed,
     required String userPublicKey,
+    SwapMatch match = SwapMatch.inAmount,
   }) async {
-    // final swapMode = seed.amount.token == seed.inputToken
-    //     ? SwapMatch.inAmount
-    //     : SwapMatch.outAmount; //TODO
-
     final inputToken = seed.input.token;
     final outputToken = seed.output.token;
 
@@ -30,7 +27,7 @@ class RouteRepository {
         inputToken: inputToken.forJupiter.address,
         outputToken: outputToken.forJupiter.address,
         slippage: seed.slippage.toDto(),
-        match: SwapMatch.inAmount, //TODO
+        match: match,
         userAccount: userPublicKey,
         asLegacyTx: false,
       ),
@@ -45,14 +42,14 @@ class RouteRepository {
         cryptoCurrency: CryptoCurrency(token: outputToken),
         value: int.parse(route.outAmount),
       ),
-      platformFeeBps: route.platformFeeBps,
-      priceImpact: route.priceImpact,
-      providerLabel: route.providerLabel,
     );
 
     return SwapRoute(
       seed: updatedSeed,
       fee: CryptoAmount(cryptoCurrency: Currency.usdc, value: route.feeInUsdc),
+      platformFeeBps: route.platformFeeBps,
+      priceImpact: route.priceImpact,
+      providerLabel: route.providerLabel,
       encodedTx: route.encodedTx,
       slot: route.slot,
     );

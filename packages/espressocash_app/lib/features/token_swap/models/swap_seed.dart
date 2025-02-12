@@ -11,9 +11,19 @@ class SwapSeed with _$SwapSeed {
   const factory SwapSeed({
     required CryptoAmount input,
     required CryptoAmount output,
-    int? platformFeeBps,
-    String? priceImpact,
-    String? providerLabel,
     required Slippage slippage,
   }) = _SwapSeed;
+}
+
+extension SlippageX on Slippage {
+  double toPercent() {
+    switch (this) {
+      case Slippage.zpOne:
+        return 0.1;
+      case Slippage.zpFive:
+        return 0.5;
+      case Slippage.onePercent:
+        return 1.0;
+    }
+  }
 }

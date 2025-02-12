@@ -72,8 +72,7 @@ class QuoteService extends ValueNotifier<SwapRoute?> {
         userPublicKey: _wallet.address,
       );
       _expiresAt = DateTime.now().add(_quoteValidityDuration);
-    } catch (e) {
-      //TODO
+    } on Exception {
       value = null;
     }
     notifyListeners();

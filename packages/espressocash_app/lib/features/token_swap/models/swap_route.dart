@@ -10,7 +10,14 @@ class SwapRoute with _$SwapRoute {
   const factory SwapRoute({
     required SwapSeed seed,
     required CryptoAmount fee,
+    required int platformFeeBps,
+    required String priceImpact,
+    required String providerLabel,
     required String encodedTx,
     required BigInt slot,
   }) = _SwapRoute;
+}
+
+extension SwapRouteX on SwapRoute {
+  double get platformFeePercent => platformFeeBps / 100;
 }
