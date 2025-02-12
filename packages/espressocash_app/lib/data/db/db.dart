@@ -180,6 +180,9 @@ class MyDatabase extends _$MyDatabase {
               [Currency.usdc.token.address],
             );
           }
+          if (from < 62) {
+            await m.createTable(swapRows);
+          }
         },
       );
 }
