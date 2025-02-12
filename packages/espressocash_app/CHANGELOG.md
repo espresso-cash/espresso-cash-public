@@ -1,3 +1,12 @@
+## 1.145.0
+
+ - **FEAT**: add wallet address  (#1687).
+
+## 1.144.0
+
+ - **FIX**: coinflow response parsing (#1686).
+ - **FEAT**: add brij demo label (#1680).
+
 ## 1.143.0
 
  - **FEAT**: update signature handling (#1681).
