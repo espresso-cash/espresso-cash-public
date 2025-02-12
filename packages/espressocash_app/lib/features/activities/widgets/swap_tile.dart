@@ -34,7 +34,7 @@ class SwapTile extends StatelessWidget {
     final swapFrom = data.input.maybeFlatMap((it) => it.format(locale));
     final swapTo = data.output.maybeFlatMap((it) => it.format(locale));
 
-    // TODO(VS): verify if this is correct
+    // TODO(VS): Verify if correct
     return CpActivityTile(
       title: context.l10n.swap,
       subtitle: subtitle,
