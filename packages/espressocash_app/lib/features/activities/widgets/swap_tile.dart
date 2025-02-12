@@ -52,7 +52,7 @@ class SwapTile extends StatelessWidget {
         txFailure: always(CpActivityTileStatus.failure),
       ),
       onTap: () {
-        //TODO
+        // TODO(VS): Add action
       },
       showIcon: showIcon,
     );
