@@ -43,14 +43,14 @@ class TokenSwapInputScreen extends StatefulWidget {
 }
 
 class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
-  final _payAmountController = TextEditingController();
-  final _receiveAmountController = TextEditingController();
+  final _inputAmountController = TextEditingController();
+  final _outputAmountController = TextEditingController();
 
-  late Token _payToken;
-  late Token _receiveToken;
+  late Token _inputToken;
+  late Token _outputToken;
 
-  Decimal _payTokenRate = Decimal.fromInt(0);
-  Decimal _receiveTokenRate = Decimal.fromInt(0);
+  Decimal _inputTokenRate = Decimal.fromInt(0);
+  Decimal _outputTokenRate = Decimal.fromInt(0);
 
   double _amountInputWidth = 180.w;
   double _symbolInputWidth = 180.w;
@@ -60,45 +60,44 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   @override
   void initState() {
     super.initState();
-    _payToken = widget.initialToken;
-    _receiveToken = Token.usdc;
+    _inputToken = widget.initialToken;
+    _outputToken = Token.usdc;
 
-    _updateRate(_payToken, _receiveToken);
+    _updateRate(_inputToken, _outputToken);
 
     sl<QuoteService>().addListener(_handleQuoteUpdate);
 
-    _payAmountController.addListener(_handleAmountChanged);
+    _inputAmountController.addListener(_handleAmountChanged);
   }
 
   void _handleQuoteUpdate() {
     final quote = sl<QuoteService>().value;
     if (quote == null) {
       // Handle null quote (error or invalid input)
-      _receiveAmountController.text = '';
+      _outputAmountController.text = '';
 
       return;
     }
 
     // Update UI with quote information
     setState(() {
-      // Update relevant state variables
-      _receiveAmountController.text = quote.output.value.toString();
+      _outputAmountController.text = quote.seed.output.decimal.toString();
     });
   }
 
   void _updateQuote() {
-    final amount = Decimal.tryParse(_payAmountController.text);
+    final amount = Decimal.tryParse(_inputAmountController.text);
 
     if (amount == null) return;
 
     final inputAmount = Amount.fromDecimal(
       value: amount,
-      currency: CryptoCurrency(token: _payToken),
+      currency: CryptoCurrency(token: _inputToken),
     ) as CryptoAmount;
 
     sl<QuoteService>().updateInput(
       inputAmount: inputAmount,
-      outputToken: _receiveToken,
+      outputToken: _outputToken,
       slippage: Slippage.zpFive, // TODO
     );
   }
@@ -106,19 +105,19 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   @override
   void dispose() {
     sl<QuoteService>().clear();
-    _payAmountController.dispose();
-    _receiveAmountController.dispose();
+    _inputAmountController.dispose();
+    _outputAmountController.dispose();
     super.dispose();
   }
 
   void _handleAmountChanged() {
-    if (_payAmountController.text.isEmpty) {
+    if (_inputAmountController.text.isEmpty) {
       setState(() {
         _amountInputWidth = 180.w;
         _symbolInputWidth = 180.w;
         _isExpanded = false;
       });
-      _receiveAmountController.text = '';
+      _outputAmountController.text = '';
 
       return;
     }
@@ -133,30 +132,30 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   }
 
   Future<void> _handleSwitchTokens() async {
-    final tempToken = _payToken;
-    final tempAmount = _payAmountController.text;
+    final tempToken = _inputToken;
+    final tempAmount = _inputAmountController.text;
     if (!mounted) return;
 
     setState(() {
-      _payToken = _receiveToken;
-      _receiveToken = tempToken;
-      _payAmountController.text = _receiveAmountController.text;
-      _receiveAmountController.text = tempAmount;
+      _inputToken = _outputToken;
+      _outputToken = tempToken;
+      _inputAmountController.text = _outputAmountController.text;
+      _outputAmountController.text = tempAmount;
     });
 
-    await _updateRate(_payToken, _receiveToken);
+    await _updateRate(_inputToken, _outputToken);
   }
 
-  Future<void> _updateRate(Token payToken, Token receiveToken) async {
+  Future<void> _updateRate(Token inputToken, Token outputToken) async {
     await sl<ConversionRatesRepository>()
-        .refresh(defaultFiatCurrency, [_payToken, _receiveToken]);
-    _payTokenRate = sl<ConversionRatesRepository>().readRate(
-          CryptoCurrency(token: payToken),
+        .refresh(defaultFiatCurrency, [inputToken, outputToken]);
+    _inputTokenRate = sl<ConversionRatesRepository>().readRate(
+          CryptoCurrency(token: _inputToken),
           to: defaultFiatCurrency,
         ) ??
         Decimal.zero;
-    _receiveTokenRate = sl<ConversionRatesRepository>().readRate(
-          CryptoCurrency(token: receiveToken),
+    _outputTokenRate = sl<ConversionRatesRepository>().readRate(
+          CryptoCurrency(token: _outputToken),
           to: defaultFiatCurrency,
         ) ??
         Decimal.zero;
@@ -175,13 +174,13 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
         builder: (context, value) {
           final crypto = value.$1;
 
-          final fiatRatePay = Amount.fromDecimal(
-            value: _payTokenRate,
+          final fiatRateInput = Amount.fromDecimal(
+            value: _inputTokenRate,
             currency: Currency.usd,
           );
 
-          final fiatRateReceive = Amount.fromDecimal(
-            value: _receiveTokenRate,
+          final fiatRateOutput = Amount.fromDecimal(
+            value: _outputTokenRate,
             currency: Currency.usd,
           );
 
@@ -221,9 +220,9 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                                 duration: const Duration(milliseconds: 300),
                                 width: _amountInputWidth,
                                 child: _TokenAmountInput(
-                                  controller: _payAmountController,
+                                  controller: _inputAmountController,
                                   crypto: crypto,
-                                  fiatRate: fiatRatePay,
+                                  fiatRate: fiatRateInput,
                                   showMaxButton: true,
                                 ),
                               ),
@@ -235,13 +234,13 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                                 child: TokenPicker(
                                   title: context.l10n.youPay,
                                   onSubmitted: (value) async {
-                                    await _updateRate(value, _receiveToken);
+                                    await _updateRate(value, _outputToken);
                                     if (!mounted) return;
                                     setState(() {
-                                      _payToken = value;
+                                      _inputToken = value;
                                     });
                                   },
-                                  token: _payToken,
+                                  token: _inputToken,
                                   isExpanded: !_isExpanded,
                                 ),
                               ),
@@ -301,9 +300,9 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                                 duration: const Duration(milliseconds: 300),
                                 width: _amountInputWidth,
                                 child: _TokenAmountInput(
-                                  controller: _receiveAmountController,
+                                  controller: _outputAmountController,
                                   crypto: crypto,
-                                  fiatRate: fiatRateReceive,
+                                  fiatRate: fiatRateOutput,
                                   showMaxButton: false,
                                 ),
                               ),
@@ -313,12 +312,12 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                                 height: _inputHeight,
                                 child: TokenPicker(
                                   title: context.l10n.youReceive,
-                                  token: _receiveToken,
+                                  token: _outputToken,
                                   onSubmitted: (value) async {
-                                    await _updateRate(_payToken, value);
+                                    await _updateRate(_inputToken, value);
                                     if (!mounted) return;
                                     setState(() {
-                                      _receiveToken = value;
+                                      _outputToken = value;
                                     });
                                   },
                                   isExpanded: !_isExpanded,
@@ -331,19 +330,28 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                     ),
                     Expanded(
                       child: AmountKeypad(
-                        controller: _payAmountController,
-                        maxDecimals: _payToken.decimals,
+                        controller: _inputAmountController,
+                        maxDecimals: _inputToken.decimals,
                       ),
                     ),
                     SizedBox(height: 16.h),
                     CpBottomButton(
                       text: context.l10n.reviewSwap,
                       onPressed: () {
-                        //TODO get route from service
+                        final quoteService = sl<QuoteService>();
+                        final route = quoteService.value;
+                        final expiresAt = quoteService.expiresAt;
 
-                        // TokenSwapReviewScreen.push(
-                        // context,
-                        // route: );
+                        if (route == null ||
+                            expiresAt == null ||
+                            DateTime.now().isAfter(expiresAt)) {
+                          return;
+                        }
+
+                        TokenSwapReviewScreen.push(
+                          context,
+                          route: route,
+                        );
                       },
                     ),
                     SizedBox(height: 24.h),
@@ -381,6 +389,12 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
   void initState() {
     super.initState();
     widget.controller.addListener(_quantityListener);
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_quantityListener);
+    super.dispose();
   }
 
   void _quantityListener() {

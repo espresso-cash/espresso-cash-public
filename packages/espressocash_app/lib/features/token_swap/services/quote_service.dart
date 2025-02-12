@@ -10,10 +10,11 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../data/route_repository.dart';
+import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
 
 @Singleton(scope: authScope)
-class QuoteService extends ValueNotifier<SwapQuote?> {
+class QuoteService extends ValueNotifier<SwapRoute?> {
   QuoteService(this._repository, this._wallet) : super(null);
 
   final RouteRepository _repository;
@@ -23,6 +24,10 @@ class QuoteService extends ValueNotifier<SwapQuote?> {
 
   Timer? _refreshTimer;
   Timer? _debounceTimer;
+
+  DateTime? _expiresAt;
+
+  DateTime? get expiresAt => _expiresAt;
 
   void updateInput({
     required CryptoAmount inputAmount,
@@ -39,10 +44,6 @@ class QuoteService extends ValueNotifier<SwapQuote?> {
           ) as CryptoAmount,
           input: inputAmount,
           slippage: slippage,
-          // TODO: make nullable
-          platformFeeBps: 0,
-          priceImpact: '0',
-          providerLabel: '0',
         ),
       ),
     );
@@ -66,17 +67,11 @@ class QuoteService extends ValueNotifier<SwapQuote?> {
 
   Future<void> _fetchQuote(SwapSeed input) async {
     try {
-      final quote = await _repository.findRoute(
+      value = await _repository.findRoute(
         seed: input,
         userPublicKey: _wallet.address,
       );
-
-      value = SwapQuote(
-        input: quote.seed.input,
-        output: quote.seed.output,
-        fee: quote.fee,
-        expiresAt: DateTime.now().add(_quoteValidityDuration),
-      );
+      _expiresAt = DateTime.now().add(_quoteValidityDuration);
     } catch (e) {
       //TODO
       value = null;
@@ -98,18 +93,4 @@ class QuoteService extends ValueNotifier<SwapQuote?> {
 
     super.dispose();
   }
-}
-
-class SwapQuote {
-  const SwapQuote({
-    required this.input,
-    required this.output,
-    required this.fee,
-    required this.expiresAt,
-  });
-
-  final CryptoAmount input;
-  final CryptoAmount output;
-  final CryptoAmount fee;
-  final DateTime expiresAt;
 }
