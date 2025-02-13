@@ -24,13 +24,13 @@ class SwapRepository {
   final MyDatabase _db;
 
   Future<Swap?> load(String id) {
-    final query = _db.select(_db.swapRows)..where((p) => p.id.equals(id));
+    final query = _db.select(_db.tokenSwapRows)..where((p) => p.id.equals(id));
 
     return query.getSingleOrNull().then((row) => row?.toModel());
   }
 
   Future<List<Swap>> getAllPending() {
-    final query = _db.select(_db.swapRows)
+    final query = _db.select(_db.tokenSwapRows)
       ..where((p) => p.status.equalsValue(SwapStatusDto.success).not());
 
     return query
@@ -39,7 +39,7 @@ class SwapRepository {
   }
 
   Stream<List<Swap>> watchAllPending() {
-    final query = _db.select(_db.swapRows)
+    final query = _db.select(_db.tokenSwapRows)
       ..where((p) => p.status.equalsValue(SwapStatusDto.success).not());
 
     return query
@@ -48,15 +48,15 @@ class SwapRepository {
   }
 
   Stream<Swap?> watch(String id) {
-    final query = _db.select(_db.swapRows)..where((p) => p.id.equals(id));
+    final query = _db.select(_db.tokenSwapRows)..where((p) => p.id.equals(id));
 
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel());
   }
 
   Future<void> save(Swap payment) =>
-      _db.into(_db.swapRows).insertOnConflictUpdate(payment.toDto());
+      _db.into(_db.tokenSwapRows).insertOnConflictUpdate(payment.toDto());
 
-  Future<void> clear() => _db.delete(_db.swapRows).go();
+  Future<void> clear() => _db.delete(_db.tokenSwapRows).go();
 
   Stream<IList<Swap>> watchTxCreated() => _watchWithStatuses([
         SwapStatusDto.txCreated,
@@ -69,7 +69,7 @@ class SwapRepository {
   Stream<IList<Swap>> _watchWithStatuses(
     Iterable<SwapStatusDto> statuses,
   ) {
-    final query = _db.select(_db.swapRows)
+    final query = _db.select(_db.tokenSwapRows)
       ..where((p) => p.status.isInValues(statuses));
 
     return query
@@ -79,8 +79,8 @@ class SwapRepository {
   }
 }
 
-class SwapRows extends Table with EntityMixin, TxStatusMixin {
-  const SwapRows();
+class TokenSwapRows extends Table with EntityMixin, TxStatusMixin {
+  const TokenSwapRows();
 
   IntColumn get status => intEnum<SwapStatusDto>()();
   IntColumn get inputAmount => integer()();
@@ -104,7 +104,7 @@ enum SlippageDto {
   onePercent,
 }
 
-extension SwapRowExt on SwapRow {
+extension SwapRowExt on TokenSwapRow {
   Future<Swap> toModel() async => Swap(
         id: id,
         status: status.toModel(this),
@@ -134,7 +134,7 @@ extension SwapRowExt on SwapRow {
 }
 
 extension on SwapStatusDto {
-  SwapStatus toModel(SwapRow row) {
+  SwapStatus toModel(TokenSwapRow row) {
     final tx = row.tx?.let(SignedTx.decode);
     final slot = row.slot?.let(BigInt.tryParse);
 
@@ -167,11 +167,11 @@ extension on SlippageDto {
 }
 
 extension on Swap {
-  SwapRow toDto() {
+  TokenSwapRow toDto() {
     final input = data.input;
     final output = data.output;
 
-    return SwapRow(
+    return TokenSwapRow(
       id: id,
       created: created,
       status: status.toDto(),

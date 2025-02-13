@@ -42,7 +42,7 @@ const _tables = [
   TokenBalanceRows,
   ConversionRatesRows,
   TokenRows,
-  SwapRows,
+  TokenSwapRows,
 ];
 
 @lazySingleton
@@ -181,7 +181,7 @@ class MyDatabase extends _$MyDatabase {
             );
           }
           if (from < 62) {
-            await m.createTable(swapRows);
+            await m.createTable(tokenSwapRows);
           }
         },
       );
