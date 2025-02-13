@@ -107,7 +107,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     sl<QuoteService>().updateInput(
       inputAmount: inputAmount,
       outputToken: _outputToken,
-      slippage: Slippage.zpFive, 
+      slippage: Slippage.zpFive,
     );
   }
 
@@ -158,7 +158,6 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     await _updateRate(_inputToken, _outputToken);
   }
 
-  // TODO(VS): refactor this
   Future<void> _updateRate(Token inputToken, Token outputToken) async {
     await sl<ConversionRatesRepository>()
         .refresh(defaultFiatCurrency, [inputToken, outputToken]);
@@ -436,6 +435,7 @@ class _TokenAmountInput extends StatefulWidget {
 class _TokenAmountInputState extends State<_TokenAmountInput> {
   bool _showEquivalent = false;
   double _textHeight = 1.2;
+  bool _isMax = false;
 
   @override
   void initState() {
@@ -450,9 +450,12 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
   }
 
   void _quantityListener() {
+    final value = num.tryParse(widget.controller.text);
     final isValueValid = widget.controller.text.isNotEmpty;
 
     setState(() {
+      _isMax = value != null && value == widget.crypto.decimal.toDouble();
+
       if (isValueValid) {
         _textHeight = 0.9;
         _showEquivalent = true;
@@ -462,6 +465,10 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
       }
     });
   }
+
+  void _handleMaxPress() => _isMax
+      ? widget.controller.clear()
+      : widget.controller.text = '${widget.crypto.decimal}';
 
   @override
   Widget build(BuildContext context) => Stack(
@@ -490,11 +497,8 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
                   if (widget.showMaxButton) ...[
                     SizedBox(width: 12.w),
                     CpButton(
-                      onPressed: _isMax()
-                          ? () => widget.controller.clear()
-                          : () => widget.controller.text =
-                              '${widget.crypto.decimal}',
-                      text: _isMax() ? 'Clear' : 'Max',
+                      onPressed: _handleMaxPress,
+                      text: _isMax ? context.l10n.clear : context.l10n.max,
                       minWidth: 54,
                       size: CpButtonSize.small,
                       variant: CpButtonVariant.inverted,
@@ -521,21 +525,10 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
         ],
       );
 
-  // TODO(VS): refactor this
-  String get _buildUsdcAmountText {
-    final amount = num.tryParse(widget.controller.text);
-    if (amount == null) return '0.00';
-
-    return (amount * widget.fiatRate.decimal.toDouble()).toStringAsFixed(2);
-  }
-
-  // TODO(VS): refactor this
-  bool _isMax() =>
-      (num.tryParse(
-            widget.controller.text,
-          ) ??
-          -1) ==
-      widget.crypto.decimal.toDouble();
+  String get _buildUsdcAmountText =>
+      ((num.tryParse(widget.controller.text) ?? 0) *
+              widget.fiatRate.decimal.toDouble())
+          .toStringAsFixed(2);
 }
 
 class _LoadingIndicator extends StatelessWidget {

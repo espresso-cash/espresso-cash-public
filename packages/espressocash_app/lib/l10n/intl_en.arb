@@ -1257,5 +1257,9 @@
           "type": "double"
         }
       }
-    }
+    },
+    "clear": "Clear",
+    "@clear": {},
+    "max": "Max",
+    "@max": {}
 }
