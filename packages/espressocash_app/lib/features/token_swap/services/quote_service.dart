@@ -77,8 +77,8 @@ class QuoteService extends ValueNotifier<QuoteState> {
       );
       _expiresAt = DateTime.now().add(_quoteValidityDuration);
       value = Flow.success(route);
-    } on Exception catch (e) {
-      value = Flow.failure(e);
+    } on Exception catch (error) {
+      value = Flow.failure(error);
     }
     notifyListeners();
   }
