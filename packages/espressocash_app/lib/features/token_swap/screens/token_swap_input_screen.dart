@@ -6,17 +6,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/loader.dart';
 import '../../../ui/scaling_text.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
+import '../../../utils/flow.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
@@ -73,17 +77,23 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   void _handleQuoteUpdate() {
     if (!mounted) return;
 
-    final quote = sl<QuoteService>().value;
-    if (quote == null) {
-      // TODO(VS): Handle null quote (error or invalid input)
-      _outputAmountController.text = '';
+    final quoteState = sl<QuoteService>().value;
 
-      return;
+    switch (quoteState) {
+      case FlowSuccess(:final result):
+        final output = result.seed.output;
+        setState(() {
+          _outputAmountController.text =
+              output.format(context.locale, maxDecimals: 2, skipSymbol: true);
+        });
+
+      case FlowFailure(:final error):
+        // TODO(VS): Handle error state, add dialog popup
+        _outputAmountController.text = '';
+
+      default:
+        break;
     }
-
-    setState(() {
-      _outputAmountController.text = quote.seed.output.decimal.toString();
-    });
   }
 
   void _updateQuote() {
@@ -105,8 +115,10 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
   @override
   void dispose() {
-    sl<QuoteService>().removeListener(_handleQuoteUpdate);
-    sl<QuoteService>().clear();
+    sl<QuoteService>()
+      ..removeListener(_handleQuoteUpdate)
+      ..clear();
+
     _inputAmountController.dispose();
     _outputAmountController.dispose();
     super.dispose();
@@ -191,6 +203,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
             child: Scaffold(
               appBar: CpAppBar(
                 title: Text(context.l10n.swap),
+                nextButton: const _LoadingIndicator(),
               ),
               backgroundColor: CpColors.deepGreyColor,
               body: SafeArea(
@@ -338,22 +351,38 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                       ),
                     ),
                     SizedBox(height: 16.h),
-                    CpBottomButton(
-                      text: context.l10n.reviewSwap,
-                      onPressed: () {
-                        final quoteService = sl<QuoteService>();
-                        final route = quoteService.value;
-                        final expiresAt = quoteService.expiresAt;
+                    ListenableBuilder(
+                      listenable: sl<QuoteService>(),
+                      builder: (context, _) {
+                        final state = sl<QuoteService>().value;
 
-                        if (route == null ||
-                            expiresAt == null ||
-                            DateTime.now().isAfter(expiresAt)) {
-                          return;
-                        }
+                        return CpBottomButton(
+                          text: context.l10n.reviewSwap,
+                          onPressed: state.isSuccess
+                              ? () {
+                                  final quoteService = sl<QuoteService>();
+                                  final quoteState = quoteService.value;
+                                  final expiresAt = quoteService.expiresAt;
 
-                        TokenSwapReviewScreen.push(
-                          context,
-                          route: route,
+                                  if (!quoteState.isSuccess ||
+                                      expiresAt == null ||
+                                      DateTime.now().isAfter(expiresAt)) {
+                                    return;
+                                  }
+
+                                  final route = switch (quoteState) {
+                                    FlowSuccess(:final result) => result,
+                                    _ => null,
+                                  };
+
+                                  if (route == null) return;
+
+                                  TokenSwapReviewScreen.push(
+                                    context,
+                                    route: route,
+                                  );
+                                }
+                              : null,
                         );
                       },
                     ),
@@ -487,6 +516,18 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
           ) ??
           -1) ==
       widget.crypto.decimal.toDouble();
+}
+
+class _LoadingIndicator extends StatelessWidget {
+  const _LoadingIndicator();
+
+  @override
+  Widget build(BuildContext context) => ListenableBuilder(
+        listenable: sl<QuoteService>(),
+        builder: (context, _) => sl<QuoteService>().value.isProcessing
+            ? const LoadingIndicator()
+            : const SizedBox.shrink(),
+      );
 }
 
 const _inputHeight = 72.0;

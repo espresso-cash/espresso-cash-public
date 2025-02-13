@@ -4,6 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../utils/flow.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
@@ -13,9 +14,11 @@ import '../data/route_repository.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
 
+typedef QuoteState = Flow<Exception, SwapRoute>;
+
 @Singleton(scope: authScope)
-class QuoteService extends ValueNotifier<SwapRoute?> {
-  QuoteService(this._repository, this._wallet) : super(null);
+class QuoteService extends ValueNotifier<QuoteState> {
+  QuoteService(this._repository, this._wallet) : super(const Flow.initial());
 
   final RouteRepository _repository;
   final ECWallet _wallet;
@@ -53,7 +56,7 @@ class QuoteService extends ValueNotifier<SwapRoute?> {
     _refreshTimer?.cancel();
 
     if (input.input.decimal == Decimal.zero) {
-      value = null;
+      value = const Flow.initial();
 
       return;
     }
@@ -66,14 +69,16 @@ class QuoteService extends ValueNotifier<SwapRoute?> {
   }
 
   Future<void> _fetchQuote(SwapSeed input) async {
+    value = const Flow.processing();
     try {
-      value = await _repository.findRoute(
+      final route = await _repository.findRoute(
         seed: input,
         userPublicKey: _wallet.address,
       );
       _expiresAt = DateTime.now().add(_quoteValidityDuration);
-    } on Exception {
-      value = null;
+      value = Flow.success(route);
+    } on Exception catch (e) {
+      value = Flow.failure(e);
     }
     notifyListeners();
   }
@@ -81,15 +86,15 @@ class QuoteService extends ValueNotifier<SwapRoute?> {
   void clear() {
     _refreshTimer?.cancel();
     _debounceTimer?.cancel();
-    value = null;
+    value = const Flow.initial();
   }
 
   @override
   @disposeMethod
   void dispose() {
+    super.dispose();
+
     _refreshTimer?.cancel();
     _debounceTimer?.cancel();
-
-    super.dispose();
   }
 }
