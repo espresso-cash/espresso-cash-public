@@ -82,13 +82,11 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     switch (quoteState) {
       case FlowSuccess(:final result):
         final output = result.seed.output;
-        setState(() {
-          _outputAmountController.text =
-              output.format(context.locale, maxDecimals: 2, skipSymbol: true);
-        });
 
-      case FlowFailure(:final error):
-        // TODO(VS): Handle error state, add dialog popup
+        _outputAmountController.text =
+            output.format(context.locale, maxDecimals: 2, skipSymbol: true);
+
+      case FlowFailure():
         _outputAmountController.text = '';
 
       default:
@@ -109,7 +107,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     sl<QuoteService>().updateInput(
       inputAmount: inputAmount,
       outputToken: _outputToken,
-      slippage: Slippage.zpFive, // TODO(VS): verify if this is correct
+      slippage: Slippage.zpFive, 
     );
   }
 
@@ -299,12 +297,34 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(left: 25.w),
-                            child: Text(
-                              context.l10n.youReceive,
-                              style: TextStyle(
-                                fontSize: 17.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  context.l10n.youReceive,
+                                  style: TextStyle(
+                                    fontSize: 17.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SizedBox(width: 8.w),
+                                ListenableBuilder(
+                                  listenable: sl<QuoteService>(),
+                                  builder: (context, _) {
+                                    final state = sl<QuoteService>().value;
+                                    if (state case FlowFailure()) {
+                                      return Text(
+                                        'Failed to get quote',
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: CpColors.alertRedColor,
+                                        ),
+                                      );
+                                    }
+
+                                    return const SizedBox.shrink();
+                                  },
+                                ),
+                              ],
                             ),
                           ),
                           SizedBox(height: 8.h),
