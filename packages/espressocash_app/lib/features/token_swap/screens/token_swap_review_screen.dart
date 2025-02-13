@@ -16,6 +16,7 @@ import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
+import '../widgets/extensions.dart';
 
 class TokenSwapReviewScreen extends StatelessWidget {
   const TokenSwapReviewScreen({
@@ -109,8 +110,7 @@ class TokenSwapReviewScreen extends StatelessWidget {
                   const Spacer(),
                   CpBottomButton(
                     text: context.l10n.swap,
-                    // TODO(VS): add create swap
-                    onPressed: () {},
+                    onPressed: () => context.createSwap(route),
                   ),
                 ],
               ),
