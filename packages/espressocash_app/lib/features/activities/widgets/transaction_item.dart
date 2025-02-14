@@ -89,6 +89,7 @@ class _TransactionItemState extends State<TransactionItem> {
               swap: (it) => SwapTile(
                 key: ValueKey(it.id),
                 activity: it,
+                showIcon: widget.showIcon,
               ),
             ),
           );

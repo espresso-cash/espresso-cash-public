@@ -1261,5 +1261,16 @@
     "clear": "Clear",
     "@clear": {},
     "max": "Max",
-    "@max": {}
+    "@max": {},
+    "swapSuccess": "Successfully swapped {from} to {to}",
+    "@swapSuccess": {
+      "placeholders": {
+        "from": {"type": "String"},
+        "to": {"type": "String"}
+      }
+    },
+    "swap_lblCancelConfirmationTitle": "Cancel Swap",
+    "@swap_lblCancelConfirmationTitle": {},
+    "swap_lblCancelConfirmationSubtitle": "Are you sure you want to cancel this swap?",
+    "@swap_lblCancelConfirmationSubtitle": {}
 }

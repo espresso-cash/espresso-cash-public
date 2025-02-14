@@ -5,6 +5,7 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../token_swap/screens/swap_details_screen.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 import '../models/activity.dart';
@@ -31,14 +32,12 @@ class SwapTile extends StatelessWidget {
 
     final subtitle = '${inputToken.symbol}-${outputToken.symbol}';
 
-    final swapFrom = data.input.maybeFlatMap((it) => it.format(locale));
-    final swapTo = data.output.maybeFlatMap((it) => it.format(locale));
+    final swapTo =
+        data.output.maybeFlatMap((it) => it.format(locale, maxDecimals: 2));
 
-    // TODO(VS): Verify if correct
     return CpActivityTile(
       title: context.l10n.swap,
       subtitle: subtitle,
-      outgoingAmount: swapFrom,
       incomingAmount: swapTo,
       timestamp: context.formatDate(activity.created),
       icon: _SwapIcon(
@@ -51,9 +50,7 @@ class SwapTile extends StatelessWidget {
         success: always(CpActivityTileStatus.success),
         txFailure: always(CpActivityTileStatus.failure),
       ),
-      onTap: () {
-        // TODO(VS): Add action
-      },
+      onTap: () => SwapDetailsScreen.push(context, id: activity.id),
       showIcon: showIcon,
     );
   }

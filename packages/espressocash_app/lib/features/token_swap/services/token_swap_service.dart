@@ -68,6 +68,13 @@ class TokenSwapService {
     return swap;
   }
 
+  Future<void> cancel(String id) async {
+    final payment = await _repository.load(id);
+    if (payment == null || !payment.isCancelable) return;
+
+    await _repository.delete(id);
+  }
+
   Future<SwapStatus> _createTx({
     required SwapRoute route,
     required ECWallet account,

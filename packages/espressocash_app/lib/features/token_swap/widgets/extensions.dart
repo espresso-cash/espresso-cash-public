@@ -15,4 +15,10 @@ extension BuildContextExt on BuildContext {
 
         return swap.id;
       });
+
+  Future<void> cancelSwap({required String id}) =>
+      runWithLoader(this, () async {
+        await sl<TokenSwapService>().cancel(id);
+        Navigator.pop(this);
+      });
 }

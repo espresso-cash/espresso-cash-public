@@ -49,3 +49,7 @@ class SwapStatus with _$SwapStatus {
     required TxFailureReason reason,
   }) = SwapStatusTxFailure;
 }
+
+extension SwapExt on Swap {
+  bool get isCancelable => status is SwapStatusTxFailure;
+}

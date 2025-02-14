@@ -53,6 +53,10 @@ class SwapRepository {
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel());
   }
 
+  Future<void> delete(String id) async {
+    await (_db.delete(_db.tokenSwapRows)..where((p) => p.id.equals(id))).go();
+  }
+
   Future<void> save(Swap payment) =>
       _db.into(_db.tokenSwapRows).insertOnConflictUpdate(payment.toDto());
 
