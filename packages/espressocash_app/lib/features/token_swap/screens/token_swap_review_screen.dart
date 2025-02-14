@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,6 +16,7 @@ import '../../tokens/widgets/token_icon.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
 import '../widgets/extensions.dart';
+import 'swap_details_screen.dart';
 
 class TokenSwapReviewScreen extends StatelessWidget {
   const TokenSwapReviewScreen({
@@ -24,7 +24,7 @@ class TokenSwapReviewScreen extends StatelessWidget {
     required this.route,
   });
 
-  static Future<Decimal?> push(
+  static Future<bool?> push(
     BuildContext context, {
     required SwapRoute route,
   }) =>
@@ -118,7 +118,14 @@ class TokenSwapReviewScreen extends StatelessWidget {
                   const Spacer(),
                   CpBottomButton(
                     text: context.l10n.swap,
-                    onPressed: () => context.createSwap(route),
+                    onPressed: () async {
+                      final id = await context.createSwap(route);
+
+                      if (!context.mounted) return;
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      SwapDetailsScreen.push(context, id: id);
+                    },
                   ),
                 ],
               ),

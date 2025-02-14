@@ -16,7 +16,6 @@ class RouteRepository {
   Future<SwapRoute> findRoute({
     required SwapSeed seed,
     required String userPublicKey,
-    SwapMatch match = SwapMatch.inAmount,
   }) async {
     final inputToken = seed.input.token;
     final outputToken = seed.output.token;
@@ -27,7 +26,7 @@ class RouteRepository {
         inputToken: inputToken.forJupiter.address,
         outputToken: outputToken.forJupiter.address,
         slippage: seed.slippage.toDto(),
-        match: match,
+        match: SwapMatch.inAmount,
         userAccount: userPublicKey,
         asLegacyTx: false,
       ),
