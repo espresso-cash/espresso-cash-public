@@ -49,8 +49,15 @@ class TokenSwapReviewScreen extends StatelessWidget {
       locale,
       roundInteger: true,
     );
-    final priceImpact = route.priceImpact;
+    final priceImpact = double.parse(route.priceImpact).floor().toString();
     final platformFeePercent = route.platformFeePercent;
+
+    final ratio =
+        (output.decimal / input.decimal).toDouble().toStringAsFixed(2);
+
+    final bestPrice = '1 ${input.cryptoCurrency.token.symbol} = '
+        '$ratio '
+        '${output.cryptoCurrency.token.symbol}';
 
     final payUsdAmount = input
         .toFiatAmount(
@@ -82,18 +89,19 @@ class TokenSwapReviewScreen extends StatelessWidget {
               ) =>
                   Column(
                 children: [
+                  SizedBox(height: 24.h),
                   _TokensInfo(
                     payToken: input.cryptoCurrency.token,
-                    payAmount: input.decimal.toString(),
+                    payAmount: input.format(locale),
                     payUsdAmount: payUsdAmount ?? '',
                     receiveToken: output.cryptoCurrency.token,
-                    receiveAmount: output.decimal.toString(),
+                    receiveAmount: output.format(locale),
                     receiveUsdAmount: receiveUsdAmount ?? '',
                   ),
                   SizedBox(height: 36.h),
                   _SwapInfo(
                     provider: provider,
-                    bestPrice: '',
+                    bestPrice: bestPrice,
                     fees: feesInUsdc,
                     slippage: '$slippage%',
                     priceImpact: '$priceImpact%',
@@ -148,6 +156,7 @@ class _TokensInfo extends StatelessWidget {
             amount: payAmount,
             usdAmount: payUsdAmount,
           ),
+          SizedBox(height: 16.h),
           const Divider(color: CpColors.darkDividerColor, thickness: 1),
           _TokenRow(
             label: context.l10n.youReceive,
@@ -197,27 +206,14 @@ class _TokenRow extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Flexible(
-                              child: Text(
-                                amount,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              ' ${token.symbol}',
-                              style: TextStyle(
-                                fontSize: 17.sp,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          amount,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                         SizedBox(height: 2.h),
                         Text(
