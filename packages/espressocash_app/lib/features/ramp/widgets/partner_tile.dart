@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
-import '../../feature_flags/data/feature_flags_manager.dart';
 import '../../ramp_partner/models/payment_methods.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../ramp_partner/models/ramp_type.dart';
@@ -53,11 +51,7 @@ class PartnerTile extends StatelessWidget {
             title: Padding(
               padding: const EdgeInsets.only(bottom: 4),
               child: Text(
-                partner.title +
-                    (partner == RampPartner.brij &&
-                            sl<FeatureFlagsManager>().isBrijDemoEnabled()
-                        ? ' (Demo)'
-                        : ''),
+                partner.title,
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,

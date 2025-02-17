@@ -9,7 +9,6 @@ import 'package:injectable/injectable.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
@@ -19,9 +18,11 @@ import '../utils/kyc_utils.dart';
 
 @Singleton(scope: authScope)
 class KycSharingService extends ValueNotifier<UserData?> {
-  KycSharingService(this._kycRepository) : super(null);
+  KycSharingService(this._kycRepository, this._featureFlagsManager)
+      : super(null);
 
   final KycRepository _kycRepository;
+  final FeatureFlagsManager _featureFlagsManager;
 
   StreamSubscription<void>? _pollingSubscription;
 
@@ -34,7 +35,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   @PostConstruct()
   void init() {
-    if (!sl<FeatureFlagsManager>().isBrijEnabled()) return;
+    if (!_featureFlagsManager.isBrijEnabled()) return;
 
     _initializeKyc();
   }
