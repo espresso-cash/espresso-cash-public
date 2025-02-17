@@ -10,7 +10,6 @@ import '../../../ui/colors.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../authenticated/widgets/portfolio_widget.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -243,7 +242,7 @@ class _TokenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fiatAmountText = context.portfolioTotalAmountText(
+    final fiatAmountText = context.formatFiatAmount(
       fiatAmount,
       _minFiatAmount,
     );
@@ -300,6 +299,20 @@ class _TokenItem extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+extension FiatAmountExtension on BuildContext {
+  String formatFiatAmount(FiatAmount? fiatAmount, num minFiatAmount) {
+    if (fiatAmount != null) {
+      if (fiatAmount.value < minFiatAmount) {
+        return r'<$0.01';
+      }
+
+      return fiatAmount.format(locale, maxDecimals: 2);
+    }
+
+    return '-';
   }
 }
 
