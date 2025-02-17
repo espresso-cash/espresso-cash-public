@@ -428,13 +428,12 @@ class _Timeline extends StatelessWidget {
           : context.l10n.offRampWithdrawSent,
     );
     final isScalexBrij = order.partner == RampPartner.scalexBrij;
-
-    final brijArrving = CpTimelineItem(
+    final brijAmountArriving = CpTimelineItem(
       title: context.l10n.scalexBrijOfframpArriving,
     );
 
     final paymentSuccess = isScalexBrij
-        ? brijArrving
+        ? brijAmountArriving
         : CpTimelineItem(
             title: context.l10n.offRampWithdrawReceived,
             trailing: showReceiveAmount
