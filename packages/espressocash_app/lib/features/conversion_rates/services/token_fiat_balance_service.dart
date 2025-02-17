@@ -70,9 +70,11 @@ class TokenFiatBalanceService {
         }
       });
 
-  Stream<IList<CryptoFiatAmount>> watchInvestmentBalances() =>
+  Stream<IList<CryptoFiatAmount>> watchInvestmentBalances({
+    List<Token> ignoreTokens = const [],
+  }) =>
       _balancesRepository
-          .watchTokenBalances(ignoreTokens: [Token.usdc])
+          .watchTokenBalances(ignoreTokens: ignoreTokens)
           .flatMap(
             (cryptoAmounts) => Rx.combineLatest(
               cryptoAmounts.map((c) => watch(c.token).map((fiat) => (c, fiat))),

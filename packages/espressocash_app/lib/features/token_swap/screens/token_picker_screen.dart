@@ -1,3 +1,4 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/db/db.dart';
@@ -8,6 +9,9 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
+import '../../../ui/value_stream_builder.dart';
+import '../../authenticated/widgets/portfolio_widget.dart';
+import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
@@ -56,7 +60,7 @@ class TokenPickerScreen extends StatelessWidget {
               ),
             ),
           ),
-          body: const _Content(initial: Token.usdc),
+          body: _Content(initial: initial),
         ),
       );
 }
@@ -72,6 +76,7 @@ class _Content extends StatefulWidget {
 
 class _ContentState extends State<_Content> {
   late final Future<List<TokenRow>> _tokensFuture;
+  final _balanceService = sl<TokenFiatBalanceService>();
 
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
@@ -82,8 +87,25 @@ class _ContentState extends State<_Content> {
   @override
   void initState() {
     super.initState();
-    _tokensFuture = sl<TokenRepository>().getAll();
     _selectedToken = widget.initial;
+    _tokensFuture = sl<TokenRepository>().getAll();
+
+    _tokensFuture.then((tokens) {
+      if (_selectedToken != null && mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final index = tokens.indexWhere(
+            (t) => t.toModel().address == _selectedToken?.address,
+          );
+          if (index == -1 || !mounted) return;
+
+          const itemHeight = _tileHeight + _tilePadding;
+          final centerOffset = ((context.size?.height ?? 0) - itemHeight) / 2.5;
+          final offset = index * itemHeight - centerOffset;
+
+          _scrollController.jumpTo(offset);
+        });
+      }
+    });
 
     _searchController.addListener(() {
       setState(() => _searchText = _searchController.text);
@@ -104,8 +126,7 @@ class _ContentState extends State<_Content> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             child: CpTextField(
               controller: _searchController,
-              padding:
-                  const EdgeInsets.symmetric(vertical: 16, horizontal: 14.75),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
               fontSize: 16,
               border: CpTextFieldBorder.stadium,
               placeholder: context.l10n.searchPlaceholder,
@@ -130,10 +151,10 @@ class _ContentState extends State<_Content> {
                 }
 
                 if (snapshot.hasError) {
-                  return const Center(
+                  return Center(
                     child: Text(
-                      'Error loading tokens',
-                      style: TextStyle(color: Colors.white),
+                      context.l10n.errorLoadingTokens,
+                      style: const TextStyle(color: Colors.white),
                     ),
                   );
                 }
@@ -157,42 +178,49 @@ class _ContentState extends State<_Content> {
                           ),
                         ),
                       )
-                    : ListView.separated(
-                        controller: _scrollController,
-                        padding: EdgeInsets.only(
-                          left: 20,
-                          right: 20,
-                          top: 20,
-                          bottom: MediaQuery.paddingOf(context).bottom,
+                    : ValueStreamBuilder<IList<CryptoFiatAmount>>(
+                        create: () => (
+                          _balanceService.watchInvestmentBalances(),
+                          const IListConst([]),
                         ),
-                        itemCount: filteredTokens.length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 8),
-                        itemBuilder: (BuildContext context, int index) {
-                          final token = filteredTokens[index];
-                          final selected = token.toModel() == _selectedToken;
+                        builder: (context, balances) => ListView.separated(
+                          controller: _scrollController,
+                          padding: EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                            top: 20,
+                            bottom: MediaQuery.paddingOf(context).bottom,
+                          ),
+                          itemCount: filteredTokens.length,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: _tilePadding),
+                          itemBuilder: (BuildContext context, int index) {
+                            final token = filteredTokens[index];
+                            final selected = token.toModel().address ==
+                                _selectedToken?.address;
 
-                          return DecoratedBox(
-                            decoration: selected
-                                ? const ShapeDecoration(
-                                    color:
-                                        CpColors.blackTextFieldBackgroundColor,
-                                    shape: StadiumBorder(),
-                                  )
-                                : const BoxDecoration(),
-                            child: _TokenItem(
-                              cryptoAmount: CryptoAmount(
-                                value: 0,
-                                cryptoCurrency:
-                                    CryptoCurrency(token: token.toModel()),
+                            final balance = balances.firstWhere(
+                              (b) =>
+                                  b.$1.token.address == token.toModel().address,
+                              orElse: () => (
+                                CryptoAmount(
+                                  value: 0,
+                                  cryptoCurrency: CryptoCurrency(
+                                    token: token.toModel(),
+                                  ),
+                                ),
+                                null,
                               ),
-                              fiatAmount: const FiatAmount(
-                                value: 0,
-                                fiatCurrency: defaultFiatCurrency,
-                              ),
-                            ),
-                          );
-                        },
+                            );
+
+                            return _TokenItem(
+                              key: ValueKey(balance.$1.token),
+                              isSelected: selected,
+                              cryptoAmount: balance.$1,
+                              fiatAmount: balance.$2,
+                            );
+                          },
+                        ),
                       );
               },
             ),
@@ -203,34 +231,41 @@ class _ContentState extends State<_Content> {
 
 class _TokenItem extends StatelessWidget {
   const _TokenItem({
+    super.key,
     required this.cryptoAmount,
     required this.fiatAmount,
+    required this.isSelected,
   });
 
   final CryptoAmount cryptoAmount;
-  final FiatAmount fiatAmount;
-
-  static const double _iconSize = 36.0;
-  static const double _minFiatAmount = 0.01;
+  final FiatAmount? fiatAmount;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
-    String fiatAmountText;
+    final fiatAmountText = context.portfolioTotalAmountText(
+      fiatAmount,
+      _minFiatAmount,
+    );
 
-    fiatAmountText = fiatAmount.value < _minFiatAmount
-        ? r''
-        : fiatAmount.format(context.locale, maxDecimals: 2);
-
-    return _Card(
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: ShapeDecoration(
+        color: isSelected
+            ? CpColors.blackTextFieldBackgroundColor
+            : CpColors.blackGreyColor,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+      ),
       child: ListTile(
         key: key,
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
         dense: true,
         horizontalTitleGap: 4,
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(_iconSize / 2),
-          child: TokenIcon(token: cryptoAmount.token, size: _iconSize),
-        ),
+        leading: TokenIcon(token: cryptoAmount.token, size: _iconSize),
         onTap: () => Navigator.pop(context, cryptoAmount.token),
         title: Text(
           cryptoAmount.token.name,
@@ -241,34 +276,35 @@ class _TokenItem extends StatelessWidget {
           ),
           overflow: TextOverflow.ellipsis,
         ),
-        trailing: Text(
-          fiatAmountText,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+        trailing: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              fiatAmountText,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              cryptoAmount.format(context.locale),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class _Card extends StatelessWidget {
-  const _Card({required this.child});
-  final Widget child;
+const _tileHeight = 64.0;
+const _tilePadding = 8.0;
+const _iconSize = 36.0;
 
-  @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.all(4),
-        decoration: const ShapeDecoration(
-          color: CpColors.blackGreyColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-          ),
-        ),
-        child: child,
-      );
-}
+const double _minFiatAmount = 0.01;
