@@ -1272,5 +1272,7 @@
     "swap_lblCancelConfirmationTitle": "Cancel Swap",
     "@swap_lblCancelConfirmationTitle": {},
     "swap_lblCancelConfirmationSubtitle": "Are you sure you want to cancel this swap?",
-    "@swap_lblCancelConfirmationSubtitle": {}
+    "@swap_lblCancelConfirmationSubtitle": {},
+    "errorLoadingTokens": "Error loading tokens",
+    "@errorLoadingTokens": {}
 }
