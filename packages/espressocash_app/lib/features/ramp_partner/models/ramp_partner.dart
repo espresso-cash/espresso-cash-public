@@ -64,14 +64,14 @@ enum RampPartner {
   ),
 
   brij(
-    title: 'Brij Network',
+    title: 'Brij Network (DEMO)',
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
     partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
   ),
 
   scalexBrij(
-    title: 'Scalex',
+    title: 'Scalex (via BRIJ)',
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
     partnerPK: '342yN5YEX6bgGaTCuprVquFXhpZ8twyPzBo5kMZWQpDQ',

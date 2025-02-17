@@ -12,8 +12,8 @@ import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/errors.dart';
+import '../data/ambassador_service.dart';
 import '../models/ambassador_referral.dart';
-import '../services/ambassador_service.dart';
 import '../widgets/ambassador_page.dart';
 import 'ambassador_result_screen.dart';
 
