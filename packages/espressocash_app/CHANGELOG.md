@@ -1,3 +1,8 @@
+## 1.146.0
+
+ - **FEAT**: updated brij ramp text (#1689).
+ - **FEAT**: coinflow api dto (#1688).
+
 ## 1.145.0
 
  - **FEAT**: add wallet address  (#1687).
