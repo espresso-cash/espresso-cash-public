@@ -10,8 +10,8 @@ import '../../../ui/colors.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
@@ -59,20 +59,6 @@ class TokenSwapReviewScreen extends StatelessWidget {
         '$ratio '
         '${output.cryptoCurrency.token.symbol}';
 
-    final payUsdAmount = input
-        .toFiatAmount(
-          defaultFiatCurrency,
-          ratesRepository: sl<ConversionRatesRepository>(),
-        )
-        ?.format(locale);
-
-    final receiveUsdAmount = output
-        .toFiatAmount(
-          defaultFiatCurrency,
-          ratesRepository: sl<ConversionRatesRepository>(),
-        )
-        ?.format(locale);
-
     return Scaffold(
       backgroundColor: CpColors.deepGreyColor,
       appBar: CpAppBar(
@@ -91,12 +77,8 @@ class TokenSwapReviewScreen extends StatelessWidget {
                 children: [
                   SizedBox(height: 24.h),
                   _TokensInfo(
-                    payToken: input.cryptoCurrency.token,
-                    payAmount: input.format(locale),
-                    payUsdAmount: payUsdAmount ?? '',
-                    receiveToken: output.cryptoCurrency.token,
-                    receiveAmount: output.format(locale),
-                    receiveUsdAmount: receiveUsdAmount ?? '',
+                    payAmount: input,
+                    receiveAmount: output,
                   ),
                   SizedBox(height: 36.h),
                   _SwapInfo(
@@ -139,37 +121,25 @@ class TokenSwapReviewScreen extends StatelessWidget {
 
 class _TokensInfo extends StatelessWidget {
   const _TokensInfo({
-    required this.payToken,
     required this.payAmount,
-    required this.payUsdAmount,
-    required this.receiveToken,
     required this.receiveAmount,
-    required this.receiveUsdAmount,
   });
 
-  final Token payToken;
-  final String payAmount;
-  final String payUsdAmount;
-  final Token receiveToken;
-  final String receiveAmount;
-  final String receiveUsdAmount;
+  final CryptoAmount payAmount;
+  final CryptoAmount receiveAmount;
 
   @override
   Widget build(BuildContext context) => Column(
         children: [
           _TokenRow(
             label: context.l10n.youPay,
-            token: payToken,
             amount: payAmount,
-            usdAmount: payUsdAmount,
           ),
           SizedBox(height: 16.h),
           const Divider(color: CpColors.darkDividerColor, thickness: 1),
           _TokenRow(
             label: context.l10n.youReceive,
-            token: receiveToken,
             amount: receiveAmount,
-            usdAmount: receiveUsdAmount,
           ),
         ],
       );
@@ -178,68 +148,73 @@ class _TokensInfo extends StatelessWidget {
 class _TokenRow extends StatelessWidget {
   const _TokenRow({
     required this.label,
-    required this.token,
     required this.amount,
-    required this.usdAmount,
   });
 
   final String label;
-  final Token token;
-  final String amount;
-  final String usdAmount;
+  final CryptoAmount amount;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.only(left: 56.w, right: 20.w, top: 16.h),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: MediaQuery.sizeOf(context).width / 3,
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w500,
-                ),
+  Widget build(BuildContext context) {
+    final usdAmount = amount
+        .toFiatAmount(
+          defaultFiatCurrency,
+          ratesRepository: sl<ConversionRatesRepository>(),
+        )
+        ?.format(context.locale);
+
+    return Padding(
+      padding: EdgeInsets.only(left: 56.w, right: 20.w, top: 16.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width / 3,
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 17.sp,
+                fontWeight: FontWeight.w500,
               ),
             ),
-            Expanded(
-              child: Row(
-                children: [
-                  TokenIcon(token: token, size: 42.w),
-                  SizedBox(width: 12.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          amount,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                TokenIcon(token: amount.token, size: 42.w),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        amount.format(context.locale),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w700,
                         ),
-                        SizedBox(height: 2.h),
-                        Text(
-                          usdAmount,
-                          maxLines: 2,
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
+                      ),
+                      SizedBox(height: 2.h),
+                      Text(
+                        usdAmount ?? '',
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w400,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _SwapInfo extends StatelessWidget {
