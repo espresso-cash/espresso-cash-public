@@ -12,6 +12,7 @@ import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../token_details/screens/token_details_screen.dart';
+import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 
 class PortfolioWidget extends StatefulWidget {
@@ -32,7 +33,8 @@ class _PortfolioWidgetState extends State<PortfolioWidget>
 
     return ValueStreamBuilder<IList<CryptoFiatAmount>>(
       create: () => (
-        sl<TokenFiatBalanceService>().watchInvestmentBalances(),
+        sl<TokenFiatBalanceService>()
+            .watchInvestmentBalances(ignoreTokens: [Token.usdc]),
         const IListConst([]),
       ),
       builder: (context, balances) {
