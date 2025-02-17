@@ -1,3 +1,7 @@
+## 1.147.0
+
+ - **FEAT**: enable brij for ambassadors (#1690).
+
 ## 1.146.0
 
  - **FEAT**: updated brij ramp text (#1689).
