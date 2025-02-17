@@ -427,12 +427,21 @@ class _Timeline extends StatelessWidget {
           ? context.l10n.moneygramCashAvailable
           : context.l10n.offRampWithdrawSent,
     );
-    final paymentSuccess = CpTimelineItem(
-      title: context.l10n.offRampWithdrawReceived,
-      trailing:
-          showReceiveAmount ? receiveAmount?.format(context.locale) : null,
-      subtitle: order.resolved?.let((t) => context.formatDate(t)),
+    final isScalexBrij = order.partner == RampPartner.scalexBrij;
+    final brijAmountArriving = CpTimelineItem(
+      title: context.l10n.scalexBrijOfframpArriving,
     );
+
+    final paymentSuccess = isScalexBrij
+        ? brijAmountArriving
+        : CpTimelineItem(
+            title: context.l10n.offRampWithdrawReceived,
+            trailing: showReceiveAmount
+                ? receiveAmount?.format(context.locale)
+                : null,
+            subtitle: order.resolved?.let((t) => context.formatDate(t)),
+          );
+
     final paymentCanceled = CpTimelineItem(
       title: context.l10n.offRampWithdrawCancelledTitle,
       trailing: isMoneygramOrder

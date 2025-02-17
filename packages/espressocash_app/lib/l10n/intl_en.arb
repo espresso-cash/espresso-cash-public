@@ -1225,5 +1225,9 @@
     "balance": "Balance",
     "@balance": {},
     "noRecentActivity": "No recent activity",
-    "@noRecentActivity": {}
+    "@noRecentActivity": {},
+    "scalexBrijOnrampArriving": "Deposit successfully processed. Your balance will update in a few minutes.",
+    "@scalexBrijOnrampArriving": {},
+    "scalexBrijOfframpArriving": "Withdrawal successfully processed. Your balance will update in a few minutes.",
+    "@scalexBrijOfframpArriving": {}
 }
