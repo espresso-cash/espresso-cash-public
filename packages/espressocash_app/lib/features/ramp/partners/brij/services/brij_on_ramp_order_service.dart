@@ -122,7 +122,7 @@ class BrijOnRampOrderService implements Disposable {
   }) =>
       tryEitherAsync((_) async {
         {
-          final partnerAuthPk = partner.partnerPK ?? '';
+          final partnerAuthPk = partner.brijParams?.partnerPK ?? '';
           await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
           final orderId = await _kycRepository.createOnRampOrder(
