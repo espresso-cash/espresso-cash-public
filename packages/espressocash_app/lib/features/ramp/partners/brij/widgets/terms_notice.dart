@@ -9,67 +9,63 @@ import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 
-Future<void> showTermsAndPolicyDialog(
+Future<bool> showTermsAndPolicyDialog(
   BuildContext context, {
   required RampPartner partner,
-  required VoidCallback onConfirm,
-}) async {
-  await showCustomDialog(
-    context,
-    title: Text(
-      context.l10n.brijTermsAndPolicyTitle,
-      style: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w500,
+}) async =>
+    await showCustomDialog<bool?>(
+      context,
+      title: Text(
+        context.l10n.brijTermsAndPolicyTitle,
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+        ),
       ),
-    ),
-    message: MarkdownBody(
-      data: context.l10n.brijTermsAndPolicyMessage,
-      styleSheet: MarkdownStyleSheet(
-        textAlign: WrapAlignment.center,
-        a: _markdownStyle.copyWith(
-          color: CpColors.yellowColor,
-          fontWeight: FontWeight.w700,
+      message: MarkdownBody(
+        data: context.l10n.brijTermsAndPolicyMessage,
+        styleSheet: MarkdownStyleSheet(
+          textAlign: WrapAlignment.center,
+          a: _markdownStyle.copyWith(
+            color: CpColors.yellowColor,
+            fontWeight: FontWeight.w700,
+          ),
+          p: _markdownStyle,
         ),
-        p: _markdownStyle,
+        onTapLink: (_, href, __) {
+          final url = switch (href) {
+            'partner-terms' => partner.brijParams?.termsUrl,
+            'data-sharing-agreement' => partner.brijParams?.privacyUrl,
+            _ => null
+          };
+
+          if (url == null) return;
+
+          WebViewScreen.push(context, url: Uri.parse(url));
+        },
       ),
-      onTapLink: (_, href, __) {
-        final url = switch (href) {
-          'partner-terms' => partner.brijParams?.termsUrl,
-          'data-sharing-agreement' => partner.brijParams?.privacyUrl,
-          _ => null
-        };
-
-        if (url == null) return;
-
-        WebViewScreen.push(context, url: Uri.parse(url));
-      },
-    ),
-    actions: Row(
-      children: [
-        Expanded(
-          child: CpButton(
-            text: context.l10n.core_btnCancel,
-            width: 150,
-            variant: CpButtonVariant.muted,
-            onPressed: () => Navigator.pop(context),
+      actions: Row(
+        children: [
+          Expanded(
+            child: CpButton(
+              text: context.l10n.core_btnCancel,
+              width: 150,
+              variant: CpButtonVariant.muted,
+              onPressed: () => Navigator.pop(context, false),
+            ),
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: CpButton(
-            text: context.l10n.iAgree_btn,
-            width: 150,
-            onPressed: () {
-              Navigator.pop(context);
-              onConfirm();
-            },
+          const SizedBox(width: 16),
+          Expanded(
+            child: CpButton(
+              text: context.l10n.iAgree_btn,
+              width: 150,
+              onPressed: () => Navigator.pop(context, true),
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    ) ??
+    false;
 
 final _markdownStyle = TextStyle(
   fontStyle: FontStyle.normal,

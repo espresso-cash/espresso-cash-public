@@ -243,7 +243,7 @@ extension BuildContextExt on BuildContext {
   }
 
   void _showPendingKycDialog() {
-    showCustomDialog(
+    showCustomDialog<void>(
       this,
       title: EcMarkdownText(
         text: l10n.pendingKycDialogTitle.toUpperCase(),
