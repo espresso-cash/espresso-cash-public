@@ -254,8 +254,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     }
   }
 
-  Future<bool> isPartnerAccessGranted(String partnerPk) =>
-      _kycRepository.isPartnerAccessGranted(partnerPk);
+  Future<bool> hasGrantedAccess(String partnerPk) =>
+      _kycRepository.hasGrantedAccess(partnerPk);
 
   @override
   @disposeMethod

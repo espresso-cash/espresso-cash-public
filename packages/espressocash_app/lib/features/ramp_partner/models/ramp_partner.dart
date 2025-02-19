@@ -81,8 +81,8 @@ enum RampPartner {
     paymentMethods: [PaymentMethod.bank],
     brijParams: BrijParams(
       partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
-      termsUrl: 'https://brij.network/terms',
-      privacyUrl: 'https://brij.network/privacy',
+      termsUrl: '',
+      privacyUrl: '',
     ),
   ),
 
