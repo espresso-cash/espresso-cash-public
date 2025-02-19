@@ -150,12 +150,14 @@ class KycSharingService extends ValueNotifier<UserData?> {
     required String bankAccountNumber,
     required String bankCode,
     String? bankName,
+    String? countryCode,
   }) async {
     await _kycRepository.updateUserData(
       bankInfo: BankInfo(
         accountNumber: bankAccountNumber,
         bankCode: bankCode,
         bankName: bankName ?? '',
+        countryCode: countryCode ?? '',
         id: value?.bankInfo?.id ?? '',
       ),
     );

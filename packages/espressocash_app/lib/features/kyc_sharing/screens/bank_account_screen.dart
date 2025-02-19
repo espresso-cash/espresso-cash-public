@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
+import '../../country_picker/models/country.dart';
+import '../../country_picker/widgets/country_picker.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/kyc_header.dart';
@@ -31,20 +34,26 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
   final _bankCodeController = TextEditingController();
   final _bankNameController = TextEditingController();
 
+  Country? _country;
+
   bool get _isValid =>
       _bankAccountNumberController.text.trim().isNotEmpty &&
       _bankCodeController.text.trim().isNotEmpty &&
-      _bankNameController.text.trim().isNotEmpty;
+      _bankNameController.text.trim().isNotEmpty &&
+      _country != null;
 
   Future<void> _handleSubmitted() async {
     final success = await runWithLoader<bool>(
       context,
       () async {
         try {
+          final countryCode = _country?.code;
+
           await sl<KycSharingService>().updateBankInfo(
             bankAccountNumber: _bankAccountNumberController.text,
             bankCode: _bankCodeController.text,
             bankName: _bankNameController.text,
+            countryCode: countryCode,
           );
 
           return true;
@@ -69,6 +78,8 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
     super.initState();
 
     final user = sl<KycSharingService>().value;
+
+    _country = Country.findByCode(user?.countryCode ?? '');
 
     _bankAccountNumberController.text = user?.accountNumber ?? '';
     _bankCodeController.text = user?.bankCode ?? '';
@@ -107,6 +118,12 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
             controller: _bankNameController,
             inputType: TextInputType.name,
             placeholder: context.l10n.bankName,
+          ),
+          const SizedBox(height: 12),
+          CountryPicker(
+            backgroundColor: CpColors.blackGreyColor,
+            country: _country,
+            onSubmitted: (country) => setState(() => _country = country),
           ),
           const SizedBox(height: 16),
           const Spacer(),
