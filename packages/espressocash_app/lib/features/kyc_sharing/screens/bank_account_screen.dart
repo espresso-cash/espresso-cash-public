@@ -73,7 +73,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
 
     _bankAccountNumberController.text = user?.accountNumber ?? '';
 
-    final initialBank = nigerianBanks.firstWhereOrNull(
+    final initialBank = scalexBanks.firstWhereOrNull(
       (bank) => bank.code == user?.bankCode,
     );
 

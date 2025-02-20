@@ -29,7 +29,7 @@ class BankTextField extends StatelessWidget {
             await CustomPickerScreen.push<Bank>(
               context: context,
               title: context.l10n.selectBank,
-              items: nigerianBanks,
+              items: scalexBanks,
               initial: initialBank,
               itemBuilder: (context, bank, {required bool selected}) => Row(
                 children: [
