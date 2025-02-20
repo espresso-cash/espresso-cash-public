@@ -31,12 +31,26 @@ class BankTextField extends StatelessWidget {
               title: context.l10n.selectBank,
               items: nigerianBanks,
               initial: initialBank,
-              itemBuilder: (context, bank, {required bool selected}) => Text(
-                bank.name,
-                style: TextStyle(
-                  fontSize: selected ? 19 : 17,
-                  color: Colors.white,
-                ),
+              itemBuilder: (context, bank, {required bool selected}) => Row(
+                children: [
+                  SizedBox(
+                    width: 70,
+                    child: Text(
+                      bank.code,
+                      style: TextStyle(
+                        fontSize: selected ? 19 : 17,
+                        color: CpColors.yellowColor,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    bank.name,
+                    style: TextStyle(
+                      fontSize: selected ? 19 : 17,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
               onTap: (bank, _) async {
                 onBankChanged?.call(bank);
