@@ -63,7 +63,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     final phoneStatus = user?.phone?.status;
     final nameStatus = user?.name?.status;
     final birthDateStatus = user?.birthDate?.status;
-    final documentStatus = user?.document?.status;
+    // TODO(vs): This should be flexible for multiple documents
+    final documentStatus = user?.documents?.first.status;
     final selfieStatus = user?.selfie?.status;
 
     value = value?.copyWith(
@@ -79,10 +80,13 @@ class KycSharingService extends ValueNotifier<UserData?> {
       birthDate: birthDateStatus != null
           ? value?.birthDate?.copyWith(status: birthDateStatus)
           : value?.birthDate,
-      document: documentStatus != null
-          ? value?.document?.copyWith(status: documentStatus)
-          : value?.document,
-      bankInfo: value?.bankInfo,
+      // TODO(vs): This should be flexible for multiple documents
+      documents: [
+        ...?value?.documents,
+        if (documentStatus != null)
+          value?.documents?.first.copyWith(status: documentStatus),
+      ],
+      bankInfos: value?.bankInfos,
       selfie: selfieStatus != null
           ? value?.selfie?.copyWith(status: selfieStatus)
           : value?.selfie,
@@ -139,7 +143,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
         type: idType?.toIdType() ?? IdType.other,
         number: idNumber ?? '',
         countryCode: countryCode ?? '',
-        id: value?.document?.id ?? '',
+        // TODO(vs): This should be flexible for multiple documents
+        id: value?.documents?.first.id ?? '',
       ),
     );
 
@@ -149,16 +154,17 @@ class KycSharingService extends ValueNotifier<UserData?> {
   Future<void> updateBankInfo({
     required String bankAccountNumber,
     required String bankCode,
+    required String countryCode,
     String? bankName,
-    String? countryCode,
   }) async {
     await _kycRepository.updateUserData(
       bankInfo: BankInfo(
         accountNumber: bankAccountNumber,
         bankCode: bankCode,
         bankName: bankName ?? '',
-        countryCode: countryCode ?? '',
-        id: value?.bankInfo?.id ?? '',
+        countryCode: countryCode,
+        // TODO(vs): This should be flexible for multiple bankInfos
+        id: value?.bankInfos?.first.id ?? '',
       ),
     );
 
@@ -169,7 +175,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     await _kycRepository.initKycVerification(
       nameId: value?.name?.id ?? '',
       birthDateId: value?.birthDate?.id ?? '',
-      documentId: value?.document?.id ?? '',
+      // TODO(vs): This should be flexible for multiple documents
+      documentId: value?.documents?.first.id ?? '',
       selfieImageId: value?.selfie?.id ?? '',
     );
 

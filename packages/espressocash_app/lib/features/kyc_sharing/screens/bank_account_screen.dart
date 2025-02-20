@@ -53,7 +53,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
             bankAccountNumber: _bankAccountNumberController.text,
             bankCode: _bankCodeController.text,
             bankName: _bankNameController.text,
-            countryCode: countryCode,
+            countryCode: countryCode ?? '',
           );
 
           return true;

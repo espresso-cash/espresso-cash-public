@@ -19,19 +19,23 @@ extension UserDataExtensions on UserData {
   String? get getEmail => email?.value.nullIfEmpty;
   String? get getPhone => phone?.value.nullIfEmpty;
 
-  IdType? get documentType => document?.type;
-  String? get documentNumber => document?.number.nullIfEmpty;
-  String? get countryCode => document?.countryCode.nullIfEmpty;
+  // TODO(vs): This should be flexible for multiple documents
+  IdType? get documentType => documents?.firstOrNull?.type;
+  String? get documentNumber => documents?.firstOrNull?.number.nullIfEmpty;
+  String? get countryCode => documents?.firstOrNull?.countryCode.nullIfEmpty;
 
   Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
 
-  String? get bankCode => bankInfo?.bankCode.nullIfEmpty;
-  String? get bankName => bankInfo?.bankName.nullIfEmpty;
-  String? get accountNumber => bankInfo?.accountNumber.nullIfEmpty;
+  // TODO(vs): This should be flexible for multiple bankInfos
+  String? get bankCode => bankInfos?.firstOrNull?.bankCode.nullIfEmpty;
+  String? get bankName => bankInfos?.firstOrNull?.bankName.nullIfEmpty;
+  String? get accountNumber =>
+      bankInfos?.firstOrNull?.accountNumber.nullIfEmpty;
 
   ValidationStatus get kycStatus {
+    // TODO(vs): This should be flexible for multiple documents
     final statuses = [
-      document?.status,
+      documents?.firstOrNull?.status,
       name?.status,
       selfie?.status,
       birthDate?.status,
@@ -57,10 +61,11 @@ extension UserDataExtensions on UserData {
   ValidationStatus get emailStatus =>
       email?.status ?? ValidationStatus.unspecified;
 
+  // TODO(vs): This should be flexible for multiple bankInfos
   bool get hasBankInfo =>
-      (bankInfo?.bankCode.isNotEmpty ?? false) &&
-      (bankInfo?.accountNumber.isNotEmpty ?? false) &&
-      (bankInfo?.bankName.isNotEmpty ?? false);
+      (bankInfos?.firstOrNull?.bankCode.isNotEmpty ?? false) &&
+      (bankInfos?.firstOrNull?.accountNumber.isNotEmpty ?? false) &&
+      (bankInfos?.firstOrNull?.bankName.isNotEmpty ?? false);
 }
 
 extension StringNullIfEmpty on String {
