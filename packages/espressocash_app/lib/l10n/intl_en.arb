@@ -938,10 +938,6 @@
     "@bankAccount": {},
     "accountNumber": "Account Number",
     "@accountNumber": {},
-    "bankCode": "Bank Code",
-    "@bankCode": {},
-    "bankName": "Bank Name",
-    "@bankName": {},
     "basicInformation": "Basic Information",
     "@basicInformation": {},
     "firstName": "First Name",
@@ -1229,5 +1225,7 @@
     "scalexBrijOnrampArriving": "Deposit successfully processed. Your balance will update in a few minutes.",
     "@scalexBrijOnrampArriving": {},
     "scalexBrijOfframpArriving": "Withdrawal successfully processed. Your balance will update in a few minutes.",
-    "@scalexBrijOfframpArriving": {}
+    "@scalexBrijOfframpArriving": {},
+    "selectBank": "Select Bank",
+    "@selectBank": {}
 }
