@@ -43,11 +43,13 @@ class BankTextField extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(
-                    bank.name,
-                    style: TextStyle(
-                      fontSize: selected ? 19 : 17,
-                      color: Colors.white,
+                  Expanded(
+                    child: Text(
+                      bank.name,
+                      style: TextStyle(
+                        fontSize: selected ? 19 : 17,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
