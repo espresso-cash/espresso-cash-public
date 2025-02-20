@@ -16,6 +16,7 @@ analyzer:
   errors:
     always_use_package_imports: ignore
     avoid_relative_lib_imports: ignore
+    deprecated_member_use: ignore
     deprecated_member_use_from_same_package: ignore
 
 dart_code_metrics:
