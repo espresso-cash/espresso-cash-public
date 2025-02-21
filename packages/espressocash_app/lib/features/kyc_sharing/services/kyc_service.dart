@@ -64,7 +64,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
     final nameStatus = user?.name?.status;
     final birthDateStatus = user?.birthDate?.status;
     // TODO(vs): This should be flexible for multiple documents
-    final documentStatus = user?.documents?.first.status;
+    final documentStatus = user?.documents?.firstOrNull?.status;
     final selfieStatus = user?.selfie?.status;
 
     value = value?.copyWith(
@@ -81,11 +81,13 @@ class KycSharingService extends ValueNotifier<UserData?> {
           ? value?.birthDate?.copyWith(status: birthDateStatus)
           : value?.birthDate,
       // TODO(vs): This should be flexible for multiple documents
-      documents: [
-        ...?value?.documents,
-        if (documentStatus != null)
-          value?.documents?.first.copyWith(status: documentStatus),
-      ],
+      documents: value?.documents
+          ?.map(
+            (doc) => documentStatus != null
+                ? doc.copyWith(status: documentStatus)
+                : doc,
+          )
+          .toList(),
       bankInfos: value?.bankInfos,
       selfie: selfieStatus != null
           ? value?.selfie?.copyWith(status: selfieStatus)

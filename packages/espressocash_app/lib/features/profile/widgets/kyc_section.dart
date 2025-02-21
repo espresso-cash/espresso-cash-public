@@ -6,7 +6,6 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../country_picker/models/country.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
-import '../../kyc_sharing/screens/bank_account_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_button.dart';
@@ -53,11 +52,6 @@ class _KycInfo extends StatelessWidget {
             status: user.kycStatus,
           ),
           KycButton(
-            label: context.l10n.bankAccount,
-            description: _getBankDescription(user, context),
-            onPressed: () => BankAccountScreen.push(context),
-          ),
-          KycButton(
             label: context.l10n.emailAddress,
             description: user.getEmail,
             onPressed: context.openEmailFlow,
@@ -88,21 +82,6 @@ String? _getUserDescription(UserData user, BuildContext context) {
       context.l10n.userDescriptionItem2Text(idType.name),
     if (user.documentNumber case final documentNumber?)
       context.l10n.userDescriptionItem3Text(documentNumber),
-  ].where((s) => s.isNotEmpty);
-
-  return items.isEmpty ? null : items.join('\n');
-}
-
-String? _getBankDescription(UserData user, BuildContext context) {
-  final country = Country.findByCode(user.countryCode ?? '');
-
-  final items = [
-    if (country case final country?)
-      context.l10n.bankDescriptionItem1Text(country.name),
-    if (user.accountNumber case final accountNumber?)
-      context.l10n.bankDescriptionItem2Text(accountNumber),
-    if (user.bankCode case final bankCode?)
-      context.l10n.bankDescriptionItem3Text(bankCode),
   ].where((s) => s.isNotEmpty);
 
   return items.isEmpty ? null : items.join('\n');
