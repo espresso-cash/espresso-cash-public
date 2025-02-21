@@ -38,9 +38,7 @@ class CountryPicker extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              onTap: (country, context) async {
-                await Future.microtask(() => onSubmitted(country));
-              },
+              onTap: (country, context) async => onSubmitted(country),
             );
           },
           title: Text(
