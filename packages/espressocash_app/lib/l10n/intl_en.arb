@@ -1226,6 +1226,12 @@
     "@scalexBrijOnrampArriving": {},
     "scalexBrijOfframpArriving": "Withdrawal successfully processed. Your balance will update in a few minutes.",
     "@scalexBrijOfframpArriving": {},
+    "brijTermsAndPolicyTitle": "Terms of Use & Data Sharing",
+    "@brijTermsAndPolicyTitle": {},
+    "brijTermsAndPolicyMessage": "Deposits and withdrawals are facilitated by our payment partners. By proceeding, you consent to sharing your data with the partner solely for the purpose of processing your transaction. Read the full [Terms of Use](partner-terms) and [Data Sharing Agreement](data-sharing-agreement).",
+    "@brijTermsAndPolicyMessage": {},
+    "iAgree_btn": "I Agree",
+    "@iAgree_btn": {},
     "selectBank": "Select Bank",
     "@selectBank": {}
 }

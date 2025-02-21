@@ -183,4 +183,8 @@ class KycRepository extends ChangeNotifier {
   Future<void> grantValidatorAccess() => _initWrapper(
         () => _kycUserClient.grantPartnerAccess(_config.verifierAuthPk),
       );
+
+  Future<bool> hasGrantedAccess(String partnerPk) => _initWrapper(
+        () => _kycUserClient.hasGrantedAccess(partnerPk),
+      );
 }
