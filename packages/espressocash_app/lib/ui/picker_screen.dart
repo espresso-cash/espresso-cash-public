@@ -32,6 +32,34 @@ class CustomPickerScreen<T> extends StatelessWidget {
     this.searchPlaceholder,
   });
 
+  static Future<void> open<T>(
+    BuildContext context, {
+    NavigatorState? navigator,
+    required String title,
+    required List<T> items,
+    required ItemBuilder<T> itemBuilder,
+    T? initial,
+    Future<void> Function(T selected, BuildContext context)? onTap,
+    ItemFilter<T>? filterItem,
+    String? searchPlaceholder,
+  }) =>
+      (navigator ?? Navigator.of(context, rootNavigator: true))
+          .pushAndRemoveUntil<T>(
+        PageRouteBuilder(
+          pageBuilder: (context, _, __) => CustomPickerScreen<T>(
+            title: title,
+            items: items,
+            itemBuilder: itemBuilder,
+            initial: initial,
+            onTap: onTap,
+            filterItem: filterItem,
+            searchPlaceholder: searchPlaceholder,
+          ),
+          transitionDuration: Duration.zero,
+        ),
+        F,
+      );
+
   static Future<void> push<T>({
     required BuildContext context,
     required String title,
