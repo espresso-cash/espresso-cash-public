@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -5,8 +6,10 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
+import '../models/bank.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_utils.dart';
+import '../widgets/bank_text_field.dart';
 import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
@@ -28,13 +31,11 @@ class BankAccountScreen extends StatefulWidget {
 
 class _BankAccountScreenState extends State<BankAccountScreen> {
   final _bankAccountNumberController = TextEditingController();
-  final _bankCodeController = TextEditingController();
-  final _bankNameController = TextEditingController();
+  Bank? _selectedBank;
 
   bool get _isValid =>
       _bankAccountNumberController.text.trim().isNotEmpty &&
-      _bankCodeController.text.trim().isNotEmpty &&
-      _bankNameController.text.trim().isNotEmpty;
+      _selectedBank != null;
 
   Future<void> _handleSubmitted() async {
     final success = await runWithLoader<bool>(
@@ -43,8 +44,8 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
         try {
           await sl<KycSharingService>().updateBankInfo(
             bankAccountNumber: _bankAccountNumberController.text,
-            bankCode: _bankCodeController.text,
-            bankName: _bankNameController.text,
+            bankCode: _selectedBank?.code ?? '',
+            bankName: _selectedBank?.name ?? '',
           );
 
           return true;
@@ -71,15 +72,17 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
     final user = sl<KycSharingService>().value;
 
     _bankAccountNumberController.text = user?.accountNumber ?? '';
-    _bankCodeController.text = user?.bankCode ?? '';
-    _bankNameController.text = user?.bankName ?? '';
+
+    final initialBank = scalexBanks.firstWhereOrNull(
+      (bank) => bank.code == user?.bankCode,
+    );
+
+    _selectedBank = initialBank;
   }
 
   @override
   void dispose() {
     _bankAccountNumberController.dispose();
-    _bankCodeController.dispose();
-    _bankNameController.dispose();
     super.dispose();
   }
 
@@ -91,31 +94,20 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
             description: context.l10n.bankAccountInfoCorrectText,
           ),
           const SizedBox(height: 16),
+          BankTextField(
+            placeholder: context.l10n.selectBank,
+            initialBank: _selectedBank,
+            onBankChanged: (bank) => setState(() => _selectedBank = bank),
+          ),
+          const SizedBox(height: 16),
           KycTextField(
             controller: _bankAccountNumberController,
             inputType: TextInputType.name,
             placeholder: context.l10n.accountNumber,
           ),
-          const SizedBox(height: 12),
-          KycTextField(
-            controller: _bankCodeController,
-            inputType: TextInputType.name,
-            placeholder: context.l10n.bankCode,
-          ),
-          const SizedBox(height: 12),
-          KycTextField(
-            controller: _bankNameController,
-            inputType: TextInputType.name,
-            placeholder: context.l10n.bankName,
-          ),
-          const SizedBox(height: 16),
           const Spacer(),
           ListenableBuilder(
-            listenable: Listenable.merge([
-              _bankAccountNumberController,
-              _bankCodeController,
-              _bankNameController,
-            ]),
+            listenable: _bankAccountNumberController,
             builder: (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.next,

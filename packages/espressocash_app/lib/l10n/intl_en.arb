@@ -938,10 +938,6 @@
     "@bankAccount": {},
     "accountNumber": "Account Number",
     "@accountNumber": {},
-    "bankCode": "Bank Code",
-    "@bankCode": {},
-    "bankName": "Bank Name",
-    "@bankName": {},
     "basicInformation": "Basic Information",
     "@basicInformation": {},
     "firstName": "First Name",
@@ -1235,5 +1231,7 @@
     "brijTermsAndPolicyMessage": "Deposits and withdrawals are facilitated by our payment partners. By proceeding, you consent to sharing your data with the partner solely for the purpose of processing your transaction. Read the full [Terms of Use](partner-terms) and [Data Sharing Agreement](data-sharing-agreement).",
     "@brijTermsAndPolicyMessage": {},
     "iAgree_btn": "I Agree",
-    "@iAgree_btn": {}
+    "@iAgree_btn": {},
+    "selectBank": "Select Bank",
+    "@selectBank": {}
 }
