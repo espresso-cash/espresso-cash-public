@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/picker_screen.dart';
 import '../../../ui/text_field.dart';
-import '../models/country.dart';
-import '../screens/country_picker_screen.dart';
+import '../../country_picker/models/country.dart';
 
 class PhoneNumberTextField extends StatefulWidget {
   const PhoneNumberTextField({
@@ -72,12 +73,37 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
           padding: const EdgeInsets.only(left: 26),
           child: GestureDetector(
             onTap: () async {
-              await CountryPickerScreen.push(
-                context,
+              await CustomPickerScreen.push<Country>(
+                context: context,
+                title: context.l10n.selectCountryTitle,
+                items: Country.all,
                 initial: _selectedCountry,
-                showDialCode: true,
-                onTap: (updated, _) async {
-                  setState(() => _selectedCountry = updated);
+                itemBuilder: (context, country, {required bool selected}) =>
+                    Row(
+                  children: [
+                    SizedBox(
+                      width: 70,
+                      child: Text(
+                        country.dialCode,
+                        style: TextStyle(
+                          fontSize: selected ? 19 : 17,
+                          color: CpColors.yellowColor,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        country.name,
+                        style: TextStyle(
+                          fontSize: selected ? 19 : 17,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                onTap: (country, _) async {
+                  setState(() => _selectedCountry = country);
                   _notifyPhoneChanged();
                 },
               );
