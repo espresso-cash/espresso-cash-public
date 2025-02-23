@@ -28,13 +28,13 @@ void showErrorDialog(BuildContext context, String title, Exception e) =>
       ),
     );
 
-Future<void> showCustomDialog(
+Future<T?> showCustomDialog<T>(
   BuildContext context, {
   Widget? title,
   Widget? message,
   Widget? actions,
 }) =>
-    showModalBottomSheet(
+    showModalBottomSheet<T>(
       context: context,
       elevation: 0,
       barrierColor: _barrierColor,
