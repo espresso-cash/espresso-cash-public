@@ -7,9 +7,9 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
+import '../../../ui/picker_screen.dart';
 import '../../authenticated/screens/authenticated_flow_screen.dart';
 import '../../country_picker/models/country.dart';
-import '../../country_picker/screens/country_picker_screen.dart';
 import '../../profile/service/update_profile.dart';
 import '../data/onboarding_repository.dart';
 import 'view_recovery_phrase_screen.dart';
@@ -23,10 +23,9 @@ class OnboardingFlowScreen {
         sl<OnboardingRepository>().hasConfirmedPassphrase;
 
     if (hasConfirmedPassphrase) {
-      await CountryPickerScreen.open(
-        context,
+      await _openCountryPicker(
+        context: navigator?.context ?? context,
         navigator: navigator,
-        onTap: _updateCountry,
       );
 
       if (context.mounted) {
@@ -40,10 +39,9 @@ class OnboardingFlowScreen {
         context,
         navigator: navigator,
         onConfirmed: () async {
-          await CountryPickerScreen.open(
-            context,
+          await _openCountryPicker(
+            context: navigator?.context ?? context,
             navigator: navigator,
-            onTap: _updateCountry,
           );
 
           if (context.mounted) {
@@ -56,6 +54,26 @@ class OnboardingFlowScreen {
       );
     }
   }
+}
+
+Future<void> _openCountryPicker({
+  required BuildContext context,
+  required NavigatorState? navigator,
+}) async {
+  await CustomPickerScreen.open<Country>(
+    context,
+    navigator: navigator,
+    title: context.l10n.selectCountryTitle,
+    items: Country.all,
+    itemBuilder: (context, country, {required bool selected}) => Text(
+      country.name,
+      style: TextStyle(
+        fontSize: selected ? 19 : 17,
+        color: Colors.white,
+      ),
+    ),
+    onTap: _updateCountry,
+  );
 }
 
 Future<void> _updateCountry(Country country, BuildContext context) =>
