@@ -119,13 +119,12 @@ class KycSharingService extends ValueNotifier<UserData?> {
     _pollingSubscription = null;
   }
 
-  Future<void> updateBasicInfo({
+  // TODO(vs): It should have citizenship
+  Future<void> updatePersonalInfo({
     String? firstName,
     String? lastName,
     DateTime? dob,
-    String? idNumber,
-    DocumentType? idType,
-    String? countryCode,
+    String? citizenshipCode,
   }) async {
     await _kycRepository.grantValidatorAccess();
 
@@ -141,6 +140,21 @@ class KycSharingService extends ValueNotifier<UserData?> {
           id: value?.birthDate?.id ?? '',
         ),
       ),
+    );
+
+    await fetchUserData();
+  }
+
+  // TODO(vs): It should have document expiration date
+  Future<void> updateDocumentInfo({
+    String? idNumber,
+    DocumentType? idType,
+    DateTime? expirationDate,
+    String? countryCode,
+  }) async {
+    await _kycRepository.grantValidatorAccess();
+
+    await _kycRepository.updateUserData(
       document: Document(
         type: idType?.toIdType() ?? IdType.other,
         number: idNumber ?? '',

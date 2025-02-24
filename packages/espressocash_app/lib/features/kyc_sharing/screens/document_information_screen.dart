@@ -7,7 +7,6 @@ import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/dob_text_field.dart';
 import '../../../ui/loader.dart';
-import '../../../ui/radio_button.dart';
 import '../../../ui/snackbar.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
@@ -15,45 +14,38 @@ import '../models/document_type.dart';
 import '../services/kyc_service.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/document_picker.dart';
-import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
-class BasicInformationScreen extends StatefulWidget {
-  const BasicInformationScreen({super.key});
+class DocumentInformationScreen extends StatefulWidget {
+  const DocumentInformationScreen({super.key});
 
   static Future<bool> push(BuildContext context) => Navigator.of(context)
       .push<bool>(
         MaterialPageRoute(
-          builder: (context) => const BasicInformationScreen(),
+          builder: (context) => const DocumentInformationScreen(),
         ),
       )
       .then((result) => result ?? false);
 
   @override
-  State<BasicInformationScreen> createState() => _BasicInformationScreenState();
+  State<DocumentInformationScreen> createState() =>
+      _DocumentInformationScreenState();
 }
 
-class _BasicInformationScreenState extends State<BasicInformationScreen> {
+class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
   final _idNumberController = TextEditingController();
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
-  final _dobController = TextEditingController();
-
-  bool _isShareData = false;
+  final _expirationDateController = TextEditingController();
 
   Country? _country;
   DocumentType? _idType;
 
   bool get _isValid {
-    final DateTime? dob = _parseDate(_dobController.text);
+    final DateTime? expirationDate = _parseDate(_expirationDateController.text);
 
-    return _firstNameController.text.trim().isNotEmpty &&
-        _lastNameController.text.trim().isNotEmpty &&
-        dob != null &&
-        !dob.isAfter(DateTime.now()) &&
+    return expirationDate != null &&
+        !expirationDate.isBefore(DateTime.now()) &&
         _idNumberController.text.trim().isNotEmpty &&
-        _isShareData &&
         _idType != null &&
         _country != null;
   }
@@ -67,9 +59,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   @override
   void dispose() {
     _idNumberController.dispose();
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _dobController.dispose();
+    _expirationDateController.dispose();
 
     super.dispose();
   }
@@ -78,13 +68,10 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
     final user = sl<KycSharingService>().value;
     final dob = user?.dob;
     _country = Country.findByCode(user?.countryCode ?? '');
-    _firstNameController.text = user?.firstName ?? '';
-    _lastNameController.text = user?.lastName ?? '';
-    _dobController.text =
+    _expirationDateController.text =
         dob != null ? DateFormat('dd/MM/yyyy').format(dob) : '';
     _idType = user?.documentType?.toDocumentType();
     _idNumberController.text = user?.documentNumber ?? '';
-    _isShareData = user?.firstName?.isNotEmpty ?? false;
   }
 
   Future<void> _handleSubmitted() async {
@@ -92,7 +79,8 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
       context,
       () async {
         try {
-          final DateTime? dob = _parseDate(_dobController.text);
+          final DateTime? expirationDate =
+              _parseDate(_expirationDateController.text);
           final countryCode = _country?.code;
           final idTypeValue = _idType?.value;
 
@@ -100,10 +88,8 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             throw Exception();
           }
 
-          await sl<KycSharingService>().updateBasicInfo(
-            firstName: _firstNameController.text,
-            lastName: _lastNameController.text,
-            dob: dob,
+          await sl<KycSharingService>().updateDocumentInfo(
+            expirationDate: expirationDate,
             countryCode: countryCode,
             idType: _idType,
             idNumber: _idNumberController.text,
@@ -141,26 +127,8 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
+        title: 'Document'.toUpperCase(),
         children: [
-          KycHeader(title: context.l10n.idVerificationTitle.toUpperCase()),
-          const SizedBox(height: 8),
-          KycTextField(
-            controller: _firstNameController,
-            inputType: TextInputType.name,
-            placeholder: context.l10n.firstName,
-          ),
-          const _Divider(),
-          KycTextField(
-            controller: _lastNameController,
-            inputType: TextInputType.name,
-            placeholder: context.l10n.lastName,
-          ),
-          const _Divider(),
-          CpDobTextField(
-            controller: _dobController,
-            placeholder: context.l10n.dateOfBirth,
-          ),
-          const SizedBox(height: 10),
           CountryPicker(
             backgroundColor: CpColors.blackGreyColor,
             country: _country,
@@ -171,42 +139,22 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             type: _idType,
             onSubmitted: (idType) => setState(() => _idType = idType),
           ),
-          const _Divider(),
+          const SizedBox(height: 10),
           KycTextField(
             controller: _idNumberController,
             inputType: TextInputType.text,
             placeholder: context.l10n.idNumber,
           ),
-          const _Divider(),
-          GestureDetector(
-            onTap: () => setState(() => _isShareData = !_isShareData),
-            child: Row(
-              children: [
-                CpRadioButton(
-                  value: _isShareData,
-                  onChanged: (value) => setState(() => _isShareData = value),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    context.l10n.allowShareDataText,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      height: 1.5,
-                      letterSpacing: 0.19,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          const SizedBox(height: 10),
+          CpDobTextField(
+            controller: _expirationDateController,
+            placeholder: 'Expiration Date',
           ),
           const SizedBox(height: 28),
           const Spacer(),
           ListenableBuilder(
             listenable: Listenable.merge([
-              _firstNameController,
-              _lastNameController,
-              _dobController,
+              _expirationDateController,
               _idNumberController,
             ]),
             builder: (context, child) => CpBottomButton(
@@ -217,11 +165,4 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
           ),
         ],
       );
-}
-
-class _Divider extends StatelessWidget {
-  const _Divider();
-
-  @override
-  Widget build(BuildContext context) => const SizedBox(height: 12);
 }
