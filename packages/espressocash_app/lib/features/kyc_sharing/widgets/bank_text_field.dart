@@ -20,7 +20,7 @@ class BankTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedBox(
         decoration: const ShapeDecoration(
-          color: CpColors.lightGreyColor,
+          color: CpColors.blackGreyColor,
           shape: StadiumBorder(),
         ),
         child: ListTile(

@@ -102,6 +102,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
           const SizedBox(height: 16),
           CountryPicker(
             backgroundColor: CpColors.blackGreyColor,
+            placeholder: 'Country of Bank',
             country: _selectedCountry,
             onSubmitted: (country) =>
                 setState(() => _selectedCountry = country),
