@@ -4,13 +4,13 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../utils/phone.dart';
 import '../../country_picker/models/country.dart';
-import '../../country_picker/widgets/phone_text_field.dart';
 import '../models/kyc_validation_status.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/extensions.dart';
 import '../widgets/kyc_header.dart';
 import '../widgets/kyc_listener.dart';
 import '../widgets/kyc_page.dart';
+import '../widgets/phone_text_field.dart';
 import 'phone_confirmation_screen.dart';
 
 class PhoneStatusScreen extends StatelessWidget {
