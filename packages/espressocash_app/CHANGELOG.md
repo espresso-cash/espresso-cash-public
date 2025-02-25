@@ -1,3 +1,7 @@
+## 1.148.0
+
+ - **FEAT**: update Nigeria bank list (#1692).
+
 ## 1.147.0
 
  - **FEAT**: enable brij for ambassadors (#1690).
