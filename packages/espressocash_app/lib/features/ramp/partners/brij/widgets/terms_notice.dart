@@ -7,11 +7,11 @@ import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/web_view_screen.dart';
-import '../../../../ramp_partner/models/ramp_partner.dart';
 
 Future<bool> showTermsAndPolicyDialog(
   BuildContext context, {
-  required RampPartner partner,
+  required String termsUrl,
+  required String privacyUrl,
 }) async =>
     await showCustomDialog<bool?>(
       context,
@@ -34,8 +34,8 @@ Future<bool> showTermsAndPolicyDialog(
         ),
         onTapLink: (_, href, __) {
           final url = switch (href) {
-            'partner-terms' => partner.brijParams?.termsUrl,
-            'data-sharing-agreement' => partner.brijParams?.privacyUrl,
+            'partner-terms' => termsUrl,
+            'data-sharing-agreement' => privacyUrl,
             _ => null
           };
 

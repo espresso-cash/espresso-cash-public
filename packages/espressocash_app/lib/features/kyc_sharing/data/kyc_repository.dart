@@ -187,4 +187,8 @@ class KycRepository extends ChangeNotifier {
   Future<bool> hasGrantedAccess(String partnerPk) => _initWrapper(
         () => _kycUserClient.hasGrantedAccess(partnerPk),
       );
+
+  Future<PartnerModel> fetchPartnerInfo(String partnerPk) => _initWrapper(
+        () => _kycUserClient.getPartnerInfo(partnerPK: partnerPk),
+      );
 }

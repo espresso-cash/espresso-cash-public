@@ -1239,11 +1239,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "7969b8a4b38d79ea2bc83040fbe226e2cb2954dc"
-      resolved-ref: "7969b8a4b38d79ea2bc83040fbe226e2cb2954dc"
+      ref: "27d59ebff9aaf2ccac61c2fa378ba9c3f1fdeebd"
+      resolved-ref: "27d59ebff9aaf2ccac61c2fa378ba9c3f1fdeebd"
       url: "https://github.com/espresso-cash/kyc_client_dart.git"
     source: git
-    version: "1.0.2"
+    version: "1.0.3"
   leak_tracker:
     dependency: transitive
     description:

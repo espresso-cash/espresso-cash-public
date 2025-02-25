@@ -176,7 +176,7 @@ class BrijOffRampOrderService implements Disposable {
   }) =>
       tryEitherAsync((_) async {
         {
-          final partnerAuthPk = partner.brijParams?.partnerPK ?? '';
+          final partnerAuthPk = partner.partnerPK ?? '';
           await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
           final user = await _kycRepository.fetchUser();

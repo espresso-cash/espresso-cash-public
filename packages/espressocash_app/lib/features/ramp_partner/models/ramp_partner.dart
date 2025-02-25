@@ -2,18 +2,6 @@ import 'package:decimal/decimal.dart';
 import '../../../gen/assets.gen.dart';
 import 'payment_methods.dart';
 
-class BrijParams {
-  const BrijParams({
-    required this.partnerPK,
-    required this.termsUrl,
-    required this.privacyUrl,
-  });
-
-  final String partnerPK;
-  final String termsUrl;
-  final String privacyUrl;
-}
-
 enum RampPartner {
   kado(
     title: 'Kado Money',
@@ -79,36 +67,28 @@ enum RampPartner {
     title: 'Brij Network (DEMO)',
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
-    brijParams: BrijParams(
-      partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
-      termsUrl: '',
-      privacyUrl: '',
-    ),
+    partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
   ),
 
   scalexBrij(
     title: 'Scalex (via BRIJ)',
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
-    brijParams: BrijParams(
-      partnerPK: '342yN5YEX6bgGaTCuprVquFXhpZ8twyPzBo5kMZWQpDQ',
-      termsUrl: 'https://www.scalex.africa/termsofuse',
-      privacyUrl: 'https://www.scalex.africa/privacypolicy',
-    ),
+    partnerPK: '342yN5YEX6bgGaTCuprVquFXhpZ8twyPzBo5kMZWQpDQ',
   );
 
   const RampPartner({
     required this.title,
     required this.minimumAmount,
     required this.paymentMethods,
-    this.brijParams,
+    this.partnerPK,
   });
 
   final String title;
   final String minimumAmount;
   final List<PaymentMethod> paymentMethods;
 
-  final BrijParams? brijParams;
+  final String? partnerPK;
 
   Decimal get minimumAmountInDecimal =>
       Decimal.parse(minimumAmount.substring(1));

@@ -274,7 +274,7 @@ extension BuildContextExt on BuildContext {
   }
 
   Future<bool> _ensureAccessGranted(RampPartner partner) async {
-    final partnerPK = partner.brijParams?.partnerPK;
+    final partnerPK = partner.partnerPK;
 
     if (partnerPK == null) return false;
 
@@ -283,6 +283,13 @@ extension BuildContextExt on BuildContext {
 
     if (hasGrantedAccess) return true;
 
-    return showTermsAndPolicyDialog(this, partner: partner);
+    final partnerTermsAndPolicy =
+        await sl<KycSharingService>().fetchPartnerTermsAndPolicy(partnerPK);
+
+    return showTermsAndPolicyDialog(
+      this,
+      termsUrl: partnerTermsAndPolicy.termsUrl,
+      privacyUrl: partnerTermsAndPolicy.policyUrl,
+    );
   }
 }
