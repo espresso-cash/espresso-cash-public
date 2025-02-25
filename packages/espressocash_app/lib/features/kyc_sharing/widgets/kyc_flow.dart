@@ -5,13 +5,13 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../screens/bank_account_screen.dart';
-import '../screens/basic_information_screen.dart';
 import '../screens/email_confirmation_screen.dart';
 import '../screens/email_status_screen.dart';
 import '../screens/email_verification_screen.dart';
 import '../screens/identity_verification_screen.dart';
 import '../screens/kyc_description_screen.dart';
 import '../screens/kyc_status_screen.dart';
+import '../screens/personal_information_screen.dart';
 import '../screens/phone_confirmation_screen.dart';
 import '../screens/phone_status_screen.dart';
 import '../screens/phone_verification_screen.dart';
@@ -22,7 +22,7 @@ import '../utils/kyc_utils.dart';
 typedef KycStepFunction = Future<bool?> Function(BuildContext ctx);
 
 const List<KycStepFunction> kycSteps = [
-  BasicInformationScreen.push,
+  PersonalInformationScreen.push,
   IdentityVerificationScreen.push,
 ];
 
