@@ -54,7 +54,7 @@ dependencies:
   kyc_client_dart:
     git:
       url: https://github.com/espresso-cash/kyc_client_dart.git
-      ref: fd2e1f1ef4a1bedfd3d97d196d7a4f5e40c87e2f
+      ref: bebcc25872b9013823712750d5f556cd5cd1e1d3
   logging: ^1.2.0
   meta: ^1.10.0
   mixpanel_flutter: ^2.2.0

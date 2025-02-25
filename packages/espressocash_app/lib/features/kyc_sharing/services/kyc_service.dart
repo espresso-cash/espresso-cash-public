@@ -119,7 +119,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
     _pollingSubscription = null;
   }
 
-  // TODO(vs): It should have citizenship
   Future<void> updatePersonalInfo({
     String? firstName,
     String? lastName,
@@ -140,12 +139,15 @@ class KycSharingService extends ValueNotifier<UserData?> {
           id: value?.birthDate?.id ?? '',
         ),
       ),
+      citizenship: Citizenship(
+        value: citizenshipCode ?? '',
+        id: value?.citizenship?.id ?? '',
+      ),
     );
 
     await fetchUserData();
   }
 
-  // TODO(vs): It should have document expiration date
   Future<void> updateDocumentInfo({
     String? idNumber,
     DocumentType? idType,
@@ -159,7 +161,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
         type: idType?.toIdType() ?? IdType.other,
         number: idNumber ?? '',
         countryCode: countryCode ?? '',
-        // TODO(vs): This should be flexible for multiple documents
+        expirationDate: expirationDate,
         id: value?.documents?.first.id ?? '',
       ),
     );
