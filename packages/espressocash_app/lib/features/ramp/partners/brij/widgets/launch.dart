@@ -283,13 +283,13 @@ extension BuildContextExt on BuildContext {
 
     if (hasGrantedAccess) return true;
 
-    final partnerTermsAndPolicy =
+    final (:termsUrl, :policyUrl) =
         await sl<KycSharingService>().fetchPartnerTermsAndPolicy(partnerPK);
 
     return showTermsAndPolicyDialog(
       this,
-      termsUrl: partnerTermsAndPolicy.termsUrl,
-      privacyUrl: partnerTermsAndPolicy.policyUrl,
+      termsUrl: termsUrl,
+      privacyUrl: policyUrl,
     );
   }
 }
