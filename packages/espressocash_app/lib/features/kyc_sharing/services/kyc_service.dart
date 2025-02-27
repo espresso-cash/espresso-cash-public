@@ -254,6 +254,19 @@ class KycSharingService extends ValueNotifier<UserData?> {
     }
   }
 
+  Future<bool> hasGrantedAccess(String partnerPk) =>
+      _kycRepository.hasGrantedAccess(partnerPk);
+
+  Future<({String termsUrl, String policyUrl})> fetchPartnerTermsAndPolicy(
+    String partnerPk,
+  ) =>
+      _kycRepository.fetchPartnerInfo(partnerPk).then(
+            (partner) => (
+              termsUrl: partner.termsUrl,
+              policyUrl: partner.privacyUrl,
+            ),
+          );
+
   @override
   @disposeMethod
   void dispose() {
