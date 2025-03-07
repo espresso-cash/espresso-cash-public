@@ -87,6 +87,7 @@ enum RampPartner {
   final String title;
   final String minimumAmount;
   final List<PaymentMethod> paymentMethods;
+
   final String? partnerPK;
 
   Decimal get minimumAmountInDecimal =>

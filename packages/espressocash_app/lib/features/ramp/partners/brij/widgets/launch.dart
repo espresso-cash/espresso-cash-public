@@ -24,6 +24,7 @@ import '../../../screens/ramp_amount_screen.dart';
 import '../services/brij_off_ramp_order_service.dart';
 import '../services/brij_on_ramp_order_service.dart';
 import '../services/brij_scalex_fees_service.dart';
+import 'terms_notice.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchBrijOnRamp(RampPartner partner) async {
@@ -61,7 +62,11 @@ extension BuildContextExt on BuildContext {
     await RampAmountScreen.push(
       this,
       partner: partner,
-      onSubmitted: (Amount? value) {
+      onSubmitted: (Amount? value) async {
+        final hasConfirmed = await _ensureAccessGranted(partner);
+
+        if (!hasConfirmed) return;
+
         Navigator.pop(this);
         amount = value;
       },
@@ -148,7 +153,11 @@ extension BuildContextExt on BuildContext {
     await RampAmountScreen.push(
       this,
       partner: partner,
-      onSubmitted: (value) {
+      onSubmitted: (value) async {
+        final hasConfirmed = await _ensureAccessGranted(partner);
+
+        if (!hasConfirmed) return;
+
         Navigator.pop(this);
         amount = value;
       },
@@ -243,7 +252,7 @@ extension BuildContextExt on BuildContext {
   }
 
   void _showPendingKycDialog() {
-    showCustomDialog(
+    showCustomDialog<void>(
       this,
       title: EcMarkdownText(
         text: l10n.pendingKycDialogTitle.toUpperCase(),
@@ -261,6 +270,26 @@ extension BuildContextExt on BuildContext {
         horizontalPadding: 0,
         onPressed: () => sl<HomeNavigationService>().openActivitiesTab(this),
       ),
+    );
+  }
+
+  Future<bool> _ensureAccessGranted(RampPartner partner) async {
+    final partnerPK = partner.partnerPK;
+
+    if (partnerPK == null) return false;
+
+    final hasGrantedAccess =
+        await sl<KycSharingService>().hasGrantedAccess(partnerPK);
+
+    if (hasGrantedAccess) return true;
+
+    final (:termsUrl, :policyUrl) =
+        await sl<KycSharingService>().fetchPartnerTermsAndPolicy(partnerPK);
+
+    return showTermsAndPolicyDialog(
+      this,
+      termsUrl: termsUrl,
+      privacyUrl: policyUrl,
     );
   }
 }
