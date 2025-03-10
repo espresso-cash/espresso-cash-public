@@ -54,11 +54,11 @@ dependencies:
   kyc_client_dart:
     git:
       url: https://github.com/espresso-cash/kyc_client_dart.git
-      ref: 27d59ebff9aaf2ccac61c2fa378ba9c3f1fdeebd
+      ref: 59ee1c981f1bd5fb1af5464e130283447da2e2a9
   logging: ^1.2.0
   meta: ^1.10.0
   mixpanel_flutter: ^2.2.0
-  mobile_scanner: ^5.0.2
+  mobile_scanner: ^6.0.0
   package_info_plus: ^8.0.0
   path: ^1.8.3
   path_provider: ^2.1.1
@@ -89,7 +89,9 @@ dependencies:
 
 dev_dependencies:
   bloc_test: ^9.1.5
-  borsh: ^0.3.1+4
+  #borsh: ^0.3.1+4
+  borsh:
+    path: ../borsh
   build_runner: ^2.4.7
   drift_dev: ^2.15.0
   flutter_driver:

@@ -152,9 +152,10 @@ packages:
   borsh_annotation:
     dependency: "direct main"
     description:
-      path: "../borsh_annotation"
-      relative: true
-    source: path
+      name: borsh_annotation
+      sha256: "4a226cf8b7a165ecf8020c0c8d366b2728167fd102ef9b9e89d94d86f89ac57b"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.3.1+5"
   bs58:
     dependency: transitive
@@ -264,18 +265,18 @@ packages:
     dependency: transitive
     description:
       name: camera_android_camerax
-      sha256: "7cc6adf1868bdcf4e63a56b24b41692dfbad2bec1cdceea451c77798f6a605c3"
+      sha256: "13784f539c7f104766bff84e4479a70f03b29d78b208278be45c939250d9d7f5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.13"
+    version: "0.6.14+1"
   camera_avfoundation:
     dependency: transitive
     description:
       name: camera_avfoundation
-      sha256: "49cc403dc2aec719cc70ba23419c932f1245d990e43f3c8336014b895751454a"
+      sha256: "3057ada0b30402e3a9b6dffec365c9736a36edbf04abaecc67c4309eadc86b49"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.18+4"
+    version: "0.9.18+9"
   camera_platform_interface:
     dependency: transitive
     description:
@@ -1242,8 +1243,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "27d59ebff9aaf2ccac61c2fa378ba9c3f1fdeebd"
-      resolved-ref: "27d59ebff9aaf2ccac61c2fa378ba9c3f1fdeebd"
+      ref: "59ee1c981f1bd5fb1af5464e130283447da2e2a9"
+      resolved-ref: "59ee1c981f1bd5fb1af5464e130283447da2e2a9"
       url: "https://github.com/espresso-cash/kyc_client_dart.git"
     source: git
     version: "1.0.3"
@@ -1347,10 +1348,10 @@ packages:
     dependency: "direct main"
     description:
       name: mobile_scanner
-      sha256: d234581c090526676fd8fab4ada92f35c6746e3fb4f05a399665d75a399fb760
+      sha256: "9cb9e371ee9b5b548714f9ab5fd33b530d799745c83d5729ecd1e8ab2935dbd1"
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.3"
+    version: "6.0.7"
   mockito:
     dependency: "direct dev"
     description:
