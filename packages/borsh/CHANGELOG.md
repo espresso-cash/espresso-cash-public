@@ -1,3 +1,14 @@
+## 0.3.2
+
+ - **REFACTOR**: update linter (#1392).
+ - **REFACTOR**: update lint rules (#1320).
+ - **REFACTOR**: use DCM 1.14.0 (#1282).
+ - **REFACTOR**: update linter (#1223).
+ - **REFACTOR**: update linter (#1170).
+ - **REFACTOR**: migrate to Flutter 3.16.2 (#1157).
+ - **REFACTOR**: update lint rules (#1102).
+ - **FEAT**: Update SDK constraints and upgrade deps (#1683).
+
 ## 0.3.1+4
 
  - **REFACTOR**: update lint rules (#1091).
