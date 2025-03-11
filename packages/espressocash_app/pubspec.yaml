@@ -89,9 +89,7 @@ dependencies:
 
 dev_dependencies:
   bloc_test: ^9.1.5
-  #borsh: ^0.3.1+4
-  borsh:
-    path: ../borsh
+  borsh: ^0.3.2
   build_runner: ^2.4.7
   drift_dev: ^2.15.0
   flutter_driver:
