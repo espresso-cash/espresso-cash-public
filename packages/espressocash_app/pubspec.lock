@@ -145,18 +145,19 @@ packages:
   borsh:
     dependency: "direct dev"
     description:
-      path: "../borsh"
-      relative: true
-    source: path
-    version: "0.3.1+4"
+      name: borsh
+      sha256: "3e8e013be485aafb6ed311bd9fb36a279b67c7125c9c3d46f370f7f84814e313"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.2"
   borsh_annotation:
     dependency: "direct main"
     description:
       name: borsh_annotation
-      sha256: "4a226cf8b7a165ecf8020c0c8d366b2728167fd102ef9b9e89d94d86f89ac57b"
+      sha256: dc73a7fdc6fe4505535657daf8ab3cebe382311fae63a0faaf9315ea1bc30bff
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1+5"
+    version: "0.3.2"
   bs58:
     dependency: transitive
     description:
