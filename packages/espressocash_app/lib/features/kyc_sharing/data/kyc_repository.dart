@@ -118,21 +118,16 @@ class KycRepository extends ChangeNotifier {
         () => _kycUserClient.validatePhone(code: code, dataId: dataId),
       );
 
-  Future<void> initKycVerification({
-    required String nameId,
-    required String birthDateId,
-    required String documentId,
-    required String selfieImageId,
-  }) async {
-    await _initWrapper(
-      () => _kycUserClient.initDocumentValidation(
-        nameId: nameId,
-        birthDateId: birthDateId,
-        documentId: documentId,
-        selfieImageId: selfieImageId,
-      ),
-    );
-  }
+  Future<void> startKycVerification({
+    required String country,
+    required List<String> dataHashes,
+  }) =>
+      _initWrapper(
+        () => _kycUserClient.startKycRequest(
+          country: country,
+          dataHashes: dataHashes,
+        ),
+      );
 
   Future<String> createOnRampOrder({
     required double cryptoAmount,

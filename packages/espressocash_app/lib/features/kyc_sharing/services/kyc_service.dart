@@ -189,17 +189,27 @@ class KycSharingService extends ValueNotifier<UserData?> {
     await fetchUserData();
   }
 
-  Future<void> initDocumentValidation() async {
-    await _kycRepository.initKycVerification(
-      nameId: value?.name?.id ?? '',
-      birthDateId: value?.birthDate?.id ?? '',
-      // TODO(vs): This should be flexible for multiple documents
-      documentId: value?.documents?.first.id ?? '',
-      selfieImageId: value?.selfie?.id ?? '',
-    );
+  // Future<void> initDocumentValidation() async {
+  //   await _kycRepository.initKycVerification(
+  //     nameId: value?.name?.id ?? '',
+  //     birthDateId: value?.birthDate?.id ?? '',
+  //     // TODO(vs): This should be flexible for multiple documents
+  //     documentId: value?.documents?.first.id ?? '',
+  //     selfieImageId: value?.selfie?.id ?? '',
+  //   );
 
-    await fetchStatuses();
-    _subscribe();
+  //   await fetchStatuses();
+  //   _subscribe();
+  // }
+
+  Future<void> startKycVerification({
+    required String country,
+    required List<String> dataHashes,
+  }) async {
+    await _kycRepository.startKycVerification(
+      country: country,
+      dataHashes: dataHashes,
+    );
   }
 
   Future<void> updateSelfiePhoto({File? photoSelfie}) async {
