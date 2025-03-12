@@ -15,7 +15,6 @@ import '../../accounts/models/account.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/profile_repository.dart';
 import '../widgets/ambassador_section.dart';
-import '../widgets/bank_section.dart';
 import '../widgets/help_section.dart';
 import '../widgets/kyc_section.dart';
 import '../widgets/profile_section.dart';
@@ -117,7 +116,6 @@ class ProfileScreen extends StatelessWidget {
                         const EditProfileSection(),
                         if (sl<FeatureFlagsManager>().isBrijEnabled()) ...[
                           const KycSection(),
-                          const BankSection(),
                         ],
                         const AmbassadorSection(),
                         const SecuritySection(),

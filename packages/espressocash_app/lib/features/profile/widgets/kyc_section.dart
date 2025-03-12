@@ -5,6 +5,7 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
+import '../../kyc_sharing/screens/bank_account_list_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_button.dart';
@@ -49,6 +50,10 @@ class _KycInfo extends StatelessWidget {
             description: _getUserDescription(user, context),
             onPressed: context.openBasicInfoFlow,
             status: user.kycStatus,
+          ),
+          KycButton(
+            label: context.l10n.bankAccount,
+            onPressed: () => BankAccountListScreen.push(context),
           ),
           KycButton(
             label: context.l10n.emailAddress,
