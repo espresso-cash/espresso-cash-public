@@ -46,12 +46,6 @@ class _KycInfo extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [
           KycButton(
-            label: context.l10n.personalDetails,
-            description: _getUserDescription(user, context),
-            onPressed: context.openBasicInfoFlow,
-            status: user.kycStatus,
-          ),
-          KycButton(
             label: context.l10n.bankAccount,
             onPressed: () => BankAccountListScreen.push(context),
           ),
@@ -76,19 +70,3 @@ class _KycInfo extends StatelessWidget {
         ],
       );
 }
-
-String? _getUserDescription(UserData user, BuildContext context) {
-  final items = [
-    [user.firstName, user.lastName].whereType<String>().join(' ').trim(),
-    if (user.dob case final dob?)
-      context.l10n.userDescriptionItem1Text(_formatDate(dob)),
-    if (user.documentType case final idType?)
-      context.l10n.userDescriptionItem2Text(idType.name),
-    if (user.documentNumber case final documentNumber?)
-      context.l10n.userDescriptionItem3Text(documentNumber),
-  ].where((s) => s.isNotEmpty);
-
-  return items.isEmpty ? null : items.join('\n');
-}
-
-String _formatDate(DateTime date) => DateFormat('MMMM d, yyyy').format(date);

@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -11,22 +12,25 @@ import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../models/bank.dart';
 import '../services/kyc_service.dart';
-import '../utils/kyc_utils.dart';
 import '../widgets/bank_text_field.dart';
 import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
 class BankAccountScreen extends StatefulWidget {
-  const BankAccountScreen({super.key});
+  const BankAccountScreen({super.key, this.initialBankInfo});
 
-  static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const BankAccountScreen(),
-        ),
-      )
-      .then((result) => result ?? false);
+  static Future<bool> push(BuildContext context, {BankInfo? initialBankInfo}) =>
+      Navigator.of(context)
+          .push<bool>(
+            MaterialPageRoute(
+              builder: (context) =>
+                  BankAccountScreen(initialBankInfo: initialBankInfo),
+            ),
+          )
+          .then((result) => result ?? false);
+
+  final BankInfo? initialBankInfo;
 
   @override
   State<BankAccountScreen> createState() => _BankAccountScreenState();
@@ -75,12 +79,15 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
   void initState() {
     super.initState();
 
-    final user = sl<KycSharingService>().value;
-
-    _bankAccountNumberController.text = user?.accountNumber ?? '';
+    _bankAccountNumberController.text =
+        widget.initialBankInfo?.accountNumber ?? '';
 
     final initialBank = scalexBanks.firstWhereOrNull(
-      (bank) => bank.code == user?.bankCode,
+      (bank) => bank.code == widget.initialBankInfo?.bankCode,
+    );
+
+    _selectedCountry = Country.findByCode(
+      widget.initialBankInfo?.countryCode ?? '',
     );
 
     _selectedBank = initialBank;
@@ -102,7 +109,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
           const SizedBox(height: 16),
           CountryPicker(
             backgroundColor: CpColors.blackGreyColor,
-            placeholder: 'Country of Bank',
+            placeholder: context.l10n.countryOfBank,
             country: _selectedCountry,
             onSubmitted: (country) =>
                 setState(() => _selectedCountry = country),

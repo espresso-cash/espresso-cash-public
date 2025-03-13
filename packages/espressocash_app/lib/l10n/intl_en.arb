@@ -1233,5 +1233,9 @@
     "iAgree_btn": "I Agree",
     "@iAgree_btn": {},
     "selectBank": "Select Bank",
-    "@selectBank": {}
+    "@selectBank": {},
+    "countryOfBank": "Country of Bank",
+    "@countryOfBank": {},
+    "addNewBankAccount": "Add New Bank Account",
+    "@addNewBankAccount": {}
 }

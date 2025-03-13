@@ -8,6 +8,7 @@ import '../../../ui/colors.dart';
 import '../../country_picker/models/country.dart';
 import '../services/kyc_service.dart';
 import '../widgets/kyc_page.dart';
+import 'bank_account_screen.dart';
 
 class BankAccountListScreen extends StatefulWidget {
   const BankAccountListScreen({super.key});
@@ -44,8 +45,8 @@ class _BankAccountListScreenState extends State<BankAccountListScreen> {
           const Spacer(),
           CpBottomButton(
             horizontalPadding: 16,
-            text: 'Add New Bank Account',
-            onPressed: () {},
+            text: context.l10n.addNewBankAccount,
+            onPressed: () => BankAccountScreen.push(context),
           ),
         ],
       );
@@ -82,7 +83,10 @@ class _BankInfoItem extends StatelessWidget {
           size: 14,
           color: Colors.white,
         ),
-        onTap: () {},
+        onTap: () => BankAccountScreen.push(
+          context,
+          initialBankInfo: bankInfo,
+        ),
       ),
     );
   }
