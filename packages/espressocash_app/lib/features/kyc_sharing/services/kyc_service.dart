@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -170,37 +171,34 @@ class KycSharingService extends ValueNotifier<UserData?> {
   }
 
   Future<void> updateBankInfo({
+    String? id,
     required String bankAccountNumber,
     required String bankCode,
     required String countryCode,
     String? bankName,
   }) async {
+    final userBankAccounts = value?.bankInfos;
+
+    final existingAccount = userBankAccounts?.firstWhereOrNull(
+      (account) => account.countryCode == countryCode && account.id != id,
+    );
+
+    if (existingAccount != null) {
+      throw Exception('Bank account already exists for this country');
+    }
+
     await _kycRepository.updateUserData(
       bankInfo: BankInfo(
         accountNumber: bankAccountNumber,
         bankCode: bankCode,
         bankName: bankName ?? '',
         countryCode: countryCode,
-        // TODO(vs): This should be flexible for multiple bankInfos
-        id: value?.bankInfos?.first.id ?? '',
+        id: id ?? '',
       ),
     );
 
     await fetchUserData();
   }
-
-  // Future<void> initDocumentValidation() async {
-  //   await _kycRepository.initKycVerification(
-  //     nameId: value?.name?.id ?? '',
-  //     birthDateId: value?.birthDate?.id ?? '',
-  //     // TODO(vs): This should be flexible for multiple documents
-  //     documentId: value?.documents?.first.id ?? '',
-  //     selfieImageId: value?.selfie?.id ?? '',
-  //   );
-
-  //   await fetchStatuses();
-  //   _subscribe();
-  // }
 
   Future<void> startKycVerification({
     required String country,
