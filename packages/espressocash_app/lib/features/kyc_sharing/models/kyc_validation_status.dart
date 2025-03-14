@@ -23,3 +23,12 @@ extension ValidationStatusX on ValidationStatus {
         ValidationStatus.rejected => KycValidationStatus.rejected,
       };
 }
+
+extension KycStatusDetailsX on KycStatus {
+  KycValidationStatus toKycValidationStatus() => switch (this) {
+        KycStatus.unspecified => KycValidationStatus.unverified,
+        KycStatus.pending => KycValidationStatus.pending,
+        KycStatus.approved => KycValidationStatus.approved,
+        KycStatus.rejected => KycValidationStatus.rejected,
+      };
+}

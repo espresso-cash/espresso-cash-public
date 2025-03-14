@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-recursive-calls
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -40,27 +42,62 @@ class DocumentInformationScreen extends StatefulWidget {
 class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
   final Map<DocumentField, TextEditingController> _controllers = {};
 
-  DocumentType? _idType;
+  final Map<IdType, DocumentType?> _selectedDocuments = {};
 
-  final Map<DocumentField, dynamic> _documentFields = {};
+  // Track document fields per document type
+  final Map<IdType, Map<DocumentField, dynamic>> _documentFieldsByType = {};
   Map<DocumentField, bool> _requiredFields = {};
 
   List<IdType> _availableIdTypes = [];
   String? _requiredCountryName;
 
+  final List<List<IdType>> _orDocumentTypeGroups = [];
+  final Map<int, DocumentType?> _selectedOrDocuments = {};
+  // Track document fields for OR document types
+  final Map<int, Map<DocumentField, dynamic>> _orDocumentFields = {};
+
+  // Track document fields required for each document type
+  final Map<IdType, List<DocumentField>> _requiredFieldsByDocType = {};
+
   bool get _isValid {
-    // Check document type
-    if (_idType == null) {
+    // Check if all required document types have been selected
+    if (_availableIdTypes.any((type) => _selectedDocuments[type] == null)) {
       return false;
     }
 
-    // Check all required fields have values
-    for (final field in _requiredFields.entries) {
-      if (!field.value) continue; // Skip optional fields
+    // Check if all OR groups have a selection
+    if (_orDocumentTypeGroups.isNotEmpty &&
+        _orDocumentTypeGroups.length != _selectedOrDocuments.length) {
+      return false;
+    }
 
-      final value = _documentFields[field.key];
-      if (value == null || (value is String && value.isEmpty)) {
-        return false;
+    // Check all required fields for AND document types
+    for (final idType in _availableIdTypes) {
+      final docType = _selectedDocuments[idType];
+      if (docType == null) continue;
+
+      // Get required fields for this document type
+      final fields = _getRequiredFieldsForDocumentType(docType);
+      for (final field in fields) {
+        final value = _documentFieldsByType[idType]?[field];
+        if (value == null || (value is String && value.isEmpty)) {
+          return false;
+        }
+      }
+    }
+
+    // Check all required fields for OR document types
+    for (int i = 0; i < _orDocumentTypeGroups.length; i++) {
+      final docType = _selectedOrDocuments[i];
+      if (docType == null) continue;
+
+      // Get required fields for this document type
+      final fields = _getRequiredFieldsForDocumentType(docType);
+      for (final field in fields) {
+        final value = _orDocumentFields[i]?[field];
+        if (value == null || (value is String && value.isEmpty)) {
+          return false;
+        }
       }
     }
 
@@ -87,14 +124,80 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
     _availableIdTypes =
         _findDocumentTypeRequirements(widget.requirement.requirements);
 
+    // Initialize the map with null values for each required document type
+    for (final idType in _availableIdTypes) {
+      _selectedDocuments[idType] = null;
+      _documentFieldsByType[idType] = {};
+    }
+
+    // Extract required fields from the requirements
     _requiredFields =
         _findDocumentFieldRequirements(widget.requirement.requirements);
 
-    for (final field in _requiredFields.keys) {
+    // Map required fields to document types
+    _mapRequiredFieldsToDocumentTypes(widget.requirement.requirements);
+
+    // Initialize controllers for all possible document fields
+    for (final field in DocumentField.values) {
       if (_needsTextController(field)) {
         _controllers[field] = TextEditingController();
       }
     }
+  }
+
+  // New method to map required fields to document types
+  void _mapRequiredFieldsToDocumentTypes(List<Requirement> requirements) {
+    // First, find all document type requirements
+    for (final req in requirements) {
+      if (req is DocumentTypeRequirement) {
+        // For each document type, find the associated field requirements
+        final fields = _findAssociatedDocumentFields(requirements, req.type);
+        _requiredFieldsByDocType[req.type] = fields;
+      } else if (req is AndRequirement) {
+        _mapRequiredFieldsToDocumentTypes(req.requirements);
+      } else if (req is OrRequirement) {
+        _mapRequiredFieldsToDocumentTypes(req.requirements);
+      }
+    }
+  }
+
+  // Helper to find document fields associated with a document type
+  List<DocumentField> _findAssociatedDocumentFields(
+    List<Requirement> requirements,
+    IdType documentType,
+  ) {
+    final List<DocumentField> fields = [];
+
+    for (final req in requirements) {
+      if (req is DocumentFieldRequirement) {
+        // Add all document field requirements - for now, associate all fields with all document types
+        fields.add(req.field);
+      } else if (req is AndRequirement) {
+        fields.addAll(
+          _findAssociatedDocumentFields(req.requirements, documentType),
+        );
+      } else if (req is OrRequirement) {
+        fields.addAll(
+          _findAssociatedDocumentFields(req.requirements, documentType),
+        );
+      }
+    }
+
+    return fields;
+  }
+
+  // Replace the hardcoded method with one that uses the parsed requirements
+  List<DocumentField> _getRequiredFieldsForDocumentType(DocumentType docType) {
+    // Find the IdType that corresponds to this DocumentType
+    for (final entry in _requiredFieldsByDocType.entries) {
+      if (entry.key.toDocumentType() == docType) {
+        return entry.value;
+      }
+    }
+
+    // If we don't have specific requirements for this document type,
+    // return a default set of fields or an empty list
+    return [DocumentField.idNumber]; // Default fallback
   }
 
   bool _needsTextController(DocumentField field) => switch (field) {
@@ -125,9 +228,22 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
       if (req is DocumentTypeRequirement) {
         types.add(req.type);
       } else if (req is AndRequirement) {
+        // For AND requirements, add all document types
         types.addAll(_findDocumentTypeRequirements(req.requirements));
       } else if (req is OrRequirement) {
-        types.addAll(_findDocumentTypeRequirements(req.requirements));
+        // For OR requirements between document types
+        final orTypes = _findDocumentTypeRequirements(req.requirements);
+        if (orTypes.isNotEmpty) {
+          // If this is an OR between document types, add the first one to available types
+          // and store the group for UI selection
+          _orDocumentTypeGroups.add(orTypes);
+
+          // We don't add these to the main types list since they'll be handled separately
+          // But we need to initialize the OR document fields
+          for (int i = 0; i < _orDocumentTypeGroups.length; i++) {
+            _orDocumentFields[i] = {};
+          }
+        }
       }
     }
 
@@ -145,10 +261,9 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
       } else if (req is AndRequirement) {
         fields.addAll(_findDocumentFieldRequirements(req.requirements));
       } else if (req is OrRequirement) {
-        // For OR conditions, we mark fields as optional
         final orFields = _findDocumentFieldRequirements(req.requirements);
         for (final field in orFields.entries) {
-          fields[field.key] = fields[field.key] ?? false;
+          fields[field.key] = true;
         }
       }
     }
@@ -170,17 +285,50 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
       () async {
         try {
           final countryCode = _requiredCountryName;
-          final idTypeValue = _idType?.value;
 
-          if (countryCode == null || idTypeValue == null) {
+          // Check if all document types are selected
+          if (countryCode == null ||
+              _availableIdTypes
+                  .any((type) => _selectedDocuments[type] == null) ||
+              (_orDocumentTypeGroups.isNotEmpty &&
+                  _orDocumentTypeGroups.length !=
+                      _selectedOrDocuments.length)) {
             throw Exception();
+          }
+
+          // Combine all selected documents and their fields for the service call
+          final allSelectedDocuments =
+              Map<IdType, DocumentType?>.from(_selectedDocuments);
+          final allDocumentFields = <DocumentField, dynamic>{};
+
+          // Collect all document fields from AND document types
+          for (final entry in _documentFieldsByType.entries) {
+            allDocumentFields.addAll(entry.value);
+          }
+
+          // Add OR selections to the map
+          for (int i = 0; i < _orDocumentTypeGroups.length; i++) {
+            if (_selectedOrDocuments[i] != null) {
+              // Find the corresponding IdType for this document type
+              final docType = _selectedOrDocuments[i]!;
+              final idType = _orDocumentTypeGroups[i].firstWhere(
+                (type) => type.toDocumentType() == docType,
+                orElse: () => _orDocumentTypeGroups[i].first,
+              );
+              allSelectedDocuments[idType] = docType;
+
+              // Add document fields for this OR selection
+              if (_orDocumentFields.containsKey(i)) {
+                allDocumentFields.addAll(_orDocumentFields[i]!);
+              }
+            }
           }
 
           // TODO
           // await sl<KycSharingService>().updateDocumentInfo(
           //   countryCode: countryCode,
-          //   idType: _idType,
-          //   documentFields: _documentFields,
+          //   selectedDocuments: allSelectedDocuments,
+          //   documentFields: allDocumentFields,
           // );
 
           if (!mounted) return false;
@@ -202,9 +350,21 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
     if (success) Navigator.pop(context, true);
   }
 
-  void _updateDocumentField(DocumentField field, dynamic value) {
+  void _updateDocumentField(IdType idType, DocumentField field, dynamic value) {
     setState(() {
-      _documentFields[field] = value;
+      if (!_documentFieldsByType.containsKey(idType)) {
+        _documentFieldsByType[idType] = {};
+      }
+      _documentFieldsByType[idType]![field] = value;
+    });
+  }
+
+  void _updateOrDocumentField(int orIndex, DocumentField field, dynamic value) {
+    setState(() {
+      if (!_orDocumentFields.containsKey(orIndex)) {
+        _orDocumentFields[orIndex] = {};
+      }
+      _orDocumentFields[orIndex]![field] = value;
     });
   }
 
@@ -212,35 +372,48 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
       // TODO: Implement photo picking logic
       null;
 
-  Widget _buildDocumentFieldWidget(DocumentField field, bool isRequired) {
+  Widget _buildDocumentFieldWidget({
+    required DocumentField field,
+    required bool isRequired,
+    required Function(dynamic) onValueChanged,
+    dynamic currentValue,
+  }) {
     switch (field) {
       case DocumentField.idNumber:
+        final controller = TextEditingController(text: currentValue as String?);
+        controller.addListener(() {
+          onValueChanged(controller.text);
+        });
+
         return KycTextField(
-          controller: _controllers[field]!,
+          controller: controller,
           inputType: TextInputType.text,
           placeholder: context.l10n.idNumber,
-        )..controller.addListener(() {
-            _updateDocumentField(field, _controllers[field]!.text);
-          });
+        );
+
       case DocumentField.photoFront:
         return _buildPhotoUploadField(
-          field: field,
           label: 'Photo Front',
           isRequired: isRequired,
+          currentValue: currentValue,
+          onValueChanged: onValueChanged,
         );
+
       case DocumentField.photoBack:
         return _buildPhotoUploadField(
-          field: field,
           label: 'Photo Back',
           isRequired: isRequired,
+          currentValue: currentValue,
+          onValueChanged: onValueChanged,
         );
     }
   }
 
   Widget _buildPhotoUploadField({
-    required DocumentField field,
     required String label,
     required bool isRequired,
+    required void Function(dynamic) onValueChanged,
+    dynamic currentValue,
   }) =>
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,7 +430,7 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
             onTap: () async {
               final photo = await _pickPhoto();
               if (photo != null) {
-                _updateDocumentField(field, photo);
+                onValueChanged(photo);
               }
             },
             child: Container(
@@ -268,9 +441,9 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
                   Radius.circular(8),
                 ),
               ),
-              child: _documentFields[field] != null
+              child: currentValue != null
                   ? Image.file(
-                      File(''), //TODO
+                      File(''), //TODO: Use actual file
                       fit: BoxFit.cover,
                     )
                   : Center(
@@ -304,23 +477,130 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
             _RequiredCountryNotice(countryName: countryName),
             const SizedBox(height: 12),
           ],
-          DocumentPicker(
-            type: _idType,
-            types: _availableIdTypes
-                .map((e) => e.toDocumentType())
-                .nonNulls
-                .toList(),
-            onSubmitted: (idType) => setState(() => _idType = idType),
-          ),
-          const SizedBox(height: 10),
-          ..._requiredFields.entries.map(
-            (entry) => Column(
+          // Show pickers and fields for AND document types
+          ..._availableIdTypes.map((idType) {
+            final documentTypes =
+                [idType.toDocumentType()].whereType<DocumentType>().toList();
+            if (documentTypes.isEmpty) return const SizedBox.shrink();
+
+            final selectedDocType = _selectedDocuments[idType];
+
+            // Get required fields for this document type - use all required fields from API
+            final List<DocumentField> documentFields;
+            if (selectedDocType != null) {
+              documentFields = _requiredFields.entries
+                  .where((e) => e.value)
+                  .map((e) => e.key)
+                  .toList();
+            } else {
+              documentFields = <DocumentField>[];
+            }
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildDocumentFieldWidget(entry.key, entry.value),
-                const SizedBox(height: 10),
+                Text(
+                  'Select ${idType.name}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                DocumentPicker(
+                  type: _selectedDocuments[idType],
+                  types: documentTypes,
+                  onSubmitted: (docType) => setState(() {
+                    _selectedDocuments[idType] = docType;
+                    // Clear previous fields when document type changes
+                    _documentFieldsByType[idType] = {};
+                  }),
+                ),
+                const SizedBox(height: 16),
+                // Show document fields for this document type
+                if (selectedDocType != null)
+                  ...documentFields.map(
+                    (field) => Column(
+                      children: [
+                        _buildDocumentFieldWidget(
+                          field: field,
+                          isRequired: true,
+                          currentValue: _documentFieldsByType[idType]?[field],
+                          onValueChanged: (value) =>
+                              _updateDocumentField(idType, field, value),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
+                  ),
               ],
-            ),
-          ),
+            );
+          }),
+
+          // Show pickers and fields for OR document type groups
+          ..._orDocumentTypeGroups.asMap().entries.map((entry) {
+            final index = entry.key;
+            final orTypes = entry.value;
+
+            final documentTypes = orTypes
+                .map((t) => t.toDocumentType())
+                .whereType<DocumentType>()
+                .toList();
+
+            if (documentTypes.isEmpty) return const SizedBox.shrink();
+
+            final selectedDocType = _selectedOrDocuments[index];
+
+            // Get required fields for this document type - use all fields from API
+            final List<DocumentField> documentFields;
+            if (selectedDocType != null) {
+              // Include all fields, not just those marked as required
+              documentFields = _requiredFields.keys.toList();
+            } else {
+              documentFields = <DocumentField>[];
+            }
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Select one document type',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                DocumentPicker(
+                  type: _selectedOrDocuments[index],
+                  types: documentTypes,
+                  onSubmitted: (docType) => setState(() {
+                    _selectedOrDocuments[index] = docType;
+                    // Clear previous fields when document type changes
+                    _orDocumentFields[index] = {};
+                  }),
+                ),
+                const SizedBox(height: 16),
+                // Show document fields for this document type
+                if (selectedDocType != null)
+                  ...documentFields.map(
+                    (field) => Column(
+                      children: [
+                        _buildDocumentFieldWidget(
+                          field: field,
+                          isRequired: true,
+                          currentValue: _orDocumentFields[index]?[field],
+                          onValueChanged: (value) =>
+                              _updateOrDocumentField(index, field, value),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
+                  ),
+              ],
+            );
+          }),
+
           const SizedBox(height: 28),
           const Spacer(),
           ListenableBuilder(

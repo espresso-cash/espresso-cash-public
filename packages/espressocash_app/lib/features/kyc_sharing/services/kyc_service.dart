@@ -13,6 +13,7 @@ import '../../accounts/auth_scope.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
+import '../models/kyc_validation_status.dart';
 import '../utils/kyc_exception.dart';
 import '../utils/kyc_utils.dart';
 
@@ -303,6 +304,12 @@ class KycSharingService extends ValueNotifier<UserData?> {
               policyUrl: partner.privacyUrl,
             ),
           );
+
+  Future<KycValidationStatus> getKycStatus({required String country}) =>
+      _kycRepository.fetchKycStatus(country: country);
+
+  Future<KycRequirement> getKycRequirements({required String country}) =>
+      _kycRepository.getKycRequirements(country: country);
 
   @override
   @disposeMethod
