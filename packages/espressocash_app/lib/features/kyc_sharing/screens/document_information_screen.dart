@@ -16,11 +16,6 @@ import '../widgets/document_picker.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
-enum RequirementRelationship {
-  and,
-  or,
-}
-
 class DocumentInformationScreen extends StatefulWidget {
   const DocumentInformationScreen({super.key, required this.requirement});
 
@@ -63,7 +58,7 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
     _parseRequirements();
 
     final requiredFields =
-        _parseRequiredFields(widget.requirement.requirements);
+        widget.requirement.requirements.parseRequiredFields();
     for (final field in requiredFields) {
       if (_needsTextController(field)) {
         _controllers[field] = TextEditingController();
@@ -72,67 +67,16 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
   }
 
   void _parseRequirements() {
-    print('Raw requirements: ${widget.requirement.requirements}');
-
-    _countryCode = _parseCountryCode(widget.requirement.requirements);
+    _countryCode = widget.requirement.requirements.parseCountryCode();
     if (_countryCode case final code?) {
       _countryName = Country.findByCode(code)?.name ?? code;
     }
 
     _availableDocumentTypes =
-        _parseDocumentTypes(widget.requirement.requirements);
+        widget.requirement.requirements.parseDocumentTypes();
 
     _documentFieldsRelationship =
-        _determineDocumentFieldsRelationship(widget.requirement.requirements);
-  }
-
-  String? _parseCountryCode(List<Requirement> requirements) {
-    for (final req in requirements) {
-      if (req is CountryCodeRequirement) {
-        return req.code;
-      } else if (req is AndRequirement) {
-        final code = _parseCountryCode(req.requirements);
-        if (code != null) return code;
-      } else if (req is OrRequirement) {
-        final code = _parseCountryCode(req.requirements);
-        if (code != null) return code;
-      }
-    }
-
-    return null;
-  }
-
-  List<DocumentType> _parseDocumentTypes(List<Requirement> requirements) {
-    final List<DocumentType> types = [];
-
-    for (final req in requirements) {
-      if (req is DocumentTypeRequirement) {
-        final docType = req.type.toDocumentType();
-        if (docType != null) types.add(docType);
-      } else if (req is AndRequirement) {
-        types.addAll(_parseDocumentTypes(req.requirements));
-      } else if (req is OrRequirement) {
-        types.addAll(_parseDocumentTypes(req.requirements));
-      }
-    }
-
-    return types;
-  }
-
-  List<DocumentField> _parseRequiredFields(List<Requirement> requirements) {
-    final List<DocumentField> fields = [];
-
-    for (final req in requirements) {
-      if (req is DocumentFieldRequirement) {
-        fields.add(req.field);
-      } else if (req is AndRequirement) {
-        fields.addAll(_parseRequiredFields(req.requirements));
-      } else if (req is OrRequirement) {
-        fields.addAll(_parseRequiredFields(req.requirements));
-      }
-    }
-
-    return fields;
+        widget.requirement.requirements.determineDocumentFieldsRelationship();
   }
 
   bool _needsTextController(DocumentField field) => switch (field) {
@@ -333,29 +277,10 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
         ],
       );
 
-  RequirementRelationship _determineDocumentFieldsRelationship(
-    List<Requirement> requirements,
-  ) {
-    for (final req in requirements) {
-      if (req is AndRequirement &&
-          req.requirements.any((r) => r is DocumentFieldRequirement)) {
-        return RequirementRelationship.and;
-      } else if (req is AndRequirement) {
-        final relationship =
-            _determineDocumentFieldsRelationship(req.requirements);
-        if (relationship == RequirementRelationship.and) {
-          return RequirementRelationship.and;
-        }
-      } else if (req is OrRequirement) {
-        final relationship =
-            _determineDocumentFieldsRelationship(req.requirements);
-        if (relationship == RequirementRelationship.and) {
-          return RequirementRelationship.and;
-        }
-      }
-    }
+  List<DocumentField> get _requiredFields {
+    if (_selectedDocumentType == null) return [];
 
-    return RequirementRelationship.or;
+    return widget.requirement.requirements.parseRequiredFields();
   }
 
   bool get _isValid {
@@ -394,12 +319,6 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
 
         return false;
     }
-  }
-
-  List<DocumentField> get _requiredFields {
-    if (_selectedDocumentType == null) return [];
-
-    return _parseRequiredFields(widget.requirement.requirements);
   }
 
   @override
@@ -487,4 +406,83 @@ class _RequiredCountryNotice extends StatelessWidget {
           ],
         ),
       );
+}
+
+enum RequirementRelationship {
+  and,
+  or,
+}
+
+extension on List<Requirement> {
+  String? parseCountryCode() {
+    for (final req in this) {
+      if (req is CountryCodeRequirement) {
+        return req.code;
+      } else if (req is AndRequirement) {
+        final code = req.requirements.parseCountryCode();
+        if (code != null) return code;
+      } else if (req is OrRequirement) {
+        final code = req.requirements.parseCountryCode();
+        if (code != null) return code;
+      }
+    }
+
+    return null;
+  }
+
+  List<DocumentType> parseDocumentTypes() {
+    final List<DocumentType> types = [];
+
+    for (final req in this) {
+      if (req is DocumentTypeRequirement) {
+        final docType = req.type.toDocumentType();
+        if (docType != null) types.add(docType);
+      } else if (req is AndRequirement) {
+        types.addAll(req.requirements.parseDocumentTypes());
+      } else if (req is OrRequirement) {
+        types.addAll(req.requirements.parseDocumentTypes());
+      }
+    }
+
+    return types;
+  }
+
+  List<DocumentField> parseRequiredFields() {
+    final List<DocumentField> fields = [];
+
+    for (final req in this) {
+      if (req is DocumentFieldRequirement) {
+        fields.add(req.field);
+      } else if (req is AndRequirement) {
+        fields.addAll(req.requirements.parseRequiredFields());
+      } else if (req is OrRequirement) {
+        fields.addAll(req.requirements.parseRequiredFields());
+      }
+    }
+
+    return fields;
+  }
+
+  RequirementRelationship determineDocumentFieldsRelationship() {
+    for (final req in this) {
+      if (req is AndRequirement &&
+          req.requirements.any((r) => r is DocumentFieldRequirement)) {
+        return RequirementRelationship.and;
+      } else if (req is AndRequirement) {
+        final relationship =
+            req.requirements.determineDocumentFieldsRelationship();
+        if (relationship == RequirementRelationship.and) {
+          return RequirementRelationship.and;
+        }
+      } else if (req is OrRequirement) {
+        final relationship =
+            req.requirements.determineDocumentFieldsRelationship();
+        if (relationship == RequirementRelationship.and) {
+          return RequirementRelationship.and;
+        }
+      }
+    }
+
+    return RequirementRelationship.or;
+  }
 }
