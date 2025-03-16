@@ -18,19 +18,30 @@ import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
 class BankAccountScreen extends StatefulWidget {
-  const BankAccountScreen({super.key, this.initialBankInfo});
+  const BankAccountScreen({
+    super.key,
+    this.initialBankInfo,
+    this.buttonLabel,
+  });
 
-  static Future<bool> push(BuildContext context, {BankInfo? initialBankInfo}) =>
+  static Future<bool> push(
+    BuildContext context, {
+    BankInfo? initialBankInfo,
+    String? buttonLabel,
+  }) =>
       Navigator.of(context)
           .push<bool>(
             MaterialPageRoute(
-              builder: (context) =>
-                  BankAccountScreen(initialBankInfo: initialBankInfo),
+              builder: (context) => BankAccountScreen(
+                initialBankInfo: initialBankInfo,
+                buttonLabel: buttonLabel,
+              ),
             ),
           )
           .then((result) => result ?? false);
 
   final BankInfo? initialBankInfo;
+  final String? buttonLabel;
 
   @override
   State<BankAccountScreen> createState() => _BankAccountScreenState();
@@ -132,7 +143,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
             listenable: _bankAccountNumberController,
             builder: (context, child) => CpBottomButton(
               horizontalPadding: 16,
-              text: context.l10n.next,
+              text: widget.buttonLabel ?? context.l10n.next,
               onPressed: _isValid ? _handleSubmitted : null,
             ),
           ),

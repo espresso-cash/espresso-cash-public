@@ -1237,5 +1237,7 @@
     "countryOfBank": "Country of Bank",
     "@countryOfBank": {},
     "addNewBankAccount": "Add New Bank Account",
-    "@addNewBankAccount": {}
+    "@addNewBankAccount": {},
+    "update": "Update",
+    "@update": {}
 }
