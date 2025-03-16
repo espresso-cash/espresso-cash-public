@@ -56,7 +56,21 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
   void initState() {
     super.initState();
     _parseRequirements();
+    _initializeControllers();
+  }
 
+  void _parseRequirements() {
+    final requirements = widget.requirement.requirements;
+    _countryCode = requirements.parseCountryCode();
+    _countryName = _countryCode != null
+        ? Country.findByCode(_countryCode!)?.name ?? _countryCode
+        : null;
+    _availableDocumentTypes = requirements.parseDocumentTypes();
+    _documentFieldsRelationship =
+        requirements.determineDocumentFieldsRelationship();
+  }
+
+  void _initializeControllers() {
     final requiredFields =
         widget.requirement.requirements.parseRequiredFields();
     for (final field in requiredFields) {
@@ -66,23 +80,8 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
     }
   }
 
-  void _parseRequirements() {
-    _countryCode = widget.requirement.requirements.parseCountryCode();
-    if (_countryCode case final code?) {
-      _countryName = Country.findByCode(code)?.name ?? code;
-    }
-
-    _availableDocumentTypes =
-        widget.requirement.requirements.parseDocumentTypes();
-
-    _documentFieldsRelationship =
-        widget.requirement.requirements.determineDocumentFieldsRelationship();
-  }
-
-  bool _needsTextController(DocumentField field) => switch (field) {
-        DocumentField.idNumber => true,
-        DocumentField.photoFront || DocumentField.photoBack => false,
-      };
+  bool _needsTextController(DocumentField field) =>
+      field == DocumentField.idNumber;
 
   @override
   void dispose() {
@@ -107,24 +106,9 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
           );
 
           // Extract document field values
-          String? idNumber;
-          File? frontImage;
-          File? backImage;
-
-          // Get ID number if available
-          if (_documentFields.containsKey(DocumentField.idNumber)) {
-            idNumber = _controllers[DocumentField.idNumber]?.text;
-          }
-
-          // Get front image if available
-          if (_documentFields.containsKey(DocumentField.photoFront)) {
-            frontImage = _documentFields[DocumentField.photoFront] as File?;
-          }
-
-          // Get back image if available
-          if (_documentFields.containsKey(DocumentField.photoBack)) {
-            backImage = _documentFields[DocumentField.photoBack] as File?;
-          }
+          final idNumber = _controllers[DocumentField.idNumber]?.text;
+          final frontImage = _documentFields[DocumentField.photoFront] as File?;
+          final backImage = _documentFields[DocumentField.photoBack] as File?;
 
           // Debug information
           print('IdType: $idType');
@@ -136,7 +120,7 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
           );
           print('Back Image: ${backImage != null ? 'Present' : 'Not present'}');
 
-          // Call the service with the collected data
+          // TODO: Uncomment when service is ready
           // await sl<KycSharingService>().updateDocumentInfo(
           //   idType: _selectedDocumentType,
           //   idNumber: idNumber,
@@ -148,14 +132,11 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
           return true;
         } on Exception catch (e) {
           if (!mounted) return false;
-
           showCpErrorSnackbar(
             context,
             message: context.l10n.failedToUpdateData,
           );
-
           print('Error submitting document info: $e');
-
           return false;
         }
       },
@@ -171,120 +152,48 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
     });
   }
 
-  dynamic _pickPhoto() {
+  Future<File?> _pickPhoto() async {
     // TODO: Implement photo picking logic
     return null;
   }
 
   Widget _buildDocumentFieldWidget(DocumentField field) {
-    final isRequired = _requiredFields.contains(field);
-    final currentValue = _documentFields[field];
+    final isInRequiredList = _requiredFields.contains(field);
+    final isRequired = isInRequiredList &&
+        _documentFieldsRelationship == RequirementRelationship.and;
 
     switch (field) {
       case DocumentField.idNumber:
-        final controller = _controllers[field]!;
-
-        if (controller.text != (currentValue as String? ?? '')) {
-          controller.text = currentValue ?? '';
-        }
-
-        controller.removeListener(() {});
-        controller.addListener(() {
-          _updateDocumentField(field, controller.text);
-        });
-
-        return KycTextField(
-          controller: controller,
-          inputType: TextInputType.text,
-          placeholder: context.l10n.idNumber,
+        return _IdNumberField(
+          controller: _controllers[field]!,
+          currentValue: _documentFields[field] as String? ?? '',
+          onChanged: (value) => _updateDocumentField(field, value),
         );
-
       case DocumentField.photoFront:
-        return _buildPhotoUploadField(
+        return _PhotoUploadField(
           label: 'Photo Front',
           isRequired: isRequired,
-          currentValue: currentValue,
+          currentValue: _documentFields[field] as File?,
           onValueChanged: (value) => _updateDocumentField(field, value),
+          pickPhoto: _pickPhoto,
         );
-
       case DocumentField.photoBack:
-        return _buildPhotoUploadField(
+        return _PhotoUploadField(
           label: 'Photo Back',
           isRequired: isRequired,
-          currentValue: currentValue,
+          currentValue: _documentFields[field] as File?,
           onValueChanged: (value) => _updateDocumentField(field, value),
+          pickPhoto: _pickPhoto,
         );
     }
   }
 
-  Widget _buildPhotoUploadField({
-    required String label,
-    required bool isRequired,
-    required void Function(dynamic) onValueChanged,
-    dynamic currentValue,
-  }) =>
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$label${isRequired && _documentFieldsRelationship == RequirementRelationship.and ? ' *' : ''}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-            ),
-          ),
-          const SizedBox(height: 8),
-          GestureDetector(
-            onTap: () async {
-              final photo = await _pickPhoto();
-              if (photo != null) {
-                onValueChanged(photo);
-              }
-            },
-            child: Container(
-              height: 120,
-              decoration: const BoxDecoration(
-                color: CpColors.blackGreyColor,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8),
-                ),
-              ),
-              child: currentValue != null
-                  ? Image.file(
-                      File(''), //TODO: Use actual file
-                      fit: BoxFit.cover,
-                    )
-                  : Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.add_a_photo,
-                            color: Colors.white.withOpacity(0.5),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Tap to upload',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.5),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-            ),
-          ),
-        ],
-      );
-
   List<DocumentField> get _requiredFields {
     if (_selectedDocumentType == null) return [];
-
     return widget.requirement.requirements.parseRequiredFields();
   }
 
   bool get _isValid {
-    // Must have a document type selected
     if (_selectedDocumentType == null) return false;
 
     final requiredFields = _requiredFields;
@@ -292,41 +201,28 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
 
     switch (_documentFieldsRelationship) {
       case RequirementRelationship.and:
-        // AND relationship - all fields must have values
-        for (final field in requiredFields) {
-          final value = _documentFields[field];
-          if (value == null ||
-              (value is String && value.isEmpty) ||
-              (field == DocumentField.idNumber &&
-                  (_controllers[field]?.text.isEmpty ?? true))) {
-            return false;
-          }
-        }
-
-        return true;
-
+        return requiredFields.every(_isFieldValid);
       case RequirementRelationship.or:
-        // OR relationship - at least one field must have a value
-        for (final field in requiredFields) {
-          final value = _documentFields[field];
-          if (value != null &&
-              (value is! String || value.isNotEmpty) &&
-              (field != DocumentField.idNumber ||
-                  (_controllers[field]?.text.isNotEmpty ?? false))) {
-            return true;
-          }
-        }
-
-        return false;
+        return requiredFields.any(_isFieldValid);
     }
+  }
+
+  bool _isFieldValid(DocumentField field) {
+    final value = _documentFields[field];
+
+    if (field == DocumentField.idNumber) {
+      return _controllers[field]?.text.isNotEmpty ?? false;
+    }
+
+    return value != null && (value is! String || value.isNotEmpty);
   }
 
   @override
   Widget build(BuildContext context) => KycPage(
         title: 'Document'.toUpperCase(),
         children: [
-          if (_countryName case final countryName?) ...[
-            _RequiredCountryNotice(countryName: countryName),
+          if (_countryName != null) ...[
+            _RequiredCountryNotice(countryName: _countryName!),
             const SizedBox(height: 16),
           ],
           const Text(
@@ -346,7 +242,7 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
             }),
           ),
           const SizedBox(height: 16),
-          if (_selectedDocumentType != null) ...[
+          if (_selectedDocumentType != null)
             ..._requiredFields.map(
               (field) => Column(
                 children: [
@@ -355,13 +251,10 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
                 ],
               ),
             ),
-          ],
           const SizedBox(height: 28),
           const Spacer(),
           ListenableBuilder(
-            listenable: Listenable.merge(
-              _controllers.values.toList(),
-            ),
+            listenable: Listenable.merge(_controllers.values.toList()),
             builder: (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.next,
@@ -370,6 +263,137 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
           ),
         ],
       );
+}
+
+class _IdNumberField extends StatefulWidget {
+  const _IdNumberField({
+    required this.controller,
+    required this.currentValue,
+    required this.onChanged,
+  });
+
+  final TextEditingController controller;
+  final String currentValue;
+  final ValueChanged<String> onChanged;
+
+  @override
+  State<_IdNumberField> createState() => _IdNumberFieldState();
+}
+
+class _IdNumberFieldState extends State<_IdNumberField> {
+  @override
+  void initState() {
+    super.initState();
+    _syncControllerWithValue();
+    widget.controller.addListener(_handleTextChanged);
+  }
+
+  @override
+  void didUpdateWidget(_IdNumberField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller ||
+        oldWidget.currentValue != widget.currentValue) {
+      _syncControllerWithValue();
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_handleTextChanged);
+    super.dispose();
+  }
+
+  void _syncControllerWithValue() {
+    if (widget.controller.text != widget.currentValue) {
+      widget.controller.text = widget.currentValue;
+    }
+  }
+
+  void _handleTextChanged() {
+    widget.onChanged(widget.controller.text);
+  }
+
+  @override
+  Widget build(BuildContext context) => KycTextField(
+        controller: widget.controller,
+        inputType: TextInputType.text,
+        placeholder: context.l10n.idNumber,
+      );
+}
+
+class _PhotoUploadField extends StatelessWidget {
+  const _PhotoUploadField({
+    required this.label,
+    required this.isRequired,
+    required this.onValueChanged,
+    required this.pickPhoto,
+    this.currentValue,
+  });
+
+  final String label;
+  final bool isRequired;
+  final File? currentValue;
+  final ValueChanged<File> onValueChanged;
+  final Future<File?> Function() pickPhoto;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$label${isRequired ? ' *' : ''}',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 8),
+          GestureDetector(
+            onTap: () async {
+              final photo = await pickPhoto();
+              if (photo != null) {
+                onValueChanged(photo);
+              }
+            },
+            child: Container(
+              height: 120,
+              decoration: const BoxDecoration(
+                color: CpColors.blackGreyColor,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: _buildPhotoPreview(),
+            ),
+          ),
+        ],
+      );
+
+  Widget _buildPhotoPreview() {
+    if (currentValue != null) {
+      return Image.file(
+        currentValue!,
+        fit: BoxFit.cover,
+      );
+    }
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.add_a_photo,
+            color: Colors.white.withOpacity(0.5),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Tap to upload',
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.5),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _RequiredCountryNotice extends StatelessWidget {
