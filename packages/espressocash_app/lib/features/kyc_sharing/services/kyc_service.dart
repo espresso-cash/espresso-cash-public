@@ -154,6 +154,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     DocumentType? idType,
     DateTime? expirationDate,
     String? countryCode,
+    File? frontImage,
+    File? backImage,
   }) async {
     await _kycRepository.grantValidatorAccess();
 
@@ -164,6 +166,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
         countryCode: countryCode ?? '',
         expirationDate: expirationDate,
         id: value?.documents?.first.id ?? '',
+        frontImage: frontImage != null ? await frontImage.readAsBytes() : null,
+        backImage: backImage != null ? await backImage.readAsBytes() : null,
       ),
     );
 

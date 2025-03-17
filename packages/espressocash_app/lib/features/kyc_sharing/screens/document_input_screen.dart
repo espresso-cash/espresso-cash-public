@@ -1,6 +1,7 @@
 // ignore_for_file: avoid-recursive-calls
 
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart' hide IdTypeExtension;
@@ -246,7 +247,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
         children: [
           if (_countryName case final countryName?) ...[
             _RequiredCountryNotice(countryName: countryName),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
           ],
           const Text(
             'Select Document Type',
@@ -384,9 +385,53 @@ class _PhotoUploadField extends StatelessWidget {
       );
 
   Widget _buildPhotoPreview() => switch (currentValue) {
-        final file? => Image.file(
-            file,
-            fit: BoxFit.cover,
+        final file? => Stack(
+            fit: StackFit.expand,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                child: LayoutBuilder(
+                  builder: (context, constraints) => Image.file(
+                    file,
+                    fit: BoxFit.cover,
+                    alignment: Alignment.center,
+                    width: constraints.maxWidth,
+                    height: constraints.maxHeight,
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 8,
+                bottom: 8,
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.6),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(4),
+                    ),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        'Change',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         _ => Center(
             child: Column(

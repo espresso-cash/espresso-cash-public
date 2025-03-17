@@ -40,7 +40,7 @@ if (project.hasProperty('dart-defines')) {
 }
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
     ndkVersion "26.1.10909125"
 
     sourceSets {
@@ -54,7 +54,7 @@ android {
     defaultConfig {
         applicationId "com.pleasecrypto.flutter"
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
