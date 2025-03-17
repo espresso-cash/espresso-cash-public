@@ -62,9 +62,9 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     final emailStatus = user?.email?.status;
     final phoneStatus = user?.phone?.status;
+    // TODO(vs): Implement new status fetching for kyc fields
     final nameStatus = user?.name?.status;
     final birthDateStatus = user?.birthDate?.status;
-    // TODO(vs): This should be flexible for multiple documents
     final documentStatus = user?.documents?.firstOrNull?.status;
     final selfieStatus = user?.selfie?.status;
 
@@ -81,7 +81,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
       birthDate: birthDateStatus != null
           ? value?.birthDate?.copyWith(status: birthDateStatus)
           : value?.birthDate,
-      // TODO(vs): This should be flexible for multiple documents
       documents: value?.documents
           ?.map(
             (doc) => documentStatus != null

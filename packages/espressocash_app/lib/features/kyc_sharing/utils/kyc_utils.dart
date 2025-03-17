@@ -22,7 +22,7 @@ extension UserDataExtensions on UserData {
 
   Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
 
-  // TODO(vs): This kyc status is not used anywhere, we should use new kyc polling
+  // TODO(vs): Implement new status fetching for kyc fields
   ValidationStatus get kycStatus {
     final statuses = [
       documents?.firstOrNull?.status,
