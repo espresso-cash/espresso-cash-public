@@ -14,8 +14,6 @@ import '../../../../accounts/models/ec_wallet.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
-import '../../../../kyc_sharing/services/kyc_service.dart';
-import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
@@ -28,14 +26,12 @@ class BrijOnRampOrderService implements Disposable {
     this._db,
     this._kycRepository,
     this._ecWallet,
-    this._kycSharingService,
     this._analytics,
   );
 
   final MyDatabase _db;
   final KycRepository _kycRepository;
   final ECWallet _ecWallet;
-  final KycSharingService _kycSharingService;
   final AnalyticsManager _analytics;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
