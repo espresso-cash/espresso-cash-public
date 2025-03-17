@@ -8,8 +8,9 @@ import '../../../ui/colors.dart';
 import '../../country_picker/models/country.dart';
 import '../services/kyc_service.dart';
 import '../widgets/kyc_page.dart';
+import 'bank_account_screen.dart';
 
-class BankAccountListScreen extends StatefulWidget {
+class BankAccountListScreen extends StatelessWidget {
   const BankAccountListScreen({super.key});
 
   static Future<bool> push(BuildContext context) => Navigator.of(context)
@@ -21,33 +22,24 @@ class BankAccountListScreen extends StatefulWidget {
       .then((result) => result ?? false);
 
   @override
-  State<BankAccountListScreen> createState() => _BankAccountListScreenState();
-}
-
-class _BankAccountListScreenState extends State<BankAccountListScreen> {
-  List<BankInfo> _bankInfos = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    final user = sl<KycSharingService>().value;
-
-    _bankInfos = user?.bankInfos ?? [];
-  }
-
-  @override
-  Widget build(BuildContext context) => KycPage(
-        title: context.l10n.bankAccount.toUpperCase(),
-        children: [
-          for (final bankInfo in _bankInfos) _BankInfoItem(bankInfo),
-          const Spacer(),
-          CpBottomButton(
-            horizontalPadding: 16,
-            text: 'Add New Bank Account',
-            onPressed: () {},
-          ),
-        ],
+  Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
+        valueListenable: sl<KycSharingService>(),
+        builder: (context, user, _) {
+          final bankInfos = user?.bankInfos ?? [];
+          
+          return KycPage(
+            title: context.l10n.bankAccount.toUpperCase(),
+            children: [
+              for (final bankInfo in bankInfos) _BankInfoItem(bankInfo),
+              const Spacer(),
+              CpBottomButton(
+                horizontalPadding: 16,
+                text: context.l10n.addNewBankAccount,
+                onPressed: () => BankAccountScreen.push(context),
+              ),
+            ],
+          );
+        },
       );
 }
 
@@ -82,7 +74,11 @@ class _BankInfoItem extends StatelessWidget {
           size: 14,
           color: Colors.white,
         ),
-        onTap: () {},
+        onTap: () => BankAccountScreen.push(
+          context,
+          initialBankInfo: bankInfo,
+          buttonLabel: context.l10n.update,
+        ),
       ),
     );
   }

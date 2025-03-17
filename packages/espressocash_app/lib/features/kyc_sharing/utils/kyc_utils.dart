@@ -15,25 +15,15 @@ extension UserDataExtensions on UserData {
   String? get firstName => name?.firstName.nullIfEmpty;
   String? get lastName => name?.lastName.nullIfEmpty;
   DateTime? get dob => birthDate?.value;
+  String? get citizenshipCode => citizenship?.value.nullIfEmpty;
 
   String? get getEmail => email?.value.nullIfEmpty;
   String? get getPhone => phone?.value.nullIfEmpty;
 
-  // TODO(vs): This should be flexible for multiple documents
-  IdType? get documentType => documents?.firstOrNull?.type;
-  String? get documentNumber => documents?.firstOrNull?.number.nullIfEmpty;
-  String? get countryCode => documents?.firstOrNull?.countryCode.nullIfEmpty;
-
   Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
 
-  // TODO(vs): This should be flexible for multiple bankInfos
-  String? get bankCode => bankInfos?.firstOrNull?.bankCode.nullIfEmpty;
-  String? get bankName => bankInfos?.firstOrNull?.bankName.nullIfEmpty;
-  String? get accountNumber =>
-      bankInfos?.firstOrNull?.accountNumber.nullIfEmpty;
-
+  // TODO(vs): This kyc status is not used anywhere, we should use new kyc polling
   ValidationStatus get kycStatus {
-    // TODO(vs): This should be flexible for multiple documents
     final statuses = [
       documents?.firstOrNull?.status,
       name?.status,
@@ -61,11 +51,10 @@ extension UserDataExtensions on UserData {
   ValidationStatus get emailStatus =>
       email?.status ?? ValidationStatus.unspecified;
 
-  // TODO(vs): This should be flexible for multiple bankInfos
-  bool get hasBankInfo =>
-      (bankInfos?.firstOrNull?.bankCode.isNotEmpty ?? false) &&
-      (bankInfos?.firstOrNull?.accountNumber.isNotEmpty ?? false) &&
-      (bankInfos?.firstOrNull?.bankName.isNotEmpty ?? false);
+  bool hasBankInfo(BankInfo bankInfo) =>
+      bankInfo.bankCode.isNotEmpty &&
+      bankInfo.accountNumber.isNotEmpty &&
+      bankInfo.bankName.isNotEmpty;
 }
 
 extension StringNullIfEmpty on String {

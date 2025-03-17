@@ -86,7 +86,8 @@ extension KycFlowExtension on BuildContext {
       if (!await _runFlow(phoneSteps)) return false;
     }
 
-    final hasBankInfo = user.hasBankInfo;
+    // TODO(vs): We should check if user has bank info for selected country
+    const hasBankInfo = false;
 
     if (!hasBankInfo) {
       if (!await _navigateToScreen(BankAccountScreen.push)) return false;
