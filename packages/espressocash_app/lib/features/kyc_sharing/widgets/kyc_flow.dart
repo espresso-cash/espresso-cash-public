@@ -37,7 +37,7 @@ const List<KycStepFunction> phoneSteps = [
 ];
 
 extension KycFlowExtension on BuildContext {
-  Future<bool> openKycFlow() async {
+  Future<bool> openKycFlow({String? countryCode}) async {
     final user = sl<KycSharingService>().value;
 
     if (user == null) {
@@ -68,8 +68,9 @@ extension KycFlowExtension on BuildContext {
       if (!await _runFlow(phoneSteps)) return false;
     }
 
-    // TODO(vs): We should check if user has bank info for selected country
-    const hasBankInfo = false;
+    final hasBankInfo = countryCode != null &&
+        user.bankInfos?.any((account) => account.countryCode == countryCode) ==
+            true;
 
     if (!hasBankInfo) {
       if (!await _navigateToScreen(BankAccountScreen.push)) return false;
