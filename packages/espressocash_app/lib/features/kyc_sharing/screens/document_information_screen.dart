@@ -12,7 +12,6 @@ import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../models/document_type.dart';
 import '../services/kyc_service.dart';
-import '../utils/kyc_utils.dart';
 import '../widgets/document_picker.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
@@ -51,27 +50,11 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _initializeUserData();
-  }
-
-  @override
   void dispose() {
     _idNumberController.dispose();
     _expirationDateController.dispose();
 
     super.dispose();
-  }
-
-  void _initializeUserData() {
-    final user = sl<KycSharingService>().value;
-    final dob = user?.dob;
-    _country = Country.findByCode(user?.countryCode ?? '');
-    _expirationDateController.text =
-        dob != null ? DateFormat('dd/MM/yyyy').format(dob) : '';
-    _idType = user?.documentType?.toDocumentType();
-    _idNumberController.text = user?.documentNumber ?? '';
   }
 
   Future<void> _handleSubmitted() async {

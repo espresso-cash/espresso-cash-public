@@ -158,13 +158,12 @@ class BrijOnRampOrderService implements Disposable {
           await _db.into(_db.onRampOrderRows).insertOnConflictUpdate(order);
           _subscribe(order.id);
 
-          final countryCode = _kycSharingService.value?.countryCode;
-
           _analytics.rampInitiated(
             partnerName: partner.name,
             rampType: RampType.onRamp.name,
             amount: submittedAmount.value.toString(),
-            countryCode: countryCode ?? '',
+            // TODO(vs): Country should be passed as parameter, based on picked on in select partner screen
+            countryCode: '',
             id: order.id,
           );
 

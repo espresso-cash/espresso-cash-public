@@ -36,7 +36,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   final _lastNameController = TextEditingController();
   final _dobController = TextEditingController();
 
-  Country? _country;
+  Country? _citizenship;
 
   bool get _isValid {
     final DateTime? dob = _parseDate(_dobController.text);
@@ -45,7 +45,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
         _lastNameController.text.trim().isNotEmpty &&
         dob != null &&
         !dob.isAfter(DateTime.now()) &&
-        _country != null;
+        _citizenship != null;
   }
 
   @override
@@ -66,8 +66,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   void _initializeUserData() {
     final user = sl<KycSharingService>().value;
     final dob = user?.dob;
-    // TODO(vs): It should update citizenship, not document country
-    // _country = Country.findByCode(user?.countryCode ?? '');
+    _citizenship = Country.findByCode(user?.citizenshipCode ?? '');
     _firstNameController.text = user?.firstName ?? '';
     _lastNameController.text = user?.lastName ?? '';
     _dobController.text =
@@ -80,7 +79,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
       () async {
         try {
           final DateTime? dob = _parseDate(_dobController.text);
-          final countryCode = _country?.code;
+          final countryCode = _citizenship?.code;
 
           if (countryCode == null) {
             throw Exception();
@@ -147,8 +146,8 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
           CountryPicker(
             backgroundColor: CpColors.blackGreyColor,
             placeholder: 'Country of Citizenship',
-            country: _country,
-            onSubmitted: (country) => setState(() => _country = country),
+            country: _citizenship,
+            onSubmitted: (country) => setState(() => _citizenship = country),
           ),
           const SizedBox(height: 28),
           const Spacer(),

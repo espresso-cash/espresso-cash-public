@@ -55,7 +55,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
 
   bool get _isValid =>
       _bankAccountNumberController.text.trim().isNotEmpty &&
-      _selectedBank != null &&
+      (_selectedBank != null || _bankCodeController.text.trim().isNotEmpty) &&
       _selectedCountry != null;
 
   Future<void> _handleSubmitted() async {
