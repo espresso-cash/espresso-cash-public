@@ -109,9 +109,11 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
 
   void _updateSelectedBank() {
     if (_selectedCountry?.code != 'NG') {
-      final code = _bankCodeController.text.trim();
-      setState(() => _selectedBank = (code: code, name: code));
+      return;
     }
+
+    final code = _bankCodeController.text.trim();
+    setState(() => _selectedBank = (code: code, name: code));
   }
 
   @override

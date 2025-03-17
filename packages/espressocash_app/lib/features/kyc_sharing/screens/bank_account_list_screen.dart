@@ -26,6 +26,7 @@ class BankAccountListScreen extends StatelessWidget {
         valueListenable: sl<KycSharingService>(),
         builder: (context, user, _) {
           final bankInfos = user?.bankInfos ?? [];
+          
           return KycPage(
             title: context.l10n.bankAccount.toUpperCase(),
             children: [
