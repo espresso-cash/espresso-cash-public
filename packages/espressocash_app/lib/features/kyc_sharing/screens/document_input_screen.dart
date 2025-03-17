@@ -12,12 +12,14 @@ import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../country_picker/models/country.dart';
 import '../models/document_type.dart';
+import '../screens/document_camera_screen.dart';
+import '../screens/document_info_screen.dart';
 import '../widgets/document_picker.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
-class DocumentInformationScreen extends StatefulWidget {
-  const DocumentInformationScreen({super.key, required this.requirement});
+class DocumentInputScreen extends StatefulWidget {
+  const DocumentInputScreen({super.key, required this.requirement});
 
   final KycRequirement requirement;
 
@@ -29,17 +31,16 @@ class DocumentInformationScreen extends StatefulWidget {
           .push<bool>(
             MaterialPageRoute(
               builder: (context) =>
-                  DocumentInformationScreen(requirement: requirement),
+                  DocumentInputScreen(requirement: requirement),
             ),
           )
           .then((result) => result ?? false);
 
   @override
-  State<DocumentInformationScreen> createState() =>
-      _DocumentInformationScreenState();
+  State<DocumentInputScreen> createState() => _DocumentInputScreenState();
 }
 
-class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
+class _DocumentInputScreenState extends State<DocumentInputScreen> {
   String? _countryCode;
   String? _countryName;
 
@@ -62,9 +63,10 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
   void _parseRequirements() {
     final requirements = widget.requirement.requirements;
     _countryCode = requirements.parseCountryCode();
-    _countryName = _countryCode != null
-        ? Country.findByCode(_countryCode!)?.name ?? _countryCode
-        : null;
+    _countryName = switch (_countryCode) {
+      final code? => Country.findByCode(code)?.name ?? code,
+      _ => null
+    };
     _availableDocumentTypes = requirements.parseDocumentTypes();
     _documentFieldsRelationship =
         requirements.determineDocumentFieldsRelationship();
@@ -137,6 +139,7 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
             message: context.l10n.failedToUpdateData,
           );
           print('Error submitting document info: $e');
+
           return false;
         }
       },
@@ -153,8 +156,21 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
   }
 
   Future<File?> _pickPhoto() async {
-    // TODO: Implement photo picking logic
-    return null;
+    final shouldProceed = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (context) => const DocumentInfoScreen(),
+      ),
+    );
+
+    if (!mounted) return null;
+
+    return shouldProceed == true
+        ? Navigator.of(context).push<File?>(
+            MaterialPageRoute(
+              builder: (context) => const DocumentCameraScreen(),
+            ),
+          )
+        : null;
   }
 
   Widget _buildDocumentFieldWidget(DocumentField field) {
@@ -173,23 +189,32 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
         return _PhotoUploadField(
           label: 'Photo Front',
           isRequired: isRequired,
+          onTap: () async {
+            final photo = await _pickPhoto();
+            if (photo != null) {
+              _updateDocumentField(field, photo);
+            }
+          },
           currentValue: _documentFields[field] as File?,
-          onValueChanged: (value) => _updateDocumentField(field, value),
-          pickPhoto: _pickPhoto,
         );
       case DocumentField.photoBack:
         return _PhotoUploadField(
           label: 'Photo Back',
           isRequired: isRequired,
+          onTap: () async {
+            final photo = await _pickPhoto();
+            if (photo != null) {
+              _updateDocumentField(field, photo);
+            }
+          },
           currentValue: _documentFields[field] as File?,
-          onValueChanged: (value) => _updateDocumentField(field, value),
-          pickPhoto: _pickPhoto,
         );
     }
   }
 
   List<DocumentField> get _requiredFields {
     if (_selectedDocumentType == null) return [];
+
     return widget.requirement.requirements.parseRequiredFields();
   }
 
@@ -210,19 +235,17 @@ class _DocumentInformationScreenState extends State<DocumentInformationScreen> {
   bool _isFieldValid(DocumentField field) {
     final value = _documentFields[field];
 
-    if (field == DocumentField.idNumber) {
-      return _controllers[field]?.text.isNotEmpty ?? false;
-    }
-
-    return value != null && (value is! String || value.isNotEmpty);
+    return field == DocumentField.idNumber
+        ? _controllers[field]?.text.isNotEmpty ?? false
+        : value != null && (value is! String || value.isNotEmpty);
   }
 
   @override
   Widget build(BuildContext context) => KycPage(
         title: 'Document'.toUpperCase(),
         children: [
-          if (_countryName != null) ...[
-            _RequiredCountryNotice(countryName: _countryName!),
+          if (_countryName case final countryName?) ...[
+            _RequiredCountryNotice(countryName: countryName),
             const SizedBox(height: 16),
           ],
           const Text(
@@ -325,16 +348,14 @@ class _PhotoUploadField extends StatelessWidget {
   const _PhotoUploadField({
     required this.label,
     required this.isRequired,
-    required this.onValueChanged,
-    required this.pickPhoto,
+    required this.onTap,
     this.currentValue,
   });
 
   final String label;
   final bool isRequired;
   final File? currentValue;
-  final ValueChanged<File> onValueChanged;
-  final Future<File?> Function() pickPhoto;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -349,12 +370,7 @@ class _PhotoUploadField extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           GestureDetector(
-            onTap: () async {
-              final photo = await pickPhoto();
-              if (photo != null) {
-                onValueChanged(photo);
-              }
-            },
+            onTap: onTap,
             child: Container(
               height: 120,
               decoration: const BoxDecoration(
@@ -367,33 +383,30 @@ class _PhotoUploadField extends StatelessWidget {
         ],
       );
 
-  Widget _buildPhotoPreview() {
-    if (currentValue != null) {
-      return Image.file(
-        currentValue!,
-        fit: BoxFit.cover,
-      );
-    }
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.add_a_photo,
-            color: Colors.white.withOpacity(0.5),
+  Widget _buildPhotoPreview() => switch (currentValue) {
+        final file? => Image.file(
+            file,
+            fit: BoxFit.cover,
           ),
-          const SizedBox(height: 8),
-          Text(
-            'Tap to upload',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.5),
+        _ => Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.add_a_photo,
+                  color: Colors.white.withOpacity(0.5),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Tap to upload',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.5),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
-    );
-  }
+      };
 }
 
 class _RequiredCountryNotice extends StatelessWidget {
