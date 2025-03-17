@@ -5,6 +5,7 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../screens/bank_account_screen.dart';
+import '../screens/document_input_screen.dart';
 import '../screens/email_confirmation_screen.dart';
 import '../screens/email_status_screen.dart';
 import '../screens/email_verification_screen.dart';
@@ -36,8 +37,18 @@ const List<KycStepFunction> phoneSteps = [
   PhoneConfirmationScreen.push,
 ];
 
+List<KycStepFunction> documentSteps({
+  required KycRequirement requirement,
+}) =>
+    [
+      (BuildContext ctx) => DocumentInputScreen.push(
+            ctx,
+            requirement: requirement,
+          ),
+    ];
+
 extension KycFlowExtension on BuildContext {
-  Future<bool> openKycFlow() async {
+  Future<bool> openKycFlow({String? countryCode}) async {
     final user = sl<KycSharingService>().value;
 
     if (user == null) {
@@ -45,6 +56,13 @@ extension KycFlowExtension on BuildContext {
 
       return false;
     }
+
+    final requirement = await sl<KycSharingService>().getKycRequirements(
+      country: countryCode ?? '',
+    ); //TODO, country must be provided
+
+    // TODO, update flow
+    if (!await _runFlow(documentSteps(requirement: requirement))) return false;
 
     final kycProcessed = user.kycStatus.isApprovedOrPending;
 

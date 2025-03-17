@@ -1,8 +1,8 @@
 // ignore_for_file: avoid-recursive-calls
 
 import 'dart:io';
-import 'dart:math' as math;
-
+import '../../../di.dart';
+import '../services/kyc_service.dart';
 import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart' hide IdTypeExtension;
 
@@ -103,43 +103,28 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
             throw Exception('Missing required information');
           }
 
-          final idType = IdType.values.firstWhere(
-            (type) => type.toDocumentType() == _selectedDocumentType,
-            orElse: () => throw Exception('Invalid document type'),
-          );
-
-          // Extract document field values
           final idNumber = _controllers[DocumentField.idNumber]?.text;
           final frontImage = _documentFields[DocumentField.photoFront] as File?;
           final backImage = _documentFields[DocumentField.photoBack] as File?;
 
-          // Debug information
-          print('IdType: $idType');
-          print('Country Code: $_countryCode');
-          print('Selected Document: $_selectedDocumentType');
-          print('ID Number: $idNumber');
-          print(
-            'Front Image: ${frontImage != null ? 'Present' : 'Not present'}',
+          await sl<KycSharingService>().updateDocumentInfo(
+            idType: _selectedDocumentType,
+            idNumber: idNumber,
+            countryCode: _countryCode,
+            frontImage: frontImage,
+            backImage: backImage,
           );
-          print('Back Image: ${backImage != null ? 'Present' : 'Not present'}');
-
-          // TODO: Uncomment when service is ready
-          // await sl<KycSharingService>().updateDocumentInfo(
-          //   idType: _selectedDocumentType,
-          //   idNumber: idNumber,
-          //   countryCode: _countryCode,
-          //   frontImage: frontImage,
-          //   backImage: backImage,
-          // );
 
           return true;
         } on Exception catch (e) {
           if (!mounted) return false;
+
+          print('Error submitting document info: $e');
+
           showCpErrorSnackbar(
             context,
             message: context.l10n.failedToUpdateData,
           );
-          print('Error submitting document info: $e');
 
           return false;
         }

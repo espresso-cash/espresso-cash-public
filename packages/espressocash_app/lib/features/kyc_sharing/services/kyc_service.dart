@@ -165,7 +165,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
         number: idNumber ?? '',
         countryCode: countryCode ?? '',
         expirationDate: expirationDate,
-        id: value?.documents?.first.id ?? '',
+        id: '', //TODO
         frontImage: frontImage != null ? await frontImage.readAsBytes() : null,
         backImage: backImage != null ? await backImage.readAsBytes() : null,
       ),
@@ -193,19 +193,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     await fetchUserData();
   }
-
-  // Future<void> initDocumentValidation() async {
-  //   await _kycRepository.initKycVerification(
-  //     nameId: value?.name?.id ?? '',
-  //     birthDateId: value?.birthDate?.id ?? '',
-  //     // TODO(vs): This should be flexible for multiple documents
-  //     documentId: value?.documents?.first.id ?? '',
-  //     selfieImageId: value?.selfie?.id ?? '',
-  //   );
-
-  //   await fetchStatuses();
-  //   _subscribe();
-  // }
 
   Future<void> startKycVerification({
     required String country,
