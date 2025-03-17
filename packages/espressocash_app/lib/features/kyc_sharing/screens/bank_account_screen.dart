@@ -49,6 +49,7 @@ class BankAccountScreen extends StatefulWidget {
 
 class _BankAccountScreenState extends State<BankAccountScreen> {
   final _bankAccountNumberController = TextEditingController();
+  final _bankCodeController = TextEditingController();
   Bank? _selectedBank;
   Country? _selectedCountry;
 
@@ -90,6 +91,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
   @override
   void initState() {
     super.initState();
+    _bankCodeController.addListener(_updateSelectedBank);
 
     _bankAccountNumberController.text =
         widget.initialBankInfo?.accountNumber ?? '';
@@ -105,9 +107,19 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
     _selectedBank = initialBank;
   }
 
+  void _updateSelectedBank() {
+    if (_selectedCountry?.code != 'NG') {
+      final code = _bankCodeController.text.trim();
+      setState(() => _selectedBank = (code: code, name: code));
+    }
+  }
+
   @override
   void dispose() {
     _bankAccountNumberController.dispose();
+    _bankCodeController
+      ..removeListener(_updateSelectedBank)
+      ..dispose();
     super.dispose();
   }
 
@@ -123,15 +135,27 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
             backgroundColor: CpColors.blackGreyColor,
             placeholder: context.l10n.countryOfBank,
             country: _selectedCountry,
-            onSubmitted: (country) =>
-                setState(() => _selectedCountry = country),
+            onSubmitted: (country) => setState(
+              () {
+                _selectedCountry = country;
+                _selectedBank = null;
+                _bankCodeController.clear();
+              },
+            ),
           ),
           const SizedBox(height: 16),
-          BankTextField(
-            placeholder: context.l10n.selectBank,
-            initialBank: _selectedBank,
-            onBankChanged: (bank) => setState(() => _selectedBank = bank),
-          ),
+          if (_selectedCountry?.code == 'NG')
+            BankTextField(
+              placeholder: context.l10n.selectBank,
+              initialBank: _selectedBank,
+              onBankChanged: (bank) => setState(() => _selectedBank = bank),
+            )
+          else
+            KycTextField(
+              controller: _bankCodeController,
+              inputType: TextInputType.name,
+              placeholder: 'Bank Code',
+            ),
           const SizedBox(height: 16),
           KycTextField(
             controller: _bankAccountNumberController,
@@ -140,7 +164,10 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
           ),
           const Spacer(),
           ListenableBuilder(
-            listenable: _bankAccountNumberController,
+            listenable: Listenable.merge([
+              _bankAccountNumberController,
+              _bankCodeController,
+            ]),
             builder: (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: widget.buttonLabel ?? context.l10n.next,
