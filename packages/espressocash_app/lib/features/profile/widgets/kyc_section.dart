@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../country_picker/models/country.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
-import '../../kyc_sharing/screens/bank_account_screen.dart';
+import '../../kyc_sharing/screens/bank_account_list_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_button.dart';
@@ -47,15 +45,8 @@ class _KycInfo extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [
           KycButton(
-            label: context.l10n.personalDetails,
-            description: _getUserDescription(user, context),
-            onPressed: context.openBasicInfoFlow,
-            status: user.kycStatus,
-          ),
-          KycButton(
             label: context.l10n.bankAccount,
-            description: _getBankDescription(user, context),
-            onPressed: () => BankAccountScreen.push(context),
+            onPressed: () => BankAccountListScreen.push(context),
           ),
           KycButton(
             label: context.l10n.emailAddress,
@@ -78,34 +69,3 @@ class _KycInfo extends StatelessWidget {
         ],
       );
 }
-
-String? _getUserDescription(UserData user, BuildContext context) {
-  final items = [
-    [user.firstName, user.lastName].whereType<String>().join(' ').trim(),
-    if (user.dob case final dob?)
-      context.l10n.userDescriptionItem1Text(_formatDate(dob)),
-    if (user.documentType case final idType?)
-      context.l10n.userDescriptionItem2Text(idType.name),
-    if (user.documentNumber case final documentNumber?)
-      context.l10n.userDescriptionItem3Text(documentNumber),
-  ].where((s) => s.isNotEmpty);
-
-  return items.isEmpty ? null : items.join('\n');
-}
-
-String? _getBankDescription(UserData user, BuildContext context) {
-  final country = Country.findByCode(user.countryCode ?? '');
-
-  final items = [
-    if (country case final country?)
-      context.l10n.bankDescriptionItem1Text(country.name),
-    if (user.accountNumber case final accountNumber?)
-      context.l10n.bankDescriptionItem2Text(accountNumber),
-    if (user.bankCode case final bankCode?)
-      context.l10n.bankDescriptionItem3Text(bankCode),
-  ].where((s) => s.isNotEmpty);
-
-  return items.isEmpty ? null : items.join('\n');
-}
-
-String _formatDate(DateTime date) => DateFormat('MMMM d, yyyy').format(date);

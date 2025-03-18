@@ -9,11 +9,13 @@ class CountryPicker extends StatelessWidget {
   const CountryPicker({
     super.key,
     this.country,
+    this.placeholder,
     this.backgroundColor = Colors.black,
     required this.onSubmitted,
   });
 
   final Country? country;
+  final String? placeholder;
   final Color backgroundColor;
   final ValueSetter<Country> onSubmitted;
 
@@ -42,7 +44,7 @@ class CountryPicker extends StatelessWidget {
             );
           },
           title: Text(
-            country?.name ?? context.l10n.countryOfResidence,
+            country?.name ?? placeholder ?? context.l10n.countryOfResidence,
             style: TextStyle(
               fontWeight: FontWeight.normal,
               fontSize: 16,
