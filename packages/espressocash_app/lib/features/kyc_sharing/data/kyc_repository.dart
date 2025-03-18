@@ -8,6 +8,7 @@ import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
+import '../models/kyc_validation_status.dart';
 
 @Singleton(scope: authScope)
 class KycRepository extends ChangeNotifier {
@@ -75,6 +76,7 @@ class KycRepository extends ChangeNotifier {
     Email? email,
     Phone? phone,
     Name? name,
+    Citizenship? citizenship,
     Document? document,
     BankInfo? bankInfo,
     BirthDate? birthDate,
@@ -85,6 +87,7 @@ class KycRepository extends ChangeNotifier {
         email: email,
         phone: phone,
         name: name,
+        citizenship: citizenship,
         dob: birthDate,
         document: document,
         bankInfo: bankInfo,
@@ -116,21 +119,16 @@ class KycRepository extends ChangeNotifier {
         () => _kycUserClient.validatePhone(code: code, dataId: dataId),
       );
 
-  Future<void> initKycVerification({
-    required String nameId,
-    required String birthDateId,
-    required String documentId,
-    required String selfieImageId,
-  }) async {
-    await _initWrapper(
-      () => _kycUserClient.initDocumentValidation(
-        nameId: nameId,
-        birthDateId: birthDateId,
-        documentId: documentId,
-        selfieImageId: selfieImageId,
-      ),
-    );
-  }
+  Future<void> startKycVerification({
+    required String country,
+    required List<String> dataHashes,
+  }) =>
+      _initWrapper(
+        () => _kycUserClient.startKycRequest(
+          country: country,
+          dataHashes: dataHashes,
+        ),
+      );
 
   Future<String> createOnRampOrder({
     required double cryptoAmount,
@@ -190,5 +188,18 @@ class KycRepository extends ChangeNotifier {
 
   Future<PartnerModel> fetchPartnerInfo(String partnerPk) => _initWrapper(
         () => _kycUserClient.getPartnerInfo(partnerPK: partnerPk),
+      );
+
+  Future<KycValidationStatus> fetchKycStatus({required String country}) =>
+      _initWrapper(
+        () => _kycUserClient.getKycStatusDetails(
+          userPK: _kycUserClient.authPublicKey,
+          country: country,
+        ),
+      ).then((value) => value.status.toKycValidationStatus());
+
+  Future<KycRequirement> getKycRequirements({required String country}) =>
+      _initWrapper(
+        () => _kycUserClient.getKycRequirements(country: country),
       );
 }

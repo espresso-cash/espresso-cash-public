@@ -14,6 +14,7 @@ class KycButton extends StatelessWidget {
     this.textColor = CpColors.lightGreyBackground,
     this.iconColor,
     this.backgroundColor,
+    this.icon = Icons.chevron_right,
     this.showIcon = true,
     this.centerText = false,
     this.status,
@@ -25,6 +26,7 @@ class KycButton extends StatelessWidget {
   final Color textColor;
   final Color? backgroundColor;
   final Color? iconColor;
+  final IconData? icon;
   final bool showIcon;
   final bool centerText;
   final ValidationStatus? status;
@@ -66,7 +68,7 @@ class KycButton extends StatelessWidget {
               ),
             )
           : null,
-      trailing: showIcon ? Icon(Icons.chevron_right, color: iconColor) : null,
+      trailing: showIcon ? Icon(icon, color: iconColor) : null,
     );
   }
 }

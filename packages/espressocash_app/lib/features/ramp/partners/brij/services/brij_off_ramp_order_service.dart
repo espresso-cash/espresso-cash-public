@@ -19,7 +19,6 @@ import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
-import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
@@ -179,17 +178,9 @@ class BrijOffRampOrderService implements Disposable {
           final partnerAuthPk = partner.partnerPK ?? '';
           await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
-          final user = await _kycRepository.fetchUser();
-
-          final validUser = user?.let(
-            (u) => u.accountNumber != null && u.bankCode != null ? u : null,
-          );
-
-          if (validUser == null) {
-            throw Exception(
-              'Invalid user data: User not found or missing bank information',
-            );
-          }
+          // TODO(vs): Bank data should be passed as parameter, or be taken from service
+          const accountNumber = '';
+          const bankCode = '';
 
           final orderId = await _kycRepository.createOffRampOrder(
             cryptoAmount: submittedAmount.decimal.toDouble(),
@@ -197,8 +188,8 @@ class BrijOffRampOrderService implements Disposable {
             fiatAmount: receiveAmount.decimal.toDouble(),
             fiatCurrency: receiveAmount.currency.symbol,
             partnerPK: partnerAuthPk,
-            bankAccount: validUser.accountNumber ?? '',
-            bankName: validUser.bankCode ?? '',
+            bankAccount: accountNumber,
+            bankName: bankCode,
           );
 
           final order = OffRampOrderRow(
@@ -222,15 +213,12 @@ class BrijOffRampOrderService implements Disposable {
           await _db.into(_db.offRampOrderRows).insertOnConflictUpdate(order);
           _subscribe(order.id);
 
-          final countryCode = await _kycRepository.fetchUser().letAsync(
-                (user) => user?.countryCode ?? '',
-              );
-
           _analytics.rampInitiated(
             partnerName: partner.name,
             rampType: RampType.offRamp.name,
             amount: submittedAmount.value.toString(),
-            countryCode: countryCode,
+            // TODO(vs): Country should be passed as parameter, based on picked on in select partner screen
+            countryCode: '',
             id: order.id,
           );
 

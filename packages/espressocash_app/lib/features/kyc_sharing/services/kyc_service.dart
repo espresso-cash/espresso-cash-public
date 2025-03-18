@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -13,6 +14,7 @@ import '../../accounts/auth_scope.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
+import '../models/kyc_validation_status.dart';
 import '../utils/kyc_exception.dart';
 import '../utils/kyc_utils.dart';
 
@@ -63,7 +65,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     final phoneStatus = user?.phone?.status;
     final nameStatus = user?.name?.status;
     final birthDateStatus = user?.birthDate?.status;
-    final documentStatus = user?.document?.status;
+    // TODO(vs): This should be flexible for multiple documents
+    final documentStatus = user?.documents?.firstOrNull?.status;
     final selfieStatus = user?.selfie?.status;
 
     value = value?.copyWith(
@@ -79,10 +82,15 @@ class KycSharingService extends ValueNotifier<UserData?> {
       birthDate: birthDateStatus != null
           ? value?.birthDate?.copyWith(status: birthDateStatus)
           : value?.birthDate,
-      document: documentStatus != null
-          ? value?.document?.copyWith(status: documentStatus)
-          : value?.document,
-      bankInfo: value?.bankInfo,
+      // TODO(vs): This should be flexible for multiple documents
+      documents: value?.documents
+          ?.map(
+            (doc) => documentStatus != null
+                ? doc.copyWith(status: documentStatus)
+                : doc,
+          )
+          .toList(),
+      bankInfos: value?.bankInfos,
       selfie: selfieStatus != null
           ? value?.selfie?.copyWith(status: selfieStatus)
           : value?.selfie,
@@ -113,13 +121,11 @@ class KycSharingService extends ValueNotifier<UserData?> {
     _pollingSubscription = null;
   }
 
-  Future<void> updateBasicInfo({
+  Future<void> updatePersonalInfo({
     String? firstName,
     String? lastName,
     DateTime? dob,
-    String? idNumber,
-    DocumentType? idType,
-    String? countryCode,
+    String? citizenshipCode,
   }) async {
     await _kycRepository.grantValidatorAccess();
 
@@ -135,11 +141,34 @@ class KycSharingService extends ValueNotifier<UserData?> {
           id: value?.birthDate?.id ?? '',
         ),
       ),
+      citizenship: Citizenship(
+        value: citizenshipCode ?? '',
+        id: value?.citizenship?.id ?? '',
+      ),
+    );
+
+    await fetchUserData();
+  }
+
+  Future<void> updateDocumentInfo({
+    String? idNumber,
+    DocumentType? idType,
+    DateTime? expirationDate,
+    String? countryCode,
+    File? frontImage,
+    File? backImage,
+  }) async {
+    await _kycRepository.grantValidatorAccess();
+
+    await _kycRepository.updateUserData(
       document: Document(
         type: idType?.toIdType() ?? IdType.other,
         number: idNumber ?? '',
         countryCode: countryCode ?? '',
-        id: value?.document?.id ?? '',
+        expirationDate: expirationDate,
+        id: '',
+        frontImage: frontImage != null ? await frontImage.readAsBytes() : null,
+        backImage: backImage != null ? await backImage.readAsBytes() : null,
       ),
     );
 
@@ -147,32 +176,43 @@ class KycSharingService extends ValueNotifier<UserData?> {
   }
 
   Future<void> updateBankInfo({
+    String? id,
     required String bankAccountNumber,
     required String bankCode,
+    required String countryCode,
     String? bankName,
   }) async {
+    final userBankAccounts = value?.bankInfos;
+
+    final existingAccount = userBankAccounts?.firstWhereOrNull(
+      (account) => account.countryCode == countryCode && account.id != id,
+    );
+
+    if (existingAccount != null) {
+      throw Exception('Bank account already exists for this country');
+    }
+
     await _kycRepository.updateUserData(
       bankInfo: BankInfo(
         accountNumber: bankAccountNumber,
         bankCode: bankCode,
         bankName: bankName ?? '',
-        id: value?.bankInfo?.id ?? '',
+        countryCode: countryCode,
+        id: id ?? '',
       ),
     );
 
     await fetchUserData();
   }
 
-  Future<void> initDocumentValidation() async {
-    await _kycRepository.initKycVerification(
-      nameId: value?.name?.id ?? '',
-      birthDateId: value?.birthDate?.id ?? '',
-      documentId: value?.document?.id ?? '',
-      selfieImageId: value?.selfie?.id ?? '',
+  Future<void> startKycVerification({
+    required String country,
+    required List<String> dataHashes,
+  }) async {
+    await _kycRepository.startKycVerification(
+      country: country,
+      dataHashes: dataHashes,
     );
-
-    await fetchStatuses();
-    _subscribe();
   }
 
   Future<void> updateSelfiePhoto({File? photoSelfie}) async {
@@ -266,6 +306,12 @@ class KycSharingService extends ValueNotifier<UserData?> {
               policyUrl: partner.privacyUrl,
             ),
           );
+
+  Future<KycValidationStatus> getKycStatus({required String country}) =>
+      _kycRepository.fetchKycStatus(country: country);
+
+  Future<KycRequirement> getKycRequirements({required String country}) =>
+      _kycRepository.getKycRequirements(country: country);
 
   @override
   @disposeMethod
