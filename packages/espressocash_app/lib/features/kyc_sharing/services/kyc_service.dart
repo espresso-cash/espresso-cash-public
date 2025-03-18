@@ -15,7 +15,6 @@ import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
 import '../utils/kyc_exception.dart';
-import '../utils/kyc_utils.dart';
 
 @Singleton(scope: authScope)
 class KycSharingService extends ValueNotifier<UserData?> {
@@ -30,7 +29,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
   final _isInitialized = Completer<void>();
   Future<void> get initialized => _isInitialized.future.then((_) async {
         if (value == null) {
-          await fetchUserData();
+          await _fetchUserData();
         }
       });
 
@@ -42,31 +41,28 @@ class KycSharingService extends ValueNotifier<UserData?> {
   }
 
   Future<void> _initializeKyc() async {
-    await fetchUserData();
+    await _fetchUserData();
     _isInitialized.complete();
 
-    if (value?.kycStatus == ValidationStatus.pending) {
-      _subscribe();
-    }
+    // Todo take active country (from profile); fetch it's status
+
+    // if (value?.kycStatus == ValidationStatus.pending) {
+    //   _subscribe();
+    // }
   }
 
-  Future<void> fetchUserData() async {
+  Future<void> _fetchUserData() async {
     final user = await _kycRepository.fetchUser();
 
     value = user;
     notifyListeners();
   }
 
-  Future<void> fetchStatuses() async {
+  Future<void> _fetchEmailAndPhoneStatuses() async {
     final user = await _kycRepository.fetchUser(includeValues: false);
 
     final emailStatus = user?.email?.status;
     final phoneStatus = user?.phone?.status;
-    // TODO(vs): Implement new status fetching for kyc fields
-    final nameStatus = user?.name?.status;
-    final birthDateStatus = user?.birthDate?.status;
-    final documentStatus = user?.documents?.firstOrNull?.status;
-    final selfieStatus = user?.selfie?.status;
 
     value = value?.copyWith(
       email: emailStatus != null
@@ -75,46 +71,35 @@ class KycSharingService extends ValueNotifier<UserData?> {
       phone: phoneStatus != null
           ? value?.phone?.copyWith(status: phoneStatus)
           : value?.phone,
-      name: nameStatus != null
-          ? value?.name?.copyWith(status: nameStatus)
-          : value?.name,
-      birthDate: birthDateStatus != null
-          ? value?.birthDate?.copyWith(status: birthDateStatus)
-          : value?.birthDate,
-      documents: value?.documents
-          ?.map(
-            (doc) => documentStatus != null
-                ? doc.copyWith(status: documentStatus)
-                : doc,
-          )
-          .toList(),
-      bankInfos: value?.bankInfos,
-      selfie: selfieStatus != null
-          ? value?.selfie?.copyWith(status: selfieStatus)
-          : value?.selfie,
     );
     notifyListeners();
   }
 
-  void _subscribe() {
-    _unsubscribe();
+  Future<KycStatus> fetchKycStatus(String country) async {
+    final status = await _kycRepository.fetchKycStatus(country);
+
+    return status;
+  }
+
+  void _subscribeKycPolling(String country) {
+    _unsubscribeKycPolling();
 
     _pollingSubscription = Stream<void>.periodic(const Duration(seconds: 15))
         .startWith(null)
         .exhaustMap(
-          (_) => fetchStatuses()
+          (_) => fetchKycStatus(country)
               .timeout(
                 const Duration(seconds: 8),
-                onTimeout: () => null,
+                onTimeout: () => KycStatus.unspecified,
               )
               .asStream()
-              .onErrorReturn(null),
+              .onErrorReturn(KycStatus.unspecified),
         )
-        .takeWhile((_) => value?.kycStatus == ValidationStatus.pending)
+        .takeWhile((value) => value == KycStatus.pending)
         .listen((_) {});
   }
 
-  void _unsubscribe() {
+  void _unsubscribeKycPolling() {
     _pollingSubscription?.cancel();
     _pollingSubscription = null;
   }
@@ -145,7 +130,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
       ),
     );
 
-    await fetchUserData();
+    await _fetchUserData();
   }
 
   Future<void> updateDocumentInfo({
@@ -166,7 +151,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
       ),
     );
 
-    await fetchUserData();
+    await _fetchUserData();
   }
 
   Future<void> updateBankInfo({
@@ -196,7 +181,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
       ),
     );
 
-    await fetchUserData();
+    await _fetchUserData();
   }
 
   Future<void> startKycVerification({
@@ -219,7 +204,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
           : null,
     );
 
-    await fetchUserData();
+    await _fetchUserData();
   }
 
   Future<void> initEmailVerification({required String email}) async {
@@ -233,7 +218,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
         ),
       );
 
-      await fetchUserData();
+      await _fetchUserData();
 
       await _kycRepository.initEmailVerification(
         emailId: value?.email?.id ?? '',
@@ -252,7 +237,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
     } on Exception catch (exception) {
       throw exception.toKycException();
     } finally {
-      await fetchStatuses();
+      await _fetchEmailAndPhoneStatuses();
     }
   }
 
@@ -265,7 +250,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
         ),
       );
 
-      await fetchUserData();
+      await _fetchUserData();
 
       await _kycRepository.initPhoneVerification(
         phoneId: value?.phone?.id ?? '',
@@ -284,7 +269,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
     } on Exception catch (exception) {
       throw exception.toKycException();
     } finally {
-      await fetchStatuses();
+      await _fetchEmailAndPhoneStatuses();
     }
   }
 
@@ -304,7 +289,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
   @override
   @disposeMethod
   void dispose() {
-    _unsubscribe();
+    _unsubscribeKycPolling();
     super.dispose();
   }
 }

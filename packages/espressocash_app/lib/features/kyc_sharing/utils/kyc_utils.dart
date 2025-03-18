@@ -22,30 +22,6 @@ extension UserDataExtensions on UserData {
 
   Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
 
-  // TODO(vs): Implement new status fetching for kyc fields
-  ValidationStatus get kycStatus {
-    final statuses = [
-      documents?.firstOrNull?.status,
-      name?.status,
-      selfie?.status,
-      birthDate?.status,
-    ].whereNotNull().toList();
-
-    if (statuses.isEmpty) return ValidationStatus.unspecified;
-
-    if (statuses.any((s) => s == ValidationStatus.rejected)) {
-      return ValidationStatus.rejected;
-    }
-
-    if (statuses.any((s) => s == ValidationStatus.pending)) {
-      return ValidationStatus.pending;
-    }
-
-    return statuses.every((s) => s == ValidationStatus.approved)
-        ? ValidationStatus.approved
-        : ValidationStatus.unspecified;
-  }
-
   ValidationStatus get phoneStatus =>
       phone?.status ?? ValidationStatus.unspecified;
   ValidationStatus get emailStatus =>
