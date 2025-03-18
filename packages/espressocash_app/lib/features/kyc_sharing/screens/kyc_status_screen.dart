@@ -9,7 +9,7 @@ import '../models/kyc_validation_status.dart';
 import '../services/pending_kyc_service.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/kyc_header.dart';
-import '../widgets/kyc_listener.dart';
+import '../widgets/user_data_listener.dart';
 import '../widgets/kyc_page.dart';
 
 class KycStatusScreen extends StatelessWidget {

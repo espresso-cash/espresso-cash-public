@@ -4,18 +4,18 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 import '../../../di.dart';
 import '../services/kyc_service.dart';
 
-typedef KycBuilder = Widget Function(
+typedef UserDataBuilder = Widget Function(
   BuildContext context,
   UserData userData,
 );
 
-class KycListener extends StatelessWidget {
-  const KycListener({
+class UserDataListener extends StatelessWidget {
+  const UserDataListener({
     super.key,
     required this.builder,
   });
 
-  final KycBuilder builder;
+  final UserDataBuilder builder;
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(

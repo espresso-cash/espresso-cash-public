@@ -7,9 +7,9 @@ import '../models/kyc_validation_status.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/extensions.dart';
 import '../widgets/kyc_header.dart';
-import '../widgets/kyc_listener.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
+import '../widgets/user_data_listener.dart';
 import 'email_confirmation_screen.dart';
 
 class EmailStatusScreen extends StatelessWidget {
@@ -24,7 +24,7 @@ class EmailStatusScreen extends StatelessWidget {
       .then((result) => result ?? false);
 
   @override
-  Widget build(BuildContext context) => KycListener(
+  Widget build(BuildContext context) => UserDataListener(
         builder: (context, userData) {
           final status = userData.emailStatus.toKycValidationStatus();
           final email = userData.getEmail ?? '-';

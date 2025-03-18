@@ -72,17 +72,6 @@ class KycRepository extends ChangeNotifier {
     }
   }
 
-  Future<KycStatus> fetchKycStatus(String country) async {
-    final status = await _initWrapper(
-      () => _kycUserClient.getKycStatusDetails(
-        userPK: _kycUserClient.authPublicKey,
-        country: country,
-      ),
-    );
-
-    return status.status;
-  }
-
   Future<void> updateUserData({
     Email? email,
     Phone? phone,

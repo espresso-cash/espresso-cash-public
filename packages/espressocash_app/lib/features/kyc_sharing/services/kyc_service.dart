@@ -76,8 +76,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     notifyListeners();
   }
 
-  Future<KycStatus> fetchKycStatus(String country) async {
-    final status = await _kycRepository.fetchKycStatus(country);
+  Future<KycValidationStatus> fetchKycStatus({required String country}) async {
+    final status = await _kycRepository.fetchKycStatus(country: country);
 
     return status;
   }
@@ -88,15 +88,15 @@ class KycSharingService extends ValueNotifier<UserData?> {
     _pollingSubscription = Stream<void>.periodic(const Duration(seconds: 15))
         .startWith(null)
         .exhaustMap(
-          (_) => fetchKycStatus(country)
+          (_) => fetchKycStatus(country: country)
               .timeout(
                 const Duration(seconds: 8),
-                onTimeout: () => KycStatus.unspecified,
+                onTimeout: () => KycValidationStatus.unverified,
               )
               .asStream()
-              .onErrorReturn(KycStatus.unspecified),
+              .onErrorReturn(KycValidationStatus.unverified),
         )
-        .takeWhile((value) => value == KycStatus.pending)
+        .takeWhile((value) => value == KycValidationStatus.pending)
         .listen((_) {});
   }
 
