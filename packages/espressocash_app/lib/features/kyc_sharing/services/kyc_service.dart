@@ -166,7 +166,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
         number: idNumber ?? '',
         countryCode: countryCode ?? '',
         expirationDate: expirationDate,
-        id: '', //TODO
+        id: '',
         frontImage: frontImage != null ? await frontImage.readAsBytes() : null,
         backImage: backImage != null ? await backImage.readAsBytes() : null,
       ),

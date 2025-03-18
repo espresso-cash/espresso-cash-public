@@ -117,10 +117,8 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
           );
 
           return true;
-        } on Exception catch (e) {
+        } on Exception {
           if (!mounted) return false;
-
-          print('Error submitting document info: $e');
 
           showCpErrorSnackbar(
             context,
