@@ -255,7 +255,7 @@ packages:
     source: hosted
     version: "1.3.1"
   camera:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: camera
       sha256: "413d2b34fe28496c35c69ede5b232fb9dd5ca2c3a4cb606b14efc1c7546cc8cb"
@@ -1244,11 +1244,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "0cb9c52cdee2a47cad2003dbe62cbf9a807fc5cf"
-      resolved-ref: "0cb9c52cdee2a47cad2003dbe62cbf9a807fc5cf"
+      ref: d32ce2251d24acb31311e31165174112d04944f2
+      resolved-ref: d32ce2251d24acb31311e31165174112d04944f2
       url: "https://github.com/espresso-cash/kyc_client_dart.git"
     source: git
-    version: "1.0.3"
+    version: "1.0.4"
   leak_tracker:
     dependency: transitive
     description:

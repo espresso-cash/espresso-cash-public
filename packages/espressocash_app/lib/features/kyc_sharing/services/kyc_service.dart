@@ -14,6 +14,7 @@ import '../../accounts/auth_scope.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
+import '../models/kyc_validation_status.dart';
 import '../utils/kyc_exception.dart';
 
 @Singleton(scope: authScope)
@@ -138,6 +139,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     DocumentType? idType,
     DateTime? expirationDate,
     String? countryCode,
+    File? frontImage,
+    File? backImage,
   }) async {
     await _kycRepository.grantValidatorAccess();
 
@@ -147,7 +150,9 @@ class KycSharingService extends ValueNotifier<UserData?> {
         number: idNumber ?? '',
         countryCode: countryCode ?? '',
         expirationDate: expirationDate,
-        id: value?.documents?.first.id ?? '',
+        id: '',
+        frontImage: frontImage != null ? await frontImage.readAsBytes() : null,
+        backImage: backImage != null ? await backImage.readAsBytes() : null,
       ),
     );
 
@@ -285,6 +290,12 @@ class KycSharingService extends ValueNotifier<UserData?> {
               policyUrl: partner.privacyUrl,
             ),
           );
+
+  Future<KycValidationStatus> getKycStatus({required String country}) =>
+      _kycRepository.fetchKycStatus(country: country);
+
+  Future<KycRequirement> getKycRequirements({required String country}) =>
+      _kycRepository.getKycRequirements(country: country);
 
   @override
   @disposeMethod

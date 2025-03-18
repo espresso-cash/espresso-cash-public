@@ -8,6 +8,7 @@ import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
+import '../models/kyc_validation_status.dart';
 
 @Singleton(scope: authScope)
 class KycRepository extends ChangeNotifier {
@@ -198,5 +199,18 @@ class KycRepository extends ChangeNotifier {
 
   Future<PartnerModel> fetchPartnerInfo(String partnerPk) => _initWrapper(
         () => _kycUserClient.getPartnerInfo(partnerPK: partnerPk),
+      );
+
+  Future<KycValidationStatus> fetchKycStatus({required String country}) =>
+      _initWrapper(
+        () => _kycUserClient.getKycStatusDetails(
+          userPK: _kycUserClient.authPublicKey,
+          country: country,
+        ),
+      ).then((value) => value.status.toKycValidationStatus());
+
+  Future<KycRequirement> getKycRequirements({required String country}) =>
+      _initWrapper(
+        () => _kycUserClient.getKycRequirements(country: country),
       );
 }
