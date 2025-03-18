@@ -1,11 +1,11 @@
 // ignore_for_file: avoid-recursive-calls
 
 import 'dart:io';
-import '../../../di.dart';
-import '../services/kyc_service.dart';
+
 import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart' hide IdTypeExtension;
 
+import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
@@ -15,6 +15,7 @@ import '../../country_picker/models/country.dart';
 import '../models/document_type.dart';
 import '../screens/document_camera_screen.dart';
 import '../screens/document_info_screen.dart';
+import '../services/kyc_service.dart';
 import '../widgets/document_picker.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
@@ -173,7 +174,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
         );
       case DocumentField.photoFront:
         return _PhotoUploadField(
-          label: 'Photo Front',
+          label: context.l10n.photoFront,
           isRequired: isRequired,
           onTap: () async {
             final photo = await _pickPhoto();
@@ -185,7 +186,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
         );
       case DocumentField.photoBack:
         return _PhotoUploadField(
-          label: 'Photo Back',
+          label: context.l10n.photoBack,
           isRequired: isRequired,
           onTap: () async {
             final photo = await _pickPhoto();
@@ -234,9 +235,9 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
             _RequiredCountryNotice(countryName: countryName),
             const SizedBox(height: 24),
           ],
-          const Text(
-            'Select Document Type',
-            style: TextStyle(
+          Text(
+            context.l10n.selectDocumentType,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 14,
             ),
@@ -363,13 +364,13 @@ class _PhotoUploadField extends StatelessWidget {
                 color: CpColors.blackGreyColor,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
-              child: _buildPhotoPreview(),
+              child: _buildPhotoPreview(context),
             ),
           ),
         ],
       );
 
-  Widget _buildPhotoPreview() => switch (currentValue) {
+  Widget _buildPhotoPreview(BuildContext context) => switch (currentValue) {
         final file? => Stack(
             fit: StackFit.expand,
             children: [
@@ -396,18 +397,18 @@ class _PhotoUploadField extends StatelessWidget {
                       Radius.circular(4),
                     ),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.edit,
                         color: Colors.white,
                         size: 16,
                       ),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Text(
-                        'Change',
-                        style: TextStyle(
+                        context.l10n.changeDocumentPhoto,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                         ),
@@ -428,7 +429,7 @@ class _PhotoUploadField extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Tap to upload',
+                  context.l10n.tapToUpload,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.5),
                   ),
@@ -463,7 +464,7 @@ class _RequiredCountryNotice extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                'Please provide a document from $countryName',
+                context.l10n.documentFromCountry(countryName),
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.7),
                   fontSize: 14,

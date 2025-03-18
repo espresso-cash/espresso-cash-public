@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
 import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
@@ -18,16 +19,15 @@ class DocumentInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => KycPage(
         children: [
-          const KycHeader(
-            title: 'UPLOAD YOUR *ID DOCUMENT*',
-            description:
-                'For security purposes, we need you to upload a clear photo of your identification document. Ensure all details are visible, avoid glare and shadows, and use good lighting for faster verification.',
+          KycHeader(
+            title: context.l10n.documentVerificationTitle,
+            description: context.l10n.documentVerificationDescription,
           ),
           const SizedBox(height: 16),
           const Spacer(),
           CpBottomButton(
             horizontalPadding: 16,
-            text: 'Continue',
+            text: context.l10n.continueVerification,
             onPressed: () => Navigator.pop(context, true),
           ),
         ],

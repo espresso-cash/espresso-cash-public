@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/snackbar.dart';
@@ -33,7 +34,7 @@ class _DocumentCameraScreenState extends State<DocumentCameraScreen> {
       final List<CameraDescription> cameras = await availableCameras();
 
       if (cameras.isEmpty) {
-        _showErrorSnackBar('No camera available');
+        _showErrorSnackBar();
 
         return;
       }
@@ -57,7 +58,7 @@ class _DocumentCameraScreenState extends State<DocumentCameraScreen> {
         });
       }
     } on Exception {
-      _showErrorSnackBar('Failed to initialize camera');
+      _showErrorSnackBar();
     }
   }
 
@@ -67,12 +68,12 @@ class _DocumentCameraScreenState extends State<DocumentCameraScreen> {
     super.dispose();
   }
 
-  void _showErrorSnackBar(String message) {
+  void _showErrorSnackBar() {
     if (!mounted) return;
 
     showCpErrorSnackbar(
       context,
-      message: message,
+      message: context.l10n.lblUnknownError,
     );
   }
 
@@ -92,7 +93,7 @@ class _DocumentCameraScreenState extends State<DocumentCameraScreen> {
         _isTakingPicture = false;
       });
     } on Exception {
-      _showErrorSnackBar('Failed to take picture');
+      _showErrorSnackBar();
       setState(() => _isTakingPicture = false);
     }
   }
@@ -198,10 +199,10 @@ class _DocumentCameraScreenState extends State<DocumentCameraScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Text(
-                  'Are you satisfied with the photo?\nIf not, please retake below.',
+                Text(
+                  context.l10n.documentConfirmationNotice,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -211,14 +212,14 @@ class _DocumentCameraScreenState extends State<DocumentCameraScreen> {
                 CpButton(
                   variant: CpButtonVariant.light,
                   width: double.infinity,
-                  text: 'Retake Document Photo',
+                  text: context.l10n.retakeDocumentPhoto,
                   onPressed: _retakePicture,
                   size: CpButtonSize.big,
                 ),
                 const SizedBox(height: 16),
                 CpButton(
                   width: double.infinity,
-                  text: 'Submit',
+                  text: context.l10n.submit,
                   onPressed: _confirmImage,
                   size: CpButtonSize.big,
                 ),
