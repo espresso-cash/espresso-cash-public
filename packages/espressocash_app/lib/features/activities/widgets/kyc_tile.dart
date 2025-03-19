@@ -57,7 +57,7 @@ class _KycTileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (emailStatus != ValidationStatus.approved) {
+    if (emailStatus != KycValidationStatus.approved) {
       return _KycItem(
         status: emailStatus,
         timestamp: timestamp,
@@ -68,7 +68,7 @@ class _KycTileContent extends StatelessWidget {
       );
     }
 
-    if (phoneStatus != ValidationStatus.approved) {
+    if (phoneStatus != KycValidationStatus.approved) {
       return _KycItem(
         status: phoneStatus,
         timestamp: timestamp,
