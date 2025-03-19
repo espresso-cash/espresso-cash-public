@@ -44,7 +44,8 @@ extension BuildContextExt on BuildContext {
       return;
     }
 
-    final kycStatus = sl<PendingKycService>().value;
+    final kycStatus = await sl<PendingKycService>()
+        .fetchKycStatus(country: profile.country.code);
 
     if (kycStatus == KycValidationStatus.pending) {
       _showPendingKycDialog();
@@ -144,7 +145,8 @@ extension BuildContextExt on BuildContext {
       return;
     }
 
-    final kycStatus = sl<PendingKycService>().value;
+    final kycStatus = await sl<PendingKycService>()
+        .fetchKycStatus(country: profile.country.code);
 
     if (kycStatus == KycValidationStatus.pending) {
       _showPendingKycDialog();

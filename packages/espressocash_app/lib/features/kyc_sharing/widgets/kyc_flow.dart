@@ -52,6 +52,8 @@ extension KycFlowExtension on BuildContext {
   Future<bool> openKycFlow({String? countryCode}) async {
     final user = sl<KycSharingService>().value;
 
+    final country = countryCode ?? 'NG';
+
     if (user == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
 
@@ -59,12 +61,13 @@ extension KycFlowExtension on BuildContext {
     }
 
     final requirement = await sl<KycSharingService>().getKycRequirements(
-      country: countryCode ?? 'NG',
+      country: country,
     );
 
-    final kycStatus = sl<PendingKycService>().value;
+    final kycStatus =
+        await sl<PendingKycService>().fetchKycStatus(country: country);
 
-    final kycProcessed = kycStatus?.isApprovedOrPending ?? false;
+    final kycProcessed = kycStatus.isApprovedOrPending;
 
     if (!kycProcessed) {
       final success = await KycDescriptionScreen.push(this);
@@ -102,18 +105,31 @@ extension KycFlowExtension on BuildContext {
     }
 
     if (kycStatus != KycValidationStatus.approved) {
-      if (!await _navigateToScreen(KycStatusScreen.push)) return false;
+      if (!await _navigateToScreen(
+        (BuildContext ctx) => KycStatusScreen.push(
+          ctx,
+          country: country,
+        ),
+      )) {
+        return false;
+      }
     }
 
     return true;
   }
 
-  Future<bool> openBasicInfoFlow() {
-    final kycStatus = sl<PendingKycService>().value;
+  Future<bool> openBasicInfoFlow(String country) async {
+    final kycStatus =
+        await sl<PendingKycService>().fetchKycStatus(country: country);
 
     return kycStatus == KycValidationStatus.unverified
         ? openKycFlow()
-        : _navigateToScreen(KycStatusScreen.push);
+        : _navigateToScreen(
+            (BuildContext ctx) => KycStatusScreen.push(
+              ctx,
+              country: country,
+            ),
+          );
   }
 
   Future<bool> openEmailFlow() {

@@ -16,15 +16,18 @@ class KycStatusScreen extends StatelessWidget {
     super.key,
     this.onAddCashPressed,
     this.onCashOutPressed,
+    required this.country,
   });
 
   final VoidCallback? onAddCashPressed;
   final VoidCallback? onCashOutPressed;
+  final String country;
 
   static Future<bool> push(
     BuildContext context, {
     VoidCallback? onAddCashPressed,
     VoidCallback? onCashOutPressed,
+    required String country,
   }) =>
       Navigator.of(context)
           .push<bool>(
@@ -32,6 +35,7 @@ class KycStatusScreen extends StatelessWidget {
               builder: (context) => KycStatusScreen(
                 onAddCashPressed: onAddCashPressed,
                 onCashOutPressed: onCashOutPressed,
+                country: country,
               ),
             ),
           )
@@ -39,6 +43,7 @@ class KycStatusScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => KycStatusListener(
+        country: country,
         builder: (context, status) {
           void removePendingKyc() {
             if (status == KycValidationStatus.approved) {

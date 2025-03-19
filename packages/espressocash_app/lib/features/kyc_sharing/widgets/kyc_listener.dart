@@ -13,16 +13,20 @@ class KycStatusListener extends StatelessWidget {
   const KycStatusListener({
     super.key,
     required this.builder,
+    required this.country,
   });
 
   final KycStatusListenerBuilder builder;
+  final String country;
 
   @override
-  Widget build(BuildContext context) =>
-      ValueListenableBuilder<KycValidationStatus?>(
-        valueListenable: sl<PendingKycService>(),
-        builder: (context, status, _) => status == null
-            ? const Center(child: CircularProgressIndicator())
-            : builder(context, status),
+  Widget build(BuildContext context) => StreamBuilder<KycValidationStatus>(
+        stream: sl<PendingKycService>().pollKycStatus(country: country),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return builder(context, snapshot.data!);
+        },
       );
 }

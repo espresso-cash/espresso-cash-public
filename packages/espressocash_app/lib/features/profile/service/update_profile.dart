@@ -1,5 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_app/features/kyc_sharing/services/pending_kyc_service.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../utils/errors.dart';
@@ -13,12 +14,14 @@ class UpdateProfile {
     this._client,
     this._intercomService,
     this._profileRepository,
+    this._pendingKycService,
     this._analyticsManager,
   );
 
   final EspressoCashClient _client;
   final IntercomService _intercomService;
   final ProfileRepository _profileRepository;
+  final PendingKycService _pendingKycService;
   final AnalyticsManager _analyticsManager;
 
   AsyncResult<void> call({
@@ -36,6 +39,8 @@ class UpdateProfile {
           _intercomService.updateCountry(countryCode);
           _profileRepository.country = countryCode;
         }
+
+        _pendingKycService.remove();
 
         if (firstName != null) {
           _profileRepository.firstName = firstName;

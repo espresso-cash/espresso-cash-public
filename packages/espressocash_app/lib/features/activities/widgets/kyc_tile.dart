@@ -14,6 +14,7 @@ import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../kyc_sharing/widgets/kyc_listener.dart';
 import '../../kyc_sharing/widgets/kyc_status_icon.dart';
+import '../../profile/data/profile_repository.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 
 class KycTile extends StatelessWidget {
@@ -32,6 +33,7 @@ class KycTile extends StatelessWidget {
         builder: (context, user, _) => user == null
             ? const SizedBox.shrink()
             : KycStatusListener(
+                country: sl<ProfileRepository>().country ?? 'NG',
                 builder: (context, kycStatus) => _KycTileContent(
                   timestamp: timestamp,
                   kycStatus: kycStatus,
@@ -93,6 +95,7 @@ class _KycTileContent extends StatelessWidget {
                 context,
                 onAddCashPressed: context.launchOnRampFlow,
                 onCashOutPressed: context.launchOffRampFlow,
+                country: sl<ProfileRepository>().country ?? 'NG',
               );
             },
       buttonText: isUnverified
