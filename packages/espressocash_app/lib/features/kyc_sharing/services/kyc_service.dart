@@ -44,8 +44,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     _isInitialized.complete();
   }
 
-  Future<void> _fetchUserData() async {
-    final user = await _kycRepository.fetchUser();
+  Future<void> _fetchUserData({bool includeValues = true}) async {
+    final user = await _kycRepository.fetchUser(includeValues: includeValues);
 
     value = user;
     notifyListeners();
@@ -155,7 +155,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
   Future<void> startKycVerification({required String country}) async {
     final requirements = await getKycRequirements(country: country);
 
-    await _fetchUserData();
+    await _fetchUserData(includeValues: false);
 
     final basicInfoTypes = requirements.basicInfoTypes;
     final basicInfoHashes = _validateAndCollectBasicInfoHashes(basicInfoTypes);
