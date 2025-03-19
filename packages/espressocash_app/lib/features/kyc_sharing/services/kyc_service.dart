@@ -9,11 +9,11 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
-
 import '../../accounts/auth_scope.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
+import '../models/extensions.dart';
 import '../models/kyc_validation_status.dart';
 import '../utils/kyc_exception.dart';
 
@@ -152,14 +152,67 @@ class KycSharingService extends ValueNotifier<UserData?> {
     await _fetchUserData();
   }
 
-  Future<void> startKycVerification({
-    required String country,
-    required List<String> dataHashes,
-  }) async {
+  Future<void> startKycVerification({required String country}) async {
+    final requirements = await getKycRequirements(country: country);
+
+    await _fetchUserData();
+
+    final basicInfoTypes = requirements.basicInfoTypes;
+    final basicInfoHashes = _validateAndCollectBasicInfoHashes(basicInfoTypes);
+
+    final requiredCountry = requirements.requiredCountry;
+    final documents = value?.documents?.let(
+      (e) => requiredCountry != null
+          ? e.where((doc) => doc.countryCode == requiredCountry).toList()
+          : e,
+    );
+
+    if (documents == null) {
+      throw Exception('No documents found');
+    }
+
+    final documentHashes =
+        documents.map((e) => e.hash).whereType<String>().toList();
+
     await _kycRepository.startKycVerification(
       country: country,
-      dataHashes: dataHashes,
+      dataHashes: [...basicInfoHashes, ...documentHashes],
     );
+  }
+
+  List<String> _validateAndCollectBasicInfoHashes(
+    List<BasicInfoType> requiredTypes,
+  ) {
+    if (value == null) {
+      throw Exception('User data not initialized');
+    }
+
+    final dataHashes = <String>[];
+
+    for (final type in requiredTypes) {
+      switch (type) {
+        case BasicInfoType.email:
+          final hash = value?.email?.hash;
+          if (hash == null) {
+            throw Exception('email is required');
+          }
+          dataHashes.add(hash);
+        case BasicInfoType.phone:
+          final hash = value?.phone?.hash;
+          if (hash == null) {
+            throw Exception('phone is required');
+          }
+          dataHashes.add(hash);
+        case BasicInfoType.selfie:
+          final hash = value?.selfie?.hash;
+          if (hash == null) {
+            throw Exception('selfie is required');
+          }
+          dataHashes.add(hash);
+      }
+    }
+
+    return dataHashes;
   }
 
   Future<void> updateSelfiePhoto({File? photoSelfie}) async {
