@@ -74,13 +74,13 @@ extension KycFlowExtension on BuildContext {
       if (!success) return false;
     }
 
-    final emailValidated = user.emailStatus == ValidationStatus.approved;
+    final emailValidated = user.emailStatus == KycValidationStatus.approved;
 
     if (!emailValidated) {
       if (!await _runFlow(emailSteps)) return false;
     }
 
-    final phoneValidated = user.phoneStatus == ValidationStatus.approved;
+    final phoneValidated = user.phoneStatus == KycValidationStatus.approved;
 
     if (!phoneValidated) {
       if (!await _runFlow(phoneSteps)) return false;
@@ -119,8 +119,7 @@ extension KycFlowExtension on BuildContext {
   Future<bool> openEmailFlow() {
     final user = sl<KycSharingService>().value;
 
-    return user?.emailStatus == ValidationStatus.unverified ||
-            user?.emailStatus == ValidationStatus.unspecified
+    return user?.emailStatus == KycValidationStatus.unverified
         ? openKycFlow()
         : _navigateToScreen(EmailStatusScreen.push);
   }
@@ -128,8 +127,7 @@ extension KycFlowExtension on BuildContext {
   Future<bool> openPhoneFlow() {
     final user = sl<KycSharingService>().value;
 
-    return user?.phoneStatus == ValidationStatus.unverified ||
-            user?.phoneStatus == ValidationStatus.unspecified
+    return user?.phoneStatus == KycValidationStatus.unverified
         ? openKycFlow()
         : _navigateToScreen(PhoneStatusScreen.push);
   }

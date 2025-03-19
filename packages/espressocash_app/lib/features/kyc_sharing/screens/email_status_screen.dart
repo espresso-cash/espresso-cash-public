@@ -26,7 +26,7 @@ class EmailStatusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => UserDataListener(
         builder: (context, userData) {
-          final status = userData.emailStatus.toKycValidationStatus();
+          final status = userData.emailStatus;
           final email = userData.getEmail ?? '-';
 
           return KycPage(

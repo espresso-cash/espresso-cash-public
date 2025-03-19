@@ -35,8 +35,8 @@ class KycTile extends StatelessWidget {
                 builder: (context, kycStatus) => _KycTileContent(
                   timestamp: timestamp,
                   kycStatus: kycStatus,
-                  emailStatus: user.emailStatus.toKycValidationStatus(),
-                  phoneStatus: user.phoneStatus.toKycValidationStatus(),
+                  emailStatus: user.emailStatus,
+                  phoneStatus: user.phoneStatus,
                 ),
               ),
       );

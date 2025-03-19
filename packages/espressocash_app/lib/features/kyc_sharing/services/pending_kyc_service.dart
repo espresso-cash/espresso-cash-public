@@ -13,9 +13,12 @@ import 'kyc_service.dart';
 
 @Singleton(scope: authScope)
 class PendingKycService extends ValueNotifier<KycValidationStatus?> {
-  PendingKycService(this._sharedPreferences, this._profileRepository,
-      this._kycRepository, this._kycService)
-      : super(null);
+  PendingKycService(
+    this._sharedPreferences,
+    this._profileRepository,
+    this._kycRepository,
+    this._kycService,
+  ) : super(null);
 
   final SharedPreferences _sharedPreferences;
   final ProfileRepository _profileRepository;

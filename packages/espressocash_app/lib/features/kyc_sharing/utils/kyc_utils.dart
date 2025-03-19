@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:dfunc/dfunc.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
+import '../models/kyc_validation_status.dart';
+
 extension ValidationStatusExtension on ValidationStatus {
   bool get isApprovedOrPending =>
       this == ValidationStatus.approved || this == ValidationStatus.pending;
@@ -21,10 +23,10 @@ extension UserDataExtensions on UserData {
 
   Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
 
-  ValidationStatus get phoneStatus =>
-      phone?.status ?? ValidationStatus.unspecified;
-  ValidationStatus get emailStatus =>
-      email?.status ?? ValidationStatus.unspecified;
+  KycValidationStatus get phoneStatus =>
+      phone?.status.toKycValidationStatus() ?? KycValidationStatus.unverified;
+  KycValidationStatus get emailStatus =>
+      email?.status.toKycValidationStatus() ?? KycValidationStatus.unverified;
 
   bool hasBankInfo(BankInfo bankInfo) =>
       bankInfo.bankCode.isNotEmpty &&

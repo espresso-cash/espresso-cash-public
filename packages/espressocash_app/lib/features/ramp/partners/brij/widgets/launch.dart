@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';

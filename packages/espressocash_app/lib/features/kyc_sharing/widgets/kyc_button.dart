@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../ui/colors.dart';
 import '../models/kyc_validation_status.dart';
@@ -29,7 +28,7 @@ class KycButton extends StatelessWidget {
   final IconData? icon;
   final bool showIcon;
   final bool centerText;
-  final ValidationStatus? status;
+  final KycValidationStatus? status;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +54,7 @@ class KycButton extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          if (status != null) KycStatusWidget(status.toKycValidationStatus()),
+          if (status != null) KycStatusWidget(status),
         ],
       ),
       subtitle: description != null

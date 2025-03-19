@@ -27,7 +27,7 @@ class PhoneStatusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => UserDataListener(
         builder: (context, userData) {
-          final status = userData.phoneStatus.toKycValidationStatus();
+          final status = userData.phoneStatus;
           final phone = userData.getPhone ?? '-';
 
           return KycPage(
