@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../profile/data/profile_repository.dart';
-import '../data/kyc_repository.dart';
 import '../models/kyc_validation_status.dart';
 import 'kyc_service.dart';
 
@@ -16,13 +15,11 @@ class PendingKycService extends ValueNotifier<KycValidationStatus?> {
   PendingKycService(
     this._sharedPreferences,
     this._profileRepository,
-    this._kycRepository,
     this._kycService,
   ) : super(null);
 
   final SharedPreferences _sharedPreferences;
   final ProfileRepository _profileRepository;
-  final KycRepository _kycRepository;
   final KycSharingService _kycService;
 
   final _controller = BehaviorSubject<DateTime?>();
@@ -87,7 +84,7 @@ class PendingKycService extends ValueNotifier<KycValidationStatus?> {
   }
 
   Future<void> fetchKycStatus({required String country}) async {
-    final status = await _kycRepository.fetchKycStatus(country: country);
+    final status = await _kycService.getKycStatus(country: country);
 
     value = status;
 
