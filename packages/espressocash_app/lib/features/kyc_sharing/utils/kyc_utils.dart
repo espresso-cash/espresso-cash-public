@@ -5,13 +5,6 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../models/kyc_validation_status.dart';
 
-extension ValidationStatusExtension on ValidationStatus {
-  bool get isApprovedOrPending =>
-      this == ValidationStatus.approved || this == ValidationStatus.pending;
-
-  bool get isUnspecified => this == ValidationStatus.unspecified;
-}
-
 extension UserDataExtensions on UserData {
   String? get firstName => name?.firstName.nullIfEmpty;
   String? get lastName => name?.lastName.nullIfEmpty;
