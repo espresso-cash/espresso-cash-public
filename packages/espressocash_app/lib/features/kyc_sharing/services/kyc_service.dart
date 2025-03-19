@@ -44,8 +44,8 @@ class KycSharingService extends ValueNotifier<UserData?> {
     _isInitialized.complete();
   }
 
-  Future<void> _fetchUserData({bool includeValues = true}) async {
-    final user = await _kycRepository.fetchUser(includeValues: includeValues);
+  Future<void> _fetchUserData() async {
+    final user = await _kycRepository.fetchUser();
 
     value = user;
     notifyListeners();
@@ -154,14 +154,20 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<void> startKycVerification({required String country}) async {
     final requirements = await getKycRequirements(country: country);
+    final user = await _kycRepository.fetchUser(includeValues: false);
 
-    await _fetchUserData(includeValues: false);
+    if (user == null) {
+      throw Exception('user data not found');
+    }
 
     final basicInfoTypes = requirements.basicInfoTypes;
-    final basicInfoHashes = _validateAndCollectBasicInfoHashes(basicInfoTypes);
+    final basicInfoHashes = _validateAndCollectBasicInfoHashes(
+      user: user,
+      requiredTypes: basicInfoTypes,
+    );
 
     final requiredCountry = requirements.requiredCountry;
-    final documents = value?.documents?.let(
+    final documents = user.documents?.let(
       (e) => requiredCountry != null
           ? e.where((doc) => doc.countryCode == requiredCountry).toList()
           : e,
@@ -180,31 +186,28 @@ class KycSharingService extends ValueNotifier<UserData?> {
     );
   }
 
-  List<String> _validateAndCollectBasicInfoHashes(
-    List<BasicInfoType> requiredTypes,
-  ) {
-    if (value == null) {
-      throw Exception('User data not initialized');
-    }
-
+  List<String> _validateAndCollectBasicInfoHashes({
+    required UserData user,
+    required List<BasicInfoType> requiredTypes,
+  }) {
     final dataHashes = <String>[];
 
     for (final type in requiredTypes) {
       switch (type) {
         case BasicInfoType.email:
-          final hash = value?.email?.hash;
+          final hash = user.email?.hash;
           if (hash == null) {
             throw Exception('email is required');
           }
           dataHashes.add(hash);
         case BasicInfoType.phone:
-          final hash = value?.phone?.hash;
+          final hash = user.phone?.hash;
           if (hash == null) {
             throw Exception('phone is required');
           }
           dataHashes.add(hash);
         case BasicInfoType.selfie:
-          final hash = value?.selfie?.hash;
+          final hash = user.selfie?.hash;
           if (hash == null) {
             throw Exception('selfie is required');
           }
