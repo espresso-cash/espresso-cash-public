@@ -4,6 +4,7 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
+import '../models/kyc_validation_status.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/document_input_screen.dart';
 import '../screens/email_confirmation_screen.dart';
@@ -61,7 +62,9 @@ extension KycFlowExtension on BuildContext {
       country: countryCode ?? 'NG',
     );
 
-    final kycProcessed = user.kycStatus.isApprovedOrPending;
+    final kycStatus = sl<PendingKycService>().value;
+
+    final kycProcessed = kycStatus?.isApprovedOrPending ?? false;
 
     if (!kycProcessed) {
       final success = await KycDescriptionScreen.push(this);
@@ -98,7 +101,7 @@ extension KycFlowExtension on BuildContext {
       if (!await _runFlow(kycSteps)) return false;
     }
 
-    if (user.kycStatus != ValidationStatus.approved) {
+    if (kycStatus != KycValidationStatus.approved) {
       if (!await _navigateToScreen(KycStatusScreen.push)) return false;
     }
 
@@ -106,10 +109,9 @@ extension KycFlowExtension on BuildContext {
   }
 
   Future<bool> openBasicInfoFlow() {
-    final user = sl<KycSharingService>().value;
+    final kycStatus = sl<PendingKycService>().value;
 
-    return user?.kycStatus == ValidationStatus.unverified ||
-            user?.kycStatus == ValidationStatus.unspecified
+    return kycStatus == KycValidationStatus.unverified
         ? openKycFlow()
         : _navigateToScreen(KycStatusScreen.push);
   }

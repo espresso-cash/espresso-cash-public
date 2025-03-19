@@ -7,9 +7,8 @@ import '../../intercom/services/intercom_service.dart';
 import '../../router/service/navigation_service.dart';
 import '../models/kyc_validation_status.dart';
 import '../services/pending_kyc_service.dart';
-import '../utils/kyc_utils.dart';
 import '../widgets/kyc_header.dart';
-import '../widgets/user_data_listener.dart';
+import '../widgets/kyc_listener.dart';
 import '../widgets/kyc_page.dart';
 
 class KycStatusScreen extends StatelessWidget {
@@ -39,10 +38,8 @@ class KycStatusScreen extends StatelessWidget {
           .then((result) => result ?? false);
 
   @override
-  Widget build(BuildContext context) => KycListener(
-        builder: (context, userData) {
-          final status = userData.kycStatus.toKycValidationStatus();
-
+  Widget build(BuildContext context) => KycStatusListener(
+        builder: (context, status) {
           void removePendingKyc() {
             if (status == KycValidationStatus.approved) {
               sl<PendingKycService>().remove();

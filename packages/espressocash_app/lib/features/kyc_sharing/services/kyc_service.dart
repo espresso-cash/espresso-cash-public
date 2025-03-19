@@ -8,7 +8,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
-import 'package:rxdart/rxdart.dart';
+
 
 import '../../accounts/auth_scope.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
@@ -24,8 +24,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   final KycRepository _kycRepository;
   final FeatureFlagsManager _featureFlagsManager;
-
-  StreamSubscription<void>? _pollingSubscription;
 
   final _isInitialized = Completer<void>();
   Future<void> get initialized => _isInitialized.future.then((_) async {
@@ -44,12 +42,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
   Future<void> _initializeKyc() async {
     await _fetchUserData();
     _isInitialized.complete();
-
-    // Todo take active country (from profile); fetch it's status
-
-    // if (value?.kycStatus == ValidationStatus.pending) {
-    //   _subscribe();
-    // }
   }
 
   Future<void> _fetchUserData() async {
@@ -74,35 +66,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
           : value?.phone,
     );
     notifyListeners();
-  }
-
-  Future<KycValidationStatus> fetchKycStatus({required String country}) async {
-    final status = await _kycRepository.fetchKycStatus(country: country);
-
-    return status;
-  }
-
-  void _subscribeKycPolling(String country) {
-    _unsubscribeKycPolling();
-
-    _pollingSubscription = Stream<void>.periodic(const Duration(seconds: 15))
-        .startWith(null)
-        .exhaustMap(
-          (_) => fetchKycStatus(country: country)
-              .timeout(
-                const Duration(seconds: 8),
-                onTimeout: () => KycValidationStatus.unverified,
-              )
-              .asStream()
-              .onErrorReturn(KycValidationStatus.unverified),
-        )
-        .takeWhile((value) => value == KycValidationStatus.pending)
-        .listen((_) {});
-  }
-
-  void _unsubscribeKycPolling() {
-    _pollingSubscription?.cancel();
-    _pollingSubscription = null;
   }
 
   Future<void> updatePersonalInfo({
@@ -296,11 +259,4 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<KycRequirement> getKycRequirements({required String country}) =>
       _kycRepository.getKycRequirements(country: country);
-
-  @override
-  @disposeMethod
-  void dispose() {
-    _unsubscribeKycPolling();
-    super.dispose();
-  }
 }

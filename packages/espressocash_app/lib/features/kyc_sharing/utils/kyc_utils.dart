@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 

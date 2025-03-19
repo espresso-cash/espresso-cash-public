@@ -12,8 +12,9 @@ import '../../../../../ui/markdown_text.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
+import '../../../../kyc_sharing/models/kyc_validation_status.dart';
 import '../../../../kyc_sharing/services/kyc_service.dart';
-import '../../../../kyc_sharing/utils/kyc_utils.dart';
+import '../../../../kyc_sharing/services/pending_kyc_service.dart';
 import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
@@ -44,7 +45,9 @@ extension BuildContextExt on BuildContext {
       return;
     }
 
-    if (user.kycStatus == ValidationStatus.pending) {
+    final kycStatus = sl<PendingKycService>().value;
+
+    if (kycStatus == KycValidationStatus.pending) {
       _showPendingKycDialog();
 
       return;
@@ -142,11 +145,14 @@ extension BuildContextExt on BuildContext {
       return;
     }
 
-    if (user.kycStatus == ValidationStatus.pending) {
+    final kycStatus = sl<PendingKycService>().value;
+
+    if (kycStatus == KycValidationStatus.pending) {
       _showPendingKycDialog();
 
       return;
     }
+
     final kycPassed = await openKycFlow(countryCode: profile.country.code);
 
     if (!kycPassed) return;
