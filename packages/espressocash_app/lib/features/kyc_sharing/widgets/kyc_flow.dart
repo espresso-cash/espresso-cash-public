@@ -91,7 +91,7 @@ extension KycFlowExtension on BuildContext {
 
     final documents = user.getDocumentsByCountry(countryCode);
 
-    if (documents == null) {
+    if (documents == null || documents.isEmpty) {
       final requirement = await sl<KycSharingService>().getKycRequirements(
         country: countryCode,
       );
