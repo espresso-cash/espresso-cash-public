@@ -105,6 +105,10 @@ extension KycFlowExtension on BuildContext {
       if (!await _runFlow(kycSteps)) return false;
     }
 
+    if (kycStatus == KycValidationStatus.unverified) {
+      await sl<KycSharingService>().startKycVerification(country: countryCode);
+    }
+
     if (kycStatus != KycValidationStatus.approved) {
       if (!await _navigateToScreen(
         (BuildContext ctx) => KycStatusScreen.push(
