@@ -87,11 +87,9 @@ extension KycFlowExtension on BuildContext {
       if (!await _runFlow(phoneSteps)) return false;
     }
 
-    final hasBankInfo =
-        user.bankInfos?.any((account) => account.countryCode == countryCode) ==
-            true;
+    final bank = user.getBankByCountry(countryCode);
 
-    if (!hasBankInfo) {
+    if (bank == null) {
       if (!await _navigateToScreen(BankAccountScreen.push)) return false;
     }
 
