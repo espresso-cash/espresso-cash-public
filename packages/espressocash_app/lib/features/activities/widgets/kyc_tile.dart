@@ -1,5 +1,3 @@
-// ignore_for_file: prefer-switch-with-enums
-
 import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
@@ -20,27 +18,38 @@ import '../../ramp/widgets/ramp_buttons.dart';
 class KycTile extends StatelessWidget {
   const KycTile({
     super.key,
-    this.onTap,
     required this.timestamp,
   });
 
-  final VoidCallback? onTap;
   final String timestamp;
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
         valueListenable: sl<KycSharingService>(),
-        builder: (context, user, _) => user == null
-            ? const SizedBox.shrink()
-            : KycStatusListener(
-                country: sl<ProfileRepository>().country ?? 'NG',
-                builder: (context, kycStatus) => _KycTileContent(
-                  timestamp: timestamp,
-                  kycStatus: kycStatus,
-                  emailStatus: user.emailStatus,
-                  phoneStatus: user.phoneStatus,
-                ),
-              ),
+        builder: (context, user, _) {
+          const empty = SizedBox.shrink();
+
+          if (user == null) return empty;
+
+          final country = sl<ProfileRepository>().country;
+
+          if (country == null) return empty;
+
+          return KycStatusListener(
+            country: country,
+            builder: (context, kycStatus) {
+              if (kycStatus == null) return empty;
+
+              return _KycTileContent(
+                timestamp: timestamp,
+                kycStatus: kycStatus,
+                emailStatus: user.emailStatus,
+                phoneStatus: user.phoneStatus,
+                country: country,
+              );
+            },
+          );
+        },
       );
 }
 
@@ -50,22 +59,26 @@ class _KycTileContent extends StatelessWidget {
     required this.emailStatus,
     required this.phoneStatus,
     required this.kycStatus,
+    required this.country,
   });
 
   final KycValidationStatus emailStatus;
   final KycValidationStatus phoneStatus;
   final KycValidationStatus kycStatus;
   final String timestamp;
+  final String country;
 
   @override
   Widget build(BuildContext context) {
+    Future<bool> openKycFlow() => context.openKycFlow(countryCode: country);
+
     if (emailStatus != KycValidationStatus.approved) {
       return _KycItem(
         status: emailStatus,
         timestamp: timestamp,
         title: context.l10n.emailVerification,
         description: context.l10n.kycTileDescriptionUnverified,
-        onPressed: context.openKycFlow,
+        onPressed: openKycFlow,
         buttonText: context.l10n.continueVerification,
       );
     }
@@ -76,7 +89,7 @@ class _KycTileContent extends StatelessWidget {
         timestamp: timestamp,
         title: context.l10n.phoneVerification,
         description: context.l10n.kycTileDescriptionUnverified,
-        onPressed: context.openKycFlow,
+        onPressed: openKycFlow,
         buttonText: context.l10n.continueVerification,
       );
     }
@@ -89,13 +102,13 @@ class _KycTileContent extends StatelessWidget {
       title: context.l10n.idVerification,
       description: kycStatus.description(context),
       onPressed: isUnverified
-          ? context.openKycFlow
+          ? openKycFlow
           : () {
               KycStatusScreen.push(
                 context,
                 onAddCashPressed: context.launchOnRampFlow,
                 onCashOutPressed: context.launchOffRampFlow,
-                country: sl<ProfileRepository>().country ?? 'NG',
+                country: country,
               );
             },
       buttonText: isUnverified

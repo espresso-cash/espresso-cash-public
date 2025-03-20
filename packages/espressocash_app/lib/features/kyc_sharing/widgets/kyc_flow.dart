@@ -49,10 +49,8 @@ List<KycStepFunction> documentSteps({
     ];
 
 extension KycFlowExtension on BuildContext {
-  Future<bool> openKycFlow({String? countryCode}) async {
+  Future<bool> openKycFlow({required String countryCode}) async {
     final user = sl<KycSharingService>().value;
-
-    final country = countryCode ?? 'NG';
 
     if (user == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
@@ -61,11 +59,11 @@ extension KycFlowExtension on BuildContext {
     }
 
     final requirement = await sl<KycSharingService>().getKycRequirements(
-      country: country,
+      country: countryCode,
     );
 
     final kycStatus =
-        await sl<PendingKycService>().fetchKycStatus(country: country);
+        await sl<PendingKycService>().fetchKycStatus(country: countryCode);
 
     final kycProcessed = kycStatus.isApprovedOrPending;
 
@@ -89,7 +87,7 @@ extension KycFlowExtension on BuildContext {
       if (!await _runFlow(phoneSteps)) return false;
     }
 
-    final hasBankInfo = countryCode != null &&
+    final hasBankInfo =
         user.bankInfos?.any((account) => account.countryCode == countryCode) ==
             true;
 
@@ -108,7 +106,7 @@ extension KycFlowExtension on BuildContext {
       if (!await _navigateToScreen(
         (BuildContext ctx) => KycStatusScreen.push(
           ctx,
-          country: country,
+          country: countryCode,
         ),
       )) {
         return false;
@@ -118,25 +116,11 @@ extension KycFlowExtension on BuildContext {
     return true;
   }
 
-  Future<bool> openBasicInfoFlow(String country) async {
-    final kycStatus =
-        await sl<PendingKycService>().fetchKycStatus(country: country);
-
-    return kycStatus == KycValidationStatus.unverified
-        ? openKycFlow()
-        : _navigateToScreen(
-            (BuildContext ctx) => KycStatusScreen.push(
-              ctx,
-              country: country,
-            ),
-          );
-  }
-
   Future<bool> openEmailFlow() {
     final user = sl<KycSharingService>().value;
 
     return user?.emailStatus == KycValidationStatus.unverified
-        ? openKycFlow()
+        ? _runFlow(emailSteps)
         : _navigateToScreen(EmailStatusScreen.push);
   }
 
@@ -144,7 +128,7 @@ extension KycFlowExtension on BuildContext {
     final user = sl<KycSharingService>().value;
 
     return user?.phoneStatus == KycValidationStatus.unverified
-        ? openKycFlow()
+        ? _runFlow(phoneSteps)
         : _navigateToScreen(PhoneStatusScreen.push);
   }
 
