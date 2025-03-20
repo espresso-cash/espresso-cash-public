@@ -1,11 +1,11 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_app/features/kyc_sharing/services/pending_kyc_service.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../utils/errors.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../intercom/services/intercom_service.dart';
+import '../../kyc_sharing/services/pending_kyc_service.dart';
 import '../data/profile_repository.dart';
 
 @injectable

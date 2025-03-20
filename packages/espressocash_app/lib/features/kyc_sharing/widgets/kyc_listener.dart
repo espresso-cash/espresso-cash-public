@@ -6,7 +6,7 @@ import '../services/pending_kyc_service.dart';
 
 typedef KycStatusListenerBuilder = Widget Function(
   BuildContext context,
-  KycValidationStatus status,
+  KycValidationStatus? status,
 );
 
 class KycStatusListener extends StatelessWidget {
@@ -22,11 +22,8 @@ class KycStatusListener extends StatelessWidget {
   @override
   Widget build(BuildContext context) => StreamBuilder<KycValidationStatus>(
         stream: sl<PendingKycService>().pollKycStatus(country: country),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return builder(context, snapshot.data!);
-        },
+        builder: (context, snapshot) => snapshot.hasData
+            ? const Center(child: CircularProgressIndicator())
+            : builder(context, snapshot.data),
       );
 }

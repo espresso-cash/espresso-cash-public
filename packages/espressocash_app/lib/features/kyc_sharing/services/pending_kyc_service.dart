@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -56,11 +55,8 @@ class PendingKycService {
                 .asStream(),
           );
 
-  Future<KycValidationStatus> fetchKycStatus({required String country}) async {
-    final status = await _kycService.getKycStatus(country: country);
-
-    return status;
-  }
+  Future<KycValidationStatus> fetchKycStatus({required String country}) =>
+      _kycService.getKycStatus(country: country);
 
   DateTime? _getCurrentKycDate() {
     final dateString = _sharedPreferences.getString(_kycStartedKey);

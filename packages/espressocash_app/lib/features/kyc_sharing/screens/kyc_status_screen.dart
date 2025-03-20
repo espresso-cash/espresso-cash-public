@@ -45,6 +45,8 @@ class KycStatusScreen extends StatelessWidget {
   Widget build(BuildContext context) => KycStatusListener(
         country: country,
         builder: (context, status) {
+          if (status == null) return const SizedBox.shrink();
+
           void removePendingKyc() {
             if (status == KycValidationStatus.approved) {
               sl<PendingKycService>().remove();
