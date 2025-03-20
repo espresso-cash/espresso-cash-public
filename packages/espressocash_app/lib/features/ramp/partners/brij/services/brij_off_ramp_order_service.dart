@@ -19,6 +19,7 @@ import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
+import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
@@ -172,15 +173,22 @@ class BrijOffRampOrderService implements Disposable {
     required CryptoAmount submittedAmount,
     required FiatAmount receiveAmount,
     required RampPartner partner,
+    required String country,
   }) =>
       tryEitherAsync((_) async {
         {
           final partnerAuthPk = partner.partnerPK ?? '';
           await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
-          // TODO(vs): Bank data should be passed as parameter, or be taken from service
-          const accountNumber = '';
-          const bankCode = '';
+          final user = await _kycRepository.fetchUser();
+
+          final bank = user?.getBankByCountry(country);
+
+          if (bank == null) {
+            throw Exception(
+              'Invalid user data: User not found or missing bank information',
+            );
+          }
 
           final orderId = await _kycRepository.createOffRampOrder(
             cryptoAmount: submittedAmount.decimal.toDouble(),
@@ -188,8 +196,8 @@ class BrijOffRampOrderService implements Disposable {
             fiatAmount: receiveAmount.decimal.toDouble(),
             fiatCurrency: receiveAmount.currency.symbol,
             partnerPK: partnerAuthPk,
-            bankAccount: accountNumber,
-            bankName: bankCode,
+            bankAccount: bank.accountNumber,
+            bankName: bank.bankCode,
           );
 
           final order = OffRampOrderRow(
@@ -217,8 +225,7 @@ class BrijOffRampOrderService implements Disposable {
             partnerName: partner.name,
             rampType: RampType.offRamp.name,
             amount: submittedAmount.value.toString(),
-            // TODO(vs): Country should be passed as parameter, based on picked on in select partner screen
-            countryCode: '',
+            countryCode: country,
             id: order.id,
           );
 

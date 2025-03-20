@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
@@ -15,6 +16,10 @@ extension UserDataExtensions on UserData {
   String? get getPhone => phone?.value.nullIfEmpty;
 
   Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
+
+  BankInfo? getBankByCountry(String country) => bankInfos?.firstWhereOrNull(
+        (bank) => bank.countryCode == country,
+      );
 
   KycValidationStatus get phoneStatus =>
       phone?.status.toKycValidationStatus() ?? KycValidationStatus.unverified;

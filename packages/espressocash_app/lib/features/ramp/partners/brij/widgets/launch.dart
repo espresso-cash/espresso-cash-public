@@ -113,6 +113,7 @@ extension BuildContextExt on BuildContext {
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount as FiatAmount,
             partner: partner,
+            country: profile.country.code,
           )
           .then(
             (order) => order.fold(
@@ -211,6 +212,7 @@ extension BuildContextExt on BuildContext {
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount,
             partner: partner,
+            country: profile.country.code,
           )
           .then(
             (order) => order.fold(
