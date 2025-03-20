@@ -58,10 +58,6 @@ extension KycFlowExtension on BuildContext {
       return false;
     }
 
-    final requirement = await sl<KycSharingService>().getKycRequirements(
-      country: countryCode,
-    );
-
     final kycStatus =
         await sl<PendingKycService>().fetchKycStatus(country: countryCode);
 
@@ -93,8 +89,17 @@ extension KycFlowExtension on BuildContext {
       if (!await _navigateToScreen(BankAccountScreen.push)) return false;
     }
 
-    // TODO(JE): update final flow
-    if (!await _runFlow(documentSteps(requirement: requirement))) return false;
+    final documents = user.getDocumentsByCountry(countryCode);
+
+    if (documents == null) {
+      final requirement = await sl<KycSharingService>().getKycRequirements(
+        country: countryCode,
+      );
+
+      if (!await _runFlow(documentSteps(requirement: requirement))) {
+        return false;
+      }
+    }
 
     if (!kycProcessed) {
       if (!await _runFlow(kycSteps)) return false;
