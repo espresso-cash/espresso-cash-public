@@ -32,30 +32,9 @@ extension BuildContextExt on BuildContext {
     required RampPartner partner,
     required ProfileData profile,
   }) async {
-    final kycService = sl<KycSharingService>();
+    final isValid = await _validateKyc(profile);
 
-    await runWithLoader(this, () async => kycService.initialized);
-
-    final user = kycService.value;
-
-    if (user == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-      return;
-    }
-
-    final kycStatus = await sl<PendingKycService>()
-        .fetchKycStatus(country: profile.country.code);
-
-    if (kycStatus == KycValidationStatus.pending) {
-      _showPendingKycDialog();
-
-      return;
-    }
-
-    final kycPassed = await openKycFlow(countryCode: profile.country.code);
-
-    if (!kycPassed) return;
+    if (!isValid) return;
 
     const type = RampType.onRamp;
 
@@ -134,30 +113,9 @@ extension BuildContextExt on BuildContext {
     required RampPartner partner,
     required ProfileData profile,
   }) async {
-    final kycService = sl<KycSharingService>();
+    final isValid = await _validateKyc(profile);
 
-    await runWithLoader(this, () async => kycService.initialized);
-
-    final user = kycService.value;
-
-    if (user == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-      return;
-    }
-
-    final kycStatus = await sl<PendingKycService>()
-        .fetchKycStatus(country: profile.country.code);
-
-    if (kycStatus == KycValidationStatus.pending) {
-      _showPendingKycDialog();
-
-      return;
-    }
-
-    final kycPassed = await openKycFlow(countryCode: profile.country.code);
-
-    if (!kycPassed) return;
+    if (!isValid) return;
 
     const type = RampType.offRamp;
 
@@ -227,6 +185,37 @@ extension BuildContextExt on BuildContext {
     } else {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
     }
+  }
+
+  Future<bool> _validateKyc(ProfileData profile) async {
+    final kycService = sl<KycSharingService>();
+
+    await runWithLoader(this, () async => kycService.initialized);
+
+    final user = kycService.value;
+
+    if (user == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return false;
+    }
+
+    final kycStatus = await runWithLoader(
+      this,
+      () =>
+          sl<PendingKycService>().fetchKycStatus(country: profile.country.code),
+    );
+
+    if (kycStatus == KycValidationStatus.pending) {
+      _showPendingKycDialog();
+
+      return false;
+    }
+
+    return runWithLoader(
+      this,
+      () => openKycFlow(countryCode: profile.country.code),
+    );
   }
 
   Future<double> _fetchRate(RampType type) => runWithLoader<double>(

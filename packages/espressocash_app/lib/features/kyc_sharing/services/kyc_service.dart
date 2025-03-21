@@ -154,7 +154,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<void> startKycVerification({required String country}) async {
     final requirements = await getKycRequirements(country: country);
-    final user = await _kycRepository.fetchUser(includeValues: false);
+    final user = await _kycRepository.fetchUser();
 
     if (user == null) {
       throw Exception('user data not found');
