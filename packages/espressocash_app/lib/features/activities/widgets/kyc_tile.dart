@@ -35,25 +35,11 @@ class KycTile extends StatelessWidget {
 
           if (country == null) return empty;
 
-          return KycStatusListener(
+          return _KycTileContent(
+            timestamp: timestamp,
+            emailStatus: user.emailStatus,
+            phoneStatus: user.phoneStatus,
             country: country,
-            builder: (context, kycStatus) {
-              if (kycStatus.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              final status = kycStatus.data;
-
-              if (status == null) return empty;
-
-              return _KycTileContent(
-                timestamp: timestamp,
-                kycStatus: status,
-                emailStatus: user.emailStatus,
-                phoneStatus: user.phoneStatus,
-                country: country,
-              );
-            },
           );
         },
       );
@@ -64,13 +50,11 @@ class _KycTileContent extends StatelessWidget {
     required this.timestamp,
     required this.emailStatus,
     required this.phoneStatus,
-    required this.kycStatus,
     required this.country,
   });
 
   final KycValidationStatus emailStatus;
   final KycValidationStatus phoneStatus;
-  final KycValidationStatus kycStatus;
   final String timestamp;
   final String country;
 
@@ -100,26 +84,40 @@ class _KycTileContent extends StatelessWidget {
       );
     }
 
-    final isUnverified = kycStatus == KycValidationStatus.unverified;
+    return KycStatusListener(
+      country: country,
+      builder: (context, kycStatus) {
+        const empty = SizedBox.shrink();
+        if (kycStatus.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    return _KycItem(
-      status: kycStatus,
-      timestamp: timestamp,
-      title: context.l10n.idVerification,
-      description: kycStatus.description(context),
-      onPressed: isUnverified
-          ? openKycFlow
-          : () {
-              KycStatusScreen.push(
-                context,
-                onAddCashPressed: context.launchOnRampFlow,
-                onCashOutPressed: context.launchOffRampFlow,
-                country: country,
-              );
-            },
-      buttonText: isUnverified
-          ? context.l10n.continueVerification
-          : context.l10n.viewDetails,
+        final status = kycStatus.data;
+
+        if (status == null) return empty;
+
+        final isUnverified = status == KycValidationStatus.unverified;
+
+        return _KycItem(
+          status: status,
+          timestamp: timestamp,
+          title: context.l10n.idVerification,
+          description: status.description(context),
+          onPressed: isUnverified
+              ? openKycFlow
+              : () {
+                  KycStatusScreen.push(
+                    context,
+                    onAddCashPressed: context.launchOnRampFlow,
+                    onCashOutPressed: context.launchOffRampFlow,
+                    country: country,
+                  );
+                },
+          buttonText: isUnverified
+              ? context.l10n.continueVerification
+              : context.l10n.viewDetails,
+        );
+      },
     );
   }
 }
