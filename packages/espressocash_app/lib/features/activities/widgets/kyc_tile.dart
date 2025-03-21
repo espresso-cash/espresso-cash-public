@@ -38,11 +38,17 @@ class KycTile extends StatelessWidget {
           return KycStatusListener(
             country: country,
             builder: (context, kycStatus) {
-              if (kycStatus == null) return empty;
+              if (kycStatus.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              final status = kycStatus.data;
+
+              if (status == null) return empty;
 
               return _KycTileContent(
                 timestamp: timestamp,
-                kycStatus: kycStatus,
+                kycStatus: status,
                 emailStatus: user.emailStatus,
                 phoneStatus: user.phoneStatus,
                 country: country,
