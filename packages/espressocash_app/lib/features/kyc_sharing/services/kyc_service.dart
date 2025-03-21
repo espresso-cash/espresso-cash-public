@@ -212,6 +212,19 @@ class KycSharingService extends ValueNotifier<UserData?> {
             throw Exception('selfie is required');
           }
           dataHashes.add(hash);
+
+        case BasicInfoType.name:
+          final hash = user.name?.hash;
+          if (hash == null) {
+            throw Exception('name is required');
+          }
+          dataHashes.add(hash);
+        case BasicInfoType.dob:
+          final hash = user.birthDate?.hash;
+          if (hash == null) {
+            throw Exception('dob is required');
+          }
+          dataHashes.add(hash);
       }
     }
 
