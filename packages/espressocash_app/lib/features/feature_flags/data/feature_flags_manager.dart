@@ -39,14 +39,10 @@ class FeatureFlagsManager implements Disposable {
 
   bool isBrijDemoEnabled() => _remoteConfig.getBool(FeatureFlag.brijDemo.name);
 
-  bool isScalexBrijEnabled() =>
-      _remoteConfig.getBool(FeatureFlag.scalexBrij.name) ||
-      _ambassadorService.value.isAmbassador;
-
   @override
   void onDispose() {
     _subscription?.cancel();
   }
 }
 
-enum FeatureFlag { moneygram, brij, brijDemo, scalexBrij }
+enum FeatureFlag { moneygram, brij, brijDemo }
