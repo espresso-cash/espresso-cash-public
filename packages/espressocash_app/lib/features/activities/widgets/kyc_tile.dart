@@ -85,11 +85,9 @@ class _KycTileContent extends StatelessWidget {
         : KycStatusListener(
             country: country,
             builder: (context, kycStatus) {
-              const empty = SizedBox.shrink();
-
               final status = kycStatus.data;
 
-              if (status == null) return empty;
+              if (status == null) return const SizedBox.shrink();
 
               final isUnverified = status == KycValidationStatus.unverified;
 

@@ -220,7 +220,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
     final value = _documentFields[field];
 
     return field == DocumentField.idNumber
-        ? _controllers[field]?.text.isNotEmpty ?? false
+        ? (_controllers[field]?.text.isNotEmpty ?? false)
         : value != null && (value is! String || value.isNotEmpty);
   }
 
