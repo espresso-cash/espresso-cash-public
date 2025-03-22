@@ -88,7 +88,6 @@ class _KycTileContent extends StatelessWidget {
       country: country,
       builder: (context, kycStatus) {
         const empty = SizedBox.shrink();
-        if (kycStatus.connectionState == ConnectionState.waiting) return empty;
 
         final status = kycStatus.data;
 
