@@ -73,49 +73,47 @@ class _KycTileContent extends StatelessWidget {
       );
     }
 
-    if (phoneStatus != KycValidationStatus.approved) {
-      return _KycItem(
-        status: phoneStatus,
-        timestamp: timestamp,
-        title: context.l10n.phoneVerification,
-        description: context.l10n.kycTileDescriptionUnverified,
-        onPressed: openKycFlow,
-        buttonText: context.l10n.continueVerification,
-      );
-    }
+    return phoneStatus != KycValidationStatus.approved
+        ? _KycItem(
+            status: phoneStatus,
+            timestamp: timestamp,
+            title: context.l10n.phoneVerification,
+            description: context.l10n.kycTileDescriptionUnverified,
+            onPressed: openKycFlow,
+            buttonText: context.l10n.continueVerification,
+          )
+        : KycStatusListener(
+            country: country,
+            builder: (context, kycStatus) {
+              const empty = SizedBox.shrink();
 
-    return KycStatusListener(
-      country: country,
-      builder: (context, kycStatus) {
-        const empty = SizedBox.shrink();
+              final status = kycStatus.data;
 
-        final status = kycStatus.data;
+              if (status == null) return empty;
 
-        if (status == null) return empty;
+              final isUnverified = status == KycValidationStatus.unverified;
 
-        final isUnverified = status == KycValidationStatus.unverified;
-
-        return _KycItem(
-          status: status,
-          timestamp: timestamp,
-          title: context.l10n.idVerification,
-          description: status.description(context),
-          onPressed: isUnverified
-              ? openKycFlow
-              : () {
-                  KycStatusScreen.push(
-                    context,
-                    onAddCashPressed: context.launchOnRampFlow,
-                    onCashOutPressed: context.launchOffRampFlow,
-                    country: country,
-                  );
-                },
-          buttonText: isUnverified
-              ? context.l10n.continueVerification
-              : context.l10n.viewDetails,
-        );
-      },
-    );
+              return _KycItem(
+                status: status,
+                timestamp: timestamp,
+                title: context.l10n.idVerification,
+                description: status.description(context),
+                onPressed: isUnverified
+                    ? openKycFlow
+                    : () {
+                        KycStatusScreen.push(
+                          context,
+                          onAddCashPressed: context.launchOnRampFlow,
+                          onCashOutPressed: context.launchOffRampFlow,
+                          country: country,
+                        );
+                      },
+                buttonText: isUnverified
+                    ? context.l10n.continueVerification
+                    : context.l10n.viewDetails,
+              );
+            },
+          );
   }
 }
 
