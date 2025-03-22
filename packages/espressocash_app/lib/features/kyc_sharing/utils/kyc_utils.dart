@@ -15,23 +15,17 @@ extension UserDataExtensions on UserData {
   String? get firstName => name?.firstName.nullIfEmpty;
   String? get lastName => name?.lastName.nullIfEmpty;
   DateTime? get dob => birthDate?.value;
+  String? get citizenshipCode => citizenship?.value.nullIfEmpty;
 
   String? get getEmail => email?.value.nullIfEmpty;
   String? get getPhone => phone?.value.nullIfEmpty;
 
-  IdType? get documentType => document?.type;
-  String? get documentNumber => document?.number.nullIfEmpty;
-  String? get countryCode => document?.countryCode.nullIfEmpty;
-
   Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
 
-  String? get bankCode => bankInfo?.bankCode.nullIfEmpty;
-  String? get bankName => bankInfo?.bankName.nullIfEmpty;
-  String? get accountNumber => bankInfo?.accountNumber.nullIfEmpty;
-
+  // TODO(vs): Implement new status fetching for kyc fields
   ValidationStatus get kycStatus {
     final statuses = [
-      document?.status,
+      documents?.firstOrNull?.status,
       name?.status,
       selfie?.status,
       birthDate?.status,
@@ -57,10 +51,10 @@ extension UserDataExtensions on UserData {
   ValidationStatus get emailStatus =>
       email?.status ?? ValidationStatus.unspecified;
 
-  bool get hasBankInfo =>
-      (bankInfo?.bankCode.isNotEmpty ?? false) &&
-      (bankInfo?.accountNumber.isNotEmpty ?? false) &&
-      (bankInfo?.bankName.isNotEmpty ?? false);
+  bool hasBankInfo(BankInfo bankInfo) =>
+      bankInfo.bankCode.isNotEmpty &&
+      bankInfo.accountNumber.isNotEmpty &&
+      bankInfo.bankName.isNotEmpty;
 }
 
 extension StringNullIfEmpty on String {
