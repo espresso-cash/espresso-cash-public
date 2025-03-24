@@ -1,6 +1,5 @@
 import 'package:async/async.dart';
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../accounts/auth_scope.dart';
@@ -16,9 +15,8 @@ typedef BrijScalexFees = ({
 
 @Singleton(scope: authScope)
 class BrijScalexFeesService {
-  BrijScalexFeesService(this._client);
+  BrijScalexFeesService();
 
-  final EspressoCashClient _client;
   final _cache = AsyncCache<BrijScalexFees>(const Duration(seconds: 30));
 
   Amount? _lastAmount;
@@ -37,55 +35,43 @@ class BrijScalexFeesService {
     return _cache.fetch(() => _fetchFeesFromApi(amount: amount, type: type));
   }
 
-  Future<double> fetchRate(RampType type) async {
-    final response = await _client.fetchScalexBrijFees(
-      ScalexBrijFeeRequestDto(
-        amount: '1',
-        type: type.toDto(),
-      ),
-    );
-
-    return response.rate;
-  }
+  double fetchRate(RampType type) => switch (type) {
+        RampType.onRamp => 1500.00,
+        RampType.offRamp => 1480.00,
+      };
 
   Future<BrijScalexFees> _fetchFeesFromApi({
     required Amount amount,
     required RampType type,
-  }) async {
-    final response = await _client.fetchScalexBrijFees(
-      ScalexBrijFeeRequestDto(
-        amount: amount.decimal.toString(),
-        type: type.toDto(),
-      ),
-    );
+  }) {
+    final rate = fetchRate(type);
 
     final totalFee = Amount.fromDecimal(
-      value: Decimal.parse(response.scalexFees.totalFee.toString()),
+      value: Decimal.parse('1'),
       currency: Currency.usdc,
     );
 
+    final decimalRate = Decimal.parse(rate.toString());
+
     final receiveAmount = switch (type) {
       RampType.onRamp => Amount.fromDecimal(
-          value: Decimal.parse(response.cryptoAmount.toString()),
+          value: (amount.decimal / decimalRate)
+                  .toDecimal(scaleOnInfinitePrecision: 6) -
+              Decimal.one,
           currency: Currency.usdc,
         ),
       RampType.offRamp => Amount.fromDecimal(
-          value: Decimal.parse(response.fiatAmount.toString()),
+          value: (amount.decimal * decimalRate) - Decimal.one,
           currency: Currency.ngn,
         ),
     };
 
-    return (
-      receiveAmount: receiveAmount,
-      rate: response.rate,
-      totalFee: totalFee,
+    return Future.value(
+      (
+        receiveAmount: receiveAmount,
+        rate: rate,
+        totalFee: totalFee,
+      ),
     );
   }
-}
-
-extension on RampType {
-  RampTypeDto toDto() => switch (this) {
-        RampType.onRamp => RampTypeDto.onRamp,
-        RampType.offRamp => RampTypeDto.offRamp
-      };
 }
