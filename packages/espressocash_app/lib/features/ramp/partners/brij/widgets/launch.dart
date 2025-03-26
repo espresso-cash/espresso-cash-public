@@ -18,6 +18,7 @@ import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../router/service/navigation_service.dart';
+import '../../../models/profile_data.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
@@ -27,7 +28,10 @@ import '../services/brij_scalex_fees_service.dart';
 import 'terms_notice.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchBrijOnRamp(RampPartner partner) async {
+  Future<void> launchBrijOnRamp({
+    required RampPartner partner,
+    required ProfileData profile,
+  }) async {
     final kycService = sl<KycSharingService>();
 
     await runWithLoader(this, () async => kycService.initialized);
@@ -46,7 +50,7 @@ extension BuildContextExt on BuildContext {
       return;
     }
 
-    final kycPassed = await openKycFlow();
+    final kycPassed = await openKycFlow(countryCode: profile.country.code);
 
     if (!kycPassed) return;
 
@@ -122,7 +126,10 @@ extension BuildContextExt on BuildContext {
     }
   }
 
-  Future<void> launchBrijOffRamp(RampPartner partner) async {
+  Future<void> launchBrijOffRamp({
+    required RampPartner partner,
+    required ProfileData profile,
+  }) async {
     final kycService = sl<KycSharingService>();
 
     await runWithLoader(this, () async => kycService.initialized);
@@ -140,7 +147,7 @@ extension BuildContextExt on BuildContext {
 
       return;
     }
-    final kycPassed = await openKycFlow();
+    final kycPassed = await openKycFlow(countryCode: profile.country.code);
 
     if (!kycPassed) return;
 

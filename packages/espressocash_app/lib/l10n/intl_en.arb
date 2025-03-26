@@ -1239,5 +1239,33 @@
     "addNewBankAccount": "Add New Bank Account",
     "@addNewBankAccount": {},
     "update": "Update",
-    "@update": {}
+    "@update": {},
+    "documentVerificationTitle": "UPLOAD YOUR *ID DOCUMENT*",
+    "@documentVerificationTitle": {},
+    "documentVerificationDescription": "For security purposes, we need you to upload a clear photo of your identification document. Ensure all details are visible, avoid glare and shadows, and use good lighting for faster verification.",
+    "@documentVerificationDescription": {},
+    "retakeDocumentPhoto": "Retake Document Photo",
+    "@retakeDocumentPhoto": {},
+    "documentConfirmationNotice": "Are you satisfied with the photo?\nIf not, please retake below.",
+    "@documentConfirmationNotice": {},
+    "photoFront": "Photo Front",
+    "@photoFront": {},
+    "photoBack": "Photo Back",
+    "@photoBack": {},
+    "documentFromCountry": "Please provide a document from {countryName}",
+    "@documentFromCountry": {
+      "placeholders": {
+        "countryName": {
+          "type": "String"
+        }
+      }
+    },
+    "tapToUpload": "Tap to upload",
+    "@tapToUpload": {},
+    "changeDocumentPhoto": "Change",
+    "@changeDocumentPhoto": {},
+    "selectDocumentType": "Select Document Type",
+    "@selectDocumentType": {},
+    "documentTitle": "Document",
+    "@documentTitle": {}
 }
