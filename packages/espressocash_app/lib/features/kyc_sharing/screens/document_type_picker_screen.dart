@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-wildcard-cases-with-enums
-
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
@@ -50,7 +48,7 @@ class _ContentState extends State<_Content> {
     _types = widget.types ?? DocumentType.values;
     _selectedType = switch (widget.initial) {
       final type when _types.contains(type) => type,
-      _ => null,
+      DocumentType.voterId || DocumentType.ninV2 || null => null
     };
   }
 

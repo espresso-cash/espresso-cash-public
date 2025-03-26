@@ -11,7 +11,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../country_picker/models/country.dart';
 import '../models/document_type.dart';
-import '../models/extensions.dart';
+import '../models/requirement_extensions.dart';
 import '../screens/document_camera_screen.dart';
 import '../screens/document_info_screen.dart';
 import '../services/kyc_service.dart';
@@ -226,7 +226,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: 'Document'.toUpperCase(),
+        title: context.l10n.documentTitle.toUpperCase(),
         children: [
           if (_countryName case final countryName?) ...[
             _RequiredCountryNotice(countryName: countryName),

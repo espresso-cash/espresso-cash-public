@@ -13,8 +13,8 @@ import '../../accounts/auth_scope.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/kyc_repository.dart';
 import '../models/document_type.dart';
-import '../models/extensions.dart';
 import '../models/kyc_validation_status.dart';
+import '../models/requirement_extensions.dart';
 import '../utils/kyc_exception.dart';
 
 @Singleton(scope: authScope)

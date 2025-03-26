@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-recursive-calls
-
 import 'package:kyc_client_dart/kyc_client_dart.dart' hide IdTypeExtension;
 
 import '../models/document_type.dart';
@@ -18,17 +16,17 @@ extension KycRequirementsExtensions on KycRequirement {
   String? get requiredCountry => requirements.parseCountryCode();
 }
 
-extension KycRequirementListExtensions on List<Requirement> {
+extension RequirementListExtension on List<Requirement> {
   String? parseCountryCode() {
-    for (final req in this) {
+    final queue = [...this];
+    while (queue.isNotEmpty) {
+      final req = queue.removeLast();
       if (req is CountryCodeRequirement) {
         return req.code;
       } else if (req is AndRequirement) {
-        final code = req.requirements.parseCountryCode();
-        if (code != null) return code;
+        queue.addAll(req.requirements);
       } else if (req is OrRequirement) {
-        final code = req.requirements.parseCountryCode();
-        if (code != null) return code;
+        queue.addAll(req.requirements);
       }
     }
 
@@ -36,16 +34,18 @@ extension KycRequirementListExtensions on List<Requirement> {
   }
 
   List<DocumentType> parseDocumentTypes() {
-    final List<DocumentType> types = [];
+    final types = <DocumentType>[];
 
-    for (final req in this) {
+    final queue = [...this];
+    while (queue.isNotEmpty) {
+      final req = queue.removeLast();
       if (req is DocumentTypeRequirement) {
         final docType = req.type.toDocumentType();
         if (docType != null) types.add(docType);
       } else if (req is AndRequirement) {
-        types.addAll(req.requirements.parseDocumentTypes());
+        queue.addAll(req.requirements);
       } else if (req is OrRequirement) {
-        types.addAll(req.requirements.parseDocumentTypes());
+        queue.addAll(req.requirements);
       }
     }
 
@@ -53,15 +53,17 @@ extension KycRequirementListExtensions on List<Requirement> {
   }
 
   List<DocumentField> parseRequiredFields() {
-    final List<DocumentField> fields = [];
+    final fields = <DocumentField>[];
 
-    for (final req in this) {
+    final queue = [...this];
+    while (queue.isNotEmpty) {
+      final req = queue.removeLast();
       if (req is DocumentFieldRequirement) {
         fields.add(req.field);
       } else if (req is AndRequirement) {
-        fields.addAll(req.requirements.parseRequiredFields());
+        queue.addAll(req.requirements);
       } else if (req is OrRequirement) {
-        fields.addAll(req.requirements.parseRequiredFields());
+        queue.addAll(req.requirements);
       }
     }
 
@@ -69,22 +71,16 @@ extension KycRequirementListExtensions on List<Requirement> {
   }
 
   RequirementRelationship determineDocumentFieldsRelationship() {
-    for (final req in this) {
+    final queue = [...this];
+    while (queue.isNotEmpty) {
+      final req = queue.removeLast();
       if (req is AndRequirement &&
           req.requirements.any((r) => r is DocumentFieldRequirement)) {
         return RequirementRelationship.and;
       } else if (req is AndRequirement) {
-        final relationship =
-            req.requirements.determineDocumentFieldsRelationship();
-        if (relationship == RequirementRelationship.and) {
-          return RequirementRelationship.and;
-        }
+        queue.addAll(req.requirements);
       } else if (req is OrRequirement) {
-        final relationship =
-            req.requirements.determineDocumentFieldsRelationship();
-        if (relationship == RequirementRelationship.and) {
-          return RequirementRelationship.and;
-        }
+        queue.addAll(req.requirements);
       }
     }
 
