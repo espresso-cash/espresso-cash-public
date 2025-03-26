@@ -4,7 +4,9 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
+import '../models/kyc_validation_status.dart';
 import '../screens/bank_account_screen.dart';
+import '../screens/document_input_screen.dart';
 import '../screens/email_confirmation_screen.dart';
 import '../screens/email_status_screen.dart';
 import '../screens/email_verification_screen.dart';
@@ -36,8 +38,18 @@ const List<KycStepFunction> phoneSteps = [
   PhoneConfirmationScreen.push,
 ];
 
+List<KycStepFunction> documentSteps({
+  required KycRequirement requirement,
+}) =>
+    [
+      (BuildContext ctx) => DocumentInputScreen.push(
+            ctx,
+            requirement: requirement,
+          ),
+    ];
+
 extension KycFlowExtension on BuildContext {
-  Future<bool> openKycFlow({String? countryCode}) async {
+  Future<bool> openKycFlow({required String countryCode}) async {
     final user = sl<KycSharingService>().value;
 
     if (user == null) {
@@ -46,7 +58,10 @@ extension KycFlowExtension on BuildContext {
       return false;
     }
 
-    final kycProcessed = user.kycStatus.isApprovedOrPending;
+    final kycStatus =
+        await sl<PendingKycService>().fetchKycStatus(country: countryCode);
+
+    final kycProcessed = kycStatus.isApprovedOrPending;
 
     if (!kycProcessed) {
       final success = await KycDescriptionScreen.push(this);
@@ -56,61 +71,71 @@ extension KycFlowExtension on BuildContext {
       if (!success) return false;
     }
 
-    final emailValidated = user.emailStatus == ValidationStatus.approved;
+    final emailValidated = user.emailStatus == KycValidationStatus.approved;
 
     if (!emailValidated) {
       if (!await _runFlow(emailSteps)) return false;
     }
 
-    final phoneValidated = user.phoneStatus == ValidationStatus.approved;
+    final phoneValidated = user.phoneStatus == KycValidationStatus.approved;
 
     if (!phoneValidated) {
       if (!await _runFlow(phoneSteps)) return false;
     }
 
-    final hasBankInfo = countryCode != null &&
-        user.bankInfos?.any((account) => account.countryCode == countryCode) ==
-            true;
+    final bank = user.getBankByCountry(countryCode);
 
-    if (!hasBankInfo) {
+    if (bank == null) {
       if (!await _navigateToScreen(BankAccountScreen.push)) return false;
+    }
+
+    final documents = user.getDocumentsByCountry(countryCode);
+
+    if (documents == null || documents.isEmpty) {
+      final requirement = await sl<KycSharingService>().getKycRequirements(
+        country: countryCode,
+      );
+
+      if (!await _runFlow(documentSteps(requirement: requirement))) {
+        return false;
+      }
     }
 
     if (!kycProcessed) {
       if (!await _runFlow(kycSteps)) return false;
     }
 
-    if (user.kycStatus != ValidationStatus.approved) {
-      if (!await _navigateToScreen(KycStatusScreen.push)) return false;
+    if (kycStatus == KycValidationStatus.unverified) {
+      await sl<KycSharingService>().startKycVerification(country: countryCode);
+    }
+
+    if (kycStatus != KycValidationStatus.approved) {
+      if (!await _navigateToScreen(
+        (BuildContext ctx) => KycStatusScreen.push(
+          ctx,
+          country: countryCode,
+        ),
+      )) {
+        return false;
+      }
     }
 
     return true;
   }
 
-  Future<bool> openBasicInfoFlow() {
-    final user = sl<KycSharingService>().value;
-
-    return user?.kycStatus == ValidationStatus.unverified ||
-            user?.kycStatus == ValidationStatus.unspecified
-        ? openKycFlow()
-        : _navigateToScreen(KycStatusScreen.push);
-  }
-
   Future<bool> openEmailFlow() {
     final user = sl<KycSharingService>().value;
 
-    return user?.emailStatus == ValidationStatus.unverified ||
-            user?.emailStatus == ValidationStatus.unspecified
-        ? openKycFlow()
+    return user?.emailStatus == KycValidationStatus.unverified
+        ? _runFlow(emailSteps)
         : _navigateToScreen(EmailStatusScreen.push);
   }
 
   Future<bool> openPhoneFlow() {
     final user = sl<KycSharingService>().value;
 
-    return user?.phoneStatus == ValidationStatus.unverified ||
-            user?.phoneStatus == ValidationStatus.unspecified
-        ? openKycFlow()
+    return user?.phoneStatus == KycValidationStatus.unverified
+        ? _runFlow(phoneSteps)
         : _navigateToScreen(PhoneStatusScreen.push);
   }
 

@@ -13,6 +13,7 @@ dependencies:
   bloc_concurrency: ^0.2.3
   borsh_annotation: ^0.3.2
   cached_network_image: ^3.3.1
+  camera: ^0.11.1
   collection: # Implied by integration_test.
   country_flags: ^3.0.0
   crypto: ^3.0.2
@@ -54,7 +55,7 @@ dependencies:
   kyc_client_dart:
     git:
       url: https://github.com/espresso-cash/kyc_client_dart.git
-      ref: 0cb9c52cdee2a47cad2003dbe62cbf9a807fc5cf
+      ref: ba1b3a5f1c6d875c4664e9e2a9c0f04b2d9e79f9
   logging: ^1.2.0
   meta: ^1.10.0
   mixpanel_flutter: ^2.2.0

@@ -8,10 +8,12 @@ class DocumentPicker extends StatelessWidget {
   const DocumentPicker({
     super.key,
     this.type,
+    this.types,
     required this.onSubmitted,
   });
 
   final DocumentType? type;
+  final List<DocumentType>? types;
   final ValueSetter<DocumentType> onSubmitted;
 
   @override
@@ -26,7 +28,10 @@ class DocumentPicker extends StatelessWidget {
             final DocumentType? updated = await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DocumentTypePickerScreen(initial: type),
+                builder: (context) => DocumentTypePickerScreen(
+                  initial: type,
+                  types: types,
+                ),
               ),
             );
 

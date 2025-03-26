@@ -10,9 +10,11 @@ class DocumentTypePickerScreen extends StatelessWidget {
   const DocumentTypePickerScreen({
     super.key,
     this.initial,
+    this.types,
   });
 
   final DocumentType? initial;
+  final List<DocumentType>? types;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -21,15 +23,16 @@ class DocumentTypePickerScreen extends StatelessWidget {
           appBar: CpAppBar(
             title: Text(context.l10n.selectIdMethod.toUpperCase()),
           ),
-          body: _Content(initial: initial),
+          body: _Content(initial: initial, types: types),
         ),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({this.initial});
+  const _Content({this.initial, this.types});
 
   final DocumentType? initial;
+  final List<DocumentType>? types;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -37,14 +40,16 @@ class _Content extends StatefulWidget {
 
 class _ContentState extends State<_Content> {
   DocumentType? _selectedType;
-
-  final _types = DocumentType.values;
+  late final List<DocumentType> _types;
 
   @override
   void initState() {
     super.initState();
-
-    _selectedType = widget.initial;
+    _types = widget.types ?? DocumentType.values;
+    _selectedType = switch (widget.initial) {
+      final type when _types.contains(type) => type,
+      DocumentType.voterId || DocumentType.ninV2 || null => null
+    };
   }
 
   @override

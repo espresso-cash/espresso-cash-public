@@ -11,6 +11,10 @@ extension KycValidationStatusX on KycValidationStatus {
   bool get isPending =>
       this == KycValidationStatus.pending ||
       this == KycValidationStatus.unverified;
+
+  bool get isApprovedOrPending =>
+      this == KycValidationStatus.approved ||
+      this == KycValidationStatus.pending;
 }
 
 extension ValidationStatusX on ValidationStatus {
@@ -21,5 +25,14 @@ extension ValidationStatusX on ValidationStatus {
         ValidationStatus.pending => KycValidationStatus.pending,
         ValidationStatus.approved => KycValidationStatus.approved,
         ValidationStatus.rejected => KycValidationStatus.rejected,
+      };
+}
+
+extension KycStatusDetailsX on KycStatus {
+  KycValidationStatus toKycValidationStatus() => switch (this) {
+        KycStatus.unspecified => KycValidationStatus.unverified,
+        KycStatus.pending => KycValidationStatus.pending,
+        KycStatus.approved => KycValidationStatus.approved,
+        KycStatus.rejected => KycValidationStatus.rejected,
       };
 }

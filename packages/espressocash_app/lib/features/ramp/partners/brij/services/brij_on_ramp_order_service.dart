@@ -115,6 +115,7 @@ class BrijOnRampOrderService implements Disposable {
     required FiatAmount submittedAmount,
     required CryptoAmount receiveAmount,
     required RampPartner partner,
+    required String country,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -158,8 +159,7 @@ class BrijOnRampOrderService implements Disposable {
             partnerName: partner.name,
             rampType: RampType.onRamp.name,
             amount: submittedAmount.value.toString(),
-            // TODO(vs): Country should be passed as parameter, based on picked on in select partner screen
-            countryCode: '',
+            countryCode: country,
             id: order.id,
           );
 
