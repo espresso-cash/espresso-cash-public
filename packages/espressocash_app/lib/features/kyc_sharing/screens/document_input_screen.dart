@@ -11,6 +11,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../country_picker/models/country.dart';
 import '../models/document_type.dart';
+import '../models/requirement_extensions.dart';
 import '../screens/document_camera_screen.dart';
 import '../screens/document_info_screen.dart';
 import '../services/kyc_service.dart';
@@ -225,7 +226,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: 'Document'.toUpperCase(),
+        title: context.l10n.documentTitle.toUpperCase(),
         children: [
           if (_countryName case final countryName?) ...[
             _RequiredCountryNotice(countryName: countryName),
@@ -470,81 +471,4 @@ class _RequiredCountryNotice extends StatelessWidget {
           ],
         ),
       );
-}
-
-enum RequirementRelationship {
-  and,
-  or,
-}
-
-extension on List<Requirement> {
-  String? parseCountryCode() {
-    final queue = [...this];
-    while (queue.isNotEmpty) {
-      final req = queue.removeLast();
-      if (req is CountryCodeRequirement) {
-        return req.code;
-      } else if (req is AndRequirement) {
-        queue.addAll(req.requirements);
-      } else if (req is OrRequirement) {
-        queue.addAll(req.requirements);
-      }
-    }
-
-    return null;
-  }
-
-  List<DocumentType> parseDocumentTypes() {
-    final types = <DocumentType>[];
-
-    final queue = [...this];
-    while (queue.isNotEmpty) {
-      final req = queue.removeLast();
-      if (req is DocumentTypeRequirement) {
-        final docType = req.type.toDocumentType();
-        if (docType != null) types.add(docType);
-      } else if (req is AndRequirement) {
-        queue.addAll(req.requirements);
-      } else if (req is OrRequirement) {
-        queue.addAll(req.requirements);
-      }
-    }
-
-    return types;
-  }
-
-  List<DocumentField> parseRequiredFields() {
-    final fields = <DocumentField>[];
-
-    final queue = [...this];
-    while (queue.isNotEmpty) {
-      final req = queue.removeLast();
-      if (req is DocumentFieldRequirement) {
-        fields.add(req.field);
-      } else if (req is AndRequirement) {
-        queue.addAll(req.requirements);
-      } else if (req is OrRequirement) {
-        queue.addAll(req.requirements);
-      }
-    }
-
-    return fields;
-  }
-
-  RequirementRelationship determineDocumentFieldsRelationship() {
-    final queue = [...this];
-    while (queue.isNotEmpty) {
-      final req = queue.removeLast();
-      if (req is AndRequirement &&
-          req.requirements.any((r) => r is DocumentFieldRequirement)) {
-        return RequirementRelationship.and;
-      } else if (req is AndRequirement) {
-        queue.addAll(req.requirements);
-      } else if (req is OrRequirement) {
-        queue.addAll(req.requirements);
-      }
-    }
-
-    return RequirementRelationship.or;
-  }
 }

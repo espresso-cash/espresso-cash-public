@@ -1265,5 +1265,7 @@
     "changeDocumentPhoto": "Change",
     "@changeDocumentPhoto": {},
     "selectDocumentType": "Select Document Type",
-    "@selectDocumentType": {}
+    "@selectDocumentType": {},
+    "documentTitle": "Document",
+    "@documentTitle": {}
 }
