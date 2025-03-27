@@ -48,7 +48,12 @@ class _ContentState extends State<_Content> {
     _types = widget.types ?? DocumentType.values;
     _selectedType = switch (widget.initial) {
       final type when _types.contains(type) => type,
-      DocumentType.voterId || DocumentType.ninV2 || null => null
+      DocumentType.voterId ||
+      DocumentType.ninV2 ||
+      DocumentType.passport ||
+      DocumentType.idCard ||
+      null =>
+        null
     };
   }
 
