@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
@@ -12,12 +11,14 @@ import '../../../../../ui/markdown_text.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
+import '../../../../kyc_sharing/models/kyc_validation_status.dart';
 import '../../../../kyc_sharing/services/kyc_service.dart';
-import '../../../../kyc_sharing/utils/kyc_utils.dart';
+import '../../../../kyc_sharing/services/pending_kyc_service.dart';
 import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../router/service/navigation_service.dart';
+import '../../../models/profile_data.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
@@ -27,28 +28,13 @@ import '../services/brij_scalex_fees_service.dart';
 import 'terms_notice.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchBrijOnRamp(RampPartner partner) async {
-    final kycService = sl<KycSharingService>();
+  Future<void> launchBrijOnRamp({
+    required RampPartner partner,
+    required ProfileData profile,
+  }) async {
+    final isValid = await _validateKyc(profile);
 
-    await runWithLoader(this, () async => kycService.initialized);
-
-    final user = kycService.value;
-
-    if (user == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-      return;
-    }
-
-    if (user.kycStatus == ValidationStatus.pending) {
-      _showPendingKycDialog();
-
-      return;
-    }
-
-    final kycPassed = await openKycFlow();
-
-    if (!kycPassed) return;
+    if (!isValid) return;
 
     const type = RampType.onRamp;
 
@@ -106,6 +92,7 @@ extension BuildContextExt on BuildContext {
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount as FiatAmount,
             partner: partner,
+            country: profile.country.code,
           )
           .then(
             (order) => order.fold(
@@ -122,27 +109,13 @@ extension BuildContextExt on BuildContext {
     }
   }
 
-  Future<void> launchBrijOffRamp(RampPartner partner) async {
-    final kycService = sl<KycSharingService>();
+  Future<void> launchBrijOffRamp({
+    required RampPartner partner,
+    required ProfileData profile,
+  }) async {
+    final isValid = await _validateKyc(profile);
 
-    await runWithLoader(this, () async => kycService.initialized);
-
-    final user = kycService.value;
-
-    if (user == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-      return;
-    }
-
-    if (user.kycStatus == ValidationStatus.pending) {
-      _showPendingKycDialog();
-
-      return;
-    }
-    final kycPassed = await openKycFlow();
-
-    if (!kycPassed) return;
+    if (!isValid) return;
 
     const type = RampType.offRamp;
 
@@ -197,6 +170,7 @@ extension BuildContextExt on BuildContext {
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount,
             partner: partner,
+            country: profile.country.code,
           )
           .then(
             (order) => order.fold(
@@ -211,6 +185,37 @@ extension BuildContextExt on BuildContext {
     } else {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
     }
+  }
+
+  Future<bool> _validateKyc(ProfileData profile) async {
+    final kycService = sl<KycSharingService>();
+
+    await runWithLoader(this, () async => kycService.initialized);
+
+    final user = kycService.value;
+
+    if (user == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return false;
+    }
+
+    final kycStatus = await runWithLoader(
+      this,
+      () =>
+          sl<PendingKycService>().fetchKycStatus(country: profile.country.code),
+    );
+
+    if (kycStatus == KycValidationStatus.pending) {
+      _showPendingKycDialog();
+
+      return false;
+    }
+
+    return runWithLoader(
+      this,
+      () => openKycFlow(countryCode: profile.country.code),
+    );
   }
 
   Future<double> _fetchRate(RampType type) => runWithLoader<double>(

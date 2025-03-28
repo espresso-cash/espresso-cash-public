@@ -7,7 +7,6 @@ import '../../intercom/services/intercom_service.dart';
 import '../../router/service/navigation_service.dart';
 import '../models/kyc_validation_status.dart';
 import '../services/pending_kyc_service.dart';
-import '../utils/kyc_utils.dart';
 import '../widgets/kyc_header.dart';
 import '../widgets/kyc_listener.dart';
 import '../widgets/kyc_page.dart';
@@ -17,15 +16,18 @@ class KycStatusScreen extends StatelessWidget {
     super.key,
     this.onAddCashPressed,
     this.onCashOutPressed,
+    required this.country,
   });
 
   final VoidCallback? onAddCashPressed;
   final VoidCallback? onCashOutPressed;
+  final String country;
 
   static Future<bool> push(
     BuildContext context, {
     VoidCallback? onAddCashPressed,
     VoidCallback? onCashOutPressed,
+    required String country,
   }) =>
       Navigator.of(context)
           .push<bool>(
@@ -33,15 +35,27 @@ class KycStatusScreen extends StatelessWidget {
               builder: (context) => KycStatusScreen(
                 onAddCashPressed: onAddCashPressed,
                 onCashOutPressed: onCashOutPressed,
+                country: country,
               ),
             ),
           )
           .then((result) => result ?? false);
 
   @override
-  Widget build(BuildContext context) => KycListener(
-        builder: (context, userData) {
-          final status = userData.kycStatus.toKycValidationStatus();
+  Widget build(BuildContext context) => KycStatusListener(
+        country: country,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const KycPage(
+              children: [
+                Center(child: CircularProgressIndicator()),
+              ],
+            );
+          }
+
+          final status = snapshot.data;
+
+          if (status == null) return const SizedBox.shrink();
 
           void removePendingKyc() {
             if (status == KycValidationStatus.approved) {

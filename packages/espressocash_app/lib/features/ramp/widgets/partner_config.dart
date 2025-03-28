@@ -100,4 +100,4 @@ const _moneygramOffRampCountries = {
   'UZ', 'VU', 'VE', 'VN', 'VG', 'VI', 'ZM',
 };
 
-const _brijCountries = {'NG'};
+const _brijCountries = {'NG', 'ES'};
