@@ -20,7 +20,7 @@ extension RequirementListExtension on List<Requirement> {
   List<String> parseCountryCodes() {
     final codes = <String>[];
     final queue = [...this];
-    
+
     while (queue.isNotEmpty) {
       final req = queue.removeLast();
       if (req is CountryCodeRequirement) {
