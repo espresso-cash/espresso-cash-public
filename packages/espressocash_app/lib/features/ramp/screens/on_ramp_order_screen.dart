@@ -345,10 +345,18 @@ class _Timeline extends StatelessWidget {
       trailing: amount?.format(context.locale, maxDecimals: 2),
       subtitle: context.formatDate(created),
     );
-    final amountReceived = CpTimelineItem(
-      title: context.l10n.onRampDepositReceived,
-      trailing: receiveAmount?.format(context.locale, maxDecimals: 2),
+
+    final isScalexBrij = partner == RampPartner.scalexBrij;
+    final brijAmountArriving = CpTimelineItem(
+      title: context.l10n.scalexBrijOnrampArriving,
     );
+
+    final amountReceived = isScalexBrij
+        ? brijAmountArriving
+        : CpTimelineItem(
+            title: context.l10n.onRampDepositReceived,
+            trailing: receiveAmount?.format(context.locale, maxDecimals: 2),
+          );
 
     CpTimelineItem? deposited;
     if (isManualBankTransfer) {

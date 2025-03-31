@@ -4,10 +4,10 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../utils/phone.dart';
 import '../../country_picker/models/country.dart';
-import '../../country_picker/widgets/phone_text_field.dart';
 import '../widgets/extensions.dart';
 import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
+import '../widgets/phone_text_field.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
   const PhoneVerificationScreen({super.key});

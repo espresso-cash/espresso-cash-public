@@ -1,26 +1,47 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
+import '../../country_picker/models/country.dart';
+import '../../country_picker/widgets/country_picker.dart';
+import '../models/bank.dart';
 import '../services/kyc_service.dart';
-import '../utils/kyc_utils.dart';
+import '../widgets/bank_text_field.dart';
 import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
 class BankAccountScreen extends StatefulWidget {
-  const BankAccountScreen({super.key});
+  const BankAccountScreen({
+    super.key,
+    this.initialBankInfo,
+    this.buttonLabel,
+  });
 
-  static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const BankAccountScreen(),
-        ),
-      )
-      .then((result) => result ?? false);
+  static Future<bool> push(
+    BuildContext context, {
+    BankInfo? initialBankInfo,
+    String? buttonLabel,
+  }) =>
+      Navigator.of(context)
+          .push<bool>(
+            MaterialPageRoute(
+              builder: (context) => BankAccountScreen(
+                initialBankInfo: initialBankInfo,
+                buttonLabel: buttonLabel,
+              ),
+            ),
+          )
+          .then((result) => result ?? false);
+
+  final BankInfo? initialBankInfo;
+  final String? buttonLabel;
 
   @override
   State<BankAccountScreen> createState() => _BankAccountScreenState();
@@ -29,12 +50,13 @@ class BankAccountScreen extends StatefulWidget {
 class _BankAccountScreenState extends State<BankAccountScreen> {
   final _bankAccountNumberController = TextEditingController();
   final _bankCodeController = TextEditingController();
-  final _bankNameController = TextEditingController();
+  Bank? _selectedBank;
+  Country? _selectedCountry;
 
   bool get _isValid =>
       _bankAccountNumberController.text.trim().isNotEmpty &&
-      _bankCodeController.text.trim().isNotEmpty &&
-      _bankNameController.text.trim().isNotEmpty;
+      (_selectedBank != null || _bankCodeController.text.trim().isNotEmpty) &&
+      _selectedCountry != null;
 
   Future<void> _handleSubmitted() async {
     final success = await runWithLoader<bool>(
@@ -42,9 +64,11 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
       () async {
         try {
           await sl<KycSharingService>().updateBankInfo(
+            id: widget.initialBankInfo?.id,
             bankAccountNumber: _bankAccountNumberController.text,
-            bankCode: _bankCodeController.text,
-            bankName: _bankNameController.text,
+            bankCode: _selectedBank?.code ?? '',
+            bankName: _selectedBank?.name ?? '',
+            countryCode: _selectedCountry?.code ?? '',
           );
 
           return true;
@@ -67,19 +91,37 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
   @override
   void initState() {
     super.initState();
+    _bankCodeController.addListener(_updateSelectedBank);
 
-    final user = sl<KycSharingService>().value;
+    _bankAccountNumberController.text =
+        widget.initialBankInfo?.accountNumber ?? '';
 
-    _bankAccountNumberController.text = user?.accountNumber ?? '';
-    _bankCodeController.text = user?.bankCode ?? '';
-    _bankNameController.text = user?.bankName ?? '';
+    final initialBank = scalexBanks.firstWhereOrNull(
+      (bank) => bank.code == widget.initialBankInfo?.bankCode,
+    );
+
+    _selectedCountry = Country.findByCode(
+      widget.initialBankInfo?.countryCode ?? '',
+    );
+
+    _selectedBank = initialBank;
+  }
+
+  void _updateSelectedBank() {
+    if (_selectedCountry?.code != 'NG') {
+      return;
+    }
+
+    final code = _bankCodeController.text.trim();
+    setState(() => _selectedBank = (code: code, name: code));
   }
 
   @override
   void dispose() {
     _bankAccountNumberController.dispose();
-    _bankCodeController.dispose();
-    _bankNameController.dispose();
+    _bankCodeController
+      ..removeListener(_updateSelectedBank)
+      ..dispose();
     super.dispose();
   }
 
@@ -91,34 +133,46 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
             description: context.l10n.bankAccountInfoCorrectText,
           ),
           const SizedBox(height: 16),
+          CountryPicker(
+            backgroundColor: CpColors.blackGreyColor,
+            placeholder: context.l10n.countryOfBank,
+            country: _selectedCountry,
+            onSubmitted: (country) => setState(
+              () {
+                _selectedCountry = country;
+                _selectedBank = null;
+                _bankCodeController.clear();
+              },
+            ),
+          ),
+          const SizedBox(height: 16),
+          if (_selectedCountry?.code == 'NG')
+            BankTextField(
+              placeholder: context.l10n.selectBank,
+              initialBank: _selectedBank,
+              onBankChanged: (bank) => setState(() => _selectedBank = bank),
+            )
+          else
+            KycTextField(
+              controller: _bankCodeController,
+              inputType: TextInputType.name,
+              placeholder: 'Bank Code',
+            ),
+          const SizedBox(height: 16),
           KycTextField(
             controller: _bankAccountNumberController,
             inputType: TextInputType.name,
             placeholder: context.l10n.accountNumber,
           ),
-          const SizedBox(height: 12),
-          KycTextField(
-            controller: _bankCodeController,
-            inputType: TextInputType.name,
-            placeholder: context.l10n.bankCode,
-          ),
-          const SizedBox(height: 12),
-          KycTextField(
-            controller: _bankNameController,
-            inputType: TextInputType.name,
-            placeholder: context.l10n.bankName,
-          ),
-          const SizedBox(height: 16),
           const Spacer(),
           ListenableBuilder(
             listenable: Listenable.merge([
               _bankAccountNumberController,
               _bankCodeController,
-              _bankNameController,
             ]),
             builder: (context, child) => CpBottomButton(
               horizontalPadding: 16,
-              text: context.l10n.next,
+              text: widget.buttonLabel ?? context.l10n.next,
               onPressed: _isValid ? _handleSubmitted : null,
             ),
           ),

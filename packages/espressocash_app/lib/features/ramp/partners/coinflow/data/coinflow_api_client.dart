@@ -65,7 +65,6 @@ class WithdrawerResponseDto with _$WithdrawerResponseDto {
 @freezed
 class WithdrawerDto with _$WithdrawerDto {
   const factory WithdrawerDto({
-    required bool isBlocked,
     required String currency,
     String? email,
     @Default([]) List<dynamic> bankAccounts,

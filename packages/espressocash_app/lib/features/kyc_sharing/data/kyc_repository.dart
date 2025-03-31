@@ -75,6 +75,7 @@ class KycRepository extends ChangeNotifier {
     Email? email,
     Phone? phone,
     Name? name,
+    Citizenship? citizenship,
     Document? document,
     BankInfo? bankInfo,
     BirthDate? birthDate,
@@ -85,6 +86,7 @@ class KycRepository extends ChangeNotifier {
         email: email,
         phone: phone,
         name: name,
+        citizenship: citizenship,
         dob: birthDate,
         document: document,
         bankInfo: bankInfo,
@@ -116,28 +118,24 @@ class KycRepository extends ChangeNotifier {
         () => _kycUserClient.validatePhone(code: code, dataId: dataId),
       );
 
-  Future<void> initKycVerification({
-    required String nameId,
-    required String birthDateId,
-    required String documentId,
-    required String selfieImageId,
-  }) async {
-    await _initWrapper(
-      () => _kycUserClient.initDocumentValidation(
-        nameId: nameId,
-        birthDateId: birthDateId,
-        documentId: documentId,
-        selfieImageId: selfieImageId,
-      ),
-    );
-  }
+  Future<void> startKycVerification({
+    required String country,
+    required List<String> dataHashes,
+  }) =>
+      _initWrapper(
+        () => _kycUserClient.startKycRequest(
+          country: country,
+          dataHashes: dataHashes,
+        ),
+      );
 
   Future<String> createOnRampOrder({
-    required String cryptoAmount,
+    required double cryptoAmount,
     required String cryptoCurrency,
-    required String fiatAmount,
+    required double fiatAmount,
     required String fiatCurrency,
     required String partnerPK,
+    required String cryptoWalletAddress,
   }) =>
       _initWrapper(
         () => _kycUserClient.createOnRampOrder(
@@ -146,13 +144,14 @@ class KycRepository extends ChangeNotifier {
           cryptoCurrency: cryptoCurrency,
           fiatAmount: fiatAmount,
           fiatCurrency: fiatCurrency,
+          cryptoWalletAddress: cryptoWalletAddress,
         ),
       );
 
   Future<String> createOffRampOrder({
-    required String cryptoAmount,
+    required double cryptoAmount,
     required String cryptoCurrency,
-    required String fiatAmount,
+    required double fiatAmount,
     required String fiatCurrency,
     required String partnerPK,
     required String bankName,
@@ -180,5 +179,13 @@ class KycRepository extends ChangeNotifier {
 
   Future<void> grantValidatorAccess() => _initWrapper(
         () => _kycUserClient.grantPartnerAccess(_config.verifierAuthPk),
+      );
+
+  Future<bool> hasGrantedAccess(String partnerPk) => _initWrapper(
+        () => _kycUserClient.hasGrantedAccess(partnerPk),
+      );
+
+  Future<PartnerModel> fetchPartnerInfo(String partnerPk) => _initWrapper(
+        () => _kycUserClient.getPartnerInfo(partnerPK: partnerPk),
       );
 }

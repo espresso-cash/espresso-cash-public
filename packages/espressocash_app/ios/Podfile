@@ -1,9 +1,5 @@
-# https://github.com/juliansteenbakker/mobile_scanner/issues/1165#issuecomment-2314423274
-# Set the Firebase SDK version
-$FirebaseSDKVersion = '10.29.0'
-
 # Uncomment this line to define a global platform for your project
-platform :ios, '15.0'
+platform :ios, '15.5'
 
 $FirebaseAnalyticsWithoutAdIdSupport = true
 

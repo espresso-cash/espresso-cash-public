@@ -10,11 +10,10 @@ import 'package:uuid/uuid.dart';
 import '../../../../../data/db/db.dart';
 import '../../../../../utils/errors.dart';
 import '../../../../accounts/auth_scope.dart';
+import '../../../../accounts/models/ec_wallet.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
-import '../../../../kyc_sharing/services/kyc_service.dart';
-import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
@@ -26,13 +25,13 @@ class BrijOnRampOrderService implements Disposable {
   BrijOnRampOrderService(
     this._db,
     this._kycRepository,
-    this._kycSharingService,
+    this._ecWallet,
     this._analytics,
   );
 
   final MyDatabase _db;
   final KycRepository _kycRepository;
-  final KycSharingService _kycSharingService;
+  final ECWallet _ecWallet;
   final AnalyticsManager _analytics;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
@@ -123,11 +122,12 @@ class BrijOnRampOrderService implements Disposable {
           await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
           final orderId = await _kycRepository.createOnRampOrder(
-            cryptoAmount: receiveAmount.value.toString(),
+            cryptoAmount: receiveAmount.decimal.toDouble(),
             cryptoCurrency: receiveAmount.cryptoCurrency.token.symbol,
-            fiatAmount: submittedAmount.value.toString(),
+            fiatAmount: submittedAmount.decimal.toDouble(),
             fiatCurrency: submittedAmount.currency.symbol,
             partnerPK: partnerAuthPk,
+            cryptoWalletAddress: _ecWallet.publicKey.toString(),
           );
 
           final order = OnRampOrderRow(
@@ -154,13 +154,12 @@ class BrijOnRampOrderService implements Disposable {
           await _db.into(_db.onRampOrderRows).insertOnConflictUpdate(order);
           _subscribe(order.id);
 
-          final countryCode = _kycSharingService.value?.countryCode;
-
           _analytics.rampInitiated(
             partnerName: partner.name,
             rampType: RampType.onRamp.name,
             amount: submittedAmount.value.toString(),
-            countryCode: countryCode ?? '',
+            // TODO(vs): Country should be passed as parameter, based on picked on in select partner screen
+            countryCode: '',
             id: order.id,
           );
 

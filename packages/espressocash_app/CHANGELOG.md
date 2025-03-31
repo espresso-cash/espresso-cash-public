@@ -1,3 +1,33 @@
+## 1.148.0
+
+ - **FEAT**: update Nigeria bank list (#1692).
+
+## 1.147.0
+
+ - **FEAT**: enable brij for ambassadors (#1690).
+
+## 1.146.0
+
+ - **FEAT**: updated brij ramp text (#1689).
+ - **FEAT**: coinflow api dto (#1688).
+
+## 1.145.0
+
+ - **FEAT**: add wallet address  (#1687).
+
+## 1.144.0
+
+ - **FIX**: coinflow response parsing (#1686).
+ - **FEAT**: add brij demo label (#1680).
+
+## 1.143.0
+
+ - **FEAT**: update signature handling (#1681).
+
+## 1.142.0
+
+ - **FEAT**: decimal format for brij order (#1679).
+
 ## 1.141.0
 
  - **FEAT**: update scalex brij rates (#1678).
