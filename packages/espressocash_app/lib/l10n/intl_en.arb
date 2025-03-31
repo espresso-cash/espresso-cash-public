@@ -82,6 +82,8 @@
     "@faq": {},
     "fee": "Fee",
     "@fee": {},
+    "fees": "Fees",
+    "@fees": {},
     "feesCalculating": "calculating...",
     "@feesCalculating": {},
     "feesFailed": "failed to load",
@@ -1239,5 +1241,11 @@
     "addNewBankAccount": "Add New Bank Account",
     "@addNewBankAccount": {},
     "update": "Update",
-    "@update": {}
+    "@update": {},
+    "quantity": "Quantity",
+    "@quantity": {},
+    "recipient": "Recipient",
+    "@recipient": {},
+    "enterWalletAddress": "Enter a wallet address",
+    "@enterWalletAddress": {}
 }
