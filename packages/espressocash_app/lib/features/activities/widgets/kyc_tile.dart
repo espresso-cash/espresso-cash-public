@@ -1,5 +1,3 @@
-// ignore_for_file: prefer-switch-with-enums
-
 import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
@@ -12,30 +10,38 @@ import '../../kyc_sharing/screens/kyc_status_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_flow.dart';
+import '../../kyc_sharing/widgets/kyc_listener.dart';
 import '../../kyc_sharing/widgets/kyc_status_icon.dart';
+import '../../profile/data/profile_repository.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 
 class KycTile extends StatelessWidget {
   const KycTile({
     super.key,
-    this.onTap,
     required this.timestamp,
   });
 
-  final VoidCallback? onTap;
   final String timestamp;
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
         valueListenable: sl<KycSharingService>(),
-        builder: (context, user, _) => user == null
-            ? const SizedBox.shrink()
-            : _KycTileContent(
-                timestamp: timestamp,
-                kycStatus: user.kycStatus,
-                emailStatus: user.emailStatus,
-                phoneStatus: user.phoneStatus,
-              ),
+        builder: (context, user, _) {
+          const empty = SizedBox.shrink();
+
+          if (user == null) return empty;
+
+          final country = sl<ProfileRepository>().country;
+
+          if (country == null) return empty;
+
+          return _KycTileContent(
+            timestamp: timestamp,
+            emailStatus: user.emailStatus,
+            phoneStatus: user.phoneStatus,
+            country: country,
+          );
+        },
       );
 }
 
@@ -44,59 +50,68 @@ class _KycTileContent extends StatelessWidget {
     required this.timestamp,
     required this.emailStatus,
     required this.phoneStatus,
-    required this.kycStatus,
+    required this.country,
   });
 
-  final ValidationStatus emailStatus;
-  final ValidationStatus phoneStatus;
-  final ValidationStatus kycStatus;
+  final KycValidationStatus emailStatus;
+  final KycValidationStatus phoneStatus;
   final String timestamp;
+  final String country;
 
   @override
   Widget build(BuildContext context) {
-    if (emailStatus != ValidationStatus.approved) {
+    Future<bool> openKycFlow() => context.openKycFlow(countryCode: country);
+
+    if (emailStatus != KycValidationStatus.approved) {
       return _KycItem(
         status: emailStatus,
         timestamp: timestamp,
         title: context.l10n.emailVerification,
         description: context.l10n.kycTileDescriptionUnverified,
-        onPressed: context.openKycFlow,
+        onPressed: openKycFlow,
         buttonText: context.l10n.continueVerification,
       );
     }
 
-    if (phoneStatus != ValidationStatus.approved) {
-      return _KycItem(
-        status: phoneStatus,
-        timestamp: timestamp,
-        title: context.l10n.phoneVerification,
-        description: context.l10n.kycTileDescriptionUnverified,
-        onPressed: context.openKycFlow,
-        buttonText: context.l10n.continueVerification,
-      );
-    }
+    return phoneStatus != KycValidationStatus.approved
+        ? _KycItem(
+            status: phoneStatus,
+            timestamp: timestamp,
+            title: context.l10n.phoneVerification,
+            description: context.l10n.kycTileDescriptionUnverified,
+            onPressed: openKycFlow,
+            buttonText: context.l10n.continueVerification,
+          )
+        : KycStatusListener(
+            country: country,
+            builder: (context, kycStatus) {
+              final status = kycStatus.data;
 
-    final isUnverified = kycStatus == ValidationStatus.unspecified ||
-        kycStatus == ValidationStatus.unverified;
+              if (status == null) return const SizedBox.shrink();
 
-    return _KycItem(
-      status: kycStatus,
-      timestamp: timestamp,
-      title: context.l10n.idVerification,
-      description: kycStatus.description(context),
-      onPressed: isUnverified
-          ? context.openKycFlow
-          : () {
-              KycStatusScreen.push(
-                context,
-                onAddCashPressed: context.launchOnRampFlow,
-                onCashOutPressed: context.launchOffRampFlow,
+              final isUnverified = status == KycValidationStatus.unverified;
+
+              return _KycItem(
+                status: status,
+                timestamp: timestamp,
+                title: context.l10n.idVerification,
+                description: status.description(context),
+                onPressed: isUnverified
+                    ? openKycFlow
+                    : () {
+                        KycStatusScreen.push(
+                          context,
+                          onAddCashPressed: context.launchOnRampFlow,
+                          onCashOutPressed: context.launchOffRampFlow,
+                          country: country,
+                        );
+                      },
+                buttonText: isUnverified
+                    ? context.l10n.continueVerification
+                    : context.l10n.viewDetails,
               );
             },
-      buttonText: isUnverified
-          ? context.l10n.continueVerification
-          : context.l10n.viewDetails,
-    );
+          );
   }
 }
 
@@ -110,7 +125,7 @@ class _KycItem extends StatelessWidget {
     required this.buttonText,
   });
 
-  final ValidationStatus status;
+  final KycValidationStatus status;
   final String timestamp;
   final VoidCallback onPressed;
   final String title;
@@ -128,8 +143,7 @@ class _KycItem extends StatelessWidget {
           children: [
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading:
-                  KycStatusIcon(status.toKycValidationStatus(), height: 42),
+              leading: KycStatusIcon(status, height: 42),
               title: Text(
                 title,
                 style: _titleStyle,
@@ -160,22 +174,20 @@ class _KycItem extends StatelessWidget {
       );
 }
 
-extension on ValidationStatus {
+extension on KycValidationStatus {
   String subtitle(BuildContext context) => switch (this) {
-        ValidationStatus.approved => context.l10n.approved,
-        ValidationStatus.rejected => context.l10n.failed,
-        ValidationStatus.pending ||
-        ValidationStatus.unverified ||
-        ValidationStatus.unspecified =>
+        KycValidationStatus.approved => context.l10n.approved,
+        KycValidationStatus.rejected => context.l10n.failed,
+        KycValidationStatus.pending ||
+        KycValidationStatus.unverified =>
           context.l10n.activities_lblInProgress,
       };
 
   String description(BuildContext context) => switch (this) {
-        ValidationStatus.approved => context.l10n.kycTileDescriptionApproved,
-        ValidationStatus.pending => context.l10n.kycTileDescriptionPending,
-        ValidationStatus.rejected => context.l10n.kycTileDescriptionRejected,
-        ValidationStatus.unverified ||
-        ValidationStatus.unspecified =>
+        KycValidationStatus.approved => context.l10n.kycTileDescriptionApproved,
+        KycValidationStatus.pending => context.l10n.kycTileDescriptionPending,
+        KycValidationStatus.rejected => context.l10n.kycTileDescriptionRejected,
+        KycValidationStatus.unverified =>
           context.l10n.kycTileDescriptionUnverified,
       };
 }

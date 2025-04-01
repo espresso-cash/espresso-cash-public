@@ -7,6 +7,15 @@ enum RequirementRelationship {
   or,
 }
 
+extension KycRequirementsExtensions on KycRequirement {
+  List<BasicInfoType> get basicInfoTypes => requirements
+      .whereType<BasicInfoRequirement>()
+      .map((req) => req.type)
+      .toList();
+
+  String? get requiredCountry => requirements.parseCountryCode();
+}
+
 extension RequirementListExtension on List<Requirement> {
   String? parseCountryCode() {
     final queue = [...this];

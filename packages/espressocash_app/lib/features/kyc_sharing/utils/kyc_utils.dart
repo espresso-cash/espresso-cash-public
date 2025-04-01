@@ -4,12 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
-extension ValidationStatusExtension on ValidationStatus {
-  bool get isApprovedOrPending =>
-      this == ValidationStatus.approved || this == ValidationStatus.pending;
-
-  bool get isUnspecified => this == ValidationStatus.unspecified;
-}
+import '../models/kyc_validation_status.dart';
 
 extension UserDataExtensions on UserData {
   String? get firstName => name?.firstName.nullIfEmpty;
@@ -22,34 +17,20 @@ extension UserDataExtensions on UserData {
 
   Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
 
-  // TODO(vs): Implement new status fetching for kyc fields
-  ValidationStatus get kycStatus {
-    final statuses = [
-      documents?.firstOrNull?.status,
-      name?.status,
-      selfie?.status,
-      birthDate?.status,
-    ].whereNotNull().toList();
+  BankInfo? getBankByCountry(String country) => bankInfos?.firstWhereOrNull(
+        (bank) => bank.countryCode == country,
+      );
 
-    if (statuses.isEmpty) return ValidationStatus.unspecified;
+  List<Document>? getDocumentsByCountry(String country) => documents
+      ?.where(
+        (document) => document.countryCode == country,
+      )
+      .toList();
 
-    if (statuses.any((s) => s == ValidationStatus.rejected)) {
-      return ValidationStatus.rejected;
-    }
-
-    if (statuses.any((s) => s == ValidationStatus.pending)) {
-      return ValidationStatus.pending;
-    }
-
-    return statuses.every((s) => s == ValidationStatus.approved)
-        ? ValidationStatus.approved
-        : ValidationStatus.unspecified;
-  }
-
-  ValidationStatus get phoneStatus =>
-      phone?.status ?? ValidationStatus.unspecified;
-  ValidationStatus get emailStatus =>
-      email?.status ?? ValidationStatus.unspecified;
+  KycValidationStatus get phoneStatus =>
+      phone?.status.toKycValidationStatus() ?? KycValidationStatus.unverified;
+  KycValidationStatus get emailStatus =>
+      email?.status.toKycValidationStatus() ?? KycValidationStatus.unverified;
 
   bool hasBankInfo(BankInfo bankInfo) =>
       bankInfo.bankCode.isNotEmpty &&

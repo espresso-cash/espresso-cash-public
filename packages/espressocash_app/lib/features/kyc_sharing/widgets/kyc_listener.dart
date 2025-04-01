@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
-import '../services/kyc_service.dart';
+import '../models/kyc_validation_status.dart';
+import '../services/pending_kyc_service.dart';
 
-typedef KycBuilder = Widget Function(
+typedef KycStatusListenerBuilder = Widget Function(
   BuildContext context,
-  UserData userData,
+  AsyncSnapshot<KycValidationStatus> snapshot,
 );
 
-class KycListener extends StatelessWidget {
-  const KycListener({
+class KycStatusListener extends StatelessWidget {
+  const KycStatusListener({
     super.key,
     required this.builder,
+    required this.country,
   });
 
-  final KycBuilder builder;
+  final KycStatusListenerBuilder builder;
+  final String country;
 
   @override
-  Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
-        valueListenable: sl<KycSharingService>(),
-        builder: (context, userData, _) => userData == null
-            ? const Center(child: CircularProgressIndicator())
-            : builder(context, userData),
+  Widget build(BuildContext context) => StreamBuilder<KycValidationStatus>(
+        stream: sl<PendingKycService>().pollKycStatus(country: country),
+        builder: builder,
       );
 }
