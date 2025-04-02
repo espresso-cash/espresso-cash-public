@@ -21,11 +21,12 @@ extension UserDataExtensions on UserData {
         (bank) => bank.countryCode == country,
       );
 
-  List<Document>? getDocumentsByCountry(String country) => documents
-      ?.where(
-        (document) => document.countryCode == country,
-      )
-      .toList();
+  List<Document>? getDocumentsByCountryGroup(List<String> countryGroups) =>
+      documents
+          ?.where(
+            (document) => countryGroups.contains(document.countryCode),
+          )
+          .toList();
 
   KycValidationStatus get phoneStatus =>
       phone?.status.toKycValidationStatus() ?? KycValidationStatus.unverified;

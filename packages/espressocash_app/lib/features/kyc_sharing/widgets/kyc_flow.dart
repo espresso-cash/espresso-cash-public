@@ -5,6 +5,7 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../models/kyc_validation_status.dart';
+import '../models/requirement_extensions.dart';
 import '../screens/bank_account_screen.dart';
 import '../screens/document_input_screen.dart';
 import '../screens/email_confirmation_screen.dart';
@@ -89,13 +90,15 @@ extension KycFlowExtension on BuildContext {
       if (!await _navigateToScreen(BankAccountScreen.push)) return false;
     }
 
-    final documents = user.getDocumentsByCountry(countryCode);
+    final requirement = await sl<KycSharingService>().getKycRequirements(
+      country: countryCode,
+    );
+
+    final supportedCountries = requirement.requirements.parseCountryCodes();
+
+    final documents = user.getDocumentsByCountryGroup(supportedCountries);
 
     if (documents == null || documents.isEmpty) {
-      final requirement = await sl<KycSharingService>().getKycRequirements(
-        country: countryCode,
-      );
-
       if (!await _runFlow(documentSteps(requirement: requirement))) {
         return false;
       }

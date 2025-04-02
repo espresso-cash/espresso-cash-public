@@ -1252,14 +1252,8 @@
     "@photoFront": {},
     "photoBack": "Photo Back",
     "@photoBack": {},
-    "documentFromCountry": "Please provide a document from {countryName}",
-    "@documentFromCountry": {
-      "placeholders": {
-        "countryName": {
-          "type": "String"
-        }
-      }
-    },
+    "documentFromCountry": "Please provide a document from selected list of countries",
+    "@documentFromCountry": {},
     "tapToUpload": "Tap to upload",
     "@tapToUpload": {},
     "changeDocumentPhoto": "Change",

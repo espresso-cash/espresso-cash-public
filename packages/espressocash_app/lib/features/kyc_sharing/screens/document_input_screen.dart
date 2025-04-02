@@ -10,6 +10,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../country_picker/models/country.dart';
+import '../../country_picker/widgets/country_picker.dart';
 import '../models/document_type.dart';
 import '../models/requirement_extensions.dart';
 import '../screens/document_camera_screen.dart';
@@ -42,8 +43,8 @@ class DocumentInputScreen extends StatefulWidget {
 }
 
 class _DocumentInputScreenState extends State<DocumentInputScreen> {
-  String? _countryCode;
-  String? _countryName;
+  List<Country> _availableCountries = [];
+  Country? _selectedCountry;
 
   List<DocumentType> _availableDocumentTypes = [];
   DocumentType? _selectedDocumentType;
@@ -63,22 +64,33 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
 
   void _parseRequirements() {
     final requirements = widget.requirement.requirements;
-    _countryCode = requirements.parseCountryCode();
-    _countryName = switch (_countryCode) {
-      final code? => Country.findByCode(code)?.name ?? code,
-      _ => null
-    };
+    _availableCountries = requirements
+        .parseCountryCodes()
+        .map(Country.findByCode)
+        .nonNulls
+        .toList();
+
     _availableDocumentTypes = requirements.parseDocumentTypes();
     _documentFieldsRelationship =
         requirements.determineDocumentFieldsRelationship();
   }
 
   void _initializeControllers() {
-    final requiredFields =
-        widget.requirement.requirements.parseRequiredFields();
-    for (final field in requiredFields) {
-      if (_needsTextController(field)) {
-        _controllers[field] = TextEditingController();
+    for (final controller in _controllers.values) {
+      controller.dispose();
+    }
+    _controllers.clear();
+
+    final selectedDocType = _selectedDocumentType;
+
+    if (selectedDocType != null) {
+      final requiredFields =
+          widget.requirement.requirements.parseRequiredFields(selectedDocType);
+
+      for (final field in requiredFields) {
+        if (_needsTextController(field)) {
+          _controllers[field] = TextEditingController();
+        }
       }
     }
   }
@@ -99,7 +111,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
       context,
       () async {
         try {
-          if (_countryCode == null || _selectedDocumentType == null) {
+          if (_selectedCountry == null || _selectedDocumentType == null) {
             throw Exception('Missing required information');
           }
 
@@ -110,7 +122,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
           await sl<KycSharingService>().updateDocumentInfo(
             idType: _selectedDocumentType,
             idNumber: idNumber,
-            countryCode: _countryCode,
+            countryCode: _selectedCountry?.code,
             frontImage: frontImage,
             backImage: backImage,
           );
@@ -197,13 +209,16 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
   }
 
   List<DocumentField> get _requiredFields {
-    if (_selectedDocumentType == null) return [];
+    final selectedDocType = _selectedDocumentType;
+    if (selectedDocType == null) return [];
 
-    return widget.requirement.requirements.parseRequiredFields();
+    return widget.requirement.requirements.parseRequiredFields(selectedDocType);
   }
 
   bool get _isValid {
     if (_selectedDocumentType == null) return false;
+
+    if (_selectedCountry == null) return false;
 
     final requiredFields = _requiredFields;
     if (requiredFields.isEmpty) return true;
@@ -228,10 +243,18 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
   Widget build(BuildContext context) => KycPage(
         title: context.l10n.documentTitle.toUpperCase(),
         children: [
-          if (_countryName case final countryName?) ...[
-            _RequiredCountryNotice(countryName: countryName),
-            const SizedBox(height: 24),
-          ],
+          const _RequiredCountryNotice(),
+          const SizedBox(height: 24),
+          CountryPicker(
+            backgroundColor: CpColors.blackGreyColor,
+            placeholder: 'Country of Document',
+            country: _selectedCountry,
+            countries: _availableCountries,
+            onSubmitted: (country) => setState(
+              () => _selectedCountry = country,
+            ),
+          ),
+          const SizedBox(height: 24),
           Text(
             context.l10n.selectDocumentType,
             style: const TextStyle(
@@ -246,6 +269,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
             onSubmitted: (docType) => setState(() {
               _selectedDocumentType = docType;
               _documentFields.clear();
+              _initializeControllers();
             }),
           ),
           const SizedBox(height: 16),
@@ -438,9 +462,7 @@ class _PhotoUploadField extends StatelessWidget {
 }
 
 class _RequiredCountryNotice extends StatelessWidget {
-  const _RequiredCountryNotice({required this.countryName});
-
-  final String countryName;
+  const _RequiredCountryNotice();
 
   @override
   Widget build(BuildContext context) => Container(
@@ -461,7 +483,7 @@ class _RequiredCountryNotice extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                context.l10n.documentFromCountry(countryName),
+                context.l10n.documentFromCountry,
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.7),
                   fontSize: 14,

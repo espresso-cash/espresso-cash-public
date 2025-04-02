@@ -9,12 +9,14 @@ class CountryPicker extends StatelessWidget {
   const CountryPicker({
     super.key,
     this.country,
+    this.countries,
     this.placeholder,
     this.backgroundColor = Colors.black,
     required this.onSubmitted,
   });
 
   final Country? country;
+  final List<Country>? countries;
   final String? placeholder;
   final Color backgroundColor;
   final ValueSetter<Country> onSubmitted;
@@ -31,7 +33,7 @@ class CountryPicker extends StatelessWidget {
             await CustomPickerScreen.push<Country>(
               context: context,
               title: context.l10n.selectCountryTitle,
-              items: Country.all,
+              items: countries ?? Country.all,
               initial: country,
               itemBuilder: (context, country, {required bool selected}) => Text(
                 country.name,

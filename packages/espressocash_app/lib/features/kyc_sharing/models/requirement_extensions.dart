@@ -13,16 +13,18 @@ extension KycRequirementsExtensions on KycRequirement {
       .map((req) => req.type)
       .toList();
 
-  String? get requiredCountry => requirements.parseCountryCode();
+  List<String> get requiredCountryCodes => requirements.parseCountryCodes();
 }
 
 extension RequirementListExtension on List<Requirement> {
-  String? parseCountryCode() {
+  List<String> parseCountryCodes() {
+    final codes = <String>[];
     final queue = [...this];
+
     while (queue.isNotEmpty) {
       final req = queue.removeLast();
       if (req is CountryCodeRequirement) {
-        return req.code;
+        codes.add(req.code);
       } else if (req is AndRequirement) {
         queue.addAll(req.requirements);
       } else if (req is OrRequirement) {
@@ -30,7 +32,7 @@ extension RequirementListExtension on List<Requirement> {
       }
     }
 
-    return null;
+    return codes;
   }
 
   List<DocumentType> parseDocumentTypes() {
@@ -52,17 +54,28 @@ extension RequirementListExtension on List<Requirement> {
     return types;
   }
 
-  List<DocumentField> parseRequiredFields() {
+  List<DocumentField> parseRequiredFields(DocumentType selectedDocType) {
     final fields = <DocumentField>[];
-
     final queue = [...this];
+
     while (queue.isNotEmpty) {
       final req = queue.removeLast();
-      if (req is DocumentFieldRequirement) {
-        fields.add(req.field);
+      if (req is OrRequirement) {
+        for (final andReq in req.requirements.whereType<AndRequirement>()) {
+          final hasMatchingDocType = andReq.requirements
+              .whereType<DocumentTypeRequirement>()
+              .any((r) => r.type.toDocumentType() == selectedDocType);
+
+          if (hasMatchingDocType) {
+            fields.addAll(
+              andReq.requirements
+                  .whereType<DocumentFieldRequirement>()
+                  .map((r) => r.field),
+            );
+            break;
+          }
+        }
       } else if (req is AndRequirement) {
-        queue.addAll(req.requirements);
-      } else if (req is OrRequirement) {
         queue.addAll(req.requirements);
       }
     }

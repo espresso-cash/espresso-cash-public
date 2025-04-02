@@ -166,10 +166,12 @@ class KycSharingService extends ValueNotifier<UserData?> {
       requiredTypes: basicInfoTypes,
     );
 
-    final requiredCountry = requirements.requiredCountry;
+    final requiredCountries = requirements.requiredCountryCodes;
     final documents = user.documents?.let(
-      (e) => requiredCountry != null
-          ? e.where((doc) => doc.countryCode == requiredCountry).toList()
+      (e) => requiredCountries.isNotEmpty
+          ? e
+              .where((doc) => requiredCountries.contains(doc.countryCode))
+              .toList()
           : e,
     );
 

@@ -163,6 +163,8 @@ class KycRepository extends ChangeNotifier {
           partnerPK: partnerPK,
           cryptoAmount: cryptoAmount,
           cryptoCurrency: cryptoCurrency,
+          // TODO(vsumin): add this
+          cryptoWalletAddress: '',
           fiatAmount: fiatAmount,
           fiatCurrency: fiatCurrency,
           bankName: bankName,
