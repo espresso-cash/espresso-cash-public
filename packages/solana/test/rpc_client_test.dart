@@ -13,6 +13,82 @@ import 'config.dart';
 const int _transferredAmount = lamportsPerSol;
 
 void main() {
+  group('Instance equality', () {
+    test('Account', () {
+      final accounts = <(Account, Account)>[
+        (
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': 0,
+          }),
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': '0',
+          })
+        ),
+        // Web max precise.
+        (
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': 0x20000000000000,
+          }),
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': '0x20000000000000',
+          })
+        ),
+        // 64-bit native.
+        (
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': 0x7FFFFFFFFFFFFFFF,
+          }),
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': '0x7FFFFFFFFFFFFFFF',
+          })
+        ),
+      ];
+      for (final pair in accounts) {
+        expect(pair.$1 == pair.$2, true);
+      }
+    });
+
+    test('Context', () {
+      final contexts = <(Context, Context)>[
+        (
+          Context.fromJson({'slot': 0}),
+          Context.fromJson({'slot': '0'}),
+        ),
+        // Web max precise.
+        (
+          Context.fromJson({'slot': 0x20000000000000}),
+          Context.fromJson({'slot': '0x20000000000000'}),
+        ),
+        // 64-bit native.
+        (
+          Context.fromJson({'slot': 0x7FFFFFFFFFFFFFFF}),
+          Context.fromJson({'slot': '0x7FFFFFFFFFFFFFFF'}),
+        ),
+      ];
+      for (final pair in contexts) {
+        expect(pair.$1 == pair.$2, true);
+      }
+    });
+  });
+
   group('Timeout exceptions', () {
     test('throws exception with method name on timeout', () {
       final client = RpcClient(devnetRpcUrl, timeout: Duration.zero);
