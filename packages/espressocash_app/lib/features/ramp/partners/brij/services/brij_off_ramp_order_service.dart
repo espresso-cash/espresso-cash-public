@@ -196,6 +196,7 @@ class BrijOffRampOrderService implements Disposable {
             fiatAmount: receiveAmount.decimal.toDouble(),
             fiatCurrency: receiveAmount.currency.symbol,
             partnerPK: partnerAuthPk,
+            cryptoWalletAddress: _account.publicKey.toString(),
             bankAccount: bank.accountNumber,
             bankName: bank.bankCode,
           );

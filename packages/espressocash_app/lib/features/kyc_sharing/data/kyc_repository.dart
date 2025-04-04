@@ -154,6 +154,7 @@ class KycRepository extends ChangeNotifier {
     required String cryptoCurrency,
     required double fiatAmount,
     required String fiatCurrency,
+    required String cryptoWalletAddress,
     required String partnerPK,
     required String bankName,
     required String bankAccount,
@@ -163,8 +164,7 @@ class KycRepository extends ChangeNotifier {
           partnerPK: partnerPK,
           cryptoAmount: cryptoAmount,
           cryptoCurrency: cryptoCurrency,
-          // TODO(vsumin): add this
-          cryptoWalletAddress: '',
+          cryptoWalletAddress: cryptoWalletAddress,
           fiatAmount: fiatAmount,
           fiatCurrency: fiatCurrency,
           bankName: bankName,
