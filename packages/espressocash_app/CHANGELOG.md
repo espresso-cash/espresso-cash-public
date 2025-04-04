@@ -1,3 +1,16 @@
+## 1.149.0
+
+ - **REFACTOR**: picker ui (#1693).
+ - **FIX**: dependencies update (#1695).
+ - **FEAT**: update brij orders (#1701).
+ - **FEAT**: add new countries support for kyc (#1700).
+ - **FEAT**: kyc status fetching (#1699).
+ - **FEAT**: use dynamic kyc requirements (#1697).
+ - **FEAT**: brij new flow  (#1696).
+ - **FEAT**: remove scalex (#1698).
+ - **FEAT**: show brij partner disclaimers (#1691).
+ - **FEAT**: Update SDK constraints and upgrade deps (#1683).
+
 ## 1.148.0
 
  - **FEAT**: update Nigeria bank list (#1692).
