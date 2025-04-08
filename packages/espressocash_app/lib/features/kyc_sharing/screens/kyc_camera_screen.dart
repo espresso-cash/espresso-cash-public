@@ -16,9 +16,9 @@ import '../services/kyc_service.dart';
 class KycCameraScreen extends StatefulWidget {
   const KycCameraScreen({super.key});
 
-  static Future<bool> push(BuildContext context) => Navigator.of(
-    context,
-  ).push<bool>(MaterialPageRoute(builder: (context) => const KycCameraScreen())).then((result) => result ?? false);
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(MaterialPageRoute(builder: (context) => const KycCameraScreen()))
+      .then((result) => result ?? false);
 
   @override
   State<KycCameraScreen> createState() => _KycCameraScreenState();
@@ -140,7 +140,11 @@ class _CameraView extends StatelessWidget {
                 border: Border.all(color: CpColors.yellowColor, width: 3),
               ),
             ),
-            SizedBox(width: 60, height: 60, child: CpButton(text: '', onPressed: _controller.captureImage)),
+            SizedBox(
+              width: 60,
+              height: 60,
+              child: CpButton(text: '', onPressed: _controller.captureImage),
+            ),
           ],
         ),
       ),
@@ -149,7 +153,11 @@ class _CameraView extends StatelessWidget {
 }
 
 class _ResultView extends StatelessWidget {
-  const _ResultView({required this.capturedImage, required this.onRetakePressed, required this.onSubmitPressed});
+  const _ResultView({
+    required this.capturedImage,
+    required this.onRetakePressed,
+    required this.onSubmitPressed,
+  });
 
   final File capturedImage;
   final VoidCallback onRetakePressed;
@@ -159,7 +167,10 @@ class _ResultView extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
     alignment: Alignment.bottomCenter,
     children: [
-      Transform.flip(flipX: false, child: Image.file(capturedImage, height: double.maxFinite, fit: BoxFit.fitHeight)),
+      Transform.flip(
+        flipX: false,
+        child: Image.file(capturedImage, height: double.maxFinite, fit: BoxFit.fitHeight),
+      ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
         child: Column(

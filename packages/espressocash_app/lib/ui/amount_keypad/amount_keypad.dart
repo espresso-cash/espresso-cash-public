@@ -7,7 +7,12 @@ import '../../l10n/device_locale.dart';
 import 'keypad_key.dart';
 
 class AmountKeypad extends StatelessWidget {
-  const AmountKeypad({super.key, required this.controller, required this.maxDecimals, this.isEnabled = true});
+  const AmountKeypad({
+    super.key,
+    required this.controller,
+    required this.maxDecimals,
+    this.isEnabled = true,
+  });
 
   final TextEditingController controller;
   final int maxDecimals;
@@ -54,7 +59,10 @@ class AmountKeypad extends StatelessWidget {
       }
     }
 
-    final decimals = value.split(decimalSeparator).let((v) => v.length > 1 ? v[1] : '').let((v) => v.length);
+    final decimals = value
+        .split(decimalSeparator)
+        .let((v) => v.length > 1 ? v[1] : '')
+        .let((v) => v.length);
 
     if (decimals <= maxDecimals) {
       controller.text = value;
@@ -94,7 +102,8 @@ class AmountKeypad extends StatelessWidget {
         child: Column(
           children: List.generate(
             4,
-            (rowIndex) => _buildRow(_keys.sublist(rowIndex * 3, (rowIndex + 1) * 3), decimalSeparator),
+            (rowIndex) =>
+                _buildRow(_keys.sublist(rowIndex * 3, (rowIndex + 1) * 3), decimalSeparator),
           ),
         ),
       );

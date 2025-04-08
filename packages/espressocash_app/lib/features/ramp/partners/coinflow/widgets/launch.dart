@@ -27,7 +27,10 @@ import '../../../services/off_ramp_order_service.dart';
 import '../data/coinflow_api_client.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchCoinflowOffRamp({required String address, required ProfileData profile}) async {
+  Future<void> launchCoinflowOffRamp({
+    required String address,
+    required ProfileData profile,
+  }) async {
     final hasKYC = await _checkKYC(address: address);
 
     switch (hasKYC) {
@@ -35,7 +38,8 @@ extension BuildContextExt on BuildContext {
         final exception = value as DioException;
 
         if (exception.response?.statusCode == 451) {
-          final verificationLink = (exception.response?.data as Map<String, dynamic>)['verificationLink'] as String?;
+          final verificationLink =
+              (exception.response?.data as Map<String, dynamic>)['verificationLink'] as String?;
 
           if (verificationLink != null) {
             await _launchUrl(Uri.parse(verificationLink));
@@ -135,29 +139,35 @@ extension BuildContextExt on BuildContext {
     );
   }
 
-  AsyncResult<bool> _checkKYC({required String address}) => runWithLoader<Result<bool>>(this, () async {
-    try {
-      final client = sl<CoinflowClient>();
+  AsyncResult<bool> _checkKYC({required String address}) =>
+      runWithLoader<Result<bool>>(this, () async {
+        try {
+          final client = sl<CoinflowClient>();
 
-      final response = await client.getWithdrawer(address);
+          final response = await client.getWithdrawer(address);
 
-      return Either.right(response.withdrawer.hasLinkedAccounts);
-    } on DioException catch (exception) {
-      if (exception.response?.statusCode == 401 || exception.response?.statusCode == 412) {
-        return const Either.right(false);
-      }
+          return Either.right(response.withdrawer.hasLinkedAccounts);
+        } on DioException catch (exception) {
+          if (exception.response?.statusCode == 401 || exception.response?.statusCode == 412) {
+            return const Either.right(false);
+          }
 
-      return Either.left(exception);
-    }
-  });
+          return Either.left(exception);
+        }
+      });
 
   Uri _buildKycUrl({required String address, required String email}) {
     final baseUrl = Uri.parse(coinflowKycUrl);
 
-    final coinflowDeepLinkUrl = Uri(scheme: espressoCashLinkProtocol, host: '', path: 'coinflow').toString();
+    final coinflowDeepLinkUrl =
+        Uri(scheme: espressoCashLinkProtocol, host: '', path: 'coinflow').toString();
 
     return baseUrl.replace(
-      queryParameters: {'pubkey': address, 'email': email, 'bankAccountLinkRedirect': coinflowDeepLinkUrl},
+      queryParameters: {
+        'pubkey': address,
+        'email': email,
+        'bankAccountLinkRedirect': coinflowDeepLinkUrl,
+      },
     );
   }
 }

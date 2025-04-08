@@ -38,7 +38,8 @@ class _GridPhraseState extends State<GridPhrase> {
     builder: (context, constraints) {
       const double spacing = 12;
       const int columns = 3;
-      final itemWidth = ((constraints.maxWidth - (columns - 1) * spacing) / columns).floorToDouble();
+      final itemWidth =
+          ((constraints.maxWidth - (columns - 1) * spacing) / columns).floorToDouble();
 
       return Wrap(
         alignment: WrapAlignment.spaceBetween,

@@ -13,8 +13,9 @@ import '../widgets/puzzle_screen.dart';
 class PuzzlePostponeScreen extends StatefulWidget {
   const PuzzlePostponeScreen({super.key});
 
-  static void push(BuildContext context) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => const PuzzlePostponeScreen()));
+  static void push(BuildContext context) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => const PuzzlePostponeScreen()));
 
   @override
   State<PuzzlePostponeScreen> createState() => _PuzzlePostponeScreenState();
@@ -73,7 +74,10 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
           ),
           const SizedBox(height: 24),
           DecoratedBox(
-            decoration: const BoxDecoration(color: Colors.black, borderRadius: BorderRadius.all(Radius.circular(30))),
+            decoration: const BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
               child: DropdownButton<Duration?>(
@@ -84,7 +88,11 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
                 iconSize: 32,
                 alignment: Alignment.center,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Colors.white),
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
                 underline: const SizedBox(),
                 onChanged: (Duration? value) {
                   if (value == null) return;
@@ -98,7 +106,10 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
                         _dropdownItems
                             .map(
                               (e) => Center(
-                                child: Text(context.l10n.setReminder(_getTextDuration), textAlign: TextAlign.center),
+                                child: Text(
+                                  context.l10n.setReminder(_getTextDuration),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             )
                             .toList(),
@@ -156,14 +167,23 @@ class _Checkbox extends StatelessWidget {
                   },
                   activeColor: CpColors.yellowColor,
                   checkColor: Colors.black,
-                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
                 ),
               ),
             ),
           ),
           const SizedBox(width: 18),
           Expanded(
-            child: Text(title, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400)),
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
         ],
       ),

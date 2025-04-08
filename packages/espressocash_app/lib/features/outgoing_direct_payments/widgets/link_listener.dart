@@ -57,7 +57,8 @@ class _ODPLinkListenerState extends State<ODPLinkListener> with DynamicLinkHandl
         .maybeFlatMap((it) => it.toFiatAmount(fiat, ratesRepository: rates))
         .ifNull(() => const FiatAmount(value: 0, fiatCurrency: Currency.usd));
 
-    final formatted = amount.value == 0 ? '' : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
+    final formatted =
+        amount.value == 0 ? '' : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
 
     final isPaid = await context.isSolanaPayRequestPaid(request: request);
     if (!mounted) return;
@@ -80,7 +81,8 @@ class _ODPLinkListenerState extends State<ODPLinkListener> with DynamicLinkHandl
     if (confirmedFiatAmount == null) return;
     if (!mounted) return;
 
-    final confirmedCryptoAmount = amount.copyWithDecimal(confirmedFiatAmount).toTokenAmount(Token.usdc)?.decimal;
+    final confirmedCryptoAmount =
+        amount.copyWithDecimal(confirmedFiatAmount).toTokenAmount(Token.usdc)?.decimal;
 
     if (confirmedCryptoAmount == null) return;
 

@@ -52,7 +52,12 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                     backgroundColor: CpColors.lightSandColor,
                     body: Stack(
                       children: [
-                        Align(child: Assets.images.dollarBg.image(fit: BoxFit.fitHeight, height: double.infinity)),
+                        Align(
+                          child: Assets.images.dollarBg.image(
+                            fit: BoxFit.fitHeight,
+                            height: double.infinity,
+                          ),
+                        ),
                         SafeArea(
                           minimum: EdgeInsets.only(top: 70.h),
                           child: LayoutBuilder(
@@ -136,8 +141,12 @@ class _CreateLocalWalletButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) =>
-      CpButton(key: keyCreateWalletButton, text: context.l10n.signUp, width: double.infinity, onPressed: onPressed);
+  Widget build(BuildContext context) => CpButton(
+    key: keyCreateWalletButton,
+    text: context.l10n.signUp,
+    width: double.infinity,
+    onPressed: onPressed,
+  );
 }
 
 class _Body extends StatelessWidget {
@@ -156,11 +165,19 @@ class _Body extends StatelessWidget {
                     ? [
                       Text(
                         context.l10n.onboardingWithPaymentTitle.toUpperCase(),
-                        style: TextStyle(fontSize: 46.sp, fontWeight: FontWeight.w900, letterSpacing: 0.25),
+                        style: TextStyle(
+                          fontSize: 46.sp,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.25,
+                        ),
                       ),
                       Text(
                         context.l10n.onboardingWithPaymentSubtitle.toUpperCase(),
-                        style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w900, letterSpacing: 0.25),
+                        style: TextStyle(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.25,
+                        ),
                       ),
                     ]
                     : [

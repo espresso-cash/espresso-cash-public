@@ -29,7 +29,9 @@ class CommonTile extends StatelessWidget {
     final amount =
         isUnknown
             ? null
-            : txCommon.amount?.let((e) => e.format(context.locale, maxDecimals: 9)).let((e) => e.replaceAll('-', ''));
+            : txCommon.amount
+                ?.let((e) => e.format(context.locale, maxDecimals: 9))
+                .let((e) => e.replaceAll('-', ''));
 
     return CpActivityTile(
       title: isOutgoing ? context.l10n.sentDirectly : context.l10n.received,

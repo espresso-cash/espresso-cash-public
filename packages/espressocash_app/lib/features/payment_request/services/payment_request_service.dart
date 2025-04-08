@@ -67,7 +67,10 @@ class PaymentRequestService implements Disposable {
     _watcher?.cancel();
   }
 
-  StreamSubscription<void> _createSubscription(PaymentRequest request, {Duration interval = _backgroundInterval}) {
+  StreamSubscription<void> _createSubscription(
+    PaymentRequest request, {
+    Duration interval = _backgroundInterval,
+  }) {
     final reference = request.payRequest.reference?.firstOrNull;
 
     if (reference == null) {
@@ -88,7 +91,8 @@ class PaymentRequestService implements Disposable {
             _verifyTx(id, request);
           },
           onError: (_) async {
-            _currentBackoffs[request.id] = (_currentBackoffs[request.id] ?? _minBackoff) * _backoffStep;
+            _currentBackoffs[request.id] =
+                (_currentBackoffs[request.id] ?? _minBackoff) * _backoffStep;
 
             if (_currentBackoffs[request.id]! > _maxBackoff) {
               _currentBackoffs[request.id] = _maxBackoff;
@@ -112,10 +116,15 @@ class PaymentRequestService implements Disposable {
       );
 
       final timestamp =
-          txDetails.blockTime?.let((it) => DateTime.fromMillisecondsSinceEpoch(it * 1000)) ?? DateTime.now();
+          txDetails.blockTime?.let((it) => DateTime.fromMillisecondsSinceEpoch(it * 1000)) ??
+          DateTime.now();
 
       await _repository.save(
-        request.copyWith(state: PaymentRequestState.completed, transactionId: id, resolvedAt: timestamp),
+        request.copyWith(
+          state: PaymentRequestState.completed,
+          transactionId: id,
+          resolvedAt: timestamp,
+        ),
       );
 
       _analyticsManager.paymentRequestLinkPaid(amount: request.payRequest.amount ?? Decimal.zero);
@@ -155,7 +164,9 @@ class PaymentRequestService implements Disposable {
 
     final fullLink = request.toUniversalLink().toString();
 
-    final shortLink = await _ecClient.shortenLink(ShortenLinkRequestDto(fullLink: fullLink)).then((e) => e.shortLink);
+    final shortLink = await _ecClient
+        .shortenLink(ShortenLinkRequestDto(fullLink: fullLink))
+        .then((e) => e.shortLink);
 
     final paymentRequest = PaymentRequest(
       id: id,
@@ -182,8 +193,9 @@ class PaymentRequestService implements Disposable {
     await _subscriptions[id]?.cancel();
   }
 
-  Future<Uri> unshortenLink(String shortLink) =>
-      _ecClient.unshortenLink(UnshortenLinkRequestDto(shortLink: shortLink)).then((e) => Uri.parse(e.fullLink));
+  Future<Uri> unshortenLink(String shortLink) => _ecClient
+      .unshortenLink(UnshortenLinkRequestDto(shortLink: shortLink))
+      .then((e) => Uri.parse(e.fullLink));
 
   @override
   Future<void> onDispose() async {

@@ -9,10 +9,12 @@ part 'ambassador_referral.g.dart';
 
 @freezed
 class AmbassadorReferral with _$AmbassadorReferral {
-  const factory AmbassadorReferral({@Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey address}) =
-      _AmbassadorReferral;
+  const factory AmbassadorReferral({
+    @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey address,
+  }) = _AmbassadorReferral;
 
-  factory AmbassadorReferral.fromJson(Map<String, dynamic> json) => _$AmbassadorReferralFromJson(json);
+  factory AmbassadorReferral.fromJson(Map<String, dynamic> json) =>
+      _$AmbassadorReferralFromJson(json);
 
   const AmbassadorReferral._();
 

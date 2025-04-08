@@ -80,7 +80,8 @@ class TRService {
   }
 
   void _subscribe(String paymentId) {
-    _subscriptions[paymentId] = (_db.select(_db.transactionRequestRows)..where((tbl) => tbl.id.equals(paymentId)))
+    _subscriptions[paymentId] = (_db.select(_db.transactionRequestRows)
+          ..where((tbl) => tbl.id.equals(paymentId)))
         .watchSingle()
         .asyncExpand<TransactionRequestRowsCompanion?>((payment) {
           switch (payment.status) {
@@ -101,7 +102,9 @@ class TRService {
         })
         .whereNotNull()
         .listen(
-          (event) => (_db.update(_db.transactionRequestRows)..where((tbl) => tbl.id.equals(paymentId))).write(event),
+          (event) =>
+              (_db.update(_db.transactionRequestRows)
+                ..where((tbl) => tbl.id.equals(paymentId))).write(event),
         );
   }
 
@@ -117,7 +120,11 @@ class TRService {
   }
 
   Future<TransactionRequestRowsCompanion?> _wait((SignedTx, BigInt) tx) async {
-    final confirmed = await _txSender.wait(tx.$1, minContextSlot: tx.$2, txType: 'TransactionRequest');
+    final confirmed = await _txSender.wait(
+      tx.$1,
+      minContextSlot: tx.$2,
+      txType: 'TransactionRequest',
+    );
 
     return switch (confirmed) {
       TxWaitSuccess() => const TransactionRequestRowsCompanion(status: Value(TRStatusDto.success)),

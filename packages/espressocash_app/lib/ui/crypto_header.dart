@@ -18,12 +18,18 @@ class CpCryptoHeader extends StatelessWidget {
         textAlign: TextAlign.center,
       ),
       const SizedBox(height: 8),
-      Text(subtitle, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 15), textAlign: TextAlign.center),
+      Text(
+        subtitle,
+        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+        textAlign: TextAlign.center,
+      ),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 24),
         child: SizedBox(
           height: 120,
-          child: RepaintBoundary(child: Assets.rive.header.rive(fit: BoxFit.contain, alignment: Alignment.center)),
+          child: RepaintBoundary(
+            child: Assets.rive.header.rive(fit: BoxFit.contain, alignment: Alignment.center),
+          ),
         ),
       ),
     ],

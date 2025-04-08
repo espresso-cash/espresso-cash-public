@@ -16,9 +16,10 @@ class RecoverStellarScreen extends StatelessWidget {
 
   final VoidCallback onConfirmed;
 
-  static void push(BuildContext context, {required VoidCallback onConfirmed}) => Navigator.of(
-    context,
-  ).push<void>(MaterialPageRoute(builder: (context) => RecoverStellarScreen(onConfirmed: onConfirmed)));
+  static void push(BuildContext context, {required VoidCallback onConfirmed}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(builder: (context) => RecoverStellarScreen(onConfirmed: onConfirmed)),
+      );
 
   void _handleRecoverPressed() {
     sl<StellarRecoveryService>().recover();
@@ -28,7 +29,10 @@ class RecoverStellarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: CpColors.lightSandColor,
-    appBar: CpAppBar(scrolledUnderColor: CpColors.lightSandColor, title: Text(context.l10n.moneyRecoveryTitle)),
+    appBar: CpAppBar(
+      scrolledUnderColor: CpColors.lightSandColor,
+      title: Text(context.l10n.moneyRecoveryTitle),
+    ),
     extendBodyBehindAppBar: true,
     extendBody: true,
     bottomNavigationBar: SafeArea(
@@ -49,7 +53,11 @@ class RecoverStellarScreen extends StatelessWidget {
               const SizedBox(height: 24),
               Text(
                 context.l10n.moneyRecoveryContent(
-                  sl<StellarRecoveryService>().value.amount?.format(context.locale, maxDecimals: 2) ?? '-',
+                  sl<StellarRecoveryService>().value.amount?.format(
+                        context.locale,
+                        maxDecimals: 2,
+                      ) ??
+                      '-',
                 ),
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 32, height: 0.95),

@@ -33,8 +33,10 @@ class CountryPicker extends StatelessWidget {
           items: countries ?? Country.all,
           initial: country,
           itemBuilder:
-              (context, country, {required bool selected}) =>
-                  Text(country.name, style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white)),
+              (context, country, {required bool selected}) => Text(
+                country.name,
+                style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white),
+              ),
           onTap: (country, context) async => onSubmitted(country),
         );
       },

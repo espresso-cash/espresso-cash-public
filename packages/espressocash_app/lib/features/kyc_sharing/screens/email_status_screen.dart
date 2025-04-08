@@ -15,9 +15,9 @@ import 'email_confirmation_screen.dart';
 class EmailStatusScreen extends StatelessWidget {
   const EmailStatusScreen({super.key});
 
-  static Future<bool> push(BuildContext context) => Navigator.of(
-    context,
-  ).push<bool>(MaterialPageRoute(builder: (context) => const EmailStatusScreen())).then((result) => result ?? false);
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(MaterialPageRoute(builder: (context) => const EmailStatusScreen()))
+      .then((result) => result ?? false);
 
   @override
   Widget build(BuildContext context) => UserDataListener(
@@ -88,7 +88,11 @@ class __UpdateEmailContentState extends State<_UpdateEmailContent> {
   @override
   Widget build(BuildContext context) => Column(
     children: [
-      KycTextField(controller: _emailController, inputType: TextInputType.emailAddress, placeholder: _placeholderText),
+      KycTextField(
+        controller: _emailController,
+        inputType: TextInputType.emailAddress,
+        placeholder: _placeholderText,
+      ),
       const SizedBox(height: 16),
       const Spacer(),
       ListenableBuilder(

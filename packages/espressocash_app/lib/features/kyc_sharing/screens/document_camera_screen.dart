@@ -151,7 +151,10 @@ class _DocumentCameraScreenState extends State<DocumentCameraScreen> {
                       SizedBox(
                         width: 60,
                         height: 60,
-                        child: CpButton(text: '', onPressed: _isTakingPicture ? null : _takePicture),
+                        child: CpButton(
+                          text: '',
+                          onPressed: _isTakingPicture ? null : _takePicture,
+                        ),
                       ),
                     ],
                   ),
@@ -163,7 +166,8 @@ class _DocumentCameraScreenState extends State<DocumentCameraScreen> {
   Widget _buildImagePreview() => Stack(
     alignment: Alignment.bottomCenter,
     children: [
-      if (_imageFile case final file?) Image.file(file, height: double.maxFinite, fit: BoxFit.fitHeight),
+      if (_imageFile case final file?)
+        Image.file(file, height: double.maxFinite, fit: BoxFit.fitHeight),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
         child: Column(
@@ -172,7 +176,11 @@ class _DocumentCameraScreenState extends State<DocumentCameraScreen> {
             Text(
               context.l10n.documentConfirmationNotice,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             const SizedBox(height: 24),
             CpButton(

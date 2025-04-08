@@ -6,7 +6,9 @@ extension OffRampOrderRowExt on OffRampOrderRow {
 
     const filter = ['transaction', 'slot'];
 
-    json.removeWhere((key, value) => value == null || value == '' || filter.contains(key) || value == 0.0);
+    json.removeWhere(
+      (key, value) => value == null || value == '' || filter.contains(key) || value == 0.0,
+    );
 
     return json;
   }

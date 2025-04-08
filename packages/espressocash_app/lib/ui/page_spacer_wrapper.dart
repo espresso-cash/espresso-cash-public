@@ -34,7 +34,12 @@ enum FadeGradientDirection { topDown, bottomUp }
 enum FadeGradientColor { white, dark }
 
 class FadeGradient extends StatelessWidget {
-  const FadeGradient({super.key, required this.height, required this.direction, this.color = FadeGradientColor.dark});
+  const FadeGradient({
+    super.key,
+    required this.height,
+    required this.direction,
+    this.color = FadeGradientColor.dark,
+  });
 
   final double height;
   final FadeGradientDirection direction;
@@ -59,15 +64,24 @@ class FadeGradient extends StatelessWidget {
 }
 
 class SolidPadding extends StatelessWidget {
-  const SolidPadding({super.key, required this.height, required this.direction, this.color = FadeGradientColor.dark});
+  const SolidPadding({
+    super.key,
+    required this.height,
+    required this.direction,
+    this.color = FadeGradientColor.dark,
+  });
 
   final double height;
   final FadeGradientDirection direction;
   final FadeGradientColor color;
 
   @override
-  Widget build(BuildContext context) =>
-      IgnorePointer(child: Container(height: height, decoration: const BoxDecoration(color: CpColors.deepGreyColor)));
+  Widget build(BuildContext context) => IgnorePointer(
+    child: Container(
+      height: height,
+      decoration: const BoxDecoration(color: CpColors.deepGreyColor),
+    ),
+  );
 }
 
 extension on FadeGradientDirection {

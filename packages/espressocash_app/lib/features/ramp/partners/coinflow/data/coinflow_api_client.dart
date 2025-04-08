@@ -18,7 +18,9 @@ abstract class CoinflowClient {
 
   @GET('/withdraw/history')
   @Headers(<String, dynamic>{'x-coinflow-auth-blockchain': 'solana'})
-  Future<WithdrawHistoryResponseDto> getWithdrawalHistory(@Header('x-coinflow-auth-wallet') String walletId);
+  Future<WithdrawHistoryResponseDto> getWithdrawalHistory(
+    @Header('x-coinflow-auth-wallet') String walletId,
+  );
 
   @GET('/withdraw')
   @Headers(<String, dynamic>{'x-coinflow-auth-blockchain': 'solana'})
@@ -27,10 +29,12 @@ abstract class CoinflowClient {
 
 @freezed
 class WithdrawHistoryResponseDto with _$WithdrawHistoryResponseDto {
-  const factory WithdrawHistoryResponseDto({@Default([]) List<WithdrawHistoryResponseDataDto> withdraws}) =
-      _WithdrawHistoryResponseDto;
+  const factory WithdrawHistoryResponseDto({
+    @Default([]) List<WithdrawHistoryResponseDataDto> withdraws,
+  }) = _WithdrawHistoryResponseDto;
 
-  factory WithdrawHistoryResponseDto.fromJson(Map<String, dynamic> data) => _$WithdrawHistoryResponseDtoFromJson(data);
+  factory WithdrawHistoryResponseDto.fromJson(Map<String, dynamic> data) =>
+      _$WithdrawHistoryResponseDtoFromJson(data);
 }
 
 @freezed
@@ -48,7 +52,8 @@ class WithdrawHistoryResponseDataDto with _$WithdrawHistoryResponseDataDto {
 @freezed
 class WithdrawerResponseDto with _$WithdrawerResponseDto {
   const factory WithdrawerResponseDto({required WithdrawerDto withdrawer}) = _WithdrawerResponseDto;
-  factory WithdrawerResponseDto.fromJson(Map<String, dynamic> data) => _$WithdrawerResponseDtoFromJson(data);
+  factory WithdrawerResponseDto.fromJson(Map<String, dynamic> data) =>
+      _$WithdrawerResponseDtoFromJson(data);
 }
 
 @freezed

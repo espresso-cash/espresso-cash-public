@@ -34,7 +34,10 @@ class _PuzzleViewPhraseScreenState extends State<PuzzleViewPhraseScreen> {
   Widget build(BuildContext context) => CpTheme.black(
     child: Scaffold(
       body: OnboardingScreen(
-        footer: OnboardingFooterButton(text: context.l10n.next, onPressed: () => widget.onConfirmed(_phrase)),
+        footer: OnboardingFooterButton(
+          text: context.l10n.next,
+          onPressed: () => widget.onConfirmed(_phrase),
+        ),
         children: [
           const CpAppBar(),
           const OnboardingLogo(),

@@ -198,6 +198,12 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await WebViewScreen.push(this, url: uri, onLoaded: handleLoaded, title: l10n.ramp_btnCashOut, theme: null);
+    await WebViewScreen.push(
+      this,
+      url: uri,
+      onLoaded: handleLoaded,
+      title: l10n.ramp_btnCashOut,
+      theme: null,
+    );
   }
 }

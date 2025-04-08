@@ -33,11 +33,16 @@ class AmbassadorPage extends StatelessWidget {
 
                 return DecoratedBox(
                   decoration: BoxDecoration(
-                    boxShadow: [BoxShadow(color: Colors.white, offset: Offset(0, constraints.maxHeight - 2))],
+                    boxShadow: [
+                      BoxShadow(color: Colors.white, offset: Offset(0, constraints.maxHeight - 2)),
+                    ],
                   ),
                   child:
                       isTablet
-                          ? Assets.images.ambassadorTab.svg(fit: BoxFit.scaleDown, alignment: Alignment.bottomCenter)
+                          ? Assets.images.ambassadorTab.svg(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.bottomCenter,
+                          )
                           : Assets.images.ambassador.svg(fit: BoxFit.fill),
                 );
               },
@@ -80,7 +85,14 @@ class _AmbassadorHeader extends StatelessWidget {
           ),
         ),
         if (name.isNotEmpty)
-          Text(name, style: const TextStyle(color: CpColors.blackGreyColor, fontSize: 26, fontWeight: FontWeight.w700)),
+          Text(
+            name,
+            style: const TextStyle(
+              color: CpColors.blackGreyColor,
+              fontSize: 26,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
       ],
     ),
   );

@@ -28,7 +28,9 @@ class StubSignedTx implements SignedTx {
   $SignedTxCopyWith<SignedTx> get copyWith => throw UnimplementedError();
 
   @override
-  Message decompileMessage({List<AddressLookupTableAccount> addressLookupTableAccounts = const []}) {
+  Message decompileMessage({
+    List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
+  }) {
     throw UnimplementedError();
   }
 

@@ -70,7 +70,10 @@ class ILPService implements Disposable {
         .listen((payment) => payment?.let(_repository.save));
   }
 
-  Future<IncomingLinkPayment> create({required ECWallet account, required Ed25519HDKeyPair escrow}) async {
+  Future<IncomingLinkPayment> create({
+    required ECWallet account,
+    required Ed25519HDKeyPair escrow,
+  }) async {
     final status = await _createTx(escrow: escrow, account: account);
 
     final id = const Uuid().v4();
@@ -121,7 +124,9 @@ class ILPService implements Disposable {
 
       return payment.copyWith(status: ILPStatus.txSent(tx, signature: signature));
     } on Exception {
-      return payment.copyWith(status: const ILPStatus.txFailure(reason: TxFailureReason.creatingFailure));
+      return payment.copyWith(
+        status: const ILPStatus.txFailure(reason: TxFailureReason.creatingFailure),
+      );
     }
   }
 
@@ -138,7 +143,10 @@ class ILPService implements Disposable {
 
     int? fee;
     try {
-      fee = status.tx.containsAta ? await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee) : null;
+      fee =
+          status.tx.containsAta
+              ? await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee)
+              : null;
     } on Object {
       fee = null;
     }
@@ -210,6 +218,7 @@ class ILPService implements Disposable {
 }
 
 extension on SignedTx {
-  bool get containsAta =>
-      decompileMessage().let((m) => m.instructions.any((ix) => ix.programId == AssociatedTokenAccountProgram.id));
+  bool get containsAta => decompileMessage().let(
+    (m) => m.instructions.any((ix) => ix.programId == AssociatedTokenAccountProgram.id),
+  );
 }

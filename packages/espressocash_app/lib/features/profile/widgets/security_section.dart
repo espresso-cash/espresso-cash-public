@@ -29,7 +29,10 @@ class SecuritySection extends StatelessWidget {
             ),
       ),
       ProfileButton(label: context.l10n.termsOfUse, onPressed: () => TermsScreen.push(context)),
-      ProfileButton(label: context.l10n.privacyPolicy, onPressed: () => PrivacyScreen.push(context)),
+      ProfileButton(
+        label: context.l10n.privacyPolicy,
+        onPressed: () => PrivacyScreen.push(context),
+      ),
     ],
   );
 }

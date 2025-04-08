@@ -44,7 +44,10 @@ class _KycInfo extends StatelessWidget {
         (sl<FeatureFlagsManager>().isBrijDemoEnabled() ? ' (Demo)' : ''),
     padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
     actions: [
-      KycButton(label: context.l10n.bankAccount, onPressed: () => BankAccountListScreen.push(context)),
+      KycButton(
+        label: context.l10n.bankAccount,
+        onPressed: () => BankAccountListScreen.push(context),
+      ),
       KycButton(
         label: context.l10n.emailAddress,
         description: user.getEmail,

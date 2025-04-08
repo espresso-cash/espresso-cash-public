@@ -4,7 +4,13 @@ import '../../gen/assets.gen.dart';
 import '../colors.dart';
 
 class CpNavigationButton extends StatelessWidget {
-  const CpNavigationButton({super.key, required this.icon, required this.active, required this.onPressed, this.badge});
+  const CpNavigationButton({
+    super.key,
+    required this.icon,
+    required this.active,
+    required this.onPressed,
+    this.badge,
+  });
 
   final SvgGenImage icon;
   final bool active;
@@ -30,7 +36,11 @@ class CpNavigationButton extends StatelessWidget {
                     child: icon.svg(color: active ? CpColors.yellowColor : Colors.white),
                   ),
                   if (badge != null && badge > 0)
-                    Positioned(top: 15, left: constraints.maxWidth / 2 + 30 / 2, child: _Badge(value: badge)),
+                    Positioned(
+                      top: 15,
+                      left: constraints.maxWidth / 2 + 30 / 2,
+                      child: _Badge(value: badge),
+                    ),
                 ],
               ),
             ),
@@ -48,7 +58,10 @@ class _Badge extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     width: 15,
     height: 15,
-    decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: CpColors.primaryColor),
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(15)),
+      color: CpColors.primaryColor,
+    ),
     child: Center(
       child: Text(
         value.toString(),

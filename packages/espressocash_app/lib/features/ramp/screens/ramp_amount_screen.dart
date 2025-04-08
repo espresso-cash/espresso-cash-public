@@ -113,11 +113,13 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
 
   String get _inputLabel => switch (widget.type) {
     RampType.offRamp => context.l10n.withdrawalAmountTitle,
-    RampType.onRamp => _isCryptoInput ? context.l10n.youReceiveTitle : context.l10n.depositAmountTitle,
+    RampType.onRamp =>
+      _isCryptoInput ? context.l10n.youReceiveTitle : context.l10n.depositAmountTitle,
   };
 
   String get _outputLabel => switch (widget.type) {
-    RampType.offRamp => widget.isEstimatedRate ? context.l10n.approximateReceiveTitle : context.l10n.youReceiveTitle,
+    RampType.offRamp =>
+      widget.isEstimatedRate ? context.l10n.approximateReceiveTitle : context.l10n.youReceiveTitle,
     RampType.onRamp => switch ((_isCryptoInput, widget.isEstimatedRate)) {
       (true, true) => context.l10n.approximateRequiredDepositTitle,
       (true, false) => context.l10n.requiredDepositTitle,
@@ -165,7 +167,11 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
             Expanded(
               child: Column(
                 children: [
-                  RampTextField(label: _inputLabel, controller: _controller, currency: widget.currency),
+                  RampTextField(
+                    label: _inputLabel,
+                    controller: _controller,
+                    currency: widget.currency,
+                  ),
                   ValueListenableBuilder(
                     valueListenable: _controller,
                     builder:
@@ -207,11 +213,15 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
             Expanded(
               child: Column(
                 children: [
-                  Expanded(child: Center(child: AmountKeypad(controller: _controller, maxDecimals: 2))),
+                  Expanded(
+                    child: Center(child: AmountKeypad(controller: _controller, maxDecimals: 2)),
+                  ),
                   SizedBox(height: 16.h),
                   ValueListenableBuilder(
                     valueListenable: _controller,
-                    builder: (context, value, child) => CpBottomButton(text: context.l10n.next, onPressed: _onSubmit),
+                    builder:
+                        (context, value, child) =>
+                            CpBottomButton(text: context.l10n.next, onPressed: _onSubmit),
                   ),
                 ],
               ),
@@ -353,7 +363,11 @@ class _ReceiveTextFieldState extends State<_ReceiveTextField> with DebounceMixin
                 future: _result,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) {
-                    return RampTextField(label: widget.label, controller: null, currency: widget.receiveCurrency);
+                    return RampTextField(
+                      label: widget.label,
+                      controller: null,
+                      currency: widget.receiveCurrency,
+                    );
                   }
 
                   final data = snapshot.data;
@@ -427,7 +441,8 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel> with Debounc
 
   String _formatAmount(Amount? amount) =>
       amount?.let(
-        (value) => '${value.format(context.locale, maxDecimals: 2, skipSymbol: true)} ${value.currency.symbol}',
+        (value) =>
+            '${value.format(context.locale, maxDecimals: 2, skipSymbol: true)} ${value.currency.symbol}',
       ) ??
       '-';
 
@@ -436,11 +451,23 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel> with Debounc
       if (rampFees?.ourFee case final ourFee?)
         _InfoRow(title: context.l10n.ourFeeTitle, value: ourFee, isLoading: rampFees == null),
       if (rampFees?.partnerFee case final partnerFee?)
-        _InfoRow(title: context.l10n.partnerFeeTitle, value: partnerFee, isLoading: rampFees == null),
+        _InfoRow(
+          title: context.l10n.partnerFeeTitle,
+          value: partnerFee,
+          isLoading: rampFees == null,
+        ),
       if (rampFees?.totalFee case final totalFee)
-        _InfoRow(title: context.l10n.totalFeesTitle, value: _formatAmount(totalFee), isLoading: rampFees == null),
+        _InfoRow(
+          title: context.l10n.totalFeesTitle,
+          value: _formatAmount(totalFee),
+          isLoading: rampFees == null,
+        ),
       if (rampFees?.extraFee case final extraFee?)
-        _InfoRow(title: context.l10n.additionalFeesTitle, value: _formatAmount(extraFee), isLoading: rampFees == null),
+        _InfoRow(
+          title: context.l10n.additionalFeesTitle,
+          value: _formatAmount(extraFee),
+          isLoading: rampFees == null,
+        ),
     ],
   );
 
@@ -469,7 +496,8 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel> with Debounc
                       ],
                     ),
                   ),
-                  if (widget.showExchangeRateDisclaimer && fees?.totalFee != null) const _ExchangeRateDisclaimer(),
+                  if (widget.showExchangeRateDisclaimer && fees?.totalFee != null)
+                    const _ExchangeRateDisclaimer(),
                 ],
               );
             },
@@ -514,7 +542,11 @@ class _InfoRow extends StatelessWidget {
         else
           Text(
             value ?? '-',
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, color: const Color(0xff999999)),
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w400,
+              color: const Color(0xff999999),
+            ),
           ),
       ],
     ),

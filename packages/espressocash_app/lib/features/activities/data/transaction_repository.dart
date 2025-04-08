@@ -77,12 +77,18 @@ class TransactionRepository {
   Stream<Transaction> watch(String id) {
     final query = _db.select(_db.transactionRows)..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().asyncMap((row) => row.toModel().then((value) => _match(value).first));
+    return query.watchSingle().asyncMap(
+      (row) => row.toModel().then((value) => _match(value).first),
+    );
   }
 
   Future<void> saveAll(Iterable<TxCommon> txs, {required bool clear}) {
     Future<void> save() => _db.batch(
-      (batch) => batch.insertAll(_db.transactionRows, txs.map((e) => e.toRow()), mode: InsertMode.insertOrReplace),
+      (batch) => batch.insertAll(
+        _db.transactionRows,
+        txs.map((e) => e.toRow()),
+        mode: InsertMode.insertOrReplace,
+      ),
     );
 
     return clear
@@ -127,7 +133,8 @@ class TransactionRepository {
     final olp = _db.oLPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
       builder: (pr) => pr.toActivity(),
-      ignoreWhen: (row) => const [OLPStatusDto.withdrawn, OLPStatusDto.canceled].contains(row.status).not(),
+      ignoreWhen:
+          (row) => const [OLPStatusDto.withdrawn, OLPStatusDto.canceled].contains(row.status).not(),
     );
 
     final onRamp = _db.onRampOrderRows.findActivityOrNull(
@@ -181,7 +188,9 @@ extension TransactionRowExt on TransactionRow {
       SignedTx.decode(encodedTx),
       created: created,
       status: status,
-      amount: amount?.let((it) => CryptoAmount(value: it, cryptoCurrency: CryptoCurrency(token: token ?? Token.unk))),
+      amount: amount?.let(
+        (it) => CryptoAmount(value: it, cryptoCurrency: CryptoCurrency(token: token ?? Token.unk)),
+      ),
     );
   }
 }

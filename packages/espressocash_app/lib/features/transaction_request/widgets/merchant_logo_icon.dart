@@ -27,7 +27,10 @@ class MerchantLogoIcon extends StatelessWidget {
                 imageUrl: logoUrl,
                 imageBuilder:
                     (context, provider) => DecoratedBox(
-                      decoration: BoxDecoration(shape: BoxShape.circle, image: DecorationImage(image: provider)),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(image: provider),
+                      ),
                     ),
               ),
     );

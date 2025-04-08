@@ -56,7 +56,10 @@ class _TransactionListState extends State<TransactionList> {
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
-                          (context, i) => _KeepAlive(key: ValueKey(data[i]), child: TransactionItem(tx: data[i])),
+                          (context, i) => _KeepAlive(
+                            key: ValueKey(data[i]),
+                            child: TransactionItem(tx: data[i]),
+                          ),
                           childCount: data.length,
                           findChildIndexCallback: (Key key) {
                             final ValueKey<String> valueKey = key as ValueKey<String>;

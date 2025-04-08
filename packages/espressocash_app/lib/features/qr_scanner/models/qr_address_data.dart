@@ -8,8 +8,9 @@ part 'qr_address_data.g.dart';
 
 @freezed
 sealed class QrAddressData with _$QrAddressData {
-  const factory QrAddressData.solana({@Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey address}) =
-      QrAddressDataSolana;
+  const factory QrAddressData.solana({
+    @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey address,
+  }) = QrAddressDataSolana;
 
   const factory QrAddressData.evm({required String address}) = QrAddressDataEvm;
 

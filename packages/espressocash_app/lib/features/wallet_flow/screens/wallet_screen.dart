@@ -17,7 +17,8 @@ import '../widgets/wallet_tab_view.dart';
 import 'pay_screen.dart';
 
 const _cryptoCurrency = Currency.usdc;
-final _minimumAmount = Amount.fromDecimal(value: Decimal.parse('0.50'), currency: Currency.usd) as FiatAmount;
+final _minimumAmount =
+    Amount.fromDecimal(value: Decimal.parse('0.50'), currency: Currency.usd) as FiatAmount;
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});

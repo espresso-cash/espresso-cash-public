@@ -11,7 +11,8 @@ void showCpSnackbar(BuildContext context, {required String message, Widget? icon
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (icon != null) Container(height: 24, margin: const EdgeInsets.only(right: 16), child: icon),
+          if (icon != null)
+            Container(height: 24, margin: const EdgeInsets.only(right: 16), child: icon),
           Expanded(child: Text(message, style: const TextStyle(color: Colors.white))),
         ],
       ),

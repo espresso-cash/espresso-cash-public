@@ -55,6 +55,8 @@ class _OnRampOrderDetailsState extends State<OnRampOrderDetails> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      StreamBuilder(stream: _stream, builder: (context, snapshot) => widget.builder(context, snapshot.data));
+  Widget build(BuildContext context) => StreamBuilder(
+    stream: _stream,
+    builder: (context, snapshot) => widget.builder(context, snapshot.data),
+  );
 }

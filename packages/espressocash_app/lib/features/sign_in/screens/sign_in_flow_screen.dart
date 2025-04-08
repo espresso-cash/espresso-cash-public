@@ -16,7 +16,10 @@ class SignInFlowScreen extends StatefulWidget {
 
   static void open(BuildContext context, {NavigatorState? navigator}) =>
       (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<void>(
-        PageRouteBuilder(pageBuilder: (context, _, __) => const SignInFlowScreen(), transitionDuration: Duration.zero),
+        PageRouteBuilder(
+          pageBuilder: (context, _, __) => const SignInFlowScreen(),
+          transitionDuration: Duration.zero,
+        ),
         F,
       );
 
@@ -33,9 +36,9 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
     super.dispose();
   }
 
-  void _handleSignInPressed() => Navigator.of(
-    context,
-  ).push(MaterialPageRoute<void>(builder: (context) => RestoreAccountScreen(onSubmit: _handleRestore)));
+  void _handleSignInPressed() => Navigator.of(context).push(
+    MaterialPageRoute<void>(builder: (context) => RestoreAccountScreen(onSubmit: _handleRestore)),
+  );
 
   void _handleCreateLocalPressed() => _bloc.add(const SignInEvent.newLocalWalletRequested());
 
@@ -63,7 +66,10 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
     builder:
         (context, state) => CpLoader(
           isLoading: state.processingState.isProcessing,
-          child: GetStartedScreen(onSignInPressed: _handleSignInPressed, onLocalPressed: _handleCreateLocalPressed),
+          child: GetStartedScreen(
+            onSignInPressed: _handleSignInPressed,
+            onLocalPressed: _handleCreateLocalPressed,
+          ),
         ),
   );
 }

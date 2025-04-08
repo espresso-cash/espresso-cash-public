@@ -13,7 +13,10 @@ class KycStatusIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Stack(
     alignment: Alignment.center,
-    children: [Assets.icons.star.svg(color: status.backgroundColor, height: height), status.foregroundIcon(height / 2)],
+    children: [
+      Assets.icons.star.svg(color: status.backgroundColor, height: height),
+      status.foregroundIcon(height / 2),
+    ],
   );
 }
 
@@ -27,7 +30,8 @@ extension on KycValidationStatus {
 
   Widget foregroundIcon(double width) => switch (this) {
     KycValidationStatus.approved => Assets.icons.xmark.svg(width: width),
-    KycValidationStatus.unverified || KycValidationStatus.pending => Assets.icons.threeDots.svg(width: width),
+    KycValidationStatus.unverified ||
+    KycValidationStatus.pending => Assets.icons.threeDots.svg(width: width),
     KycValidationStatus.rejected => Assets.icons.exclamationMark.svg(height: width),
   };
 }

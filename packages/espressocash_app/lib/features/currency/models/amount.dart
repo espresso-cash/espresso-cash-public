@@ -18,14 +18,16 @@ sealed class Amount with _$Amount {
 
   const factory Amount.fiat({required int value, required FiatCurrency fiatCurrency}) = FiatAmount;
 
-  const factory Amount.crypto({required int value, required CryptoCurrency cryptoCurrency}) = CryptoAmount;
+  const factory Amount.crypto({required int value, required CryptoCurrency cryptoCurrency}) =
+      CryptoAmount;
 
   factory Amount.zero({required Currency currency}) => Amount(value: 0, currency: currency);
 
   factory Amount.fromToken({required int value, required Token token}) =>
       Amount(value: value, currency: Currency.crypto(token: token));
 
-  factory Amount.sol({required int value}) => Amount.crypto(value: value, cryptoCurrency: Currency.sol);
+  factory Amount.sol({required int value}) =>
+      Amount.crypto(value: value, cryptoCurrency: Currency.sol);
 
   factory Amount.fromDecimal({required Decimal value, required Currency currency}) =>
       Amount(value: currency.decimalToInt(value), currency: currency);
@@ -109,7 +111,11 @@ extension FiatAmountExt on FiatAmount {
 extension FormattedAmount on Amount {
   String formatRate(double rate, Locale locale) {
     if (rate >= 1) {
-      return NumberFormat.currency(locale: locale.toString(), symbol: '', decimalDigits: 2).format(rate);
+      return NumberFormat.currency(
+        locale: locale.toString(),
+        symbol: '',
+        decimalDigits: 2,
+      ).format(rate);
     }
 
     if (rate == 0.0 || rate >= 0.01) {

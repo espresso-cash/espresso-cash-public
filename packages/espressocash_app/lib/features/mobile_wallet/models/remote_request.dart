@@ -9,6 +9,7 @@ class RemoteRequest with _$RemoteRequest {
 
   const factory RemoteRequest.signPayloads({required SignPayloadsRequest request}) = SignPayloads;
 
-  const factory RemoteRequest.signTransactionsForSending({required SignAndSendTransactionsRequest request}) =
-      SignTransactionsForSending;
+  const factory RemoteRequest.signTransactionsForSending({
+    required SignAndSendTransactionsRequest request,
+  }) = SignTransactionsForSending;
 }

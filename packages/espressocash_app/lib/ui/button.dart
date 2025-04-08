@@ -72,7 +72,9 @@ class CpButton extends StatelessWidget {
     final textStyle =
         (() {
           // ignore: avoid-non-null-assertion, the style should be there
-          final style = Theme.of(context).textTheme.labelLarge!.copyWith(overflow: TextOverflow.ellipsis);
+          final style = Theme.of(
+            context,
+          ).textTheme.labelLarge!.copyWith(overflow: TextOverflow.ellipsis);
           switch (size) {
             case CpButtonSize.normal:
               return style;
@@ -110,7 +112,9 @@ class CpButton extends StatelessWidget {
         padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: horizontalPadding)),
         backgroundColor: WidgetStateProperty.resolveWith(
           (states) =>
-              states.contains(WidgetState.disabled) ? _backgroundColor.withOpacity(_disabledOpacity) : _backgroundColor,
+              states.contains(WidgetState.disabled)
+                  ? _backgroundColor.withOpacity(_disabledOpacity)
+                  : _backgroundColor,
         ),
         foregroundColor: WidgetStateProperty.all(_foregroundColor),
         textStyle: WidgetStateProperty.all(textStyle),

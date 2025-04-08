@@ -38,7 +38,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   @override
   Widget build(BuildContext context) => KycPage(
     children: [
-      KycHeader(title: context.l10n.emailVerificationTitle.toUpperCase(), description: context.l10n.enterEmailHintText),
+      KycHeader(
+        title: context.l10n.emailVerificationTitle.toUpperCase(),
+        description: context.l10n.enterEmailHintText,
+      ),
       const SizedBox(height: 16),
       KycTextField(
         controller: _emailController,

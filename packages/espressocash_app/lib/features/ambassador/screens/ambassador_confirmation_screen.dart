@@ -22,9 +22,12 @@ class AmbassadorConfirmationScreen extends StatefulWidget {
 
   final AmbassadorReferral ambassador;
 
-  static void push(BuildContext context, AmbassadorReferral ambassador) => Navigator.of(
-    context,
-  ).push(MaterialPageRoute<void>(builder: (context) => AmbassadorConfirmationScreen(ambassador: ambassador)));
+  static void push(BuildContext context, AmbassadorReferral ambassador) =>
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (context) => AmbassadorConfirmationScreen(ambassador: ambassador),
+        ),
+      );
 
   @override
   State<AmbassadorConfirmationScreen> createState() => _AmbassadorConfirmationScreenState();
@@ -76,7 +79,11 @@ class _AmbassadorConfirmationScreenState extends State<AmbassadorConfirmationScr
               children: [
                 Text(
                   context.l10n.ambassador_referralProgramWelcome,
-                  style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: CpColors.blackGreyColor),
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w700,
+                    color: CpColors.blackGreyColor,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -128,7 +135,10 @@ class _BenefitItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
     children: [
-      Container(padding: const EdgeInsets.all(4), child: Assets.icons.successBullet.svg(height: 28)),
+      Container(
+        padding: const EdgeInsets.all(4),
+        child: Assets.icons.successBullet.svg(height: 28),
+      ),
       const SizedBox(width: 12),
       Expanded(
         child: Text(

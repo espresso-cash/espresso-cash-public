@@ -59,7 +59,12 @@ class _BankInfoItem extends StatelessWidget {
           style: const TextStyle(fontSize: 17, color: Colors.white, fontWeight: FontWeight.w700),
         ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.white),
-        onTap: () => BankAccountScreen.push(context, initialBankInfo: bankInfo, buttonLabel: context.l10n.update),
+        onTap:
+            () => BankAccountScreen.push(
+              context,
+              initialBankInfo: bankInfo,
+              buttonLabel: context.l10n.update,
+            ),
       ),
     );
   }

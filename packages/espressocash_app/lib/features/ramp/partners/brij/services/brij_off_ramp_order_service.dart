@@ -31,7 +31,14 @@ import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
 class BrijOffRampOrderService implements Disposable {
-  BrijOffRampOrderService(this._db, this._kycRepository, this._analytics, this._ecClient, this._sender, this._account);
+  BrijOffRampOrderService(
+    this._db,
+    this._kycRepository,
+    this._analytics,
+    this._ecClient,
+    this._sender,
+    this._account,
+  );
 
   final ECWallet _account;
   final MyDatabase _db;
@@ -76,7 +83,8 @@ class BrijOffRampOrderService implements Disposable {
   }
 
   void _subscribe(String orderId) {
-    _subscriptions[orderId] = (_db.select(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(orderId)))
+    _subscriptions[orderId] = (_db.select(_db.offRampOrderRows)
+          ..where((tbl) => tbl.id.equals(orderId)))
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
@@ -91,14 +99,24 @@ class BrijOffRampOrderService implements Disposable {
               return const Stream.empty();
 
             case OffRampOrderStatus.creatingDepositTx:
-              final amount = CryptoAmount(value: order.amount, cryptoCurrency: const CryptoCurrency(token: Token.usdc));
+              final amount = CryptoAmount(
+                value: order.amount,
+                cryptoCurrency: const CryptoCurrency(token: Token.usdc),
+              );
 
               return Stream.fromFuture(
-                _createTx(amount: amount, receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress)),
-              ).onErrorReturn(const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositError)));
+                _createTx(
+                  amount: amount,
+                  receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
+                ),
+              ).onErrorReturn(
+                const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositError)),
+              );
 
             case OffRampOrderStatus.depositTxReady:
-              return Stream.value(const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.sendingDepositTx)));
+              return Stream.value(
+                const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.sendingDepositTx)),
+              );
 
             case OffRampOrderStatus.sendingDepositTx:
               final tx = SignedTx.decode(order.transaction).let((it) => (it, order.slot));
@@ -135,7 +153,11 @@ class BrijOffRampOrderService implements Disposable {
           }
         })
         .whereNotNull()
-        .listen((event) => (_db.update(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(orderId))).write(event));
+        .listen(
+          (event) =>
+              (_db.update(_db.offRampOrderRows)
+                ..where((tbl) => tbl.id.equals(orderId))).write(event),
+        );
   }
 
   AsyncResult<String> create({
@@ -207,7 +229,9 @@ class BrijOffRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((_) async {
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((
+      _,
+    ) async {
       final statement = _db.update(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
@@ -242,7 +266,9 @@ class BrijOffRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((_) async {
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((
+      _,
+    ) async {
       final statement = _db.update(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
@@ -342,5 +368,7 @@ class BrijOffRampOrderService implements Disposable {
     _watchers.values.map((it) => it.cancel());
   }
 
-  final _depositError = const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositTxConfirmError));
+  final _depositError = const OffRampOrderRowsCompanion(
+    status: Value(OffRampOrderStatus.depositTxConfirmError),
+  );
 }

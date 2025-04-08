@@ -51,7 +51,10 @@ class QuizPage extends StatelessWidget {
                         AspectRatio(
                           aspectRatio: 0.73,
                           child: Column(
-                            children: [Expanded(child: content), if (indicator case final indicator?) indicator],
+                            children: [
+                              Expanded(child: content),
+                              if (indicator case final indicator?) indicator,
+                            ],
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -59,7 +62,10 @@ class QuizPage extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              ...footer.map((button) => Padding(padding: const EdgeInsets.all(8.0), child: button)),
+                              ...footer.map(
+                                (button) =>
+                                    Padding(padding: const EdgeInsets.all(8.0), child: button),
+                              ),
                               const SizedBox(height: 32),
                             ],
                           ),

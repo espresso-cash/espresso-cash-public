@@ -21,7 +21,12 @@ final cpTimeline = Story(
               const Option(label: 'Neutral', value: CpTimelineStatus.neutral),
             ],
           ),
-          active: context.knobs.sliderInt(label: 'Current', initial: 1, min: 0, max: _data.length - 1),
+          active: context.knobs.sliderInt(
+            label: 'Current',
+            initial: 1,
+            min: 0,
+            max: _data.length - 1,
+          ),
         ),
       ),
 );

@@ -5,7 +5,12 @@ import 'colors.dart';
 enum CpTextButtonVariant { light, dark, inverted, grey }
 
 class CpTextButton extends StatelessWidget {
-  const CpTextButton({super.key, required this.text, this.onPressed, this.variant = CpTextButtonVariant.dark});
+  const CpTextButton({
+    super.key,
+    required this.text,
+    this.onPressed,
+    this.variant = CpTextButtonVariant.dark,
+  });
 
   final String text;
   final VoidCallback? onPressed;
@@ -30,7 +35,10 @@ class CpTextButton extends StatelessWidget {
     onTap: onPressed,
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-      child: Text(text, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: _foregroundColor)),
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: _foregroundColor),
+      ),
     ),
   );
 }

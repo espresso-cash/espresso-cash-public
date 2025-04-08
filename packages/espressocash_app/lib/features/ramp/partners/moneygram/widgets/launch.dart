@@ -63,8 +63,15 @@ extension BuildContextExt on BuildContext {
       receiveCurrency: receiveCurrency,
       type: type,
       calculateEquivalent:
-          (amount) => _calculateReceiveAmount(amount: amount, type: type, currency: receiveCurrency, rate: rate),
-      calculateFee: (amount) => _calculateFees(amount: amount, type: type, currency: receiveCurrency, rate: rate),
+          (amount) => _calculateReceiveAmount(
+            amount: amount,
+            type: type,
+            currency: receiveCurrency,
+            rate: rate,
+          ),
+      calculateFee:
+          (amount) =>
+              _calculateFees(amount: amount, type: type, currency: receiveCurrency, rate: rate),
       exchangeRate: _formatExchangeRate(from: inputCurrency, to: receiveCurrency, rate: rate),
       isEstimatedRate: isEstimatedRate,
     );
@@ -196,8 +203,15 @@ window.addEventListener("message", (event) => {
       receiveCurrency: receiveCurrency,
       type: type,
       calculateEquivalent:
-          (amount) => _calculateReceiveAmount(amount: amount, type: type, currency: receiveCurrency, rate: rate),
-      calculateFee: (amount) => _calculateFees(amount: amount, type: type, currency: receiveCurrency, rate: rate),
+          (amount) => _calculateReceiveAmount(
+            amount: amount,
+            type: type,
+            currency: receiveCurrency,
+            rate: rate,
+          ),
+      calculateFee:
+          (amount) =>
+              _calculateFees(amount: amount, type: type, currency: receiveCurrency, rate: rate),
       exchangeRate: _formatExchangeRate(from: inputCurrency, to: receiveCurrency, rate: rate),
       isEstimatedRate: isEstimatedRate,
     );
@@ -280,7 +294,9 @@ window.addEventListener("message", (event) => {
     final receiveAmount = fees.receiveAmount;
 
     return Either.right(
-      receiveAmount.currency != currency ? receiveAmount.convert(rate: rate, to: currency) : fees.receiveAmount,
+      receiveAmount.currency != currency
+          ? receiveAmount.convert(rate: rate, to: currency)
+          : fees.receiveAmount,
     );
   }
 
@@ -297,26 +313,37 @@ window.addEventListener("message", (event) => {
       RampType.offRamp => fees.moneygramFee + fees.bridgeFee + fees.gasFeeInUsdc,
     };
 
-    final convertedTotalFees = totalFees.currency != currency ? totalFees.convert(rate: rate, to: currency) : totalFees;
+    final convertedTotalFees =
+        totalFees.currency != currency ? totalFees.convert(rate: rate, to: currency) : totalFees;
 
-    return Either.right((ourFee: null, partnerFee: null, extraFee: null, totalFee: convertedTotalFees));
+    return Either.right((
+      ourFee: null,
+      partnerFee: null,
+      extraFee: null,
+      totalFee: convertedTotalFees,
+    ));
   }
 
-  Future<Decimal?> _getExchangeRate({required Currency to}) => runWithLoader<Decimal?>(this, () async {
-    try {
-      final rates = await sl<EspressoCashClient>()
-          .fetchFiatRate(FiatRateRequestDto(base: Currency.usd.symbol, target: to.symbol))
-          .then((rates) => rates.rate);
+  Future<Decimal?> _getExchangeRate({required Currency to}) =>
+      runWithLoader<Decimal?>(this, () async {
+        try {
+          final rates = await sl<EspressoCashClient>()
+              .fetchFiatRate(FiatRateRequestDto(base: Currency.usd.symbol, target: to.symbol))
+              .then((rates) => rates.rate);
 
-      return Decimal.parse(rates.toString());
-    } on Exception catch (error) {
-      reportError(error);
+          return Decimal.parse(rates.toString());
+        } on Exception catch (error) {
+          reportError(error);
 
-      return null;
-    }
-  });
+          return null;
+        }
+      });
 
-  String _formatExchangeRate({required Currency from, required Currency to, required Decimal rate}) {
+  String _formatExchangeRate({
+    required Currency from,
+    required Currency to,
+    required Decimal rate,
+  }) {
     final symbol = to.symbol == Currency.usd.symbol ? '=' : '≈';
 
     return '1 ${from.symbol} $symbol $rate ${to.symbol}';

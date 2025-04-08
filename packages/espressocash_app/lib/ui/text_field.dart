@@ -64,7 +64,10 @@ class CpTextField extends StatelessWidget {
       decoration:
           border == CpTextFieldBorder.stadium
               ? ShapeDecoration(color: backgroundColor, shape: const StadiumBorder())
-              : BoxDecoration(color: backgroundColor, borderRadius: const BorderRadius.all(Radius.circular(8))),
+              : BoxDecoration(
+                color: backgroundColor,
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+              ),
       child: CupertinoTextField(
         autocorrect: autocorrect,
         enabled: !disabled,
@@ -95,7 +98,11 @@ class FittedTextEditingController extends TextEditingController {
   FittedTextEditingController({super.text});
 
   @override
-  TextSpan buildTextSpan({required BuildContext context, TextStyle? style, required bool withComposing}) => TextSpan(
+  TextSpan buildTextSpan({
+    required BuildContext context,
+    TextStyle? style,
+    required bool withComposing,
+  }) => TextSpan(
     style: style,
     children: [
       WidgetSpan(

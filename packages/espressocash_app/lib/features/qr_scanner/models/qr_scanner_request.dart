@@ -22,7 +22,8 @@ class QrScannerRequest with _$QrScannerRequest {
 
   const factory QrScannerRequest.linkPayment(LinkPayment payment) = QrScannerLinkPayment;
 
-  const factory QrScannerRequest.ambassador(AmbassadorReferral referral) = QrScannerAmbassadorRequest;
+  const factory QrScannerRequest.ambassador(AmbassadorReferral referral) =
+      QrScannerAmbassadorRequest;
 
   const QrScannerRequest._();
 
@@ -70,5 +71,6 @@ class QrScannerRequest with _$QrScannerRequest {
     ambassador: (r) => r.referral.address,
   );
 
-  Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(solanaPay: (r) => r.reference?.firstOrNull);
+  Ed25519HDPublicKey? get reference =>
+      whenOrNull<Ed25519HDPublicKey?>(solanaPay: (r) => r.reference?.firstOrNull);
 }

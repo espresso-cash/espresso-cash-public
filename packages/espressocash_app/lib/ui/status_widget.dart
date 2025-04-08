@@ -6,7 +6,12 @@ import 'rounded_rectangle.dart';
 enum CpStatusType { success, info, error, neutral }
 
 class CpStatusWidget extends StatelessWidget {
-  const CpStatusWidget({super.key, this.title, required this.content, this.statusType = CpStatusType.info});
+  const CpStatusWidget({
+    super.key,
+    this.title,
+    required this.content,
+    this.statusType = CpStatusType.info,
+  });
 
   final Widget? title;
   final Widget content;
@@ -24,8 +29,13 @@ class CpStatusWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (title != null) DefaultTextStyle.merge(style: _titleStyle, textAlign: TextAlign.center, child: title),
-            DefaultTextStyle.merge(style: _contentStyle, textAlign: TextAlign.center, child: content),
+            if (title != null)
+              DefaultTextStyle.merge(style: _titleStyle, textAlign: TextAlign.center, child: title),
+            DefaultTextStyle.merge(
+              style: _contentStyle,
+              textAlign: TextAlign.center,
+              child: content,
+            ),
           ],
         ),
       ),

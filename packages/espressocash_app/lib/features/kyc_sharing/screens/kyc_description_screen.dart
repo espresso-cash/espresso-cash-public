@@ -7,14 +7,17 @@ import '../widgets/kyc_page.dart';
 class KycDescriptionScreen extends StatelessWidget {
   const KycDescriptionScreen({super.key});
 
-  static Future<bool> push(BuildContext context) => Navigator.of(
-    context,
-  ).push<bool>(MaterialPageRoute(builder: (context) => const KycDescriptionScreen())).then((result) => result ?? false);
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(MaterialPageRoute(builder: (context) => const KycDescriptionScreen()))
+      .then((result) => result ?? false);
 
   @override
   Widget build(BuildContext context) => KycPage(
     children: [
-      KycHeader(title: context.l10n.kycVerificationTitle, description: context.l10n.kycVerificationDescription),
+      KycHeader(
+        title: context.l10n.kycVerificationTitle,
+        description: context.l10n.kycVerificationDescription,
+      ),
       const SizedBox(height: 16),
       Padding(
         padding: const EdgeInsets.only(left: 12),
@@ -24,7 +27,11 @@ class KycDescriptionScreen extends StatelessWidget {
         ),
       ),
       const Spacer(),
-      CpBottomButton(horizontalPadding: 16, text: context.l10n.begin, onPressed: () => Navigator.pop(context, true)),
+      CpBottomButton(
+        horizontalPadding: 16,
+        text: context.l10n.begin,
+        onPressed: () => Navigator.pop(context, true),
+      ),
     ],
   );
 }

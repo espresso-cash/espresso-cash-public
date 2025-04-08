@@ -25,9 +25,12 @@ class DocumentInputScreen extends StatefulWidget {
 
   final KycRequirement requirement;
 
-  static Future<bool> push(BuildContext context, {required KycRequirement requirement}) => Navigator.of(context)
-      .push<bool>(MaterialPageRoute(builder: (context) => DocumentInputScreen(requirement: requirement)))
-      .then((result) => result ?? false);
+  static Future<bool> push(BuildContext context, {required KycRequirement requirement}) =>
+      Navigator.of(context)
+          .push<bool>(
+            MaterialPageRoute(builder: (context) => DocumentInputScreen(requirement: requirement)),
+          )
+          .then((result) => result ?? false);
 
   @override
   State<DocumentInputScreen> createState() => _DocumentInputScreenState();
@@ -54,7 +57,8 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
 
   void _parseRequirements() {
     final requirements = widget.requirement.requirements;
-    _availableCountries = requirements.parseCountryCodes().map(Country.findByCode).nonNulls.toList();
+    _availableCountries =
+        requirements.parseCountryCodes().map(Country.findByCode).nonNulls.toList();
 
     _availableDocumentTypes = requirements.parseDocumentTypes();
     _documentFieldsRelationship = requirements.determineDocumentFieldsRelationship();
@@ -136,13 +140,16 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
     if (!mounted) return null;
 
     return shouldProceed == true
-        ? Navigator.of(context).push<File?>(MaterialPageRoute(builder: (context) => const DocumentCameraScreen()))
+        ? Navigator.of(
+          context,
+        ).push<File?>(MaterialPageRoute(builder: (context) => const DocumentCameraScreen()))
         : null;
   }
 
   Widget _buildDocumentFieldWidget(DocumentField field) {
     final isInRequiredList = _requiredFields.contains(field);
-    final isRequired = isInRequiredList && _documentFieldsRelationship == RequirementRelationship.and;
+    final isRequired =
+        isInRequiredList && _documentFieldsRelationship == RequirementRelationship.and;
 
     switch (field) {
       case DocumentField.idNumber:
@@ -223,7 +230,10 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
         onSubmitted: (country) => setState(() => _selectedCountry = country),
       ),
       const SizedBox(height: 24),
-      Text(context.l10n.selectDocumentType, style: const TextStyle(color: Colors.white, fontSize: 14)),
+      Text(
+        context.l10n.selectDocumentType,
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+      ),
       const SizedBox(height: 8),
       DocumentPicker(
         type: _selectedDocumentType,
@@ -238,7 +248,8 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
       const SizedBox(height: 16),
       if (_selectedDocumentType != null)
         ..._requiredFields.map(
-          (field) => Column(children: [_buildDocumentFieldWidget(field), const SizedBox(height: 16)]),
+          (field) =>
+              Column(children: [_buildDocumentFieldWidget(field), const SizedBox(height: 16)]),
         ),
       const SizedBox(height: 28),
       const Spacer(),
@@ -256,7 +267,11 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
 }
 
 class _IdNumberField extends StatefulWidget {
-  const _IdNumberField({required this.controller, required this.currentValue, required this.onChanged});
+  const _IdNumberField({
+    required this.controller,
+    required this.currentValue,
+    required this.onChanged,
+  });
 
   final TextEditingController controller;
   final String currentValue;
@@ -277,7 +292,8 @@ class _IdNumberFieldState extends State<_IdNumberField> {
   @override
   void didUpdateWidget(_IdNumberField oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != widget.controller || oldWidget.currentValue != widget.currentValue) {
+    if (oldWidget.controller != widget.controller ||
+        oldWidget.currentValue != widget.currentValue) {
       _syncControllerWithValue();
     }
   }
@@ -299,12 +315,20 @@ class _IdNumberFieldState extends State<_IdNumberField> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      KycTextField(controller: widget.controller, inputType: TextInputType.text, placeholder: context.l10n.idNumber);
+  Widget build(BuildContext context) => KycTextField(
+    controller: widget.controller,
+    inputType: TextInputType.text,
+    placeholder: context.l10n.idNumber,
+  );
 }
 
 class _PhotoUploadField extends StatelessWidget {
-  const _PhotoUploadField({required this.label, required this.isRequired, required this.onTap, this.currentValue});
+  const _PhotoUploadField({
+    required this.label,
+    required this.isRequired,
+    required this.onTap,
+    this.currentValue,
+  });
 
   final String label;
   final bool isRequired;
@@ -315,7 +339,10 @@ class _PhotoUploadField extends StatelessWidget {
   Widget build(BuildContext context) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text('$label${isRequired ? ' *' : ''}', style: const TextStyle(color: Colors.white, fontSize: 14)),
+      Text(
+        '$label${isRequired ? ' *' : ''}',
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+      ),
       const SizedBox(height: 8),
       GestureDetector(
         onTap: onTap,
@@ -362,7 +389,10 @@ class _PhotoUploadField extends StatelessWidget {
               children: [
                 const Icon(Icons.edit, color: Colors.white, size: 16),
                 const SizedBox(width: 4),
-                Text(context.l10n.changeDocumentPhoto, style: const TextStyle(color: Colors.white, fontSize: 12)),
+                Text(
+                  context.l10n.changeDocumentPhoto,
+                  style: const TextStyle(color: Colors.white, fontSize: 12),
+                ),
               ],
             ),
           ),
@@ -388,7 +418,10 @@ class _RequiredCountryNotice extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(16),
-    decoration: const BoxDecoration(color: CpColors.blackGreyColor, borderRadius: BorderRadius.all(Radius.circular(8))),
+    decoration: const BoxDecoration(
+      color: CpColors.blackGreyColor,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    ),
     child: Row(
       children: [
         Icon(Icons.info_outline, color: Colors.white.withOpacity(0.7), size: 20),

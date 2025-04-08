@@ -28,8 +28,16 @@ void reportWebViewError(dynamic error) {
   );
 }
 
-void logMessage({required String message, required Map<String, dynamic>? data, SentryLevel level = SentryLevel.info}) {
-  Sentry.captureMessage(message, level: level, withScope: (scope) => scope.setContexts('data', data ?? {}));
+void logMessage({
+  required String message,
+  required Map<String, dynamic>? data,
+  SentryLevel level = SentryLevel.info,
+}) {
+  Sentry.captureMessage(
+    message,
+    level: level,
+    withScope: (scope) => scope.setContexts('data', data ?? {}),
+  );
 }
 
 extension DioErrorExt on DioException {

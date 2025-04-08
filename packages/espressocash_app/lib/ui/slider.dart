@@ -62,7 +62,9 @@ class _CpSliderState extends State<CpSlider> with SingleTickerProviderStateMixin
   }
 
   void _reverseListener() {
-    _positionNotifier.value = _reverseAnimationController.value.let(_curve.transform).let(_reverseAnimation.transform);
+    _positionNotifier.value = _reverseAnimationController.value
+        .let(_curve.transform)
+        .let(_reverseAnimation.transform);
   }
 
   void _statusListener(AnimationStatus status) {
@@ -185,7 +187,11 @@ class _SlideBarState extends State<_SlideBar> {
   Widget build(BuildContext context) => SizedBox(
     width: _maxBarWidth,
     height: _maxBarHeight,
-    child: Assets.rive.slider.rive(fit: BoxFit.contain, alignment: Alignment.centerLeft, onInit: _onInit),
+    child: Assets.rive.slider.rive(
+      fit: BoxFit.contain,
+      alignment: Alignment.centerLeft,
+      onInit: _onInit,
+    ),
   );
 }
 

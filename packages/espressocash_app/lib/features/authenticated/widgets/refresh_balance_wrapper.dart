@@ -28,19 +28,20 @@ class RefreshBalancesWrapper extends StatefulWidget {
 }
 
 class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
-  AsyncResult<void> _listenForProcessingStateAndThrowOnError(Stream<ProcessingState> stream) => stream
-      .firstWhere(
-        (state) => switch (state) {
-          ProcessingStateProcessing() => false,
-          ProcessingStateError() || ProcessingStateNone() => true,
-        },
-      )
-      .then(
-        (s) => switch (s) {
-          ProcessingStateError(:final e) => Either.left(e),
-          _ => const Either.right(null),
-        },
-      );
+  AsyncResult<void> _listenForProcessingStateAndThrowOnError(Stream<ProcessingState> stream) =>
+      stream
+          .firstWhere(
+            (state) => switch (state) {
+              ProcessingStateProcessing() => false,
+              ProcessingStateError() || ProcessingStateNone() => true,
+            },
+          )
+          .then(
+            (s) => switch (s) {
+              ProcessingStateError(:final e) => Either.left(e),
+              _ => const Either.right(null),
+            },
+          );
 
   AsyncResult<void> _updateConversionRates() async {
     final tokens = await sl<TokenBalancesRepository>().readUserTokens();
@@ -73,20 +74,25 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
     _onPulledToRefreshBalances();
   }
 
-  Future<void> _onRefreshWithErrorHandling(BuildContext context) => _onPulledToRefreshBalances().doOnLeftAsync((error) {
-    if (error is BalancesRequestException) {
-      _showFetchBalancesErrorToast(context);
-    } else {
-      _logger.severe('Failed to update', error);
-    }
-  });
+  Future<void> _onRefreshWithErrorHandling(BuildContext context) =>
+      _onPulledToRefreshBalances().doOnLeftAsync((error) {
+        if (error is BalancesRequestException) {
+          _showFetchBalancesErrorToast(context);
+        } else {
+          _logger.severe('Failed to update', error);
+        }
+      });
 
   @override
-  Widget build(BuildContext context) => widget.builder(context, () => _onRefreshWithErrorHandling(context));
+  Widget build(BuildContext context) =>
+      widget.builder(context, () => _onRefreshWithErrorHandling(context));
 }
 
-void _showFetchBalancesErrorToast(BuildContext context) =>
-    showCpSnackbar(context, message: context.l10n.balances_lblConnectionError, icon: Assets.icons.toastWarning.image());
+void _showFetchBalancesErrorToast(BuildContext context) => showCpSnackbar(
+  context,
+  message: context.l10n.balances_lblConnectionError,
+  icon: Assets.icons.toastWarning.image(),
+);
 
 void _showConversionRatesFetchErrorToast(BuildContext context) => showCpSnackbar(
   context,

@@ -65,7 +65,12 @@ enum RampPartner {
     partnerPK: '342yN5YEX6bgGaTCuprVquFXhpZ8twyPzBo5kMZWQpDQ',
   );
 
-  const RampPartner({required this.title, required this.minimumAmount, required this.paymentMethods, this.partnerPK});
+  const RampPartner({
+    required this.title,
+    required this.minimumAmount,
+    required this.paymentMethods,
+    this.partnerPK,
+  });
 
   final String title;
   final String minimumAmount;

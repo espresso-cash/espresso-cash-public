@@ -14,6 +14,10 @@ final onRampPartnerSelectScreen = Story(
   builder:
       (context) => RampPartnerSelectScreen(
         onPartnerSelected: ignore,
-        type: context.knobs.options(label: 'Type', options: RampType.values.toOptions(), initial: RampType.onRamp),
+        type: context.knobs.options(
+          label: 'Type',
+          options: RampType.values.toOptions(),
+          initial: RampType.onRamp,
+        ),
       ),
 );

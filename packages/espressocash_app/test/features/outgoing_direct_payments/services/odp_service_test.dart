@@ -43,7 +43,10 @@ Future<void> main() async {
   });
 
   final stubTx = await Message.only(MemoInstruction(signers: const [], memo: 'test'))
-      .compile(recentBlockhash: 'EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N', feePayer: account.publicKey)
+      .compile(
+        recentBlockhash: 'EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N',
+        feePayer: account.publicKey,
+      )
       .let(
         (it) async => SignedTx(
           compiledMessage: it,
@@ -52,11 +55,19 @@ Future<void> main() async {
       )
       .then((it) => it.encode());
 
-  final testApiResponse = CreateDirectPaymentResponseDto(fee: 100, transaction: stubTx, slot: BigInt.zero);
+  final testApiResponse = CreateDirectPaymentResponseDto(
+    fee: 100,
+    transaction: stubTx,
+    slot: BigInt.zero,
+  );
 
-  const testAmount = CryptoAmount(value: 100000000, cryptoCurrency: CryptoCurrency(token: Token.usdc));
+  const testAmount = CryptoAmount(
+    value: 100000000,
+    cryptoCurrency: CryptoCurrency(token: Token.usdc),
+  );
 
-  ODPService createService() => ODPService(client, repository, sender, const StubAnalyticsManager());
+  ODPService createService() =>
+      ODPService(client, repository, sender, const StubAnalyticsManager());
 
   Future<String> createODP(ODPService service) async {
     final payment = await service.create(
@@ -95,7 +106,9 @@ Future<void> main() async {
     );
 
     verify(sender.send(any, minContextSlot: anyNamed('minContextSlot'))).called(1);
-    verify(sender.wait(any, minContextSlot: anyNamed('minContextSlot'), txType: anyNamed('txType'))).called(1);
+    verify(
+      sender.wait(any, minContextSlot: anyNamed('minContextSlot'), txType: anyNamed('txType')),
+    ).called(1);
   });
 
   test('Failed to get tx from API', () async {
@@ -109,11 +122,15 @@ Future<void> main() async {
 
     await expectLater(
       payment,
-      emitsInOrder([isA<OutgoingDirectPayment>().having((it) => it.status, 'status', isA<ODPStatusTxFailure>())]),
+      emitsInOrder([
+        isA<OutgoingDirectPayment>().having((it) => it.status, 'status', isA<ODPStatusTxFailure>()),
+      ]),
     );
 
     verifyNever(sender.send(any, minContextSlot: anyNamed('minContextSlot')));
-    verifyNever(sender.wait(any, minContextSlot: anyNamed('minContextSlot'), txType: anyNamed('txType')));
+    verifyNever(
+      sender.wait(any, minContextSlot: anyNamed('minContextSlot'), txType: anyNamed('txType')),
+    );
   });
 }
 

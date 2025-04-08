@@ -22,7 +22,10 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
   Future<void> _onImageButtonPressed(BuildContext context, ImageSource source) async {
     Navigator.of(context).pop();
     try {
-      final pickedFile = await _picker.pickImage(source: source, preferredCameraDevice: CameraDevice.front);
+      final pickedFile = await _picker.pickImage(
+        source: source,
+        preferredCameraDevice: CameraDevice.front,
+      );
       if (pickedFile != null && mounted) {
         widget.onChanged(File(pickedFile.path));
       }
@@ -31,15 +34,16 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
     }
   }
 
-  Widget _getListItem(BuildContext context, String title, Icon icon, VoidCallback onClicked) => ListTile(
-    leading: icon,
-    title: Text(
-      title,
-      textAlign: TextAlign.left,
-      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black),
-    ),
-    onTap: onClicked,
-  );
+  Widget _getListItem(BuildContext context, String title, Icon icon, VoidCallback onClicked) =>
+      ListTile(
+        leading: icon,
+        title: Text(
+          title,
+          textAlign: TextAlign.left,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black),
+        ),
+        onTap: onClicked,
+      );
 
   void _showPicker(BuildContext context) {
     showModalBottomSheet<void>(

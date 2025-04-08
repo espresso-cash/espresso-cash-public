@@ -65,7 +65,9 @@ class TxUpdater implements Disposable {
       commitment: Commitment.confirmed,
     );
 
-    final txs = await Future.wait(details.map((it) => it.toFetched(usdcTokenAccount, Token.usdc.address)));
+    final txs = await Future.wait(
+      details.map((it) => it.toFetched(usdcTokenAccount, Token.usdc.address)),
+    );
     final hasGap = mostRecentTxId != null && txs.length == _usdcFetchLimit;
 
     return (txs: txs.whereNotNull().toList(), hasGap: hasGap);
@@ -74,7 +76,8 @@ class TxUpdater implements Disposable {
   Future<TransactionUpdateResult> _fetchNonUsdcTransactions(String? mostRecentTxId) async {
     final tokenAccounts = await _getAllTokenAccounts(_wallet.publicKey);
 
-    final nonUsdcTokenAccounts = tokenAccounts.where((account) => account.mintAddress != Token.usdc.address).toList();
+    final nonUsdcTokenAccounts =
+        tokenAccounts.where((account) => account.mintAddress != Token.usdc.address).toList();
 
     final allAddresses = [_wallet.publicKey, ...nonUsdcTokenAccounts.map((a) => a.account)];
 
@@ -111,7 +114,10 @@ class TxUpdater implements Disposable {
     final txsByAddress = details.groupListsBy((detail) {
       final tx = SignedTx.fromBytes((detail.transaction as RawTransaction).data);
 
-      return tx.compiledMessage.accountKeys.firstWhere(allAddresses.contains, orElse: () => _wallet.publicKey);
+      return tx.compiledMessage.accountKeys.firstWhere(
+        allAddresses.contains,
+        orElse: () => _wallet.publicKey,
+      );
     });
 
     final hasGap = txsByAddress.values.any((txs) => txs.length >= _tokensFetchLimit);
@@ -119,7 +125,8 @@ class TxUpdater implements Disposable {
     return (txs: uniqueTxs, hasGap: mostRecentTxId != null && hasGap);
   }
 
-  Future<List<_TokenAccountInfo>> _getAllTokenAccounts(Ed25519HDPublicKey owner) => _client.rpcClient
+  Future<List<_TokenAccountInfo>> _getAllTokenAccounts(Ed25519HDPublicKey owner) => _client
+      .rpcClient
       .getTokenAccountsByOwner(
         owner.toBase58(),
         encoding: Encoding.base64,
@@ -164,7 +171,10 @@ extension on TransactionDetails {
       return null;
     }
 
-    int? getTokenBalanceDifference(List<TokenBalance>? preBalances, List<TokenBalance>? postBalances) {
+    int? getTokenBalanceDifference(
+      List<TokenBalance>? preBalances,
+      List<TokenBalance>? postBalances,
+    ) {
       final preBalance =
           preBalances
               ?.firstWhereOrNull((e) => e.mint == tokenAddress && e.accountIndex == accountIndex)

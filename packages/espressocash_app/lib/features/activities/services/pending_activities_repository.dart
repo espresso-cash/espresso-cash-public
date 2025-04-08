@@ -34,7 +34,8 @@ class PendingActivitiesRepository {
   Stream<IList<Activity>> watchAll() {
     final opr = _db.select(_db.paymentRequestRows)
       ..where((tbl) => tbl.state.equalsValue(PaymentRequestStateDto.completed).not());
-    final odp = _db.select(_db.oDPRows)..where((tbl) => tbl.status.equalsValue(ODPStatusDto.success).not());
+    final odp = _db.select(_db.oDPRows)
+      ..where((tbl) => tbl.status.equalsValue(ODPStatusDto.success).not());
     final olp =
         _db.select(_db.oLPRows)
           ..where((tbl) => tbl.status.equalsValue(OLPStatusDto.withdrawn).not())
@@ -45,11 +46,17 @@ class PendingActivitiesRepository {
 
     final oprStream = opr.watch().map((rows) => rows.map((r) => r.toActivity()));
 
-    final odpStream = odp.watch().asyncMap((rows) async => Future.wait(rows.map((r) => r.toActivity())));
+    final odpStream = odp.watch().asyncMap(
+      (rows) async => Future.wait(rows.map((r) => r.toActivity())),
+    );
 
-    final olpStream = olp.watch().asyncMap((rows) async => Future.wait(rows.map((r) => r.toActivity())));
+    final olpStream = olp.watch().asyncMap(
+      (rows) async => Future.wait(rows.map((r) => r.toActivity())),
+    );
 
-    final outgoingDlnStream = outgoingDlnPayment.watch().map((rows) => rows.map((r) => r.toActivity()));
+    final outgoingDlnStream = outgoingDlnPayment.watch().map(
+      (rows) => rows.map((r) => r.toActivity()),
+    );
 
     final onRampStream = _onRampOrderService.watchPending().map(
       (rows) => rows.map((it) => Activity.onRamp(id: it.id, created: it.created)),
@@ -66,7 +73,16 @@ class PendingActivitiesRepository {
     );
 
     return Rx.combineLatest<Iterable<Activity>, IList<Activity>>(
-      [oprStream, odpStream, onRampStream, outgoingDlnStream, olpStream, offRampStream, trStream, pendingKycStream],
+      [
+        oprStream,
+        odpStream,
+        onRampStream,
+        outgoingDlnStream,
+        olpStream,
+        offRampStream,
+        trStream,
+        pendingKycStream,
+      ],
       (values) => values.expand(identity).toIList().sortOrdered((a, b) {
         if (a is KycActivity) return -1;
         if (b is KycActivity) return 1;

@@ -42,14 +42,18 @@ class ILPRepository implements Disposable {
   @override
   Future<void> onDispose() => _db.delete(_db.iLPRows).go();
 
-  Stream<IList<IncomingLinkPayment>> watchTxCreated() => _watchWithStatuses([ILPStatusDto.txCreated]);
+  Stream<IList<IncomingLinkPayment>> watchTxCreated() =>
+      _watchWithStatuses([ILPStatusDto.txCreated]);
 
   Stream<IList<IncomingLinkPayment>> watchTxSent() => _watchWithStatuses([ILPStatusDto.txSent]);
 
   Stream<IList<IncomingLinkPayment>> _watchWithStatuses(Iterable<ILPStatusDto> statuses) {
     final query = _db.select(_db.iLPRows)..where((p) => p.status.isInValues(statuses));
 
-    return query.watch().asyncMap((rows) => Future.wait(rows.map((row) => row.toModel()))).map((it) => it.lock);
+    return query
+        .watch()
+        .asyncMap((rows) => Future.wait(rows.map((row) => row.toModel())))
+        .map((it) => it.lock);
   }
 }
 
@@ -90,9 +94,14 @@ extension on ILPStatusDto {
 
         return ILPStatus.success(
           tx: tx ?? StubSignedTx(txId!),
-          fee: feeAmount != null ? CryptoAmount(value: feeAmount, cryptoCurrency: Currency.usdc) : null,
+          fee:
+              feeAmount != null
+                  ? CryptoAmount(value: feeAmount, cryptoCurrency: Currency.usdc)
+                  : null,
           receiveAmount:
-              receiveAmount != null ? CryptoAmount(value: receiveAmount, cryptoCurrency: Currency.usdc) : null,
+              receiveAmount != null
+                  ? CryptoAmount(value: receiveAmount, cryptoCurrency: Currency.usdc)
+                  : null,
         );
       case ILPStatusDto.txFailure:
         return ILPStatus.txFailure(reason: row.txFailureReason ?? TxFailureReason.unknown);

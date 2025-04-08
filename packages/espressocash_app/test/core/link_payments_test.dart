@@ -19,7 +19,9 @@ void main() {
 
   test('Invalid link ', () {
     expect(
-      LinkPayment.tryParse(Uri.parse('https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v4')),
+      LinkPayment.tryParse(
+        Uri.parse('https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v4'),
+      ),
       isNull,
     );
   });

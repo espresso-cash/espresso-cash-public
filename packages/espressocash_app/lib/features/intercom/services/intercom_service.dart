@@ -17,7 +17,11 @@ class IntercomService implements Disposable {
   @FactoryMethod(preResolve: true)
   static Future<IntercomService> create(ECWallet account) async {
     if (_instance == null) {
-      await Intercom.instance.initialize(intercomAppId, iosApiKey: intercomIosKey, androidApiKey: intercomAndroidKey);
+      await Intercom.instance.initialize(
+        intercomAppId,
+        iosApiKey: intercomIosKey,
+        androidApiKey: intercomAndroidKey,
+      );
     }
 
     final IntercomService instance = _instance ??= const IntercomService._();

@@ -120,7 +120,11 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
         placeholder: context.l10n.firstName,
       ),
       const SizedBox(height: 10),
-      KycTextField(controller: _lastNameController, inputType: TextInputType.name, placeholder: context.l10n.lastName),
+      KycTextField(
+        controller: _lastNameController,
+        inputType: TextInputType.name,
+        placeholder: context.l10n.lastName,
+      ),
       const SizedBox(height: 10),
       CpDobTextField(controller: _dobController, placeholder: context.l10n.dateOfBirth),
       const SizedBox(height: 10),

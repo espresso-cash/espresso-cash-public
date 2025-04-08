@@ -81,7 +81,9 @@ class TxSender {
         minContextSlot: minContextSlot.toInt(),
       );
 
-      final statuses = await _client.rpcClient.getSignatureStatuses([tx.id], searchTransactionHistory: true);
+      final statuses = await _client.rpcClient.getSignatureStatuses([
+        tx.id,
+      ], searchTransactionHistory: true);
       final t = statuses.value.first;
 
       if (t == null) {
@@ -213,9 +215,9 @@ class TxSender {
       }
     }
 
-    final polling = Stream<void>.periodic(
-      const Duration(seconds: 10),
-    ).startWith(null).exhaustMap((_) => getSignatureStatus(sentryTx).asStream().onErrorReturn(null));
+    final polling = Stream<void>.periodic(const Duration(seconds: 10))
+        .startWith(null)
+        .exhaustMap((_) => getSignatureStatus(sentryTx).asStream().onErrorReturn(null));
 
     return MergeStream([
       polling,

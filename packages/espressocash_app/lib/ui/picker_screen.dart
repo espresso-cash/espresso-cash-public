@@ -189,14 +189,21 @@ class _ContentState<T> extends State<_Content<T>> {
         if (filteredItems.isEmpty)
           Expanded(
             child: Center(
-              child: Text(context.l10n.noResultsFound, style: const TextStyle(color: Colors.white, fontSize: 16)),
+              child: Text(
+                context.l10n.noResultsFound,
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+              ),
             ),
           )
         else
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
-              padding: EdgeInsets.only(left: 20, right: 20, bottom: MediaQuery.paddingOf(context).bottom),
+              padding: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                bottom: MediaQuery.paddingOf(context).bottom,
+              ),
               itemCount: filteredItems.length,
               itemExtent: _tileHeight,
               itemBuilder: (BuildContext context, int index) {
@@ -206,7 +213,10 @@ class _ContentState<T> extends State<_Content<T>> {
                 return DecoratedBox(
                   decoration:
                       selected
-                          ? const ShapeDecoration(color: CpColors.blackTextFieldBackgroundColor, shape: StadiumBorder())
+                          ? const ShapeDecoration(
+                            color: CpColors.blackTextFieldBackgroundColor,
+                            shape: StadiumBorder(),
+                          )
                           : const BoxDecoration(),
                   child: ListTile(
                     dense: true,

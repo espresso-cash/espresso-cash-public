@@ -89,12 +89,20 @@ class OLPService implements Disposable {
         .listen((payment) => payment.let(_repository.save));
   }
 
-  Future<OutgoingLinkPayment> create({required CryptoAmount amount, required ECWallet account}) async {
+  Future<OutgoingLinkPayment> create({
+    required CryptoAmount amount,
+    required ECWallet account,
+  }) async {
     final status = await _createTx(amount: amount, account: account);
 
     final id = const Uuid().v4();
 
-    final payment = OutgoingLinkPayment(id: id, amount: amount, created: DateTime.now(), status: status);
+    final payment = OutgoingLinkPayment(
+      id: id,
+      amount: amount,
+      created: DateTime.now(),
+      status: status,
+    );
 
     await _repository.save(payment);
     _subscribe(id);
@@ -102,14 +110,20 @@ class OLPService implements Disposable {
     return payment;
   }
 
-  Future<OutgoingLinkPayment> cancel(OutgoingLinkPayment payment, {required ECWallet account}) async {
+  Future<OutgoingLinkPayment> cancel(
+    OutgoingLinkPayment payment, {
+    required ECWallet account,
+  }) async {
     final status = payment.status;
 
     final OLPStatus newStatus;
     if (status is OLPStatusTxFailure) {
       newStatus = OLPStatus.canceled(txId: null, timestamp: DateTime.now());
     } else {
-      final escrow = status.mapOrNull(linkReady: (it) => it.escrow, cancelTxFailure: (it) => it.escrow);
+      final escrow = status.mapOrNull(
+        linkReady: (it) => it.escrow,
+        cancelTxFailure: (it) => it.escrow,
+      );
 
       if (escrow == null) {
         return payment;
@@ -146,7 +160,10 @@ class OLPService implements Disposable {
     }
   }
 
-  Future<OLPStatus> _createCancelTx({required Ed25519HDKeyPair escrow, required ECWallet account}) async {
+  Future<OLPStatus> _createCancelTx({
+    required Ed25519HDKeyPair escrow,
+    required ECWallet account,
+  }) async {
     final privateKey = await EscrowPrivateKey.fromKeyPair(escrow);
 
     try {
@@ -180,11 +197,14 @@ class OLPService implements Disposable {
 
       _analyticsManager.singleLinkCreated(amount: payment.amount.decimal);
 
-      return payment.copyWith(status: OLPStatus.txSent(tx, escrow: status.escrow, signature: signature));
+      return payment.copyWith(
+        status: OLPStatus.txSent(tx, escrow: status.escrow, signature: signature),
+      );
     } on Exception catch (error) {
       TxFailureReason reason = TxFailureReason.creatingFailure;
 
-      if (error is DioException && error.toEspressoCashError() == EspressoCashError.insufficientFunds) {
+      if (error is DioException &&
+          error.toEspressoCashError() == EspressoCashError.insufficientFunds) {
         reason = TxFailureReason.insufficientFunds;
       }
 
@@ -227,10 +247,15 @@ class OLPService implements Disposable {
           .submitDurableTx(SubmitDurableTxRequestDto(tx: tx.encode()))
           .then((e) => e.signature);
 
-      return payment.copyWith(status: OLPStatus.cancelTxSent(tx, escrow: status.escrow, signature: signature));
+      return payment.copyWith(
+        status: OLPStatus.cancelTxSent(tx, escrow: status.escrow, signature: signature),
+      );
     } on Exception {
       return payment.copyWith(
-        status: OLPStatus.cancelTxFailure(reason: TxFailureReason.creatingFailure, escrow: status.escrow),
+        status: OLPStatus.cancelTxFailure(
+          reason: TxFailureReason.creatingFailure,
+          escrow: status.escrow,
+        ),
       );
     }
   }
@@ -248,7 +273,9 @@ class OLPService implements Disposable {
 
     _refreshBalance();
 
-    return payment.copyWith(status: OLPStatus.canceled(txId: status.signature, timestamp: DateTime.now()));
+    return payment.copyWith(
+      status: OLPStatus.canceled(txId: status.signature, timestamp: DateTime.now()),
+    );
   }
 
   @override

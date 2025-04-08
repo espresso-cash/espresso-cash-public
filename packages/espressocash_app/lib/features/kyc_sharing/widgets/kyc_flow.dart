@@ -24,11 +24,20 @@ import '../utils/kyc_utils.dart';
 
 typedef KycStepFunction = Future<bool?> Function(BuildContext ctx);
 
-const List<KycStepFunction> kycSteps = [PersonalInformationScreen.push, IdentityVerificationScreen.push];
+const List<KycStepFunction> kycSteps = [
+  PersonalInformationScreen.push,
+  IdentityVerificationScreen.push,
+];
 
-const List<KycStepFunction> emailSteps = [EmailVerificationScreen.push, EmailConfirmationScreen.push];
+const List<KycStepFunction> emailSteps = [
+  EmailVerificationScreen.push,
+  EmailConfirmationScreen.push,
+];
 
-const List<KycStepFunction> phoneSteps = [PhoneVerificationScreen.push, PhoneConfirmationScreen.push];
+const List<KycStepFunction> phoneSteps = [
+  PhoneVerificationScreen.push,
+  PhoneConfirmationScreen.push,
+];
 
 List<KycStepFunction> documentSteps({required KycRequirement requirement}) => [
   (BuildContext ctx) => DocumentInputScreen.push(ctx, requirement: requirement),
@@ -95,7 +104,9 @@ extension KycFlowExtension on BuildContext {
     }
 
     if (kycStatus != KycValidationStatus.approved) {
-      if (!await _navigateToScreen((BuildContext ctx) => KycStatusScreen.push(ctx, country: countryCode))) {
+      if (!await _navigateToScreen(
+        (BuildContext ctx) => KycStatusScreen.push(ctx, country: countryCode),
+      )) {
         return false;
       }
     }

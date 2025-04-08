@@ -27,8 +27,9 @@ class ScalexRepository {
       )
       .then((p) => p.signedUrl);
 
-  Future<ScalexOrderStatus> fetchStatus(String referenceId) =>
-      _client.fetchScalexTransaction(OrderStatusScalexRequestDto(referenceId: referenceId)).then((it) => it.status);
+  Future<ScalexOrderStatus> fetchStatus(String referenceId) => _client
+      .fetchScalexTransaction(OrderStatusScalexRequestDto(referenceId: referenceId))
+      .then((it) => it.status);
 
   Future<ScalexRateFeeResponseDto> fetchRateAndFee() => _client.fetchScalexFeesAndRate();
 }

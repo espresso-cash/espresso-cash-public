@@ -64,5 +64,6 @@ class AmountDto with _$AmountDto {
 class OrderStatusResponseDto with _$OrderStatusResponseDto {
   const factory OrderStatusResponseDto({OrderDataDto? data}) = _OrderStatusResponseDto;
 
-  factory OrderStatusResponseDto.fromJson(Map<String, dynamic> json) => _$OrderStatusResponseDtoFromJson(json);
+  factory OrderStatusResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$OrderStatusResponseDtoFromJson(json);
 }

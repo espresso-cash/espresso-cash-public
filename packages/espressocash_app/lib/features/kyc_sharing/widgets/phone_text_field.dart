@@ -84,7 +84,10 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                       ),
                     ),
                     Expanded(
-                      child: Text(country.name, style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white)),
+                      child: Text(
+                        country.name,
+                        style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white),
+                      ),
                     ),
                   ],
                 ),

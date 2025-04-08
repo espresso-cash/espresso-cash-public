@@ -49,7 +49,10 @@ class AmountWithEquivalent extends StatelessWidget {
         children: [
           Shake(
             key: shakeKey,
-            child: _InputDisplay(input: value.text, fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80)),
+            child: _InputDisplay(
+              input: value.text,
+              fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
+            ),
           ),
           if (!collapsed)
             Container(
@@ -69,7 +72,11 @@ class AmountWithEquivalent extends StatelessWidget {
                         backgroundColor: CpColors.alertRedColor,
                       ),
                       (true, false, true) => const _InfoChip(),
-                      _ => _EquivalentDisplay(input: value.text, token: token, backgroundColor: Colors.black),
+                      _ => _EquivalentDisplay(
+                        input: value.text,
+                        token: token,
+                        backgroundColor: Colors.black,
+                      ),
                     },
                   ],
                 ),
@@ -121,7 +128,11 @@ class _EquivalentDisplay extends StatelessWidget {
           ),
           TextSpan(
             text: ' ${token.symbol.toUpperCase()}',
-            style: const TextStyle(color: CpColors.yellowColor, fontSize: 15, fontWeight: FontWeight.w700),
+            style: const TextStyle(
+              color: CpColors.yellowColor,
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),
@@ -133,7 +144,12 @@ class _EquivalentDisplay extends StatelessWidget {
 }
 
 class _DisplayChip extends StatelessWidget {
-  const _DisplayChip({super.key, required this.shouldDisplay, required this.value, this.backgroundColor});
+  const _DisplayChip({
+    super.key,
+    required this.shouldDisplay,
+    required this.value,
+    this.backgroundColor,
+  });
 
   final bool shouldDisplay;
   final String value;

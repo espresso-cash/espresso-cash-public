@@ -10,8 +10,9 @@ import '../widgets/pin_input_display_widget.dart';
 class AppLockEnableScreen extends StatefulWidget {
   const AppLockEnableScreen({super.key});
 
-  static void push(BuildContext context) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => const AppLockEnableScreen()));
+  static void push(BuildContext context) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => const AppLockEnableScreen()));
 
   @override
   State<AppLockEnableScreen> createState() => _AppLockEnableScreenState();
@@ -34,7 +35,8 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
     }
   }
 
-  String get _instructions => _firstPass == null ? context.l10n.enterPasscode : context.l10n.reEnterPasscode;
+  String get _instructions =>
+      _firstPass == null ? context.l10n.enterPasscode : context.l10n.reEnterPasscode;
 
   @override
   Widget build(BuildContext context) => DecoratedWindow(

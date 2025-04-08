@@ -23,9 +23,9 @@ import '../widgets/security_section.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(
-    context,
-  ).push<void>(MaterialPageRoute(fullscreenDialog: true, builder: (context) => const ProfileScreen()));
+  static void push(BuildContext context) => Navigator.of(context).push<void>(
+    MaterialPageRoute(fullscreenDialog: true, builder: (context) => const ProfileScreen()),
+  );
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -38,7 +38,11 @@ class ProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(left: _buttonSpacing, top: _buttonSpacing, right: _buttonSpacing),
+                padding: const EdgeInsets.only(
+                  left: _buttonSpacing,
+                  top: _buttonSpacing,
+                  right: _buttonSpacing,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +58,9 @@ class ProfileScreen extends StatelessWidget {
                               builder:
                                   (context, child) => CpUserAvatar(
                                     radius: _imageSize / 2,
-                                    image: sl<ProfileRepository>().photoPath?.let((it) => FileImage(File(it))),
+                                    image: sl<ProfileRepository>().photoPath?.let(
+                                      (it) => FileImage(File(it)),
+                                    ),
                                     userName: sl<ProfileRepository>().initials.ifEmpty(() => 'MW'),
                                   ),
                             ),
@@ -85,7 +91,8 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 24),
                     ListenableBuilder(
                       listenable: sl<ProfileRepository>(),
-                      builder: (context, child) => _QrCodeWidget(address: sl<MyAccount>().publicKey),
+                      builder:
+                          (context, child) => _QrCodeWidget(address: sl<MyAccount>().publicKey),
                     ),
                     const SizedBox(height: 12),
                   ],
@@ -150,7 +157,10 @@ class _QrCodeWidget extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.zero,
-                  child: Text(address.toBase58(), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                  child: Text(
+                    address.toBase58(),
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
                 ),
               ),
             ],

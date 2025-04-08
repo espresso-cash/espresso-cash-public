@@ -12,7 +12,12 @@ import '../widgets/kyc_listener.dart';
 import '../widgets/kyc_page.dart';
 
 class KycStatusScreen extends StatelessWidget {
-  const KycStatusScreen({super.key, this.onAddCashPressed, this.onCashOutPressed, required this.country});
+  const KycStatusScreen({
+    super.key,
+    this.onAddCashPressed,
+    this.onCashOutPressed,
+    required this.country,
+  });
 
   final VoidCallback? onAddCashPressed;
   final VoidCallback? onCashOutPressed;
@@ -96,7 +101,9 @@ class KycStatusScreen extends StatelessWidget {
           ],
           const SizedBox(height: 16),
           const Spacer(),
-          if (status == KycValidationStatus.approved && onAddCashPressed != null && onCashOutPressed != null) ...[
+          if (status == KycValidationStatus.approved &&
+              onAddCashPressed != null &&
+              onCashOutPressed != null) ...[
             CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.ramp_btnAddCash,
@@ -143,4 +150,9 @@ class KycStatusScreen extends StatelessWidget {
   );
 }
 
-const _textStyle = TextStyle(color: Colors.white, fontSize: 16, height: 21 / 16, letterSpacing: .19);
+const _textStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 16,
+  height: 21 / 16,
+  letterSpacing: .19,
+);

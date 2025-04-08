@@ -55,7 +55,14 @@ typedef OffRampOrder =
 
 @Singleton(scope: authScope)
 class OffRampOrderService implements Disposable {
-  OffRampOrderService(this._account, this._client, this._sender, this._db, this._tokenRepository, this._analytics);
+  OffRampOrderService(
+    this._account,
+    this._client,
+    this._sender,
+    this._db,
+    this._tokenRepository,
+    this._analytics,
+  );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   final Map<String, RampWatcher?> _watchers = {};
@@ -69,8 +76,10 @@ class OffRampOrderService implements Disposable {
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
-    final query = _db.select(_db.offRampOrderRows)
-      ..where((tbl) => tbl.status.isNotInValues([OffRampOrderStatus.completed, OffRampOrderStatus.cancelled]));
+    final query = _db.select(_db.offRampOrderRows)..where(
+      (tbl) =>
+          tbl.status.isNotInValues([OffRampOrderStatus.completed, OffRampOrderStatus.cancelled]),
+    );
 
     final orders = await query.get();
 
@@ -98,7 +107,10 @@ class OffRampOrderService implements Disposable {
           ..where((tbl) => tbl.status.equalsValue(OffRampOrderStatus.cancelled).not())
           ..where((tbl) => tbl.status.equalsValue(OffRampOrderStatus.refunded).not());
 
-    return query.watch().map((rows) => rows.map((r) => (id: r.id, created: r.created))).map((rows) => rows.toIList());
+    return query
+        .watch()
+        .map((rows) => rows.map((r) => (id: r.id, created: r.created)))
+        .map((rows) => rows.toIList());
   }
 
   Stream<OffRampOrder> watch(String orderId) {
@@ -120,14 +132,21 @@ class OffRampOrderService implements Disposable {
       });
 
       final receiveAmount = row.receiveAmount?.let(
-        (it) => Amount(value: it, currency: currencyFromString(row.fiatSymbol ?? 'USD')) as FiatAmount,
+        (it) =>
+            Amount(value: it, currency: currencyFromString(row.fiatSymbol ?? 'USD')) as FiatAmount,
       );
 
-      final bridgeAmount = row.bridgeAmount?.let((it) => Amount(value: it, currency: Currency.usdc) as CryptoAmount);
+      final bridgeAmount = row.bridgeAmount?.let(
+        (it) => Amount(value: it, currency: Currency.usdc) as CryptoAmount,
+      );
 
-      final depositAddress = row.depositAddress.maybeWhere((it) => it.isNotEmpty)?.let(Ed25519HDPublicKey.fromBase58);
+      final depositAddress = row.depositAddress
+          .maybeWhere((it) => it.isNotEmpty)
+          ?.let(Ed25519HDPublicKey.fromBase58);
 
-      final refundAmount = row.refundAmount?.let((it) => CryptoAmount(value: it, cryptoCurrency: Currency.usdc));
+      final refundAmount = row.refundAmount?.let(
+        (it) => CryptoAmount(value: it, cryptoCurrency: Currency.usdc),
+      );
 
       return (
         id: row.id,
@@ -159,15 +178,21 @@ class OffRampOrderService implements Disposable {
 
     switch (order.status) {
       case OffRampOrderStatus.depositTxRequired:
-        await updateQuery.write(const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.creatingDepositTx)));
+        await updateQuery.write(
+          const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.creatingDepositTx)),
+        );
       case OffRampOrderStatus.depositError:
       case OffRampOrderStatus.depositTxConfirmError:
       case OffRampOrderStatus.insufficientFunds:
         final tx = order.transaction;
         if (tx.isEmpty) {
-          await updateQuery.write(const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.creatingDepositTx)));
+          await updateQuery.write(
+            const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.creatingDepositTx)),
+          );
         } else {
-          await updateQuery.write(const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.sendingDepositTx)));
+          await updateQuery.write(
+            const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.sendingDepositTx)),
+          );
         }
       case OffRampOrderStatus.creatingDepositTx:
       case OffRampOrderStatus.depositTxReady:
@@ -244,7 +269,10 @@ class OffRampOrderService implements Disposable {
         partnerOrderId: partnerOrderId,
         transaction: transaction?.$1.encode() ?? '',
         slot: transaction?.$2 ?? BigInt.zero,
-        status: transaction == null ? OffRampOrderStatus.depositTxRequired : OffRampOrderStatus.depositTxReady,
+        status:
+            transaction == null
+                ? OffRampOrderStatus.depositTxRequired
+                : OffRampOrderStatus.depositTxReady,
         depositAddress: depositAddress,
         partner: partner,
         receiveAmount: receiveAmount?.value,
@@ -311,7 +339,8 @@ class OffRampOrderService implements Disposable {
   }
 
   void _subscribe(String orderId) {
-    _subscriptions[orderId] = (_db.select(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(orderId)))
+    _subscriptions[orderId] = (_db.select(_db.offRampOrderRows)
+          ..where((tbl) => tbl.id.equals(orderId)))
         .watchSingle()
         .asyncExpand<OffRampOrderRowsCompanion>((order) {
           switch (order.status) {
@@ -328,14 +357,21 @@ class OffRampOrderService implements Disposable {
               return Stream.fromFuture(
                 order.partner == RampPartner.scalex
                     ? _createScalexTx(partnerOrderId: order.partnerOrderId)
-                    : _createTx(amount: _amount(order), receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress)),
-              ).onErrorReturn(const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositError)));
+                    : _createTx(
+                      amount: _amount(order),
+                      receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
+                    ),
+              ).onErrorReturn(
+                const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositError)),
+              );
             case OffRampOrderStatus.sendingDepositTx:
               final tx = SignedTx.decode(order.transaction).let((it) => (it, order.slot));
 
               return Stream.fromFuture(_sendTx(tx));
             case OffRampOrderStatus.depositTxReady:
-              return Stream.value(const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.sendingDepositTx)));
+              return Stream.value(
+                const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.sendingDepositTx)),
+              );
             case OffRampOrderStatus.cancelled:
             case OffRampOrderStatus.failure:
             case OffRampOrderStatus.processingRefund:
@@ -352,7 +388,11 @@ class OffRampOrderService implements Disposable {
               return const Stream.empty();
           }
         })
-        .listen((event) => (_db.update(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(orderId))).write(event));
+        .listen(
+          (event) =>
+              (_db.update(_db.offRampOrderRows)
+                ..where((tbl) => tbl.id.equals(orderId))).write(event),
+        );
   }
 
   @override
@@ -364,7 +404,9 @@ class OffRampOrderService implements Disposable {
 
   Future<CryptoAmount> _amount(OffRampOrderRow order) async => CryptoAmount(
     value: order.amount,
-    cryptoCurrency: CryptoCurrency(token: (await _tokenRepository.getToken(order.token)) ?? Token.unk),
+    cryptoCurrency: CryptoCurrency(
+      token: (await _tokenRepository.getToken(order.token)) ?? Token.unk,
+    ),
   );
 
   Future<OffRampOrderRowsCompanion> _createTx({
@@ -390,7 +432,10 @@ class OffRampOrderService implements Disposable {
     return _signAndUpdateRow(encodedTx: response.transaction, slot: response.slot);
   }
 
-  Future<OffRampOrderRowsCompanion> _signAndUpdateRow({required String encodedTx, required BigInt slot}) async {
+  Future<OffRampOrderRowsCompanion> _signAndUpdateRow({
+    required String encodedTx,
+    required BigInt slot,
+  }) async {
     final tx = await SignedTx.decode(encodedTx).let((it) => it.resign(_account));
 
     return OffRampOrderRowsCompanion(
@@ -447,9 +492,13 @@ class OffRampOrderService implements Disposable {
     resolvedAt: Value(DateTime.now()),
   );
 
-  static const _depositError = OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositTxConfirmError));
+  static const _depositError = OffRampOrderRowsCompanion(
+    status: Value(OffRampOrderStatus.depositTxConfirmError),
+  );
 
-  static const _processRefund = OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.processingRefund));
+  static const _processRefund = OffRampOrderRowsCompanion(
+    status: Value(OffRampOrderStatus.processingRefund),
+  );
 }
 
 extension OffRampOrderStatusExt on OffRampOrderStatus {

@@ -21,7 +21,8 @@ class QrScannerScreen extends StatelessWidget {
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const QrScannerScreen()));
 
   @override
-  Widget build(BuildContext context) => BlocProvider(create: (_) => sl<QrScannerBloc>(), child: const _Content());
+  Widget build(BuildContext context) =>
+      BlocProvider(create: (_) => sl<QrScannerBloc>(), child: const _Content());
 }
 
 class _Content extends StatefulWidget {
@@ -105,7 +106,8 @@ class _ContentState extends State<_Content> with CompositeSubscriptionController
       child: Scaffold(
         body: Stack(
           children: [
-            if (_cameraEnabled) QrScannerBackground(child: MobileScanner(key: _qrKey, controller: _qrViewController)),
+            if (_cameraEnabled)
+              QrScannerBackground(child: MobileScanner(key: _qrKey, controller: _qrViewController)),
             if (_cameraEnabled)
               Align(
                 alignment: const Alignment(0, -0.7),
@@ -114,7 +116,8 @@ class _ContentState extends State<_Content> with CompositeSubscriptionController
                   child: _flashEnabled ? Assets.images.flashOn.svg() : Assets.images.flashOff.svg(),
                 ),
               ),
-            if (!_cameraEnabled) const Align(alignment: Alignment(0, -0.3), child: _PermissionText()),
+            if (!_cameraEnabled)
+              const Align(alignment: Alignment(0, -0.3), child: _PermissionText()),
             Align(
               alignment: Alignment.topRight,
               child: IconButton(
@@ -144,7 +147,10 @@ class _PermissionText extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(context.l10n.qrCameraPermissionTitle, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          Text(
+            context.l10n.qrCameraPermissionTitle,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
           const SizedBox(height: 12),
           Text(
             context.l10n.qrCameraPermissionMessage,

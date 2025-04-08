@@ -12,7 +12,12 @@ import '../../currency/models/amount.dart';
 import '../widgets/merchant_logo_icon.dart';
 
 class TRConfirmationScreen extends StatelessWidget {
-  const TRConfirmationScreen({super.key, required this.request, required this.amount, this.message});
+  const TRConfirmationScreen({
+    super.key,
+    required this.request,
+    required this.amount,
+    this.message,
+  });
 
   static Future<bool?> push(
     BuildContext context, {
@@ -20,7 +25,10 @@ class TRConfirmationScreen extends StatelessWidget {
     required CryptoAmount amount,
     String? message,
   }) => Navigator.of(context).push<bool>(
-    MaterialPageRoute(builder: (context) => TRConfirmationScreen(request: request, amount: amount, message: message)),
+    MaterialPageRoute(
+      builder:
+          (context) => TRConfirmationScreen(request: request, amount: amount, message: message),
+    ),
   );
 
   final TransactionRequestInfo request;
@@ -45,7 +53,10 @@ class TRConfirmationScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 32),
                 child: MerchantLogoIcon(logoUrl: request.icon),
               ),
-              Text(request.label, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+              Text(
+                request.label,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              ),
               const SizedBox(height: 38),
               Text(
                 amount.format(context.locale, maxDecimals: 2),
@@ -87,7 +98,10 @@ class _Item extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       child: Row(
         children: [
-          Text(title, style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w600)),
+          Text(
+            title,
+            style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w600),
+          ),
           const SizedBox(width: 24),
           Expanded(child: Text(content)),
         ],

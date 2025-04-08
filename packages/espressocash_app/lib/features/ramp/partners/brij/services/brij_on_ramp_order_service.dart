@@ -59,7 +59,8 @@ class BrijOnRampOrderService implements Disposable {
   }
 
   void _subscribe(String orderId) {
-    _subscriptions[orderId] = (_db.select(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(orderId)))
+    _subscriptions[orderId] = (_db.select(_db.onRampOrderRows)
+          ..where((tbl) => tbl.id.equals(orderId)))
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
@@ -91,7 +92,11 @@ class BrijOnRampOrderService implements Disposable {
           }
         })
         .whereNotNull()
-        .listen((event) => (_db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(orderId))).write(event));
+        .listen(
+          (event) =>
+              (_db.update(_db.onRampOrderRows)
+                ..where((tbl) => tbl.id.equals(orderId))).write(event),
+        );
   }
 
   AsyncResult<String> create({
@@ -157,7 +162,9 @@ class BrijOnRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((_) async {
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((
+      _,
+    ) async {
       final statement = _db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
@@ -194,7 +201,9 @@ class BrijOnRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((_) async {
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((
+      _,
+    ) async {
       final statement = _db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);

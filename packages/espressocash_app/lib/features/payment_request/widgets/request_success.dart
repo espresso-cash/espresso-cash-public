@@ -62,18 +62,22 @@ class _RequestSuccessState extends State<RequestSuccess> {
             ),
             const Spacer(),
             if (widget.request.payRequest.invoice case final reference?)
-              Padding(padding: const EdgeInsets.only(bottom: 24.0), child: _InvoiceWidget(reference: reference)),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: _InvoiceWidget(reference: reference),
+              ),
           ],
         ),
       ),
     );
   }
 
-  CpTimelineItem _requestCreated(BuildContext context, AsyncSnapshot<CryptoAmount?> snapshot) => CpTimelineItem(
-    title: context.l10n.requestPaymentCreated,
-    trailing: snapshot.data.let((a) => a?.format(context.locale)),
-    subtitle: widget.request.created.let((t) => context.formatDate(t)),
-  );
+  CpTimelineItem _requestCreated(BuildContext context, AsyncSnapshot<CryptoAmount?> snapshot) =>
+      CpTimelineItem(
+        title: context.l10n.requestPaymentCreated,
+        trailing: snapshot.data.let((a) => a?.format(context.locale)),
+        subtitle: widget.request.created.let((t) => context.formatDate(t)),
+      );
 }
 
 class _InvoiceWidget extends StatelessWidget {

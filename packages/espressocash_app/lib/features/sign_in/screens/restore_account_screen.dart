@@ -45,7 +45,10 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
   Widget build(BuildContext context) => CpTheme.black(
     child: Scaffold(
       body: OnboardingScreen(
-        footer: OnboardingFooterButton(text: context.l10n.next, onPressed: _mnemonicIsValid ? _restoreAccount : null),
+        footer: OnboardingFooterButton(
+          text: context.l10n.next,
+          onPressed: _mnemonicIsValid ? _restoreAccount : null,
+        ),
         children: [
           const CpAppBar(),
           const OnboardingLogo(),

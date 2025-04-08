@@ -145,7 +145,10 @@ class _RecoveryNoticeContent extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: onClosePressed,
-                  child: SizedBox.square(dimension: 12, child: Assets.icons.closeButtonIcon.svg(color: Colors.white)),
+                  child: SizedBox.square(
+                    dimension: 12,
+                    child: Assets.icons.closeButtonIcon.svg(color: Colors.white),
+                  ),
                 ),
               ],
             ),

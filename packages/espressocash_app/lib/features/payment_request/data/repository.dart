@@ -26,12 +26,15 @@ class PaymentRequestRepository implements Disposable {
     return query.watchSingle().map((row) => row.toPaymentRequest());
   }
 
-  Future<void> save(PaymentRequest payment) => _db.into(_db.paymentRequestRows).insertOnConflictUpdate(payment.toRow());
+  Future<void> save(PaymentRequest payment) =>
+      _db.into(_db.paymentRequestRows).insertOnConflictUpdate(payment.toRow());
 
-  Future<void> delete(String id) => (_db.delete(_db.paymentRequestRows)..where((tbl) => tbl.id.equals(id))).go();
+  Future<void> delete(String id) =>
+      (_db.delete(_db.paymentRequestRows)..where((tbl) => tbl.id.equals(id))).go();
 
   Future<IList<PaymentRequest>> getAllPending() async {
-    final query = _db.select(_db.paymentRequestRows)..where((p) => p.state.equalsValue(PaymentRequestStateDto.initial));
+    final query = _db.select(_db.paymentRequestRows)
+      ..where((p) => p.state.equalsValue(PaymentRequestStateDto.initial));
 
     final rows = await query.get();
 

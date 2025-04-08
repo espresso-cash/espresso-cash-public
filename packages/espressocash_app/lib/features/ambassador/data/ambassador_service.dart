@@ -45,7 +45,9 @@ class AmbassadorService extends ValueNotifier<AmbassadorStatus> {
   }
 
   Future<void> addReferral(String ambassadorAddress) async {
-    await _ecClient.addAmbassadorReferral(AmbassadorReferralRequestDto(ambassadorAddress: ambassadorAddress));
+    await _ecClient.addAmbassadorReferral(
+      AmbassadorReferralRequestDto(ambassadorAddress: ambassadorAddress),
+    );
 
     _update((isAmbassador: value.isAmbassador, isReferral: true));
   }

@@ -47,11 +47,18 @@ class ScalexOnRampOrderWatcher implements RampWatcher {
                   : null;
 
           if (isCompleted) {
-            _analytics.rampCompleted(partnerName: RampPartner.scalex.name, rampType: RampType.onRamp.name, id: orderId);
+            _analytics.rampCompleted(
+              partnerName: RampPartner.scalex.name,
+              rampType: RampType.onRamp.name,
+              id: orderId,
+            );
           }
 
           await statement.write(
-            OnRampOrderRowsCompanion(status: Value.ofNullable(status), isCompleted: Value(isCompleted)),
+            OnRampOrderRowsCompanion(
+              status: Value.ofNullable(status),
+              isCompleted: Value(isCompleted),
+            ),
           );
         });
   }

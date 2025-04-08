@@ -65,7 +65,10 @@ class HomeScaffoldAppBar extends StatelessWidget implements PreferredSizeWidget 
       ),
       shape: const Border(),
       title: Center(
-        child: Padding(padding: const EdgeInsets.only(right: 16.0), child: Assets.images.logo.image(height: 32)),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: Assets.images.logo.image(height: 32),
+        ),
       ),
       elevation: 0,
       backgroundColor: CpColors.darkSandColor,

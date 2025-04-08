@@ -42,7 +42,12 @@ class KycButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: centerText ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
-          Flexible(child: Text(label, style: TextStyle(color: textColor, fontSize: 17, fontWeight: FontWeight.bold))),
+          Flexible(
+            child: Text(
+              label,
+              style: TextStyle(color: textColor, fontSize: 17, fontWeight: FontWeight.bold),
+            ),
+          ),
           const SizedBox(width: 8),
           if (status != null) KycStatusWidget(status),
         ],

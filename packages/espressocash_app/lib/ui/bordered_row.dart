@@ -14,7 +14,9 @@ class CpBorderedRow extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     height: MediaQuery.sizeOf(context).height < 700 ? 56 : 74,
     decoration: BoxDecoration(
-      border: Border(bottom: BorderSide(color: dividerColor ?? CpColors.darkDividerColor, width: 1)),
+      border: Border(
+        bottom: BorderSide(color: dividerColor ?? CpColors.darkDividerColor, width: 1),
+      ),
     ),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -41,6 +43,10 @@ class BorderedRowChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Expanded(
     // ignore: avoid-single-child-column-or-row, check if needed
-    child: Wrap(children: [CpChip(padding: CpChipPadding.small, backgroundColor: backgroundColor, child: child)]),
+    child: Wrap(
+      children: [
+        CpChip(padding: CpChipPadding.small, backgroundColor: backgroundColor, child: child),
+      ],
+    ),
   );
 }

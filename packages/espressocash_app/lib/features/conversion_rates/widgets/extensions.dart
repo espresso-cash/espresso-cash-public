@@ -13,7 +13,10 @@ extension FormatAmountWithFiatExt on CryptoAmount {
     const fiat = Currency.usd;
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = format(locale, maxDecimals: fiat.decimals);
-    final conversionRate = sl<ConversionRatesRepository>().readRate(CryptoCurrency(token: token), to: fiat);
+    final conversionRate = sl<ConversionRatesRepository>().readRate(
+      CryptoCurrency(token: token),
+      to: fiat,
+    );
 
     if (conversionRate == null) return formattedAmount;
 
@@ -24,25 +27,29 @@ extension FormatAmountWithFiatExt on CryptoAmount {
 }
 
 extension FormatAmountExt on Amount {
-  String format(Locale locale, {bool skipSymbol = false, bool roundInteger = false, int? maxDecimals}) =>
-      switch (currency) {
-        FiatCurrency(:final sign) => formatAmount(
-          locale: locale,
-          value: decimal,
-          decimals: maxDecimals ?? currency.decimals,
-          symbol: skipSymbol ? null : sign,
-          prefixedSymbol: true,
-          roundInteger: roundInteger,
-        ),
-        CryptoCurrency() => formatAmount(
-          locale: locale,
-          value: decimal,
-          decimals: maxDecimals ?? currency.decimals,
-          symbol: skipSymbol ? null : currency.symbol,
-          prefixedSymbol: false,
-          roundInteger: roundInteger,
-        ),
-      };
+  String format(
+    Locale locale, {
+    bool skipSymbol = false,
+    bool roundInteger = false,
+    int? maxDecimals,
+  }) => switch (currency) {
+    FiatCurrency(:final sign) => formatAmount(
+      locale: locale,
+      value: decimal,
+      decimals: maxDecimals ?? currency.decimals,
+      symbol: skipSymbol ? null : sign,
+      prefixedSymbol: true,
+      roundInteger: roundInteger,
+    ),
+    CryptoCurrency() => formatAmount(
+      locale: locale,
+      value: decimal,
+      decimals: maxDecimals ?? currency.decimals,
+      symbol: skipSymbol ? null : currency.symbol,
+      prefixedSymbol: false,
+      roundInteger: roundInteger,
+    ),
+  };
 }
 
 String formatAmount({

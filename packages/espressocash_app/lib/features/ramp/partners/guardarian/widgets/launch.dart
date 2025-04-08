@@ -26,6 +26,12 @@ extension BuildContextExt on BuildContext {
       },
     );
 
-    WebViewScreen.push(this, url: uri, onLoaded: null, title: l10n.ramp_titleCashIn.toUpperCase(), theme: null);
+    WebViewScreen.push(
+      this,
+      url: uri,
+      onLoaded: null,
+      title: l10n.ramp_titleCashIn.toUpperCase(),
+      theme: null,
+    );
   }
 }

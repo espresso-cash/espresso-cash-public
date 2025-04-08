@@ -31,12 +31,16 @@ final onRampOrderScreenStory = Story(
           manualDeposit: (
             bankAccount: 'BANK_ACCOUNT_12345',
             bankName: 'BANK_NAME',
-            transferAmount: Amount.fromDecimal(value: Decimal.parse('100000'), currency: Currency.ngn) as FiatAmount,
+            transferAmount:
+                Amount.fromDecimal(value: Decimal.parse('100000'), currency: Currency.ngn)
+                    as FiatAmount,
             transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
           ),
           authToken: null,
           additionalDetails: (
-            fee: Amount.fromDecimal(value: Decimal.parse('10'), currency: Currency.usd) as FiatAmount,
+            fee:
+                Amount.fromDecimal(value: Decimal.parse('10'), currency: Currency.usd)
+                    as FiatAmount,
             moreInfoUrl: 'https://moreinfo.com',
             referenceNumber: '1111111111',
           ),

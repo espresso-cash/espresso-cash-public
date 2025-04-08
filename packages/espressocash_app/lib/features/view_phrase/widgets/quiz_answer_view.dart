@@ -70,13 +70,23 @@ class _QuizAnswerViewState extends State<QuizAnswerView> {
           Text(
             widget.explanation.title,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w600, letterSpacing: 0.23),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 30,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.23,
+            ),
           ),
           const SizedBox(height: 16),
           Text(
             widget.explanation.description,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.w500, letterSpacing: 0.23),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 19,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.23,
+            ),
           ),
         ],
       ),

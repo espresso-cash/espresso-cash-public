@@ -23,7 +23,9 @@ class FeeCalculator {
       .then((fees) async {
         switch (type) {
           case FeeTypeDirect(:final address):
-            return await _hasUsdcAta(address) ? fees.directPayment.ataExists : fees.directPayment.ataDoesNotExist;
+            return await _hasUsdcAta(address)
+                ? fees.directPayment.ataExists
+                : fees.directPayment.ataDoesNotExist;
           case FeeTypeLink():
             return fees.escrowPayment;
           case FeeTypeWithdraw(:final amount, :final partner, :final address):

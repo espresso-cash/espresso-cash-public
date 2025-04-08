@@ -151,7 +151,9 @@ class MyDatabase extends _$MyDatabase {
       if (from < 61) {
         await m.addColumn(transactionRows, transactionRows.token);
 
-        await customStatement('UPDATE ${transactionRows.actualTableName} SET token = ?', [Currency.usdc.token.address]);
+        await customStatement('UPDATE ${transactionRows.actualTableName} SET token = ?', [
+          Currency.usdc.token.address,
+        ]);
       }
     },
   );

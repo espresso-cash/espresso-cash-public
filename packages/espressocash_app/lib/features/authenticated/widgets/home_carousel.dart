@@ -104,7 +104,12 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({required this.title, required this.subtitle, this.button, required this.backgroundImage});
+  const _Item({
+    required this.title,
+    required this.subtitle,
+    this.button,
+    required this.backgroundImage,
+  });
 
   final String title;
   final String subtitle;
@@ -132,7 +137,11 @@ class _Item extends StatelessWidget {
               child: Text(
                 title,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
             const SizedBox(height: 6),
@@ -142,7 +151,11 @@ class _Item extends StatelessWidget {
                 subtitle,
                 maxLines: 3,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
             const SizedBox(height: 15),

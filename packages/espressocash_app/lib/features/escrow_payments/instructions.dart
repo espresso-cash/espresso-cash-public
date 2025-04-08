@@ -69,10 +69,11 @@ class EscrowInstruction {
   );
 }
 
-Future<Ed25519HDPublicKey> _calculatePda(Ed25519HDPublicKey escrowAccount) => Ed25519HDPublicKey.findProgramAddress(
-  seeds: ['ec_shareable_links'.codeUnits, escrowAccount.bytes],
-  programId: escrowProgram,
-);
+Future<Ed25519HDPublicKey> _calculatePda(Ed25519HDPublicKey escrowAccount) =>
+    Ed25519HDPublicKey.findProgramAddress(
+      seeds: ['ec_shareable_links'.codeUnits, escrowAccount.bytes],
+      programId: escrowProgram,
+    );
 
 const escrowAddress = '7rE2We9zMQzj2xmhJRTvYXKP22VKDGh3krujdBqWibBL';
 final escrowProgram = Ed25519HDPublicKey.fromBase58(escrowAddress);

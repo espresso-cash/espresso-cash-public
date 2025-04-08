@@ -25,6 +25,8 @@ class _OffRampOrderDetailsState extends State<OffRampOrderDetails> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      StreamBuilder(stream: _stream, builder: (context, snapshot) => widget.builder(context, snapshot.data));
+  Widget build(BuildContext context) => StreamBuilder(
+    stream: _stream,
+    builder: (context, snapshot) => widget.builder(context, snapshot.data),
+  );
 }

@@ -32,34 +32,38 @@ extension BuildContextExt on BuildContext {
     Navigator.pop(this);
   });
 
-  Future<bool> isSolanaPayRequestPaid({required SolanaPayRequest request}) => runWithLoader(this, () async {
-    final client = sl<SolanaClient>();
+  Future<bool> isSolanaPayRequestPaid({required SolanaPayRequest request}) =>
+      runWithLoader(this, () async {
+        final client = sl<SolanaClient>();
 
-    final reference = request.reference?.firstOrNull;
+        final reference = request.reference?.firstOrNull;
 
-    if (reference == null) {
-      return false;
-    }
+        if (reference == null) {
+          return false;
+        }
 
-    final signature = await client.findSolanaPayTransaction(reference: reference, commitment: Commitment.confirmed);
+        final signature = await client.findSolanaPayTransaction(
+          reference: reference,
+          commitment: Commitment.confirmed,
+        );
 
-    if (signature == null) {
-      return false;
-    }
+        if (signature == null) {
+          return false;
+        }
 
-    try {
-      await client.validateSolanaPayTransaction(
-        signature: signature,
-        recipient: request.recipient,
-        splToken: request.splToken,
-        reference: request.reference,
-        amount: request.amount ?? Decimal.zero,
-        commitment: Commitment.confirmed,
-      );
+        try {
+          await client.validateSolanaPayTransaction(
+            signature: signature,
+            recipient: request.recipient,
+            splToken: request.splToken,
+            reference: request.reference,
+            amount: request.amount ?? Decimal.zero,
+            commitment: Commitment.confirmed,
+          );
 
-      return true;
-    } on Exception {
-      return false;
-    }
-  });
+          return true;
+        } on Exception {
+          return false;
+        }
+      });
 }

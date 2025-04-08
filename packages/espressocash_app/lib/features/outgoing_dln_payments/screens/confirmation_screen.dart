@@ -55,7 +55,10 @@ class _FlowState extends State<OutgoingDlnPaymentConfirmationScreen> {
   @override
   Widget build(BuildContext context) => CpTheme.black(
     child: Scaffold(
-      appBar: CpAppBar(title: Text(context.l10n.confirmation.toUpperCase()), leading: const CloseButton()),
+      appBar: CpAppBar(
+        title: Text(context.l10n.confirmation.toUpperCase()),
+        leading: const CloseButton(),
+      ),
       body: ConfirmationContent(
         onConfirm: _onConfirm,
         amount: widget.amount,

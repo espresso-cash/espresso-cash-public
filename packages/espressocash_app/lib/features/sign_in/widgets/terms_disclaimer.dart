@@ -27,9 +27,11 @@ class TermsDisclaimer extends StatelessWidget {
           style: const TextStyle(color: CpColors.yellowColor),
         ),
       ],
-      style: Theme.of(
-        context,
-      ).textTheme.displayMedium?.copyWith(fontSize: 14.sp, height: 1.1, fontWeight: FontWeight.w500),
+      style: Theme.of(context).textTheme.displayMedium?.copyWith(
+        fontSize: 14.sp,
+        height: 1.1,
+        fontWeight: FontWeight.w500,
+      ),
     ),
   );
 }

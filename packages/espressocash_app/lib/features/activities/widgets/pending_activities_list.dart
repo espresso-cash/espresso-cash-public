@@ -56,7 +56,10 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
             SliverPadding(
               padding: widget.padding ?? EdgeInsets.zero,
               sliver: SliverToBoxAdapter(
-                child: KycTile(key: ValueKey(data.first.created), timestamp: context.formatDate(data.first.created)),
+                child: KycTile(
+                  key: ValueKey(data.first.created),
+                  timestamp: context.formatDate(data.first.created),
+                ),
               ),
             ),
             const SliverPadding(padding: EdgeInsets.only(top: 16)),
@@ -77,12 +80,14 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                       final item = pendingActivities[index];
 
                       return item.map(
-                        outgoingPaymentRequest: (p) => PaymentRequestTile(key: ValueKey(p.id), id: p.id),
+                        outgoingPaymentRequest:
+                            (p) => PaymentRequestTile(key: ValueKey(p.id), id: p.id),
                         outgoingDirectPayment: (p) => ODPTile(key: ValueKey(p.id), activity: p),
                         outgoingLinkPayment: (p) => OLPTile(key: ValueKey(p.id), activity: p),
                         onRamp: (it) => OnRampTile(key: ValueKey(it.id), activity: it),
                         offRamp: (it) => OffRampTile(key: ValueKey(it.id), activity: it),
-                        outgoingDlnPayment: (it) => OutgoingDlnTile(key: ValueKey(it.id), activity: it),
+                        outgoingDlnPayment:
+                            (it) => OutgoingDlnTile(key: ValueKey(it.id), activity: it),
                         transactionRequest: (it) => TrTile(key: ValueKey(it.id), activity: it),
                         kyc: (it) => const SizedBox.shrink(),
                       );

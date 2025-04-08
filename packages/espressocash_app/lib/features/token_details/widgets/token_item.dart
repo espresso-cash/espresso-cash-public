@@ -16,7 +16,10 @@ class TokenItemContainer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(padding: const EdgeInsets.only(left: 12.0), child: Text(title, style: dashboardSectionTitleTextStyle)),
+        Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: Text(title, style: dashboardSectionTitleTextStyle),
+        ),
         const SizedBox(height: 11),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 28),

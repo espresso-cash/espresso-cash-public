@@ -27,4 +27,9 @@ class CpUserAvatar extends StatelessWidget {
   }
 }
 
-const TextStyle _textStyle = TextStyle(height: 1.4, fontSize: 32.0, fontWeight: FontWeight.w500, color: Colors.white);
+const TextStyle _textStyle = TextStyle(
+  height: 1.4,
+  fontSize: 32.0,
+  fontWeight: FontWeight.w500,
+  color: Colors.white,
+);

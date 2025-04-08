@@ -19,8 +19,9 @@ typedef ODPInputResponse = void Function(Blockchain network, String address);
 class ODPInputScreen extends StatefulWidget {
   const ODPInputScreen({super.key, required this.onSubmit});
 
-  static void push(BuildContext context, {required ODPInputResponse onSubmit}) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => ODPInputScreen(onSubmit: onSubmit)));
+  static void push(BuildContext context, {required ODPInputResponse onSubmit}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => ODPInputScreen(onSubmit: onSubmit)));
 
   final ODPInputResponse onSubmit;
 
@@ -67,7 +68,10 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
   @override
   Widget build(BuildContext context) => CpTheme.black(
     child: Scaffold(
-      appBar: CpAppBar(leading: const CpBackButton(), title: Text(context.l10n.walletSendToAddressTitle.toUpperCase())),
+      appBar: CpAppBar(
+        leading: const CpBackButton(),
+        title: Text(context.l10n.walletSendToAddressTitle.toUpperCase()),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: OnboardingScreen(
@@ -83,7 +87,10 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
             ),
             const SizedBox(height: 8),
             DecoratedBox(
-              decoration: const ShapeDecoration(color: CpColors.blackGreyColor, shape: StadiumBorder()),
+              decoration: const ShapeDecoration(
+                color: CpColors.blackGreyColor,
+                shape: StadiumBorder(),
+              ),
               child: ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 24),
                 onTap: _showNetworkPicker ? _handleOnNetworkTap : null,
@@ -94,7 +101,11 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
                 ),
                 trailing:
                     _showNetworkPicker
-                        ? const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white, size: 34)
+                        ? const Icon(
+                          Icons.keyboard_arrow_down_outlined,
+                          color: Colors.white,
+                          size: 34,
+                        )
                         : null,
               ),
             ),
@@ -103,7 +114,11 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
               padding: const EdgeInsets.only(left: 18),
               child: Text(
                 context.l10n.walletAddress,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
               ),
             ),
             const SizedBox(height: 8),

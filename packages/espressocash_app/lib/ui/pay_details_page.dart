@@ -37,7 +37,10 @@ class PayDetailsPage extends StatelessWidget {
                     children: [
                       _Header(icon: headerIcon, background: headerBackground),
                       Column(
-                        children: [SizedBox(height: viewportConstraints.maxHeight * 0.4), Expanded(child: content)],
+                        children: [
+                          SizedBox(height: viewportConstraints.maxHeight * 0.4),
+                          Expanded(child: content),
+                        ],
                       ),
                     ],
                   ),

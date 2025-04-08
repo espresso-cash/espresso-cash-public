@@ -22,7 +22,9 @@ final cpStatusScreen = Story(
               Option(label: 'Empty', value: null),
             ],
           ),
-          statusContent: Text(context.knobs.text(label: 'Status Content', initial: 'Your transfer has been sent.')),
+          statusContent: Text(
+            context.knobs.text(label: 'Status Content', initial: 'Your transfer has been sent.'),
+          ),
           statusType: context.knobs.options(
             label: 'Type',
             initial: CpStatusType.success,
@@ -31,12 +33,18 @@ final cpStatusScreen = Story(
           content: context.knobs.options(
             label: 'Page Content',
             initial: _content,
-            options: [Option(label: 'With Page content', value: _content), const Option(label: 'Empty', value: null)],
+            options: [
+              Option(label: 'With Page content', value: _content),
+              const Option(label: 'Empty', value: null),
+            ],
           ),
           onBackButtonPressed: context.knobs.options(
             label: 'Back Button',
             initial: () {},
-            options: [Option(label: 'With Back Button', value: () {}), const Option(label: 'Null', value: null)],
+            options: [
+              Option(label: 'With Back Button', value: () {}),
+              const Option(label: 'Null', value: null),
+            ],
           ),
         ),
       ),

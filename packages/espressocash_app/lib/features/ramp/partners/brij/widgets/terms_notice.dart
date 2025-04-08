@@ -50,7 +50,11 @@ Future<bool> showTermsAndPolicyDialog(
           ),
           const SizedBox(width: 16),
           Expanded(
-            child: CpButton(text: context.l10n.iAgree_btn, width: 150, onPressed: () => Navigator.pop(context, true)),
+            child: CpButton(
+              text: context.l10n.iAgree_btn,
+              width: 150,
+              onPressed: () => Navigator.pop(context, true),
+            ),
           ),
         ],
       ),

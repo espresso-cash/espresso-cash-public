@@ -19,7 +19,8 @@ extension OutgoingDlnPaymentRowToActivityExt on OutgoingDlnPaymentRow {
 }
 
 extension OLPRowToActivityExt on OLPRow {
-  Future<Activity> toActivity() async => Activity.outgoingLinkPayment(id: id, created: created, data: await toModel());
+  Future<Activity> toActivity() async =>
+      Activity.outgoingLinkPayment(id: id, created: created, data: await toModel());
 }
 
 extension TransactionRequestPaymentExt on TransactionRequestPayment {

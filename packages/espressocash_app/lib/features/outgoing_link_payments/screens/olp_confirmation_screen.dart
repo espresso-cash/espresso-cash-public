@@ -22,9 +22,10 @@ import 'olp_screen.dart';
 class OLPConfirmationScreen extends StatefulWidget {
   const OLPConfirmationScreen({super.key, required this.tokenAmount});
 
-  static void push(BuildContext context, {required CryptoAmount tokenAmount}) => Navigator.of(
-    context,
-  ).push<void>(MaterialPageRoute(builder: (context) => OLPConfirmationScreen(tokenAmount: tokenAmount)));
+  static void push(BuildContext context, {required CryptoAmount tokenAmount}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(builder: (context) => OLPConfirmationScreen(tokenAmount: tokenAmount)),
+      );
 
   final CryptoAmount tokenAmount;
 
@@ -51,7 +52,9 @@ class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
         leading: const CpBackButton(),
       ),
       body: CpContentPadding(child: _TokenCreateLinkContent(amount: widget.tokenAmount)),
-      bottomNavigationBar: SafeArea(child: CpBottomButton(onPressed: _handleSubmit, text: context.l10n.create)),
+      bottomNavigationBar: SafeArea(
+        child: CpBottomButton(onPressed: _handleSubmit, text: context.l10n.create),
+      ),
     ),
   );
 }
@@ -99,7 +102,10 @@ class _InformationView extends StatelessWidget {
         children: [
           Center(
             child: FittedBox(
-              child: Text(formattedAmount, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 48)),
+              child: Text(
+                formattedAmount,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 48),
+              ),
             ),
           ),
           const SizedBox(height: 12),
@@ -117,7 +123,11 @@ class _InformationView extends StatelessWidget {
                 Text(
                   formattedFiatAmount,
                   maxLines: 1,
-                  style: const TextStyle(fontSize: 16, color: CpColors.greyColor, fontWeight: FontWeight.w400),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: CpColors.greyColor,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ],
             ),
@@ -126,12 +136,20 @@ class _InformationView extends StatelessWidget {
             type: FeeType.link(),
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             keyTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            valueTextStyle: TextStyle(fontSize: 16, color: CpColors.greyColor, fontWeight: FontWeight.w400),
+            valueTextStyle: TextStyle(
+              fontSize: 16,
+              color: CpColors.greyColor,
+              fontWeight: FontWeight.w400,
+            ),
           ),
           const SizedBox(height: 12),
           Text(
             context.l10n.sendExplanation,
-            style: const TextStyle(fontSize: 14.5, color: CpColors.greyColor, fontWeight: FontWeight.w400),
+            style: const TextStyle(
+              fontSize: 14.5,
+              color: CpColors.greyColor,
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ],
       ),

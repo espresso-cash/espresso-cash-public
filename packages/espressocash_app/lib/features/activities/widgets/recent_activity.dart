@@ -11,7 +11,11 @@ import '../data/transaction_repository.dart';
 import 'transaction_item.dart';
 
 class RecentActivityWidget extends StatefulWidget {
-  const RecentActivityWidget({super.key, required this.onSendMoneyPressed, required this.onTransactionsPressed});
+  const RecentActivityWidget({
+    super.key,
+    required this.onSendMoneyPressed,
+    required this.onTransactionsPressed,
+  });
 
   final VoidCallback onSendMoneyPressed;
   final VoidCallback onTransactionsPressed;
@@ -104,7 +108,12 @@ class _NoActivity extends StatelessWidget {
             style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400),
           ),
           const SizedBox(height: 16),
-          CpButton(minWidth: 120, size: CpButtonSize.wide, text: context.l10n.yes, onPressed: onSendMoneyPressed),
+          CpButton(
+            minWidth: 120,
+            size: CpButtonSize.wide,
+            text: context.l10n.yes,
+            onPressed: onSendMoneyPressed,
+          ),
         ],
       ),
     ),

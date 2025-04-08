@@ -47,16 +47,23 @@ class _PinInputDisplayWidgetState extends State<PinInputDisplayWidget> {
         if (message != null) ...[
           Text(
             message.toUpperCase(),
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700, fontSize: 17),
+            style: Theme.of(
+              context,
+            ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700, fontSize: 17),
           ),
           const SizedBox(height: 36),
         ],
         ValueListenableBuilder<TextEditingValue>(
           valueListenable: _controller,
-          builder: (context, value, _) => PinDisplay(maxDigits: _maxDigits, currentDigits: value.text.length),
+          builder:
+              (context, value, _) =>
+                  PinDisplay(maxDigits: _maxDigits, currentDigits: value.text.length),
         ),
         const SizedBox(height: 16),
-        Align(alignment: Alignment.bottomCenter, child: PinKeypad(maxDigits: _maxDigits, controller: _controller)),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: PinKeypad(maxDigits: _maxDigits, controller: _controller),
+        ),
       ],
     );
   }

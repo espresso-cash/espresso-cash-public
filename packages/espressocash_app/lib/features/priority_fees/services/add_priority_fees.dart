@@ -22,7 +22,9 @@ class AddPriorityFees {
     required int maxPriorityFee,
     required Ed25519HDPublicKey platform,
   }) async {
-    final priorityFees = await _ecClient.getPriorityFeeEstimate(PriorityFeesRequestDto(encodedTx: tx.encode()));
+    final priorityFees = await _ecClient.getPriorityFeeEstimate(
+      PriorityFeesRequestDto(encodedTx: tx.encode()),
+    );
 
     final veryHighFee = priorityFees.veryHigh;
 
@@ -69,7 +71,9 @@ class AddPriorityFees {
     final budgetForPriorityFee = (maxTxFee - feeForMessage) * 1000000;
     sentryData['budgetForPriorityFee'] = budgetForPriorityFee;
     if (budgetForPriorityFee < 0) {
-      await Sentry.captureEvent(event.copyWith(message: const SentryMessage('No budget for priority fee')));
+      await Sentry.captureEvent(
+        event.copyWith(message: const SentryMessage('No budget for priority fee')),
+      );
 
       return null;
     }
@@ -110,11 +114,17 @@ class AddPriorityFees {
       newMessage = Message(instructions: [computePriceIx, budgetIx, ...message.instructions]);
     }
 
-    final newCompiledMessage = newMessage.compile(recentBlockhash: tx.blockhash, feePayer: platform);
+    final newCompiledMessage = newMessage.compile(
+      recentBlockhash: tx.blockhash,
+      feePayer: platform,
+    );
 
     return SignedTx(
       compiledMessage: newCompiledMessage,
-      signatures: [platform.emptySignature(), ...tx.signatures.where((s) => s.publicKey != platform)],
+      signatures: [
+        platform.emptySignature(),
+        ...tx.signatures.where((s) => s.publicKey != platform),
+      ],
     );
   }
 }

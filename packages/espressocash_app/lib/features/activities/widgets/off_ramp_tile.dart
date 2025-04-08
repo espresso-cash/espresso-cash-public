@@ -21,7 +21,8 @@ class OffRampTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => OffRampOrderDetails(
     orderId: activity.id,
-    builder: (context, order) => _ActivityTile(order: order, activity: activity, showIcon: showIcon),
+    builder:
+        (context, order) => _ActivityTile(order: order, activity: activity, showIcon: showIcon),
   );
 }
 

@@ -31,8 +31,11 @@ class ScalexOffRampOrderWatcher implements RampWatcher {
         .whereNotNull()
         .asyncMap((order) => _client.fetchStatus(order.partnerOrderId))
         .listen((status) async {
-          final statement = _db.update(_db.offRampOrderRows)
-            ..where((tbl) => tbl.id.equals(orderId) & tbl.status.equals(OffRampOrderStatus.waitingForPartner.name));
+          final statement = _db.update(_db.offRampOrderRows)..where(
+            (tbl) =>
+                tbl.id.equals(orderId) &
+                tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
+          );
 
           final orderStatus = switch (status) {
             ScalexOrderStatus.pending => OffRampOrderStatus.waitingForPartner,

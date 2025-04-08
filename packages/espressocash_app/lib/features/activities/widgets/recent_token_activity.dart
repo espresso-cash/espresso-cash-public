@@ -87,18 +87,41 @@ class _ActivityGroupWidget extends StatelessWidget {
                 group.transactions
                     .map(
                       (tx) => tx.map(
-                        common: (t) => CommonTile(key: ValueKey(t.tx.id), txCommon: t, showIcon: false),
+                        common:
+                            (t) => CommonTile(key: ValueKey(t.tx.id), txCommon: t, showIcon: false),
                         activity:
                             (txActivity) => txActivity.activity.map(
                               outgoingPaymentRequest:
-                                  (p) => PaymentRequestTile(key: ValueKey(p.id), id: p.id, showIcon: false),
-                              outgoingDirectPayment: (p) => ODPTile(key: ValueKey(p.id), activity: p, showIcon: false),
-                              outgoingLinkPayment: (p) => OLPTile(key: ValueKey(p.id), activity: p, showIcon: false),
-                              onRamp: (it) => OnRampTile(key: ValueKey(it.id), activity: it, showIcon: false),
-                              offRamp: (it) => OffRampTile(key: ValueKey(it.id), activity: it, showIcon: false),
+                                  (p) => PaymentRequestTile(
+                                    key: ValueKey(p.id),
+                                    id: p.id,
+                                    showIcon: false,
+                                  ),
+                              outgoingDirectPayment:
+                                  (p) => ODPTile(key: ValueKey(p.id), activity: p, showIcon: false),
+                              outgoingLinkPayment:
+                                  (p) => OLPTile(key: ValueKey(p.id), activity: p, showIcon: false),
+                              onRamp:
+                                  (it) => OnRampTile(
+                                    key: ValueKey(it.id),
+                                    activity: it,
+                                    showIcon: false,
+                                  ),
+                              offRamp:
+                                  (it) => OffRampTile(
+                                    key: ValueKey(it.id),
+                                    activity: it,
+                                    showIcon: false,
+                                  ),
                               outgoingDlnPayment:
-                                  (it) => OutgoingDlnTile(key: ValueKey(it.id), activity: it, showIcon: false),
-                              transactionRequest: (it) => TrTile(key: ValueKey(it.id), activity: it, showIcon: false),
+                                  (it) => OutgoingDlnTile(
+                                    key: ValueKey(it.id),
+                                    activity: it,
+                                    showIcon: false,
+                                  ),
+                              transactionRequest:
+                                  (it) =>
+                                      TrTile(key: ValueKey(it.id), activity: it, showIcon: false),
                               kyc: (it) => const SizedBox.shrink(),
                             ),
                       ),
@@ -146,9 +169,13 @@ extension ActivityDateFormatting on BuildContext {
     final now = DateTime.now();
     final yesterday = now.subtract(const Duration(days: 1));
 
-    return (parsedDate.year == now.year && parsedDate.month == now.month && parsedDate.day == now.day)
+    return (parsedDate.year == now.year &&
+            parsedDate.month == now.month &&
+            parsedDate.day == now.day)
         ? l10n.today
-        : (parsedDate.year == yesterday.year && parsedDate.month == yesterday.month && parsedDate.day == yesterday.day)
+        : (parsedDate.year == yesterday.year &&
+            parsedDate.month == yesterday.month &&
+            parsedDate.day == yesterday.day)
         ? l10n.yesterday
         : DateFormat('MMM d, yyyy').format(parsedDate);
   }

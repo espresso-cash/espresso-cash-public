@@ -13,8 +13,9 @@ import '../widgets/share_request.dart';
 class PaymentRequestScreen extends StatefulWidget {
   const PaymentRequestScreen({super.key, required this.id});
 
-  static void push(BuildContext context, {required String id}) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => PaymentRequestScreen(id: id)));
+  static void push(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => PaymentRequestScreen(id: id)));
 
   final String id;
 

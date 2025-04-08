@@ -11,7 +11,13 @@ import 'package:recase/recase.dart';
 import 'wrapper.dart';
 
 @isTest
-void testGoldensWidget(String name, Widget widget, {Func0<FutureOr<void>>? setUp, CustomPump? customPump, bool? skip}) {
+void testGoldensWidget(
+  String name,
+  Widget widget, {
+  Func0<FutureOr<void>>? setUp,
+  CustomPump? customPump,
+  bool? skip,
+}) {
   final snakeName = name.snakeCase;
 
   testGoldens(name, skip: skip, (tester) async {

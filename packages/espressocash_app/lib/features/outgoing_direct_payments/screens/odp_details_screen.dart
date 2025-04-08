@@ -18,13 +18,15 @@ import '../widgets/extensions.dart';
 class ODPDetailsScreen extends StatefulWidget {
   const ODPDetailsScreen({super.key, required this.id});
 
-  static void push(BuildContext context, {required String id}) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => ODPDetailsScreen(id: id)));
+  static void push(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => ODPDetailsScreen(id: id)));
 
-  static void open(BuildContext context, {required String id}) => Navigator.of(context).pushAndRemoveUntil<void>(
-    MaterialPageRoute(builder: (context) => ODPDetailsScreen(id: id)),
-    (route) => route.isFirst,
-  );
+  static void open(BuildContext context, {required String id}) =>
+      Navigator.of(context).pushAndRemoveUntil<void>(
+        MaterialPageRoute(builder: (context) => ODPDetailsScreen(id: id)),
+        (route) => route.isFirst,
+      );
 
   final String id;
 

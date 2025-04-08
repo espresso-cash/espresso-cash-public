@@ -10,8 +10,9 @@ import '../widgets/pin_input_display_widget.dart';
 class AppLockDisableScreen extends StatelessWidget {
   const AppLockDisableScreen({super.key});
 
-  static void push(BuildContext context) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => const AppLockDisableScreen()));
+  static void push(BuildContext context) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => const AppLockDisableScreen()));
 
   @override
   Widget build(BuildContext context) => BlocConsumer<AppLockBloc, AppLockState>(

@@ -82,7 +82,8 @@ class MoneygramOnRampOrderService implements Disposable {
   }
 
   void _subscribe(String orderId) {
-    _subscriptions[orderId] = (_db.select(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(orderId)))
+    _subscriptions[orderId] = (_db.select(_db.onRampOrderRows)
+          ..where((tbl) => tbl.id.equals(orderId)))
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
@@ -127,7 +128,11 @@ class MoneygramOnRampOrderService implements Disposable {
           }
         })
         .whereNotNull()
-        .listen((event) => (_db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(orderId))).write(event));
+        .listen(
+          (event) =>
+              (_db.update(_db.onRampOrderRows)
+                ..where((tbl) => tbl.id.equals(orderId))).write(event),
+        );
   }
 
   AsyncResult<String> createPendingMoneygram({
@@ -174,7 +179,9 @@ class MoneygramOnRampOrderService implements Disposable {
   AsyncResult<void> updateMoneygramOrder({required String id}) => tryEitherAsync((_) async {
     final updateQuery = _db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
-    await updateQuery.write(const OnRampOrderRowsCompanion(status: Value(OnRampOrderStatus.pending)));
+    await updateQuery.write(
+      const OnRampOrderRowsCompanion(status: Value(OnRampOrderStatus.pending)),
+    );
 
     _subscribe(id);
   });
@@ -189,7 +196,9 @@ class MoneygramOnRampOrderService implements Disposable {
 
     final moreInfoUrl = transaction.moreInfoUrl;
 
-    if (transaction.status == MgStatus.incomplete || transaction.status == MgStatus.expired || moreInfoUrl == null) {
+    if (transaction.status == MgStatus.incomplete ||
+        transaction.status == MgStatus.expired ||
+        moreInfoUrl == null) {
       await _subscriptions.remove(orderId)?.cancel();
       _removeWatcher(order.id);
 
@@ -224,7 +233,10 @@ class MoneygramOnRampOrderService implements Disposable {
   }
 
   Future<OnRampOrderRowsCompanion?> _preProcessingOrder(OnRampOrderRow order) async {
-    final cashInAmount = CryptoAmount(value: order.bridgeAmount ?? 0, cryptoCurrency: Currency.usdc);
+    final cashInAmount = CryptoAmount(
+      value: order.bridgeAmount ?? 0,
+      cryptoCurrency: Currency.usdc,
+    );
 
     final xlmBalance = await _stellarClient.getXlmBalance();
 
@@ -234,7 +246,9 @@ class MoneygramOnRampOrderService implements Disposable {
       await _ecClient.fundXlmRequest(FundXlmRequestDto(accountId: accountId));
     }
 
-    final hasUsdcTrustline = await _stellarClient.hasUsdcTrustline(amount: cashInAmount.decimal.toDouble());
+    final hasUsdcTrustline = await _stellarClient.hasUsdcTrustline(
+      amount: cashInAmount.decimal.toDouble(),
+    );
 
     if (!hasUsdcTrustline) {
       await _stellarClient.createUsdcTrustline(limit: 10000);
@@ -268,7 +282,10 @@ class MoneygramOnRampOrderService implements Disposable {
 
     return hash == null
         ? const OnRampOrderRowsCompanion(status: Value(OnRampOrderStatus.postProcessing))
-        : OnRampOrderRowsCompanion(stellarTxHash: Value(hash), status: const Value(OnRampOrderStatus.waitingForBridge));
+        : OnRampOrderRowsCompanion(
+          stellarTxHash: Value(hash),
+          status: const Value(OnRampOrderStatus.waitingForBridge),
+        );
   }
 
   void _watchBridge(OnRampOrderRow order) {
@@ -278,13 +295,17 @@ class MoneygramOnRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 30)).startWith(null).listen((_) async {
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 30)).startWith(null).listen((
+      _,
+    ) async {
       final statement = _db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final hash = order.stellarTxHash;
 
       if (hash == null) {
-        await statement.write(const OnRampOrderRowsCompanion(status: Value(OnRampOrderStatus.postProcessing)));
+        await statement.write(
+          const OnRampOrderRowsCompanion(status: Value(OnRampOrderStatus.postProcessing)),
+        );
 
         _removeWatcher(id);
 
@@ -293,7 +314,9 @@ class MoneygramOnRampOrderService implements Disposable {
 
       final stellarResult = await _stellarClient.pollStatus(hash);
       if (stellarResult?.status != GetTransactionResponse.STATUS_SUCCESS) {
-        await statement.write(const OnRampOrderRowsCompanion(status: Value(OnRampOrderStatus.postProcessing)));
+        await statement.write(
+          const OnRampOrderRowsCompanion(status: Value(OnRampOrderStatus.postProcessing)),
+        );
 
         _removeWatcher(id);
 
@@ -327,7 +350,11 @@ class MoneygramOnRampOrderService implements Disposable {
         ),
       );
 
-      _analytics.rampCompleted(partnerName: RampPartner.moneygram.name, rampType: RampType.onRamp.name, id: id);
+      _analytics.rampCompleted(
+        partnerName: RampPartner.moneygram.name,
+        rampType: RampType.onRamp.name,
+        id: id,
+      );
 
       _removeWatcher(id);
     });
@@ -340,7 +367,9 @@ class MoneygramOnRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 30)).startWith(null).listen((_) async {
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 30)).startWith(null).listen((
+      _,
+    ) async {
       final statement = _db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final amount = CryptoAmount(value: order.bridgeAmount ?? 0, cryptoCurrency: Currency.usdc);
@@ -387,9 +416,10 @@ class MoneygramOnRampOrderService implements Disposable {
     });
   }
 
-  Future<TransactionStatus> _fetchTransactionStatus({required String id, required String token}) => _moneygramClient
-      .fetchTransaction(id: id, authHeader: token, rampType: RampType.onRamp)
-      .then((e) => e.transaction);
+  Future<TransactionStatus> _fetchTransactionStatus({required String id, required String token}) =>
+      _moneygramClient
+          .fetchTransaction(id: id, authHeader: token, rampType: RampType.onRamp)
+          .then((e) => e.transaction);
 
   void _removeWatcher(String id) {
     _watchers.remove(id)?.cancel();

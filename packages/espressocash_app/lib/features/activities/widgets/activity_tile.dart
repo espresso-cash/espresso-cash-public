@@ -42,20 +42,34 @@ class CpActivityTile extends StatelessWidget {
         children: [
           Expanded(child: Text(title, style: _titleStyle, overflow: TextOverflow.ellipsis)),
           if (incomingAmount != null)
-            Padding(padding: const EdgeInsets.only(left: 8), child: Text('+$incomingAmount', style: _inAmountStyle)),
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text('+$incomingAmount', style: _inAmountStyle),
+            ),
           if (outgoingAmount != null)
-            Padding(padding: const EdgeInsets.only(left: 8), child: Text('-$outgoingAmount', style: _titleStyle)),
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text('-$outgoingAmount', style: _titleStyle),
+            ),
         ],
       ),
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(status.text(context), style: _subtitleStyle), Text(timestamp, style: _subtitleStyle)],
+        children: [
+          Text(status.text(context), style: _subtitleStyle),
+          Text(timestamp, style: _subtitleStyle),
+        ],
       ),
     );
   }
 }
 
-const _titleStyle = TextStyle(fontSize: 16, letterSpacing: .23, color: Colors.white, fontWeight: FontWeight.w600);
+const _titleStyle = TextStyle(
+  fontSize: 16,
+  letterSpacing: .23,
+  color: Colors.white,
+  fontWeight: FontWeight.w600,
+);
 
 const _inAmountStyle = TextStyle(
   fontSize: 16,

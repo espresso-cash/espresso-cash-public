@@ -26,7 +26,11 @@ import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
 
 class PayOrRequestButton extends StatelessWidget {
-  const PayOrRequestButton({super.key, required this.voidCallback, this.size = CpButtonSize.normal});
+  const PayOrRequestButton({
+    super.key,
+    required this.voidCallback,
+    this.size = CpButtonSize.normal,
+  });
 
   final CpButtonSize size;
   final VoidCallback voidCallback;
@@ -170,7 +174,11 @@ extension RampBuildContextExt on BuildContext {
     );
   }
 
-  void _launchOnRampPartner(RampPartner partner, {required ProfileData profile, required String address}) {
+  void _launchOnRampPartner(
+    RampPartner partner, {
+    required ProfileData profile,
+    required String address,
+  }) {
     switch (partner) {
       case RampPartner.rampNetwork:
         launchRampNetworkOnRamp(profile: profile, address: address);
@@ -192,7 +200,11 @@ extension RampBuildContextExt on BuildContext {
     sl<AnalyticsManager>().rampOpened(partnerName: partner.name, rampType: RampType.onRamp.name);
   }
 
-  void _launchOffRampPartner(RampPartner partner, {required ProfileData profile, required String address}) {
+  void _launchOffRampPartner(
+    RampPartner partner, {
+    required ProfileData profile,
+    required String address,
+  }) {
     switch (partner) {
       case RampPartner.kado:
         launchKadoOffRamp(address: address, profile: profile);

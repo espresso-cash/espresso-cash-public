@@ -104,7 +104,8 @@ class _KycTileContent extends StatelessWidget {
                           country: country,
                         );
                       },
-              buttonText: isUnverified ? context.l10n.continueVerification : context.l10n.viewDetails,
+              buttonText:
+                  isUnverified ? context.l10n.continueVerification : context.l10n.viewDetails,
             );
           },
         );
@@ -143,7 +144,10 @@ class _KycItem extends StatelessWidget {
           title: Text(title, style: _titleStyle, overflow: TextOverflow.ellipsis),
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(status.subtitle(context), style: _subtitleStyle), Text(timestamp, style: _subtitleStyle)],
+            children: [
+              Text(status.subtitle(context), style: _subtitleStyle),
+              Text(timestamp, style: _subtitleStyle),
+            ],
           ),
         ),
         Text(description, textAlign: TextAlign.center, style: _subtitleStyle),
@@ -158,7 +162,8 @@ extension on KycValidationStatus {
   String subtitle(BuildContext context) => switch (this) {
     KycValidationStatus.approved => context.l10n.approved,
     KycValidationStatus.rejected => context.l10n.failed,
-    KycValidationStatus.pending || KycValidationStatus.unverified => context.l10n.activities_lblInProgress,
+    KycValidationStatus.pending ||
+    KycValidationStatus.unverified => context.l10n.activities_lblInProgress,
   };
 
   String description(BuildContext context) => switch (this) {
@@ -169,6 +174,11 @@ extension on KycValidationStatus {
   };
 }
 
-const _titleStyle = TextStyle(fontSize: 16, letterSpacing: .23, color: Colors.white, fontWeight: FontWeight.w600);
+const _titleStyle = TextStyle(
+  fontSize: 16,
+  letterSpacing: .23,
+  color: Colors.white,
+  fontWeight: FontWeight.w600,
+);
 
 const _subtitleStyle = TextStyle(fontSize: 14, color: Colors.white, letterSpacing: .19);

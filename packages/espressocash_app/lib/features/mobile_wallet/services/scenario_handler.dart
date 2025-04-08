@@ -38,7 +38,9 @@ class ScenarioHandler implements ScenarioCallbacks {
   Future<bool> onReauthorizeRequest(ReauthorizeRequest request) async => true;
 
   @override
-  Future<SignaturesResult?> onSignAndSendTransactionsRequest(SignAndSendTransactionsRequest request) {
+  Future<SignaturesResult?> onSignAndSendTransactionsRequest(
+    SignAndSendTransactionsRequest request,
+  ) {
     final remoteRequest = RemoteRequest.signTransactionsForSending(request: request);
 
     return _repository.notifyApp(MobileWalletNotification.request(remoteRequest));

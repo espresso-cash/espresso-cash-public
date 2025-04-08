@@ -16,6 +16,8 @@ class UserDataListener extends StatelessWidget {
     valueListenable: sl<KycSharingService>(),
     builder:
         (context, userData, _) =>
-            userData == null ? const Center(child: CircularProgressIndicator()) : builder(context, userData),
+            userData == null
+                ? const Center(child: CircularProgressIndicator())
+                : builder(context, userData),
   );
 }

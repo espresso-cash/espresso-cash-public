@@ -18,4 +18,5 @@ extension BuildContextExt on BuildContext {
   });
 }
 
-ISentrySpan _start({required String function}) => Sentry.startTransaction('ILP Tx Creation', function);
+ISentrySpan _start({required String function}) =>
+    Sentry.startTransaction('ILP Tx Creation', function);

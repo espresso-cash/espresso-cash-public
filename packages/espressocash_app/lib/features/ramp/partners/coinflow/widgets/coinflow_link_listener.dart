@@ -18,7 +18,8 @@ class CoinflowLinkListener extends StatefulWidget {
 }
 
 class _CoinflowLinkListenerState extends State<CoinflowLinkListener> with DynamicLinkHandler {
-  static bool _isCoinflowDeepLink(Uri uri) => uri.scheme == espressoCashLinkProtocol && uri.path == '/coinflow';
+  static bool _isCoinflowDeepLink(Uri uri) =>
+      uri.scheme == espressoCashLinkProtocol && uri.path == '/coinflow';
 
   @override
   bool handleDynamicLink(Uri uri) {
@@ -33,7 +34,10 @@ class _CoinflowLinkListenerState extends State<CoinflowLinkListener> with Dynami
     final profile = await context.ensureProfileData(RampType.offRamp);
 
     if (mounted && profile != null) {
-      await context.launchCoinflowOffRamp(address: sl<MyAccount>().wallet.publicKey.toBase58(), profile: profile);
+      await context.launchCoinflowOffRamp(
+        address: sl<MyAccount>().wallet.publicKey.toBase58(),
+        profile: profile,
+      );
     }
   }
 

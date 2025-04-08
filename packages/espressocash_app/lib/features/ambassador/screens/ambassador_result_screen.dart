@@ -12,13 +12,16 @@ class AmbassadorResultScreen extends StatelessWidget {
 
   final AmbassadorResult result;
 
-  static void push(BuildContext context, AmbassadorResult result) => Navigator.of(
-    context,
-  ).pushReplacement(MaterialPageRoute<void>(builder: (_) => AmbassadorResultScreen(result: result)));
+  static void push(BuildContext context, AmbassadorResult result) =>
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(builder: (_) => AmbassadorResultScreen(result: result)),
+      );
 
-  Color get _backgroundColor => result == AmbassadorResult.success ? CpColors.sandColor : CpColors.lightSandColor;
+  Color get _backgroundColor =>
+      result == AmbassadorResult.success ? CpColors.sandColor : CpColors.lightSandColor;
 
-  Color get _starColor => result == AmbassadorResult.success ? CpColors.lightSandColor : CpColors.sandColor;
+  Color get _starColor =>
+      result == AmbassadorResult.success ? CpColors.lightSandColor : CpColors.sandColor;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -31,7 +34,12 @@ class AmbassadorResultScreen extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.center,
-                  child: Assets.icons.starBackground.svg(fit: BoxFit.cover, color: _starColor, width: 600, height: 600),
+                  child: Assets.icons.starBackground.svg(
+                    fit: BoxFit.cover,
+                    color: _starColor,
+                    width: 600,
+                    height: 600,
+                  ),
                 ),
                 Center(
                   child: switch (result) {

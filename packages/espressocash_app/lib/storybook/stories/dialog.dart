@@ -27,7 +27,11 @@ final cpDialog = Story(
             ElevatedButton(
               child: const Text('Show Warning Dialog'),
               onPressed:
-                  () => showWarningDialog(context, title: 'Warning', message: 'Are you sure you want to do this?'),
+                  () => showWarningDialog(
+                    context,
+                    title: 'Warning',
+                    message: 'Are you sure you want to do this?',
+                  ),
             ),
           ],
         ),

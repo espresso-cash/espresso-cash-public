@@ -29,8 +29,9 @@ import '../widgets/on_ramp_deposit_widget.dart';
 class OnRampOrderScreen extends StatefulWidget {
   const OnRampOrderScreen({super.key, required this.orderId});
 
-  static void push(BuildContext context, {required String id}) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => OnRampOrderScreen(orderId: id)));
+  static void push(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => OnRampOrderScreen(orderId: id)));
 
   static void pushReplacement(BuildContext context, {required String id}) => Navigator.of(
     context,
@@ -100,7 +101,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final locale = DeviceLocale.localeOf(context);
     final amount = order.receiveAmount ?? order.submittedAmount;
 
-    final String? statusTitle = order.status == OnRampOrderStatus.completed ? context.l10n.transferSuccessTitle : null;
+    final String? statusTitle =
+        order.status == OnRampOrderStatus.completed ? context.l10n.transferSuccessTitle : null;
 
     final String statusContent = switch (order.status) {
       OnRampOrderStatus.pending ||
@@ -108,7 +110,9 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.waitingForBridge ||
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.postProcessing ||
-      OnRampOrderStatus.waitingForPartner => context.l10n.onRampDepositOngoing(amount.format(locale, maxDecimals: 2)),
+      OnRampOrderStatus.waitingForPartner => context.l10n.onRampDepositOngoing(
+        amount.format(locale, maxDecimals: 2),
+      ),
       OnRampOrderStatus.depositExpired => context.l10n.onRampDepositExpired,
       OnRampOrderStatus.failure || OnRampOrderStatus.rejected => context.l10n.onRampDepositFailure,
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
@@ -116,7 +120,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
     };
 
     final String? statusSubtitle = switch (order.status) {
-      OnRampOrderStatus.waitingForPartner || OnRampOrderStatus.postProcessing => context.l10n.onRampAwaitingFunds,
+      OnRampOrderStatus.waitingForPartner ||
+      OnRampOrderStatus.postProcessing => context.l10n.onRampAwaitingFunds,
       OnRampOrderStatus.waitingForBridge => context.l10n.transferInProgressText(3),
       OnRampOrderStatus.pending ||
       OnRampOrderStatus.preProcessing ||
@@ -128,7 +133,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.completed => null,
     };
 
-    final Widget? primaryButton = order.status == OnRampOrderStatus.failure ? const _ContactUsButton() : null;
+    final Widget? primaryButton =
+        order.status == OnRampOrderStatus.failure ? const _ContactUsButton() : null;
 
     final depositAmount = manualDeposit?.transferAmount ?? order.submittedAmount;
 
@@ -162,7 +168,10 @@ class OnRampOrderScreenContent extends StatelessWidget {
             ),
             const Spacer(flex: 4),
             if (isMoneygramOrder)
-              _MgAdditionalInfo(details: order.additionalDetails, status: order.status.toMoneygramStatus()),
+              _MgAdditionalInfo(
+                details: order.additionalDetails,
+                status: order.status.toMoneygramStatus(),
+              ),
             PartnerOrderIdWidget(orderId: order.partnerOrderId),
             if (primaryButton != null) ...[const SizedBox(height: 12), primaryButton],
             Visibility(
@@ -225,7 +234,10 @@ class _MgAdditionalInfo extends StatelessWidget {
   Widget build(BuildContext context) => Column(
     children: [
       if (details.fee case final fee?)
-        Text('MoneyGram Fee: ${fee.format(context.locale, maxDecimals: 2)}', style: _additionalInfoTextStyle),
+        Text(
+          'MoneyGram Fee: ${fee.format(context.locale, maxDecimals: 2)}',
+          style: _additionalInfoTextStyle,
+        ),
       Text('Status: ${status.toUpperCase()}', style: _additionalInfoTextStyle),
       if (details.moreInfoUrl case final moreInfoUrl?)
         Text.rich(
@@ -339,7 +351,9 @@ extension on OnRampOrderStatus {
     OnRampOrderStatus.waitingPartnerReview ||
     OnRampOrderStatus.waitingForDeposit ||
     OnRampOrderStatus.waitingForPartner => CpStatusType.info,
-    OnRampOrderStatus.depositExpired || OnRampOrderStatus.failure || OnRampOrderStatus.rejected => CpStatusType.error,
+    OnRampOrderStatus.depositExpired ||
+    OnRampOrderStatus.failure ||
+    OnRampOrderStatus.rejected => CpStatusType.error,
     OnRampOrderStatus.completed => CpStatusType.success,
   };
 
@@ -385,6 +399,10 @@ extension on OnRampOrderStatus {
   };
 }
 
-const _contentSubtitleTextStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.23);
+const _contentSubtitleTextStyle = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  letterSpacing: 0.23,
+);
 
 const _additionalInfoTextStyle = TextStyle(color: Color(0xFF979593), fontSize: 14);

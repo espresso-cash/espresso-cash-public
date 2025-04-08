@@ -14,7 +14,10 @@ class CpRadioButton extends StatelessWidget {
     child: Container(
       width: 24,
       height: 24,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: value ? CpColors.yellowColor : CpColors.blackGreyColor),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: value ? CpColors.yellowColor : CpColors.blackGreyColor,
+      ),
     ),
   );
 }

@@ -34,7 +34,12 @@ class NoActivity extends StatelessWidget {
         child: Text(
           context.l10n.noActivityDescription,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, letterSpacing: 0.19, height: 1.3),
+          style: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w400,
+            letterSpacing: 0.19,
+            height: 1.3,
+          ),
         ),
       ),
       const SizedBox(height: cpNavigationBarheight),

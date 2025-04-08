@@ -35,7 +35,9 @@ class _PuzzleInputScreenState extends State<PuzzleInputScreen> {
             const CpAppBar(),
             const OnboardingLogo(),
             OnboardingDescription(text: context.l10n.completeThePuzzle),
-            OnboardingPadding(child: RecoveryPhraseTextView(phrase: _currentPhrase, hasCopyButton: false)),
+            OnboardingPadding(
+              child: RecoveryPhraseTextView(phrase: _currentPhrase, hasCopyButton: false),
+            ),
             const SizedBox(height: 32),
             SizedBox(
               height: 200,

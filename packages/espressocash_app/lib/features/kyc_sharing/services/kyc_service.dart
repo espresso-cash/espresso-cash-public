@@ -63,7 +63,12 @@ class KycSharingService extends ValueNotifier<UserData?> {
     notifyListeners();
   }
 
-  Future<void> updatePersonalInfo({String? firstName, String? lastName, DateTime? dob, String? citizenshipCode}) async {
+  Future<void> updatePersonalInfo({
+    String? firstName,
+    String? lastName,
+    DateTime? dob,
+    String? citizenshipCode,
+  }) async {
     await _kycRepository.grantValidatorAccess();
 
     await _kycRepository.updateUserData(
@@ -139,11 +144,17 @@ class KycSharingService extends ValueNotifier<UserData?> {
     }
 
     final basicInfoTypes = requirements.basicInfoTypes;
-    final basicInfoHashes = _validateAndCollectBasicInfoHashes(user: user, requiredTypes: basicInfoTypes);
+    final basicInfoHashes = _validateAndCollectBasicInfoHashes(
+      user: user,
+      requiredTypes: basicInfoTypes,
+    );
 
     final requiredCountries = requirements.requiredCountryCodes;
     final documents = user.documents?.let(
-      (e) => requiredCountries.isNotEmpty ? e.where((doc) => requiredCountries.contains(doc.countryCode)).toList() : e,
+      (e) =>
+          requiredCountries.isNotEmpty
+              ? e.where((doc) => requiredCountries.contains(doc.countryCode)).toList()
+              : e,
     );
 
     if (documents == null) {
@@ -152,7 +163,10 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     final documentHashes = documents.map((e) => e.hash).whereType<String>().toList();
 
-    await _kycRepository.startKycVerification(country: country, dataHashes: [...basicInfoHashes, ...documentHashes]);
+    await _kycRepository.startKycVerification(
+      country: country,
+      dataHashes: [...basicInfoHashes, ...documentHashes],
+    );
   }
 
   List<String> _validateAndCollectBasicInfoHashes({
@@ -202,7 +216,10 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<void> updateSelfiePhoto({File? photoSelfie}) async {
     await _kycRepository.updateUserData(
-      selfie: photoSelfie != null ? Selfie(value: await photoSelfie.readAsBytes(), id: value?.selfie?.id ?? '') : null,
+      selfie:
+          photoSelfie != null
+              ? Selfie(value: await photoSelfie.readAsBytes(), id: value?.selfie?.id ?? '')
+              : null,
     );
 
     await _fetchUserData();
@@ -256,9 +273,10 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<bool> hasGrantedAccess(String partnerPk) => _kycRepository.hasGrantedAccess(partnerPk);
 
-  Future<({String termsUrl, String policyUrl})> fetchPartnerTermsAndPolicy(String partnerPk) => _kycRepository
-      .fetchPartnerInfo(partnerPk)
-      .then((partner) => (termsUrl: partner.termsUrl, policyUrl: partner.privacyUrl));
+  Future<({String termsUrl, String policyUrl})> fetchPartnerTermsAndPolicy(String partnerPk) =>
+      _kycRepository
+          .fetchPartnerInfo(partnerPk)
+          .then((partner) => (termsUrl: partner.termsUrl, policyUrl: partner.privacyUrl));
 
   Future<KycValidationStatus> getKycStatus({required String country}) =>
       _kycRepository.fetchKycStatus(country: country);

@@ -21,7 +21,11 @@ final offRampAmountScreenStory = Story(
         onSubmitted: ignore,
         minAmount: Decimal.fromInt(10),
         currency: Currency.usdc,
-        type: context.knobs.options(label: 'Type', initial: RampType.onRamp, options: RampType.values.toOptions()),
+        type: context.knobs.options(
+          label: 'Type',
+          initial: RampType.onRamp,
+          options: RampType.values.toOptions(),
+        ),
         calculateEquivalent:
             (amount) async => Future.delayed(
               Duration.zero,
@@ -43,7 +47,7 @@ final offRampAmountScreenStory = Story(
                   fiatCurrency: Currency.usd,
                 ),
                 extraFee: null,
-              ),),
+              )),
             ),
         exchangeRate: null,
         receiveCurrency: null,

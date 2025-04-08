@@ -85,7 +85,11 @@ class _CountdownTimerState extends State<CountdownTimer> {
             strokeWidth: 6,
           ),
         ),
-        Text(_formattedTime, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontSize: 13)),
+        Text(
+          _formattedTime,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.white, fontSize: 13),
+        ),
       ],
     ),
   );

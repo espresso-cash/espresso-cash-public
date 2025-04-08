@@ -38,7 +38,8 @@ class TxReadyWatcher implements Disposable {
           final txId = tx.id;
 
           final timestamp =
-              txDetails.blockTime?.let((it) => DateTime.fromMillisecondsSinceEpoch(it * 1000)) ?? DateTime.now();
+              txDetails.blockTime?.let((it) => DateTime.fromMillisecondsSinceEpoch(it * 1000)) ??
+              DateTime.now();
 
           final IList<String> destinationAccounts = txDetails.getInnerDestinations();
 
@@ -66,7 +67,9 @@ class TxReadyWatcher implements Disposable {
         if (!_subscriptions.containsKey(payment.id)) {
           final escrowAccount = await status.escrow.keyPair;
 
-          _subscriptions[payment.id] = _createStream(account: escrowAccount.publicKey).listen(onSuccess);
+          _subscriptions[payment.id] = _createStream(
+            account: escrowAccount.publicKey,
+          ).listen(onSuccess);
         }
       }
     });
@@ -76,9 +79,19 @@ class TxReadyWatcher implements Disposable {
     Duration backoff = const Duration(seconds: 1);
 
     Stream<IList<TransactionDetails>> streamSignatures(void _) => _client.rpcClient
-        .getTransactionsList(account, limit: 100, commitment: Commitment.confirmed, encoding: Encoding.jsonParsed)
+        .getTransactionsList(
+          account,
+          limit: 100,
+          commitment: Commitment.confirmed,
+          encoding: Encoding.jsonParsed,
+        )
         .asStream()
-        .map((txs) => txs.where((details) => details.transaction.getSignatureAccounts().contains(account)).toIList());
+        .map(
+          (txs) =>
+              txs
+                  .where((details) => details.transaction.getSignatureAccounts().contains(account))
+                  .toIList(),
+        );
 
     Stream<void> retryWhen(void _, void __) async* {
       await Future<void>.delayed(backoff);
@@ -88,9 +101,11 @@ class TxReadyWatcher implements Disposable {
     }
 
     return RetryWhenStream(
-      () => Stream<void>.periodic(
-        const Duration(seconds: 10),
-      ).startWith(null).flatMap(streamSignatures).where((event) => event.length == 2).map((details) => details.first),
+      () => Stream<void>.periodic(const Duration(seconds: 10))
+          .startWith(null)
+          .flatMap(streamSignatures)
+          .where((event) => event.length == 2)
+          .map((details) => details.first),
       retryWhen,
     );
   }
@@ -107,7 +122,10 @@ class TxReadyWatcher implements Disposable {
 extension on Transaction {
   List<Ed25519HDPublicKey> getSignatureAccounts() => switch (this) {
     ParsedTransaction(:final signatures, :final message) =>
-      message.accountKeys.map((e) => Ed25519HDPublicKey.fromBase58(e.pubkey)).take(signatures.length).toList(),
+      message.accountKeys
+          .map((e) => Ed25519HDPublicKey.fromBase58(e.pubkey))
+          .take(signatures.length)
+          .toList(),
     RawTransaction(:final data) => SignedTx.fromBytes(
       data,
     ).let((tx) => tx.compiledMessage.accountKeys.take(tx.signatures.length).toList()),

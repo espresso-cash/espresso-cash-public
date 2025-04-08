@@ -15,9 +15,9 @@ class QuizIntroScreen extends StatelessWidget {
       builder:
           (context) => QuizIntroScreen(
             onConfirmed:
-                () => Navigator.of(
-                  context,
-                ).pushReplacement(MaterialPageRoute<void>(builder: (context) => const QuizScreen())),
+                () => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute<void>(builder: (context) => const QuizScreen()),
+                ),
           ),
     ),
   );
@@ -48,11 +48,23 @@ class QuizIntroScreen extends StatelessWidget {
           child: Text(
             context.l10n.quizIntroDescription,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: 0.23),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.23,
+            ),
           ),
         ),
       ],
     ),
-    footer: [CpButton(text: context.l10n.quizStart, onPressed: onConfirmed, size: CpButtonSize.big, width: 350)],
+    footer: [
+      CpButton(
+        text: context.l10n.quizStart,
+        onPressed: onConfirmed,
+        size: CpButtonSize.big,
+        width: 350,
+      ),
+    ],
   );
 }

@@ -37,12 +37,14 @@ class CoinflowOffRampOrderWatcher implements RampWatcher {
           (order) => _client
               .getWithdrawalHistory(_account.address)
               .letAsync(
-                (response) =>
-                    response.withdraws.firstWhereOrNull((e) => e.transaction == SignedTx.decode(order.transaction).id),
+                (response) => response.withdraws.firstWhereOrNull(
+                  (e) => e.transaction == SignedTx.decode(order.transaction).id,
+                ),
               ),
         )
         .listen((event) async {
-          final statement = _db.update(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(orderId));
+          final statement = _db.update(_db.offRampOrderRows)
+            ..where((tbl) => tbl.id.equals(orderId));
 
           final status = switch (event?.status) {
             CoinflowOrderStatus.completed => OffRampOrderStatus.completed,

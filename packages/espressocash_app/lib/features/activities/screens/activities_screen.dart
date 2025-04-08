@@ -64,9 +64,17 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> with SingleTickerPr
           const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: CpTabBar(controller: _controller, tabs: ActivitiesTab.values.map(mapTab).toList()),
+            child: CpTabBar(
+              controller: _controller,
+              tabs: ActivitiesTab.values.map(mapTab).toList(),
+            ),
           ),
-          Expanded(child: TabBarView(controller: _controller, children: ActivitiesTab.values.map(mapWrapper).toList())),
+          Expanded(
+            child: TabBarView(
+              controller: _controller,
+              children: ActivitiesTab.values.map(mapWrapper).toList(),
+            ),
+          ),
           SizedBox(height: bottom),
         ],
       ),
@@ -83,8 +91,14 @@ class _Wrapper extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
     children: [
       child,
-      Align(alignment: Alignment.topCenter, child: Container(color: CpColors.deepGreyColor, height: 10)),
-      Align(alignment: Alignment.bottomCenter, child: Container(color: CpColors.deepGreyColor, height: 10)),
+      Align(
+        alignment: Alignment.topCenter,
+        child: Container(color: CpColors.deepGreyColor, height: 10),
+      ),
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(color: CpColors.deepGreyColor, height: 10),
+      ),
     ],
   );
 }

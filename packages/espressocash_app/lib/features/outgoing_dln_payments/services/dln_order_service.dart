@@ -121,7 +121,9 @@ class OutgoingDlnPaymentService implements Disposable {
     final OutgoingDlnPaymentStatus? newStatus = tx.map(
       sent: (_) => OutgoingDlnPaymentStatus.txSent(status.tx, slot: status.slot),
       invalidBlockhash:
-          (_) => const OutgoingDlnPaymentStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
+          (_) => const OutgoingDlnPaymentStatus.txFailure(
+            reason: TxFailureReason.invalidBlockhashSending,
+          ),
       failure: (it) => OutgoingDlnPaymentStatus.txFailure(reason: it.reason),
       networkError: (_) => null,
     );
@@ -135,7 +137,11 @@ class OutgoingDlnPaymentService implements Disposable {
       return payment;
     }
 
-    final tx = await _sender.wait(status.tx, minContextSlot: status.slot, txType: 'OutgoingDlnPayment');
+    final tx = await _sender.wait(
+      status.tx,
+      minContextSlot: status.slot,
+      txType: 'OutgoingDlnPayment',
+    );
     final OutgoingDlnPaymentStatus? newStatus = await tx.map(
       success: (_) => OutgoingDlnPaymentStatus.success(status.tx, orderId: null),
       failure: (tx) => OutgoingDlnPaymentStatus.txFailure(reason: tx.reason),
@@ -154,7 +160,9 @@ class OutgoingDlnPaymentService implements Disposable {
 
     String? orderId = status.orderId;
     if (orderId == null || orderId.isEmpty) {
-      orderId = await _client.fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id)).then((e) => e.orderId);
+      orderId = await _client
+          .fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
+          .then((e) => e.orderId);
     }
 
     if (orderId == null) {
@@ -165,7 +173,9 @@ class OutgoingDlnPaymentService implements Disposable {
     final isFulfilled = orderStatus.status == DlnOrderStatus.fulfilled;
 
     if (isFulfilled) {
-      return order.copyWith(status: OutgoingDlnPaymentStatus.fulfilled(status.tx, orderId: orderId));
+      return order.copyWith(
+        status: OutgoingDlnPaymentStatus.fulfilled(status.tx, orderId: orderId),
+      );
     }
 
     final isStale = DateTime.now().difference(order.created) > _orderExpiration;

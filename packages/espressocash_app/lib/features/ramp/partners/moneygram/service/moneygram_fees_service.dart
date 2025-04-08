@@ -9,7 +9,13 @@ import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 
 typedef MoneygramFees =
-    ({Amount receiveAmount, Amount moneygramFee, Amount bridgeFee, Amount gasFeeInUsdc, int? priorityFee});
+    ({
+      Amount receiveAmount,
+      Amount moneygramFee,
+      Amount bridgeFee,
+      Amount gasFeeInUsdc,
+      int? priorityFee,
+    });
 
 @Singleton(scope: authScope)
 class MoneygramFeesService {
@@ -36,11 +42,20 @@ class MoneygramFeesService {
       MoneygramFeeRequestDto(type: type.toDto(), amount: amount.decimal.toString()),
     );
 
-    final bridgeFee = Amount.fromDecimal(value: Decimal.parse(fee.bridgeFee), currency: Currency.usdc);
+    final bridgeFee = Amount.fromDecimal(
+      value: Decimal.parse(fee.bridgeFee),
+      currency: Currency.usdc,
+    );
 
-    final moneygramFee = Amount.fromDecimal(value: Decimal.parse(fee.moneygramFee), currency: Currency.usdc);
+    final moneygramFee = Amount.fromDecimal(
+      value: Decimal.parse(fee.moneygramFee),
+      currency: Currency.usdc,
+    );
 
-    final gasFeeInUsdc = Amount.fromDecimal(value: Decimal.parse(fee.gasFeeInUsdc ?? '0'), currency: Currency.usdc);
+    final gasFeeInUsdc = Amount.fromDecimal(
+      value: Decimal.parse(fee.gasFeeInUsdc ?? '0'),
+      currency: Currency.usdc,
+    );
 
     final totalFee = switch (type) {
       RampType.onRamp => bridgeFee + moneygramFee,

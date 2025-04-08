@@ -43,12 +43,14 @@ class ConversionRatesRepository {
   void _initCache() {
     _cacheSubscription = _db.select(_db.conversionRatesRows).watch().listen((rows) {
       for (final row in rows) {
-        _ratesCache.putIfAbsent(row.fiatCurrency, () => {})[row.token] = Decimal.tryParse(row.rate) ?? Decimal.zero;
+        _ratesCache.putIfAbsent(row.fiatCurrency, () => {})[row.token] =
+            Decimal.tryParse(row.rate) ?? Decimal.zero;
       }
     });
   }
 
-  Decimal? readRate(CryptoCurrency crypto, {required FiatCurrency to}) => _ratesCache[to.symbol]?[crypto.token.address];
+  Decimal? readRate(CryptoCurrency crypto, {required FiatCurrency to}) =>
+      _ratesCache[to.symbol]?[crypto.token.address];
 
   Stream<Decimal?> watchRate(CryptoCurrency crypto, {required FiatCurrency to}) {
     final query = _db.select(_db.conversionRatesRows)
@@ -57,7 +59,9 @@ class ConversionRatesRepository {
     return query.watchSingleOrNull().map((row) => row?.rate.let(Decimal.tryParse));
   }
 
-  AsyncResult<void> _fetchTokens(FiatCurrency currency, Iterable<Token> tokens) => tryEitherAsync((_) async {
+  AsyncResult<void> _fetchTokens(FiatCurrency currency, Iterable<Token> tokens) => tryEitherAsync((
+    _,
+  ) async {
     final addresses = await Stream.fromIterable(tokens.addresses).bufferCount(_maxIds).toList();
 
     final results = await Future.wait(
@@ -77,8 +81,10 @@ class ConversionRatesRepository {
       conversionRates[Token.sol.address] = conversionRates[Token.wrappedSol.address]!;
     }
 
-    final usdcRateQuery = _db.select(_db.conversionRatesRows)
-      ..where((tbl) => tbl.token.equals(Currency.usdc.token.address) & tbl.fiatCurrency.equals(currency.symbol));
+    final usdcRateQuery = _db.select(_db.conversionRatesRows)..where(
+      (tbl) =>
+          tbl.token.equals(Currency.usdc.token.address) & tbl.fiatCurrency.equals(currency.symbol),
+    );
     final usdcRateRow = await usdcRateQuery.getSingleOrNull();
     if (usdcRateRow == null) return;
 
@@ -107,10 +113,11 @@ class ConversionRatesRepository {
     });
   });
 
-  AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) => _cache.fetchEither(() async {
-    await _fetchFiatRates(currency: currency);
-    await _fetchTokens(currency, tokens);
-  });
+  AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) =>
+      _cache.fetchEither(() async {
+        await _fetchFiatRates(currency: currency);
+        await _fetchTokens(currency, tokens);
+      });
 
   Future<void> _fetchFiatRates({FiatCurrency? currency}) async {
     final data = await _ecClient.getRates().then((p) => p.usdc);
@@ -137,5 +144,6 @@ class ConversionRatesRepository {
 const _maxIds = 100;
 
 extension on Iterable<Token> {
-  Iterable<String> get addresses => map((t) => t.address == Token.sol.address ? Token.wrappedSol.address : t.address);
+  Iterable<String> get addresses =>
+      map((t) => t.address == Token.sol.address ? Token.wrappedSol.address : t.address);
 }

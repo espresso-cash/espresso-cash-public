@@ -97,7 +97,9 @@ extension on ODLNPaymentStatusDto {
       case ODLNPaymentStatusDto.success:
         return OutgoingDlnPaymentStatus.success(tx!, orderId: row.orderId ?? '');
       case ODLNPaymentStatusDto.txFailure:
-        return OutgoingDlnPaymentStatus.txFailure(reason: row.txFailureReason ?? TxFailureReason.unknown);
+        return OutgoingDlnPaymentStatus.txFailure(
+          reason: row.txFailureReason ?? TxFailureReason.unknown,
+        );
       case ODLNPaymentStatusDto.fulfilled:
         return OutgoingDlnPaymentStatus.fulfilled(tx!, orderId: row.orderId ?? '');
       case ODLNPaymentStatusDto.unfulfilled:
@@ -164,8 +166,11 @@ extension on OutgoingDlnPaymentStatus {
     unfulfilled: (it) => it.tx.id,
   );
 
-  String? toOrderId() =>
-      mapOrNull(success: (it) => it.orderId, fulfilled: (it) => it.orderId, unfulfilled: (it) => it.orderId);
+  String? toOrderId() => mapOrNull(
+    success: (it) => it.orderId,
+    fulfilled: (it) => it.orderId,
+    unfulfilled: (it) => it.orderId,
+  );
 
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(txFailure: (it) => it.reason);
 

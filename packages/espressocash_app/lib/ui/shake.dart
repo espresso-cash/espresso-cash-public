@@ -12,7 +12,10 @@ class Shake extends StatefulWidget {
 }
 
 class ShakeState extends State<Shake> with SingleTickerProviderStateMixin {
-  late final _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
+  late final _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 250),
+  );
 
   // ignore: prefer-widget-private-members, used for controlling the animation
   void shake() =>

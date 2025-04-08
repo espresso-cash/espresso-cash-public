@@ -10,6 +10,10 @@ class CpEmptyMessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.all(24.0),
-    child: Text(message, textAlign: TextAlign.center, style: TextStyle(color: CpTheme.of(context).secondaryTextColor)),
+    child: Text(
+      message,
+      textAlign: TextAlign.center,
+      style: TextStyle(color: CpTheme.of(context).secondaryTextColor),
+    ),
   );
 }

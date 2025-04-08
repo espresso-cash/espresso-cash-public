@@ -8,8 +8,9 @@ import '../widgets/kyc_button.dart';
 class ManageDataAccessScreen extends StatelessWidget {
   const ManageDataAccessScreen({super.key});
 
-  static void push(BuildContext context) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => const ManageDataAccessScreen()));
+  static void push(BuildContext context) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => const ManageDataAccessScreen()));
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -26,11 +27,19 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: EdgeInsets.only(top: 40, left: 40, right: 40, bottom: MediaQuery.paddingOf(context).bottom),
+    padding: EdgeInsets.only(
+      top: 40,
+      left: 40,
+      right: 40,
+      bottom: MediaQuery.paddingOf(context).bottom,
+    ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(padding: const EdgeInsets.symmetric(horizontal: 10), child: Text('Network partners'.toUpperCase())),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text('Network partners'.toUpperCase()),
+        ),
         const Spacer(),
         ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(30)),

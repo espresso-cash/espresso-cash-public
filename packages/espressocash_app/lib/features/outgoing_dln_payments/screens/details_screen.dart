@@ -30,10 +30,11 @@ class OutgoingDlnPaymentDetailsScreen extends StatefulWidget {
     context,
   ).push<void>(MaterialPageRoute(builder: (context) => OutgoingDlnPaymentDetailsScreen(id: id)));
 
-  static void open(BuildContext context, {required String id}) => Navigator.of(context).pushAndRemoveUntil<void>(
-    MaterialPageRoute(builder: (context) => OutgoingDlnPaymentDetailsScreen(id: id)),
-    (route) => route.isFirst,
-  );
+  static void open(BuildContext context, {required String id}) =>
+      Navigator.of(context).pushAndRemoveUntil<void>(
+        MaterialPageRoute(builder: (context) => OutgoingDlnPaymentDetailsScreen(id: id)),
+        (route) => route.isFirst,
+      );
 
   final String id;
 
@@ -72,7 +73,9 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = context.locale;
 
-    final String? statusTitle = order.status.mapOrNull(fulfilled: always(context.l10n.transferSuccessTitle));
+    final String? statusTitle = order.status.mapOrNull(
+      fulfilled: always(context.l10n.transferSuccessTitle),
+    );
 
     final receiverBlockchain = order.payment.receiverBlockchain.name.titleCase;
 
@@ -86,7 +89,9 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
       orElse: always(context.l10n.paymentProgressOngoing(amount)),
     );
 
-    final Widget? primaryButton = order.status.mapOrNull(unfulfilled: always(const _ContactUsButton()));
+    final Widget? primaryButton = order.status.mapOrNull(
+      unfulfilled: always(const _ContactUsButton()),
+    );
 
     void handleCanceled() => showConfirmationDialog(
       context,
@@ -128,7 +133,8 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
               receiverBlockchain: receiverBlockchain,
             ),
             const Spacer(flex: 4),
-            if (partnerOrderId != null && partnerOrderId.isNotEmpty) PartnerOrderIdWidget(orderId: partnerOrderId),
+            if (partnerOrderId != null && partnerOrderId.isNotEmpty)
+              PartnerOrderIdWidget(orderId: partnerOrderId),
             if (primaryButton != null) ...[const SizedBox(height: 12), primaryButton],
             if (secondaryButton != null) ...[const SizedBox(height: 16), secondaryButton],
             const SizedBox(height: 24),
@@ -164,7 +170,9 @@ class _Timeline extends StatelessWidget {
       subtitle: created.let((t) => context.formatDate(t)),
     );
     final txCreated = CpTimelineItem(title: context.l10n.transactionSentTimeline);
-    final paymentSuccess = CpTimelineItem(title: '${context.l10n.moneyReceived} on $receiverBlockchain');
+    final paymentSuccess = CpTimelineItem(
+      title: '${context.l10n.moneyReceived} on $receiverBlockchain',
+    );
 
     final items = [paymentInitiated, txCreated, paymentSuccess];
 

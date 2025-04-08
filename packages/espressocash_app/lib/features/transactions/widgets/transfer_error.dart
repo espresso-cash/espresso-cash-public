@@ -50,6 +50,10 @@ class _CancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.only(top: 16),
-    child: CpTextButton(text: context.l10n.cancelTransferBtn, variant: CpTextButtonVariant.light, onPressed: onCancel),
+    child: CpTextButton(
+      text: context.l10n.cancelTransferBtn,
+      variant: CpTextButtonVariant.light,
+      onPressed: onCancel,
+    ),
   );
 }

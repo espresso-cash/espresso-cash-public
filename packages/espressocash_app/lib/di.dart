@@ -37,7 +37,10 @@ abstract class AppModule {
   @singleton
   @preResolve
   Future<Mixpanel> mixpanel() async {
-    final mixpanel = await Mixpanel.init(const String.fromEnvironment('MIXPANEL_TOKEN'), trackAutomaticEvents: true);
+    final mixpanel = await Mixpanel.init(
+      const String.fromEnvironment('MIXPANEL_TOKEN'),
+      trackAutomaticEvents: true,
+    );
     mixpanel.setServerURL('https://api-eu.mixpanel.com');
 
     return mixpanel;

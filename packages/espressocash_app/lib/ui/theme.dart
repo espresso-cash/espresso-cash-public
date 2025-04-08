@@ -10,7 +10,8 @@ class CpTheme extends StatelessWidget {
   const CpTheme.light({Key? key, required Widget child})
     : this(key: key, theme: const CpThemeData.light(), child: child);
 
-  const CpTheme.dark({Key? key, required Widget child}) : this(key: key, theme: const CpThemeData.dark(), child: child);
+  const CpTheme.dark({Key? key, required Widget child})
+    : this(key: key, theme: const CpThemeData.dark(), child: child);
 
   const CpTheme.black({Key? key, required Widget child})
     : this(key: key, theme: const CpThemeData.black(), child: child);
@@ -25,7 +26,10 @@ class CpTheme extends StatelessWidget {
     value: theme,
     child: Theme(
       data: theme.toMaterialTheme(),
-      child: AnnotatedRegion<SystemUiOverlayStyle>(value: theme.brightness.systemOverlayStyle, child: child),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: theme.brightness.systemOverlayStyle,
+        child: child,
+      ),
     ),
   );
 }
@@ -72,7 +76,8 @@ class CpThemeData {
   final Brightness brightness;
   final Color dividerColor;
 
-  TextStyle get _baseTextStyle => TextStyle(height: 1.25, color: primaryTextColor, fontFamily: 'RobotoApp');
+  TextStyle get _baseTextStyle =>
+      TextStyle(height: 1.25, color: primaryTextColor, fontFamily: 'RobotoApp');
 
   ThemeData toMaterialTheme() => ThemeData(
     brightness: brightness,
@@ -106,7 +111,10 @@ class CpThemeData {
         letterSpacing: .23,
       ),
       shape: Border(
-        bottom: BorderSide(width: 1, color: brightness == Brightness.dark ? Colors.transparent : dividerColor),
+        bottom: BorderSide(
+          width: 1,
+          color: brightness == Brightness.dark ? Colors.transparent : dividerColor,
+        ),
       ),
       foregroundColor: primaryTextColor,
     ),
@@ -127,7 +135,11 @@ const twelveWordsTextStyle = TextStyle(
   height: 1.411,
 );
 
-const dashboardSectionTitleTextStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 17, color: Colors.white);
+const dashboardSectionTitleTextStyle = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 17,
+  color: Colors.white,
+);
 
 extension on Brightness {
   SystemUiOverlayStyle get systemOverlayStyle =>

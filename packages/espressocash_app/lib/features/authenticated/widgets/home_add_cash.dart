@@ -37,7 +37,14 @@ class HomeAddCashContent extends StatelessWidget {
                     HomeAppBar(backgroundColor: Colors.transparent),
                     SliverFillRemaining(
                       child: IntrinsicHeight(
-                        child: Column(children: [Spacer(flex: 3), _NoticeContent(), Spacer(flex: 2), _BottomBalance()]),
+                        child: Column(
+                          children: [
+                            Spacer(flex: 3),
+                            _NoticeContent(),
+                            Spacer(flex: 2),
+                            _BottomBalance(),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -61,12 +68,22 @@ class _NoticeContent extends StatelessWidget {
       children: [
         Text(
           context.l10n.depositTitle.toUpperCase(),
-          style: TextStyle(fontSize: 50.h, fontWeight: FontWeight.w900, letterSpacing: 0.25, color: Colors.white),
+          style: TextStyle(
+            fontSize: 50.h,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 0.25,
+            color: Colors.white,
+          ),
         ),
         SizedBox(height: 16.h),
         Text(
           context.l10n.addCashNoticeSubtitle.toUpperCase(),
-          style: TextStyle(fontSize: 22.h, fontWeight: FontWeight.w900, letterSpacing: 0.25, color: Colors.white),
+          style: TextStyle(
+            fontSize: 22.h,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 0.25,
+            color: Colors.white,
+          ),
         ),
         SizedBox(height: 24.h),
         CpBulletItemWidget(
@@ -77,16 +94,23 @@ class _NoticeContent extends StatelessWidget {
               text: '${context.l10n.addCash_noInflation1}\n',
               children: [
                 TextSpan(text: context.l10n.addCash_noInflation2),
-                TextSpan(text: context.l10n.addCash_noInflation3, style: const TextStyle(color: Color(0xffFFDA66))),
+                TextSpan(
+                  text: context.l10n.addCash_noInflation3,
+                  style: const TextStyle(color: Color(0xffFFDA66)),
+                ),
                 TextSpan(text: context.l10n.addCash_noInflation4),
               ],
             ),
           ),
         ),
         const SizedBox(height: 8),
-        CpBulletItemWidget(child: Text(context.l10n.addCash_CashoutAnytime, style: _bulletTextStyle)),
+        CpBulletItemWidget(
+          child: Text(context.l10n.addCash_CashoutAnytime, style: _bulletTextStyle),
+        ),
         const SizedBox(height: 8),
-        CpBulletItemWidget(child: Text(context.l10n.addCash_sendReceiveMoney, style: _bulletTextStyle)),
+        CpBulletItemWidget(
+          child: Text(context.l10n.addCash_sendReceiveMoney, style: _bulletTextStyle),
+        ),
         SizedBox(height: 28.h),
         CpButton(
           text: context.l10n.ramp_btnAddCash,
@@ -147,7 +171,10 @@ class _BottomBalance extends StatelessWidget {
   Widget build(BuildContext context) => DecoratedBox(
     decoration: const ShapeDecoration(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(44), topRight: Radius.circular(44)),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(44),
+          topRight: Radius.circular(44),
+        ),
       ),
       color: CpColors.deepGreyColor,
     ),

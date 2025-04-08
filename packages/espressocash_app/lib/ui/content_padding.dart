@@ -7,6 +7,8 @@ class CpContentPadding extends StatelessWidget {
   final bool bottom;
 
   @override
-  Widget build(BuildContext context) =>
-      Padding(padding: EdgeInsets.only(top: 24, bottom: bottom ? 24 : 0, left: 24, right: 24), child: child);
+  Widget build(BuildContext context) => Padding(
+    padding: EdgeInsets.only(top: 24, bottom: bottom ? 24 : 0, left: 24, right: 24),
+    child: child,
+  );
 }

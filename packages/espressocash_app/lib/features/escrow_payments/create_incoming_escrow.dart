@@ -27,7 +27,12 @@ class CreateIncomingEscrow {
   }) async {
     final mint = Token.usdc.publicKey;
 
-    await validateEscrow(address: escrowAccount.publicKey, mint: mint, client: _client, commitment: commitment);
+    await validateEscrow(
+      address: escrowAccount.publicKey,
+      mint: mint,
+      client: _client,
+      commitment: commitment,
+    );
 
     final nonceData = await _ecClient.getFreeNonce();
     final platformAccount = Ed25519HDPublicKey.fromBase58(nonceData.authority);
@@ -39,7 +44,11 @@ class CreateIncomingEscrow {
     final ataReceiver = await findAssociatedTokenAddress(owner: receiverAccount, mint: mint);
 
     final shouldCreateAta =
-        !await _client.hasAssociatedTokenAccount(owner: receiverAccount, mint: mint, commitment: commitment);
+        !await _client.hasAssociatedTokenAccount(
+          owner: receiverAccount,
+          mint: mint,
+          commitment: commitment,
+        );
 
     if (shouldCreateAta) {
       final iCreateATA = AssociatedTokenAccountInstruction.createAccount(

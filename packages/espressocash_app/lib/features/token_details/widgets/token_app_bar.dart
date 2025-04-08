@@ -15,7 +15,8 @@ class TokenAppBar extends StatelessWidget {
   final Token token;
 
   @override
-  Widget build(BuildContext context) => SliverPersistentHeader(pinned: true, delegate: _TokenAppBarDelegate(token));
+  Widget build(BuildContext context) =>
+      SliverPersistentHeader(pinned: true, delegate: _TokenAppBarDelegate(token));
 }
 
 class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
@@ -33,7 +34,9 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
       color: CpColors.darkSandColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Stack(children: [_buildIcon(ratio, iconSize), _buildText(ratio, iconSize), const _BackButton()]),
+        child: Stack(
+          children: [_buildIcon(ratio, iconSize), _buildText(ratio, iconSize), const _BackButton()],
+        ),
       ),
     );
   }
@@ -71,16 +74,20 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(covariant _TokenAppBarDelegate oldDelegate) => oldDelegate.token != token;
 
   @override
-  FloatingHeaderSnapConfiguration get snapConfiguration =>
-      FloatingHeaderSnapConfiguration(curve: Curves.easeIn, duration: const Duration(milliseconds: 200));
+  FloatingHeaderSnapConfiguration get snapConfiguration => FloatingHeaderSnapConfiguration(
+    curve: Curves.easeIn,
+    duration: const Duration(milliseconds: 200),
+  );
 }
 
 class _BackButton extends StatelessWidget {
   const _BackButton();
 
   @override
-  Widget build(BuildContext context) =>
-      const Align(alignment: Alignment.topLeft, child: SizedBox(height: _minExtent, child: CpBackButton()));
+  Widget build(BuildContext context) => const Align(
+    alignment: Alignment.topLeft,
+    child: SizedBox(height: _minExtent, child: CpBackButton()),
+  );
 }
 
 const double _tokenSize = 68;

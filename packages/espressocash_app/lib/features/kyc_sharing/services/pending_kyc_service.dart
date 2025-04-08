@@ -44,12 +44,16 @@ class PendingKycService {
           .startWith(null)
           .exhaustMap(
             (_) =>
-                fetchKycStatus(
-                  country: country,
-                ).timeout(const Duration(seconds: 8), onTimeout: () => KycValidationStatus.unverified).asStream(),
+                fetchKycStatus(country: country)
+                    .timeout(
+                      const Duration(seconds: 8),
+                      onTimeout: () => KycValidationStatus.unverified,
+                    )
+                    .asStream(),
           );
 
-  Future<KycValidationStatus> fetchKycStatus({required String country}) => _kycService.getKycStatus(country: country);
+  Future<KycValidationStatus> fetchKycStatus({required String country}) =>
+      _kycService.getKycStatus(country: country);
 
   DateTime? _getCurrentKycDate() {
     final dateString = _sharedPreferences.getString(_kycStartedKey);

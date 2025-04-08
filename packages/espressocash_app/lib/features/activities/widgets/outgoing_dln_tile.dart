@@ -21,7 +21,10 @@ class OutgoingDlnTile extends StatelessWidget {
     title: context.l10n.sentDirectly,
     timestamp: context.formatDate(activity.created),
     icon: Assets.icons.paymentIcon.svg(),
-    outgoingAmount: activity.data.payment.inputAmount.format(DeviceLocale.localeOf(context), maxDecimals: 2),
+    outgoingAmount: activity.data.payment.inputAmount.format(
+      DeviceLocale.localeOf(context),
+      maxDecimals: 2,
+    ),
     status: activity.data.status.map(
       txCreated: always(CpActivityTileStatus.inProgress),
       txSent: always(CpActivityTileStatus.inProgress),

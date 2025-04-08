@@ -62,7 +62,9 @@ extension RequirementListExtension on List<Requirement> {
           );
 
           if (hasMatchingDocType) {
-            fields.addAll(andReq.requirements.whereType<DocumentFieldRequirement>().map((r) => r.field));
+            fields.addAll(
+              andReq.requirements.whereType<DocumentFieldRequirement>().map((r) => r.field),
+            );
             break;
           }
         }

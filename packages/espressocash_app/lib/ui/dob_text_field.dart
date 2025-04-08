@@ -56,7 +56,8 @@ class _DateInputFormatter extends TextInputFormatter {
     }
 
     if (currentLength == 4) {
-      if (int.tryParse(currentText.substring(3, 4)) == null || int.parse(currentText.substring(3, 4)) > 1) {
+      if (int.tryParse(currentText.substring(3, 4)) == null ||
+          int.parse(currentText.substring(3, 4)) > 1) {
         return _updateText(currentText.substring(0, 3));
       }
     }
@@ -70,7 +71,8 @@ class _DateInputFormatter extends TextInputFormatter {
       return _updateText('$currentText/');
     }
 
-    if ((currentLength == 3 && previousLength == 4) || (currentLength == 6 && previousLength == 7)) {
+    if ((currentLength == 3 && previousLength == 4) ||
+        (currentLength == 6 && previousLength == 7)) {
       return _updateText(currentText.substring(0, currentText.length - 1));
     }
 
@@ -87,7 +89,8 @@ class _DateInputFormatter extends TextInputFormatter {
     }
 
     if (currentLength == 7) {
-      if (int.tryParse(currentText.substring(6, 7)) == null || int.parse(currentText.substring(6, 7)) > 2) {
+      if (int.tryParse(currentText.substring(6, 7)) == null ||
+          int.parse(currentText.substring(6, 7)) > 2) {
         return _updateText(currentText.substring(0, 6));
       }
     }

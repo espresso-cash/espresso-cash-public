@@ -6,7 +6,9 @@ import '../test/keys/keys.dart';
 import '../test/utils.dart';
 
 Future<void> main() async {
-  final mintAuthority = await Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: mintAuthorityPrivateKey);
+  final mintAuthority = await Ed25519HDKeyPair.fromPrivateKeyBytes(
+    privateKey: mintAuthorityPrivateKey,
+  );
 
   final solanaClient = createTestSolanaClient();
   await solanaClient.createAndFundAccount(mintAuthority.address, sol: 1000);
@@ -31,7 +33,8 @@ Future<void> main() async {
 
   await Future.wait(
     tokenPubKeys.map(
-      (Ed25519HDKeyPair token) async => solanaClient.airdropSplTokens(accountKey.publicKey, token, amount: 100000),
+      (Ed25519HDKeyPair token) async =>
+          solanaClient.airdropSplTokens(accountKey.publicKey, token, amount: 100000),
     ),
   );
 

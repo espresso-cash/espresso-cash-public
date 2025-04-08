@@ -54,7 +54,8 @@ class Token {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is Token && chainId == other.chainId && address == other.address;
+      identical(this, other) ||
+      other is Token && chainId == other.chainId && address == other.address;
 
   @override
   int get hashCode => Object.hash(chainId, address);

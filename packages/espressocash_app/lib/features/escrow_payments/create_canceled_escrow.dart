@@ -28,7 +28,12 @@ class CreateCanceledEscrow {
     final nonceData = await _ecClient.getFreeNonce();
     final platformAccount = Ed25519HDPublicKey.fromBase58(nonceData.authority);
 
-    await validateEscrow(address: escrowAccount, mint: mint, client: _client, commitment: commitment);
+    await validateEscrow(
+      address: escrowAccount,
+      mint: mint,
+      client: _client,
+      commitment: commitment,
+    );
 
     final ataSender = await findAssociatedTokenAddress(owner: senderAccount, mint: mint);
 

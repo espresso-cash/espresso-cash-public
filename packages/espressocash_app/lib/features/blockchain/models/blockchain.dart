@@ -13,6 +13,8 @@ extension BlockchainExt on Blockchain {
 
   bool validateAddress(String text) => switch (this) {
     Blockchain.solana => isValidAddress(text),
-    Blockchain.arbitrum || Blockchain.polygon || Blockchain.ethereum => isValidEthereumAddress(text),
+    Blockchain.arbitrum ||
+    Blockchain.polygon ||
+    Blockchain.ethereum => isValidEthereumAddress(text),
   };
 }

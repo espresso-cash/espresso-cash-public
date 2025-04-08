@@ -29,7 +29,9 @@ class TxConfirm {
       final innerSpan = span.startChild('getSignatureStatus()');
       _logger.fine('$txId: Checking tx status.');
 
-      final statuses = await _client.rpcClient.getSignatureStatuses([txId], searchTransactionHistory: true);
+      final statuses = await _client.rpcClient.getSignatureStatuses([
+        txId,
+      ], searchTransactionHistory: true);
       final t = statuses.value.first;
 
       if (t == null) {
@@ -96,9 +98,9 @@ class TxConfirm {
       }
     }
 
-    final polling = Stream<void>.periodic(
-      const Duration(seconds: 10),
-    ).startWith(null).exhaustMap((_) => getSignatureStatus(sentryTx).asStream().onErrorReturn(null));
+    final polling = Stream<void>.periodic(const Duration(seconds: 10))
+        .startWith(null)
+        .exhaustMap((_) => getSignatureStatus(sentryTx).asStream().onErrorReturn(null));
 
     return MergeStream([
       polling,

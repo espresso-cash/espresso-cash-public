@@ -35,7 +35,8 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
   final MyAccount _account;
 
   EventHandler<RemoteRequestEvent, RemoteRequestState> get _eventHandler =>
-      (event, emit) => event.map(accepted: (_) => _onAccepted(emit), declined: (_) => _onDeclined(emit));
+      (event, emit) =>
+          event.map(accepted: (_) => _onAccepted(emit), declined: (_) => _onDeclined(emit));
 
   void _onDeclined(Emitter<RemoteRequestState> emit) {
     final request = state.whenOrNull(requested: identity);
@@ -83,30 +84,39 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
               .resignAll(_account.wallet)
               .letAsync((it) => it.map((it) => it.toByteArray().toList())),
       messages:
-          (it) async => zip2(it.payloads, await _account.wallet.sign(it.payloads)).map((it) => it.$1 + it.$2.bytes),
+          (it) async => zip2(
+            it.payloads,
+            await _account.wallet.sign(it.payloads),
+          ).map((it) => it.$1 + it.$2.bytes),
     );
 
     return SignedPayloadResult(signedPayloads: signedPayloads.map(Uint8List.fromList).toList());
   });
 
-  Future<SignaturesResult> _signTransactionsForSending(SignAndSendTransactionsRequest request) => _validatePayloads(
-    authorizationScope: request.authorizationScope,
-    payloads: request.transactions,
-  ).fold((err) async => err.toSignaturesResult(), (payloads) async {
-    final signedTxs = await payloads.map(SignedTx.fromBytes).let((it) => it.resignAll(_account.wallet));
+  Future<SignaturesResult> _signTransactionsForSending(SignAndSendTransactionsRequest request) =>
+      _validatePayloads(
+        authorizationScope: request.authorizationScope,
+        payloads: request.transactions,
+      ).fold((err) async => err.toSignaturesResult(), (payloads) async {
+        final signedTxs = await payloads
+            .map(SignedTx.fromBytes)
+            .let((it) => it.resignAll(_account.wallet));
 
-    final results = await Future.wait(
-      signedTxs.map(
-        (tx) => _sender.send(tx, minContextSlot: BigInt.zero).letAsync((it) => it.maybeMap(orElse: F, sent: T)),
-      ),
-    );
-
-    return results.any((e) => !e)
-        ? SignaturesResult.invalidPayloads(valid: results)
-        : SignaturesResult(
-          signatures: signedTxs.map((it) => it.signatures.first.bytes).map(Uint8List.fromList).toList(),
+        final results = await Future.wait(
+          signedTxs.map(
+            (tx) => _sender
+                .send(tx, minContextSlot: BigInt.zero)
+                .letAsync((it) => it.maybeMap(orElse: F, sent: T)),
+          ),
         );
-  });
+
+        return results.any((e) => !e)
+            ? SignaturesResult.invalidPayloads(valid: results)
+            : SignaturesResult(
+              signatures:
+                  signedTxs.map((it) => it.signatures.first.bytes).map(Uint8List.fromList).toList(),
+            );
+      });
 }
 
 @useResult
@@ -124,7 +134,9 @@ Either<_ValidationError, List<Uint8List>> _validatePayloads({
 
   final valids = payloads.map((it) => it.isNotEmpty).toList();
 
-  return valids.any((i) => !i) ? Either.left(_ValidationError.invalidPayloads(valids)) : Either.right(payloads);
+  return valids.any((i) => !i)
+      ? Either.left(_ValidationError.invalidPayloads(valids))
+      : Either.right(payloads);
 }
 
 @freezed

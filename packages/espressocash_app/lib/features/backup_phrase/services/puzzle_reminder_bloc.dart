@@ -26,18 +26,22 @@ sealed class PuzzleReminderState with _$PuzzleReminderState {
 @Freezed(when: FreezedWhenOptions.none, map: FreezedMapOptions.none)
 sealed class PuzzleReminderEvent with _$PuzzleReminderEvent {
   /// Indicates that the state of resolution has to be checked
-  const factory PuzzleReminderEvent.checkRequested({required AccessMode accessMode, required ECWallet wallet}) =
-      PuzzleReminderEventCheckRequested;
+  const factory PuzzleReminderEvent.checkRequested({
+    required AccessMode accessMode,
+    required ECWallet wallet,
+  }) = PuzzleReminderEventCheckRequested;
 
   /// Indicates that the user solved the puzzle
   const factory PuzzleReminderEvent.solved() = PuzzleReminderEventSolved;
 
   /// Indicates that the user postponed the puzzle
-  const factory PuzzleReminderEvent.postponed({required Duration postponedBy}) = PuzzleReminderEventPostponed;
+  const factory PuzzleReminderEvent.postponed({required Duration postponedBy}) =
+      PuzzleReminderEventPostponed;
 }
 
 @Singleton(scope: authScope)
-class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState> with DisposableBloc {
+class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState>
+    with DisposableBloc {
   PuzzleReminderBloc(this._sharedPreferences) : super(const PuzzleReminderState.none()) {
     on<PuzzleReminderEvent>(_eventHandler, transformer: sequential());
   }
@@ -67,7 +71,10 @@ class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState> 
   /// show the message right away.
   ///
   /// If it was previously set, the check the `remindAt` value and schedule
-  Future<void> _onCheckRequested(PuzzleReminderEventCheckRequested event, Emitter<PuzzleReminderState> emit) async {
+  Future<void> _onCheckRequested(
+    PuzzleReminderEventCheckRequested event,
+    Emitter<PuzzleReminderState> emit,
+  ) async {
     await event.accessMode.when(
       // Don't set a reminder if user logged in (they already know the seed)
       seedInputted: () async => add(const PuzzleReminderEvent.solved()),
@@ -112,10 +119,15 @@ class PuzzleReminderData with _$PuzzleReminderData {
 
   const factory PuzzleReminderData.solved() = _PuzzleReminderDataSolved;
 
-  const factory PuzzleReminderData.remindAfter({required DateTime remindAt}) = _PuzzleReminderDataRemindAfter;
+  const factory PuzzleReminderData.remindAfter({required DateTime remindAt}) =
+      _PuzzleReminderDataRemindAfter;
 
-  factory PuzzleReminderData.fromJson(Map<String, dynamic> json) => _$PuzzleReminderDataFromJson(json);
+  factory PuzzleReminderData.fromJson(Map<String, dynamic> json) =>
+      _$PuzzleReminderDataFromJson(json);
 
-  bool get shouldRemindNow =>
-      maybeWhen(unset: () => true, remindAfter: (remindAt) => remindAt.isBefore(DateTime.now()), orElse: () => false);
+  bool get shouldRemindNow => maybeWhen(
+    unset: () => true,
+    remindAfter: (remindAt) => remindAt.isBefore(DateTime.now()),
+    orElse: () => false,
+  );
 }

@@ -46,7 +46,12 @@ class ODPService {
   }) async {
     final id = const Uuid().v4();
 
-    final status = await _createTx(account: account, receiver: receiver, amount: amount, reference: reference);
+    final status = await _createTx(
+      account: account,
+      receiver: receiver,
+      amount: amount,
+      reference: reference,
+    );
 
     final payment = OutgoingDirectPayment(
       id: id,
@@ -85,7 +90,10 @@ class ODPService {
         cluster: apiCluster,
       );
       final response = await _client.createDirectPayment(dto);
-      final tx = await response.let((it) => it.transaction).let(SignedTx.decode).let((it) => it.resign(account));
+      final tx = await response
+          .let((it) => it.transaction)
+          .let(SignedTx.decode)
+          .let((it) => it.resign(account));
 
       return ODPStatus.txCreated(tx, slot: response.slot);
     } on Exception {
@@ -122,7 +130,8 @@ class ODPService {
 
     final ODPStatus? newStatus = tx.map(
       sent: (_) => ODPStatus.txSent(status.tx, slot: status.slot),
-      invalidBlockhash: (_) => const ODPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
+      invalidBlockhash:
+          (_) => const ODPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
       failure: (it) => ODPStatus.txFailure(reason: it.reason),
       networkError: (_) => null,
     );
@@ -136,7 +145,11 @@ class ODPService {
       return payment;
     }
 
-    final tx = await _txSender.wait(status.tx, minContextSlot: status.slot, txType: 'OutgoingDirectPayment');
+    final tx = await _txSender.wait(
+      status.tx,
+      minContextSlot: status.slot,
+      txType: 'OutgoingDirectPayment',
+    );
 
     final ODPStatus? newStatus = tx.map(
       success: (_) => ODPStatus.success(txId: status.tx.id),

@@ -28,9 +28,17 @@ class BankTextField extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 70,
-                    child: Text(bank.code, style: TextStyle(fontSize: selected ? 19 : 17, color: CpColors.yellowColor)),
+                    child: Text(
+                      bank.code,
+                      style: TextStyle(fontSize: selected ? 19 : 17, color: CpColors.yellowColor),
+                    ),
                   ),
-                  Expanded(child: Text(bank.name, style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white))),
+                  Expanded(
+                    child: Text(
+                      bank.name,
+                      style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
           onTap: (bank, _) async {

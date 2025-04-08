@@ -20,14 +20,19 @@ import '../widgets/kyc_text_field.dart';
 class BankAccountScreen extends StatefulWidget {
   const BankAccountScreen({super.key, this.initialBankInfo, this.buttonLabel});
 
-  static Future<bool> push(BuildContext context, {BankInfo? initialBankInfo, String? buttonLabel}) =>
-      Navigator.of(context)
-          .push<bool>(
-            MaterialPageRoute(
-              builder: (context) => BankAccountScreen(initialBankInfo: initialBankInfo, buttonLabel: buttonLabel),
-            ),
-          )
-          .then((result) => result ?? false);
+  static Future<bool> push(
+    BuildContext context, {
+    BankInfo? initialBankInfo,
+    String? buttonLabel,
+  }) => Navigator.of(context)
+      .push<bool>(
+        MaterialPageRoute(
+          builder:
+              (context) =>
+                  BankAccountScreen(initialBankInfo: initialBankInfo, buttonLabel: buttonLabel),
+        ),
+      )
+      .then((result) => result ?? false);
 
   final BankInfo? initialBankInfo;
   final String? buttonLabel;
@@ -78,7 +83,9 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
 
     _bankAccountNumberController.text = widget.initialBankInfo?.accountNumber ?? '';
 
-    final initialBank = scalexBanks.firstWhereOrNull((bank) => bank.code == widget.initialBankInfo?.bankCode);
+    final initialBank = scalexBanks.firstWhereOrNull(
+      (bank) => bank.code == widget.initialBankInfo?.bankCode,
+    );
 
     _selectedCountry = Country.findByCode(widget.initialBankInfo?.countryCode ?? '');
 
@@ -130,7 +137,11 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
           onBankChanged: (bank) => setState(() => _selectedBank = bank),
         )
       else
-        KycTextField(controller: _bankCodeController, inputType: TextInputType.name, placeholder: 'Bank Code'),
+        KycTextField(
+          controller: _bankCodeController,
+          inputType: TextInputType.name,
+          placeholder: 'Bank Code',
+        ),
       const SizedBox(height: 16),
       KycTextField(
         controller: _bankAccountNumberController,

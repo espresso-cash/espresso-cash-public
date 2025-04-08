@@ -103,7 +103,9 @@ class StellarClient {
     final usdc = AssetTypeCreditAlphaNum4('USDC', moneygramAssetIssuer);
     final ctob = ChangeTrustOperationBuilder(usdc, limit.toString());
 
-    final transaction = TransactionBuilder(account).addOperation(ctob.build()).build()..sign(wallet, stellarNetwork);
+    final transaction =
+        TransactionBuilder(account).addOperation(ctob.build()).build()
+          ..sign(wallet, stellarNetwork);
 
     final response = await _sdk.submitTransaction(transaction);
 
@@ -113,7 +115,8 @@ class StellarClient {
   Future<String?> submitTransactionFromXdrString(String xdr) async {
     final wallet = _stellarWallet.keyPair;
 
-    final transaction = AbstractTransaction.fromEnvelopeXdrString(xdr) as Transaction..sign(wallet, stellarNetwork);
+    final transaction =
+        AbstractTransaction.fromEnvelopeXdrString(xdr) as Transaction..sign(wallet, stellarNetwork);
 
     final response = await _sorobanClient.sendTransaction(transaction);
 
@@ -139,7 +142,11 @@ class StellarClient {
     return transactionResponse;
   }
 
-  Future<bool> sendUsdc({required String destinationAddress, required String memo, required String amount}) async {
+  Future<bool> sendUsdc({
+    required String destinationAddress,
+    required String memo,
+    required String amount,
+  }) async {
     final sourceAccount = await _sdk.accounts.account(_stellarWallet.address);
 
     final Asset usdcAsset = Asset.createNonNativeAsset('USDC', moneygramAssetIssuer);

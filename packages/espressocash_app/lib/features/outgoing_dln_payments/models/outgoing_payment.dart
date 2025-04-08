@@ -25,7 +25,8 @@ sealed class OutgoingDlnPaymentStatus with _$OutgoingDlnPaymentStatus {
       OutgoingDlnPaymentStatusTxCreated;
 
   /// Tx is successfully sent.
-  const factory OutgoingDlnPaymentStatus.txSent(SignedTx tx, {required BigInt slot}) = OutgoingDlnPaymentStatusTxSent;
+  const factory OutgoingDlnPaymentStatus.txSent(SignedTx tx, {required BigInt slot}) =
+      OutgoingDlnPaymentStatusTxSent;
 
   /// Tx is successfully confirmed and order awaiting fulfillment.
   const factory OutgoingDlnPaymentStatus.success(SignedTx tx, {required String? orderId}) =

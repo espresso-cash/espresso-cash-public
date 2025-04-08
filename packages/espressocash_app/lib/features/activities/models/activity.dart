@@ -9,7 +9,8 @@ part 'activity.freezed.dart';
 
 @freezed
 class Activity with _$Activity {
-  const factory Activity.outgoingPaymentRequest({required String id, required DateTime created}) = OPRActivity;
+  const factory Activity.outgoingPaymentRequest({required String id, required DateTime created}) =
+      OPRActivity;
 
   const factory Activity.outgoingDirectPayment({
     required String id,

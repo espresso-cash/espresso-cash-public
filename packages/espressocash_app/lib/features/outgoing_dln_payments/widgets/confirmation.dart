@@ -62,7 +62,11 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
   }
 
   Future<void> _onException(CreateOrderException e) async {
-    await showWarningDialog(context, title: context.l10n.swapErrorTitle, message: e.description(context));
+    await showWarningDialog(
+      context,
+      title: context.l10n.swapErrorTitle,
+      message: e.description(context),
+    );
 
     _bloc.add(const ConfirmPaymentEvent.invalidated());
   }
@@ -84,7 +88,11 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
           _ => null,
         },
     builder: (context, state) {
-      final receiverAmount = state.receiverAmount.format(context.locale, maxDecimals: 2, roundInteger: false);
+      final receiverAmount = state.receiverAmount.format(
+        context.locale,
+        maxDecimals: 2,
+        roundInteger: false,
+      );
 
       final totalDeductedAmount = (state.inputAmount + state.fee).format(
         context.locale,
@@ -99,7 +107,10 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
           builder:
               (context, constraints) => SingleChildScrollView(
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: constraints.maxWidth, minHeight: constraints.maxHeight),
+                  constraints: BoxConstraints(
+                    minWidth: constraints.maxWidth,
+                    minHeight: constraints.maxHeight,
+                  ),
                   child: IntrinsicHeight(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -135,7 +146,10 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
                         CpContentPadding(
                           child: CpSlider(
                             text: context.l10n.confirm,
-                            onSlideCompleted: (state.quote == null || state.flowState.isProcessing) ? null : _onSubmit,
+                            onSlideCompleted:
+                                (state.quote == null || state.flowState.isProcessing)
+                                    ? null
+                                    : _onSubmit,
                           ),
                         ),
                       ],
@@ -164,7 +178,11 @@ class _DisclaimerText extends StatelessWidget {
           ),
           TextSpan(
             text: context.l10n.outgoingDlnDisclaimer2,
-            style: const TextStyle(color: Color(0xFFFFDA66), fontSize: 14, fontWeight: FontWeight.w500),
+            style: const TextStyle(
+              color: Color(0xFFFFDA66),
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           TextSpan(
             text: context.l10n.outgoingDlnDisclaimer3,
@@ -192,7 +210,12 @@ class _Item extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500, letterSpacing: 0.23),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.23,
+          ),
         ),
         const SizedBox(height: 8),
         DecoratedBox(
@@ -202,7 +225,11 @@ class _Item extends StatelessWidget {
             title: Text(
               value,
               maxLines: null,
-              style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -216,8 +243,9 @@ class _Loading extends StatelessWidget {
   const _Loading();
 
   @override
-  Widget build(BuildContext context) =>
-      const Center(child: SizedBox.square(dimension: 16, child: CircularProgressIndicator(color: Colors.white)));
+  Widget build(BuildContext context) => const Center(
+    child: SizedBox.square(dimension: 16, child: CircularProgressIndicator(color: Colors.white)),
+  );
 }
 
 extension on CreateOrderException {

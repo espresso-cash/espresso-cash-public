@@ -31,7 +31,10 @@ class RampPartnerSelectScreen extends StatefulWidget {
     required RampType type,
     required ValueSetter<RampPartner> onPartnerSelected,
   }) => Navigator.of(context).push<void>(
-    MaterialPageRoute(builder: (context) => RampPartnerSelectScreen(type: type, onPartnerSelected: onPartnerSelected)),
+    MaterialPageRoute(
+      builder:
+          (context) => RampPartnerSelectScreen(type: type, onPartnerSelected: onPartnerSelected),
+    ),
   );
 
   final RampType type;
@@ -69,7 +72,7 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
     setState(() {
       _country = country;
     });
-  }, onError: (error) => showErrorDialog(context, context.l10n.lblProfileUpdateFailed, error),);
+  }, onError: (error) => showErrorDialog(context, context.l10n.lblProfileUpdateFailed, error));
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
@@ -79,7 +82,7 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
         title: Text(switch (widget.type) {
           RampType.onRamp => context.l10n.ramp_btnAddCash.toUpperCase(),
           RampType.offRamp => context.l10n.ramp_btnCashOut.toUpperCase(),
-        },),
+        }),
       ),
       body: OnboardingScreen(
         children: [
@@ -120,10 +123,18 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
               onSubmitted: _handleCountryChange,
             ),
           ),
-          if (_partners.isEmpty) ...[const Spacer(), const _CountryNotSupportedWidget(), const Spacer()],
+          if (_partners.isEmpty) ...[
+            const Spacer(),
+            const _CountryNotSupportedWidget(),
+            const Spacer(),
+          ],
           SizedBox(height: 20.h),
           for (final partner in _partners)
-            PartnerTile(partner: partner, type: widget.type, onPartnerSelected: widget.onPartnerSelected),
+            PartnerTile(
+              partner: partner,
+              type: widget.type,
+              onPartnerSelected: widget.onPartnerSelected,
+            ),
         ],
       ),
     ),
@@ -139,7 +150,12 @@ class _CountryNotSupportedWidget extends StatelessWidget {
       Text(
         context.l10n.countryNotSupportedText.toUpperCase(),
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20.sp, height: 24 / 20, letterSpacing: 0.23, fontWeight: FontWeight.w700),
+        style: TextStyle(
+          fontSize: 20.sp,
+          height: 24 / 20,
+          letterSpacing: 0.23,
+          fontWeight: FontWeight.w700,
+        ),
       ),
       Text(
         context.l10n.countryNotSupportedAdditionalText,

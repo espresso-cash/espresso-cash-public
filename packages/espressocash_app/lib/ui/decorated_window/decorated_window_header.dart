@@ -4,7 +4,13 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../gen/assets.gen.dart';
 
 class DecoratedWindowHeader extends StatelessWidget {
-  const DecoratedWindowHeader({super.key, this.title, this.message, this.hasLogo = true, this.markdownMessage = false});
+  const DecoratedWindowHeader({
+    super.key,
+    this.title,
+    this.message,
+    this.hasLogo = true,
+    this.markdownMessage = false,
+  });
 
   final String? title;
   final String? message;

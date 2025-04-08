@@ -11,7 +11,10 @@ final cpBorderedRow = Story(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CpBorderedRow(title: Text('Title'), content: Text('Regular Content')),
-            CpBorderedRow(title: Text('Title'), content: BorderedRowChip(child: Text('Chip Content'))),
+            CpBorderedRow(
+              title: Text('Title'),
+              content: BorderedRowChip(child: Text('Chip Content')),
+            ),
           ],
         ),
       ),

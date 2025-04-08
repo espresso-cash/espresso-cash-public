@@ -20,7 +20,10 @@ class KycRepository extends ChangeNotifier {
 
   Future<void>? _clientInitialization;
 
-  late final _config = _featureFlagsManager.isBrijDemoEnabled() ? const AppConfig.demo() : const AppConfig.production();
+  late final _config =
+      _featureFlagsManager.isBrijDemoEnabled()
+          ? const AppConfig.demo()
+          : const AppConfig.production();
 
   Future<void> _init() =>
       _clientInitialization ??= Future(() async {
@@ -148,17 +151,21 @@ class KycRepository extends ChangeNotifier {
   Future<Order> fetchOrder(String orderId) =>
       _initWrapper(() => _kycUserClient.getOrder(orderId: OrderId.fromOrderId(orderId)));
 
-  Future<void> grantPartnerAccess(String partnerPk) => _initWrapper(() => _kycUserClient.grantPartnerAccess(partnerPk));
+  Future<void> grantPartnerAccess(String partnerPk) =>
+      _initWrapper(() => _kycUserClient.grantPartnerAccess(partnerPk));
 
-  Future<void> grantValidatorAccess() => _initWrapper(() => _kycUserClient.grantPartnerAccess(_config.verifierAuthPk));
+  Future<void> grantValidatorAccess() =>
+      _initWrapper(() => _kycUserClient.grantPartnerAccess(_config.verifierAuthPk));
 
-  Future<bool> hasGrantedAccess(String partnerPk) => _initWrapper(() => _kycUserClient.hasGrantedAccess(partnerPk));
+  Future<bool> hasGrantedAccess(String partnerPk) =>
+      _initWrapper(() => _kycUserClient.hasGrantedAccess(partnerPk));
 
   Future<PartnerModel> fetchPartnerInfo(String partnerPk) =>
       _initWrapper(() => _kycUserClient.getPartnerInfo(partnerPK: partnerPk));
 
   Future<KycValidationStatus> fetchKycStatus({required String country}) => _initWrapper(
-    () => _kycUserClient.getKycStatusDetails(userPK: _kycUserClient.authPublicKey, country: country),
+    () =>
+        _kycUserClient.getKycStatusDetails(userPK: _kycUserClient.authPublicKey, country: country),
   ).then((value) => value.status.toKycValidationStatus());
 
   Future<KycRequirement> getKycRequirements({required String country}) =>

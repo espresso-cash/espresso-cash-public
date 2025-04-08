@@ -16,14 +16,17 @@ class ViewRecoveryPhraseScreen extends StatefulWidget {
 
   final VoidCallback onConfirmed;
 
-  static void open(BuildContext context, {NavigatorState? navigator, required VoidCallback onConfirmed}) =>
-      (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<void>(
-        PageRouteBuilder(
-          pageBuilder: (context, _, __) => ViewRecoveryPhraseScreen(onConfirmed: onConfirmed),
-          transitionDuration: Duration.zero,
-        ),
-        F,
-      );
+  static void open(
+    BuildContext context, {
+    NavigatorState? navigator,
+    required VoidCallback onConfirmed,
+  }) => (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<void>(
+    PageRouteBuilder(
+      pageBuilder: (context, _, __) => ViewRecoveryPhraseScreen(onConfirmed: onConfirmed),
+      transitionDuration: Duration.zero,
+    ),
+    F,
+  );
 
   @override
   State<ViewRecoveryPhraseScreen> createState() => _ViewRecoveryPhraseScreenState();

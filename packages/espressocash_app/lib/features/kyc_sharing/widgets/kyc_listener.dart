@@ -4,7 +4,8 @@ import '../../../di.dart';
 import '../models/kyc_validation_status.dart';
 import '../services/pending_kyc_service.dart';
 
-typedef KycStatusListenerBuilder = Widget Function(BuildContext context, AsyncSnapshot<KycValidationStatus> snapshot);
+typedef KycStatusListenerBuilder =
+    Widget Function(BuildContext context, AsyncSnapshot<KycValidationStatus> snapshot);
 
 class KycStatusListener extends StatelessWidget {
   const KycStatusListener({super.key, required this.builder, required this.country});

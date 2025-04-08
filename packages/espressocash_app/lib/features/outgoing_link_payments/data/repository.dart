@@ -51,15 +51,19 @@ class OLPRepository implements Disposable {
     OLPStatusDto.cancelTxFailure,
   ]);
 
-  Stream<IList<OutgoingLinkPayment>> watchTxCreated() => _watchWithStatuses([OLPStatusDto.txCreated]);
+  Stream<IList<OutgoingLinkPayment>> watchTxCreated() =>
+      _watchWithStatuses([OLPStatusDto.txCreated]);
 
-  Stream<IList<OutgoingLinkPayment>> watchTxConfirmed() => _watchWithStatuses([OLPStatusDto.txConfirmed]);
+  Stream<IList<OutgoingLinkPayment>> watchTxConfirmed() =>
+      _watchWithStatuses([OLPStatusDto.txConfirmed]);
 
-  Stream<IList<OutgoingLinkPayment>> watchCancelTxCreated() => _watchWithStatuses([OLPStatusDto.cancelTxCreated]);
+  Stream<IList<OutgoingLinkPayment>> watchCancelTxCreated() =>
+      _watchWithStatuses([OLPStatusDto.cancelTxCreated]);
 
   Stream<IList<OutgoingLinkPayment>> watchTxSent() => _watchWithStatuses([OLPStatusDto.txSent]);
 
-  Stream<IList<OutgoingLinkPayment>> watchCancelTxSent() => _watchWithStatuses([OLPStatusDto.cancelTxSent]);
+  Stream<IList<OutgoingLinkPayment>> watchCancelTxSent() =>
+      _watchWithStatuses([OLPStatusDto.cancelTxSent]);
 
   @override
   Future<void> onDispose() => _db.delete(_db.oLPRows).go();
@@ -68,7 +72,8 @@ class OLPRepository implements Disposable {
     final query = _db.select(_db.oLPRows)..where((p) => p.status.isInValues(statuses));
 
     return query.watch().asyncMap(
-      (rows) => Future.wait(rows.map((row) => row.toModel())).then((payments) => payments.toIList()),
+      (rows) =>
+          Future.wait(rows.map((row) => row.toModel())).then((payments) => payments.toIList()),
     );
   }
 
@@ -119,7 +124,9 @@ extension OLPRowExt on OLPRow {
     created: created,
     amount: CryptoAmount(
       value: amount,
-      cryptoCurrency: CryptoCurrency(token: (await sl<TokenRepository>().getToken(token)) ?? Token.unk),
+      cryptoCurrency: CryptoCurrency(
+        token: (await sl<TokenRepository>().getToken(token)) ?? Token.unk,
+      ),
     ),
     status: status.toOLPStatus(this),
     linksGeneratedAt: generatedLinksAt,
@@ -141,7 +148,11 @@ extension on OLPStatusDto {
       case OLPStatusDto.txSent:
         final txId = row.txId;
 
-        return OLPStatus.txSent(tx ?? StubSignedTx(txId!), escrow: escrow!, signature: row.txId ?? '');
+        return OLPStatus.txSent(
+          tx ?? StubSignedTx(txId!),
+          escrow: escrow!,
+          signature: row.txId ?? '',
+        );
       case OLPStatusDto.linkReady:
         final link = row.link?.let(Uri.parse);
 
@@ -155,7 +166,10 @@ extension on OLPStatusDto {
       case OLPStatusDto.cancelTxCreated:
         return OLPStatus.cancelTxCreated(cancelTx!, escrow: escrow!);
       case OLPStatusDto.cancelTxFailure:
-        return OLPStatus.cancelTxFailure(escrow: escrow!, reason: row.txFailureReason ?? TxFailureReason.unknown);
+        return OLPStatus.cancelTxFailure(
+          escrow: escrow!,
+          reason: row.txFailureReason ?? TxFailureReason.unknown,
+        );
       case OLPStatusDto.cancelTxSent:
         return OLPStatus.cancelTxSent(cancelTx!, escrow: escrow!, signature: row.cancelTxId ?? '');
     }
@@ -201,9 +215,11 @@ extension on OLPStatus {
 
   String? toWithdrawTxId() => mapOrNull(withdrawn: (it) => it.txId);
 
-  String? toCancelTx() => mapOrNull(cancelTxCreated: (it) => it.tx.encode(), cancelTxSent: (it) => it.tx.encode());
+  String? toCancelTx() =>
+      mapOrNull(cancelTxCreated: (it) => it.tx.encode(), cancelTxSent: (it) => it.tx.encode());
 
-  String? toCancelTxId() => mapOrNull(cancelTxSent: (it) => it.signature, canceled: (it) => it.txId);
+  String? toCancelTxId() =>
+      mapOrNull(cancelTxSent: (it) => it.signature, canceled: (it) => it.txId);
 
   Future<String?> toPrivateKey() => this.map(
     txCreated: (it) async => base58encode(it.escrow.bytes),
@@ -222,5 +238,6 @@ extension on OLPStatus {
   TxFailureReason? toTxFailureReason() =>
       mapOrNull<TxFailureReason?>(txFailure: (it) => it.reason, cancelTxFailure: (it) => it.reason);
 
-  DateTime? toResolvedAt() => mapOrNull(withdrawn: (it) => it.timestamp, canceled: (it) => it.timestamp);
+  DateTime? toResolvedAt() =>
+      mapOrNull(withdrawn: (it) => it.timestamp, canceled: (it) => it.timestamp);
 }

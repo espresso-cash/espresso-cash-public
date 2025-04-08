@@ -41,7 +41,9 @@ class TokenBalancesRepository {
   Stream<ISet<Token>> watchUserTokens({Iterable<Token> ignoreTokens = const []}) {
     final query =
         _db.tokenBalanceRows.select()..where(
-          (tbl) => tbl.amount.isBiggerThanValue(0) & tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
+          (tbl) =>
+              tbl.amount.isBiggerThanValue(0) &
+              tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
         );
 
     return query.watch().asyncMap(
@@ -54,7 +56,9 @@ class TokenBalancesRepository {
   Stream<IList<CryptoAmount>> watchTokenBalances({Iterable<Token> ignoreTokens = const []}) {
     final query =
         _db.tokenBalanceRows.select()..where(
-          (tbl) => tbl.amount.isBiggerThanValue(0) & tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
+          (tbl) =>
+              tbl.amount.isBiggerThanValue(0) &
+              tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
         );
 
     return query.watch().asyncMap(
@@ -63,7 +67,9 @@ class TokenBalancesRepository {
           (row) async => _tokenRepository
               .getToken(row.token)
               .letAsync(
-                (token) => token?.let((t) => CryptoAmount(value: row.amount, cryptoCurrency: CryptoCurrency(token: t))),
+                (token) => token?.let(
+                  (t) => CryptoAmount(value: row.amount, cryptoCurrency: CryptoCurrency(token: t)),
+                ),
               ),
         ),
       ).then((balances) => balances.whereNotNull().toIList()),

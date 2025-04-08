@@ -40,7 +40,10 @@ class OnboardingFlowScreen {
   }
 }
 
-Future<void> _openCountryPicker({required BuildContext context, required NavigatorState? navigator}) async {
+Future<void> _openCountryPicker({
+  required BuildContext context,
+  required NavigatorState? navigator,
+}) async {
   await CustomPickerScreen.open<Country>(
     context,
     navigator: navigator,
@@ -53,8 +56,9 @@ Future<void> _openCountryPicker({required BuildContext context, required Navigat
   );
 }
 
-Future<void> _updateCountry(Country country, BuildContext context) => runWithLoader(context, () async {
-  await sl<UpdateProfile>().call(countryCode: country.code).foldAsync((e) => throw e, ignore);
+Future<void> _updateCountry(Country country, BuildContext context) =>
+    runWithLoader(context, () async {
+      await sl<UpdateProfile>().call(countryCode: country.code).foldAsync((e) => throw e, ignore);
 
-  if (!context.mounted) return;
-}, onError: (error) => showErrorDialog(context, context.l10n.lblProfileUpdateFailed, error),);
+      if (!context.mounted) return;
+    }, onError: (error) => showErrorDialog(context, context.l10n.lblProfileUpdateFailed, error));

@@ -13,7 +13,10 @@ const apiCluster = isProd ? Cluster.mainnet : Cluster.devnet;
 
 const solanaRpcUrl = String.fromEnvironment('SOLANA_RPC_URL', defaultValue: 'https://$_solanaHost');
 
-const solanaWebSocketUrl = String.fromEnvironment('SOLANA_WEBSOCKET_URL', defaultValue: 'wss://$_solanaHost');
+const solanaWebSocketUrl = String.fromEnvironment(
+  'SOLANA_WEBSOCKET_URL',
+  defaultValue: 'wss://$_solanaHost',
+);
 
 // Environment independent constants
 
@@ -64,10 +67,13 @@ const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
 const guardarianBaseUrl = 'https://guardarian.com/calculator/v1';
 const guardarianApiKey = String.fromEnvironment('GUARDARIAN_API_KEY');
 
-const coinflowApiUrl = isProd ? 'https://api.coinflow.cash/api/' : 'https://api-sandbox.coinflow.cash/api/';
+const coinflowApiUrl =
+    isProd ? 'https://api.coinflow.cash/api/' : 'https://api-sandbox.coinflow.cash/api/';
 
 const coinflowKycUrl =
-    isProd ? 'https://coinflow.cash/withdraw/espresso' : 'https://sandbox.coinflow.cash/withdraw/espresso';
+    isProd
+        ? 'https://coinflow.cash/withdraw/espresso'
+        : 'https://sandbox.coinflow.cash/withdraw/espresso';
 
 const maxPayloadsPerSigningRequest = 10;
 

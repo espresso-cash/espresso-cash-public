@@ -91,7 +91,9 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
     if (usdcBalance == null || usdcBalance.isEmpty) return;
 
     final fee = await _ecClient
-        .calculateMoneygramFee(MoneygramFeeRequestDto(type: RampTypeDto.onRamp, amount: usdcBalance.toString()))
+        .calculateMoneygramFee(
+          MoneygramFeeRequestDto(type: RampTypeDto.onRamp, amount: usdcBalance.toString()),
+        )
         .then((e) => e.bridgeFee);
 
     final total = Decimal.parse(usdcBalance.toString()) - Decimal.parse(fee);
@@ -115,7 +117,8 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
       }
 
       final walletAmount =
-          Amount.fromDecimal(value: Decimal.parse(usdcBalance.toString()), currency: Currency.usdc) as CryptoAmount;
+          Amount.fromDecimal(value: Decimal.parse(usdcBalance.toString()), currency: Currency.usdc)
+              as CryptoAmount;
 
       final hash = await _initiateSwapToSolana(walletAmount);
 
@@ -168,7 +171,9 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
     if (txId == null || txId.isEmpty) {
       _watcher?.cancel();
 
-      value = StellarRecoveryState.pending(amount: _storage.getInt(_stellarRecoveryAmountKey).toCryptoAmount);
+      value = StellarRecoveryState.pending(
+        amount: _storage.getInt(_stellarRecoveryAmountKey).toCryptoAmount,
+      );
 
       return;
     }

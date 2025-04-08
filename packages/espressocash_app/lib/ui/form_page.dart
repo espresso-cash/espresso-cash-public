@@ -47,7 +47,11 @@ class FormPage extends StatelessWidget {
                       child: IntrinsicHeight(
                         child: Column(
                           children: [
-                            _Header(colorTheme: colorTheme, content: header, showImage: backgroundImage == null),
+                            _Header(
+                              colorTheme: colorTheme,
+                              content: header,
+                              showImage: backgroundImage == null,
+                            ),
                             _Content(child: child),
                           ],
                         ),
@@ -87,7 +91,11 @@ class FormPageHeader extends StatelessWidget {
         child: title,
       ),
       const SizedBox(height: 16),
-      DefaultTextStyle(style: const TextStyle(fontSize: 13), textAlign: TextAlign.center, child: description),
+      DefaultTextStyle(
+        style: const TextStyle(fontSize: 13),
+        textAlign: TextAlign.center,
+        child: description,
+      ),
       const SizedBox(height: 70),
     ],
   );
@@ -120,8 +128,14 @@ class _Header extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: switch (colorTheme) {
-                  FormPageColorTheme.orange => [const Color(0x00D06022), CpColors.darkOrangeBackgroundColor],
-                  FormPageColorTheme.gold => [const Color(0x00C8B57D), CpColors.goldBackgroundColor],
+                  FormPageColorTheme.orange => [
+                    const Color(0x00D06022),
+                    CpColors.darkOrangeBackgroundColor,
+                  ],
+                  FormPageColorTheme.gold => [
+                    const Color(0x00C8B57D),
+                    CpColors.goldBackgroundColor,
+                  ],
                 },
               ),
             ),
@@ -133,7 +147,10 @@ class _Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [SizedBox(height: MediaQuery.paddingOf(context).top), Expanded(child: content)],
+            children: [
+              SizedBox(height: MediaQuery.paddingOf(context).top),
+              Expanded(child: content),
+            ],
           ),
         ),
       ],
@@ -148,6 +165,10 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Expanded(
-    child: SafeArea(top: false, minimum: const EdgeInsets.only(bottom: 75, left: 40, right: 40), child: child),
+    child: SafeArea(
+      top: false,
+      minimum: const EdgeInsets.only(bottom: 75, left: 40, right: 40),
+      child: child,
+    ),
   );
 }

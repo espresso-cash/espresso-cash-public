@@ -85,12 +85,14 @@ class _QuizScreenState extends State<QuizScreen> with SingleTickerProviderStateM
     QuizStateQuestion(:final index) => QuizQuestionView(
       question: _questions[index],
       title: _questionTitle(index),
-      onButtonPressed: (isCorrect) => isCorrect ? _handleCorrectAnswer(index) : _handleWrongAnswer(index),
+      onButtonPressed:
+          (isCorrect) => isCorrect ? _handleCorrectAnswer(index) : _handleWrongAnswer(index),
       indicator: _indicator,
     ),
     QuizStateAnswer(:final index, :final isCorrect) => QuizAnswerView(
       isCorrect: isCorrect,
-      explanation: isCorrect ? _questions[index].correctExplanation : _questions[index].incorrectExplanation,
+      explanation:
+          isCorrect ? _questions[index].correctExplanation : _questions[index].incorrectExplanation,
       onButtonPressed: () => isCorrect ? _handleNextQuestion(index) : _tryAgain(index),
       title: _questionTitle(index),
       indicator: _indicator,

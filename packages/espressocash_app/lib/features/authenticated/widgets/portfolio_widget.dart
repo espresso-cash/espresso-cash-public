@@ -71,9 +71,10 @@ class PortfolioTile extends StatelessWidget {
                               child: FittedBox(
                                 child: Text(
                                   balance.format(DeviceLocale.localeOf(context)),
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.displayMedium?.copyWith(fontSize: 25, fontWeight: FontWeight.w600),
+                                  style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             )
@@ -99,8 +100,11 @@ class _PortfolioWidget extends StatelessWidget {
     final children =
         balances
             .map(
-              (balance) =>
-                  _TokenItem(key: ValueKey(balance.$1.token), cryptoAmount: balance.$1, fiatAmount: balance.$2),
+              (balance) => _TokenItem(
+                key: ValueKey(balance.$1.token),
+                cryptoAmount: balance.$1,
+                fiatAmount: balance.$2,
+              ),
             )
             .expand((widget) => [widget, const SizedBox(height: 8)])
             .toList();
@@ -144,11 +148,19 @@ class _TokenItem extends StatelessWidget {
           children: [
             Text(
               fiatAmountText,
-              style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             Text(
               cryptoAmount.format(context.locale),
-              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ],
         ),

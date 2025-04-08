@@ -17,7 +17,10 @@ class KycHeader extends StatelessWidget {
         EcMarkdownText(text: title.toUpperCase()),
         if (description case final description?) ...[
           const SizedBox(height: 8),
-          Text(description, style: const TextStyle(fontSize: 16, height: 21 / 16, letterSpacing: .19)),
+          Text(
+            description,
+            style: const TextStyle(fontSize: 16, height: 21 / 16, letterSpacing: .19),
+          ),
         ],
       ],
     ),

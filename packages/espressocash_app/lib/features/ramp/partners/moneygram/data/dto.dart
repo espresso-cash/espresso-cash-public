@@ -15,15 +15,18 @@ class MgWithdrawRequestDto with _$MgWithdrawRequestDto {
     required String amount,
   }) = _MgWithdrawRequestDto;
 
-  factory MgWithdrawRequestDto.fromJson(Map<String, dynamic> json) => _$MgWithdrawRequestDtoFromJson(json);
+  factory MgWithdrawRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$MgWithdrawRequestDtoFromJson(json);
 }
 
 @freezed
 class MgWithdrawResponseDto with _$MgWithdrawResponseDto {
   @JsonSerializable(fieldRename: FieldRename.snake)
-  const factory MgWithdrawResponseDto({required String id, required String url}) = _MgWithdrawResponseDto;
+  const factory MgWithdrawResponseDto({required String id, required String url}) =
+      _MgWithdrawResponseDto;
 
-  factory MgWithdrawResponseDto.fromJson(Map<String, dynamic> json) => _$MgWithdrawResponseDtoFromJson(json);
+  factory MgWithdrawResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$MgWithdrawResponseDtoFromJson(json);
 }
 
 @freezed
@@ -55,7 +58,8 @@ class TransactionStatus with _$TransactionStatus {
     String? externalTransactionId,
   }) = _TransactionStatus;
 
-  factory TransactionStatus.fromJson(Map<String, dynamic> json) => _$TransactionStatusFromJson(json);
+  factory TransactionStatus.fromJson(Map<String, dynamic> json) =>
+      _$TransactionStatusFromJson(json);
 }
 
 @JsonEnum(fieldRename: FieldRename.snake)

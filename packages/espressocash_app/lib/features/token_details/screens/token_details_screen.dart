@@ -25,8 +25,9 @@ class TokenDetailsScreen extends StatelessWidget {
 
   final Token token;
 
-  static void push(BuildContext context, {required Token token}) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => TokenDetailsScreen(token: token)));
+  static void push(BuildContext context, {required Token token}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => TokenDetailsScreen(token: token)));
 
   @override
   Widget build(BuildContext context) => Provider<Token>.value(
@@ -116,13 +117,20 @@ class _TokenHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final token = context.watch<Token>();
     final rate =
-        sl<ConversionRatesRepository>().readRate(CryptoCurrency(token: token), to: defaultFiatCurrency) ?? Decimal.zero;
+        sl<ConversionRatesRepository>().readRate(
+          CryptoCurrency(token: token),
+          to: defaultFiatCurrency,
+        ) ??
+        Decimal.zero;
 
     return ValueStreamBuilder<CryptoFiatAmount>(
       create:
           () => (
             sl<TokenFiatBalanceService>().readInvestmentBalance(token),
-            (Amount.zero(currency: Currency.usdc) as CryptoAmount, Amount.zero(currency: Currency.usd) as FiatAmount),
+            (
+              Amount.zero(currency: Currency.usdc) as CryptoAmount,
+              Amount.zero(currency: Currency.usd) as FiatAmount,
+            ),
           ),
       builder: (context, value) {
         final crypto = value.$1;

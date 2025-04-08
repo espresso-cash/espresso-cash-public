@@ -39,7 +39,10 @@ class LoaderAnimation extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox(
     height: height,
     width: width,
-    child: const ClipRRect(borderRadius: BorderRadius.all(Radius.circular(30)), child: _ShimmerEffect()),
+    child: const ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(30)),
+      child: _ShimmerEffect(),
+    ),
   );
 }
 
@@ -56,7 +59,8 @@ class _ShimmerEffectState extends State<_ShimmerEffect> with SingleTickerProvide
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500))..repeat();
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500))
+      ..repeat();
   }
 
   @override

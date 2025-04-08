@@ -24,8 +24,9 @@ import '../../outgoing_link_payments/screens/olp_confirmation_screen.dart';
 class PayScreen extends StatefulWidget {
   const PayScreen({super.key, required this.amount});
 
-  static void push(BuildContext context, {required CryptoAmount amount}) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => PayScreen(amount: amount)));
+  static void push(BuildContext context, {required CryptoAmount amount}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => PayScreen(amount: amount)));
 
   final CryptoAmount amount;
 
@@ -60,7 +61,11 @@ class _PayScreenState extends State<PayScreen> {
           final confirmedCryptoAmount = widget.amount.decimal;
 
           if (!mounted) return;
-          final id = await context.createODP(amountInUsdc: confirmedCryptoAmount, receiver: recipient, reference: null);
+          final id = await context.createODP(
+            amountInUsdc: confirmedCryptoAmount,
+            receiver: recipient,
+            reference: null,
+          );
 
           if (!mounted) return;
 
@@ -98,7 +103,12 @@ class _PayScreenState extends State<PayScreen> {
             padding: EdgeInsets.symmetric(horizontal: 42.w),
             child: Text(
               context.l10n.walletEspressoPayDescription,
-              style: TextStyle(fontSize: 16.sp, height: 21 / 16, letterSpacing: 0.23, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                fontSize: 16.sp,
+                height: 21 / 16,
+                letterSpacing: 0.23,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
           SizedBox(height: 20.h),
@@ -136,7 +146,12 @@ class _PayScreenState extends State<PayScreen> {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({required this.title, required this.onPressed, required this.icon, required this.subtitleIcons});
+  const _Item({
+    required this.title,
+    required this.onPressed,
+    required this.icon,
+    required this.subtitleIcons,
+  });
 
   final String title;
   final SvgGenImage icon;
@@ -160,7 +175,12 @@ class _Item extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 6),
           child: Text(
             title,
-            style: TextStyle(fontSize: 18.sp, height: 21 / 18, fontWeight: FontWeight.w600, color: Colors.white),
+            style: TextStyle(
+              fontSize: 18.sp,
+              height: 21 / 18,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
           ),
         ),
         subtitle: Row(

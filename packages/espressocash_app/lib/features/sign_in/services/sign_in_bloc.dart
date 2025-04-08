@@ -32,11 +32,18 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       );
 
   void _onNewLocalWalletRequested(Emitter<SignInState> emit) {
-    emit(state.copyWith(source: bip39.generateMnemonic().let(Mnemonic.generated).let(AccountSource.local)));
+    emit(
+      state.copyWith(
+        source: bip39.generateMnemonic().let(Mnemonic.generated).let(AccountSource.local),
+      ),
+    );
     add(const SignInSubmitted());
   }
 
-  void _onExistingLocalWalletRequested(SignInExistingLocalWalletRequested event, Emitter<SignInState> emit) {
+  void _onExistingLocalWalletRequested(
+    SignInExistingLocalWalletRequested event,
+    Emitter<SignInState> emit,
+  ) {
     emit(state.copyWith(source: event.phrase.let(Mnemonic.typed).let(AccountSource.local)));
   }
 
@@ -76,7 +83,8 @@ class SignInState with _$SignInState {
 class SignInEvent with _$SignInEvent {
   const factory SignInEvent.newLocalWalletRequested() = SignInNewLocalWalletRequested;
 
-  const factory SignInEvent.existingLocalWalletRequested(String phrase) = SignInExistingLocalWalletRequested;
+  const factory SignInEvent.existingLocalWalletRequested(String phrase) =
+      SignInExistingLocalWalletRequested;
 
   const factory SignInEvent.submitted() = SignInSubmitted;
 }
@@ -88,5 +96,6 @@ class SignInException with _$SignInException implements Exception {
 }
 
 extension on SignInState {
-  SignInState toGenericException(Exception e) => copyWith(processingState: Flow.failure(SignInException.generic(e)));
+  SignInState toGenericException(Exception e) =>
+      copyWith(processingState: Flow.failure(SignInException.generic(e)));
 }

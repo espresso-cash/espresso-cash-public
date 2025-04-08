@@ -43,7 +43,8 @@ class StatusScreen extends StatelessWidget {
       child: Scaffold(
         appBar: CpAppBar(
           title: title != null ? Text(title, style: _titleStyle) : null,
-          leading: onBackButtonPressed != null ? CpBackButton(onPressed: onBackButtonPressed) : null,
+          leading:
+              onBackButtonPressed != null ? CpBackButton(onPressed: onBackButtonPressed) : null,
           automaticallyImplyLeading: onBackButtonPressed != null,
         ),
         body: Stack(
@@ -56,7 +57,11 @@ class StatusScreen extends StatelessWidget {
                   if (statusContent case final statusContent?)
                     CpContentPadding(
                       bottom: false,
-                      child: CpStatusWidget(statusType: statusType, title: statusTitle, content: statusContent),
+                      child: CpStatusWidget(
+                        statusType: statusType,
+                        title: statusTitle,
+                        content: statusContent,
+                      ),
                     ),
                   if (content != null) Expanded(child: content),
                 ],

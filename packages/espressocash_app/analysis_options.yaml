@@ -1,7 +1,7 @@
 include: package:mews_pedantic/analysis_options.yaml
 
 formatter:
-   page_width: 120
+   page_width: 100
 
 linter:
   rules:

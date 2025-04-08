@@ -70,7 +70,10 @@ class _ShareRequestPaymentState extends State<ShareRequestPayment> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
-                          child: Padding(padding: EdgeInsets.symmetric(vertical: 32.0), child: LoadingIndicator()),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 32.0),
+                            child: LoadingIndicator(),
+                          ),
                         );
                       }
 
@@ -81,7 +84,10 @@ class _ShareRequestPaymentState extends State<ShareRequestPayment> {
                       final link = widget.request.shortLink ?? widget.request.dynamicLink;
                       final formattedAmount = snapshot.data?.formatWithFiat(context) ?? '';
 
-                      final message = context.l10n.sharePaymentRequestLinkMessage(formattedAmount, link);
+                      final message = context.l10n.sharePaymentRequestLinkMessage(
+                        formattedAmount,
+                        link,
+                      );
 
                       return ShareCodeWidget(
                         title: context.l10n.scanToSend,
@@ -93,14 +99,18 @@ class _ShareRequestPaymentState extends State<ShareRequestPayment> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 24, bottom: MediaQuery.paddingOf(context).bottom + 24),
+                  padding: EdgeInsets.only(
+                    top: 24,
+                    bottom: MediaQuery.paddingOf(context).bottom + 24,
+                  ),
                   child: CpTextButton(
                     text: context.l10n.requestDeletePaymentTitle,
                     variant: CpTextButtonVariant.grey,
                     onPressed:
                         () => showConfirmationDialog(
                           context,
-                          title: context.l10n.paymentRequest_lblCancelConfirmationTitle.toUpperCase(),
+                          title:
+                              context.l10n.paymentRequest_lblCancelConfirmationTitle.toUpperCase(),
                           message: context.l10n.paymentRequest_lblCancelConfirmationSubtitle,
                           onConfirm: () {
                             sl<PaymentRequestService>().cancel(widget.request.id);

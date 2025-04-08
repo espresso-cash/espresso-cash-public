@@ -16,9 +16,9 @@ import 'phone_confirmation_screen.dart';
 class PhoneStatusScreen extends StatelessWidget {
   const PhoneStatusScreen({super.key});
 
-  static Future<bool> push(BuildContext context) => Navigator.of(
-    context,
-  ).push<bool>(MaterialPageRoute(builder: (context) => const PhoneStatusScreen())).then((result) => result ?? false);
+  static Future<bool> push(BuildContext context) => Navigator.of(context)
+      .push<bool>(MaterialPageRoute(builder: (context) => const PhoneStatusScreen()))
+      .then((result) => result ?? false);
 
   @override
   Widget build(BuildContext context) => UserDataListener(

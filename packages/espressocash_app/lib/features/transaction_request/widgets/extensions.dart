@@ -34,7 +34,9 @@ extension BuildContextExt on BuildContext {
 
       final postResponse = await request.post(account: wallet.toBase58());
 
-      final isUsdcTransfer = postResponse.transaction.let(SignedTx.decode).let(_checkIfUsdcTransfer);
+      final isUsdcTransfer = postResponse.transaction
+          .let(SignedTx.decode)
+          .let(_checkIfUsdcTransfer);
 
       if (!isUsdcTransfer) {
         showCpErrorSnackbar(this, message: 'Error. Can only transfer USDC');
@@ -56,7 +58,11 @@ extension BuildContextExt on BuildContext {
         ignoreSignerVerification: true,
       );
 
-      final simulate = await client.simulateTransfer(tx: tx, account: wallet, currency: Currency.usdc);
+      final simulate = await client.simulateTransfer(
+        tx: tx,
+        account: wallet,
+        currency: Currency.usdc,
+      );
 
       if (simulate == null) {
         showCpErrorSnackbar(this, message: l10n.tryAgainLater);
@@ -102,7 +108,10 @@ extension BuildContextExt on BuildContext {
     required CryptoAmount amount,
     required BigInt slot,
     required String label,
-  }) => runWithLoader(this, () async => sl<TRService>().create(tx: tx, amount: amount, slot: slot, label: label));
+  }) => runWithLoader(
+    this,
+    () async => sl<TRService>().create(tx: tx, amount: amount, slot: slot, label: label),
+  );
 }
 
 bool _checkIfUsdcTransfer(SignedTx tx) => tx
@@ -117,7 +126,10 @@ bool _checkIfUsdcTransfer(SignedTx tx) => tx
 
 extension SolanaClientExt on SolanaClient {
   Future<bool> hasUsdcAccount(Ed25519HDPublicKey account) async {
-    final tokenAddress = await findAssociatedTokenAddress(owner: account, mint: Token.usdc.publicKey);
+    final tokenAddress = await findAssociatedTokenAddress(
+      owner: account,
+      mint: Token.usdc.publicKey,
+    );
 
     final accountInfo = await rpcClient.getAccountInfo(
       tokenAddress.toBase58(),

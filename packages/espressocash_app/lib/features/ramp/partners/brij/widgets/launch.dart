@@ -28,7 +28,10 @@ import '../services/brij_scalex_fees_service.dart';
 import 'terms_notice.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchBrijOnRamp({required RampPartner partner, required ProfileData profile}) async {
+  Future<void> launchBrijOnRamp({
+    required RampPartner partner,
+    required ProfileData profile,
+  }) async {
     final isValid = await _validateKyc(profile);
 
     if (!isValid) return;
@@ -93,7 +96,10 @@ extension BuildContextExt on BuildContext {
     }
   }
 
-  Future<void> launchBrijOffRamp({required RampPartner partner, required ProfileData profile}) async {
+  Future<void> launchBrijOffRamp({
+    required RampPartner partner,
+    required ProfileData profile,
+  }) async {
     final isValid = await _validateKyc(profile);
 
     if (!isValid) return;
@@ -186,7 +192,10 @@ extension BuildContextExt on BuildContext {
   Future<double> _fetchRate(RampType type) =>
       runWithLoader<double>(this, () async => sl<BrijScalexFeesService>().fetchRate(type));
 
-  Future<Either<Exception, Amount>> _calculateReceiveAmount({required Amount amount, required RampType type}) async {
+  Future<Either<Exception, Amount>> _calculateReceiveAmount({
+    required Amount amount,
+    required RampType type,
+  }) async {
     final fees = await sl<BrijScalexFeesService>().fetchFees(amount: amount, type: type);
 
     final receiveAmount = fees.receiveAmount;
@@ -194,7 +203,10 @@ extension BuildContextExt on BuildContext {
     return Either.right(receiveAmount);
   }
 
-  Future<Either<Exception, RampFees>> _calculateFees({required Amount amount, required RampType type}) async {
+  Future<Either<Exception, RampFees>> _calculateFees({
+    required Amount amount,
+    required RampType type,
+  }) async {
     final fees = await sl<BrijScalexFeesService>().fetchFees(amount: amount, type: type);
 
     return Either.right((ourFee: null, partnerFee: null, extraFee: null, totalFee: fees.totalFee));
@@ -203,8 +215,14 @@ extension BuildContextExt on BuildContext {
   void _showPendingKycDialog() {
     showCustomDialog<void>(
       this,
-      title: EcMarkdownText(text: l10n.pendingKycDialogTitle.toUpperCase(), textAlign: WrapAlignment.center),
-      message: Text(l10n.pendingKycDialogMessage, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400)),
+      title: EcMarkdownText(
+        text: l10n.pendingKycDialogTitle.toUpperCase(),
+        textAlign: WrapAlignment.center,
+      ),
+      message: Text(
+        l10n.pendingKycDialogMessage,
+        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+      ),
       actions: CpBottomButton(
         text: l10n.activityButton,
         horizontalPadding: 0,
@@ -222,7 +240,9 @@ extension BuildContextExt on BuildContext {
 
     if (hasGrantedAccess) return true;
 
-    final (:termsUrl, :policyUrl) = await sl<KycSharingService>().fetchPartnerTermsAndPolicy(partnerPK);
+    final (:termsUrl, :policyUrl) = await sl<KycSharingService>().fetchPartnerTermsAndPolicy(
+      partnerPK,
+    );
 
     return showTermsAndPolicyDialog(this, termsUrl: termsUrl, privacyUrl: policyUrl);
   }

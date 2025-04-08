@@ -35,7 +35,10 @@ class OffRampConfirmation extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          SizedBox(height: double.infinity, child: Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter)),
+          SizedBox(
+            height: double.infinity,
+            child: Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter),
+          ),
           _Content(withdrawAmount: order.amount, receiveAmount: order.receiveAmount),
           Align(
             alignment: Alignment.bottomCenter,
@@ -86,7 +89,10 @@ class _Content extends StatelessWidget {
         const SizedBox(height: 24),
         Padding(
           padding: const EdgeInsets.all(16),
-          child: CpInfoWidget(message: Text(context.l10n.offRampWithdrawNotice), variant: CpInfoVariant.black),
+          child: CpInfoWidget(
+            message: Text(context.l10n.offRampWithdrawNotice),
+            variant: CpInfoVariant.black,
+          ),
         ),
         const Spacer(),
       ],
@@ -103,7 +109,10 @@ class _AmountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
-    final formattedAmount = withdrawAmount.format(locale, maxDecimals: withdrawAmount.currency.decimals);
+    final formattedAmount = withdrawAmount.format(
+      locale,
+      maxDecimals: withdrawAmount.currency.decimals,
+    );
 
     final formattedReceiveAmount = receiveAmount?.format(
       locale,
@@ -114,7 +123,12 @@ class _AmountView extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        FittedBox(child: Text(formattedAmount, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 55))),
+        FittedBox(
+          child: Text(
+            formattedAmount,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 55),
+          ),
+        ),
         const SizedBox(height: 40),
         if (formattedReceiveAmount != null)
           _ReceiveChip(
@@ -123,11 +137,19 @@ class _AmountView extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: context.l10n.offRampReceiveAmount(formattedReceiveAmount).toUpperCase(),
-                    style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   TextSpan(
                     text: ' ${receiveAmount?.currency.symbol.toUpperCase() ?? ''}',
-                    style: const TextStyle(color: CpColors.yellowColor, fontSize: 15, fontWeight: FontWeight.w700),
+                    style: const TextStyle(
+                      color: CpColors.yellowColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               ),
@@ -144,6 +166,8 @@ class _ReceiveChip extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) =>
-      SizedBox(height: 55, child: CpChip(padding: CpChipPadding.normal, backgroundColor: Colors.black, child: child));
+  Widget build(BuildContext context) => SizedBox(
+    height: 55,
+    child: CpChip(padding: CpChipPadding.normal, backgroundColor: Colors.black, child: child),
+  );
 }

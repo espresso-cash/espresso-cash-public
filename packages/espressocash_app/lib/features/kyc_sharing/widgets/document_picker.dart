@@ -19,7 +19,9 @@ class DocumentPicker extends StatelessWidget {
       onTap: () async {
         final DocumentType? updated = await Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => DocumentTypePickerScreen(initial: type, types: types)),
+          MaterialPageRoute(
+            builder: (context) => DocumentTypePickerScreen(initial: type, types: types),
+          ),
         );
 
         if (context.mounted && updated != null) {
@@ -28,7 +30,12 @@ class DocumentPicker extends StatelessWidget {
       },
       title: Text(
         type?.name ?? 'Select ID Verification Method',
-        style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: Colors.white, height: 1.2),
+        style: const TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: 16,
+          color: Colors.white,
+          height: 1.2,
+        ),
       ),
       trailing: const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white, size: 28),
     ),

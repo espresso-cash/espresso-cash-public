@@ -34,7 +34,10 @@ class KycPage extends StatelessWidget {
             builder:
                 (context, constraints) => SingleChildScrollView(
                   child: ConstrainedBox(
-                    constraints: constraints.copyWith(minHeight: constraints.maxHeight, maxHeight: double.infinity),
+                    constraints: constraints.copyWith(
+                      minHeight: constraints.maxHeight,
+                      maxHeight: double.infinity,
+                    ),
                     child: IntrinsicHeight(
                       child: Column(
                         children: [
@@ -45,13 +48,16 @@ class KycPage extends StatelessWidget {
                               KycIcon.info || KycIcon.pending => KycValidationStatus.pending,
                               KycIcon.success => KycValidationStatus.approved,
                               KycIcon.failure => KycValidationStatus.rejected,
-                            }, height: 75,),
+                            }, height: 75),
                           const SizedBox(height: 24),
                           Expanded(
                             child: SafeArea(
                               top: false,
                               minimum: const EdgeInsets.only(bottom: 40),
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: children),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: children,
+                              ),
                             ),
                           ),
                         ],

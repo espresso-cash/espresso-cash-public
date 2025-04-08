@@ -112,7 +112,8 @@ extension BuildContextExt on BuildContext {
             'to_amount': final num toAmount,
           }) {
             final decimal = Decimal.parse(toAmount.toString());
-            final amount = Amount.fromDecimal(value: decimal, currency: Currency.usdc) as CryptoAmount;
+            final amount =
+                Amount.fromDecimal(value: decimal, currency: Currency.usdc) as CryptoAmount;
 
             final order = await sl<EspressoCashClient>().fetchScalexTransaction(
               OrderStatusScalexRequestDto(referenceId: reference),
@@ -253,10 +254,15 @@ window.addEventListener("message", (event) => {
             'address': final String address,
           }) {
             final decimal = Decimal.parse(fromAmount.toString());
-            final amount = Amount.fromDecimal(value: decimal, currency: Currency.usdc) as CryptoAmount;
+            final amount =
+                Amount.fromDecimal(value: decimal, currency: Currency.usdc) as CryptoAmount;
 
             final receiveAmount =
-                Amount.fromDecimal(value: Decimal.parse(toAmount.toString()), currency: Currency.ngn) as FiatAmount;
+                Amount.fromDecimal(
+                      value: Decimal.parse(toAmount.toString()),
+                      currency: Currency.ngn,
+                    )
+                    as FiatAmount;
 
             await sl<OffRampOrderService>()
                 .create(
@@ -317,15 +323,16 @@ window.addEventListener("message", (event) => {
     }
   });
 
-  Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() => runWithLoader<ScalexRateFeeResponseDto?>(this, () async {
-    try {
-      final client = sl<ScalexRepository>();
+  Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() =>
+      runWithLoader<ScalexRateFeeResponseDto?>(this, () async {
+        try {
+          final client = sl<ScalexRepository>();
 
-      return await client.fetchRateAndFee();
-    } on Exception {
-      return null;
-    }
-  });
+          return await client.fetchRateAndFee();
+        } on Exception {
+          return null;
+        }
+      });
 }
 
 extension on Amount {
@@ -359,7 +366,10 @@ extension on Amount {
     );
     final double feeInNGN = feeInUSDC * exchangeRate;
 
-    return FiatAmount(value: Currency.ngn.decimalToInt(Decimal.parse(feeInNGN.toString())), fiatCurrency: Currency.ngn);
+    return FiatAmount(
+      value: Currency.ngn.decimalToInt(Decimal.parse(feeInNGN.toString())),
+      fiatCurrency: Currency.ngn,
+    );
   }
 
   (double, double) _calculateOffRampAmounts({

@@ -28,7 +28,11 @@ class ProfileSwitch extends StatelessWidget {
       subtitle: Text(
         subtitle,
         maxLines: 2,
-        style: const TextStyle(fontSize: 14, color: CpColors.greyColor, fontWeight: FontWeight.w400),
+        style: const TextStyle(
+          fontSize: 14,
+          color: CpColors.greyColor,
+          fontWeight: FontWeight.w400,
+        ),
       ),
       trailing: CpSwitch(value: value, onChanged: onChanged),
     );
