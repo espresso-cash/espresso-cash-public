@@ -16,15 +16,22 @@ import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
 class PersonalInformationScreen extends StatefulWidget {
-  const PersonalInformationScreen({super.key});
+  const PersonalInformationScreen({
+    super.key,
+    this.readOnly = false,
+  });
 
-  static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const PersonalInformationScreen(),
-        ),
-      )
-      .then((result) => result ?? false);
+  static Future<bool> push(BuildContext context, {bool readOnly = false}) =>
+      Navigator.of(context)
+          .push<bool>(
+            MaterialPageRoute(
+              builder: (context) =>
+                  PersonalInformationScreen(readOnly: readOnly),
+            ),
+          )
+          .then((result) => result ?? false);
+
+  final bool readOnly;
 
   @override
   State<PersonalInformationScreen> createState() =>
@@ -130,12 +137,14 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
             controller: _firstNameController,
             inputType: TextInputType.name,
             placeholder: context.l10n.firstName,
+            readOnly: widget.readOnly,
           ),
           const SizedBox(height: 10),
           KycTextField(
             controller: _lastNameController,
             inputType: TextInputType.name,
             placeholder: context.l10n.lastName,
+            readOnly: widget.readOnly,
           ),
           const SizedBox(height: 10),
           CpDobTextField(
@@ -151,18 +160,19 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
           ),
           const SizedBox(height: 28),
           const Spacer(),
-          ListenableBuilder(
-            listenable: Listenable.merge([
-              _firstNameController,
-              _lastNameController,
-              _dobController,
-            ]),
-            builder: (context, child) => CpBottomButton(
-              horizontalPadding: 16,
-              text: context.l10n.next,
-              onPressed: _isValid ? _handleSubmitted : null,
+          if (!widget.readOnly)
+            ListenableBuilder(
+              listenable: Listenable.merge([
+                _firstNameController,
+                _lastNameController,
+                _dobController,
+              ]),
+              builder: (context, child) => CpBottomButton(
+                horizontalPadding: 16,
+                text: context.l10n.next,
+                onPressed: _isValid ? _handleSubmitted : null,
+              ),
             ),
-          ),
         ],
       );
 }
