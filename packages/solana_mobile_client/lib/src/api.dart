@@ -61,12 +61,7 @@ class AuthorizationResultDto {
   String? walletUriBase;
 
   Object encode() {
-    return <Object?>[
-      authToken,
-      publicKey,
-      accountLabel,
-      walletUriBase,
-    ];
+    return <Object?>[authToken, publicKey, accountLabel, walletUriBase];
   }
 
   static AuthorizationResultDto decode(Object result) {
@@ -81,16 +76,12 @@ class AuthorizationResultDto {
 }
 
 class SignPayloadsResultDto {
-  SignPayloadsResultDto({
-    required this.signedPayloads,
-  });
+  SignPayloadsResultDto({required this.signedPayloads});
 
   List<Uint8List?> signedPayloads;
 
   Object encode() {
-    return <Object?>[
-      signedPayloads,
-    ];
+    return <Object?>[signedPayloads];
   }
 
   static SignPayloadsResultDto decode(Object result) {
@@ -102,16 +93,12 @@ class SignPayloadsResultDto {
 }
 
 class SignAndSendTransactionsResultDto {
-  SignAndSendTransactionsResultDto({
-    required this.signatures,
-  });
+  SignAndSendTransactionsResultDto({required this.signatures});
 
   List<Uint8List?> signatures;
 
   Object encode() {
-    return <Object?>[
-      signatures,
-    ];
+    return <Object?>[signatures];
   }
 
   static SignAndSendTransactionsResultDto decode(Object result) {
@@ -136,11 +123,7 @@ class SignedMessageDto {
   List<Uint8List?> signatures;
 
   Object encode() {
-    return <Object?>[
-      message,
-      addresses,
-      signatures,
-    ];
+    return <Object?>[message, addresses, signatures];
   }
 
   static SignedMessageDto decode(Object result) {
@@ -154,16 +137,12 @@ class SignedMessageDto {
 }
 
 class SignMessagesResultDto {
-  SignMessagesResultDto({
-    required this.messages,
-  });
+  SignMessagesResultDto({required this.messages});
 
   List<SignedMessageDto?> messages;
 
   Object encode() {
-    return <Object?>[
-      messages,
-    ];
+    return <Object?>[messages];
   }
 
   static SignMessagesResultDto decode(Object result) {
@@ -227,7 +206,7 @@ class ApiLocalAssociationScenario {
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
   ApiLocalAssociationScenario({BinaryMessenger? binaryMessenger})
-      : _binaryMessenger = binaryMessenger;
+    : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
   static const MessageCodec<Object?> codec =
@@ -235,8 +214,10 @@ class ApiLocalAssociationScenario {
 
   Future<void> create(int arg_id) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.create', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.create',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
@@ -257,8 +238,10 @@ class ApiLocalAssociationScenario {
 
   Future<void> start(int arg_id) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.start', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.start',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
@@ -279,8 +262,10 @@ class ApiLocalAssociationScenario {
 
   Future<void> close(int arg_id) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.close', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.close',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
@@ -301,9 +286,10 @@ class ApiLocalAssociationScenario {
 
   Future<void> startActivityForResult(int arg_id, String? arg_uriPrefix) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.startActivityForResult',
-        codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.startActivityForResult',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_id, arg_uriPrefix]) as List<Object?>?;
     if (replyList == null) {
@@ -324,9 +310,10 @@ class ApiLocalAssociationScenario {
 
   Future<bool> isWalletEndpointAvailable() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.isWalletEndpointAvailable',
-        codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.isWalletEndpointAvailable',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
@@ -351,8 +338,10 @@ class ApiLocalAssociationScenario {
 
   Future<GetCapabilitiesResultDto> getCapabilities(int arg_id) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.getCapabilities', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.getCapabilities',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
@@ -377,21 +366,26 @@ class ApiLocalAssociationScenario {
   }
 
   Future<AuthorizationResultDto> authorize(
-      int arg_id,
-      String? arg_identityUri,
-      String? arg_iconUri,
-      String? arg_identityName,
-      String? arg_cluster) async {
+    int arg_id,
+    String? arg_identityUri,
+    String? arg_iconUri,
+    String? arg_identityName,
+    String? arg_cluster,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.authorize', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(<Object?>[
-      arg_id,
-      arg_identityUri,
-      arg_iconUri,
-      arg_identityName,
-      arg_cluster
-    ]) as List<Object?>?;
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.authorize',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[
+              arg_id,
+              arg_identityUri,
+              arg_iconUri,
+              arg_identityName,
+              arg_cluster,
+            ])
+            as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -414,21 +408,26 @@ class ApiLocalAssociationScenario {
   }
 
   Future<AuthorizationResultDto> reauthorize(
-      int arg_id,
-      String? arg_identityUri,
-      String? arg_iconUri,
-      String? arg_identityName,
-      String arg_authToken) async {
+    int arg_id,
+    String? arg_identityUri,
+    String? arg_iconUri,
+    String? arg_identityName,
+    String arg_authToken,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.reauthorize', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(<Object?>[
-      arg_id,
-      arg_identityUri,
-      arg_iconUri,
-      arg_identityName,
-      arg_authToken
-    ]) as List<Object?>?;
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.reauthorize',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[
+              arg_id,
+              arg_identityUri,
+              arg_iconUri,
+              arg_identityName,
+              arg_authToken,
+            ])
+            as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -452,8 +451,10 @@ class ApiLocalAssociationScenario {
 
   Future<void> deauthorize(int arg_id, String arg_authToken) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.deauthorize', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.deauthorize',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_id, arg_authToken]) as List<Object?>?;
     if (replyList == null) {
@@ -473,13 +474,17 @@ class ApiLocalAssociationScenario {
   }
 
   Future<SignPayloadsResultDto> signTransactions(
-      int arg_id, List<Uint8List?> arg_transactions) async {
+    int arg_id,
+    List<Uint8List?> arg_transactions,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.signTransactions',
-        codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel
-        .send(<Object?>[arg_id, arg_transactions]) as List<Object?>?;
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.signTransactions',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_id, arg_transactions])
+            as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -501,13 +506,19 @@ class ApiLocalAssociationScenario {
     }
   }
 
-  Future<SignMessagesResultDto> signMessages(int arg_id,
-      List<Uint8List?> arg_messages, List<Uint8List?> arg_addresses) async {
+  Future<SignMessagesResultDto> signMessages(
+    int arg_id,
+    List<Uint8List?> arg_messages,
+    List<Uint8List?> arg_addresses,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.signMessages', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel
-        .send(<Object?>[arg_id, arg_messages, arg_addresses]) as List<Object?>?;
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.signMessages',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_id, arg_messages, arg_addresses])
+            as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -529,15 +540,23 @@ class ApiLocalAssociationScenario {
     }
   }
 
-  Future<SignAndSendTransactionsResultDto> signAndSendTransactions(int arg_id,
-      List<Uint8List?> arg_transactions, int? arg_minContextSlot) async {
+  Future<SignAndSendTransactionsResultDto> signAndSendTransactions(
+    int arg_id,
+    List<Uint8List?> arg_transactions,
+    int? arg_minContextSlot,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiLocalAssociationScenario.signAndSendTransactions',
-        codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel
-            .send(<Object?>[arg_id, arg_transactions, arg_minContextSlot])
-        as List<Object?>?;
+      'dev.flutter.pigeon.ApiLocalAssociationScenario.signAndSendTransactions',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[
+              arg_id,
+              arg_transactions,
+              arg_minContextSlot,
+            ])
+            as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

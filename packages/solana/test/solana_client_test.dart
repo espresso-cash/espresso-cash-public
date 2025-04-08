@@ -140,12 +140,12 @@ void main() {
       funder: wallet,
       commitment: Commitment.confirmed,
     );
-    final hasAssociatedTokenAccount =
-        await solanaClient.hasAssociatedTokenAccount(
-      mint: token.address,
-      owner: wallet.publicKey,
-      commitment: Commitment.confirmed,
-    );
+    final hasAssociatedTokenAccount = await solanaClient
+        .hasAssociatedTokenAccount(
+          mint: token.address,
+          owner: wallet.publicKey,
+          commitment: Commitment.confirmed,
+        );
 
     expect(hasAssociatedTokenAccount, equals(true));
 
@@ -200,67 +200,63 @@ void main() {
     expect(tokenBalance.amount, equals('40'));
   });
 
-  test(
-    'Transfer SPL tokens with memo',
-    () async {
-      final wallet = await Ed25519HDKeyPair.random();
-      // Create the associated account for the recipient
-      await solanaClient.createAssociatedTokenAccount(
-        mint: token.address,
-        funder: source,
-        owner: wallet.publicKey,
-        commitment: Commitment.confirmed,
-      );
-      const memoText = 'Memo test string...';
+  test('Transfer SPL tokens with memo', () async {
+    final wallet = await Ed25519HDKeyPair.random();
+    // Create the associated account for the recipient
+    await solanaClient.createAssociatedTokenAccount(
+      mint: token.address,
+      funder: source,
+      owner: wallet.publicKey,
+      commitment: Commitment.confirmed,
+    );
+    const memoText = 'Memo test string...';
 
-      final signature = await solanaClient.transferSplToken(
-        mint: token.address,
-        destination: wallet.publicKey,
-        amount: 40,
-        memo: memoText,
-        owner: source,
-        commitment: Commitment.confirmed,
-      );
-      expect(signature, isNotEmpty);
+    final signature = await solanaClient.transferSplToken(
+      mint: token.address,
+      destination: wallet.publicKey,
+      amount: 40,
+      memo: memoText,
+      owner: source,
+      commitment: Commitment.confirmed,
+    );
+    expect(signature, isNotEmpty);
 
-      // FIXME: check that this is of the correct type
-      final result = await solanaClient.rpcClient.getTransaction(
-        signature,
-        encoding: Encoding.jsonParsed,
-        commitment: Commitment.confirmed,
-      );
+    // FIXME: check that this is of the correct type
+    final result = await solanaClient.rpcClient.getTransaction(
+      signature,
+      encoding: Encoding.jsonParsed,
+      commitment: Commitment.confirmed,
+    );
 
-      expect(result, isNotNull);
-      expect(result?.transaction, isNotNull);
-      // ignore: avoid-non-null-assertion, cannot be null here
-      final transaction = result!.transaction as ParsedTransaction;
-      final txMessage = transaction.message;
-      expect(txMessage.instructions, isNotEmpty);
-      final instructions = txMessage.instructions;
-      expect(instructions.length, equals(2));
-      expect(instructions[0], const TypeMatcher<ParsedInstructionSplToken>());
-      expect(instructions[1], const TypeMatcher<ParsedInstructionMemo>());
-      final memoInstruction = instructions[1] as ParsedInstructionMemo;
-      expect(memoInstruction.memo, equals(memoText));
-      final splTokenInstruction = instructions[0] as ParsedInstructionSplToken;
-      expect(
-        splTokenInstruction.parsed,
-        isA<ParsedSplTokenTransferInstruction>(),
-      );
-      final parsedSplTokenInstruction =
-          splTokenInstruction.parsed as ParsedSplTokenTransferInstruction;
-      expect(parsedSplTokenInstruction.type, equals('transfer'));
-      expect(parsedSplTokenInstruction.info, isA<SplTokenTransferInfo>());
-      expect(parsedSplTokenInstruction.info.amount, '40');
-      final tokenBalance = await solanaClient.getTokenBalance(
-        mint: token.address,
-        owner: wallet.publicKey,
-        commitment: Commitment.confirmed,
-      );
-      expect(tokenBalance.amount, equals('40'));
-    },
-    timeout: const Timeout(Duration(minutes: 2)),
-  );
+    expect(result, isNotNull);
+    expect(result?.transaction, isNotNull);
+    // ignore: avoid-non-null-assertion, cannot be null here
+    final transaction = result!.transaction as ParsedTransaction;
+    final txMessage = transaction.message;
+    expect(txMessage.instructions, isNotEmpty);
+    final instructions = txMessage.instructions;
+    expect(instructions.length, equals(2));
+    expect(instructions[0], const TypeMatcher<ParsedInstructionSplToken>());
+    expect(instructions[1], const TypeMatcher<ParsedInstructionMemo>());
+    final memoInstruction = instructions[1] as ParsedInstructionMemo;
+    expect(memoInstruction.memo, equals(memoText));
+    final splTokenInstruction = instructions[0] as ParsedInstructionSplToken;
+    expect(
+      splTokenInstruction.parsed,
+      isA<ParsedSplTokenTransferInstruction>(),
+    );
+    final parsedSplTokenInstruction =
+        splTokenInstruction.parsed as ParsedSplTokenTransferInstruction;
+    expect(parsedSplTokenInstruction.type, equals('transfer'));
+    expect(parsedSplTokenInstruction.info, isA<SplTokenTransferInfo>());
+    expect(parsedSplTokenInstruction.info.amount, '40');
+    final tokenBalance = await solanaClient.getTokenBalance(
+      mint: token.address,
+      owner: wallet.publicKey,
+      commitment: Commitment.confirmed,
+    );
+    expect(tokenBalance.amount, equals('40'));
+  }, timeout: const Timeout(Duration(minutes: 2)));
 }
 
 const _tokenMintAmount = 1000;

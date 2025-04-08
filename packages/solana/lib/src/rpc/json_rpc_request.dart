@@ -1,7 +1,6 @@
 abstract class JsonRpcRequest {
-  const factory JsonRpcRequest.bulk(
-    List<JsonRpcSingleRequest> list,
-  ) = JsonRpcBulkRequest;
+  const factory JsonRpcRequest.bulk(List<JsonRpcSingleRequest> list) =
+      JsonRpcBulkRequest;
 
   String get method;
 
@@ -30,11 +29,11 @@ class JsonRpcSingleRequest implements JsonRpcRequest {
 
   @override
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'jsonrpc': '2.0',
-        'id': id,
-        'method': method,
-        if (params != null) 'params': params,
-      };
+    'jsonrpc': '2.0',
+    'id': id,
+    'method': method,
+    if (params != null) 'params': params,
+  };
 
   final String id;
 

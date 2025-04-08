@@ -68,9 +68,10 @@ class MessageAccountKeys {
         .map(
           (instruction) => CompiledInstruction(
             programIdIndex: findKeyIndex(instruction.programId),
-            accountKeyIndexes: instruction.accounts
-                .map((meta) => findKeyIndex(meta.pubKey))
-                .toList(),
+            accountKeyIndexes:
+                instruction.accounts
+                    .map((meta) => findKeyIndex(meta.pubKey))
+                    .toList(),
             data: instruction.data,
           ),
         )

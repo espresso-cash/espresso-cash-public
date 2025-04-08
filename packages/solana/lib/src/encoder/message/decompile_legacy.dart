@@ -12,29 +12,30 @@ Message decompileLegacy(CompiledMessage message) {
   final lastWriteableNonSigner =
       accountsLength - header.numReadonlyUnsignedAccounts;
 
-  final accounts = message.accountKeys.mapIndexed(
-    (i, a) {
-      final isSigner = i < header.numRequiredSignatures;
+  final accounts =
+      message.accountKeys.mapIndexed((i, a) {
+        final isSigner = i < header.numRequiredSignatures;
 
-      return AccountMeta(
-        pubKey: a,
-        isWriteable: isSigner
-            ? i < lastWriteableSignerIndex
-            : i < lastWriteableNonSigner,
-        isSigner: isSigner,
-      );
-    },
-  ).toList();
+        return AccountMeta(
+          pubKey: a,
+          isWriteable:
+              isSigner
+                  ? i < lastWriteableSignerIndex
+                  : i < lastWriteableNonSigner,
+          isSigner: isSigner,
+        );
+      }).toList();
 
-  final instructions = message.instructions
-      .map(
-        (ix) => Instruction(
-          programId: accounts[ix.programIdIndex].pubKey,
-          accounts: ix.accountKeyIndexes.map((i) => accounts[i]).toList(),
-          data: ix.data,
-        ),
-      )
-      .toList();
+  final instructions =
+      message.instructions
+          .map(
+            (ix) => Instruction(
+              programId: accounts[ix.programIdIndex].pubKey,
+              accounts: ix.accountKeyIndexes.map((i) => accounts[i]).toList(),
+              data: ix.data,
+            ),
+          )
+          .toList();
 
   return Message(instructions: instructions);
 }

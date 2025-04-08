@@ -10,16 +10,7 @@ class CompletedPoint {
   final FieldElement _z;
   final FieldElement _t;
 
-  ProjectivePoint toProjective() => ProjectivePoint(
-        _x * _t,
-        _y * _z,
-        _z * _t,
-      );
+  ProjectivePoint toProjective() => ProjectivePoint(_x * _t, _y * _z, _z * _t);
 
-  EdwardsPoint toExtended() => EdwardsPoint(
-        _x * _t,
-        _y * _z,
-        _z * _t,
-        _x * _y,
-      );
+  EdwardsPoint toExtended() => EdwardsPoint(_x * _t, _y * _z, _z * _t, _x * _y);
 }

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'bloc.dart';
 
@@ -12,7 +12,7 @@ part of 'bloc.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SeedVaultState {
@@ -105,23 +105,24 @@ class _$SeedVaultStateCopyWithImpl<$Res, $Val extends SeedVaultState>
 }
 
 /// @nodoc
-abstract class _$$_NoneCopyWith<$Res> {
-  factory _$$_NoneCopyWith(_$_None value, $Res Function(_$_None) then) =
-      __$$_NoneCopyWithImpl<$Res>;
+abstract class _$$NoneImplCopyWith<$Res> {
+  factory _$$NoneImplCopyWith(
+          _$NoneImpl value, $Res Function(_$NoneImpl) then) =
+      __$$NoneImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_NoneCopyWithImpl<$Res>
-    extends _$SeedVaultStateCopyWithImpl<$Res, _$_None>
-    implements _$$_NoneCopyWith<$Res> {
-  __$$_NoneCopyWithImpl(_$_None _value, $Res Function(_$_None) _then)
+class __$$NoneImplCopyWithImpl<$Res>
+    extends _$SeedVaultStateCopyWithImpl<$Res, _$NoneImpl>
+    implements _$$NoneImplCopyWith<$Res> {
+  __$$NoneImplCopyWithImpl(_$NoneImpl _value, $Res Function(_$NoneImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_None with DiagnosticableTreeMixin implements _None {
-  const _$_None();
+class _$NoneImpl with DiagnosticableTreeMixin implements _None {
+  const _$NoneImpl();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -135,9 +136,9 @@ class _$_None with DiagnosticableTreeMixin implements _None {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_None);
+        (other.runtimeType == runtimeType && other is _$NoneImpl);
   }
 
   @override
@@ -237,22 +238,24 @@ class _$_None with DiagnosticableTreeMixin implements _None {
 }
 
 abstract class _None implements SeedVaultState {
-  const factory _None() = _$_None;
+  const factory _None() = _$NoneImpl;
 }
 
 /// @nodoc
-abstract class _$$_ErrorCopyWith<$Res> {
-  factory _$$_ErrorCopyWith(_$_Error value, $Res Function(_$_Error) then) =
-      __$$_ErrorCopyWithImpl<$Res>;
+abstract class _$$ErrorImplCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String err});
 }
 
 /// @nodoc
-class __$$_ErrorCopyWithImpl<$Res>
-    extends _$SeedVaultStateCopyWithImpl<$Res, _$_Error>
-    implements _$$_ErrorCopyWith<$Res> {
-  __$$_ErrorCopyWithImpl(_$_Error _value, $Res Function(_$_Error) _then)
+class __$$ErrorImplCopyWithImpl<$Res>
+    extends _$SeedVaultStateCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -260,7 +263,7 @@ class __$$_ErrorCopyWithImpl<$Res>
   $Res call({
     Object? err = null,
   }) {
-    return _then(_$_Error(
+    return _then(_$ErrorImpl(
       null == err
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
@@ -271,8 +274,8 @@ class __$$_ErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Error with DiagnosticableTreeMixin implements _Error {
-  const _$_Error(this.err);
+class _$ErrorImpl with DiagnosticableTreeMixin implements _Error {
+  const _$ErrorImpl(this.err);
 
   @override
   final String err;
@@ -291,10 +294,10 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Error &&
+            other is _$ErrorImpl &&
             (identical(other.err, err) || other.err == err));
   }
 
@@ -304,8 +307,8 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ErrorCopyWith<_$_Error> get copyWith =>
-      __$$_ErrorCopyWithImpl<_$_Error>(this, _$identity);
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -401,34 +404,34 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
 }
 
 abstract class _Error implements SeedVaultState {
-  const factory _Error(final String err) = _$_Error;
+  const factory _Error(final String err) = _$ErrorImpl;
 
   String get err;
   @JsonKey(ignore: true)
-  _$$_ErrorCopyWith<_$_Error> get copyWith =>
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_UnauthorizedCopyWith<$Res> {
-  factory _$$_UnauthorizedCopyWith(
-          _$_Unauthorized value, $Res Function(_$_Unauthorized) then) =
-      __$$_UnauthorizedCopyWithImpl<$Res>;
+abstract class _$$UnauthorizedImplCopyWith<$Res> {
+  factory _$$UnauthorizedImplCopyWith(
+          _$UnauthorizedImpl value, $Res Function(_$UnauthorizedImpl) then) =
+      __$$UnauthorizedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_UnauthorizedCopyWithImpl<$Res>
-    extends _$SeedVaultStateCopyWithImpl<$Res, _$_Unauthorized>
-    implements _$$_UnauthorizedCopyWith<$Res> {
-  __$$_UnauthorizedCopyWithImpl(
-      _$_Unauthorized _value, $Res Function(_$_Unauthorized) _then)
+class __$$UnauthorizedImplCopyWithImpl<$Res>
+    extends _$SeedVaultStateCopyWithImpl<$Res, _$UnauthorizedImpl>
+    implements _$$UnauthorizedImplCopyWith<$Res> {
+  __$$UnauthorizedImplCopyWithImpl(
+      _$UnauthorizedImpl _value, $Res Function(_$UnauthorizedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Unauthorized with DiagnosticableTreeMixin implements _Unauthorized {
-  const _$_Unauthorized();
+class _$UnauthorizedImpl with DiagnosticableTreeMixin implements _Unauthorized {
+  const _$UnauthorizedImpl();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -442,9 +445,9 @@ class _$_Unauthorized with DiagnosticableTreeMixin implements _Unauthorized {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Unauthorized);
+        (other.runtimeType == runtimeType && other is _$UnauthorizedImpl);
   }
 
   @override
@@ -544,13 +547,14 @@ class _$_Unauthorized with DiagnosticableTreeMixin implements _Unauthorized {
 }
 
 abstract class _Unauthorized implements SeedVaultState {
-  const factory _Unauthorized() = _$_Unauthorized;
+  const factory _Unauthorized() = _$UnauthorizedImpl;
 }
 
 /// @nodoc
-abstract class _$$_LoadedCopyWith<$Res> {
-  factory _$$_LoadedCopyWith(_$_Loaded value, $Res Function(_$_Loaded) then) =
-      __$$_LoadedCopyWithImpl<$Res>;
+abstract class _$$LoadedImplCopyWith<$Res> {
+  factory _$$LoadedImplCopyWith(
+          _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
+      __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {List<Seed> seeds,
@@ -563,10 +567,11 @@ abstract class _$$_LoadedCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_LoadedCopyWithImpl<$Res>
-    extends _$SeedVaultStateCopyWithImpl<$Res, _$_Loaded>
-    implements _$$_LoadedCopyWith<$Res> {
-  __$$_LoadedCopyWithImpl(_$_Loaded _value, $Res Function(_$_Loaded) _then)
+class __$$LoadedImplCopyWithImpl<$Res>
+    extends _$SeedVaultStateCopyWithImpl<$Res, _$LoadedImpl>
+    implements _$$LoadedImplCopyWith<$Res> {
+  __$$LoadedImplCopyWithImpl(
+      _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -578,7 +583,7 @@ class __$$_LoadedCopyWithImpl<$Res>
     Object? firstRequestedPublicKey = freezed,
     Object? lastRequestedPublicKey = freezed,
   }) {
-    return _then(_$_Loaded(
+    return _then(_$LoadedImpl(
       seeds: null == seeds
           ? _value._seeds
           : seeds // ignore: cast_nullable_to_non_nullable
@@ -613,8 +618,8 @@ class __$$_LoadedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
-  const _$_Loaded(
+class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
+  const _$LoadedImpl(
       {required final List<Seed> seeds,
       required this.limits,
       required this.hasUnauthorizedSeeds,
@@ -625,6 +630,7 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
   final List<Seed> _seeds;
   @override
   List<Seed> get seeds {
+    if (_seeds is EqualUnmodifiableListView) return _seeds;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_seeds);
   }
@@ -658,10 +664,10 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Loaded &&
+            other is _$LoadedImpl &&
             const DeepCollectionEquality().equals(other._seeds, _seeds) &&
             (identical(other.limits, limits) || other.limits == limits) &&
             (identical(other.hasUnauthorizedSeeds, hasUnauthorizedSeeds) ||
@@ -685,8 +691,8 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LoadedCopyWith<_$_Loaded> get copyWith =>
-      __$$_LoadedCopyWithImpl<_$_Loaded>(this, _$identity);
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -790,7 +796,7 @@ abstract class _Loaded implements SeedVaultState {
       required final ImplementationLimits limits,
       required final bool hasUnauthorizedSeeds,
       required final Uri? firstRequestedPublicKey,
-      required final Uri? lastRequestedPublicKey}) = _$_Loaded;
+      required final Uri? lastRequestedPublicKey}) = _$LoadedImpl;
 
   List<Seed> get seeds;
   ImplementationLimits get limits;
@@ -798,6 +804,6 @@ abstract class _Loaded implements SeedVaultState {
   Uri? get firstRequestedPublicKey;
   Uri? get lastRequestedPublicKey;
   @JsonKey(ignore: true)
-  _$$_LoadedCopyWith<_$_Loaded> get copyWith =>
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

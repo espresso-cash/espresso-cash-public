@@ -5,9 +5,8 @@ part 'get_tokens.g.dart';
 
 @freezed
 class GetTokensMetaResponseDto with _$GetTokensMetaResponseDto {
-  const factory GetTokensMetaResponseDto({
-    required String md5,
-  }) = _GetTokensMetaResponseDto;
+  const factory GetTokensMetaResponseDto({required String md5}) =
+      _GetTokensMetaResponseDto;
 
   factory GetTokensMetaResponseDto.fromJson(Map<String, dynamic> json) =>
       _$GetTokensMetaResponseDtoFromJson(json);

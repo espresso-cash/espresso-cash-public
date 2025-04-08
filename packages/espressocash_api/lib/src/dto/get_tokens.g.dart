@@ -7,13 +7,9 @@ part of 'get_tokens.dart';
 // **************************************************************************
 
 _$GetTokensMetaResponseDtoImpl _$$GetTokensMetaResponseDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$GetTokensMetaResponseDtoImpl(
-      md5: json['md5'] as String,
-    );
+  Map<String, dynamic> json,
+) => _$GetTokensMetaResponseDtoImpl(md5: json['md5'] as String);
 
 Map<String, dynamic> _$$GetTokensMetaResponseDtoImplToJson(
-        _$GetTokensMetaResponseDtoImpl instance) =>
-    <String, dynamic>{
-      'md5': instance.md5,
-    };
+  _$GetTokensMetaResponseDtoImpl instance,
+) => <String, dynamic>{'md5': instance.md5};

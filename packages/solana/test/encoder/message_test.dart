@@ -95,10 +95,7 @@ void main() {
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
 
-      expect(
-        () => Message.decompile(compiledMessage),
-        throwsException,
-      );
+      expect(() => Message.decompile(compiledMessage), throwsException);
 
       final decompiledMessage = Message.decompile(
         compiledMessage,

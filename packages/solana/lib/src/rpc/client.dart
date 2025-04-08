@@ -18,15 +18,10 @@ abstract class RpcClient {
     String url, {
     Duration timeout = const Duration(seconds: 30),
     Map<String, String> customHeaders = const {},
-  }) =>
-      _RpcClient(
-        url,
-        JsonRpcClient(
-          url,
-          timeout: timeout,
-          customHeaders: customHeaders,
-        ),
-      );
+  }) => _RpcClient(
+    url,
+    JsonRpcClient(url, timeout: timeout, customHeaders: customHeaders),
+  );
 
   abstract final JsonRpcClient _jsonRpcClient;
 
@@ -105,10 +100,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
-  Future<int> getBlockHeight({
-    Commitment? commitment,
-    num? minContextSlot,
-  });
+  Future<int> getBlockHeight({Commitment? commitment, num? minContextSlot});
 
   /// Returns recent block production information from the current or previous epoch.
   ///
@@ -130,9 +122,7 @@ abstract class RpcClient {
   /// Returns commitment for particular block
   ///
   /// [block] block, identified by Slot
-  Future<BlockCommitment?> getBlockCommitment(
-    int block,
-  );
+  Future<BlockCommitment?> getBlockCommitment(int block);
 
   /// Returns a list of confirmed blocks between two slots
   ///
@@ -169,9 +159,7 @@ abstract class RpcClient {
   /// Returns the estimated production time of a block.
   ///
   /// [block] block, identified by Slot
-  Future<int?> getBlockTime(
-    int block,
-  );
+  Future<int?> getBlockTime(int block);
 
   /// Returns information about all the nodes participating in the cluster
   Future<List<ClusterNode>> getClusterNodes();
@@ -184,10 +172,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
-  Future<EpochInfo> getEpochInfo({
-    Commitment? commitment,
-    num? minContextSlot,
-  });
+  Future<EpochInfo> getEpochInfo({Commitment? commitment, num? minContextSlot});
 
   /// Returns epoch schedule information from this cluster's genesis config
   Future<EpochSchedule> getEpochSchedule();
@@ -239,9 +224,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<InflationGovernor> getInflationGovernor({
-    Commitment? commitment,
-  });
+  Future<InflationGovernor> getInflationGovernor({Commitment? commitment});
 
   /// Returns the specific inflation values for the current epoch
   Future<InflationRate> getInflationRate();
@@ -379,9 +362,7 @@ abstract class RpcClient {
   /// transactions and slots that occur in a given time window.
   ///
   /// [limit] number of samples to return (maximum 720)
-  Future<List<PerfSample>> getRecentPerformanceSamples(
-    int? limit,
-  );
+  Future<List<PerfSample>> getRecentPerformanceSamples(int? limit);
 
   /// Returns confirmed signatures for transactions involving an address backwards in
   /// time from the provided signature or most recent confirmed block
@@ -432,10 +413,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
-  Future<int> getSlot({
-    Commitment? commitment,
-    num? minContextSlot,
-  });
+  Future<int> getSlot({Commitment? commitment, num? minContextSlot});
 
   /// Returns the current slot leader
   ///
@@ -445,20 +423,14 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
-  Future<String> getSlotLeader({
-    Commitment? commitment,
-    num? minContextSlot,
-  });
+  Future<String> getSlotLeader({Commitment? commitment, num? minContextSlot});
 
   /// Returns the slot leaders for a given slot range
   ///
   /// [startSlot] Start slot, as u64 integer
   ///
   /// [limit] Limit, as u64 integer
-  Future<List<String>> getSlotLeaders(
-    int startSlot,
-    int limit,
-  );
+  Future<List<String>> getSlotLeaders(int startSlot, int limit);
 
   /// Returns the stake minimum delegation, in lamports.
   ///

@@ -9,10 +9,7 @@ part 'blockhash.g.dart';
 /// [get recent blockhash]: https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash
 @JsonSerializable()
 class Blockhash {
-  const Blockhash({
-    required this.feeCalculator,
-    required this.blockhash,
-  });
+  const Blockhash({required this.feeCalculator, required this.blockhash});
 
   factory Blockhash.fromJson(Map<String, dynamic> json) =>
       _$BlockhashFromJson(json);

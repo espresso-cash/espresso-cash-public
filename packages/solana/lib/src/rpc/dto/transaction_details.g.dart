@@ -11,12 +11,14 @@ TransactionDetails _$TransactionDetailsFromJson(Map<String, dynamic> json) =>
       slot: (json['slot'] as num).toInt(),
       transaction: Transaction.fromJson(json['transaction']),
       blockTime: (json['blockTime'] as num?)?.toInt(),
-      meta: json['meta'] == null
-          ? null
-          : Meta.fromJson(json['meta'] as Map<String, dynamic>),
-      version: json['version'] == null
-          ? null
-          : TransactionVersion.fromJson(json['version']),
+      meta:
+          json['meta'] == null
+              ? null
+              : Meta.fromJson(json['meta'] as Map<String, dynamic>),
+      version:
+          json['version'] == null
+              ? null
+              : TransactionVersion.fromJson(json['version']),
     );
 
 Map<String, dynamic> _$TransactionDetailsToJson(TransactionDetails instance) =>

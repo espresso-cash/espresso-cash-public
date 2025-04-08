@@ -4,10 +4,7 @@ part 'collection.g.dart';
 
 @JsonSerializable()
 class Collection {
-  const Collection({
-    required this.name,
-    required this.family,
-  });
+  const Collection({required this.name, required this.family});
 
   factory Collection.fromJson(Map<String, dynamic> json) =>
       _$CollectionFromJson(json);

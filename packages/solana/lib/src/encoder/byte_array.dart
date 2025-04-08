@@ -8,11 +8,11 @@ import 'package:solana/base58.dart';
 @immutable
 class ByteArray extends Iterable<int> {
   ByteArray(Iterable<int> data)
-      : assert(
-          data.every((e) => e < 256),
-          'All elements should be less than 256',
-        ),
-        _data = data.toList();
+    : assert(
+        data.every((e) => e < 256),
+        'All elements should be less than 256',
+      ),
+      _data = data.toList();
 
   const ByteArray._(this._data);
 
@@ -30,9 +30,9 @@ class ByteArray extends Iterable<int> {
       ByteArray(Uint8List.fromList(base58decode(base58String)));
 
   factory ByteArray.fromString(String string) => ByteArray.merge([
-        ByteArray.u64(string.length),
-        ByteArray(utf8.encode(string)),
-      ]);
+    ByteArray.u64(string.length),
+    ByteArray(utf8.encode(string)),
+  ]);
 
   factory ByteArray.i8(int value) =>
       ByteArray._fromByteData(ByteData(1)..setUint8(0, value));

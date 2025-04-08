@@ -13,8 +13,5 @@ UnsubscribedMessage _$UnsubscribedMessageFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$UnsubscribedMessageToJson(
-        UnsubscribedMessage instance) =>
-    <String, dynamic>{
-      'result': instance.result,
-      'id': instance.id,
-    };
+  UnsubscribedMessage instance,
+) => <String, dynamic>{'result': instance.result, 'id': instance.id};

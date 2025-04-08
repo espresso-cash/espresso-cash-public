@@ -84,7 +84,8 @@ class BCreateMetadataAccountV3Data
 }
 
 CreateMetadataAccountV3Data _$CreateMetadataAccountV3DataFromBorsh(
-    Uint8List data) {
+  Uint8List data,
+) {
   final reader = BinaryReader(data.buffer.asByteData());
 
   return const BCreateMetadataAccountV3Data().read(reader);
@@ -157,10 +158,7 @@ mixin _$MetadataCollection {
 }
 
 class _MetadataCollection extends MetadataCollection {
-  _MetadataCollection({
-    required this.verified,
-    required this.key,
-  }) : super._();
+  _MetadataCollection({required this.verified, required this.key}) : super._();
 
   final bool verified;
   final Ed25519HDPublicKey key;

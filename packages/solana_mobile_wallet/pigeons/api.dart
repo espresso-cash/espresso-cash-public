@@ -316,10 +316,7 @@ abstract class ApiFlutter {
   );
 
   @async
-  SignedPayloadsResultDto? signMessages(
-    SignMessagesRequestDto request,
-    int id,
-  );
+  SignedPayloadsResultDto? signMessages(SignMessagesRequestDto request, int id);
 
   @async
   SignaturesResultDto? signAndSendTransactions(
@@ -328,10 +325,7 @@ abstract class ApiFlutter {
   );
 
   @async
-  void deauthorize(
-    DeauthorizeEventDto event,
-    int id,
-  );
+  void deauthorize(DeauthorizeEventDto event, int id);
 
   void onNewIntent(bool isInitialIntent);
 }

@@ -5,9 +5,7 @@ part 'identity.g.dart';
 /// An identity (or a public key)
 @JsonSerializable()
 class Identity {
-  const Identity({
-    required this.identity,
-  });
+  const Identity({required this.identity});
 
   factory Identity.fromJson(Map<String, dynamic> json) =>
       _$IdentityFromJson(json);

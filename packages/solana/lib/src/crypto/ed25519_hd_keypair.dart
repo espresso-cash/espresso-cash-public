@@ -14,10 +14,8 @@ import 'package:solana/src/encoder/signed_tx.dart';
 
 /// Signs solana transactions using the ed25519 elliptic curve
 class Ed25519HDKeyPair extends KeyPair {
-  Ed25519HDKeyPair._({
-    required List<int> privateKey,
-    required this.publicKey,
-  }) : _privateKey = privateKey;
+  Ed25519HDKeyPair._({required List<int> privateKey, required this.publicKey})
+    : _privateKey = privateKey;
 
   /// Construct a new [Ed25519HDKeyPair] from a [seed] and a derivation path [hdPath].
   static Future<Ed25519HDKeyPair> fromSeedWithHdPath({
@@ -36,13 +34,12 @@ class Ed25519HDKeyPair extends KeyPair {
 
   static Future<Ed25519HDKeyPair> fromPrivateKeyBytes({
     required List<int> privateKey,
-  }) async =>
-      Ed25519HDKeyPair._(
-        privateKey: privateKey,
-        publicKey: Ed25519HDPublicKey(
-          await ED25519_HD_KEY.getPublicKey(privateKey, false),
-        ),
-      );
+  }) async => Ed25519HDKeyPair._(
+    privateKey: privateKey,
+    publicKey: Ed25519HDPublicKey(
+      await ED25519_HD_KEY.getPublicKey(privateKey, false),
+    ),
+  );
 
   /// Generate a new random [Ed25519HDKeyPair]
   static Future<Ed25519HDKeyPair> random() {
@@ -102,10 +99,8 @@ class Ed25519HDKeyPair extends KeyPair {
   }
 
   @override
-  Future<Ed25519HDKeyPairData> extract() async => Ed25519HDKeyPairData(
-        _privateKey,
-        publicKey: publicKey,
-      );
+  Future<Ed25519HDKeyPairData> extract() async =>
+      Ed25519HDKeyPairData(_privateKey, publicKey: publicKey);
 
   @override
   Future<Ed25519HDPublicKey> extractPublicKey() =>
@@ -120,10 +115,7 @@ class Ed25519HDKeyPair extends KeyPair {
     // with our public key.
     final keypair = SimpleKeyPairData(
       _privateKey,
-      publicKey: SimplePublicKey(
-        publicKey.bytes,
-        type: KeyPairType.ed25519,
-      ),
+      publicKey: SimplePublicKey(publicKey.bytes, type: KeyPairType.ed25519),
       type: KeyPairType.ed25519,
     );
 

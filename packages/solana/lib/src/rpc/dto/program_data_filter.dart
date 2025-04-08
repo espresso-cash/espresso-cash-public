@@ -7,24 +7,14 @@ abstract class ProgramDataFilter {
   factory ProgramDataFilter.memcmp({
     required int offset,
     required List<int> bytes,
-  }) =>
-      _MemcmpProgramDataFilter(
-        memcmp: _Memcmp(
-          offset: offset,
-          bytes: base58encode(bytes),
-        ),
-      );
+  }) => _MemcmpProgramDataFilter(
+    memcmp: _Memcmp(offset: offset, bytes: base58encode(bytes)),
+  );
 
   factory ProgramDataFilter.memcmpBase58({
     required int offset,
     required String bytes,
-  }) =>
-      _MemcmpProgramDataFilter(
-        memcmp: _Memcmp(
-          offset: offset,
-          bytes: bytes,
-        ),
-      );
+  }) => _MemcmpProgramDataFilter(memcmp: _Memcmp(offset: offset, bytes: bytes));
 
   const factory ProgramDataFilter.dataSize(int dataSize) =
       _DataSizeProgramDataFilter;
@@ -44,9 +34,7 @@ class _DataSizeProgramDataFilter implements ProgramDataFilter {
 
 @JsonSerializable(createFactory: false)
 class _MemcmpProgramDataFilter implements ProgramDataFilter {
-  const _MemcmpProgramDataFilter({
-    required this.memcmp,
-  });
+  const _MemcmpProgramDataFilter({required this.memcmp});
 
   @override
   Map<String, dynamic> toJson() => _$MemcmpProgramDataFilterToJson(this);
@@ -56,10 +44,7 @@ class _MemcmpProgramDataFilter implements ProgramDataFilter {
 
 @JsonSerializable(createFactory: false)
 class _Memcmp implements ProgramDataFilter {
-  const _Memcmp({
-    required this.offset,
-    required this.bytes,
-  });
+  const _Memcmp({required this.offset, required this.bytes});
 
   @override
   Map<String, dynamic> toJson() => _$MemcmpToJson(this);

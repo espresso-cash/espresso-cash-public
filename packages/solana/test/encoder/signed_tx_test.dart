@@ -47,14 +47,11 @@ void main() {
 
       expect(decoded.signatures, tx.signatures);
       expect(decoded.blockhash, blockhash);
-      expect(
-        decoded.compiledMessage.accountKeys.map((a) => a.toBase58()),
-        [
-          fundingAccount.address,
-          recipientAccount.address,
-          SystemProgram.programId,
-        ],
-      );
+      expect(decoded.compiledMessage.accountKeys.map((a) => a.toBase58()), [
+        fundingAccount.address,
+        recipientAccount.address,
+        SystemProgram.programId,
+      ]);
       expect(decoded.version, TransactionVersion.legacy);
     });
   });
@@ -101,14 +98,11 @@ void main() {
       expect(decoded.signatures, tx.signatures);
       expect(decoded.blockhash, blockhash);
       expect(decoded.version, TransactionVersion.v0);
-      expect(
-        decoded.compiledMessage.accountKeys.map((a) => a.toBase58()),
-        [
-          fundingAccount.address,
-          recipientAccount.address,
-          SystemProgram.programId,
-        ],
-      );
+      expect(decoded.compiledMessage.accountKeys.map((a) => a.toBase58()), [
+        fundingAccount.address,
+        recipientAccount.address,
+        SystemProgram.programId,
+      ]);
     });
 
     test('decompiles base64 tx v0 with address look up', () async {
@@ -244,9 +238,7 @@ void main() {
       final decoded = SignedTx.decode(encoded);
 
       expect(
-        decoded.decompileMessage(
-          addressLookupTableAccounts: [lookUpTable],
-        ),
+        decoded.decompileMessage(addressLookupTableAccounts: [lookUpTable]),
         isA<Message>()
             .having((m) => m.instructions.length, 'number of instructions', 3)
             .having(

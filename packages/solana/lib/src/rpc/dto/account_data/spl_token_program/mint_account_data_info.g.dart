@@ -16,11 +16,11 @@ MintAccountDataInfo _$MintAccountDataInfoFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$MintAccountDataInfoToJson(
-        MintAccountDataInfo instance) =>
-    <String, dynamic>{
-      'mintAuthority': instance.mintAuthority,
-      'freezedAuthority': instance.freezedAuthority,
-      'isInitialized': instance.isInitialized,
-      'supply': instance.supply,
-      'decimals': instance.decimals,
-    };
+  MintAccountDataInfo instance,
+) => <String, dynamic>{
+  'mintAuthority': instance.mintAuthority,
+  'freezedAuthority': instance.freezedAuthority,
+  'isInitialized': instance.isInitialized,
+  'supply': instance.supply,
+  'decimals': instance.decimals,
+};

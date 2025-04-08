@@ -5,10 +5,7 @@ part 'block_commitment.g.dart';
 /// The commitment of a bloc
 @JsonSerializable()
 class BlockCommitment {
-  const BlockCommitment({
-    required this.commitment,
-    required this.totalStake,
-  });
+  const BlockCommitment({required this.commitment, required this.totalStake});
 
   factory BlockCommitment.fromJson(Map<String, dynamic> json) =>
       _$BlockCommitmentFromJson(json);

@@ -27,9 +27,8 @@ class SignPayloadsRequest with _$SignPayloadsRequest {
 
 @freezed
 class SignedPayloadResult with _$SignedPayloadResult {
-  const factory SignedPayloadResult({
-    required List<Uint8List> signedPayloads,
-  }) = _SignedPayloadResult;
+  const factory SignedPayloadResult({required List<Uint8List> signedPayloads}) =
+      _SignedPayloadResult;
 
   const factory SignedPayloadResult.requestDeclined() = _RequestDeclined;
 
@@ -44,8 +43,6 @@ class SignedPayloadResult with _$SignedPayloadResult {
 
   const SignedPayloadResult._();
 
-  int get numResults => maybeWhen(
-        (signedPayloads) => signedPayloads.length,
-        orElse: () => 0,
-      );
+  int get numResults =>
+      maybeWhen((signedPayloads) => signedPayloads.length, orElse: () => 0);
 }

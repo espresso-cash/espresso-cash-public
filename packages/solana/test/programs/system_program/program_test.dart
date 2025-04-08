@@ -95,8 +95,9 @@ void main() {
     final fromKey = await Ed25519HDKeyPair.random();
     final nonceKey = await Ed25519HDKeyPair.random();
     final authorized = nonceKey;
-    final lamports = await client.rpcClient
-        .getMinimumBalanceForRentExemption(SystemProgram.nonceAccountSize);
+    final lamports = await client.rpcClient.getMinimumBalanceForRentExemption(
+      SystemProgram.nonceAccountSize,
+    );
 
     await client.requestAirdrop(
       address: fromKey.publicKey,
@@ -124,8 +125,9 @@ void main() {
     final nonceKey = await Ed25519HDKeyPair.random();
     final fromKey = await _createFundedKey(client);
     final authorized = fromKey;
-    final lamports = await client.rpcClient
-        .getMinimumBalanceForRentExemption(SystemProgram.nonceAccountSize);
+    final lamports = await client.rpcClient.getMinimumBalanceForRentExemption(
+      SystemProgram.nonceAccountSize,
+    );
 
     final instructions = SystemInstruction.createAndInitializeNonceAccount(
       fromPubKey: fromKey.publicKey,
@@ -144,10 +146,7 @@ void main() {
 
   test('Advance nonce account', () async {
     final fromKey = await _createFundedKey(client);
-    final nonceKey = await _createNonceAccount(
-      fromKey,
-      client,
-    );
+    final nonceKey = await _createNonceAccount(fromKey, client);
 
     final instruction = SystemInstruction.advanceNonceAccount(
       nonce: nonceKey.publicKey,
@@ -271,7 +270,8 @@ void main() {
       nonce: nonceKey.publicKey,
       nonceAuthority: fromKey.publicKey,
       recipient: toKey.publicKey,
-      lamports: 100 +
+      lamports:
+          100 +
           await client.rpcClient.getMinimumBalanceForRentExemption(
             SystemProgram.nonceAccountSize,
           ),
@@ -327,8 +327,9 @@ Future<Ed25519HDKeyPair> _createNonceAccount(
   int extraLamports = 0,
 }) async {
   final nonceKey = await Ed25519HDKeyPair.random();
-  final lamports = await client.rpcClient
-      .getMinimumBalanceForRentExemption(SystemProgram.nonceAccountSize);
+  final lamports = await client.rpcClient.getMinimumBalanceForRentExemption(
+    SystemProgram.nonceAccountSize,
+  );
 
   final instructions = SystemInstruction.createAndInitializeNonceAccount(
     fromPubKey: nonceAuthority.publicKey,

@@ -12,7 +12,8 @@ part of 'logs_filter.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$LogsFilter {
@@ -21,52 +22,47 @@ mixin _$LogsFilter {
     required TResult Function() all,
     required TResult Function() allWithVotes,
     required TResult Function(List<String> pubKeys) mentions,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? all,
     TResult? Function()? allWithVotes,
     TResult? Function(List<String> pubKeys)? mentions,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? all,
     TResult Function()? allWithVotes,
     TResult Function(List<String> pubKeys)? mentions,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_LogsFilterAll value) all,
     required TResult Function(_LosgFilterAllWithVotes value) allWithVotes,
     required TResult Function(_LogsFilterMentions value) mentions,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_LogsFilterAll value)? all,
     TResult? Function(_LosgFilterAllWithVotes value)? allWithVotes,
     TResult? Function(_LogsFilterMentions value)? mentions,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_LogsFilterAll value)? all,
     TResult Function(_LosgFilterAllWithVotes value)? allWithVotes,
     TResult Function(_LogsFilterMentions value)? mentions,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $LogsFilterCopyWith<$Res> {
   factory $LogsFilterCopyWith(
-          LogsFilter value, $Res Function(LogsFilter) then) =
-      _$LogsFilterCopyWithImpl<$Res, LogsFilter>;
+    LogsFilter value,
+    $Res Function(LogsFilter) then,
+  ) = _$LogsFilterCopyWithImpl<$Res, LogsFilter>;
 }
 
 /// @nodoc
@@ -86,8 +82,9 @@ class _$LogsFilterCopyWithImpl<$Res, $Val extends LogsFilter>
 /// @nodoc
 abstract class _$$LogsFilterAllImplCopyWith<$Res> {
   factory _$$LogsFilterAllImplCopyWith(
-          _$LogsFilterAllImpl value, $Res Function(_$LogsFilterAllImpl) then) =
-      __$$LogsFilterAllImplCopyWithImpl<$Res>;
+    _$LogsFilterAllImpl value,
+    $Res Function(_$LogsFilterAllImpl) then,
+  ) = __$$LogsFilterAllImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -95,8 +92,9 @@ class __$$LogsFilterAllImplCopyWithImpl<$Res>
     extends _$LogsFilterCopyWithImpl<$Res, _$LogsFilterAllImpl>
     implements _$$LogsFilterAllImplCopyWith<$Res> {
   __$$LogsFilterAllImplCopyWithImpl(
-      _$LogsFilterAllImpl _value, $Res Function(_$LogsFilterAllImpl) _then)
-      : super(_value, _then);
+    _$LogsFilterAllImpl _value,
+    $Res Function(_$LogsFilterAllImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of LogsFilter
   /// with the given fields replaced by the non-null parameter values.
@@ -197,9 +195,9 @@ abstract class _LogsFilterAll implements LogsFilter {
 /// @nodoc
 abstract class _$$LosgFilterAllWithVotesImplCopyWith<$Res> {
   factory _$$LosgFilterAllWithVotesImplCopyWith(
-          _$LosgFilterAllWithVotesImpl value,
-          $Res Function(_$LosgFilterAllWithVotesImpl) then) =
-      __$$LosgFilterAllWithVotesImplCopyWithImpl<$Res>;
+    _$LosgFilterAllWithVotesImpl value,
+    $Res Function(_$LosgFilterAllWithVotesImpl) then,
+  ) = __$$LosgFilterAllWithVotesImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -207,9 +205,9 @@ class __$$LosgFilterAllWithVotesImplCopyWithImpl<$Res>
     extends _$LogsFilterCopyWithImpl<$Res, _$LosgFilterAllWithVotesImpl>
     implements _$$LosgFilterAllWithVotesImplCopyWith<$Res> {
   __$$LosgFilterAllWithVotesImplCopyWithImpl(
-      _$LosgFilterAllWithVotesImpl _value,
-      $Res Function(_$LosgFilterAllWithVotesImpl) _then)
-      : super(_value, _then);
+    _$LosgFilterAllWithVotesImpl _value,
+    $Res Function(_$LosgFilterAllWithVotesImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of LogsFilter
   /// with the given fields replaced by the non-null parameter values.
@@ -310,9 +308,10 @@ abstract class _LosgFilterAllWithVotes implements LogsFilter {
 
 /// @nodoc
 abstract class _$$LogsFilterMentionsImplCopyWith<$Res> {
-  factory _$$LogsFilterMentionsImplCopyWith(_$LogsFilterMentionsImpl value,
-          $Res Function(_$LogsFilterMentionsImpl) then) =
-      __$$LogsFilterMentionsImplCopyWithImpl<$Res>;
+  factory _$$LogsFilterMentionsImplCopyWith(
+    _$LogsFilterMentionsImpl value,
+    $Res Function(_$LogsFilterMentionsImpl) then,
+  ) = __$$LogsFilterMentionsImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<String> pubKeys});
 }
@@ -321,23 +320,24 @@ abstract class _$$LogsFilterMentionsImplCopyWith<$Res> {
 class __$$LogsFilterMentionsImplCopyWithImpl<$Res>
     extends _$LogsFilterCopyWithImpl<$Res, _$LogsFilterMentionsImpl>
     implements _$$LogsFilterMentionsImplCopyWith<$Res> {
-  __$$LogsFilterMentionsImplCopyWithImpl(_$LogsFilterMentionsImpl _value,
-      $Res Function(_$LogsFilterMentionsImpl) _then)
-      : super(_value, _then);
+  __$$LogsFilterMentionsImplCopyWithImpl(
+    _$LogsFilterMentionsImpl _value,
+    $Res Function(_$LogsFilterMentionsImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of LogsFilter
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? pubKeys = null,
-  }) {
-    return _then(_$LogsFilterMentionsImpl(
-      null == pubKeys
-          ? _value._pubKeys
-          : pubKeys // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ));
+  $Res call({Object? pubKeys = null}) {
+    return _then(
+      _$LogsFilterMentionsImpl(
+        null == pubKeys
+            ? _value._pubKeys
+            : pubKeys // ignore: cast_nullable_to_non_nullable
+                as List<String>,
+      ),
+    );
   }
 }
 
@@ -345,7 +345,7 @@ class __$$LogsFilterMentionsImplCopyWithImpl<$Res>
 
 class _$LogsFilterMentionsImpl implements _LogsFilterMentions {
   const _$LogsFilterMentionsImpl(final List<String> pubKeys)
-      : _pubKeys = pubKeys;
+    : _pubKeys = pubKeys;
 
   final List<String> _pubKeys;
   @override
@@ -379,7 +379,9 @@ class _$LogsFilterMentionsImpl implements _LogsFilterMentions {
   @pragma('vm:prefer-inline')
   _$$LogsFilterMentionsImplCopyWith<_$LogsFilterMentionsImpl> get copyWith =>
       __$$LogsFilterMentionsImplCopyWithImpl<_$LogsFilterMentionsImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs

@@ -10,10 +10,7 @@ extension SubscriptionClientExt on SubscriptionClient {
     Duration? timeout,
   }) async {
     try {
-      final future = signatureSubscribe(
-        signature,
-        commitment: status,
-      ).first;
+      final future = signatureSubscribe(signature, commitment: status).first;
 
       final result = await (timeout == null ? future : future.timeout(timeout));
 

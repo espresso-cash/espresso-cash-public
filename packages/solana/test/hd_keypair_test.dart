@@ -46,53 +46,41 @@ void main() {
     }
   });
 
-  test(
-    'Can derive a public key from another public key and a seed',
-    () {
-      _withSeedKeyDerivationData.forEach((key, value) async {
-        final derived = await Ed25519HDPublicKey.createWithSeed(
-          fromPublicKey: Ed25519HDPublicKey.fromBase58(key),
-          seed: value['seed'] as String,
-          programId: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
-        );
+  test('Can derive a public key from another public key and a seed', () {
+    _withSeedKeyDerivationData.forEach((key, value) async {
+      final derived = await Ed25519HDPublicKey.createWithSeed(
+        fromPublicKey: Ed25519HDPublicKey.fromBase58(key),
+        seed: value['seed'] as String,
+        programId: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
+      );
 
-        expect(derived.toBase58(), value['result']);
-      });
-    },
-  );
+      expect(derived.toBase58(), value['result']);
+    });
+  });
 
-  test(
-    'Can copy a key pair data if bytes are not destroyed',
-    () async {
-      final randomKeyPair = await Ed25519HDKeyPair.random();
-      final simpleKeyPairData = await randomKeyPair.extract();
-      final testKeyPair = simpleKeyPairData.copy();
+  test('Can copy a key pair data if bytes are not destroyed', () async {
+    final randomKeyPair = await Ed25519HDKeyPair.random();
+    final simpleKeyPairData = await randomKeyPair.extract();
+    final testKeyPair = simpleKeyPairData.copy();
 
-      expect(randomKeyPair.publicKey, equals(testKeyPair.publicKey));
-    },
-  );
+    expect(randomKeyPair.publicKey, equals(testKeyPair.publicKey));
+  });
 
-  test(
-    'Cannot copy a key pair data if bytes are destroyed',
-    () async {
-      final randomKeyPair = await Ed25519HDKeyPair.random();
-      final simpleKeyPairData = await randomKeyPair.extract();
-      simpleKeyPairData.destroy();
+  test('Cannot copy a key pair data if bytes are destroyed', () async {
+    final randomKeyPair = await Ed25519HDKeyPair.random();
+    final simpleKeyPairData = await randomKeyPair.extract();
+    simpleKeyPairData.destroy();
 
-      expect(simpleKeyPairData.copy, throwsA(isA<StateError>()));
-    },
-  );
+    expect(simpleKeyPairData.copy, throwsA(isA<StateError>()));
+  });
 
-  test(
-    'Cannot extract a key pair data if bytes are destroyed',
-    () async {
-      final randomKeyPair = await Ed25519HDKeyPair.random();
-      final simpleKeyPairData = await randomKeyPair.extract();
-      simpleKeyPairData.destroy();
+  test('Cannot extract a key pair data if bytes are destroyed', () async {
+    final randomKeyPair = await Ed25519HDKeyPair.random();
+    final simpleKeyPairData = await randomKeyPair.extract();
+    simpleKeyPairData.destroy();
 
-      expect(simpleKeyPairData.extract, throwsA(isA<StateError>()));
-    },
-  );
+    expect(simpleKeyPairData.extract, throwsA(isA<StateError>()));
+  });
 
   group('getHDPath', () {
     test('returns correct path with account and change', () {

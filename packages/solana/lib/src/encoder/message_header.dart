@@ -26,8 +26,8 @@ class MessageHeader with _$MessageHeader {
       );
 
   ByteArray toByteArray() => ByteArray.merge([
-        ByteArray.u8(numRequiredSignatures),
-        ByteArray.u8(numReadonlySignedAccounts),
-        ByteArray.u8(numReadonlyUnsignedAccounts),
-      ]);
+    ByteArray.u8(numRequiredSignatures),
+    ByteArray.u8(numReadonlySignedAccounts),
+    ByteArray.u8(numReadonlyUnsignedAccounts),
+  ]);
 }

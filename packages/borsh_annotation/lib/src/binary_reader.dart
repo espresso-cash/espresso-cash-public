@@ -76,9 +76,10 @@ class BinaryReader {
 BigInt _decodeBigInt(Iterable<int> bytes, {required bool isSigned}) {
   final list = bytes.toList();
 
-  final negative = isSigned
-      ? list.isNotEmpty && list.last & _negativeFlag == _negativeFlag
-      : false;
+  final negative =
+      isSigned
+          ? list.isNotEmpty && list.last & _negativeFlag == _negativeFlag
+          : false;
 
   BigInt result;
 

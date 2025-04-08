@@ -21,9 +21,8 @@ class ParsedSystemInstruction with _$ParsedSystemInstruction {
   }) = ParsedSystemTransferCheckedInstruction;
 
   /// Instructions that we haven't implemented yet.
-  const factory ParsedSystemInstruction.unsupported({
-    required String type,
-  }) = ParsedSystemUnsupportedInstruction;
+  const factory ParsedSystemInstruction.unsupported({required String type}) =
+      ParsedSystemUnsupportedInstruction;
 
   factory ParsedSystemInstruction.fromJson(Map<String, dynamic> json) =>
       _$ParsedSystemInstructionFromJson(json);

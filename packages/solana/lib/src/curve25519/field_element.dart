@@ -16,7 +16,7 @@ class FieldElement {
   }
 
   FieldElement.fromByteArray(List<BigInt> input)
-      : _t = List.filled(10, BigInt.zero) {
+    : _t = List.filled(10, BigInt.zero) {
     BigInt h0 = load_4(input, 0);
     BigInt h1 = load_3(input, 4) << 6;
     BigInt h2 = load_3(input, 7) << 5;
@@ -378,7 +378,8 @@ class FieldElement {
     final f9g7_38 = f9_2 * g7_19;
     final f9g8_19 = _t[9] * g8_19;
     final f9g9_38 = f9_2 * g9_19;
-    BigInt h0 = f0g0 +
+    BigInt h0 =
+        f0g0 +
         f1g9_38 +
         f2g8_19 +
         f3g7_38 +
@@ -388,7 +389,8 @@ class FieldElement {
         f7g3_38 +
         f8g2_19 +
         f9g1_38;
-    BigInt h1 = f0g1 +
+    BigInt h1 =
+        f0g1 +
         f1g0 +
         f2g9_19 +
         f3g8_19 +
@@ -398,7 +400,8 @@ class FieldElement {
         f7g4_19 +
         f8g3_19 +
         f9g2_19;
-    BigInt h2 = f0g2 +
+    BigInt h2 =
+        f0g2 +
         f1g1_2 +
         f2g0 +
         f3g9_38 +
@@ -408,7 +411,8 @@ class FieldElement {
         f7g5_38 +
         f8g4_19 +
         f9g3_38;
-    BigInt h3 = f0g3 +
+    BigInt h3 =
+        f0g3 +
         f1g2 +
         f2g1 +
         f3g0 +
@@ -418,7 +422,8 @@ class FieldElement {
         f7g6_19 +
         f8g5_19 +
         f9g4_19;
-    BigInt h4 = f0g4 +
+    BigInt h4 =
+        f0g4 +
         f1g3_2 +
         f2g2 +
         f3g1_2 +
@@ -428,7 +433,8 @@ class FieldElement {
         f7g7_38 +
         f8g6_19 +
         f9g5_38;
-    BigInt h5 = f0g5 +
+    BigInt h5 =
+        f0g5 +
         f1g4 +
         f2g3 +
         f3g2 +
@@ -438,7 +444,8 @@ class FieldElement {
         f7g8_19 +
         f8g7_19 +
         f9g6_19;
-    BigInt h6 = f0g6 +
+    BigInt h6 =
+        f0g6 +
         f1g5_2 +
         f2g4 +
         f3g3_2 +
@@ -448,7 +455,8 @@ class FieldElement {
         f7g9_38 +
         f8g8_19 +
         f9g7_38;
-    BigInt h7 = f0g7 +
+    BigInt h7 =
+        f0g7 +
         f1g6 +
         f2g5 +
         f3g4 +
@@ -458,7 +466,8 @@ class FieldElement {
         f7g0 +
         f8g9_19 +
         f9g8_19;
-    BigInt h8 = f0g8 +
+    BigInt h8 =
+        f0g8 +
         f1g7_2 +
         f2g6 +
         f3g5_2 +

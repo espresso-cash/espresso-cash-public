@@ -7,18 +7,19 @@ part of 'raw_message.dart';
 // **************************************************************************
 
 RawMessage _$RawMessageFromJson(Map<String, dynamic> json) => RawMessage(
-      accountKeys: (json['accountKeys'] as List<dynamic>)
-          .map(AccountKey.fromJson)
-          .toList(),
-      header: json['header'] == null ? null : Header.fromJson(json['header']),
-      recentBlockhash: json['recentBlockhash'] as String,
-      instructions: (json['instructions'] as List<dynamic>)
+  accountKeys:
+      (json['accountKeys'] as List<dynamic>).map(AccountKey.fromJson).toList(),
+  header: json['header'] == null ? null : Header.fromJson(json['header']),
+  recentBlockhash: json['recentBlockhash'] as String,
+  instructions:
+      (json['instructions'] as List<dynamic>)
           .map((e) => Instruction.fromJson(e as Map<String, dynamic>))
           .toList(),
-      addressTableLookups: (json['addressTableLookups'] as List<dynamic>?)
+  addressTableLookups:
+      (json['addressTableLookups'] as List<dynamic>?)
           ?.map((e) => AddressTableLookups.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
+);
 
 Map<String, dynamic> _$RawMessageToJson(RawMessage instance) =>
     <String, dynamic>{

@@ -7,22 +7,18 @@ part 'parsed_account_data.g.dart';
 @Freezed(unionKey: 'program', fallbackUnion: 'unsupported')
 class ParsedAccountData with _$ParsedAccountData implements AccountData {
   @FreezedUnionValue('spl-token')
-  const factory ParsedAccountData.splToken(
-    SplTokenProgramAccountData parsed,
-  ) = ParsedSplTokenProgramAccountData;
+  const factory ParsedAccountData.splToken(SplTokenProgramAccountData parsed) =
+      ParsedSplTokenProgramAccountData;
 
   @FreezedUnionValue('spl-token-2022')
-  const factory ParsedAccountData.token2022(
-    SplTokenProgramAccountData parsed,
-  ) = ParsedSplToken2022ProgramAccountData;
+  const factory ParsedAccountData.token2022(SplTokenProgramAccountData parsed) =
+      ParsedSplToken2022ProgramAccountData;
 
-  const factory ParsedAccountData.stake(
-    StakeProgramAccountData parsed,
-  ) = ParsedStakeProgramAccountData;
+  const factory ParsedAccountData.stake(StakeProgramAccountData parsed) =
+      ParsedStakeProgramAccountData;
 
-  const factory ParsedAccountData.unsupported(
-    Map<String, dynamic> parsed,
-  ) = UnsupportedProgramAccountData;
+  const factory ParsedAccountData.unsupported(Map<String, dynamic> parsed) =
+      UnsupportedProgramAccountData;
 
   factory ParsedAccountData.fromJson(Map<String, dynamic> json) =>
       _$ParsedAccountDataFromJson(json);

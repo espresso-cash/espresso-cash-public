@@ -28,9 +28,8 @@ class ParsedInstruction with _$ParsedInstruction implements Instruction {
   }) = ParsedInstructionMemo;
 
   /// Any instruction that we are not currently supporting.
-  const factory ParsedInstruction.unsupported({
-    String? program,
-  }) = ParsedInstructionUnsupported;
+  const factory ParsedInstruction.unsupported({String? program}) =
+      ParsedInstructionUnsupported;
 
   factory ParsedInstruction.fromJson(Map<String, dynamic> json) =>
       _$ParsedInstructionFromJson(json);

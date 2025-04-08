@@ -78,9 +78,7 @@ class MobileWalletAdapterClient {
     }
   }
 
-  Future<void> deauthorize({
-    required String authToken,
-  }) async {
+  Future<void> deauthorize({required String authToken}) async {
     try {
       await api.deauthorize(_scenarioId, authToken);
     } on PlatformException {
@@ -110,16 +108,17 @@ class MobileWalletAdapterClient {
       final result = await api.signMessages(_scenarioId, messages, addresses);
 
       return SignMessagesResult(
-        signedMessages: result.messages
-            .whereType<SignedMessageDto>()
-            .map(
-              (it) => SignedMessage(
-                message: it.message,
-                addresses: it.addresses.whereType<Uint8List>().toList(),
-                signatures: it.signatures.whereType<Uint8List>().toList(),
-              ),
-            )
-            .toList(),
+        signedMessages:
+            result.messages
+                .whereType<SignedMessageDto>()
+                .map(
+                  (it) => SignedMessage(
+                    message: it.message,
+                    addresses: it.addresses.whereType<Uint8List>().toList(),
+                    signatures: it.signatures.whereType<Uint8List>().toList(),
+                  ),
+                )
+                .toList(),
       );
     } on PlatformException {
       return const SignMessagesResult(signedMessages: []);
@@ -168,9 +167,8 @@ class AuthorizationResult with _$AuthorizationResult {
 
 @freezed
 class SignPayloadsResult with _$SignPayloadsResult {
-  const factory SignPayloadsResult({
-    required List<Uint8List> signedPayloads,
-  }) = _SignPayloadsResult;
+  const factory SignPayloadsResult({required List<Uint8List> signedPayloads}) =
+      _SignPayloadsResult;
 }
 
 @freezed

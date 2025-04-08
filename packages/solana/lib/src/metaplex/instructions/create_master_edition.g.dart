@@ -19,9 +19,7 @@ mixin _$CreateMasterEditionV3Data {
 }
 
 class _CreateMasterEditionV3Data extends CreateMasterEditionV3Data {
-  _CreateMasterEditionV3Data({
-    this.maxSupply,
-  }) : super._();
+  _CreateMasterEditionV3Data({this.maxSupply}) : super._();
 
   final BigInt? maxSupply;
 }

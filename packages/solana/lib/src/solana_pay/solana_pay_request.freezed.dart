@@ -12,7 +12,8 @@ part of 'solana_pay_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SolanaPayRequest {
@@ -35,17 +36,19 @@ mixin _$SolanaPayRequest {
 /// @nodoc
 abstract class $SolanaPayRequestCopyWith<$Res> {
   factory $SolanaPayRequestCopyWith(
-          SolanaPayRequest value, $Res Function(SolanaPayRequest) then) =
-      _$SolanaPayRequestCopyWithImpl<$Res, SolanaPayRequest>;
+    SolanaPayRequest value,
+    $Res Function(SolanaPayRequest) then,
+  ) = _$SolanaPayRequestCopyWithImpl<$Res, SolanaPayRequest>;
   @useResult
-  $Res call(
-      {Ed25519HDPublicKey recipient,
-      Decimal? amount,
-      Ed25519HDPublicKey? splToken,
-      Iterable<Ed25519HDPublicKey>? reference,
-      String? label,
-      String? message,
-      String? memo});
+  $Res call({
+    Ed25519HDPublicKey recipient,
+    Decimal? amount,
+    Ed25519HDPublicKey? splToken,
+    Iterable<Ed25519HDPublicKey>? reference,
+    String? label,
+    String? message,
+    String? memo,
+  });
 }
 
 /// @nodoc
@@ -71,64 +74,77 @@ class _$SolanaPayRequestCopyWithImpl<$Res, $Val extends SolanaPayRequest>
     Object? message = freezed,
     Object? memo = freezed,
   }) {
-    return _then(_value.copyWith(
-      recipient: null == recipient
-          ? _value.recipient
-          : recipient // ignore: cast_nullable_to_non_nullable
-              as Ed25519HDPublicKey,
-      amount: freezed == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as Decimal?,
-      splToken: freezed == splToken
-          ? _value.splToken
-          : splToken // ignore: cast_nullable_to_non_nullable
-              as Ed25519HDPublicKey?,
-      reference: freezed == reference
-          ? _value.reference
-          : reference // ignore: cast_nullable_to_non_nullable
-              as Iterable<Ed25519HDPublicKey>?,
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-      memo: freezed == memo
-          ? _value.memo
-          : memo // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            recipient:
+                null == recipient
+                    ? _value.recipient
+                    : recipient // ignore: cast_nullable_to_non_nullable
+                        as Ed25519HDPublicKey,
+            amount:
+                freezed == amount
+                    ? _value.amount
+                    : amount // ignore: cast_nullable_to_non_nullable
+                        as Decimal?,
+            splToken:
+                freezed == splToken
+                    ? _value.splToken
+                    : splToken // ignore: cast_nullable_to_non_nullable
+                        as Ed25519HDPublicKey?,
+            reference:
+                freezed == reference
+                    ? _value.reference
+                    : reference // ignore: cast_nullable_to_non_nullable
+                        as Iterable<Ed25519HDPublicKey>?,
+            label:
+                freezed == label
+                    ? _value.label
+                    : label // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            message:
+                freezed == message
+                    ? _value.message
+                    : message // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            memo:
+                freezed == memo
+                    ? _value.memo
+                    : memo // ignore: cast_nullable_to_non_nullable
+                        as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$SolanaPayRequestImplCopyWith<$Res>
     implements $SolanaPayRequestCopyWith<$Res> {
-  factory _$$SolanaPayRequestImplCopyWith(_$SolanaPayRequestImpl value,
-          $Res Function(_$SolanaPayRequestImpl) then) =
-      __$$SolanaPayRequestImplCopyWithImpl<$Res>;
+  factory _$$SolanaPayRequestImplCopyWith(
+    _$SolanaPayRequestImpl value,
+    $Res Function(_$SolanaPayRequestImpl) then,
+  ) = __$$SolanaPayRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {Ed25519HDPublicKey recipient,
-      Decimal? amount,
-      Ed25519HDPublicKey? splToken,
-      Iterable<Ed25519HDPublicKey>? reference,
-      String? label,
-      String? message,
-      String? memo});
+  $Res call({
+    Ed25519HDPublicKey recipient,
+    Decimal? amount,
+    Ed25519HDPublicKey? splToken,
+    Iterable<Ed25519HDPublicKey>? reference,
+    String? label,
+    String? message,
+    String? memo,
+  });
 }
 
 /// @nodoc
 class __$$SolanaPayRequestImplCopyWithImpl<$Res>
     extends _$SolanaPayRequestCopyWithImpl<$Res, _$SolanaPayRequestImpl>
     implements _$$SolanaPayRequestImplCopyWith<$Res> {
-  __$$SolanaPayRequestImplCopyWithImpl(_$SolanaPayRequestImpl _value,
-      $Res Function(_$SolanaPayRequestImpl) _then)
-      : super(_value, _then);
+  __$$SolanaPayRequestImplCopyWithImpl(
+    _$SolanaPayRequestImpl _value,
+    $Res Function(_$SolanaPayRequestImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SolanaPayRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -143,51 +159,60 @@ class __$$SolanaPayRequestImplCopyWithImpl<$Res>
     Object? message = freezed,
     Object? memo = freezed,
   }) {
-    return _then(_$SolanaPayRequestImpl(
-      recipient: null == recipient
-          ? _value.recipient
-          : recipient // ignore: cast_nullable_to_non_nullable
-              as Ed25519HDPublicKey,
-      amount: freezed == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as Decimal?,
-      splToken: freezed == splToken
-          ? _value.splToken
-          : splToken // ignore: cast_nullable_to_non_nullable
-              as Ed25519HDPublicKey?,
-      reference: freezed == reference
-          ? _value.reference
-          : reference // ignore: cast_nullable_to_non_nullable
-              as Iterable<Ed25519HDPublicKey>?,
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-      memo: freezed == memo
-          ? _value.memo
-          : memo // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$SolanaPayRequestImpl(
+        recipient:
+            null == recipient
+                ? _value.recipient
+                : recipient // ignore: cast_nullable_to_non_nullable
+                    as Ed25519HDPublicKey,
+        amount:
+            freezed == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                    as Decimal?,
+        splToken:
+            freezed == splToken
+                ? _value.splToken
+                : splToken // ignore: cast_nullable_to_non_nullable
+                    as Ed25519HDPublicKey?,
+        reference:
+            freezed == reference
+                ? _value.reference
+                : reference // ignore: cast_nullable_to_non_nullable
+                    as Iterable<Ed25519HDPublicKey>?,
+        label:
+            freezed == label
+                ? _value.label
+                : label // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        message:
+            freezed == message
+                ? _value.message
+                : message // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        memo:
+            freezed == memo
+                ? _value.memo
+                : memo // ignore: cast_nullable_to_non_nullable
+                    as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$SolanaPayRequestImpl extends _SolanaPayRequest {
-  const _$SolanaPayRequestImpl(
-      {required this.recipient,
-      this.amount,
-      this.splToken,
-      this.reference,
-      this.label,
-      this.message,
-      this.memo})
-      : super._();
+  const _$SolanaPayRequestImpl({
+    required this.recipient,
+    this.amount,
+    this.splToken,
+    this.reference,
+    this.label,
+    this.message,
+    this.memo,
+  }) : super._();
 
   @override
   final Ed25519HDPublicKey recipient;
@@ -226,8 +251,16 @@ class _$SolanaPayRequestImpl extends _SolanaPayRequest {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, recipient, amount, splToken,
-      const DeepCollectionEquality().hash(reference), label, message, memo);
+  int get hashCode => Object.hash(
+    runtimeType,
+    recipient,
+    amount,
+    splToken,
+    const DeepCollectionEquality().hash(reference),
+    label,
+    message,
+    memo,
+  );
 
   /// Create a copy of SolanaPayRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -236,18 +269,21 @@ class _$SolanaPayRequestImpl extends _SolanaPayRequest {
   @pragma('vm:prefer-inline')
   _$$SolanaPayRequestImplCopyWith<_$SolanaPayRequestImpl> get copyWith =>
       __$$SolanaPayRequestImplCopyWithImpl<_$SolanaPayRequestImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _SolanaPayRequest extends SolanaPayRequest {
-  const factory _SolanaPayRequest(
-      {required final Ed25519HDPublicKey recipient,
-      final Decimal? amount,
-      final Ed25519HDPublicKey? splToken,
-      final Iterable<Ed25519HDPublicKey>? reference,
-      final String? label,
-      final String? message,
-      final String? memo}) = _$SolanaPayRequestImpl;
+  const factory _SolanaPayRequest({
+    required final Ed25519HDPublicKey recipient,
+    final Decimal? amount,
+    final Ed25519HDPublicKey? splToken,
+    final Iterable<Ed25519HDPublicKey>? reference,
+    final String? label,
+    final String? message,
+    final String? memo,
+  }) = _$SolanaPayRequestImpl;
   const _SolanaPayRequest._() : super._();
 
   @override

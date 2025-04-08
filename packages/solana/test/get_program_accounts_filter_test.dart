@@ -7,10 +7,7 @@ void main() {
       expect(
         ProgramDataFilter.memcmp(offset: 1, bytes: '123'.codeUnits).toJson(),
         equals(<String, dynamic>{
-          'memcmp': {
-            'offset': 1,
-            'bytes': 'HXRC',
-          },
+          'memcmp': {'offset': 1, 'bytes': 'HXRC'},
         }),
       );
 
@@ -20,10 +17,7 @@ void main() {
           bytes: 'some different data'.codeUnits,
         ).toJson(),
         equals(<String, dynamic>{
-          'memcmp': {
-            'offset': 0,
-            'bytes': 'N8huH18outpM8wBvyyeH9z6tiL',
-          },
+          'memcmp': {'offset': 0, 'bytes': 'N8huH18outpM8wBvyyeH9z6tiL'},
         }),
       );
     });
@@ -35,10 +29,7 @@ void main() {
           bytes: 'N8huH18outpM8wBvyyeH9z6tiL',
         ).toJson(),
         equals(<String, dynamic>{
-          'memcmp': {
-            'offset': 1,
-            'bytes': 'N8huH18outpM8wBvyyeH9z6tiL',
-          },
+          'memcmp': {'offset': 1, 'bytes': 'N8huH18outpM8wBvyyeH9z6tiL'},
         }),
       );
     });

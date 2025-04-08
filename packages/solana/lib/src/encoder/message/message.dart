@@ -16,9 +16,7 @@ part 'message.freezed.dart';
 class Message with _$Message {
   /// Construct a message to send with a transaction to execute the provided
   /// [instructions].
-  const factory Message({
-    required List<Instruction> instructions,
-  }) = _Message;
+  const factory Message({required List<Instruction> instructions}) = _Message;
 
   const Message._();
 
@@ -28,14 +26,12 @@ class Message with _$Message {
   factory Message.decompile(
     CompiledMessage compiledMessage, {
     List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
-  }) =>
-      compiledMessage.map(
-        legacy: decompileLegacy,
-        v0: (compiledMessage) => decompileV0(
-          compiledMessage,
-          addressLookupTableAccounts,
-        ),
-      );
+  }) => compiledMessage.map(
+    legacy: decompileLegacy,
+    v0:
+        (compiledMessage) =>
+            decompileV0(compiledMessage, addressLookupTableAccounts),
+  );
 
   /// Compiles a message into the array of bytes that would be interpreted by
   /// solana. The [recentBlockhash] is passed here as this is the final step
@@ -53,8 +49,9 @@ class Message with _$Message {
     final accounts = instructions.getAccounts(feePayer: feePayer);
     final accountsIndexesMap = accounts.toIndexesMap();
     final header = MessageHeader.fromAccounts(accounts);
-    final compiledInstructions =
-        instructions.map((i) => i.compile(accountsIndexesMap));
+    final compiledInstructions = instructions.map(
+      (i) => i.compile(accountsIndexesMap),
+    );
 
     return CompiledMessage.legacy(
       header: header,
@@ -69,8 +66,10 @@ class Message with _$Message {
     required Ed25519HDPublicKey feePayer,
     List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
   }) {
-    final compiledKeys =
-        CompiledKeys.compile(instructions: instructions, payer: feePayer);
+    final compiledKeys = CompiledKeys.compile(
+      instructions: instructions,
+      payer: feePayer,
+    );
 
     final addressTableLookups = <MessageAddressTableLookup>[];
     final writableKeys = <Ed25519HDPublicKey>[];

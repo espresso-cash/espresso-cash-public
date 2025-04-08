@@ -44,9 +44,7 @@ void main() {
 
     when(
       callbacks.onAuthorizeRequest(any),
-    ).thenAnswer(
-      (_) async => AuthorizeResult(publicKey: publicKey),
-    );
+    ).thenAnswer((_) async => AuthorizeResult(publicKey: publicKey));
 
     final result = await Api.instance.authorize(requestDto, id);
 
@@ -83,9 +81,7 @@ void main() {
 
     when(
       callbacks.onSignTransactionsRequest(any),
-    ).thenAnswer(
-      (_) async => SignedPayloadResult(signedPayloads: payloads),
-    );
+    ).thenAnswer((_) async => SignedPayloadResult(signedPayloads: payloads));
 
     final result = await Api.instance.signTransactions(requestDto, id);
 
@@ -105,9 +101,7 @@ void main() {
 
     when(
       callbacks.onSignMessagesRequest(any),
-    ).thenAnswer(
-      (_) async => SignedPayloadResult(signedPayloads: payloads),
-    );
+    ).thenAnswer((_) async => SignedPayloadResult(signedPayloads: payloads));
 
     final result = await Api.instance.signMessages(requestDto, id);
 
@@ -128,9 +122,7 @@ void main() {
 
     when(
       callbacks.onSignAndSendTransactionsRequest(any),
-    ).thenAnswer(
-      (_) async => SignaturesResult(signatures: [Uint8List(64)]),
-    );
+    ).thenAnswer((_) async => SignaturesResult(signatures: [Uint8List(64)]));
 
     final result = await Api.instance.signAndSendTransactions(requestDto, id);
 

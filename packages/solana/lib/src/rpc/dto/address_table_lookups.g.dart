@@ -9,18 +9,20 @@ part of 'address_table_lookups.dart';
 AddressTableLookups _$AddressTableLookupsFromJson(Map<String, dynamic> json) =>
     AddressTableLookups(
       accountKey: json['accountKey'] as String,
-      writableIndexes: (json['writableIndexes'] as List<dynamic>)
-          .map((e) => (e as num).toInt())
-          .toList(),
-      readonlyIndexes: (json['readonlyIndexes'] as List<dynamic>)
-          .map((e) => (e as num).toInt())
-          .toList(),
+      writableIndexes:
+          (json['writableIndexes'] as List<dynamic>)
+              .map((e) => (e as num).toInt())
+              .toList(),
+      readonlyIndexes:
+          (json['readonlyIndexes'] as List<dynamic>)
+              .map((e) => (e as num).toInt())
+              .toList(),
     );
 
 Map<String, dynamic> _$AddressTableLookupsToJson(
-        AddressTableLookups instance) =>
-    <String, dynamic>{
-      'accountKey': instance.accountKey,
-      'writableIndexes': instance.writableIndexes,
-      'readonlyIndexes': instance.readonlyIndexes,
-    };
+  AddressTableLookups instance,
+) => <String, dynamic>{
+  'accountKey': instance.accountKey,
+  'writableIndexes': instance.writableIndexes,
+  'readonlyIndexes': instance.readonlyIndexes,
+};

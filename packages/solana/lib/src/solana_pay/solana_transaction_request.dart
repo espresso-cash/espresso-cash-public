@@ -40,11 +40,7 @@ class SolanaTransactionRequest with _$SolanaTransactionRequest {
     final String? label = uri.queryParameters['label'];
     final String? message = uri.queryParameters['message'];
 
-    return SolanaTransactionRequest(
-      link: link,
-      label: label,
-      message: message,
-    );
+    return SolanaTransactionRequest(link: link, label: label, message: message);
   }
 
   static SolanaTransactionRequest? tryParse(String url) {
@@ -56,9 +52,10 @@ class SolanaTransactionRequest with _$SolanaTransactionRequest {
   }
 
   String toUrl() {
-    final pathname = link.query.isNotEmpty
-        ? Uri.encodeComponent(link.toString().replaceFirst('/?', '?'))
-        : link.toString().replaceFirst(RegExp(r'\/$'), '');
+    final pathname =
+        link.query.isNotEmpty
+            ? Uri.encodeComponent(link.toString().replaceFirst('/?', '?'))
+            : link.toString().replaceFirst(RegExp(r'\/$'), '');
 
     final queryParameters = <String, dynamic>{
       if (label != null) 'label': label,
@@ -68,9 +65,10 @@ class SolanaTransactionRequest with _$SolanaTransactionRequest {
     return Uri(
       scheme: solanaPayScheme,
       path: pathname,
-      queryParameters: queryParameters.isNotEmpty
-          ? Map<String, dynamic>.fromEntries(queryParameters.entries)
-          : null,
+      queryParameters:
+          queryParameters.isNotEmpty
+              ? Map<String, dynamic>.fromEntries(queryParameters.entries)
+              : null,
     ).toString();
   }
 

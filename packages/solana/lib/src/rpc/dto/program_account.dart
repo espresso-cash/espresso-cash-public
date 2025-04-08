@@ -7,10 +7,7 @@ part 'program_account.g.dart';
 /// A program account
 @JsonSerializable()
 class ProgramAccount {
-  const ProgramAccount({
-    required this.account,
-    required this.pubkey,
-  });
+  const ProgramAccount({required this.account, required this.pubkey});
 
   factory ProgramAccount.fromJson(Map<String, dynamic> json) =>
       _$ProgramAccountFromJson(json);

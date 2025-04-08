@@ -12,7 +12,8 @@ part of 'parsed_instruction.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 ParsedInstruction _$ParsedInstructionFromJson(Map<String, dynamic> json) {
   switch (json['program']) {
@@ -33,20 +34,18 @@ mixin _$ParsedInstruction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String programId, ParsedSystemInstruction parsed)
-        system,
+    system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String? program) unsupported,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String programId, ParsedSystemInstruction parsed)? system,
     TResult? Function(ParsedSplTokenInstruction parsed)? splToken,
     TResult? Function(@JsonKey(name: 'parsed') String? memo)? memo,
     TResult? Function(String? program)? unsupported,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String programId, ParsedSystemInstruction parsed)? system,
@@ -54,24 +53,21 @@ mixin _$ParsedInstruction {
     TResult Function(@JsonKey(name: 'parsed') String? memo)? memo,
     TResult Function(String? program)? unsupported,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedInstructionSystem value) system,
     required TResult Function(ParsedInstructionSplToken value) splToken,
     required TResult Function(ParsedInstructionMemo value) memo,
     required TResult Function(ParsedInstructionUnsupported value) unsupported,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedInstructionSystem value)? system,
     TResult? Function(ParsedInstructionSplToken value)? splToken,
     TResult? Function(ParsedInstructionMemo value)? memo,
     TResult? Function(ParsedInstructionUnsupported value)? unsupported,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedInstructionSystem value)? system,
@@ -79,8 +75,7 @@ mixin _$ParsedInstruction {
     TResult Function(ParsedInstructionMemo value)? memo,
     TResult Function(ParsedInstructionUnsupported value)? unsupported,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 
   /// Serializes this ParsedInstruction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -89,8 +84,9 @@ mixin _$ParsedInstruction {
 /// @nodoc
 abstract class $ParsedInstructionCopyWith<$Res> {
   factory $ParsedInstructionCopyWith(
-          ParsedInstruction value, $Res Function(ParsedInstruction) then) =
-      _$ParsedInstructionCopyWithImpl<$Res, ParsedInstruction>;
+    ParsedInstruction value,
+    $Res Function(ParsedInstruction) then,
+  ) = _$ParsedInstructionCopyWithImpl<$Res, ParsedInstruction>;
 }
 
 /// @nodoc
@@ -110,9 +106,9 @@ class _$ParsedInstructionCopyWithImpl<$Res, $Val extends ParsedInstruction>
 /// @nodoc
 abstract class _$$ParsedInstructionSystemImplCopyWith<$Res> {
   factory _$$ParsedInstructionSystemImplCopyWith(
-          _$ParsedInstructionSystemImpl value,
-          $Res Function(_$ParsedInstructionSystemImpl) then) =
-      __$$ParsedInstructionSystemImplCopyWithImpl<$Res>;
+    _$ParsedInstructionSystemImpl value,
+    $Res Function(_$ParsedInstructionSystemImpl) then,
+  ) = __$$ParsedInstructionSystemImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String programId, ParsedSystemInstruction parsed});
 
@@ -124,28 +120,29 @@ class __$$ParsedInstructionSystemImplCopyWithImpl<$Res>
     extends _$ParsedInstructionCopyWithImpl<$Res, _$ParsedInstructionSystemImpl>
     implements _$$ParsedInstructionSystemImplCopyWith<$Res> {
   __$$ParsedInstructionSystemImplCopyWithImpl(
-      _$ParsedInstructionSystemImpl _value,
-      $Res Function(_$ParsedInstructionSystemImpl) _then)
-      : super(_value, _then);
+    _$ParsedInstructionSystemImpl _value,
+    $Res Function(_$ParsedInstructionSystemImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ParsedInstruction
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? programId = null,
-    Object? parsed = null,
-  }) {
-    return _then(_$ParsedInstructionSystemImpl(
-      programId: null == programId
-          ? _value.programId
-          : programId // ignore: cast_nullable_to_non_nullable
-              as String,
-      parsed: null == parsed
-          ? _value.parsed
-          : parsed // ignore: cast_nullable_to_non_nullable
-              as ParsedSystemInstruction,
-    ));
+  $Res call({Object? programId = null, Object? parsed = null}) {
+    return _then(
+      _$ParsedInstructionSystemImpl(
+        programId:
+            null == programId
+                ? _value.programId
+                : programId // ignore: cast_nullable_to_non_nullable
+                    as String,
+        parsed:
+            null == parsed
+                ? _value.parsed
+                : parsed // ignore: cast_nullable_to_non_nullable
+                    as ParsedSystemInstruction,
+      ),
+    );
   }
 
   /// Create a copy of ParsedInstruction
@@ -162,9 +159,11 @@ class __$$ParsedInstructionSystemImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ParsedInstructionSystemImpl implements ParsedInstructionSystem {
-  const _$ParsedInstructionSystemImpl(
-      {required this.programId, required this.parsed, final String? $type})
-      : $type = $type ?? 'system';
+  const _$ParsedInstructionSystemImpl({
+    required this.programId,
+    required this.parsed,
+    final String? $type,
+  }) : $type = $type ?? 'system';
 
   factory _$ParsedInstructionSystemImpl.fromJson(Map<String, dynamic> json) =>
       _$$ParsedInstructionSystemImplFromJson(json);
@@ -202,14 +201,15 @@ class _$ParsedInstructionSystemImpl implements ParsedInstructionSystem {
   @override
   @pragma('vm:prefer-inline')
   _$$ParsedInstructionSystemImplCopyWith<_$ParsedInstructionSystemImpl>
-      get copyWith => __$$ParsedInstructionSystemImplCopyWithImpl<
-          _$ParsedInstructionSystemImpl>(this, _$identity);
+  get copyWith => __$$ParsedInstructionSystemImplCopyWithImpl<
+    _$ParsedInstructionSystemImpl
+  >(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String programId, ParsedSystemInstruction parsed)
-        system,
+    system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String? program) unsupported,
@@ -282,17 +282,15 @@ class _$ParsedInstructionSystemImpl implements ParsedInstructionSystem {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionSystemImplToJson(
-      this,
-    );
+    return _$$ParsedInstructionSystemImplToJson(this);
   }
 }
 
 abstract class ParsedInstructionSystem implements ParsedInstruction {
-  const factory ParsedInstructionSystem(
-          {required final String programId,
-          required final ParsedSystemInstruction parsed}) =
-      _$ParsedInstructionSystemImpl;
+  const factory ParsedInstructionSystem({
+    required final String programId,
+    required final ParsedSystemInstruction parsed,
+  }) = _$ParsedInstructionSystemImpl;
 
   factory ParsedInstructionSystem.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionSystemImpl.fromJson;
@@ -304,15 +302,15 @@ abstract class ParsedInstructionSystem implements ParsedInstruction {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ParsedInstructionSystemImplCopyWith<_$ParsedInstructionSystemImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$ParsedInstructionSplTokenImplCopyWith<$Res> {
   factory _$$ParsedInstructionSplTokenImplCopyWith(
-          _$ParsedInstructionSplTokenImpl value,
-          $Res Function(_$ParsedInstructionSplTokenImpl) then) =
-      __$$ParsedInstructionSplTokenImplCopyWithImpl<$Res>;
+    _$ParsedInstructionSplTokenImpl value,
+    $Res Function(_$ParsedInstructionSplTokenImpl) then,
+  ) = __$$ParsedInstructionSplTokenImplCopyWithImpl<$Res>;
   @useResult
   $Res call({ParsedSplTokenInstruction parsed});
 
@@ -321,27 +319,28 @@ abstract class _$$ParsedInstructionSplTokenImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ParsedInstructionSplTokenImplCopyWithImpl<$Res>
-    extends _$ParsedInstructionCopyWithImpl<$Res,
-        _$ParsedInstructionSplTokenImpl>
+    extends
+        _$ParsedInstructionCopyWithImpl<$Res, _$ParsedInstructionSplTokenImpl>
     implements _$$ParsedInstructionSplTokenImplCopyWith<$Res> {
   __$$ParsedInstructionSplTokenImplCopyWithImpl(
-      _$ParsedInstructionSplTokenImpl _value,
-      $Res Function(_$ParsedInstructionSplTokenImpl) _then)
-      : super(_value, _then);
+    _$ParsedInstructionSplTokenImpl _value,
+    $Res Function(_$ParsedInstructionSplTokenImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ParsedInstruction
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? parsed = null,
-  }) {
-    return _then(_$ParsedInstructionSplTokenImpl(
-      parsed: null == parsed
-          ? _value.parsed
-          : parsed // ignore: cast_nullable_to_non_nullable
-              as ParsedSplTokenInstruction,
-    ));
+  $Res call({Object? parsed = null}) {
+    return _then(
+      _$ParsedInstructionSplTokenImpl(
+        parsed:
+            null == parsed
+                ? _value.parsed
+                : parsed // ignore: cast_nullable_to_non_nullable
+                    as ParsedSplTokenInstruction,
+      ),
+    );
   }
 
   /// Create a copy of ParsedInstruction
@@ -358,9 +357,10 @@ class __$$ParsedInstructionSplTokenImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ParsedInstructionSplTokenImpl implements ParsedInstructionSplToken {
-  const _$ParsedInstructionSplTokenImpl(
-      {required this.parsed, final String? $type})
-      : $type = $type ?? 'spl-token';
+  const _$ParsedInstructionSplTokenImpl({
+    required this.parsed,
+    final String? $type,
+  }) : $type = $type ?? 'spl-token';
 
   factory _$ParsedInstructionSplTokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$ParsedInstructionSplTokenImplFromJson(json);
@@ -394,14 +394,15 @@ class _$ParsedInstructionSplTokenImpl implements ParsedInstructionSplToken {
   @override
   @pragma('vm:prefer-inline')
   _$$ParsedInstructionSplTokenImplCopyWith<_$ParsedInstructionSplTokenImpl>
-      get copyWith => __$$ParsedInstructionSplTokenImplCopyWithImpl<
-          _$ParsedInstructionSplTokenImpl>(this, _$identity);
+  get copyWith => __$$ParsedInstructionSplTokenImplCopyWithImpl<
+    _$ParsedInstructionSplTokenImpl
+  >(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String programId, ParsedSystemInstruction parsed)
-        system,
+    system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String? program) unsupported,
@@ -474,16 +475,14 @@ class _$ParsedInstructionSplTokenImpl implements ParsedInstructionSplToken {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionSplTokenImplToJson(
-      this,
-    );
+    return _$$ParsedInstructionSplTokenImplToJson(this);
   }
 }
 
 abstract class ParsedInstructionSplToken implements ParsedInstruction {
-  const factory ParsedInstructionSplToken(
-          {required final ParsedSplTokenInstruction parsed}) =
-      _$ParsedInstructionSplTokenImpl;
+  const factory ParsedInstructionSplToken({
+    required final ParsedSplTokenInstruction parsed,
+  }) = _$ParsedInstructionSplTokenImpl;
 
   factory ParsedInstructionSplToken.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionSplTokenImpl.fromJson;
@@ -494,15 +493,15 @@ abstract class ParsedInstructionSplToken implements ParsedInstruction {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ParsedInstructionSplTokenImplCopyWith<_$ParsedInstructionSplTokenImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$ParsedInstructionMemoImplCopyWith<$Res> {
   factory _$$ParsedInstructionMemoImplCopyWith(
-          _$ParsedInstructionMemoImpl value,
-          $Res Function(_$ParsedInstructionMemoImpl) then) =
-      __$$ParsedInstructionMemoImplCopyWithImpl<$Res>;
+    _$ParsedInstructionMemoImpl value,
+    $Res Function(_$ParsedInstructionMemoImpl) then,
+  ) = __$$ParsedInstructionMemoImplCopyWithImpl<$Res>;
   @useResult
   $Res call({@JsonKey(name: 'parsed') String? memo});
 }
@@ -511,38 +510,41 @@ abstract class _$$ParsedInstructionMemoImplCopyWith<$Res> {
 class __$$ParsedInstructionMemoImplCopyWithImpl<$Res>
     extends _$ParsedInstructionCopyWithImpl<$Res, _$ParsedInstructionMemoImpl>
     implements _$$ParsedInstructionMemoImplCopyWith<$Res> {
-  __$$ParsedInstructionMemoImplCopyWithImpl(_$ParsedInstructionMemoImpl _value,
-      $Res Function(_$ParsedInstructionMemoImpl) _then)
-      : super(_value, _then);
+  __$$ParsedInstructionMemoImplCopyWithImpl(
+    _$ParsedInstructionMemoImpl _value,
+    $Res Function(_$ParsedInstructionMemoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ParsedInstruction
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? memo = freezed,
-  }) {
-    return _then(_$ParsedInstructionMemoImpl(
-      memo: freezed == memo
-          ? _value.memo
-          : memo // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+  $Res call({Object? memo = freezed}) {
+    return _then(
+      _$ParsedInstructionMemoImpl(
+        memo:
+            freezed == memo
+                ? _value.memo
+                : memo // ignore: cast_nullable_to_non_nullable
+                    as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$ParsedInstructionMemoImpl implements ParsedInstructionMemo {
-  const _$ParsedInstructionMemoImpl(
-      {@JsonKey(name: 'parsed') required this.memo, final String? $type})
-      : $type = $type ?? 'spl-memo';
+  const _$ParsedInstructionMemoImpl({
+    @JsonKey(name: 'parsed') required this.memo,
+    final String? $type,
+  }) : $type = $type ?? 'spl-memo';
 
   factory _$ParsedInstructionMemoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ParsedInstructionMemoImplFromJson(json);
 
-// This ignore is needed until https://github.com/dart-lang/linter/issues/2778 is fixed
-// ignore: invalid_annotation_target
+  // This ignore is needed until https://github.com/dart-lang/linter/issues/2778 is fixed
+  // ignore: invalid_annotation_target
   @override
   @JsonKey(name: 'parsed')
   final String? memo;
@@ -573,14 +575,17 @@ class _$ParsedInstructionMemoImpl implements ParsedInstructionMemo {
   @override
   @pragma('vm:prefer-inline')
   _$$ParsedInstructionMemoImplCopyWith<_$ParsedInstructionMemoImpl>
-      get copyWith => __$$ParsedInstructionMemoImplCopyWithImpl<
-          _$ParsedInstructionMemoImpl>(this, _$identity);
+  get copyWith =>
+      __$$ParsedInstructionMemoImplCopyWithImpl<_$ParsedInstructionMemoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String programId, ParsedSystemInstruction parsed)
-        system,
+    system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String? program) unsupported,
@@ -653,22 +658,20 @@ class _$ParsedInstructionMemoImpl implements ParsedInstructionMemo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionMemoImplToJson(
-      this,
-    );
+    return _$$ParsedInstructionMemoImplToJson(this);
   }
 }
 
 abstract class ParsedInstructionMemo implements ParsedInstruction {
-  const factory ParsedInstructionMemo(
-          {@JsonKey(name: 'parsed') required final String? memo}) =
-      _$ParsedInstructionMemoImpl;
+  const factory ParsedInstructionMemo({
+    @JsonKey(name: 'parsed') required final String? memo,
+  }) = _$ParsedInstructionMemoImpl;
 
   factory ParsedInstructionMemo.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionMemoImpl.fromJson;
 
-// This ignore is needed until https://github.com/dart-lang/linter/issues/2778 is fixed
-// ignore: invalid_annotation_target
+  // This ignore is needed until https://github.com/dart-lang/linter/issues/2778 is fixed
+  // ignore: invalid_annotation_target
   @JsonKey(name: 'parsed')
   String? get memo;
 
@@ -676,42 +679,46 @@ abstract class ParsedInstructionMemo implements ParsedInstruction {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ParsedInstructionMemoImplCopyWith<_$ParsedInstructionMemoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$ParsedInstructionUnsupportedImplCopyWith<$Res> {
   factory _$$ParsedInstructionUnsupportedImplCopyWith(
-          _$ParsedInstructionUnsupportedImpl value,
-          $Res Function(_$ParsedInstructionUnsupportedImpl) then) =
-      __$$ParsedInstructionUnsupportedImplCopyWithImpl<$Res>;
+    _$ParsedInstructionUnsupportedImpl value,
+    $Res Function(_$ParsedInstructionUnsupportedImpl) then,
+  ) = __$$ParsedInstructionUnsupportedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String? program});
 }
 
 /// @nodoc
 class __$$ParsedInstructionUnsupportedImplCopyWithImpl<$Res>
-    extends _$ParsedInstructionCopyWithImpl<$Res,
-        _$ParsedInstructionUnsupportedImpl>
+    extends
+        _$ParsedInstructionCopyWithImpl<
+          $Res,
+          _$ParsedInstructionUnsupportedImpl
+        >
     implements _$$ParsedInstructionUnsupportedImplCopyWith<$Res> {
   __$$ParsedInstructionUnsupportedImplCopyWithImpl(
-      _$ParsedInstructionUnsupportedImpl _value,
-      $Res Function(_$ParsedInstructionUnsupportedImpl) _then)
-      : super(_value, _then);
+    _$ParsedInstructionUnsupportedImpl _value,
+    $Res Function(_$ParsedInstructionUnsupportedImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ParsedInstruction
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? program = freezed,
-  }) {
-    return _then(_$ParsedInstructionUnsupportedImpl(
-      program: freezed == program
-          ? _value.program
-          : program // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+  $Res call({Object? program = freezed}) {
+    return _then(
+      _$ParsedInstructionUnsupportedImpl(
+        program:
+            freezed == program
+                ? _value.program
+                : program // ignore: cast_nullable_to_non_nullable
+                    as String?,
+      ),
+    );
   }
 }
 
@@ -722,8 +729,8 @@ class _$ParsedInstructionUnsupportedImpl
   const _$ParsedInstructionUnsupportedImpl({this.program});
 
   factory _$ParsedInstructionUnsupportedImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$ParsedInstructionUnsupportedImplFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$$ParsedInstructionUnsupportedImplFromJson(json);
 
   @override
   final String? program;
@@ -751,15 +758,17 @@ class _$ParsedInstructionUnsupportedImpl
   @override
   @pragma('vm:prefer-inline')
   _$$ParsedInstructionUnsupportedImplCopyWith<
-          _$ParsedInstructionUnsupportedImpl>
-      get copyWith => __$$ParsedInstructionUnsupportedImplCopyWithImpl<
-          _$ParsedInstructionUnsupportedImpl>(this, _$identity);
+    _$ParsedInstructionUnsupportedImpl
+  >
+  get copyWith => __$$ParsedInstructionUnsupportedImplCopyWithImpl<
+    _$ParsedInstructionUnsupportedImpl
+  >(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String programId, ParsedSystemInstruction parsed)
-        system,
+    system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String? program) unsupported,
@@ -832,9 +841,7 @@ class _$ParsedInstructionUnsupportedImpl
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedInstructionUnsupportedImplToJson(
-      this,
-    );
+    return _$$ParsedInstructionUnsupportedImplToJson(this);
   }
 }
 
@@ -851,6 +858,7 @@ abstract class ParsedInstructionUnsupported implements ParsedInstruction {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ParsedInstructionUnsupportedImplCopyWith<
-          _$ParsedInstructionUnsupportedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+    _$ParsedInstructionUnsupportedImpl
+  >
+  get copyWith => throw _privateConstructorUsedError;
 }

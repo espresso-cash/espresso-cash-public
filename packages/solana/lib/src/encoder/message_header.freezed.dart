@@ -12,7 +12,8 @@ part of 'message_header.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$MessageHeader {
@@ -30,13 +31,15 @@ mixin _$MessageHeader {
 /// @nodoc
 abstract class $MessageHeaderCopyWith<$Res> {
   factory $MessageHeaderCopyWith(
-          MessageHeader value, $Res Function(MessageHeader) then) =
-      _$MessageHeaderCopyWithImpl<$Res, MessageHeader>;
+    MessageHeader value,
+    $Res Function(MessageHeader) then,
+  ) = _$MessageHeaderCopyWithImpl<$Res, MessageHeader>;
   @useResult
-  $Res call(
-      {int numRequiredSignatures,
-      int numReadonlySignedAccounts,
-      int numReadonlyUnsignedAccounts});
+  $Res call({
+    int numRequiredSignatures,
+    int numReadonlySignedAccounts,
+    int numReadonlyUnsignedAccounts,
+  });
 }
 
 /// @nodoc
@@ -58,20 +61,26 @@ class _$MessageHeaderCopyWithImpl<$Res, $Val extends MessageHeader>
     Object? numReadonlySignedAccounts = null,
     Object? numReadonlyUnsignedAccounts = null,
   }) {
-    return _then(_value.copyWith(
-      numRequiredSignatures: null == numRequiredSignatures
-          ? _value.numRequiredSignatures
-          : numRequiredSignatures // ignore: cast_nullable_to_non_nullable
-              as int,
-      numReadonlySignedAccounts: null == numReadonlySignedAccounts
-          ? _value.numReadonlySignedAccounts
-          : numReadonlySignedAccounts // ignore: cast_nullable_to_non_nullable
-              as int,
-      numReadonlyUnsignedAccounts: null == numReadonlyUnsignedAccounts
-          ? _value.numReadonlyUnsignedAccounts
-          : numReadonlyUnsignedAccounts // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            numRequiredSignatures:
+                null == numRequiredSignatures
+                    ? _value.numRequiredSignatures
+                    : numRequiredSignatures // ignore: cast_nullable_to_non_nullable
+                        as int,
+            numReadonlySignedAccounts:
+                null == numReadonlySignedAccounts
+                    ? _value.numReadonlySignedAccounts
+                    : numReadonlySignedAccounts // ignore: cast_nullable_to_non_nullable
+                        as int,
+            numReadonlyUnsignedAccounts:
+                null == numReadonlyUnsignedAccounts
+                    ? _value.numReadonlyUnsignedAccounts
+                    : numReadonlyUnsignedAccounts // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -79,14 +88,16 @@ class _$MessageHeaderCopyWithImpl<$Res, $Val extends MessageHeader>
 abstract class _$$MessageHeaderImplCopyWith<$Res>
     implements $MessageHeaderCopyWith<$Res> {
   factory _$$MessageHeaderImplCopyWith(
-          _$MessageHeaderImpl value, $Res Function(_$MessageHeaderImpl) then) =
-      __$$MessageHeaderImplCopyWithImpl<$Res>;
+    _$MessageHeaderImpl value,
+    $Res Function(_$MessageHeaderImpl) then,
+  ) = __$$MessageHeaderImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int numRequiredSignatures,
-      int numReadonlySignedAccounts,
-      int numReadonlyUnsignedAccounts});
+  $Res call({
+    int numRequiredSignatures,
+    int numReadonlySignedAccounts,
+    int numReadonlyUnsignedAccounts,
+  });
 }
 
 /// @nodoc
@@ -94,8 +105,9 @@ class __$$MessageHeaderImplCopyWithImpl<$Res>
     extends _$MessageHeaderCopyWithImpl<$Res, _$MessageHeaderImpl>
     implements _$$MessageHeaderImplCopyWith<$Res> {
   __$$MessageHeaderImplCopyWithImpl(
-      _$MessageHeaderImpl _value, $Res Function(_$MessageHeaderImpl) _then)
-      : super(_value, _then);
+    _$MessageHeaderImpl _value,
+    $Res Function(_$MessageHeaderImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of MessageHeader
   /// with the given fields replaced by the non-null parameter values.
@@ -106,31 +118,36 @@ class __$$MessageHeaderImplCopyWithImpl<$Res>
     Object? numReadonlySignedAccounts = null,
     Object? numReadonlyUnsignedAccounts = null,
   }) {
-    return _then(_$MessageHeaderImpl(
-      numRequiredSignatures: null == numRequiredSignatures
-          ? _value.numRequiredSignatures
-          : numRequiredSignatures // ignore: cast_nullable_to_non_nullable
-              as int,
-      numReadonlySignedAccounts: null == numReadonlySignedAccounts
-          ? _value.numReadonlySignedAccounts
-          : numReadonlySignedAccounts // ignore: cast_nullable_to_non_nullable
-              as int,
-      numReadonlyUnsignedAccounts: null == numReadonlyUnsignedAccounts
-          ? _value.numReadonlyUnsignedAccounts
-          : numReadonlyUnsignedAccounts // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      _$MessageHeaderImpl(
+        numRequiredSignatures:
+            null == numRequiredSignatures
+                ? _value.numRequiredSignatures
+                : numRequiredSignatures // ignore: cast_nullable_to_non_nullable
+                    as int,
+        numReadonlySignedAccounts:
+            null == numReadonlySignedAccounts
+                ? _value.numReadonlySignedAccounts
+                : numReadonlySignedAccounts // ignore: cast_nullable_to_non_nullable
+                    as int,
+        numReadonlyUnsignedAccounts:
+            null == numReadonlyUnsignedAccounts
+                ? _value.numReadonlyUnsignedAccounts
+                : numReadonlyUnsignedAccounts // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$MessageHeaderImpl extends _MessageHeader {
-  const _$MessageHeaderImpl(
-      {required this.numRequiredSignatures,
-      required this.numReadonlySignedAccounts,
-      required this.numReadonlyUnsignedAccounts})
-      : super._();
+  const _$MessageHeaderImpl({
+    required this.numRequiredSignatures,
+    required this.numReadonlySignedAccounts,
+    required this.numReadonlyUnsignedAccounts,
+  }) : super._();
 
   @override
   final int numRequiredSignatures;
@@ -151,18 +168,26 @@ class _$MessageHeaderImpl extends _MessageHeader {
             other is _$MessageHeaderImpl &&
             (identical(other.numRequiredSignatures, numRequiredSignatures) ||
                 other.numRequiredSignatures == numRequiredSignatures) &&
-            (identical(other.numReadonlySignedAccounts,
-                    numReadonlySignedAccounts) ||
+            (identical(
+                  other.numReadonlySignedAccounts,
+                  numReadonlySignedAccounts,
+                ) ||
                 other.numReadonlySignedAccounts == numReadonlySignedAccounts) &&
-            (identical(other.numReadonlyUnsignedAccounts,
-                    numReadonlyUnsignedAccounts) ||
+            (identical(
+                  other.numReadonlyUnsignedAccounts,
+                  numReadonlyUnsignedAccounts,
+                ) ||
                 other.numReadonlyUnsignedAccounts ==
                     numReadonlyUnsignedAccounts));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, numRequiredSignatures,
-      numReadonlySignedAccounts, numReadonlyUnsignedAccounts);
+  int get hashCode => Object.hash(
+    runtimeType,
+    numRequiredSignatures,
+    numReadonlySignedAccounts,
+    numReadonlyUnsignedAccounts,
+  );
 
   /// Create a copy of MessageHeader
   /// with the given fields replaced by the non-null parameter values.
@@ -174,10 +199,11 @@ class _$MessageHeaderImpl extends _MessageHeader {
 }
 
 abstract class _MessageHeader extends MessageHeader {
-  const factory _MessageHeader(
-      {required final int numRequiredSignatures,
-      required final int numReadonlySignedAccounts,
-      required final int numReadonlyUnsignedAccounts}) = _$MessageHeaderImpl;
+  const factory _MessageHeader({
+    required final int numRequiredSignatures,
+    required final int numReadonlySignedAccounts,
+    required final int numReadonlyUnsignedAccounts,
+  }) = _$MessageHeaderImpl;
   const _MessageHeader._() : super._();
 
   @override

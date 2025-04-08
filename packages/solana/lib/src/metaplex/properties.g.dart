@@ -7,21 +7,18 @@ part of 'properties.dart';
 // **************************************************************************
 
 _$UnknownImpl _$$UnknownImplFromJson(Map<String, dynamic> json) =>
-    _$UnknownImpl(
-      $type: json['category'] as String?,
-    );
+    _$UnknownImpl($type: json['category'] as String?);
 
 Map<String, dynamic> _$$UnknownImplToJson(_$UnknownImpl instance) =>
-    <String, dynamic>{
-      'category': instance.$type,
-    };
+    <String, dynamic>{'category': instance.$type};
 
 _$VideoImpl _$$VideoImplFromJson(Map<String, dynamic> json) => _$VideoImpl(
-      files: (json['files'] as List<dynamic>)
+  files:
+      (json['files'] as List<dynamic>)
           .map((e) => File.fromJson(e as Map<String, dynamic>))
           .toList(),
-      $type: json['category'] as String?,
-    );
+  $type: json['category'] as String?,
+);
 
 Map<String, dynamic> _$$VideoImplToJson(_$VideoImpl instance) =>
     <String, dynamic>{
@@ -30,11 +27,12 @@ Map<String, dynamic> _$$VideoImplToJson(_$VideoImpl instance) =>
     };
 
 _$ImageImpl _$$ImageImplFromJson(Map<String, dynamic> json) => _$ImageImpl(
-      files: (json['files'] as List<dynamic>)
+  files:
+      (json['files'] as List<dynamic>)
           .map((e) => File.fromJson(e as Map<String, dynamic>))
           .toList(),
-      $type: json['category'] as String?,
-    );
+  $type: json['category'] as String?,
+);
 
 Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) =>
     <String, dynamic>{
@@ -44,9 +42,10 @@ Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) =>
 
 _$Model3DImpl _$$Model3DImplFromJson(Map<String, dynamic> json) =>
     _$Model3DImpl(
-      files: (json['files'] as List<dynamic>)
-          .map((e) => File.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      files:
+          (json['files'] as List<dynamic>)
+              .map((e) => File.fromJson(e as Map<String, dynamic>))
+              .toList(),
       $type: json['category'] as String?,
     );
 
@@ -57,11 +56,12 @@ Map<String, dynamic> _$$Model3DImplToJson(_$Model3DImpl instance) =>
     };
 
 _$AudioImpl _$$AudioImplFromJson(Map<String, dynamic> json) => _$AudioImpl(
-      files: (json['files'] as List<dynamic>)
+  files:
+      (json['files'] as List<dynamic>)
           .map((e) => File.fromJson(e as Map<String, dynamic>))
           .toList(),
-      $type: json['category'] as String?,
-    );
+  $type: json['category'] as String?,
+);
 
 Map<String, dynamic> _$$AudioImplToJson(_$AudioImpl instance) =>
     <String, dynamic>{
@@ -70,11 +70,12 @@ Map<String, dynamic> _$$AudioImplToJson(_$AudioImpl instance) =>
     };
 
 _$HtmlImpl _$$HtmlImplFromJson(Map<String, dynamic> json) => _$HtmlImpl(
-      files: (json['files'] as List<dynamic>)
+  files:
+      (json['files'] as List<dynamic>)
           .map((e) => File.fromJson(e as Map<String, dynamic>))
           .toList(),
-      $type: json['category'] as String?,
-    );
+  $type: json['category'] as String?,
+);
 
 Map<String, dynamic> _$$HtmlImplToJson(_$HtmlImpl instance) =>
     <String, dynamic>{

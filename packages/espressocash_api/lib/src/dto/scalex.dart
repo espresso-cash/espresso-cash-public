@@ -8,9 +8,8 @@ part 'scalex.g.dart';
 
 @freezed
 class GenerateScalexLinkResponseDto with _$GenerateScalexLinkResponseDto {
-  const factory GenerateScalexLinkResponseDto({
-    required String signedUrl,
-  }) = _GenerateScalexLinkResponseDto;
+  const factory GenerateScalexLinkResponseDto({required String signedUrl}) =
+      _GenerateScalexLinkResponseDto;
 
   factory GenerateScalexLinkResponseDto.fromJson(Map<String, dynamic> json) =>
       _$GenerateScalexLinkResponseDtoFromJson(json);
@@ -32,9 +31,8 @@ class GenerateScalexLinkRequestDto with _$GenerateScalexLinkRequestDto {
 
 @freezed
 class OrderStatusScalexRequestDto with _$OrderStatusScalexRequestDto {
-  const factory OrderStatusScalexRequestDto({
-    required String referenceId,
-  }) = _OrderStatusScalexRequestDto;
+  const factory OrderStatusScalexRequestDto({required String referenceId}) =
+      _OrderStatusScalexRequestDto;
 
   factory OrderStatusScalexRequestDto.fromJson(Map<String, dynamic> json) =>
       _$OrderStatusScalexRequestDtoFromJson(json);
@@ -144,10 +142,4 @@ class ScalexBrijFeeResponseDto with _$ScalexBrijFeeResponseDto {
 }
 
 @JsonEnum()
-enum ScalexOrderStatus {
-  pending,
-  completed,
-  expired,
-  failed,
-  unknown,
-}
+enum ScalexOrderStatus { pending, completed, expired, failed, unknown }

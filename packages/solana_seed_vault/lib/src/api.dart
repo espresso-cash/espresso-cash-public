@@ -8,10 +8,7 @@ import 'package:flutter/foundation.dart' show WriteBuffer, ReadBuffer;
 import 'package:flutter/services.dart';
 
 class SigningRequestDto {
-  SigningRequestDto({
-    required this.payload,
-    required this.requestedSignatures,
-  });
+  SigningRequestDto({required this.payload, required this.requestedSignatures});
 
   Uint8List payload;
   List<String?> requestedSignatures;
@@ -131,7 +128,7 @@ class WalletApiHost {
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
   WalletApiHost({BinaryMessenger? binaryMessenger})
-      : _binaryMessenger = binaryMessenger;
+    : _binaryMessenger = binaryMessenger;
 
   final BinaryMessenger? _binaryMessenger;
 
@@ -139,8 +136,10 @@ class WalletApiHost {
 
   Future<int> authorizeSeed(int arg_purpose) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.authorizeSeed', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.authorizeSeed',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -168,8 +167,10 @@ class WalletApiHost {
 
   Future<int> createSeed(int arg_purpose) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.createSeed', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.createSeed',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -197,8 +198,10 @@ class WalletApiHost {
 
   Future<int> importSeed(int arg_purpose) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.importSeed', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.importSeed',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -225,10 +228,14 @@ class WalletApiHost {
   }
 
   Future<List<SigningResponseDto?>> signMessages(
-      int arg_authToken, List<SigningRequestDto?> arg_signingRequests) async {
+    int arg_authToken,
+    List<SigningRequestDto?> arg_signingRequests,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.signMessages', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.signMessages',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_authToken, arg_signingRequests])
             as Map<Object?, Object?>?;
@@ -257,10 +264,14 @@ class WalletApiHost {
   }
 
   Future<List<SigningResponseDto?>> signTransactions(
-      int arg_authToken, List<SigningRequestDto?> arg_signingRequests) async {
+    int arg_authToken,
+    List<SigningRequestDto?> arg_signingRequests,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.signTransactions', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.signTransactions',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_authToken, arg_signingRequests])
             as Map<Object?, Object?>?;
@@ -289,10 +300,14 @@ class WalletApiHost {
   }
 
   Future<List<PublicKeyResponseDto?>> requestPublicKeys(
-      int arg_authToken, List<String?> arg_derivationPaths) async {
+    int arg_authToken,
+    List<String?> arg_derivationPaths,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.requestPublicKeys', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.requestPublicKeys',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_authToken, arg_derivationPaths])
             as Map<Object?, Object?>?;
@@ -321,15 +336,22 @@ class WalletApiHost {
   }
 
   Future<List<Map<Object?, Object?>?>> getAuthorizedSeeds(
-      List<String?> arg_projection,
-      String? arg_filterOnColumn,
-      Object? arg_value) async {
+    List<String?> arg_projection,
+    String? arg_filterOnColumn,
+    Object? arg_value,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.getAuthorizedSeeds', codec,
-        binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap = await channel
-            .send(<Object?>[arg_projection, arg_filterOnColumn, arg_value])
-        as Map<Object?, Object?>?;
+      'dev.flutter.pigeon.WalletApiHost.getAuthorizedSeeds',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[
+              arg_projection,
+              arg_filterOnColumn,
+              arg_value,
+            ])
+            as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -355,10 +377,14 @@ class WalletApiHost {
   }
 
   Future<Map<Object?, Object?>> getAuthorizedSeed(
-      int arg_authToken, List<String?> arg_projection) async {
+    int arg_authToken,
+    List<String?> arg_projection,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.getAuthorizedSeed', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.getAuthorizedSeed',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_authToken, arg_projection])
             as Map<Object?, Object?>?;
@@ -388,8 +414,10 @@ class WalletApiHost {
 
   Future<void> deauthorizeSeed(int arg_authToken) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.deauthorizeSeed', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.deauthorizeSeed',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_authToken]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -411,15 +439,22 @@ class WalletApiHost {
   }
 
   Future<List<Map<Object?, Object?>?>> getUnauthorizedSeeds(
-      List<String?> arg_projection,
-      String? arg_filterOnColumn,
-      Object? arg_value) async {
+    List<String?> arg_projection,
+    String? arg_filterOnColumn,
+    Object? arg_value,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.getUnauthorizedSeeds', codec,
-        binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap = await channel
-            .send(<Object?>[arg_projection, arg_filterOnColumn, arg_value])
-        as Map<Object?, Object?>?;
+      'dev.flutter.pigeon.WalletApiHost.getUnauthorizedSeeds',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[
+              arg_projection,
+              arg_filterOnColumn,
+              arg_value,
+            ])
+            as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -446,9 +481,10 @@ class WalletApiHost {
 
   Future<bool> hasUnauthorizedSeedsForPurpose(int arg_purpose) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.hasUnauthorizedSeedsForPurpose',
-        codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.hasUnauthorizedSeedsForPurpose',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -475,19 +511,24 @@ class WalletApiHost {
   }
 
   Future<List<Map<Object?, Object?>?>> getAccounts(
-      int arg_authToken,
-      List<String?> arg_projection,
-      String? arg_filterOnColumn,
-      Object? arg_value) async {
+    int arg_authToken,
+    List<String?> arg_projection,
+    String? arg_filterOnColumn,
+    Object? arg_value,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.getAccounts', codec,
-        binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap = await channel.send(<Object?>[
-      arg_authToken,
-      arg_projection,
-      arg_filterOnColumn,
-      arg_value
-    ]) as Map<Object?, Object?>?;
+      'dev.flutter.pigeon.WalletApiHost.getAccounts',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[
+              arg_authToken,
+              arg_projection,
+              arg_filterOnColumn,
+              arg_value,
+            ])
+            as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -513,10 +554,15 @@ class WalletApiHost {
   }
 
   Future<Map<Object?, Object?>> getAccount(
-      int arg_authToken, int arg_id, List<String?> arg_projection) async {
+    int arg_authToken,
+    int arg_id,
+    List<String?> arg_projection,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.getAccount', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.getAccount',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_authToken, arg_id, arg_projection])
             as Map<Object?, Object?>?;
@@ -545,10 +591,15 @@ class WalletApiHost {
   }
 
   Future<void> updateAccountName(
-      int arg_authToken, int arg_accountId, String? arg_name) async {
+    int arg_authToken,
+    int arg_accountId,
+    String? arg_name,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.updateAccountName', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.updateAccountName',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_authToken, arg_accountId, arg_name])
             as Map<Object?, Object?>?;
@@ -571,13 +622,22 @@ class WalletApiHost {
   }
 
   Future<void> updateAccountIsUserWallet(
-      int arg_authToken, int arg_accountId, bool arg_isUserWallet) async {
+    int arg_authToken,
+    int arg_accountId,
+    bool arg_isUserWallet,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.updateAccountIsUserWallet', codec,
-        binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap = await channel
-            .send(<Object?>[arg_authToken, arg_accountId, arg_isUserWallet])
-        as Map<Object?, Object?>?;
+      'dev.flutter.pigeon.WalletApiHost.updateAccountIsUserWallet',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[
+              arg_authToken,
+              arg_accountId,
+              arg_isUserWallet,
+            ])
+            as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -597,10 +657,15 @@ class WalletApiHost {
   }
 
   Future<void> updateAccountIsValid(
-      int arg_authToken, int arg_accountId, bool arg_isValid) async {
+    int arg_authToken,
+    int arg_accountId,
+    bool arg_isValid,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.updateAccountIsValid', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.updateAccountIsValid',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_authToken, arg_accountId, arg_isValid])
             as Map<Object?, Object?>?;
@@ -623,15 +688,22 @@ class WalletApiHost {
   }
 
   Future<List<Map<Object?, Object?>?>> getImplementationLimits(
-      List<String?> arg_projection,
-      String? arg_filterOnColumn,
-      Object? arg_value) async {
+    List<String?> arg_projection,
+    String? arg_filterOnColumn,
+    Object? arg_value,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.getImplementationLimits', codec,
-        binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap = await channel
-            .send(<Object?>[arg_projection, arg_filterOnColumn, arg_value])
-        as Map<Object?, Object?>?;
+      'dev.flutter.pigeon.WalletApiHost.getImplementationLimits',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[
+              arg_projection,
+              arg_filterOnColumn,
+              arg_value,
+            ])
+            as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -657,11 +729,13 @@ class WalletApiHost {
   }
 
   Future<Map<Object?, Object?>> getImplementationLimitsForPurpose(
-      int arg_purpose) async {
+    int arg_purpose,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.getImplementationLimitsForPurpose',
-        codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.getImplementationLimitsForPurpose',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_purpose]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -689,10 +763,14 @@ class WalletApiHost {
   }
 
   Future<String> resolveDerivationPath(
-      String arg_derivationPath, int arg_purpose) async {
+    String arg_derivationPath,
+    int arg_purpose,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.resolveDerivationPath', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.resolveDerivationPath',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_derivationPath, arg_purpose])
             as Map<Object?, Object?>?;
@@ -721,10 +799,13 @@ class WalletApiHost {
 
   Future<bool> isAvailable(bool arg_allowSimulated) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.isAvailable', codec,
-        binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap = await channel
-        .send(<Object?>[arg_allowSimulated]) as Map<Object?, Object?>?;
+      'dev.flutter.pigeon.WalletApiHost.isAvailable',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_allowSimulated])
+            as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -750,8 +831,10 @@ class WalletApiHost {
 
   Future<bool> checkPermission() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.WalletApiHost.checkPermission', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.WalletApiHost.checkPermission',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -786,26 +869,36 @@ abstract class SeedVaultFlutterApi {
   static const MessageCodec<Object?> codec = _SeedVaultFlutterApiCodec();
 
   void onChangeNotified(List<String?> uris, int flags);
-  static void setup(SeedVaultFlutterApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(
+    SeedVaultFlutterApi? api, {
+    BinaryMessenger? binaryMessenger,
+  }) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final List<String?>? arg_uris =
               (args[0] as List<Object?>?)?.cast<String?>();
-          assert(arg_uris != null,
-              'Argument for dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified was null, expected non-null List<String?>.');
+          assert(
+            arg_uris != null,
+            'Argument for dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified was null, expected non-null List<String?>.',
+          );
           final int? arg_flags = (args[1] as int?);
-          assert(arg_flags != null,
-              'Argument for dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified was null, expected non-null int.');
+          assert(
+            arg_flags != null,
+            'Argument for dev.flutter.pigeon.SeedVaultFlutterApi.onChangeNotified was null, expected non-null int.',
+          );
           api.onChangeNotified(arg_uris!, arg_flags!);
           return;
         });

@@ -9,11 +9,13 @@ Message decompileV0(
   CompiledMessageV0 message,
   List<AddressLookupTableAccount> addressLookupTableAccounts,
 ) {
-  final numWritableSignedAccounts = message.header.numRequiredSignatures -
+  final numWritableSignedAccounts =
+      message.header.numRequiredSignatures -
       message.header.numReadonlySignedAccounts;
   assert(numWritableSignedAccounts > 0, 'Message header is invalid');
 
-  final numWritableUnsignedAccounts = message.accountKeys.length -
+  final numWritableUnsignedAccounts =
+      message.accountKeys.length -
       message.header.numRequiredSignatures -
       message.header.numReadonlyUnsignedAccounts;
   assert(numWritableUnsignedAccounts >= 0, 'Message header is invalid');
@@ -47,20 +49,18 @@ Message decompileV0(
       if (isSigner) {
         isWritable = keyIndex < numWritableSignedAccounts;
       } else if (keyIndex < accountKeys.staticAccountKeys.length) {
-        isWritable = keyIndex - message.header.numRequiredSignatures <
+        isWritable =
+            keyIndex - message.header.numRequiredSignatures <
             numWritableUnsignedAccounts;
       } else {
-        isWritable = keyIndex - accountKeys.staticAccountKeys.length <
+        isWritable =
+            keyIndex - accountKeys.staticAccountKeys.length <
             // accountKeysFromLookups cannot be undefined because we already found a pubkey for this index above
             (accountKeys.accountKeysFromLookups?.writable.length ?? 0);
       }
 
       keys.add(
-        AccountMeta(
-          pubKey: key,
-          isWriteable: isWritable,
-          isSigner: isSigner,
-        ),
+        AccountMeta(pubKey: key, isWriteable: isWritable, isSigner: isSigner),
       );
     }
 
@@ -72,11 +72,7 @@ Message decompileV0(
     }
 
     instructions.add(
-      Instruction(
-        programId: programId,
-        accounts: keys,
-        data: compiledIx.data,
-      ),
+      Instruction(programId: programId, accounts: keys, data: compiledIx.data),
     );
   }
 

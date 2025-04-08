@@ -41,7 +41,8 @@ class CompiledMessage with _$CompiledMessage {
   const CompiledMessage._();
 
   ByteArray toByteArray() => map(
-        legacy: (data) => ByteArray.merge([
+    legacy:
+        (data) => ByteArray.merge([
           data.header.toByteArray(),
           CompactArray.fromIterable(
             data.accountKeys.map((e) => e.toByteArray()),
@@ -51,7 +52,8 @@ class CompiledMessage with _$CompiledMessage {
             data.instructions.map((e) => e.toByteArray()),
           ).toByteArray(),
         ]),
-        v0: (data) => ByteArray.merge([
+    v0:
+        (data) => ByteArray.merge([
           ByteArray.u8(1 << 7),
           data.header.toByteArray(),
           CompactArray.fromIterable(
@@ -71,19 +73,21 @@ class CompiledMessage with _$CompiledMessage {
             ),
           ).toByteArray(),
         ]),
-      );
+  );
 
-  int get requiredSignatureCount => version == TransactionVersion.legacy
-      ? toByteArray().first
-      : toByteArray().elementAt(1);
+  int get requiredSignatureCount =>
+      version == TransactionVersion.legacy
+          ? toByteArray().first
+          : toByteArray().elementAt(1);
 
   TransactionVersion get version =>
       TransactionVersion.fromByteArray(toByteArray());
 }
 
 CompiledMessageLegacy _decompileLegacy(ByteArray data) {
-  final reader =
-      BinaryReader(Uint8List.fromList(data.toList()).buffer.asByteData());
+  final reader = BinaryReader(
+    Uint8List.fromList(data.toList()).buffer.asByteData(),
+  );
 
   final int numRequiredSignatures = reader.readU8();
 
@@ -95,13 +99,14 @@ CompiledMessageLegacy _decompileLegacy(ByteArray data) {
 
   final accountsLength = reader.readCompactU16Value();
 
-  final accountKeys = reader
-      .readFixedArray(
-        accountsLength,
-        () => reader.readFixedArray(32, reader.readU8),
-      )
-      .map(Ed25519HDPublicKey.new)
-      .toList();
+  final accountKeys =
+      reader
+          .readFixedArray(
+            accountsLength,
+            () => reader.readFixedArray(32, reader.readU8),
+          )
+          .map(Ed25519HDPublicKey.new)
+          .toList();
 
   final blockhash = reader.readFixedArray(32, reader.readU8);
 
@@ -138,8 +143,9 @@ CompiledInstruction _decompileInstruction(BinaryReader reader) {
 }
 
 CompiledMessageV0 _decodeV0(ByteArray data) {
-  final reader =
-      BinaryReader(Uint8List.fromList(data.toList()).buffer.asByteData());
+  final reader = BinaryReader(
+    Uint8List.fromList(data.toList()).buffer.asByteData(),
+  );
 
   final prefix = reader.readU8();
   final maskedPrefix = prefix & 0x7f;
@@ -163,13 +169,14 @@ CompiledMessageV0 _decodeV0(ByteArray data) {
   );
 
   final accountsLength = reader.readCompactU16Value();
-  final accounts = reader
-      .readFixedArray(
-        accountsLength,
-        () => reader.readFixedArray(32, reader.readU8),
-      )
-      .map(Ed25519HDPublicKey.new)
-      .toList();
+  final accounts =
+      reader
+          .readFixedArray(
+            accountsLength,
+            () => reader.readFixedArray(32, reader.readU8),
+          )
+          .map(Ed25519HDPublicKey.new)
+          .toList();
 
   final blockhash = reader.readFixedArray(32, reader.readU8);
 
@@ -211,8 +218,9 @@ CompiledInstruction _decompileMessageInstruction(BinaryReader reader) {
 }
 
 MessageAddressTableLookup _decompileAddressTableLookUp(BinaryReader reader) {
-  final accountKey =
-      Ed25519HDPublicKey(reader.readFixedArray(32, () => reader.readU8()));
+  final accountKey = Ed25519HDPublicKey(
+    reader.readFixedArray(32, () => reader.readU8()),
+  );
 
   final writableIndexesLength = reader.readCompactU16Value();
   final writableIndexes =

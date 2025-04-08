@@ -34,12 +34,8 @@ class MemoInstruction extends Instruction {
     );
   }
 
-  MemoInstruction._({
-    required super.accounts,
-    required super.data,
-  }) : super(
-          programId: MemoProgram.id,
-        );
+  MemoInstruction._({required super.accounts, required super.data})
+    : super(programId: MemoProgram.id);
 
   static AccountMeta _addressToAccount(Ed25519HDPublicKey address) =>
       AccountMeta.writeable(pubKey: address, isSigner: true);

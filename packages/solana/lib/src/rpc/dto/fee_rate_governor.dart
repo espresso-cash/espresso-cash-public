@@ -6,9 +6,7 @@ part 'fee_rate_governor.g.dart';
 /// A fee rate governor
 @JsonSerializable()
 class FeeRateGovernor {
-  const FeeRateGovernor({
-    required this.feeRateGovernor,
-  });
+  const FeeRateGovernor({required this.feeRateGovernor});
 
   factory FeeRateGovernor.fromJson(Map<String, dynamic> json) =>
       _$FeeRateGovernorFromJson(json);

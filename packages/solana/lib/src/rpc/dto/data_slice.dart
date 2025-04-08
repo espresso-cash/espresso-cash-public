@@ -5,10 +5,7 @@ part 'data_slice.g.dart';
 /// Data slice to limit the account data in a response
 @JsonSerializable(includeIfNull: false)
 class DataSlice {
-  const DataSlice({
-    this.offset,
-    this.length,
-  });
+  const DataSlice({this.offset, this.length});
 
   factory DataSlice.fromJson(Map<String, dynamic> json) =>
       _$DataSliceFromJson(json);

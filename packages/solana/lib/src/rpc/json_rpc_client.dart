@@ -12,8 +12,8 @@ class JsonRpcClient {
     this._url, {
     required Duration timeout,
     required Map<String, String> customHeaders,
-  })  : _timeout = timeout,
-        _headers = {..._defaultHeaders, ...customHeaders};
+  }) : _timeout = timeout,
+       _headers = {..._defaultHeaders, ...customHeaders};
 
   final String _url;
   final Duration _timeout;
@@ -65,9 +65,7 @@ class JsonRpcClient {
     throw const FormatException('unexpected jsonrpc response type');
   }
 
-  Future<_JsonRpcResponse> _postRequest(
-    JsonRpcRequest request,
-  ) async {
+  Future<_JsonRpcResponse> _postRequest(JsonRpcRequest request) async {
     final body = request.toJson();
     // Perform the POST request
     final Response response = await post(
@@ -76,11 +74,13 @@ class JsonRpcClient {
       body: json.encode(body),
     ).timeout(
       _timeout,
-      onTimeout: () => throw RpcTimeoutException(
-        method: request.method,
-        body: body,
-        timeout: _timeout,
-      ),
+      onTimeout:
+          () =>
+              throw RpcTimeoutException(
+                method: request.method,
+                body: body,
+                timeout: _timeout,
+              ),
     );
     // Handle the response
     if (response.statusCode == 200) {
@@ -117,13 +117,15 @@ abstract class _JsonRpcResponse {
   factory _JsonRpcResponse._parse(dynamic response) {
     if (response is List<dynamic>) {
       return _JsonRpcResponse._array(
-        response.map((dynamic r) {
-          if (r is Map<String, dynamic>) {
-            return _JsonRpcObjectResponse(r);
-          }
+        response
+            .map((dynamic r) {
+              if (r is Map<String, dynamic>) {
+                return _JsonRpcObjectResponse(r);
+              }
 
-          throw const FormatException('cannot parse the jsonrpc response');
-        }).toList(growable: false),
+              throw const FormatException('cannot parse the jsonrpc response');
+            })
+            .toList(growable: false),
       );
     } else if (response is Map<String, dynamic>) {
       return _JsonRpcResponse._fromObject(response);
@@ -145,6 +147,4 @@ class _JsonRpcArrayResponse implements _JsonRpcResponse {
   final List<_JsonRpcObjectResponse> array;
 }
 
-const _defaultHeaders = <String, String>{
-  'Content-Type': 'application/json',
-};
+const _defaultHeaders = <String, String>{'Content-Type': 'application/json'};

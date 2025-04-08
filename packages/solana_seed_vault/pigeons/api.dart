@@ -106,11 +106,7 @@ abstract class WalletApiHost {
     bool isUserWallet,
   );
 
-  void updateAccountIsValid(
-    int authToken,
-    int accountId,
-    bool isValid,
-  );
+  void updateAccountIsValid(int authToken, int accountId, bool isValid);
 
   List<Map<Object?, Object?>> getImplementationLimits(
     List<String> projection,

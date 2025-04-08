@@ -31,9 +31,8 @@ class PaymentQuoteResponseDto with _$PaymentQuoteResponseDto {
 
 @freezed
 class OrderStatusDlnRequestDto with _$OrderStatusDlnRequestDto {
-  const factory OrderStatusDlnRequestDto({
-    required String orderId,
-  }) = _OrderStatusDlnRequestDto;
+  const factory OrderStatusDlnRequestDto({required String orderId}) =
+      _OrderStatusDlnRequestDto;
 
   factory OrderStatusDlnRequestDto.fromJson(Map<String, dynamic> json) =>
       _$OrderStatusDlnRequestDtoFromJson(json);
@@ -41,9 +40,8 @@ class OrderStatusDlnRequestDto with _$OrderStatusDlnRequestDto {
 
 @freezed
 class OrderStatusDlnResponseDto with _$OrderStatusDlnResponseDto {
-  const factory OrderStatusDlnResponseDto({
-    required DlnOrderStatus status,
-  }) = _OrderStatusDlnResponseDto;
+  const factory OrderStatusDlnResponseDto({required DlnOrderStatus status}) =
+      _OrderStatusDlnResponseDto;
 
   factory OrderStatusDlnResponseDto.fromJson(Map<String, dynamic> json) =>
       _$OrderStatusDlnResponseDtoFromJson(json);
@@ -51,9 +49,8 @@ class OrderStatusDlnResponseDto with _$OrderStatusDlnResponseDto {
 
 @freezed
 class OrderIdDlnRequestDto with _$OrderIdDlnRequestDto {
-  const factory OrderIdDlnRequestDto({
-    required String txId,
-  }) = _OrderIdDlnRequestDto;
+  const factory OrderIdDlnRequestDto({required String txId}) =
+      _OrderIdDlnRequestDto;
 
   factory OrderIdDlnRequestDto.fromJson(Map<String, dynamic> json) =>
       _$OrderIdDlnRequestDtoFromJson(json);
@@ -61,9 +58,8 @@ class OrderIdDlnRequestDto with _$OrderIdDlnRequestDto {
 
 @freezed
 class OrderIdDlnResponseDto with _$OrderIdDlnResponseDto {
-  const factory OrderIdDlnResponseDto({
-    required String? orderId,
-  }) = _OrderIdDlnResponseDto;
+  const factory OrderIdDlnResponseDto({required String? orderId}) =
+      _OrderIdDlnResponseDto;
 
   factory OrderIdDlnResponseDto.fromJson(Map<String, dynamic> json) =>
       _$OrderIdDlnResponseDtoFromJson(json);
@@ -129,5 +125,5 @@ enum DlnOrderStatus {
   orderCancelled,
   sentOrderCancel,
   claimedUnlock,
-  claimedOrderCancel
+  claimedOrderCancel,
 }

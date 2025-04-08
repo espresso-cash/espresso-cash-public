@@ -7,15 +7,16 @@ part of 'blockhash.dart';
 // **************************************************************************
 
 Blockhash _$BlockhashFromJson(Map<String, dynamic> json) => Blockhash(
-      feeCalculator:
-          FeeCalculator.fromJson(json['feeCalculator'] as Map<String, dynamic>),
-      blockhash: json['blockhash'] as String,
-    );
+  feeCalculator: FeeCalculator.fromJson(
+    json['feeCalculator'] as Map<String, dynamic>,
+  ),
+  blockhash: json['blockhash'] as String,
+);
 
 Map<String, dynamic> _$BlockhashToJson(Blockhash instance) => <String, dynamic>{
-      'feeCalculator': instance.feeCalculator.toJson(),
-      'blockhash': instance.blockhash,
-    };
+  'feeCalculator': instance.feeCalculator.toJson(),
+  'blockhash': instance.blockhash,
+};
 
 BlockhasValidResult _$BlockhasValidResultFromJson(Map<String, dynamic> json) =>
     BlockhasValidResult(
@@ -24,8 +25,8 @@ BlockhasValidResult _$BlockhasValidResultFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$BlockhasValidResultToJson(
-        BlockhasValidResult instance) =>
-    <String, dynamic>{
-      'context': instance.context.toJson(),
-      'value': instance.value,
-    };
+  BlockhasValidResult instance,
+) => <String, dynamic>{
+  'context': instance.context.toJson(),
+  'value': instance.value,
+};

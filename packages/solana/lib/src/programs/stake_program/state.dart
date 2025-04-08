@@ -17,10 +17,8 @@ class StakerAuthority implements StakeAuthorize {
   const StakerAuthority(this.pubKey) : type = 0;
 
   @override
-  ByteArray serialize() => ByteArray.merge([
-        pubKey.toByteArray(),
-        ByteArray.u32(type),
-      ]);
+  ByteArray serialize() =>
+      ByteArray.merge([pubKey.toByteArray(), ByteArray.u32(type)]);
 
   @override
   final Ed25519HDPublicKey pubKey;
@@ -31,10 +29,8 @@ class WithdrawerAuthority implements StakeAuthorize {
   const WithdrawerAuthority(this.pubKey) : type = 1;
 
   @override
-  ByteArray serialize() => ByteArray.merge([
-        pubKey.toByteArray(),
-        ByteArray.u32(type),
-      ]);
+  ByteArray serialize() =>
+      ByteArray.merge([pubKey.toByteArray(), ByteArray.u32(type)]);
 
   @override
   final Ed25519HDPublicKey pubKey;

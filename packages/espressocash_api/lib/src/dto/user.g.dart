@@ -7,13 +7,9 @@ part of 'user.dart';
 // **************************************************************************
 
 _$WalletCountryRequestDtoImpl _$$WalletCountryRequestDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$WalletCountryRequestDtoImpl(
-      countryCode: json['countryCode'] as String,
-    );
+  Map<String, dynamic> json,
+) => _$WalletCountryRequestDtoImpl(countryCode: json['countryCode'] as String);
 
 Map<String, dynamic> _$$WalletCountryRequestDtoImplToJson(
-        _$WalletCountryRequestDtoImpl instance) =>
-    <String, dynamic>{
-      'countryCode': instance.countryCode,
-    };
+  _$WalletCountryRequestDtoImpl instance,
+) => <String, dynamic>{'countryCode': instance.countryCode};

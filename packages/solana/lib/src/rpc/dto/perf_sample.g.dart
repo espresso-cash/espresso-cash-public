@@ -7,11 +7,11 @@ part of 'perf_sample.dart';
 // **************************************************************************
 
 PerfSample _$PerfSampleFromJson(Map<String, dynamic> json) => PerfSample(
-      slot: (json['slot'] as num).toInt(),
-      numTransactions: (json['numTransactions'] as num).toInt(),
-      numSlots: (json['numSlots'] as num).toInt(),
-      samplePeriodSecs: (json['samplePeriodSecs'] as num).toInt(),
-    );
+  slot: (json['slot'] as num).toInt(),
+  numTransactions: (json['numTransactions'] as num).toInt(),
+  numSlots: (json['numSlots'] as num).toInt(),
+  samplePeriodSecs: (json['samplePeriodSecs'] as num).toInt(),
+);
 
 Map<String, dynamic> _$PerfSampleToJson(PerfSample instance) =>
     <String, dynamic>{

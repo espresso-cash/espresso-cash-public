@@ -43,20 +43,20 @@ class NotificationMessage
   /// Each of these objects has a `value` field and we want to
   /// use it to send it to the caller
   dynamic get value => when<dynamic>(
-        accountNotification: (params) => params.result.value,
-        logsNotification: (params) => params.result.value,
-        programNotification: (params) => params.result.value,
-        signatureNotification: (params) => params.result.value,
-        slotNotification: (params) => params.result.value,
-        unsupported: () => null,
-      );
+    accountNotification: (params) => params.result.value,
+    logsNotification: (params) => params.result.value,
+    programNotification: (params) => params.result.value,
+    signatureNotification: (params) => params.result.value,
+    slotNotification: (params) => params.result.value,
+    unsupported: () => null,
+  );
 
   int get subscription => when(
-        accountNotification: (params) => params.subscription,
-        logsNotification: (params) => params.subscription,
-        programNotification: (params) => params.subscription,
-        signatureNotification: (params) => params.subscription,
-        slotNotification: (params) => params.subscription,
-        unsupported: () => -1,
-      );
+    accountNotification: (params) => params.subscription,
+    logsNotification: (params) => params.subscription,
+    programNotification: (params) => params.subscription,
+    signatureNotification: (params) => params.subscription,
+    slotNotification: (params) => params.subscription,
+    unsupported: () => -1,
+  );
 }

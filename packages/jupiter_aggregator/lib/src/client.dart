@@ -12,10 +12,7 @@ const _defaultPriceApiUrl = 'https://api.jup.ag/';
 /// For docs head to https://station.jup.ag/api-v6
 @RestApi()
 abstract class JupiterAggregatorClient {
-  factory JupiterAggregatorClient({
-    String? baseUrl,
-    String? apiKey,
-  }) =>
+  factory JupiterAggregatorClient({String? baseUrl, String? apiKey}) =>
       _JupiterAggregatorClient(
         Dio()
           ..interceptors.addAll([
@@ -27,7 +24,8 @@ abstract class JupiterAggregatorClient {
                 },
               ),
           ]),
-        baseUrl: baseUrl ??
+        baseUrl:
+            baseUrl ??
             const String.fromEnvironment(
               'QUOTE_API_BASE',
               defaultValue: _defaultSwapApiUrl,
@@ -36,9 +34,7 @@ abstract class JupiterAggregatorClient {
 
   /// Get quote for a given input mint, output mint and amount
   @GET('/quote')
-  Future<QuoteResponseDto> getQuote(
-    @Queries() QuoteRequestDto quoteRequestDto,
-  );
+  Future<QuoteResponseDto> getQuote(@Queries() QuoteRequestDto quoteRequestDto);
 
   /// Get swap serialized transactions for a route
   @POST('/swap')
@@ -50,10 +46,7 @@ abstract class JupiterAggregatorClient {
 /// For docs head to https://station.jup.ag/docs/apis/price-api-v2
 @RestApi()
 abstract class JupiterPriceClient {
-  factory JupiterPriceClient({
-    String? baseUrl,
-    String? apiKey,
-  }) =>
+  factory JupiterPriceClient({String? baseUrl, String? apiKey}) =>
       _JupiterPriceClient(
         Dio()
           ..interceptors.addAll([

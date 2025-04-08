@@ -7,12 +7,12 @@ part of 'delegation.dart';
 // **************************************************************************
 
 Delegation _$DelegationFromJson(Map<String, dynamic> json) => Delegation(
-      activationEpoch: json['activationEpoch'] as String,
-      deactivationEpoch: json['deactivationEpoch'] as String,
-      stake: json['stake'] as String,
-      voter: json['voter'] as String,
-      warmupCooldownRate: (json['warmupCooldownRate'] as num).toDouble(),
-    );
+  activationEpoch: json['activationEpoch'] as String,
+  deactivationEpoch: json['deactivationEpoch'] as String,
+  stake: json['stake'] as String,
+  voter: json['voter'] as String,
+  warmupCooldownRate: (json['warmupCooldownRate'] as num).toDouble(),
+);
 
 Map<String, dynamic> _$DelegationToJson(Delegation instance) =>
     <String, dynamic>{

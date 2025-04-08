@@ -189,10 +189,7 @@ void main() {
 
     expect(
       extractedAddresses,
-      LoadedAddresses(
-        writable: [keys[2]],
-        readonly: [keys[3]],
-      ),
+      LoadedAddresses(writable: [keys[2]], readonly: [keys[3]]),
     );
   });
 

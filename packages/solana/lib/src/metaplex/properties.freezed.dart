@@ -12,7 +12,8 @@ part of 'properties.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Properties _$PropertiesFromJson(Map<String, dynamic> json) {
   switch (json['category']) {
@@ -42,8 +43,7 @@ mixin _$Properties {
     required TResult Function(List<File> files) vr,
     required TResult Function(List<File> files) audio,
     required TResult Function(List<File> files) html,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
@@ -52,8 +52,7 @@ mixin _$Properties {
     TResult? Function(List<File> files)? vr,
     TResult? Function(List<File> files)? audio,
     TResult? Function(List<File> files)? html,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
@@ -63,8 +62,7 @@ mixin _$Properties {
     TResult Function(List<File> files)? audio,
     TResult Function(List<File> files)? html,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
@@ -73,8 +71,7 @@ mixin _$Properties {
     required TResult Function(Model3D value) vr,
     required TResult Function(Audio value) audio,
     required TResult Function(Html value) html,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Unknown value)? unknown,
@@ -83,8 +80,7 @@ mixin _$Properties {
     TResult? Function(Model3D value)? vr,
     TResult? Function(Audio value)? audio,
     TResult? Function(Html value)? html,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
@@ -94,8 +90,7 @@ mixin _$Properties {
     TResult Function(Audio value)? audio,
     TResult Function(Html value)? html,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 
   /// Serializes this Properties to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -104,8 +99,9 @@ mixin _$Properties {
 /// @nodoc
 abstract class $PropertiesCopyWith<$Res> {
   factory $PropertiesCopyWith(
-          Properties value, $Res Function(Properties) then) =
-      _$PropertiesCopyWithImpl<$Res, Properties>;
+    Properties value,
+    $Res Function(Properties) then,
+  ) = _$PropertiesCopyWithImpl<$Res, Properties>;
 }
 
 /// @nodoc
@@ -125,8 +121,9 @@ class _$PropertiesCopyWithImpl<$Res, $Val extends Properties>
 /// @nodoc
 abstract class _$$UnknownImplCopyWith<$Res> {
   factory _$$UnknownImplCopyWith(
-          _$UnknownImpl value, $Res Function(_$UnknownImpl) then) =
-      __$$UnknownImplCopyWithImpl<$Res>;
+    _$UnknownImpl value,
+    $Res Function(_$UnknownImpl) then,
+  ) = __$$UnknownImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -134,8 +131,9 @@ class __$$UnknownImplCopyWithImpl<$Res>
     extends _$PropertiesCopyWithImpl<$Res, _$UnknownImpl>
     implements _$$UnknownImplCopyWith<$Res> {
   __$$UnknownImplCopyWithImpl(
-      _$UnknownImpl _value, $Res Function(_$UnknownImpl) _then)
-      : super(_value, _then);
+    _$UnknownImpl _value,
+    $Res Function(_$UnknownImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
@@ -255,9 +253,7 @@ class _$UnknownImpl implements Unknown {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnknownImplToJson(
-      this,
-    );
+    return _$$UnknownImplToJson(this);
   }
 }
 
@@ -270,8 +266,9 @@ abstract class Unknown implements Properties {
 /// @nodoc
 abstract class _$$VideoImplCopyWith<$Res> {
   factory _$$VideoImplCopyWith(
-          _$VideoImpl value, $Res Function(_$VideoImpl) then) =
-      __$$VideoImplCopyWithImpl<$Res>;
+    _$VideoImpl value,
+    $Res Function(_$VideoImpl) then,
+  ) = __$$VideoImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
@@ -281,22 +278,24 @@ class __$$VideoImplCopyWithImpl<$Res>
     extends _$PropertiesCopyWithImpl<$Res, _$VideoImpl>
     implements _$$VideoImplCopyWith<$Res> {
   __$$VideoImplCopyWithImpl(
-      _$VideoImpl _value, $Res Function(_$VideoImpl) _then)
-      : super(_value, _then);
+    _$VideoImpl _value,
+    $Res Function(_$VideoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? files = null,
-  }) {
-    return _then(_$VideoImpl(
-      files: null == files
-          ? _value._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<File>,
-    ));
+  $Res call({Object? files = null}) {
+    return _then(
+      _$VideoImpl(
+        files:
+            null == files
+                ? _value._files
+                : files // ignore: cast_nullable_to_non_nullable
+                    as List<File>,
+      ),
+    );
   }
 }
 
@@ -304,8 +303,8 @@ class __$$VideoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$VideoImpl implements Video {
   const _$VideoImpl({required final List<File> files, final String? $type})
-      : _files = files,
-        $type = $type ?? 'video';
+    : _files = files,
+      $type = $type ?? 'video';
 
   factory _$VideoImpl.fromJson(Map<String, dynamic> json) =>
       _$$VideoImplFromJson(json);
@@ -435,9 +434,7 @@ class _$VideoImpl implements Video {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$VideoImplToJson(
-      this,
-    );
+    return _$$VideoImplToJson(this);
   }
 }
 
@@ -458,8 +455,9 @@ abstract class Video implements Properties {
 /// @nodoc
 abstract class _$$ImageImplCopyWith<$Res> {
   factory _$$ImageImplCopyWith(
-          _$ImageImpl value, $Res Function(_$ImageImpl) then) =
-      __$$ImageImplCopyWithImpl<$Res>;
+    _$ImageImpl value,
+    $Res Function(_$ImageImpl) then,
+  ) = __$$ImageImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
@@ -469,22 +467,24 @@ class __$$ImageImplCopyWithImpl<$Res>
     extends _$PropertiesCopyWithImpl<$Res, _$ImageImpl>
     implements _$$ImageImplCopyWith<$Res> {
   __$$ImageImplCopyWithImpl(
-      _$ImageImpl _value, $Res Function(_$ImageImpl) _then)
-      : super(_value, _then);
+    _$ImageImpl _value,
+    $Res Function(_$ImageImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? files = null,
-  }) {
-    return _then(_$ImageImpl(
-      files: null == files
-          ? _value._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<File>,
-    ));
+  $Res call({Object? files = null}) {
+    return _then(
+      _$ImageImpl(
+        files:
+            null == files
+                ? _value._files
+                : files // ignore: cast_nullable_to_non_nullable
+                    as List<File>,
+      ),
+    );
   }
 }
 
@@ -492,8 +492,8 @@ class __$$ImageImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ImageImpl implements Image {
   const _$ImageImpl({required final List<File> files, final String? $type})
-      : _files = files,
-        $type = $type ?? 'image';
+    : _files = files,
+      $type = $type ?? 'image';
 
   factory _$ImageImpl.fromJson(Map<String, dynamic> json) =>
       _$$ImageImplFromJson(json);
@@ -623,9 +623,7 @@ class _$ImageImpl implements Image {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ImageImplToJson(
-      this,
-    );
+    return _$$ImageImplToJson(this);
   }
 }
 
@@ -646,8 +644,9 @@ abstract class Image implements Properties {
 /// @nodoc
 abstract class _$$Model3DImplCopyWith<$Res> {
   factory _$$Model3DImplCopyWith(
-          _$Model3DImpl value, $Res Function(_$Model3DImpl) then) =
-      __$$Model3DImplCopyWithImpl<$Res>;
+    _$Model3DImpl value,
+    $Res Function(_$Model3DImpl) then,
+  ) = __$$Model3DImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
@@ -657,22 +656,24 @@ class __$$Model3DImplCopyWithImpl<$Res>
     extends _$PropertiesCopyWithImpl<$Res, _$Model3DImpl>
     implements _$$Model3DImplCopyWith<$Res> {
   __$$Model3DImplCopyWithImpl(
-      _$Model3DImpl _value, $Res Function(_$Model3DImpl) _then)
-      : super(_value, _then);
+    _$Model3DImpl _value,
+    $Res Function(_$Model3DImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? files = null,
-  }) {
-    return _then(_$Model3DImpl(
-      files: null == files
-          ? _value._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<File>,
-    ));
+  $Res call({Object? files = null}) {
+    return _then(
+      _$Model3DImpl(
+        files:
+            null == files
+                ? _value._files
+                : files // ignore: cast_nullable_to_non_nullable
+                    as List<File>,
+      ),
+    );
   }
 }
 
@@ -680,8 +681,8 @@ class __$$Model3DImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$Model3DImpl implements Model3D {
   const _$Model3DImpl({required final List<File> files, final String? $type})
-      : _files = files,
-        $type = $type ?? 'vr';
+    : _files = files,
+      $type = $type ?? 'vr';
 
   factory _$Model3DImpl.fromJson(Map<String, dynamic> json) =>
       _$$Model3DImplFromJson(json);
@@ -811,9 +812,7 @@ class _$Model3DImpl implements Model3D {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$Model3DImplToJson(
-      this,
-    );
+    return _$$Model3DImplToJson(this);
   }
 }
 
@@ -834,8 +833,9 @@ abstract class Model3D implements Properties {
 /// @nodoc
 abstract class _$$AudioImplCopyWith<$Res> {
   factory _$$AudioImplCopyWith(
-          _$AudioImpl value, $Res Function(_$AudioImpl) then) =
-      __$$AudioImplCopyWithImpl<$Res>;
+    _$AudioImpl value,
+    $Res Function(_$AudioImpl) then,
+  ) = __$$AudioImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
@@ -845,22 +845,24 @@ class __$$AudioImplCopyWithImpl<$Res>
     extends _$PropertiesCopyWithImpl<$Res, _$AudioImpl>
     implements _$$AudioImplCopyWith<$Res> {
   __$$AudioImplCopyWithImpl(
-      _$AudioImpl _value, $Res Function(_$AudioImpl) _then)
-      : super(_value, _then);
+    _$AudioImpl _value,
+    $Res Function(_$AudioImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? files = null,
-  }) {
-    return _then(_$AudioImpl(
-      files: null == files
-          ? _value._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<File>,
-    ));
+  $Res call({Object? files = null}) {
+    return _then(
+      _$AudioImpl(
+        files:
+            null == files
+                ? _value._files
+                : files // ignore: cast_nullable_to_non_nullable
+                    as List<File>,
+      ),
+    );
   }
 }
 
@@ -868,8 +870,8 @@ class __$$AudioImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AudioImpl implements Audio {
   const _$AudioImpl({required final List<File> files, final String? $type})
-      : _files = files,
-        $type = $type ?? 'audio';
+    : _files = files,
+      $type = $type ?? 'audio';
 
   factory _$AudioImpl.fromJson(Map<String, dynamic> json) =>
       _$$AudioImplFromJson(json);
@@ -999,9 +1001,7 @@ class _$AudioImpl implements Audio {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AudioImplToJson(
-      this,
-    );
+    return _$$AudioImplToJson(this);
   }
 }
 
@@ -1022,8 +1022,9 @@ abstract class Audio implements Properties {
 /// @nodoc
 abstract class _$$HtmlImplCopyWith<$Res> {
   factory _$$HtmlImplCopyWith(
-          _$HtmlImpl value, $Res Function(_$HtmlImpl) then) =
-      __$$HtmlImplCopyWithImpl<$Res>;
+    _$HtmlImpl value,
+    $Res Function(_$HtmlImpl) then,
+  ) = __$$HtmlImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
@@ -1033,21 +1034,22 @@ class __$$HtmlImplCopyWithImpl<$Res>
     extends _$PropertiesCopyWithImpl<$Res, _$HtmlImpl>
     implements _$$HtmlImplCopyWith<$Res> {
   __$$HtmlImplCopyWithImpl(_$HtmlImpl _value, $Res Function(_$HtmlImpl) _then)
-      : super(_value, _then);
+    : super(_value, _then);
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? files = null,
-  }) {
-    return _then(_$HtmlImpl(
-      files: null == files
-          ? _value._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<File>,
-    ));
+  $Res call({Object? files = null}) {
+    return _then(
+      _$HtmlImpl(
+        files:
+            null == files
+                ? _value._files
+                : files // ignore: cast_nullable_to_non_nullable
+                    as List<File>,
+      ),
+    );
   }
 }
 
@@ -1055,8 +1057,8 @@ class __$$HtmlImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$HtmlImpl implements Html {
   const _$HtmlImpl({required final List<File> files, final String? $type})
-      : _files = files,
-        $type = $type ?? 'html';
+    : _files = files,
+      $type = $type ?? 'html';
 
   factory _$HtmlImpl.fromJson(Map<String, dynamic> json) =>
       _$$HtmlImplFromJson(json);
@@ -1186,9 +1188,7 @@ class _$HtmlImpl implements Html {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$HtmlImplToJson(
-      this,
-    );
+    return _$$HtmlImplToJson(this);
   }
 }
 

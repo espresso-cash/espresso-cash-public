@@ -5,10 +5,7 @@ part 'subscribed_message.g.dart';
 
 @JsonSerializable()
 class SubscribedMessage implements SubscriptionMessage {
-  const SubscribedMessage({
-    required this.result,
-    required this.id,
-  });
+  const SubscribedMessage({required this.result, required this.id});
 
   factory SubscribedMessage.fromJson(Map<String, dynamic> json) =>
       _$SubscribedMessageFromJson(json);

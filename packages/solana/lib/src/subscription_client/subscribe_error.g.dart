@@ -13,7 +13,4 @@ SubscribeError _$SubscribeErrorFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$SubscribeErrorToJson(SubscribeError instance) =>
-    <String, dynamic>{
-      'code': instance.code,
-      'message': instance.message,
-    };
+    <String, dynamic>{'code': instance.code, 'message': instance.message};

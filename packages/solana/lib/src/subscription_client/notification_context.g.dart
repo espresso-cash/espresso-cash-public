@@ -7,12 +7,8 @@ part of 'notification_context.dart';
 // **************************************************************************
 
 NotificationContext _$NotificationContextFromJson(Map<String, dynamic> json) =>
-    NotificationContext(
-      slot: (json['slot'] as num).toInt(),
-    );
+    NotificationContext(slot: (json['slot'] as num).toInt());
 
 Map<String, dynamic> _$NotificationContextToJson(
-        NotificationContext instance) =>
-    <String, dynamic>{
-      'slot': instance.slot,
-    };
+  NotificationContext instance,
+) => <String, dynamic>{'slot': instance.slot};

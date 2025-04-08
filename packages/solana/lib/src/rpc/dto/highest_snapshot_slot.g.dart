@@ -13,8 +13,8 @@ HighestSnapshotSlot _$HighestSnapshotSlotFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$HighestSnapshotSlotToJson(
-        HighestSnapshotSlot instance) =>
-    <String, dynamic>{
-      'full': instance.full,
-      'incremental': instance.incremental,
-    };
+  HighestSnapshotSlot instance,
+) => <String, dynamic>{
+  'full': instance.full,
+  'incremental': instance.incremental,
+};

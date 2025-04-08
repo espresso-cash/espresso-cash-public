@@ -93,9 +93,7 @@ Iterable<String> _generateFields(Iterable<ParameterElement> parameters) sync* {
   }
 }
 
-Iterable<String> _generateToBorsh(
-  Iterable<ParameterElement> parameters,
-) sync* {
+Iterable<String> _generateToBorsh(Iterable<ParameterElement> parameters) sync* {
   yield 'Uint8List toBorsh() {';
 
   yield 'final writer = BinaryWriter();\n\n';

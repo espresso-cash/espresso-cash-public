@@ -9,8 +9,10 @@ part of 'signature_status.dart';
 SignatureStatus _$SignatureStatusFromJson(Map<String, dynamic> json) =>
     SignatureStatus(
       slot: (json['slot'] as num).toInt(),
-      confirmationStatus:
-          $enumDecode(_$CommitmentEnumMap, json['confirmationStatus']),
+      confirmationStatus: $enumDecode(
+        _$CommitmentEnumMap,
+        json['confirmationStatus'],
+      ),
       confirmations: (json['confirmations'] as num?)?.toInt(),
       err: json['err'] as Map<String, dynamic>?,
     );
@@ -30,19 +32,23 @@ const _$CommitmentEnumMap = {
 };
 
 SignatureStatusesResult _$SignatureStatusesResultFromJson(
-        Map<String, dynamic> json) =>
-    SignatureStatusesResult(
-      context: Context.fromJson(json['context'] as Map<String, dynamic>),
-      value: (json['value'] as List<dynamic>)
-          .map((e) => e == null
-              ? null
-              : SignatureStatus.fromJson(e as Map<String, dynamic>))
+  Map<String, dynamic> json,
+) => SignatureStatusesResult(
+  context: Context.fromJson(json['context'] as Map<String, dynamic>),
+  value:
+      (json['value'] as List<dynamic>)
+          .map(
+            (e) =>
+                e == null
+                    ? null
+                    : SignatureStatus.fromJson(e as Map<String, dynamic>),
+          )
           .toList(),
-    );
+);
 
 Map<String, dynamic> _$SignatureStatusesResultToJson(
-        SignatureStatusesResult instance) =>
-    <String, dynamic>{
-      'context': instance.context.toJson(),
-      'value': instance.value.map((e) => e?.toJson()).toList(),
-    };
+  SignatureStatusesResult instance,
+) => <String, dynamic>{
+  'context': instance.context.toJson(),
+  'value': instance.value.map((e) => e?.toJson()).toList(),
+};

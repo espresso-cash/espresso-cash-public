@@ -12,7 +12,8 @@ part of 'get_rates.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 GetRatesResponseDto _$GetRatesResponseDtoFromJson(Map<String, dynamic> json) {
   return _GetRatesResponseDto.fromJson(json);
@@ -35,8 +36,9 @@ mixin _$GetRatesResponseDto {
 /// @nodoc
 abstract class $GetRatesResponseDtoCopyWith<$Res> {
   factory $GetRatesResponseDtoCopyWith(
-          GetRatesResponseDto value, $Res Function(GetRatesResponseDto) then) =
-      _$GetRatesResponseDtoCopyWithImpl<$Res, GetRatesResponseDto>;
+    GetRatesResponseDto value,
+    $Res Function(GetRatesResponseDto) then,
+  ) = _$GetRatesResponseDtoCopyWithImpl<$Res, GetRatesResponseDto>;
   @useResult
   $Res call({double usdc});
 }
@@ -55,24 +57,27 @@ class _$GetRatesResponseDtoCopyWithImpl<$Res, $Val extends GetRatesResponseDto>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? usdc = null,
-  }) {
-    return _then(_value.copyWith(
-      usdc: null == usdc
-          ? _value.usdc
-          : usdc // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+  $Res call({Object? usdc = null}) {
+    return _then(
+      _value.copyWith(
+            usdc:
+                null == usdc
+                    ? _value.usdc
+                    : usdc // ignore: cast_nullable_to_non_nullable
+                        as double,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$GetRatesResponseDtoImplCopyWith<$Res>
     implements $GetRatesResponseDtoCopyWith<$Res> {
-  factory _$$GetRatesResponseDtoImplCopyWith(_$GetRatesResponseDtoImpl value,
-          $Res Function(_$GetRatesResponseDtoImpl) then) =
-      __$$GetRatesResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$GetRatesResponseDtoImplCopyWith(
+    _$GetRatesResponseDtoImpl value,
+    $Res Function(_$GetRatesResponseDtoImpl) then,
+  ) = __$$GetRatesResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double usdc});
@@ -82,23 +87,25 @@ abstract class _$$GetRatesResponseDtoImplCopyWith<$Res>
 class __$$GetRatesResponseDtoImplCopyWithImpl<$Res>
     extends _$GetRatesResponseDtoCopyWithImpl<$Res, _$GetRatesResponseDtoImpl>
     implements _$$GetRatesResponseDtoImplCopyWith<$Res> {
-  __$$GetRatesResponseDtoImplCopyWithImpl(_$GetRatesResponseDtoImpl _value,
-      $Res Function(_$GetRatesResponseDtoImpl) _then)
-      : super(_value, _then);
+  __$$GetRatesResponseDtoImplCopyWithImpl(
+    _$GetRatesResponseDtoImpl _value,
+    $Res Function(_$GetRatesResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of GetRatesResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? usdc = null,
-  }) {
-    return _then(_$GetRatesResponseDtoImpl(
-      usdc: null == usdc
-          ? _value.usdc
-          : usdc // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
+  $Res call({Object? usdc = null}) {
+    return _then(
+      _$GetRatesResponseDtoImpl(
+        usdc:
+            null == usdc
+                ? _value.usdc
+                : usdc // ignore: cast_nullable_to_non_nullable
+                    as double,
+      ),
+    );
   }
 }
 
@@ -137,13 +144,13 @@ class _$GetRatesResponseDtoImpl implements _GetRatesResponseDto {
   @pragma('vm:prefer-inline')
   _$$GetRatesResponseDtoImplCopyWith<_$GetRatesResponseDtoImpl> get copyWith =>
       __$$GetRatesResponseDtoImplCopyWithImpl<_$GetRatesResponseDtoImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GetRatesResponseDtoImplToJson(
-      this,
-    );
+    return _$$GetRatesResponseDtoImplToJson(this);
   }
 }
 

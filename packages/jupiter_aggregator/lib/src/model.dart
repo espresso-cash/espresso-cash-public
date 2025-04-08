@@ -14,10 +14,8 @@ enum SwapMode {
 
 @freezed
 class JupiterMarketFee with _$JupiterMarketFee {
-  const factory JupiterMarketFee({
-    String? amount,
-    num? feeBps,
-  }) = _JupiterMarketFee;
+  const factory JupiterMarketFee({String? amount, num? feeBps}) =
+      _JupiterMarketFee;
 
   factory JupiterMarketFee.fromJson(Map<String, dynamic> json) =>
       _$JupiterMarketFeeFromJson(json);
@@ -122,10 +120,8 @@ class JupiterSwapRequestDto with _$JupiterSwapRequestDto {
 
 @freezed
 class DynamicSlippage with _$DynamicSlippage {
-  const factory DynamicSlippage({
-    required int minBps,
-    required int maxBps,
-  }) = _DynamicSlippage;
+  const factory DynamicSlippage({required int minBps, required int maxBps}) =
+      _DynamicSlippage;
 
   factory DynamicSlippage.fromJson(Map<String, dynamic> json) =>
       _$DynamicSlippageFromJson(json);
@@ -169,9 +165,8 @@ class PriceRequestDto with _$PriceRequestDto {
 
 @freezed
 class PriceResponseDto with _$PriceResponseDto {
-  const factory PriceResponseDto({
-    required Map<String, PriceDto> data,
-  }) = _PriceResponseDto;
+  const factory PriceResponseDto({required Map<String, PriceDto> data}) =
+      _PriceResponseDto;
 
   factory PriceResponseDto.fromJson(Map<String, dynamic> json) =>
       _$PriceResponseDtoFromJson(json);
@@ -179,9 +174,7 @@ class PriceResponseDto with _$PriceResponseDto {
 
 @freezed
 class PriceDto with _$PriceDto {
-  const factory PriceDto({
-    required String? price,
-  }) = _PriceDto;
+  const factory PriceDto({required String? price}) = _PriceDto;
 
   factory PriceDto.fromJson(Map<String, dynamic> json) =>
       _$PriceDtoFromJson(json);

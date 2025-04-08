@@ -49,10 +49,7 @@ extension SolanaClientSystemProgram on SolanaClient {
       lamports,
       commitment: commitment,
     );
-    await waitForSignatureStatus(
-      signature,
-      status: commitment,
-    );
+    await waitForSignatureStatus(signature, status: commitment);
 
     return signature;
   }

@@ -7,11 +7,11 @@ part of 'data_slice.dart';
 // **************************************************************************
 
 DataSlice _$DataSliceFromJson(Map<String, dynamic> json) => DataSlice(
-      offset: (json['offset'] as num?)?.toInt(),
-      length: (json['length'] as num?)?.toInt(),
-    );
+  offset: (json['offset'] as num?)?.toInt(),
+  length: (json['length'] as num?)?.toInt(),
+);
 
 Map<String, dynamic> _$DataSliceToJson(DataSlice instance) => <String, dynamic>{
-      if (instance.offset case final value?) 'offset': value,
-      if (instance.length case final value?) 'length': value,
-    };
+  if (instance.offset case final value?) 'offset': value,
+  if (instance.length case final value?) 'length': value,
+};

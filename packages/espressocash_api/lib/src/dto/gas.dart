@@ -5,9 +5,7 @@ part 'gas.g.dart';
 
 @freezed
 class GasFeeRequestDto with _$GasFeeRequestDto {
-  const factory GasFeeRequestDto({
-    required String network,
-  }) = _GasFeeRequestDto;
+  const factory GasFeeRequestDto({required String network}) = _GasFeeRequestDto;
 
   factory GasFeeRequestDto.fromJson(Map<String, dynamic> json) =>
       _$GasFeeRequestDtoFromJson(json);

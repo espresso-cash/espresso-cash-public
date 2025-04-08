@@ -6,16 +6,12 @@ import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
 
-typedef SignRequest = Future<({String publicKey, String signature})?> Function(
-  String data,
-);
+typedef SignRequest =
+    Future<({String publicKey, String signature})?> Function(String data);
 
 @RestApi(baseUrl: 'https://api.espressocash.com/api/v1')
 abstract class EspressoCashClient {
-  factory EspressoCashClient({
-    String? baseUrl,
-    required SignRequest sign,
-  }) =>
+  factory EspressoCashClient({String? baseUrl, required SignRequest sign}) =>
       _EspressoCashClient(
         Dio()
           ..interceptors.add(
@@ -91,9 +87,7 @@ abstract class EspressoCashClient {
   );
 
   @POST('/updateUserWalletCountry')
-  Future<void> updateUserWalletCountry(
-    @Body() WalletCountryRequestDto request,
-  );
+  Future<void> updateUserWalletCountry(@Body() WalletCountryRequestDto request);
 
   @POST('/dln/quote')
   Future<PaymentQuoteResponseDto> getDlnQuote(
@@ -137,17 +131,13 @@ abstract class EspressoCashClient {
   );
 
   @POST('/dln/incoming/gasFee')
-  Future<GasFeeResponseDto> getGasFees(
-    @Body() GasFeeRequestDto request,
-  );
+  Future<GasFeeResponseDto> getGasFees(@Body() GasFeeRequestDto request);
 
   @POST('/rates')
   Future<GetRatesResponseDto> getRates();
 
   @POST('/fiatRate')
-  Future<FiatRateResponseDto> fetchFiatRate(
-    @Body() FiatRateRequestDto request,
-  );
+  Future<FiatRateResponseDto> fetchFiatRate(@Body() FiatRateRequestDto request);
 
   @POST('/getPriorityFeeEstimate')
   Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
@@ -175,9 +165,7 @@ abstract class EspressoCashClient {
   );
 
   @POST('/moneygram/fund')
-  Future<void> fundXlmRequest(
-    @Body() FundXlmRequestDto request,
-  );
+  Future<void> fundXlmRequest(@Body() FundXlmRequestDto request);
 
   @POST('/tokens/meta')
   Future<GetTokensMetaResponseDto> getTokensMeta();
@@ -196,8 +184,8 @@ abstract class EspressoCashClient {
 
 extension EspressoCashClientExt on EspressoCashClient {
   Future<void> getTokensFile(String savePath) => _dio.download(
-        '${baseUrl ?? _dio.options.baseUrl}/tokens/file',
-        savePath,
-        options: Options(method: HttpMethod.POST),
-      );
+    '${baseUrl ?? _dio.options.baseUrl}/tokens/file',
+    savePath,
+    options: Options(method: HttpMethod.POST),
+  );
 }

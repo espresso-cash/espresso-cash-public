@@ -17,9 +17,8 @@ class AmbassadorReferralRequestDto with _$AmbassadorReferralRequestDto {
 
 @freezed
 class AmbassadorStatsResponseDto with _$AmbassadorStatsResponseDto {
-  const factory AmbassadorStatsResponseDto({
-    required int referralCount,
-  }) = _AmbassadorStatsResponseDto;
+  const factory AmbassadorStatsResponseDto({required int referralCount}) =
+      _AmbassadorStatsResponseDto;
 
   factory AmbassadorStatsResponseDto.fromJson(Map<String, dynamic> json) =>
       _$AmbassadorStatsResponseDtoFromJson(json);
@@ -35,6 +34,5 @@ class AmbassadorVerificationResponseDto
 
   factory AmbassadorVerificationResponseDto.fromJson(
     Map<String, dynamic> json,
-  ) =>
-      _$AmbassadorVerificationResponseDtoFromJson(json);
+  ) => _$AmbassadorVerificationResponseDtoFromJson(json);
 }

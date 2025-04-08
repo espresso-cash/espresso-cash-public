@@ -7,13 +7,13 @@ part of 'slot.dart';
 // **************************************************************************
 
 Slot _$SlotFromJson(Map<String, dynamic> json) => Slot(
-      parent: (json['parent'] as num).toInt(),
-      slot: (json['slot'] as num).toInt(),
-      type: json['type'] as String,
-    );
+  parent: (json['parent'] as num).toInt(),
+  slot: (json['slot'] as num).toInt(),
+  type: json['type'] as String,
+);
 
 Map<String, dynamic> _$SlotToJson(Slot instance) => <String, dynamic>{
-      'parent': instance.parent,
-      'slot': instance.slot,
-      'type': instance.type,
-    };
+  'parent': instance.parent,
+  'slot': instance.slot,
+  'type': instance.type,
+};

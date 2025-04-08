@@ -5,10 +5,7 @@ part 'solana_version.g.dart';
 /// The solana version
 @JsonSerializable()
 class SolanaVersion {
-  const SolanaVersion({
-    required this.solanaCore,
-    required this.featureSet,
-  });
+  const SolanaVersion({required this.solanaCore, required this.featureSet});
 
   factory SolanaVersion.fromJson(Map<String, dynamic> json) =>
       _$SolanaVersionFromJson(json);

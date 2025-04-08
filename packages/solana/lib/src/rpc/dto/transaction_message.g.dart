@@ -8,15 +8,18 @@ part of 'transaction_message.dart';
 
 TransactionMessage _$TransactionMessageFromJson(Map<String, dynamic> json) =>
     TransactionMessage(
-      accountKeys: (json['accountKeys'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      accountKeys:
+          (json['accountKeys'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
       header: TransactionMessageHeader.fromJson(
-          json['header'] as Map<String, dynamic>),
+        json['header'] as Map<String, dynamic>,
+      ),
       recentBlockhash: json['recentBlockhash'] as String,
-      instructions: (json['instructions'] as List<dynamic>)
-          .map((e) => Instruction.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      instructions:
+          (json['instructions'] as List<dynamic>)
+              .map((e) => Instruction.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
 
 Map<String, dynamic> _$TransactionMessageToJson(TransactionMessage instance) =>

@@ -6,9 +6,7 @@ part 'optional_error.g.dart';
 
 @JsonSerializable()
 class OptionalError {
-  OptionalError({
-    required this.err,
-  });
+  OptionalError({required this.err});
 
   factory OptionalError.fromJson(Map<String, dynamic> json) =>
       _$OptionalErrorFromJson(json);

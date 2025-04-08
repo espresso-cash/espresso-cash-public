@@ -12,7 +12,8 @@ part of 'solana_transaction_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SolanaTransactionRequest {
@@ -29,16 +30,19 @@ mixin _$SolanaTransactionRequest {
 
 /// @nodoc
 abstract class $SolanaTransactionRequestCopyWith<$Res> {
-  factory $SolanaTransactionRequestCopyWith(SolanaTransactionRequest value,
-          $Res Function(SolanaTransactionRequest) then) =
-      _$SolanaTransactionRequestCopyWithImpl<$Res, SolanaTransactionRequest>;
+  factory $SolanaTransactionRequestCopyWith(
+    SolanaTransactionRequest value,
+    $Res Function(SolanaTransactionRequest) then,
+  ) = _$SolanaTransactionRequestCopyWithImpl<$Res, SolanaTransactionRequest>;
   @useResult
   $Res call({Uri link, String? label, String? message});
 }
 
 /// @nodoc
-class _$SolanaTransactionRequestCopyWithImpl<$Res,
-        $Val extends SolanaTransactionRequest>
+class _$SolanaTransactionRequestCopyWithImpl<
+  $Res,
+  $Val extends SolanaTransactionRequest
+>
     implements $SolanaTransactionRequestCopyWith<$Res> {
   _$SolanaTransactionRequestCopyWithImpl(this._value, this._then);
 
@@ -56,20 +60,26 @@ class _$SolanaTransactionRequestCopyWithImpl<$Res,
     Object? label = freezed,
     Object? message = freezed,
   }) {
-    return _then(_value.copyWith(
-      link: null == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as Uri,
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            link:
+                null == link
+                    ? _value.link
+                    : link // ignore: cast_nullable_to_non_nullable
+                        as Uri,
+            label:
+                freezed == label
+                    ? _value.label
+                    : label // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            message:
+                freezed == message
+                    ? _value.message
+                    : message // ignore: cast_nullable_to_non_nullable
+                        as String?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -77,9 +87,9 @@ class _$SolanaTransactionRequestCopyWithImpl<$Res,
 abstract class _$$SolanaTransactionRequestImplCopyWith<$Res>
     implements $SolanaTransactionRequestCopyWith<$Res> {
   factory _$$SolanaTransactionRequestImplCopyWith(
-          _$SolanaTransactionRequestImpl value,
-          $Res Function(_$SolanaTransactionRequestImpl) then) =
-      __$$SolanaTransactionRequestImplCopyWithImpl<$Res>;
+    _$SolanaTransactionRequestImpl value,
+    $Res Function(_$SolanaTransactionRequestImpl) then,
+  ) = __$$SolanaTransactionRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Uri link, String? label, String? message});
@@ -87,13 +97,16 @@ abstract class _$$SolanaTransactionRequestImplCopyWith<$Res>
 
 /// @nodoc
 class __$$SolanaTransactionRequestImplCopyWithImpl<$Res>
-    extends _$SolanaTransactionRequestCopyWithImpl<$Res,
-        _$SolanaTransactionRequestImpl>
+    extends
+        _$SolanaTransactionRequestCopyWithImpl<
+          $Res,
+          _$SolanaTransactionRequestImpl
+        >
     implements _$$SolanaTransactionRequestImplCopyWith<$Res> {
   __$$SolanaTransactionRequestImplCopyWithImpl(
-      _$SolanaTransactionRequestImpl _value,
-      $Res Function(_$SolanaTransactionRequestImpl) _then)
-      : super(_value, _then);
+    _$SolanaTransactionRequestImpl _value,
+    $Res Function(_$SolanaTransactionRequestImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SolanaTransactionRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -104,29 +117,36 @@ class __$$SolanaTransactionRequestImplCopyWithImpl<$Res>
     Object? label = freezed,
     Object? message = freezed,
   }) {
-    return _then(_$SolanaTransactionRequestImpl(
-      link: null == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as Uri,
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$SolanaTransactionRequestImpl(
+        link:
+            null == link
+                ? _value.link
+                : link // ignore: cast_nullable_to_non_nullable
+                    as Uri,
+        label:
+            freezed == label
+                ? _value.label
+                : label // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        message:
+            freezed == message
+                ? _value.message
+                : message // ignore: cast_nullable_to_non_nullable
+                    as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$SolanaTransactionRequestImpl extends _SolanaTransactionRequest {
-  const _$SolanaTransactionRequestImpl(
-      {required this.link, this.label, this.message})
-      : super._();
+  const _$SolanaTransactionRequestImpl({
+    required this.link,
+    this.label,
+    this.message,
+  }) : super._();
 
   @override
   final Uri link;
@@ -159,15 +179,17 @@ class _$SolanaTransactionRequestImpl extends _SolanaTransactionRequest {
   @override
   @pragma('vm:prefer-inline')
   _$$SolanaTransactionRequestImplCopyWith<_$SolanaTransactionRequestImpl>
-      get copyWith => __$$SolanaTransactionRequestImplCopyWithImpl<
-          _$SolanaTransactionRequestImpl>(this, _$identity);
+  get copyWith => __$$SolanaTransactionRequestImplCopyWithImpl<
+    _$SolanaTransactionRequestImpl
+  >(this, _$identity);
 }
 
 abstract class _SolanaTransactionRequest extends SolanaTransactionRequest {
-  const factory _SolanaTransactionRequest(
-      {required final Uri link,
-      final String? label,
-      final String? message}) = _$SolanaTransactionRequestImpl;
+  const factory _SolanaTransactionRequest({
+    required final Uri link,
+    final String? label,
+    final String? message,
+  }) = _$SolanaTransactionRequestImpl;
   const _SolanaTransactionRequest._() : super._();
 
   @override
@@ -182,5 +204,5 @@ abstract class _SolanaTransactionRequest extends SolanaTransactionRequest {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SolanaTransactionRequestImplCopyWith<_$SolanaTransactionRequestImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }

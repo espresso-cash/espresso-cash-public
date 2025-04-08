@@ -16,8 +16,9 @@ Future<void> main() async {
     );
   });
 
-  final message =
-      Message.only(MemoInstruction(signers: [account.publicKey], memo: 'test'));
+  final message = Message.only(
+    MemoInstruction(signers: [account.publicKey], memo: 'test'),
+  );
 
   test('recognizes BlockhashNotFoundException', () async {
     final tx = await account.signMessage(
@@ -43,9 +44,10 @@ Future<void> main() async {
   });
 
   test('recognizes AlreadyProcessedException', () async {
-    final b = await client.rpcClient
-        .getLatestBlockhash(commitment: Commitment.confirmed)
-        .value;
+    final b =
+        await client.rpcClient
+            .getLatestBlockhash(commitment: Commitment.confirmed)
+            .value;
 
     final tx = await account.signMessage(
       message: message,

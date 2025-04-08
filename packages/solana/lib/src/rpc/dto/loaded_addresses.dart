@@ -5,10 +5,7 @@ part 'loaded_addresses.g.dart';
 /// A Loaded Addresses
 @JsonSerializable()
 class LoadedAddresses {
-  const LoadedAddresses({
-    required this.writable,
-    required this.readonly,
-  });
+  const LoadedAddresses({required this.writable, required this.readonly});
 
   factory LoadedAddresses.fromJson(Map<String, dynamic> json) =>
       _$LoadedAddressesFromJson(json);

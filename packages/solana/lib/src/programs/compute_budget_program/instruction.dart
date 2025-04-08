@@ -2,9 +2,8 @@ import 'package:solana/encoder.dart';
 import 'package:solana/src/programs/compute_budget_program/program.dart';
 
 class ComputeBudgetInstruction extends Instruction {
-  ComputeBudgetInstruction({
-    required super.data,
-  }) : super(programId: ComputeBudgetProgram.id, accounts: []);
+  ComputeBudgetInstruction({required super.data})
+    : super(programId: ComputeBudgetProgram.id, accounts: []);
 
   factory ComputeBudgetInstruction.requestHeapFrame({required int bytes}) =>
       ComputeBudgetInstruction(
@@ -24,21 +23,19 @@ class ComputeBudgetInstruction extends Instruction {
 
   factory ComputeBudgetInstruction.setComputeUnitPrice({
     required int microLamports,
-  }) =>
-      ComputeBudgetInstruction(
-        data: ByteArray.merge([
-          ComputeBudgetProgram.setComputeUnitPriceIndex,
-          ByteArray.u64(microLamports),
-        ]),
-      );
+  }) => ComputeBudgetInstruction(
+    data: ByteArray.merge([
+      ComputeBudgetProgram.setComputeUnitPriceIndex,
+      ByteArray.u64(microLamports),
+    ]),
+  );
 
   factory ComputeBudgetInstruction.setLoadedAccountsDataSizeLimit({
     required int bytes,
-  }) =>
-      ComputeBudgetInstruction(
-        data: ByteArray.merge([
-          ComputeBudgetProgram.setLoadedAccountsDataSizeLimitIndex,
-          ByteArray.u32(bytes),
-        ]),
-      );
+  }) => ComputeBudgetInstruction(
+    data: ByteArray.merge([
+      ComputeBudgetProgram.setLoadedAccountsDataSizeLimitIndex,
+      ByteArray.u32(bytes),
+    ]),
+  );
 }

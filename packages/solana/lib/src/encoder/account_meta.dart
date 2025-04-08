@@ -16,24 +16,14 @@ class AccountMeta implements Comparable<AccountMeta> {
   factory AccountMeta.writeable({
     required Ed25519HDPublicKey pubKey,
     required bool isSigner,
-  }) =>
-      AccountMeta(
-        pubKey: pubKey,
-        isWriteable: true,
-        isSigner: isSigner,
-      );
+  }) => AccountMeta(pubKey: pubKey, isWriteable: true, isSigner: isSigner);
 
   /// Constructs a readonly account that is not signer has [pubKey] public key.
   /// To make it a signing account set [isSigner] to true.
   factory AccountMeta.readonly({
     required Ed25519HDPublicKey pubKey,
     required bool isSigner,
-  }) =>
-      AccountMeta(
-        pubKey: pubKey,
-        isWriteable: false,
-        isSigner: isSigner,
-      );
+  }) => AccountMeta(pubKey: pubKey, isWriteable: false, isSigner: isSigner);
 
   /// Merges `this` with [other] by applying the following rules:
   ///

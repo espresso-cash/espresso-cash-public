@@ -5,9 +5,7 @@ part 'parsed_account_key.g.dart';
 
 @JsonSerializable()
 class ParsedAccountKey implements AccountKey {
-  const ParsedAccountKey({
-    required this.pubkey,
-  });
+  const ParsedAccountKey({required this.pubkey});
 
   factory ParsedAccountKey.fromJson(Map<String, dynamic> json) =>
       _$ParsedAccountKeyFromJson(json);

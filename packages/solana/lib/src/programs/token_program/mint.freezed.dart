@@ -12,7 +12,8 @@ part of 'mint.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$Mint {
@@ -49,13 +50,14 @@ abstract class $MintCopyWith<$Res> {
   factory $MintCopyWith(Mint value, $Res Function(Mint) then) =
       _$MintCopyWithImpl<$Res, Mint>;
   @useResult
-  $Res call(
-      {Ed25519HDPublicKey address,
-      BigInt supply,
-      int decimals,
-      Ed25519HDPublicKey? mintAuthority,
-      bool isInitialized,
-      Ed25519HDPublicKey? freezeAuthority});
+  $Res call({
+    Ed25519HDPublicKey address,
+    BigInt supply,
+    int decimals,
+    Ed25519HDPublicKey? mintAuthority,
+    bool isInitialized,
+    Ed25519HDPublicKey? freezeAuthority,
+  });
 }
 
 /// @nodoc
@@ -80,49 +82,60 @@ class _$MintCopyWithImpl<$Res, $Val extends Mint>
     Object? isInitialized = null,
     Object? freezeAuthority = freezed,
   }) {
-    return _then(_value.copyWith(
-      address: null == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as Ed25519HDPublicKey,
-      supply: null == supply
-          ? _value.supply
-          : supply // ignore: cast_nullable_to_non_nullable
-              as BigInt,
-      decimals: null == decimals
-          ? _value.decimals
-          : decimals // ignore: cast_nullable_to_non_nullable
-              as int,
-      mintAuthority: freezed == mintAuthority
-          ? _value.mintAuthority
-          : mintAuthority // ignore: cast_nullable_to_non_nullable
-              as Ed25519HDPublicKey?,
-      isInitialized: null == isInitialized
-          ? _value.isInitialized
-          : isInitialized // ignore: cast_nullable_to_non_nullable
-              as bool,
-      freezeAuthority: freezed == freezeAuthority
-          ? _value.freezeAuthority
-          : freezeAuthority // ignore: cast_nullable_to_non_nullable
-              as Ed25519HDPublicKey?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            address:
+                null == address
+                    ? _value.address
+                    : address // ignore: cast_nullable_to_non_nullable
+                        as Ed25519HDPublicKey,
+            supply:
+                null == supply
+                    ? _value.supply
+                    : supply // ignore: cast_nullable_to_non_nullable
+                        as BigInt,
+            decimals:
+                null == decimals
+                    ? _value.decimals
+                    : decimals // ignore: cast_nullable_to_non_nullable
+                        as int,
+            mintAuthority:
+                freezed == mintAuthority
+                    ? _value.mintAuthority
+                    : mintAuthority // ignore: cast_nullable_to_non_nullable
+                        as Ed25519HDPublicKey?,
+            isInitialized:
+                null == isInitialized
+                    ? _value.isInitialized
+                    : isInitialized // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            freezeAuthority:
+                freezed == freezeAuthority
+                    ? _value.freezeAuthority
+                    : freezeAuthority // ignore: cast_nullable_to_non_nullable
+                        as Ed25519HDPublicKey?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$MintImplCopyWith<$Res> implements $MintCopyWith<$Res> {
   factory _$$MintImplCopyWith(
-          _$MintImpl value, $Res Function(_$MintImpl) then) =
-      __$$MintImplCopyWithImpl<$Res>;
+    _$MintImpl value,
+    $Res Function(_$MintImpl) then,
+  ) = __$$MintImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {Ed25519HDPublicKey address,
-      BigInt supply,
-      int decimals,
-      Ed25519HDPublicKey? mintAuthority,
-      bool isInitialized,
-      Ed25519HDPublicKey? freezeAuthority});
+  $Res call({
+    Ed25519HDPublicKey address,
+    BigInt supply,
+    int decimals,
+    Ed25519HDPublicKey? mintAuthority,
+    bool isInitialized,
+    Ed25519HDPublicKey? freezeAuthority,
+  });
 }
 
 /// @nodoc
@@ -130,7 +143,7 @@ class __$$MintImplCopyWithImpl<$Res>
     extends _$MintCopyWithImpl<$Res, _$MintImpl>
     implements _$$MintImplCopyWith<$Res> {
   __$$MintImplCopyWithImpl(_$MintImpl _value, $Res Function(_$MintImpl) _then)
-      : super(_value, _then);
+    : super(_value, _then);
 
   /// Create a copy of Mint
   /// with the given fields replaced by the non-null parameter values.
@@ -144,45 +157,54 @@ class __$$MintImplCopyWithImpl<$Res>
     Object? isInitialized = null,
     Object? freezeAuthority = freezed,
   }) {
-    return _then(_$MintImpl(
-      address: null == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as Ed25519HDPublicKey,
-      supply: null == supply
-          ? _value.supply
-          : supply // ignore: cast_nullable_to_non_nullable
-              as BigInt,
-      decimals: null == decimals
-          ? _value.decimals
-          : decimals // ignore: cast_nullable_to_non_nullable
-              as int,
-      mintAuthority: freezed == mintAuthority
-          ? _value.mintAuthority
-          : mintAuthority // ignore: cast_nullable_to_non_nullable
-              as Ed25519HDPublicKey?,
-      isInitialized: null == isInitialized
-          ? _value.isInitialized
-          : isInitialized // ignore: cast_nullable_to_non_nullable
-              as bool,
-      freezeAuthority: freezed == freezeAuthority
-          ? _value.freezeAuthority
-          : freezeAuthority // ignore: cast_nullable_to_non_nullable
-              as Ed25519HDPublicKey?,
-    ));
+    return _then(
+      _$MintImpl(
+        address:
+            null == address
+                ? _value.address
+                : address // ignore: cast_nullable_to_non_nullable
+                    as Ed25519HDPublicKey,
+        supply:
+            null == supply
+                ? _value.supply
+                : supply // ignore: cast_nullable_to_non_nullable
+                    as BigInt,
+        decimals:
+            null == decimals
+                ? _value.decimals
+                : decimals // ignore: cast_nullable_to_non_nullable
+                    as int,
+        mintAuthority:
+            freezed == mintAuthority
+                ? _value.mintAuthority
+                : mintAuthority // ignore: cast_nullable_to_non_nullable
+                    as Ed25519HDPublicKey?,
+        isInitialized:
+            null == isInitialized
+                ? _value.isInitialized
+                : isInitialized // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        freezeAuthority:
+            freezed == freezeAuthority
+                ? _value.freezeAuthority
+                : freezeAuthority // ignore: cast_nullable_to_non_nullable
+                    as Ed25519HDPublicKey?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$MintImpl implements _Mint {
-  const _$MintImpl(
-      {required this.address,
-      required this.supply,
-      required this.decimals,
-      this.mintAuthority,
-      required this.isInitialized,
-      this.freezeAuthority});
+  const _$MintImpl({
+    required this.address,
+    required this.supply,
+    required this.decimals,
+    this.mintAuthority,
+    required this.isInitialized,
+    this.freezeAuthority,
+  });
 
   /// Address of the mint
   @override
@@ -235,8 +257,15 @@ class _$MintImpl implements _Mint {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, address, supply, decimals,
-      mintAuthority, isInitialized, freezeAuthority);
+  int get hashCode => Object.hash(
+    runtimeType,
+    address,
+    supply,
+    decimals,
+    mintAuthority,
+    isInitialized,
+    freezeAuthority,
+  );
 
   /// Create a copy of Mint
   /// with the given fields replaced by the non-null parameter values.
@@ -248,13 +277,14 @@ class _$MintImpl implements _Mint {
 }
 
 abstract class _Mint implements Mint {
-  const factory _Mint(
-      {required final Ed25519HDPublicKey address,
-      required final BigInt supply,
-      required final int decimals,
-      final Ed25519HDPublicKey? mintAuthority,
-      required final bool isInitialized,
-      final Ed25519HDPublicKey? freezeAuthority}) = _$MintImpl;
+  const factory _Mint({
+    required final Ed25519HDPublicKey address,
+    required final BigInt supply,
+    required final int decimals,
+    final Ed25519HDPublicKey? mintAuthority,
+    required final bool isInitialized,
+    final Ed25519HDPublicKey? freezeAuthority,
+  }) = _$MintImpl;
 
   /// Address of the mint
   @override

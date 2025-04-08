@@ -154,9 +154,6 @@ void main() {
       accountKeysFromLookups: accountKeysFromLookups,
     );
 
-    expect(
-      () => accountKeys.compileInstructions([]),
-      throwsException,
-    );
+    expect(() => accountKeys.compileInstructions([]), throwsException);
   });
 }

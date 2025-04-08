@@ -21,17 +21,18 @@ Map<String, dynamic> _$JsonRpcExceptionToJson(JsonRpcException instance) =>
     };
 
 _TransactionErrorData _$TransactionErrorDataFromJson(
-        Map<String, dynamic> json) =>
-    _TransactionErrorData(
-      $enumDecode(_$TransactionErrorEnumMap, json['err'],
-          unknownValue: TransactionError.other),
-    );
+  Map<String, dynamic> json,
+) => _TransactionErrorData(
+  $enumDecode(
+    _$TransactionErrorEnumMap,
+    json['err'],
+    unknownValue: TransactionError.other,
+  ),
+);
 
 Map<String, dynamic> _$TransactionErrorDataToJson(
-        _TransactionErrorData instance) =>
-    <String, dynamic>{
-      'err': _$TransactionErrorEnumMap[instance.err]!,
-    };
+  _TransactionErrorData instance,
+) => <String, dynamic>{'err': _$TransactionErrorEnumMap[instance.err]!};
 
 const _$TransactionErrorEnumMap = {
   TransactionError.accountInUse: 'AccountInUse',

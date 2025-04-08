@@ -5,10 +5,7 @@ part 'return_data.g.dart';
 /// A ReturnData
 @JsonSerializable()
 class ReturnData {
-  const ReturnData({
-    required this.programId,
-    required this.data,
-  });
+  const ReturnData({required this.programId, required this.data});
 
   factory ReturnData.fromJson(Map<String, dynamic> json) =>
       _$ReturnDataFromJson(json);

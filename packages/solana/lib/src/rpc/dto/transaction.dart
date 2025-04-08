@@ -9,10 +9,10 @@ part 'transaction.g.dart';
 
 abstract class Transaction {
   factory Transaction.fromJson(dynamic data) => parseWithEncoding(
-        data,
-        fromEncoded: RawTransaction.new,
-        fromParsed: ParsedTransaction.fromJson,
-      );
+    data,
+    fromEncoded: RawTransaction.new,
+    fromParsed: ParsedTransaction.fromJson,
+  );
 
   dynamic toJson();
 }
@@ -20,10 +20,7 @@ abstract class Transaction {
 /// A transaction
 @JsonSerializable()
 class ParsedTransaction implements Transaction {
-  const ParsedTransaction({
-    required this.signatures,
-    required this.message,
-  });
+  const ParsedTransaction({required this.signatures, required this.message});
 
   factory ParsedTransaction.fromJson(Map<String, dynamic> json) =>
       _$ParsedTransactionFromJson(json);

@@ -12,7 +12,8 @@ part of 'compiled_key_meta.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$CompiledKeyMeta {
@@ -30,8 +31,9 @@ mixin _$CompiledKeyMeta {
 /// @nodoc
 abstract class $CompiledKeyMetaCopyWith<$Res> {
   factory $CompiledKeyMetaCopyWith(
-          CompiledKeyMeta value, $Res Function(CompiledKeyMeta) then) =
-      _$CompiledKeyMetaCopyWithImpl<$Res, CompiledKeyMeta>;
+    CompiledKeyMeta value,
+    $Res Function(CompiledKeyMeta) then,
+  ) = _$CompiledKeyMetaCopyWithImpl<$Res, CompiledKeyMeta>;
   @useResult
   $Res call({bool isSigner, bool isWritable, bool isInvoked});
 }
@@ -55,29 +57,36 @@ class _$CompiledKeyMetaCopyWithImpl<$Res, $Val extends CompiledKeyMeta>
     Object? isWritable = null,
     Object? isInvoked = null,
   }) {
-    return _then(_value.copyWith(
-      isSigner: null == isSigner
-          ? _value.isSigner
-          : isSigner // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isWritable: null == isWritable
-          ? _value.isWritable
-          : isWritable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isInvoked: null == isInvoked
-          ? _value.isInvoked
-          : isInvoked // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            isSigner:
+                null == isSigner
+                    ? _value.isSigner
+                    : isSigner // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            isWritable:
+                null == isWritable
+                    ? _value.isWritable
+                    : isWritable // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            isInvoked:
+                null == isInvoked
+                    ? _value.isInvoked
+                    : isInvoked // ignore: cast_nullable_to_non_nullable
+                        as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$CompiledKeyMetaImplCopyWith<$Res>
     implements $CompiledKeyMetaCopyWith<$Res> {
-  factory _$$CompiledKeyMetaImplCopyWith(_$CompiledKeyMetaImpl value,
-          $Res Function(_$CompiledKeyMetaImpl) then) =
-      __$$CompiledKeyMetaImplCopyWithImpl<$Res>;
+  factory _$$CompiledKeyMetaImplCopyWith(
+    _$CompiledKeyMetaImpl value,
+    $Res Function(_$CompiledKeyMetaImpl) then,
+  ) = __$$CompiledKeyMetaImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool isSigner, bool isWritable, bool isInvoked});
@@ -88,8 +97,9 @@ class __$$CompiledKeyMetaImplCopyWithImpl<$Res>
     extends _$CompiledKeyMetaCopyWithImpl<$Res, _$CompiledKeyMetaImpl>
     implements _$$CompiledKeyMetaImplCopyWith<$Res> {
   __$$CompiledKeyMetaImplCopyWithImpl(
-      _$CompiledKeyMetaImpl _value, $Res Function(_$CompiledKeyMetaImpl) _then)
-      : super(_value, _then);
+    _$CompiledKeyMetaImpl _value,
+    $Res Function(_$CompiledKeyMetaImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of CompiledKeyMeta
   /// with the given fields replaced by the non-null parameter values.
@@ -100,30 +110,36 @@ class __$$CompiledKeyMetaImplCopyWithImpl<$Res>
     Object? isWritable = null,
     Object? isInvoked = null,
   }) {
-    return _then(_$CompiledKeyMetaImpl(
-      isSigner: null == isSigner
-          ? _value.isSigner
-          : isSigner // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isWritable: null == isWritable
-          ? _value.isWritable
-          : isWritable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isInvoked: null == isInvoked
-          ? _value.isInvoked
-          : isInvoked // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$CompiledKeyMetaImpl(
+        isSigner:
+            null == isSigner
+                ? _value.isSigner
+                : isSigner // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        isWritable:
+            null == isWritable
+                ? _value.isWritable
+                : isWritable // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        isInvoked:
+            null == isInvoked
+                ? _value.isInvoked
+                : isInvoked // ignore: cast_nullable_to_non_nullable
+                    as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$CompiledKeyMetaImpl implements _CompiledKeyMeta {
-  const _$CompiledKeyMetaImpl(
-      {required this.isSigner,
-      required this.isWritable,
-      required this.isInvoked});
+  const _$CompiledKeyMetaImpl({
+    required this.isSigner,
+    required this.isWritable,
+    required this.isInvoked,
+  });
 
   @override
   final bool isSigner;
@@ -160,14 +176,17 @@ class _$CompiledKeyMetaImpl implements _CompiledKeyMeta {
   @pragma('vm:prefer-inline')
   _$$CompiledKeyMetaImplCopyWith<_$CompiledKeyMetaImpl> get copyWith =>
       __$$CompiledKeyMetaImplCopyWithImpl<_$CompiledKeyMetaImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _CompiledKeyMeta implements CompiledKeyMeta {
-  const factory _CompiledKeyMeta(
-      {required final bool isSigner,
-      required final bool isWritable,
-      required final bool isInvoked}) = _$CompiledKeyMetaImpl;
+  const factory _CompiledKeyMeta({
+    required final bool isSigner,
+    required final bool isWritable,
+    required final bool isInvoked,
+  }) = _$CompiledKeyMetaImpl;
 
   @override
   bool get isSigner;

@@ -12,6 +12,4 @@ FeeCalculator _$FeeCalculatorFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$FeeCalculatorToJson(FeeCalculator instance) =>
-    <String, dynamic>{
-      'lamportsPerSignature': instance.lamportsPerSignature,
-    };
+    <String, dynamic>{'lamportsPerSignature': instance.lamportsPerSignature};

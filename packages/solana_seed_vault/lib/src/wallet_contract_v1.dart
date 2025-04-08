@@ -72,8 +72,9 @@ class WalletContractV1 {
 
   static const authorityWalletProvider = '$authorityWallet.walletprovider';
 
-  final Uri walletProviderContentUriBase =
-      Uri.parse('content://$authorityWalletProvider');
+  final Uri walletProviderContentUriBase = Uri.parse(
+    'content://$authorityWalletProvider',
+  );
 
   static const authorizedSeedsTable = 'authorizedseeds';
 

@@ -12,7 +12,8 @@ part of 'swap.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 SwapRouteRequestDto _$SwapRouteRequestDtoFromJson(Map<String, dynamic> json) {
   return _SwapRouteRequestDto.fromJson(json);
@@ -41,17 +42,19 @@ mixin _$SwapRouteRequestDto {
 /// @nodoc
 abstract class $SwapRouteRequestDtoCopyWith<$Res> {
   factory $SwapRouteRequestDtoCopyWith(
-          SwapRouteRequestDto value, $Res Function(SwapRouteRequestDto) then) =
-      _$SwapRouteRequestDtoCopyWithImpl<$Res, SwapRouteRequestDto>;
+    SwapRouteRequestDto value,
+    $Res Function(SwapRouteRequestDto) then,
+  ) = _$SwapRouteRequestDtoCopyWithImpl<$Res, SwapRouteRequestDto>;
   @useResult
-  $Res call(
-      {String inputToken,
-      String outputToken,
-      String amount,
-      SwapMatch match,
-      SwapSlippage slippage,
-      String userAccount,
-      bool asLegacyTx});
+  $Res call({
+    String inputToken,
+    String outputToken,
+    String amount,
+    SwapMatch match,
+    SwapSlippage slippage,
+    String userAccount,
+    bool asLegacyTx,
+  });
 }
 
 /// @nodoc
@@ -77,64 +80,77 @@ class _$SwapRouteRequestDtoCopyWithImpl<$Res, $Val extends SwapRouteRequestDto>
     Object? userAccount = null,
     Object? asLegacyTx = null,
   }) {
-    return _then(_value.copyWith(
-      inputToken: null == inputToken
-          ? _value.inputToken
-          : inputToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      outputToken: null == outputToken
-          ? _value.outputToken
-          : outputToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      match: null == match
-          ? _value.match
-          : match // ignore: cast_nullable_to_non_nullable
-              as SwapMatch,
-      slippage: null == slippage
-          ? _value.slippage
-          : slippage // ignore: cast_nullable_to_non_nullable
-              as SwapSlippage,
-      userAccount: null == userAccount
-          ? _value.userAccount
-          : userAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      asLegacyTx: null == asLegacyTx
-          ? _value.asLegacyTx
-          : asLegacyTx // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            inputToken:
+                null == inputToken
+                    ? _value.inputToken
+                    : inputToken // ignore: cast_nullable_to_non_nullable
+                        as String,
+            outputToken:
+                null == outputToken
+                    ? _value.outputToken
+                    : outputToken // ignore: cast_nullable_to_non_nullable
+                        as String,
+            amount:
+                null == amount
+                    ? _value.amount
+                    : amount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            match:
+                null == match
+                    ? _value.match
+                    : match // ignore: cast_nullable_to_non_nullable
+                        as SwapMatch,
+            slippage:
+                null == slippage
+                    ? _value.slippage
+                    : slippage // ignore: cast_nullable_to_non_nullable
+                        as SwapSlippage,
+            userAccount:
+                null == userAccount
+                    ? _value.userAccount
+                    : userAccount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            asLegacyTx:
+                null == asLegacyTx
+                    ? _value.asLegacyTx
+                    : asLegacyTx // ignore: cast_nullable_to_non_nullable
+                        as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$SwapRouteRequestDtoImplCopyWith<$Res>
     implements $SwapRouteRequestDtoCopyWith<$Res> {
-  factory _$$SwapRouteRequestDtoImplCopyWith(_$SwapRouteRequestDtoImpl value,
-          $Res Function(_$SwapRouteRequestDtoImpl) then) =
-      __$$SwapRouteRequestDtoImplCopyWithImpl<$Res>;
+  factory _$$SwapRouteRequestDtoImplCopyWith(
+    _$SwapRouteRequestDtoImpl value,
+    $Res Function(_$SwapRouteRequestDtoImpl) then,
+  ) = __$$SwapRouteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String inputToken,
-      String outputToken,
-      String amount,
-      SwapMatch match,
-      SwapSlippage slippage,
-      String userAccount,
-      bool asLegacyTx});
+  $Res call({
+    String inputToken,
+    String outputToken,
+    String amount,
+    SwapMatch match,
+    SwapSlippage slippage,
+    String userAccount,
+    bool asLegacyTx,
+  });
 }
 
 /// @nodoc
 class __$$SwapRouteRequestDtoImplCopyWithImpl<$Res>
     extends _$SwapRouteRequestDtoCopyWithImpl<$Res, _$SwapRouteRequestDtoImpl>
     implements _$$SwapRouteRequestDtoImplCopyWith<$Res> {
-  __$$SwapRouteRequestDtoImplCopyWithImpl(_$SwapRouteRequestDtoImpl _value,
-      $Res Function(_$SwapRouteRequestDtoImpl) _then)
-      : super(_value, _then);
+  __$$SwapRouteRequestDtoImplCopyWithImpl(
+    _$SwapRouteRequestDtoImpl _value,
+    $Res Function(_$SwapRouteRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SwapRouteRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -149,50 +165,60 @@ class __$$SwapRouteRequestDtoImplCopyWithImpl<$Res>
     Object? userAccount = null,
     Object? asLegacyTx = null,
   }) {
-    return _then(_$SwapRouteRequestDtoImpl(
-      inputToken: null == inputToken
-          ? _value.inputToken
-          : inputToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      outputToken: null == outputToken
-          ? _value.outputToken
-          : outputToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      match: null == match
-          ? _value.match
-          : match // ignore: cast_nullable_to_non_nullable
-              as SwapMatch,
-      slippage: null == slippage
-          ? _value.slippage
-          : slippage // ignore: cast_nullable_to_non_nullable
-              as SwapSlippage,
-      userAccount: null == userAccount
-          ? _value.userAccount
-          : userAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      asLegacyTx: null == asLegacyTx
-          ? _value.asLegacyTx
-          : asLegacyTx // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$SwapRouteRequestDtoImpl(
+        inputToken:
+            null == inputToken
+                ? _value.inputToken
+                : inputToken // ignore: cast_nullable_to_non_nullable
+                    as String,
+        outputToken:
+            null == outputToken
+                ? _value.outputToken
+                : outputToken // ignore: cast_nullable_to_non_nullable
+                    as String,
+        amount:
+            null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        match:
+            null == match
+                ? _value.match
+                : match // ignore: cast_nullable_to_non_nullable
+                    as SwapMatch,
+        slippage:
+            null == slippage
+                ? _value.slippage
+                : slippage // ignore: cast_nullable_to_non_nullable
+                    as SwapSlippage,
+        userAccount:
+            null == userAccount
+                ? _value.userAccount
+                : userAccount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        asLegacyTx:
+            null == asLegacyTx
+                ? _value.asLegacyTx
+                : asLegacyTx // ignore: cast_nullable_to_non_nullable
+                    as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SwapRouteRequestDtoImpl implements _SwapRouteRequestDto {
-  const _$SwapRouteRequestDtoImpl(
-      {required this.inputToken,
-      required this.outputToken,
-      required this.amount,
-      required this.match,
-      required this.slippage,
-      required this.userAccount,
-      this.asLegacyTx = true});
+  const _$SwapRouteRequestDtoImpl({
+    required this.inputToken,
+    required this.outputToken,
+    required this.amount,
+    required this.match,
+    required this.slippage,
+    required this.userAccount,
+    this.asLegacyTx = true,
+  });
 
   factory _$SwapRouteRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$SwapRouteRequestDtoImplFromJson(json);
@@ -239,8 +265,16 @@ class _$SwapRouteRequestDtoImpl implements _SwapRouteRequestDto {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, inputToken, outputToken, amount,
-      match, slippage, userAccount, asLegacyTx);
+  int get hashCode => Object.hash(
+    runtimeType,
+    inputToken,
+    outputToken,
+    amount,
+    match,
+    slippage,
+    userAccount,
+    asLegacyTx,
+  );
 
   /// Create a copy of SwapRouteRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -249,25 +283,26 @@ class _$SwapRouteRequestDtoImpl implements _SwapRouteRequestDto {
   @pragma('vm:prefer-inline')
   _$$SwapRouteRequestDtoImplCopyWith<_$SwapRouteRequestDtoImpl> get copyWith =>
       __$$SwapRouteRequestDtoImplCopyWithImpl<_$SwapRouteRequestDtoImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SwapRouteRequestDtoImplToJson(
-      this,
-    );
+    return _$$SwapRouteRequestDtoImplToJson(this);
   }
 }
 
 abstract class _SwapRouteRequestDto implements SwapRouteRequestDto {
-  const factory _SwapRouteRequestDto(
-      {required final String inputToken,
-      required final String outputToken,
-      required final String amount,
-      required final SwapMatch match,
-      required final SwapSlippage slippage,
-      required final String userAccount,
-      final bool asLegacyTx}) = _$SwapRouteRequestDtoImpl;
+  const factory _SwapRouteRequestDto({
+    required final String inputToken,
+    required final String outputToken,
+    required final String amount,
+    required final SwapMatch match,
+    required final SwapSlippage slippage,
+    required final String userAccount,
+    final bool asLegacyTx,
+  }) = _$SwapRouteRequestDtoImpl;
 
   factory _SwapRouteRequestDto.fromJson(Map<String, dynamic> json) =
       _$SwapRouteRequestDtoImpl.fromJson;
@@ -320,22 +355,26 @@ mixin _$SwapRouteResponseDto {
 
 /// @nodoc
 abstract class $SwapRouteResponseDtoCopyWith<$Res> {
-  factory $SwapRouteResponseDtoCopyWith(SwapRouteResponseDto value,
-          $Res Function(SwapRouteResponseDto) then) =
-      _$SwapRouteResponseDtoCopyWithImpl<$Res, SwapRouteResponseDto>;
+  factory $SwapRouteResponseDtoCopyWith(
+    SwapRouteResponseDto value,
+    $Res Function(SwapRouteResponseDto) then,
+  ) = _$SwapRouteResponseDtoCopyWithImpl<$Res, SwapRouteResponseDto>;
   @useResult
-  $Res call(
-      {String inAmount,
-      String outAmount,
-      String amount,
-      String encodedTx,
-      int feeInUsdc,
-      BigInt slot});
+  $Res call({
+    String inAmount,
+    String outAmount,
+    String amount,
+    String encodedTx,
+    int feeInUsdc,
+    BigInt slot,
+  });
 }
 
 /// @nodoc
-class _$SwapRouteResponseDtoCopyWithImpl<$Res,
-        $Val extends SwapRouteResponseDto>
+class _$SwapRouteResponseDtoCopyWithImpl<
+  $Res,
+  $Val extends SwapRouteResponseDto
+>
     implements $SwapRouteResponseDtoCopyWith<$Res> {
   _$SwapRouteResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -356,59 +395,71 @@ class _$SwapRouteResponseDtoCopyWithImpl<$Res,
     Object? feeInUsdc = null,
     Object? slot = null,
   }) {
-    return _then(_value.copyWith(
-      inAmount: null == inAmount
-          ? _value.inAmount
-          : inAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      outAmount: null == outAmount
-          ? _value.outAmount
-          : outAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      encodedTx: null == encodedTx
-          ? _value.encodedTx
-          : encodedTx // ignore: cast_nullable_to_non_nullable
-              as String,
-      feeInUsdc: null == feeInUsdc
-          ? _value.feeInUsdc
-          : feeInUsdc // ignore: cast_nullable_to_non_nullable
-              as int,
-      slot: null == slot
-          ? _value.slot
-          : slot // ignore: cast_nullable_to_non_nullable
-              as BigInt,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            inAmount:
+                null == inAmount
+                    ? _value.inAmount
+                    : inAmount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            outAmount:
+                null == outAmount
+                    ? _value.outAmount
+                    : outAmount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            amount:
+                null == amount
+                    ? _value.amount
+                    : amount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            encodedTx:
+                null == encodedTx
+                    ? _value.encodedTx
+                    : encodedTx // ignore: cast_nullable_to_non_nullable
+                        as String,
+            feeInUsdc:
+                null == feeInUsdc
+                    ? _value.feeInUsdc
+                    : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                        as int,
+            slot:
+                null == slot
+                    ? _value.slot
+                    : slot // ignore: cast_nullable_to_non_nullable
+                        as BigInt,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$SwapRouteResponseDtoImplCopyWith<$Res>
     implements $SwapRouteResponseDtoCopyWith<$Res> {
-  factory _$$SwapRouteResponseDtoImplCopyWith(_$SwapRouteResponseDtoImpl value,
-          $Res Function(_$SwapRouteResponseDtoImpl) then) =
-      __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$SwapRouteResponseDtoImplCopyWith(
+    _$SwapRouteResponseDtoImpl value,
+    $Res Function(_$SwapRouteResponseDtoImpl) then,
+  ) = __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String inAmount,
-      String outAmount,
-      String amount,
-      String encodedTx,
-      int feeInUsdc,
-      BigInt slot});
+  $Res call({
+    String inAmount,
+    String outAmount,
+    String amount,
+    String encodedTx,
+    int feeInUsdc,
+    BigInt slot,
+  });
 }
 
 /// @nodoc
 class __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>
     extends _$SwapRouteResponseDtoCopyWithImpl<$Res, _$SwapRouteResponseDtoImpl>
     implements _$$SwapRouteResponseDtoImplCopyWith<$Res> {
-  __$$SwapRouteResponseDtoImplCopyWithImpl(_$SwapRouteResponseDtoImpl _value,
-      $Res Function(_$SwapRouteResponseDtoImpl) _then)
-      : super(_value, _then);
+  __$$SwapRouteResponseDtoImplCopyWithImpl(
+    _$SwapRouteResponseDtoImpl _value,
+    $Res Function(_$SwapRouteResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SwapRouteResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -422,45 +473,54 @@ class __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>
     Object? feeInUsdc = null,
     Object? slot = null,
   }) {
-    return _then(_$SwapRouteResponseDtoImpl(
-      inAmount: null == inAmount
-          ? _value.inAmount
-          : inAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      outAmount: null == outAmount
-          ? _value.outAmount
-          : outAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      encodedTx: null == encodedTx
-          ? _value.encodedTx
-          : encodedTx // ignore: cast_nullable_to_non_nullable
-              as String,
-      feeInUsdc: null == feeInUsdc
-          ? _value.feeInUsdc
-          : feeInUsdc // ignore: cast_nullable_to_non_nullable
-              as int,
-      slot: null == slot
-          ? _value.slot
-          : slot // ignore: cast_nullable_to_non_nullable
-              as BigInt,
-    ));
+    return _then(
+      _$SwapRouteResponseDtoImpl(
+        inAmount:
+            null == inAmount
+                ? _value.inAmount
+                : inAmount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        outAmount:
+            null == outAmount
+                ? _value.outAmount
+                : outAmount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        amount:
+            null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        encodedTx:
+            null == encodedTx
+                ? _value.encodedTx
+                : encodedTx // ignore: cast_nullable_to_non_nullable
+                    as String,
+        feeInUsdc:
+            null == feeInUsdc
+                ? _value.feeInUsdc
+                : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                    as int,
+        slot:
+            null == slot
+                ? _value.slot
+                : slot // ignore: cast_nullable_to_non_nullable
+                    as BigInt,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
-  const _$SwapRouteResponseDtoImpl(
-      {required this.inAmount,
-      required this.outAmount,
-      required this.amount,
-      required this.encodedTx,
-      required this.feeInUsdc,
-      required this.slot});
+  const _$SwapRouteResponseDtoImpl({
+    required this.inAmount,
+    required this.outAmount,
+    required this.amount,
+    required this.encodedTx,
+    required this.feeInUsdc,
+    required this.slot,
+  });
 
   factory _$SwapRouteResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$SwapRouteResponseDtoImplFromJson(json);
@@ -503,7 +563,14 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, inAmount, outAmount, amount, encodedTx, feeInUsdc, slot);
+    runtimeType,
+    inAmount,
+    outAmount,
+    amount,
+    encodedTx,
+    feeInUsdc,
+    slot,
+  );
 
   /// Create a copy of SwapRouteResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -511,26 +578,27 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
   @override
   @pragma('vm:prefer-inline')
   _$$SwapRouteResponseDtoImplCopyWith<_$SwapRouteResponseDtoImpl>
-      get copyWith =>
-          __$$SwapRouteResponseDtoImplCopyWithImpl<_$SwapRouteResponseDtoImpl>(
-              this, _$identity);
+  get copyWith =>
+      __$$SwapRouteResponseDtoImplCopyWithImpl<_$SwapRouteResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SwapRouteResponseDtoImplToJson(
-      this,
-    );
+    return _$$SwapRouteResponseDtoImplToJson(this);
   }
 }
 
 abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
-  const factory _SwapRouteResponseDto(
-      {required final String inAmount,
-      required final String outAmount,
-      required final String amount,
-      required final String encodedTx,
-      required final int feeInUsdc,
-      required final BigInt slot}) = _$SwapRouteResponseDtoImpl;
+  const factory _SwapRouteResponseDto({
+    required final String inAmount,
+    required final String outAmount,
+    required final String amount,
+    required final String encodedTx,
+    required final int feeInUsdc,
+    required final BigInt slot,
+  }) = _$SwapRouteResponseDtoImpl;
 
   factory _SwapRouteResponseDto.fromJson(Map<String, dynamic> json) =
       _$SwapRouteResponseDtoImpl.fromJson;
@@ -553,5 +621,5 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SwapRouteResponseDtoImplCopyWith<_$SwapRouteResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }

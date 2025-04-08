@@ -7,16 +7,14 @@ part of 'exception.dart';
 // **************************************************************************
 
 EspressoCashException _$EspressoCashExceptionFromJson(
-        Map<String, dynamic> json) =>
-    EspressoCashException(
-      error: $enumDecode(_$EspressoCashErrorEnumMap, json['error']),
-    );
+  Map<String, dynamic> json,
+) => EspressoCashException(
+  error: $enumDecode(_$EspressoCashErrorEnumMap, json['error']),
+);
 
 Map<String, dynamic> _$EspressoCashExceptionToJson(
-        EspressoCashException instance) =>
-    <String, dynamic>{
-      'error': _$EspressoCashErrorEnumMap[instance.error]!,
-    };
+  EspressoCashException instance,
+) => <String, dynamic>{'error': _$EspressoCashErrorEnumMap[instance.error]!};
 
 const _$EspressoCashErrorEnumMap = {
   EspressoCashError.invalidEscrowAccount: 'InvalidEscrowAccount',

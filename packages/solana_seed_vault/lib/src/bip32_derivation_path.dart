@@ -6,9 +6,10 @@ class Bip32DerivationPath {
       '',
       WalletContractV1.bip32UriMasterKeyIndicator,
       ...bipLevels.map(
-        (it) => it.hardened
-            ? '${it.index}${WalletContractV1.bipUriHardenedIndexIdentifier}'
-            : it.index.toString(),
+        (it) =>
+            it.hardened
+                ? '${it.index}${WalletContractV1.bipUriHardenedIndexIdentifier}'
+                : it.index.toString(),
       ),
     ];
 
@@ -45,27 +46,26 @@ class Bip32DerivationPath {
       );
     }
 
-    return path.skip(1).map(
-      (it) {
-        final hardened =
-            it.endsWith(WalletContractV1.bipUriHardenedIndexIdentifier);
-        final index = int.tryParse(
-          it.substring(
-            0,
-            it.length -
-                (hardened
-                    ? WalletContractV1.bipUriHardenedIndexIdentifier.length
-                    : 0),
-          ),
+    return path.skip(1).map((it) {
+      final hardened = it.endsWith(
+        WalletContractV1.bipUriHardenedIndexIdentifier,
+      );
+      final index = int.tryParse(
+        it.substring(
+          0,
+          it.length -
+              (hardened
+                  ? WalletContractV1.bipUriHardenedIndexIdentifier.length
+                  : 0),
+        ),
+      );
+      if (index == null) {
+        throw UnsupportedError(
+          'Path element $it could not be parsed as a BIP32 level',
         );
-        if (index == null) {
-          throw UnsupportedError(
-            'Path element $it could not be parsed as a BIP32 level',
-          );
-        }
+      }
 
-        return BipLevel(index: index, hardened: hardened);
-      },
-    ).toList();
+      return BipLevel(index: index, hardened: hardened);
+    }).toList();
   }
 }

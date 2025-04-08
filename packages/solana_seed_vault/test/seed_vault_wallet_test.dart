@@ -45,12 +45,11 @@ void main() {
   test('Get Implementation Limits for Purpose', () async {
     when(
       apiHost.getImplementationLimitsForPurpose(any),
-    ).thenAnswer(
-      (_) async => {},
-    );
+    ).thenAnswer((_) async => {});
 
-    final result = await SeedVault.instance
-        .getImplementationLimitsForPurpose(Purpose.signSolanaTransaction);
+    final result = await SeedVault.instance.getImplementationLimitsForPurpose(
+      Purpose.signSolanaTransaction,
+    );
 
     expect(result, isA<CursorData>());
     verify(apiHost.getImplementationLimitsForPurpose(any)).called(1);
@@ -58,11 +57,7 @@ void main() {
   });
 
   test('Get Authorized Seed', () async {
-    when(
-      apiHost.getAuthorizedSeeds(any, any, any),
-    ).thenAnswer(
-      (_) async => [],
-    );
+    when(apiHost.getAuthorizedSeeds(any, any, any)).thenAnswer((_) async => []);
 
     final result = await SeedVault.instance.getAuthorizedSeeds();
 
@@ -74,11 +69,7 @@ void main() {
   test('Get Accounts', () async {
     final authToken = createFakeAuthToken();
 
-    when(
-      apiHost.getAccounts(any, any, any, any),
-    ).thenAnswer(
-      (_) async => [],
-    );
+    when(apiHost.getAccounts(any, any, any, any)).thenAnswer((_) async => []);
 
     final result = await SeedVault.instance.getAccounts(authToken: authToken);
 
@@ -90,9 +81,7 @@ void main() {
   test('Resolve Derivation Path', () async {
     when(
       apiHost.resolveDerivationPath(any, any),
-    ).thenAnswer(
-      (_) async => 'bip32:/m',
-    );
+    ).thenAnswer((_) async => 'bip32:/m');
 
     final result = await SeedVault.instance.resolveDerivationPath(
       derivationPath: Uri(),
@@ -122,8 +111,9 @@ void main() {
   test('Update Account IsUserWallet', () async {
     final authToken = createFakeAuthToken();
 
-    when(apiHost.updateAccountIsUserWallet(any, any, any))
-        .thenAnswer(Future.value);
+    when(
+      apiHost.updateAccountIsUserWallet(any, any, any),
+    ).thenAnswer(Future.value);
 
     await SeedVault.instance.updateAccountIsUserWallet(
       authToken: authToken,
@@ -164,12 +154,11 @@ void main() {
   test('Check for unauthorized seeds for sign purpose', () async {
     when(
       apiHost.hasUnauthorizedSeedsForPurpose(any),
-    ).thenAnswer(
-      (_) async => true,
-    );
+    ).thenAnswer((_) async => true);
 
-    final result = await SeedVault.instance
-        .hasUnauthorizedSeedsForPurpose(Purpose.signSolanaTransaction);
+    final result = await SeedVault.instance.hasUnauthorizedSeedsForPurpose(
+      Purpose.signSolanaTransaction,
+    );
 
     expect(result, true);
     verify(apiHost.hasUnauthorizedSeedsForPurpose(any)).called(1);
@@ -181,8 +170,9 @@ void main() {
 
     when(apiHost.authorizeSeed(any)).thenAnswer((_) async => authToken);
 
-    final result =
-        await SeedVault.instance.authorizeSeed(Purpose.signSolanaTransaction);
+    final result = await SeedVault.instance.authorizeSeed(
+      Purpose.signSolanaTransaction,
+    );
 
     expect(result, authToken);
     verify(apiHost.authorizeSeed(any)).called(1);
@@ -194,8 +184,9 @@ void main() {
 
     when(apiHost.createSeed(any)).thenAnswer((_) async => authToken);
 
-    final result =
-        await SeedVault.instance.createSeed(Purpose.signSolanaTransaction);
+    final result = await SeedVault.instance.createSeed(
+      Purpose.signSolanaTransaction,
+    );
 
     expect(result, authToken);
     verify(apiHost.createSeed(any)).called(1);
@@ -207,8 +198,9 @@ void main() {
 
     when(apiHost.importSeed(any)).thenAnswer((_) async => authToken);
 
-    final result =
-        await SeedVault.instance.importSeed(Purpose.signSolanaTransaction);
+    final result = await SeedVault.instance.importSeed(
+      Purpose.signSolanaTransaction,
+    );
 
     expect(result, authToken);
     verify(apiHost.importSeed(any)).called(1);
@@ -219,9 +211,7 @@ void main() {
     final authToken = createFakeAuthToken();
     final uris = ['bip32:/m/0', 'bip32:/m/1'].map(Uri.parse).toList();
 
-    when(
-      apiHost.requestPublicKeys(any, any),
-    ).thenAnswer(
+    when(apiHost.requestPublicKeys(any, any)).thenAnswer(
       (_) async =>
           List.generate(uris.length, (_) => FakePublicKeyResponseDto()),
     );
@@ -244,18 +234,14 @@ void main() {
     final uris = ['bip32:/m/0', 'bip32:/m/1'].map(Uri.parse).toList();
 
     final requests = [
-      SigningRequest(
-        payload: createFakePayload(),
-        requestedSignatures: uris,
-      ),
+      SigningRequest(payload: createFakePayload(), requestedSignatures: uris),
     ];
 
-    when(
-      apiHost.signMessages(any, any),
-    ).thenAnswer(
-      (_) async => requests
-          .map((it) => FakeSigningResponseDto(it.requestedSignatures))
-          .toList(),
+    when(apiHost.signMessages(any, any)).thenAnswer(
+      (_) async =>
+          requests
+              .map((it) => FakeSigningResponseDto(it.requestedSignatures))
+              .toList(),
     );
 
     final result = await SeedVault.instance.signMessages(
@@ -274,18 +260,14 @@ void main() {
     final uris = ['bip32:/m/0', 'bip32:/m/1'].map(Uri.parse).toList();
 
     final requests = [
-      SigningRequest(
-        payload: createFakePayload(),
-        requestedSignatures: uris,
-      ),
+      SigningRequest(payload: createFakePayload(), requestedSignatures: uris),
     ];
 
-    when(
-      apiHost.signTransactions(any, any),
-    ).thenAnswer(
-      (_) async => requests
-          .map((it) => FakeSigningResponseDto(it.requestedSignatures))
-          .toList(),
+    when(apiHost.signTransactions(any, any)).thenAnswer(
+      (_) async =>
+          requests
+              .map((it) => FakeSigningResponseDto(it.requestedSignatures))
+              .toList(),
     );
 
     final result = await SeedVault.instance.signTransactions(
@@ -302,17 +284,17 @@ void main() {
 
 class FakePublicKeyResponseDto extends PublicKeyResponseDto {
   FakePublicKeyResponseDto()
-      : super(
-          resolvedDerivationPath: '',
-          publicKey: Uint8List(1),
-          publicKeyEncoded: '',
-        );
+    : super(
+        resolvedDerivationPath: '',
+        publicKey: Uint8List(1),
+        publicKeyEncoded: '',
+      );
 }
 
 class FakeSigningResponseDto extends SigningResponseDto {
   FakeSigningResponseDto(List<Uri> signers)
-      : super(
-          resolvedDerivationPaths: signers.map((it) => it.toString()).toList(),
-          signatures: signers.map((_) => Uint8List(512)).toList(),
-        );
+    : super(
+        resolvedDerivationPaths: signers.map((it) => it.toString()).toList(),
+        signatures: signers.map((_) => Uint8List(512)).toList(),
+      );
 }

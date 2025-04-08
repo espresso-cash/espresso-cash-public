@@ -7,10 +7,7 @@ import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:solana/src/encoder/message_header.dart';
 
 class CompiledKeys {
-  const CompiledKeys({
-    required this.payer,
-    required this.keyMetaMap,
-  });
+  const CompiledKeys({required this.payer, required this.keyMetaMap});
 
   factory CompiledKeys.compile({
     required List<Instruction> instructions,
@@ -96,14 +93,18 @@ class CompiledKeys {
     }
 
     final staticAccountKeys = [
-      ...writableSigners
-          .map((entry) => Ed25519HDPublicKey.fromBase58(entry.key)),
-      ...readonlySigners
-          .map((entry) => Ed25519HDPublicKey.fromBase58(entry.key)),
-      ...writableNonSigners
-          .map((entry) => Ed25519HDPublicKey.fromBase58(entry.key)),
-      ...readonlyNonSigners
-          .map((entry) => Ed25519HDPublicKey.fromBase58(entry.key)),
+      ...writableSigners.map(
+        (entry) => Ed25519HDPublicKey.fromBase58(entry.key),
+      ),
+      ...readonlySigners.map(
+        (entry) => Ed25519HDPublicKey.fromBase58(entry.key),
+      ),
+      ...writableNonSigners.map(
+        (entry) => Ed25519HDPublicKey.fromBase58(entry.key),
+      ),
+      ...readonlyNonSigners.map(
+        (entry) => Ed25519HDPublicKey.fromBase58(entry.key),
+      ),
     ];
 
     return MessageComponents(header, staticAccountKeys);
@@ -160,8 +161,9 @@ class CompiledKeys {
       if (keyMetaFilter(keyMeta)) {
         final address = entry.key;
         final key = Ed25519HDPublicKey.fromBase58(address);
-        final lookupTableIndex =
-            lookupTableEntries.indexWhere((entry) => entry == key);
+        final lookupTableIndex = lookupTableEntries.indexWhere(
+          (entry) => entry == key,
+        );
         if (lookupTableIndex >= 0) {
           if (lookupTableIndex >= 256) {
             throw const FormatException('Max lookup table index exceeded');

@@ -14,13 +14,14 @@ extension SolanaClientTokenProgram on SolanaClient {
     required Ed25519HDPublicKey address,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final info = await rpcClient
-        .getAccountInfo(
-          address.toBase58(),
-          commitment: commitment,
-          encoding: Encoding.base64,
-        )
-        .value;
+    final info =
+        await rpcClient
+            .getAccountInfo(
+              address.toBase58(),
+              commitment: commitment,
+              encoding: Encoding.base64,
+            )
+            .value;
 
     if (info == null) throw const TokenAccountNotFoundException();
 
@@ -40,9 +41,7 @@ extension SolanaClientTokenProgram on SolanaClient {
   }
 
   /// Get the minimum lamport balance for a rent-exempt mint.
-  Future<int> getMinimumBalanceForMintRentExemption({
-    Commitment? commitment,
-  }) =>
+  Future<int> getMinimumBalanceForMintRentExemption({Commitment? commitment}) =>
       rpcClient.getMinimumBalanceForRentExemption(
         TokenProgram.neededMintAccountSpace,
         commitment: commitment,
@@ -159,8 +158,9 @@ extension SolanaClientTokenProgram on SolanaClient {
 
     final instruction = TokenInstruction.transfer(
       source: Ed25519HDPublicKey.fromBase58(associatedSenderAccount.pubkey),
-      destination:
-          Ed25519HDPublicKey.fromBase58(associatedRecipientAccount.pubkey),
+      destination: Ed25519HDPublicKey.fromBase58(
+        associatedRecipientAccount.pubkey,
+      ),
       owner: owner.publicKey,
       amount: amount,
       tokenProgram: tokenProgram,

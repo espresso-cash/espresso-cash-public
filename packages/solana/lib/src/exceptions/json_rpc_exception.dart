@@ -50,9 +50,10 @@ class JsonRpcException implements Exception {
   Map<String, dynamic> toJson() => _$JsonRpcExceptionToJson(this);
 
   @override
-  String toString() => data != null
-      ? 'jsonrpc-2.0 error ($code): $message\n\t$data'
-      : 'jsonrpc-2.0 error ($code): $message';
+  String toString() =>
+      data != null
+          ? 'jsonrpc-2.0 error ($code): $message\n\t$data'
+          : 'jsonrpc-2.0 error ($code): $message';
 }
 
 @JsonEnum(fieldRename: FieldRename.pascal)
