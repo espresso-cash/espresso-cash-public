@@ -18,6 +18,7 @@ analyzer:
     avoid_relative_lib_imports: ignore
     deprecated_member_use: ignore
     deprecated_member_use_from_same_package: ignore
+    require_trailing_commas: ignore
 
 dart_code_metrics:
   rules:
