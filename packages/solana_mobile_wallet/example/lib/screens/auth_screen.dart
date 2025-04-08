@@ -23,10 +23,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
     if (identityUri != null && iconUri != null && identityUri.isAbsolute) {
       _iconUri = identityUri.replace(
-        pathSegments: [
-          ...identityUri.pathSegments,
-          Uri.encodeFull(iconUri.toString()),
-        ],
+        pathSegments: [...identityUri.pathSegments, Uri.encodeFull(iconUri.toString())],
       );
     }
   }

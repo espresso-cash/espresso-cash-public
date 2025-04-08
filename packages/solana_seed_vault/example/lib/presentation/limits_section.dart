@@ -27,42 +27,31 @@ class _LimitsSectionState extends State<LimitsSection> {
   }
 
   void _handleMaxRequestedPublicKeysExceeded() => _validate()?.let(
-    (authToken) => context
-        .read<SeedVaultBloc>()
-        .exceedMaxRequestedPublicKeys(authToken)
-        .then((it) {
-          if (!mounted) return;
+    (authToken) => context.read<SeedVaultBloc>().exceedMaxRequestedPublicKeys(authToken).then((it) {
+      if (!mounted) return;
 
-          showSnackBar(context, it.map((e) => e.join('\n\n')));
-        }),
+      showSnackBar(context, it.map((e) => e.join('\n\n')));
+    }),
   );
 
   void _handleMaxSigningRequestsExceeded() => _validate()?.let(
-    (authToken) => context
-        .read<SeedVaultBloc>()
-        .exceedMaxSigningRequests(authToken)
-        .then((it) {
-          if (!mounted) return;
+    (authToken) => context.read<SeedVaultBloc>().exceedMaxSigningRequests(authToken).then((it) {
+      if (!mounted) return;
 
-          showSnackBar(context, it);
-        }),
+      showSnackBar(context, it);
+    }),
   );
 
   void _handleMaxRequestedSignaturesExceeded() => _validate()?.let(
-    (authToken) => context
-        .read<SeedVaultBloc>()
-        .exceedMaxRequestedSignatures(authToken)
-        .then((it) {
-          if (!mounted) return;
+    (authToken) => context.read<SeedVaultBloc>().exceedMaxRequestedSignatures(authToken).then((it) {
+      if (!mounted) return;
 
-          showSnackBar(context, it);
-        }),
+      showSnackBar(context, it);
+    }),
   );
 
   @override
-  Widget build(
-    BuildContext context,
-  ) => BlocBuilder<SeedVaultBloc, SeedVaultState>(
+  Widget build(BuildContext context) => BlocBuilder<SeedVaultBloc, SeedVaultState>(
     builder:
         (context, state) => state.maybeMap(
           orElse: () => const SizedBox.shrink(),
@@ -72,24 +61,18 @@ class _LimitsSectionState extends State<LimitsSection> {
                 title: const Text('Implementation Limits', style: _style),
                 children: [
                   _LimitTile(
-                    title:
-                        'maxRequestedPublicKeys=${state.limits.maxRequestedPublicKeys}',
+                    title: 'maxRequestedPublicKeys=${state.limits.maxRequestedPublicKeys}',
                     onExceeded: _handleMaxRequestedPublicKeysExceeded,
                   ),
                   _LimitTile(
-                    title:
-                        'maxSigningRequests=${state.limits.maxSigningRequests}',
+                    title: 'maxSigningRequests=${state.limits.maxSigningRequests}',
                     onExceeded: _handleMaxSigningRequestsExceeded,
                   ),
                   _LimitTile(
-                    title:
-                        'maxRequestedSignatures=${state.limits.maxRequestedSignatures}',
+                    title: 'maxRequestedSignatures=${state.limits.maxRequestedSignatures}',
                     onExceeded: _handleMaxRequestedSignaturesExceeded,
                   ),
-                  _LimitTile(
-                    title:
-                        'maxBip32PathDepth=${state.limits.maxBip32PathDepth}',
-                  ),
+                  _LimitTile(title: 'maxBip32PathDepth=${state.limits.maxBip32PathDepth}'),
                 ],
               ),
         ),
@@ -108,10 +91,7 @@ class _LimitTile extends StatelessWidget {
     subtitle:
         onExceeded == null
             ? const SizedBox.shrink()
-            : ElevatedButton(
-              onPressed: onExceeded,
-              child: const Text('Exceed limit by 1'),
-            ),
+            : ElevatedButton(onPressed: onExceeded, child: const Text('Exceed limit by 1')),
   );
 }
 

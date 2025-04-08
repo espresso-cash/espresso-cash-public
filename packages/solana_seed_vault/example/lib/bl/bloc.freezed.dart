@@ -86,10 +86,8 @@ mixin _$SeedVaultState {
 
 /// @nodoc
 abstract class $SeedVaultStateCopyWith<$Res> {
-  factory $SeedVaultStateCopyWith(
-    SeedVaultState value,
-    $Res Function(SeedVaultState) then,
-  ) = _$SeedVaultStateCopyWithImpl<$Res, SeedVaultState>;
+  factory $SeedVaultStateCopyWith(SeedVaultState value, $Res Function(SeedVaultState) then) =
+      _$SeedVaultStateCopyWithImpl<$Res, SeedVaultState>;
 }
 
 /// @nodoc
@@ -105,15 +103,12 @@ class _$SeedVaultStateCopyWithImpl<$Res, $Val extends SeedVaultState>
 
 /// @nodoc
 abstract class _$$NoneImplCopyWith<$Res> {
-  factory _$$NoneImplCopyWith(
-    _$NoneImpl value,
-    $Res Function(_$NoneImpl) then,
-  ) = __$$NoneImplCopyWithImpl<$Res>;
+  factory _$$NoneImplCopyWith(_$NoneImpl value, $Res Function(_$NoneImpl) then) =
+      __$$NoneImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$NoneImplCopyWithImpl<$Res>
-    extends _$SeedVaultStateCopyWithImpl<$Res, _$NoneImpl>
+class __$$NoneImplCopyWithImpl<$Res> extends _$SeedVaultStateCopyWithImpl<$Res, _$NoneImpl>
     implements _$$NoneImplCopyWith<$Res> {
   __$$NoneImplCopyWithImpl(_$NoneImpl _value, $Res Function(_$NoneImpl) _then)
     : super(_value, _then);
@@ -137,8 +132,7 @@ class _$NoneImpl with DiagnosticableTreeMixin implements _None {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$NoneImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$NoneImpl);
   }
 
   @override
@@ -246,22 +240,17 @@ abstract class _None implements SeedVaultState {
 
 /// @nodoc
 abstract class _$$ErrorImplCopyWith<$Res> {
-  factory _$$ErrorImplCopyWith(
-    _$ErrorImpl value,
-    $Res Function(_$ErrorImpl) then,
-  ) = __$$ErrorImplCopyWithImpl<$Res>;
+  factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String err});
 }
 
 /// @nodoc
-class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$SeedVaultStateCopyWithImpl<$Res, _$ErrorImpl>
+class __$$ErrorImplCopyWithImpl<$Res> extends _$SeedVaultStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
-  __$$ErrorImplCopyWithImpl(
-    _$ErrorImpl _value,
-    $Res Function(_$ErrorImpl) _then,
-  ) : super(_value, _then);
+  __$$ErrorImplCopyWithImpl(_$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+    : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -416,8 +405,7 @@ abstract class _Error implements SeedVaultState {
 
   String get err;
   @JsonKey(ignore: true)
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -565,10 +553,8 @@ abstract class _Unauthorized implements SeedVaultState {
 
 /// @nodoc
 abstract class _$$LoadedImplCopyWith<$Res> {
-  factory _$$LoadedImplCopyWith(
-    _$LoadedImpl value,
-    $Res Function(_$LoadedImpl) then,
-  ) = __$$LoadedImplCopyWithImpl<$Res>;
+  factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
+      __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({
     List<Seed> seeds,
@@ -582,13 +568,10 @@ abstract class _$$LoadedImplCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$SeedVaultStateCopyWithImpl<$Res, _$LoadedImpl>
+class __$$LoadedImplCopyWithImpl<$Res> extends _$SeedVaultStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
-  __$$LoadedImplCopyWithImpl(
-    _$LoadedImpl _value,
-    $Res Function(_$LoadedImpl) _then,
-  ) : super(_value, _then);
+  __$$LoadedImplCopyWithImpl(_$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
+    : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -680,12 +663,8 @@ class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
       ..add(DiagnosticsProperty('seeds', seeds))
       ..add(DiagnosticsProperty('limits', limits))
       ..add(DiagnosticsProperty('hasUnauthorizedSeeds', hasUnauthorizedSeeds))
-      ..add(
-        DiagnosticsProperty('firstRequestedPublicKey', firstRequestedPublicKey),
-      )
-      ..add(
-        DiagnosticsProperty('lastRequestedPublicKey', lastRequestedPublicKey),
-      );
+      ..add(DiagnosticsProperty('firstRequestedPublicKey', firstRequestedPublicKey))
+      ..add(DiagnosticsProperty('lastRequestedPublicKey', lastRequestedPublicKey));
   }
 
   @override
@@ -697,10 +676,7 @@ class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
             (identical(other.limits, limits) || other.limits == limits) &&
             (identical(other.hasUnauthorizedSeeds, hasUnauthorizedSeeds) ||
                 other.hasUnauthorizedSeeds == hasUnauthorizedSeeds) &&
-            (identical(
-                  other.firstRequestedPublicKey,
-                  firstRequestedPublicKey,
-                ) ||
+            (identical(other.firstRequestedPublicKey, firstRequestedPublicKey) ||
                 other.firstRequestedPublicKey == firstRequestedPublicKey) &&
             (identical(other.lastRequestedPublicKey, lastRequestedPublicKey) ||
                 other.lastRequestedPublicKey == lastRequestedPublicKey));
@@ -851,6 +827,5 @@ abstract class _Loaded implements SeedVaultState {
   Uri? get firstRequestedPublicKey;
   Uri? get lastRequestedPublicKey;
   @JsonKey(ignore: true)
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => throw _privateConstructorUsedError;
 }

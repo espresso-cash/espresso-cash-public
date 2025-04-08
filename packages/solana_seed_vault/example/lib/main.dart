@@ -45,12 +45,7 @@ class _MyAppState extends State<MyApp> {
           (context, state) => Scaffold(
             appBar: AppBar(
               title: const Text('FakeWallet'),
-              actions: [
-                IconButton(
-                  onPressed: _bloc.refreshUI,
-                  icon: const Icon(Icons.refresh),
-                ),
-              ],
+              actions: [IconButton(onPressed: _bloc.refreshUI, icon: const Icon(Icons.refresh))],
             ),
             body: Center(
               child: state.map(
@@ -58,10 +53,7 @@ class _MyAppState extends State<MyApp> {
                 loaded: always(const SeedVaultContent()),
                 error: (state) => Text(state.err),
                 unauthorized: always(
-                  ElevatedButton(
-                    onPressed: _bloc.init,
-                    child: const Text('Request permission'),
-                  ),
+                  ElevatedButton(onPressed: _bloc.init, child: const Text('Request permission')),
                 ),
               ),
             ),

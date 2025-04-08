@@ -9,22 +9,19 @@ class SeedList extends StatelessWidget {
   const SeedList({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<SeedVaultBloc, SeedVaultState>(
-        builder:
-            (context, state) => state.maybeMap(
-              orElse: () => const SizedBox.shrink(),
-              loaded:
-                  (state) => ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.seeds.length,
-                    itemBuilder:
-                        (context, index) =>
-                            SeedItem(seed: state.seeds.elementAt(index)),
-                  ),
-            ),
-      );
+  Widget build(BuildContext context) => BlocBuilder<SeedVaultBloc, SeedVaultState>(
+    builder:
+        (context, state) => state.maybeMap(
+          orElse: () => const SizedBox.shrink(),
+          loaded:
+              (state) => ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: state.seeds.length,
+                itemBuilder: (context, index) => SeedItem(seed: state.seeds.elementAt(index)),
+              ),
+        ),
+  );
 }
 
 class SeedItem extends StatefulWidget {
@@ -38,13 +35,11 @@ class SeedItem extends StatefulWidget {
 
 class _SeedItemState extends State<SeedItem> {
   void _handleRequestPublicKeys() {
-    context.read<SeedVaultBloc>().requestPublicKeys(widget.seed.authToken).then(
-      (it) {
-        if (!mounted) return;
+    context.read<SeedVaultBloc>().requestPublicKeys(widget.seed.authToken).then((it) {
+      if (!mounted) return;
 
-        showSnackBar(context, it.map((e) => e.join('\n\n')));
-      },
-    );
+      showSnackBar(context, it.map((e) => e.join('\n\n')));
+    });
   }
 
   void _handleDeauthorize() {
@@ -52,9 +47,7 @@ class _SeedItemState extends State<SeedItem> {
   }
 
   void _handleSignMessages() {
-    context.read<SeedVaultBloc>().signMessages(widget.seed.authToken).then((
-      it,
-    ) {
+    context.read<SeedVaultBloc>().signMessages(widget.seed.authToken).then((it) {
       if (!mounted) return;
 
       showSnackBar(context, it);
@@ -62,9 +55,7 @@ class _SeedItemState extends State<SeedItem> {
   }
 
   void _handleSignTransactions() {
-    context.read<SeedVaultBloc>().signTransactions(widget.seed.authToken).then((
-      it,
-    ) {
+    context.read<SeedVaultBloc>().signTransactions(widget.seed.authToken).then((it) {
       if (!mounted) return;
 
       showSnackBar(context, it);
@@ -78,10 +69,7 @@ class _SeedItemState extends State<SeedItem> {
     children: [
       Row(
         children: [
-          Text(
-            widget.seed.name,
-            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-          ),
+          Text(widget.seed.name, style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
           const Spacer(),
           IconButton(
             onPressed: _handleDeauthorize,
@@ -108,20 +96,12 @@ class _SeedItemState extends State<SeedItem> {
       ),
       ElevatedButton(
         onPressed: _handleSignMessages,
-        child: const Text(
-          'Sign $_payloadCount messages X $_keyCount keys',
-          style: _buttonStyle,
-        ),
+        child: const Text('Sign $_payloadCount messages X $_keyCount keys', style: _buttonStyle),
       ),
       ExpansionTile(
         initiallyExpanded: false,
         title: const Text('Accounts marked as UserWallet'),
-        children: [
-          AccountList(
-            authToken: widget.seed.authToken,
-            accounts: widget.seed.accounts,
-          ),
-        ],
+        children: [AccountList(authToken: widget.seed.authToken, accounts: widget.seed.accounts)],
       ),
     ],
   );

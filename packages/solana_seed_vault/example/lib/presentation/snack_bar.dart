@@ -5,10 +5,7 @@ void showErrorSnackBar(BuildContext context, String message) =>
     showSnackBar(context, Either.left(_ErrorMessage(message)));
 
 void showSnackBar(BuildContext context, Either<Exception, String> result) {
-  final message = result.fold(
-    (e) => e is _ErrorMessage ? e.message : 'Action Failed',
-    identity,
-  );
+  final message = result.fold((e) => e is _ErrorMessage ? e.message : 'Action Failed', identity);
 
   final snackbar = SnackBar(
     behavior: SnackBarBehavior.floating,
@@ -19,11 +16,7 @@ void showSnackBar(BuildContext context, Either<Exception, String> result) {
       // ignore: avoid-single-child-column-or-row
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(message, style: const TextStyle(color: Colors.white)),
-          ),
-        ],
+        children: [Expanded(child: Text(message, style: const TextStyle(color: Colors.white)))],
       ),
     ),
   );

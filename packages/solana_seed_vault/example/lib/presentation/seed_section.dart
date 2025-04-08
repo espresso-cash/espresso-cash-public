@@ -38,9 +38,7 @@ class _SeedSectionState extends State<SeedSection> {
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) => BlocBuilder<SeedVaultBloc, SeedVaultState>(
+  Widget build(BuildContext context) => BlocBuilder<SeedVaultBloc, SeedVaultState>(
     builder:
         (context, state) => state.maybeMap(
           orElse: always(const SizedBox.shrink()),
@@ -61,12 +59,7 @@ class _SeedSectionState extends State<SeedSection> {
                       ),
                     )
                   else
-                    const ListTile(
-                      title: Text(
-                        'No more seeds to be authorized',
-                        style: _style,
-                      ),
-                    ),
+                    const ListTile(title: Text('No more seeds to be authorized', style: _style)),
                   const Divider(),
                   ListTile(
                     title: const Text('Create a new seed', style: _style),

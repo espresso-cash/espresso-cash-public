@@ -6,11 +6,7 @@ import 'package:wallet_example/bl/bloc.dart';
 import 'package:wallet_example/presentation/snack_bar.dart';
 
 class AccountEdit extends StatefulWidget {
-  const AccountEdit({
-    super.key,
-    required this.authToken,
-    required this.account,
-  });
+  const AccountEdit({super.key, required this.authToken, required this.account});
 
   final AuthToken authToken;
   final Account account;
@@ -70,10 +66,7 @@ class _AccountEditState extends State<AccountEdit> {
                 ),
                 child: const Text('Cancel'),
               ),
-              ElevatedButton(
-                onPressed: _handleSubmitted,
-                child: const Text('Submit'),
-              ),
+              ElevatedButton(onPressed: _handleSubmitted, child: const Text('Submit')),
             ],
           ),
         ],

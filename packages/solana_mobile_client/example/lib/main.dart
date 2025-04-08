@@ -19,19 +19,14 @@ class MyApp extends StatelessWidget {
             // ignore: avoid_print, only for example
             print(state.capabilities);
           },
-          listenWhen:
-              (previous, current) =>
-                  previous.capabilities != current.capabilities,
+          listenWhen: (previous, current) => previous.capabilities != current.capabilities,
           builder:
               (context, state) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const NetworkToggleButtons(),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 16,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                     child: Text(
                       'Public key: ${state.address ?? '<none>'}',
                       style: Theme.of(context).textTheme.labelMedium,
@@ -39,21 +34,19 @@ class MyApp extends StatelessWidget {
                   ),
                   Button(
                     onPressed: () async {
-                      final result =
-                          await context.read<ClientBloc>().isWalletAvailable();
+                      final result = await context.read<ClientBloc>().isWalletAvailable();
 
                       // ignore: use_build_context_synchronously, checked for mounted
                       if (!context.mounted) return;
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Wallet available: $result')),
-                      );
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text('Wallet available: $result')));
                     },
                     text: 'Is wallet available?',
                   ),
                   Button(
-                    onPressed:
-                        () => context.read<ClientBloc>().requestCapabilities(),
+                    onPressed: () => context.read<ClientBloc>().requestCapabilities(),
                     text: 'Get capabilities',
                   ),
                   Button(
@@ -62,16 +55,12 @@ class MyApp extends StatelessWidget {
                   ),
                   Button(
                     onPressed:
-                        state.isAuthorized
-                            ? () => context.read<ClientBloc>().reauthorize()
-                            : null,
+                        state.isAuthorized ? () => context.read<ClientBloc>().reauthorize() : null,
                     text: 'Reauthorize',
                   ),
                   Button(
                     onPressed:
-                        state.isAuthorized
-                            ? () => context.read<ClientBloc>().deauthorize()
-                            : null,
+                        state.isAuthorized ? () => context.read<ClientBloc>().deauthorize() : null,
                     text: 'Deauthorize',
                   ),
                   Button(
@@ -83,28 +72,18 @@ class MyApp extends StatelessWidget {
                   ),
                   const Row(
                     children: [
-                      Expanded(
-                        flex: 3,
-                        child: SignTxButton(count: 1, text: 'Sign txn x1'),
-                      ),
+                      Expanded(flex: 3, child: SignTxButton(count: 1, text: 'Sign txn x1')),
                       Expanded(child: SignTxButton(count: 3, text: 'x3')),
                       Expanded(child: SignTxButton(count: 20, text: 'x20')),
                     ],
                   ),
                   Button(
-                    onPressed:
-                        () =>
-                            context
-                                .read<ClientBloc>()
-                                .authorizeAndSignTransactions(),
+                    onPressed: () => context.read<ClientBloc>().authorizeAndSignTransactions(),
                     text: 'Combined authorize and sign txn x1',
                   ),
                   const Row(
                     children: [
-                      Expanded(
-                        flex: 3,
-                        child: SignMsgButton(count: 1, text: 'Sign msg x1'),
-                      ),
+                      Expanded(flex: 3, child: SignMsgButton(count: 1, text: 'Sign msg x1')),
                       Expanded(child: SignMsgButton(count: 3, text: 'x3')),
                       Expanded(child: SignMsgButton(count: 20, text: 'x20')),
                     ],
@@ -113,17 +92,10 @@ class MyApp extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 3,
-                        child: SignAndSendTxButton(
-                          count: 1,
-                          text: 'Sign and send txn x1',
-                        ),
+                        child: SignAndSendTxButton(count: 1, text: 'Sign and send txn x1'),
                       ),
-                      Expanded(
-                        child: SignAndSendTxButton(count: 3, text: 'x3'),
-                      ),
-                      Expanded(
-                        child: SignAndSendTxButton(count: 20, text: 'x20'),
-                      ),
+                      Expanded(child: SignAndSendTxButton(count: 3, text: 'x3')),
+                      Expanded(child: SignAndSendTxButton(count: 20, text: 'x20')),
                     ],
                   ),
                   Footer(
@@ -154,25 +126,15 @@ class NetworkToggleButtons extends StatelessWidget {
         context.read<ClientBloc>().updateNetwork(isMainnet: index == 1);
       },
       children: const [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text('Testnet'),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text('Mainnet'),
-        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text('Testnet')),
+        Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text('Mainnet')),
       ],
     ),
   );
 }
 
 class SignAndSendTxButton extends StatelessWidget {
-  const SignAndSendTxButton({
-    super.key,
-    required this.text,
-    required this.count,
-  });
+  const SignAndSendTxButton({super.key, required this.text, required this.count});
 
   final String text;
   final int count;

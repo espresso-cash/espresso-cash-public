@@ -20,9 +20,8 @@ Future<List<Ed25519HDPublicKey>> getPublicKeysFromPaths(
           value: it.toString(),
         )
         .letAsync(
-          (it) => it.singleOrNull?.let(
-            (it) => it[WalletContractV1.accountsPublicKeyRaw] as Uint8List,
-          ),
+          (it) =>
+              it.singleOrNull?.let((it) => it[WalletContractV1.accountsPublicKeyRaw] as Uint8List),
         )
         .letAsync((it) => it?.let(Ed25519HDPublicKey.new)),
   ),
@@ -34,11 +33,7 @@ Uint8List generateFakeMessage(List<String> signers) {
   return MemoInstruction(signers: publicKeys, memo: 'Memo #')
       .let(Message.only)
       .let(
-        (it) =>
-            it
-                .compile(recentBlockhash: '', feePayer: publicKeys.first)
-                .toByteArray()
-                .toList(),
+        (it) => it.compile(recentBlockhash: '', feePayer: publicKeys.first).toByteArray().toList(),
       )
       .let(Uint8List.fromList);
 }
@@ -50,14 +45,8 @@ Uint8List generateFakeTransaction(List<String> signers) {
       .let(Message.only)
       .let(
         (it) => SignedTx(
-          compiledMessage: it.compile(
-            recentBlockhash: '',
-            feePayer: publicKeys.first,
-          ),
-          signatures:
-              publicKeys
-                  .map((it) => Signature(List.filled(64, 0), publicKey: it))
-                  .toList(),
+          compiledMessage: it.compile(recentBlockhash: '', feePayer: publicKeys.first),
+          signatures: publicKeys.map((it) => Signature(List.filled(64, 0), publicKey: it)).toList(),
         ),
       )
       .let((it) => it.toByteArray().toList().let(Uint8List.fromList));

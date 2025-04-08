@@ -6,11 +6,7 @@ import 'package:wallet_example/presentation/account_edit.dart';
 import 'package:wallet_example/presentation/snack_bar.dart';
 
 class AccountList extends StatelessWidget {
-  const AccountList({
-    super.key,
-    required this.authToken,
-    required this.accounts,
-  });
+  const AccountList({super.key, required this.authToken, required this.accounts});
 
   final AuthToken authToken;
   final List<Account> accounts;
@@ -21,19 +17,12 @@ class AccountList extends StatelessWidget {
     physics: const NeverScrollableScrollPhysics(),
     itemCount: accounts.length,
     itemBuilder:
-        (context, index) => AccountItem(
-          account: accounts.elementAt(index),
-          authToken: authToken,
-        ),
+        (context, index) => AccountItem(account: accounts.elementAt(index), authToken: authToken),
   );
 }
 
 class AccountItem extends StatefulWidget {
-  const AccountItem({
-    super.key,
-    required this.account,
-    required this.authToken,
-  });
+  const AccountItem({super.key, required this.account, required this.authToken});
 
   final Account account;
   final AuthToken authToken;
@@ -46,32 +35,28 @@ class _AccountItemState extends State<AccountItem> {
   void _handleEditAccount() {
     showDialog<void>(
       context: context,
-      builder:
-          (context) =>
-              AccountEdit(authToken: widget.authToken, account: widget.account),
+      builder: (context) => AccountEdit(authToken: widget.authToken, account: widget.account),
     );
   }
 
   void _handleSignTransaction() {
-    context
-        .read<SeedVaultBloc>()
-        .signTransactionWithAccount(widget.authToken, widget.account)
-        .then((it) {
-          if (!mounted) return;
+    context.read<SeedVaultBloc>().signTransactionWithAccount(widget.authToken, widget.account).then(
+      (it) {
+        if (!mounted) return;
 
-          showSnackBar(context, it);
-        });
+        showSnackBar(context, it);
+      },
+    );
   }
 
   void _handleSignMessage() {
-    context
-        .read<SeedVaultBloc>()
-        .signMessageWithAccount(widget.authToken, widget.account)
-        .then((it) {
-          if (!mounted) return;
+    context.read<SeedVaultBloc>().signMessageWithAccount(widget.authToken, widget.account).then((
+      it,
+    ) {
+      if (!mounted) return;
 
-          showSnackBar(context, it);
-        });
+      showSnackBar(context, it);
+    });
   }
 
   @override
@@ -91,10 +76,7 @@ class _AccountItemState extends State<AccountItem> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              IconButton(
-                onPressed: _handleEditAccount,
-                icon: const Icon(Icons.edit),
-              ),
+              IconButton(onPressed: _handleEditAccount, icon: const Icon(Icons.edit)),
             ],
           ),
           const SizedBox(height: 8),

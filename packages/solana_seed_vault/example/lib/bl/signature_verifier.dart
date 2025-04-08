@@ -11,20 +11,14 @@ class SignatureVerifier {
     required List<SigningResponse> signingResponses,
   }) => tryEitherAsync((_) async {
     if (signingRequests.length != signingResponses.length) {
-      throw Exception(
-        'Mismatch between number of requested and provided signatures',
-      );
+      throw Exception('Mismatch between number of requested and provided signatures');
     }
 
-    for (final pair
-        in Map.fromIterables(signingRequests, signingResponses).entries) {
+    for (final pair in Map.fromIterables(signingRequests, signingResponses).entries) {
       final request = pair.key;
       final response = pair.value;
 
-      final publicKeys = await getPublicKeysFromPaths(
-        authToken,
-        response.resolvedDerivationPaths,
-      );
+      final publicKeys = await getPublicKeysFromPaths(authToken, response.resolvedDerivationPaths);
 
       if (publicKeys.length != response.signatures.length) {
         throw Exception('One or more public keys not found');

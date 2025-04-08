@@ -14,10 +14,7 @@ class SignPayloadsScreen extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Sign transaction(s)',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
+        Text('Sign transaction(s)', style: Theme.of(context).textTheme.titleLarge),
         Text(
           'Num payloads: ${request.payloads.length}',
           style: Theme.of(context).textTheme.titleMedium,
@@ -26,51 +23,28 @@ class SignPayloadsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ElevatedButton(
-              onPressed:
-                  () =>
-                      context
-                          .read<MobileWalletBloc>()
-                          .signPayloadsSimulateSign(),
+              onPressed: () => context.read<MobileWalletBloc>().signPayloadsSimulateSign(),
               child: const Text('Authorize'),
             ),
             ElevatedButton(
-              onPressed:
-                  () => context.read<MobileWalletBloc>().signPayloadsDeclined(),
+              onPressed: () => context.read<MobileWalletBloc>().signPayloadsDeclined(),
               child: const Text('Decline'),
             ),
           ],
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(40),
-          ),
-          onPressed:
-              () =>
-                  context
-                      .read<MobileWalletBloc>()
-                      .signPayloadsSimulateAuthTokenInvalid(),
+          style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
+          onPressed: () => context.read<MobileWalletBloc>().signPayloadsSimulateAuthTokenInvalid(),
           child: const Text('Simulate auth token invalid'),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(40),
-          ),
-          onPressed:
-              () =>
-                  context
-                      .read<MobileWalletBloc>()
-                      .signPayloadsSimulateInvalidPayloads(),
+          style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
+          onPressed: () => context.read<MobileWalletBloc>().signPayloadsSimulateInvalidPayloads(),
           child: const Text('Simulate first payload invalid'),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(40),
-          ),
-          onPressed:
-              () =>
-                  context
-                      .read<MobileWalletBloc>()
-                      .signPayloadsSimulateTooManyPayloads(),
+          style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
+          onPressed: () => context.read<MobileWalletBloc>().signPayloadsSimulateTooManyPayloads(),
           child: const Text('Simulate too many payloads'),
         ),
       ],

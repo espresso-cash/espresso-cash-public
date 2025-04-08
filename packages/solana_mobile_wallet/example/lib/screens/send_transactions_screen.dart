@@ -13,45 +13,21 @@ class SendTransactionsScreen extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Sign transaction(s)',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        Text(
-          'Cluster: testnet',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
+        Text('Sign transaction(s)', style: Theme.of(context).textTheme.titleLarge),
+        Text('Cluster: testnet', style: Theme.of(context).textTheme.titleMedium),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(40),
-          ),
-          onPressed:
-              () =>
-                  context
-                      .read<MobileWalletBloc>()
-                      .signAndSendTransactionsSubmitted(),
+          style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
+          onPressed: () => context.read<MobileWalletBloc>().signAndSendTransactionsSubmitted(),
           child: const Text('Simulate submitted'),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(40),
-          ),
-          onPressed:
-              () =>
-                  context
-                      .read<MobileWalletBloc>()
-                      .signAndSendTransactionsNotSubmitted(),
+          style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
+          onPressed: () => context.read<MobileWalletBloc>().signAndSendTransactionsNotSubmitted(),
           child: const Text('Simulate submit failed'),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(40),
-          ),
-          onPressed:
-              () =>
-                  context
-                      .read<MobileWalletBloc>()
-                      .signAndSendTransactionsSend(),
+          style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
+          onPressed: () => context.read<MobileWalletBloc>().signAndSendTransactionsSend(),
           child: const Text('Send transaction to cluster'),
         ),
       ],
