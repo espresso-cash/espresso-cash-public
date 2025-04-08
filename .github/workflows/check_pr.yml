@@ -24,7 +24,7 @@ jobs:
           sdk: ${{ env.DART_VERSION }}
 
       - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed .
+        run: dart format --output=none --set-exit-if-changed --line-length=100 .
 
   dart_libs:
     needs: [formatting]
