@@ -1,4 +1,3 @@
-import 'package:espressocash_app/features/kyc_sharing/screens/personal_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
@@ -6,6 +5,7 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
 import '../../kyc_sharing/screens/bank_account_list_screen.dart';
+import '../../kyc_sharing/screens/personal_information_screen.dart';
 import '../../kyc_sharing/services/kyc_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_button.dart';
@@ -45,11 +45,13 @@ class _KycInfo extends StatelessWidget {
             (sl<FeatureFlagsManager>().isBrijDemoEnabled() ? ' (Demo)' : ''),
         padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [
-          if (!hasPersonalDetails(user))
+          if (user.hasPersonalDetails())
             KycButton(
-              label: 'Personal Details',
-              onPressed: () =>
-                  PersonalInformationScreen.push(context, readOnly: true),
+              label: context.l10n.personalInformationTitle,
+              onPressed: () => PersonalInformationScreen.push(
+                context,
+                showActionButton: false,
+              ),
             ),
           KycButton(
             label: context.l10n.bankAccount,
@@ -76,9 +78,3 @@ class _KycInfo extends StatelessWidget {
         ],
       );
 }
-
-bool hasPersonalDetails(UserData user) =>
-    user.firstName != null &&
-    user.lastName != null &&
-    user.dob != null &&
-    user.citizenship != null;
