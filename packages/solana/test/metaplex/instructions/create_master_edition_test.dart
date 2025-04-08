@@ -31,10 +31,7 @@ Future<void> main() async {
     );
     await client.mintTo(
       mint: mint.address,
-      destination: await findAssociatedTokenAddress(
-        owner: owner.publicKey,
-        mint: mint.address,
-      ),
+      destination: await findAssociatedTokenAddress(owner: owner.publicKey, mint: mint.address),
       amount: 1,
       authority: owner,
       commitment: Commitment.confirmed,

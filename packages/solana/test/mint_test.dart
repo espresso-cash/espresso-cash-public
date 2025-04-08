@@ -147,10 +147,7 @@ void main() {
 
       final TokenAmount tokenSupply =
           await solanaClient.rpcClient
-              .getTokenSupply(
-                newToken.address.toBase58(),
-                commitment: Commitment.confirmed,
-              )
+              .getTokenSupply(newToken.address.toBase58(), commitment: Commitment.confirmed)
               .value;
 
       expect(int.parse(tokenSupply.amount), equals(_totalSupply));
@@ -176,10 +173,7 @@ void main() {
       );
       final balance =
           await solanaClient.rpcClient
-              .getTokenAccountBalance(
-                account.pubkey,
-                commitment: Commitment.confirmed,
-              )
+              .getTokenAccountBalance(account.pubkey, commitment: Commitment.confirmed)
               .value;
 
       expect(balance.amount, '100');
@@ -204,19 +198,17 @@ void main() {
       );
       // A sender must have the appropriate associated account, in case they
       // don't it's an error and we should throw an exception.
-      final sourceAssociatedTokenAddress = await solanaClient
-          .getAssociatedTokenAccount(
-            mint: newToken.address,
-            owner: owner.publicKey,
-            commitment: Commitment.confirmed,
-          );
+      final sourceAssociatedTokenAddress = await solanaClient.getAssociatedTokenAccount(
+        mint: newToken.address,
+        owner: owner.publicKey,
+        commitment: Commitment.confirmed,
+      );
       // A recipient needs an associated account as well
-      final destinationAssociatedTokenAddress = await solanaClient
-          .getAssociatedTokenAccount(
-            mint: newToken.address,
-            owner: recipient.publicKey,
-            commitment: Commitment.confirmed,
-          );
+      final destinationAssociatedTokenAddress = await solanaClient.getAssociatedTokenAccount(
+        mint: newToken.address,
+        owner: recipient.publicKey,
+        commitment: Commitment.confirmed,
+      );
       expect(sourceAssociatedTokenAddress, isNotNull);
       expect(destinationAssociatedTokenAddress, isNotNull);
 
@@ -244,41 +236,35 @@ void main() {
       expect(signature, isNot(null));
     });
 
-    test(
-      'Fails to transfer tokens if the recipient has no associated token account',
-      () async {
-        final recipient = await Ed25519HDKeyPair.random();
-        // Send to the newly created account
-        expect(
-          solanaClient.transferSplToken(
-            owner: owner,
-            destination: recipient.publicKey,
-            amount: 100,
-            mint: newToken.address,
-            commitment: Commitment.confirmed,
-          ),
-          throwsA(isA<NoAssociatedTokenAccountException>()),
-        );
-      },
-    );
+    test('Fails to transfer tokens if the recipient has no associated token account', () async {
+      final recipient = await Ed25519HDKeyPair.random();
+      // Send to the newly created account
+      expect(
+        solanaClient.transferSplToken(
+          owner: owner,
+          destination: recipient.publicKey,
+          amount: 100,
+          mint: newToken.address,
+          commitment: Commitment.confirmed,
+        ),
+        throwsA(isA<NoAssociatedTokenAccountException>()),
+      );
+    });
 
-    test(
-      'Fails to transfer tokens if the sender has no associated token account',
-      () async {
-        final sender = await Ed25519HDKeyPair.random();
-        // Send to the newly created account
-        expect(
-          solanaClient.transferSplToken(
-            owner: sender,
-            destination: owner.publicKey,
-            amount: 100,
-            mint: newToken.address,
-            commitment: Commitment.confirmed,
-          ),
-          throwsA(isA<NoAssociatedTokenAccountException>()),
-        );
-      },
-    );
+    test('Fails to transfer tokens if the sender has no associated token account', () async {
+      final sender = await Ed25519HDKeyPair.random();
+      // Send to the newly created account
+      expect(
+        solanaClient.transferSplToken(
+          owner: sender,
+          destination: owner.publicKey,
+          amount: 100,
+          mint: newToken.address,
+          commitment: Commitment.confirmed,
+        ),
+        throwsA(isA<NoAssociatedTokenAccountException>()),
+      );
+    });
 
     test('Send transfer instruction in an existing transaction', () async {
       final destination = await Ed25519HDKeyPair.random();

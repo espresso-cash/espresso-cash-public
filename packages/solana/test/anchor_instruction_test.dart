@@ -51,9 +51,7 @@ void main() {
   test('Call basic-1 initialize method', () async {
     // 8 bytes for the discriminator and 8 bytes for the data
     const space = 16;
-    final rent = await client.rpcClient.getMinimumBalanceForRentExemption(
-      space,
-    );
+    final rent = await client.rpcClient.getMinimumBalanceForRentExemption(space);
     final instructions = [
       SystemInstruction.createAccount(
         lamports: rent,
@@ -65,15 +63,10 @@ void main() {
       await AnchorInstruction.forMethod(
         programId: _basic1,
         method: 'initialize',
-        arguments: ByteArray(
-          Basic1Arguments(data: BigInt.from(100)).toBorsh().toList(),
-        ),
+        arguments: ByteArray(Basic1Arguments(data: BigInt.from(100)).toBorsh().toList()),
         accounts: <AccountMeta>[
           AccountMeta.writeable(pubKey: updater.publicKey, isSigner: false),
-          AccountMeta.readonly(
-            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-            isSigner: false,
-          ),
+          AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
         ],
         namespace: 'global',
       ),
@@ -106,12 +99,8 @@ void main() {
       await AnchorInstruction.forMethod(
         programId: _basic1,
         method: 'update',
-        arguments: ByteArray(
-          Basic1Arguments(data: BigInt.from(25)).toBorsh().toList(),
-        ),
-        accounts: <AccountMeta>[
-          AccountMeta.writeable(pubKey: updater.publicKey, isSigner: false),
-        ],
+        arguments: ByteArray(Basic1Arguments(data: BigInt.from(25)).toBorsh().toList()),
+        accounts: <AccountMeta>[AccountMeta.writeable(pubKey: updater.publicKey, isSigner: false)],
         namespace: 'global',
       ),
     ];
@@ -140,10 +129,8 @@ void main() {
 }
 
 final _basic0 = Ed25519HDPublicKey.fromBase58(
-  Platform.environment['PROGRAM_ID_BASIC_0'] ??
-      '73JSEtceE6QVgN44rfYtfkB1HnMW3z1tQH1ek79CTQtX',
+  Platform.environment['PROGRAM_ID_BASIC_0'] ?? '73JSEtceE6QVgN44rfYtfkB1HnMW3z1tQH1ek79CTQtX',
 );
 final _basic1 = Ed25519HDPublicKey.fromBase58(
-  Platform.environment['PROGRAM_ID_BASIC_1'] ??
-      '6gYaFMp7H5iao1wDJ7q7BAaXjLJi1w6UvSrGH14oUv4n',
+  Platform.environment['PROGRAM_ID_BASIC_1'] ?? '6gYaFMp7H5iao1wDJ7q7BAaXjLJi1w6UvSrGH14oUv4n',
 );

@@ -58,23 +58,14 @@ class ${name}Config {
     final params =
         method.parameters
             .where((p) => p.isPositional)
-            .map(
-              (p) =>
-                  p.type.isNullableType
-                      ? 'if (${p.name} != null) ${p.toJson()}'
-                      : p.toJson(),
-            )
+            .map((p) => p.type.isNullableType ? 'if (${p.name} != null) ${p.toJson()}' : p.toJson())
             .toList();
-    final isWithContext = const TypeChecker.fromRuntime(
-      WithContextResult,
-    ).hasAnnotationOf(method);
+    final isWithContext = const TypeChecker.fromRuntime(WithContextResult).hasAnnotationOf(method);
     final configParams = method.parameters.where((p) => p.isNamed);
     final String configParamsString;
     if (configParams.isNotEmpty) {
       final configName = method.name.capitalized;
-      final parameters = configParams
-          .map((p) => '${p.name}: ${p.name}')
-          .join(', ');
+      final parameters = configParams.map((p) => '${p.name}: ${p.name}').join(', ');
       configParamsString = '''
           ${configName}Config($parameters).toJson()
 ''';
@@ -82,8 +73,7 @@ class ${name}Config {
       configParamsString = '<String, dynamic>{}';
     }
 
-    final returnType =
-        (method.returnType as ParameterizedType).typeArguments.first;
+    final returnType = (method.returnType as ParameterizedType).typeArguments.first;
     final readerFn = isWithContext ? 'unwrapAndGetResult' : 'getResult';
 
     return '''
@@ -149,16 +139,10 @@ extension on DartType {
 
     return typeArguments.isEmpty
         ? ['$data as Map<String, dynamic>']
-        : [
-          '$data as Map<String, dynamic>',
-          '(json) => ${typeArguments.first.fromJson('json')}',
-        ];
+        : ['$data as Map<String, dynamic>', '(json) => ${typeArguments.first.fromJson('json')}'];
   }
 
-  String _parameterizedTypeFromJson(
-    ParameterizedType parameterizedType,
-    String data,
-  ) {
+  String _parameterizedTypeFromJson(ParameterizedType parameterizedType, String data) {
     final typeName = getDisplayString(withNullability: false);
 
     if (isPrimitive) {
@@ -169,10 +153,7 @@ extension on DartType {
       return _mapFromJson(data);
     }
 
-    final parameters = _parameterizedTypeFromJsonParameters(
-      parameterizedType,
-      data,
-    );
+    final parameters = _parameterizedTypeFromJsonParameters(parameterizedType, data);
 
     return '$_nullCheck$typeName.fromJson(${parameters.join(', ')})';
   }
@@ -190,17 +171,11 @@ extension on DartType {
   String get _nullCheck => isNullableType ? '(value == null) ? null : ' : '';
 
   bool get isPrimitive =>
-      isDartCoreSymbol ||
-      isDartCoreInt ||
-      isDartCoreDouble ||
-      isDartCoreBool ||
-      isDartCoreString;
+      isDartCoreSymbol || isDartCoreInt || isDartCoreDouble || isDartCoreBool || isDartCoreString;
 
-  bool get isNullableType =>
-      this is DynamicType || nullabilitySuffix != NullabilitySuffix.none;
+  bool get isNullableType => this is DynamicType || nullabilitySuffix != NullabilitySuffix.none;
 
-  String get nullSuffix =>
-      nullabilitySuffix != NullabilitySuffix.none ? '?' : '';
+  String get nullSuffix => nullabilitySuffix != NullabilitySuffix.none ? '?' : '';
 }
 
 extension on ParameterElement {
@@ -214,9 +189,7 @@ extension on ParameterElement {
     // ignore: avoid-nullable-interpolation, should be non-nullable
     final defaultValue = hasDefaultValue ? ' = $defaultValueCode' : '';
 
-    return isRequiredNamed
-        ? 'required this.$name$defaultValue'
-        : 'this.$name$defaultValue';
+    return isRequiredNamed ? 'required this.$name$defaultValue' : 'this.$name$defaultValue';
   }
 
   String toJson() {

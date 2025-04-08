@@ -6,31 +6,28 @@ import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
 
-typedef SignRequest =
-    Future<({String publicKey, String signature})?> Function(String data);
+typedef SignRequest = Future<({String publicKey, String signature})?> Function(String data);
 
 @RestApi(baseUrl: 'https://api.espressocash.com/api/v1')
 abstract class EspressoCashClient {
-  factory EspressoCashClient({String? baseUrl, required SignRequest sign}) =>
-      _EspressoCashClient(
-        Dio()
-          ..interceptors.add(
-            InterceptorsWrapper(
-              onRequest: (options, handler) async {
-                final data =
-                    options.data == null ? '' : jsonEncode(options.data);
-                final signed = await sign(data);
-                if (signed != null) {
-                  options.headers['x-public-key'] = signed.publicKey;
-                  options.headers['x-signature'] = signed.signature;
-                }
+  factory EspressoCashClient({String? baseUrl, required SignRequest sign}) => _EspressoCashClient(
+    Dio()
+      ..interceptors.add(
+        InterceptorsWrapper(
+          onRequest: (options, handler) async {
+            final data = options.data == null ? '' : jsonEncode(options.data);
+            final signed = await sign(data);
+            if (signed != null) {
+              options.headers['x-public-key'] = signed.publicKey;
+              options.headers['x-signature'] = signed.signature;
+            }
 
-                handler.next(options);
-              },
-            ),
-          ),
-        baseUrl: baseUrl,
-      );
+            handler.next(options);
+          },
+        ),
+      ),
+    baseUrl: baseUrl,
+  );
 
   Dio get _dio;
   String? get baseUrl;
@@ -44,24 +41,16 @@ abstract class EspressoCashClient {
   Future<GetFeesResponseDto> getFees();
 
   @POST('/getSwapRoute')
-  Future<SwapRouteResponseDto> getSwapRoute(
-    @Body() SwapRouteRequestDto request,
-  );
+  Future<SwapRouteResponseDto> getSwapRoute(@Body() SwapRouteRequestDto request);
 
   @POST('/escrow/create')
-  Future<CreatePaymentResponseDto> createPaymentEc(
-    @Body() CreatePaymentRequestDto request,
-  );
+  Future<CreatePaymentResponseDto> createPaymentEc(@Body() CreatePaymentRequestDto request);
 
   @POST('/escrow/receive')
-  Future<ReceivePaymentResponseDto> receivePaymentEc(
-    @Body() ReceivePaymentRequestDto request,
-  );
+  Future<ReceivePaymentResponseDto> receivePaymentEc(@Body() ReceivePaymentRequestDto request);
 
   @POST('/escrow/cancel')
-  Future<CancelPaymentResponseDto> cancelPaymentEc(
-    @Body() CancelPaymentRequestDto request,
-  );
+  Future<CancelPaymentResponseDto> cancelPaymentEc(@Body() CancelPaymentRequestDto request);
 
   @POST('/scalex/generate')
   Future<GenerateScalexLinkResponseDto> generateScalexLink(
@@ -74,61 +63,43 @@ abstract class EspressoCashClient {
   );
 
   @POST('/scalex/withdraw')
-  Future<ScalexWithdrawResponseDto> createScalexWithdraw(
-    @Body() ScalexWithdrawRequestDto request,
-  );
+  Future<ScalexWithdrawResponseDto> createScalexWithdraw(@Body() ScalexWithdrawRequestDto request);
 
   @POST('/scalex/fees')
   Future<ScalexRateFeeResponseDto> fetchScalexFeesAndRate();
 
   @POST('/scalex/brij/fees')
-  Future<ScalexBrijFeeResponseDto> fetchScalexBrijFees(
-    @Body() ScalexBrijFeeRequestDto request,
-  );
+  Future<ScalexBrijFeeResponseDto> fetchScalexBrijFees(@Body() ScalexBrijFeeRequestDto request);
 
   @POST('/updateUserWalletCountry')
   Future<void> updateUserWalletCountry(@Body() WalletCountryRequestDto request);
 
   @POST('/dln/quote')
-  Future<PaymentQuoteResponseDto> getDlnQuote(
-    @Body() PaymentQuoteRequestDto request,
-  );
+  Future<PaymentQuoteResponseDto> getDlnQuote(@Body() PaymentQuoteRequestDto request);
 
   @POST('/dln/orderId')
-  Future<OrderIdDlnResponseDto> fetchDlnOrderId(
-    @Body() OrderIdDlnRequestDto request,
-  );
+  Future<OrderIdDlnResponseDto> fetchDlnOrderId(@Body() OrderIdDlnRequestDto request);
 
   @POST('/dln/status')
-  Future<OrderStatusDlnResponseDto> fetchDlnStatus(
-    @Body() OrderStatusDlnRequestDto request,
-  );
+  Future<OrderStatusDlnResponseDto> fetchDlnStatus(@Body() OrderStatusDlnRequestDto request);
 
   @POST('/dln/incoming/quote')
-  Future<IncomingQuoteResponseDto> getIncomingDlnQuote(
-    @Body() IncomingQuoteRequestDto request,
-  );
+  Future<IncomingQuoteResponseDto> getIncomingDlnQuote(@Body() IncomingQuoteRequestDto request);
 
   @POST('/getFreeNonce')
   Future<GetFreeNonceResponseDto> getFreeNonce();
 
   @POST('/submitDurableTx')
-  Future<SubmitDurableTxResponseDto> submitDurableTx(
-    @Body() SubmitDurableTxRequestDto request,
-  );
+  Future<SubmitDurableTxResponseDto> submitDurableTx(@Body() SubmitDurableTxRequestDto request);
 
   @POST('/getDurableFees')
   Future<GetDurableFeesResponseDto> getDurableFees();
 
   @POST('/shortenLink')
-  Future<ShortenLinkResponseDto> shortenLink(
-    @Body() ShortenLinkRequestDto request,
-  );
+  Future<ShortenLinkResponseDto> shortenLink(@Body() ShortenLinkRequestDto request);
 
   @POST('/unshortenLink')
-  Future<UnshortenLinkResponseDto> unshortenLink(
-    @Body() UnshortenLinkRequestDto request,
-  );
+  Future<UnshortenLinkResponseDto> unshortenLink(@Body() UnshortenLinkRequestDto request);
 
   @POST('/dln/incoming/gasFee')
   Future<GasFeeResponseDto> getGasFees(@Body() GasFeeRequestDto request);
@@ -140,9 +111,7 @@ abstract class EspressoCashClient {
   Future<FiatRateResponseDto> fetchFiatRate(@Body() FiatRateRequestDto request);
 
   @POST('/getPriorityFeeEstimate')
-  Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
-    @Body() PriorityFeesRequestDto request,
-  );
+  Future<PriorityFeesResponseDto> getPriorityFeeEstimate(@Body() PriorityFeesRequestDto request);
 
   @POST('/moneygram/sign')
   Future<MoneygramChallengeSignResponseDto> signChallenge(
@@ -150,19 +119,13 @@ abstract class EspressoCashClient {
   );
 
   @POST('/moneygram/swapToSolana')
-  Future<MoneygramSwapResponseDto> swapToSolana(
-    @Body() SwapToSolanaRequestDto request,
-  );
+  Future<MoneygramSwapResponseDto> swapToSolana(@Body() SwapToSolanaRequestDto request);
 
   @POST('/moneygram/swapToStellar')
-  Future<MoneygramSwapResponseDto> swapToStellar(
-    @Body() SwapToStellarRequestDto request,
-  );
+  Future<MoneygramSwapResponseDto> swapToStellar(@Body() SwapToStellarRequestDto request);
 
   @POST('/moneygram/calculateFee')
-  Future<MoneygramFeeResponseDto> calculateMoneygramFee(
-    @Body() MoneygramFeeRequestDto request,
-  );
+  Future<MoneygramFeeResponseDto> calculateMoneygramFee(@Body() MoneygramFeeRequestDto request);
 
   @POST('/moneygram/fund')
   Future<void> fundXlmRequest(@Body() FundXlmRequestDto request);
@@ -171,9 +134,7 @@ abstract class EspressoCashClient {
   Future<GetTokensMetaResponseDto> getTokensMeta();
 
   @POST('/ambassador/addReferral')
-  Future<void> addAmbassadorReferral(
-    @Body() AmbassadorReferralRequestDto request,
-  );
+  Future<void> addAmbassadorReferral(@Body() AmbassadorReferralRequestDto request);
 
   @POST('/ambassador/stats')
   Future<AmbassadorStatsResponseDto> getAmbassadorStats();

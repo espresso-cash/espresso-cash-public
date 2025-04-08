@@ -7,8 +7,7 @@ part 'gas.g.dart';
 class GasFeeRequestDto with _$GasFeeRequestDto {
   const factory GasFeeRequestDto({required String network}) = _GasFeeRequestDto;
 
-  factory GasFeeRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$GasFeeRequestDtoFromJson(json);
+  factory GasFeeRequestDto.fromJson(Map<String, dynamic> json) => _$GasFeeRequestDtoFromJson(json);
 }
 
 @freezed
@@ -34,6 +33,5 @@ class GasFeeEstimate with _$GasFeeEstimate {
     required int maxWaitTimeEstimate,
   }) = _GasFeeEstimate;
 
-  factory GasFeeEstimate.fromJson(Map<String, dynamic> json) =>
-      _$GasFeeEstimateFromJson(json);
+  factory GasFeeEstimate.fromJson(Map<String, dynamic> json) => _$GasFeeEstimateFromJson(json);
 }

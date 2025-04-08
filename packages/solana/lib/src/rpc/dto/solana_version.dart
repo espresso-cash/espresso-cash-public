@@ -7,8 +7,7 @@ part 'solana_version.g.dart';
 class SolanaVersion {
   const SolanaVersion({required this.solanaCore, required this.featureSet});
 
-  factory SolanaVersion.fromJson(Map<String, dynamic> json) =>
-      _$SolanaVersionFromJson(json);
+  factory SolanaVersion.fromJson(Map<String, dynamic> json) => _$SolanaVersionFromJson(json);
 
   /// Software version of solana-core.
   @JsonKey(name: 'solana-core')

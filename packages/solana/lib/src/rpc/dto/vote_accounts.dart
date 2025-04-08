@@ -8,8 +8,7 @@ part 'vote_accounts.g.dart';
 class VoteAccounts {
   const VoteAccounts({required this.current, required this.delinquent});
 
-  factory VoteAccounts.fromJson(Map<String, dynamic> json) =>
-      _$VoteAccountsFromJson(json);
+  factory VoteAccounts.fromJson(Map<String, dynamic> json) => _$VoteAccountsFromJson(json);
 
   /// Current vote account
   final List<VoteAccount> current;

@@ -15,9 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-WalletCountryRequestDto _$WalletCountryRequestDtoFromJson(
-  Map<String, dynamic> json,
-) {
+WalletCountryRequestDto _$WalletCountryRequestDtoFromJson(Map<String, dynamic> json) {
   return _WalletCountryRequestDto.fromJson(json);
 }
 
@@ -46,10 +44,7 @@ abstract class $WalletCountryRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$WalletCountryRequestDtoCopyWithImpl<
-  $Res,
-  $Val extends WalletCountryRequestDto
->
+class _$WalletCountryRequestDtoCopyWithImpl<$Res, $Val extends WalletCountryRequestDto>
     implements $WalletCountryRequestDtoCopyWith<$Res> {
   _$WalletCountryRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -90,11 +85,7 @@ abstract class _$$WalletCountryRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$WalletCountryRequestDtoImplCopyWithImpl<$Res>
-    extends
-        _$WalletCountryRequestDtoCopyWithImpl<
-          $Res,
-          _$WalletCountryRequestDtoImpl
-        >
+    extends _$WalletCountryRequestDtoCopyWithImpl<$Res, _$WalletCountryRequestDtoImpl>
     implements _$$WalletCountryRequestDtoImplCopyWith<$Res> {
   __$$WalletCountryRequestDtoImplCopyWithImpl(
     _$WalletCountryRequestDtoImpl _value,
@@ -139,8 +130,7 @@ class _$WalletCountryRequestDtoImpl implements _WalletCountryRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WalletCountryRequestDtoImpl &&
-            (identical(other.countryCode, countryCode) ||
-                other.countryCode == countryCode));
+            (identical(other.countryCode, countryCode) || other.countryCode == countryCode));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -152,10 +142,8 @@ class _$WalletCountryRequestDtoImpl implements _WalletCountryRequestDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$WalletCountryRequestDtoImplCopyWith<_$WalletCountryRequestDtoImpl>
-  get copyWith => __$$WalletCountryRequestDtoImplCopyWithImpl<
-    _$WalletCountryRequestDtoImpl
-  >(this, _$identity);
+  _$$WalletCountryRequestDtoImplCopyWith<_$WalletCountryRequestDtoImpl> get copyWith =>
+      __$$WalletCountryRequestDtoImplCopyWithImpl<_$WalletCountryRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -177,6 +165,6 @@ abstract class _WalletCountryRequestDto implements WalletCountryRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WalletCountryRequestDtoImplCopyWith<_$WalletCountryRequestDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$WalletCountryRequestDtoImplCopyWith<_$WalletCountryRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

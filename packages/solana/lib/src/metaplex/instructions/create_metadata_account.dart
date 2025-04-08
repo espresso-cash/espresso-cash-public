@@ -26,10 +26,7 @@ Future<AnchorInstruction> createMetadataAccountV3({
       AccountMeta.writeable(pubKey: payer, isSigner: true),
       AccountMeta.readonly(pubKey: updateAuthority, isSigner: false),
       AccountMeta.readonly(pubKey: SystemProgram.id, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
     ],
     arguments: ByteArray(data.toBorsh()),
   );
@@ -65,8 +62,7 @@ abstract class MetadataCreator with _$MetadataCreator {
 
   const MetadataCreator._();
 
-  factory MetadataCreator.fromBorsh(Uint8List data) =>
-      _$MetadataCreatorFromBorsh(data);
+  factory MetadataCreator.fromBorsh(Uint8List data) => _$MetadataCreatorFromBorsh(data);
 }
 
 @BorshSerializable()
@@ -78,8 +74,7 @@ abstract class MetadataCollection with _$MetadataCollection {
 
   const MetadataCollection._();
 
-  factory MetadataCollection.fromBorsh(Uint8List data) =>
-      _$MetadataCollectionFromBorsh(data);
+  factory MetadataCollection.fromBorsh(Uint8List data) => _$MetadataCollectionFromBorsh(data);
 }
 
 @BorshSerializable()
@@ -92,6 +87,5 @@ abstract class MetadataUses with _$MetadataUses {
 
   const MetadataUses._();
 
-  factory MetadataUses.fromBorsh(Uint8List data) =>
-      _$MetadataUsesFromBorsh(data);
+  factory MetadataUses.fromBorsh(Uint8List data) => _$MetadataUsesFromBorsh(data);
 }

@@ -13,10 +13,7 @@ class Bip32DerivationPath {
       ),
     ];
 
-    return Uri(
-      scheme: WalletContractV1.bip32UriScheme,
-      pathSegments: pathSegments,
-    );
+    return Uri(scheme: WalletContractV1.bip32UriScheme, pathSegments: pathSegments);
   }
 
   static List<BipLevel> fromUri(Uri uri) {
@@ -39,30 +36,20 @@ class Bip32DerivationPath {
     }
 
     final path = uri.pathSegments;
-    if (path.isEmpty ||
-        path.first != WalletContractV1.bip32UriMasterKeyIndicator) {
-      throw UnsupportedError(
-        'BIP32 URI path must start with a master key indicator',
-      );
+    if (path.isEmpty || path.first != WalletContractV1.bip32UriMasterKeyIndicator) {
+      throw UnsupportedError('BIP32 URI path must start with a master key indicator');
     }
 
     return path.skip(1).map((it) {
-      final hardened = it.endsWith(
-        WalletContractV1.bipUriHardenedIndexIdentifier,
-      );
+      final hardened = it.endsWith(WalletContractV1.bipUriHardenedIndexIdentifier);
       final index = int.tryParse(
         it.substring(
           0,
-          it.length -
-              (hardened
-                  ? WalletContractV1.bipUriHardenedIndexIdentifier.length
-                  : 0),
+          it.length - (hardened ? WalletContractV1.bipUriHardenedIndexIdentifier.length : 0),
         ),
       );
       if (index == null) {
-        throw UnsupportedError(
-          'Path element $it could not be parsed as a BIP32 level',
-        );
+        throw UnsupportedError('Path element $it could not be parsed as a BIP32 level');
       }
 
       return BipLevel(index: index, hardened: hardened);

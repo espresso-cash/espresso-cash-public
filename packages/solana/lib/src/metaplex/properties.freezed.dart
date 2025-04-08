@@ -98,15 +98,12 @@ mixin _$Properties {
 
 /// @nodoc
 abstract class $PropertiesCopyWith<$Res> {
-  factory $PropertiesCopyWith(
-    Properties value,
-    $Res Function(Properties) then,
-  ) = _$PropertiesCopyWithImpl<$Res, Properties>;
+  factory $PropertiesCopyWith(Properties value, $Res Function(Properties) then) =
+      _$PropertiesCopyWithImpl<$Res, Properties>;
 }
 
 /// @nodoc
-class _$PropertiesCopyWithImpl<$Res, $Val extends Properties>
-    implements $PropertiesCopyWith<$Res> {
+class _$PropertiesCopyWithImpl<$Res, $Val extends Properties> implements $PropertiesCopyWith<$Res> {
   _$PropertiesCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -120,20 +117,15 @@ class _$PropertiesCopyWithImpl<$Res, $Val extends Properties>
 
 /// @nodoc
 abstract class _$$UnknownImplCopyWith<$Res> {
-  factory _$$UnknownImplCopyWith(
-    _$UnknownImpl value,
-    $Res Function(_$UnknownImpl) then,
-  ) = __$$UnknownImplCopyWithImpl<$Res>;
+  factory _$$UnknownImplCopyWith(_$UnknownImpl value, $Res Function(_$UnknownImpl) then) =
+      __$$UnknownImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$UnknownImplCopyWithImpl<$Res>
-    extends _$PropertiesCopyWithImpl<$Res, _$UnknownImpl>
+class __$$UnknownImplCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res, _$UnknownImpl>
     implements _$$UnknownImplCopyWith<$Res> {
-  __$$UnknownImplCopyWithImpl(
-    _$UnknownImpl _value,
-    $Res Function(_$UnknownImpl) _then,
-  ) : super(_value, _then);
+  __$$UnknownImplCopyWithImpl(_$UnknownImpl _value, $Res Function(_$UnknownImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
@@ -144,8 +136,7 @@ class __$$UnknownImplCopyWithImpl<$Res>
 class _$UnknownImpl implements Unknown {
   const _$UnknownImpl({final String? $type}) : $type = $type ?? 'unknown';
 
-  factory _$UnknownImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UnknownImplFromJson(json);
+  factory _$UnknownImpl.fromJson(Map<String, dynamic> json) => _$$UnknownImplFromJson(json);
 
   @JsonKey(name: 'category')
   final String $type;
@@ -157,8 +148,7 @@ class _$UnknownImpl implements Unknown {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$UnknownImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$UnknownImpl);
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -265,22 +255,17 @@ abstract class Unknown implements Properties {
 
 /// @nodoc
 abstract class _$$VideoImplCopyWith<$Res> {
-  factory _$$VideoImplCopyWith(
-    _$VideoImpl value,
-    $Res Function(_$VideoImpl) then,
-  ) = __$$VideoImplCopyWithImpl<$Res>;
+  factory _$$VideoImplCopyWith(_$VideoImpl value, $Res Function(_$VideoImpl) then) =
+      __$$VideoImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$VideoImplCopyWithImpl<$Res>
-    extends _$PropertiesCopyWithImpl<$Res, _$VideoImpl>
+class __$$VideoImplCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res, _$VideoImpl>
     implements _$$VideoImplCopyWith<$Res> {
-  __$$VideoImplCopyWithImpl(
-    _$VideoImpl _value,
-    $Res Function(_$VideoImpl) _then,
-  ) : super(_value, _then);
+  __$$VideoImplCopyWithImpl(_$VideoImpl _value, $Res Function(_$VideoImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
@@ -306,8 +291,7 @@ class _$VideoImpl implements Video {
     : _files = files,
       $type = $type ?? 'video';
 
-  factory _$VideoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$VideoImplFromJson(json);
+  factory _$VideoImpl.fromJson(Map<String, dynamic> json) => _$$VideoImplFromJson(json);
 
   final List<File> _files;
   @override
@@ -335,8 +319,7 @@ class _$VideoImpl implements Video {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_files));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_files));
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
@@ -448,28 +431,22 @@ abstract class Video implements Properties {
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$VideoImplCopyWith<_$VideoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$VideoImplCopyWith<_$VideoImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$ImageImplCopyWith<$Res> {
-  factory _$$ImageImplCopyWith(
-    _$ImageImpl value,
-    $Res Function(_$ImageImpl) then,
-  ) = __$$ImageImplCopyWithImpl<$Res>;
+  factory _$$ImageImplCopyWith(_$ImageImpl value, $Res Function(_$ImageImpl) then) =
+      __$$ImageImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$ImageImplCopyWithImpl<$Res>
-    extends _$PropertiesCopyWithImpl<$Res, _$ImageImpl>
+class __$$ImageImplCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res, _$ImageImpl>
     implements _$$ImageImplCopyWith<$Res> {
-  __$$ImageImplCopyWithImpl(
-    _$ImageImpl _value,
-    $Res Function(_$ImageImpl) _then,
-  ) : super(_value, _then);
+  __$$ImageImplCopyWithImpl(_$ImageImpl _value, $Res Function(_$ImageImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
@@ -495,8 +472,7 @@ class _$ImageImpl implements Image {
     : _files = files,
       $type = $type ?? 'image';
 
-  factory _$ImageImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ImageImplFromJson(json);
+  factory _$ImageImpl.fromJson(Map<String, dynamic> json) => _$$ImageImplFromJson(json);
 
   final List<File> _files;
   @override
@@ -524,8 +500,7 @@ class _$ImageImpl implements Image {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_files));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_files));
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
@@ -637,28 +612,22 @@ abstract class Image implements Properties {
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ImageImplCopyWith<_$ImageImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ImageImplCopyWith<_$ImageImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$Model3DImplCopyWith<$Res> {
-  factory _$$Model3DImplCopyWith(
-    _$Model3DImpl value,
-    $Res Function(_$Model3DImpl) then,
-  ) = __$$Model3DImplCopyWithImpl<$Res>;
+  factory _$$Model3DImplCopyWith(_$Model3DImpl value, $Res Function(_$Model3DImpl) then) =
+      __$$Model3DImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$Model3DImplCopyWithImpl<$Res>
-    extends _$PropertiesCopyWithImpl<$Res, _$Model3DImpl>
+class __$$Model3DImplCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res, _$Model3DImpl>
     implements _$$Model3DImplCopyWith<$Res> {
-  __$$Model3DImplCopyWithImpl(
-    _$Model3DImpl _value,
-    $Res Function(_$Model3DImpl) _then,
-  ) : super(_value, _then);
+  __$$Model3DImplCopyWithImpl(_$Model3DImpl _value, $Res Function(_$Model3DImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
@@ -684,8 +653,7 @@ class _$Model3DImpl implements Model3D {
     : _files = files,
       $type = $type ?? 'vr';
 
-  factory _$Model3DImpl.fromJson(Map<String, dynamic> json) =>
-      _$$Model3DImplFromJson(json);
+  factory _$Model3DImpl.fromJson(Map<String, dynamic> json) => _$$Model3DImplFromJson(json);
 
   final List<File> _files;
   @override
@@ -713,8 +681,7 @@ class _$Model3DImpl implements Model3D {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_files));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_files));
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
@@ -826,28 +793,22 @@ abstract class Model3D implements Properties {
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$Model3DImplCopyWith<_$Model3DImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$Model3DImplCopyWith<_$Model3DImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$AudioImplCopyWith<$Res> {
-  factory _$$AudioImplCopyWith(
-    _$AudioImpl value,
-    $Res Function(_$AudioImpl) then,
-  ) = __$$AudioImplCopyWithImpl<$Res>;
+  factory _$$AudioImplCopyWith(_$AudioImpl value, $Res Function(_$AudioImpl) then) =
+      __$$AudioImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$AudioImplCopyWithImpl<$Res>
-    extends _$PropertiesCopyWithImpl<$Res, _$AudioImpl>
+class __$$AudioImplCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res, _$AudioImpl>
     implements _$$AudioImplCopyWith<$Res> {
-  __$$AudioImplCopyWithImpl(
-    _$AudioImpl _value,
-    $Res Function(_$AudioImpl) _then,
-  ) : super(_value, _then);
+  __$$AudioImplCopyWithImpl(_$AudioImpl _value, $Res Function(_$AudioImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
@@ -873,8 +834,7 @@ class _$AudioImpl implements Audio {
     : _files = files,
       $type = $type ?? 'audio';
 
-  factory _$AudioImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AudioImplFromJson(json);
+  factory _$AudioImpl.fromJson(Map<String, dynamic> json) => _$$AudioImplFromJson(json);
 
   final List<File> _files;
   @override
@@ -902,8 +862,7 @@ class _$AudioImpl implements Audio {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_files));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_files));
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
@@ -1015,23 +974,19 @@ abstract class Audio implements Properties {
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AudioImplCopyWith<_$AudioImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$AudioImplCopyWith<_$AudioImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$HtmlImplCopyWith<$Res> {
-  factory _$$HtmlImplCopyWith(
-    _$HtmlImpl value,
-    $Res Function(_$HtmlImpl) then,
-  ) = __$$HtmlImplCopyWithImpl<$Res>;
+  factory _$$HtmlImplCopyWith(_$HtmlImpl value, $Res Function(_$HtmlImpl) then) =
+      __$$HtmlImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$HtmlImplCopyWithImpl<$Res>
-    extends _$PropertiesCopyWithImpl<$Res, _$HtmlImpl>
+class __$$HtmlImplCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res, _$HtmlImpl>
     implements _$$HtmlImplCopyWith<$Res> {
   __$$HtmlImplCopyWithImpl(_$HtmlImpl _value, $Res Function(_$HtmlImpl) _then)
     : super(_value, _then);
@@ -1060,8 +1015,7 @@ class _$HtmlImpl implements Html {
     : _files = files,
       $type = $type ?? 'html';
 
-  factory _$HtmlImpl.fromJson(Map<String, dynamic> json) =>
-      _$$HtmlImplFromJson(json);
+  factory _$HtmlImpl.fromJson(Map<String, dynamic> json) => _$$HtmlImplFromJson(json);
 
   final List<File> _files;
   @override
@@ -1089,8 +1043,7 @@ class _$HtmlImpl implements Html {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_files));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_files));
 
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
@@ -1202,6 +1155,5 @@ abstract class Html implements Properties {
   /// Create a copy of Properties
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$HtmlImplCopyWith<_$HtmlImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$HtmlImplCopyWith<_$HtmlImpl> get copyWith => throw _privateConstructorUsedError;
 }

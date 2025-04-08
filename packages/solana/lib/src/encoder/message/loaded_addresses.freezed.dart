@@ -23,21 +23,15 @@ mixin _$LoadedAddresses {
   /// Create a copy of LoadedAddresses
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $LoadedAddressesCopyWith<LoadedAddresses> get copyWith =>
-      throw _privateConstructorUsedError;
+  $LoadedAddressesCopyWith<LoadedAddresses> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $LoadedAddressesCopyWith<$Res> {
-  factory $LoadedAddressesCopyWith(
-    LoadedAddresses value,
-    $Res Function(LoadedAddresses) then,
-  ) = _$LoadedAddressesCopyWithImpl<$Res, LoadedAddresses>;
+  factory $LoadedAddressesCopyWith(LoadedAddresses value, $Res Function(LoadedAddresses) then) =
+      _$LoadedAddressesCopyWithImpl<$Res, LoadedAddresses>;
   @useResult
-  $Res call({
-    List<Ed25519HDPublicKey> writable,
-    List<Ed25519HDPublicKey> readonly,
-  });
+  $Res call({List<Ed25519HDPublicKey> writable, List<Ed25519HDPublicKey> readonly});
 }
 
 /// @nodoc
@@ -74,18 +68,14 @@ class _$LoadedAddressesCopyWithImpl<$Res, $Val extends LoadedAddresses>
 }
 
 /// @nodoc
-abstract class _$$LoadedAddressesImplCopyWith<$Res>
-    implements $LoadedAddressesCopyWith<$Res> {
+abstract class _$$LoadedAddressesImplCopyWith<$Res> implements $LoadedAddressesCopyWith<$Res> {
   factory _$$LoadedAddressesImplCopyWith(
     _$LoadedAddressesImpl value,
     $Res Function(_$LoadedAddressesImpl) then,
   ) = __$$LoadedAddressesImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    List<Ed25519HDPublicKey> writable,
-    List<Ed25519HDPublicKey> readonly,
-  });
+  $Res call({List<Ed25519HDPublicKey> writable, List<Ed25519HDPublicKey> readonly});
 }
 
 /// @nodoc
@@ -171,10 +161,7 @@ class _$LoadedAddressesImpl implements _LoadedAddresses {
   @override
   @pragma('vm:prefer-inline')
   _$$LoadedAddressesImplCopyWith<_$LoadedAddressesImpl> get copyWith =>
-      __$$LoadedAddressesImplCopyWithImpl<_$LoadedAddressesImpl>(
-        this,
-        _$identity,
-      );
+      __$$LoadedAddressesImplCopyWithImpl<_$LoadedAddressesImpl>(this, _$identity);
 }
 
 abstract class _LoadedAddresses implements LoadedAddresses {

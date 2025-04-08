@@ -39,10 +39,7 @@ abstract class $SolanaTransactionRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SolanaTransactionRequestCopyWithImpl<
-  $Res,
-  $Val extends SolanaTransactionRequest
->
+class _$SolanaTransactionRequestCopyWithImpl<$Res, $Val extends SolanaTransactionRequest>
     implements $SolanaTransactionRequestCopyWith<$Res> {
   _$SolanaTransactionRequestCopyWithImpl(this._value, this._then);
 
@@ -55,11 +52,7 @@ class _$SolanaTransactionRequestCopyWithImpl<
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? link = null,
-    Object? label = freezed,
-    Object? message = freezed,
-  }) {
+  $Res call({Object? link = null, Object? label = freezed, Object? message = freezed}) {
     return _then(
       _value.copyWith(
             link:
@@ -97,11 +90,7 @@ abstract class _$$SolanaTransactionRequestImplCopyWith<$Res>
 
 /// @nodoc
 class __$$SolanaTransactionRequestImplCopyWithImpl<$Res>
-    extends
-        _$SolanaTransactionRequestCopyWithImpl<
-          $Res,
-          _$SolanaTransactionRequestImpl
-        >
+    extends _$SolanaTransactionRequestCopyWithImpl<$Res, _$SolanaTransactionRequestImpl>
     implements _$$SolanaTransactionRequestImplCopyWith<$Res> {
   __$$SolanaTransactionRequestImplCopyWithImpl(
     _$SolanaTransactionRequestImpl _value,
@@ -112,11 +101,7 @@ class __$$SolanaTransactionRequestImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? link = null,
-    Object? label = freezed,
-    Object? message = freezed,
-  }) {
+  $Res call({Object? link = null, Object? label = freezed, Object? message = freezed}) {
     return _then(
       _$SolanaTransactionRequestImpl(
         link:
@@ -142,11 +127,7 @@ class __$$SolanaTransactionRequestImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SolanaTransactionRequestImpl extends _SolanaTransactionRequest {
-  const _$SolanaTransactionRequestImpl({
-    required this.link,
-    this.label,
-    this.message,
-  }) : super._();
+  const _$SolanaTransactionRequestImpl({required this.link, this.label, this.message}) : super._();
 
   @override
   final Uri link;
@@ -178,10 +159,11 @@ class _$SolanaTransactionRequestImpl extends _SolanaTransactionRequest {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$SolanaTransactionRequestImplCopyWith<_$SolanaTransactionRequestImpl>
-  get copyWith => __$$SolanaTransactionRequestImplCopyWithImpl<
-    _$SolanaTransactionRequestImpl
-  >(this, _$identity);
+  _$$SolanaTransactionRequestImplCopyWith<_$SolanaTransactionRequestImpl> get copyWith =>
+      __$$SolanaTransactionRequestImplCopyWithImpl<_$SolanaTransactionRequestImpl>(
+        this,
+        _$identity,
+      );
 }
 
 abstract class _SolanaTransactionRequest extends SolanaTransactionRequest {
@@ -203,6 +185,6 @@ abstract class _SolanaTransactionRequest extends SolanaTransactionRequest {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SolanaTransactionRequestImplCopyWith<_$SolanaTransactionRequestImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$SolanaTransactionRequestImplCopyWith<_$SolanaTransactionRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

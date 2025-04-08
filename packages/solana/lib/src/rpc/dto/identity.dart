@@ -7,8 +7,7 @@ part 'identity.g.dart';
 class Identity {
   const Identity({required this.identity});
 
-  factory Identity.fromJson(Map<String, dynamic> json) =>
-      _$IdentityFromJson(json);
+  factory Identity.fromJson(Map<String, dynamic> json) => _$IdentityFromJson(json);
 
   /// the identity pubkey of the current node (as a base-58
   /// encoded string)

@@ -11,8 +11,7 @@ part 'blockhash.g.dart';
 class Blockhash {
   const Blockhash({required this.feeCalculator, required this.blockhash});
 
-  factory Blockhash.fromJson(Map<String, dynamic> json) =>
-      _$BlockhashFromJson(json);
+  factory Blockhash.fromJson(Map<String, dynamic> json) => _$BlockhashFromJson(json);
 
   final FeeCalculator feeCalculator;
   final String blockhash;

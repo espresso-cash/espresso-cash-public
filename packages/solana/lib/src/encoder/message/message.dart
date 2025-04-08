@@ -20,17 +20,14 @@ class Message with _$Message {
 
   const Message._();
 
-  factory Message.only(Instruction instruction) =>
-      Message(instructions: [instruction]);
+  factory Message.only(Instruction instruction) => Message(instructions: [instruction]);
 
   factory Message.decompile(
     CompiledMessage compiledMessage, {
     List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
   }) => compiledMessage.map(
     legacy: decompileLegacy,
-    v0:
-        (compiledMessage) =>
-            decompileV0(compiledMessage, addressLookupTableAccounts),
+    v0: (compiledMessage) => decompileV0(compiledMessage, addressLookupTableAccounts),
   );
 
   /// Compiles a message into the array of bytes that would be interpreted by
@@ -42,16 +39,11 @@ class Message with _$Message {
   ///
   /// Returns a [CompiledMessage] that can be used to sign the transaction, and
   /// also verify that the number of signers is correct.
-  CompiledMessage compile({
-    required String recentBlockhash,
-    required Ed25519HDPublicKey feePayer,
-  }) {
+  CompiledMessage compile({required String recentBlockhash, required Ed25519HDPublicKey feePayer}) {
     final accounts = instructions.getAccounts(feePayer: feePayer);
     final accountsIndexesMap = accounts.toIndexesMap();
     final header = MessageHeader.fromAccounts(accounts);
-    final compiledInstructions = instructions.map(
-      (i) => i.compile(accountsIndexesMap),
-    );
+    final compiledInstructions = instructions.map((i) => i.compile(accountsIndexesMap));
 
     return CompiledMessage.legacy(
       header: header,
@@ -66,10 +58,7 @@ class Message with _$Message {
     required Ed25519HDPublicKey feePayer,
     List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
   }) {
-    final compiledKeys = CompiledKeys.compile(
-      instructions: instructions,
-      payer: feePayer,
-    );
+    final compiledKeys = CompiledKeys.compile(instructions: instructions, payer: feePayer);
 
     final addressTableLookups = <MessageAddressTableLookup>[];
     final writableKeys = <Ed25519HDPublicKey>[];
@@ -93,10 +82,7 @@ class Message with _$Message {
     final staticAccountKeys = messageComponents.publicKeys;
     final accountKeys = MessageAccountKeys(
       staticAccountKeys: staticAccountKeys,
-      accountKeysFromLookups: LoadedAddresses(
-        writable: writableKeys,
-        readonly: readonlyKeys,
-      ),
+      accountKeysFromLookups: LoadedAddresses(writable: writableKeys, readonly: readonlyKeys),
     );
 
     final messageInstructions = accountKeys.compileInstructions(instructions);

@@ -59,15 +59,12 @@ mixin _$LogsFilter {
 
 /// @nodoc
 abstract class $LogsFilterCopyWith<$Res> {
-  factory $LogsFilterCopyWith(
-    LogsFilter value,
-    $Res Function(LogsFilter) then,
-  ) = _$LogsFilterCopyWithImpl<$Res, LogsFilter>;
+  factory $LogsFilterCopyWith(LogsFilter value, $Res Function(LogsFilter) then) =
+      _$LogsFilterCopyWithImpl<$Res, LogsFilter>;
 }
 
 /// @nodoc
-class _$LogsFilterCopyWithImpl<$Res, $Val extends LogsFilter>
-    implements $LogsFilterCopyWith<$Res> {
+class _$LogsFilterCopyWithImpl<$Res, $Val extends LogsFilter> implements $LogsFilterCopyWith<$Res> {
   _$LogsFilterCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -226,8 +223,7 @@ class _$LosgFilterAllWithVotesImpl implements _LosgFilterAllWithVotes {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LosgFilterAllWithVotesImpl);
+        (other.runtimeType == runtimeType && other is _$LosgFilterAllWithVotesImpl);
   }
 
   @override
@@ -344,8 +340,7 @@ class __$$LogsFilterMentionsImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LogsFilterMentionsImpl implements _LogsFilterMentions {
-  const _$LogsFilterMentionsImpl(final List<String> pubKeys)
-    : _pubKeys = pubKeys;
+  const _$LogsFilterMentionsImpl(final List<String> pubKeys) : _pubKeys = pubKeys;
 
   final List<String> _pubKeys;
   @override
@@ -369,8 +364,7 @@ class _$LogsFilterMentionsImpl implements _LogsFilterMentions {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_pubKeys));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_pubKeys));
 
   /// Create a copy of LogsFilter
   /// with the given fields replaced by the non-null parameter values.
@@ -378,10 +372,7 @@ class _$LogsFilterMentionsImpl implements _LogsFilterMentions {
   @override
   @pragma('vm:prefer-inline')
   _$$LogsFilterMentionsImplCopyWith<_$LogsFilterMentionsImpl> get copyWith =>
-      __$$LogsFilterMentionsImplCopyWithImpl<_$LogsFilterMentionsImpl>(
-        this,
-        _$identity,
-      );
+      __$$LogsFilterMentionsImplCopyWithImpl<_$LogsFilterMentionsImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -453,8 +444,7 @@ class _$LogsFilterMentionsImpl implements _LogsFilterMentions {
 }
 
 abstract class _LogsFilterMentions implements LogsFilter {
-  const factory _LogsFilterMentions(final List<String> pubKeys) =
-      _$LogsFilterMentionsImpl;
+  const factory _LogsFilterMentions(final List<String> pubKeys) = _$LogsFilterMentionsImpl;
 
   List<String> get pubKeys;
 

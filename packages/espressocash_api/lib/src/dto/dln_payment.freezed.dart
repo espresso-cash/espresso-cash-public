@@ -15,9 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-PaymentQuoteRequestDto _$PaymentQuoteRequestDtoFromJson(
-  Map<String, dynamic> json,
-) {
+PaymentQuoteRequestDto _$PaymentQuoteRequestDtoFromJson(Map<String, dynamic> json) {
   return _PaymentQuoteRequestDto.fromJson(json);
 }
 
@@ -48,10 +46,7 @@ abstract class $PaymentQuoteRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PaymentQuoteRequestDtoCopyWithImpl<
-  $Res,
-  $Val extends PaymentQuoteRequestDto
->
+class _$PaymentQuoteRequestDtoCopyWithImpl<$Res, $Val extends PaymentQuoteRequestDto>
     implements $PaymentQuoteRequestDtoCopyWith<$Res> {
   _$PaymentQuoteRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -106,8 +101,7 @@ abstract class _$$PaymentQuoteRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$PaymentQuoteRequestDtoImplCopyWithImpl<$Res>
-    extends
-        _$PaymentQuoteRequestDtoCopyWithImpl<$Res, _$PaymentQuoteRequestDtoImpl>
+    extends _$PaymentQuoteRequestDtoCopyWithImpl<$Res, _$PaymentQuoteRequestDtoImpl>
     implements _$$PaymentQuoteRequestDtoImplCopyWith<$Res> {
   __$$PaymentQuoteRequestDtoImplCopyWithImpl(
     _$PaymentQuoteRequestDtoImpl _value,
@@ -183,20 +177,15 @@ class _$PaymentQuoteRequestDtoImpl implements _PaymentQuoteRequestDto {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, amount, receiverAddress, receiverBlockchain);
+  int get hashCode => Object.hash(runtimeType, amount, receiverAddress, receiverBlockchain);
 
   /// Create a copy of PaymentQuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$PaymentQuoteRequestDtoImplCopyWith<_$PaymentQuoteRequestDtoImpl>
-  get copyWith =>
-      __$$PaymentQuoteRequestDtoImplCopyWithImpl<_$PaymentQuoteRequestDtoImpl>(
-        this,
-        _$identity,
-      );
+  _$$PaymentQuoteRequestDtoImplCopyWith<_$PaymentQuoteRequestDtoImpl> get copyWith =>
+      __$$PaymentQuoteRequestDtoImplCopyWithImpl<_$PaymentQuoteRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -225,13 +214,11 @@ abstract class _PaymentQuoteRequestDto implements PaymentQuoteRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PaymentQuoteRequestDtoImplCopyWith<_$PaymentQuoteRequestDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$PaymentQuoteRequestDtoImplCopyWith<_$PaymentQuoteRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-PaymentQuoteResponseDto _$PaymentQuoteResponseDtoFromJson(
-  Map<String, dynamic> json,
-) {
+PaymentQuoteResponseDto _$PaymentQuoteResponseDtoFromJson(Map<String, dynamic> json) {
   return _PaymentQuoteResponseDto.fromJson(json);
 }
 
@@ -260,20 +247,11 @@ abstract class $PaymentQuoteResponseDtoCopyWith<$Res> {
     $Res Function(PaymentQuoteResponseDto) then,
   ) = _$PaymentQuoteResponseDtoCopyWithImpl<$Res, PaymentQuoteResponseDto>;
   @useResult
-  $Res call({
-    int inputAmount,
-    int receiverAmount,
-    String encodedTx,
-    int feeInUsdc,
-    BigInt slot,
-  });
+  $Res call({int inputAmount, int receiverAmount, String encodedTx, int feeInUsdc, BigInt slot});
 }
 
 /// @nodoc
-class _$PaymentQuoteResponseDtoCopyWithImpl<
-  $Res,
-  $Val extends PaymentQuoteResponseDto
->
+class _$PaymentQuoteResponseDtoCopyWithImpl<$Res, $Val extends PaymentQuoteResponseDto>
     implements $PaymentQuoteResponseDtoCopyWith<$Res> {
   _$PaymentQuoteResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -335,22 +313,12 @@ abstract class _$$PaymentQuoteResponseDtoImplCopyWith<$Res>
   ) = __$$PaymentQuoteResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int inputAmount,
-    int receiverAmount,
-    String encodedTx,
-    int feeInUsdc,
-    BigInt slot,
-  });
+  $Res call({int inputAmount, int receiverAmount, String encodedTx, int feeInUsdc, BigInt slot});
 }
 
 /// @nodoc
 class __$$PaymentQuoteResponseDtoImplCopyWithImpl<$Res>
-    extends
-        _$PaymentQuoteResponseDtoCopyWithImpl<
-          $Res,
-          _$PaymentQuoteResponseDtoImpl
-        >
+    extends _$PaymentQuoteResponseDtoCopyWithImpl<$Res, _$PaymentQuoteResponseDtoImpl>
     implements _$$PaymentQuoteResponseDtoImplCopyWith<$Res> {
   __$$PaymentQuoteResponseDtoImplCopyWithImpl(
     _$PaymentQuoteResponseDtoImpl _value,
@@ -435,37 +403,26 @@ class _$PaymentQuoteResponseDtoImpl implements _PaymentQuoteResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PaymentQuoteResponseDtoImpl &&
-            (identical(other.inputAmount, inputAmount) ||
-                other.inputAmount == inputAmount) &&
+            (identical(other.inputAmount, inputAmount) || other.inputAmount == inputAmount) &&
             (identical(other.receiverAmount, receiverAmount) ||
                 other.receiverAmount == receiverAmount) &&
-            (identical(other.encodedTx, encodedTx) ||
-                other.encodedTx == encodedTx) &&
-            (identical(other.feeInUsdc, feeInUsdc) ||
-                other.feeInUsdc == feeInUsdc) &&
+            (identical(other.encodedTx, encodedTx) || other.encodedTx == encodedTx) &&
+            (identical(other.feeInUsdc, feeInUsdc) || other.feeInUsdc == feeInUsdc) &&
             (identical(other.slot, slot) || other.slot == slot));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    inputAmount,
-    receiverAmount,
-    encodedTx,
-    feeInUsdc,
-    slot,
-  );
+  int get hashCode =>
+      Object.hash(runtimeType, inputAmount, receiverAmount, encodedTx, feeInUsdc, slot);
 
   /// Create a copy of PaymentQuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$PaymentQuoteResponseDtoImplCopyWith<_$PaymentQuoteResponseDtoImpl>
-  get copyWith => __$$PaymentQuoteResponseDtoImplCopyWithImpl<
-    _$PaymentQuoteResponseDtoImpl
-  >(this, _$identity);
+  _$$PaymentQuoteResponseDtoImplCopyWith<_$PaymentQuoteResponseDtoImpl> get copyWith =>
+      __$$PaymentQuoteResponseDtoImplCopyWithImpl<_$PaymentQuoteResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -500,13 +457,11 @@ abstract class _PaymentQuoteResponseDto implements PaymentQuoteResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PaymentQuoteResponseDtoImplCopyWith<_$PaymentQuoteResponseDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$PaymentQuoteResponseDtoImplCopyWith<_$PaymentQuoteResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-OrderStatusDlnRequestDto _$OrderStatusDlnRequestDtoFromJson(
-  Map<String, dynamic> json,
-) {
+OrderStatusDlnRequestDto _$OrderStatusDlnRequestDtoFromJson(Map<String, dynamic> json) {
   return _OrderStatusDlnRequestDto.fromJson(json);
 }
 
@@ -535,10 +490,7 @@ abstract class $OrderStatusDlnRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$OrderStatusDlnRequestDtoCopyWithImpl<
-  $Res,
-  $Val extends OrderStatusDlnRequestDto
->
+class _$OrderStatusDlnRequestDtoCopyWithImpl<$Res, $Val extends OrderStatusDlnRequestDto>
     implements $OrderStatusDlnRequestDtoCopyWith<$Res> {
   _$OrderStatusDlnRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -579,11 +531,7 @@ abstract class _$$OrderStatusDlnRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$OrderStatusDlnRequestDtoImplCopyWithImpl<$Res>
-    extends
-        _$OrderStatusDlnRequestDtoCopyWithImpl<
-          $Res,
-          _$OrderStatusDlnRequestDtoImpl
-        >
+    extends _$OrderStatusDlnRequestDtoCopyWithImpl<$Res, _$OrderStatusDlnRequestDtoImpl>
     implements _$$OrderStatusDlnRequestDtoImplCopyWith<$Res> {
   __$$OrderStatusDlnRequestDtoImplCopyWithImpl(
     _$OrderStatusDlnRequestDtoImpl _value,
@@ -640,10 +588,11 @@ class _$OrderStatusDlnRequestDtoImpl implements _OrderStatusDlnRequestDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$OrderStatusDlnRequestDtoImplCopyWith<_$OrderStatusDlnRequestDtoImpl>
-  get copyWith => __$$OrderStatusDlnRequestDtoImplCopyWithImpl<
-    _$OrderStatusDlnRequestDtoImpl
-  >(this, _$identity);
+  _$$OrderStatusDlnRequestDtoImplCopyWith<_$OrderStatusDlnRequestDtoImpl> get copyWith =>
+      __$$OrderStatusDlnRequestDtoImplCopyWithImpl<_$OrderStatusDlnRequestDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -665,13 +614,11 @@ abstract class _OrderStatusDlnRequestDto implements OrderStatusDlnRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$OrderStatusDlnRequestDtoImplCopyWith<_$OrderStatusDlnRequestDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$OrderStatusDlnRequestDtoImplCopyWith<_$OrderStatusDlnRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-OrderStatusDlnResponseDto _$OrderStatusDlnResponseDtoFromJson(
-  Map<String, dynamic> json,
-) {
+OrderStatusDlnResponseDto _$OrderStatusDlnResponseDtoFromJson(Map<String, dynamic> json) {
   return _OrderStatusDlnResponseDto.fromJson(json);
 }
 
@@ -700,10 +647,7 @@ abstract class $OrderStatusDlnResponseDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$OrderStatusDlnResponseDtoCopyWithImpl<
-  $Res,
-  $Val extends OrderStatusDlnResponseDto
->
+class _$OrderStatusDlnResponseDtoCopyWithImpl<$Res, $Val extends OrderStatusDlnResponseDto>
     implements $OrderStatusDlnResponseDtoCopyWith<$Res> {
   _$OrderStatusDlnResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -744,11 +688,7 @@ abstract class _$$OrderStatusDlnResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$OrderStatusDlnResponseDtoImplCopyWithImpl<$Res>
-    extends
-        _$OrderStatusDlnResponseDtoCopyWithImpl<
-          $Res,
-          _$OrderStatusDlnResponseDtoImpl
-        >
+    extends _$OrderStatusDlnResponseDtoCopyWithImpl<$Res, _$OrderStatusDlnResponseDtoImpl>
     implements _$$OrderStatusDlnResponseDtoImplCopyWith<$Res> {
   __$$OrderStatusDlnResponseDtoImplCopyWithImpl(
     _$OrderStatusDlnResponseDtoImpl _value,
@@ -805,10 +745,11 @@ class _$OrderStatusDlnResponseDtoImpl implements _OrderStatusDlnResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$OrderStatusDlnResponseDtoImplCopyWith<_$OrderStatusDlnResponseDtoImpl>
-  get copyWith => __$$OrderStatusDlnResponseDtoImplCopyWithImpl<
-    _$OrderStatusDlnResponseDtoImpl
-  >(this, _$identity);
+  _$$OrderStatusDlnResponseDtoImplCopyWith<_$OrderStatusDlnResponseDtoImpl> get copyWith =>
+      __$$OrderStatusDlnResponseDtoImplCopyWithImpl<_$OrderStatusDlnResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -817,9 +758,8 @@ class _$OrderStatusDlnResponseDtoImpl implements _OrderStatusDlnResponseDto {
 }
 
 abstract class _OrderStatusDlnResponseDto implements OrderStatusDlnResponseDto {
-  const factory _OrderStatusDlnResponseDto({
-    required final DlnOrderStatus status,
-  }) = _$OrderStatusDlnResponseDtoImpl;
+  const factory _OrderStatusDlnResponseDto({required final DlnOrderStatus status}) =
+      _$OrderStatusDlnResponseDtoImpl;
 
   factory _OrderStatusDlnResponseDto.fromJson(Map<String, dynamic> json) =
       _$OrderStatusDlnResponseDtoImpl.fromJson;
@@ -831,8 +771,8 @@ abstract class _OrderStatusDlnResponseDto implements OrderStatusDlnResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$OrderStatusDlnResponseDtoImplCopyWith<_$OrderStatusDlnResponseDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$OrderStatusDlnResponseDtoImplCopyWith<_$OrderStatusDlnResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 OrderIdDlnRequestDto _$OrderIdDlnRequestDtoFromJson(Map<String, dynamic> json) {
@@ -864,10 +804,7 @@ abstract class $OrderIdDlnRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$OrderIdDlnRequestDtoCopyWithImpl<
-  $Res,
-  $Val extends OrderIdDlnRequestDto
->
+class _$OrderIdDlnRequestDtoCopyWithImpl<$Res, $Val extends OrderIdDlnRequestDto>
     implements $OrderIdDlnRequestDtoCopyWith<$Res> {
   _$OrderIdDlnRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -965,12 +902,8 @@ class _$OrderIdDlnRequestDtoImpl implements _OrderIdDlnRequestDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$OrderIdDlnRequestDtoImplCopyWith<_$OrderIdDlnRequestDtoImpl>
-  get copyWith =>
-      __$$OrderIdDlnRequestDtoImplCopyWithImpl<_$OrderIdDlnRequestDtoImpl>(
-        this,
-        _$identity,
-      );
+  _$$OrderIdDlnRequestDtoImplCopyWith<_$OrderIdDlnRequestDtoImpl> get copyWith =>
+      __$$OrderIdDlnRequestDtoImplCopyWithImpl<_$OrderIdDlnRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -979,8 +912,7 @@ class _$OrderIdDlnRequestDtoImpl implements _OrderIdDlnRequestDto {
 }
 
 abstract class _OrderIdDlnRequestDto implements OrderIdDlnRequestDto {
-  const factory _OrderIdDlnRequestDto({required final String txId}) =
-      _$OrderIdDlnRequestDtoImpl;
+  const factory _OrderIdDlnRequestDto({required final String txId}) = _$OrderIdDlnRequestDtoImpl;
 
   factory _OrderIdDlnRequestDto.fromJson(Map<String, dynamic> json) =
       _$OrderIdDlnRequestDtoImpl.fromJson;
@@ -992,13 +924,11 @@ abstract class _OrderIdDlnRequestDto implements OrderIdDlnRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$OrderIdDlnRequestDtoImplCopyWith<_$OrderIdDlnRequestDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$OrderIdDlnRequestDtoImplCopyWith<_$OrderIdDlnRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-OrderIdDlnResponseDto _$OrderIdDlnResponseDtoFromJson(
-  Map<String, dynamic> json,
-) {
+OrderIdDlnResponseDto _$OrderIdDlnResponseDtoFromJson(Map<String, dynamic> json) {
   return _OrderIdDlnResponseDto.fromJson(json);
 }
 
@@ -1027,10 +957,7 @@ abstract class $OrderIdDlnResponseDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$OrderIdDlnResponseDtoCopyWithImpl<
-  $Res,
-  $Val extends OrderIdDlnResponseDto
->
+class _$OrderIdDlnResponseDtoCopyWithImpl<$Res, $Val extends OrderIdDlnResponseDto>
     implements $OrderIdDlnResponseDtoCopyWith<$Res> {
   _$OrderIdDlnResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -1071,8 +998,7 @@ abstract class _$$OrderIdDlnResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$OrderIdDlnResponseDtoImplCopyWithImpl<$Res>
-    extends
-        _$OrderIdDlnResponseDtoCopyWithImpl<$Res, _$OrderIdDlnResponseDtoImpl>
+    extends _$OrderIdDlnResponseDtoCopyWithImpl<$Res, _$OrderIdDlnResponseDtoImpl>
     implements _$$OrderIdDlnResponseDtoImplCopyWith<$Res> {
   __$$OrderIdDlnResponseDtoImplCopyWithImpl(
     _$OrderIdDlnResponseDtoImpl _value,
@@ -1129,12 +1055,8 @@ class _$OrderIdDlnResponseDtoImpl implements _OrderIdDlnResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$OrderIdDlnResponseDtoImplCopyWith<_$OrderIdDlnResponseDtoImpl>
-  get copyWith =>
-      __$$OrderIdDlnResponseDtoImplCopyWithImpl<_$OrderIdDlnResponseDtoImpl>(
-        this,
-        _$identity,
-      );
+  _$$OrderIdDlnResponseDtoImplCopyWith<_$OrderIdDlnResponseDtoImpl> get copyWith =>
+      __$$OrderIdDlnResponseDtoImplCopyWithImpl<_$OrderIdDlnResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -1156,13 +1078,11 @@ abstract class _OrderIdDlnResponseDto implements OrderIdDlnResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$OrderIdDlnResponseDtoImplCopyWith<_$OrderIdDlnResponseDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$OrderIdDlnResponseDtoImplCopyWith<_$OrderIdDlnResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-IncomingQuoteRequestDto _$IncomingQuoteRequestDtoFromJson(
-  Map<String, dynamic> json,
-) {
+IncomingQuoteRequestDto _$IncomingQuoteRequestDtoFromJson(Map<String, dynamic> json) {
   return _IncomingQuoteRequestDto.fromJson(json);
 }
 
@@ -1201,10 +1121,7 @@ abstract class $IncomingQuoteRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$IncomingQuoteRequestDtoCopyWithImpl<
-  $Res,
-  $Val extends IncomingQuoteRequestDto
->
+class _$IncomingQuoteRequestDtoCopyWithImpl<$Res, $Val extends IncomingQuoteRequestDto>
     implements $IncomingQuoteRequestDtoCopyWith<$Res> {
   _$IncomingQuoteRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -1277,11 +1194,7 @@ abstract class _$$IncomingQuoteRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$IncomingQuoteRequestDtoImplCopyWithImpl<$Res>
-    extends
-        _$IncomingQuoteRequestDtoCopyWithImpl<
-          $Res,
-          _$IncomingQuoteRequestDtoImpl
-        >
+    extends _$IncomingQuoteRequestDtoCopyWithImpl<$Res, _$IncomingQuoteRequestDtoImpl>
     implements _$$IncomingQuoteRequestDtoImplCopyWith<$Res> {
   __$$IncomingQuoteRequestDtoImplCopyWithImpl(
     _$IncomingQuoteRequestDtoImpl _value,
@@ -1393,10 +1306,8 @@ class _$IncomingQuoteRequestDtoImpl implements _IncomingQuoteRequestDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$IncomingQuoteRequestDtoImplCopyWith<_$IncomingQuoteRequestDtoImpl>
-  get copyWith => __$$IncomingQuoteRequestDtoImplCopyWithImpl<
-    _$IncomingQuoteRequestDtoImpl
-  >(this, _$identity);
+  _$$IncomingQuoteRequestDtoImplCopyWith<_$IncomingQuoteRequestDtoImpl> get copyWith =>
+      __$$IncomingQuoteRequestDtoImplCopyWithImpl<_$IncomingQuoteRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -1431,13 +1342,11 @@ abstract class _IncomingQuoteRequestDto implements IncomingQuoteRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$IncomingQuoteRequestDtoImplCopyWith<_$IncomingQuoteRequestDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$IncomingQuoteRequestDtoImplCopyWith<_$IncomingQuoteRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-IncomingQuoteResponseDto _$IncomingQuoteResponseDtoFromJson(
-  Map<String, dynamic> json,
-) {
+IncomingQuoteResponseDto _$IncomingQuoteResponseDtoFromJson(Map<String, dynamic> json) {
   return _IncomingQuoteResponseDto.fromJson(json);
 }
 
@@ -1479,10 +1388,7 @@ abstract class $IncomingQuoteResponseDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$IncomingQuoteResponseDtoCopyWithImpl<
-  $Res,
-  $Val extends IncomingQuoteResponseDto
->
+class _$IncomingQuoteResponseDtoCopyWithImpl<$Res, $Val extends IncomingQuoteResponseDto>
     implements $IncomingQuoteResponseDtoCopyWith<$Res> {
   _$IncomingQuoteResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -1580,11 +1486,7 @@ abstract class _$$IncomingQuoteResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>
-    extends
-        _$IncomingQuoteResponseDtoCopyWithImpl<
-          $Res,
-          _$IncomingQuoteResponseDtoImpl
-        >
+    extends _$IncomingQuoteResponseDtoCopyWithImpl<$Res, _$IncomingQuoteResponseDtoImpl>
     implements _$$IncomingQuoteResponseDtoImplCopyWith<$Res> {
   __$$IncomingQuoteResponseDtoImplCopyWithImpl(
     _$IncomingQuoteResponseDtoImpl _value,
@@ -1670,36 +1572,28 @@ class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
         (other.runtimeType == runtimeType &&
             other is _$IncomingQuoteResponseDtoImpl &&
             (identical(other.tx, tx) || other.tx == tx) &&
-            (identical(other.usdcInfo, usdcInfo) ||
-                other.usdcInfo == usdcInfo) &&
-            (identical(other.inputAmount, inputAmount) ||
-                other.inputAmount == inputAmount) &&
+            (identical(other.usdcInfo, usdcInfo) || other.usdcInfo == usdcInfo) &&
+            (identical(other.inputAmount, inputAmount) || other.inputAmount == inputAmount) &&
             (identical(other.receiverAmount, receiverAmount) ||
                 other.receiverAmount == receiverAmount) &&
-            (identical(other.feeInUsdc, feeInUsdc) ||
-                other.feeInUsdc == feeInUsdc));
+            (identical(other.feeInUsdc, feeInUsdc) || other.feeInUsdc == feeInUsdc));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    tx,
-    usdcInfo,
-    inputAmount,
-    receiverAmount,
-    feeInUsdc,
-  );
+  int get hashCode =>
+      Object.hash(runtimeType, tx, usdcInfo, inputAmount, receiverAmount, feeInUsdc);
 
   /// Create a copy of IncomingQuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$IncomingQuoteResponseDtoImplCopyWith<_$IncomingQuoteResponseDtoImpl>
-  get copyWith => __$$IncomingQuoteResponseDtoImplCopyWithImpl<
-    _$IncomingQuoteResponseDtoImpl
-  >(this, _$identity);
+  _$$IncomingQuoteResponseDtoImplCopyWith<_$IncomingQuoteResponseDtoImpl> get copyWith =>
+      __$$IncomingQuoteResponseDtoImplCopyWithImpl<_$IncomingQuoteResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -1734,8 +1628,8 @@ abstract class _IncomingQuoteResponseDto implements IncomingQuoteResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$IncomingQuoteResponseDtoImplCopyWith<_$IncomingQuoteResponseDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$IncomingQuoteResponseDtoImplCopyWith<_$IncomingQuoteResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 QuoteTx _$QuoteTxFromJson(Map<String, dynamic> json) {
@@ -1766,8 +1660,7 @@ abstract class $QuoteTxCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$QuoteTxCopyWithImpl<$Res, $Val extends QuoteTx>
-    implements $QuoteTxCopyWith<$Res> {
+class _$QuoteTxCopyWithImpl<$Res, $Val extends QuoteTx> implements $QuoteTxCopyWith<$Res> {
   _$QuoteTxCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -1805,23 +1698,18 @@ class _$QuoteTxCopyWithImpl<$Res, $Val extends QuoteTx>
 
 /// @nodoc
 abstract class _$$QuoteTxImplCopyWith<$Res> implements $QuoteTxCopyWith<$Res> {
-  factory _$$QuoteTxImplCopyWith(
-    _$QuoteTxImpl value,
-    $Res Function(_$QuoteTxImpl) then,
-  ) = __$$QuoteTxImplCopyWithImpl<$Res>;
+  factory _$$QuoteTxImplCopyWith(_$QuoteTxImpl value, $Res Function(_$QuoteTxImpl) then) =
+      __$$QuoteTxImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String to, String data, int value});
 }
 
 /// @nodoc
-class __$$QuoteTxImplCopyWithImpl<$Res>
-    extends _$QuoteTxCopyWithImpl<$Res, _$QuoteTxImpl>
+class __$$QuoteTxImplCopyWithImpl<$Res> extends _$QuoteTxCopyWithImpl<$Res, _$QuoteTxImpl>
     implements _$$QuoteTxImplCopyWith<$Res> {
-  __$$QuoteTxImplCopyWithImpl(
-    _$QuoteTxImpl _value,
-    $Res Function(_$QuoteTxImpl) _then,
-  ) : super(_value, _then);
+  __$$QuoteTxImplCopyWithImpl(_$QuoteTxImpl _value, $Res Function(_$QuoteTxImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of QuoteTx
   /// with the given fields replaced by the non-null parameter values.
@@ -1853,14 +1741,9 @@ class __$$QuoteTxImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$QuoteTxImpl implements _QuoteTx {
-  const _$QuoteTxImpl({
-    required this.to,
-    required this.data,
-    required this.value,
-  });
+  const _$QuoteTxImpl({required this.to, required this.data, required this.value});
 
-  factory _$QuoteTxImpl.fromJson(Map<String, dynamic> json) =>
-      _$$QuoteTxImplFromJson(json);
+  factory _$QuoteTxImpl.fromJson(Map<String, dynamic> json) => _$$QuoteTxImplFromJson(json);
 
   @override
   final String to;
@@ -1922,8 +1805,7 @@ abstract class _QuoteTx implements QuoteTx {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$QuoteTxImplCopyWith<_$QuoteTxImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$QuoteTxImplCopyWith<_$QuoteTxImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 QuoteUsdcInfo _$QuoteUsdcInfoFromJson(Map<String, dynamic> json) {
@@ -1941,16 +1823,13 @@ mixin _$QuoteUsdcInfo {
   /// Create a copy of QuoteUsdcInfo
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $QuoteUsdcInfoCopyWith<QuoteUsdcInfo> get copyWith =>
-      throw _privateConstructorUsedError;
+  $QuoteUsdcInfoCopyWith<QuoteUsdcInfo> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $QuoteUsdcInfoCopyWith<$Res> {
-  factory $QuoteUsdcInfoCopyWith(
-    QuoteUsdcInfo value,
-    $Res Function(QuoteUsdcInfo) then,
-  ) = _$QuoteUsdcInfoCopyWithImpl<$Res, QuoteUsdcInfo>;
+  factory $QuoteUsdcInfoCopyWith(QuoteUsdcInfo value, $Res Function(QuoteUsdcInfo) then) =
+      _$QuoteUsdcInfoCopyWithImpl<$Res, QuoteUsdcInfo>;
   @useResult
   $Res call({String usdcAddress, int approvalAmount});
 }
@@ -1989,8 +1868,7 @@ class _$QuoteUsdcInfoCopyWithImpl<$Res, $Val extends QuoteUsdcInfo>
 }
 
 /// @nodoc
-abstract class _$$QuoteUsdcInfoImplCopyWith<$Res>
-    implements $QuoteUsdcInfoCopyWith<$Res> {
+abstract class _$$QuoteUsdcInfoImplCopyWith<$Res> implements $QuoteUsdcInfoCopyWith<$Res> {
   factory _$$QuoteUsdcInfoImplCopyWith(
     _$QuoteUsdcInfoImpl value,
     $Res Function(_$QuoteUsdcInfoImpl) then,
@@ -2034,10 +1912,7 @@ class __$$QuoteUsdcInfoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$QuoteUsdcInfoImpl implements _QuoteUsdcInfo {
-  const _$QuoteUsdcInfoImpl({
-    required this.usdcAddress,
-    required this.approvalAmount,
-  });
+  const _$QuoteUsdcInfoImpl({required this.usdcAddress, required this.approvalAmount});
 
   factory _$QuoteUsdcInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuoteUsdcInfoImplFromJson(json);
@@ -2057,8 +1932,7 @@ class _$QuoteUsdcInfoImpl implements _QuoteUsdcInfo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuoteUsdcInfoImpl &&
-            (identical(other.usdcAddress, usdcAddress) ||
-                other.usdcAddress == usdcAddress) &&
+            (identical(other.usdcAddress, usdcAddress) || other.usdcAddress == usdcAddress) &&
             (identical(other.approvalAmount, approvalAmount) ||
                 other.approvalAmount == approvalAmount));
   }
@@ -2087,8 +1961,7 @@ abstract class _QuoteUsdcInfo implements QuoteUsdcInfo {
     required final int approvalAmount,
   }) = _$QuoteUsdcInfoImpl;
 
-  factory _QuoteUsdcInfo.fromJson(Map<String, dynamic> json) =
-      _$QuoteUsdcInfoImpl.fromJson;
+  factory _QuoteUsdcInfo.fromJson(Map<String, dynamic> json) = _$QuoteUsdcInfoImpl.fromJson;
 
   @override
   String get usdcAddress;

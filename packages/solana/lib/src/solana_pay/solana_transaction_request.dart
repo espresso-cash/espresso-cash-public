@@ -10,11 +10,8 @@ part 'solana_transaction_request.freezed.dart';
 
 @freezed
 class SolanaTransactionRequest with _$SolanaTransactionRequest {
-  const factory SolanaTransactionRequest({
-    required Uri link,
-    String? label,
-    String? message,
-  }) = _SolanaTransactionRequest;
+  const factory SolanaTransactionRequest({required Uri link, String? label, String? message}) =
+      _SolanaTransactionRequest;
 
   const SolanaTransactionRequest._();
 
@@ -79,18 +76,13 @@ class SolanaTransactionRequest with _$SolanaTransactionRequest {
       throw HttpException(response.statusCode, response.body);
     }
 
-    return TransactionRequestInfo.fromJson(
-      json.decode(response.body) as Map<String, dynamic>,
-    );
+    return TransactionRequestInfo.fromJson(json.decode(response.body) as Map<String, dynamic>);
   }
 
   Future<TransactionRequestResponse> post({required String account}) async {
     final response = await http.post(
       link,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
+      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
       body: jsonEncode({'account': account}),
     );
 
@@ -98,8 +90,6 @@ class SolanaTransactionRequest with _$SolanaTransactionRequest {
       throw HttpException(response.statusCode, response.body);
     }
 
-    return TransactionRequestResponse.fromJson(
-      json.decode(response.body) as Map<String, dynamic>,
-    );
+    return TransactionRequestResponse.fromJson(json.decode(response.body) as Map<String, dynamic>);
   }
 }

@@ -12,10 +12,7 @@ class BinaryWriter {
   void _maybeResize() {
     if (buf.lengthInBytes >= 16 + length) return;
 
-    final list = Uint8List.fromList([
-      ...buf.buffer.asUint8List(),
-      ...Uint8List(_initialLength),
-    ]);
+    final list = Uint8List.fromList([...buf.buffer.asUint8List(), ...Uint8List(_initialLength)]);
     buf = list.buffer.asByteData();
   }
 

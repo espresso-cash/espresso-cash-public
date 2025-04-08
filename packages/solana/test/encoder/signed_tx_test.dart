@@ -122,23 +122,13 @@ void main() {
           ],
           data: ByteArray.u8(1),
         ),
-        Instruction(
-          programId: keys.first,
-          accounts: const [],
-          data: ByteArray.u8(2),
-        ),
-        Instruction(
-          programId: keys[2],
-          accounts: const [],
-          data: ByteArray.u8(3),
-        ),
+        Instruction(programId: keys.first, accounts: const [], data: ByteArray.u8(2)),
+        Instruction(programId: keys[2], accounts: const [], data: ByteArray.u8(3)),
       ];
 
       final message = Message(instructions: instructions);
 
-      final addressLookupTableAccounts = [
-        await createTestAddressLookUpTable(keys),
-      ];
+      final addressLookupTableAccounts = [await createTestAddressLookUpTable(keys)];
 
       final blockhash = base58encode(List.filled(32, 0));
 
@@ -157,9 +147,7 @@ void main() {
       final decoded = SignedTx.decode(encoded);
 
       expect(
-        decoded.decompileMessage(
-          addressLookupTableAccounts: addressLookupTableAccounts,
-        ),
+        decoded.decompileMessage(addressLookupTableAccounts: addressLookupTableAccounts),
         isA<Message>()
             .having((m) => m.instructions.length, 'number of instructions', 3)
             .having(
@@ -217,9 +205,7 @@ void main() {
 
       final message = Message(instructions: instructions);
 
-      final lookUpTable = await createTestAddressLookUpTable(
-        keys.map((e) => e.publicKey).toList(),
-      );
+      final lookUpTable = await createTestAddressLookUpTable(keys.map((e) => e.publicKey).toList());
 
       final blockhash = base58encode(List.filled(32, 0));
 
@@ -303,21 +289,9 @@ void main() {
       );
 
       final expectedInstructions = [
-        CompiledInstruction(
-          programIdIndex: 4,
-          accountKeyIndexes: [1, 2, 3],
-          data: ByteArray.u8(1),
-        ),
-        CompiledInstruction(
-          programIdIndex: 1,
-          accountKeyIndexes: [2, 3],
-          data: ByteArray.u8(2),
-        ),
-        CompiledInstruction(
-          programIdIndex: 3,
-          accountKeyIndexes: [5, 6],
-          data: ByteArray.u8(3),
-        ),
+        CompiledInstruction(programIdIndex: 4, accountKeyIndexes: [1, 2, 3], data: ByteArray.u8(1)),
+        CompiledInstruction(programIdIndex: 1, accountKeyIndexes: [2, 3], data: ByteArray.u8(2)),
+        CompiledInstruction(programIdIndex: 3, accountKeyIndexes: [5, 6], data: ByteArray.u8(3)),
       ];
 
       expect(decodedMessage.instructions, expectedInstructions);

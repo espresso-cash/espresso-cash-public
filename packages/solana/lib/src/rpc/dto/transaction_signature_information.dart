@@ -43,6 +43,5 @@ class TransactionSignatureInformation {
   /// confirmation.
   final ConfirmationStatus? confirmationStatus;
 
-  Map<String, dynamic> toJson() =>
-      _$TransactionSignatureInformationToJson(this);
+  Map<String, dynamic> toJson() => _$TransactionSignatureInformationToJson(this);
 }

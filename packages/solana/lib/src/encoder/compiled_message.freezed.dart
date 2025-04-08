@@ -18,11 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$CompiledMessage {
   MessageHeader get header => throw _privateConstructorUsedError;
-  List<Ed25519HDPublicKey> get accountKeys =>
-      throw _privateConstructorUsedError;
+  List<Ed25519HDPublicKey> get accountKeys => throw _privateConstructorUsedError;
   String get recentBlockhash => throw _privateConstructorUsedError;
-  List<CompiledInstruction> get instructions =>
-      throw _privateConstructorUsedError;
+  List<CompiledInstruction> get instructions => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -98,16 +96,13 @@ mixin _$CompiledMessage {
   /// Create a copy of CompiledMessage
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CompiledMessageCopyWith<CompiledMessage> get copyWith =>
-      throw _privateConstructorUsedError;
+  $CompiledMessageCopyWith<CompiledMessage> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $CompiledMessageCopyWith<$Res> {
-  factory $CompiledMessageCopyWith(
-    CompiledMessage value,
-    $Res Function(CompiledMessage) then,
-  ) = _$CompiledMessageCopyWithImpl<$Res, CompiledMessage>;
+  factory $CompiledMessageCopyWith(CompiledMessage value, $Res Function(CompiledMessage) then) =
+      _$CompiledMessageCopyWithImpl<$Res, CompiledMessage>;
   @useResult
   $Res call({
     MessageHeader header,
@@ -286,16 +281,10 @@ class _$CompiledMessageLegacyImpl extends CompiledMessageLegacy {
         (other.runtimeType == runtimeType &&
             other is _$CompiledMessageLegacyImpl &&
             (identical(other.header, header) || other.header == header) &&
-            const DeepCollectionEquality().equals(
-              other._accountKeys,
-              _accountKeys,
-            ) &&
+            const DeepCollectionEquality().equals(other._accountKeys, _accountKeys) &&
             (identical(other.recentBlockhash, recentBlockhash) ||
                 other.recentBlockhash == recentBlockhash) &&
-            const DeepCollectionEquality().equals(
-              other._instructions,
-              _instructions,
-            ));
+            const DeepCollectionEquality().equals(other._instructions, _instructions));
   }
 
   @override
@@ -312,12 +301,8 @@ class _$CompiledMessageLegacyImpl extends CompiledMessageLegacy {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CompiledMessageLegacyImplCopyWith<_$CompiledMessageLegacyImpl>
-  get copyWith =>
-      __$$CompiledMessageLegacyImplCopyWithImpl<_$CompiledMessageLegacyImpl>(
-        this,
-        _$identity,
-      );
+  _$$CompiledMessageLegacyImplCopyWith<_$CompiledMessageLegacyImpl> get copyWith =>
+      __$$CompiledMessageLegacyImplCopyWithImpl<_$CompiledMessageLegacyImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -443,13 +428,12 @@ abstract class CompiledMessageLegacy extends CompiledMessage {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CompiledMessageLegacyImplCopyWith<_$CompiledMessageLegacyImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$CompiledMessageLegacyImplCopyWith<_$CompiledMessageLegacyImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$CompiledMessageV0ImplCopyWith<$Res>
-    implements $CompiledMessageCopyWith<$Res> {
+abstract class _$$CompiledMessageV0ImplCopyWith<$Res> implements $CompiledMessageCopyWith<$Res> {
   factory _$$CompiledMessageV0ImplCopyWith(
     _$CompiledMessageV0Impl value,
     $Res Function(_$CompiledMessageV0Impl) then,
@@ -557,8 +541,7 @@ class _$CompiledMessageV0Impl extends CompiledMessageV0 {
   final List<MessageAddressTableLookup> _addressTableLookups;
   @override
   List<MessageAddressTableLookup> get addressTableLookups {
-    if (_addressTableLookups is EqualUnmodifiableListView)
-      return _addressTableLookups;
+    if (_addressTableLookups is EqualUnmodifiableListView) return _addressTableLookups;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_addressTableLookups);
   }
@@ -574,16 +557,10 @@ class _$CompiledMessageV0Impl extends CompiledMessageV0 {
         (other.runtimeType == runtimeType &&
             other is _$CompiledMessageV0Impl &&
             (identical(other.header, header) || other.header == header) &&
-            const DeepCollectionEquality().equals(
-              other._accountKeys,
-              _accountKeys,
-            ) &&
+            const DeepCollectionEquality().equals(other._accountKeys, _accountKeys) &&
             (identical(other.recentBlockhash, recentBlockhash) ||
                 other.recentBlockhash == recentBlockhash) &&
-            const DeepCollectionEquality().equals(
-              other._instructions,
-              _instructions,
-            ) &&
+            const DeepCollectionEquality().equals(other._instructions, _instructions) &&
             const DeepCollectionEquality().equals(
               other._addressTableLookups,
               _addressTableLookups,
@@ -606,10 +583,7 @@ class _$CompiledMessageV0Impl extends CompiledMessageV0 {
   @override
   @pragma('vm:prefer-inline')
   _$$CompiledMessageV0ImplCopyWith<_$CompiledMessageV0Impl> get copyWith =>
-      __$$CompiledMessageV0ImplCopyWithImpl<_$CompiledMessageV0Impl>(
-        this,
-        _$identity,
-      );
+      __$$CompiledMessageV0ImplCopyWithImpl<_$CompiledMessageV0Impl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -630,13 +604,7 @@ class _$CompiledMessageV0Impl extends CompiledMessageV0 {
     )
     v0,
   }) {
-    return v0(
-      header,
-      accountKeys,
-      recentBlockhash,
-      instructions,
-      addressTableLookups,
-    );
+    return v0(header, accountKeys, recentBlockhash, instructions, addressTableLookups);
   }
 
   @override
@@ -658,13 +626,7 @@ class _$CompiledMessageV0Impl extends CompiledMessageV0 {
     )?
     v0,
   }) {
-    return v0?.call(
-      header,
-      accountKeys,
-      recentBlockhash,
-      instructions,
-      addressTableLookups,
-    );
+    return v0?.call(header, accountKeys, recentBlockhash, instructions, addressTableLookups);
   }
 
   @override
@@ -688,13 +650,7 @@ class _$CompiledMessageV0Impl extends CompiledMessageV0 {
     required TResult orElse(),
   }) {
     if (v0 != null) {
-      return v0(
-        header,
-        accountKeys,
-        recentBlockhash,
-        instructions,
-        addressTableLookups,
-      );
+      return v0(header, accountKeys, recentBlockhash, instructions, addressTableLookups);
     }
     return orElse();
   }

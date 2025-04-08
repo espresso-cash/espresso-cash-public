@@ -19,11 +19,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 /// Provides a websocket based connection to Solana.
 class SubscriptionClient {
-  SubscriptionClient(
-    Uri uri, {
-    Duration? pingInterval,
-    Duration? connectTimeout,
-  }) {
+  SubscriptionClient(Uri uri, {Duration? pingInterval, Duration? connectTimeout}) {
     final channel = IOWebSocketChannel.connect(
       uri,
       pingInterval: pingInterval,
@@ -76,19 +72,17 @@ class SubscriptionClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Stream<Logs> logsSubscribe(LogsFilter filter, {Commitment? commitment}) =>
-      _subscribe<Logs>(
-        'logs',
-        params: <dynamic>[
-          filter.when(
-            all: () => 'all',
-            allWithVotes: () => 'allWithVotes',
-            mentions: (pubKeys) => <String, List<String>>{'mentions': pubKeys},
-          ),
-          if (commitment != null)
-            <String, String>{'commitment': commitment.value},
-        ],
-      );
+  Stream<Logs> logsSubscribe(LogsFilter filter, {Commitment? commitment}) => _subscribe<Logs>(
+    'logs',
+    params: <dynamic>[
+      filter.when(
+        all: () => 'all',
+        allWithVotes: () => 'allWithVotes',
+        mentions: (pubKeys) => <String, List<String>>{'mentions': pubKeys},
+      ),
+      if (commitment != null) <String, String>{'commitment': commitment.value},
+    ],
+  );
 
   /// Subscribe to a program to receive notifications when the lamports or data
   /// for a given account owned by the program changes.
@@ -130,17 +124,15 @@ class SubscriptionClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Stream<OptionalError> signatureSubscribe(
-    String signature, {
-    Commitment? commitment,
-  }) => _subscribe<OptionalError>(
-    'signature',
-    params: <dynamic>[
-      signature,
-      if (commitment != null) <String, String>{'commitment': commitment.value},
-    ],
-    singleShot: true,
-  );
+  Stream<OptionalError> signatureSubscribe(String signature, {Commitment? commitment}) =>
+      _subscribe<OptionalError>(
+        'signature',
+        params: <dynamic>[
+          signature,
+          if (commitment != null) <String, String>{'commitment': commitment.value},
+        ],
+        singleShot: true,
+      );
 
   /// Subscribe to receive notification anytime a slot is processed by the
   /// validator.
@@ -173,11 +165,7 @@ class SubscriptionClient {
 
   bool _isClosed = false;
 
-  Stream<T> _subscribe<T>(
-    String method, {
-    List<dynamic>? params,
-    bool singleShot = false,
-  }) {
+  Stream<T> _subscribe<T>(String method, {List<dynamic>? params, bool singleShot = false}) {
     if (_isClosed) {
       throw StateError('Subscribe should not be called after close.');
     }
@@ -233,9 +221,7 @@ class SubscriptionClient {
       return SubscriptionMessage.fromJson(parsed);
     }
 
-    throw FormatException(
-      'unexpected type received through the websocket ${event.runtimeType}',
-    );
+    throw FormatException('unexpected type received through the websocket ${event.runtimeType}');
   }
 
   void _sendRequest(int id, String method, List<dynamic>? params) {

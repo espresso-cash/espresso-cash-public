@@ -157,10 +157,7 @@ class _$FiatRateRequestDtoImpl implements _FiatRateRequestDto {
   @override
   @pragma('vm:prefer-inline')
   _$$FiatRateRequestDtoImplCopyWith<_$FiatRateRequestDtoImpl> get copyWith =>
-      __$$FiatRateRequestDtoImplCopyWithImpl<_$FiatRateRequestDtoImpl>(
-        this,
-        _$identity,
-      );
+      __$$FiatRateRequestDtoImplCopyWithImpl<_$FiatRateRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -169,10 +166,8 @@ class _$FiatRateRequestDtoImpl implements _FiatRateRequestDto {
 }
 
 abstract class _FiatRateRequestDto implements FiatRateRequestDto {
-  const factory _FiatRateRequestDto({
-    required final String base,
-    required final String target,
-  }) = _$FiatRateRequestDtoImpl;
+  const factory _FiatRateRequestDto({required final String base, required final String target}) =
+      _$FiatRateRequestDtoImpl;
 
   factory _FiatRateRequestDto.fromJson(Map<String, dynamic> json) =
       _$FiatRateRequestDtoImpl.fromJson;
@@ -318,10 +313,7 @@ class _$FiatRateResponseDtoImpl implements _FiatRateResponseDto {
   @override
   @pragma('vm:prefer-inline')
   _$$FiatRateResponseDtoImplCopyWith<_$FiatRateResponseDtoImpl> get copyWith =>
-      __$$FiatRateResponseDtoImplCopyWithImpl<_$FiatRateResponseDtoImpl>(
-        this,
-        _$identity,
-      );
+      __$$FiatRateResponseDtoImplCopyWithImpl<_$FiatRateResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -330,8 +322,7 @@ class _$FiatRateResponseDtoImpl implements _FiatRateResponseDto {
 }
 
 abstract class _FiatRateResponseDto implements FiatRateResponseDto {
-  const factory _FiatRateResponseDto({required final double rate}) =
-      _$FiatRateResponseDtoImpl;
+  const factory _FiatRateResponseDto({required final double rate}) = _$FiatRateResponseDtoImpl;
 
   factory _FiatRateResponseDto.fromJson(Map<String, dynamic> json) =
       _$FiatRateResponseDtoImpl.fromJson;

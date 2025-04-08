@@ -12,10 +12,7 @@ void main() {
     });
 
     test('Convert multiple hardened BipLevels to BIP44 Uri', () {
-      final levels = List.generate(
-        2,
-        (i) => BipLevel(index: i, hardened: true),
-      );
+      final levels = List.generate(2, (i) => BipLevel(index: i, hardened: true));
 
       final result = Bip44DerivationPath.toUri(levels);
 
@@ -30,29 +27,20 @@ void main() {
     });
 
     test('Convert multiple non-hardened BipLevels to BIP44 Uri', () {
-      final levels = List.generate(
-        2,
-        (i) => BipLevel(index: i, hardened: false),
-      );
+      final levels = List.generate(2, (i) => BipLevel(index: i, hardened: false));
 
       final result = Bip44DerivationPath.toUri(levels);
 
       expect(result, Uri.parse('bip44:/0/1'));
     });
 
-    test(
-      'Convert multiple hardened and non-hardened BipLevels to BIP44 Uri',
-      () {
-        final levels = List.generate(
-          4,
-          (i) => BipLevel(index: i, hardened: i.isOdd),
-        );
+    test('Convert multiple hardened and non-hardened BipLevels to BIP44 Uri', () {
+      final levels = List.generate(4, (i) => BipLevel(index: i, hardened: i.isOdd));
 
-        final result = Bip44DerivationPath.toUri(levels);
+      final result = Bip44DerivationPath.toUri(levels);
 
-        expect(result, Uri.parse('bip44:/0/1\'/2/3\''));
-      },
-    );
+      expect(result, Uri.parse('bip44:/0/1\'/2/3\''));
+    });
   });
 
   group('Should succeed to convert valid BIP44 Uri to BipLevels', () {
@@ -76,77 +64,53 @@ void main() {
       expect(result.addressIndex, null);
     });
 
-    test(
-      'Convert BIP44 Uri to multiple hardened and non-hardened BipLevels',
-      () {
-        final uri = Uri.parse('bip44:/0\'/1/2\'');
+    test('Convert BIP44 Uri to multiple hardened and non-hardened BipLevels', () {
+      final uri = Uri.parse('bip44:/0\'/1/2\'');
 
-        final result = Bip44DerivationPath.fromUri(uri);
+      final result = Bip44DerivationPath.fromUri(uri);
 
-        expect(result.account, const BipLevel(index: 0, hardened: true));
-        expect(result.change, const BipLevel(index: 1, hardened: false));
-        expect(result.addressIndex, const BipLevel(index: 2, hardened: true));
-      },
-    );
+      expect(result.account, const BipLevel(index: 0, hardened: true));
+      expect(result.change, const BipLevel(index: 1, hardened: false));
+      expect(result.addressIndex, const BipLevel(index: 2, hardened: true));
+    });
   });
 
   group('Should fail to convert invalid BIP44 Uri to BipLevels', () {
     test('Non-hierarchical URI', () {
       final uri = Uri.parse('bip44:0\'');
 
-      expect(
-        () => Bip44DerivationPath.fromUri(uri),
-        throwsA(isA<UnsupportedError>()),
-      );
+      expect(() => Bip44DerivationPath.fromUri(uri), throwsA(isA<UnsupportedError>()));
     });
 
     test('Invalid schema', () {
       final uri = Uri.parse('bip:/m/0\'');
 
-      expect(
-        () => Bip44DerivationPath.fromUri(uri),
-        throwsA(isA<UnsupportedError>()),
-      );
+      expect(() => Bip44DerivationPath.fromUri(uri), throwsA(isA<UnsupportedError>()));
     });
     test('Contains authority info', () {
       final uri = Uri.parse('bip44:/m/0\':8080');
 
-      expect(
-        () => Bip44DerivationPath.fromUri(uri),
-        throwsA(isA<UnsupportedError>()),
-      );
+      expect(() => Bip44DerivationPath.fromUri(uri), throwsA(isA<UnsupportedError>()));
     });
     test('Contains query', () {
       final uri = Uri.parse('bip44:/m/0\'?q=invalid');
 
-      expect(
-        () => Bip44DerivationPath.fromUri(uri),
-        throwsA(isA<UnsupportedError>()),
-      );
+      expect(() => Bip44DerivationPath.fromUri(uri), throwsA(isA<UnsupportedError>()));
     });
     test('Contains fragment', () {
       final uri = Uri.parse('bip44:/m/0\'#1');
 
-      expect(
-        () => Bip44DerivationPath.fromUri(uri),
-        throwsA(isA<UnsupportedError>()),
-      );
+      expect(() => Bip44DerivationPath.fromUri(uri), throwsA(isA<UnsupportedError>()));
     });
     test('Invalid level indexes', () {
       final uri = Uri.parse('bip44:/m/invalid');
 
-      expect(
-        () => Bip44DerivationPath.fromUri(uri),
-        throwsA(isA<UnsupportedError>()),
-      );
+      expect(() => Bip44DerivationPath.fromUri(uri), throwsA(isA<UnsupportedError>()));
     });
     test('Too many BipLevels', () {
       final uri = Uri.parse('bip44:/0/1/2/3\'');
 
-      expect(
-        () => Bip44DerivationPath.fromUri(uri),
-        throwsA(isA<UnsupportedError>()),
-      );
+      expect(() => Bip44DerivationPath.fromUri(uri), throwsA(isA<UnsupportedError>()));
     });
   });
 }

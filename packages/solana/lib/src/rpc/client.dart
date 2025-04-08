@@ -18,10 +18,7 @@ abstract class RpcClient {
     String url, {
     Duration timeout = const Duration(seconds: 30),
     Map<String, String> customHeaders = const {},
-  }) => _RpcClient(
-    url,
-    JsonRpcClient(url, timeout: timeout, customHeaders: customHeaders),
-  );
+  }) => _RpcClient(url, JsonRpcClient(url, timeout: timeout, customHeaders: customHeaders));
 
   abstract final JsonRpcClient _jsonRpcClient;
 
@@ -57,11 +54,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
-  Future<BalanceResult> getBalance(
-    String pubKey, {
-    Commitment? commitment,
-    num? minContextSlot,
-  });
+  Future<BalanceResult> getBalance(String pubKey, {Commitment? commitment, num? minContextSlot});
 
   /// Returns identity and transaction information about a confirmed block in the
   /// ledger
@@ -134,11 +127,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<List<int>> getBlocks(
-    int startSlot,
-    int? endSlot, {
-    Commitment? commitment,
-  });
+  Future<List<int>> getBlocks(int startSlot, int? endSlot, {Commitment? commitment});
 
   /// Returns a list of confirmed blocks starting at the given slot
   ///
@@ -150,11 +139,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<List<int>> getBlocksWithLimit(
-    int startSlot,
-    int limit, {
-    Commitment? commitment,
-  });
+  Future<List<int>> getBlocksWithLimit(int startSlot, int limit, {Commitment? commitment});
 
   /// Returns the estimated production time of a block.
   ///
@@ -188,11 +173,7 @@ abstract class RpcClient {
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
   @WithContextResult()
-  Future<int?> getFeeForMessage(
-    String message, {
-    Commitment? commitment,
-    num? minContextSlot,
-  });
+  Future<int?> getFeeForMessage(String message, {Commitment? commitment, num? minContextSlot});
 
   /// Returns the slot of the lowest confirmed block that has not been purged from
   /// the ledger
@@ -268,10 +249,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
-  Future<LatestBlockhashResult> getLatestBlockhash({
-    Commitment? commitment,
-    num? minContextSlot,
-  });
+  Future<LatestBlockhashResult> getLatestBlockhash({Commitment? commitment, num? minContextSlot});
 
   /// Returns the leader schedule for an epoch
   ///
@@ -304,10 +282,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<int> getMinimumBalanceForRentExemption(
-    int accountDataLength, {
-    Commitment? commitment,
-  });
+  Future<int> getMinimumBalanceForRentExemption(int accountDataLength, {Commitment? commitment});
 
   /// Returns the account information for a list of Public keys
   ///
@@ -438,9 +413,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<StakeMinimumDelegationResult> getStakeMinimumDelegation({
-    Commitment? commitment,
-  });
+  Future<StakeMinimumDelegationResult> getStakeMinimumDelegation({Commitment? commitment});
 
   /// Returns information about the current supply.
   ///
@@ -463,10 +436,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TokenAmountResult> getTokenAccountBalance(
-    String pubKey, {
-    Commitment? commitment,
-  });
+  Future<TokenAmountResult> getTokenAccountBalance(String pubKey, {Commitment? commitment});
 
   /// Returns all SPL Token accounts by approved Delegate.
   ///
@@ -539,10 +509,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TokenAmountResult> getTokenSupply(
-    String mint, {
-    Commitment? commitment,
-  });
+  Future<TokenAmountResult> getTokenSupply(String mint, {Commitment? commitment});
 
   /// Returns transaction details for a confirmed transaction
   ///
@@ -573,10 +540,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
-  Future<int> getTransactionCount({
-    Commitment? commitment,
-    num? minContextSlot,
-  });
+  Future<int> getTransactionCount({Commitment? commitment, num? minContextSlot});
 
   /// Returns the current solana versions running on the node
   Future<SolanaVersion> getVersion();
@@ -634,11 +598,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Future<TransactionId> requestAirdrop(
-    String pubKey,
-    int lamports, {
-    Commitment? commitment,
-  });
+  Future<TransactionId> requestAirdrop(String pubKey, int lamports, {Commitment? commitment});
 
   /// Submits a signed transaction to the cluster for processing.
   ///

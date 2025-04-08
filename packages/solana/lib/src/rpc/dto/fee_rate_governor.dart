@@ -8,8 +8,7 @@ part 'fee_rate_governor.g.dart';
 class FeeRateGovernor {
   const FeeRateGovernor({required this.feeRateGovernor});
 
-  factory FeeRateGovernor.fromJson(Map<String, dynamic> json) =>
-      _$FeeRateGovernorFromJson(json);
+  factory FeeRateGovernor.fromJson(Map<String, dynamic> json) => _$FeeRateGovernorFromJson(json);
 
   /// Fee rate governor
   final FeeRateGovernorValue feeRateGovernor;

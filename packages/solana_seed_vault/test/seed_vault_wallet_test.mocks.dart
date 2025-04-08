@@ -60,10 +60,7 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
     List<_i2.SigningRequestDto?>? arg_signingRequests,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#signMessages, [
-              arg_authToken,
-              arg_signingRequests,
-            ]),
+            Invocation.method(#signMessages, [arg_authToken, arg_signingRequests]),
             returnValue: _i3.Future<List<_i2.SigningResponseDto?>>.value(
               <_i2.SigningResponseDto?>[],
             ),
@@ -76,10 +73,7 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
     List<_i2.SigningRequestDto?>? arg_signingRequests,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#signTransactions, [
-              arg_authToken,
-              arg_signingRequests,
-            ]),
+            Invocation.method(#signTransactions, [arg_authToken, arg_signingRequests]),
             returnValue: _i3.Future<List<_i2.SigningResponseDto?>>.value(
               <_i2.SigningResponseDto?>[],
             ),
@@ -92,10 +86,7 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
     List<String?>? arg_derivationPaths,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#requestPublicKeys, [
-              arg_authToken,
-              arg_derivationPaths,
-            ]),
+            Invocation.method(#requestPublicKeys, [arg_authToken, arg_derivationPaths]),
             returnValue: _i3.Future<List<_i2.PublicKeyResponseDto?>>.value(
               <_i2.PublicKeyResponseDto?>[],
             ),
@@ -109,14 +100,8 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
     Object? arg_value,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#getAuthorizedSeeds, [
-              arg_projection,
-              arg_filterOnColumn,
-              arg_value,
-            ]),
-            returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(
-              <Map<Object?, Object?>?>[],
-            ),
+            Invocation.method(#getAuthorizedSeeds, [arg_projection, arg_filterOnColumn, arg_value]),
+            returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(<Map<Object?, Object?>?>[]),
           )
           as _i3.Future<List<Map<Object?, Object?>?>>);
 
@@ -126,13 +111,8 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
     List<String?>? arg_projection,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#getAuthorizedSeed, [
-              arg_authToken,
-              arg_projection,
-            ]),
-            returnValue: _i3.Future<Map<Object?, Object?>>.value(
-              <Object?, Object?>{},
-            ),
+            Invocation.method(#getAuthorizedSeed, [arg_authToken, arg_projection]),
+            returnValue: _i3.Future<Map<Object?, Object?>>.value(<Object?, Object?>{}),
           )
           as _i3.Future<Map<Object?, Object?>>);
 
@@ -157,9 +137,7 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
               arg_filterOnColumn,
               arg_value,
             ]),
-            returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(
-              <Map<Object?, Object?>?>[],
-            ),
+            returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(<Map<Object?, Object?>?>[]),
           )
           as _i3.Future<List<Map<Object?, Object?>?>>);
 
@@ -185,9 +163,7 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
               arg_filterOnColumn,
               arg_value,
             ]),
-            returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(
-              <Map<Object?, Object?>?>[],
-            ),
+            returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(<Map<Object?, Object?>?>[]),
           )
           as _i3.Future<List<Map<Object?, Object?>?>>);
 
@@ -198,29 +174,15 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
     List<String?>? arg_projection,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#getAccount, [
-              arg_authToken,
-              arg_id,
-              arg_projection,
-            ]),
-            returnValue: _i3.Future<Map<Object?, Object?>>.value(
-              <Object?, Object?>{},
-            ),
+            Invocation.method(#getAccount, [arg_authToken, arg_id, arg_projection]),
+            returnValue: _i3.Future<Map<Object?, Object?>>.value(<Object?, Object?>{}),
           )
           as _i3.Future<Map<Object?, Object?>>);
 
   @override
-  _i3.Future<void> updateAccountName(
-    int? arg_authToken,
-    int? arg_accountId,
-    String? arg_name,
-  ) =>
+  _i3.Future<void> updateAccountName(int? arg_authToken, int? arg_accountId, String? arg_name) =>
       (super.noSuchMethod(
-            Invocation.method(#updateAccountName, [
-              arg_authToken,
-              arg_accountId,
-              arg_name,
-            ]),
+            Invocation.method(#updateAccountName, [arg_authToken, arg_accountId, arg_name]),
             returnValue: _i3.Future<void>.value(),
             returnValueForMissingStub: _i3.Future<void>.value(),
           )
@@ -250,11 +212,7 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
     bool? arg_isValid,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#updateAccountIsValid, [
-              arg_authToken,
-              arg_accountId,
-              arg_isValid,
-            ]),
+            Invocation.method(#updateAccountIsValid, [arg_authToken, arg_accountId, arg_isValid]),
             returnValue: _i3.Future<void>.value(),
             returnValueForMissingStub: _i3.Future<void>.value(),
           )
@@ -272,43 +230,26 @@ class MockWalletApiHost extends _i1.Mock implements _i2.WalletApiHost {
               arg_filterOnColumn,
               arg_value,
             ]),
-            returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(
-              <Map<Object?, Object?>?>[],
-            ),
+            returnValue: _i3.Future<List<Map<Object?, Object?>?>>.value(<Map<Object?, Object?>?>[]),
           )
           as _i3.Future<List<Map<Object?, Object?>?>>);
 
   @override
-  _i3.Future<Map<Object?, Object?>> getImplementationLimitsForPurpose(
-    int? arg_purpose,
-  ) =>
+  _i3.Future<Map<Object?, Object?>> getImplementationLimitsForPurpose(int? arg_purpose) =>
       (super.noSuchMethod(
-            Invocation.method(#getImplementationLimitsForPurpose, [
-              arg_purpose,
-            ]),
-            returnValue: _i3.Future<Map<Object?, Object?>>.value(
-              <Object?, Object?>{},
-            ),
+            Invocation.method(#getImplementationLimitsForPurpose, [arg_purpose]),
+            returnValue: _i3.Future<Map<Object?, Object?>>.value(<Object?, Object?>{}),
           )
           as _i3.Future<Map<Object?, Object?>>);
 
   @override
-  _i3.Future<String> resolveDerivationPath(
-    String? arg_derivationPath,
-    int? arg_purpose,
-  ) =>
+  _i3.Future<String> resolveDerivationPath(String? arg_derivationPath, int? arg_purpose) =>
       (super.noSuchMethod(
-            Invocation.method(#resolveDerivationPath, [
-              arg_derivationPath,
-              arg_purpose,
-            ]),
+            Invocation.method(#resolveDerivationPath, [arg_derivationPath, arg_purpose]),
             returnValue: _i3.Future<String>.value(
               _i4.dummyValue<String>(
                 this,
-                Invocation.method(#resolveDerivationPath, [
-                  arg_derivationPath,
-                  arg_purpose,
-                ]),
+                Invocation.method(#resolveDerivationPath, [arg_derivationPath, arg_purpose]),
               ),
             ),
           )

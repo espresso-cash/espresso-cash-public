@@ -7,8 +7,7 @@ part 'loaded_addresses.g.dart';
 class LoadedAddresses {
   const LoadedAddresses({required this.writable, required this.readonly});
 
-  factory LoadedAddresses.fromJson(Map<String, dynamic> json) =>
-      _$LoadedAddressesFromJson(json);
+  factory LoadedAddresses.fromJson(Map<String, dynamic> json) => _$LoadedAddressesFromJson(json);
 
   /// Ordered list of base-58 encoded addresses for writable loaded accounts
   final List<String> writable;

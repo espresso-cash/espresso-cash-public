@@ -35,18 +35,11 @@ abstract class $MessageAddressTableLookupCopyWith<$Res> {
     $Res Function(MessageAddressTableLookup) then,
   ) = _$MessageAddressTableLookupCopyWithImpl<$Res, MessageAddressTableLookup>;
   @useResult
-  $Res call({
-    Ed25519HDPublicKey accountKey,
-    List<int> writableIndexes,
-    List<int> readonlyIndexes,
-  });
+  $Res call({Ed25519HDPublicKey accountKey, List<int> writableIndexes, List<int> readonlyIndexes});
 }
 
 /// @nodoc
-class _$MessageAddressTableLookupCopyWithImpl<
-  $Res,
-  $Val extends MessageAddressTableLookup
->
+class _$MessageAddressTableLookupCopyWithImpl<$Res, $Val extends MessageAddressTableLookup>
     implements $MessageAddressTableLookupCopyWith<$Res> {
   _$MessageAddressTableLookupCopyWithImpl(this._value, this._then);
 
@@ -96,20 +89,12 @@ abstract class _$$MessageAddressTableLookupImplCopyWith<$Res>
   ) = __$$MessageAddressTableLookupImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    Ed25519HDPublicKey accountKey,
-    List<int> writableIndexes,
-    List<int> readonlyIndexes,
-  });
+  $Res call({Ed25519HDPublicKey accountKey, List<int> writableIndexes, List<int> readonlyIndexes});
 }
 
 /// @nodoc
 class __$$MessageAddressTableLookupImplCopyWithImpl<$Res>
-    extends
-        _$MessageAddressTableLookupCopyWithImpl<
-          $Res,
-          _$MessageAddressTableLookupImpl
-        >
+    extends _$MessageAddressTableLookupCopyWithImpl<$Res, _$MessageAddressTableLookupImpl>
     implements _$$MessageAddressTableLookupImplCopyWith<$Res> {
   __$$MessageAddressTableLookupImplCopyWithImpl(
     _$MessageAddressTableLookupImpl _value,
@@ -185,16 +170,9 @@ class _$MessageAddressTableLookupImpl implements _MessageAddressTableLookup {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageAddressTableLookupImpl &&
-            (identical(other.accountKey, accountKey) ||
-                other.accountKey == accountKey) &&
-            const DeepCollectionEquality().equals(
-              other._writableIndexes,
-              _writableIndexes,
-            ) &&
-            const DeepCollectionEquality().equals(
-              other._readonlyIndexes,
-              _readonlyIndexes,
-            ));
+            (identical(other.accountKey, accountKey) || other.accountKey == accountKey) &&
+            const DeepCollectionEquality().equals(other._writableIndexes, _writableIndexes) &&
+            const DeepCollectionEquality().equals(other._readonlyIndexes, _readonlyIndexes));
   }
 
   @override
@@ -210,10 +188,11 @@ class _$MessageAddressTableLookupImpl implements _MessageAddressTableLookup {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$MessageAddressTableLookupImplCopyWith<_$MessageAddressTableLookupImpl>
-  get copyWith => __$$MessageAddressTableLookupImplCopyWithImpl<
-    _$MessageAddressTableLookupImpl
-  >(this, _$identity);
+  _$$MessageAddressTableLookupImplCopyWith<_$MessageAddressTableLookupImpl> get copyWith =>
+      __$$MessageAddressTableLookupImplCopyWithImpl<_$MessageAddressTableLookupImpl>(
+        this,
+        _$identity,
+      );
 }
 
 abstract class _MessageAddressTableLookup implements MessageAddressTableLookup {
@@ -234,6 +213,6 @@ abstract class _MessageAddressTableLookup implements MessageAddressTableLookup {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MessageAddressTableLookupImplCopyWith<_$MessageAddressTableLookupImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$MessageAddressTableLookupImplCopyWith<_$MessageAddressTableLookupImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

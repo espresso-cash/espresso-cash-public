@@ -10,10 +10,8 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:solana_mobile_wallet/src/events/deauthorize.dart' as _i8;
 import 'package:solana_mobile_wallet/src/requests/authorize.dart' as _i4;
 import 'package:solana_mobile_wallet/src/requests/reauthorize.dart' as _i5;
-import 'package:solana_mobile_wallet/src/requests/sign_and_send_transactions.dart'
-    as _i7;
-import 'package:solana_mobile_wallet/src/requests/sign_transactions.dart'
-    as _i6;
+import 'package:solana_mobile_wallet/src/requests/sign_and_send_transactions.dart' as _i7;
+import 'package:solana_mobile_wallet/src/requests/sign_transactions.dart' as _i6;
 import 'package:solana_mobile_wallet/src/scenario.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -29,8 +27,7 @@ import 'package:solana_mobile_wallet/src/scenario.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeScenarioCallbacks_0 extends _i1.SmartFake
-    implements _i2.ScenarioCallbacks {
+class _FakeScenarioCallbacks_0 extends _i1.SmartFake implements _i2.ScenarioCallbacks {
   _FakeScenarioCallbacks_0(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
@@ -68,10 +65,8 @@ class MockScenarioCallbacks extends _i1.Mock implements _i2.ScenarioCallbacks {
   );
 
   @override
-  void onScenarioError() => super.noSuchMethod(
-    Invocation.method(#onScenarioError, []),
-    returnValueForMissingStub: null,
-  );
+  void onScenarioError() =>
+      super.noSuchMethod(Invocation.method(#onScenarioError, []), returnValueForMissingStub: null);
 
   @override
   void onScenarioTeardownComplete() => super.noSuchMethod(
@@ -86,9 +81,7 @@ class MockScenarioCallbacks extends _i1.Mock implements _i2.ScenarioCallbacks {
   );
 
   @override
-  _i3.Future<_i4.AuthorizeResult?> onAuthorizeRequest(
-    _i4.AuthorizeRequest? request,
-  ) =>
+  _i3.Future<_i4.AuthorizeResult?> onAuthorizeRequest(_i4.AuthorizeRequest? request) =>
       (super.noSuchMethod(
             Invocation.method(#onAuthorizeRequest, [request]),
             returnValue: _i3.Future<_i4.AuthorizeResult?>.value(),
@@ -114,9 +107,7 @@ class MockScenarioCallbacks extends _i1.Mock implements _i2.ScenarioCallbacks {
           as _i3.Future<_i6.SignedPayloadResult?>);
 
   @override
-  _i3.Future<_i6.SignedPayloadResult?> onSignMessagesRequest(
-    _i6.SignMessagesRequest? request,
-  ) =>
+  _i3.Future<_i6.SignedPayloadResult?> onSignMessagesRequest(_i6.SignMessagesRequest? request) =>
       (super.noSuchMethod(
             Invocation.method(#onSignMessagesRequest, [request]),
             returnValue: _i3.Future<_i6.SignedPayloadResult?>.value(),
@@ -152,37 +143,26 @@ class MockScenario extends _i1.Mock implements _i2.Scenario {
   }
 
   @override
-  int get id =>
-      (super.noSuchMethod(Invocation.getter(#id), returnValue: 0) as int);
+  int get id => (super.noSuchMethod(Invocation.getter(#id), returnValue: 0) as int);
 
   @override
   _i9.Uint8List get associationPublicKey =>
-      (super.noSuchMethod(
-            Invocation.getter(#associationPublicKey),
-            returnValue: _i9.Uint8List(0),
-          )
+      (super.noSuchMethod(Invocation.getter(#associationPublicKey), returnValue: _i9.Uint8List(0))
           as _i9.Uint8List);
 
   @override
   _i2.ScenarioCallbacks get callbacks =>
       (super.noSuchMethod(
             Invocation.getter(#callbacks),
-            returnValue: _FakeScenarioCallbacks_0(
-              this,
-              Invocation.getter(#callbacks),
-            ),
+            returnValue: _FakeScenarioCallbacks_0(this, Invocation.getter(#callbacks)),
           )
           as _i2.ScenarioCallbacks);
 
   @override
-  void start() => super.noSuchMethod(
-    Invocation.method(#start, []),
-    returnValueForMissingStub: null,
-  );
+  void start() =>
+      super.noSuchMethod(Invocation.method(#start, []), returnValueForMissingStub: null);
 
   @override
-  void close() => super.noSuchMethod(
-    Invocation.method(#close, []),
-    returnValueForMissingStub: null,
-  );
+  void close() =>
+      super.noSuchMethod(Invocation.method(#close, []), returnValueForMissingStub: null);
 }

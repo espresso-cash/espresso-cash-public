@@ -14,11 +14,7 @@ class Instruction {
   ///
   /// Some programs take specific [data]. You can provide raw 8bit bytes arrays
   /// with the [data] parameter.
-  const Instruction({
-    required this.programId,
-    required this.accounts,
-    required this.data,
-  });
+  const Instruction({required this.programId, required this.accounts, required this.data});
 
   final Ed25519HDPublicKey programId;
   final List<AccountMeta> accounts;

@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
-import 'package:solana/dto.dart'
-    show FutureContextResultExt, ParsedTransaction, TransactionDetails;
+import 'package:solana/dto.dart' show FutureContextResultExt, ParsedTransaction, TransactionDetails;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/solana_pay/exceptions.dart';
@@ -27,18 +26,13 @@ extension SolanaClientSolanaPay on SolanaClient {
     Commitment commitment = Commitment.finalized,
   }) async {
     // Check that the payer and recipient accounts exist.
-    final payerInfo =
-        await rpcClient
-            .getAccountInfo(payer.address, commitment: commitment)
-            .value;
+    final payerInfo = await rpcClient.getAccountInfo(payer.address, commitment: commitment).value;
     if (payerInfo == null) {
       throw const CreateTransactionException('Payer not found.');
     }
 
     final recipientInfo =
-        await rpcClient
-            .getAccountInfo(recipient.toBase58(), commitment: commitment)
-            .value;
+        await rpcClient.getAccountInfo(recipient.toBase58(), commitment: commitment).value;
     if (recipientInfo == null) {
       throw const CreateTransactionException('Recipient not found.');
     }
@@ -102,10 +96,7 @@ extension SolanaClientSolanaPay on SolanaClient {
 
       // Get the payer's ATA and check that the account exists and can send
       // tokens.
-      final payerAccount = await getAssociatedTokenAccount(
-        owner: payer.publicKey,
-        mint: splToken,
-      );
+      final payerAccount = await getAssociatedTokenAccount(owner: payer.publicKey, mint: splToken);
       if (payerAccount == null) {
         throw const CreateTransactionException('Payer ATA not found.');
       }
@@ -114,10 +105,7 @@ extension SolanaClientSolanaPay on SolanaClient {
 
       // Get the recipient's ATA and check that the account exists and can
       // receive tokens.
-      final recipientAccount = await getAssociatedTokenAccount(
-        owner: recipient,
-        mint: splToken,
-      );
+      final recipientAccount = await getAssociatedTokenAccount(owner: recipient, mint: splToken);
       if (recipientAccount == null) {
         throw const CreateTransactionException('Recipient ATA not found.');
       }
@@ -146,10 +134,7 @@ extension SolanaClientSolanaPay on SolanaClient {
     }
 
     return Message(
-      instructions: [
-        if (memo != null) MemoInstruction(signers: const [], memo: memo),
-        instruction,
-      ],
+      instructions: [if (memo != null) MemoInstruction(signers: const [], memo: memo), instruction],
     );
   }
 
@@ -216,10 +201,7 @@ extension SolanaClientSolanaPay on SolanaClient {
     TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final response = await rpcClient.getTransaction(
-      signature,
-      commitment: commitment,
-    );
+    final response = await rpcClient.getTransaction(signature, commitment: commitment);
 
     if (response == null) {
       throw const ValidateTransactionException('Transaction not found.');
@@ -236,29 +218,21 @@ extension SolanaClientSolanaPay on SolanaClient {
 
     final Decimal preAmount, postAmount;
     if (splToken == null) {
-      final accountIndex = (response.transaction as ParsedTransaction)
-          .message
-          .accountKeys
+      final accountIndex = (response.transaction as ParsedTransaction).message.accountKeys
           .indexWhere((a) => a.pubkey == recipient.toBase58());
       if (accountIndex == -1) {
         throw const ValidateTransactionException('Recipient not found.');
       }
 
-      preAmount = Decimal.fromInt(
-        meta.preBalances[accountIndex],
-      ).shift(-solDecimalPlaces);
-      postAmount = Decimal.fromInt(
-        meta.postBalances[accountIndex],
-      ).shift(-solDecimalPlaces);
+      preAmount = Decimal.fromInt(meta.preBalances[accountIndex]).shift(-solDecimalPlaces);
+      postAmount = Decimal.fromInt(meta.postBalances[accountIndex]).shift(-solDecimalPlaces);
     } else {
       final recipientATA = await findAssociatedTokenAddress(
         owner: recipient,
         mint: splToken,
         tokenProgramType: tokenProgramType,
       );
-      final accountIndex = (response.transaction as ParsedTransaction)
-          .message
-          .accountKeys
+      final accountIndex = (response.transaction as ParsedTransaction).message.accountKeys
           .indexWhere((a) => a.pubkey == recipientATA.toBase58());
       if (accountIndex == -1) {
         throw const ValidateTransactionException('Recipient not found.');
@@ -271,12 +245,8 @@ extension SolanaClientSolanaPay on SolanaClient {
         (a) => a.accountIndex == accountIndex,
       );
 
-      preAmount = Decimal.parse(
-        preBalance?.uiTokenAmount.uiAmountString ?? '0',
-      );
-      postAmount = Decimal.parse(
-        postBalance?.uiTokenAmount.uiAmountString ?? '0',
-      );
+      preAmount = Decimal.parse(preBalance?.uiTokenAmount.uiAmountString ?? '0');
+      postAmount = Decimal.parse(postBalance?.uiTokenAmount.uiAmountString ?? '0');
     }
 
     if (postAmount - preAmount < amount) {
@@ -284,10 +254,9 @@ extension SolanaClientSolanaPay on SolanaClient {
     }
 
     if (reference != null) {
-      final keys = (response.transaction as ParsedTransaction)
-          .message
-          .accountKeys
-          .map((e) => e.pubkey);
+      final keys = (response.transaction as ParsedTransaction).message.accountKeys.map(
+        (e) => e.pubkey,
+      );
       if (reference.any((e) => !keys.contains(e.toBase58()))) {
         throw const ValidateTransactionException('Reference not found.');
       }
@@ -320,33 +289,23 @@ extension SolanaClientSolanaPay on SolanaClient {
     List<Signature> signatures = tx.signatures;
     CompiledMessage compiledMessage = tx.compiledMessage;
 
-    if (signatures.isEmpty ||
-        (signatures.length == 1 && signatures.first.publicKey == signer)) {
+    if (signatures.isEmpty || (signatures.length == 1 && signatures.first.publicKey == signer)) {
       final addressTableLookups = compiledMessage.map(
         legacy: (_) => <MessageAddressTableLookup>[],
         v0: (v0) => v0.addressTableLookups,
       );
 
-      final lookUpTables = await rpcClient.getAddressLookUpTableAccounts(
-        addressTableLookups,
-      );
+      final lookUpTables = await rpcClient.getAddressLookUpTableAccounts(addressTableLookups);
 
-      final message = tx.decompileMessage(
-        addressLookupTableAccounts: lookUpTables,
-      );
+      final message = tx.decompileMessage(addressLookupTableAccounts: lookUpTables);
 
       final isLegacyTx = tx.version == TransactionVersion.legacy;
 
-      final latestBlockhash = await rpcClient.getLatestBlockhash(
-        commitment: commitment,
-      );
+      final latestBlockhash = await rpcClient.getLatestBlockhash(commitment: commitment);
 
       compiledMessage =
           isLegacyTx
-              ? message.compile(
-                recentBlockhash: latestBlockhash.value.blockhash,
-                feePayer: signer,
-              )
+              ? message.compile(recentBlockhash: latestBlockhash.value.blockhash, feePayer: signer)
               : message.compileV0(
                 recentBlockhash: latestBlockhash.value.blockhash,
                 feePayer: signer,

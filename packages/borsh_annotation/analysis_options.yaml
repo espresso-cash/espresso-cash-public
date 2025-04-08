@@ -1,5 +1,8 @@
 include: package:mews_pedantic/analysis_options.yaml
 
+formatter:
+   page_width: 100
+
 dart_code_metrics:
   rules:
     avoid-passing-self-as-argument: false

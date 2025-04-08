@@ -47,8 +47,7 @@ mixin _$Mint {
 
 /// @nodoc
 abstract class $MintCopyWith<$Res> {
-  factory $MintCopyWith(Mint value, $Res Function(Mint) then) =
-      _$MintCopyWithImpl<$Res, Mint>;
+  factory $MintCopyWith(Mint value, $Res Function(Mint) then) = _$MintCopyWithImpl<$Res, Mint>;
   @useResult
   $Res call({
     Ed25519HDPublicKey address,
@@ -61,8 +60,7 @@ abstract class $MintCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MintCopyWithImpl<$Res, $Val extends Mint>
-    implements $MintCopyWith<$Res> {
+class _$MintCopyWithImpl<$Res, $Val extends Mint> implements $MintCopyWith<$Res> {
   _$MintCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -122,10 +120,8 @@ class _$MintCopyWithImpl<$Res, $Val extends Mint>
 
 /// @nodoc
 abstract class _$$MintImplCopyWith<$Res> implements $MintCopyWith<$Res> {
-  factory _$$MintImplCopyWith(
-    _$MintImpl value,
-    $Res Function(_$MintImpl) then,
-  ) = __$$MintImplCopyWithImpl<$Res>;
+  factory _$$MintImplCopyWith(_$MintImpl value, $Res Function(_$MintImpl) then) =
+      __$$MintImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -139,8 +135,7 @@ abstract class _$$MintImplCopyWith<$Res> implements $MintCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$MintImplCopyWithImpl<$Res>
-    extends _$MintCopyWithImpl<$Res, _$MintImpl>
+class __$$MintImplCopyWithImpl<$Res> extends _$MintCopyWithImpl<$Res, _$MintImpl>
     implements _$$MintImplCopyWith<$Res> {
   __$$MintImplCopyWithImpl(_$MintImpl _value, $Res Function(_$MintImpl) _then)
     : super(_value, _then);
@@ -246,8 +241,7 @@ class _$MintImpl implements _Mint {
             other is _$MintImpl &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.supply, supply) || other.supply == supply) &&
-            (identical(other.decimals, decimals) ||
-                other.decimals == decimals) &&
+            (identical(other.decimals, decimals) || other.decimals == decimals) &&
             (identical(other.mintAuthority, mintAuthority) ||
                 other.mintAuthority == mintAuthority) &&
             (identical(other.isInitialized, isInitialized) ||
@@ -318,6 +312,5 @@ abstract class _Mint implements Mint {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MintImplCopyWith<_$MintImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$MintImplCopyWith<_$MintImpl> get copyWith => throw _privateConstructorUsedError;
 }

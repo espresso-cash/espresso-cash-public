@@ -147,8 +147,7 @@ class _$CompiledInstructionImpl extends _CompiledInstruction {
   final List<int> _accountKeyIndexes;
   @override
   List<int> get accountKeyIndexes {
-    if (_accountKeyIndexes is EqualUnmodifiableListView)
-      return _accountKeyIndexes;
+    if (_accountKeyIndexes is EqualUnmodifiableListView) return _accountKeyIndexes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_accountKeyIndexes);
   }
@@ -168,10 +167,7 @@ class _$CompiledInstructionImpl extends _CompiledInstruction {
             other is _$CompiledInstructionImpl &&
             (identical(other.programIdIndex, programIdIndex) ||
                 other.programIdIndex == programIdIndex) &&
-            const DeepCollectionEquality().equals(
-              other._accountKeyIndexes,
-              _accountKeyIndexes,
-            ) &&
+            const DeepCollectionEquality().equals(other._accountKeyIndexes, _accountKeyIndexes) &&
             const DeepCollectionEquality().equals(other.data, data));
   }
 
@@ -189,10 +185,7 @@ class _$CompiledInstructionImpl extends _CompiledInstruction {
   @override
   @pragma('vm:prefer-inline')
   _$$CompiledInstructionImplCopyWith<_$CompiledInstructionImpl> get copyWith =>
-      __$$CompiledInstructionImplCopyWithImpl<_$CompiledInstructionImpl>(
-        this,
-        _$identity,
-      );
+      __$$CompiledInstructionImplCopyWithImpl<_$CompiledInstructionImpl>(this, _$identity);
 }
 
 abstract class _CompiledInstruction extends CompiledInstruction {

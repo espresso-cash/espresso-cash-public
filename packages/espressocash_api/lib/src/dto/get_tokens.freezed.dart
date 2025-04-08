@@ -15,9 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-GetTokensMetaResponseDto _$GetTokensMetaResponseDtoFromJson(
-  Map<String, dynamic> json,
-) {
+GetTokensMetaResponseDto _$GetTokensMetaResponseDtoFromJson(Map<String, dynamic> json) {
   return _GetTokensMetaResponseDto.fromJson(json);
 }
 
@@ -46,10 +44,7 @@ abstract class $GetTokensMetaResponseDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$GetTokensMetaResponseDtoCopyWithImpl<
-  $Res,
-  $Val extends GetTokensMetaResponseDto
->
+class _$GetTokensMetaResponseDtoCopyWithImpl<$Res, $Val extends GetTokensMetaResponseDto>
     implements $GetTokensMetaResponseDtoCopyWith<$Res> {
   _$GetTokensMetaResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -90,11 +85,7 @@ abstract class _$$GetTokensMetaResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$GetTokensMetaResponseDtoImplCopyWithImpl<$Res>
-    extends
-        _$GetTokensMetaResponseDtoCopyWithImpl<
-          $Res,
-          _$GetTokensMetaResponseDtoImpl
-        >
+    extends _$GetTokensMetaResponseDtoCopyWithImpl<$Res, _$GetTokensMetaResponseDtoImpl>
     implements _$$GetTokensMetaResponseDtoImplCopyWith<$Res> {
   __$$GetTokensMetaResponseDtoImplCopyWithImpl(
     _$GetTokensMetaResponseDtoImpl _value,
@@ -151,10 +142,11 @@ class _$GetTokensMetaResponseDtoImpl implements _GetTokensMetaResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetTokensMetaResponseDtoImplCopyWith<_$GetTokensMetaResponseDtoImpl>
-  get copyWith => __$$GetTokensMetaResponseDtoImplCopyWithImpl<
-    _$GetTokensMetaResponseDtoImpl
-  >(this, _$identity);
+  _$$GetTokensMetaResponseDtoImplCopyWith<_$GetTokensMetaResponseDtoImpl> get copyWith =>
+      __$$GetTokensMetaResponseDtoImplCopyWithImpl<_$GetTokensMetaResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -176,6 +168,6 @@ abstract class _GetTokensMetaResponseDto implements GetTokensMetaResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GetTokensMetaResponseDtoImplCopyWith<_$GetTokensMetaResponseDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$GetTokensMetaResponseDtoImplCopyWith<_$GetTokensMetaResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

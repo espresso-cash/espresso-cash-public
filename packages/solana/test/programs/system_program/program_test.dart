@@ -221,10 +221,7 @@ void main() {
 
   test('Allocate', () async {
     final fromKey = await _createFundedKey(client);
-    final instruction = SystemInstruction.allocate(
-      account: fromKey.publicKey,
-      space: 100,
-    );
+    final instruction = SystemInstruction.allocate(account: fromKey.publicKey, space: 100);
     final future = client.sendAndConfirmTransaction(
       message: Message.only(instruction),
       signers: [fromKey],
@@ -259,11 +256,7 @@ void main() {
 
   test('Withdraw nonce account', () async {
     final fromKey = await _createFundedKey(client);
-    final nonceKey = await _createNonceAccount(
-      fromKey,
-      client,
-      extraLamports: 100,
-    );
+    final nonceKey = await _createNonceAccount(fromKey, client, extraLamports: 100);
     final toKey = await Ed25519HDKeyPair.random();
 
     final instruction = SystemInstruction.withdrawNonceAccount(
@@ -272,9 +265,7 @@ void main() {
       recipient: toKey.publicKey,
       lamports:
           100 +
-          await client.rpcClient.getMinimumBalanceForRentExemption(
-            SystemProgram.nonceAccountSize,
-          ),
+          await client.rpcClient.getMinimumBalanceForRentExemption(SystemProgram.nonceAccountSize),
     );
 
     expect(

@@ -7,10 +7,8 @@ Message decompileLegacy(CompiledMessage message) {
   final header = message.header;
 
   final accountsLength = message.accountKeys.length;
-  final lastWriteableSignerIndex =
-      header.numRequiredSignatures - header.numReadonlySignedAccounts;
-  final lastWriteableNonSigner =
-      accountsLength - header.numReadonlyUnsignedAccounts;
+  final lastWriteableSignerIndex = header.numRequiredSignatures - header.numReadonlySignedAccounts;
+  final lastWriteableNonSigner = accountsLength - header.numReadonlyUnsignedAccounts;
 
   final accounts =
       message.accountKeys.mapIndexed((i, a) {
@@ -18,10 +16,7 @@ Message decompileLegacy(CompiledMessage message) {
 
         return AccountMeta(
           pubKey: a,
-          isWriteable:
-              isSigner
-                  ? i < lastWriteableSignerIndex
-                  : i < lastWriteableNonSigner,
+          isWriteable: isSigner ? i < lastWriteableSignerIndex : i < lastWriteableNonSigner,
           isSigner: isSigner,
         );
       }).toList();

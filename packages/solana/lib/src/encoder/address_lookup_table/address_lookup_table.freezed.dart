@@ -47,10 +47,7 @@ abstract class $AddressLookupTableStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AddressLookupTableStateCopyWithImpl<
-  $Res,
-  $Val extends AddressLookupTableState
->
+class _$AddressLookupTableStateCopyWithImpl<$Res, $Val extends AddressLookupTableState>
     implements $AddressLookupTableStateCopyWith<$Res> {
   _$AddressLookupTableStateCopyWithImpl(this._value, this._then);
 
@@ -123,11 +120,7 @@ abstract class _$$AddressLookupTableStateImplCopyWith<$Res>
 
 /// @nodoc
 class __$$AddressLookupTableStateImplCopyWithImpl<$Res>
-    extends
-        _$AddressLookupTableStateCopyWithImpl<
-          $Res,
-          _$AddressLookupTableStateImpl
-        >
+    extends _$AddressLookupTableStateCopyWithImpl<$Res, _$AddressLookupTableStateImpl>
     implements _$$AddressLookupTableStateImplCopyWith<$Res> {
   __$$AddressLookupTableStateImplCopyWithImpl(
     _$AddressLookupTableStateImpl _value,
@@ -218,18 +211,10 @@ class _$AddressLookupTableStateImpl implements _AddressLookupTableState {
                 other.deactivationSlot == deactivationSlot) &&
             (identical(other.lastExtendedSlot, lastExtendedSlot) ||
                 other.lastExtendedSlot == lastExtendedSlot) &&
-            (identical(
-                  other.lastExtendedSlotStartIndex,
-                  lastExtendedSlotStartIndex,
-                ) ||
-                other.lastExtendedSlotStartIndex ==
-                    lastExtendedSlotStartIndex) &&
-            (identical(other.authority, authority) ||
-                other.authority == authority) &&
-            const DeepCollectionEquality().equals(
-              other._addresses,
-              _addresses,
-            ));
+            (identical(other.lastExtendedSlotStartIndex, lastExtendedSlotStartIndex) ||
+                other.lastExtendedSlotStartIndex == lastExtendedSlotStartIndex) &&
+            (identical(other.authority, authority) || other.authority == authority) &&
+            const DeepCollectionEquality().equals(other._addresses, _addresses));
   }
 
   @override
@@ -247,10 +232,8 @@ class _$AddressLookupTableStateImpl implements _AddressLookupTableState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$AddressLookupTableStateImplCopyWith<_$AddressLookupTableStateImpl>
-  get copyWith => __$$AddressLookupTableStateImplCopyWithImpl<
-    _$AddressLookupTableStateImpl
-  >(this, _$identity);
+  _$$AddressLookupTableStateImplCopyWith<_$AddressLookupTableStateImpl> get copyWith =>
+      __$$AddressLookupTableStateImplCopyWithImpl<_$AddressLookupTableStateImpl>(this, _$identity);
 }
 
 abstract class _AddressLookupTableState implements AddressLookupTableState {
@@ -277,6 +260,6 @@ abstract class _AddressLookupTableState implements AddressLookupTableState {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AddressLookupTableStateImplCopyWith<_$AddressLookupTableStateImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$AddressLookupTableStateImplCopyWith<_$AddressLookupTableStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

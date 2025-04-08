@@ -26,20 +26,15 @@ class Ed25519HDKeyPair extends KeyPair {
 
     return Ed25519HDKeyPair._(
       privateKey: keyData.key,
-      publicKey: Ed25519HDPublicKey(
-        await ED25519_HD_KEY.getPublicKey(keyData.key, false),
-      ),
+      publicKey: Ed25519HDPublicKey(await ED25519_HD_KEY.getPublicKey(keyData.key, false)),
     );
   }
 
-  static Future<Ed25519HDKeyPair> fromPrivateKeyBytes({
-    required List<int> privateKey,
-  }) async => Ed25519HDKeyPair._(
-    privateKey: privateKey,
-    publicKey: Ed25519HDPublicKey(
-      await ED25519_HD_KEY.getPublicKey(privateKey, false),
-    ),
-  );
+  static Future<Ed25519HDKeyPair> fromPrivateKeyBytes({required List<int> privateKey}) async =>
+      Ed25519HDKeyPair._(
+        privateKey: privateKey,
+        publicKey: Ed25519HDPublicKey(await ED25519_HD_KEY.getPublicKey(privateKey, false)),
+      );
 
   /// Generate a new random [Ed25519HDKeyPair]
   static Future<Ed25519HDKeyPair> random() {
@@ -49,10 +44,7 @@ class Ed25519HDKeyPair extends KeyPair {
     final List<int> seedBytes = List<int>.generate(32, random);
 
     // Finally, create a new wallet
-    return Ed25519HDKeyPair.fromSeedWithHdPath(
-      seed: seedBytes,
-      hdPath: "m/44'/501'/0'/0'",
-    );
+    return Ed25519HDKeyPair.fromSeedWithHdPath(seed: seedBytes, hdPath: "m/44'/501'/0'/0'");
   }
 
   /// Creates and initializes the [account]th SolanaWallet and the
@@ -71,28 +63,15 @@ class Ed25519HDKeyPair extends KeyPair {
   ///     solana-keygen pubkey prompt://
   ///
   /// and passing the [mnemonic] seed phrase
-  static Future<Ed25519HDKeyPair> fromMnemonic(
-    String mnemonic, {
-    int? account,
-    int? change,
-  }) {
+  static Future<Ed25519HDKeyPair> fromMnemonic(String mnemonic, {int? account, int? change}) {
     final List<int> seed = bip39.mnemonicToSeed(mnemonic);
 
-    return Ed25519HDKeyPair.fromSeedWithHdPath(
-      seed: seed,
-      hdPath: getHDPath(account, change),
-    );
+    return Ed25519HDKeyPair.fromSeedWithHdPath(seed: seed, hdPath: getHDPath(account, change));
   }
 
   /// Sign a solana program message
-  Future<SignedTx> signMessage({
-    required Message message,
-    required String recentBlockhash,
-  }) async {
-    final compiledMessage = message.compile(
-      recentBlockhash: recentBlockhash,
-      feePayer: publicKey,
-    );
+  Future<SignedTx> signMessage({required Message message, required String recentBlockhash}) async {
+    final compiledMessage = message.compile(recentBlockhash: recentBlockhash, feePayer: publicKey);
     final signature = await sign(compiledMessage.toByteArray());
 
     return SignedTx(signatures: [signature], compiledMessage: compiledMessage);
@@ -103,8 +82,7 @@ class Ed25519HDKeyPair extends KeyPair {
       Ed25519HDKeyPairData(_privateKey, publicKey: publicKey);
 
   @override
-  Future<Ed25519HDPublicKey> extractPublicKey() =>
-      Future<Ed25519HDPublicKey>.value(publicKey);
+  Future<Ed25519HDPublicKey> extractPublicKey() => Future<Ed25519HDPublicKey>.value(publicKey);
 
   /// Returns a Future that resolves to the result of signing [data] with the
   /// private key held internally by a given instance.
@@ -119,10 +97,7 @@ class Ed25519HDKeyPair extends KeyPair {
       type: KeyPairType.ed25519,
     );
 
-    final signature = await _ed25519.sign(
-      data.toList(growable: false),
-      keyPair: keypair,
-    );
+    final signature = await _ed25519.sign(data.toList(growable: false), keyPair: keypair);
 
     return Signature(signature.bytes, publicKey: publicKey);
   }

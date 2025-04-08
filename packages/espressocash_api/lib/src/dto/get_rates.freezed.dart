@@ -143,10 +143,7 @@ class _$GetRatesResponseDtoImpl implements _GetRatesResponseDto {
   @override
   @pragma('vm:prefer-inline')
   _$$GetRatesResponseDtoImplCopyWith<_$GetRatesResponseDtoImpl> get copyWith =>
-      __$$GetRatesResponseDtoImplCopyWithImpl<_$GetRatesResponseDtoImpl>(
-        this,
-        _$identity,
-      );
+      __$$GetRatesResponseDtoImplCopyWithImpl<_$GetRatesResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -155,8 +152,7 @@ class _$GetRatesResponseDtoImpl implements _GetRatesResponseDto {
 }
 
 abstract class _GetRatesResponseDto implements GetRatesResponseDto {
-  const factory _GetRatesResponseDto({required final double usdc}) =
-      _$GetRatesResponseDtoImpl;
+  const factory _GetRatesResponseDto({required final double usdc}) = _$GetRatesResponseDtoImpl;
 
   factory _GetRatesResponseDto.fromJson(Map<String, dynamic> json) =
       _$GetRatesResponseDtoImpl.fromJson;

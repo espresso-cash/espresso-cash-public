@@ -36,10 +36,7 @@ void main() {
     );
   });
 
-  Future<void> sendMessage(
-    Message message,
-    List<Ed25519HDKeyPair> signers,
-  ) async {
+  Future<void> sendMessage(Message message, List<Ed25519HDKeyPair> signers) async {
     await client.sendAndConfirmTransaction(
       message: message,
       signers: signers,
@@ -60,10 +57,7 @@ void main() {
       space: TokenProgram.neededMintAccountSpace,
       decimals: 5,
     );
-    await sendMessage(Message(instructions: instructions), [
-      mintAuthority,
-      mint,
-    ]);
+    await sendMessage(Message(instructions: instructions), [mintAuthority, mint]);
   });
 
   test('Create Account', () async {
@@ -79,10 +73,7 @@ void main() {
     );
 
     expect(
-      sendMessage(Message(instructions: instructions), [
-        mintAuthority,
-        tokensHolder,
-      ]),
+      sendMessage(Message(instructions: instructions), [mintAuthority, tokensHolder]),
       completes,
     );
   });
@@ -197,10 +188,7 @@ void main() {
       freezeAuthority: freezeAuthority.publicKey,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]), completes);
   });
 
   test('Thaw Account', () {
@@ -210,10 +198,7 @@ void main() {
       freezeAuthority: freezeAuthority.publicKey,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]), completes);
   });
 
   test('Set Authority', () async {
@@ -260,13 +245,8 @@ void main() {
   });
 }
 
-Matcher _hasMintAuthority(String? address) =>
-    isA<ParsedSplTokenProgramAccountData>().having(
-      (it) => it.parsed,
-      'parsed',
-      isA<MintAccountData>().having(
-        (it) => it.info.mintAuthority,
-        'mintAuthority',
-        address,
-      ),
-    );
+Matcher _hasMintAuthority(String? address) => isA<ParsedSplTokenProgramAccountData>().having(
+  (it) => it.parsed,
+  'parsed',
+  isA<MintAccountData>().having((it) => it.info.mintAuthority, 'mintAuthority', address),
+);

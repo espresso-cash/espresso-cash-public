@@ -25,8 +25,7 @@ abstract class JsonRpcErrorCode {
 class JsonRpcException implements Exception {
   const JsonRpcException(this.message, this.code, this.data);
 
-  factory JsonRpcException.fromJson(Map<String, dynamic> json) =>
-      _$JsonRpcExceptionFromJson(json);
+  factory JsonRpcException.fromJson(Map<String, dynamic> json) => _$JsonRpcExceptionFromJson(json);
 
   final String message;
   final int code;

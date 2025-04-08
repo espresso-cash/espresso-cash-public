@@ -17,8 +17,7 @@ class GetFreeNonceResponseDto with _$GetFreeNonceResponseDto {
 
 @freezed
 class SubmitDurableTxRequestDto with _$SubmitDurableTxRequestDto {
-  const factory SubmitDurableTxRequestDto({required String tx}) =
-      _SubmitDurableTxRequestDto;
+  const factory SubmitDurableTxRequestDto({required String tx}) = _SubmitDurableTxRequestDto;
 
   factory SubmitDurableTxRequestDto.fromJson(Map<String, dynamic> json) =>
       _$SubmitDurableTxRequestDtoFromJson(json);

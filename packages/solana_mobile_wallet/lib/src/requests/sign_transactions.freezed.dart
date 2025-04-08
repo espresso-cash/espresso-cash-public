@@ -205,8 +205,7 @@ abstract class _$$SignTransactionsRequestImplCopyWith<$Res>
 
 /// @nodoc
 class __$$SignTransactionsRequestImplCopyWithImpl<$Res>
-    extends
-        _$SignPayloadsRequestCopyWithImpl<$Res, _$SignTransactionsRequestImpl>
+    extends _$SignPayloadsRequestCopyWithImpl<$Res, _$SignTransactionsRequestImpl>
     implements _$$SignTransactionsRequestImplCopyWith<$Res> {
   __$$SignTransactionsRequestImplCopyWithImpl(
     _$SignTransactionsRequestImpl _value,
@@ -300,17 +299,12 @@ class _$SignTransactionsRequestImpl implements SignTransactionsRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignTransactionsRequestImpl &&
-            (identical(other.identityName, identityName) ||
-                other.identityName == identityName) &&
-            (identical(other.identityUri, identityUri) ||
-                other.identityUri == identityUri) &&
+            (identical(other.identityName, identityName) || other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
             (identical(other.iconRelativeUri, iconRelativeUri) ||
                 other.iconRelativeUri == iconRelativeUri) &&
             (identical(other.cluster, cluster) || other.cluster == cluster) &&
-            const DeepCollectionEquality().equals(
-              other.authorizationScope,
-              authorizationScope,
-            ) &&
+            const DeepCollectionEquality().equals(other.authorizationScope, authorizationScope) &&
             const DeepCollectionEquality().equals(other._payloads, _payloads));
   }
 
@@ -328,10 +322,8 @@ class _$SignTransactionsRequestImpl implements SignTransactionsRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SignTransactionsRequestImplCopyWith<_$SignTransactionsRequestImpl>
-  get copyWith => __$$SignTransactionsRequestImplCopyWithImpl<
-    _$SignTransactionsRequestImpl
-  >(this, _$identity);
+  _$$SignTransactionsRequestImplCopyWith<_$SignTransactionsRequestImpl> get copyWith =>
+      __$$SignTransactionsRequestImplCopyWithImpl<_$SignTransactionsRequestImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -489,8 +481,8 @@ abstract class SignTransactionsRequest implements SignPayloadsRequest {
   List<Uint8List> get payloads;
   @override
   @JsonKey(ignore: true)
-  _$$SignTransactionsRequestImplCopyWith<_$SignTransactionsRequestImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$SignTransactionsRequestImplCopyWith<_$SignTransactionsRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -608,17 +600,12 @@ class _$SignMessagesRequestImpl implements SignMessagesRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignMessagesRequestImpl &&
-            (identical(other.identityName, identityName) ||
-                other.identityName == identityName) &&
-            (identical(other.identityUri, identityUri) ||
-                other.identityUri == identityUri) &&
+            (identical(other.identityName, identityName) || other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
             (identical(other.iconRelativeUri, iconRelativeUri) ||
                 other.iconRelativeUri == iconRelativeUri) &&
             (identical(other.cluster, cluster) || other.cluster == cluster) &&
-            const DeepCollectionEquality().equals(
-              other.authorizationScope,
-              authorizationScope,
-            ) &&
+            const DeepCollectionEquality().equals(other.authorizationScope, authorizationScope) &&
             const DeepCollectionEquality().equals(other._payloads, _payloads));
   }
 
@@ -637,10 +624,7 @@ class _$SignMessagesRequestImpl implements SignMessagesRequest {
   @override
   @pragma('vm:prefer-inline')
   _$$SignMessagesRequestImplCopyWith<_$SignMessagesRequestImpl> get copyWith =>
-      __$$SignMessagesRequestImplCopyWithImpl<_$SignMessagesRequestImpl>(
-        this,
-        _$identity,
-      );
+      __$$SignMessagesRequestImplCopyWithImpl<_$SignMessagesRequestImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -835,8 +819,7 @@ mixin _$SignedPayloadResult {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
@@ -913,10 +896,9 @@ class __$$SignedPayloadResultImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SignedPayloadResultImpl extends _SignedPayloadResult {
-  const _$SignedPayloadResultImpl({
-    required final List<Uint8List> signedPayloads,
-  }) : _signedPayloads = signedPayloads,
-       super._();
+  const _$SignedPayloadResultImpl({required final List<Uint8List> signedPayloads})
+    : _signedPayloads = signedPayloads,
+      super._();
 
   final List<Uint8List> _signedPayloads;
   @override
@@ -936,26 +918,18 @@ class _$SignedPayloadResultImpl extends _SignedPayloadResult {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignedPayloadResultImpl &&
-            const DeepCollectionEquality().equals(
-              other._signedPayloads,
-              _signedPayloads,
-            ));
+            const DeepCollectionEquality().equals(other._signedPayloads, _signedPayloads));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_signedPayloads),
-  );
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_signedPayloads));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SignedPayloadResultImplCopyWith<_$SignedPayloadResultImpl> get copyWith =>
-      __$$SignedPayloadResultImplCopyWithImpl<_$SignedPayloadResultImpl>(
-        this,
-        _$identity,
-      );
+      __$$SignedPayloadResultImplCopyWithImpl<_$SignedPayloadResultImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1004,8 +978,7 @@ class _$SignedPayloadResultImpl extends _SignedPayloadResult {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
   }) {
     return $default(this);
   }
@@ -1040,9 +1013,8 @@ class _$SignedPayloadResultImpl extends _SignedPayloadResult {
 }
 
 abstract class _SignedPayloadResult extends SignedPayloadResult {
-  const factory _SignedPayloadResult({
-    required final List<Uint8List> signedPayloads,
-  }) = _$SignedPayloadResultImpl;
+  const factory _SignedPayloadResult({required final List<Uint8List> signedPayloads}) =
+      _$SignedPayloadResultImpl;
   const _SignedPayloadResult._() : super._();
 
   List<Uint8List> get signedPayloads;
@@ -1135,8 +1107,7 @@ class _$RequestDeclinedImpl extends _RequestDeclined {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
   }) {
     return requestDeclined(this);
   }
@@ -1212,9 +1183,7 @@ class __$$InvalidPayloadsImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InvalidPayloadsImpl extends _InvalidPayloads {
-  const _$InvalidPayloadsImpl({required final List<bool> valid})
-    : _valid = valid,
-      super._();
+  const _$InvalidPayloadsImpl({required final List<bool> valid}) : _valid = valid, super._();
 
   final List<bool> _valid;
   @override
@@ -1238,17 +1207,13 @@ class _$InvalidPayloadsImpl extends _InvalidPayloads {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_valid));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_valid));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$InvalidPayloadsImplCopyWith<_$InvalidPayloadsImpl> get copyWith =>
-      __$$InvalidPayloadsImplCopyWithImpl<_$InvalidPayloadsImpl>(
-        this,
-        _$identity,
-      );
+      __$$InvalidPayloadsImplCopyWithImpl<_$InvalidPayloadsImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1297,8 +1262,7 @@ class _$InvalidPayloadsImpl extends _InvalidPayloads {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
   }) {
     return invalidPayloads(this);
   }
@@ -1333,8 +1297,7 @@ class _$InvalidPayloadsImpl extends _InvalidPayloads {
 }
 
 abstract class _InvalidPayloads extends SignedPayloadResult {
-  const factory _InvalidPayloads({required final List<bool> valid}) =
-      _$InvalidPayloadsImpl;
+  const factory _InvalidPayloads({required final List<bool> valid}) = _$InvalidPayloadsImpl;
   const _InvalidPayloads._() : super._();
 
   List<bool> get valid;
@@ -1427,8 +1390,7 @@ class _$TooManyPayloadsImpl extends _TooManyPayloads {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
   }) {
     return tooManyPayloads(this);
   }
@@ -1498,8 +1460,7 @@ class _$AuthorizationNotValidImpl extends _AuthorizationNotValid {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AuthorizationNotValidImpl);
+        (other.runtimeType == runtimeType && other is _$AuthorizationNotValidImpl);
   }
 
   @override
@@ -1552,8 +1513,7 @@ class _$AuthorizationNotValidImpl extends _AuthorizationNotValid {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
   }) {
     return authorizationNotValid(this);
   }

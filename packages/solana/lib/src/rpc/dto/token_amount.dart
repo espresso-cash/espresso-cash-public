@@ -6,14 +6,9 @@ part 'token_amount.g.dart';
 /// The amount of a SPL token
 @JsonSerializable()
 class TokenAmount {
-  const TokenAmount({
-    required this.amount,
-    required this.decimals,
-    required this.uiAmountString,
-  });
+  const TokenAmount({required this.amount, required this.decimals, required this.uiAmountString});
 
-  factory TokenAmount.fromJson(Map<String, dynamic> json) =>
-      _$TokenAmountFromJson(json);
+  factory TokenAmount.fromJson(Map<String, dynamic> json) => _$TokenAmountFromJson(json);
 
   Map<String, dynamic> toJson() => _$TokenAmountToJson(this);
 

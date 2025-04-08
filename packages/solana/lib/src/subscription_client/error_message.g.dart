@@ -11,5 +11,7 @@ ErrorMessage _$ErrorMessageFromJson(Map<String, dynamic> json) => ErrorMessage(
   id: (json['id'] as num).toInt(),
 );
 
-Map<String, dynamic> _$ErrorMessageToJson(ErrorMessage instance) =>
-    <String, dynamic>{'error': instance.error.toJson(), 'id': instance.id};
+Map<String, dynamic> _$ErrorMessageToJson(ErrorMessage instance) => <String, dynamic>{
+  'error': instance.error.toJson(),
+  'id': instance.id,
+};

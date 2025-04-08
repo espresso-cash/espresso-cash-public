@@ -21,16 +21,13 @@ mixin _$SigningRequest {
   List<Uri> get requestedSignatures => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SigningRequestCopyWith<SigningRequest> get copyWith =>
-      throw _privateConstructorUsedError;
+  $SigningRequestCopyWith<SigningRequest> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SigningRequestCopyWith<$Res> {
-  factory $SigningRequestCopyWith(
-    SigningRequest value,
-    $Res Function(SigningRequest) then,
-  ) = _$SigningRequestCopyWithImpl<$Res, SigningRequest>;
+  factory $SigningRequestCopyWith(SigningRequest value, $Res Function(SigningRequest) then) =
+      _$SigningRequestCopyWithImpl<$Res, SigningRequest>;
   @useResult
   $Res call({Uint8List payload, List<Uri> requestedSignatures});
 }
@@ -67,8 +64,7 @@ class _$SigningRequestCopyWithImpl<$Res, $Val extends SigningRequest>
 }
 
 /// @nodoc
-abstract class _$$SigningRequestImplCopyWith<$Res>
-    implements $SigningRequestCopyWith<$Res> {
+abstract class _$$SigningRequestImplCopyWith<$Res> implements $SigningRequestCopyWith<$Res> {
   factory _$$SigningRequestImplCopyWith(
     _$SigningRequestImpl value,
     $Res Function(_$SigningRequestImpl) then,
@@ -109,21 +105,16 @@ class __$$SigningRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SigningRequestImpl
-    with DiagnosticableTreeMixin
-    implements _SigningRequest {
-  const _$SigningRequestImpl({
-    required this.payload,
-    required final List<Uri> requestedSignatures,
-  }) : _requestedSignatures = requestedSignatures;
+class _$SigningRequestImpl with DiagnosticableTreeMixin implements _SigningRequest {
+  const _$SigningRequestImpl({required this.payload, required final List<Uri> requestedSignatures})
+    : _requestedSignatures = requestedSignatures;
 
   @override
   final Uint8List payload;
   final List<Uri> _requestedSignatures;
   @override
   List<Uri> get requestedSignatures {
-    if (_requestedSignatures is EqualUnmodifiableListView)
-      return _requestedSignatures;
+    if (_requestedSignatures is EqualUnmodifiableListView) return _requestedSignatures;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_requestedSignatures);
   }
@@ -165,10 +156,7 @@ class _$SigningRequestImpl
   @override
   @pragma('vm:prefer-inline')
   _$$SigningRequestImplCopyWith<_$SigningRequestImpl> get copyWith =>
-      __$$SigningRequestImplCopyWithImpl<_$SigningRequestImpl>(
-        this,
-        _$identity,
-      );
+      __$$SigningRequestImplCopyWithImpl<_$SigningRequestImpl>(this, _$identity);
 }
 
 abstract class _SigningRequest implements SigningRequest {

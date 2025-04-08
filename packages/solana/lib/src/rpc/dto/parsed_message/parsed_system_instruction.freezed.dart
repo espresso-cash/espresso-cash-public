@@ -15,9 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-ParsedSystemInstruction _$ParsedSystemInstructionFromJson(
-  Map<String, dynamic> json,
-) {
+ParsedSystemInstruction _$ParsedSystemInstructionFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'transfer':
       return ParsedSystemTransferInstruction.fromJson(json);
@@ -34,49 +32,39 @@ mixin _$ParsedSystemInstruction {
   String get type => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSystemTransferInformation info, String type)
-    transfer,
-    required TResult Function(ParsedSystemTransferInformation info, String type)
-    transferChecked,
+    required TResult Function(ParsedSystemTransferInformation info, String type) transfer,
+    required TResult Function(ParsedSystemTransferInformation info, String type) transferChecked,
     required TResult Function(String type) unsupported,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ParsedSystemTransferInformation info, String type)?
-    transfer,
-    TResult? Function(ParsedSystemTransferInformation info, String type)?
-    transferChecked,
+    TResult? Function(ParsedSystemTransferInformation info, String type)? transfer,
+    TResult? Function(ParsedSystemTransferInformation info, String type)? transferChecked,
     TResult? Function(String type)? unsupported,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInformation info, String type)?
-    transfer,
-    TResult Function(ParsedSystemTransferInformation info, String type)?
-    transferChecked,
+    TResult Function(ParsedSystemTransferInformation info, String type)? transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)? transferChecked,
     TResult Function(String type)? unsupported,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSystemTransferInstruction value) transfer,
-    required TResult Function(ParsedSystemTransferCheckedInstruction value)
-    transferChecked,
-    required TResult Function(ParsedSystemUnsupportedInstruction value)
-    unsupported,
+    required TResult Function(ParsedSystemTransferCheckedInstruction value) transferChecked,
+    required TResult Function(ParsedSystemUnsupportedInstruction value) unsupported,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult? Function(ParsedSystemTransferCheckedInstruction value)?
-    transferChecked,
+    TResult? Function(ParsedSystemTransferCheckedInstruction value)? transferChecked,
     TResult? Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult Function(ParsedSystemTransferCheckedInstruction value)?
-    transferChecked,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)? transferChecked,
     TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -102,10 +90,7 @@ abstract class $ParsedSystemInstructionCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ParsedSystemInstructionCopyWithImpl<
-  $Res,
-  $Val extends ParsedSystemInstruction
->
+class _$ParsedSystemInstructionCopyWithImpl<$Res, $Val extends ParsedSystemInstruction>
     implements $ParsedSystemInstructionCopyWith<$Res> {
   _$ParsedSystemInstructionCopyWithImpl(this._value, this._then);
 
@@ -148,11 +133,7 @@ abstract class _$$ParsedSystemTransferInstructionImplCopyWith<$Res>
 
 /// @nodoc
 class __$$ParsedSystemTransferInstructionImplCopyWithImpl<$Res>
-    extends
-        _$ParsedSystemInstructionCopyWithImpl<
-          $Res,
-          _$ParsedSystemTransferInstructionImpl
-        >
+    extends _$ParsedSystemInstructionCopyWithImpl<$Res, _$ParsedSystemTransferInstructionImpl>
     implements _$$ParsedSystemTransferInstructionImplCopyWith<$Res> {
   __$$ParsedSystemTransferInstructionImplCopyWithImpl(
     _$ParsedSystemTransferInstructionImpl _value,
@@ -193,16 +174,11 @@ class __$$ParsedSystemTransferInstructionImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSystemTransferInstructionImpl
-    implements ParsedSystemTransferInstruction {
-  const _$ParsedSystemTransferInstructionImpl({
-    required this.info,
-    required this.type,
-  });
+class _$ParsedSystemTransferInstructionImpl implements ParsedSystemTransferInstruction {
+  const _$ParsedSystemTransferInstructionImpl({required this.info, required this.type});
 
-  factory _$ParsedSystemTransferInstructionImpl.fromJson(
-    Map<String, dynamic> json,
-  ) => _$$ParsedSystemTransferInstructionImplFromJson(json);
+  factory _$ParsedSystemTransferInstructionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ParsedSystemTransferInstructionImplFromJson(json);
 
   @override
   final ParsedSystemTransferInformation info;
@@ -232,20 +208,18 @@ class _$ParsedSystemTransferInstructionImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSystemTransferInstructionImplCopyWith<
-    _$ParsedSystemTransferInstructionImpl
-  >
-  get copyWith => __$$ParsedSystemTransferInstructionImplCopyWithImpl<
-    _$ParsedSystemTransferInstructionImpl
-  >(this, _$identity);
+  _$$ParsedSystemTransferInstructionImplCopyWith<_$ParsedSystemTransferInstructionImpl>
+  get copyWith =>
+      __$$ParsedSystemTransferInstructionImplCopyWithImpl<_$ParsedSystemTransferInstructionImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSystemTransferInformation info, String type)
-    transfer,
-    required TResult Function(ParsedSystemTransferInformation info, String type)
-    transferChecked,
+    required TResult Function(ParsedSystemTransferInformation info, String type) transfer,
+    required TResult Function(ParsedSystemTransferInformation info, String type) transferChecked,
     required TResult Function(String type) unsupported,
   }) {
     return transfer(info, type);
@@ -254,10 +228,8 @@ class _$ParsedSystemTransferInstructionImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ParsedSystemTransferInformation info, String type)?
-    transfer,
-    TResult? Function(ParsedSystemTransferInformation info, String type)?
-    transferChecked,
+    TResult? Function(ParsedSystemTransferInformation info, String type)? transfer,
+    TResult? Function(ParsedSystemTransferInformation info, String type)? transferChecked,
     TResult? Function(String type)? unsupported,
   }) {
     return transfer?.call(info, type);
@@ -266,10 +238,8 @@ class _$ParsedSystemTransferInstructionImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInformation info, String type)?
-    transfer,
-    TResult Function(ParsedSystemTransferInformation info, String type)?
-    transferChecked,
+    TResult Function(ParsedSystemTransferInformation info, String type)? transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)? transferChecked,
     TResult Function(String type)? unsupported,
     required TResult orElse(),
   }) {
@@ -283,10 +253,8 @@ class _$ParsedSystemTransferInstructionImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSystemTransferInstruction value) transfer,
-    required TResult Function(ParsedSystemTransferCheckedInstruction value)
-    transferChecked,
-    required TResult Function(ParsedSystemUnsupportedInstruction value)
-    unsupported,
+    required TResult Function(ParsedSystemTransferCheckedInstruction value) transferChecked,
+    required TResult Function(ParsedSystemUnsupportedInstruction value) unsupported,
   }) {
     return transfer(this);
   }
@@ -295,8 +263,7 @@ class _$ParsedSystemTransferInstructionImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult? Function(ParsedSystemTransferCheckedInstruction value)?
-    transferChecked,
+    TResult? Function(ParsedSystemTransferCheckedInstruction value)? transferChecked,
     TResult? Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) {
     return transfer?.call(this);
@@ -306,8 +273,7 @@ class _$ParsedSystemTransferInstructionImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult Function(ParsedSystemTransferCheckedInstruction value)?
-    transferChecked,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)? transferChecked,
     TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
     required TResult orElse(),
   }) {
@@ -323,8 +289,7 @@ class _$ParsedSystemTransferInstructionImpl
   }
 }
 
-abstract class ParsedSystemTransferInstruction
-    implements ParsedSystemInstruction {
+abstract class ParsedSystemTransferInstruction implements ParsedSystemInstruction {
   const factory ParsedSystemTransferInstruction({
     required final ParsedSystemTransferInformation info,
     required final String type,
@@ -341,9 +306,7 @@ abstract class ParsedSystemTransferInstruction
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ParsedSystemTransferInstructionImplCopyWith<
-    _$ParsedSystemTransferInstructionImpl
-  >
+  _$$ParsedSystemTransferInstructionImplCopyWith<_$ParsedSystemTransferInstructionImpl>
   get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -364,10 +327,7 @@ abstract class _$$ParsedSystemTransferCheckedInstructionImplCopyWith<$Res>
 /// @nodoc
 class __$$ParsedSystemTransferCheckedInstructionImplCopyWithImpl<$Res>
     extends
-        _$ParsedSystemInstructionCopyWithImpl<
-          $Res,
-          _$ParsedSystemTransferCheckedInstructionImpl
-        >
+        _$ParsedSystemInstructionCopyWithImpl<$Res, _$ParsedSystemTransferCheckedInstructionImpl>
     implements _$$ParsedSystemTransferCheckedInstructionImplCopyWith<$Res> {
   __$$ParsedSystemTransferCheckedInstructionImplCopyWithImpl(
     _$ParsedSystemTransferCheckedInstructionImpl _value,
@@ -410,14 +370,10 @@ class __$$ParsedSystemTransferCheckedInstructionImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ParsedSystemTransferCheckedInstructionImpl
     implements ParsedSystemTransferCheckedInstruction {
-  const _$ParsedSystemTransferCheckedInstructionImpl({
-    required this.info,
-    required this.type,
-  });
+  const _$ParsedSystemTransferCheckedInstructionImpl({required this.info, required this.type});
 
-  factory _$ParsedSystemTransferCheckedInstructionImpl.fromJson(
-    Map<String, dynamic> json,
-  ) => _$$ParsedSystemTransferCheckedInstructionImplFromJson(json);
+  factory _$ParsedSystemTransferCheckedInstructionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ParsedSystemTransferCheckedInstructionImplFromJson(json);
 
   @override
   final ParsedSystemTransferInformation info;
@@ -457,10 +413,8 @@ class _$ParsedSystemTransferCheckedInstructionImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSystemTransferInformation info, String type)
-    transfer,
-    required TResult Function(ParsedSystemTransferInformation info, String type)
-    transferChecked,
+    required TResult Function(ParsedSystemTransferInformation info, String type) transfer,
+    required TResult Function(ParsedSystemTransferInformation info, String type) transferChecked,
     required TResult Function(String type) unsupported,
   }) {
     return transferChecked(info, type);
@@ -469,10 +423,8 @@ class _$ParsedSystemTransferCheckedInstructionImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ParsedSystemTransferInformation info, String type)?
-    transfer,
-    TResult? Function(ParsedSystemTransferInformation info, String type)?
-    transferChecked,
+    TResult? Function(ParsedSystemTransferInformation info, String type)? transfer,
+    TResult? Function(ParsedSystemTransferInformation info, String type)? transferChecked,
     TResult? Function(String type)? unsupported,
   }) {
     return transferChecked?.call(info, type);
@@ -481,10 +433,8 @@ class _$ParsedSystemTransferCheckedInstructionImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInformation info, String type)?
-    transfer,
-    TResult Function(ParsedSystemTransferInformation info, String type)?
-    transferChecked,
+    TResult Function(ParsedSystemTransferInformation info, String type)? transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)? transferChecked,
     TResult Function(String type)? unsupported,
     required TResult orElse(),
   }) {
@@ -498,10 +448,8 @@ class _$ParsedSystemTransferCheckedInstructionImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSystemTransferInstruction value) transfer,
-    required TResult Function(ParsedSystemTransferCheckedInstruction value)
-    transferChecked,
-    required TResult Function(ParsedSystemUnsupportedInstruction value)
-    unsupported,
+    required TResult Function(ParsedSystemTransferCheckedInstruction value) transferChecked,
+    required TResult Function(ParsedSystemUnsupportedInstruction value) unsupported,
   }) {
     return transferChecked(this);
   }
@@ -510,8 +458,7 @@ class _$ParsedSystemTransferCheckedInstructionImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult? Function(ParsedSystemTransferCheckedInstruction value)?
-    transferChecked,
+    TResult? Function(ParsedSystemTransferCheckedInstruction value)? transferChecked,
     TResult? Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) {
     return transferChecked?.call(this);
@@ -521,8 +468,7 @@ class _$ParsedSystemTransferCheckedInstructionImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult Function(ParsedSystemTransferCheckedInstruction value)?
-    transferChecked,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)? transferChecked,
     TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
     required TResult orElse(),
   }) {
@@ -538,16 +484,14 @@ class _$ParsedSystemTransferCheckedInstructionImpl
   }
 }
 
-abstract class ParsedSystemTransferCheckedInstruction
-    implements ParsedSystemInstruction {
+abstract class ParsedSystemTransferCheckedInstruction implements ParsedSystemInstruction {
   const factory ParsedSystemTransferCheckedInstruction({
     required final ParsedSystemTransferInformation info,
     required final String type,
   }) = _$ParsedSystemTransferCheckedInstructionImpl;
 
-  factory ParsedSystemTransferCheckedInstruction.fromJson(
-    Map<String, dynamic> json,
-  ) = _$ParsedSystemTransferCheckedInstructionImpl.fromJson;
+  factory ParsedSystemTransferCheckedInstruction.fromJson(Map<String, dynamic> json) =
+      _$ParsedSystemTransferCheckedInstructionImpl.fromJson;
 
   ParsedSystemTransferInformation get info;
   @override
@@ -577,11 +521,7 @@ abstract class _$$ParsedSystemUnsupportedInstructionImplCopyWith<$Res>
 
 /// @nodoc
 class __$$ParsedSystemUnsupportedInstructionImplCopyWithImpl<$Res>
-    extends
-        _$ParsedSystemInstructionCopyWithImpl<
-          $Res,
-          _$ParsedSystemUnsupportedInstructionImpl
-        >
+    extends _$ParsedSystemInstructionCopyWithImpl<$Res, _$ParsedSystemUnsupportedInstructionImpl>
     implements _$$ParsedSystemUnsupportedInstructionImplCopyWith<$Res> {
   __$$ParsedSystemUnsupportedInstructionImplCopyWithImpl(
     _$ParsedSystemUnsupportedInstructionImpl _value,
@@ -607,13 +547,11 @@ class __$$ParsedSystemUnsupportedInstructionImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSystemUnsupportedInstructionImpl
-    implements ParsedSystemUnsupportedInstruction {
+class _$ParsedSystemUnsupportedInstructionImpl implements ParsedSystemUnsupportedInstruction {
   const _$ParsedSystemUnsupportedInstructionImpl({required this.type});
 
-  factory _$ParsedSystemUnsupportedInstructionImpl.fromJson(
-    Map<String, dynamic> json,
-  ) => _$$ParsedSystemUnsupportedInstructionImplFromJson(json);
+  factory _$ParsedSystemUnsupportedInstructionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ParsedSystemUnsupportedInstructionImplFromJson(json);
 
   @override
   final String type;
@@ -640,9 +578,7 @@ class _$ParsedSystemUnsupportedInstructionImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSystemUnsupportedInstructionImplCopyWith<
-    _$ParsedSystemUnsupportedInstructionImpl
-  >
+  _$$ParsedSystemUnsupportedInstructionImplCopyWith<_$ParsedSystemUnsupportedInstructionImpl>
   get copyWith => __$$ParsedSystemUnsupportedInstructionImplCopyWithImpl<
     _$ParsedSystemUnsupportedInstructionImpl
   >(this, _$identity);
@@ -650,10 +586,8 @@ class _$ParsedSystemUnsupportedInstructionImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ParsedSystemTransferInformation info, String type)
-    transfer,
-    required TResult Function(ParsedSystemTransferInformation info, String type)
-    transferChecked,
+    required TResult Function(ParsedSystemTransferInformation info, String type) transfer,
+    required TResult Function(ParsedSystemTransferInformation info, String type) transferChecked,
     required TResult Function(String type) unsupported,
   }) {
     return unsupported(type);
@@ -662,10 +596,8 @@ class _$ParsedSystemUnsupportedInstructionImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ParsedSystemTransferInformation info, String type)?
-    transfer,
-    TResult? Function(ParsedSystemTransferInformation info, String type)?
-    transferChecked,
+    TResult? Function(ParsedSystemTransferInformation info, String type)? transfer,
+    TResult? Function(ParsedSystemTransferInformation info, String type)? transferChecked,
     TResult? Function(String type)? unsupported,
   }) {
     return unsupported?.call(type);
@@ -674,10 +606,8 @@ class _$ParsedSystemUnsupportedInstructionImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ParsedSystemTransferInformation info, String type)?
-    transfer,
-    TResult Function(ParsedSystemTransferInformation info, String type)?
-    transferChecked,
+    TResult Function(ParsedSystemTransferInformation info, String type)? transfer,
+    TResult Function(ParsedSystemTransferInformation info, String type)? transferChecked,
     TResult Function(String type)? unsupported,
     required TResult orElse(),
   }) {
@@ -691,10 +621,8 @@ class _$ParsedSystemUnsupportedInstructionImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSystemTransferInstruction value) transfer,
-    required TResult Function(ParsedSystemTransferCheckedInstruction value)
-    transferChecked,
-    required TResult Function(ParsedSystemUnsupportedInstruction value)
-    unsupported,
+    required TResult Function(ParsedSystemTransferCheckedInstruction value) transferChecked,
+    required TResult Function(ParsedSystemUnsupportedInstruction value) unsupported,
   }) {
     return unsupported(this);
   }
@@ -703,8 +631,7 @@ class _$ParsedSystemUnsupportedInstructionImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult? Function(ParsedSystemTransferCheckedInstruction value)?
-    transferChecked,
+    TResult? Function(ParsedSystemTransferCheckedInstruction value)? transferChecked,
     TResult? Function(ParsedSystemUnsupportedInstruction value)? unsupported,
   }) {
     return unsupported?.call(this);
@@ -714,8 +641,7 @@ class _$ParsedSystemUnsupportedInstructionImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSystemTransferInstruction value)? transfer,
-    TResult Function(ParsedSystemTransferCheckedInstruction value)?
-    transferChecked,
+    TResult Function(ParsedSystemTransferCheckedInstruction value)? transferChecked,
     TResult Function(ParsedSystemUnsupportedInstruction value)? unsupported,
     required TResult orElse(),
   }) {
@@ -731,15 +657,12 @@ class _$ParsedSystemUnsupportedInstructionImpl
   }
 }
 
-abstract class ParsedSystemUnsupportedInstruction
-    implements ParsedSystemInstruction {
-  const factory ParsedSystemUnsupportedInstruction({
-    required final String type,
-  }) = _$ParsedSystemUnsupportedInstructionImpl;
+abstract class ParsedSystemUnsupportedInstruction implements ParsedSystemInstruction {
+  const factory ParsedSystemUnsupportedInstruction({required final String type}) =
+      _$ParsedSystemUnsupportedInstructionImpl;
 
-  factory ParsedSystemUnsupportedInstruction.fromJson(
-    Map<String, dynamic> json,
-  ) = _$ParsedSystemUnsupportedInstructionImpl.fromJson;
+  factory ParsedSystemUnsupportedInstruction.fromJson(Map<String, dynamic> json) =
+      _$ParsedSystemUnsupportedInstructionImpl.fromJson;
 
   @override
   String get type;
@@ -748,9 +671,7 @@ abstract class ParsedSystemUnsupportedInstruction
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ParsedSystemUnsupportedInstructionImplCopyWith<
-    _$ParsedSystemUnsupportedInstructionImpl
-  >
+  _$$ParsedSystemUnsupportedInstructionImplCopyWith<_$ParsedSystemUnsupportedInstructionImpl>
   get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -772,8 +693,8 @@ mixin _$ParsedSystemTransferInformation {
   /// Create a copy of ParsedSystemTransferInformation
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ParsedSystemTransferInformationCopyWith<ParsedSystemTransferInformation>
-  get copyWith => throw _privateConstructorUsedError;
+  $ParsedSystemTransferInformationCopyWith<ParsedSystemTransferInformation> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -781,11 +702,7 @@ abstract class $ParsedSystemTransferInformationCopyWith<$Res> {
   factory $ParsedSystemTransferInformationCopyWith(
     ParsedSystemTransferInformation value,
     $Res Function(ParsedSystemTransferInformation) then,
-  ) =
-      _$ParsedSystemTransferInformationCopyWithImpl<
-        $Res,
-        ParsedSystemTransferInformation
-      >;
+  ) = _$ParsedSystemTransferInformationCopyWithImpl<$Res, ParsedSystemTransferInformation>;
   @useResult
   $Res call({int lamports, String source, String destination});
 }
@@ -807,11 +724,7 @@ class _$ParsedSystemTransferInformationCopyWithImpl<
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? lamports = null,
-    Object? source = null,
-    Object? destination = null,
-  }) {
+  $Res call({Object? lamports = null, Object? source = null, Object? destination = null}) {
     return _then(
       _value.copyWith(
             lamports:
@@ -850,10 +763,7 @@ abstract class _$$ParsedSystemTransferInformationImplCopyWith<$Res>
 /// @nodoc
 class __$$ParsedSystemTransferInformationImplCopyWithImpl<$Res>
     extends
-        _$ParsedSystemTransferInformationCopyWithImpl<
-          $Res,
-          _$ParsedSystemTransferInformationImpl
-        >
+        _$ParsedSystemTransferInformationCopyWithImpl<$Res, _$ParsedSystemTransferInformationImpl>
     implements _$$ParsedSystemTransferInformationImplCopyWith<$Res> {
   __$$ParsedSystemTransferInformationImplCopyWithImpl(
     _$ParsedSystemTransferInformationImpl _value,
@@ -864,11 +774,7 @@ class __$$ParsedSystemTransferInformationImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? lamports = null,
-    Object? source = null,
-    Object? destination = null,
-  }) {
+  $Res call({Object? lamports = null, Object? source = null, Object? destination = null}) {
     return _then(
       _$ParsedSystemTransferInformationImpl(
         lamports:
@@ -893,17 +799,15 @@ class __$$ParsedSystemTransferInformationImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSystemTransferInformationImpl
-    implements _ParsedSystemTransferInformation {
+class _$ParsedSystemTransferInformationImpl implements _ParsedSystemTransferInformation {
   const _$ParsedSystemTransferInformationImpl({
     required this.lamports,
     required this.source,
     required this.destination,
   });
 
-  factory _$ParsedSystemTransferInformationImpl.fromJson(
-    Map<String, dynamic> json,
-  ) => _$$ParsedSystemTransferInformationImplFromJson(json);
+  factory _$ParsedSystemTransferInformationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ParsedSystemTransferInformationImplFromJson(json);
 
   @override
   final int lamports;
@@ -922,11 +826,9 @@ class _$ParsedSystemTransferInformationImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ParsedSystemTransferInformationImpl &&
-            (identical(other.lamports, lamports) ||
-                other.lamports == lamports) &&
+            (identical(other.lamports, lamports) || other.lamports == lamports) &&
             (identical(other.source, source) || other.source == source) &&
-            (identical(other.destination, destination) ||
-                other.destination == destination));
+            (identical(other.destination, destination) || other.destination == destination));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -938,12 +840,12 @@ class _$ParsedSystemTransferInformationImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSystemTransferInformationImplCopyWith<
-    _$ParsedSystemTransferInformationImpl
-  >
-  get copyWith => __$$ParsedSystemTransferInformationImplCopyWithImpl<
-    _$ParsedSystemTransferInformationImpl
-  >(this, _$identity);
+  _$$ParsedSystemTransferInformationImplCopyWith<_$ParsedSystemTransferInformationImpl>
+  get copyWith =>
+      __$$ParsedSystemTransferInformationImplCopyWithImpl<_$ParsedSystemTransferInformationImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -951,8 +853,7 @@ class _$ParsedSystemTransferInformationImpl
   }
 }
 
-abstract class _ParsedSystemTransferInformation
-    implements ParsedSystemTransferInformation {
+abstract class _ParsedSystemTransferInformation implements ParsedSystemTransferInformation {
   const factory _ParsedSystemTransferInformation({
     required final int lamports,
     required final String source,
@@ -973,8 +874,6 @@ abstract class _ParsedSystemTransferInformation
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ParsedSystemTransferInformationImplCopyWith<
-    _$ParsedSystemTransferInformationImpl
-  >
+  _$$ParsedSystemTransferInformationImplCopyWith<_$ParsedSystemTransferInformationImpl>
   get copyWith => throw _privateConstructorUsedError;
 }

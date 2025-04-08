@@ -22,8 +22,7 @@ mixin _$PublicKeyResponse {
   Uri get resolvedDerivationPath => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $PublicKeyResponseCopyWith<PublicKeyResponse> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PublicKeyResponseCopyWith<PublicKeyResponse> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -33,11 +32,7 @@ abstract class $PublicKeyResponseCopyWith<$Res> {
     $Res Function(PublicKeyResponse) then,
   ) = _$PublicKeyResponseCopyWithImpl<$Res, PublicKeyResponse>;
   @useResult
-  $Res call({
-    Uint8List? publicKey,
-    String? publicKeyEncoded,
-    Uri resolvedDerivationPath,
-  });
+  $Res call({Uint8List? publicKey, String? publicKeyEncoded, Uri resolvedDerivationPath});
 }
 
 /// @nodoc
@@ -81,19 +76,14 @@ class _$PublicKeyResponseCopyWithImpl<$Res, $Val extends PublicKeyResponse>
 }
 
 /// @nodoc
-abstract class _$$PublicKeyResponseImplCopyWith<$Res>
-    implements $PublicKeyResponseCopyWith<$Res> {
+abstract class _$$PublicKeyResponseImplCopyWith<$Res> implements $PublicKeyResponseCopyWith<$Res> {
   factory _$$PublicKeyResponseImplCopyWith(
     _$PublicKeyResponseImpl value,
     $Res Function(_$PublicKeyResponseImpl) then,
   ) = __$$PublicKeyResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    Uint8List? publicKey,
-    String? publicKeyEncoded,
-    Uri resolvedDerivationPath,
-  });
+  $Res call({Uint8List? publicKey, String? publicKeyEncoded, Uri resolvedDerivationPath});
 }
 
 /// @nodoc
@@ -136,9 +126,7 @@ class __$$PublicKeyResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PublicKeyResponseImpl
-    with DiagnosticableTreeMixin
-    implements _PublicKeyResponse {
+class _$PublicKeyResponseImpl with DiagnosticableTreeMixin implements _PublicKeyResponse {
   const _$PublicKeyResponseImpl({
     required this.publicKey,
     required this.publicKeyEncoded,
@@ -164,9 +152,7 @@ class _$PublicKeyResponseImpl
       ..add(DiagnosticsProperty('type', 'PublicKeyResponse'))
       ..add(DiagnosticsProperty('publicKey', publicKey))
       ..add(DiagnosticsProperty('publicKeyEncoded', publicKeyEncoded))
-      ..add(
-        DiagnosticsProperty('resolvedDerivationPath', resolvedDerivationPath),
-      );
+      ..add(DiagnosticsProperty('resolvedDerivationPath', resolvedDerivationPath));
   }
 
   @override
@@ -193,10 +179,7 @@ class _$PublicKeyResponseImpl
   @override
   @pragma('vm:prefer-inline')
   _$$PublicKeyResponseImplCopyWith<_$PublicKeyResponseImpl> get copyWith =>
-      __$$PublicKeyResponseImplCopyWithImpl<_$PublicKeyResponseImpl>(
-        this,
-        _$identity,
-      );
+      __$$PublicKeyResponseImplCopyWithImpl<_$PublicKeyResponseImpl>(this, _$identity);
 }
 
 abstract class _PublicKeyResponse implements PublicKeyResponse {

@@ -23,8 +23,7 @@ mixin _$SignedTx {
   /// Create a copy of SignedTx
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SignedTxCopyWith<SignedTx> get copyWith =>
-      throw _privateConstructorUsedError;
+  $SignedTxCopyWith<SignedTx> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -38,8 +37,7 @@ abstract class $SignedTxCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SignedTxCopyWithImpl<$Res, $Val extends SignedTx>
-    implements $SignedTxCopyWith<$Res> {
+class _$SignedTxCopyWithImpl<$Res, $Val extends SignedTx> implements $SignedTxCopyWith<$Res> {
   _$SignedTxCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -81,12 +79,9 @@ class _$SignedTxCopyWithImpl<$Res, $Val extends SignedTx>
 }
 
 /// @nodoc
-abstract class _$$SignedTxImplCopyWith<$Res>
-    implements $SignedTxCopyWith<$Res> {
-  factory _$$SignedTxImplCopyWith(
-    _$SignedTxImpl value,
-    $Res Function(_$SignedTxImpl) then,
-  ) = __$$SignedTxImplCopyWithImpl<$Res>;
+abstract class _$$SignedTxImplCopyWith<$Res> implements $SignedTxCopyWith<$Res> {
+  factory _$$SignedTxImplCopyWith(_$SignedTxImpl value, $Res Function(_$SignedTxImpl) then) =
+      __$$SignedTxImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Signature> signatures, CompiledMessage compiledMessage});
@@ -96,13 +91,10 @@ abstract class _$$SignedTxImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$SignedTxImplCopyWithImpl<$Res>
-    extends _$SignedTxCopyWithImpl<$Res, _$SignedTxImpl>
+class __$$SignedTxImplCopyWithImpl<$Res> extends _$SignedTxCopyWithImpl<$Res, _$SignedTxImpl>
     implements _$$SignedTxImplCopyWith<$Res> {
-  __$$SignedTxImplCopyWithImpl(
-    _$SignedTxImpl _value,
-    $Res Function(_$SignedTxImpl) _then,
-  ) : super(_value, _then);
+  __$$SignedTxImplCopyWithImpl(_$SignedTxImpl _value, $Res Function(_$SignedTxImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of SignedTx
   /// with the given fields replaced by the non-null parameter values.
@@ -157,20 +149,14 @@ class _$SignedTxImpl extends _SignedTx {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignedTxImpl &&
-            const DeepCollectionEquality().equals(
-              other._signatures,
-              _signatures,
-            ) &&
+            const DeepCollectionEquality().equals(other._signatures, _signatures) &&
             (identical(other.compiledMessage, compiledMessage) ||
                 other.compiledMessage == compiledMessage));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_signatures),
-    compiledMessage,
-  );
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_signatures), compiledMessage);
 
   /// Create a copy of SignedTx
   /// with the given fields replaced by the non-null parameter values.
@@ -197,6 +183,5 @@ abstract class _SignedTx extends SignedTx {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SignedTxImplCopyWith<_$SignedTxImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SignedTxImplCopyWith<_$SignedTxImpl> get copyWith => throw _privateConstructorUsedError;
 }

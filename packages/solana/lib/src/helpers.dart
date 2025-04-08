@@ -17,9 +17,7 @@ bool isValidAddress(String address) {
 // Returns whether the point [data] is on the ed25519 curve.
 bool isPointOnEd25519Curve(Iterable<int> data) {
   if (data.length != 32) {
-    throw const FormatException(
-      'invalid length, decoded address is not 32 bytes long',
-    );
+    throw const FormatException('invalid length, decoded address is not 32 bytes long');
   }
   try {
     final compressed = CompressedEdwardsY(data.map(BigInt.from).toList());

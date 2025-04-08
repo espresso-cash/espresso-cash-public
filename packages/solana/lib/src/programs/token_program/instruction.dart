@@ -32,10 +32,7 @@ class TokenInstruction extends Instruction {
   }) => TokenInstruction._(
     accounts: [
       AccountMeta.writeable(pubKey: mint, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
     ],
     data: ByteArray.merge([
       TokenProgram.initializeMintInstructionIndex,
@@ -66,10 +63,7 @@ class TokenInstruction extends Instruction {
       AccountMeta.writeable(pubKey: account, isSigner: true),
       AccountMeta.readonly(pubKey: mint, isSigner: false),
       AccountMeta.readonly(pubKey: owner, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
     ],
     data: TokenProgram.initializeAccountInstructionIndex,
     tokenProgram: tokenProgram,
@@ -87,13 +81,8 @@ class TokenInstruction extends Instruction {
   }) => TokenInstruction._(
     accounts: [
       AccountMeta.writeable(pubKey: account, isSigner: true),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
     data: ByteArray.merge([
       TokenProgram.initializeMintInstructionIndex,
@@ -119,14 +108,9 @@ class TokenInstruction extends Instruction {
       AccountMeta.writeable(pubKey: source, isSigner: false),
       AccountMeta.writeable(pubKey: destination, isSigner: false),
       AccountMeta.readonly(pubKey: owner, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
-    data: ByteArray.merge([
-      TokenProgram.transferInstructionIndex,
-      ByteArray.u64(amount),
-    ]),
+    data: ByteArray.merge([TokenProgram.transferInstructionIndex, ByteArray.u64(amount)]),
     tokenProgram: tokenProgram,
   );
 
@@ -146,14 +130,9 @@ class TokenInstruction extends Instruction {
       AccountMeta.writeable(pubKey: source, isSigner: false),
       AccountMeta.readonly(pubKey: delegate, isSigner: false),
       AccountMeta.readonly(pubKey: sourceOwner, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
-    data: ByteArray.merge([
-      TokenProgram.approveInstructionIndex,
-      ByteArray.u64(amount),
-    ]),
+    data: ByteArray.merge([TokenProgram.approveInstructionIndex, ByteArray.u64(amount)]),
     tokenProgram: tokenProgram,
   );
 
@@ -167,9 +146,7 @@ class TokenInstruction extends Instruction {
     accounts: [
       AccountMeta.writeable(pubKey: source, isSigner: false),
       AccountMeta.readonly(pubKey: sourceOwner, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
     data: TokenProgram.revokeInstructionIndex,
     tokenProgram: tokenProgram,
@@ -190,9 +167,7 @@ class TokenInstruction extends Instruction {
     accounts: [
       AccountMeta.writeable(pubKey: mintOrAccount, isSigner: false),
       AccountMeta.readonly(pubKey: currentAuthority, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
     data: ByteArray.merge([
       TokenProgram.setAuthorityInstructionIndex,
@@ -224,10 +199,7 @@ class TokenInstruction extends Instruction {
       // TODO(IA): this should be readonly unless, it is the fee payer
       AccountMeta.writeable(pubKey: authority, isSigner: true),
     ],
-    data: ByteArray.merge([
-      TokenProgram.mintToInstructionIndex,
-      ByteArray.u64(amount),
-    ]),
+    data: ByteArray.merge([TokenProgram.mintToInstructionIndex, ByteArray.u64(amount)]),
     tokenProgram: tokenProgram,
   );
 
@@ -247,14 +219,9 @@ class TokenInstruction extends Instruction {
       AccountMeta.writeable(pubKey: accountToBurnFrom, isSigner: false),
       AccountMeta.writeable(pubKey: mint, isSigner: false),
       AccountMeta.writeable(pubKey: owner, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
-    data: ByteArray.merge([
-      TokenProgram.burnInstructionIndex,
-      ByteArray.u64(amount),
-    ]),
+    data: ByteArray.merge([TokenProgram.burnInstructionIndex, ByteArray.u64(amount)]),
     tokenProgram: tokenProgram,
   );
 
@@ -272,9 +239,7 @@ class TokenInstruction extends Instruction {
       AccountMeta.writeable(pubKey: accountToClose, isSigner: false),
       AccountMeta.writeable(pubKey: destination, isSigner: false),
       AccountMeta.writeable(pubKey: owner, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
     data: TokenProgram.closeAccountInstructionIndex,
     tokenProgram: tokenProgram,
@@ -292,9 +257,7 @@ class TokenInstruction extends Instruction {
       AccountMeta.writeable(pubKey: account, isSigner: false),
       AccountMeta.writeable(pubKey: mint, isSigner: false),
       AccountMeta.writeable(pubKey: freezeAuthority, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
     data: TokenProgram.freezeAccountInstructionIndex,
     tokenProgram: tokenProgram,
@@ -312,9 +275,7 @@ class TokenInstruction extends Instruction {
       AccountMeta.writeable(pubKey: account, isSigner: false),
       AccountMeta.writeable(pubKey: mint, isSigner: false),
       AccountMeta.writeable(pubKey: freezeAuthority, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
     data: TokenProgram.thawAccountInstructionIndex,
     tokenProgram: tokenProgram,
@@ -342,9 +303,7 @@ class TokenInstruction extends Instruction {
       AccountMeta.writeable(pubKey: mint, isSigner: false),
       AccountMeta.writeable(pubKey: destination, isSigner: false),
       AccountMeta.readonly(pubKey: owner, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
     data: ByteArray.merge([
       TokenProgram.transferCheckedInstructionIndex,
@@ -375,9 +334,7 @@ class TokenInstruction extends Instruction {
       AccountMeta.readonly(pubKey: mint, isSigner: false),
       AccountMeta.readonly(pubKey: delegate, isSigner: false),
       AccountMeta.readonly(pubKey: sourceOwner, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
     data: ByteArray.merge([
       TokenProgram.approveCheckedInstructionIndex,
@@ -435,9 +392,7 @@ class TokenInstruction extends Instruction {
       AccountMeta.writeable(pubKey: accountToBurnFrom, isSigner: false),
       AccountMeta.writeable(pubKey: mint, isSigner: false),
       AccountMeta.writeable(pubKey: owner, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
     data: ByteArray.merge([
       TokenProgram.burnCheckedInstructionIndex,
@@ -460,15 +415,9 @@ class TokenInstruction extends Instruction {
     accounts: [
       AccountMeta.writeable(pubKey: pubKey, isSigner: true),
       AccountMeta.readonly(pubKey: mint, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
     ],
-    data: ByteArray.merge([
-      TokenProgram.initializeAccount2InstructionIndex,
-      owner.toByteArray(),
-    ]),
+    data: ByteArray.merge([TokenProgram.initializeAccount2InstructionIndex, owner.toByteArray()]),
     tokenProgram: tokenProgram,
   );
 
@@ -481,9 +430,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey nativeTokenAccount,
     TokenProgramType tokenProgram = TokenProgramType.tokenProgram,
   }) => TokenInstruction._(
-    accounts: [
-      AccountMeta.writeable(pubKey: nativeTokenAccount, isSigner: false),
-    ],
+    accounts: [AccountMeta.writeable(pubKey: nativeTokenAccount, isSigner: false)],
     data: TokenProgram.syncNativeInstructionIndex,
     tokenProgram: tokenProgram,
   );
@@ -500,10 +447,7 @@ class TokenInstruction extends Instruction {
       AccountMeta.writeable(pubKey: pubKey, isSigner: true),
       AccountMeta.readonly(pubKey: mint, isSigner: false),
     ],
-    data: ByteArray.merge([
-      TokenProgram.initializeAccount3InstructionIndex,
-      owner.toByteArray(),
-    ]),
+    data: ByteArray.merge([TokenProgram.initializeAccount3InstructionIndex, owner.toByteArray()]),
     tokenProgram: tokenProgram,
   );
 
@@ -516,9 +460,7 @@ class TokenInstruction extends Instruction {
   }) => TokenInstruction._(
     accounts: [
       AccountMeta.writeable(pubKey: pubKey, isSigner: true),
-      ...signerPubKeys.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signerPubKeys.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
     data: ByteArray.merge([
       TokenProgram.initializeMultisig2InstructionIndex,
@@ -585,10 +527,7 @@ class TokenInstruction extends Instruction {
     TokenProgramType tokenProgram = TokenProgramType.tokenProgram,
   }) => TokenInstruction._(
     accounts: [AccountMeta.readonly(pubKey: mint, isSigner: false)],
-    data: ByteArray.merge([
-      TokenProgram.amountToUiAmountInstructionIndex,
-      ByteArray.u64(amount),
-    ]),
+    data: ByteArray.merge([TokenProgram.amountToUiAmountInstructionIndex, ByteArray.u64(amount)]),
     tokenProgram: tokenProgram,
   );
 
@@ -642,9 +581,7 @@ class TokenInstruction extends Instruction {
       AccountMeta.writeable(pubKey: payer, isSigner: true),
       AccountMeta.readonly(pubKey: SystemProgram.id, isSigner: false),
       AccountMeta.writeable(pubKey: owner, isSigner: signers.isEmpty),
-      ...signers.map(
-        (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-      ),
+      ...signers.map((pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true)),
     ],
     data: ByteArray.merge([
       Token2022Program.reallocateInstructionIndex,
@@ -658,29 +595,27 @@ class TokenInstruction extends Instruction {
   /// This instruction only needs to be invoked once after deployment and is
   /// permissionless, Wrapped SOL will not be available until this instruction
   /// is successfully executed.
-  factory TokenInstruction.createNativeMint({
-    required Ed25519HDPublicKey payer,
-  }) => TokenInstruction._(
-    accounts: [
-      AccountMeta.writeable(pubKey: payer, isSigner: true),
-      AccountMeta.writeable(pubKey: nativeMint2022, isSigner: false),
-      AccountMeta.readonly(pubKey: SystemProgram.id, isSigner: false),
-    ],
-    data: Token2022Program.createNativeMintInstructionIndex,
-    tokenProgram: TokenProgramType.token2022Program,
-  );
+  factory TokenInstruction.createNativeMint({required Ed25519HDPublicKey payer}) =>
+      TokenInstruction._(
+        accounts: [
+          AccountMeta.writeable(pubKey: payer, isSigner: true),
+          AccountMeta.writeable(pubKey: nativeMint2022, isSigner: false),
+          AccountMeta.readonly(pubKey: SystemProgram.id, isSigner: false),
+        ],
+        data: Token2022Program.createNativeMintInstructionIndex,
+        tokenProgram: TokenProgramType.token2022Program,
+      );
 
   /// Initialize the non transferable extension for the given [mint] account
   ///
   /// Fails if the account has already been initialized, so must be called
   /// before `InitializeMint`.
-  factory TokenInstruction.initializeNonTransferableMint({
-    required Ed25519HDPublicKey mint,
-  }) => TokenInstruction._(
-    accounts: [AccountMeta.writeable(pubKey: mint, isSigner: false)],
-    data: Token2022Program.initializeNonTransferableMintInstructionIndex,
-    tokenProgram: TokenProgramType.token2022Program,
-  );
+  factory TokenInstruction.initializeNonTransferableMint({required Ed25519HDPublicKey mint}) =>
+      TokenInstruction._(
+        accounts: [AccountMeta.writeable(pubKey: mint, isSigner: false)],
+        data: Token2022Program.initializeNonTransferableMintInstructionIndex,
+        tokenProgram: TokenProgramType.token2022Program,
+      );
 
   // Initialize the permanent delegate on a new [mint].
   ///

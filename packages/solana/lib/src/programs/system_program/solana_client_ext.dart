@@ -21,8 +21,7 @@ extension SolanaClientSystemProgram on SolanaClient {
         recipientAccount: destination,
         lamports: lamports,
       ),
-      if (memo != null)
-        MemoInstruction(signers: [source.publicKey], memo: memo),
+      if (memo != null) MemoInstruction(signers: [source.publicKey], memo: memo),
     ];
 
     return sendAndConfirmTransaction(

@@ -30,16 +30,13 @@ mixin _$JupiterMarketFee {
   /// Create a copy of JupiterMarketFee
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $JupiterMarketFeeCopyWith<JupiterMarketFee> get copyWith =>
-      throw _privateConstructorUsedError;
+  $JupiterMarketFeeCopyWith<JupiterMarketFee> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $JupiterMarketFeeCopyWith<$Res> {
-  factory $JupiterMarketFeeCopyWith(
-    JupiterMarketFee value,
-    $Res Function(JupiterMarketFee) then,
-  ) = _$JupiterMarketFeeCopyWithImpl<$Res, JupiterMarketFee>;
+  factory $JupiterMarketFeeCopyWith(JupiterMarketFee value, $Res Function(JupiterMarketFee) then) =
+      _$JupiterMarketFeeCopyWithImpl<$Res, JupiterMarketFee>;
   @useResult
   $Res call({String? amount, num? feeBps});
 }
@@ -78,8 +75,7 @@ class _$JupiterMarketFeeCopyWithImpl<$Res, $Val extends JupiterMarketFee>
 }
 
 /// @nodoc
-abstract class _$$JupiterMarketFeeImplCopyWith<$Res>
-    implements $JupiterMarketFeeCopyWith<$Res> {
+abstract class _$$JupiterMarketFeeImplCopyWith<$Res> implements $JupiterMarketFeeCopyWith<$Res> {
   factory _$$JupiterMarketFeeImplCopyWith(
     _$JupiterMarketFeeImpl value,
     $Res Function(_$JupiterMarketFeeImpl) then,
@@ -157,10 +153,7 @@ class _$JupiterMarketFeeImpl implements _JupiterMarketFee {
   @override
   @pragma('vm:prefer-inline')
   _$$JupiterMarketFeeImplCopyWith<_$JupiterMarketFeeImpl> get copyWith =>
-      __$$JupiterMarketFeeImplCopyWithImpl<_$JupiterMarketFeeImpl>(
-        this,
-        _$identity,
-      );
+      __$$JupiterMarketFeeImplCopyWithImpl<_$JupiterMarketFeeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -172,8 +165,7 @@ abstract class _JupiterMarketFee implements JupiterMarketFee {
   const factory _JupiterMarketFee({final String? amount, final num? feeBps}) =
       _$JupiterMarketFeeImpl;
 
-  factory _JupiterMarketFee.fromJson(Map<String, dynamic> json) =
-      _$JupiterMarketFeeImpl.fromJson;
+  factory _JupiterMarketFee.fromJson(Map<String, dynamic> json) = _$JupiterMarketFeeImpl.fromJson;
 
   @override
   String? get amount;
@@ -203,8 +195,7 @@ mixin _$RoutePlan {
   /// Create a copy of RoutePlan
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $RoutePlanCopyWith<RoutePlan> get copyWith =>
-      throw _privateConstructorUsedError;
+  $RoutePlanCopyWith<RoutePlan> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -218,8 +209,7 @@ abstract class $RoutePlanCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RoutePlanCopyWithImpl<$Res, $Val extends RoutePlan>
-    implements $RoutePlanCopyWith<$Res> {
+class _$RoutePlanCopyWithImpl<$Res, $Val extends RoutePlan> implements $RoutePlanCopyWith<$Res> {
   _$RoutePlanCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -261,12 +251,9 @@ class _$RoutePlanCopyWithImpl<$Res, $Val extends RoutePlan>
 }
 
 /// @nodoc
-abstract class _$$RoutePlanImplCopyWith<$Res>
-    implements $RoutePlanCopyWith<$Res> {
-  factory _$$RoutePlanImplCopyWith(
-    _$RoutePlanImpl value,
-    $Res Function(_$RoutePlanImpl) then,
-  ) = __$$RoutePlanImplCopyWithImpl<$Res>;
+abstract class _$$RoutePlanImplCopyWith<$Res> implements $RoutePlanCopyWith<$Res> {
+  factory _$$RoutePlanImplCopyWith(_$RoutePlanImpl value, $Res Function(_$RoutePlanImpl) then) =
+      __$$RoutePlanImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({JupiterSwapInfo swapInfo, int percent});
@@ -276,13 +263,10 @@ abstract class _$$RoutePlanImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$RoutePlanImplCopyWithImpl<$Res>
-    extends _$RoutePlanCopyWithImpl<$Res, _$RoutePlanImpl>
+class __$$RoutePlanImplCopyWithImpl<$Res> extends _$RoutePlanCopyWithImpl<$Res, _$RoutePlanImpl>
     implements _$$RoutePlanImplCopyWith<$Res> {
-  __$$RoutePlanImplCopyWithImpl(
-    _$RoutePlanImpl _value,
-    $Res Function(_$RoutePlanImpl) _then,
-  ) : super(_value, _then);
+  __$$RoutePlanImplCopyWithImpl(_$RoutePlanImpl _value, $Res Function(_$RoutePlanImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of RoutePlan
   /// with the given fields replaced by the non-null parameter values.
@@ -311,8 +295,7 @@ class __$$RoutePlanImplCopyWithImpl<$Res>
 class _$RoutePlanImpl implements _RoutePlan {
   const _$RoutePlanImpl({required this.swapInfo, required this.percent});
 
-  factory _$RoutePlanImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RoutePlanImplFromJson(json);
+  factory _$RoutePlanImpl.fromJson(Map<String, dynamic> json) => _$$RoutePlanImplFromJson(json);
 
   @override
   final JupiterSwapInfo swapInfo;
@@ -329,8 +312,7 @@ class _$RoutePlanImpl implements _RoutePlan {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RoutePlanImpl &&
-            (identical(other.swapInfo, swapInfo) ||
-                other.swapInfo == swapInfo) &&
+            (identical(other.swapInfo, swapInfo) || other.swapInfo == swapInfo) &&
             (identical(other.percent, percent) || other.percent == percent));
   }
 
@@ -353,13 +335,10 @@ class _$RoutePlanImpl implements _RoutePlan {
 }
 
 abstract class _RoutePlan implements RoutePlan {
-  const factory _RoutePlan({
-    required final JupiterSwapInfo swapInfo,
-    required final int percent,
-  }) = _$RoutePlanImpl;
+  const factory _RoutePlan({required final JupiterSwapInfo swapInfo, required final int percent}) =
+      _$RoutePlanImpl;
 
-  factory _RoutePlan.fromJson(Map<String, dynamic> json) =
-      _$RoutePlanImpl.fromJson;
+  factory _RoutePlan.fromJson(Map<String, dynamic> json) = _$RoutePlanImpl.fromJson;
 
   @override
   JupiterSwapInfo get swapInfo;
@@ -370,8 +349,7 @@ abstract class _RoutePlan implements RoutePlan {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RoutePlanImplCopyWith<_$RoutePlanImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$RoutePlanImplCopyWith<_$RoutePlanImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 JupiterSwapInfo _$JupiterSwapInfoFromJson(Map<String, dynamic> json) {
@@ -395,16 +373,13 @@ mixin _$JupiterSwapInfo {
   /// Create a copy of JupiterSwapInfo
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $JupiterSwapInfoCopyWith<JupiterSwapInfo> get copyWith =>
-      throw _privateConstructorUsedError;
+  $JupiterSwapInfoCopyWith<JupiterSwapInfo> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $JupiterSwapInfoCopyWith<$Res> {
-  factory $JupiterSwapInfoCopyWith(
-    JupiterSwapInfo value,
-    $Res Function(JupiterSwapInfo) then,
-  ) = _$JupiterSwapInfoCopyWithImpl<$Res, JupiterSwapInfo>;
+  factory $JupiterSwapInfoCopyWith(JupiterSwapInfo value, $Res Function(JupiterSwapInfo) then) =
+      _$JupiterSwapInfoCopyWithImpl<$Res, JupiterSwapInfo>;
   @useResult
   $Res call({
     String ammKey,
@@ -491,8 +466,7 @@ class _$JupiterSwapInfoCopyWithImpl<$Res, $Val extends JupiterSwapInfo>
 }
 
 /// @nodoc
-abstract class _$$JupiterSwapInfoImplCopyWith<$Res>
-    implements $JupiterSwapInfoCopyWith<$Res> {
+abstract class _$$JupiterSwapInfoImplCopyWith<$Res> implements $JupiterSwapInfoCopyWith<$Res> {
   factory _$$JupiterSwapInfoImplCopyWith(
     _$JupiterSwapInfoImpl value,
     $Res Function(_$JupiterSwapInfoImpl) then,
@@ -627,16 +601,11 @@ class _$JupiterSwapInfoImpl implements _JupiterSwapInfo {
             other is _$JupiterSwapInfoImpl &&
             (identical(other.ammKey, ammKey) || other.ammKey == ammKey) &&
             (identical(other.label, label) || other.label == label) &&
-            (identical(other.inputMint, inputMint) ||
-                other.inputMint == inputMint) &&
-            (identical(other.outputMint, outputMint) ||
-                other.outputMint == outputMint) &&
-            (identical(other.inAmount, inAmount) ||
-                other.inAmount == inAmount) &&
-            (identical(other.outAmount, outAmount) ||
-                other.outAmount == outAmount) &&
-            (identical(other.feeAmount, feeAmount) ||
-                other.feeAmount == feeAmount) &&
+            (identical(other.inputMint, inputMint) || other.inputMint == inputMint) &&
+            (identical(other.outputMint, outputMint) || other.outputMint == outputMint) &&
+            (identical(other.inAmount, inAmount) || other.inAmount == inAmount) &&
+            (identical(other.outAmount, outAmount) || other.outAmount == outAmount) &&
+            (identical(other.feeAmount, feeAmount) || other.feeAmount == feeAmount) &&
             (identical(other.feeMint, feeMint) || other.feeMint == feeMint));
   }
 
@@ -660,10 +629,7 @@ class _$JupiterSwapInfoImpl implements _JupiterSwapInfo {
   @override
   @pragma('vm:prefer-inline')
   _$$JupiterSwapInfoImplCopyWith<_$JupiterSwapInfoImpl> get copyWith =>
-      __$$JupiterSwapInfoImplCopyWithImpl<_$JupiterSwapInfoImpl>(
-        this,
-        _$identity,
-      );
+      __$$JupiterSwapInfoImplCopyWithImpl<_$JupiterSwapInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -683,8 +649,7 @@ abstract class _JupiterSwapInfo implements JupiterSwapInfo {
     required final String feeMint,
   }) = _$JupiterSwapInfoImpl;
 
-  factory _JupiterSwapInfo.fromJson(Map<String, dynamic> json) =
-      _$JupiterSwapInfoImpl.fromJson;
+  factory _JupiterSwapInfo.fromJson(Map<String, dynamic> json) = _$JupiterSwapInfoImpl.fromJson;
 
   @override
   String get ammKey;
@@ -736,16 +701,13 @@ mixin _$QuoteResponseDto {
   /// Create a copy of QuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $QuoteResponseDtoCopyWith<QuoteResponseDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  $QuoteResponseDtoCopyWith<QuoteResponseDto> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $QuoteResponseDtoCopyWith<$Res> {
-  factory $QuoteResponseDtoCopyWith(
-    QuoteResponseDto value,
-    $Res Function(QuoteResponseDto) then,
-  ) = _$QuoteResponseDtoCopyWithImpl<$Res, QuoteResponseDto>;
+  factory $QuoteResponseDtoCopyWith(QuoteResponseDto value, $Res Function(QuoteResponseDto) then) =
+      _$QuoteResponseDtoCopyWithImpl<$Res, QuoteResponseDto>;
   @useResult
   $Res call({
     String inputMint,
@@ -876,8 +838,7 @@ class _$QuoteResponseDtoCopyWithImpl<$Res, $Val extends QuoteResponseDto>
 }
 
 /// @nodoc
-abstract class _$$QuoteResponseDtoImplCopyWith<$Res>
-    implements $QuoteResponseDtoCopyWith<$Res> {
+abstract class _$$QuoteResponseDtoImplCopyWith<$Res> implements $QuoteResponseDtoCopyWith<$Res> {
   factory _$$QuoteResponseDtoImplCopyWith(
     _$QuoteResponseDtoImpl value,
     $Res Function(_$QuoteResponseDtoImpl) then,
@@ -1060,32 +1021,20 @@ class _$QuoteResponseDtoImpl implements _QuoteResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuoteResponseDtoImpl &&
-            (identical(other.inputMint, inputMint) ||
-                other.inputMint == inputMint) &&
-            (identical(other.inAmount, inAmount) ||
-                other.inAmount == inAmount) &&
-            (identical(other.outputMint, outputMint) ||
-                other.outputMint == outputMint) &&
-            (identical(other.outAmount, outAmount) ||
-                other.outAmount == outAmount) &&
+            (identical(other.inputMint, inputMint) || other.inputMint == inputMint) &&
+            (identical(other.inAmount, inAmount) || other.inAmount == inAmount) &&
+            (identical(other.outputMint, outputMint) || other.outputMint == outputMint) &&
+            (identical(other.outAmount, outAmount) || other.outAmount == outAmount) &&
             (identical(other.otherAmountThreshold, otherAmountThreshold) ||
                 other.otherAmountThreshold == otherAmountThreshold) &&
-            (identical(other.swapMode, swapMode) ||
-                other.swapMode == swapMode) &&
-            (identical(other.slippageBps, slippageBps) ||
-                other.slippageBps == slippageBps) &&
-            (identical(other.platformFee, platformFee) ||
-                other.platformFee == platformFee) &&
+            (identical(other.swapMode, swapMode) || other.swapMode == swapMode) &&
+            (identical(other.slippageBps, slippageBps) || other.slippageBps == slippageBps) &&
+            (identical(other.platformFee, platformFee) || other.platformFee == platformFee) &&
             (identical(other.priceImpactPct, priceImpactPct) ||
                 other.priceImpactPct == priceImpactPct) &&
-            const DeepCollectionEquality().equals(
-              other._routePlan,
-              _routePlan,
-            ) &&
-            (identical(other.contextSlot, contextSlot) ||
-                other.contextSlot == contextSlot) &&
-            (identical(other.timeTaken, timeTaken) ||
-                other.timeTaken == timeTaken));
+            const DeepCollectionEquality().equals(other._routePlan, _routePlan) &&
+            (identical(other.contextSlot, contextSlot) || other.contextSlot == contextSlot) &&
+            (identical(other.timeTaken, timeTaken) || other.timeTaken == timeTaken));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1112,10 +1061,7 @@ class _$QuoteResponseDtoImpl implements _QuoteResponseDto {
   @override
   @pragma('vm:prefer-inline')
   _$$QuoteResponseDtoImplCopyWith<_$QuoteResponseDtoImpl> get copyWith =>
-      __$$QuoteResponseDtoImplCopyWithImpl<_$QuoteResponseDtoImpl>(
-        this,
-        _$identity,
-      );
+      __$$QuoteResponseDtoImplCopyWithImpl<_$QuoteResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -1139,8 +1085,7 @@ abstract class _QuoteResponseDto implements QuoteResponseDto {
     final double? timeTaken,
   }) = _$QuoteResponseDtoImpl;
 
-  factory _QuoteResponseDto.fromJson(Map<String, dynamic> json) =
-      _$QuoteResponseDtoImpl.fromJson;
+  factory _QuoteResponseDto.fromJson(Map<String, dynamic> json) = _$QuoteResponseDtoImpl.fromJson;
 
   @override
   String get inputMint;
@@ -1203,16 +1148,13 @@ mixin _$QuoteRequestDto {
   /// Create a copy of QuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $QuoteRequestDtoCopyWith<QuoteRequestDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  $QuoteRequestDtoCopyWith<QuoteRequestDto> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $QuoteRequestDtoCopyWith<$Res> {
-  factory $QuoteRequestDtoCopyWith(
-    QuoteRequestDto value,
-    $Res Function(QuoteRequestDto) then,
-  ) = _$QuoteRequestDtoCopyWithImpl<$Res, QuoteRequestDto>;
+  factory $QuoteRequestDtoCopyWith(QuoteRequestDto value, $Res Function(QuoteRequestDto) then) =
+      _$QuoteRequestDtoCopyWithImpl<$Res, QuoteRequestDto>;
   @useResult
   $Res call({
     String inputMint,
@@ -1348,8 +1290,7 @@ class _$QuoteRequestDtoCopyWithImpl<$Res, $Val extends QuoteRequestDto>
 }
 
 /// @nodoc
-abstract class _$$QuoteRequestDtoImplCopyWith<$Res>
-    implements $QuoteRequestDtoCopyWith<$Res> {
+abstract class _$$QuoteRequestDtoImplCopyWith<$Res> implements $QuoteRequestDtoCopyWith<$Res> {
   factory _$$QuoteRequestDtoImplCopyWith(
     _$QuoteRequestDtoImpl value,
     $Res Function(_$QuoteRequestDtoImpl) then,
@@ -1570,44 +1511,27 @@ class _$QuoteRequestDtoImpl implements _QuoteRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuoteRequestDtoImpl &&
-            (identical(other.inputMint, inputMint) ||
-                other.inputMint == inputMint) &&
-            (identical(other.outputMint, outputMint) ||
-                other.outputMint == outputMint) &&
+            (identical(other.inputMint, inputMint) || other.inputMint == inputMint) &&
+            (identical(other.outputMint, outputMint) || other.outputMint == outputMint) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.slippageBps, slippageBps) ||
-                other.slippageBps == slippageBps) &&
-            (identical(other.swapMode, swapMode) ||
-                other.swapMode == swapMode) &&
+            (identical(other.slippageBps, slippageBps) || other.slippageBps == slippageBps) &&
+            (identical(other.swapMode, swapMode) || other.swapMode == swapMode) &&
             const DeepCollectionEquality().equals(other._dexes, _dexes) &&
-            const DeepCollectionEquality().equals(
-              other._excludeDexes,
-              _excludeDexes,
-            ) &&
+            const DeepCollectionEquality().equals(other._excludeDexes, _excludeDexes) &&
             (identical(other.onlyDirectRoutes, onlyDirectRoutes) ||
                 other.onlyDirectRoutes == onlyDirectRoutes) &&
             (identical(other.asLegacyTransaction, asLegacyTransaction) ||
                 other.asLegacyTransaction == asLegacyTransaction) &&
             (identical(other.platformFeeBps, platformFeeBps) ||
                 other.platformFeeBps == platformFeeBps) &&
-            (identical(other.maxAccounts, maxAccounts) ||
-                other.maxAccounts == maxAccounts) &&
-            (identical(
-                  other.restrictIntermediateTokens,
-                  restrictIntermediateTokens,
-                ) ||
-                other.restrictIntermediateTokens ==
-                    restrictIntermediateTokens) &&
-            (identical(other.autoSlippage, autoSlippage) ||
-                other.autoSlippage == autoSlippage) &&
+            (identical(other.maxAccounts, maxAccounts) || other.maxAccounts == maxAccounts) &&
+            (identical(other.restrictIntermediateTokens, restrictIntermediateTokens) ||
+                other.restrictIntermediateTokens == restrictIntermediateTokens) &&
+            (identical(other.autoSlippage, autoSlippage) || other.autoSlippage == autoSlippage) &&
             (identical(other.maxAutoSlippageBps, maxAutoSlippageBps) ||
                 other.maxAutoSlippageBps == maxAutoSlippageBps) &&
-            (identical(
-                  other.autoSlippageCollisionUsdValue,
-                  autoSlippageCollisionUsdValue,
-                ) ||
-                other.autoSlippageCollisionUsdValue ==
-                    autoSlippageCollisionUsdValue));
+            (identical(other.autoSlippageCollisionUsdValue, autoSlippageCollisionUsdValue) ||
+                other.autoSlippageCollisionUsdValue == autoSlippageCollisionUsdValue));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1637,10 +1561,7 @@ class _$QuoteRequestDtoImpl implements _QuoteRequestDto {
   @override
   @pragma('vm:prefer-inline')
   _$$QuoteRequestDtoImplCopyWith<_$QuoteRequestDtoImpl> get copyWith =>
-      __$$QuoteRequestDtoImplCopyWithImpl<_$QuoteRequestDtoImpl>(
-        this,
-        _$identity,
-      );
+      __$$QuoteRequestDtoImplCopyWithImpl<_$QuoteRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -1667,8 +1588,7 @@ abstract class _QuoteRequestDto implements QuoteRequestDto {
     final int? autoSlippageCollisionUsdValue,
   }) = _$QuoteRequestDtoImpl;
 
-  factory _QuoteRequestDto.fromJson(Map<String, dynamic> json) =
-      _$QuoteRequestDtoImpl.fromJson;
+  factory _QuoteRequestDto.fromJson(Map<String, dynamic> json) = _$QuoteRequestDtoImpl.fromJson;
 
   @override
   String get inputMint;
@@ -1709,9 +1629,7 @@ abstract class _QuoteRequestDto implements QuoteRequestDto {
       throw _privateConstructorUsedError;
 }
 
-JupiterSwapRequestDto _$JupiterSwapRequestDtoFromJson(
-  Map<String, dynamic> json,
-) {
+JupiterSwapRequestDto _$JupiterSwapRequestDtoFromJson(Map<String, dynamic> json) {
   return _JupiterSwapRequestDto.fromJson(json);
 }
 
@@ -1773,10 +1691,7 @@ abstract class $JupiterSwapRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$JupiterSwapRequestDtoCopyWithImpl<
-  $Res,
-  $Val extends JupiterSwapRequestDto
->
+class _$JupiterSwapRequestDtoCopyWithImpl<$Res, $Val extends JupiterSwapRequestDto>
     implements $JupiterSwapRequestDtoCopyWith<$Res> {
   _$JupiterSwapRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -1948,8 +1863,7 @@ abstract class _$$JupiterSwapRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$JupiterSwapRequestDtoImplCopyWithImpl<$Res>
-    extends
-        _$JupiterSwapRequestDtoCopyWithImpl<$Res, _$JupiterSwapRequestDtoImpl>
+    extends _$JupiterSwapRequestDtoCopyWithImpl<$Res, _$JupiterSwapRequestDtoImpl>
     implements _$$JupiterSwapRequestDtoImplCopyWith<$Res> {
   __$$JupiterSwapRequestDtoImplCopyWithImpl(
     _$JupiterSwapRequestDtoImpl _value,
@@ -2134,43 +2048,22 @@ class _$JupiterSwapRequestDtoImpl implements _JupiterSwapRequestDto {
                 other.wrapAndUnwrapSol == wrapAndUnwrapSol) &&
             (identical(other.useSharedAccounts, useSharedAccounts) ||
                 other.useSharedAccounts == useSharedAccounts) &&
-            (identical(other.feeAccount, feeAccount) ||
-                other.feeAccount == feeAccount) &&
-            (identical(
-                  other.computeUnitPriceMicroLamports,
-                  computeUnitPriceMicroLamports,
-                ) ||
-                other.computeUnitPriceMicroLamports ==
-                    computeUnitPriceMicroLamports) &&
-            (identical(
-                  other.prioritizationFeeLamports,
-                  prioritizationFeeLamports,
-                ) ||
+            (identical(other.feeAccount, feeAccount) || other.feeAccount == feeAccount) &&
+            (identical(other.computeUnitPriceMicroLamports, computeUnitPriceMicroLamports) ||
+                other.computeUnitPriceMicroLamports == computeUnitPriceMicroLamports) &&
+            (identical(other.prioritizationFeeLamports, prioritizationFeeLamports) ||
                 other.prioritizationFeeLamports == prioritizationFeeLamports) &&
             (identical(other.asLegacyTransaction, asLegacyTransaction) ||
                 other.asLegacyTransaction == asLegacyTransaction) &&
-            (identical(
-                  other.restrictIntermediateTokens,
-                  restrictIntermediateTokens,
-                ) ||
-                other.restrictIntermediateTokens ==
-                    restrictIntermediateTokens) &&
+            (identical(other.restrictIntermediateTokens, restrictIntermediateTokens) ||
+                other.restrictIntermediateTokens == restrictIntermediateTokens) &&
             (identical(other.useTokenLedger, useTokenLedger) ||
                 other.useTokenLedger == useTokenLedger) &&
-            (identical(
-                  other.destinationTokenAccount,
-                  destinationTokenAccount,
-                ) ||
+            (identical(other.destinationTokenAccount, destinationTokenAccount) ||
                 other.destinationTokenAccount == destinationTokenAccount) &&
-            (identical(
-                  other.dynamicComputeUnitLimit,
-                  dynamicComputeUnitLimit,
-                ) ||
+            (identical(other.dynamicComputeUnitLimit, dynamicComputeUnitLimit) ||
                 other.dynamicComputeUnitLimit == dynamicComputeUnitLimit) &&
-            (identical(
-                  other.skipUserAccountsRpcCalls,
-                  skipUserAccountsRpcCalls,
-                ) ||
+            (identical(other.skipUserAccountsRpcCalls, skipUserAccountsRpcCalls) ||
                 other.skipUserAccountsRpcCalls == skipUserAccountsRpcCalls) &&
             (identical(other.trackingAccount, trackingAccount) ||
                 other.trackingAccount == trackingAccount) &&
@@ -2204,12 +2097,8 @@ class _$JupiterSwapRequestDtoImpl implements _JupiterSwapRequestDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$JupiterSwapRequestDtoImplCopyWith<_$JupiterSwapRequestDtoImpl>
-  get copyWith =>
-      __$$JupiterSwapRequestDtoImplCopyWithImpl<_$JupiterSwapRequestDtoImpl>(
-        this,
-        _$identity,
-      );
+  _$$JupiterSwapRequestDtoImplCopyWith<_$JupiterSwapRequestDtoImpl> get copyWith =>
+      __$$JupiterSwapRequestDtoImplCopyWithImpl<_$JupiterSwapRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -2274,8 +2163,8 @@ abstract class _JupiterSwapRequestDto implements JupiterSwapRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$JupiterSwapRequestDtoImplCopyWith<_$JupiterSwapRequestDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$JupiterSwapRequestDtoImplCopyWith<_$JupiterSwapRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 DynamicSlippage _$DynamicSlippageFromJson(Map<String, dynamic> json) {
@@ -2293,16 +2182,13 @@ mixin _$DynamicSlippage {
   /// Create a copy of DynamicSlippage
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $DynamicSlippageCopyWith<DynamicSlippage> get copyWith =>
-      throw _privateConstructorUsedError;
+  $DynamicSlippageCopyWith<DynamicSlippage> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $DynamicSlippageCopyWith<$Res> {
-  factory $DynamicSlippageCopyWith(
-    DynamicSlippage value,
-    $Res Function(DynamicSlippage) then,
-  ) = _$DynamicSlippageCopyWithImpl<$Res, DynamicSlippage>;
+  factory $DynamicSlippageCopyWith(DynamicSlippage value, $Res Function(DynamicSlippage) then) =
+      _$DynamicSlippageCopyWithImpl<$Res, DynamicSlippage>;
   @useResult
   $Res call({int minBps, int maxBps});
 }
@@ -2341,8 +2227,7 @@ class _$DynamicSlippageCopyWithImpl<$Res, $Val extends DynamicSlippage>
 }
 
 /// @nodoc
-abstract class _$$DynamicSlippageImplCopyWith<$Res>
-    implements $DynamicSlippageCopyWith<$Res> {
+abstract class _$$DynamicSlippageImplCopyWith<$Res> implements $DynamicSlippageCopyWith<$Res> {
   factory _$$DynamicSlippageImplCopyWith(
     _$DynamicSlippageImpl value,
     $Res Function(_$DynamicSlippageImpl) then,
@@ -2420,10 +2305,7 @@ class _$DynamicSlippageImpl implements _DynamicSlippage {
   @override
   @pragma('vm:prefer-inline')
   _$$DynamicSlippageImplCopyWith<_$DynamicSlippageImpl> get copyWith =>
-      __$$DynamicSlippageImplCopyWithImpl<_$DynamicSlippageImpl>(
-        this,
-        _$identity,
-      );
+      __$$DynamicSlippageImplCopyWithImpl<_$DynamicSlippageImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -2432,13 +2314,10 @@ class _$DynamicSlippageImpl implements _DynamicSlippage {
 }
 
 abstract class _DynamicSlippage implements DynamicSlippage {
-  const factory _DynamicSlippage({
-    required final int minBps,
-    required final int maxBps,
-  }) = _$DynamicSlippageImpl;
+  const factory _DynamicSlippage({required final int minBps, required final int maxBps}) =
+      _$DynamicSlippageImpl;
 
-  factory _DynamicSlippage.fromJson(Map<String, dynamic> json) =
-      _$DynamicSlippageImpl.fromJson;
+  factory _DynamicSlippage.fromJson(Map<String, dynamic> json) = _$DynamicSlippageImpl.fromJson;
 
   @override
   int get minBps;
@@ -2453,9 +2332,7 @@ abstract class _DynamicSlippage implements DynamicSlippage {
       throw _privateConstructorUsedError;
 }
 
-JupiterSwapResponseDto _$JupiterSwapResponseDtoFromJson(
-  Map<String, dynamic> json,
-) {
+JupiterSwapResponseDto _$JupiterSwapResponseDtoFromJson(Map<String, dynamic> json) {
   return _JupiterSwapResponseDto.fromJson(json);
 }
 
@@ -2464,8 +2341,7 @@ mixin _$JupiterSwapResponseDto {
   String get swapTransaction => throw _privateConstructorUsedError;
   int get lastValidBlockHeight => throw _privateConstructorUsedError;
   int? get prioritizationFeeLamports => throw _privateConstructorUsedError;
-  DynamicSlippageReport? get dynamicSlippageReport =>
-      throw _privateConstructorUsedError;
+  DynamicSlippageReport? get dynamicSlippageReport => throw _privateConstructorUsedError;
 
   /// Serializes this JupiterSwapResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2495,10 +2371,7 @@ abstract class $JupiterSwapResponseDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$JupiterSwapResponseDtoCopyWithImpl<
-  $Res,
-  $Val extends JupiterSwapResponseDto
->
+class _$JupiterSwapResponseDtoCopyWithImpl<$Res, $Val extends JupiterSwapResponseDto>
     implements $JupiterSwapResponseDtoCopyWith<$Res> {
   _$JupiterSwapResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -2553,9 +2426,7 @@ class _$JupiterSwapResponseDtoCopyWithImpl<
       return null;
     }
 
-    return $DynamicSlippageReportCopyWith<$Res>(_value.dynamicSlippageReport!, (
-      value,
-    ) {
+    return $DynamicSlippageReportCopyWith<$Res>(_value.dynamicSlippageReport!, (value) {
       return _then(_value.copyWith(dynamicSlippageReport: value) as $Val);
     });
   }
@@ -2583,8 +2454,7 @@ abstract class _$$JupiterSwapResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$JupiterSwapResponseDtoImplCopyWithImpl<$Res>
-    extends
-        _$JupiterSwapResponseDtoCopyWithImpl<$Res, _$JupiterSwapResponseDtoImpl>
+    extends _$JupiterSwapResponseDtoCopyWithImpl<$Res, _$JupiterSwapResponseDtoImpl>
     implements _$$JupiterSwapResponseDtoImplCopyWith<$Res> {
   __$$JupiterSwapResponseDtoImplCopyWithImpl(
     _$JupiterSwapResponseDtoImpl _value,
@@ -2664,10 +2534,7 @@ class _$JupiterSwapResponseDtoImpl implements _JupiterSwapResponseDto {
                 other.swapTransaction == swapTransaction) &&
             (identical(other.lastValidBlockHeight, lastValidBlockHeight) ||
                 other.lastValidBlockHeight == lastValidBlockHeight) &&
-            (identical(
-                  other.prioritizationFeeLamports,
-                  prioritizationFeeLamports,
-                ) ||
+            (identical(other.prioritizationFeeLamports, prioritizationFeeLamports) ||
                 other.prioritizationFeeLamports == prioritizationFeeLamports) &&
             (identical(other.dynamicSlippageReport, dynamicSlippageReport) ||
                 other.dynamicSlippageReport == dynamicSlippageReport));
@@ -2688,12 +2555,8 @@ class _$JupiterSwapResponseDtoImpl implements _JupiterSwapResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$JupiterSwapResponseDtoImplCopyWith<_$JupiterSwapResponseDtoImpl>
-  get copyWith =>
-      __$$JupiterSwapResponseDtoImplCopyWithImpl<_$JupiterSwapResponseDtoImpl>(
-        this,
-        _$identity,
-      );
+  _$$JupiterSwapResponseDtoImplCopyWith<_$JupiterSwapResponseDtoImpl> get copyWith =>
+      __$$JupiterSwapResponseDtoImplCopyWithImpl<_$JupiterSwapResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -2725,13 +2588,11 @@ abstract class _JupiterSwapResponseDto implements JupiterSwapResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$JupiterSwapResponseDtoImplCopyWith<_$JupiterSwapResponseDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$JupiterSwapResponseDtoImplCopyWith<_$JupiterSwapResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-DynamicSlippageReport _$DynamicSlippageReportFromJson(
-  Map<String, dynamic> json,
-) {
+DynamicSlippageReport _$DynamicSlippageReportFromJson(Map<String, dynamic> json) {
   return _DynamicSlippageReport.fromJson(json);
 }
 
@@ -2768,10 +2629,7 @@ abstract class $DynamicSlippageReportCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DynamicSlippageReportCopyWithImpl<
-  $Res,
-  $Val extends DynamicSlippageReport
->
+class _$DynamicSlippageReportCopyWithImpl<$Res, $Val extends DynamicSlippageReport>
     implements $DynamicSlippageReportCopyWith<$Res> {
   _$DynamicSlippageReportCopyWithImpl(this._value, this._then);
 
@@ -2837,8 +2695,7 @@ abstract class _$$DynamicSlippageReportImplCopyWith<$Res>
 
 /// @nodoc
 class __$$DynamicSlippageReportImplCopyWithImpl<$Res>
-    extends
-        _$DynamicSlippageReportCopyWithImpl<$Res, _$DynamicSlippageReportImpl>
+    extends _$DynamicSlippageReportCopyWithImpl<$Res, _$DynamicSlippageReportImpl>
     implements _$$DynamicSlippageReportImplCopyWith<$Res> {
   __$$DynamicSlippageReportImplCopyWithImpl(
     _$DynamicSlippageReportImpl _value,
@@ -2914,16 +2771,10 @@ class _$DynamicSlippageReportImpl implements _DynamicSlippageReport {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DynamicSlippageReportImpl &&
-            (identical(other.slippageBps, slippageBps) ||
-                other.slippageBps == slippageBps) &&
-            (identical(other.otherAmount, otherAmount) ||
-                other.otherAmount == otherAmount) &&
-            (identical(
-                  other.simulatedIncurredSlippageBps,
-                  simulatedIncurredSlippageBps,
-                ) ||
-                other.simulatedIncurredSlippageBps ==
-                    simulatedIncurredSlippageBps) &&
+            (identical(other.slippageBps, slippageBps) || other.slippageBps == slippageBps) &&
+            (identical(other.otherAmount, otherAmount) || other.otherAmount == otherAmount) &&
+            (identical(other.simulatedIncurredSlippageBps, simulatedIncurredSlippageBps) ||
+                other.simulatedIncurredSlippageBps == simulatedIncurredSlippageBps) &&
             (identical(other.amplificationRatio, amplificationRatio) ||
                 other.amplificationRatio == amplificationRatio));
   }
@@ -2943,12 +2794,8 @@ class _$DynamicSlippageReportImpl implements _DynamicSlippageReport {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$DynamicSlippageReportImplCopyWith<_$DynamicSlippageReportImpl>
-  get copyWith =>
-      __$$DynamicSlippageReportImplCopyWithImpl<_$DynamicSlippageReportImpl>(
-        this,
-        _$identity,
-      );
+  _$$DynamicSlippageReportImplCopyWith<_$DynamicSlippageReportImpl> get copyWith =>
+      __$$DynamicSlippageReportImplCopyWithImpl<_$DynamicSlippageReportImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -2980,8 +2827,8 @@ abstract class _DynamicSlippageReport implements DynamicSlippageReport {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DynamicSlippageReportImplCopyWith<_$DynamicSlippageReportImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$DynamicSlippageReportImplCopyWith<_$DynamicSlippageReportImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 PriceRequestDto _$PriceRequestDtoFromJson(Map<String, dynamic> json) {
@@ -2999,16 +2846,13 @@ mixin _$PriceRequestDto {
   /// Create a copy of PriceRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PriceRequestDtoCopyWith<PriceRequestDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PriceRequestDtoCopyWith<PriceRequestDto> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PriceRequestDtoCopyWith<$Res> {
-  factory $PriceRequestDtoCopyWith(
-    PriceRequestDto value,
-    $Res Function(PriceRequestDto) then,
-  ) = _$PriceRequestDtoCopyWithImpl<$Res, PriceRequestDto>;
+  factory $PriceRequestDtoCopyWith(PriceRequestDto value, $Res Function(PriceRequestDto) then) =
+      _$PriceRequestDtoCopyWithImpl<$Res, PriceRequestDto>;
   @useResult
   $Res call({@JsonKey(toJson: _listToString) List<String> ids});
 }
@@ -3042,8 +2886,7 @@ class _$PriceRequestDtoCopyWithImpl<$Res, $Val extends PriceRequestDto>
 }
 
 /// @nodoc
-abstract class _$$PriceRequestDtoImplCopyWith<$Res>
-    implements $PriceRequestDtoCopyWith<$Res> {
+abstract class _$$PriceRequestDtoImplCopyWith<$Res> implements $PriceRequestDtoCopyWith<$Res> {
   factory _$$PriceRequestDtoImplCopyWith(
     _$PriceRequestDtoImpl value,
     $Res Function(_$PriceRequestDtoImpl) then,
@@ -3082,9 +2925,8 @@ class __$$PriceRequestDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PriceRequestDtoImpl implements _PriceRequestDto {
-  const _$PriceRequestDtoImpl({
-    @JsonKey(toJson: _listToString) required final List<String> ids,
-  }) : _ids = ids;
+  const _$PriceRequestDtoImpl({@JsonKey(toJson: _listToString) required final List<String> ids})
+    : _ids = ids;
 
   factory _$PriceRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$PriceRequestDtoImplFromJson(json);
@@ -3113,8 +2955,7 @@ class _$PriceRequestDtoImpl implements _PriceRequestDto {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_ids));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_ids));
 
   /// Create a copy of PriceRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -3122,10 +2963,7 @@ class _$PriceRequestDtoImpl implements _PriceRequestDto {
   @override
   @pragma('vm:prefer-inline')
   _$$PriceRequestDtoImplCopyWith<_$PriceRequestDtoImpl> get copyWith =>
-      __$$PriceRequestDtoImplCopyWithImpl<_$PriceRequestDtoImpl>(
-        this,
-        _$identity,
-      );
+      __$$PriceRequestDtoImplCopyWithImpl<_$PriceRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -3138,8 +2976,7 @@ abstract class _PriceRequestDto implements PriceRequestDto {
     @JsonKey(toJson: _listToString) required final List<String> ids,
   }) = _$PriceRequestDtoImpl;
 
-  factory _PriceRequestDto.fromJson(Map<String, dynamic> json) =
-      _$PriceRequestDtoImpl.fromJson;
+  factory _PriceRequestDto.fromJson(Map<String, dynamic> json) = _$PriceRequestDtoImpl.fromJson;
 
   @override
   @JsonKey(toJson: _listToString)
@@ -3167,16 +3004,13 @@ mixin _$PriceResponseDto {
   /// Create a copy of PriceResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PriceResponseDtoCopyWith<PriceResponseDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PriceResponseDtoCopyWith<PriceResponseDto> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PriceResponseDtoCopyWith<$Res> {
-  factory $PriceResponseDtoCopyWith(
-    PriceResponseDto value,
-    $Res Function(PriceResponseDto) then,
-  ) = _$PriceResponseDtoCopyWithImpl<$Res, PriceResponseDto>;
+  factory $PriceResponseDtoCopyWith(PriceResponseDto value, $Res Function(PriceResponseDto) then) =
+      _$PriceResponseDtoCopyWithImpl<$Res, PriceResponseDto>;
   @useResult
   $Res call({Map<String, PriceDto> data});
 }
@@ -3210,8 +3044,7 @@ class _$PriceResponseDtoCopyWithImpl<$Res, $Val extends PriceResponseDto>
 }
 
 /// @nodoc
-abstract class _$$PriceResponseDtoImplCopyWith<$Res>
-    implements $PriceResponseDtoCopyWith<$Res> {
+abstract class _$$PriceResponseDtoImplCopyWith<$Res> implements $PriceResponseDtoCopyWith<$Res> {
   factory _$$PriceResponseDtoImplCopyWith(
     _$PriceResponseDtoImpl value,
     $Res Function(_$PriceResponseDtoImpl) then,
@@ -3250,8 +3083,7 @@ class __$$PriceResponseDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PriceResponseDtoImpl implements _PriceResponseDto {
-  const _$PriceResponseDtoImpl({required final Map<String, PriceDto> data})
-    : _data = data;
+  const _$PriceResponseDtoImpl({required final Map<String, PriceDto> data}) : _data = data;
 
   factory _$PriceResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$PriceResponseDtoImplFromJson(json);
@@ -3279,8 +3111,7 @@ class _$PriceResponseDtoImpl implements _PriceResponseDto {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
   /// Create a copy of PriceResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -3288,10 +3119,7 @@ class _$PriceResponseDtoImpl implements _PriceResponseDto {
   @override
   @pragma('vm:prefer-inline')
   _$$PriceResponseDtoImplCopyWith<_$PriceResponseDtoImpl> get copyWith =>
-      __$$PriceResponseDtoImplCopyWithImpl<_$PriceResponseDtoImpl>(
-        this,
-        _$identity,
-      );
+      __$$PriceResponseDtoImplCopyWithImpl<_$PriceResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -3303,8 +3131,7 @@ abstract class _PriceResponseDto implements PriceResponseDto {
   const factory _PriceResponseDto({required final Map<String, PriceDto> data}) =
       _$PriceResponseDtoImpl;
 
-  factory _PriceResponseDto.fromJson(Map<String, dynamic> json) =
-      _$PriceResponseDtoImpl.fromJson;
+  factory _PriceResponseDto.fromJson(Map<String, dynamic> json) = _$PriceResponseDtoImpl.fromJson;
 
   @override
   Map<String, PriceDto> get data;
@@ -3331,8 +3158,7 @@ mixin _$PriceDto {
   /// Create a copy of PriceDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PriceDtoCopyWith<PriceDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PriceDtoCopyWith<PriceDto> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -3344,8 +3170,7 @@ abstract class $PriceDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PriceDtoCopyWithImpl<$Res, $Val extends PriceDto>
-    implements $PriceDtoCopyWith<$Res> {
+class _$PriceDtoCopyWithImpl<$Res, $Val extends PriceDto> implements $PriceDtoCopyWith<$Res> {
   _$PriceDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -3372,25 +3197,19 @@ class _$PriceDtoCopyWithImpl<$Res, $Val extends PriceDto>
 }
 
 /// @nodoc
-abstract class _$$PriceDtoImplCopyWith<$Res>
-    implements $PriceDtoCopyWith<$Res> {
-  factory _$$PriceDtoImplCopyWith(
-    _$PriceDtoImpl value,
-    $Res Function(_$PriceDtoImpl) then,
-  ) = __$$PriceDtoImplCopyWithImpl<$Res>;
+abstract class _$$PriceDtoImplCopyWith<$Res> implements $PriceDtoCopyWith<$Res> {
+  factory _$$PriceDtoImplCopyWith(_$PriceDtoImpl value, $Res Function(_$PriceDtoImpl) then) =
+      __$$PriceDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? price});
 }
 
 /// @nodoc
-class __$$PriceDtoImplCopyWithImpl<$Res>
-    extends _$PriceDtoCopyWithImpl<$Res, _$PriceDtoImpl>
+class __$$PriceDtoImplCopyWithImpl<$Res> extends _$PriceDtoCopyWithImpl<$Res, _$PriceDtoImpl>
     implements _$$PriceDtoImplCopyWith<$Res> {
-  __$$PriceDtoImplCopyWithImpl(
-    _$PriceDtoImpl _value,
-    $Res Function(_$PriceDtoImpl) _then,
-  ) : super(_value, _then);
+  __$$PriceDtoImplCopyWithImpl(_$PriceDtoImpl _value, $Res Function(_$PriceDtoImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of PriceDto
   /// with the given fields replaced by the non-null parameter values.
@@ -3414,8 +3233,7 @@ class __$$PriceDtoImplCopyWithImpl<$Res>
 class _$PriceDtoImpl implements _PriceDto {
   const _$PriceDtoImpl({required this.price});
 
-  factory _$PriceDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PriceDtoImplFromJson(json);
+  factory _$PriceDtoImpl.fromJson(Map<String, dynamic> json) => _$$PriceDtoImplFromJson(json);
 
   @override
   final String? price;
@@ -3454,8 +3272,7 @@ class _$PriceDtoImpl implements _PriceDto {
 abstract class _PriceDto implements PriceDto {
   const factory _PriceDto({required final String? price}) = _$PriceDtoImpl;
 
-  factory _PriceDto.fromJson(Map<String, dynamic> json) =
-      _$PriceDtoImpl.fromJson;
+  factory _PriceDto.fromJson(Map<String, dynamic> json) = _$PriceDtoImpl.fromJson;
 
   @override
   String? get price;
@@ -3464,6 +3281,5 @@ abstract class _PriceDto implements PriceDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PriceDtoImplCopyWith<_$PriceDtoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$PriceDtoImplCopyWith<_$PriceDtoImpl> get copyWith => throw _privateConstructorUsedError;
 }

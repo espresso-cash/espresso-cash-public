@@ -15,9 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-CreatePaymentRequestDto _$CreatePaymentRequestDtoFromJson(
-  Map<String, dynamic> json,
-) {
+CreatePaymentRequestDto _$CreatePaymentRequestDtoFromJson(Map<String, dynamic> json) {
   return _CreatePaymentRequestDto.fromJson(json);
 }
 
@@ -56,10 +54,7 @@ abstract class $CreatePaymentRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CreatePaymentRequestDtoCopyWithImpl<
-  $Res,
-  $Val extends CreatePaymentRequestDto
->
+class _$CreatePaymentRequestDtoCopyWithImpl<$Res, $Val extends CreatePaymentRequestDto>
     implements $CreatePaymentRequestDtoCopyWith<$Res> {
   _$CreatePaymentRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -132,11 +127,7 @@ abstract class _$$CreatePaymentRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$CreatePaymentRequestDtoImplCopyWithImpl<$Res>
-    extends
-        _$CreatePaymentRequestDtoCopyWithImpl<
-          $Res,
-          _$CreatePaymentRequestDtoImpl
-        >
+    extends _$CreatePaymentRequestDtoCopyWithImpl<$Res, _$CreatePaymentRequestDtoImpl>
     implements _$$CreatePaymentRequestDtoImplCopyWith<$Res> {
   __$$CreatePaymentRequestDtoImplCopyWithImpl(
     _$CreatePaymentRequestDtoImpl _value,
@@ -233,24 +224,16 @@ class _$CreatePaymentRequestDtoImpl implements _CreatePaymentRequestDto {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    senderAccount,
-    escrowAccount,
-    amount,
-    cluster,
-    durable,
-  );
+  int get hashCode =>
+      Object.hash(runtimeType, senderAccount, escrowAccount, amount, cluster, durable);
 
   /// Create a copy of CreatePaymentRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreatePaymentRequestDtoImplCopyWith<_$CreatePaymentRequestDtoImpl>
-  get copyWith => __$$CreatePaymentRequestDtoImplCopyWithImpl<
-    _$CreatePaymentRequestDtoImpl
-  >(this, _$identity);
+  _$$CreatePaymentRequestDtoImplCopyWith<_$CreatePaymentRequestDtoImpl> get copyWith =>
+      __$$CreatePaymentRequestDtoImplCopyWithImpl<_$CreatePaymentRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -285,13 +268,11 @@ abstract class _CreatePaymentRequestDto implements CreatePaymentRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CreatePaymentRequestDtoImplCopyWith<_$CreatePaymentRequestDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$CreatePaymentRequestDtoImplCopyWith<_$CreatePaymentRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-CreatePaymentResponseDto _$CreatePaymentResponseDtoFromJson(
-  Map<String, dynamic> json,
-) {
+CreatePaymentResponseDto _$CreatePaymentResponseDtoFromJson(Map<String, dynamic> json) {
   return _CreatePaymentResponseDto.fromJson(json);
 }
 
@@ -321,10 +302,7 @@ abstract class $CreatePaymentResponseDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CreatePaymentResponseDtoCopyWithImpl<
-  $Res,
-  $Val extends CreatePaymentResponseDto
->
+class _$CreatePaymentResponseDtoCopyWithImpl<$Res, $Val extends CreatePaymentResponseDto>
     implements $CreatePaymentResponseDtoCopyWith<$Res> {
   _$CreatePaymentResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -370,11 +348,7 @@ abstract class _$$CreatePaymentResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$CreatePaymentResponseDtoImplCopyWithImpl<$Res>
-    extends
-        _$CreatePaymentResponseDtoCopyWithImpl<
-          $Res,
-          _$CreatePaymentResponseDtoImpl
-        >
+    extends _$CreatePaymentResponseDtoCopyWithImpl<$Res, _$CreatePaymentResponseDtoImpl>
     implements _$$CreatePaymentResponseDtoImplCopyWith<$Res> {
   __$$CreatePaymentResponseDtoImplCopyWithImpl(
     _$CreatePaymentResponseDtoImpl _value,
@@ -406,10 +380,7 @@ class __$$CreatePaymentResponseDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CreatePaymentResponseDtoImpl implements _CreatePaymentResponseDto {
-  const _$CreatePaymentResponseDtoImpl({
-    required this.transaction,
-    required this.slot,
-  });
+  const _$CreatePaymentResponseDtoImpl({required this.transaction, required this.slot});
 
   factory _$CreatePaymentResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreatePaymentResponseDtoImplFromJson(json);
@@ -429,8 +400,7 @@ class _$CreatePaymentResponseDtoImpl implements _CreatePaymentResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreatePaymentResponseDtoImpl &&
-            (identical(other.transaction, transaction) ||
-                other.transaction == transaction) &&
+            (identical(other.transaction, transaction) || other.transaction == transaction) &&
             (identical(other.slot, slot) || other.slot == slot));
   }
 
@@ -443,10 +413,11 @@ class _$CreatePaymentResponseDtoImpl implements _CreatePaymentResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreatePaymentResponseDtoImplCopyWith<_$CreatePaymentResponseDtoImpl>
-  get copyWith => __$$CreatePaymentResponseDtoImplCopyWithImpl<
-    _$CreatePaymentResponseDtoImpl
-  >(this, _$identity);
+  _$$CreatePaymentResponseDtoImplCopyWith<_$CreatePaymentResponseDtoImpl> get copyWith =>
+      __$$CreatePaymentResponseDtoImplCopyWithImpl<_$CreatePaymentResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -472,13 +443,11 @@ abstract class _CreatePaymentResponseDto implements CreatePaymentResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CreatePaymentResponseDtoImplCopyWith<_$CreatePaymentResponseDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$CreatePaymentResponseDtoImplCopyWith<_$CreatePaymentResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-ReceivePaymentRequestDto _$ReceivePaymentRequestDtoFromJson(
-  Map<String, dynamic> json,
-) {
+ReceivePaymentRequestDto _$ReceivePaymentRequestDtoFromJson(Map<String, dynamic> json) {
   return _ReceivePaymentRequestDto.fromJson(json);
 }
 
@@ -506,19 +475,11 @@ abstract class $ReceivePaymentRequestDtoCopyWith<$Res> {
     $Res Function(ReceivePaymentRequestDto) then,
   ) = _$ReceivePaymentRequestDtoCopyWithImpl<$Res, ReceivePaymentRequestDto>;
   @useResult
-  $Res call({
-    String receiverAccount,
-    String escrowAccount,
-    Cluster cluster,
-    bool durable,
-  });
+  $Res call({String receiverAccount, String escrowAccount, Cluster cluster, bool durable});
 }
 
 /// @nodoc
-class _$ReceivePaymentRequestDtoCopyWithImpl<
-  $Res,
-  $Val extends ReceivePaymentRequestDto
->
+class _$ReceivePaymentRequestDtoCopyWithImpl<$Res, $Val extends ReceivePaymentRequestDto>
     implements $ReceivePaymentRequestDtoCopyWith<$Res> {
   _$ReceivePaymentRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -574,21 +535,12 @@ abstract class _$$ReceivePaymentRequestDtoImplCopyWith<$Res>
   ) = __$$ReceivePaymentRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String receiverAccount,
-    String escrowAccount,
-    Cluster cluster,
-    bool durable,
-  });
+  $Res call({String receiverAccount, String escrowAccount, Cluster cluster, bool durable});
 }
 
 /// @nodoc
 class __$$ReceivePaymentRequestDtoImplCopyWithImpl<$Res>
-    extends
-        _$ReceivePaymentRequestDtoCopyWithImpl<
-          $Res,
-          _$ReceivePaymentRequestDtoImpl
-        >
+    extends _$ReceivePaymentRequestDtoCopyWithImpl<$Res, _$ReceivePaymentRequestDtoImpl>
     implements _$$ReceivePaymentRequestDtoImplCopyWith<$Res> {
   __$$ReceivePaymentRequestDtoImplCopyWithImpl(
     _$ReceivePaymentRequestDtoImpl _value,
@@ -675,23 +627,18 @@ class _$ReceivePaymentRequestDtoImpl implements _ReceivePaymentRequestDto {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    receiverAccount,
-    escrowAccount,
-    cluster,
-    durable,
-  );
+  int get hashCode => Object.hash(runtimeType, receiverAccount, escrowAccount, cluster, durable);
 
   /// Create a copy of ReceivePaymentRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ReceivePaymentRequestDtoImplCopyWith<_$ReceivePaymentRequestDtoImpl>
-  get copyWith => __$$ReceivePaymentRequestDtoImplCopyWithImpl<
-    _$ReceivePaymentRequestDtoImpl
-  >(this, _$identity);
+  _$$ReceivePaymentRequestDtoImplCopyWith<_$ReceivePaymentRequestDtoImpl> get copyWith =>
+      __$$ReceivePaymentRequestDtoImplCopyWithImpl<_$ReceivePaymentRequestDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -723,13 +670,11 @@ abstract class _ReceivePaymentRequestDto implements ReceivePaymentRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ReceivePaymentRequestDtoImplCopyWith<_$ReceivePaymentRequestDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$ReceivePaymentRequestDtoImplCopyWith<_$ReceivePaymentRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-ReceivePaymentResponseDto _$ReceivePaymentResponseDtoFromJson(
-  Map<String, dynamic> json,
-) {
+ReceivePaymentResponseDto _$ReceivePaymentResponseDtoFromJson(Map<String, dynamic> json) {
   return _ReceivePaymentResponseDto.fromJson(json);
 }
 
@@ -759,10 +704,7 @@ abstract class $ReceivePaymentResponseDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ReceivePaymentResponseDtoCopyWithImpl<
-  $Res,
-  $Val extends ReceivePaymentResponseDto
->
+class _$ReceivePaymentResponseDtoCopyWithImpl<$Res, $Val extends ReceivePaymentResponseDto>
     implements $ReceivePaymentResponseDtoCopyWith<$Res> {
   _$ReceivePaymentResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -808,11 +750,7 @@ abstract class _$$ReceivePaymentResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$ReceivePaymentResponseDtoImplCopyWithImpl<$Res>
-    extends
-        _$ReceivePaymentResponseDtoCopyWithImpl<
-          $Res,
-          _$ReceivePaymentResponseDtoImpl
-        >
+    extends _$ReceivePaymentResponseDtoCopyWithImpl<$Res, _$ReceivePaymentResponseDtoImpl>
     implements _$$ReceivePaymentResponseDtoImplCopyWith<$Res> {
   __$$ReceivePaymentResponseDtoImplCopyWithImpl(
     _$ReceivePaymentResponseDtoImpl _value,
@@ -844,10 +782,7 @@ class __$$ReceivePaymentResponseDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ReceivePaymentResponseDtoImpl implements _ReceivePaymentResponseDto {
-  const _$ReceivePaymentResponseDtoImpl({
-    required this.transaction,
-    required this.slot,
-  });
+  const _$ReceivePaymentResponseDtoImpl({required this.transaction, required this.slot});
 
   factory _$ReceivePaymentResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReceivePaymentResponseDtoImplFromJson(json);
@@ -867,8 +802,7 @@ class _$ReceivePaymentResponseDtoImpl implements _ReceivePaymentResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReceivePaymentResponseDtoImpl &&
-            (identical(other.transaction, transaction) ||
-                other.transaction == transaction) &&
+            (identical(other.transaction, transaction) || other.transaction == transaction) &&
             (identical(other.slot, slot) || other.slot == slot));
   }
 
@@ -881,10 +815,11 @@ class _$ReceivePaymentResponseDtoImpl implements _ReceivePaymentResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ReceivePaymentResponseDtoImplCopyWith<_$ReceivePaymentResponseDtoImpl>
-  get copyWith => __$$ReceivePaymentResponseDtoImplCopyWithImpl<
-    _$ReceivePaymentResponseDtoImpl
-  >(this, _$identity);
+  _$$ReceivePaymentResponseDtoImplCopyWith<_$ReceivePaymentResponseDtoImpl> get copyWith =>
+      __$$ReceivePaymentResponseDtoImplCopyWithImpl<_$ReceivePaymentResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -910,13 +845,11 @@ abstract class _ReceivePaymentResponseDto implements ReceivePaymentResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ReceivePaymentResponseDtoImplCopyWith<_$ReceivePaymentResponseDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$ReceivePaymentResponseDtoImplCopyWith<_$ReceivePaymentResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-CreateDirectPaymentRequestDto _$CreateDirectPaymentRequestDtoFromJson(
-  Map<String, dynamic> json,
-) {
+CreateDirectPaymentRequestDto _$CreateDirectPaymentRequestDtoFromJson(Map<String, dynamic> json) {
   return _CreateDirectPaymentRequestDto.fromJson(json);
 }
 
@@ -936,8 +869,8 @@ mixin _$CreateDirectPaymentRequestDto {
   /// Create a copy of CreateDirectPaymentRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CreateDirectPaymentRequestDtoCopyWith<CreateDirectPaymentRequestDto>
-  get copyWith => throw _privateConstructorUsedError;
+  $CreateDirectPaymentRequestDtoCopyWith<CreateDirectPaymentRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -945,11 +878,7 @@ abstract class $CreateDirectPaymentRequestDtoCopyWith<$Res> {
   factory $CreateDirectPaymentRequestDtoCopyWith(
     CreateDirectPaymentRequestDto value,
     $Res Function(CreateDirectPaymentRequestDto) then,
-  ) =
-      _$CreateDirectPaymentRequestDtoCopyWithImpl<
-        $Res,
-        CreateDirectPaymentRequestDto
-      >;
+  ) = _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res, CreateDirectPaymentRequestDto>;
   @useResult
   $Res call({
     String senderAccount,
@@ -963,10 +892,7 @@ abstract class $CreateDirectPaymentRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CreateDirectPaymentRequestDtoCopyWithImpl<
-  $Res,
-  $Val extends CreateDirectPaymentRequestDto
->
+class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res, $Val extends CreateDirectPaymentRequestDto>
     implements $CreateDirectPaymentRequestDtoCopyWith<$Res> {
   _$CreateDirectPaymentRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -1053,11 +979,7 @@ abstract class _$$CreateDirectPaymentRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
-    extends
-        _$CreateDirectPaymentRequestDtoCopyWithImpl<
-          $Res,
-          _$CreateDirectPaymentRequestDtoImpl
-        >
+    extends _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res, _$CreateDirectPaymentRequestDtoImpl>
     implements _$$CreateDirectPaymentRequestDtoImplCopyWith<$Res> {
   __$$CreateDirectPaymentRequestDtoImplCopyWithImpl(
     _$CreateDirectPaymentRequestDtoImpl _value,
@@ -1121,8 +1043,7 @@ class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateDirectPaymentRequestDtoImpl
-    implements _CreateDirectPaymentRequestDto {
+class _$CreateDirectPaymentRequestDtoImpl implements _CreateDirectPaymentRequestDto {
   const _$CreateDirectPaymentRequestDtoImpl({
     required this.senderAccount,
     required this.receiverAccount,
@@ -1133,9 +1054,8 @@ class _$CreateDirectPaymentRequestDtoImpl
     this.durable = false,
   });
 
-  factory _$CreateDirectPaymentRequestDtoImpl.fromJson(
-    Map<String, dynamic> json,
-  ) => _$$CreateDirectPaymentRequestDtoImplFromJson(json);
+  factory _$CreateDirectPaymentRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateDirectPaymentRequestDtoImplFromJson(json);
 
   @override
   final String senderAccount;
@@ -1171,8 +1091,7 @@ class _$CreateDirectPaymentRequestDtoImpl
                 other.referenceAccount == referenceAccount) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.cluster, cluster) || other.cluster == cluster) &&
-            (identical(other.mintAddress, mintAddress) ||
-                other.mintAddress == mintAddress) &&
+            (identical(other.mintAddress, mintAddress) || other.mintAddress == mintAddress) &&
             (identical(other.durable, durable) || other.durable == durable));
   }
 
@@ -1194,12 +1113,11 @@ class _$CreateDirectPaymentRequestDtoImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateDirectPaymentRequestDtoImplCopyWith<
-    _$CreateDirectPaymentRequestDtoImpl
-  >
-  get copyWith => __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<
-    _$CreateDirectPaymentRequestDtoImpl
-  >(this, _$identity);
+  _$$CreateDirectPaymentRequestDtoImplCopyWith<_$CreateDirectPaymentRequestDtoImpl> get copyWith =>
+      __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<_$CreateDirectPaymentRequestDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -1207,8 +1125,7 @@ class _$CreateDirectPaymentRequestDtoImpl
   }
 }
 
-abstract class _CreateDirectPaymentRequestDto
-    implements CreateDirectPaymentRequestDto {
+abstract class _CreateDirectPaymentRequestDto implements CreateDirectPaymentRequestDto {
   const factory _CreateDirectPaymentRequestDto({
     required final String senderAccount,
     required final String receiverAccount,
@@ -1241,15 +1158,11 @@ abstract class _CreateDirectPaymentRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CreateDirectPaymentRequestDtoImplCopyWith<
-    _$CreateDirectPaymentRequestDtoImpl
-  >
-  get copyWith => throw _privateConstructorUsedError;
+  _$$CreateDirectPaymentRequestDtoImplCopyWith<_$CreateDirectPaymentRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-CreateDirectPaymentResponseDto _$CreateDirectPaymentResponseDtoFromJson(
-  Map<String, dynamic> json,
-) {
+CreateDirectPaymentResponseDto _$CreateDirectPaymentResponseDtoFromJson(Map<String, dynamic> json) {
   return _CreateDirectPaymentResponseDto.fromJson(json);
 }
 
@@ -1265,8 +1178,8 @@ mixin _$CreateDirectPaymentResponseDto {
   /// Create a copy of CreateDirectPaymentResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CreateDirectPaymentResponseDtoCopyWith<CreateDirectPaymentResponseDto>
-  get copyWith => throw _privateConstructorUsedError;
+  $CreateDirectPaymentResponseDtoCopyWith<CreateDirectPaymentResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1274,11 +1187,7 @@ abstract class $CreateDirectPaymentResponseDtoCopyWith<$Res> {
   factory $CreateDirectPaymentResponseDtoCopyWith(
     CreateDirectPaymentResponseDto value,
     $Res Function(CreateDirectPaymentResponseDto) then,
-  ) =
-      _$CreateDirectPaymentResponseDtoCopyWithImpl<
-        $Res,
-        CreateDirectPaymentResponseDto
-      >;
+  ) = _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res, CreateDirectPaymentResponseDto>;
   @useResult
   $Res call({int fee, String transaction, BigInt slot});
 }
@@ -1300,11 +1209,7 @@ class _$CreateDirectPaymentResponseDtoCopyWithImpl<
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? fee = null,
-    Object? transaction = null,
-    Object? slot = null,
-  }) {
+  $Res call({Object? fee = null, Object? transaction = null, Object? slot = null}) {
     return _then(
       _value.copyWith(
             fee:
@@ -1342,11 +1247,7 @@ abstract class _$$CreateDirectPaymentResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<$Res>
-    extends
-        _$CreateDirectPaymentResponseDtoCopyWithImpl<
-          $Res,
-          _$CreateDirectPaymentResponseDtoImpl
-        >
+    extends _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res, _$CreateDirectPaymentResponseDtoImpl>
     implements _$$CreateDirectPaymentResponseDtoImplCopyWith<$Res> {
   __$$CreateDirectPaymentResponseDtoImplCopyWithImpl(
     _$CreateDirectPaymentResponseDtoImpl _value,
@@ -1357,11 +1258,7 @@ class __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? fee = null,
-    Object? transaction = null,
-    Object? slot = null,
-  }) {
+  $Res call({Object? fee = null, Object? transaction = null, Object? slot = null}) {
     return _then(
       _$CreateDirectPaymentResponseDtoImpl(
         fee:
@@ -1386,17 +1283,15 @@ class __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateDirectPaymentResponseDtoImpl
-    implements _CreateDirectPaymentResponseDto {
+class _$CreateDirectPaymentResponseDtoImpl implements _CreateDirectPaymentResponseDto {
   const _$CreateDirectPaymentResponseDtoImpl({
     required this.fee,
     required this.transaction,
     required this.slot,
   });
 
-  factory _$CreateDirectPaymentResponseDtoImpl.fromJson(
-    Map<String, dynamic> json,
-  ) => _$$CreateDirectPaymentResponseDtoImplFromJson(json);
+  factory _$CreateDirectPaymentResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateDirectPaymentResponseDtoImplFromJson(json);
 
   @override
   final int fee;
@@ -1416,8 +1311,7 @@ class _$CreateDirectPaymentResponseDtoImpl
         (other.runtimeType == runtimeType &&
             other is _$CreateDirectPaymentResponseDtoImpl &&
             (identical(other.fee, fee) || other.fee == fee) &&
-            (identical(other.transaction, transaction) ||
-                other.transaction == transaction) &&
+            (identical(other.transaction, transaction) || other.transaction == transaction) &&
             (identical(other.slot, slot) || other.slot == slot));
   }
 
@@ -1430,12 +1324,12 @@ class _$CreateDirectPaymentResponseDtoImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateDirectPaymentResponseDtoImplCopyWith<
-    _$CreateDirectPaymentResponseDtoImpl
-  >
-  get copyWith => __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<
-    _$CreateDirectPaymentResponseDtoImpl
-  >(this, _$identity);
+  _$$CreateDirectPaymentResponseDtoImplCopyWith<_$CreateDirectPaymentResponseDtoImpl>
+  get copyWith =>
+      __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<_$CreateDirectPaymentResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -1443,8 +1337,7 @@ class _$CreateDirectPaymentResponseDtoImpl
   }
 }
 
-abstract class _CreateDirectPaymentResponseDto
-    implements CreateDirectPaymentResponseDto {
+abstract class _CreateDirectPaymentResponseDto implements CreateDirectPaymentResponseDto {
   const factory _CreateDirectPaymentResponseDto({
     required final int fee,
     required final String transaction,
@@ -1465,15 +1358,11 @@ abstract class _CreateDirectPaymentResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CreateDirectPaymentResponseDtoImplCopyWith<
-    _$CreateDirectPaymentResponseDtoImpl
-  >
+  _$$CreateDirectPaymentResponseDtoImplCopyWith<_$CreateDirectPaymentResponseDtoImpl>
   get copyWith => throw _privateConstructorUsedError;
 }
 
-CancelPaymentRequestDto _$CancelPaymentRequestDtoFromJson(
-  Map<String, dynamic> json,
-) {
+CancelPaymentRequestDto _$CancelPaymentRequestDtoFromJson(Map<String, dynamic> json) {
   return _CancelPaymentRequestDto.fromJson(json);
 }
 
@@ -1501,19 +1390,11 @@ abstract class $CancelPaymentRequestDtoCopyWith<$Res> {
     $Res Function(CancelPaymentRequestDto) then,
   ) = _$CancelPaymentRequestDtoCopyWithImpl<$Res, CancelPaymentRequestDto>;
   @useResult
-  $Res call({
-    String senderAccount,
-    String escrowAccount,
-    Cluster cluster,
-    bool durable,
-  });
+  $Res call({String senderAccount, String escrowAccount, Cluster cluster, bool durable});
 }
 
 /// @nodoc
-class _$CancelPaymentRequestDtoCopyWithImpl<
-  $Res,
-  $Val extends CancelPaymentRequestDto
->
+class _$CancelPaymentRequestDtoCopyWithImpl<$Res, $Val extends CancelPaymentRequestDto>
     implements $CancelPaymentRequestDtoCopyWith<$Res> {
   _$CancelPaymentRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -1569,21 +1450,12 @@ abstract class _$$CancelPaymentRequestDtoImplCopyWith<$Res>
   ) = __$$CancelPaymentRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String senderAccount,
-    String escrowAccount,
-    Cluster cluster,
-    bool durable,
-  });
+  $Res call({String senderAccount, String escrowAccount, Cluster cluster, bool durable});
 }
 
 /// @nodoc
 class __$$CancelPaymentRequestDtoImplCopyWithImpl<$Res>
-    extends
-        _$CancelPaymentRequestDtoCopyWithImpl<
-          $Res,
-          _$CancelPaymentRequestDtoImpl
-        >
+    extends _$CancelPaymentRequestDtoCopyWithImpl<$Res, _$CancelPaymentRequestDtoImpl>
     implements _$$CancelPaymentRequestDtoImplCopyWith<$Res> {
   __$$CancelPaymentRequestDtoImplCopyWithImpl(
     _$CancelPaymentRequestDtoImpl _value,
@@ -1670,18 +1542,15 @@ class _$CancelPaymentRequestDtoImpl implements _CancelPaymentRequestDto {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, senderAccount, escrowAccount, cluster, durable);
+  int get hashCode => Object.hash(runtimeType, senderAccount, escrowAccount, cluster, durable);
 
   /// Create a copy of CancelPaymentRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CancelPaymentRequestDtoImplCopyWith<_$CancelPaymentRequestDtoImpl>
-  get copyWith => __$$CancelPaymentRequestDtoImplCopyWithImpl<
-    _$CancelPaymentRequestDtoImpl
-  >(this, _$identity);
+  _$$CancelPaymentRequestDtoImplCopyWith<_$CancelPaymentRequestDtoImpl> get copyWith =>
+      __$$CancelPaymentRequestDtoImplCopyWithImpl<_$CancelPaymentRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -1713,13 +1582,11 @@ abstract class _CancelPaymentRequestDto implements CancelPaymentRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CancelPaymentRequestDtoImplCopyWith<_$CancelPaymentRequestDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$CancelPaymentRequestDtoImplCopyWith<_$CancelPaymentRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-CancelPaymentResponseDto _$CancelPaymentResponseDtoFromJson(
-  Map<String, dynamic> json,
-) {
+CancelPaymentResponseDto _$CancelPaymentResponseDtoFromJson(Map<String, dynamic> json) {
   return _CancelPaymentResponseDto.fromJson(json);
 }
 
@@ -1749,10 +1616,7 @@ abstract class $CancelPaymentResponseDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CancelPaymentResponseDtoCopyWithImpl<
-  $Res,
-  $Val extends CancelPaymentResponseDto
->
+class _$CancelPaymentResponseDtoCopyWithImpl<$Res, $Val extends CancelPaymentResponseDto>
     implements $CancelPaymentResponseDtoCopyWith<$Res> {
   _$CancelPaymentResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -1798,11 +1662,7 @@ abstract class _$$CancelPaymentResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$CancelPaymentResponseDtoImplCopyWithImpl<$Res>
-    extends
-        _$CancelPaymentResponseDtoCopyWithImpl<
-          $Res,
-          _$CancelPaymentResponseDtoImpl
-        >
+    extends _$CancelPaymentResponseDtoCopyWithImpl<$Res, _$CancelPaymentResponseDtoImpl>
     implements _$$CancelPaymentResponseDtoImplCopyWith<$Res> {
   __$$CancelPaymentResponseDtoImplCopyWithImpl(
     _$CancelPaymentResponseDtoImpl _value,
@@ -1834,10 +1694,7 @@ class __$$CancelPaymentResponseDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CancelPaymentResponseDtoImpl implements _CancelPaymentResponseDto {
-  const _$CancelPaymentResponseDtoImpl({
-    required this.transaction,
-    required this.slot,
-  });
+  const _$CancelPaymentResponseDtoImpl({required this.transaction, required this.slot});
 
   factory _$CancelPaymentResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$CancelPaymentResponseDtoImplFromJson(json);
@@ -1857,8 +1714,7 @@ class _$CancelPaymentResponseDtoImpl implements _CancelPaymentResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CancelPaymentResponseDtoImpl &&
-            (identical(other.transaction, transaction) ||
-                other.transaction == transaction) &&
+            (identical(other.transaction, transaction) || other.transaction == transaction) &&
             (identical(other.slot, slot) || other.slot == slot));
   }
 
@@ -1871,10 +1727,11 @@ class _$CancelPaymentResponseDtoImpl implements _CancelPaymentResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CancelPaymentResponseDtoImplCopyWith<_$CancelPaymentResponseDtoImpl>
-  get copyWith => __$$CancelPaymentResponseDtoImplCopyWithImpl<
-    _$CancelPaymentResponseDtoImpl
-  >(this, _$identity);
+  _$$CancelPaymentResponseDtoImplCopyWith<_$CancelPaymentResponseDtoImpl> get copyWith =>
+      __$$CancelPaymentResponseDtoImplCopyWithImpl<_$CancelPaymentResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -1900,6 +1757,6 @@ abstract class _CancelPaymentResponseDto implements CancelPaymentResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CancelPaymentResponseDtoImplCopyWith<_$CancelPaymentResponseDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$CancelPaymentResponseDtoImplCopyWith<_$CancelPaymentResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

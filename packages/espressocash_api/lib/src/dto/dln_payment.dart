@@ -31,8 +31,7 @@ class PaymentQuoteResponseDto with _$PaymentQuoteResponseDto {
 
 @freezed
 class OrderStatusDlnRequestDto with _$OrderStatusDlnRequestDto {
-  const factory OrderStatusDlnRequestDto({required String orderId}) =
-      _OrderStatusDlnRequestDto;
+  const factory OrderStatusDlnRequestDto({required String orderId}) = _OrderStatusDlnRequestDto;
 
   factory OrderStatusDlnRequestDto.fromJson(Map<String, dynamic> json) =>
       _$OrderStatusDlnRequestDtoFromJson(json);
@@ -49,8 +48,7 @@ class OrderStatusDlnResponseDto with _$OrderStatusDlnResponseDto {
 
 @freezed
 class OrderIdDlnRequestDto with _$OrderIdDlnRequestDto {
-  const factory OrderIdDlnRequestDto({required String txId}) =
-      _OrderIdDlnRequestDto;
+  const factory OrderIdDlnRequestDto({required String txId}) = _OrderIdDlnRequestDto;
 
   factory OrderIdDlnRequestDto.fromJson(Map<String, dynamic> json) =>
       _$OrderIdDlnRequestDtoFromJson(json);
@@ -58,8 +56,7 @@ class OrderIdDlnRequestDto with _$OrderIdDlnRequestDto {
 
 @freezed
 class OrderIdDlnResponseDto with _$OrderIdDlnResponseDto {
-  const factory OrderIdDlnResponseDto({required String? orderId}) =
-      _OrderIdDlnResponseDto;
+  const factory OrderIdDlnResponseDto({required String? orderId}) = _OrderIdDlnResponseDto;
 
   factory OrderIdDlnResponseDto.fromJson(Map<String, dynamic> json) =>
       _$OrderIdDlnResponseDtoFromJson(json);
@@ -95,25 +92,17 @@ class IncomingQuoteResponseDto with _$IncomingQuoteResponseDto {
 
 @freezed
 class QuoteTx with _$QuoteTx {
-  const factory QuoteTx({
-    required String to,
-    required String data,
-    required int value,
-  }) = _QuoteTx;
+  const factory QuoteTx({required String to, required String data, required int value}) = _QuoteTx;
 
-  factory QuoteTx.fromJson(Map<String, dynamic> json) =>
-      _$QuoteTxFromJson(json);
+  factory QuoteTx.fromJson(Map<String, dynamic> json) => _$QuoteTxFromJson(json);
 }
 
 @freezed
 class QuoteUsdcInfo with _$QuoteUsdcInfo {
-  const factory QuoteUsdcInfo({
-    required String usdcAddress,
-    required int approvalAmount,
-  }) = _QuoteUsdcInfo;
+  const factory QuoteUsdcInfo({required String usdcAddress, required int approvalAmount}) =
+      _QuoteUsdcInfo;
 
-  factory QuoteUsdcInfo.fromJson(Map<String, dynamic> json) =>
-      _$QuoteUsdcInfoFromJson(json);
+  factory QuoteUsdcInfo.fromJson(Map<String, dynamic> json) => _$QuoteUsdcInfoFromJson(json);
 }
 
 @JsonEnum(fieldRename: FieldRename.pascal)

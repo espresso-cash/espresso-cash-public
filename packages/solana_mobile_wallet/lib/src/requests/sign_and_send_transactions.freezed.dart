@@ -26,8 +26,8 @@ mixin _$SignAndSendTransactionsRequest {
   int? get minContextSlot => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SignAndSendTransactionsRequestCopyWith<SignAndSendTransactionsRequest>
-  get copyWith => throw _privateConstructorUsedError;
+  $SignAndSendTransactionsRequestCopyWith<SignAndSendTransactionsRequest> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -35,11 +35,7 @@ abstract class $SignAndSendTransactionsRequestCopyWith<$Res> {
   factory $SignAndSendTransactionsRequestCopyWith(
     SignAndSendTransactionsRequest value,
     $Res Function(SignAndSendTransactionsRequest) then,
-  ) =
-      _$SignAndSendTransactionsRequestCopyWithImpl<
-        $Res,
-        SignAndSendTransactionsRequest
-      >;
+  ) = _$SignAndSendTransactionsRequestCopyWithImpl<$Res, SignAndSendTransactionsRequest>;
   @useResult
   $Res call({
     String? identityName,
@@ -141,11 +137,7 @@ abstract class _$$SignAndSendTransactionsRequestImplCopyWith<$Res>
 
 /// @nodoc
 class __$$SignAndSendTransactionsRequestImplCopyWithImpl<$Res>
-    extends
-        _$SignAndSendTransactionsRequestCopyWithImpl<
-          $Res,
-          _$SignAndSendTransactionsRequestImpl
-        >
+    extends _$SignAndSendTransactionsRequestCopyWithImpl<$Res, _$SignAndSendTransactionsRequestImpl>
     implements _$$SignAndSendTransactionsRequestImplCopyWith<$Res> {
   __$$SignAndSendTransactionsRequestImplCopyWithImpl(
     _$SignAndSendTransactionsRequestImpl _value,
@@ -207,8 +199,7 @@ class __$$SignAndSendTransactionsRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SignAndSendTransactionsRequestImpl
-    implements _SignAndSendTransactionsRequest {
+class _$SignAndSendTransactionsRequestImpl implements _SignAndSendTransactionsRequest {
   const _$SignAndSendTransactionsRequestImpl({
     required this.identityName,
     required this.identityUri,
@@ -250,21 +241,13 @@ class _$SignAndSendTransactionsRequestImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignAndSendTransactionsRequestImpl &&
-            (identical(other.identityName, identityName) ||
-                other.identityName == identityName) &&
-            (identical(other.identityUri, identityUri) ||
-                other.identityUri == identityUri) &&
+            (identical(other.identityName, identityName) || other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
             (identical(other.iconRelativeUri, iconRelativeUri) ||
                 other.iconRelativeUri == iconRelativeUri) &&
             (identical(other.cluster, cluster) || other.cluster == cluster) &&
-            const DeepCollectionEquality().equals(
-              other.authorizationScope,
-              authorizationScope,
-            ) &&
-            const DeepCollectionEquality().equals(
-              other._transactions,
-              _transactions,
-            ) &&
+            const DeepCollectionEquality().equals(other.authorizationScope, authorizationScope) &&
+            const DeepCollectionEquality().equals(other._transactions, _transactions) &&
             (identical(other.minContextSlot, minContextSlot) ||
                 other.minContextSlot == minContextSlot));
   }
@@ -284,16 +267,15 @@ class _$SignAndSendTransactionsRequestImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SignAndSendTransactionsRequestImplCopyWith<
-    _$SignAndSendTransactionsRequestImpl
-  >
-  get copyWith => __$$SignAndSendTransactionsRequestImplCopyWithImpl<
-    _$SignAndSendTransactionsRequestImpl
-  >(this, _$identity);
+  _$$SignAndSendTransactionsRequestImplCopyWith<_$SignAndSendTransactionsRequestImpl>
+  get copyWith =>
+      __$$SignAndSendTransactionsRequestImplCopyWithImpl<_$SignAndSendTransactionsRequestImpl>(
+        this,
+        _$identity,
+      );
 }
 
-abstract class _SignAndSendTransactionsRequest
-    implements SignAndSendTransactionsRequest {
+abstract class _SignAndSendTransactionsRequest implements SignAndSendTransactionsRequest {
   const factory _SignAndSendTransactionsRequest({
     required final String? identityName,
     required final Uri? identityUri,
@@ -320,9 +302,7 @@ abstract class _SignAndSendTransactionsRequest
   int? get minContextSlot;
   @override
   @JsonKey(ignore: true)
-  _$$SignAndSendTransactionsRequestImplCopyWith<
-    _$SignAndSendTransactionsRequestImpl
-  >
+  _$$SignAndSendTransactionsRequestImplCopyWith<_$SignAndSendTransactionsRequestImpl>
   get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -362,8 +342,7 @@ mixin _$SignaturesResult {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -389,10 +368,8 @@ mixin _$SignaturesResult {
 
 /// @nodoc
 abstract class $SignaturesResultCopyWith<$Res> {
-  factory $SignaturesResultCopyWith(
-    SignaturesResult value,
-    $Res Function(SignaturesResult) then,
-  ) = _$SignaturesResultCopyWithImpl<$Res, SignaturesResult>;
+  factory $SignaturesResultCopyWith(SignaturesResult value, $Res Function(SignaturesResult) then) =
+      _$SignaturesResultCopyWithImpl<$Res, SignaturesResult>;
 }
 
 /// @nodoc
@@ -465,26 +442,17 @@ class _$SignaturesResultImpl extends _SignaturesResult {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignaturesResultImpl &&
-            const DeepCollectionEquality().equals(
-              other._signatures,
-              _signatures,
-            ));
+            const DeepCollectionEquality().equals(other._signatures, _signatures));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_signatures),
-  );
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_signatures));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SignaturesResultImplCopyWith<_$SignaturesResultImpl> get copyWith =>
-      __$$SignaturesResultImplCopyWithImpl<_$SignaturesResultImpl>(
-        this,
-        _$identity,
-      );
+      __$$SignaturesResultImplCopyWithImpl<_$SignaturesResultImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -536,8 +504,7 @@ class _$SignaturesResultImpl extends _SignaturesResult {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return $default(this);
@@ -672,8 +639,7 @@ class _$RequestDeclinedImpl extends _RequestDeclined {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return requestDeclined(this);
@@ -752,9 +718,7 @@ class __$$InvalidPayloadsImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InvalidPayloadsImpl extends _InvalidPayloads {
-  const _$InvalidPayloadsImpl({required final List<bool> valid})
-    : _valid = valid,
-      super._();
+  const _$InvalidPayloadsImpl({required final List<bool> valid}) : _valid = valid, super._();
 
   final List<bool> _valid;
   @override
@@ -778,17 +742,13 @@ class _$InvalidPayloadsImpl extends _InvalidPayloads {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_valid));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_valid));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$InvalidPayloadsImplCopyWith<_$InvalidPayloadsImpl> get copyWith =>
-      __$$InvalidPayloadsImplCopyWithImpl<_$InvalidPayloadsImpl>(
-        this,
-        _$identity,
-      );
+      __$$InvalidPayloadsImplCopyWithImpl<_$InvalidPayloadsImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -840,8 +800,7 @@ class _$InvalidPayloadsImpl extends _InvalidPayloads {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return invalidPayloads(this);
@@ -879,8 +838,7 @@ class _$InvalidPayloadsImpl extends _InvalidPayloads {
 }
 
 abstract class _InvalidPayloads extends SignaturesResult {
-  const factory _InvalidPayloads({required final List<bool> valid}) =
-      _$InvalidPayloadsImpl;
+  const factory _InvalidPayloads({required final List<bool> valid}) = _$InvalidPayloadsImpl;
   const _InvalidPayloads._() : super._();
 
   List<bool> get valid;
@@ -976,8 +934,7 @@ class _$TooManyPayloadsImpl extends _TooManyPayloads {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return tooManyPayloads(this);
@@ -1050,8 +1007,7 @@ class _$AuthorizationNotValidImpl extends _AuthorizationNotValid {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AuthorizationNotValidImpl);
+        (other.runtimeType == runtimeType && other is _$AuthorizationNotValidImpl);
   }
 
   @override
@@ -1107,8 +1063,7 @@ class _$AuthorizationNotValidImpl extends _AuthorizationNotValid {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return authorizationNotValid(this);
@@ -1209,17 +1164,11 @@ class _$NotSubmittedImpl extends _NotSubmitted {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NotSubmittedImpl &&
-            const DeepCollectionEquality().equals(
-              other._signatures,
-              _signatures,
-            ));
+            const DeepCollectionEquality().equals(other._signatures, _signatures));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_signatures),
-  );
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_signatures));
 
   @JsonKey(ignore: true)
   @override
@@ -1277,8 +1226,7 @@ class _$NotSubmittedImpl extends _NotSubmitted {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-    authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return notSubmitted(this);
@@ -1316,8 +1264,7 @@ class _$NotSubmittedImpl extends _NotSubmitted {
 }
 
 abstract class _NotSubmitted extends SignaturesResult {
-  const factory _NotSubmitted({required final List<Uint8List> signatures}) =
-      _$NotSubmittedImpl;
+  const factory _NotSubmitted({required final List<Uint8List> signatures}) = _$NotSubmittedImpl;
   const _NotSubmitted._() : super._();
 
   List<Uint8List> get signatures;

@@ -20,8 +20,7 @@ mixin _$SolanaPayRequest {
   Ed25519HDPublicKey get recipient => throw _privateConstructorUsedError;
   Decimal? get amount => throw _privateConstructorUsedError;
   Ed25519HDPublicKey? get splToken => throw _privateConstructorUsedError;
-  Iterable<Ed25519HDPublicKey>? get reference =>
-      throw _privateConstructorUsedError;
+  Iterable<Ed25519HDPublicKey>? get reference => throw _privateConstructorUsedError;
   String? get label => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   String? get memo => throw _privateConstructorUsedError;
@@ -29,16 +28,13 @@ mixin _$SolanaPayRequest {
   /// Create a copy of SolanaPayRequest
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SolanaPayRequestCopyWith<SolanaPayRequest> get copyWith =>
-      throw _privateConstructorUsedError;
+  $SolanaPayRequestCopyWith<SolanaPayRequest> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SolanaPayRequestCopyWith<$Res> {
-  factory $SolanaPayRequestCopyWith(
-    SolanaPayRequest value,
-    $Res Function(SolanaPayRequest) then,
-  ) = _$SolanaPayRequestCopyWithImpl<$Res, SolanaPayRequest>;
+  factory $SolanaPayRequestCopyWith(SolanaPayRequest value, $Res Function(SolanaPayRequest) then) =
+      _$SolanaPayRequestCopyWithImpl<$Res, SolanaPayRequest>;
   @useResult
   $Res call({
     Ed25519HDPublicKey recipient,
@@ -118,8 +114,7 @@ class _$SolanaPayRequestCopyWithImpl<$Res, $Val extends SolanaPayRequest>
 }
 
 /// @nodoc
-abstract class _$$SolanaPayRequestImplCopyWith<$Res>
-    implements $SolanaPayRequestCopyWith<$Res> {
+abstract class _$$SolanaPayRequestImplCopyWith<$Res> implements $SolanaPayRequestCopyWith<$Res> {
   factory _$$SolanaPayRequestImplCopyWith(
     _$SolanaPayRequestImpl value,
     $Res Function(_$SolanaPayRequestImpl) then,
@@ -239,11 +234,9 @@ class _$SolanaPayRequestImpl extends _SolanaPayRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SolanaPayRequestImpl &&
-            (identical(other.recipient, recipient) ||
-                other.recipient == recipient) &&
+            (identical(other.recipient, recipient) || other.recipient == recipient) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.splToken, splToken) ||
-                other.splToken == splToken) &&
+            (identical(other.splToken, splToken) || other.splToken == splToken) &&
             const DeepCollectionEquality().equals(other.reference, reference) &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.message, message) || other.message == message) &&
@@ -268,10 +261,7 @@ class _$SolanaPayRequestImpl extends _SolanaPayRequest {
   @override
   @pragma('vm:prefer-inline')
   _$$SolanaPayRequestImplCopyWith<_$SolanaPayRequestImpl> get copyWith =>
-      __$$SolanaPayRequestImplCopyWithImpl<_$SolanaPayRequestImpl>(
-        this,
-        _$identity,
-      );
+      __$$SolanaPayRequestImplCopyWithImpl<_$SolanaPayRequestImpl>(this, _$identity);
 }
 
 abstract class _SolanaPayRequest extends SolanaPayRequest {

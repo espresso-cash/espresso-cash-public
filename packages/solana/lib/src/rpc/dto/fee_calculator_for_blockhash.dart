@@ -19,16 +19,11 @@ class FeeCalculatorForBlockhash {
 }
 
 @JsonSerializable()
-class FeeCalculatorForBlockhashResult
-    extends ContextResult<FeeCalculatorForBlockhash?> {
-  const FeeCalculatorForBlockhashResult({
-    required super.context,
-    required super.value,
-  });
+class FeeCalculatorForBlockhashResult extends ContextResult<FeeCalculatorForBlockhash?> {
+  const FeeCalculatorForBlockhashResult({required super.context, required super.value});
 
   factory FeeCalculatorForBlockhashResult.fromJson(Map<String, dynamic> json) =>
       _$FeeCalculatorForBlockhashResultFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$FeeCalculatorForBlockhashResultToJson(this);
+  Map<String, dynamic> toJson() => _$FeeCalculatorForBlockhashResultToJson(this);
 }

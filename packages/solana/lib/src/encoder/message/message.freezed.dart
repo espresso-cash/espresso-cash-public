@@ -34,8 +34,7 @@ abstract class $MessageCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MessageCopyWithImpl<$Res, $Val extends Message>
-    implements $MessageCopyWith<$Res> {
+class _$MessageCopyWithImpl<$Res, $Val extends Message> implements $MessageCopyWith<$Res> {
   _$MessageCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -63,23 +62,18 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
 
 /// @nodoc
 abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
-  factory _$$MessageImplCopyWith(
-    _$MessageImpl value,
-    $Res Function(_$MessageImpl) then,
-  ) = __$$MessageImplCopyWithImpl<$Res>;
+  factory _$$MessageImplCopyWith(_$MessageImpl value, $Res Function(_$MessageImpl) then) =
+      __$$MessageImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Instruction> instructions});
 }
 
 /// @nodoc
-class __$$MessageImplCopyWithImpl<$Res>
-    extends _$MessageCopyWithImpl<$Res, _$MessageImpl>
+class __$$MessageImplCopyWithImpl<$Res> extends _$MessageCopyWithImpl<$Res, _$MessageImpl>
     implements _$$MessageImplCopyWith<$Res> {
-  __$$MessageImplCopyWithImpl(
-    _$MessageImpl _value,
-    $Res Function(_$MessageImpl) _then,
-  ) : super(_value, _then);
+  __$$MessageImplCopyWithImpl(_$MessageImpl _value, $Res Function(_$MessageImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of Message
   /// with the given fields replaced by the non-null parameter values.
@@ -123,17 +117,11 @@ class _$MessageImpl extends _Message {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageImpl &&
-            const DeepCollectionEquality().equals(
-              other._instructions,
-              _instructions,
-            ));
+            const DeepCollectionEquality().equals(other._instructions, _instructions));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_instructions),
-  );
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_instructions));
 
   /// Create a copy of Message
   /// with the given fields replaced by the non-null parameter values.
@@ -145,8 +133,7 @@ class _$MessageImpl extends _Message {
 }
 
 abstract class _Message extends Message {
-  const factory _Message({required final List<Instruction> instructions}) =
-      _$MessageImpl;
+  const factory _Message({required final List<Instruction> instructions}) = _$MessageImpl;
   const _Message._() : super._();
 
   @override
@@ -156,6 +143,5 @@ abstract class _Message extends Message {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$MessageImplCopyWith<_$MessageImpl> get copyWith => throw _privateConstructorUsedError;
 }

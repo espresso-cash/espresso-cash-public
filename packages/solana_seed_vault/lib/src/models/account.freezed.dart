@@ -46,8 +46,7 @@ abstract class $AccountCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AccountCopyWithImpl<$Res, $Val extends Account>
-    implements $AccountCopyWith<$Res> {
+class _$AccountCopyWithImpl<$Res, $Val extends Account> implements $AccountCopyWith<$Res> {
   _$AccountCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -111,10 +110,8 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
 
 /// @nodoc
 abstract class _$$AccountImplCopyWith<$Res> implements $AccountCopyWith<$Res> {
-  factory _$$AccountImplCopyWith(
-    _$AccountImpl value,
-    $Res Function(_$AccountImpl) then,
-  ) = __$$AccountImplCopyWithImpl<$Res>;
+  factory _$$AccountImplCopyWith(_$AccountImpl value, $Res Function(_$AccountImpl) then) =
+      __$$AccountImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -129,13 +126,10 @@ abstract class _$$AccountImplCopyWith<$Res> implements $AccountCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$AccountImplCopyWithImpl<$Res>
-    extends _$AccountCopyWithImpl<$Res, _$AccountImpl>
+class __$$AccountImplCopyWithImpl<$Res> extends _$AccountCopyWithImpl<$Res, _$AccountImpl>
     implements _$$AccountImplCopyWith<$Res> {
-  __$$AccountImplCopyWithImpl(
-    _$AccountImpl _value,
-    $Res Function(_$AccountImpl) _then,
-  ) : super(_value, _then);
+  __$$AccountImplCopyWithImpl(_$AccountImpl _value, $Res Function(_$AccountImpl) _then)
+    : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -248,12 +242,8 @@ class _$AccountImpl with DiagnosticableTreeMixin implements _Account {
                 other.derivationPath == derivationPath) &&
             (identical(other.publicKeyEncoded, publicKeyEncoded) ||
                 other.publicKeyEncoded == publicKeyEncoded) &&
-            const DeepCollectionEquality().equals(
-              other.publicKeyRaw,
-              publicKeyRaw,
-            ) &&
-            (identical(other.isUserWallet, isUserWallet) ||
-                other.isUserWallet == isUserWallet) &&
+            const DeepCollectionEquality().equals(other.publicKeyRaw, publicKeyRaw) &&
+            (identical(other.isUserWallet, isUserWallet) || other.isUserWallet == isUserWallet) &&
             (identical(other.isValid, isValid) || other.isValid == isValid));
   }
 
@@ -303,6 +293,5 @@ abstract class _Account implements Account {
   bool get isValid;
   @override
   @JsonKey(ignore: true)
-  _$$AccountImplCopyWith<_$AccountImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$AccountImplCopyWith<_$AccountImpl> get copyWith => throw _privateConstructorUsedError;
 }

@@ -1,15 +1,9 @@
 class EpochCredits {
-  const EpochCredits({
-    required this.epoch,
-    required this.credits,
-    required this.previousCredits,
-  });
+  const EpochCredits({required this.epoch, required this.credits, required this.previousCredits});
 
   factory EpochCredits.fromJson(dynamic json) {
     if (json is! List<dynamic>) {
-      throw FormatException(
-        'expected array with 3 integers and got ${json.runtimeType}',
-      );
+      throw FormatException('expected array with 3 integers and got ${json.runtimeType}');
     }
 
     final integers = json.whereType<int>().toList(growable: false);
@@ -19,11 +13,7 @@ class EpochCredits {
       );
     }
 
-    return EpochCredits(
-      epoch: integers[0],
-      credits: integers[1],
-      previousCredits: integers[2],
-    );
+    return EpochCredits(epoch: integers[0], credits: integers[1], previousCredits: integers[2]);
   }
 
   final int epoch;

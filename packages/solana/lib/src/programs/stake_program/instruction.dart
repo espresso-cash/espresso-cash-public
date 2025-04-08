@@ -20,10 +20,7 @@ class StakeInstruction extends Instruction {
   }) => StakeInstruction._(
     accounts: [
       AccountMeta.writeable(pubKey: stake, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
     ],
     data: ByteArray.merge([
       StakeProgram.initializeInstructionIndex,
@@ -41,18 +38,11 @@ class StakeInstruction extends Instruction {
   }) => StakeInstruction._(
     accounts: [
       AccountMeta.writeable(pubKey: stake, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock), isSigner: false),
       AccountMeta.readonly(pubKey: authority, isSigner: true),
-      if (lockupAuthority != null)
-        AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
+      if (lockupAuthority != null) AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
     ],
-    data: ByteArray.merge([
-      StakeProgram.authorizeInstructionIndex,
-      authorize.serialize(),
-    ]),
+    data: ByteArray.merge([StakeProgram.authorizeInstructionIndex, authorize.serialize()]),
   );
 
   /// Delegate a [stake] to a particular [vote] account.
@@ -65,10 +55,7 @@ class StakeInstruction extends Instruction {
     accounts: [
       AccountMeta.writeable(pubKey: stake, isSigner: false),
       AccountMeta.readonly(pubKey: vote, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock), isSigner: false),
       AccountMeta.readonly(
         pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.stakeHistory),
         isSigner: false,
@@ -92,10 +79,7 @@ class StakeInstruction extends Instruction {
       AccountMeta.writeable(pubKey: destinationStake, isSigner: false),
       AccountMeta.readonly(pubKey: authority, isSigner: true),
     ],
-    data: ByteArray.merge([
-      StakeProgram.splitInstructionIndex,
-      ByteArray.u64(amount),
-    ]),
+    data: ByteArray.merge([StakeProgram.splitInstructionIndex, ByteArray.u64(amount)]),
   );
 
   /// Withdraw unstaked [lamports] from the [stake] account.
@@ -109,22 +93,15 @@ class StakeInstruction extends Instruction {
     accounts: [
       AccountMeta.writeable(pubKey: stake, isSigner: false),
       AccountMeta.writeable(pubKey: recipient, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock), isSigner: false),
       AccountMeta.readonly(
         pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.stakeHistory),
         isSigner: false,
       ),
       AccountMeta.readonly(pubKey: authority, isSigner: true),
-      if (lockupAuthority != null)
-        AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
+      if (lockupAuthority != null) AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
     ],
-    data: ByteArray.merge([
-      StakeProgram.withdrawInstructionIndex,
-      ByteArray.u64(lamports),
-    ]),
+    data: ByteArray.merge([StakeProgram.withdrawInstructionIndex, ByteArray.u64(lamports)]),
   );
 
   /// Deactivates the stake in the account.
@@ -134,10 +111,7 @@ class StakeInstruction extends Instruction {
   }) => StakeInstruction._(
     accounts: [
       AccountMeta.writeable(pubKey: stake, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock), isSigner: false),
       AccountMeta.readonly(pubKey: authority, isSigner: true),
     ],
     data: StakeProgram.deactivateInstructionIndex,
@@ -156,10 +130,7 @@ class StakeInstruction extends Instruction {
       AccountMeta.writeable(pubKey: stake, isSigner: false),
       AccountMeta.readonly(pubKey: authority, isSigner: true),
     ],
-    data: ByteArray.merge([
-      StakeProgram.setLockupInstructionIndex,
-      lockup.serialize(),
-    ]),
+    data: ByteArray.merge([StakeProgram.setLockupInstructionIndex, lockup.serialize()]),
   );
 
   /// Merge two stake accounts.
@@ -189,10 +160,7 @@ class StakeInstruction extends Instruction {
     accounts: [
       AccountMeta.writeable(pubKey: destinationStake, isSigner: false),
       AccountMeta.writeable(pubKey: sourceStake, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock), isSigner: false),
       AccountMeta.readonly(
         pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.stakeHistory),
         isSigner: false,
@@ -212,17 +180,10 @@ class StakeInstruction extends Instruction {
     accounts: [
       AccountMeta.writeable(pubKey: stake, isSigner: false),
       AccountMeta.readonly(pubKey: authorityBase, isSigner: true),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
-        isSigner: false,
-      ),
-      if (lockupAuthority != null)
-        AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock), isSigner: false),
+      if (lockupAuthority != null) AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
     ],
-    data: ByteArray.merge([
-      StakeProgram.authorizeWithSeedInstructionIndex,
-      args.serialize(),
-    ]),
+    data: ByteArray.merge([StakeProgram.authorizeWithSeedInstructionIndex, args.serialize()]),
   );
 
   /// Initialize a stake with authorization information.
@@ -236,10 +197,7 @@ class StakeInstruction extends Instruction {
   }) => StakeInstruction._(
     accounts: [
       AccountMeta.writeable(pubKey: stake, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
       AccountMeta.readonly(pubKey: stakeAuthority, isSigner: false),
       AccountMeta.readonly(pubKey: withdrawAuthority, isSigner: true),
     ],
@@ -258,14 +216,10 @@ class StakeInstruction extends Instruction {
   }) => StakeInstruction._(
     accounts: [
       AccountMeta.writeable(pubKey: stake, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock), isSigner: false),
       AccountMeta.readonly(pubKey: authority, isSigner: true),
       AccountMeta.readonly(pubKey: stakeAuthorize.pubKey, isSigner: true),
-      if (lockupAuthority != null)
-        AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
+      if (lockupAuthority != null) AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
     ],
     data: ByteArray.merge([
       StakeProgram.authorizeCheckedInstructionIndex,
@@ -287,16 +241,9 @@ class StakeInstruction extends Instruction {
     accounts: [
       AccountMeta.writeable(pubKey: stake, isSigner: false),
       AccountMeta.readonly(pubKey: base, isSigner: true),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock),
-        isSigner: false,
-      ),
-      AccountMeta.readonly(
-        pubKey: authorizeWithSeedArgs.stakeAuthorize.pubKey,
-        isSigner: true,
-      ),
-      if (lockupAuthority != null)
-        AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.clock), isSigner: false),
+      AccountMeta.readonly(pubKey: authorizeWithSeedArgs.stakeAuthorize.pubKey, isSigner: true),
+      if (lockupAuthority != null) AccountMeta.readonly(pubKey: lockupAuthority, isSigner: true),
     ],
     data: ByteArray.merge([
       StakeProgram.authorizeCheckedInstructionIndex,
@@ -320,10 +267,7 @@ class StakeInstruction extends Instruction {
       AccountMeta.writeable(pubKey: stake, isSigner: false),
       AccountMeta.writeable(pubKey: authority, isSigner: true),
     ],
-    data: ByteArray.merge([
-      StakeProgram.setLockupInstructionIndex,
-      lockupCheckedArgs.serialize(),
-    ]),
+    data: ByteArray.merge([StakeProgram.setLockupInstructionIndex, lockupCheckedArgs.serialize()]),
   );
 
   static List<Instruction> createAndInitializeAccount({
@@ -340,11 +284,7 @@ class StakeInstruction extends Instruction {
       space: StakeProgram.neededAccountSpace,
       owner: Ed25519HDPublicKey.fromBase58(StakeProgram.programId),
     ),
-    StakeInstruction.initialize(
-      stake: newAccount,
-      authorized: authorized,
-      lockup: lockup,
-    ),
+    StakeInstruction.initialize(stake: newAccount, authorized: authorized, lockup: lockup),
   ];
 
   static List<Instruction> createAndInitializeAccountWithSeed({
@@ -365,19 +305,14 @@ class StakeInstruction extends Instruction {
       seed: seed,
       base: base,
     ),
-    StakeInstruction.initialize(
-      stake: newAccount,
-      authorized: authorized,
-      lockup: lockup,
-    ),
+    StakeInstruction.initialize(stake: newAccount, authorized: authorized, lockup: lockup),
   ];
 }
 
 class LockupCheckedArgs {
   const LockupCheckedArgs({required this.unixTimestamp, required this.epoch});
 
-  ByteArray serialize() =>
-      ByteArray.merge([ByteArray.i64(unixTimestamp), ByteArray.u64(epoch)]);
+  ByteArray serialize() => ByteArray.merge([ByteArray.i64(unixTimestamp), ByteArray.u64(epoch)]);
 
   final UnixTimestamp unixTimestamp;
   final Epoch epoch;

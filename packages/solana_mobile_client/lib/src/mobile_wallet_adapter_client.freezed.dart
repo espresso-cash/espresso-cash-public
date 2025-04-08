@@ -18,10 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$GetCapabilitiesResult {
   bool get supportsCloneAuthorization => throw _privateConstructorUsedError;
-  bool get supportsSignAndSendTransactions =>
-      throw _privateConstructorUsedError;
-  int get maxTransactionsPerSigningRequest =>
-      throw _privateConstructorUsedError;
+  bool get supportsSignAndSendTransactions => throw _privateConstructorUsedError;
+  int get maxTransactionsPerSigningRequest => throw _privateConstructorUsedError;
   int get maxMessagesPerSigningRequest => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -45,10 +43,7 @@ abstract class $GetCapabilitiesResultCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$GetCapabilitiesResultCopyWithImpl<
-  $Res,
-  $Val extends GetCapabilitiesResult
->
+class _$GetCapabilitiesResultCopyWithImpl<$Res, $Val extends GetCapabilitiesResult>
     implements $GetCapabilitiesResultCopyWith<$Res> {
   _$GetCapabilitiesResultCopyWithImpl(this._value, this._then);
 
@@ -112,8 +107,7 @@ abstract class _$$GetCapabilitiesResultImplCopyWith<$Res>
 
 /// @nodoc
 class __$$GetCapabilitiesResultImplCopyWithImpl<$Res>
-    extends
-        _$GetCapabilitiesResultCopyWithImpl<$Res, _$GetCapabilitiesResultImpl>
+    extends _$GetCapabilitiesResultCopyWithImpl<$Res, _$GetCapabilitiesResultImpl>
     implements _$$GetCapabilitiesResultImplCopyWith<$Res> {
   __$$GetCapabilitiesResultImplCopyWithImpl(
     _$GetCapabilitiesResultImpl _value,
@@ -184,30 +178,14 @@ class _$GetCapabilitiesResultImpl implements _GetCapabilitiesResult {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetCapabilitiesResultImpl &&
-            (identical(
-                  other.supportsCloneAuthorization,
-                  supportsCloneAuthorization,
-                ) ||
-                other.supportsCloneAuthorization ==
-                    supportsCloneAuthorization) &&
-            (identical(
-                  other.supportsSignAndSendTransactions,
-                  supportsSignAndSendTransactions,
-                ) ||
-                other.supportsSignAndSendTransactions ==
-                    supportsSignAndSendTransactions) &&
-            (identical(
-                  other.maxTransactionsPerSigningRequest,
-                  maxTransactionsPerSigningRequest,
-                ) ||
-                other.maxTransactionsPerSigningRequest ==
-                    maxTransactionsPerSigningRequest) &&
-            (identical(
-                  other.maxMessagesPerSigningRequest,
-                  maxMessagesPerSigningRequest,
-                ) ||
-                other.maxMessagesPerSigningRequest ==
-                    maxMessagesPerSigningRequest));
+            (identical(other.supportsCloneAuthorization, supportsCloneAuthorization) ||
+                other.supportsCloneAuthorization == supportsCloneAuthorization) &&
+            (identical(other.supportsSignAndSendTransactions, supportsSignAndSendTransactions) ||
+                other.supportsSignAndSendTransactions == supportsSignAndSendTransactions) &&
+            (identical(other.maxTransactionsPerSigningRequest, maxTransactionsPerSigningRequest) ||
+                other.maxTransactionsPerSigningRequest == maxTransactionsPerSigningRequest) &&
+            (identical(other.maxMessagesPerSigningRequest, maxMessagesPerSigningRequest) ||
+                other.maxMessagesPerSigningRequest == maxMessagesPerSigningRequest));
   }
 
   @override
@@ -222,12 +200,8 @@ class _$GetCapabilitiesResultImpl implements _GetCapabilitiesResult {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetCapabilitiesResultImplCopyWith<_$GetCapabilitiesResultImpl>
-  get copyWith =>
-      __$$GetCapabilitiesResultImplCopyWithImpl<_$GetCapabilitiesResultImpl>(
-        this,
-        _$identity,
-      );
+  _$$GetCapabilitiesResultImplCopyWith<_$GetCapabilitiesResultImpl> get copyWith =>
+      __$$GetCapabilitiesResultImplCopyWithImpl<_$GetCapabilitiesResultImpl>(this, _$identity);
 }
 
 abstract class _GetCapabilitiesResult implements GetCapabilitiesResult {
@@ -248,8 +222,8 @@ abstract class _GetCapabilitiesResult implements GetCapabilitiesResult {
   int get maxMessagesPerSigningRequest;
   @override
   @JsonKey(ignore: true)
-  _$$GetCapabilitiesResultImplCopyWith<_$GetCapabilitiesResultImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$GetCapabilitiesResultImplCopyWith<_$GetCapabilitiesResultImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -271,12 +245,7 @@ abstract class $AuthorizationResultCopyWith<$Res> {
     $Res Function(AuthorizationResult) then,
   ) = _$AuthorizationResultCopyWithImpl<$Res, AuthorizationResult>;
   @useResult
-  $Res call({
-    String authToken,
-    Uint8List publicKey,
-    String? accountLabel,
-    Uri? walletUriBase,
-  });
+  $Res call({String authToken, Uint8List publicKey, String? accountLabel, Uri? walletUriBase});
 }
 
 /// @nodoc
@@ -334,12 +303,7 @@ abstract class _$$AuthorizationResultImplCopyWith<$Res>
   ) = __$$AuthorizationResultImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String authToken,
-    Uint8List publicKey,
-    String? accountLabel,
-    Uri? walletUriBase,
-  });
+  $Res call({String authToken, Uint8List publicKey, String? accountLabel, Uri? walletUriBase});
 }
 
 /// @nodoc
@@ -415,11 +379,9 @@ class _$AuthorizationResultImpl implements _AuthorizationResult {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthorizationResultImpl &&
-            (identical(other.authToken, authToken) ||
-                other.authToken == authToken) &&
+            (identical(other.authToken, authToken) || other.authToken == authToken) &&
             const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
-            (identical(other.accountLabel, accountLabel) ||
-                other.accountLabel == accountLabel) &&
+            (identical(other.accountLabel, accountLabel) || other.accountLabel == accountLabel) &&
             (identical(other.walletUriBase, walletUriBase) ||
                 other.walletUriBase == walletUriBase));
   }
@@ -437,10 +399,7 @@ class _$AuthorizationResultImpl implements _AuthorizationResult {
   @override
   @pragma('vm:prefer-inline')
   _$$AuthorizationResultImplCopyWith<_$AuthorizationResultImpl> get copyWith =>
-      __$$AuthorizationResultImplCopyWithImpl<_$AuthorizationResultImpl>(
-        this,
-        _$identity,
-      );
+      __$$AuthorizationResultImplCopyWithImpl<_$AuthorizationResultImpl>(this, _$identity);
 }
 
 abstract class _AuthorizationResult implements AuthorizationResult {
@@ -549,9 +508,8 @@ class __$$SignPayloadsResultImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SignPayloadsResultImpl implements _SignPayloadsResult {
-  const _$SignPayloadsResultImpl({
-    required final List<Uint8List> signedPayloads,
-  }) : _signedPayloads = signedPayloads;
+  const _$SignPayloadsResultImpl({required final List<Uint8List> signedPayloads})
+    : _signedPayloads = signedPayloads;
 
   final List<Uint8List> _signedPayloads;
   @override
@@ -571,32 +529,23 @@ class _$SignPayloadsResultImpl implements _SignPayloadsResult {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignPayloadsResultImpl &&
-            const DeepCollectionEquality().equals(
-              other._signedPayloads,
-              _signedPayloads,
-            ));
+            const DeepCollectionEquality().equals(other._signedPayloads, _signedPayloads));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_signedPayloads),
-  );
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_signedPayloads));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SignPayloadsResultImplCopyWith<_$SignPayloadsResultImpl> get copyWith =>
-      __$$SignPayloadsResultImplCopyWithImpl<_$SignPayloadsResultImpl>(
-        this,
-        _$identity,
-      );
+      __$$SignPayloadsResultImplCopyWithImpl<_$SignPayloadsResultImpl>(this, _$identity);
 }
 
 abstract class _SignPayloadsResult implements SignPayloadsResult {
-  const factory _SignPayloadsResult({
-    required final List<Uint8List> signedPayloads,
-  }) = _$SignPayloadsResultImpl;
+  const factory _SignPayloadsResult({required final List<Uint8List> signedPayloads}) =
+      _$SignPayloadsResultImpl;
 
   @override
   List<Uint8List> get signedPayloads;
@@ -611,8 +560,8 @@ mixin _$SignAndSendTransactionsResult {
   List<Uint8List> get signatures => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SignAndSendTransactionsResultCopyWith<SignAndSendTransactionsResult>
-  get copyWith => throw _privateConstructorUsedError;
+  $SignAndSendTransactionsResultCopyWith<SignAndSendTransactionsResult> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -620,20 +569,13 @@ abstract class $SignAndSendTransactionsResultCopyWith<$Res> {
   factory $SignAndSendTransactionsResultCopyWith(
     SignAndSendTransactionsResult value,
     $Res Function(SignAndSendTransactionsResult) then,
-  ) =
-      _$SignAndSendTransactionsResultCopyWithImpl<
-        $Res,
-        SignAndSendTransactionsResult
-      >;
+  ) = _$SignAndSendTransactionsResultCopyWithImpl<$Res, SignAndSendTransactionsResult>;
   @useResult
   $Res call({List<Uint8List> signatures});
 }
 
 /// @nodoc
-class _$SignAndSendTransactionsResultCopyWithImpl<
-  $Res,
-  $Val extends SignAndSendTransactionsResult
->
+class _$SignAndSendTransactionsResultCopyWithImpl<$Res, $Val extends SignAndSendTransactionsResult>
     implements $SignAndSendTransactionsResultCopyWith<$Res> {
   _$SignAndSendTransactionsResultCopyWithImpl(this._value, this._then);
 
@@ -672,11 +614,7 @@ abstract class _$$SignAndSendTransactionsResultImplCopyWith<$Res>
 
 /// @nodoc
 class __$$SignAndSendTransactionsResultImplCopyWithImpl<$Res>
-    extends
-        _$SignAndSendTransactionsResultCopyWithImpl<
-          $Res,
-          _$SignAndSendTransactionsResultImpl
-        >
+    extends _$SignAndSendTransactionsResultCopyWithImpl<$Res, _$SignAndSendTransactionsResultImpl>
     implements _$$SignAndSendTransactionsResultImplCopyWith<$Res> {
   __$$SignAndSendTransactionsResultImplCopyWithImpl(
     _$SignAndSendTransactionsResultImpl _value,
@@ -700,11 +638,9 @@ class __$$SignAndSendTransactionsResultImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SignAndSendTransactionsResultImpl
-    implements _SignAndSendTransactionsResult {
-  const _$SignAndSendTransactionsResultImpl({
-    required final List<Uint8List> signatures,
-  }) : _signatures = signatures;
+class _$SignAndSendTransactionsResultImpl implements _SignAndSendTransactionsResult {
+  const _$SignAndSendTransactionsResultImpl({required final List<Uint8List> signatures})
+    : _signatures = signatures;
 
   final List<Uint8List> _signatures;
   @override
@@ -724,43 +660,32 @@ class _$SignAndSendTransactionsResultImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignAndSendTransactionsResultImpl &&
-            const DeepCollectionEquality().equals(
-              other._signatures,
-              _signatures,
-            ));
+            const DeepCollectionEquality().equals(other._signatures, _signatures));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_signatures),
-  );
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_signatures));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SignAndSendTransactionsResultImplCopyWith<
-    _$SignAndSendTransactionsResultImpl
-  >
-  get copyWith => __$$SignAndSendTransactionsResultImplCopyWithImpl<
-    _$SignAndSendTransactionsResultImpl
-  >(this, _$identity);
+  _$$SignAndSendTransactionsResultImplCopyWith<_$SignAndSendTransactionsResultImpl> get copyWith =>
+      __$$SignAndSendTransactionsResultImplCopyWithImpl<_$SignAndSendTransactionsResultImpl>(
+        this,
+        _$identity,
+      );
 }
 
-abstract class _SignAndSendTransactionsResult
-    implements SignAndSendTransactionsResult {
-  const factory _SignAndSendTransactionsResult({
-    required final List<Uint8List> signatures,
-  }) = _$SignAndSendTransactionsResultImpl;
+abstract class _SignAndSendTransactionsResult implements SignAndSendTransactionsResult {
+  const factory _SignAndSendTransactionsResult({required final List<Uint8List> signatures}) =
+      _$SignAndSendTransactionsResultImpl;
 
   @override
   List<Uint8List> get signatures;
   @override
   @JsonKey(ignore: true)
-  _$$SignAndSendTransactionsResultImplCopyWith<
-    _$SignAndSendTransactionsResultImpl
-  >
-  get copyWith => throw _privateConstructorUsedError;
+  _$$SignAndSendTransactionsResultImplCopyWith<_$SignAndSendTransactionsResultImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -770,22 +695,15 @@ mixin _$SignedMessage {
   List<Uint8List> get signatures => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SignedMessageCopyWith<SignedMessage> get copyWith =>
-      throw _privateConstructorUsedError;
+  $SignedMessageCopyWith<SignedMessage> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SignedMessageCopyWith<$Res> {
-  factory $SignedMessageCopyWith(
-    SignedMessage value,
-    $Res Function(SignedMessage) then,
-  ) = _$SignedMessageCopyWithImpl<$Res, SignedMessage>;
+  factory $SignedMessageCopyWith(SignedMessage value, $Res Function(SignedMessage) then) =
+      _$SignedMessageCopyWithImpl<$Res, SignedMessage>;
   @useResult
-  $Res call({
-    Uint8List message,
-    List<Uint8List> addresses,
-    List<Uint8List> signatures,
-  });
+  $Res call({Uint8List message, List<Uint8List> addresses, List<Uint8List> signatures});
 }
 
 /// @nodoc
@@ -800,11 +718,7 @@ class _$SignedMessageCopyWithImpl<$Res, $Val extends SignedMessage>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? message = null,
-    Object? addresses = null,
-    Object? signatures = null,
-  }) {
+  $Res call({Object? message = null, Object? addresses = null, Object? signatures = null}) {
     return _then(
       _value.copyWith(
             message:
@@ -829,19 +743,14 @@ class _$SignedMessageCopyWithImpl<$Res, $Val extends SignedMessage>
 }
 
 /// @nodoc
-abstract class _$$SignedMessageImplCopyWith<$Res>
-    implements $SignedMessageCopyWith<$Res> {
+abstract class _$$SignedMessageImplCopyWith<$Res> implements $SignedMessageCopyWith<$Res> {
   factory _$$SignedMessageImplCopyWith(
     _$SignedMessageImpl value,
     $Res Function(_$SignedMessageImpl) then,
   ) = __$$SignedMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    Uint8List message,
-    List<Uint8List> addresses,
-    List<Uint8List> signatures,
-  });
+  $Res call({Uint8List message, List<Uint8List> addresses, List<Uint8List> signatures});
 }
 
 /// @nodoc
@@ -855,11 +764,7 @@ class __$$SignedMessageImplCopyWithImpl<$Res>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? message = null,
-    Object? addresses = null,
-    Object? signatures = null,
-  }) {
+  $Res call({Object? message = null, Object? addresses = null, Object? signatures = null}) {
     return _then(
       _$SignedMessageImpl(
         message:
@@ -921,14 +826,8 @@ class _$SignedMessageImpl implements _SignedMessage {
         (other.runtimeType == runtimeType &&
             other is _$SignedMessageImpl &&
             const DeepCollectionEquality().equals(other.message, message) &&
-            const DeepCollectionEquality().equals(
-              other._addresses,
-              _addresses,
-            ) &&
-            const DeepCollectionEquality().equals(
-              other._signatures,
-              _signatures,
-            ));
+            const DeepCollectionEquality().equals(other._addresses, _addresses) &&
+            const DeepCollectionEquality().equals(other._signatures, _signatures));
   }
 
   @override
@@ -1049,9 +948,8 @@ class __$$SignMessagesResultImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SignMessagesResultImpl implements _SignMessagesResult {
-  const _$SignMessagesResultImpl({
-    required final List<SignedMessage> signedMessages,
-  }) : _signedMessages = signedMessages;
+  const _$SignMessagesResultImpl({required final List<SignedMessage> signedMessages})
+    : _signedMessages = signedMessages;
 
   final List<SignedMessage> _signedMessages;
   @override
@@ -1071,32 +969,23 @@ class _$SignMessagesResultImpl implements _SignMessagesResult {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignMessagesResultImpl &&
-            const DeepCollectionEquality().equals(
-              other._signedMessages,
-              _signedMessages,
-            ));
+            const DeepCollectionEquality().equals(other._signedMessages, _signedMessages));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_signedMessages),
-  );
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_signedMessages));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SignMessagesResultImplCopyWith<_$SignMessagesResultImpl> get copyWith =>
-      __$$SignMessagesResultImplCopyWithImpl<_$SignMessagesResultImpl>(
-        this,
-        _$identity,
-      );
+      __$$SignMessagesResultImplCopyWithImpl<_$SignMessagesResultImpl>(this, _$identity);
 }
 
 abstract class _SignMessagesResult implements SignMessagesResult {
-  const factory _SignMessagesResult({
-    required final List<SignedMessage> signedMessages,
-  }) = _$SignMessagesResultImpl;
+  const factory _SignMessagesResult({required final List<SignedMessage> signedMessages}) =
+      _$SignMessagesResultImpl;
 
   @override
   List<SignedMessage> get signedMessages;

@@ -17,8 +17,7 @@ class MobileWalletAdapterClient {
       return GetCapabilitiesResult(
         supportsCloneAuthorization: result.supportsCloneAuthorization,
         supportsSignAndSendTransactions: result.supportsSignAndSendTransactions,
-        maxTransactionsPerSigningRequest:
-            result.maxTransactionsPerSigningRequest,
+        maxTransactionsPerSigningRequest: result.maxTransactionsPerSigningRequest,
         maxMessagesPerSigningRequest: result.maxMessagesPerSigningRequest,
       );
     } on PlatformException {
@@ -86,9 +85,7 @@ class MobileWalletAdapterClient {
     }
   }
 
-  Future<SignPayloadsResult> signTransactions({
-    required List<Uint8List> transactions,
-  }) async {
+  Future<SignPayloadsResult> signTransactions({required List<Uint8List> transactions}) async {
     try {
       final result = await api.signTransactions(_scenarioId, transactions);
 
@@ -130,11 +127,7 @@ class MobileWalletAdapterClient {
     int? minContextSlot,
   }) async {
     try {
-      final result = await api.signAndSendTransactions(
-        _scenarioId,
-        transactions,
-        minContextSlot,
-      );
+      final result = await api.signAndSendTransactions(_scenarioId, transactions, minContextSlot);
 
       return SignAndSendTransactionsResult(
         signatures: result.signatures.whereType<Uint8List>().toList(),
@@ -167,15 +160,13 @@ class AuthorizationResult with _$AuthorizationResult {
 
 @freezed
 class SignPayloadsResult with _$SignPayloadsResult {
-  const factory SignPayloadsResult({required List<Uint8List> signedPayloads}) =
-      _SignPayloadsResult;
+  const factory SignPayloadsResult({required List<Uint8List> signedPayloads}) = _SignPayloadsResult;
 }
 
 @freezed
 class SignAndSendTransactionsResult with _$SignAndSendTransactionsResult {
-  const factory SignAndSendTransactionsResult({
-    required List<Uint8List> signatures,
-  }) = _SignAndSendTransactionsResult;
+  const factory SignAndSendTransactionsResult({required List<Uint8List> signatures}) =
+      _SignAndSendTransactionsResult;
 }
 
 @freezed
@@ -189,7 +180,6 @@ class SignedMessage with _$SignedMessage {
 
 @freezed
 class SignMessagesResult with _$SignMessagesResult {
-  const factory SignMessagesResult({
-    required List<SignedMessage> signedMessages,
-  }) = _SignMessagesResult;
+  const factory SignMessagesResult({required List<SignedMessage> signedMessages}) =
+      _SignMessagesResult;
 }

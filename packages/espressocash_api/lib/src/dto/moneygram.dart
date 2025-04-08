@@ -9,20 +9,17 @@ class MoneygramChallengeSignRequestDto with _$MoneygramChallengeSignRequestDto {
   const factory MoneygramChallengeSignRequestDto({required String signedTx}) =
       _MoneygramChallengeSignRequestDto;
 
-  factory MoneygramChallengeSignRequestDto.fromJson(
-    Map<String, dynamic> json,
-  ) => _$MoneygramChallengeSignRequestDtoFromJson(json);
+  factory MoneygramChallengeSignRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$MoneygramChallengeSignRequestDtoFromJson(json);
 }
 
 @freezed
-class MoneygramChallengeSignResponseDto
-    with _$MoneygramChallengeSignResponseDto {
+class MoneygramChallengeSignResponseDto with _$MoneygramChallengeSignResponseDto {
   const factory MoneygramChallengeSignResponseDto({required String signedTx}) =
       _MoneygramChallengeSignResponseDto;
 
-  factory MoneygramChallengeSignResponseDto.fromJson(
-    Map<String, dynamic> json,
-  ) => _$MoneygramChallengeSignResponseDtoFromJson(json);
+  factory MoneygramChallengeSignResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$MoneygramChallengeSignResponseDtoFromJson(json);
 }
 
 @freezed
@@ -52,8 +49,7 @@ class SwapToSolanaRequestDto with _$SwapToSolanaRequestDto {
 
 @freezed
 class MoneygramSwapResponseDto with _$MoneygramSwapResponseDto {
-  const factory MoneygramSwapResponseDto({required String encodedTx}) =
-      _MoneygramSwapResponseDto;
+  const factory MoneygramSwapResponseDto({required String encodedTx}) = _MoneygramSwapResponseDto;
 
   factory MoneygramSwapResponseDto.fromJson(Map<String, dynamic> json) =>
       _$MoneygramSwapResponseDtoFromJson(json);
@@ -61,10 +57,8 @@ class MoneygramSwapResponseDto with _$MoneygramSwapResponseDto {
 
 @freezed
 class MoneygramFeeRequestDto with _$MoneygramFeeRequestDto {
-  const factory MoneygramFeeRequestDto({
-    required String amount,
-    required RampTypeDto type,
-  }) = _MoneygramFeeRequestDto;
+  const factory MoneygramFeeRequestDto({required String amount, required RampTypeDto type}) =
+      _MoneygramFeeRequestDto;
 
   factory MoneygramFeeRequestDto.fromJson(Map<String, dynamic> json) =>
       _$MoneygramFeeRequestDtoFromJson(json);
@@ -86,8 +80,7 @@ class MoneygramFeeResponseDto with _$MoneygramFeeResponseDto {
 
 @freezed
 class FundXlmRequestDto with _$FundXlmRequestDto {
-  const factory FundXlmRequestDto({required String accountId}) =
-      _FundXlmRequestDto;
+  const factory FundXlmRequestDto({required String accountId}) = _FundXlmRequestDto;
 
   factory FundXlmRequestDto.fromJson(Map<String, dynamic> json) =>
       _$FundXlmRequestDtoFromJson(json);

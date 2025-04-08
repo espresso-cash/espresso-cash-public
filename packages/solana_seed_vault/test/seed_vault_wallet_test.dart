@@ -43,9 +43,7 @@ void main() {
   });
 
   test('Get Implementation Limits for Purpose', () async {
-    when(
-      apiHost.getImplementationLimitsForPurpose(any),
-    ).thenAnswer((_) async => {});
+    when(apiHost.getImplementationLimitsForPurpose(any)).thenAnswer((_) async => {});
 
     final result = await SeedVault.instance.getImplementationLimitsForPurpose(
       Purpose.signSolanaTransaction,
@@ -79,9 +77,7 @@ void main() {
   });
 
   test('Resolve Derivation Path', () async {
-    when(
-      apiHost.resolveDerivationPath(any, any),
-    ).thenAnswer((_) async => 'bip32:/m');
+    when(apiHost.resolveDerivationPath(any, any)).thenAnswer((_) async => 'bip32:/m');
 
     final result = await SeedVault.instance.resolveDerivationPath(
       derivationPath: Uri(),
@@ -98,11 +94,7 @@ void main() {
 
     when(apiHost.updateAccountName(any, any, any)).thenAnswer(Future.value);
 
-    await SeedVault.instance.updateAccountName(
-      authToken: authToken,
-      accountId: 0,
-      name: '',
-    );
+    await SeedVault.instance.updateAccountName(authToken: authToken, accountId: 0, name: '');
 
     verify(apiHost.updateAccountName(any, any, any)).called(1);
     verifyNoMoreInteractions(apiHost);
@@ -111,9 +103,7 @@ void main() {
   test('Update Account IsUserWallet', () async {
     final authToken = createFakeAuthToken();
 
-    when(
-      apiHost.updateAccountIsUserWallet(any, any, any),
-    ).thenAnswer(Future.value);
+    when(apiHost.updateAccountIsUserWallet(any, any, any)).thenAnswer(Future.value);
 
     await SeedVault.instance.updateAccountIsUserWallet(
       authToken: authToken,
@@ -152,9 +142,7 @@ void main() {
   });
 
   test('Check for unauthorized seeds for sign purpose', () async {
-    when(
-      apiHost.hasUnauthorizedSeedsForPurpose(any),
-    ).thenAnswer((_) async => true);
+    when(apiHost.hasUnauthorizedSeedsForPurpose(any)).thenAnswer((_) async => true);
 
     final result = await SeedVault.instance.hasUnauthorizedSeedsForPurpose(
       Purpose.signSolanaTransaction,
@@ -170,9 +158,7 @@ void main() {
 
     when(apiHost.authorizeSeed(any)).thenAnswer((_) async => authToken);
 
-    final result = await SeedVault.instance.authorizeSeed(
-      Purpose.signSolanaTransaction,
-    );
+    final result = await SeedVault.instance.authorizeSeed(Purpose.signSolanaTransaction);
 
     expect(result, authToken);
     verify(apiHost.authorizeSeed(any)).called(1);
@@ -184,9 +170,7 @@ void main() {
 
     when(apiHost.createSeed(any)).thenAnswer((_) async => authToken);
 
-    final result = await SeedVault.instance.createSeed(
-      Purpose.signSolanaTransaction,
-    );
+    final result = await SeedVault.instance.createSeed(Purpose.signSolanaTransaction);
 
     expect(result, authToken);
     verify(apiHost.createSeed(any)).called(1);
@@ -198,9 +182,7 @@ void main() {
 
     when(apiHost.importSeed(any)).thenAnswer((_) async => authToken);
 
-    final result = await SeedVault.instance.importSeed(
-      Purpose.signSolanaTransaction,
-    );
+    final result = await SeedVault.instance.importSeed(Purpose.signSolanaTransaction);
 
     expect(result, authToken);
     verify(apiHost.importSeed(any)).called(1);
@@ -211,10 +193,9 @@ void main() {
     final authToken = createFakeAuthToken();
     final uris = ['bip32:/m/0', 'bip32:/m/1'].map(Uri.parse).toList();
 
-    when(apiHost.requestPublicKeys(any, any)).thenAnswer(
-      (_) async =>
-          List.generate(uris.length, (_) => FakePublicKeyResponseDto()),
-    );
+    when(
+      apiHost.requestPublicKeys(any, any),
+    ).thenAnswer((_) async => List.generate(uris.length, (_) => FakePublicKeyResponseDto()));
 
     final result = await SeedVault.instance.requestPublicKeys(
       authToken: authToken,
@@ -233,15 +214,10 @@ void main() {
     final authToken = createFakeAuthToken();
     final uris = ['bip32:/m/0', 'bip32:/m/1'].map(Uri.parse).toList();
 
-    final requests = [
-      SigningRequest(payload: createFakePayload(), requestedSignatures: uris),
-    ];
+    final requests = [SigningRequest(payload: createFakePayload(), requestedSignatures: uris)];
 
     when(apiHost.signMessages(any, any)).thenAnswer(
-      (_) async =>
-          requests
-              .map((it) => FakeSigningResponseDto(it.requestedSignatures))
-              .toList(),
+      (_) async => requests.map((it) => FakeSigningResponseDto(it.requestedSignatures)).toList(),
     );
 
     final result = await SeedVault.instance.signMessages(
@@ -259,15 +235,10 @@ void main() {
     final authToken = createFakeAuthToken();
     final uris = ['bip32:/m/0', 'bip32:/m/1'].map(Uri.parse).toList();
 
-    final requests = [
-      SigningRequest(payload: createFakePayload(), requestedSignatures: uris),
-    ];
+    final requests = [SigningRequest(payload: createFakePayload(), requestedSignatures: uris)];
 
     when(apiHost.signTransactions(any, any)).thenAnswer(
-      (_) async =>
-          requests
-              .map((it) => FakeSigningResponseDto(it.requestedSignatures))
-              .toList(),
+      (_) async => requests.map((it) => FakeSigningResponseDto(it.requestedSignatures)).toList(),
     );
 
     final result = await SeedVault.instance.signTransactions(
@@ -284,11 +255,7 @@ void main() {
 
 class FakePublicKeyResponseDto extends PublicKeyResponseDto {
   FakePublicKeyResponseDto()
-    : super(
-        resolvedDerivationPath: '',
-        publicKey: Uint8List(1),
-        publicKeyEncoded: '',
-      );
+    : super(resolvedDerivationPath: '', publicKey: Uint8List(1), publicKeyEncoded: '');
 }
 
 class FakeSigningResponseDto extends SigningResponseDto {

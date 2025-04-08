@@ -10,8 +10,7 @@ Message decompileV0(
   List<AddressLookupTableAccount> addressLookupTableAccounts,
 ) {
   final numWritableSignedAccounts =
-      message.header.numRequiredSignatures -
-      message.header.numReadonlySignedAccounts;
+      message.header.numRequiredSignatures - message.header.numReadonlySignedAccounts;
   assert(numWritableSignedAccounts > 0, 'Message header is invalid');
 
   final numWritableUnsignedAccounts =
@@ -24,9 +23,7 @@ Message decompileV0(
   final payer = accountKeys[0];
 
   if (payer == null) {
-    throw const FormatException(
-      'Failed to decompile message because no account keys were found',
-    );
+    throw const FormatException('Failed to decompile message because no account keys were found');
   }
 
   final instructions = <Instruction>[];
@@ -38,9 +35,7 @@ Message decompileV0(
       final key = accountKeys[keyIndex];
 
       if (key == null) {
-        throw FormatException(
-          'Failed to find key for account key index $keyIndex',
-        );
+        throw FormatException('Failed to find key for account key index $keyIndex');
       }
 
       final isSigner = keyIndex < message.header.numRequiredSignatures;
@@ -49,9 +44,7 @@ Message decompileV0(
       if (isSigner) {
         isWritable = keyIndex < numWritableSignedAccounts;
       } else if (keyIndex < accountKeys.staticAccountKeys.length) {
-        isWritable =
-            keyIndex - message.header.numRequiredSignatures <
-            numWritableUnsignedAccounts;
+        isWritable = keyIndex - message.header.numRequiredSignatures < numWritableUnsignedAccounts;
       } else {
         isWritable =
             keyIndex - accountKeys.staticAccountKeys.length <
@@ -59,9 +52,7 @@ Message decompileV0(
             (accountKeys.accountKeysFromLookups?.writable.length ?? 0);
       }
 
-      keys.add(
-        AccountMeta(pubKey: key, isWriteable: isWritable, isSigner: isSigner),
-      );
+      keys.add(AccountMeta(pubKey: key, isWriteable: isWritable, isSigner: isSigner));
     }
 
     final programId = accountKeys[compiledIx.programIdIndex];
@@ -71,9 +62,7 @@ Message decompileV0(
       );
     }
 
-    instructions.add(
-      Instruction(programId: programId, accounts: keys, data: compiledIx.data),
-    );
+    instructions.add(Instruction(programId: programId, accounts: keys, data: compiledIx.data));
   }
 
   return Message(instructions: instructions);

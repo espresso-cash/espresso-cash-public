@@ -45,11 +45,7 @@ abstract class ApiLocalAssociationScenario {
   SignPayloadsResultDto signTransactions(int id, List<Uint8List> transactions);
 
   @async
-  SignMessagesResultDto signMessages(
-    int id,
-    List<Uint8List> messages,
-    List<Uint8List> addresses,
-  );
+  SignMessagesResultDto signMessages(int id, List<Uint8List> messages, List<Uint8List> addresses);
 
   @async
   SignAndSendTransactionsResultDto signAndSendTransactions(

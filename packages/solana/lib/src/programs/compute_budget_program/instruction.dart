@@ -7,10 +7,7 @@ class ComputeBudgetInstruction extends Instruction {
 
   factory ComputeBudgetInstruction.requestHeapFrame({required int bytes}) =>
       ComputeBudgetInstruction(
-        data: ByteArray.merge([
-          ComputeBudgetProgram.requestHeapFrameIndex,
-          ByteArray.u32(bytes),
-        ]),
+        data: ByteArray.merge([ComputeBudgetProgram.requestHeapFrameIndex, ByteArray.u32(bytes)]),
       );
 
   factory ComputeBudgetInstruction.setComputeUnitLimit({required int units}) =>
@@ -21,21 +18,19 @@ class ComputeBudgetInstruction extends Instruction {
         ]),
       );
 
-  factory ComputeBudgetInstruction.setComputeUnitPrice({
-    required int microLamports,
-  }) => ComputeBudgetInstruction(
-    data: ByteArray.merge([
-      ComputeBudgetProgram.setComputeUnitPriceIndex,
-      ByteArray.u64(microLamports),
-    ]),
-  );
+  factory ComputeBudgetInstruction.setComputeUnitPrice({required int microLamports}) =>
+      ComputeBudgetInstruction(
+        data: ByteArray.merge([
+          ComputeBudgetProgram.setComputeUnitPriceIndex,
+          ByteArray.u64(microLamports),
+        ]),
+      );
 
-  factory ComputeBudgetInstruction.setLoadedAccountsDataSizeLimit({
-    required int bytes,
-  }) => ComputeBudgetInstruction(
-    data: ByteArray.merge([
-      ComputeBudgetProgram.setLoadedAccountsDataSizeLimitIndex,
-      ByteArray.u32(bytes),
-    ]),
-  );
+  factory ComputeBudgetInstruction.setLoadedAccountsDataSizeLimit({required int bytes}) =>
+      ComputeBudgetInstruction(
+        data: ByteArray.merge([
+          ComputeBudgetProgram.setLoadedAccountsDataSizeLimitIndex,
+          ByteArray.u32(bytes),
+        ]),
+      );
 }

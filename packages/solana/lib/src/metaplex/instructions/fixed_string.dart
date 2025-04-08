@@ -9,9 +9,7 @@ class BFixedString extends BType<String> {
   String read(BinaryReader reader) {
     final realLength = reader.readU32();
     if (length != realLength) {
-      throw FormatException(
-        'Invalid length: expected $length, got $realLength',
-      );
+      throw FormatException('Invalid length: expected $length, got $realLength');
     }
 
     final array = reader.readFixedArray(length, reader.readU8);

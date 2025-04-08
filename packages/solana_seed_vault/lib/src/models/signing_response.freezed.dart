@@ -21,16 +21,13 @@ mixin _$SigningResponse {
   List<Uri> get resolvedDerivationPaths => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SigningResponseCopyWith<SigningResponse> get copyWith =>
-      throw _privateConstructorUsedError;
+  $SigningResponseCopyWith<SigningResponse> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SigningResponseCopyWith<$Res> {
-  factory $SigningResponseCopyWith(
-    SigningResponse value,
-    $Res Function(SigningResponse) then,
-  ) = _$SigningResponseCopyWithImpl<$Res, SigningResponse>;
+  factory $SigningResponseCopyWith(SigningResponse value, $Res Function(SigningResponse) then) =
+      _$SigningResponseCopyWithImpl<$Res, SigningResponse>;
   @useResult
   $Res call({List<Uint8List> signatures, List<Uri> resolvedDerivationPaths});
 }
@@ -47,10 +44,7 @@ class _$SigningResponseCopyWithImpl<$Res, $Val extends SigningResponse>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signatures = null,
-    Object? resolvedDerivationPaths = null,
-  }) {
+  $Res call({Object? signatures = null, Object? resolvedDerivationPaths = null}) {
     return _then(
       _value.copyWith(
             signatures:
@@ -70,8 +64,7 @@ class _$SigningResponseCopyWithImpl<$Res, $Val extends SigningResponse>
 }
 
 /// @nodoc
-abstract class _$$SigningResponseImplCopyWith<$Res>
-    implements $SigningResponseCopyWith<$Res> {
+abstract class _$$SigningResponseImplCopyWith<$Res> implements $SigningResponseCopyWith<$Res> {
   factory _$$SigningResponseImplCopyWith(
     _$SigningResponseImpl value,
     $Res Function(_$SigningResponseImpl) then,
@@ -92,10 +85,7 @@ class __$$SigningResponseImplCopyWithImpl<$Res>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signatures = null,
-    Object? resolvedDerivationPaths = null,
-  }) {
+  $Res call({Object? signatures = null, Object? resolvedDerivationPaths = null}) {
     return _then(
       _$SigningResponseImpl(
         signatures:
@@ -115,9 +105,7 @@ class __$$SigningResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SigningResponseImpl
-    with DiagnosticableTreeMixin
-    implements _SigningResponse {
+class _$SigningResponseImpl with DiagnosticableTreeMixin implements _SigningResponse {
   const _$SigningResponseImpl({
     required final List<Uint8List> signatures,
     required final List<Uri> resolvedDerivationPaths,
@@ -135,8 +123,7 @@ class _$SigningResponseImpl
   final List<Uri> _resolvedDerivationPaths;
   @override
   List<Uri> get resolvedDerivationPaths {
-    if (_resolvedDerivationPaths is EqualUnmodifiableListView)
-      return _resolvedDerivationPaths;
+    if (_resolvedDerivationPaths is EqualUnmodifiableListView) return _resolvedDerivationPaths;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_resolvedDerivationPaths);
   }
@@ -152,9 +139,7 @@ class _$SigningResponseImpl
     properties
       ..add(DiagnosticsProperty('type', 'SigningResponse'))
       ..add(DiagnosticsProperty('signatures', signatures))
-      ..add(
-        DiagnosticsProperty('resolvedDerivationPaths', resolvedDerivationPaths),
-      );
+      ..add(DiagnosticsProperty('resolvedDerivationPaths', resolvedDerivationPaths));
   }
 
   @override
@@ -162,10 +147,7 @@ class _$SigningResponseImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SigningResponseImpl &&
-            const DeepCollectionEquality().equals(
-              other._signatures,
-              _signatures,
-            ) &&
+            const DeepCollectionEquality().equals(other._signatures, _signatures) &&
             const DeepCollectionEquality().equals(
               other._resolvedDerivationPaths,
               _resolvedDerivationPaths,
@@ -183,10 +165,7 @@ class _$SigningResponseImpl
   @override
   @pragma('vm:prefer-inline')
   _$$SigningResponseImplCopyWith<_$SigningResponseImpl> get copyWith =>
-      __$$SigningResponseImplCopyWithImpl<_$SigningResponseImpl>(
-        this,
-        _$identity,
-      );
+      __$$SigningResponseImplCopyWithImpl<_$SigningResponseImpl>(this, _$identity);
 }
 
 abstract class _SigningResponse implements SigningResponse {

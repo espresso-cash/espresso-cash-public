@@ -142,8 +142,6 @@ extension SolanaClientAssociatedTokenAccontProgram on SolanaClient {
       tokenProgramType: tokenProgramType,
     );
 
-    return rpcClient
-        .getTokenAccountBalance(ata.toBase58(), commitment: commitment)
-        .value;
+    return rpcClient.getTokenAccountBalance(ata.toBase58(), commitment: commitment).value;
   }
 }

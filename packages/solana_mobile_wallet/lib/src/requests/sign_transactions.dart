@@ -32,17 +32,13 @@ class SignedPayloadResult with _$SignedPayloadResult {
 
   const factory SignedPayloadResult.requestDeclined() = _RequestDeclined;
 
-  const factory SignedPayloadResult.invalidPayloads({
-    required List<bool> valid,
-  }) = _InvalidPayloads;
+  const factory SignedPayloadResult.invalidPayloads({required List<bool> valid}) = _InvalidPayloads;
 
   const factory SignedPayloadResult.tooManyPayloads() = _TooManyPayloads;
 
-  const factory SignedPayloadResult.authorizationNotValid() =
-      _AuthorizationNotValid;
+  const factory SignedPayloadResult.authorizationNotValid() = _AuthorizationNotValid;
 
   const SignedPayloadResult._();
 
-  int get numResults =>
-      maybeWhen((signedPayloads) => signedPayloads.length, orElse: () => 0);
+  int get numResults => maybeWhen((signedPayloads) => signedPayloads.length, orElse: () => 0);
 }

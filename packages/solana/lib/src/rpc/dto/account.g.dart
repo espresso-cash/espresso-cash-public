@@ -22,37 +22,27 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
   'rentEpoch': instance.rentEpoch.toString(),
 };
 
-AccountResult _$AccountResultFromJson(Map<String, dynamic> json) =>
-    AccountResult(
-      context: Context.fromJson(json['context'] as Map<String, dynamic>),
-      value:
-          json['value'] == null
-              ? null
-              : Account.fromJson(json['value'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$AccountResultToJson(AccountResult instance) =>
-    <String, dynamic>{
-      'context': instance.context.toJson(),
-      'value': instance.value?.toJson(),
-    };
-
-MultipleAccountsResult _$MultipleAccountsResultFromJson(
-  Map<String, dynamic> json,
-) => MultipleAccountsResult(
+AccountResult _$AccountResultFromJson(Map<String, dynamic> json) => AccountResult(
   context: Context.fromJson(json['context'] as Map<String, dynamic>),
-  value:
-      (json['value'] as List<dynamic>)
-          .map(
-            (e) =>
-                e == null ? null : Account.fromJson(e as Map<String, dynamic>),
-          )
-          .toList(),
+  value: json['value'] == null ? null : Account.fromJson(json['value'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$MultipleAccountsResultToJson(
-  MultipleAccountsResult instance,
-) => <String, dynamic>{
+Map<String, dynamic> _$AccountResultToJson(AccountResult instance) => <String, dynamic>{
   'context': instance.context.toJson(),
-  'value': instance.value.map((e) => e?.toJson()).toList(),
+  'value': instance.value?.toJson(),
 };
+
+MultipleAccountsResult _$MultipleAccountsResultFromJson(Map<String, dynamic> json) =>
+    MultipleAccountsResult(
+      context: Context.fromJson(json['context'] as Map<String, dynamic>),
+      value:
+          (json['value'] as List<dynamic>)
+              .map((e) => e == null ? null : Account.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+
+Map<String, dynamic> _$MultipleAccountsResultToJson(MultipleAccountsResult instance) =>
+    <String, dynamic>{
+      'context': instance.context.toJson(),
+      'value': instance.value.map((e) => e?.toJson()).toList(),
+    };

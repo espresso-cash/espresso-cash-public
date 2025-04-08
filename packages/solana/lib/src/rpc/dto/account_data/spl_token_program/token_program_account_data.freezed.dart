@@ -15,9 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-SplTokenProgramAccountData _$SplTokenProgramAccountDataFromJson(
-  Map<String, dynamic> json,
-) {
+SplTokenProgramAccountData _$SplTokenProgramAccountDataFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'account':
       return TokenAccountData.fromJson(json);
@@ -34,50 +32,21 @@ mixin _$SplTokenProgramAccountData {
   String get type => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )
+    required TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)
     account,
-    required TResult Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )
-    mint,
+    required TResult Function(MintAccountDataInfo info, String type, String? accountType) mint,
     required TResult Function(String type) unknown,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    account,
-    TResult? Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    mint,
+    TResult? Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
+    TResult? Function(MintAccountDataInfo info, String type, String? accountType)? mint,
     TResult? Function(String type)? unknown,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    account,
-    TResult Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    mint,
+    TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
+    TResult Function(MintAccountDataInfo info, String type, String? accountType)? mint,
     TResult Function(String type)? unknown,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -107,8 +76,8 @@ mixin _$SplTokenProgramAccountData {
   /// Create a copy of SplTokenProgramAccountData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SplTokenProgramAccountDataCopyWith<SplTokenProgramAccountData>
-  get copyWith => throw _privateConstructorUsedError;
+  $SplTokenProgramAccountDataCopyWith<SplTokenProgramAccountData> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -116,20 +85,13 @@ abstract class $SplTokenProgramAccountDataCopyWith<$Res> {
   factory $SplTokenProgramAccountDataCopyWith(
     SplTokenProgramAccountData value,
     $Res Function(SplTokenProgramAccountData) then,
-  ) =
-      _$SplTokenProgramAccountDataCopyWithImpl<
-        $Res,
-        SplTokenProgramAccountData
-      >;
+  ) = _$SplTokenProgramAccountDataCopyWithImpl<$Res, SplTokenProgramAccountData>;
   @useResult
   $Res call({String type});
 }
 
 /// @nodoc
-class _$SplTokenProgramAccountDataCopyWithImpl<
-  $Res,
-  $Val extends SplTokenProgramAccountData
->
+class _$SplTokenProgramAccountDataCopyWithImpl<$Res, $Val extends SplTokenProgramAccountData>
     implements $SplTokenProgramAccountDataCopyWith<$Res> {
   _$SplTokenProgramAccountDataCopyWithImpl(this._value, this._then);
 
@@ -170,8 +132,7 @@ abstract class _$$TokenAccountDataImplCopyWith<$Res>
 
 /// @nodoc
 class __$$TokenAccountDataImplCopyWithImpl<$Res>
-    extends
-        _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$TokenAccountDataImpl>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$TokenAccountDataImpl>
     implements _$$TokenAccountDataImplCopyWith<$Res> {
   __$$TokenAccountDataImplCopyWithImpl(
     _$TokenAccountDataImpl _value,
@@ -182,11 +143,7 @@ class __$$TokenAccountDataImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? info = null,
-    Object? type = null,
-    Object? accountType = freezed,
-  }) {
+  $Res call({Object? info = null, Object? type = null, Object? accountType = freezed}) {
     return _then(
       _$TokenAccountDataImpl(
         info:
@@ -212,11 +169,7 @@ class __$$TokenAccountDataImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$TokenAccountDataImpl implements TokenAccountData {
-  const _$TokenAccountDataImpl({
-    required this.info,
-    required this.type,
-    this.accountType,
-  });
+  const _$TokenAccountDataImpl({required this.info, required this.type, this.accountType});
 
   factory _$TokenAccountDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenAccountDataImplFromJson(json);
@@ -240,8 +193,7 @@ class _$TokenAccountDataImpl implements TokenAccountData {
             other is _$TokenAccountDataImpl &&
             (identical(other.info, info) || other.info == info) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.accountType, accountType) ||
-                other.accountType == accountType));
+            (identical(other.accountType, accountType) || other.accountType == accountType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -254,26 +206,14 @@ class _$TokenAccountDataImpl implements TokenAccountData {
   @override
   @pragma('vm:prefer-inline')
   _$$TokenAccountDataImplCopyWith<_$TokenAccountDataImpl> get copyWith =>
-      __$$TokenAccountDataImplCopyWithImpl<_$TokenAccountDataImpl>(
-        this,
-        _$identity,
-      );
+      __$$TokenAccountDataImplCopyWithImpl<_$TokenAccountDataImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )
+    required TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)
     account,
-    required TResult Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )
-    mint,
+    required TResult Function(MintAccountDataInfo info, String type, String? accountType) mint,
     required TResult Function(String type) unknown,
   }) {
     return account(info, type, accountType);
@@ -282,18 +222,8 @@ class _$TokenAccountDataImpl implements TokenAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    account,
-    TResult? Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    mint,
+    TResult? Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
+    TResult? Function(MintAccountDataInfo info, String type, String? accountType)? mint,
     TResult? Function(String type)? unknown,
   }) {
     return account?.call(info, type, accountType);
@@ -302,18 +232,8 @@ class _$TokenAccountDataImpl implements TokenAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    account,
-    TResult Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    mint,
+    TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
+    TResult Function(MintAccountDataInfo info, String type, String? accountType)? mint,
     TResult Function(String type)? unknown,
     required TResult orElse(),
   }) {
@@ -370,8 +290,7 @@ abstract class TokenAccountData implements SplTokenProgramAccountData {
     final String? accountType,
   }) = _$TokenAccountDataImpl;
 
-  factory TokenAccountData.fromJson(Map<String, dynamic> json) =
-      _$TokenAccountDataImpl.fromJson;
+  factory TokenAccountData.fromJson(Map<String, dynamic> json) = _$TokenAccountDataImpl.fromJson;
 
   SplTokenAccountDataInfo get info;
   @override
@@ -400,8 +319,7 @@ abstract class _$$MintAccountDataImplCopyWith<$Res>
 
 /// @nodoc
 class __$$MintAccountDataImplCopyWithImpl<$Res>
-    extends
-        _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$MintAccountDataImpl>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$MintAccountDataImpl>
     implements _$$MintAccountDataImplCopyWith<$Res> {
   __$$MintAccountDataImplCopyWithImpl(
     _$MintAccountDataImpl _value,
@@ -412,11 +330,7 @@ class __$$MintAccountDataImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? info = null,
-    Object? type = null,
-    Object? accountType = freezed,
-  }) {
+  $Res call({Object? info = null, Object? type = null, Object? accountType = freezed}) {
     return _then(
       _$MintAccountDataImpl(
         info:
@@ -442,11 +356,7 @@ class __$$MintAccountDataImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$MintAccountDataImpl implements MintAccountData {
-  const _$MintAccountDataImpl({
-    required this.info,
-    required this.type,
-    this.accountType,
-  });
+  const _$MintAccountDataImpl({required this.info, required this.type, this.accountType});
 
   factory _$MintAccountDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$MintAccountDataImplFromJson(json);
@@ -470,8 +380,7 @@ class _$MintAccountDataImpl implements MintAccountData {
             other is _$MintAccountDataImpl &&
             (identical(other.info, info) || other.info == info) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.accountType, accountType) ||
-                other.accountType == accountType));
+            (identical(other.accountType, accountType) || other.accountType == accountType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -484,26 +393,14 @@ class _$MintAccountDataImpl implements MintAccountData {
   @override
   @pragma('vm:prefer-inline')
   _$$MintAccountDataImplCopyWith<_$MintAccountDataImpl> get copyWith =>
-      __$$MintAccountDataImplCopyWithImpl<_$MintAccountDataImpl>(
-        this,
-        _$identity,
-      );
+      __$$MintAccountDataImplCopyWithImpl<_$MintAccountDataImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )
+    required TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)
     account,
-    required TResult Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )
-    mint,
+    required TResult Function(MintAccountDataInfo info, String type, String? accountType) mint,
     required TResult Function(String type) unknown,
   }) {
     return mint(info, type, accountType);
@@ -512,18 +409,8 @@ class _$MintAccountDataImpl implements MintAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    account,
-    TResult? Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    mint,
+    TResult? Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
+    TResult? Function(MintAccountDataInfo info, String type, String? accountType)? mint,
     TResult? Function(String type)? unknown,
   }) {
     return mint?.call(info, type, accountType);
@@ -532,18 +419,8 @@ class _$MintAccountDataImpl implements MintAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    account,
-    TResult Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    mint,
+    TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
+    TResult Function(MintAccountDataInfo info, String type, String? accountType)? mint,
     TResult Function(String type)? unknown,
     required TResult orElse(),
   }) {
@@ -600,8 +477,7 @@ abstract class MintAccountData implements SplTokenProgramAccountData {
     final String? accountType,
   }) = _$MintAccountDataImpl;
 
-  factory MintAccountData.fromJson(Map<String, dynamic> json) =
-      _$MintAccountDataImpl.fromJson;
+  factory MintAccountData.fromJson(Map<String, dynamic> json) = _$MintAccountDataImpl.fromJson;
 
   MintAccountDataInfo get info;
   @override
@@ -630,8 +506,7 @@ abstract class _$$UnknownAccountDataImplCopyWith<$Res>
 
 /// @nodoc
 class __$$UnknownAccountDataImplCopyWithImpl<$Res>
-    extends
-        _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$UnknownAccountDataImpl>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$UnknownAccountDataImpl>
     implements _$$UnknownAccountDataImplCopyWith<$Res> {
   __$$UnknownAccountDataImplCopyWithImpl(
     _$UnknownAccountDataImpl _value,
@@ -689,26 +564,14 @@ class _$UnknownAccountDataImpl implements UnknownAccountData {
   @override
   @pragma('vm:prefer-inline')
   _$$UnknownAccountDataImplCopyWith<_$UnknownAccountDataImpl> get copyWith =>
-      __$$UnknownAccountDataImplCopyWithImpl<_$UnknownAccountDataImpl>(
-        this,
-        _$identity,
-      );
+      __$$UnknownAccountDataImplCopyWithImpl<_$UnknownAccountDataImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )
+    required TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)
     account,
-    required TResult Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )
-    mint,
+    required TResult Function(MintAccountDataInfo info, String type, String? accountType) mint,
     required TResult Function(String type) unknown,
   }) {
     return unknown(type);
@@ -717,18 +580,8 @@ class _$UnknownAccountDataImpl implements UnknownAccountData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    account,
-    TResult? Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    mint,
+    TResult? Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
+    TResult? Function(MintAccountDataInfo info, String type, String? accountType)? mint,
     TResult? Function(String type)? unknown,
   }) {
     return unknown?.call(type);
@@ -737,18 +590,8 @@ class _$UnknownAccountDataImpl implements UnknownAccountData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-      SplTokenAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    account,
-    TResult Function(
-      MintAccountDataInfo info,
-      String type,
-      String? accountType,
-    )?
-    mint,
+    TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
+    TResult Function(MintAccountDataInfo info, String type, String? accountType)? mint,
     TResult Function(String type)? unknown,
     required TResult orElse(),
   }) {
@@ -799,8 +642,7 @@ class _$UnknownAccountDataImpl implements UnknownAccountData {
 }
 
 abstract class UnknownAccountData implements SplTokenProgramAccountData {
-  const factory UnknownAccountData({required final String type}) =
-      _$UnknownAccountDataImpl;
+  const factory UnknownAccountData({required final String type}) = _$UnknownAccountDataImpl;
 
   factory UnknownAccountData.fromJson(Map<String, dynamic> json) =
       _$UnknownAccountDataImpl.fromJson;

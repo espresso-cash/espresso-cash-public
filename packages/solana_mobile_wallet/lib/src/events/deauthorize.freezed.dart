@@ -22,16 +22,13 @@ mixin _$DeauthorizeEvent {
   Uri? get iconUri => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $DeauthorizeEventCopyWith<DeauthorizeEvent> get copyWith =>
-      throw _privateConstructorUsedError;
+  $DeauthorizeEventCopyWith<DeauthorizeEvent> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $DeauthorizeEventCopyWith<$Res> {
-  factory $DeauthorizeEventCopyWith(
-    DeauthorizeEvent value,
-    $Res Function(DeauthorizeEvent) then,
-  ) = _$DeauthorizeEventCopyWithImpl<$Res, DeauthorizeEvent>;
+  factory $DeauthorizeEventCopyWith(DeauthorizeEvent value, $Res Function(DeauthorizeEvent) then) =
+      _$DeauthorizeEventCopyWithImpl<$Res, DeauthorizeEvent>;
   @useResult
   $Res call({String? identityName, Uri? identityUri, Uri? iconUri});
 }
@@ -77,8 +74,7 @@ class _$DeauthorizeEventCopyWithImpl<$Res, $Val extends DeauthorizeEvent>
 }
 
 /// @nodoc
-abstract class _$$DeauthorizeEventImplCopyWith<$Res>
-    implements $DeauthorizeEventCopyWith<$Res> {
+abstract class _$$DeauthorizeEventImplCopyWith<$Res> implements $DeauthorizeEventCopyWith<$Res> {
   factory _$$DeauthorizeEventImplCopyWith(
     _$DeauthorizeEventImpl value,
     $Res Function(_$DeauthorizeEventImpl) then,
@@ -152,25 +148,19 @@ class _$DeauthorizeEventImpl implements _DeauthorizeEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DeauthorizeEventImpl &&
-            (identical(other.identityName, identityName) ||
-                other.identityName == identityName) &&
-            (identical(other.identityUri, identityUri) ||
-                other.identityUri == identityUri) &&
+            (identical(other.identityName, identityName) || other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
             (identical(other.iconUri, iconUri) || other.iconUri == iconUri));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, identityName, identityUri, iconUri);
+  int get hashCode => Object.hash(runtimeType, identityName, identityUri, iconUri);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$DeauthorizeEventImplCopyWith<_$DeauthorizeEventImpl> get copyWith =>
-      __$$DeauthorizeEventImplCopyWithImpl<_$DeauthorizeEventImpl>(
-        this,
-        _$identity,
-      );
+      __$$DeauthorizeEventImplCopyWithImpl<_$DeauthorizeEventImpl>(this, _$identity);
 }
 
 abstract class _DeauthorizeEvent implements DeauthorizeEvent {

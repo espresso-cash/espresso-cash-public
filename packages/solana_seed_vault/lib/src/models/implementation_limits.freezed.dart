@@ -43,10 +43,7 @@ abstract class $ImplementationLimitsCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ImplementationLimitsCopyWithImpl<
-  $Res,
-  $Val extends ImplementationLimits
->
+class _$ImplementationLimitsCopyWithImpl<$Res, $Val extends ImplementationLimits>
     implements $ImplementationLimitsCopyWith<$Res> {
   _$ImplementationLimitsCopyWithImpl(this._value, this._then);
 
@@ -203,12 +200,8 @@ class _$ImplementationLimitsImpl implements _ImplementationLimits {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ImplementationLimitsImplCopyWith<_$ImplementationLimitsImpl>
-  get copyWith =>
-      __$$ImplementationLimitsImplCopyWithImpl<_$ImplementationLimitsImpl>(
-        this,
-        _$identity,
-      );
+  _$$ImplementationLimitsImplCopyWith<_$ImplementationLimitsImpl> get copyWith =>
+      __$$ImplementationLimitsImplCopyWithImpl<_$ImplementationLimitsImpl>(this, _$identity);
 }
 
 abstract class _ImplementationLimits implements ImplementationLimits {
@@ -229,6 +222,6 @@ abstract class _ImplementationLimits implements ImplementationLimits {
   int get maxRequestedPublicKeys;
   @override
   @JsonKey(ignore: true)
-  _$$ImplementationLimitsImplCopyWith<_$ImplementationLimitsImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$ImplementationLimitsImplCopyWith<_$ImplementationLimitsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

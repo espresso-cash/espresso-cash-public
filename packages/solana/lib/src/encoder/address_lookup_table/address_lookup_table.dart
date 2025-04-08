@@ -23,9 +23,7 @@ class AddressLookupTableAccount {
     final typeIndex = reader.readU32();
 
     if (typeIndex != 1) {
-      throw Exception(
-        'invalid account data; account type mismatch $typeIndex != 1',
-      );
+      throw Exception('invalid account data; account type mismatch $typeIndex != 1');
     }
 
     final deactivationSlot = reader.readU64();
@@ -38,16 +36,13 @@ class AddressLookupTableAccount {
             .map(Ed25519HDPublicKey.new)
             .toList();
 
-    final int serializedAddressesLen =
-        accountData.length - _lookupTableMetaSize;
+    final int serializedAddressesLen = accountData.length - _lookupTableMetaSize;
     assert(serializedAddressesLen >= 0, 'lookup table is invalid');
     assert(serializedAddressesLen % 32 == 0, 'lookup table is invalid');
 
     final int numSerializedAddresses = serializedAddressesLen ~/ 32;
 
-    final addressReader = BinaryReader(
-      input.sublist(_lookupTableMetaSize).buffer.asByteData(),
-    );
+    final addressReader = BinaryReader(input.sublist(_lookupTableMetaSize).buffer.asByteData());
 
     final addresses =
         addressReader

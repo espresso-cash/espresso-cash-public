@@ -37,6 +37,5 @@ class CompressedEdwardsY {
   int get hashCode => _data.hashCode;
 
   @override
-  bool operator ==(Object other) =>
-      other is CompressedEdwardsY && _data.compareAll(other._data);
+  bool operator ==(Object other) => other is CompressedEdwardsY && _data.compareAll(other._data);
 }

@@ -86,9 +86,7 @@ class SignPayloadsResultDto {
 
   static SignPayloadsResultDto decode(Object result) {
     result as List<Object?>;
-    return SignPayloadsResultDto(
-      signedPayloads: (result[0] as List<Object?>?)!.cast<Uint8List?>(),
-    );
+    return SignPayloadsResultDto(signedPayloads: (result[0] as List<Object?>?)!.cast<Uint8List?>());
   }
 }
 
@@ -110,11 +108,7 @@ class SignAndSendTransactionsResultDto {
 }
 
 class SignedMessageDto {
-  SignedMessageDto({
-    required this.message,
-    required this.addresses,
-    required this.signatures,
-  });
+  SignedMessageDto({required this.message, required this.addresses, required this.signatures});
 
   Uint8List message;
 
@@ -209,8 +203,7 @@ class ApiLocalAssociationScenario {
     : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
-  static const MessageCodec<Object?> codec =
-      _ApiLocalAssociationScenarioCodec();
+  static const MessageCodec<Object?> codec = _ApiLocalAssociationScenarioCodec();
 
   Future<void> create(int arg_id) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -218,8 +211,7 @@ class ApiLocalAssociationScenario {
       codec,
       binaryMessenger: _binaryMessenger,
     );
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id]) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -242,8 +234,7 @@ class ApiLocalAssociationScenario {
       codec,
       binaryMessenger: _binaryMessenger,
     );
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id]) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -266,8 +257,7 @@ class ApiLocalAssociationScenario {
       codec,
       binaryMessenger: _binaryMessenger,
     );
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id]) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -342,8 +332,7 @@ class ApiLocalAssociationScenario {
       codec,
       binaryMessenger: _binaryMessenger,
     );
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id]) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -483,8 +472,7 @@ class ApiLocalAssociationScenario {
       binaryMessenger: _binaryMessenger,
     );
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_transactions])
-            as List<Object?>?;
+        await channel.send(<Object?>[arg_id, arg_transactions]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -517,8 +505,7 @@ class ApiLocalAssociationScenario {
       binaryMessenger: _binaryMessenger,
     );
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_messages, arg_addresses])
-            as List<Object?>?;
+        await channel.send(<Object?>[arg_id, arg_messages, arg_addresses]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -551,11 +538,7 @@ class ApiLocalAssociationScenario {
       binaryMessenger: _binaryMessenger,
     );
     final List<Object?>? replyList =
-        await channel.send(<Object?>[
-              arg_id,
-              arg_transactions,
-              arg_minContextSlot,
-            ])
+        await channel.send(<Object?>[arg_id, arg_transactions, arg_minContextSlot])
             as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(

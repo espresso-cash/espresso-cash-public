@@ -45,9 +45,7 @@ class SignedTx with _$SignedTx {
 
     final signatures =
         signaturesData
-            .mapIndexed(
-              (i, s) => Signature(s, publicKey: compiledMessage.accountKeys[i]),
-            )
+            .mapIndexed((i, s) => Signature(s, publicKey: compiledMessage.accountKeys[i]))
             .toList();
 
     return SignedTx(signatures: signatures, compiledMessage: compiledMessage);
@@ -57,10 +55,7 @@ class SignedTx with _$SignedTx {
 
   Message decompileMessage({
     List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
-  }) => Message.decompile(
-    compiledMessage,
-    addressLookupTableAccounts: addressLookupTableAccounts,
-  );
+  }) => Message.decompile(compiledMessage, addressLookupTableAccounts: addressLookupTableAccounts);
 
   String get id => signatures.first.toBase58();
 
@@ -69,9 +64,7 @@ class SignedTx with _$SignedTx {
   TransactionVersion get version => compiledMessage.version;
 
   ByteArray toByteArray() => ByteArray.merge([
-    CompactArray.fromIterable(
-      signatures.map((e) => ByteArray(e.bytes)),
-    ).toByteArray(),
+    CompactArray.fromIterable(signatures.map((e) => ByteArray(e.bytes))).toByteArray(),
     compiledMessage.toByteArray(),
   ]);
 }

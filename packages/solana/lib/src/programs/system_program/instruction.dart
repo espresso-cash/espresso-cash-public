@@ -43,10 +43,7 @@ class SystemInstruction extends Instruction {
     required Ed25519HDPublicKey owner,
   }) => SystemInstruction._(
     accounts: [AccountMeta.writeable(pubKey: assignedAccount, isSigner: true)],
-    data: ByteArray.merge([
-      SystemProgram.assignInstructionIndex,
-      owner.toByteArray(),
-    ]),
+    data: ByteArray.merge([SystemProgram.assignInstructionIndex, owner.toByteArray()]),
   );
 
   /// Transfer [lamports] from [fundingAccount] to [recipientAccount].
@@ -59,10 +56,7 @@ class SystemInstruction extends Instruction {
       AccountMeta.writeable(pubKey: fundingAccount, isSigner: true),
       AccountMeta.writeable(pubKey: recipientAccount, isSigner: false),
     ],
-    data: ByteArray.merge([
-      SystemProgram.transferInstructionIndex,
-      ByteArray.u64(lamports),
-    ]),
+    data: ByteArray.merge([SystemProgram.transferInstructionIndex, ByteArray.u64(lamports)]),
   );
 
   /// Create a new account at an address derived from a [base] pubkey and
@@ -121,10 +115,7 @@ class SystemInstruction extends Instruction {
         pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.recentBlockHashes),
         isSigner: false,
       ),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
       AccountMeta.readonly(pubKey: nonceAuthority, isSigner: true),
     ],
     data: ByteArray.merge([
@@ -145,10 +136,7 @@ class SystemInstruction extends Instruction {
         pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.recentBlockHashes),
         isSigner: false,
       ),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
     ],
     data: ByteArray.merge([
       SystemProgram.initializeNonceAccountInstructionIndex,
@@ -173,16 +161,11 @@ class SystemInstruction extends Instruction {
   );
 
   /// Allocate [space] in a (possibly new) [account] without funding.
-  factory SystemInstruction.allocate({
-    required Ed25519HDPublicKey account,
-    required int space,
-  }) => SystemInstruction._(
-    accounts: [AccountMeta.writeable(pubKey: account, isSigner: true)],
-    data: ByteArray.merge([
-      SystemProgram.allocateInstructionIndex,
-      ByteArray.u64(space),
-    ]),
-  );
+  factory SystemInstruction.allocate({required Ed25519HDPublicKey account, required int space}) =>
+      SystemInstruction._(
+        accounts: [AccountMeta.writeable(pubKey: account, isSigner: true)],
+        data: ByteArray.merge([SystemProgram.allocateInstructionIndex, ByteArray.u64(space)]),
+      );
 
   /// Allocate [space] for and assign an [account] at an address derived from a
   /// [base] public key and a [seed].

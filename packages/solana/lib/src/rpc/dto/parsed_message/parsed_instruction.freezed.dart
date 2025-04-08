@@ -33,8 +33,7 @@ ParsedInstruction _$ParsedInstructionFromJson(Map<String, dynamic> json) {
 mixin _$ParsedInstruction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String programId, ParsedSystemInstruction parsed)
-    system,
+    required TResult Function(String programId, ParsedSystemInstruction parsed) system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String? program) unsupported,
@@ -186,8 +185,7 @@ class _$ParsedInstructionSystemImpl implements ParsedInstructionSystem {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ParsedInstructionSystemImpl &&
-            (identical(other.programId, programId) ||
-                other.programId == programId) &&
+            (identical(other.programId, programId) || other.programId == programId) &&
             (identical(other.parsed, parsed) || other.parsed == parsed));
   }
 
@@ -200,16 +198,13 @@ class _$ParsedInstructionSystemImpl implements ParsedInstructionSystem {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedInstructionSystemImplCopyWith<_$ParsedInstructionSystemImpl>
-  get copyWith => __$$ParsedInstructionSystemImplCopyWithImpl<
-    _$ParsedInstructionSystemImpl
-  >(this, _$identity);
+  _$$ParsedInstructionSystemImplCopyWith<_$ParsedInstructionSystemImpl> get copyWith =>
+      __$$ParsedInstructionSystemImplCopyWithImpl<_$ParsedInstructionSystemImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String programId, ParsedSystemInstruction parsed)
-    system,
+    required TResult Function(String programId, ParsedSystemInstruction parsed) system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String? program) unsupported,
@@ -301,8 +296,8 @@ abstract class ParsedInstructionSystem implements ParsedInstruction {
   /// Create a copy of ParsedInstruction
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ParsedInstructionSystemImplCopyWith<_$ParsedInstructionSystemImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$ParsedInstructionSystemImplCopyWith<_$ParsedInstructionSystemImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -319,8 +314,7 @@ abstract class _$$ParsedInstructionSplTokenImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ParsedInstructionSplTokenImplCopyWithImpl<$Res>
-    extends
-        _$ParsedInstructionCopyWithImpl<$Res, _$ParsedInstructionSplTokenImpl>
+    extends _$ParsedInstructionCopyWithImpl<$Res, _$ParsedInstructionSplTokenImpl>
     implements _$$ParsedInstructionSplTokenImplCopyWith<$Res> {
   __$$ParsedInstructionSplTokenImplCopyWithImpl(
     _$ParsedInstructionSplTokenImpl _value,
@@ -357,10 +351,8 @@ class __$$ParsedInstructionSplTokenImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ParsedInstructionSplTokenImpl implements ParsedInstructionSplToken {
-  const _$ParsedInstructionSplTokenImpl({
-    required this.parsed,
-    final String? $type,
-  }) : $type = $type ?? 'spl-token';
+  const _$ParsedInstructionSplTokenImpl({required this.parsed, final String? $type})
+    : $type = $type ?? 'spl-token';
 
   factory _$ParsedInstructionSplTokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$ParsedInstructionSplTokenImplFromJson(json);
@@ -393,16 +385,16 @@ class _$ParsedInstructionSplTokenImpl implements ParsedInstructionSplToken {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedInstructionSplTokenImplCopyWith<_$ParsedInstructionSplTokenImpl>
-  get copyWith => __$$ParsedInstructionSplTokenImplCopyWithImpl<
-    _$ParsedInstructionSplTokenImpl
-  >(this, _$identity);
+  _$$ParsedInstructionSplTokenImplCopyWith<_$ParsedInstructionSplTokenImpl> get copyWith =>
+      __$$ParsedInstructionSplTokenImplCopyWithImpl<_$ParsedInstructionSplTokenImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String programId, ParsedSystemInstruction parsed)
-    system,
+    required TResult Function(String programId, ParsedSystemInstruction parsed) system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String? program) unsupported,
@@ -480,9 +472,8 @@ class _$ParsedInstructionSplTokenImpl implements ParsedInstructionSplToken {
 }
 
 abstract class ParsedInstructionSplToken implements ParsedInstruction {
-  const factory ParsedInstructionSplToken({
-    required final ParsedSplTokenInstruction parsed,
-  }) = _$ParsedInstructionSplTokenImpl;
+  const factory ParsedInstructionSplToken({required final ParsedSplTokenInstruction parsed}) =
+      _$ParsedInstructionSplTokenImpl;
 
   factory ParsedInstructionSplToken.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionSplTokenImpl.fromJson;
@@ -492,8 +483,8 @@ abstract class ParsedInstructionSplToken implements ParsedInstruction {
   /// Create a copy of ParsedInstruction
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ParsedInstructionSplTokenImplCopyWith<_$ParsedInstructionSplTokenImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$ParsedInstructionSplTokenImplCopyWith<_$ParsedInstructionSplTokenImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -574,18 +565,13 @@ class _$ParsedInstructionMemoImpl implements ParsedInstructionMemo {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedInstructionMemoImplCopyWith<_$ParsedInstructionMemoImpl>
-  get copyWith =>
-      __$$ParsedInstructionMemoImplCopyWithImpl<_$ParsedInstructionMemoImpl>(
-        this,
-        _$identity,
-      );
+  _$$ParsedInstructionMemoImplCopyWith<_$ParsedInstructionMemoImpl> get copyWith =>
+      __$$ParsedInstructionMemoImplCopyWithImpl<_$ParsedInstructionMemoImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String programId, ParsedSystemInstruction parsed)
-    system,
+    required TResult Function(String programId, ParsedSystemInstruction parsed) system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String? program) unsupported,
@@ -663,9 +649,8 @@ class _$ParsedInstructionMemoImpl implements ParsedInstructionMemo {
 }
 
 abstract class ParsedInstructionMemo implements ParsedInstruction {
-  const factory ParsedInstructionMemo({
-    @JsonKey(name: 'parsed') required final String? memo,
-  }) = _$ParsedInstructionMemoImpl;
+  const factory ParsedInstructionMemo({@JsonKey(name: 'parsed') required final String? memo}) =
+      _$ParsedInstructionMemoImpl;
 
   factory ParsedInstructionMemo.fromJson(Map<String, dynamic> json) =
       _$ParsedInstructionMemoImpl.fromJson;
@@ -678,8 +663,8 @@ abstract class ParsedInstructionMemo implements ParsedInstruction {
   /// Create a copy of ParsedInstruction
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ParsedInstructionMemoImplCopyWith<_$ParsedInstructionMemoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$ParsedInstructionMemoImplCopyWith<_$ParsedInstructionMemoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -694,11 +679,7 @@ abstract class _$$ParsedInstructionUnsupportedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ParsedInstructionUnsupportedImplCopyWithImpl<$Res>
-    extends
-        _$ParsedInstructionCopyWithImpl<
-          $Res,
-          _$ParsedInstructionUnsupportedImpl
-        >
+    extends _$ParsedInstructionCopyWithImpl<$Res, _$ParsedInstructionUnsupportedImpl>
     implements _$$ParsedInstructionUnsupportedImplCopyWith<$Res> {
   __$$ParsedInstructionUnsupportedImplCopyWithImpl(
     _$ParsedInstructionUnsupportedImpl _value,
@@ -724,13 +705,11 @@ class __$$ParsedInstructionUnsupportedImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedInstructionUnsupportedImpl
-    implements ParsedInstructionUnsupported {
+class _$ParsedInstructionUnsupportedImpl implements ParsedInstructionUnsupported {
   const _$ParsedInstructionUnsupportedImpl({this.program});
 
-  factory _$ParsedInstructionUnsupportedImpl.fromJson(
-    Map<String, dynamic> json,
-  ) => _$$ParsedInstructionUnsupportedImplFromJson(json);
+  factory _$ParsedInstructionUnsupportedImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ParsedInstructionUnsupportedImplFromJson(json);
 
   @override
   final String? program;
@@ -757,18 +736,16 @@ class _$ParsedInstructionUnsupportedImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedInstructionUnsupportedImplCopyWith<
-    _$ParsedInstructionUnsupportedImpl
-  >
-  get copyWith => __$$ParsedInstructionUnsupportedImplCopyWithImpl<
-    _$ParsedInstructionUnsupportedImpl
-  >(this, _$identity);
+  _$$ParsedInstructionUnsupportedImplCopyWith<_$ParsedInstructionUnsupportedImpl> get copyWith =>
+      __$$ParsedInstructionUnsupportedImplCopyWithImpl<_$ParsedInstructionUnsupportedImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String programId, ParsedSystemInstruction parsed)
-    system,
+    required TResult Function(String programId, ParsedSystemInstruction parsed) system,
     required TResult Function(ParsedSplTokenInstruction parsed) splToken,
     required TResult Function(@JsonKey(name: 'parsed') String? memo) memo,
     required TResult Function(String? program) unsupported,
@@ -857,8 +834,6 @@ abstract class ParsedInstructionUnsupported implements ParsedInstruction {
   /// Create a copy of ParsedInstruction
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ParsedInstructionUnsupportedImplCopyWith<
-    _$ParsedInstructionUnsupportedImpl
-  >
-  get copyWith => throw _privateConstructorUsedError;
+  _$$ParsedInstructionUnsupportedImplCopyWith<_$ParsedInstructionUnsupportedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

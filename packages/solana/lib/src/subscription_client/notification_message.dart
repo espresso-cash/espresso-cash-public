@@ -10,9 +10,7 @@ part 'notification_message.freezed.dart';
 part 'notification_message.g.dart';
 
 @Freezed(unionKey: 'method', fallbackUnion: 'unsupported')
-class NotificationMessage
-    with _$NotificationMessage
-    implements SubscriptionMessage {
+class NotificationMessage with _$NotificationMessage implements SubscriptionMessage {
   const NotificationMessage._();
 
   const factory NotificationMessage.unsupported() = _UnsupportedNotification;
@@ -21,9 +19,8 @@ class NotificationMessage
     required NotificationParams<Account> params,
   }) = AccountNotification;
 
-  const factory NotificationMessage.logsNotification({
-    required NotificationParams<Logs> params,
-  }) = LogsNotification;
+  const factory NotificationMessage.logsNotification({required NotificationParams<Logs> params}) =
+      LogsNotification;
 
   const factory NotificationMessage.programNotification({
     required NotificationParams<dynamic> params,
@@ -33,9 +30,8 @@ class NotificationMessage
     required NotificationParams<OptionalError> params,
   }) = SignatureNotification;
 
-  const factory NotificationMessage.slotNotification({
-    required NotificationParams<Slot> params,
-  }) = SlotNotification;
+  const factory NotificationMessage.slotNotification({required NotificationParams<Slot> params}) =
+      SlotNotification;
 
   factory NotificationMessage.fromJson(Map<String, dynamic> json) =>
       _$NotificationMessageFromJson(json);

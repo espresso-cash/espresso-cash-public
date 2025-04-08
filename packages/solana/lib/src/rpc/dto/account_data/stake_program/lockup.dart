@@ -5,11 +5,7 @@ part 'lockup.g.dart';
 
 @JsonSerializable()
 class Lockup {
-  const Lockup({
-    required this.custodian,
-    required this.epoch,
-    required this.unixTimestamp,
-  });
+  const Lockup({required this.custodian, required this.epoch, required this.unixTimestamp});
 
   factory Lockup.fromJson(Map<String, dynamic> json) => _$LockupFromJson(json);
 

@@ -22,16 +22,13 @@ mixin _$AuthorizeRequest {
   Uri? get iconUri => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $AuthorizeRequestCopyWith<AuthorizeRequest> get copyWith =>
-      throw _privateConstructorUsedError;
+  $AuthorizeRequestCopyWith<AuthorizeRequest> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AuthorizeRequestCopyWith<$Res> {
-  factory $AuthorizeRequestCopyWith(
-    AuthorizeRequest value,
-    $Res Function(AuthorizeRequest) then,
-  ) = _$AuthorizeRequestCopyWithImpl<$Res, AuthorizeRequest>;
+  factory $AuthorizeRequestCopyWith(AuthorizeRequest value, $Res Function(AuthorizeRequest) then) =
+      _$AuthorizeRequestCopyWithImpl<$Res, AuthorizeRequest>;
   @useResult
   $Res call({String? identityName, Uri? identityUri, Uri? iconUri});
 }
@@ -77,8 +74,7 @@ class _$AuthorizeRequestCopyWithImpl<$Res, $Val extends AuthorizeRequest>
 }
 
 /// @nodoc
-abstract class _$$AuthorizeRequestImplCopyWith<$Res>
-    implements $AuthorizeRequestCopyWith<$Res> {
+abstract class _$$AuthorizeRequestImplCopyWith<$Res> implements $AuthorizeRequestCopyWith<$Res> {
   factory _$$AuthorizeRequestImplCopyWith(
     _$AuthorizeRequestImpl value,
     $Res Function(_$AuthorizeRequestImpl) then,
@@ -152,25 +148,19 @@ class _$AuthorizeRequestImpl implements _AuthorizeRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthorizeRequestImpl &&
-            (identical(other.identityName, identityName) ||
-                other.identityName == identityName) &&
-            (identical(other.identityUri, identityUri) ||
-                other.identityUri == identityUri) &&
+            (identical(other.identityName, identityName) || other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
             (identical(other.iconUri, iconUri) || other.iconUri == iconUri));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, identityName, identityUri, iconUri);
+  int get hashCode => Object.hash(runtimeType, identityName, identityUri, iconUri);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthorizeRequestImplCopyWith<_$AuthorizeRequestImpl> get copyWith =>
-      __$$AuthorizeRequestImplCopyWithImpl<_$AuthorizeRequestImpl>(
-        this,
-        _$identity,
-      );
+      __$$AuthorizeRequestImplCopyWithImpl<_$AuthorizeRequestImpl>(this, _$identity);
 }
 
 abstract class _AuthorizeRequest implements AuthorizeRequest {
@@ -200,23 +190,15 @@ mixin _$AuthorizeResult {
   Uint8List? get scope => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $AuthorizeResultCopyWith<AuthorizeResult> get copyWith =>
-      throw _privateConstructorUsedError;
+  $AuthorizeResultCopyWith<AuthorizeResult> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AuthorizeResultCopyWith<$Res> {
-  factory $AuthorizeResultCopyWith(
-    AuthorizeResult value,
-    $Res Function(AuthorizeResult) then,
-  ) = _$AuthorizeResultCopyWithImpl<$Res, AuthorizeResult>;
+  factory $AuthorizeResultCopyWith(AuthorizeResult value, $Res Function(AuthorizeResult) then) =
+      _$AuthorizeResultCopyWithImpl<$Res, AuthorizeResult>;
   @useResult
-  $Res call({
-    Uint8List publicKey,
-    String? accountLabel,
-    Uri? walletUriBase,
-    Uint8List? scope,
-  });
+  $Res call({Uint8List publicKey, String? accountLabel, Uri? walletUriBase, Uint8List? scope});
 }
 
 /// @nodoc
@@ -266,20 +248,14 @@ class _$AuthorizeResultCopyWithImpl<$Res, $Val extends AuthorizeResult>
 }
 
 /// @nodoc
-abstract class _$$AuthorizeResultImplCopyWith<$Res>
-    implements $AuthorizeResultCopyWith<$Res> {
+abstract class _$$AuthorizeResultImplCopyWith<$Res> implements $AuthorizeResultCopyWith<$Res> {
   factory _$$AuthorizeResultImplCopyWith(
     _$AuthorizeResultImpl value,
     $Res Function(_$AuthorizeResultImpl) then,
   ) = __$$AuthorizeResultImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    Uint8List publicKey,
-    String? accountLabel,
-    Uri? walletUriBase,
-    Uint8List? scope,
-  });
+  $Res call({Uint8List publicKey, String? accountLabel, Uri? walletUriBase, Uint8List? scope});
 }
 
 /// @nodoc
@@ -356,8 +332,7 @@ class _$AuthorizeResultImpl implements _AuthorizeResult {
         (other.runtimeType == runtimeType &&
             other is _$AuthorizeResultImpl &&
             const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
-            (identical(other.accountLabel, accountLabel) ||
-                other.accountLabel == accountLabel) &&
+            (identical(other.accountLabel, accountLabel) || other.accountLabel == accountLabel) &&
             (identical(other.walletUriBase, walletUriBase) ||
                 other.walletUriBase == walletUriBase) &&
             const DeepCollectionEquality().equals(other.scope, scope));
@@ -376,10 +351,7 @@ class _$AuthorizeResultImpl implements _AuthorizeResult {
   @override
   @pragma('vm:prefer-inline')
   _$$AuthorizeResultImplCopyWith<_$AuthorizeResultImpl> get copyWith =>
-      __$$AuthorizeResultImplCopyWithImpl<_$AuthorizeResultImpl>(
-        this,
-        _$identity,
-      );
+      __$$AuthorizeResultImplCopyWithImpl<_$AuthorizeResultImpl>(this, _$identity);
 }
 
 abstract class _AuthorizeResult implements AuthorizeResult {

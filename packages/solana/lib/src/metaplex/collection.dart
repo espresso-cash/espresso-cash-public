@@ -6,8 +6,7 @@ part 'collection.g.dart';
 class Collection {
   const Collection({required this.name, required this.family});
 
-  factory Collection.fromJson(Map<String, dynamic> json) =>
-      _$CollectionFromJson(json);
+  factory Collection.fromJson(Map<String, dynamic> json) => _$CollectionFromJson(json);
 
   final String name;
   final String family;

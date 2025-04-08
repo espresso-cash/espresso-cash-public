@@ -196,17 +196,12 @@ class _$ReauthorizeRequestImpl implements _ReauthorizeRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReauthorizeRequestImpl &&
-            (identical(other.identityName, identityName) ||
-                other.identityName == identityName) &&
-            (identical(other.identityUri, identityUri) ||
-                other.identityUri == identityUri) &&
+            (identical(other.identityName, identityName) || other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
             (identical(other.iconRelativeUri, iconRelativeUri) ||
                 other.iconRelativeUri == iconRelativeUri) &&
             (identical(other.cluster, cluster) || other.cluster == cluster) &&
-            const DeepCollectionEquality().equals(
-              other.authorizationScope,
-              authorizationScope,
-            ));
+            const DeepCollectionEquality().equals(other.authorizationScope, authorizationScope));
   }
 
   @override
@@ -223,10 +218,7 @@ class _$ReauthorizeRequestImpl implements _ReauthorizeRequest {
   @override
   @pragma('vm:prefer-inline')
   _$$ReauthorizeRequestImplCopyWith<_$ReauthorizeRequestImpl> get copyWith =>
-      __$$ReauthorizeRequestImplCopyWithImpl<_$ReauthorizeRequestImpl>(
-        this,
-        _$identity,
-      );
+      __$$ReauthorizeRequestImplCopyWithImpl<_$ReauthorizeRequestImpl>(this, _$identity);
 }
 
 abstract class _ReauthorizeRequest implements ReauthorizeRequest {

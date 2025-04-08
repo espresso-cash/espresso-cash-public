@@ -15,8 +15,7 @@ class ContextResult<T> {
 class Context {
   Context({required this.slot});
 
-  factory Context.fromJson(Map<String, dynamic> json) =>
-      _$ContextFromJson(json);
+  factory Context.fromJson(Map<String, dynamic> json) => _$ContextFromJson(json);
 
   @JsonKey(fromJson: bigIntFromNum)
   BigInt slot;

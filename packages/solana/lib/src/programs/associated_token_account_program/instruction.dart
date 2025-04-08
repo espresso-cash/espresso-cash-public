@@ -45,16 +45,10 @@ class AssociatedTokenAccountInstruction extends Instruction {
         ),
         isSigner: false,
       ),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
     ],
   );
 
   AssociatedTokenAccountInstruction._({required super.accounts})
-    : super(
-        programId: AssociatedTokenAccountProgram.id,
-        data: const ByteArray.empty(),
-      );
+    : super(programId: AssociatedTokenAccountProgram.id, data: const ByteArray.empty());
 }

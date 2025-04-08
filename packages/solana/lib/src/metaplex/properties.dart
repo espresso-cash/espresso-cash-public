@@ -18,6 +18,5 @@ class Properties with _$Properties {
 
   const factory Properties.html({required List<File> files}) = Html;
 
-  factory Properties.fromJson(Map<String, dynamic> json) =>
-      _$PropertiesFromJson(json);
+  factory Properties.fromJson(Map<String, dynamic> json) => _$PropertiesFromJson(json);
 }

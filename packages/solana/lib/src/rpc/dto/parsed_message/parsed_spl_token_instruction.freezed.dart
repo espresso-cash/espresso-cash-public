@@ -15,9 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-ParsedSplTokenInstruction _$ParsedSplTokenInstructionFromJson(
-  Map<String, dynamic> json,
-) {
+ParsedSplTokenInstruction _$ParsedSplTokenInstructionFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'transfer':
       return ParsedSplTokenTransferInstruction.fromJson(json);
@@ -36,44 +34,38 @@ mixin _$ParsedSplTokenInstruction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SplTokenTransferInfo info, String type) transfer,
-    required TResult Function(SplTokenTransferCheckedInfo info, String type)
-    transferChecked,
+    required TResult Function(SplTokenTransferCheckedInfo info, String type) transferChecked,
     required TResult Function(dynamic info, String type) generic,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult? Function(SplTokenTransferCheckedInfo info, String type)?
-    transferChecked,
+    TResult? Function(SplTokenTransferCheckedInfo info, String type)? transferChecked,
     TResult? Function(dynamic info, String type)? generic,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult Function(SplTokenTransferCheckedInfo info, String type)?
-    transferChecked,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)? transferChecked,
     TResult Function(dynamic info, String type)? generic,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
-    required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
-    transferChecked,
+    required TResult Function(ParsedSplTokenTransferCheckedInstruction value) transferChecked,
     required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)?
-    transferChecked,
+    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)? transferChecked,
     TResult? Function(ParsedSplTokenGenericInstruction value)? generic,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
-    transferChecked,
+    TResult Function(ParsedSplTokenTransferCheckedInstruction value)? transferChecked,
     TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -99,10 +91,7 @@ abstract class $ParsedSplTokenInstructionCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ParsedSplTokenInstructionCopyWithImpl<
-  $Res,
-  $Val extends ParsedSplTokenInstruction
->
+class _$ParsedSplTokenInstructionCopyWithImpl<$Res, $Val extends ParsedSplTokenInstruction>
     implements $ParsedSplTokenInstructionCopyWith<$Res> {
   _$ParsedSplTokenInstructionCopyWithImpl(this._value, this._then);
 
@@ -143,11 +132,7 @@ abstract class _$$ParsedSplTokenTransferInstructionImplCopyWith<$Res>
 
 /// @nodoc
 class __$$ParsedSplTokenTransferInstructionImplCopyWithImpl<$Res>
-    extends
-        _$ParsedSplTokenInstructionCopyWithImpl<
-          $Res,
-          _$ParsedSplTokenTransferInstructionImpl
-        >
+    extends _$ParsedSplTokenInstructionCopyWithImpl<$Res, _$ParsedSplTokenTransferInstructionImpl>
     implements _$$ParsedSplTokenTransferInstructionImplCopyWith<$Res> {
   __$$ParsedSplTokenTransferInstructionImplCopyWithImpl(
     _$ParsedSplTokenTransferInstructionImpl _value,
@@ -178,16 +163,11 @@ class __$$ParsedSplTokenTransferInstructionImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSplTokenTransferInstructionImpl
-    implements ParsedSplTokenTransferInstruction {
-  const _$ParsedSplTokenTransferInstructionImpl({
-    required this.info,
-    required this.type,
-  });
+class _$ParsedSplTokenTransferInstructionImpl implements ParsedSplTokenTransferInstruction {
+  const _$ParsedSplTokenTransferInstructionImpl({required this.info, required this.type});
 
-  factory _$ParsedSplTokenTransferInstructionImpl.fromJson(
-    Map<String, dynamic> json,
-  ) => _$$ParsedSplTokenTransferInstructionImplFromJson(json);
+  factory _$ParsedSplTokenTransferInstructionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ParsedSplTokenTransferInstructionImplFromJson(json);
 
   @override
   final SplTokenTransferInfo info;
@@ -217,9 +197,7 @@ class _$ParsedSplTokenTransferInstructionImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSplTokenTransferInstructionImplCopyWith<
-    _$ParsedSplTokenTransferInstructionImpl
-  >
+  _$$ParsedSplTokenTransferInstructionImplCopyWith<_$ParsedSplTokenTransferInstructionImpl>
   get copyWith => __$$ParsedSplTokenTransferInstructionImplCopyWithImpl<
     _$ParsedSplTokenTransferInstructionImpl
   >(this, _$identity);
@@ -228,8 +206,7 @@ class _$ParsedSplTokenTransferInstructionImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SplTokenTransferInfo info, String type) transfer,
-    required TResult Function(SplTokenTransferCheckedInfo info, String type)
-    transferChecked,
+    required TResult Function(SplTokenTransferCheckedInfo info, String type) transferChecked,
     required TResult Function(dynamic info, String type) generic,
   }) {
     return transfer(info, type);
@@ -239,8 +216,7 @@ class _$ParsedSplTokenTransferInstructionImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult? Function(SplTokenTransferCheckedInfo info, String type)?
-    transferChecked,
+    TResult? Function(SplTokenTransferCheckedInfo info, String type)? transferChecked,
     TResult? Function(dynamic info, String type)? generic,
   }) {
     return transfer?.call(info, type);
@@ -250,8 +226,7 @@ class _$ParsedSplTokenTransferInstructionImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult Function(SplTokenTransferCheckedInfo info, String type)?
-    transferChecked,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)? transferChecked,
     TResult Function(dynamic info, String type)? generic,
     required TResult orElse(),
   }) {
@@ -265,8 +240,7 @@ class _$ParsedSplTokenTransferInstructionImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
-    required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
-    transferChecked,
+    required TResult Function(ParsedSplTokenTransferCheckedInstruction value) transferChecked,
     required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) {
     return transfer(this);
@@ -276,8 +250,7 @@ class _$ParsedSplTokenTransferInstructionImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)?
-    transferChecked,
+    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)? transferChecked,
     TResult? Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
     return transfer?.call(this);
@@ -287,8 +260,7 @@ class _$ParsedSplTokenTransferInstructionImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
-    transferChecked,
+    TResult Function(ParsedSplTokenTransferCheckedInstruction value)? transferChecked,
     TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) {
@@ -304,16 +276,14 @@ class _$ParsedSplTokenTransferInstructionImpl
   }
 }
 
-abstract class ParsedSplTokenTransferInstruction
-    implements ParsedSplTokenInstruction {
+abstract class ParsedSplTokenTransferInstruction implements ParsedSplTokenInstruction {
   const factory ParsedSplTokenTransferInstruction({
     required final SplTokenTransferInfo info,
     required final String type,
   }) = _$ParsedSplTokenTransferInstructionImpl;
 
-  factory ParsedSplTokenTransferInstruction.fromJson(
-    Map<String, dynamic> json,
-  ) = _$ParsedSplTokenTransferInstructionImpl.fromJson;
+  factory ParsedSplTokenTransferInstruction.fromJson(Map<String, dynamic> json) =
+      _$ParsedSplTokenTransferInstructionImpl.fromJson;
 
   @override
   SplTokenTransferInfo get info;
@@ -324,9 +294,7 @@ abstract class ParsedSplTokenTransferInstruction
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ParsedSplTokenTransferInstructionImplCopyWith<
-    _$ParsedSplTokenTransferInstructionImpl
-  >
+  _$$ParsedSplTokenTransferInstructionImplCopyWith<_$ParsedSplTokenTransferInstructionImpl>
   get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -381,14 +349,10 @@ class __$$ParsedSplTokenTransferCheckedInstructionImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ParsedSplTokenTransferCheckedInstructionImpl
     implements ParsedSplTokenTransferCheckedInstruction {
-  const _$ParsedSplTokenTransferCheckedInstructionImpl({
-    required this.info,
-    required this.type,
-  });
+  const _$ParsedSplTokenTransferCheckedInstructionImpl({required this.info, required this.type});
 
-  factory _$ParsedSplTokenTransferCheckedInstructionImpl.fromJson(
-    Map<String, dynamic> json,
-  ) => _$$ParsedSplTokenTransferCheckedInstructionImplFromJson(json);
+  factory _$ParsedSplTokenTransferCheckedInstructionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ParsedSplTokenTransferCheckedInstructionImplFromJson(json);
 
   @override
   final SplTokenTransferCheckedInfo info;
@@ -429,8 +393,7 @@ class _$ParsedSplTokenTransferCheckedInstructionImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SplTokenTransferInfo info, String type) transfer,
-    required TResult Function(SplTokenTransferCheckedInfo info, String type)
-    transferChecked,
+    required TResult Function(SplTokenTransferCheckedInfo info, String type) transferChecked,
     required TResult Function(dynamic info, String type) generic,
   }) {
     return transferChecked(info, type);
@@ -440,8 +403,7 @@ class _$ParsedSplTokenTransferCheckedInstructionImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult? Function(SplTokenTransferCheckedInfo info, String type)?
-    transferChecked,
+    TResult? Function(SplTokenTransferCheckedInfo info, String type)? transferChecked,
     TResult? Function(dynamic info, String type)? generic,
   }) {
     return transferChecked?.call(info, type);
@@ -451,8 +413,7 @@ class _$ParsedSplTokenTransferCheckedInstructionImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult Function(SplTokenTransferCheckedInfo info, String type)?
-    transferChecked,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)? transferChecked,
     TResult Function(dynamic info, String type)? generic,
     required TResult orElse(),
   }) {
@@ -466,8 +427,7 @@ class _$ParsedSplTokenTransferCheckedInstructionImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
-    required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
-    transferChecked,
+    required TResult Function(ParsedSplTokenTransferCheckedInstruction value) transferChecked,
     required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) {
     return transferChecked(this);
@@ -477,8 +437,7 @@ class _$ParsedSplTokenTransferCheckedInstructionImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)?
-    transferChecked,
+    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)? transferChecked,
     TResult? Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
     return transferChecked?.call(this);
@@ -488,8 +447,7 @@ class _$ParsedSplTokenTransferCheckedInstructionImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
-    transferChecked,
+    TResult Function(ParsedSplTokenTransferCheckedInstruction value)? transferChecked,
     TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) {
@@ -505,16 +463,14 @@ class _$ParsedSplTokenTransferCheckedInstructionImpl
   }
 }
 
-abstract class ParsedSplTokenTransferCheckedInstruction
-    implements ParsedSplTokenInstruction {
+abstract class ParsedSplTokenTransferCheckedInstruction implements ParsedSplTokenInstruction {
   const factory ParsedSplTokenTransferCheckedInstruction({
     required final SplTokenTransferCheckedInfo info,
     required final String type,
   }) = _$ParsedSplTokenTransferCheckedInstructionImpl;
 
-  factory ParsedSplTokenTransferCheckedInstruction.fromJson(
-    Map<String, dynamic> json,
-  ) = _$ParsedSplTokenTransferCheckedInstructionImpl.fromJson;
+  factory ParsedSplTokenTransferCheckedInstruction.fromJson(Map<String, dynamic> json) =
+      _$ParsedSplTokenTransferCheckedInstructionImpl.fromJson;
 
   @override
   SplTokenTransferCheckedInfo get info;
@@ -545,11 +501,7 @@ abstract class _$$ParsedSplTokenGenericInstructionImplCopyWith<$Res>
 
 /// @nodoc
 class __$$ParsedSplTokenGenericInstructionImplCopyWithImpl<$Res>
-    extends
-        _$ParsedSplTokenInstructionCopyWithImpl<
-          $Res,
-          _$ParsedSplTokenGenericInstructionImpl
-        >
+    extends _$ParsedSplTokenInstructionCopyWithImpl<$Res, _$ParsedSplTokenGenericInstructionImpl>
     implements _$$ParsedSplTokenGenericInstructionImplCopyWith<$Res> {
   __$$ParsedSplTokenGenericInstructionImplCopyWithImpl(
     _$ParsedSplTokenGenericInstructionImpl _value,
@@ -580,16 +532,11 @@ class __$$ParsedSplTokenGenericInstructionImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSplTokenGenericInstructionImpl
-    implements ParsedSplTokenGenericInstruction {
-  const _$ParsedSplTokenGenericInstructionImpl({
-    required this.info,
-    required this.type,
-  });
+class _$ParsedSplTokenGenericInstructionImpl implements ParsedSplTokenGenericInstruction {
+  const _$ParsedSplTokenGenericInstructionImpl({required this.info, required this.type});
 
-  factory _$ParsedSplTokenGenericInstructionImpl.fromJson(
-    Map<String, dynamic> json,
-  ) => _$$ParsedSplTokenGenericInstructionImplFromJson(json);
+  factory _$ParsedSplTokenGenericInstructionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ParsedSplTokenGenericInstructionImplFromJson(json);
 
   @override
   final dynamic info;
@@ -612,27 +559,25 @@ class _$ParsedSplTokenGenericInstructionImpl
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(info), type);
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(info), type);
 
   /// Create a copy of ParsedSplTokenInstruction
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSplTokenGenericInstructionImplCopyWith<
-    _$ParsedSplTokenGenericInstructionImpl
-  >
-  get copyWith => __$$ParsedSplTokenGenericInstructionImplCopyWithImpl<
-    _$ParsedSplTokenGenericInstructionImpl
-  >(this, _$identity);
+  _$$ParsedSplTokenGenericInstructionImplCopyWith<_$ParsedSplTokenGenericInstructionImpl>
+  get copyWith =>
+      __$$ParsedSplTokenGenericInstructionImplCopyWithImpl<_$ParsedSplTokenGenericInstructionImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SplTokenTransferInfo info, String type) transfer,
-    required TResult Function(SplTokenTransferCheckedInfo info, String type)
-    transferChecked,
+    required TResult Function(SplTokenTransferCheckedInfo info, String type) transferChecked,
     required TResult Function(dynamic info, String type) generic,
   }) {
     return generic(info, type);
@@ -642,8 +587,7 @@ class _$ParsedSplTokenGenericInstructionImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult? Function(SplTokenTransferCheckedInfo info, String type)?
-    transferChecked,
+    TResult? Function(SplTokenTransferCheckedInfo info, String type)? transferChecked,
     TResult? Function(dynamic info, String type)? generic,
   }) {
     return generic?.call(info, type);
@@ -653,8 +597,7 @@ class _$ParsedSplTokenGenericInstructionImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SplTokenTransferInfo info, String type)? transfer,
-    TResult Function(SplTokenTransferCheckedInfo info, String type)?
-    transferChecked,
+    TResult Function(SplTokenTransferCheckedInfo info, String type)? transferChecked,
     TResult Function(dynamic info, String type)? generic,
     required TResult orElse(),
   }) {
@@ -668,8 +611,7 @@ class _$ParsedSplTokenGenericInstructionImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ParsedSplTokenTransferInstruction value) transfer,
-    required TResult Function(ParsedSplTokenTransferCheckedInstruction value)
-    transferChecked,
+    required TResult Function(ParsedSplTokenTransferCheckedInstruction value) transferChecked,
     required TResult Function(ParsedSplTokenGenericInstruction value) generic,
   }) {
     return generic(this);
@@ -679,8 +621,7 @@ class _$ParsedSplTokenGenericInstructionImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)?
-    transferChecked,
+    TResult? Function(ParsedSplTokenTransferCheckedInstruction value)? transferChecked,
     TResult? Function(ParsedSplTokenGenericInstruction value)? generic,
   }) {
     return generic?.call(this);
@@ -690,8 +631,7 @@ class _$ParsedSplTokenGenericInstructionImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ParsedSplTokenTransferInstruction value)? transfer,
-    TResult Function(ParsedSplTokenTransferCheckedInstruction value)?
-    transferChecked,
+    TResult Function(ParsedSplTokenTransferCheckedInstruction value)? transferChecked,
     TResult Function(ParsedSplTokenGenericInstruction value)? generic,
     required TResult orElse(),
   }) {
@@ -707,8 +647,7 @@ class _$ParsedSplTokenGenericInstructionImpl
   }
 }
 
-abstract class ParsedSplTokenGenericInstruction
-    implements ParsedSplTokenInstruction {
+abstract class ParsedSplTokenGenericInstruction implements ParsedSplTokenInstruction {
   const factory ParsedSplTokenGenericInstruction({
     required final dynamic info,
     required final String type,
@@ -726,8 +665,6 @@ abstract class ParsedSplTokenGenericInstruction
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ParsedSplTokenGenericInstructionImplCopyWith<
-    _$ParsedSplTokenGenericInstructionImpl
-  >
+  _$$ParsedSplTokenGenericInstructionImplCopyWith<_$ParsedSplTokenGenericInstructionImpl>
   get copyWith => throw _privateConstructorUsedError;
 }

@@ -19,30 +19,10 @@ abstract class StakeProgram {
   static final deactivateInstructionIndex = ByteArray(const [5, 0, 0, 0]);
   static final setLockupInstructionIndex = ByteArray(const [6, 0, 0, 0]);
   static final mergeInstructionIndex = ByteArray(const [7, 0, 0, 0]);
-  static final authorizeWithSeedInstructionIndex = ByteArray(const [
-    8,
-    0,
-    0,
-    0,
-  ]);
-  static final initializeCheckedInstructionIndex = ByteArray(const [
-    9,
-    0,
-    0,
-    0,
-  ]);
-  static final authorizeCheckedInstructionIndex = ByteArray(const [
-    10,
-    0,
-    0,
-    0,
-  ]);
-  static final authorizeCheckedWithSeedInstructionIndex = ByteArray(const [
-    11,
-    0,
-    0,
-    0,
-  ]);
+  static final authorizeWithSeedInstructionIndex = ByteArray(const [8, 0, 0, 0]);
+  static final initializeCheckedInstructionIndex = ByteArray(const [9, 0, 0, 0]);
+  static final authorizeCheckedInstructionIndex = ByteArray(const [10, 0, 0, 0]);
+  static final authorizeCheckedWithSeedInstructionIndex = ByteArray(const [11, 0, 0, 0]);
   static final setLockupCheckedIndex = ByteArray(const [12, 0, 0, 0]);
 
   // This is the maximum size that a stake account can use (192 bytes)

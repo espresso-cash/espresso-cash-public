@@ -40,12 +40,7 @@ class AuthorizeRequestDto {
 }
 
 class AuthorizeResultDto {
-  AuthorizeResultDto({
-    required this.publicKey,
-    this.accountLabel,
-    this.walletUriBase,
-    this.scope,
-  });
+  AuthorizeResultDto({required this.publicKey, this.accountLabel, this.walletUriBase, this.scope});
 
   Uint8List publicKey;
 
@@ -90,13 +85,7 @@ class ReauthorizeRequestDto {
   Uint8List authorizationScope;
 
   Object encode() {
-    return <Object?>[
-      identityName,
-      identityUri,
-      iconRelativeUri,
-      cluster,
-      authorizationScope,
-    ];
+    return <Object?>[identityName, identityUri, iconRelativeUri, cluster, authorizationScope];
   }
 
   static ReauthorizeRequestDto decode(Object result) {
@@ -129,9 +118,7 @@ class SignedPayloadsResultDto {
     return SignedPayloadsResultDto(
       payloads: (result[0] as List<Object?>?)?.cast<Uint8List?>(),
       error:
-          result[1] != null
-              ? MobileWalletAdapterServerException.values[result[1]! as int]
-              : null,
+          result[1] != null ? MobileWalletAdapterServerException.values[result[1]! as int] : null,
       validPayloads: (result[2] as List<Object?>?)?.cast<bool?>(),
     );
   }
@@ -303,9 +290,7 @@ class SignaturesResultDto {
     return SignaturesResultDto(
       signatures: (result[0] as List<Object?>?)?.cast<Uint8List?>(),
       error:
-          result[1] != null
-              ? MobileWalletAdapterServerException.values[result[1]! as int]
-              : null,
+          result[1] != null ? MobileWalletAdapterServerException.values[result[1]! as int] : null,
       validSignatures: (result[2] as List<Object?>?)?.cast<bool?>(),
     );
   }
@@ -331,13 +316,7 @@ class DeauthorizeEventDto {
   Uint8List authorizationScope;
 
   Object encode() {
-    return <Object?>[
-      identityName,
-      identityUri,
-      iconRelativeUri,
-      cluster,
-      authorizationScope,
-    ];
+    return <Object?>[identityName, identityUri, iconRelativeUri, cluster, authorizationScope];
   }
 
   static DeauthorizeEventDto decode(Object result) {
@@ -387,8 +366,7 @@ class WalletConfigDto {
       supportsSignAndSendTransactions: result[0]! as bool,
       maxTransactionsPerSigningRequest: result[1]! as int,
       maxMessagesPerSigningRequest: result[2]! as int,
-      supportedTransactionVersions:
-          (result[3] as List<Object?>?)!.cast<String?>(),
+      supportedTransactionVersions: (result[3] as List<Object?>?)!.cast<String?>(),
       noConnectionWarningTimeoutInMs: result[4]! as int,
     );
   }
@@ -519,15 +497,9 @@ abstract class ApiFlutter {
 
   Future<bool> reauthorize(ReauthorizeRequestDto request, int id);
 
-  Future<SignedPayloadsResultDto?> signTransactions(
-    SignTransactionsRequestDto request,
-    int id,
-  );
+  Future<SignedPayloadsResultDto?> signTransactions(SignTransactionsRequestDto request, int id);
 
-  Future<SignedPayloadsResultDto?> signMessages(
-    SignMessagesRequestDto request,
-    int id,
-  );
+  Future<SignedPayloadsResultDto?> signMessages(SignMessagesRequestDto request, int id);
 
   Future<SignaturesResultDto?> signAndSendTransactions(
     SignAndSendTransactionsRequestDto request,
@@ -724,13 +696,9 @@ abstract class ApiFlutter {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(
-            message != null,
-            'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null.',
-          );
+          assert(message != null, 'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final AuthorizeRequestDto? arg_request =
-              (args[0] as AuthorizeRequestDto?);
+          final AuthorizeRequestDto? arg_request = (args[0] as AuthorizeRequestDto?);
           assert(
             arg_request != null,
             'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null AuthorizeRequestDto.',
@@ -740,10 +708,7 @@ abstract class ApiFlutter {
             arg_id != null,
             'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null int.',
           );
-          final AuthorizeResultDto? output = await api.authorize(
-            arg_request!,
-            arg_id!,
-          );
+          final AuthorizeResultDto? output = await api.authorize(arg_request!, arg_id!);
           return output;
         });
       }
@@ -763,8 +728,7 @@ abstract class ApiFlutter {
             'Argument for dev.flutter.pigeon.ApiFlutter.reauthorize was null.',
           );
           final List<Object?> args = (message as List<Object?>?)!;
-          final ReauthorizeRequestDto? arg_request =
-              (args[0] as ReauthorizeRequestDto?);
+          final ReauthorizeRequestDto? arg_request = (args[0] as ReauthorizeRequestDto?);
           assert(
             arg_request != null,
             'Argument for dev.flutter.pigeon.ApiFlutter.reauthorize was null, expected non-null ReauthorizeRequestDto.',
@@ -794,8 +758,7 @@ abstract class ApiFlutter {
             'Argument for dev.flutter.pigeon.ApiFlutter.signTransactions was null.',
           );
           final List<Object?> args = (message as List<Object?>?)!;
-          final SignTransactionsRequestDto? arg_request =
-              (args[0] as SignTransactionsRequestDto?);
+          final SignTransactionsRequestDto? arg_request = (args[0] as SignTransactionsRequestDto?);
           assert(
             arg_request != null,
             'Argument for dev.flutter.pigeon.ApiFlutter.signTransactions was null, expected non-null SignTransactionsRequestDto.',
@@ -805,10 +768,7 @@ abstract class ApiFlutter {
             arg_id != null,
             'Argument for dev.flutter.pigeon.ApiFlutter.signTransactions was null, expected non-null int.',
           );
-          final SignedPayloadsResultDto? output = await api.signTransactions(
-            arg_request!,
-            arg_id!,
-          );
+          final SignedPayloadsResultDto? output = await api.signTransactions(arg_request!, arg_id!);
           return output;
         });
       }
@@ -828,8 +788,7 @@ abstract class ApiFlutter {
             'Argument for dev.flutter.pigeon.ApiFlutter.signMessages was null.',
           );
           final List<Object?> args = (message as List<Object?>?)!;
-          final SignMessagesRequestDto? arg_request =
-              (args[0] as SignMessagesRequestDto?);
+          final SignMessagesRequestDto? arg_request = (args[0] as SignMessagesRequestDto?);
           assert(
             arg_request != null,
             'Argument for dev.flutter.pigeon.ApiFlutter.signMessages was null, expected non-null SignMessagesRequestDto.',
@@ -839,10 +798,7 @@ abstract class ApiFlutter {
             arg_id != null,
             'Argument for dev.flutter.pigeon.ApiFlutter.signMessages was null, expected non-null int.',
           );
-          final SignedPayloadsResultDto? output = await api.signMessages(
-            arg_request!,
-            arg_id!,
-          );
+          final SignedPayloadsResultDto? output = await api.signMessages(arg_request!, arg_id!);
           return output;
         });
       }
@@ -896,8 +852,7 @@ abstract class ApiFlutter {
             'Argument for dev.flutter.pigeon.ApiFlutter.deauthorize was null.',
           );
           final List<Object?> args = (message as List<Object?>?)!;
-          final DeauthorizeEventDto? arg_event =
-              (args[0] as DeauthorizeEventDto?);
+          final DeauthorizeEventDto? arg_event = (args[0] as DeauthorizeEventDto?);
           assert(
             arg_event != null,
             'Argument for dev.flutter.pigeon.ApiFlutter.deauthorize was null, expected non-null DeauthorizeEventDto.',
@@ -972,8 +927,7 @@ class ApiHost {
   /// Constructor for [ApiHost].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  ApiHost({BinaryMessenger? binaryMessenger})
-    : _binaryMessenger = binaryMessenger;
+  ApiHost({BinaryMessenger? binaryMessenger}) : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
   static const MessageCodec<Object?> codec = _ApiHostCodec();
@@ -984,8 +938,7 @@ class ApiHost {
       codec,
       binaryMessenger: _binaryMessenger,
     );
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id]) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -1008,8 +961,7 @@ class ApiHost {
       codec,
       binaryMessenger: _binaryMessenger,
     );
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id]) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -1037,11 +989,7 @@ class ApiHost {
       binaryMessenger: _binaryMessenger,
     );
     final List<Object?>? replyList =
-        await channel.send(<Object?>[
-              arg_id,
-              arg_walletConfig,
-              arg_authIssuerConfig,
-            ])
+        await channel.send(<Object?>[arg_id, arg_walletConfig, arg_authIssuerConfig])
             as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(

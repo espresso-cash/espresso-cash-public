@@ -94,18 +94,11 @@ void main() {
     final instructions = txMessage.instructions;
     expect(instructions.length, equals(2));
     expect(instructions.first, const TypeMatcher<ParsedInstructionSystem>());
-    final parsedInstructionSystem =
-        instructions.first as ParsedInstructionSystem;
-    expect(
-      parsedInstructionSystem.parsed,
-      isA<ParsedSystemTransferInstruction>(),
-    );
+    final parsedInstructionSystem = instructions.first as ParsedInstructionSystem;
+    expect(parsedInstructionSystem.parsed, isA<ParsedSystemTransferInstruction>());
     final parsedTransferInstruction =
         parsedInstructionSystem.parsed as ParsedSystemTransferInstruction;
-    expect(
-      parsedTransferInstruction.info.lamports,
-      equals(_lamportsTransferAmount),
-    );
+    expect(parsedTransferInstruction.info.lamports, equals(_lamportsTransferAmount));
     expect(instructions[1], const TypeMatcher<ParsedInstructionMemo>());
     final memoInstruction = instructions[1] as ParsedInstructionMemo;
     expect(memoInstruction.memo, equals(memoText));
@@ -140,12 +133,11 @@ void main() {
       funder: wallet,
       commitment: Commitment.confirmed,
     );
-    final hasAssociatedTokenAccount = await solanaClient
-        .hasAssociatedTokenAccount(
-          mint: token.address,
-          owner: wallet.publicKey,
-          commitment: Commitment.confirmed,
-        );
+    final hasAssociatedTokenAccount = await solanaClient.hasAssociatedTokenAccount(
+      mint: token.address,
+      owner: wallet.publicKey,
+      commitment: Commitment.confirmed,
+    );
 
     expect(hasAssociatedTokenAccount, equals(true));
 
@@ -158,22 +150,19 @@ void main() {
     expect(tokenBalance.amount, equals('0'));
   });
 
-  test(
-    'Fails SPL transfer if recipient has no associated token account',
-    () async {
-      final wallet = await Ed25519HDKeyPair.random();
-      expect(
-        solanaClient.transferSplToken(
-          destination: wallet.publicKey,
-          amount: 100,
-          mint: token.address,
-          owner: source,
-          commitment: Commitment.confirmed,
-        ),
-        throwsA(isA<NoAssociatedTokenAccountException>()),
-      );
-    },
-  );
+  test('Fails SPL transfer if recipient has no associated token account', () async {
+    final wallet = await Ed25519HDKeyPair.random();
+    expect(
+      solanaClient.transferSplToken(
+        destination: wallet.publicKey,
+        amount: 100,
+        mint: token.address,
+        owner: source,
+        commitment: Commitment.confirmed,
+      ),
+      throwsA(isA<NoAssociatedTokenAccountException>()),
+    );
+  });
 
   test('Transfer SPL tokens successfully', () async {
     final wallet = await Ed25519HDKeyPair.random();
@@ -241,10 +230,7 @@ void main() {
     final memoInstruction = instructions[1] as ParsedInstructionMemo;
     expect(memoInstruction.memo, equals(memoText));
     final splTokenInstruction = instructions[0] as ParsedInstructionSplToken;
-    expect(
-      splTokenInstruction.parsed,
-      isA<ParsedSplTokenTransferInstruction>(),
-    );
+    expect(splTokenInstruction.parsed, isA<ParsedSplTokenTransferInstruction>());
     final parsedSplTokenInstruction =
         splTokenInstruction.parsed as ParsedSplTokenTransferInstruction;
     expect(parsedSplTokenInstruction.type, equals('transfer'));

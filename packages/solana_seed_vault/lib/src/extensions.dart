@@ -17,17 +17,13 @@ extension SeedVaultHelperExt on SeedVault {
   }) async {
     final result = await getAuthorizedSeeds();
 
-    return Future.wait(
-      result.map((it) => it.cursorToSeed(this, accountFilter)),
-    );
+    return Future.wait(result.map((it) => it.cursorToSeed(this, accountFilter)));
   }
 
   Future<Seed> getParsedAuthorizedSeed(
     AuthToken authToken, {
     AccountFilter accountFilter = const AccountFilter(),
-  }) => getAuthorizedSeed(
-    authToken: authToken,
-  ).then((it) => it.cursorToSeed(this, accountFilter));
+  }) => getAuthorizedSeed(authToken: authToken).then((it) => it.cursorToSeed(this, accountFilter));
 
   Future<List<Account>> getParsedAccounts(
     AuthToken authToken, {
@@ -38,19 +34,11 @@ extension SeedVaultHelperExt on SeedVault {
     value: filter.toValue(),
   ).then((it) => it.map((it) => it.cursorToAccount()).toList());
 
-  Future<Account> getParsedAccount({
-    required AuthToken authToken,
-    required int accountId,
-  }) => getAccount(
-    authToken: authToken,
-    id: accountId,
-  ).then((it) => it.cursorToAccount());
+  Future<Account> getParsedAccount({required AuthToken authToken, required int accountId}) =>
+      getAccount(authToken: authToken, id: accountId).then((it) => it.cursorToAccount());
 
-  Future<ImplementationLimits> getParsedImplementationLimitsForPurpose(
-    Purpose purpose,
-  ) => getImplementationLimitsForPurpose(
-    purpose,
-  ).then((it) => it.cursorToImplementationLimits());
+  Future<ImplementationLimits> getParsedImplementationLimitsForPurpose(Purpose purpose) =>
+      getImplementationLimitsForPurpose(purpose).then((it) => it.cursorToImplementationLimits());
 }
 
 extension CursorToModelExt on CursorData {
@@ -58,10 +46,7 @@ extension CursorToModelExt on CursorData {
     final authToken = this[WalletContractV1.authorizedSeedsAuthToken] as int;
     final name = this[WalletContractV1.authorizedSeedsSeedName] as String;
     final purpose = this[WalletContractV1.authorizedSeedsAuthPurpose] as int;
-    final accounts = await seedVault.getParsedAccounts(
-      authToken,
-      filter: filter,
-    );
+    final accounts = await seedVault.getParsedAccounts(authToken, filter: filter);
 
     return Seed(
       authToken: authToken,
@@ -74,9 +59,7 @@ extension CursorToModelExt on CursorData {
   Account cursorToAccount() => Account(
     id: this[WalletContractV1.accountsAccountId] as int,
     name: this[WalletContractV1.accountsAccountName] as String,
-    derivationPath: Uri.parse(
-      this[WalletContractV1.accountsBip32DerivationPath] as String,
-    ),
+    derivationPath: Uri.parse(this[WalletContractV1.accountsBip32DerivationPath] as String),
     publicKeyEncoded: this[WalletContractV1.accountsPublicKeyEncoded] as String,
     publicKeyRaw: this[WalletContractV1.accountsPublicKeyRaw] as Uint8List,
     isUserWallet: this[WalletContractV1.accountsAccountIsUserWallet] == 1,
@@ -85,14 +68,11 @@ extension CursorToModelExt on CursorData {
 
   ImplementationLimits cursorToImplementationLimits() => ImplementationLimits(
     maxBip32PathDepth: WalletContractV1.bip32UriMaxDepth,
-    maxSigningRequests:
-        this[WalletContractV1.implementationLimitsMaxSigningRequests] as int,
+    maxSigningRequests: this[WalletContractV1.implementationLimitsMaxSigningRequests] as int,
     maxRequestedSignatures:
-        this[WalletContractV1.implementationLimitsMaxRequestedSignatures]
-            as int,
+        this[WalletContractV1.implementationLimitsMaxRequestedSignatures] as int,
     maxRequestedPublicKeys:
-        this[WalletContractV1.implementationLimitsMaxRequestedPublicKeys]
-            as int,
+        this[WalletContractV1.implementationLimitsMaxRequestedPublicKeys] as int,
   );
 }
 

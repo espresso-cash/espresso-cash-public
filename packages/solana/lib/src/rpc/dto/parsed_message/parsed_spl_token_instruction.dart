@@ -20,10 +20,8 @@ class ParsedSplTokenInstruction with _$ParsedSplTokenInstruction {
     required String type,
   }) = ParsedSplTokenTransferCheckedInstruction;
 
-  const factory ParsedSplTokenInstruction.generic({
-    required dynamic info,
-    required String type,
-  }) = ParsedSplTokenGenericInstruction;
+  const factory ParsedSplTokenInstruction.generic({required dynamic info, required String type}) =
+      ParsedSplTokenGenericInstruction;
 
   factory ParsedSplTokenInstruction.fromJson(Map<String, dynamic> json) =>
       _$ParsedSplTokenInstructionFromJson(json);

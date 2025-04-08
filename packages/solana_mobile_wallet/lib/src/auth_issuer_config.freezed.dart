@@ -24,16 +24,13 @@ mixin _$AuthIssuerConfig {
   Duration get reauthorizationNopDuration => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $AuthIssuerConfigCopyWith<AuthIssuerConfig> get copyWith =>
-      throw _privateConstructorUsedError;
+  $AuthIssuerConfigCopyWith<AuthIssuerConfig> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AuthIssuerConfigCopyWith<$Res> {
-  factory $AuthIssuerConfigCopyWith(
-    AuthIssuerConfig value,
-    $Res Function(AuthIssuerConfig) then,
-  ) = _$AuthIssuerConfigCopyWithImpl<$Res, AuthIssuerConfig>;
+  factory $AuthIssuerConfigCopyWith(AuthIssuerConfig value, $Res Function(AuthIssuerConfig) then) =
+      _$AuthIssuerConfigCopyWithImpl<$Res, AuthIssuerConfig>;
   @useResult
   $Res call({
     String name,
@@ -97,8 +94,7 @@ class _$AuthIssuerConfigCopyWithImpl<$Res, $Val extends AuthIssuerConfig>
 }
 
 /// @nodoc
-abstract class _$$AuthIssuerConfigImplCopyWith<$Res>
-    implements $AuthIssuerConfigCopyWith<$Res> {
+abstract class _$$AuthIssuerConfigImplCopyWith<$Res> implements $AuthIssuerConfigCopyWith<$Res> {
   factory _$$AuthIssuerConfigImplCopyWith(
     _$AuthIssuerConfigImpl value,
     $Res Function(_$AuthIssuerConfigImpl) then,
@@ -201,25 +197,14 @@ class _$AuthIssuerConfigImpl implements _AuthIssuerConfig {
         (other.runtimeType == runtimeType &&
             other is _$AuthIssuerConfigImpl &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(
-                  other.maxOutstandingTokensPerIdentity,
-                  maxOutstandingTokensPerIdentity,
-                ) ||
-                other.maxOutstandingTokensPerIdentity ==
-                    maxOutstandingTokensPerIdentity) &&
+            (identical(other.maxOutstandingTokensPerIdentity, maxOutstandingTokensPerIdentity) ||
+                other.maxOutstandingTokensPerIdentity == maxOutstandingTokensPerIdentity) &&
             (identical(other.authorizationValidity, authorizationValidity) ||
                 other.authorizationValidity == authorizationValidity) &&
-            (identical(
-                  other.reauthorizationValidity,
-                  reauthorizationValidity,
-                ) ||
+            (identical(other.reauthorizationValidity, reauthorizationValidity) ||
                 other.reauthorizationValidity == reauthorizationValidity) &&
-            (identical(
-                  other.reauthorizationNopDuration,
-                  reauthorizationNopDuration,
-                ) ||
-                other.reauthorizationNopDuration ==
-                    reauthorizationNopDuration));
+            (identical(other.reauthorizationNopDuration, reauthorizationNopDuration) ||
+                other.reauthorizationNopDuration == reauthorizationNopDuration));
   }
 
   @override
@@ -236,10 +221,7 @@ class _$AuthIssuerConfigImpl implements _AuthIssuerConfig {
   @override
   @pragma('vm:prefer-inline')
   _$$AuthIssuerConfigImplCopyWith<_$AuthIssuerConfigImpl> get copyWith =>
-      __$$AuthIssuerConfigImplCopyWithImpl<_$AuthIssuerConfigImpl>(
-        this,
-        _$identity,
-      );
+      __$$AuthIssuerConfigImplCopyWithImpl<_$AuthIssuerConfigImpl>(this, _$identity);
 }
 
 abstract class _AuthIssuerConfig implements AuthIssuerConfig {

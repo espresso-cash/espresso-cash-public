@@ -28,20 +28,13 @@ mixin _$Seed {
 
 /// @nodoc
 abstract class $SeedCopyWith<$Res> {
-  factory $SeedCopyWith(Seed value, $Res Function(Seed) then) =
-      _$SeedCopyWithImpl<$Res, Seed>;
+  factory $SeedCopyWith(Seed value, $Res Function(Seed) then) = _$SeedCopyWithImpl<$Res, Seed>;
   @useResult
-  $Res call({
-    int authToken,
-    String name,
-    Purpose purpose,
-    List<Account> accounts,
-  });
+  $Res call({int authToken, String name, Purpose purpose, List<Account> accounts});
 }
 
 /// @nodoc
-class _$SeedCopyWithImpl<$Res, $Val extends Seed>
-    implements $SeedCopyWith<$Res> {
+class _$SeedCopyWithImpl<$Res, $Val extends Seed> implements $SeedCopyWith<$Res> {
   _$SeedCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -87,23 +80,15 @@ class _$SeedCopyWithImpl<$Res, $Val extends Seed>
 
 /// @nodoc
 abstract class _$$SeedImplCopyWith<$Res> implements $SeedCopyWith<$Res> {
-  factory _$$SeedImplCopyWith(
-    _$SeedImpl value,
-    $Res Function(_$SeedImpl) then,
-  ) = __$$SeedImplCopyWithImpl<$Res>;
+  factory _$$SeedImplCopyWith(_$SeedImpl value, $Res Function(_$SeedImpl) then) =
+      __$$SeedImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int authToken,
-    String name,
-    Purpose purpose,
-    List<Account> accounts,
-  });
+  $Res call({int authToken, String name, Purpose purpose, List<Account> accounts});
 }
 
 /// @nodoc
-class __$$SeedImplCopyWithImpl<$Res>
-    extends _$SeedCopyWithImpl<$Res, _$SeedImpl>
+class __$$SeedImplCopyWithImpl<$Res> extends _$SeedCopyWithImpl<$Res, _$SeedImpl>
     implements _$$SeedImplCopyWith<$Res> {
   __$$SeedImplCopyWithImpl(_$SeedImpl _value, $Res Function(_$SeedImpl) _then)
     : super(_value, _then);
@@ -177,8 +162,7 @@ class _$SeedImpl implements _Seed {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SeedImpl &&
-            (identical(other.authToken, authToken) ||
-                other.authToken == authToken) &&
+            (identical(other.authToken, authToken) || other.authToken == authToken) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.purpose, purpose) || other.purpose == purpose) &&
             const DeepCollectionEquality().equals(other._accounts, _accounts));
@@ -218,6 +202,5 @@ abstract class _Seed implements Seed {
   List<Account> get accounts;
   @override
   @JsonKey(ignore: true)
-  _$$SeedImplCopyWith<_$SeedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SeedImplCopyWith<_$SeedImpl> get copyWith => throw _privateConstructorUsedError;
 }

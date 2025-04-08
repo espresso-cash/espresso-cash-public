@@ -24,16 +24,13 @@ mixin _$MessageHeader {
   /// Create a copy of MessageHeader
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $MessageHeaderCopyWith<MessageHeader> get copyWith =>
-      throw _privateConstructorUsedError;
+  $MessageHeaderCopyWith<MessageHeader> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $MessageHeaderCopyWith<$Res> {
-  factory $MessageHeaderCopyWith(
-    MessageHeader value,
-    $Res Function(MessageHeader) then,
-  ) = _$MessageHeaderCopyWithImpl<$Res, MessageHeader>;
+  factory $MessageHeaderCopyWith(MessageHeader value, $Res Function(MessageHeader) then) =
+      _$MessageHeaderCopyWithImpl<$Res, MessageHeader>;
   @useResult
   $Res call({
     int numRequiredSignatures,
@@ -85,8 +82,7 @@ class _$MessageHeaderCopyWithImpl<$Res, $Val extends MessageHeader>
 }
 
 /// @nodoc
-abstract class _$$MessageHeaderImplCopyWith<$Res>
-    implements $MessageHeaderCopyWith<$Res> {
+abstract class _$$MessageHeaderImplCopyWith<$Res> implements $MessageHeaderCopyWith<$Res> {
   factory _$$MessageHeaderImplCopyWith(
     _$MessageHeaderImpl value,
     $Res Function(_$MessageHeaderImpl) then,
@@ -168,17 +164,10 @@ class _$MessageHeaderImpl extends _MessageHeader {
             other is _$MessageHeaderImpl &&
             (identical(other.numRequiredSignatures, numRequiredSignatures) ||
                 other.numRequiredSignatures == numRequiredSignatures) &&
-            (identical(
-                  other.numReadonlySignedAccounts,
-                  numReadonlySignedAccounts,
-                ) ||
+            (identical(other.numReadonlySignedAccounts, numReadonlySignedAccounts) ||
                 other.numReadonlySignedAccounts == numReadonlySignedAccounts) &&
-            (identical(
-                  other.numReadonlyUnsignedAccounts,
-                  numReadonlyUnsignedAccounts,
-                ) ||
-                other.numReadonlyUnsignedAccounts ==
-                    numReadonlyUnsignedAccounts));
+            (identical(other.numReadonlyUnsignedAccounts, numReadonlyUnsignedAccounts) ||
+                other.numReadonlyUnsignedAccounts == numReadonlyUnsignedAccounts));
   }
 
   @override

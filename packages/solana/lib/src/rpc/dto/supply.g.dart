@@ -11,9 +11,7 @@ Supply _$SupplyFromJson(Map<String, dynamic> json) => Supply(
   circulating: (json['circulating'] as num).toInt(),
   nonCirculating: (json['nonCirculating'] as num).toInt(),
   nonCirculatingAccounts:
-      (json['nonCirculatingAccounts'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      (json['nonCirculatingAccounts'] as List<dynamic>).map((e) => e as String).toList(),
 );
 
 Map<String, dynamic> _$SupplyToJson(Supply instance) => <String, dynamic>{
@@ -28,8 +26,7 @@ SupplyResult _$SupplyResultFromJson(Map<String, dynamic> json) => SupplyResult(
   value: Supply.fromJson(json['value'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$SupplyResultToJson(SupplyResult instance) =>
-    <String, dynamic>{
-      'context': instance.context.toJson(),
-      'value': instance.value.toJson(),
-    };
+Map<String, dynamic> _$SupplyResultToJson(SupplyResult instance) => <String, dynamic>{
+  'context': instance.context.toJson(),
+  'value': instance.value.toJson(),
+};

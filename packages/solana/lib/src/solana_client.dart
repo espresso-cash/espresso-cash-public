@@ -30,10 +30,7 @@ class SolanaClient {
     final tx = await signTransaction(bh, message, signers);
     await onSigned(tx.signatures.first.toBase58());
 
-    final signature = await rpcClient.sendTransaction(
-      tx.encode(),
-      preflightCommitment: commitment,
-    );
+    final signature = await rpcClient.sendTransaction(tx.encode(), preflightCommitment: commitment);
 
     await waitForSignatureStatus(signature, status: commitment);
 
@@ -66,17 +63,10 @@ class SolanaClient {
     }
   }
 
-  SubscriptionClient createSubscriptionClient({
-    Duration? pingInterval,
-    Duration? connectTimeout,
-  }) => SubscriptionClient(
-    _websocketUrl,
-    pingInterval: pingInterval,
-    connectTimeout: connectTimeout,
-  );
+  SubscriptionClient createSubscriptionClient({Duration? pingInterval, Duration? connectTimeout}) =>
+      SubscriptionClient(_websocketUrl, pingInterval: pingInterval, connectTimeout: connectTimeout);
 }
 
-typedef SignatureCallback =
-    FutureOr<void> Function(TransactionId transactionId);
+typedef SignatureCallback = FutureOr<void> Function(TransactionId transactionId);
 
 void ignoreOnSigned(TransactionId _) {}

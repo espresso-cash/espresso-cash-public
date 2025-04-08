@@ -39,8 +39,7 @@ class _AccountData with _$_AccountData {
 
   const _AccountData._();
 
-  factory _AccountData.fromBorsh(Uint8List data) =>
-      _$_AccountDataFromBorsh(data);
+  factory _AccountData.fromBorsh(Uint8List data) => _$_AccountDataFromBorsh(data);
 }
 
 @BorshSerializable()
@@ -49,6 +48,5 @@ class Basic1Arguments with _$Basic1Arguments {
 
   const Basic1Arguments._();
 
-  factory Basic1Arguments.fromBorsh(Uint8List data) =>
-      _$Basic1ArgumentsFromBorsh(data);
+  factory Basic1Arguments.fromBorsh(Uint8List data) => _$Basic1ArgumentsFromBorsh(data);
 }

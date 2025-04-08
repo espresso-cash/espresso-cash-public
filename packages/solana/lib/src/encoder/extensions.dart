@@ -36,22 +36,15 @@ extension AccountMetaListExt on List<AccountMeta> {
       toList(growable: false).indexWhere((account) => account.pubKey == pubKey);
 
   /// Counts the number of accounts that are signers.
-  int getNumSigners() =>
-      fold(0, (total, account) => total + (account.isSigner ? 1 : 0));
+  int getNumSigners() => fold(0, (total, account) => total + (account.isSigner ? 1 : 0));
 
   /// Counts the number of accounts that are signers and readonly.
-  int getNumReadonlySigners() => fold(
-    0,
-    (total, account) =>
-        total + (!account.isWriteable && account.isSigner ? 1 : 0),
-  );
+  int getNumReadonlySigners() =>
+      fold(0, (total, account) => total + (!account.isWriteable && account.isSigner ? 1 : 0));
 
   /// Counts the number of accounts that are non signers and readonly.
-  int getNumReadonlyNonSigners() => fold(
-    0,
-    (total, account) =>
-        total + (!account.isWriteable && !account.isSigner ? 1 : 0),
-  );
+  int getNumReadonlyNonSigners() =>
+      fold(0, (total, account) => total + (!account.isWriteable && !account.isSigner ? 1 : 0));
 }
 
 extension InstructionListExt on List<Instruction> {
@@ -71,10 +64,7 @@ extension InstructionListExt on List<Instruction> {
             ...instruction.accounts,
 
             /// Append the instruction program id
-            AccountMeta.readonly(
-              pubKey: instruction.programId,
-              isSigner: false,
-            ),
+            AccountMeta.readonly(pubKey: instruction.programId, isSigner: false),
           ],
         ).toList();
     final index = accounts.indexWhere((account) => account.pubKey == feePayer);

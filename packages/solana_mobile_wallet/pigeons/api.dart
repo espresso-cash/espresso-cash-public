@@ -188,8 +188,7 @@ class SignMessagesRequestDto implements SignPayloadsRequestDto {
   final Uint8List authorizationScope;
 }
 
-class SignAndSendTransactionsRequestDto
-    implements BaseVerifiableIdentityRequestDto {
+class SignAndSendTransactionsRequestDto implements BaseVerifiableIdentityRequestDto {
   const SignAndSendTransactionsRequestDto({
     required this.minContextSlot,
     required this.transactions,
@@ -310,19 +309,13 @@ abstract class ApiFlutter {
   bool reauthorize(ReauthorizeRequestDto request, int id);
 
   @async
-  SignedPayloadsResultDto? signTransactions(
-    SignTransactionsRequestDto request,
-    int id,
-  );
+  SignedPayloadsResultDto? signTransactions(SignTransactionsRequestDto request, int id);
 
   @async
   SignedPayloadsResultDto? signMessages(SignMessagesRequestDto request, int id);
 
   @async
-  SignaturesResultDto? signAndSendTransactions(
-    SignAndSendTransactionsRequestDto request,
-    int id,
-  );
+  SignaturesResultDto? signAndSendTransactions(SignAndSendTransactionsRequestDto request, int id);
 
   @async
   void deauthorize(DeauthorizeEventDto event, int id);

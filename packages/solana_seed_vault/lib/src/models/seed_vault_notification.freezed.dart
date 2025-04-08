@@ -36,10 +36,7 @@ abstract class $SeedVaultNotificationCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SeedVaultNotificationCopyWithImpl<
-  $Res,
-  $Val extends SeedVaultNotification
->
+class _$SeedVaultNotificationCopyWithImpl<$Res, $Val extends SeedVaultNotification>
     implements $SeedVaultNotificationCopyWith<$Res> {
   _$SeedVaultNotificationCopyWithImpl(this._value, this._then);
 
@@ -83,8 +80,7 @@ abstract class _$$SeedVaultNotificationImplCopyWith<$Res>
 
 /// @nodoc
 class __$$SeedVaultNotificationImplCopyWithImpl<$Res>
-    extends
-        _$SeedVaultNotificationCopyWithImpl<$Res, _$SeedVaultNotificationImpl>
+    extends _$SeedVaultNotificationCopyWithImpl<$Res, _$SeedVaultNotificationImpl>
     implements _$$SeedVaultNotificationImplCopyWith<$Res> {
   __$$SeedVaultNotificationImplCopyWithImpl(
     _$SeedVaultNotificationImpl _value,
@@ -114,10 +110,8 @@ class __$$SeedVaultNotificationImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SeedVaultNotificationImpl implements _SeedVaultNotification {
-  const _$SeedVaultNotificationImpl({
-    required final List<Uri> uris,
-    required this.flags,
-  }) : _uris = uris;
+  const _$SeedVaultNotificationImpl({required final List<Uri> uris, required this.flags})
+    : _uris = uris;
 
   final List<Uri> _uris;
   @override
@@ -145,28 +139,18 @@ class _$SeedVaultNotificationImpl implements _SeedVaultNotification {
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_uris),
-    flags,
-  );
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_uris), flags);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SeedVaultNotificationImplCopyWith<_$SeedVaultNotificationImpl>
-  get copyWith =>
-      __$$SeedVaultNotificationImplCopyWithImpl<_$SeedVaultNotificationImpl>(
-        this,
-        _$identity,
-      );
+  _$$SeedVaultNotificationImplCopyWith<_$SeedVaultNotificationImpl> get copyWith =>
+      __$$SeedVaultNotificationImplCopyWithImpl<_$SeedVaultNotificationImpl>(this, _$identity);
 }
 
 abstract class _SeedVaultNotification implements SeedVaultNotification {
-  const factory _SeedVaultNotification({
-    required final List<Uri> uris,
-    required final int flags,
-  }) = _$SeedVaultNotificationImpl;
+  const factory _SeedVaultNotification({required final List<Uri> uris, required final int flags}) =
+      _$SeedVaultNotificationImpl;
 
   @override
   List<Uri> get uris;
@@ -174,6 +158,6 @@ abstract class _SeedVaultNotification implements SeedVaultNotification {
   int get flags;
   @override
   @JsonKey(ignore: true)
-  _$$SeedVaultNotificationImplCopyWith<_$SeedVaultNotificationImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$SeedVaultNotificationImplCopyWith<_$SeedVaultNotificationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

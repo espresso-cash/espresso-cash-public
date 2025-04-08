@@ -36,28 +36,19 @@ class Bip44DerivationPath {
 
     final path = uri.pathSegments;
     if (path.isEmpty || path.length > 3) {
-      throw UnsupportedError(
-        'BIP44 URI path must contain between 1 and 3 elements',
-      );
+      throw UnsupportedError('BIP44 URI path must contain between 1 and 3 elements');
     }
 
     final levels = path.map((it) {
-      final hardened = it.endsWith(
-        WalletContractV1.bipUriHardenedIndexIdentifier,
-      );
+      final hardened = it.endsWith(WalletContractV1.bipUriHardenedIndexIdentifier);
       final index = int.tryParse(
         it.substring(
           0,
-          it.length -
-              (hardened
-                  ? WalletContractV1.bipUriHardenedIndexIdentifier.length
-                  : 0),
+          it.length - (hardened ? WalletContractV1.bipUriHardenedIndexIdentifier.length : 0),
         ),
       );
       if (index == null) {
-        throw UnsupportedError(
-          'Path element $it could not be parsed as a BIP44 level',
-        );
+        throw UnsupportedError('Path element $it could not be parsed as a BIP44 level');
       }
 
       return BipLevel(index: index, hardened: hardened);
@@ -74,10 +65,6 @@ class Bip44DerivationPath {
       throw AssertionError('Account must not be null');
     }
 
-    return Bip44Data(
-      account: account,
-      change: getLevelOrNull(1),
-      addressIndex: getLevelOrNull(2),
-    );
+    return Bip44Data(account: account, change: getLevelOrNull(1), addressIndex: getLevelOrNull(2));
   }
 }

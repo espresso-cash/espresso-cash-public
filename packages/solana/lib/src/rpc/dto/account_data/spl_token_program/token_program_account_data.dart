@@ -19,8 +19,7 @@ class SplTokenProgramAccountData with _$SplTokenProgramAccountData {
     String? accountType,
   }) = MintAccountData;
 
-  const factory SplTokenProgramAccountData.unknown({required String type}) =
-      UnknownAccountData;
+  const factory SplTokenProgramAccountData.unknown({required String type}) = UnknownAccountData;
 
   factory SplTokenProgramAccountData.fromJson(Map<String, dynamic> data) =>
       _$SplTokenProgramAccountDataFromJson(data);

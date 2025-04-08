@@ -6,8 +6,7 @@ part 'attribute.g.dart';
 class Attribute {
   const Attribute({required this.traitType, required this.value});
 
-  factory Attribute.fromJson(Map<String, dynamic> json) =>
-      _$AttributeFromJson(json);
+  factory Attribute.fromJson(Map<String, dynamic> json) => _$AttributeFromJson(json);
 
   final String traitType;
   final dynamic value;

@@ -28,10 +28,7 @@ Future<AnchorInstruction> createMasterEditionV3({
       AccountMeta.writeable(pubKey: metadataAccount, isSigner: false),
       AccountMeta.readonly(pubKey: TokenProgram.id, isSigner: false),
       AccountMeta.readonly(pubKey: SystemProgram.id, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
     ],
     arguments: ByteArray(data.toBorsh()),
   );

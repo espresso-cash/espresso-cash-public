@@ -25,8 +25,7 @@ mixin _$GetFeesResponseDto {
   int get escrowPayment => throw _privateConstructorUsedError;
   int get escrowPaymentAtaFee => throw _privateConstructorUsedError;
   int get splitKeyPayment => throw _privateConstructorUsedError;
-  WithdrawFeeDto get withdrawFeePercentage =>
-      throw _privateConstructorUsedError;
+  WithdrawFeeDto get withdrawFeePercentage => throw _privateConstructorUsedError;
 
   /// Serializes this GetFeesResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -271,10 +270,7 @@ class _$GetFeesResponseDtoImpl implements _GetFeesResponseDto {
   @override
   @pragma('vm:prefer-inline')
   _$$GetFeesResponseDtoImplCopyWith<_$GetFeesResponseDtoImpl> get copyWith =>
-      __$$GetFeesResponseDtoImplCopyWithImpl<_$GetFeesResponseDtoImpl>(
-        this,
-        _$identity,
-      );
+      __$$GetFeesResponseDtoImplCopyWithImpl<_$GetFeesResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -421,10 +417,7 @@ class __$$DirectPaymentFeeDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DirectPaymentFeeDtoImpl implements _DirectPaymentFeeDto {
-  const _$DirectPaymentFeeDtoImpl({
-    required this.ataExists,
-    required this.ataDoesNotExist,
-  });
+  const _$DirectPaymentFeeDtoImpl({required this.ataExists, required this.ataDoesNotExist});
 
   factory _$DirectPaymentFeeDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$DirectPaymentFeeDtoImplFromJson(json);
@@ -444,8 +437,7 @@ class _$DirectPaymentFeeDtoImpl implements _DirectPaymentFeeDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DirectPaymentFeeDtoImpl &&
-            (identical(other.ataExists, ataExists) ||
-                other.ataExists == ataExists) &&
+            (identical(other.ataExists, ataExists) || other.ataExists == ataExists) &&
             (identical(other.ataDoesNotExist, ataDoesNotExist) ||
                 other.ataDoesNotExist == ataDoesNotExist));
   }
@@ -460,10 +452,7 @@ class _$DirectPaymentFeeDtoImpl implements _DirectPaymentFeeDto {
   @override
   @pragma('vm:prefer-inline')
   _$$DirectPaymentFeeDtoImplCopyWith<_$DirectPaymentFeeDtoImpl> get copyWith =>
-      __$$DirectPaymentFeeDtoImplCopyWithImpl<_$DirectPaymentFeeDtoImpl>(
-        this,
-        _$identity,
-      );
+      __$$DirectPaymentFeeDtoImplCopyWithImpl<_$DirectPaymentFeeDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -511,24 +500,15 @@ mixin _$WithdrawFeeDto {
   /// Create a copy of WithdrawFeeDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $WithdrawFeeDtoCopyWith<WithdrawFeeDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  $WithdrawFeeDtoCopyWith<WithdrawFeeDto> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $WithdrawFeeDtoCopyWith<$Res> {
-  factory $WithdrawFeeDtoCopyWith(
-    WithdrawFeeDto value,
-    $Res Function(WithdrawFeeDto) then,
-  ) = _$WithdrawFeeDtoCopyWithImpl<$Res, WithdrawFeeDto>;
+  factory $WithdrawFeeDtoCopyWith(WithdrawFeeDto value, $Res Function(WithdrawFeeDto) then) =
+      _$WithdrawFeeDtoCopyWithImpl<$Res, WithdrawFeeDto>;
   @useResult
-  $Res call({
-    double scalex,
-    double kado,
-    double rampNetwork,
-    double coinflow,
-    double guardarian,
-  });
+  $Res call({double scalex, double kado, double rampNetwork, double coinflow, double guardarian});
 }
 
 /// @nodoc
@@ -586,21 +566,14 @@ class _$WithdrawFeeDtoCopyWithImpl<$Res, $Val extends WithdrawFeeDto>
 }
 
 /// @nodoc
-abstract class _$$WithdrawFeeDtoImplCopyWith<$Res>
-    implements $WithdrawFeeDtoCopyWith<$Res> {
+abstract class _$$WithdrawFeeDtoImplCopyWith<$Res> implements $WithdrawFeeDtoCopyWith<$Res> {
   factory _$$WithdrawFeeDtoImplCopyWith(
     _$WithdrawFeeDtoImpl value,
     $Res Function(_$WithdrawFeeDtoImpl) then,
   ) = __$$WithdrawFeeDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    double scalex,
-    double kado,
-    double rampNetwork,
-    double coinflow,
-    double guardarian,
-  });
+  $Res call({double scalex, double kado, double rampNetwork, double coinflow, double guardarian});
 }
 
 /// @nodoc
@@ -697,18 +670,14 @@ class _$WithdrawFeeDtoImpl implements _WithdrawFeeDto {
             other is _$WithdrawFeeDtoImpl &&
             (identical(other.scalex, scalex) || other.scalex == scalex) &&
             (identical(other.kado, kado) || other.kado == kado) &&
-            (identical(other.rampNetwork, rampNetwork) ||
-                other.rampNetwork == rampNetwork) &&
-            (identical(other.coinflow, coinflow) ||
-                other.coinflow == coinflow) &&
-            (identical(other.guardarian, guardarian) ||
-                other.guardarian == guardarian));
+            (identical(other.rampNetwork, rampNetwork) || other.rampNetwork == rampNetwork) &&
+            (identical(other.coinflow, coinflow) || other.coinflow == coinflow) &&
+            (identical(other.guardarian, guardarian) || other.guardarian == guardarian));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, scalex, kado, rampNetwork, coinflow, guardarian);
+  int get hashCode => Object.hash(runtimeType, scalex, kado, rampNetwork, coinflow, guardarian);
 
   /// Create a copy of WithdrawFeeDto
   /// with the given fields replaced by the non-null parameter values.
@@ -716,10 +685,7 @@ class _$WithdrawFeeDtoImpl implements _WithdrawFeeDto {
   @override
   @pragma('vm:prefer-inline')
   _$$WithdrawFeeDtoImplCopyWith<_$WithdrawFeeDtoImpl> get copyWith =>
-      __$$WithdrawFeeDtoImplCopyWithImpl<_$WithdrawFeeDtoImpl>(
-        this,
-        _$identity,
-      );
+      __$$WithdrawFeeDtoImplCopyWithImpl<_$WithdrawFeeDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -736,8 +702,7 @@ abstract class _WithdrawFeeDto implements WithdrawFeeDto {
     final double guardarian,
   }) = _$WithdrawFeeDtoImpl;
 
-  factory _WithdrawFeeDto.fromJson(Map<String, dynamic> json) =
-      _$WithdrawFeeDtoImpl.fromJson;
+  factory _WithdrawFeeDto.fromJson(Map<String, dynamic> json) = _$WithdrawFeeDtoImpl.fromJson;
 
   @override
   double get scalex;

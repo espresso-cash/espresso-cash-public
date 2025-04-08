@@ -41,8 +41,7 @@ class OrderStatusScalexRequestDto with _$OrderStatusScalexRequestDto {
 @freezed
 class OrderStatusScalexResponseDto with _$OrderStatusScalexResponseDto {
   const factory OrderStatusScalexResponseDto({
-    @JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
-    required ScalexOrderStatus status,
+    @JsonKey(unknownEnumValue: ScalexOrderStatus.unknown) required ScalexOrderStatus status,
     OnRampScalexDetails? onRampDetails,
   }) = _OrderStatusScalexResponseDto;
 
@@ -52,10 +51,8 @@ class OrderStatusScalexResponseDto with _$OrderStatusScalexResponseDto {
 
 @freezed
 class ScalexWithdrawRequestDto with _$ScalexWithdrawRequestDto {
-  const factory ScalexWithdrawRequestDto({
-    required String orderId,
-    required Cluster cluster,
-  }) = _ScalexWithdrawRequestDto;
+  const factory ScalexWithdrawRequestDto({required String orderId, required Cluster cluster}) =
+      _ScalexWithdrawRequestDto;
 
   factory ScalexWithdrawRequestDto.fromJson(Map<String, dynamic> json) =>
       _$ScalexWithdrawRequestDtoFromJson(json);
@@ -105,10 +102,8 @@ class ScalexRateFeeResponseDto with _$ScalexRateFeeResponseDto {
 
 @freezed
 class ScalexBrijFeeRequestDto with _$ScalexBrijFeeRequestDto {
-  const factory ScalexBrijFeeRequestDto({
-    required String amount,
-    required RampTypeDto type,
-  }) = _ScalexBrijFeeRequestDto;
+  const factory ScalexBrijFeeRequestDto({required String amount, required RampTypeDto type}) =
+      _ScalexBrijFeeRequestDto;
 
   factory ScalexBrijFeeRequestDto.fromJson(Map<String, dynamic> json) =>
       _$ScalexBrijFeeRequestDtoFromJson(json);
@@ -124,8 +119,7 @@ class ScalexFees with _$ScalexFees {
     required double totalFee,
   }) = _ScalexFees;
 
-  factory ScalexFees.fromJson(Map<String, dynamic> json) =>
-      _$ScalexFeesFromJson(json);
+  factory ScalexFees.fromJson(Map<String, dynamic> json) => _$ScalexFeesFromJson(json);
 }
 
 @freezed

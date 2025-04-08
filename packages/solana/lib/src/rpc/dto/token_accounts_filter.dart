@@ -4,11 +4,9 @@ part 'token_accounts_filter.g.dart';
 
 /// Either a mint or a program id
 abstract class TokenAccountsFilter {
-  const factory TokenAccountsFilter.byMint(String mint) =
-      TokenAccountsFilterByMint;
+  const factory TokenAccountsFilter.byMint(String mint) = TokenAccountsFilterByMint;
 
-  const factory TokenAccountsFilter.byProgramId(String programId) =
-      TokenAccountsFilterByProgramId;
+  const factory TokenAccountsFilter.byProgramId(String programId) = TokenAccountsFilterByProgramId;
 
   Map<String, dynamic> toJson();
 }

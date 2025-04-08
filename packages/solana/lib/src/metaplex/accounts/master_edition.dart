@@ -12,6 +12,5 @@ abstract class MasterEdition with _$MasterEdition {
 
   const MasterEdition._();
 
-  factory MasterEdition.fromBorsh(Uint8List data) =>
-      _$MasterEditionFromBorsh(data);
+  factory MasterEdition.fromBorsh(Uint8List data) => _$MasterEditionFromBorsh(data);
 }

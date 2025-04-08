@@ -101,8 +101,7 @@ void main() {
   });
 }
 
-const _mnemonic =
-    'nothing steak step patient peasant assist add coral tone harsh hint dilemma';
+const _mnemonic = 'nothing steak step patient peasant assist add coral tone harsh hint dilemma';
 const _testCases = {
   0: {
     0: 'AZ9tSkwgBjvgNrSBKujYVobWkcVy7QuJJHUiiUs7PTG',

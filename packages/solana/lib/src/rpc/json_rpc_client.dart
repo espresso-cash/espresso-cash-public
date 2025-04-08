@@ -8,49 +8,32 @@ import 'package:solana/src/exceptions/rpc_timeout_exception.dart';
 import 'package:solana/src/rpc/json_rpc_request.dart';
 
 class JsonRpcClient {
-  JsonRpcClient(
-    this._url, {
-    required Duration timeout,
-    required Map<String, String> customHeaders,
-  }) : _timeout = timeout,
-       _headers = {..._defaultHeaders, ...customHeaders};
+  JsonRpcClient(this._url, {required Duration timeout, required Map<String, String> customHeaders})
+    : _timeout = timeout,
+      _headers = {..._defaultHeaders, ...customHeaders};
 
   final String _url;
   final Duration _timeout;
   final Map<String, String> _headers;
   int _lastId = 1;
 
-  Future<List<Map<String, dynamic>>> bulkRequest(
-    String method,
-    List<List<dynamic>> params,
-  ) async {
+  Future<List<Map<String, dynamic>>> bulkRequest(String method, List<List<dynamic>> params) async {
     final requests = params
-        .map(
-          (p) => JsonRpcSingleRequest(
-            method: method,
-            params: p,
-            id: (_lastId++).toString(),
-          ),
-        )
+        .map((p) => JsonRpcSingleRequest(method: method, params: p, id: (_lastId++).toString()))
         .toList(growable: false);
 
     final response = await _postRequest(JsonRpcRequest.bulk(requests));
     if (response is _JsonRpcArrayResponse) {
       final elements = response.array;
 
-      return elements
-          .map((_JsonRpcObjectResponse item) => item.data)
-          .toList(growable: false);
+      return elements.map((_JsonRpcObjectResponse item) => item.data).toList(growable: false);
     }
 
     throw const FormatException('unexpected jsonrpc response type');
   }
 
   /// Calls the [method] jsonrpc-2.0 method with [params] parameters
-  Future<Map<String, dynamic>> request(
-    String method, {
-    List<dynamic>? params,
-  }) async {
+  Future<Map<String, dynamic>> request(String method, {List<dynamic>? params}) async {
     final request = JsonRpcSingleRequest(
       id: (_lastId++).toString(),
       method: method,
@@ -75,12 +58,7 @@ class JsonRpcClient {
     ).timeout(
       _timeout,
       onTimeout:
-          () =>
-              throw RpcTimeoutException(
-                method: request.method,
-                body: body,
-                timeout: _timeout,
-              ),
+          () => throw RpcTimeoutException(method: request.method, body: body, timeout: _timeout),
     );
     // Handle the response
     if (response.statusCode == 200) {
@@ -92,11 +70,9 @@ class JsonRpcClient {
 }
 
 abstract class _JsonRpcResponse {
-  const factory _JsonRpcResponse._object(Map<String, dynamic> data) =
-      _JsonRpcObjectResponse;
+  const factory _JsonRpcResponse._object(Map<String, dynamic> data) = _JsonRpcObjectResponse;
 
-  const factory _JsonRpcResponse._array(List<_JsonRpcObjectResponse> list) =
-      _JsonRpcArrayResponse;
+  const factory _JsonRpcResponse._array(List<_JsonRpcObjectResponse> list) = _JsonRpcArrayResponse;
 
   factory _JsonRpcResponse._fromObject(Map<String, dynamic> data) {
     if (data['jsonrpc'] != '2.0') {
@@ -106,9 +82,7 @@ abstract class _JsonRpcResponse {
       throw JsonRpcException.fromJson(data['error'] as Map<String, dynamic>);
     }
     if (!data.containsKey('result')) {
-      throw const FormatException(
-        'object has no result field, invalid jsonrpc-2.0',
-      );
+      throw const FormatException('object has no result field, invalid jsonrpc-2.0');
     }
 
     return _JsonRpcResponse._object(data);

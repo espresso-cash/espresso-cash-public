@@ -15,9 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-TransactionRequestInfo _$TransactionRequestInfoFromJson(
-  Map<String, dynamic> json,
-) {
+TransactionRequestInfo _$TransactionRequestInfoFromJson(Map<String, dynamic> json) {
   return _TransactionRequestInfo.fromJson(json);
 }
 
@@ -47,10 +45,7 @@ abstract class $TransactionRequestInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TransactionRequestInfoCopyWithImpl<
-  $Res,
-  $Val extends TransactionRequestInfo
->
+class _$TransactionRequestInfoCopyWithImpl<$Res, $Val extends TransactionRequestInfo>
     implements $TransactionRequestInfoCopyWith<$Res> {
   _$TransactionRequestInfoCopyWithImpl(this._value, this._then);
 
@@ -96,8 +91,7 @@ abstract class _$$TransactionRequestInfoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$TransactionRequestInfoImplCopyWithImpl<$Res>
-    extends
-        _$TransactionRequestInfoCopyWithImpl<$Res, _$TransactionRequestInfoImpl>
+    extends _$TransactionRequestInfoCopyWithImpl<$Res, _$TransactionRequestInfoImpl>
     implements _$$TransactionRequestInfoImplCopyWith<$Res> {
   __$$TransactionRequestInfoImplCopyWithImpl(
     _$TransactionRequestInfoImpl _value,
@@ -162,12 +156,8 @@ class _$TransactionRequestInfoImpl implements _TransactionRequestInfo {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$TransactionRequestInfoImplCopyWith<_$TransactionRequestInfoImpl>
-  get copyWith =>
-      __$$TransactionRequestInfoImplCopyWithImpl<_$TransactionRequestInfoImpl>(
-        this,
-        _$identity,
-      );
+  _$$TransactionRequestInfoImplCopyWith<_$TransactionRequestInfoImpl> get copyWith =>
+      __$$TransactionRequestInfoImplCopyWithImpl<_$TransactionRequestInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -176,10 +166,8 @@ class _$TransactionRequestInfoImpl implements _TransactionRequestInfo {
 }
 
 abstract class _TransactionRequestInfo implements TransactionRequestInfo {
-  const factory _TransactionRequestInfo({
-    required final String label,
-    required final String icon,
-  }) = _$TransactionRequestInfoImpl;
+  const factory _TransactionRequestInfo({required final String label, required final String icon}) =
+      _$TransactionRequestInfoImpl;
 
   factory _TransactionRequestInfo.fromJson(Map<String, dynamic> json) =
       _$TransactionRequestInfoImpl.fromJson;
@@ -193,13 +181,11 @@ abstract class _TransactionRequestInfo implements TransactionRequestInfo {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TransactionRequestInfoImplCopyWith<_$TransactionRequestInfoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$TransactionRequestInfoImplCopyWith<_$TransactionRequestInfoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-TransactionRequestResponse _$TransactionRequestResponseFromJson(
-  Map<String, dynamic> json,
-) {
+TransactionRequestResponse _$TransactionRequestResponseFromJson(Map<String, dynamic> json) {
   return _TransactionRequestResponse.fromJson(json);
 }
 
@@ -215,8 +201,8 @@ mixin _$TransactionRequestResponse {
   /// Create a copy of TransactionRequestResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $TransactionRequestResponseCopyWith<TransactionRequestResponse>
-  get copyWith => throw _privateConstructorUsedError;
+  $TransactionRequestResponseCopyWith<TransactionRequestResponse> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -224,20 +210,13 @@ abstract class $TransactionRequestResponseCopyWith<$Res> {
   factory $TransactionRequestResponseCopyWith(
     TransactionRequestResponse value,
     $Res Function(TransactionRequestResponse) then,
-  ) =
-      _$TransactionRequestResponseCopyWithImpl<
-        $Res,
-        TransactionRequestResponse
-      >;
+  ) = _$TransactionRequestResponseCopyWithImpl<$Res, TransactionRequestResponse>;
   @useResult
   $Res call({String transaction, String? message, String? redirect});
 }
 
 /// @nodoc
-class _$TransactionRequestResponseCopyWithImpl<
-  $Res,
-  $Val extends TransactionRequestResponse
->
+class _$TransactionRequestResponseCopyWithImpl<$Res, $Val extends TransactionRequestResponse>
     implements $TransactionRequestResponseCopyWith<$Res> {
   _$TransactionRequestResponseCopyWithImpl(this._value, this._then);
 
@@ -250,11 +229,7 @@ class _$TransactionRequestResponseCopyWithImpl<
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? transaction = null,
-    Object? message = freezed,
-    Object? redirect = freezed,
-  }) {
+  $Res call({Object? transaction = null, Object? message = freezed, Object? redirect = freezed}) {
     return _then(
       _value.copyWith(
             transaction:
@@ -292,11 +267,7 @@ abstract class _$$TransactionRequestResponseImplCopyWith<$Res>
 
 /// @nodoc
 class __$$TransactionRequestResponseImplCopyWithImpl<$Res>
-    extends
-        _$TransactionRequestResponseCopyWithImpl<
-          $Res,
-          _$TransactionRequestResponseImpl
-        >
+    extends _$TransactionRequestResponseCopyWithImpl<$Res, _$TransactionRequestResponseImpl>
     implements _$$TransactionRequestResponseImplCopyWith<$Res> {
   __$$TransactionRequestResponseImplCopyWithImpl(
     _$TransactionRequestResponseImpl _value,
@@ -307,11 +278,7 @@ class __$$TransactionRequestResponseImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? transaction = null,
-    Object? message = freezed,
-    Object? redirect = freezed,
-  }) {
+  $Res call({Object? transaction = null, Object? message = freezed, Object? redirect = freezed}) {
     return _then(
       _$TransactionRequestResponseImpl(
         transaction:
@@ -337,15 +304,10 @@ class __$$TransactionRequestResponseImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$TransactionRequestResponseImpl implements _TransactionRequestResponse {
-  const _$TransactionRequestResponseImpl({
-    required this.transaction,
-    this.message,
-    this.redirect,
-  });
+  const _$TransactionRequestResponseImpl({required this.transaction, this.message, this.redirect});
 
-  factory _$TransactionRequestResponseImpl.fromJson(
-    Map<String, dynamic> json,
-  ) => _$$TransactionRequestResponseImplFromJson(json);
+  factory _$TransactionRequestResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TransactionRequestResponseImplFromJson(json);
 
   @override
   final String transaction;
@@ -364,11 +326,9 @@ class _$TransactionRequestResponseImpl implements _TransactionRequestResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionRequestResponseImpl &&
-            (identical(other.transaction, transaction) ||
-                other.transaction == transaction) &&
+            (identical(other.transaction, transaction) || other.transaction == transaction) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.redirect, redirect) ||
-                other.redirect == redirect));
+            (identical(other.redirect, redirect) || other.redirect == redirect));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -380,10 +340,11 @@ class _$TransactionRequestResponseImpl implements _TransactionRequestResponse {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$TransactionRequestResponseImplCopyWith<_$TransactionRequestResponseImpl>
-  get copyWith => __$$TransactionRequestResponseImplCopyWithImpl<
-    _$TransactionRequestResponseImpl
-  >(this, _$identity);
+  _$$TransactionRequestResponseImplCopyWith<_$TransactionRequestResponseImpl> get copyWith =>
+      __$$TransactionRequestResponseImplCopyWithImpl<_$TransactionRequestResponseImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -391,8 +352,7 @@ class _$TransactionRequestResponseImpl implements _TransactionRequestResponse {
   }
 }
 
-abstract class _TransactionRequestResponse
-    implements TransactionRequestResponse {
+abstract class _TransactionRequestResponse implements TransactionRequestResponse {
   const factory _TransactionRequestResponse({
     required final String transaction,
     final String? message,
@@ -413,6 +373,6 @@ abstract class _TransactionRequestResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TransactionRequestResponseImplCopyWith<_$TransactionRequestResponseImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$TransactionRequestResponseImplCopyWith<_$TransactionRequestResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

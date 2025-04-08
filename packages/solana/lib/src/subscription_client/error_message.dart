@@ -8,8 +8,7 @@ part 'error_message.g.dart';
 class ErrorMessage implements SubscriptionMessage {
   const ErrorMessage({required this.error, required this.id});
 
-  factory ErrorMessage.fromJson(Map<String, dynamic> json) =>
-      _$ErrorMessageFromJson(json);
+  factory ErrorMessage.fromJson(Map<String, dynamic> json) => _$ErrorMessageFromJson(json);
 
   final SubscribeError error;
   final int id;

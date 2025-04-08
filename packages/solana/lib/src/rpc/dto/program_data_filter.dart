@@ -4,20 +4,13 @@ import 'package:solana/src/base58/encode.dart';
 part 'program_data_filter.g.dart';
 
 abstract class ProgramDataFilter {
-  factory ProgramDataFilter.memcmp({
-    required int offset,
-    required List<int> bytes,
-  }) => _MemcmpProgramDataFilter(
-    memcmp: _Memcmp(offset: offset, bytes: base58encode(bytes)),
-  );
+  factory ProgramDataFilter.memcmp({required int offset, required List<int> bytes}) =>
+      _MemcmpProgramDataFilter(memcmp: _Memcmp(offset: offset, bytes: base58encode(bytes)));
 
-  factory ProgramDataFilter.memcmpBase58({
-    required int offset,
-    required String bytes,
-  }) => _MemcmpProgramDataFilter(memcmp: _Memcmp(offset: offset, bytes: bytes));
+  factory ProgramDataFilter.memcmpBase58({required int offset, required String bytes}) =>
+      _MemcmpProgramDataFilter(memcmp: _Memcmp(offset: offset, bytes: bytes));
 
-  const factory ProgramDataFilter.dataSize(int dataSize) =
-      _DataSizeProgramDataFilter;
+  const factory ProgramDataFilter.dataSize(int dataSize) = _DataSizeProgramDataFilter;
 
   Map<String, dynamic> toJson();
 }

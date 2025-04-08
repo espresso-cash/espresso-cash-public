@@ -17,13 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MobileWalletAdapterConfig {
-  bool get supportsSignAndSendTransactions =>
-      throw _privateConstructorUsedError;
-  int get maxTransactionsPerSigningRequest =>
-      throw _privateConstructorUsedError;
+  bool get supportsSignAndSendTransactions => throw _privateConstructorUsedError;
+  int get maxTransactionsPerSigningRequest => throw _privateConstructorUsedError;
   int get maxMessagesPerSigningRequest => throw _privateConstructorUsedError;
-  List<Object> get supportedTransactionVersions =>
-      throw _privateConstructorUsedError;
+  List<Object> get supportedTransactionVersions => throw _privateConstructorUsedError;
   Duration get noConnectionWarningTimeout => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -48,10 +45,7 @@ abstract class $MobileWalletAdapterConfigCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MobileWalletAdapterConfigCopyWithImpl<
-  $Res,
-  $Val extends MobileWalletAdapterConfig
->
+class _$MobileWalletAdapterConfigCopyWithImpl<$Res, $Val extends MobileWalletAdapterConfig>
     implements $MobileWalletAdapterConfigCopyWith<$Res> {
   _$MobileWalletAdapterConfigCopyWithImpl(this._value, this._then);
 
@@ -122,11 +116,7 @@ abstract class _$$MobileWalletAdapterConfigImplCopyWith<$Res>
 
 /// @nodoc
 class __$$MobileWalletAdapterConfigImplCopyWithImpl<$Res>
-    extends
-        _$MobileWalletAdapterConfigCopyWithImpl<
-          $Res,
-          _$MobileWalletAdapterConfigImpl
-        >
+    extends _$MobileWalletAdapterConfigCopyWithImpl<$Res, _$MobileWalletAdapterConfigImpl>
     implements _$$MobileWalletAdapterConfigImplCopyWith<$Res> {
   __$$MobileWalletAdapterConfigImplCopyWithImpl(
     _$MobileWalletAdapterConfigImpl _value,
@@ -214,34 +204,18 @@ class _$MobileWalletAdapterConfigImpl implements _MobileWalletAdapterConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MobileWalletAdapterConfigImpl &&
-            (identical(
-                  other.supportsSignAndSendTransactions,
-                  supportsSignAndSendTransactions,
-                ) ||
-                other.supportsSignAndSendTransactions ==
-                    supportsSignAndSendTransactions) &&
-            (identical(
-                  other.maxTransactionsPerSigningRequest,
-                  maxTransactionsPerSigningRequest,
-                ) ||
-                other.maxTransactionsPerSigningRequest ==
-                    maxTransactionsPerSigningRequest) &&
-            (identical(
-                  other.maxMessagesPerSigningRequest,
-                  maxMessagesPerSigningRequest,
-                ) ||
-                other.maxMessagesPerSigningRequest ==
-                    maxMessagesPerSigningRequest) &&
+            (identical(other.supportsSignAndSendTransactions, supportsSignAndSendTransactions) ||
+                other.supportsSignAndSendTransactions == supportsSignAndSendTransactions) &&
+            (identical(other.maxTransactionsPerSigningRequest, maxTransactionsPerSigningRequest) ||
+                other.maxTransactionsPerSigningRequest == maxTransactionsPerSigningRequest) &&
+            (identical(other.maxMessagesPerSigningRequest, maxMessagesPerSigningRequest) ||
+                other.maxMessagesPerSigningRequest == maxMessagesPerSigningRequest) &&
             const DeepCollectionEquality().equals(
               other._supportedTransactionVersions,
               _supportedTransactionVersions,
             ) &&
-            (identical(
-                  other.noConnectionWarningTimeout,
-                  noConnectionWarningTimeout,
-                ) ||
-                other.noConnectionWarningTimeout ==
-                    noConnectionWarningTimeout));
+            (identical(other.noConnectionWarningTimeout, noConnectionWarningTimeout) ||
+                other.noConnectionWarningTimeout == noConnectionWarningTimeout));
   }
 
   @override
@@ -257,10 +231,11 @@ class _$MobileWalletAdapterConfigImpl implements _MobileWalletAdapterConfig {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MobileWalletAdapterConfigImplCopyWith<_$MobileWalletAdapterConfigImpl>
-  get copyWith => __$$MobileWalletAdapterConfigImplCopyWithImpl<
-    _$MobileWalletAdapterConfigImpl
-  >(this, _$identity);
+  _$$MobileWalletAdapterConfigImplCopyWith<_$MobileWalletAdapterConfigImpl> get copyWith =>
+      __$$MobileWalletAdapterConfigImplCopyWithImpl<_$MobileWalletAdapterConfigImpl>(
+        this,
+        _$identity,
+      );
 }
 
 abstract class _MobileWalletAdapterConfig implements MobileWalletAdapterConfig {
@@ -284,6 +259,6 @@ abstract class _MobileWalletAdapterConfig implements MobileWalletAdapterConfig {
   Duration get noConnectionWarningTimeout;
   @override
   @JsonKey(ignore: true)
-  _$$MobileWalletAdapterConfigImplCopyWith<_$MobileWalletAdapterConfigImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$MobileWalletAdapterConfigImplCopyWith<_$MobileWalletAdapterConfigImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
