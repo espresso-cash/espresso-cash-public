@@ -12,7 +12,8 @@ part of 'bloc.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$MobileWalletState {
@@ -21,52 +22,47 @@ mixin _$MobileWalletState {
     required TResult Function() none,
     required TResult Function() sessionTerminated,
     required TResult Function(RemoteRequest request) remote,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? none,
     TResult? Function()? sessionTerminated,
     TResult? Function(RemoteRequest request)? remote,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? sessionTerminated,
     TResult Function(RemoteRequest request)? remote,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(None value) none,
     required TResult Function(SessionTerminated value) sessionTerminated,
     required TResult Function(Remote value) remote,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(None value)? none,
     TResult? Function(SessionTerminated value)? sessionTerminated,
     TResult? Function(Remote value)? remote,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(None value)? none,
     TResult Function(SessionTerminated value)? sessionTerminated,
     TResult Function(Remote value)? remote,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $MobileWalletStateCopyWith<$Res> {
   factory $MobileWalletStateCopyWith(
-          MobileWalletState value, $Res Function(MobileWalletState) then) =
-      _$MobileWalletStateCopyWithImpl<$Res, MobileWalletState>;
+    MobileWalletState value,
+    $Res Function(MobileWalletState) then,
+  ) = _$MobileWalletStateCopyWithImpl<$Res, MobileWalletState>;
 }
 
 /// @nodoc
@@ -83,8 +79,9 @@ class _$MobileWalletStateCopyWithImpl<$Res, $Val extends MobileWalletState>
 /// @nodoc
 abstract class _$$NoneImplCopyWith<$Res> {
   factory _$$NoneImplCopyWith(
-          _$NoneImpl value, $Res Function(_$NoneImpl) then) =
-      __$$NoneImplCopyWithImpl<$Res>;
+    _$NoneImpl value,
+    $Res Function(_$NoneImpl) then,
+  ) = __$$NoneImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -92,7 +89,7 @@ class __$$NoneImplCopyWithImpl<$Res>
     extends _$MobileWalletStateCopyWithImpl<$Res, _$NoneImpl>
     implements _$$NoneImplCopyWith<$Res> {
   __$$NoneImplCopyWithImpl(_$NoneImpl _value, $Res Function(_$NoneImpl) _then)
-      : super(_value, _then);
+    : super(_value, _then);
 }
 
 /// @nodoc
@@ -189,18 +186,20 @@ abstract class None implements MobileWalletState {
 
 /// @nodoc
 abstract class _$$SessionTerminatedImplCopyWith<$Res> {
-  factory _$$SessionTerminatedImplCopyWith(_$SessionTerminatedImpl value,
-          $Res Function(_$SessionTerminatedImpl) then) =
-      __$$SessionTerminatedImplCopyWithImpl<$Res>;
+  factory _$$SessionTerminatedImplCopyWith(
+    _$SessionTerminatedImpl value,
+    $Res Function(_$SessionTerminatedImpl) then,
+  ) = __$$SessionTerminatedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$SessionTerminatedImplCopyWithImpl<$Res>
     extends _$MobileWalletStateCopyWithImpl<$Res, _$SessionTerminatedImpl>
     implements _$$SessionTerminatedImplCopyWith<$Res> {
-  __$$SessionTerminatedImplCopyWithImpl(_$SessionTerminatedImpl _value,
-      $Res Function(_$SessionTerminatedImpl) _then)
-      : super(_value, _then);
+  __$$SessionTerminatedImplCopyWithImpl(
+    _$SessionTerminatedImpl _value,
+    $Res Function(_$SessionTerminatedImpl) _then,
+  ) : super(_value, _then);
 }
 
 /// @nodoc
@@ -298,8 +297,9 @@ abstract class SessionTerminated implements MobileWalletState {
 /// @nodoc
 abstract class _$$RemoteImplCopyWith<$Res> {
   factory _$$RemoteImplCopyWith(
-          _$RemoteImpl value, $Res Function(_$RemoteImpl) then) =
-      __$$RemoteImplCopyWithImpl<$Res>;
+    _$RemoteImpl value,
+    $Res Function(_$RemoteImpl) then,
+  ) = __$$RemoteImplCopyWithImpl<$Res>;
   @useResult
   $Res call({RemoteRequest request});
 
@@ -311,20 +311,21 @@ class __$$RemoteImplCopyWithImpl<$Res>
     extends _$MobileWalletStateCopyWithImpl<$Res, _$RemoteImpl>
     implements _$$RemoteImplCopyWith<$Res> {
   __$$RemoteImplCopyWithImpl(
-      _$RemoteImpl _value, $Res Function(_$RemoteImpl) _then)
-      : super(_value, _then);
+    _$RemoteImpl _value,
+    $Res Function(_$RemoteImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? request = null,
-  }) {
-    return _then(_$RemoteImpl(
-      null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as RemoteRequest,
-    ));
+  $Res call({Object? request = null}) {
+    return _then(
+      _$RemoteImpl(
+        null == request
+            ? _value.request
+            : request // ignore: cast_nullable_to_non_nullable
+                as RemoteRequest,
+      ),
+    );
   }
 
   @override
@@ -452,70 +453,74 @@ mixin _$RemoteRequest {
     required TResult Function(AuthorizeRequest request) authorizeDapp,
     required TResult Function(SignPayloadsRequest request) signPayloads,
     required TResult Function(SignAndSendTransactionsRequest request)
-        signTransactionsForSending,
-    required TResult Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)
-        sendTransactions,
-  }) =>
-      throw _privateConstructorUsedError;
+    signTransactionsForSending,
+    required TResult Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )
+    sendTransactions,
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(AuthorizeRequest request)? authorizeDapp,
     TResult? Function(SignPayloadsRequest request)? signPayloads,
     TResult? Function(SignAndSendTransactionsRequest request)?
-        signTransactionsForSending,
-    TResult? Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)?
-        sendTransactions,
-  }) =>
-      throw _privateConstructorUsedError;
+    signTransactionsForSending,
+    TResult? Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )?
+    sendTransactions,
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(AuthorizeRequest request)? authorizeDapp,
     TResult Function(SignPayloadsRequest request)? signPayloads,
     TResult Function(SignAndSendTransactionsRequest request)?
-        signTransactionsForSending,
-    TResult Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)?
-        sendTransactions,
+    signTransactionsForSending,
+    TResult Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )?
+    sendTransactions,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(AuthorizeDapp value) authorizeDapp,
     required TResult Function(SignPayloads value) signPayloads,
     required TResult Function(SignTransactionsForSending value)
-        signTransactionsForSending,
+    signTransactionsForSending,
     required TResult Function(SendTransactions value) sendTransactions,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AuthorizeDapp value)? authorizeDapp,
     TResult? Function(SignPayloads value)? signPayloads,
     TResult? Function(SignTransactionsForSending value)?
-        signTransactionsForSending,
+    signTransactionsForSending,
     TResult? Function(SendTransactions value)? sendTransactions,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AuthorizeDapp value)? authorizeDapp,
     TResult Function(SignPayloads value)? signPayloads,
     TResult Function(SignTransactionsForSending value)?
-        signTransactionsForSending,
+    signTransactionsForSending,
     TResult Function(SendTransactions value)? sendTransactions,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $RemoteRequestCopyWith<$Res> {
   factory $RemoteRequestCopyWith(
-          RemoteRequest value, $Res Function(RemoteRequest) then) =
-      _$RemoteRequestCopyWithImpl<$Res, RemoteRequest>;
+    RemoteRequest value,
+    $Res Function(RemoteRequest) then,
+  ) = _$RemoteRequestCopyWithImpl<$Res, RemoteRequest>;
 }
 
 /// @nodoc
@@ -532,8 +537,9 @@ class _$RemoteRequestCopyWithImpl<$Res, $Val extends RemoteRequest>
 /// @nodoc
 abstract class _$$AuthorizeDappImplCopyWith<$Res> {
   factory _$$AuthorizeDappImplCopyWith(
-          _$AuthorizeDappImpl value, $Res Function(_$AuthorizeDappImpl) then) =
-      __$$AuthorizeDappImplCopyWithImpl<$Res>;
+    _$AuthorizeDappImpl value,
+    $Res Function(_$AuthorizeDappImpl) then,
+  ) = __$$AuthorizeDappImplCopyWithImpl<$Res>;
   @useResult
   $Res call({AuthorizeRequest request});
 
@@ -545,20 +551,22 @@ class __$$AuthorizeDappImplCopyWithImpl<$Res>
     extends _$RemoteRequestCopyWithImpl<$Res, _$AuthorizeDappImpl>
     implements _$$AuthorizeDappImplCopyWith<$Res> {
   __$$AuthorizeDappImplCopyWithImpl(
-      _$AuthorizeDappImpl _value, $Res Function(_$AuthorizeDappImpl) _then)
-      : super(_value, _then);
+    _$AuthorizeDappImpl _value,
+    $Res Function(_$AuthorizeDappImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? request = null,
-  }) {
-    return _then(_$AuthorizeDappImpl(
-      request: null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as AuthorizeRequest,
-    ));
+  $Res call({Object? request = null}) {
+    return _then(
+      _$AuthorizeDappImpl(
+        request:
+            null == request
+                ? _value.request
+                : request // ignore: cast_nullable_to_non_nullable
+                    as AuthorizeRequest,
+      ),
+    );
   }
 
   @override
@@ -606,10 +614,13 @@ class _$AuthorizeDappImpl implements AuthorizeDapp {
     required TResult Function(AuthorizeRequest request) authorizeDapp,
     required TResult Function(SignPayloadsRequest request) signPayloads,
     required TResult Function(SignAndSendTransactionsRequest request)
-        signTransactionsForSending,
-    required TResult Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)
-        sendTransactions,
+    signTransactionsForSending,
+    required TResult Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )
+    sendTransactions,
   }) {
     return authorizeDapp(request);
   }
@@ -620,10 +631,13 @@ class _$AuthorizeDappImpl implements AuthorizeDapp {
     TResult? Function(AuthorizeRequest request)? authorizeDapp,
     TResult? Function(SignPayloadsRequest request)? signPayloads,
     TResult? Function(SignAndSendTransactionsRequest request)?
-        signTransactionsForSending,
-    TResult? Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)?
-        sendTransactions,
+    signTransactionsForSending,
+    TResult? Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )?
+    sendTransactions,
   }) {
     return authorizeDapp?.call(request);
   }
@@ -634,10 +648,13 @@ class _$AuthorizeDappImpl implements AuthorizeDapp {
     TResult Function(AuthorizeRequest request)? authorizeDapp,
     TResult Function(SignPayloadsRequest request)? signPayloads,
     TResult Function(SignAndSendTransactionsRequest request)?
-        signTransactionsForSending,
-    TResult Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)?
-        sendTransactions,
+    signTransactionsForSending,
+    TResult Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )?
+    sendTransactions,
     required TResult orElse(),
   }) {
     if (authorizeDapp != null) {
@@ -652,7 +669,7 @@ class _$AuthorizeDappImpl implements AuthorizeDapp {
     required TResult Function(AuthorizeDapp value) authorizeDapp,
     required TResult Function(SignPayloads value) signPayloads,
     required TResult Function(SignTransactionsForSending value)
-        signTransactionsForSending,
+    signTransactionsForSending,
     required TResult Function(SendTransactions value) sendTransactions,
   }) {
     return authorizeDapp(this);
@@ -664,7 +681,7 @@ class _$AuthorizeDappImpl implements AuthorizeDapp {
     TResult? Function(AuthorizeDapp value)? authorizeDapp,
     TResult? Function(SignPayloads value)? signPayloads,
     TResult? Function(SignTransactionsForSending value)?
-        signTransactionsForSending,
+    signTransactionsForSending,
     TResult? Function(SendTransactions value)? sendTransactions,
   }) {
     return authorizeDapp?.call(this);
@@ -676,7 +693,7 @@ class _$AuthorizeDappImpl implements AuthorizeDapp {
     TResult Function(AuthorizeDapp value)? authorizeDapp,
     TResult Function(SignPayloads value)? signPayloads,
     TResult Function(SignTransactionsForSending value)?
-        signTransactionsForSending,
+    signTransactionsForSending,
     TResult Function(SendTransactions value)? sendTransactions,
     required TResult orElse(),
   }) {
@@ -701,8 +718,9 @@ abstract class AuthorizeDapp implements RemoteRequest {
 /// @nodoc
 abstract class _$$SignPayloadsImplCopyWith<$Res> {
   factory _$$SignPayloadsImplCopyWith(
-          _$SignPayloadsImpl value, $Res Function(_$SignPayloadsImpl) then) =
-      __$$SignPayloadsImplCopyWithImpl<$Res>;
+    _$SignPayloadsImpl value,
+    $Res Function(_$SignPayloadsImpl) then,
+  ) = __$$SignPayloadsImplCopyWithImpl<$Res>;
   @useResult
   $Res call({SignPayloadsRequest request});
 
@@ -714,20 +732,22 @@ class __$$SignPayloadsImplCopyWithImpl<$Res>
     extends _$RemoteRequestCopyWithImpl<$Res, _$SignPayloadsImpl>
     implements _$$SignPayloadsImplCopyWith<$Res> {
   __$$SignPayloadsImplCopyWithImpl(
-      _$SignPayloadsImpl _value, $Res Function(_$SignPayloadsImpl) _then)
-      : super(_value, _then);
+    _$SignPayloadsImpl _value,
+    $Res Function(_$SignPayloadsImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? request = null,
-  }) {
-    return _then(_$SignPayloadsImpl(
-      request: null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as SignPayloadsRequest,
-    ));
+  $Res call({Object? request = null}) {
+    return _then(
+      _$SignPayloadsImpl(
+        request:
+            null == request
+                ? _value.request
+                : request // ignore: cast_nullable_to_non_nullable
+                    as SignPayloadsRequest,
+      ),
+    );
   }
 
   @override
@@ -775,10 +795,13 @@ class _$SignPayloadsImpl implements SignPayloads {
     required TResult Function(AuthorizeRequest request) authorizeDapp,
     required TResult Function(SignPayloadsRequest request) signPayloads,
     required TResult Function(SignAndSendTransactionsRequest request)
-        signTransactionsForSending,
-    required TResult Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)
-        sendTransactions,
+    signTransactionsForSending,
+    required TResult Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )
+    sendTransactions,
   }) {
     return signPayloads(request);
   }
@@ -789,10 +812,13 @@ class _$SignPayloadsImpl implements SignPayloads {
     TResult? Function(AuthorizeRequest request)? authorizeDapp,
     TResult? Function(SignPayloadsRequest request)? signPayloads,
     TResult? Function(SignAndSendTransactionsRequest request)?
-        signTransactionsForSending,
-    TResult? Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)?
-        sendTransactions,
+    signTransactionsForSending,
+    TResult? Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )?
+    sendTransactions,
   }) {
     return signPayloads?.call(request);
   }
@@ -803,10 +829,13 @@ class _$SignPayloadsImpl implements SignPayloads {
     TResult Function(AuthorizeRequest request)? authorizeDapp,
     TResult Function(SignPayloadsRequest request)? signPayloads,
     TResult Function(SignAndSendTransactionsRequest request)?
-        signTransactionsForSending,
-    TResult Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)?
-        sendTransactions,
+    signTransactionsForSending,
+    TResult Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )?
+    sendTransactions,
     required TResult orElse(),
   }) {
     if (signPayloads != null) {
@@ -821,7 +850,7 @@ class _$SignPayloadsImpl implements SignPayloads {
     required TResult Function(AuthorizeDapp value) authorizeDapp,
     required TResult Function(SignPayloads value) signPayloads,
     required TResult Function(SignTransactionsForSending value)
-        signTransactionsForSending,
+    signTransactionsForSending,
     required TResult Function(SendTransactions value) sendTransactions,
   }) {
     return signPayloads(this);
@@ -833,7 +862,7 @@ class _$SignPayloadsImpl implements SignPayloads {
     TResult? Function(AuthorizeDapp value)? authorizeDapp,
     TResult? Function(SignPayloads value)? signPayloads,
     TResult? Function(SignTransactionsForSending value)?
-        signTransactionsForSending,
+    signTransactionsForSending,
     TResult? Function(SendTransactions value)? sendTransactions,
   }) {
     return signPayloads?.call(this);
@@ -845,7 +874,7 @@ class _$SignPayloadsImpl implements SignPayloads {
     TResult Function(AuthorizeDapp value)? authorizeDapp,
     TResult Function(SignPayloads value)? signPayloads,
     TResult Function(SignTransactionsForSending value)?
-        signTransactionsForSending,
+    signTransactionsForSending,
     TResult Function(SendTransactions value)? sendTransactions,
     required TResult orElse(),
   }) {
@@ -870,9 +899,9 @@ abstract class SignPayloads implements RemoteRequest {
 /// @nodoc
 abstract class _$$SignTransactionsForSendingImplCopyWith<$Res> {
   factory _$$SignTransactionsForSendingImplCopyWith(
-          _$SignTransactionsForSendingImpl value,
-          $Res Function(_$SignTransactionsForSendingImpl) then) =
-      __$$SignTransactionsForSendingImplCopyWithImpl<$Res>;
+    _$SignTransactionsForSendingImpl value,
+    $Res Function(_$SignTransactionsForSendingImpl) then,
+  ) = __$$SignTransactionsForSendingImplCopyWithImpl<$Res>;
   @useResult
   $Res call({SignAndSendTransactionsRequest request});
 
@@ -884,28 +913,30 @@ class __$$SignTransactionsForSendingImplCopyWithImpl<$Res>
     extends _$RemoteRequestCopyWithImpl<$Res, _$SignTransactionsForSendingImpl>
     implements _$$SignTransactionsForSendingImplCopyWith<$Res> {
   __$$SignTransactionsForSendingImplCopyWithImpl(
-      _$SignTransactionsForSendingImpl _value,
-      $Res Function(_$SignTransactionsForSendingImpl) _then)
-      : super(_value, _then);
+    _$SignTransactionsForSendingImpl _value,
+    $Res Function(_$SignTransactionsForSendingImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? request = null,
-  }) {
-    return _then(_$SignTransactionsForSendingImpl(
-      request: null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as SignAndSendTransactionsRequest,
-    ));
+  $Res call({Object? request = null}) {
+    return _then(
+      _$SignTransactionsForSendingImpl(
+        request:
+            null == request
+                ? _value.request
+                : request // ignore: cast_nullable_to_non_nullable
+                    as SignAndSendTransactionsRequest,
+      ),
+    );
   }
 
   @override
   @pragma('vm:prefer-inline')
   $SignAndSendTransactionsRequestCopyWith<$Res> get request {
-    return $SignAndSendTransactionsRequestCopyWith<$Res>(_value.request,
-        (value) {
+    return $SignAndSendTransactionsRequestCopyWith<$Res>(_value.request, (
+      value,
+    ) {
       return _then(_value.copyWith(request: value));
     });
   }
@@ -939,8 +970,9 @@ class _$SignTransactionsForSendingImpl implements SignTransactionsForSending {
   @override
   @pragma('vm:prefer-inline')
   _$$SignTransactionsForSendingImplCopyWith<_$SignTransactionsForSendingImpl>
-      get copyWith => __$$SignTransactionsForSendingImplCopyWithImpl<
-          _$SignTransactionsForSendingImpl>(this, _$identity);
+  get copyWith => __$$SignTransactionsForSendingImplCopyWithImpl<
+    _$SignTransactionsForSendingImpl
+  >(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -948,10 +980,13 @@ class _$SignTransactionsForSendingImpl implements SignTransactionsForSending {
     required TResult Function(AuthorizeRequest request) authorizeDapp,
     required TResult Function(SignPayloadsRequest request) signPayloads,
     required TResult Function(SignAndSendTransactionsRequest request)
-        signTransactionsForSending,
-    required TResult Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)
-        sendTransactions,
+    signTransactionsForSending,
+    required TResult Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )
+    sendTransactions,
   }) {
     return signTransactionsForSending(request);
   }
@@ -962,10 +997,13 @@ class _$SignTransactionsForSendingImpl implements SignTransactionsForSending {
     TResult? Function(AuthorizeRequest request)? authorizeDapp,
     TResult? Function(SignPayloadsRequest request)? signPayloads,
     TResult? Function(SignAndSendTransactionsRequest request)?
-        signTransactionsForSending,
-    TResult? Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)?
-        sendTransactions,
+    signTransactionsForSending,
+    TResult? Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )?
+    sendTransactions,
   }) {
     return signTransactionsForSending?.call(request);
   }
@@ -976,10 +1014,13 @@ class _$SignTransactionsForSendingImpl implements SignTransactionsForSending {
     TResult Function(AuthorizeRequest request)? authorizeDapp,
     TResult Function(SignPayloadsRequest request)? signPayloads,
     TResult Function(SignAndSendTransactionsRequest request)?
-        signTransactionsForSending,
-    TResult Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)?
-        sendTransactions,
+    signTransactionsForSending,
+    TResult Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )?
+    sendTransactions,
     required TResult orElse(),
   }) {
     if (signTransactionsForSending != null) {
@@ -994,7 +1035,7 @@ class _$SignTransactionsForSendingImpl implements SignTransactionsForSending {
     required TResult Function(AuthorizeDapp value) authorizeDapp,
     required TResult Function(SignPayloads value) signPayloads,
     required TResult Function(SignTransactionsForSending value)
-        signTransactionsForSending,
+    signTransactionsForSending,
     required TResult Function(SendTransactions value) sendTransactions,
   }) {
     return signTransactionsForSending(this);
@@ -1006,7 +1047,7 @@ class _$SignTransactionsForSendingImpl implements SignTransactionsForSending {
     TResult? Function(AuthorizeDapp value)? authorizeDapp,
     TResult? Function(SignPayloads value)? signPayloads,
     TResult? Function(SignTransactionsForSending value)?
-        signTransactionsForSending,
+    signTransactionsForSending,
     TResult? Function(SendTransactions value)? sendTransactions,
   }) {
     return signTransactionsForSending?.call(this);
@@ -1018,7 +1059,7 @@ class _$SignTransactionsForSendingImpl implements SignTransactionsForSending {
     TResult Function(AuthorizeDapp value)? authorizeDapp,
     TResult Function(SignPayloads value)? signPayloads,
     TResult Function(SignTransactionsForSending value)?
-        signTransactionsForSending,
+    signTransactionsForSending,
     TResult Function(SendTransactions value)? sendTransactions,
     required TResult orElse(),
   }) {
@@ -1030,27 +1071,29 @@ class _$SignTransactionsForSendingImpl implements SignTransactionsForSending {
 }
 
 abstract class SignTransactionsForSending implements RemoteRequest {
-  const factory SignTransactionsForSending(
-          {required final SignAndSendTransactionsRequest request}) =
-      _$SignTransactionsForSendingImpl;
+  const factory SignTransactionsForSending({
+    required final SignAndSendTransactionsRequest request,
+  }) = _$SignTransactionsForSendingImpl;
 
   @override
   SignAndSendTransactionsRequest get request;
   @JsonKey(ignore: true)
   _$$SignTransactionsForSendingImplCopyWith<_$SignTransactionsForSendingImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$SendTransactionsImplCopyWith<$Res> {
-  factory _$$SendTransactionsImplCopyWith(_$SendTransactionsImpl value,
-          $Res Function(_$SendTransactionsImpl) then) =
-      __$$SendTransactionsImplCopyWithImpl<$Res>;
+  factory _$$SendTransactionsImplCopyWith(
+    _$SendTransactionsImpl value,
+    $Res Function(_$SendTransactionsImpl) then,
+  ) = __$$SendTransactionsImplCopyWithImpl<$Res>;
   @useResult
-  $Res call(
-      {SignAndSendTransactionsRequest request,
-      List<Uint8List> signatures,
-      List<Uint8List> signedTransactions});
+  $Res call({
+    SignAndSendTransactionsRequest request,
+    List<Uint8List> signatures,
+    List<Uint8List> signedTransactions,
+  });
 
   $SignAndSendTransactionsRequestCopyWith<$Res> get request;
 }
@@ -1059,9 +1102,10 @@ abstract class _$$SendTransactionsImplCopyWith<$Res> {
 class __$$SendTransactionsImplCopyWithImpl<$Res>
     extends _$RemoteRequestCopyWithImpl<$Res, _$SendTransactionsImpl>
     implements _$$SendTransactionsImplCopyWith<$Res> {
-  __$$SendTransactionsImplCopyWithImpl(_$SendTransactionsImpl _value,
-      $Res Function(_$SendTransactionsImpl) _then)
-      : super(_value, _then);
+  __$$SendTransactionsImplCopyWithImpl(
+    _$SendTransactionsImpl _value,
+    $Res Function(_$SendTransactionsImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -1070,27 +1114,33 @@ class __$$SendTransactionsImplCopyWithImpl<$Res>
     Object? signatures = null,
     Object? signedTransactions = null,
   }) {
-    return _then(_$SendTransactionsImpl(
-      request: null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as SignAndSendTransactionsRequest,
-      signatures: null == signatures
-          ? _value._signatures
-          : signatures // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-      signedTransactions: null == signedTransactions
-          ? _value._signedTransactions
-          : signedTransactions // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ));
+    return _then(
+      _$SendTransactionsImpl(
+        request:
+            null == request
+                ? _value.request
+                : request // ignore: cast_nullable_to_non_nullable
+                    as SignAndSendTransactionsRequest,
+        signatures:
+            null == signatures
+                ? _value._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+        signedTransactions:
+            null == signedTransactions
+                ? _value._signedTransactions
+                : signedTransactions // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+      ),
+    );
   }
 
   @override
   @pragma('vm:prefer-inline')
   $SignAndSendTransactionsRequestCopyWith<$Res> get request {
-    return $SignAndSendTransactionsRequestCopyWith<$Res>(_value.request,
-        (value) {
+    return $SignAndSendTransactionsRequestCopyWith<$Res>(_value.request, (
+      value,
+    ) {
       return _then(_value.copyWith(request: value));
     });
   }
@@ -1099,12 +1149,12 @@ class __$$SendTransactionsImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SendTransactionsImpl implements SendTransactions {
-  const _$SendTransactionsImpl(
-      {required this.request,
-      required final List<Uint8List> signatures,
-      required final List<Uint8List> signedTransactions})
-      : _signatures = signatures,
-        _signedTransactions = signedTransactions;
+  const _$SendTransactionsImpl({
+    required this.request,
+    required final List<Uint8List> signatures,
+    required final List<Uint8List> signedTransactions,
+  }) : _signatures = signatures,
+       _signedTransactions = signedTransactions;
 
   @override
   final SignAndSendTransactionsRequest request;
@@ -1136,25 +1186,32 @@ class _$SendTransactionsImpl implements SendTransactions {
         (other.runtimeType == runtimeType &&
             other is _$SendTransactionsImpl &&
             (identical(other.request, request) || other.request == request) &&
-            const DeepCollectionEquality()
-                .equals(other._signatures, _signatures) &&
-            const DeepCollectionEquality()
-                .equals(other._signedTransactions, _signedTransactions));
+            const DeepCollectionEquality().equals(
+              other._signatures,
+              _signatures,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._signedTransactions,
+              _signedTransactions,
+            ));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      request,
-      const DeepCollectionEquality().hash(_signatures),
-      const DeepCollectionEquality().hash(_signedTransactions));
+    runtimeType,
+    request,
+    const DeepCollectionEquality().hash(_signatures),
+    const DeepCollectionEquality().hash(_signedTransactions),
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SendTransactionsImplCopyWith<_$SendTransactionsImpl> get copyWith =>
       __$$SendTransactionsImplCopyWithImpl<_$SendTransactionsImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -1162,10 +1219,13 @@ class _$SendTransactionsImpl implements SendTransactions {
     required TResult Function(AuthorizeRequest request) authorizeDapp,
     required TResult Function(SignPayloadsRequest request) signPayloads,
     required TResult Function(SignAndSendTransactionsRequest request)
-        signTransactionsForSending,
-    required TResult Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)
-        sendTransactions,
+    signTransactionsForSending,
+    required TResult Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )
+    sendTransactions,
   }) {
     return sendTransactions(request, signatures, signedTransactions);
   }
@@ -1176,10 +1236,13 @@ class _$SendTransactionsImpl implements SendTransactions {
     TResult? Function(AuthorizeRequest request)? authorizeDapp,
     TResult? Function(SignPayloadsRequest request)? signPayloads,
     TResult? Function(SignAndSendTransactionsRequest request)?
-        signTransactionsForSending,
-    TResult? Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)?
-        sendTransactions,
+    signTransactionsForSending,
+    TResult? Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )?
+    sendTransactions,
   }) {
     return sendTransactions?.call(request, signatures, signedTransactions);
   }
@@ -1190,10 +1253,13 @@ class _$SendTransactionsImpl implements SendTransactions {
     TResult Function(AuthorizeRequest request)? authorizeDapp,
     TResult Function(SignPayloadsRequest request)? signPayloads,
     TResult Function(SignAndSendTransactionsRequest request)?
-        signTransactionsForSending,
-    TResult Function(SignAndSendTransactionsRequest request,
-            List<Uint8List> signatures, List<Uint8List> signedTransactions)?
-        sendTransactions,
+    signTransactionsForSending,
+    TResult Function(
+      SignAndSendTransactionsRequest request,
+      List<Uint8List> signatures,
+      List<Uint8List> signedTransactions,
+    )?
+    sendTransactions,
     required TResult orElse(),
   }) {
     if (sendTransactions != null) {
@@ -1208,7 +1274,7 @@ class _$SendTransactionsImpl implements SendTransactions {
     required TResult Function(AuthorizeDapp value) authorizeDapp,
     required TResult Function(SignPayloads value) signPayloads,
     required TResult Function(SignTransactionsForSending value)
-        signTransactionsForSending,
+    signTransactionsForSending,
     required TResult Function(SendTransactions value) sendTransactions,
   }) {
     return sendTransactions(this);
@@ -1220,7 +1286,7 @@ class _$SendTransactionsImpl implements SendTransactions {
     TResult? Function(AuthorizeDapp value)? authorizeDapp,
     TResult? Function(SignPayloads value)? signPayloads,
     TResult? Function(SignTransactionsForSending value)?
-        signTransactionsForSending,
+    signTransactionsForSending,
     TResult? Function(SendTransactions value)? sendTransactions,
   }) {
     return sendTransactions?.call(this);
@@ -1232,7 +1298,7 @@ class _$SendTransactionsImpl implements SendTransactions {
     TResult Function(AuthorizeDapp value)? authorizeDapp,
     TResult Function(SignPayloads value)? signPayloads,
     TResult Function(SignTransactionsForSending value)?
-        signTransactionsForSending,
+    signTransactionsForSending,
     TResult Function(SendTransactions value)? sendTransactions,
     required TResult orElse(),
   }) {
@@ -1244,11 +1310,11 @@ class _$SendTransactionsImpl implements SendTransactions {
 }
 
 abstract class SendTransactions implements RemoteRequest {
-  const factory SendTransactions(
-          {required final SignAndSendTransactionsRequest request,
-          required final List<Uint8List> signatures,
-          required final List<Uint8List> signedTransactions}) =
-      _$SendTransactionsImpl;
+  const factory SendTransactions({
+    required final SignAndSendTransactionsRequest request,
+    required final List<Uint8List> signatures,
+    required final List<Uint8List> signedTransactions,
+  }) = _$SendTransactionsImpl;
 
   @override
   SignAndSendTransactionsRequest get request;

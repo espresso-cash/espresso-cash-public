@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 void showErrorSnackBar(BuildContext context, String message) =>
     showSnackBar(context, Either.left(_ErrorMessage(message)));
 
-void showSnackBar(
-  BuildContext context,
-  Either<Exception, String> result,
-) {
+void showSnackBar(BuildContext context, Either<Exception, String> result) {
   final message = result.fold(
     (e) => e is _ErrorMessage ? e.message : 'Action Failed',
     identity,
@@ -24,10 +21,7 @@ void showSnackBar(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.white),
-            ),
+            child: Text(message, style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),

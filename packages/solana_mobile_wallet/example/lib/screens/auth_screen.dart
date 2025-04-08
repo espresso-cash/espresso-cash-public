@@ -4,10 +4,7 @@ import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 import 'package:solana_mobile_wallet_example/mobile_wallet/bloc.dart';
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({
-    super.key,
-    required this.request,
-  });
+  const AuthScreen({super.key, required this.request});
 
   final AuthorizeRequest request;
 
@@ -53,7 +50,8 @@ class _AuthScreenState extends State<AuthScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
-                onPressed: () => context.read<MobileWalletBloc>().authorizeDapp(
+                onPressed:
+                    () => context.read<MobileWalletBloc>().authorizeDapp(
                       isAuthorized: true,
                       scopeTag: 'app',
                       qualifier: null,
@@ -61,7 +59,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 child: const Text('Authorize'),
               ),
               ElevatedButton(
-                onPressed: () => context.read<MobileWalletBloc>().authorizeDapp(
+                onPressed:
+                    () => context.read<MobileWalletBloc>().authorizeDapp(
                       isAuthorized: false,
                       scopeTag: 'app',
                       qualifier: null,

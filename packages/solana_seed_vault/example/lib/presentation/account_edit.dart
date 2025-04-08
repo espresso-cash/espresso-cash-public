@@ -30,14 +30,12 @@ class _AccountEditState extends State<AccountEdit> {
           account: widget.account,
           name: _controller.text,
         )
-        .then(
-      (it) {
-        if (!mounted) return;
+        .then((it) {
+          if (!mounted) return;
 
-        Navigator.of(context).pop();
-        showSnackBar(context, it.map(always('Account name updated')));
-      },
-    );
+          Navigator.of(context).pop();
+          showSnackBar(context, it.map(always('Account name updated')));
+        });
   }
 
   @override
@@ -48,44 +46,38 @@ class _AccountEditState extends State<AccountEdit> {
 
   @override
   Widget build(BuildContext context) => Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Text(
+            'Name this account',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 16),
+          TextField(controller: _controller, autofocus: true),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Text(
-                'Name this account',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.blue,
                 ),
+                child: const Text('Cancel'),
               ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _controller,
-                autofocus: true,
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.blue,
-                    ),
-                    child: const Text('Cancel'),
-                  ),
-                  ElevatedButton(
-                    onPressed: _handleSubmitted,
-                    child: const Text('Submit'),
-                  ),
-                ],
+              ElevatedButton(
+                onPressed: _handleSubmitted,
+                child: const Text('Submit'),
               ),
             ],
           ),
-        ),
-      );
+        ],
+      ),
+    ),
+  );
 }

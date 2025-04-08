@@ -11,25 +11,24 @@ class SeedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<SeedVaultBloc, SeedVaultState>(
-        builder: (context, state) => state.maybeMap(
-          orElse: () => const SizedBox.shrink(),
-          loaded: (state) => ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: state.seeds.length,
-            itemBuilder: (context, index) => SeedItem(
-              seed: state.seeds.elementAt(index),
+        builder:
+            (context, state) => state.maybeMap(
+              orElse: () => const SizedBox.shrink(),
+              loaded:
+                  (state) => ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: state.seeds.length,
+                    itemBuilder:
+                        (context, index) =>
+                            SeedItem(seed: state.seeds.elementAt(index)),
+                  ),
             ),
-          ),
-        ),
       );
 }
 
 class SeedItem extends StatefulWidget {
-  const SeedItem({
-    super.key,
-    required this.seed,
-  });
+  const SeedItem({super.key, required this.seed});
 
   final Seed seed;
 
@@ -39,14 +38,13 @@ class SeedItem extends StatefulWidget {
 
 class _SeedItemState extends State<SeedItem> {
   void _handleRequestPublicKeys() {
-    context
-        .read<SeedVaultBloc>()
-        .requestPublicKeys(widget.seed.authToken)
-        .then((it) {
-      if (!mounted) return;
+    context.read<SeedVaultBloc>().requestPublicKeys(widget.seed.authToken).then(
+      (it) {
+        if (!mounted) return;
 
-      showSnackBar(context, it.map((e) => e.join('\n\n')));
-    });
+        showSnackBar(context, it.map((e) => e.join('\n\n')));
+      },
+    );
   }
 
   void _handleDeauthorize() {
@@ -54,10 +52,9 @@ class _SeedItemState extends State<SeedItem> {
   }
 
   void _handleSignMessages() {
-    context
-        .read<SeedVaultBloc>()
-        .signMessages(widget.seed.authToken)
-        .then((it) {
+    context.read<SeedVaultBloc>().signMessages(widget.seed.authToken).then((
+      it,
+    ) {
       if (!mounted) return;
 
       showSnackBar(context, it);
@@ -65,10 +62,9 @@ class _SeedItemState extends State<SeedItem> {
   }
 
   void _handleSignTransactions() {
-    context
-        .read<SeedVaultBloc>()
-        .signTransactions(widget.seed.authToken)
-        .then((it) {
+    context.read<SeedVaultBloc>().signTransactions(widget.seed.authToken).then((
+      it,
+    ) {
       if (!mounted) return;
 
       showSnackBar(context, it);
@@ -77,61 +73,58 @@ class _SeedItemState extends State<SeedItem> {
 
   @override
   Widget build(BuildContext context) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Row(
         children: [
-          Row(
-            children: [
-              Text(
-                widget.seed.name,
-                style: const TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Spacer(),
-              IconButton(
-                onPressed: _handleDeauthorize,
-                icon: const Icon(Icons.close, color: Colors.red),
-              ),
-            ],
+          Text(
+            widget.seed.name,
+            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
           ),
-          Text('Purpose: ${widget.seed.purpose}', style: _buttonStyle),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: _handleRequestPublicKeys,
-            child: Text(
-              'Get public keys for ${widget.seed.accounts.map((it) => it.derivationPath.toString()).join(' - ')}',
-              textAlign: TextAlign.center,
-              style: _buttonStyle,
-            ),
-          ),
-          ElevatedButton(
-            onPressed: _handleSignTransactions,
-            child: const Text(
-              'Sign $_payloadCount transactions X $_keyCount keys',
-              style: _buttonStyle,
-            ),
-          ),
-          ElevatedButton(
-            onPressed: _handleSignMessages,
-            child: const Text(
-              'Sign $_payloadCount messages X $_keyCount keys',
-              style: _buttonStyle,
-            ),
-          ),
-          ExpansionTile(
-            initiallyExpanded: false,
-            title: const Text('Accounts marked as UserWallet'),
-            children: [
-              AccountList(
-                authToken: widget.seed.authToken,
-                accounts: widget.seed.accounts,
-              ),
-            ],
+          const Spacer(),
+          IconButton(
+            onPressed: _handleDeauthorize,
+            icon: const Icon(Icons.close, color: Colors.red),
           ),
         ],
-      );
+      ),
+      Text('Purpose: ${widget.seed.purpose}', style: _buttonStyle),
+      const SizedBox(height: 16),
+      ElevatedButton(
+        onPressed: _handleRequestPublicKeys,
+        child: Text(
+          'Get public keys for ${widget.seed.accounts.map((it) => it.derivationPath.toString()).join(' - ')}',
+          textAlign: TextAlign.center,
+          style: _buttonStyle,
+        ),
+      ),
+      ElevatedButton(
+        onPressed: _handleSignTransactions,
+        child: const Text(
+          'Sign $_payloadCount transactions X $_keyCount keys',
+          style: _buttonStyle,
+        ),
+      ),
+      ElevatedButton(
+        onPressed: _handleSignMessages,
+        child: const Text(
+          'Sign $_payloadCount messages X $_keyCount keys',
+          style: _buttonStyle,
+        ),
+      ),
+      ExpansionTile(
+        initiallyExpanded: false,
+        title: const Text('Accounts marked as UserWallet'),
+        children: [
+          AccountList(
+            authToken: widget.seed.authToken,
+            accounts: widget.seed.accounts,
+          ),
+        ],
+      ),
+    ],
+  );
 }
 
 const _payloadCount = 3;

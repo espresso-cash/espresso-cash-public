@@ -17,14 +17,15 @@ class AccountList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: accounts.length,
-        itemBuilder: (context, index) => AccountItem(
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemCount: accounts.length,
+    itemBuilder:
+        (context, index) => AccountItem(
           account: accounts.elementAt(index),
           authToken: authToken,
         ),
-      );
+  );
 }
 
 class AccountItem extends StatefulWidget {
@@ -45,10 +46,9 @@ class _AccountItemState extends State<AccountItem> {
   void _handleEditAccount() {
     showDialog<void>(
       context: context,
-      builder: (context) => AccountEdit(
-        authToken: widget.authToken,
-        account: widget.account,
-      ),
+      builder:
+          (context) =>
+              AccountEdit(authToken: widget.authToken, account: widget.account),
     );
   }
 
@@ -57,10 +57,10 @@ class _AccountItemState extends State<AccountItem> {
         .read<SeedVaultBloc>()
         .signTransactionWithAccount(widget.authToken, widget.account)
         .then((it) {
-      if (!mounted) return;
+          if (!mounted) return;
 
-      showSnackBar(context, it);
-    });
+          showSnackBar(context, it);
+        });
   }
 
   void _handleSignMessage() {
@@ -68,66 +68,63 @@ class _AccountItemState extends State<AccountItem> {
         .read<SeedVaultBloc>()
         .signMessageWithAccount(widget.authToken, widget.account)
         .then((it) {
-      if (!mounted) return;
+          if (!mounted) return;
 
-      showSnackBar(context, it);
-    });
+          showSnackBar(context, it);
+        });
   }
 
   @override
   Widget build(BuildContext context) => Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+    child: Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      'Account: ${widget.account.name}',
-                      style: _style,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: _handleEditAccount,
-                    icon: const Icon(Icons.edit),
-                  ),
-                ],
+              Flexible(
+                child: Text(
+                  'Account: ${widget.account.name}',
+                  style: _style,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              const SizedBox(height: 8),
-              Text(
-                'PublicKey: ${widget.account.publicKeyEncoded.shortened}',
-                style: _style,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Path: ${widget.account.derivationPath}',
-                style: _style,
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Sign a: ', style: _style),
-                  ElevatedButton(
-                    onPressed: _handleSignTransaction,
-                    child: const Text('Transaction', style: _style),
-                  ),
-                  ElevatedButton(
-                    onPressed: _handleSignMessage,
-                    child: const Text('Message', style: _style),
-                  ),
-                ],
+              IconButton(
+                onPressed: _handleEditAccount,
+                icon: const Icon(Icons.edit),
               ),
             ],
           ),
-        ),
-      );
+          const SizedBox(height: 8),
+          Text(
+            'PublicKey: ${widget.account.publicKeyEncoded.shortened}',
+            style: _style,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+          const SizedBox(height: 8),
+          Text('Path: ${widget.account.derivationPath}', style: _style),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Sign a: ', style: _style),
+              ElevatedButton(
+                onPressed: _handleSignTransaction,
+                child: const Text('Transaction', style: _style),
+              ),
+              ElevatedButton(
+                onPressed: _handleSignMessage,
+                child: const Text('Message', style: _style),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 extension on String {
