@@ -38,10 +38,7 @@ class QuizPage extends StatelessWidget {
     theme: const CpThemeData.black(),
     child: Scaffold(
       backgroundColor: backgroundColor,
-      appBar: CpAppBar(
-        title: title?.let(Text.new),
-        leading: backButton ?? const SizedBox.shrink(),
-      ),
+      appBar: CpAppBar(title: title?.let(Text.new), leading: backButton ?? const SizedBox.shrink()),
       body: SafeArea(
         child: LayoutBuilder(
           builder:
@@ -54,10 +51,7 @@ class QuizPage extends StatelessWidget {
                         AspectRatio(
                           aspectRatio: 0.73,
                           child: Column(
-                            children: [
-                              Expanded(child: content),
-                              if (indicator case final indicator?) indicator,
-                            ],
+                            children: [Expanded(child: content), if (indicator case final indicator?) indicator],
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -65,12 +59,7 @@ class QuizPage extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              ...footer.map(
-                                (button) => Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: button,
-                                ),
-                              ),
+                              ...footer.map((button) => Padding(padding: const EdgeInsets.all(8.0), child: button)),
                               const SizedBox(height: 32),
                             ],
                           ),

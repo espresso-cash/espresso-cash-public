@@ -4,13 +4,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../gen/assets.gen.dart';
 
 class DecoratedWindowHeader extends StatelessWidget {
-  const DecoratedWindowHeader({
-    super.key,
-    this.title,
-    this.message,
-    this.hasLogo = true,
-    this.markdownMessage = false,
-  });
+  const DecoratedWindowHeader({super.key, this.title, this.message, this.hasLogo = true, this.markdownMessage = false});
 
   final String? title;
   final String? message;
@@ -19,9 +13,7 @@ class DecoratedWindowHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final messageStyle = Theme.of(
-      context,
-    ).textTheme.displayMedium?.copyWith(fontSize: 18);
+    final messageStyle = Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 18);
     final title = this.title;
     final message = this.message;
 
@@ -35,9 +27,7 @@ class DecoratedWindowHeader extends StatelessWidget {
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.displayMedium?.copyWith(fontSize: 30),
+              style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 30),
             ),
           ),
         if (message != null)
@@ -51,11 +41,7 @@ class DecoratedWindowHeader extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       styleSheet: MarkdownStyleSheet(p: messageStyle),
                     )
-                    : Text(
-                      message,
-                      textAlign: TextAlign.center,
-                      style: messageStyle,
-                    ),
+                    : Text(message, textAlign: TextAlign.center, style: messageStyle),
           ),
       ],
     );

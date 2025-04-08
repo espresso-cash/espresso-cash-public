@@ -19,16 +19,10 @@ class ProfileImagePicker extends StatefulWidget {
 class _ProfileImagePickerState extends State<ProfileImagePicker> {
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> _onImageButtonPressed(
-    BuildContext context,
-    ImageSource source,
-  ) async {
+  Future<void> _onImageButtonPressed(BuildContext context, ImageSource source) async {
     Navigator.of(context).pop();
     try {
-      final pickedFile = await _picker.pickImage(
-        source: source,
-        preferredCameraDevice: CameraDevice.front,
-      );
+      final pickedFile = await _picker.pickImage(source: source, preferredCameraDevice: CameraDevice.front);
       if (pickedFile != null && mounted) {
         widget.onChanged(File(pickedFile.path));
       }
@@ -37,19 +31,12 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
     }
   }
 
-  Widget _getListItem(
-    BuildContext context,
-    String title,
-    Icon icon,
-    VoidCallback onClicked,
-  ) => ListTile(
+  Widget _getListItem(BuildContext context, String title, Icon icon, VoidCallback onClicked) => ListTile(
     leading: icon,
     title: Text(
       title,
       textAlign: TextAlign.left,
-      style: Theme.of(
-        context,
-      ).textTheme.bodyLarge?.copyWith(color: Colors.black),
+      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black),
     ),
     onTap: onClicked,
   );
@@ -84,8 +71,6 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
   }
 
   @override
-  Widget build(BuildContext context) => PickImageContainer(
-    image: widget.photo,
-    pickImageClicked: () => _showPicker(context),
-  );
+  Widget build(BuildContext context) =>
+      PickImageContainer(image: widget.photo, pickImageClicked: () => _showPicker(context));
 }

@@ -5,11 +5,7 @@ import 'colors.dart';
 import 'text_field.dart';
 
 class CpDobTextField extends StatelessWidget {
-  const CpDobTextField({
-    super.key,
-    required this.controller,
-    required this.placeholder,
-  });
+  const CpDobTextField({super.key, required this.controller, required this.placeholder});
 
   final TextEditingController controller;
   final String placeholder;
@@ -38,10 +34,7 @@ class _DateInputFormatter extends TextInputFormatter {
   const _DateInputFormatter();
 
   @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue previousValue,
-    TextEditingValue currentValue,
-  ) {
+  TextEditingValue formatEditUpdate(TextEditingValue previousValue, TextEditingValue currentValue) {
     final String currentText = currentValue.text;
 
     final int currentLength = currentText.length;
@@ -63,8 +56,7 @@ class _DateInputFormatter extends TextInputFormatter {
     }
 
     if (currentLength == 4) {
-      if (int.tryParse(currentText.substring(3, 4)) == null ||
-          int.parse(currentText.substring(3, 4)) > 1) {
+      if (int.tryParse(currentText.substring(3, 4)) == null || int.parse(currentText.substring(3, 4)) > 1) {
         return _updateText(currentText.substring(0, 3));
       }
     }
@@ -78,30 +70,24 @@ class _DateInputFormatter extends TextInputFormatter {
       return _updateText('$currentText/');
     }
 
-    if ((currentLength == 3 && previousLength == 4) ||
-        (currentLength == 6 && previousLength == 7)) {
+    if ((currentLength == 3 && previousLength == 4) || (currentLength == 6 && previousLength == 7)) {
       return _updateText(currentText.substring(0, currentText.length - 1));
     }
 
     if (currentLength == 3 && previousLength == 2) {
       if (!currentText.contains('/')) {
-        return _updateText(
-          '${currentText.substring(0, 2)}/${currentText.substring(2)}',
-        );
+        return _updateText('${currentText.substring(0, 2)}/${currentText.substring(2)}');
       }
     }
 
     if (currentLength == 6 && previousLength == 5) {
       if (!currentText.contains('/', 5)) {
-        return _updateText(
-          '${currentText.substring(0, 5)}/${currentText.substring(5)}',
-        );
+        return _updateText('${currentText.substring(0, 5)}/${currentText.substring(5)}');
       }
     }
 
     if (currentLength == 7) {
-      if (int.tryParse(currentText.substring(6, 7)) == null ||
-          int.parse(currentText.substring(6, 7)) > 2) {
+      if (int.tryParse(currentText.substring(6, 7)) == null || int.parse(currentText.substring(6, 7)) > 2) {
         return _updateText(currentText.substring(0, 6));
       }
     }
@@ -116,8 +102,6 @@ class _DateInputFormatter extends TextInputFormatter {
     return _updateText(currentText);
   }
 
-  TextEditingValue _updateText(String text) => TextEditingValue(
-    text: text,
-    selection: TextSelection.collapsed(offset: text.length),
-  );
+  TextEditingValue _updateText(String text) =>
+      TextEditingValue(text: text, selection: TextSelection.collapsed(offset: text.length));
 }

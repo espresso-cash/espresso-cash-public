@@ -16,11 +16,9 @@ import 'phone_confirmation_screen.dart';
 class PhoneStatusScreen extends StatelessWidget {
   const PhoneStatusScreen({super.key});
 
-  static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(builder: (context) => const PhoneStatusScreen()),
-      )
-      .then((result) => result ?? false);
+  static Future<bool> push(BuildContext context) => Navigator.of(
+    context,
+  ).push<bool>(MaterialPageRoute(builder: (context) => const PhoneStatusScreen())).then((result) => result ?? false);
 
   @override
   Widget build(BuildContext context) => UserDataListener(
@@ -32,8 +30,7 @@ class PhoneStatusScreen extends StatelessWidget {
         icon: status.kycIcon,
         children: [
           switch (status) {
-            KycValidationStatus.unverified ||
-            KycValidationStatus.pending => KycHeader(
+            KycValidationStatus.unverified || KycValidationStatus.pending => KycHeader(
               title: context.l10n.phonePendingStatusTitle,
               description: context.l10n.phonePendingStatusDescription(phone),
             ),
@@ -75,10 +72,7 @@ class __UpdatePhoneContentState extends State<_UpdatePhoneContent> {
   };
 
   Future<void> _handleSendVerification() async {
-    final result = await context.sendPhoneVerification(
-      context,
-      phone: _fullPhoneNumber,
-    );
+    final result = await context.sendPhoneVerification(context, phone: _fullPhoneNumber);
 
     if (!mounted) return;
     if (!result) return;
@@ -100,8 +94,7 @@ class __UpdatePhoneContentState extends State<_UpdatePhoneContent> {
         controller: _phoneController,
         initialCountry: Country.findByCode('NG'),
         placeholder: _placeholderText,
-        onPhoneChanged:
-            (fullNumber) => setState(() => _fullPhoneNumber = fullNumber),
+        onPhoneChanged: (fullNumber) => setState(() => _fullPhoneNumber = fullNumber),
       ),
       const SizedBox(height: 16),
       const Spacer(),
@@ -111,10 +104,7 @@ class __UpdatePhoneContentState extends State<_UpdatePhoneContent> {
             (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.sendVerificationCode,
-              onPressed:
-                  _fullPhoneNumber.isValidPhone
-                      ? _handleSendVerification
-                      : null,
+              onPressed: _fullPhoneNumber.isValidPhone ? _handleSendVerification : null,
             ),
       ),
     ],

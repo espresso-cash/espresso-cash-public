@@ -38,11 +38,7 @@ class _CpRoundedRectangleState extends State<CpRoundedRectangle> {
     padding: widget.padding,
     decoration: BoxDecoration(
       color: widget.backgroundColor ?? CpColors.deepGreyColor,
-      borderRadius: const BorderRadius.only(
-        bottomLeft: _radius,
-        bottomRight: _radius,
-        topLeft: _radius,
-      ),
+      borderRadius: const BorderRadius.only(bottomLeft: _radius, bottomRight: _radius, topLeft: _radius),
     ),
     child:
         widget.scrollable

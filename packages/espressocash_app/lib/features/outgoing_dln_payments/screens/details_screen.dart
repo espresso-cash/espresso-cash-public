@@ -26,30 +26,22 @@ import '../services/dln_order_service.dart';
 class OutgoingDlnPaymentDetailsScreen extends StatefulWidget {
   const OutgoingDlnPaymentDetailsScreen({super.key, required this.id});
 
-  static void push(BuildContext context, {required String id}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => OutgoingDlnPaymentDetailsScreen(id: id),
-        ),
-      );
+  static void push(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => OutgoingDlnPaymentDetailsScreen(id: id)));
 
-  static void open(BuildContext context, {required String id}) =>
-      Navigator.of(context).pushAndRemoveUntil<void>(
-        MaterialPageRoute(
-          builder: (context) => OutgoingDlnPaymentDetailsScreen(id: id),
-        ),
-        (route) => route.isFirst,
-      );
+  static void open(BuildContext context, {required String id}) => Navigator.of(context).pushAndRemoveUntil<void>(
+    MaterialPageRoute(builder: (context) => OutgoingDlnPaymentDetailsScreen(id: id)),
+    (route) => route.isFirst,
+  );
 
   final String id;
 
   @override
-  State<OutgoingDlnPaymentDetailsScreen> createState() =>
-      _OutgoingDlnPaymentDetailsScreenState();
+  State<OutgoingDlnPaymentDetailsScreen> createState() => _OutgoingDlnPaymentDetailsScreenState();
 }
 
-class _OutgoingDlnPaymentDetailsScreenState
-    extends State<OutgoingDlnPaymentDetailsScreen> {
+class _OutgoingDlnPaymentDetailsScreenState extends State<OutgoingDlnPaymentDetailsScreen> {
   late final Stream<OutgoingDlnPayment?> _order;
 
   @override
@@ -80,9 +72,7 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = context.locale;
 
-    final String? statusTitle = order.status.mapOrNull(
-      fulfilled: always(context.l10n.transferSuccessTitle),
-    );
+    final String? statusTitle = order.status.mapOrNull(fulfilled: always(context.l10n.transferSuccessTitle));
 
     final receiverBlockchain = order.payment.receiverBlockchain.name.titleCase;
 
@@ -91,24 +81,17 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
     final String statusContent = order.status.maybeMap(
       fulfilled: always(context.l10n.transactionFulfilled),
       success: always(context.l10n.transactionAwaitingFulfillment),
-      txFailure:
-          (it) => [
-            context.l10n.splitKeyErrorMessage2,
-            context.l10n.tryAgainLater,
-          ].join(' '),
+      txFailure: (it) => [context.l10n.splitKeyErrorMessage2, context.l10n.tryAgainLater].join(' '),
       unfulfilled: always(context.l10n.outgoingDlnFailure),
       orElse: always(context.l10n.paymentProgressOngoing(amount)),
     );
 
-    final Widget? primaryButton = order.status.mapOrNull(
-      unfulfilled: always(const _ContactUsButton()),
-    );
+    final Widget? primaryButton = order.status.mapOrNull(unfulfilled: always(const _ContactUsButton()));
 
     void handleCanceled() => showConfirmationDialog(
       context,
       title: context.l10n.outgoingSplitKeyPayments_btnCancel.toUpperCase(),
-      message:
-          context.l10n.outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
+      message: context.l10n.outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
       onConfirm: () {
         Navigator.pop(context);
         sl<OutgoingDlnPaymentService>().cancel(order.id);
@@ -145,16 +128,9 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
               receiverBlockchain: receiverBlockchain,
             ),
             const Spacer(flex: 4),
-            if (partnerOrderId != null && partnerOrderId.isNotEmpty)
-              PartnerOrderIdWidget(orderId: partnerOrderId),
-            if (primaryButton != null) ...[
-              const SizedBox(height: 12),
-              primaryButton,
-            ],
-            if (secondaryButton != null) ...[
-              const SizedBox(height: 16),
-              secondaryButton,
-            ],
+            if (partnerOrderId != null && partnerOrderId.isNotEmpty) PartnerOrderIdWidget(orderId: partnerOrderId),
+            if (primaryButton != null) ...[const SizedBox(height: 12), primaryButton],
+            if (secondaryButton != null) ...[const SizedBox(height: 16), secondaryButton],
             const SizedBox(height: 24),
           ],
         ),
@@ -187,21 +163,12 @@ class _Timeline extends StatelessWidget {
       trailing: amount.format(context.locale, maxDecimals: 2),
       subtitle: created.let((t) => context.formatDate(t)),
     );
-    final txCreated = CpTimelineItem(
-      title: context.l10n.transactionSentTimeline,
-    );
-    final paymentSuccess = CpTimelineItem(
-      title: '${context.l10n.moneyReceived} on $receiverBlockchain',
-    );
+    final txCreated = CpTimelineItem(title: context.l10n.transactionSentTimeline);
+    final paymentSuccess = CpTimelineItem(title: '${context.l10n.moneyReceived} on $receiverBlockchain');
 
     final items = [paymentInitiated, txCreated, paymentSuccess];
 
-    return CpTimeline(
-      status: timelineStatus,
-      items: items,
-      active: activeItem,
-      animated: animated,
-    );
+    return CpTimeline(status: timelineStatus, items: items, active: activeItem, animated: animated);
   }
 }
 

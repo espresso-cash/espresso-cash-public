@@ -5,12 +5,7 @@ import '../../../ui/chip.dart';
 import '../../../ui/colors.dart';
 
 class ErrorChip extends StatelessWidget {
-  const ErrorChip({
-    super.key,
-    required this.text,
-    required this.visible,
-    required this.margin,
-  });
+  const ErrorChip({super.key, required this.text, required this.visible, required this.margin});
 
   final String text;
   final bool visible;
@@ -30,10 +25,7 @@ class ErrorChip extends StatelessWidget {
                   text.toUpperCase(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

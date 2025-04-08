@@ -40,42 +40,22 @@ class CpActivityTile extends StatelessWidget {
       leading: showIcon ? SizedBox.square(dimension: 42, child: icon) : null,
       title: Row(
         children: [
-          Expanded(
-            child: Text(
-              title,
-              style: _titleStyle,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
+          Expanded(child: Text(title, style: _titleStyle, overflow: TextOverflow.ellipsis)),
           if (incomingAmount != null)
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Text('+$incomingAmount', style: _inAmountStyle),
-            ),
+            Padding(padding: const EdgeInsets.only(left: 8), child: Text('+$incomingAmount', style: _inAmountStyle)),
           if (outgoingAmount != null)
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Text('-$outgoingAmount', style: _titleStyle),
-            ),
+            Padding(padding: const EdgeInsets.only(left: 8), child: Text('-$outgoingAmount', style: _titleStyle)),
         ],
       ),
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(status.text(context), style: _subtitleStyle),
-          Text(timestamp, style: _subtitleStyle),
-        ],
+        children: [Text(status.text(context), style: _subtitleStyle), Text(timestamp, style: _subtitleStyle)],
       ),
     );
   }
 }
 
-const _titleStyle = TextStyle(
-  fontSize: 16,
-  letterSpacing: .23,
-  color: Colors.white,
-  fontWeight: FontWeight.w600,
-);
+const _titleStyle = TextStyle(fontSize: 16, letterSpacing: .23, color: Colors.white, fontWeight: FontWeight.w600);
 
 const _inAmountStyle = TextStyle(
   fontSize: 16,
@@ -84,11 +64,7 @@ const _inAmountStyle = TextStyle(
   fontWeight: FontWeight.w500,
 );
 
-const _subtitleStyle = TextStyle(
-  fontSize: 14,
-  color: Colors.white,
-  letterSpacing: .19,
-);
+const _subtitleStyle = TextStyle(fontSize: 14, color: Colors.white, letterSpacing: .19);
 
 extension on CpActivityTileStatus {
   String text(BuildContext context) {

@@ -46,24 +46,15 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
           ? ListenableBuilder(
             listenable: sl<StellarRecoveryService>(),
             builder: (context, child) {
-              Widget notice(Widget child) => _RecoveryNoticeContent(
-                onClosePressed: _handleHideNoticePressed,
-                child: child,
-              );
+              Widget notice(Widget child) =>
+                  _RecoveryNoticeContent(onClosePressed: _handleHideNoticePressed, child: child);
 
               return switch (sl<StellarRecoveryService>().value) {
-                RecoveryNone() ||
-                RecoveryDismissed() => const SizedBox.shrink(),
-                RecoveryPending() => notice(
-                  _Pending(onRecoverPressed: _handleRecoverPressed),
-                ),
+                RecoveryNone() || RecoveryDismissed() => const SizedBox.shrink(),
+                RecoveryPending() => notice(_Pending(onRecoverPressed: _handleRecoverPressed)),
                 RecoveryProcessing() => notice(const _Processing()),
-                RecoveryCompleted(:final amount) => notice(
-                  _Completed(amount: amount),
-                ),
-                RecoveryFailed() => notice(
-                  _Failed(onRecoverPressed: _handleRecoverPressed),
-                ),
+                RecoveryCompleted(:final amount) => notice(_Completed(amount: amount)),
+                RecoveryFailed() => notice(_Failed(onRecoverPressed: _handleRecoverPressed)),
               };
             },
           )
@@ -103,11 +94,8 @@ class _Completed extends StatelessWidget {
   final CryptoAmount amount;
 
   @override
-  Widget build(BuildContext context) => Text(
-    context.l10n.moneyRecoverySuccess(
-      amount.format(context.locale, maxDecimals: 2),
-    ),
-  );
+  Widget build(BuildContext context) =>
+      Text(context.l10n.moneyRecoverySuccess(amount.format(context.locale, maxDecimals: 2)));
 }
 
 class _Failed extends StatelessWidget {
@@ -131,21 +119,14 @@ class _Failed extends StatelessWidget {
 }
 
 class _RecoveryNoticeContent extends StatelessWidget {
-  const _RecoveryNoticeContent({
-    required this.onClosePressed,
-    required this.child,
-  });
+  const _RecoveryNoticeContent({required this.onClosePressed, required this.child});
 
   final VoidCallback onClosePressed;
   final Widget child;
 
   @override
   Widget build(BuildContext context) => DefaultTextStyle(
-    style: const TextStyle(
-      color: Colors.white,
-      fontSize: 14.5,
-      fontWeight: FontWeight.w500,
-    ),
+    style: const TextStyle(color: Colors.white, fontSize: 14.5, fontWeight: FontWeight.w500),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: Center(
@@ -158,21 +139,13 @@ class _RecoveryNoticeContent extends StatelessWidget {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 4.0,
-                      vertical: 2,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2),
                     child: Center(child: child),
                   ),
                 ),
                 GestureDetector(
                   onTap: onClosePressed,
-                  child: SizedBox.square(
-                    dimension: 12,
-                    child: Assets.icons.closeButtonIcon.svg(
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: SizedBox.square(dimension: 12, child: Assets.icons.closeButtonIcon.svg(color: Colors.white)),
                 ),
               ],
             ),

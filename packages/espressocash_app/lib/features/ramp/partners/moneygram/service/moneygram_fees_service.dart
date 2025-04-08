@@ -9,13 +9,7 @@ import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 
 typedef MoneygramFees =
-    ({
-      Amount receiveAmount,
-      Amount moneygramFee,
-      Amount bridgeFee,
-      Amount gasFeeInUsdc,
-      int? priorityFee,
-    });
+    ({Amount receiveAmount, Amount moneygramFee, Amount bridgeFee, Amount gasFeeInUsdc, int? priorityFee});
 
 @Singleton(scope: authScope)
 class MoneygramFeesService {
@@ -27,10 +21,7 @@ class MoneygramFeesService {
   Amount? _lastAmount;
   RampType? _lastType;
 
-  Future<MoneygramFees> fetchFees({
-    required Amount amount,
-    required RampType type,
-  }) {
+  Future<MoneygramFees> fetchFees({required Amount amount, required RampType type}) {
     if (amount != _lastAmount || type != _lastType) {
       _cache.invalidate();
       _lastAmount = amount;
@@ -40,31 +31,16 @@ class MoneygramFeesService {
     return _cache.fetch(() => _fetchFeesFromApi(amount: amount, type: type));
   }
 
-  Future<MoneygramFees> _fetchFeesFromApi({
-    required Amount amount,
-    required RampType type,
-  }) async {
+  Future<MoneygramFees> _fetchFeesFromApi({required Amount amount, required RampType type}) async {
     final fee = await _client.calculateMoneygramFee(
-      MoneygramFeeRequestDto(
-        type: type.toDto(),
-        amount: amount.decimal.toString(),
-      ),
+      MoneygramFeeRequestDto(type: type.toDto(), amount: amount.decimal.toString()),
     );
 
-    final bridgeFee = Amount.fromDecimal(
-      value: Decimal.parse(fee.bridgeFee),
-      currency: Currency.usdc,
-    );
+    final bridgeFee = Amount.fromDecimal(value: Decimal.parse(fee.bridgeFee), currency: Currency.usdc);
 
-    final moneygramFee = Amount.fromDecimal(
-      value: Decimal.parse(fee.moneygramFee),
-      currency: Currency.usdc,
-    );
+    final moneygramFee = Amount.fromDecimal(value: Decimal.parse(fee.moneygramFee), currency: Currency.usdc);
 
-    final gasFeeInUsdc = Amount.fromDecimal(
-      value: Decimal.parse(fee.gasFeeInUsdc ?? '0'),
-      currency: Currency.usdc,
-    );
+    final gasFeeInUsdc = Amount.fromDecimal(value: Decimal.parse(fee.gasFeeInUsdc ?? '0'), currency: Currency.usdc);
 
     final totalFee = switch (type) {
       RampType.onRamp => bridgeFee + moneygramFee,

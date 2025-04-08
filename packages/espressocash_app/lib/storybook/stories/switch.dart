@@ -3,10 +3,7 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../ui/switch.dart';
 
-final cpSwitch = Story(
-  name: 'CpSwitch',
-  builder: (context) => const SafeArea(child: _Content()),
-);
+final cpSwitch = Story(name: 'CpSwitch', builder: (context) => const SafeArea(child: _Content()));
 
 class _Content extends StatefulWidget {
   const _Content();
@@ -24,17 +21,11 @@ class _ContentState extends State<_Content> {
     children: [
       ListTile(
         title: const Text('Switch 1'),
-        trailing: CpSwitch(
-          value: _switch1,
-          onChanged: (value) => setState(() => _switch1 = value),
-        ),
+        trailing: CpSwitch(value: _switch1, onChanged: (value) => setState(() => _switch1 = value)),
       ),
       ListTile(
         title: const Text('Switch 2'),
-        trailing: CpSwitch(
-          value: _switch2,
-          onChanged: (value) => setState(() => _switch2 = value),
-        ),
+        trailing: CpSwitch(value: _switch2, onChanged: (value) => setState(() => _switch2 = value)),
       ),
     ],
   );

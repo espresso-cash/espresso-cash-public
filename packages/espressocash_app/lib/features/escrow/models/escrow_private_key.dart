@@ -15,6 +15,5 @@ class EscrowPrivateKey with _$EscrowPrivateKey {
     return EscrowPrivateKey(data.bytes);
   }
 
-  late final Future<Ed25519HDKeyPair> keyPair =
-      Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: bytes);
+  late final Future<Ed25519HDKeyPair> keyPair = Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: bytes);
 }

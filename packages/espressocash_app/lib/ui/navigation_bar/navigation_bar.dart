@@ -13,17 +13,10 @@ class CPNavigationBar extends StatelessWidget {
     padding: const EdgeInsets.only(bottom: 8),
     color: CpColors.deepGreyColor,
     child: SafeArea(
-      minimum: const EdgeInsets.only(
-        bottom: _barPadding,
-        left: _barPadding,
-        right: _barPadding,
-      ),
+      minimum: const EdgeInsets.only(bottom: _barPadding, left: _barPadding, right: _barPadding),
       child: Container(
         clipBehavior: Clip.antiAlias,
-        decoration: const ShapeDecoration(
-          color: CpColors.blackGreyColor,
-          shape: StadiumBorder(),
-        ),
+        decoration: const ShapeDecoration(color: CpColors.blackGreyColor, shape: StadiumBorder()),
         child: SizedBox(
           height: _barHeight,
           child: Row(

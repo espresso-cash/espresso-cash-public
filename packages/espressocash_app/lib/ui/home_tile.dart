@@ -13,9 +13,7 @@ class HomeTile extends StatelessWidget {
     padding: padding,
     decoration: const BoxDecoration(
       color: CpColors.deepGreyColor,
-      boxShadow: [
-        BoxShadow(color: CpColors.deepGreyColor, offset: Offset(0, 2)),
-      ],
+      boxShadow: [BoxShadow(color: CpColors.deepGreyColor, offset: Offset(0, 2))],
     ),
     child: child,
   );

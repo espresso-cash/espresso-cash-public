@@ -25,12 +25,8 @@ class QuizIndicator extends StatelessWidget {
       child: ValueListenableBuilder(
         valueListenable: controller,
         builder:
-            (context, offset, _) => SmoothIndicator(
-              size: effect.calculateSize(_count),
-              offset: offset,
-              count: _count,
-              effect: effect,
-            ),
+            (context, offset, _) =>
+                SmoothIndicator(size: effect.calculateSize(_count), offset: offset, count: _count, effect: effect),
       ),
     );
   }

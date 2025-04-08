@@ -13,43 +13,28 @@ typedef CryptoFiatAmount = (CryptoAmount, FiatAmount?);
 
 @injectable
 class TokenFiatBalanceService {
-  const TokenFiatBalanceService(
-    this._conversionRatesRepository,
-    this._balancesRepository,
-    this._analyticsManager,
-  );
+  const TokenFiatBalanceService(this._conversionRatesRepository, this._balancesRepository, this._analyticsManager);
 
   final ConversionRatesRepository _conversionRatesRepository;
   final TokenBalancesRepository _balancesRepository;
   final AnalyticsManager _analyticsManager;
 
-  static const _zeroFiat = FiatAmount(
-    value: 0,
-    fiatCurrency: defaultFiatCurrency,
-  );
+  static const _zeroFiat = FiatAmount(value: 0, fiatCurrency: defaultFiatCurrency);
 
   Stream<FiatAmount?> watch(Token token) {
     const fiatCurrency = defaultFiatCurrency;
-    final conversionRate = _conversionRatesRepository.watchRate(
-      CryptoCurrency(token: token),
-      to: fiatCurrency,
-    );
+    final conversionRate = _conversionRatesRepository.watchRate(CryptoCurrency(token: token), to: fiatCurrency);
 
     final balance = _balancesRepository.watch(token);
 
     return Rx.combineLatest2(
       balance,
       conversionRate,
-      (cryptoAmount, rate) =>
-          rate == null
-              ? null
-              : cryptoAmount.convert(rate: rate, to: fiatCurrency)
-                  as FiatAmount,
+      (cryptoAmount, rate) => rate == null ? null : cryptoAmount.convert(rate: rate, to: fiatCurrency) as FiatAmount,
     ).distinct();
   }
 
-  Stream<FiatAmount> watchMainBalance() =>
-      watch(Token.usdc).map((it) => it ?? _zeroFiat);
+  Stream<FiatAmount> watchMainBalance() => watch(Token.usdc).map((it) => it ?? _zeroFiat);
 
   Stream<FiatAmount?> watchTotalInvestmentsBalance() => _balancesRepository
       .watchUserTokens(ignoreTokens: [Token.usdc])
@@ -91,15 +76,13 @@ class TokenFiatBalanceService {
           )
           .distinct();
 
-  Stream<CryptoFiatAmount> readInvestmentBalance(Token token) =>
-      _balancesRepository
-          .watch(token)
-          .flatMap(
-            (amount) => Rx.combineLatest([
-              watch(amount.token).map((fiat) => (amount, fiat)),
-            ], (values) => values.map((e) => (e.$1, e.$2 ?? _zeroFiat)).first),
-          );
+  Stream<CryptoFiatAmount> readInvestmentBalance(Token token) => _balancesRepository
+      .watch(token)
+      .flatMap(
+        (amount) => Rx.combineLatest([
+          watch(amount.token).map((fiat) => (amount, fiat)),
+        ], (values) => values.map((e) => (e.$1, e.$2 ?? _zeroFiat)).first),
+      );
 
-  void _logTotalCryptoBalance(Amount total) =>
-      _analyticsManager.setTotalInvestmentsBalance(total.decimal);
+  void _logTotalCryptoBalance(Amount total) => _analyticsManager.setTotalInvestmentsBalance(total.decimal);
 }

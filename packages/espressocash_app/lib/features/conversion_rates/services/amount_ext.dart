@@ -7,10 +7,7 @@ import '../../tokens/token.dart';
 import '../data/repository.dart';
 
 extension CryptoAmountExt on CryptoAmount {
-  FiatAmount? toFiatAmount(
-    FiatCurrency currency, {
-    required ConversionRatesRepository ratesRepository,
-  }) {
+  FiatAmount? toFiatAmount(FiatCurrency currency, {required ConversionRatesRepository ratesRepository}) {
     final rate = ratesRepository.readRate(cryptoCurrency, to: currency);
 
     if (rate == null) return null;
@@ -21,18 +18,12 @@ extension CryptoAmountExt on CryptoAmount {
 
 extension FiatAmountExt on FiatAmount {
   CryptoAmount? toTokenAmount(Token token) {
-    final rate = sl<ConversionRatesRepository>().readRate(
-      CryptoCurrency(token: token),
-      to: fiatCurrency,
-    );
+    final rate = sl<ConversionRatesRepository>().readRate(CryptoCurrency(token: token), to: fiatCurrency);
 
     if (rate == null) return null;
 
-    final inverted = rate.inverse.toDecimal(
-      scaleOnInfinitePrecision: token.decimals,
-    );
+    final inverted = rate.inverse.toDecimal(scaleOnInfinitePrecision: token.decimals);
 
-    return convert(rate: inverted, to: CryptoCurrency(token: token))
-        as CryptoAmount;
+    return convert(rate: inverted, to: CryptoCurrency(token: token)) as CryptoAmount;
   }
 }

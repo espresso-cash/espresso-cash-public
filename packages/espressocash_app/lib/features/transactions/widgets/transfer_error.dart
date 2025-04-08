@@ -7,12 +7,7 @@ import '../../../ui/text_button.dart';
 import '../models/tx_results.dart';
 
 class TransferError extends StatelessWidget {
-  const TransferError({
-    super.key,
-    required this.onBack,
-    this.reason,
-    this.onCancel,
-  });
+  const TransferError({super.key, required this.onBack, this.reason, this.onCancel});
 
   final VoidCallback onBack;
   final VoidCallback? onCancel;
@@ -55,10 +50,6 @@ class _CancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.only(top: 16),
-    child: CpTextButton(
-      text: context.l10n.cancelTransferBtn,
-      variant: CpTextButtonVariant.light,
-      onPressed: onCancel,
-    ),
+    child: CpTextButton(text: context.l10n.cancelTransferBtn, variant: CpTextButtonVariant.light, onPressed: onCancel),
   );
 }

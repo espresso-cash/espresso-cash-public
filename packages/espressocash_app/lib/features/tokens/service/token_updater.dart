@@ -11,12 +11,7 @@ import '../data/token_repository.dart';
 
 @Singleton(scope: authScope)
 class TokenUpdater {
-  const TokenUpdater(
-    this.fileManager,
-    this._ecClient,
-    this._tokenRepository,
-    this._tokensMetaStorage,
-  );
+  const TokenUpdater(this.fileManager, this._ecClient, this._tokenRepository, this._tokensMetaStorage);
 
   final FileManager fileManager;
   final EspressoCashClient _ecClient;

@@ -14,10 +14,7 @@ class _NumericKey extends KeypadKey {
   String get value => '$number';
 
   @override
-  Widget build(BuildContext context) => Text(
-    value,
-    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-  );
+  Widget build(BuildContext context) => Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
 }
 
 class _BackspaceKey extends KeypadKey {
@@ -27,10 +24,8 @@ class _BackspaceKey extends KeypadKey {
   String get value => '<';
 
   @override
-  Widget build(BuildContext context) => Assets.icons.keyDelete.svg(
-    height: 22,
-    color: CpTheme.of(context).primaryTextColor,
-  );
+  Widget build(BuildContext context) =>
+      Assets.icons.keyDelete.svg(height: 22, color: CpTheme.of(context).primaryTextColor);
 }
 
 class _EmptyKey extends KeypadKey {

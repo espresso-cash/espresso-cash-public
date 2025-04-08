@@ -30,14 +30,13 @@ class _BackupPhraseModuleState extends State<BackupPhraseModule> {
   void _showPuzzleReminderDialog() => PuzzleReminderScreen.push(context);
 
   @override
-  Widget build(BuildContext context) =>
-      BlocListener<PuzzleReminderBloc, PuzzleReminderState>(
-        bloc: sl<PuzzleReminderBloc>(),
-        listener: (context, state) {
-          if (state is PuzzleReminderStateRemindNow) {
-            _showPuzzleReminderDialog();
-          }
-        },
-        child: widget.child,
-      );
+  Widget build(BuildContext context) => BlocListener<PuzzleReminderBloc, PuzzleReminderState>(
+    bloc: sl<PuzzleReminderBloc>(),
+    listener: (context, state) {
+      if (state is PuzzleReminderStateRemindNow) {
+        _showPuzzleReminderDialog();
+      }
+    },
+    child: widget.child,
+  );
 }

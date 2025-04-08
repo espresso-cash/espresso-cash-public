@@ -12,11 +12,7 @@ import 'instructions.dart';
 
 @injectable
 class CreateCanceledEscrow {
-  const CreateCanceledEscrow(
-    this._client,
-    this._addPriorityFees,
-    this._ecClient,
-  );
+  const CreateCanceledEscrow(this._client, this._addPriorityFees, this._ecClient);
 
   final SolanaClient _client;
   final AddPriorityFees _addPriorityFees;
@@ -32,22 +28,11 @@ class CreateCanceledEscrow {
     final nonceData = await _ecClient.getFreeNonce();
     final platformAccount = Ed25519HDPublicKey.fromBase58(nonceData.authority);
 
-    await validateEscrow(
-      address: escrowAccount,
-      mint: mint,
-      client: _client,
-      commitment: commitment,
-    );
+    await validateEscrow(address: escrowAccount, mint: mint, client: _client, commitment: commitment);
 
-    final ataSender = await findAssociatedTokenAddress(
-      owner: senderAccount,
-      mint: mint,
-    );
+    final ataSender = await findAssociatedTokenAddress(owner: senderAccount, mint: mint);
 
-    final ataEscrow = await findAssociatedTokenAddress(
-      owner: escrowAccount,
-      mint: mint,
-    );
+    final ataEscrow = await findAssociatedTokenAddress(owner: escrowAccount, mint: mint);
 
     final escrowIx = await EscrowInstruction.cancelEscrow(
       escrowAccount: escrowAccount,
@@ -67,19 +52,13 @@ class CreateCanceledEscrow {
       ],
     );
 
-    final compiled = message.compile(
-      recentBlockhash: nonceData.nonce,
-      feePayer: platformAccount,
-    );
+    final compiled = message.compile(recentBlockhash: nonceData.nonce, feePayer: platformAccount);
 
     final priorityFees = await _ecClient.getDurableFees();
 
     return await SignedTx(
       compiledMessage: compiled,
-      signatures: [
-        platformAccount.emptySignature(),
-        senderAccount.emptySignature(),
-      ],
+      signatures: [platformAccount.emptySignature(), senderAccount.emptySignature()],
     ).let(
       (tx) => _addPriorityFees(
         tx: tx,

@@ -15,16 +15,11 @@ class PhoneConfirmationScreen extends StatefulWidget {
   const PhoneConfirmationScreen({super.key});
 
   static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const PhoneConfirmationScreen(),
-        ),
-      )
+      .push<bool>(MaterialPageRoute(builder: (context) => const PhoneConfirmationScreen()))
       .then((result) => result ?? false);
 
   @override
-  State<PhoneConfirmationScreen> createState() =>
-      _PhoneConfirmationScreenState();
+  State<PhoneConfirmationScreen> createState() => _PhoneConfirmationScreenState();
 }
 
 class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
@@ -67,15 +62,9 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
     title: context.l10n.phoneVerification.toUpperCase(),
     children: [
       Text(
-        context.l10n.checkSmsText(
-          sl<KycSharingService>().value?.getPhone ?? '',
-        ),
+        context.l10n.checkSmsText(sl<KycSharingService>().value?.getPhone ?? ''),
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 16,
-          height: 21 / 16,
-          letterSpacing: .19,
-        ),
+        style: const TextStyle(fontSize: 16, height: 21 / 16, letterSpacing: .19),
       ),
       const SizedBox(height: 16),
       KycTextField(

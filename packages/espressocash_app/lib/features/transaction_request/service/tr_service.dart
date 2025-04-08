@@ -30,8 +30,7 @@ class TRService {
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
   Stream<TransactionRequestPayment> watch(String paymentId) {
-    final query = _db.select(_db.transactionRequestRows)
-      ..where((tbl) => tbl.id.equals(paymentId));
+    final query = _db.select(_db.transactionRequestRows)..where((tbl) => tbl.id.equals(paymentId));
 
     return query.watchSingle().map((row) => row.toModel());
   }
@@ -71,33 +70,26 @@ class TRService {
   }
 
   Future<void> cancel(String paymentId) async {
-    final query = _db.select(_db.transactionRequestRows)
-      ..where((tbl) => tbl.id.equals(paymentId));
+    final query = _db.select(_db.transactionRequestRows)..where((tbl) => tbl.id.equals(paymentId));
 
     final payment = await query.getSingle();
 
     if (payment.status == TRStatusDto.success) return;
 
-    await (_db.delete(_db.transactionRequestRows)
-      ..where((p) => p.id.equals(paymentId))).go();
+    await (_db.delete(_db.transactionRequestRows)..where((p) => p.id.equals(paymentId))).go();
   }
 
   void _subscribe(String paymentId) {
-    _subscriptions[paymentId] = (_db.select(_db.transactionRequestRows)
-          ..where((tbl) => tbl.id.equals(paymentId)))
+    _subscriptions[paymentId] = (_db.select(_db.transactionRequestRows)..where((tbl) => tbl.id.equals(paymentId)))
         .watchSingle()
         .asyncExpand<TransactionRequestRowsCompanion?>((payment) {
           switch (payment.status) {
             case TRStatusDto.created:
-              final tx = SignedTx.decode(
-                payment.transaction,
-              ).let((it) => (it, payment.slot));
+              final tx = SignedTx.decode(payment.transaction).let((it) => (it, payment.slot));
 
               return Stream.fromFuture(_send(tx));
             case TRStatusDto.sent:
-              final tx = SignedTx.decode(
-                payment.transaction,
-              ).let((it) => (it, payment.slot));
+              final tx = SignedTx.decode(payment.transaction).let((it) => (it, payment.slot));
 
               return Stream.fromFuture(_wait(tx));
             case TRStatusDto.success:
@@ -109,9 +101,7 @@ class TRService {
         })
         .whereNotNull()
         .listen(
-          (event) =>
-              (_db.update(_db.transactionRequestRows)
-                ..where((tbl) => tbl.id.equals(paymentId))).write(event),
+          (event) => (_db.update(_db.transactionRequestRows)..where((tbl) => tbl.id.equals(paymentId))).write(event),
         );
   }
 
@@ -119,31 +109,19 @@ class TRService {
     final sent = await _txSender.send(tx.$1, minContextSlot: tx.$2);
 
     return switch (sent) {
-      TxSendSent() => const TransactionRequestRowsCompanion(
-        status: Value(TRStatusDto.sent),
-      ),
+      TxSendSent() => const TransactionRequestRowsCompanion(status: Value(TRStatusDto.sent)),
       TxSendInvalidBlockhash() ||
-      TxSendFailure() => const TransactionRequestRowsCompanion(
-        status: Value(TRStatusDto.failure),
-      ),
+      TxSendFailure() => const TransactionRequestRowsCompanion(status: Value(TRStatusDto.failure)),
       TxSendNetworkError() => null,
     };
   }
 
   Future<TransactionRequestRowsCompanion?> _wait((SignedTx, BigInt) tx) async {
-    final confirmed = await _txSender.wait(
-      tx.$1,
-      minContextSlot: tx.$2,
-      txType: 'TransactionRequest',
-    );
+    final confirmed = await _txSender.wait(tx.$1, minContextSlot: tx.$2, txType: 'TransactionRequest');
 
     return switch (confirmed) {
-      TxWaitSuccess() => const TransactionRequestRowsCompanion(
-        status: Value(TRStatusDto.success),
-      ),
-      TxWaitFailure() => const TransactionRequestRowsCompanion(
-        status: Value(TRStatusDto.failure),
-      ),
+      TxWaitSuccess() => const TransactionRequestRowsCompanion(status: Value(TRStatusDto.success)),
+      TxWaitFailure() => const TransactionRequestRowsCompanion(status: Value(TRStatusDto.failure)),
       TxWaitNetworkError() => null,
     };
   }
@@ -154,10 +132,7 @@ extension TransactionRequestRowExt on TransactionRequestRow {
     id: id,
     created: created,
     status: toStatusModel,
-    amount: CryptoAmount(
-      value: amount,
-      cryptoCurrency: const CryptoCurrency(token: Token.usdc),
-    ),
+    amount: CryptoAmount(value: amount, cryptoCurrency: const CryptoCurrency(token: Token.usdc)),
     label: label,
     txId: SignedTx.decode(transaction).id,
   );

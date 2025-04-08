@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import '../rounded_rectangle.dart';
 
 class ShareMessageBubble extends StatefulWidget {
-  const ShareMessageBubble({
-    super.key,
-    required this.textSpan,
-    this.backgroundColor,
-  });
+  const ShareMessageBubble({super.key, required this.textSpan, this.backgroundColor});
 
   final TextSpan textSpan;
   final Color? backgroundColor;

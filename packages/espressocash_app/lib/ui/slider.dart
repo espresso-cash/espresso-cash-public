@@ -8,11 +8,7 @@ import '../gen/assets.gen.dart';
 import 'colors.dart';
 
 class CpSlider extends StatefulWidget {
-  const CpSlider({
-    super.key,
-    required this.text,
-    required this.onSlideCompleted,
-  });
+  const CpSlider({super.key, required this.text, required this.onSlideCompleted});
 
   final String text;
   final VoidCallback? onSlideCompleted;
@@ -21,8 +17,7 @@ class CpSlider extends StatefulWidget {
   State<CpSlider> createState() => _CpSliderState();
 }
 
-class _CpSliderState extends State<CpSlider>
-    with SingleTickerProviderStateMixin {
+class _CpSliderState extends State<CpSlider> with SingleTickerProviderStateMixin {
   late final AnimationController _reverseAnimationController;
 
   final _positionNotifier = ValueNotifier<double>(.0);
@@ -35,10 +30,7 @@ class _CpSliderState extends State<CpSlider>
   void initState() {
     super.initState();
     _reverseAnimationController =
-        AnimationController(
-            vsync: this,
-            duration: const Duration(milliseconds: 500),
-          )
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 500))
           ..addListener(_reverseListener)
           ..addStatusListener(_statusListener);
   }
@@ -70,9 +62,7 @@ class _CpSliderState extends State<CpSlider>
   }
 
   void _reverseListener() {
-    _positionNotifier.value = _reverseAnimationController.value
-        .let(_curve.transform)
-        .let(_reverseAnimation.transform);
+    _positionNotifier.value = _reverseAnimationController.value.let(_curve.transform).let(_reverseAnimation.transform);
   }
 
   void _statusListener(AnimationStatus status) {
@@ -112,8 +102,7 @@ class _CpSliderState extends State<CpSlider>
                     absorbing: !enabled,
                     child: GestureDetector(
                       onHorizontalDragUpdate: (details) {
-                        final value =
-                            _positionNotifier.value + details.delta.dx;
+                        final value = _positionNotifier.value + details.delta.dx;
                         if (value < 0) return;
                         if (value > maxSlideWidth) {
                           _onDone();
@@ -196,11 +185,7 @@ class _SlideBarState extends State<_SlideBar> {
   Widget build(BuildContext context) => SizedBox(
     width: _maxBarWidth,
     height: _maxBarHeight,
-    child: Assets.rive.slider.rive(
-      fit: BoxFit.contain,
-      alignment: Alignment.centerLeft,
-      onInit: _onInit,
-    ),
+    child: Assets.rive.slider.rive(fit: BoxFit.contain, alignment: Alignment.centerLeft, onInit: _onInit),
   );
 }
 

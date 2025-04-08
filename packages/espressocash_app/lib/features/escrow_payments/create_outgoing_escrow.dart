@@ -15,11 +15,7 @@ typedef OutgoingEscrowData = ({SignedTx tx, Ed25519HDKeyPair escrow});
 
 @injectable
 class CreateOutgoingEscrow {
-  const CreateOutgoingEscrow(
-    this._client,
-    this._addPriorityFees,
-    this._ecClient,
-  );
+  const CreateOutgoingEscrow(this._client, this._addPriorityFees, this._ecClient);
 
   final SolanaClient _client;
   final AddPriorityFees _addPriorityFees;
@@ -51,10 +47,7 @@ class CreateOutgoingEscrow {
 
     final instructions = <Instruction>[];
 
-    final ataEscrow = await findAssociatedTokenAddress(
-      owner: escrowAccount.publicKey,
-      mint: mint,
-    );
+    final ataEscrow = await findAssociatedTokenAddress(owner: escrowAccount.publicKey, mint: mint);
     final iCreateATA = AssociatedTokenAccountInstruction.createAccount(
       funder: platformAccount,
       address: ataEscrow,
@@ -66,10 +59,7 @@ class CreateOutgoingEscrow {
 
     final transactionFees = await _ecClient.getFees();
 
-    final ataPlatform = await findAssociatedTokenAddress(
-      owner: platformAccount,
-      mint: mint,
-    );
+    final ataPlatform = await findAssociatedTokenAddress(owner: platformAccount, mint: mint);
     final iTransferFee = TokenInstruction.transfer(
       amount: transactionFees.escrowPayment,
       source: ataSender,
@@ -100,10 +90,7 @@ class CreateOutgoingEscrow {
       ],
     );
 
-    final compiled = message.compile(
-      recentBlockhash: nonceData.nonce,
-      feePayer: platformAccount,
-    );
+    final compiled = message.compile(recentBlockhash: nonceData.nonce, feePayer: platformAccount);
 
     final priorityFees = await _ecClient.getDurableFees();
 

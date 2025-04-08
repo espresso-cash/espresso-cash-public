@@ -13,9 +13,8 @@ import '../widgets/puzzle_screen.dart';
 class PuzzlePostponeScreen extends StatefulWidget {
   const PuzzlePostponeScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
-    MaterialPageRoute(builder: (context) => const PuzzlePostponeScreen()),
-  );
+  static void push(BuildContext context) =>
+      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => const PuzzlePostponeScreen()));
 
   @override
   State<PuzzlePostponeScreen> createState() => _PuzzlePostponeScreenState();
@@ -26,18 +25,9 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
   Duration _duration = const Duration(days: 1);
 
   List<DropdownMenuItem<Duration?>> get _dropdownItems => [
-    DropdownMenuItem(
-      value: const Duration(days: 1),
-      child: Text(context.l10n.tomorrow),
-    ),
-    DropdownMenuItem(
-      value: const Duration(days: 7),
-      child: Text(context.l10n.oneWeek),
-    ),
-    DropdownMenuItem(
-      value: const Duration(days: 30),
-      child: Text(context.l10n.oneMonth),
-    ),
+    DropdownMenuItem(value: const Duration(days: 1), child: Text(context.l10n.tomorrow)),
+    DropdownMenuItem(value: const Duration(days: 7), child: Text(context.l10n.oneWeek)),
+    DropdownMenuItem(value: const Duration(days: 30), child: Text(context.l10n.oneMonth)),
   ];
 
   String get _getTextDuration {
@@ -54,9 +44,7 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
   }
 
   void _handleOkPressed(BuildContext context) {
-    sl<PuzzleReminderBloc>().add(
-      PuzzleReminderEvent.postponed(postponedBy: _duration),
-    );
+    sl<PuzzleReminderBloc>().add(PuzzleReminderEvent.postponed(postponedBy: _duration));
 
     context.openFirstScreen();
   }
@@ -85,28 +73,18 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
           ),
           const SizedBox(height: 24),
           DecoratedBox(
-            decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-            ),
+            decoration: const BoxDecoration(color: Colors.black, borderRadius: BorderRadius.all(Radius.circular(30))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
               child: DropdownButton<Duration?>(
                 isExpanded: true,
                 items: _dropdownItems,
                 dropdownColor: CpColors.deepGreyColor,
-                icon: const Icon(
-                  Icons.keyboard_arrow_down_outlined,
-                  color: Colors.white,
-                ),
+                icon: const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white),
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
                 iconSize: 32,
                 alignment: Alignment.center,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Colors.white),
                 underline: const SizedBox(),
                 onChanged: (Duration? value) {
                   if (value == null) return;
@@ -120,10 +98,7 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
                         _dropdownItems
                             .map(
                               (e) => Center(
-                                child: Text(
-                                  context.l10n.setReminder(_getTextDuration),
-                                  textAlign: TextAlign.center,
-                                ),
+                                child: Text(context.l10n.setReminder(_getTextDuration), textAlign: TextAlign.center),
                               ),
                             )
                             .toList(),
@@ -144,11 +119,7 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
 }
 
 class _Checkbox extends StatelessWidget {
-  const _Checkbox({
-    required this.title,
-    required this.value,
-    required this.onChanged,
-  });
+  const _Checkbox({required this.title, required this.value, required this.onChanged});
 
   final String title;
   final bool value;
@@ -185,23 +156,14 @@ class _Checkbox extends StatelessWidget {
                   },
                   activeColor: CpColors.yellowColor,
                   checkColor: Colors.black,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
+                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                 ),
               ),
             ),
           ),
           const SizedBox(width: 18),
           Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            child: Text(title, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400)),
           ),
         ],
       ),

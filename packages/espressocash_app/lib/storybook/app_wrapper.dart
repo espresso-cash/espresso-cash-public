@@ -27,5 +27,4 @@ class AppWrapper extends StatelessWidget {
   );
 }
 
-final TransitionBuilder appWrapper =
-    (context, child) => AppWrapper(child: child!);
+final TransitionBuilder appWrapper = (context, child) => AppWrapper(child: child!);

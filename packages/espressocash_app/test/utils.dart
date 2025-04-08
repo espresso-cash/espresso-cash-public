@@ -5,29 +5,17 @@ import 'package:solana/solana.dart';
 
 import 'keys/keys.dart';
 
-final devnetRpcUrl =
-    Platform.environment['SOLANA_RPC_URL'] ?? 'http://127.0.0.1:8899';
-final devnetWebsocketUrl =
-    Platform.environment['SOLANA_WEBSOCKET_URL'] ?? 'ws://127.0.0.1:8900';
+final devnetRpcUrl = Platform.environment['SOLANA_RPC_URL'] ?? 'http://127.0.0.1:8899';
+final devnetWebsocketUrl = Platform.environment['SOLANA_WEBSOCKET_URL'] ?? 'ws://127.0.0.1:8900';
 
-SolanaClient createTestSolanaClient() => SolanaClient(
-  rpcUrl: Uri.parse(devnetRpcUrl),
-  websocketUrl: Uri.parse(devnetWebsocketUrl),
-);
+SolanaClient createTestSolanaClient() =>
+    SolanaClient(rpcUrl: Uri.parse(devnetRpcUrl), websocketUrl: Uri.parse(devnetWebsocketUrl));
 
 extension SolanaClientExt on SolanaClient {
-  Future<void> createToken(
-    Ed25519HDKeyPair mintAuthority,
-    Ed25519HDKeyPair mint,
-  ) async {
-    final mintRent = await rpcClient.getMinimumBalanceForRentExemption(
-      TokenProgram.neededMintAccountSpace,
-    );
+  Future<void> createToken(Ed25519HDKeyPair mintAuthority, Ed25519HDKeyPair mint) async {
+    final mintRent = await rpcClient.getMinimumBalanceForRentExemption(TokenProgram.neededMintAccountSpace);
 
-    final tokenOwnerAddress = await findAssociatedTokenAddress(
-      owner: mintAuthority.publicKey,
-      mint: mint.publicKey,
-    );
+    final tokenOwnerAddress = await findAssociatedTokenAddress(owner: mintAuthority.publicKey, mint: mint.publicKey);
 
     final message = Message(
       instructions: [
@@ -59,41 +47,24 @@ extension SolanaClientExt on SolanaClient {
     );
 
     await waitForSignatureStatus(
-      await rpcClient.signAndSendTransaction(message, [
-        mintAuthority,
-        mint,
-      ], commitment: Commitment.confirmed),
+      await rpcClient.signAndSendTransaction(message, [mintAuthority, mint], commitment: Commitment.confirmed),
       status: ConfirmationStatus.confirmed,
     );
   }
 
   Future<void> createAndFundAccount(String address, {required int sol}) async {
-    final signature = await rpcClient.requestAirdrop(
-      address,
-      sol * lamportsPerSol,
-      commitment: Commitment.confirmed,
-    );
+    final signature = await rpcClient.requestAirdrop(address, sol * lamportsPerSol, commitment: Commitment.confirmed);
     // Fund the mint authority
-    await waitForSignatureStatus(
-      signature,
-      status: ConfirmationStatus.confirmed,
-    );
+    await waitForSignatureStatus(signature, status: ConfirmationStatus.confirmed);
   }
 
-  Future<void> airdropSplTokens(
-    Ed25519HDPublicKey recipient,
-    Ed25519HDKeyPair token, {
-    required int amount,
-  }) async {
-    final mintAuthority = await Ed25519HDKeyPair.fromPrivateKeyBytes(
-      privateKey: mintAuthorityPrivateKey,
-    );
+  Future<void> airdropSplTokens(Ed25519HDPublicKey recipient, Ed25519HDKeyPair token, {required int amount}) async {
+    final mintAuthority = await Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: mintAuthorityPrivateKey);
 
-    final recipientAssociatedTokenAccountAddress =
-        await findAssociatedTokenAddress(
-          owner: recipient,
-          mint: token.publicKey,
-        );
+    final recipientAssociatedTokenAccountAddress = await findAssociatedTokenAddress(
+      owner: recipient,
+      mint: token.publicKey,
+    );
 
     final message = Message(
       instructions: [
@@ -105,10 +76,7 @@ extension SolanaClientExt on SolanaClient {
         ),
         TokenInstruction.transferChecked(
           mint: token.publicKey,
-          source: await findAssociatedTokenAddress(
-            owner: mintAuthority.publicKey,
-            mint: token.publicKey,
-          ),
+          source: await findAssociatedTokenAddress(owner: mintAuthority.publicKey, mint: token.publicKey),
           destination: recipientAssociatedTokenAccountAddress,
           owner: mintAuthority.publicKey,
           amount: amount,
@@ -119,12 +87,9 @@ extension SolanaClientExt on SolanaClient {
 
     final signature = await rpcClient.signAndSendTransaction(message, [
       mintAuthority,
-    ], commitment: Commitment.confirmed);
+    ], commitment: Commitment.confirmed,);
 
-    await waitForSignatureStatus(
-      signature,
-      status: ConfirmationStatus.confirmed,
-    );
+    await waitForSignatureStatus(signature, status: ConfirmationStatus.confirmed);
   }
 }
 

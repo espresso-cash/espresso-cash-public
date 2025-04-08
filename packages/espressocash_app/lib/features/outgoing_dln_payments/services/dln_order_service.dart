@@ -20,12 +20,7 @@ import '../models/payment_quote.dart';
 
 @Singleton(scope: authScope)
 class OutgoingDlnPaymentService implements Disposable {
-  OutgoingDlnPaymentService(
-    this._account,
-    this._client,
-    this._sender,
-    this._repository,
-  );
+  OutgoingDlnPaymentService(this._account, this._client, this._sender, this._repository);
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   final Map<String, StreamSubscription<void>> _watchers = {};
@@ -106,17 +101,13 @@ class OutgoingDlnPaymentService implements Disposable {
         .listen((payment) => payment.let(_repository.save));
   }
 
-  Future<OutgoingDlnPaymentStatus> _createTx({
-    required PaymentQuote quote,
-  }) async {
+  Future<OutgoingDlnPaymentStatus> _createTx({required PaymentQuote quote}) async {
     try {
       final tx = await SignedTx.decode(quote.encodedTx).resign(_account);
 
       return OutgoingDlnPaymentStatus.txCreated(tx, slot: quote.slot);
     } on Exception {
-      return const OutgoingDlnPaymentStatus.txFailure(
-        reason: TxFailureReason.creatingFailure,
-      );
+      return const OutgoingDlnPaymentStatus.txFailure(reason: TxFailureReason.creatingFailure);
     }
   }
 
@@ -128,12 +119,9 @@ class OutgoingDlnPaymentService implements Disposable {
 
     final tx = await _sender.send(status.tx, minContextSlot: status.slot);
     final OutgoingDlnPaymentStatus? newStatus = tx.map(
-      sent:
-          (_) => OutgoingDlnPaymentStatus.txSent(status.tx, slot: status.slot),
+      sent: (_) => OutgoingDlnPaymentStatus.txSent(status.tx, slot: status.slot),
       invalidBlockhash:
-          (_) => const OutgoingDlnPaymentStatus.txFailure(
-            reason: TxFailureReason.invalidBlockhashSending,
-          ),
+          (_) => const OutgoingDlnPaymentStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
       failure: (it) => OutgoingDlnPaymentStatus.txFailure(reason: it.reason),
       networkError: (_) => null,
     );
@@ -147,14 +135,9 @@ class OutgoingDlnPaymentService implements Disposable {
       return payment;
     }
 
-    final tx = await _sender.wait(
-      status.tx,
-      minContextSlot: status.slot,
-      txType: 'OutgoingDlnPayment',
-    );
+    final tx = await _sender.wait(status.tx, minContextSlot: status.slot, txType: 'OutgoingDlnPayment');
     final OutgoingDlnPaymentStatus? newStatus = await tx.map(
-      success:
-          (_) => OutgoingDlnPaymentStatus.success(status.tx, orderId: null),
+      success: (_) => OutgoingDlnPaymentStatus.success(status.tx, orderId: null),
       failure: (tx) => OutgoingDlnPaymentStatus.txFailure(reason: tx.reason),
       networkError: (_) => null,
     );
@@ -171,35 +154,24 @@ class OutgoingDlnPaymentService implements Disposable {
 
     String? orderId = status.orderId;
     if (orderId == null || orderId.isEmpty) {
-      orderId = await _client
-          .fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
-          .then((e) => e.orderId);
+      orderId = await _client.fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id)).then((e) => e.orderId);
     }
 
     if (orderId == null) {
       return order;
     }
 
-    final orderStatus = await _client.fetchDlnStatus(
-      OrderStatusDlnRequestDto(orderId: orderId),
-    );
+    final orderStatus = await _client.fetchDlnStatus(OrderStatusDlnRequestDto(orderId: orderId));
     final isFulfilled = orderStatus.status == DlnOrderStatus.fulfilled;
 
     if (isFulfilled) {
-      return order.copyWith(
-        status: OutgoingDlnPaymentStatus.fulfilled(status.tx, orderId: orderId),
-      );
+      return order.copyWith(status: OutgoingDlnPaymentStatus.fulfilled(status.tx, orderId: orderId));
     }
 
     final isStale = DateTime.now().difference(order.created) > _orderExpiration;
 
     return isStale
-        ? order.copyWith(
-          status: OutgoingDlnPaymentStatus.unfulfilled(
-            status.tx,
-            orderId: orderId,
-          ),
-        )
+        ? order.copyWith(status: OutgoingDlnPaymentStatus.unfulfilled(status.tx, orderId: orderId))
         : order.copyWith(status: status.copyWith(orderId: orderId));
   }
 

@@ -6,10 +6,7 @@ extension OffRampOrderRowExt on OffRampOrderRow {
 
     const filter = ['transaction', 'slot'];
 
-    json.removeWhere(
-      (key, value) =>
-          value == null || value == '' || filter.contains(key) || value == 0.0,
-    );
+    json.removeWhere((key, value) => value == null || value == '' || filter.contains(key) || value == 0.0);
 
     return json;
   }
@@ -27,9 +24,7 @@ extension OffRampOrderRowExt on OffRampOrderRow {
 
 extension OnRampOrderRowExt on OnRampOrderRow {
   Map<String, dynamic> toSentry() =>
-      toJson()..removeWhere(
-        (key, value) => value == null || value == '' || value == 0.0,
-      );
+      toJson()..removeWhere((key, value) => value == null || value == '' || value == 0.0);
 
   bool get shouldReportToSentry => [
     OnRampOrderStatus.failure,

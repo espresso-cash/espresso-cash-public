@@ -18,12 +18,7 @@ import '../data/coinflow_api_client.dart';
 
 @injectable
 class CoinflowOffRampOrderWatcher implements RampWatcher {
-  CoinflowOffRampOrderWatcher(
-    this._db,
-    this._client,
-    this._account,
-    this._analytics,
-  );
+  CoinflowOffRampOrderWatcher(this._db, this._client, this._account, this._analytics);
 
   final MyDatabase _db;
   final CoinflowClient _client;
@@ -42,14 +37,12 @@ class CoinflowOffRampOrderWatcher implements RampWatcher {
           (order) => _client
               .getWithdrawalHistory(_account.address)
               .letAsync(
-                (response) => response.withdraws.firstWhereOrNull(
-                  (e) => e.transaction == SignedTx.decode(order.transaction).id,
-                ),
+                (response) =>
+                    response.withdraws.firstWhereOrNull((e) => e.transaction == SignedTx.decode(order.transaction).id),
               ),
         )
         .listen((event) async {
-          final statement = _db.update(_db.offRampOrderRows)
-            ..where((tbl) => tbl.id.equals(orderId));
+          final statement = _db.update(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(orderId));
 
           final status = switch (event?.status) {
             CoinflowOrderStatus.completed => OffRampOrderStatus.completed,
@@ -70,9 +63,7 @@ class CoinflowOffRampOrderWatcher implements RampWatcher {
             );
           }
 
-          await statement.write(
-            OffRampOrderRowsCompanion(status: Value(status)),
-          );
+          await statement.write(OffRampOrderRowsCompanion(status: Value(status)));
         });
   }
 

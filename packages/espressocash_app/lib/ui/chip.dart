@@ -5,12 +5,7 @@ import 'colors.dart';
 enum CpChipPadding { small, normal }
 
 class CpChip extends StatelessWidget {
-  const CpChip({
-    super.key,
-    required this.child,
-    this.padding = CpChipPadding.normal,
-    this.backgroundColor,
-  });
+  const CpChip({super.key, required this.child, this.padding = CpChipPadding.normal, this.backgroundColor});
 
   final Widget child;
   final CpChipPadding padding;
@@ -18,14 +13,8 @@ class CpChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-    decoration: ShapeDecoration(
-      color: backgroundColor ?? CpColors.deepGreyColor,
-      shape: const StadiumBorder(),
-    ),
-    child: Center(
-      widthFactor: 1,
-      child: Padding(padding: padding.value, child: child),
-    ),
+    decoration: ShapeDecoration(color: backgroundColor ?? CpColors.deepGreyColor, shape: const StadiumBorder()),
+    child: Center(widthFactor: 1, child: Padding(padding: padding.value, child: child)),
   );
 }
 

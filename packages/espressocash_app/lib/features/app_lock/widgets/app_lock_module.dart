@@ -65,15 +65,8 @@ class _ContentState extends State<_Content>
 
   @override
   Widget build(BuildContext context) {
-    final isLocked = context.select<AppLockBloc, bool>(
-      (b) => b.state is AppLockStateLocked,
-    );
+    final isLocked = context.select<AppLockBloc, bool>((b) => b.state is AppLockStateLocked);
 
-    return Stack(
-      children: [
-        widget.child ?? const SizedBox.shrink(),
-        if (isLocked) const AppLockScreen(),
-      ],
-    );
+    return Stack(children: [widget.child ?? const SizedBox.shrink(), if (isLocked) const AppLockScreen()]);
   }
 }

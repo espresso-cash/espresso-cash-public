@@ -1,5 +1,8 @@
 include: package:mews_pedantic/analysis_options.yaml
 
+formatter:
+   page_width: 120
+
 linter:
   rules:
     - prefer_relative_imports
@@ -18,7 +21,6 @@ analyzer:
     avoid_relative_lib_imports: ignore
     deprecated_member_use: ignore
     deprecated_member_use_from_same_package: ignore
-    require_trailing_commas: ignore
 
 dart_code_metrics:
   rules:

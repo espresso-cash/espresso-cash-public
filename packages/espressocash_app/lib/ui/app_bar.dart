@@ -84,10 +84,7 @@ class _CpAppBarState extends State<CpAppBar> {
           scrolledUnderColor == null
               ? widget.backgroundColor
               : WidgetStateColor.resolveWith(
-                (states) =>
-                    states.contains(WidgetState.scrolledUnder)
-                        ? scrolledUnderColor
-                        : widget.backgroundColor,
+                (states) => states.contains(WidgetState.scrolledUnder) ? scrolledUnderColor : widget.backgroundColor,
               ),
       clipBehavior: Clip.none,
       leading: widget.leading ?? const CpBackButton(),
@@ -97,10 +94,7 @@ class _CpAppBarState extends State<CpAppBar> {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(minWidth: 93),
-                      child: widget.nextButton,
-                    ),
+                    child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 93), child: widget.nextButton),
                   ),
                 ),
               ]

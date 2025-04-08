@@ -22,30 +22,22 @@ class AmbassadorConfirmationScreen extends StatefulWidget {
 
   final AmbassadorReferral ambassador;
 
-  static void push(BuildContext context, AmbassadorReferral ambassador) =>
-      Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder:
-              (context) => AmbassadorConfirmationScreen(ambassador: ambassador),
-        ),
-      );
+  static void push(BuildContext context, AmbassadorReferral ambassador) => Navigator.of(
+    context,
+  ).push(MaterialPageRoute<void>(builder: (context) => AmbassadorConfirmationScreen(ambassador: ambassador)));
 
   @override
-  State<AmbassadorConfirmationScreen> createState() =>
-      _AmbassadorConfirmationScreenState();
+  State<AmbassadorConfirmationScreen> createState() => _AmbassadorConfirmationScreenState();
 }
 
-class _AmbassadorConfirmationScreenState
-    extends State<AmbassadorConfirmationScreen> {
+class _AmbassadorConfirmationScreenState extends State<AmbassadorConfirmationScreen> {
   bool _isLoading = false;
 
   Future<void> _onConfirm() async {
     setState(() => _isLoading = true);
 
     try {
-      await sl<AmbassadorService>().addReferral(
-        widget.ambassador.address.toBase58(),
-      );
+      await sl<AmbassadorService>().addReferral(widget.ambassador.address.toBase58());
 
       if (!mounted) return;
 
@@ -56,10 +48,8 @@ class _AmbassadorConfirmationScreenState
       final result =
           error is DioException
               ? switch (error.toEspressoCashError()) {
-                EspressoCashError.ambassadorAlreadyAssigned =>
-                  AmbassadorResult.alreadyRegistered,
-                EspressoCashError.userIsNotAmbassador =>
-                  AmbassadorResult.notAmbassador,
+                EspressoCashError.ambassadorAlreadyAssigned => AmbassadorResult.alreadyRegistered,
+                EspressoCashError.userIsNotAmbassador => AmbassadorResult.notAmbassador,
                 _ => null,
               }
               : null;
@@ -86,11 +76,7 @@ class _AmbassadorConfirmationScreenState
               children: [
                 Text(
                   context.l10n.ambassador_referralProgramWelcome,
-                  style: const TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w700,
-                    color: CpColors.blackGreyColor,
-                  ),
+                  style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: CpColors.blackGreyColor),
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -142,10 +128,7 @@ class _BenefitItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
     children: [
-      Container(
-        padding: const EdgeInsets.all(4),
-        child: Assets.icons.successBullet.svg(height: 28),
-      ),
+      Container(padding: const EdgeInsets.all(4), child: Assets.icons.successBullet.svg(height: 28)),
       const SizedBox(width: 12),
       Expanded(
         child: Text(

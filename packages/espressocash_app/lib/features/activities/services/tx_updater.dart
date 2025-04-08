@@ -51,9 +51,7 @@ class TxUpdater implements Disposable {
     }
   }
 
-  Future<TransactionUpdateResult> _fetchUsdcTransactions(
-    String? mostRecentTxId,
-  ) async {
+  Future<TransactionUpdateResult> _fetchUsdcTransactions(String? mostRecentTxId) async {
     final usdcTokenAccount = await findAssociatedTokenAddress(
       owner: _wallet.publicKey,
       mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
@@ -67,28 +65,18 @@ class TxUpdater implements Disposable {
       commitment: Commitment.confirmed,
     );
 
-    final txs = await Future.wait(
-      details.map((it) => it.toFetched(usdcTokenAccount, Token.usdc.address)),
-    );
+    final txs = await Future.wait(details.map((it) => it.toFetched(usdcTokenAccount, Token.usdc.address)));
     final hasGap = mostRecentTxId != null && txs.length == _usdcFetchLimit;
 
     return (txs: txs.whereNotNull().toList(), hasGap: hasGap);
   }
 
-  Future<TransactionUpdateResult> _fetchNonUsdcTransactions(
-    String? mostRecentTxId,
-  ) async {
+  Future<TransactionUpdateResult> _fetchNonUsdcTransactions(String? mostRecentTxId) async {
     final tokenAccounts = await _getAllTokenAccounts(_wallet.publicKey);
 
-    final nonUsdcTokenAccounts =
-        tokenAccounts
-            .where((account) => account.mintAddress != Token.usdc.address)
-            .toList();
+    final nonUsdcTokenAccounts = tokenAccounts.where((account) => account.mintAddress != Token.usdc.address).toList();
 
-    final allAddresses = [
-      _wallet.publicKey,
-      ...nonUsdcTokenAccounts.map((a) => a.account),
-    ];
+    final allAddresses = [_wallet.publicKey, ...nonUsdcTokenAccounts.map((a) => a.account)];
 
     final details = await _client.rpcClient.getTransactionListForAddresses(
       allAddresses,
@@ -100,19 +88,14 @@ class TxUpdater implements Disposable {
 
     final txs = await Future.wait(
       details.map((detail) async {
-        final tx = SignedTx.fromBytes(
-          (detail.transaction as RawTransaction).data,
-        );
+        final tx = SignedTx.fromBytes((detail.transaction as RawTransaction).data);
 
         final tokenAccount = nonUsdcTokenAccounts.firstWhereOrNull(
           (acc) => tx.compiledMessage.accountKeys.contains(acc.account),
         );
 
         if (tokenAccount != null) {
-          return detail.toFetched(
-            tokenAccount.account,
-            tokenAccount.mintAddress,
-          );
+          return detail.toFetched(tokenAccount.account, tokenAccount.mintAddress);
         }
 
         return tx.compiledMessage.accountKeys.contains(_wallet.publicKey)
@@ -126,26 +109,17 @@ class TxUpdater implements Disposable {
     final uniqueTxs = validTxs.toSet().toList();
 
     final txsByAddress = details.groupListsBy((detail) {
-      final tx = SignedTx.fromBytes(
-        (detail.transaction as RawTransaction).data,
-      );
+      final tx = SignedTx.fromBytes((detail.transaction as RawTransaction).data);
 
-      return tx.compiledMessage.accountKeys.firstWhere(
-        allAddresses.contains,
-        orElse: () => _wallet.publicKey,
-      );
+      return tx.compiledMessage.accountKeys.firstWhere(allAddresses.contains, orElse: () => _wallet.publicKey);
     });
 
-    final hasGap = txsByAddress.values.any(
-      (txs) => txs.length >= _tokensFetchLimit,
-    );
+    final hasGap = txsByAddress.values.any((txs) => txs.length >= _tokensFetchLimit);
 
     return (txs: uniqueTxs, hasGap: mostRecentTxId != null && hasGap);
   }
 
-  Future<List<_TokenAccountInfo>> _getAllTokenAccounts(
-    Ed25519HDPublicKey owner,
-  ) => _client.rpcClient
+  Future<List<_TokenAccountInfo>> _getAllTokenAccounts(Ed25519HDPublicKey owner) => _client.rpcClient
       .getTokenAccountsByOwner(
         owner.toBase58(),
         encoding: Encoding.base64,
@@ -173,20 +147,12 @@ class TxUpdater implements Disposable {
 }
 
 extension on TransactionDetails {
-  Future<TxCommon?> toFetched(
-    Ed25519HDPublicKey tokenAccount,
-    String? tokenAddress,
-  ) async {
+  Future<TxCommon?> toFetched(Ed25519HDPublicKey tokenAccount, String? tokenAddress) async {
     final rawTx = transaction as RawTransaction;
     final tx = SignedTx.fromBytes(rawTx.data);
-    final accountIndex = tx.compiledMessage.accountKeys.indexWhere(
-      (e) => e == tokenAccount,
-    );
+    final accountIndex = tx.compiledMessage.accountKeys.indexWhere((e) => e == tokenAccount);
 
-    int? getBalanceDifference(
-      List<Object>? preBalances,
-      List<Object>? postBalances,
-    ) {
+    int? getBalanceDifference(List<Object>? preBalances, List<Object>? postBalances) {
       if (preBalances != null && postBalances != null) {
         final preBalance = preBalances[accountIndex] as int;
         final postBalance = postBalances[accountIndex] as int;
@@ -198,23 +164,16 @@ extension on TransactionDetails {
       return null;
     }
 
-    int? getTokenBalanceDifference(
-      List<TokenBalance>? preBalances,
-      List<TokenBalance>? postBalances,
-    ) {
+    int? getTokenBalanceDifference(List<TokenBalance>? preBalances, List<TokenBalance>? postBalances) {
       final preBalance =
           preBalances
-              ?.firstWhereOrNull(
-                (e) => e.mint == tokenAddress && e.accountIndex == accountIndex,
-              )
+              ?.firstWhereOrNull((e) => e.mint == tokenAddress && e.accountIndex == accountIndex)
               ?.uiTokenAmount
               .amount;
 
       final postBalance =
           postBalances
-              ?.firstWhereOrNull(
-                (e) => e.mint == tokenAddress && e.accountIndex == accountIndex,
-              )
+              ?.firstWhereOrNull((e) => e.mint == tokenAddress && e.accountIndex == accountIndex)
               ?.uiTokenAmount
               .amount;
 
@@ -229,10 +188,7 @@ extension on TransactionDetails {
     final rawAmount =
         tokenAddress == Token.sol.address
             ? getBalanceDifference(meta?.preBalances, meta?.postBalances)
-            : getTokenBalanceDifference(
-              meta?.preTokenBalances,
-              meta?.postTokenBalances,
-            );
+            : getTokenBalanceDifference(meta?.preTokenBalances, meta?.postTokenBalances);
 
     if (rawAmount == null || rawAmount == 0) return null;
 
@@ -242,11 +198,7 @@ extension on TransactionDetails {
           tokenAddress != null
               ? tokenAddress == Token.sol.address
                   ? const CryptoCurrency(token: Token.sol)
-                  : CryptoCurrency(
-                    token:
-                        await tokenRepository.getToken(tokenAddress) ??
-                        Token.unk,
-                  )
+                  : CryptoCurrency(token: await tokenRepository.getToken(tokenAddress) ?? Token.unk)
               : const CryptoCurrency(token: Token.unk);
 
       return CryptoAmount(value: amount, cryptoCurrency: cryptoCurrency);
@@ -254,11 +206,8 @@ extension on TransactionDetails {
 
     return TxCommon(
       tx,
-      status:
-          meta?.err == null ? TxCommonStatus.success : TxCommonStatus.failure,
-      created: blockTime?.let(
-        (it) => DateTime.fromMillisecondsSinceEpoch(1000 * it),
-      ),
+      status: meta?.err == null ? TxCommonStatus.success : TxCommonStatus.failure,
+      created: blockTime?.let((it) => DateTime.fromMillisecondsSinceEpoch(1000 * it)),
       amount: amount,
     );
   }

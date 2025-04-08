@@ -62,11 +62,7 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
   }
 
   Future<void> _onException(CreateOrderException e) async {
-    await showWarningDialog(
-      context,
-      title: context.l10n.swapErrorTitle,
-      message: e.description(context),
-    );
+    await showWarningDialog(context, title: context.l10n.swapErrorTitle, message: e.description(context));
 
     _bloc.add(const ConfirmPaymentEvent.invalidated());
   }
@@ -78,96 +74,79 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      BlocConsumer<ConfirmPaymentBloc, ConfirmPaymentState>(
-        bloc: _bloc,
-        listenWhen: (prev, cur) => prev.flowState != cur.flowState,
-        listener:
-            (context, state) => switch (state.flowState) {
-              FlowFailure(:final error) => _onException(error),
-              FlowSuccess(:final result) => widget.onConfirm(result),
-              _ => null,
-            },
-        builder: (context, state) {
-          final receiverAmount = state.receiverAmount.format(
-            context.locale,
-            maxDecimals: 2,
-            roundInteger: false,
-          );
+  Widget build(BuildContext context) => BlocConsumer<ConfirmPaymentBloc, ConfirmPaymentState>(
+    bloc: _bloc,
+    listenWhen: (prev, cur) => prev.flowState != cur.flowState,
+    listener:
+        (context, state) => switch (state.flowState) {
+          FlowFailure(:final error) => _onException(error),
+          FlowSuccess(:final result) => widget.onConfirm(result),
+          _ => null,
+        },
+    builder: (context, state) {
+      final receiverAmount = state.receiverAmount.format(context.locale, maxDecimals: 2, roundInteger: false);
 
-          final totalDeductedAmount = (state.inputAmount + state.fee).format(
-            context.locale,
-            maxDecimals: 2,
-            roundInteger: false,
-          );
+      final totalDeductedAmount = (state.inputAmount + state.fee).format(
+        context.locale,
+        maxDecimals: 2,
+        roundInteger: false,
+      );
 
-          final feeAmount = state.fee.format(
-            context.locale,
-            maxDecimals: 2,
-            roundInteger: false,
-          );
+      final feeAmount = state.fee.format(context.locale, maxDecimals: 2, roundInteger: false);
 
-          return SafeArea(
-            child: LayoutBuilder(
-              builder:
-                  (context, constraints) => SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minWidth: constraints.maxWidth,
-                        minHeight: constraints.maxHeight,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const _DisclaimerText(),
-                            const SizedBox(height: 32),
-                            _Item(
-                              title: context.l10n.walletNetwork,
-                              value: widget.blockchain.displayName,
-                              backgroundColor: Colors.black,
-                            ),
-                            _Item(
-                              title: context.l10n.walletAddress,
-                              value: widget.receiverAddress,
-                              backgroundColor: Colors.black,
-                            ),
-                            if (state.flowState.isProcessing ||
-                                state.quote == null) ...[
-                              const SizedBox(height: 16),
-                              const _Loading(),
-                            ] else ...[
-                              _Item(
-                                title: context.l10n.totalAmount,
-                                value: '$totalDeductedAmount ($feeAmount Fee)',
-                                backgroundColor: Colors.black,
-                              ),
-                              _Item(
-                                title: context.l10n.transferReceiver,
-                                value: receiverAmount,
-                                backgroundColor: Colors.black,
-                              ),
-                            ],
-                            const Spacer(),
-                            CpContentPadding(
-                              child: CpSlider(
-                                text: context.l10n.confirm,
-                                onSlideCompleted:
-                                    (state.quote == null ||
-                                            state.flowState.isProcessing)
-                                        ? null
-                                        : _onSubmit,
-                              ),
-                            ),
-                          ],
+      return SafeArea(
+        child: LayoutBuilder(
+          builder:
+              (context, constraints) => SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minWidth: constraints.maxWidth, minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const _DisclaimerText(),
+                        const SizedBox(height: 32),
+                        _Item(
+                          title: context.l10n.walletNetwork,
+                          value: widget.blockchain.displayName,
+                          backgroundColor: Colors.black,
                         ),
-                      ),
+                        _Item(
+                          title: context.l10n.walletAddress,
+                          value: widget.receiverAddress,
+                          backgroundColor: Colors.black,
+                        ),
+                        if (state.flowState.isProcessing || state.quote == null) ...[
+                          const SizedBox(height: 16),
+                          const _Loading(),
+                        ] else ...[
+                          _Item(
+                            title: context.l10n.totalAmount,
+                            value: '$totalDeductedAmount ($feeAmount Fee)',
+                            backgroundColor: Colors.black,
+                          ),
+                          _Item(
+                            title: context.l10n.transferReceiver,
+                            value: receiverAmount,
+                            backgroundColor: Colors.black,
+                          ),
+                        ],
+                        const Spacer(),
+                        CpContentPadding(
+                          child: CpSlider(
+                            text: context.l10n.confirm,
+                            onSlideCompleted: (state.quote == null || state.flowState.isProcessing) ? null : _onSubmit,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-            ),
-          );
-        },
+                ),
+              ),
+        ),
       );
+    },
+  );
 }
 
 class _DisclaimerText extends StatelessWidget {
@@ -181,27 +160,15 @@ class _DisclaimerText extends StatelessWidget {
         children: [
           TextSpan(
             text: context.l10n.outgoingDlnDisclaimer1,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
           ),
           TextSpan(
             text: context.l10n.outgoingDlnDisclaimer2,
-            style: const TextStyle(
-              color: Color(0xFFFFDA66),
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(color: Color(0xFFFFDA66), fontSize: 14, fontWeight: FontWeight.w500),
           ),
           TextSpan(
             text: context.l10n.outgoingDlnDisclaimer3,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
           ),
         ],
       ),
@@ -211,11 +178,7 @@ class _DisclaimerText extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({
-    required this.title,
-    required this.value,
-    required this.backgroundColor,
-  });
+  const _Item({required this.title, required this.value, required this.backgroundColor});
 
   final String title;
   final String value;
@@ -229,32 +192,17 @@ class _Item extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 17,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 0.23,
-          ),
+          style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500, letterSpacing: 0.23),
         ),
         const SizedBox(height: 8),
         DecoratedBox(
-          decoration: ShapeDecoration(
-            color: backgroundColor,
-            shape: const StadiumBorder(),
-          ),
+          decoration: ShapeDecoration(color: backgroundColor, shape: const StadiumBorder()),
           child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 2,
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 2),
             title: Text(
               value,
               maxLines: null,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
           ),
@@ -268,12 +216,8 @@ class _Loading extends StatelessWidget {
   const _Loading();
 
   @override
-  Widget build(BuildContext context) => const Center(
-    child: SizedBox.square(
-      dimension: 16,
-      child: CircularProgressIndicator(color: Colors.white),
-    ),
-  );
+  Widget build(BuildContext context) =>
+      const Center(child: SizedBox.square(dimension: 16, child: CircularProgressIndicator(color: Colors.white)));
 }
 
 extension on CreateOrderException {
@@ -281,16 +225,8 @@ extension on CreateOrderException {
     quoteNotFound: always(context.l10n.outgoingDlnNoQuoteFound),
     insufficientBalance:
         (e) => context.l10n.insufficientFundsMessage(
-          e.amount.format(
-            DeviceLocale.localeOf(context),
-            maxDecimals: 2,
-            roundInteger: false,
-          ),
-          e.balance.format(
-            DeviceLocale.localeOf(context),
-            maxDecimals: 2,
-            roundInteger: false,
-          ),
+          e.amount.format(DeviceLocale.localeOf(context), maxDecimals: 2, roundInteger: false),
+          e.balance.format(DeviceLocale.localeOf(context), maxDecimals: 2, roundInteger: false),
         ),
     other: always(context.l10n.swapFailUnknown),
   );

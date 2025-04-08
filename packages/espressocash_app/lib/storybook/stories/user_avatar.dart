@@ -11,9 +11,7 @@ final cpUserAvatar = Story(
         radius: 48,
         image:
             context.knobs.boolean(label: 'Image', initial: false)
-                ? const NetworkImage(
-                  'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
-                )
+                ? const NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg')
                 : null,
       ),
 );

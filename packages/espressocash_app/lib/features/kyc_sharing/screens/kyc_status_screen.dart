@@ -12,12 +12,7 @@ import '../widgets/kyc_listener.dart';
 import '../widgets/kyc_page.dart';
 
 class KycStatusScreen extends StatelessWidget {
-  const KycStatusScreen({
-    super.key,
-    this.onAddCashPressed,
-    this.onCashOutPressed,
-    required this.country,
-  });
+  const KycStatusScreen({super.key, this.onAddCashPressed, this.onCashOutPressed, required this.country});
 
   final VoidCallback? onAddCashPressed;
   final VoidCallback? onCashOutPressed;
@@ -46,9 +41,7 @@ class KycStatusScreen extends StatelessWidget {
     country: country,
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return const KycPage(
-          children: [Center(child: CircularProgressIndicator())],
-        );
+        return const KycPage(children: [Center(child: CircularProgressIndicator())]);
       }
 
       final status = snapshot.data;
@@ -65,8 +58,7 @@ class KycStatusScreen extends StatelessWidget {
         icon: status.kycIcon,
         children: [
           switch (status) {
-            KycValidationStatus.unverified ||
-            KycValidationStatus.pending => KycHeader(
+            KycValidationStatus.unverified || KycValidationStatus.pending => KycHeader(
               title: context.l10n.kycPendingStatusTitle,
               description: context.l10n.kycPendingStatusDescription,
             ),
@@ -85,40 +77,26 @@ class KycStatusScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Column(
                 children: [
-                  Text(
-                    context.l10n.kycPendingStatusDescription2,
-                    style: _textStyle,
-                  ),
+                  Text(context.l10n.kycPendingStatusDescription2, style: _textStyle),
                   const SizedBox(height: 14),
-                  Text(
-                    context.l10n.kycPendingStatusDescription3,
-                    style: _textStyle,
-                  ),
+                  Text(context.l10n.kycPendingStatusDescription3, style: _textStyle),
                 ],
               ),
             )
           else if (status == KycValidationStatus.approved) ...[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Text(
-                context.l10n.kycApprovedStatusDescription2,
-                style: _textStyle,
-              ),
+              child: Text(context.l10n.kycApprovedStatusDescription2, style: _textStyle),
             ),
             const SizedBox(height: 14),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Text(
-                context.l10n.kycApprovedStatusDescription3,
-                style: _textStyle,
-              ),
+              child: Text(context.l10n.kycApprovedStatusDescription3, style: _textStyle),
             ),
           ],
           const SizedBox(height: 16),
           const Spacer(),
-          if (status == KycValidationStatus.approved &&
-              onAddCashPressed != null &&
-              onCashOutPressed != null) ...[
+          if (status == KycValidationStatus.approved && onAddCashPressed != null && onCashOutPressed != null) ...[
             CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.ramp_btnAddCash,
@@ -143,8 +121,7 @@ class KycStatusScreen extends StatelessWidget {
               text: switch (status) {
                 KycValidationStatus.rejected => context.l10n.contactUs,
                 KycValidationStatus.pending => context.l10n.activityButton,
-                KycValidationStatus.approved ||
-                KycValidationStatus.unverified => context.l10n.ok,
+                KycValidationStatus.approved || KycValidationStatus.unverified => context.l10n.ok,
               },
               onPressed: () {
                 switch (status) {
@@ -166,9 +143,4 @@ class KycStatusScreen extends StatelessWidget {
   );
 }
 
-const _textStyle = TextStyle(
-  color: Colors.white,
-  fontSize: 16,
-  height: 21 / 16,
-  letterSpacing: .19,
-);
+const _textStyle = TextStyle(color: Colors.white, fontSize: 16, height: 21 / 16, letterSpacing: .19);

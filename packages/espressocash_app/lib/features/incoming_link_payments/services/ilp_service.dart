@@ -70,10 +70,7 @@ class ILPService implements Disposable {
         .listen((payment) => payment?.let(_repository.save));
   }
 
-  Future<IncomingLinkPayment> create({
-    required ECWallet account,
-    required Ed25519HDKeyPair escrow,
-  }) async {
+  Future<IncomingLinkPayment> create({required ECWallet account, required Ed25519HDKeyPair escrow}) async {
     final status = await _createTx(escrow: escrow, account: account);
 
     final id = const Uuid().v4();
@@ -91,10 +88,7 @@ class ILPService implements Disposable {
     return payment;
   }
 
-  Future<ILPStatus> _createTx({
-    required ECWallet account,
-    required Ed25519HDKeyPair escrow,
-  }) async {
+  Future<ILPStatus> _createTx({required ECWallet account, required Ed25519HDKeyPair escrow}) async {
     try {
       final transaction = await _createIncomingEscrow(
         escrowAccount: escrow,
@@ -125,15 +119,9 @@ class ILPService implements Disposable {
           .submitDurableTx(SubmitDurableTxRequestDto(tx: tx.encode()))
           .then((e) => e.signature);
 
-      return payment.copyWith(
-        status: ILPStatus.txSent(tx, signature: signature),
-      );
+      return payment.copyWith(status: ILPStatus.txSent(tx, signature: signature));
     } on Exception {
-      return payment.copyWith(
-        status: const ILPStatus.txFailure(
-          reason: TxFailureReason.creatingFailure,
-        ),
-      );
+      return payment.copyWith(status: const ILPStatus.txFailure(reason: TxFailureReason.creatingFailure));
     }
   }
 
@@ -150,12 +138,7 @@ class ILPService implements Disposable {
 
     int? fee;
     try {
-      fee =
-          status.tx.containsAta
-              ? await _ecClient.getFees().then(
-                (value) => value.escrowPaymentAtaFee,
-              )
-              : null;
+      fee = status.tx.containsAta ? await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee) : null;
     } on Object {
       fee = null;
     }
@@ -168,9 +151,7 @@ class ILPService implements Disposable {
       status: ILPStatus.success(
         tx: status.tx,
         receiveAmount: receiveAmount,
-        fee: fee?.let(
-          (fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc),
-        ),
+        fee: fee?.let((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc)),
       ),
     );
   }
@@ -193,9 +174,7 @@ class ILPService implements Disposable {
       final rawTx = details.transaction as RawTransaction;
       final tx = SignedTx.fromBytes(rawTx.data);
 
-      final accountIndex = tx.compiledMessage.accountKeys.indexWhere(
-        (e) => e == usdcTokenAddress,
-      );
+      final accountIndex = tx.compiledMessage.accountKeys.indexWhere((e) => e == usdcTokenAddress);
 
       final postTokenBalance =
           details.meta?.postTokenBalances
@@ -231,9 +210,6 @@ class ILPService implements Disposable {
 }
 
 extension on SignedTx {
-  bool get containsAta => decompileMessage().let(
-    (m) => m.instructions.any(
-      (ix) => ix.programId == AssociatedTokenAccountProgram.id,
-    ),
-  );
+  bool get containsAta =>
+      decompileMessage().let((m) => m.instructions.any((ix) => ix.programId == AssociatedTokenAccountProgram.id));
 }

@@ -23,13 +23,10 @@ import 'main_screen.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  static void openWalletTab(BuildContext context) =>
-      sl<HomeNavigationService>().openWalletTab(context);
+  static void openWalletTab(BuildContext context) => sl<HomeNavigationService>().openWalletTab(context);
 
-  static void openActivitiesTab(
-    BuildContext context, {
-    ActivitiesTab tab = ActivitiesTab.pending,
-  }) => sl<HomeNavigationService>().openActivitiesTab(context, tab: tab);
+  static void openActivitiesTab(BuildContext context, {ActivitiesTab tab = ActivitiesTab.pending}) =>
+      sl<HomeNavigationService>().openActivitiesTab(context, tab: tab);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -76,8 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         body: PageView(
                           controller: _pageController,
                           physics: const NeverScrollableScrollPhysics(),
-                          children:
-                              _pages.map((e) => e.builder(context)).toList(),
+                          children: _pages.map((e) => e.builder(context)).toList(),
                         ),
                         bottomNavigationBar: CPNavigationBar(
                           items:
@@ -87,8 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       icon: p.icon,
                                       active: value == i,
                                       onPressed: () {
-                                        _navigationService.tabNotifier.value =
-                                            i;
+                                        _navigationService.tabNotifier.value = i;
                                         _pageController.jumpToPage(i);
                                       },
                                     ),
@@ -130,20 +125,13 @@ final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
         (context) => PageSpacerWrapper(
           child: MainScreen(
             onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
-            onTransactionsPressed:
-                () => HomeScreen.openActivitiesTab(
-                  context,
-                  tab: ActivitiesTab.transactions,
-                ),
+            onTransactionsPressed: () => HomeScreen.openActivitiesTab(context, tab: ActivitiesTab.transactions),
           ),
         ),
   ),
   (icon: Assets.icons.wallet, builder: (context) => const WalletScreen()),
   (
     icon: Assets.icons.notifications,
-    builder:
-        (context) => ActivitiesScreen(
-          initialTab: sl<HomeNavigationService>().activitiesTabNotifier.value,
-        ),
+    builder: (context) => ActivitiesScreen(initialTab: sl<HomeNavigationService>().activitiesTabNotifier.value),
   ),
 ];

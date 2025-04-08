@@ -20,8 +20,7 @@ class QuizScreen extends StatefulWidget {
   State<QuizScreen> createState() => _QuizScreenState();
 }
 
-class _QuizScreenState extends State<QuizScreen>
-    with SingleTickerProviderStateMixin {
+class _QuizScreenState extends State<QuizScreen> with SingleTickerProviderStateMixin {
   late IList<QuizQuestion> _questions;
 
   QuizState _state = const QuizState.question(index: 0);
@@ -36,10 +35,7 @@ class _QuizScreenState extends State<QuizScreen>
 
   final _indicatorKey = GlobalKey();
 
-  late final _indicator = QuizIndicator(
-    key: _indicatorKey,
-    controller: _indicatorController,
-  );
+  late final _indicator = QuizIndicator(key: _indicatorKey, controller: _indicatorController);
 
   @override
   void didChangeDependencies() {
@@ -54,8 +50,7 @@ class _QuizScreenState extends State<QuizScreen>
     super.dispose();
   }
 
-  String _questionTitle(int index) =>
-      '${index % 2 + 1} OF ${_questions.length}';
+  String _questionTitle(int index) => '${index % 2 + 1} OF ${_questions.length}';
 
   void _handleNextQuestion(int index) {
     if (index + 1 < _questions.length) {
@@ -90,21 +85,13 @@ class _QuizScreenState extends State<QuizScreen>
     QuizStateQuestion(:final index) => QuizQuestionView(
       question: _questions[index],
       title: _questionTitle(index),
-      onButtonPressed:
-          (isCorrect) =>
-              isCorrect
-                  ? _handleCorrectAnswer(index)
-                  : _handleWrongAnswer(index),
+      onButtonPressed: (isCorrect) => isCorrect ? _handleCorrectAnswer(index) : _handleWrongAnswer(index),
       indicator: _indicator,
     ),
     QuizStateAnswer(:final index, :final isCorrect) => QuizAnswerView(
       isCorrect: isCorrect,
-      explanation:
-          isCorrect
-              ? _questions[index].correctExplanation
-              : _questions[index].incorrectExplanation,
-      onButtonPressed:
-          () => isCorrect ? _handleNextQuestion(index) : _tryAgain(index),
+      explanation: isCorrect ? _questions[index].correctExplanation : _questions[index].incorrectExplanation,
+      onButtonPressed: () => isCorrect ? _handleNextQuestion(index) : _tryAgain(index),
       title: _questionTitle(index),
       indicator: _indicator,
     ),
@@ -116,10 +103,7 @@ class _QuizScreenState extends State<QuizScreen>
 sealed class QuizState with _$QuizState {
   const factory QuizState.question({required int index}) = QuizStateQuestion;
 
-  const factory QuizState.answer({
-    required int index,
-    required bool isCorrect,
-  }) = QuizStateAnswer;
+  const factory QuizState.answer({required int index, required bool isCorrect}) = QuizStateAnswer;
 
   const factory QuizState.success() = QuizStateSuccess;
 }

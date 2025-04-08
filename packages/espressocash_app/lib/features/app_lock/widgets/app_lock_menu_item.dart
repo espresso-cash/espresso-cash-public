@@ -17,11 +17,7 @@ class AppLockMenuItem extends StatelessWidget {
           label: context.l10n.appLock_lblAutoLock,
           subtitle: context.l10n.appLock_lblAutoLockDescription,
           value: state is AppLockStateEnabled,
-          onChanged:
-              (value) =>
-                  value
-                      ? AppLockEnableScreen.push(context)
-                      : AppLockDisableScreen.push(context),
+          onChanged: (value) => value ? AppLockEnableScreen.push(context) : AppLockDisableScreen.push(context),
         ),
   );
 }

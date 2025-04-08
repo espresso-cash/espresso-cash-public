@@ -21,22 +21,17 @@ class PaymentRequestRepository implements Disposable {
   final MyDatabase _db;
 
   Stream<PaymentRequest> watchById(String id) {
-    final query = _db.select(_db.paymentRequestRows)
-      ..where((p) => p.id.equals(id));
+    final query = _db.select(_db.paymentRequestRows)..where((p) => p.id.equals(id));
 
     return query.watchSingle().map((row) => row.toPaymentRequest());
   }
 
-  Future<void> save(PaymentRequest payment) =>
-      _db.into(_db.paymentRequestRows).insertOnConflictUpdate(payment.toRow());
+  Future<void> save(PaymentRequest payment) => _db.into(_db.paymentRequestRows).insertOnConflictUpdate(payment.toRow());
 
-  Future<void> delete(String id) =>
-      (_db.delete(_db.paymentRequestRows)
-        ..where((tbl) => tbl.id.equals(id))).go();
+  Future<void> delete(String id) => (_db.delete(_db.paymentRequestRows)..where((tbl) => tbl.id.equals(id))).go();
 
   Future<IList<PaymentRequest>> getAllPending() async {
-    final query = _db.select(_db.paymentRequestRows)
-      ..where((p) => p.state.equalsValue(PaymentRequestStateDto.initial));
+    final query = _db.select(_db.paymentRequestRows)..where((p) => p.state.equalsValue(PaymentRequestStateDto.initial));
 
     final rows = await query.get();
 
@@ -75,9 +70,7 @@ extension on PaymentRequestRow {
       amount: amount?.let(Decimal.parse),
       recipient: Ed25519HDPublicKey.fromBase58(recipient),
       splToken: spltToken?.let(Ed25519HDPublicKey.fromBase58),
-      reference: reference?.let(
-        (it) => it.split(',').map(Ed25519HDPublicKey.fromBase58).toIList(),
-      ),
+      reference: reference?.let((it) => it.split(',').map(Ed25519HDPublicKey.fromBase58).toIList()),
       message: message,
       memo: memo,
     ),

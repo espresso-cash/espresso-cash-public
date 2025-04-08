@@ -59,17 +59,9 @@ class CpInfoWidget extends StatelessWidget {
       case CpInfoVariant.dark:
         return Padding(padding: padding, child: content);
       case CpInfoVariant.light:
-        return CpRoundedRectangle(
-          backgroundColor: CpColors.backgroundAccentColor,
-          padding: padding,
-          child: content,
-        );
+        return CpRoundedRectangle(backgroundColor: CpColors.backgroundAccentColor, padding: padding, child: content);
       case CpInfoVariant.black:
-        return CpRoundedRectangle(
-          backgroundColor: Colors.black,
-          padding: padding,
-          child: content,
-        );
+        return CpRoundedRectangle(backgroundColor: Colors.black, padding: padding, child: content);
     }
   }
 }

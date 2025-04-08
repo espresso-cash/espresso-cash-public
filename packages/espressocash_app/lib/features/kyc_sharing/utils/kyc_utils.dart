@@ -17,23 +17,16 @@ extension UserDataExtensions on UserData {
 
   Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
 
-  BankInfo? getBankByCountry(String country) =>
-      bankInfos?.firstWhereOrNull((bank) => bank.countryCode == country);
+  BankInfo? getBankByCountry(String country) => bankInfos?.firstWhereOrNull((bank) => bank.countryCode == country);
 
   List<Document>? getDocumentsByCountryGroup(List<String> countryGroups) =>
-      documents
-          ?.where((document) => countryGroups.contains(document.countryCode))
-          .toList();
+      documents?.where((document) => countryGroups.contains(document.countryCode)).toList();
 
-  KycValidationStatus get phoneStatus =>
-      phone?.status.toKycValidationStatus() ?? KycValidationStatus.unverified;
-  KycValidationStatus get emailStatus =>
-      email?.status.toKycValidationStatus() ?? KycValidationStatus.unverified;
+  KycValidationStatus get phoneStatus => phone?.status.toKycValidationStatus() ?? KycValidationStatus.unverified;
+  KycValidationStatus get emailStatus => email?.status.toKycValidationStatus() ?? KycValidationStatus.unverified;
 
   bool hasBankInfo(BankInfo bankInfo) =>
-      bankInfo.bankCode.isNotEmpty &&
-      bankInfo.accountNumber.isNotEmpty &&
-      bankInfo.bankName.isNotEmpty;
+      bankInfo.bankCode.isNotEmpty && bankInfo.accountNumber.isNotEmpty && bankInfo.bankName.isNotEmpty;
 }
 
 extension StringNullIfEmpty on String {

@@ -8,11 +8,9 @@ import '../widgets/kyc_page.dart';
 class DocumentInfoScreen extends StatelessWidget {
   const DocumentInfoScreen({super.key});
 
-  static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(builder: (context) => const DocumentInfoScreen()),
-      )
-      .then((result) => result ?? false);
+  static Future<bool> push(BuildContext context) => Navigator.of(
+    context,
+  ).push<bool>(MaterialPageRoute(builder: (context) => const DocumentInfoScreen())).then((result) => result ?? false);
 
   @override
   Widget build(BuildContext context) => KycPage(

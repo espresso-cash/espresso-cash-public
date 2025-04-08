@@ -72,9 +72,7 @@ class CpButton extends StatelessWidget {
     final textStyle =
         (() {
           // ignore: avoid-non-null-assertion, the style should be there
-          final style = Theme.of(
-            context,
-          ).textTheme.labelLarge!.copyWith(overflow: TextOverflow.ellipsis);
+          final style = Theme.of(context).textTheme.labelLarge!.copyWith(overflow: TextOverflow.ellipsis);
           switch (size) {
             case CpButtonSize.normal:
               return style;
@@ -104,21 +102,15 @@ class CpButton extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         animationDuration: Duration.zero,
-        minimumSize: WidgetStateProperty.all(
-          Size(minWidth ?? 100.w, size.height),
-        ),
+        minimumSize: WidgetStateProperty.all(Size(minWidth ?? 100.w, size.height)),
         fixedSize: WidgetStateProperty.all(Size.fromHeight(size.height)),
         shape: WidgetStateProperty.all(const StadiumBorder()),
         alignment: alignment.alignment,
         overlayColor: WidgetStateProperty.all(CpColors.translucentYellowColor),
-        padding: WidgetStateProperty.all(
-          EdgeInsets.symmetric(horizontal: horizontalPadding),
-        ),
+        padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: horizontalPadding)),
         backgroundColor: WidgetStateProperty.resolveWith(
           (states) =>
-              states.contains(WidgetState.disabled)
-                  ? _backgroundColor.withOpacity(_disabledOpacity)
-                  : _backgroundColor,
+              states.contains(WidgetState.disabled) ? _backgroundColor.withOpacity(_disabledOpacity) : _backgroundColor,
         ),
         foregroundColor: WidgetStateProperty.all(_foregroundColor),
         textStyle: WidgetStateProperty.all(textStyle),
@@ -129,11 +121,9 @@ class CpButton extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            if (leading case final leading?)
-              Positioned(left: 0, child: leading),
+            if (leading case final leading?) Positioned(left: 0, child: leading),
             Text(text),
-            if (trailing case final trailing?)
-              Positioned(right: 0, child: trailing),
+            if (trailing case final trailing?) Positioned(right: 0, child: trailing),
           ],
         ),
       ),

@@ -28,5 +28,4 @@ const token3PrivateKey = [
   124, 13, 156, 137, 180, 71, 63, 139, //
 ];
 
-const accountMnemonic =
-    'champion man thing traffic luggage aerobic visual caught glow attitude orbit circle';
+const accountMnemonic = 'champion man thing traffic luggage aerobic visual caught glow attitude orbit circle';

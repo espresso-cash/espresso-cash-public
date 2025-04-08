@@ -28,42 +28,22 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       (event, emit) => event.map(
         submitted: (event) => _onSubmitted(event, emit),
         newLocalWalletRequested: (_) => _onNewLocalWalletRequested(emit),
-        existingLocalWalletRequested:
-            (event) => _onExistingLocalWalletRequested(event, emit),
+        existingLocalWalletRequested: (event) => _onExistingLocalWalletRequested(event, emit),
       );
 
   void _onNewLocalWalletRequested(Emitter<SignInState> emit) {
-    emit(
-      state.copyWith(
-        source: bip39
-            .generateMnemonic()
-            .let(Mnemonic.generated)
-            .let(AccountSource.local),
-      ),
-    );
+    emit(state.copyWith(source: bip39.generateMnemonic().let(Mnemonic.generated).let(AccountSource.local)));
     add(const SignInSubmitted());
   }
 
-  void _onExistingLocalWalletRequested(
-    SignInExistingLocalWalletRequested event,
-    Emitter<SignInState> emit,
-  ) {
-    emit(
-      state.copyWith(
-        source: event.phrase.let(Mnemonic.typed).let(AccountSource.local),
-      ),
-    );
+  void _onExistingLocalWalletRequested(SignInExistingLocalWalletRequested event, Emitter<SignInState> emit) {
+    emit(state.copyWith(source: event.phrase.let(Mnemonic.typed).let(AccountSource.local)));
   }
 
-  Future<void> _onSubmitted(
-    SignInSubmitted _,
-    Emitter<SignInState> emit,
-  ) async {
+  Future<void> _onSubmitted(SignInSubmitted _, Emitter<SignInState> emit) async {
     emit(state.copyWith(processingState: const Flow.processing()));
     try {
-      final wallet = await state.source.when(
-        local: (it) => createLocalWallet(mnemonic: it.phrase),
-      );
+      final wallet = await state.source.when(local: (it) => createLocalWallet(mnemonic: it.phrase));
 
       final accessMode = state.source.when(
         local:
@@ -94,11 +74,9 @@ class SignInState with _$SignInState {
 
 @freezed
 class SignInEvent with _$SignInEvent {
-  const factory SignInEvent.newLocalWalletRequested() =
-      SignInNewLocalWalletRequested;
+  const factory SignInEvent.newLocalWalletRequested() = SignInNewLocalWalletRequested;
 
-  const factory SignInEvent.existingLocalWalletRequested(String phrase) =
-      SignInExistingLocalWalletRequested;
+  const factory SignInEvent.existingLocalWalletRequested(String phrase) = SignInExistingLocalWalletRequested;
 
   const factory SignInEvent.submitted() = SignInSubmitted;
 }
@@ -110,6 +88,5 @@ class SignInException with _$SignInException implements Exception {
 }
 
 extension on SignInState {
-  SignInState toGenericException(Exception e) =>
-      copyWith(processingState: Flow.failure(SignInException.generic(e)));
+  SignInState toGenericException(Exception e) => copyWith(processingState: Flow.failure(SignInException.generic(e)));
 }

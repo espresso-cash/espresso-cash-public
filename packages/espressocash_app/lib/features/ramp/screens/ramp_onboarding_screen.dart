@@ -14,25 +14,12 @@ import '../../ramp_partner/models/ramp_type.dart';
 import '../widgets/ramp_page.dart';
 
 class RampOnboardingScreen extends StatefulWidget {
-  const RampOnboardingScreen({
-    super.key,
-    required this.rampType,
-    required this.onConfirmed,
-  });
+  const RampOnboardingScreen({super.key, required this.rampType, required this.onConfirmed});
 
-  static Future<void> push(
-    BuildContext context, {
-    required RampType rampType,
-    required VoidCallback onConfirmed,
-  }) => Navigator.of(context).push<void>(
-    MaterialPageRoute(
-      builder:
-          (context) => RampOnboardingScreen(
-            rampType: rampType,
-            onConfirmed: onConfirmed,
-          ),
-    ),
-  );
+  static Future<void> push(BuildContext context, {required RampType rampType, required VoidCallback onConfirmed}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(builder: (context) => RampOnboardingScreen(rampType: rampType, onConfirmed: onConfirmed)),
+      );
 
   final RampType rampType;
   final VoidCallback onConfirmed;
@@ -118,18 +105,11 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
           placeholder: context.l10n.yourEmailPlaceholder,
         ),
         const SizedBox(height: 14),
-        CountryPicker(
-          country: _country,
-          onSubmitted: (country) => setState(() => _country = country),
-        ),
+        CountryPicker(country: _country, onSubmitted: (country) => setState(() => _country = country)),
         const SizedBox(height: 28),
         const Spacer(),
         ListenableBuilder(
-          listenable: Listenable.merge([
-            _firstNameController,
-            _lastNameController,
-            _emailController,
-          ]),
+          listenable: Listenable.merge([_firstNameController, _lastNameController, _emailController]),
           builder:
               (context, child) => CpButton(
                 width: double.infinity,

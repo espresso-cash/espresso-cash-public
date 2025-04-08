@@ -10,8 +10,7 @@ class CpTheme extends StatelessWidget {
   const CpTheme.light({Key? key, required Widget child})
     : this(key: key, theme: const CpThemeData.light(), child: child);
 
-  const CpTheme.dark({Key? key, required Widget child})
-    : this(key: key, theme: const CpThemeData.dark(), child: child);
+  const CpTheme.dark({Key? key, required Widget child}) : this(key: key, theme: const CpThemeData.dark(), child: child);
 
   const CpTheme.black({Key? key, required Widget child})
     : this(key: key, theme: const CpThemeData.black(), child: child);
@@ -26,10 +25,7 @@ class CpTheme extends StatelessWidget {
     value: theme,
     child: Theme(
       data: theme.toMaterialTheme(),
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: theme.brightness.systemOverlayStyle,
-        child: child,
-      ),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(value: theme.brightness.systemOverlayStyle, child: child),
     ),
   );
 }
@@ -76,8 +72,7 @@ class CpThemeData {
   final Brightness brightness;
   final Color dividerColor;
 
-  TextStyle get _baseTextStyle =>
-      TextStyle(height: 1.25, color: primaryTextColor, fontFamily: 'RobotoApp');
+  TextStyle get _baseTextStyle => TextStyle(height: 1.25, color: primaryTextColor, fontFamily: 'RobotoApp');
 
   ThemeData toMaterialTheme() => ThemeData(
     brightness: brightness,
@@ -85,38 +80,14 @@ class CpThemeData {
     splashColor: CpColors.yellowColor.withOpacity(0.25),
     fontFamily: 'RobotoApp',
     textTheme: TextTheme(
-      displayLarge: _baseTextStyle.copyWith(
-        fontSize: 72,
-        fontWeight: FontWeight.bold,
-      ),
-      displayMedium: _baseTextStyle.copyWith(
-        fontSize: 42,
-        fontWeight: FontWeight.w600,
-      ),
-      displaySmall: _baseTextStyle.copyWith(
-        fontSize: 26,
-        fontWeight: FontWeight.w700,
-      ),
-      headlineMedium: _baseTextStyle.copyWith(
-        fontSize: 18,
-        fontWeight: FontWeight.w500,
-      ),
-      titleMedium: _baseTextStyle.copyWith(
-        fontSize: 30,
-        fontWeight: FontWeight.bold,
-      ),
-      titleSmall: _baseTextStyle.copyWith(
-        fontSize: 20,
-        fontWeight: FontWeight.w500,
-      ),
-      bodyLarge: _baseTextStyle.copyWith(
-        fontSize: 16,
-        fontWeight: FontWeight.normal,
-      ),
-      labelLarge: _baseTextStyle.copyWith(
-        fontSize: 17,
-        fontWeight: FontWeight.bold,
-      ),
+      displayLarge: _baseTextStyle.copyWith(fontSize: 72, fontWeight: FontWeight.bold),
+      displayMedium: _baseTextStyle.copyWith(fontSize: 42, fontWeight: FontWeight.w600),
+      displaySmall: _baseTextStyle.copyWith(fontSize: 26, fontWeight: FontWeight.w700),
+      headlineMedium: _baseTextStyle.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
+      titleMedium: _baseTextStyle.copyWith(fontSize: 30, fontWeight: FontWeight.bold),
+      titleSmall: _baseTextStyle.copyWith(fontSize: 20, fontWeight: FontWeight.w500),
+      bodyLarge: _baseTextStyle.copyWith(fontSize: 16, fontWeight: FontWeight.normal),
+      labelLarge: _baseTextStyle.copyWith(fontSize: 17, fontWeight: FontWeight.bold),
     ),
     colorScheme: ColorScheme.light(
       brightness: brightness,
@@ -135,11 +106,7 @@ class CpThemeData {
         letterSpacing: .23,
       ),
       shape: Border(
-        bottom: BorderSide(
-          width: 1,
-          color:
-              brightness == Brightness.dark ? Colors.transparent : dividerColor,
-        ),
+        bottom: BorderSide(width: 1, color: brightness == Brightness.dark ? Colors.transparent : dividerColor),
       ),
       foregroundColor: primaryTextColor,
     ),
@@ -160,11 +127,7 @@ const twelveWordsTextStyle = TextStyle(
   height: 1.411,
 );
 
-const dashboardSectionTitleTextStyle = TextStyle(
-  fontWeight: FontWeight.w500,
-  fontSize: 17,
-  color: Colors.white,
-);
+const dashboardSectionTitleTextStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 17, color: Colors.white);
 
 extension on Brightness {
   SystemUiOverlayStyle get systemOverlayStyle =>

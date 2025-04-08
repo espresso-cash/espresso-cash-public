@@ -19,10 +19,7 @@ final offRampOrderScreenStory = Story(
             initial: OffRampOrderStatus.depositTxRequired,
             options: OffRampOrderStatus.values.toOptions(),
           ),
-          amount: const CryptoAmount(
-            value: 10000000,
-            cryptoCurrency: Currency.usdc,
-          ),
+          amount: const CryptoAmount(value: 10000000, cryptoCurrency: Currency.usdc),
           receiveAmount: null,
           partner: context.knobs.options(
             label: 'Partner',
@@ -32,10 +29,7 @@ final offRampOrderScreenStory = Story(
           resolved: null,
           partnerOrderId: 'PARTNER_ORDER_ID',
           depositAddress: null,
-          fee: const CryptoAmount(
-            value: 10000000,
-            cryptoCurrency: Currency.usdc,
-          ),
+          fee: const CryptoAmount(value: 10000000, cryptoCurrency: Currency.usdc),
           withdrawAnchorAccount: null,
           withdrawUrl: null,
           authToken: null,

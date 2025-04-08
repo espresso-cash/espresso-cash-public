@@ -42,36 +42,21 @@ Future<void> main() async {
     await repository.onDispose();
   });
 
-  final stubTx = await Message.only(
-        MemoInstruction(signers: const [], memo: 'test'),
-      )
-      .compile(
-        recentBlockhash: 'EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N',
-        feePayer: account.publicKey,
-      )
+  final stubTx = await Message.only(MemoInstruction(signers: const [], memo: 'test'))
+      .compile(recentBlockhash: 'EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N', feePayer: account.publicKey)
       .let(
         (it) async => SignedTx(
           compiledMessage: it,
-          signatures: await account.sign([
-            it.toByteArray().toList().let(Uint8List.fromList),
-          ]),
+          signatures: await account.sign([it.toByteArray().toList().let(Uint8List.fromList)]),
         ),
       )
       .then((it) => it.encode());
 
-  final testApiResponse = CreateDirectPaymentResponseDto(
-    fee: 100,
-    transaction: stubTx,
-    slot: BigInt.zero,
-  );
+  final testApiResponse = CreateDirectPaymentResponseDto(fee: 100, transaction: stubTx, slot: BigInt.zero);
 
-  const testAmount = CryptoAmount(
-    value: 100000000,
-    cryptoCurrency: CryptoCurrency(token: Token.usdc),
-  );
+  const testAmount = CryptoAmount(value: 100000000, cryptoCurrency: CryptoCurrency(token: Token.usdc));
 
-  ODPService createService() =>
-      ODPService(client, repository, sender, const StubAnalyticsManager());
+  ODPService createService() => ODPService(client, repository, sender, const StubAnalyticsManager());
 
   Future<String> createODP(ODPService service) async {
     final payment = await service.create(
@@ -88,19 +73,13 @@ Future<void> main() async {
     provideDummy<TxSendResult>(const TxSendSent());
     provideDummy<TxWaitResult>(const TxWaitSuccess());
 
-    when(
-      client.createDirectPayment(any),
-    ).thenAnswer((_) async => testApiResponse);
+    when(client.createDirectPayment(any)).thenAnswer((_) async => testApiResponse);
 
     when(
       sender.send(any, minContextSlot: anyNamed('minContextSlot')),
     ).thenAnswer((_) async => const TxSendResult.sent());
     when(
-      sender.wait(
-        any,
-        minContextSlot: anyNamed('minContextSlot'),
-        txType: anyNamed('txType'),
-      ),
+      sender.wait(any, minContextSlot: anyNamed('minContextSlot'), txType: anyNamed('txType')),
     ).thenAnswer((_) async => const TxWaitResult.success());
 
     final paymentId = await createService().let(createODP);
@@ -109,43 +88,19 @@ Future<void> main() async {
     await expectLater(
       payment,
       emitsInOrder([
-        isA<OutgoingDirectPayment>().having(
-          (it) => it.status,
-          'status',
-          isA<ODPStatusTxCreated>(),
-        ),
-        isA<OutgoingDirectPayment>().having(
-          (it) => it.status,
-          'status',
-          isA<ODPStatusTxSent>(),
-        ),
-        isA<OutgoingDirectPayment>().having(
-          (it) => it.status,
-          'status',
-          isA<ODPStatusSuccess>(),
-        ),
+        isA<OutgoingDirectPayment>().having((it) => it.status, 'status', isA<ODPStatusTxCreated>()),
+        isA<OutgoingDirectPayment>().having((it) => it.status, 'status', isA<ODPStatusTxSent>()),
+        isA<OutgoingDirectPayment>().having((it) => it.status, 'status', isA<ODPStatusSuccess>()),
       ]),
     );
 
-    verify(
-      sender.send(any, minContextSlot: anyNamed('minContextSlot')),
-    ).called(1);
-    verify(
-      sender.wait(
-        any,
-        minContextSlot: anyNamed('minContextSlot'),
-        txType: anyNamed('txType'),
-      ),
-    ).called(1);
+    verify(sender.send(any, minContextSlot: anyNamed('minContextSlot'))).called(1);
+    verify(sender.wait(any, minContextSlot: anyNamed('minContextSlot'), txType: anyNamed('txType'))).called(1);
   });
 
   test('Failed to get tx from API', () async {
-    provideDummy<TxSendResult>(
-      const TxSendFailure(reason: TxFailureReason.unknown),
-    );
-    provideDummy<TxWaitResult>(
-      const TxWaitFailure(reason: TxFailureReason.unknown),
-    );
+    provideDummy<TxSendResult>(const TxSendFailure(reason: TxFailureReason.unknown));
+    provideDummy<TxWaitResult>(const TxWaitFailure(reason: TxFailureReason.unknown));
 
     when(client.createDirectPayment(any)).thenAnswer((_) => throw Exception());
 
@@ -154,23 +109,11 @@ Future<void> main() async {
 
     await expectLater(
       payment,
-      emitsInOrder([
-        isA<OutgoingDirectPayment>().having(
-          (it) => it.status,
-          'status',
-          isA<ODPStatusTxFailure>(),
-        ),
-      ]),
+      emitsInOrder([isA<OutgoingDirectPayment>().having((it) => it.status, 'status', isA<ODPStatusTxFailure>())]),
     );
 
     verifyNever(sender.send(any, minContextSlot: anyNamed('minContextSlot')));
-    verifyNever(
-      sender.wait(
-        any,
-        minContextSlot: anyNamed('minContextSlot'),
-        txType: anyNamed('txType'),
-      ),
-    );
+    verifyNever(sender.wait(any, minContextSlot: anyNamed('minContextSlot'), txType: anyNamed('txType')));
   });
 }
 

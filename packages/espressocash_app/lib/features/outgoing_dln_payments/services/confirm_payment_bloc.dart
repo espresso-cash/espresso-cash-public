@@ -23,20 +23,15 @@ typedef _Emitter = Emitter<_State>;
 
 @injectable
 class ConfirmPaymentBloc extends Bloc<_Event, _State> {
-  ConfirmPaymentBloc({
-    required QuoteRepository quoteRepository,
-    required TokenBalancesRepository balancesRepository,
-  }) : _quoteRepository = quoteRepository,
-       _balancesRepository = balancesRepository,
-       super(ConfirmPaymentState(flowState: const Flow.initial())) {
+  ConfirmPaymentBloc({required QuoteRepository quoteRepository, required TokenBalancesRepository balancesRepository})
+    : _quoteRepository = quoteRepository,
+      _balancesRepository = balancesRepository,
+      super(ConfirmPaymentState(flowState: const Flow.initial())) {
     on<Init>(_onInit);
     on<Confirmed>(_onConfirmed);
     on<Invalidated>(
       _onInvalidated,
-      transformer:
-          (events, mapper) => events
-              .debounceTime(const Duration(milliseconds: 500))
-              .switchMap(mapper),
+      transformer: (events, mapper) => events.debounceTime(const Duration(milliseconds: 500)).switchMap(mapper),
     );
   }
 
@@ -51,12 +46,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   }
 
   void _onInit(Init event, _Emitter emit) {
-    emit(
-      ConfirmPaymentState(
-        payment: event.payment,
-        flowState: const Flow.initial(),
-      ),
-    );
+    emit(ConfirmPaymentState(payment: event.payment, flowState: const Flow.initial()));
 
     add(const Invalidated());
   }
@@ -113,14 +103,11 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
 }
 
 extension on ConfirmPaymentState {
-  ConfirmPaymentState processing() =>
-      copyWith(flowState: const Flow.processing());
+  ConfirmPaymentState processing() => copyWith(flowState: const Flow.processing());
 
-  ConfirmPaymentState error(CreateOrderException e) =>
-      copyWith(quote: null, flowState: Flow.failure(e));
+  ConfirmPaymentState error(CreateOrderException e) => copyWith(quote: null, flowState: Flow.failure(e));
 
-  ConfirmPaymentState update(PaymentQuote quote) =>
-      copyWith(quote: quote, flowState: const Flow.initial());
+  ConfirmPaymentState update(PaymentQuote quote) => copyWith(quote: quote, flowState: const Flow.initial());
 }
 
 @Freezed(map: FreezedMapOptions.none, when: FreezedWhenOptions.none)
@@ -137,43 +124,31 @@ class ConfirmPaymentState with _$ConfirmPaymentState {
   factory ConfirmPaymentState({
     DlnPayment? payment,
     PaymentQuote? quote,
-    @Default(Flow<CreateOrderException, PaymentQuote>.initial())
-    Flow<CreateOrderException, PaymentQuote> flowState,
+    @Default(Flow<CreateOrderException, PaymentQuote>.initial()) Flow<CreateOrderException, PaymentQuote> flowState,
   }) = Initialized;
 }
 
 extension ConfirmPaymentExt on ConfirmPaymentState {
-  CryptoAmount get fee =>
-      quote?.fee ?? const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
+  CryptoAmount get fee => quote?.fee ?? const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
 
-  CryptoAmount get inputAmount =>
-      quote?.inputAmount ??
-      const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
+  CryptoAmount get inputAmount => quote?.inputAmount ?? const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
 
   CryptoAmount get receiverAmount =>
-      quote?.receiverAmount ??
-      const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
+      quote?.receiverAmount ?? const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
 
   @useResult
-  Either<CreateOrderException, PaymentQuote> validate(
-    CryptoAmount usdcBalance,
-  ) {
+  Either<CreateOrderException, PaymentQuote> validate(CryptoAmount usdcBalance) {
     final totalAmount = inputAmount + fee;
 
     if (usdcBalance < totalAmount) {
       return Either.left(
-        CreateOrderException.insufficientBalance(
-          balance: usdcBalance,
-          amount: totalAmount as CryptoAmount,
-        ),
+        CreateOrderException.insufficientBalance(balance: usdcBalance, amount: totalAmount as CryptoAmount),
       );
     }
 
     final route = quote;
 
-    return route == null
-        ? const Either.left(CreateOrderException.quoteNotFound())
-        : Either.right(route);
+    return route == null ? const Either.left(CreateOrderException.quoteNotFound()) : Either.right(route);
   }
 }
 

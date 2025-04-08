@@ -26,11 +26,7 @@ import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
 
 class PayOrRequestButton extends StatelessWidget {
-  const PayOrRequestButton({
-    super.key,
-    required this.voidCallback,
-    this.size = CpButtonSize.normal,
-  });
+  const PayOrRequestButton({super.key, required this.voidCallback, this.size = CpButtonSize.normal});
 
   final CpButtonSize size;
   final VoidCallback voidCallback;
@@ -46,9 +42,7 @@ class PayOrRequestButton extends StatelessWidget {
       const SizedBox(height: 8),
       Text(
         context.l10n.requestOrSendPayment,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
       ),
     ],
   );
@@ -67,8 +61,7 @@ class AddCashButton extends StatelessWidget {
         variant: CpIconButtonVariant.dark,
         size: CpIconButtonSize.large,
         onPressed: () async {
-          final hasProfile =
-              await context.ensureProfileData(RampType.onRamp) != null;
+          final hasProfile = await context.ensureProfileData(RampType.onRamp) != null;
 
           if (context.mounted && hasProfile) {
             context.launchOnRampFlow();
@@ -78,9 +71,7 @@ class AddCashButton extends StatelessWidget {
       const SizedBox(height: 8),
       Text(
         context.l10n.ramp_btnAddCash,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
       ),
     ],
   );
@@ -99,8 +90,7 @@ class CashOutButton extends StatelessWidget {
         variant: CpIconButtonVariant.dark,
         size: CpIconButtonSize.large,
         onPressed: () async {
-          final hasProfile =
-              await context.ensureProfileData(RampType.offRamp) != null;
+          final hasProfile = await context.ensureProfileData(RampType.offRamp) != null;
 
           if (context.mounted && hasProfile) {
             context.launchOffRampFlow();
@@ -110,9 +100,7 @@ class CashOutButton extends StatelessWidget {
       const SizedBox(height: 8),
       Text(
         context.l10n.ramp_btnCashOut,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
       ),
     ],
   );
@@ -132,18 +120,12 @@ extension RampBuildContextExt on BuildContext {
       return (country: country, email: email);
     }
 
-    await RampOnboardingScreen.push(
-      this,
-      onConfirmed: handleSubmitted,
-      rampType: rampType,
-    );
+    await RampOnboardingScreen.push(this, onConfirmed: handleSubmitted, rampType: rampType);
 
     country = repository.country?.let(Country.findByCode);
     email = repository.email;
 
-    return country != null && email.isNotEmpty
-        ? (country: country, email: email)
-        : null;
+    return country != null && email.isNotEmpty ? (country: country, email: email) : null;
   }
 
   ProfileData getProfileData() {
@@ -188,11 +170,7 @@ extension RampBuildContextExt on BuildContext {
     );
   }
 
-  void _launchOnRampPartner(
-    RampPartner partner, {
-    required ProfileData profile,
-    required String address,
-  }) {
+  void _launchOnRampPartner(RampPartner partner, {required ProfileData profile, required String address}) {
     switch (partner) {
       case RampPartner.rampNetwork:
         launchRampNetworkOnRamp(profile: profile, address: address);
@@ -211,17 +189,10 @@ extension RampBuildContextExt on BuildContext {
         throw UnimplementedError('Not implemented for $partner');
     }
 
-    sl<AnalyticsManager>().rampOpened(
-      partnerName: partner.name,
-      rampType: RampType.onRamp.name,
-    );
+    sl<AnalyticsManager>().rampOpened(partnerName: partner.name, rampType: RampType.onRamp.name);
   }
 
-  void _launchOffRampPartner(
-    RampPartner partner, {
-    required ProfileData profile,
-    required String address,
-  }) {
+  void _launchOffRampPartner(RampPartner partner, {required ProfileData profile, required String address}) {
     switch (partner) {
       case RampPartner.kado:
         launchKadoOffRamp(address: address, profile: profile);
@@ -239,9 +210,6 @@ extension RampBuildContextExt on BuildContext {
         throw UnimplementedError('Not implemented for $partner');
     }
 
-    sl<AnalyticsManager>().rampOpened(
-      partnerName: partner.name,
-      rampType: RampType.offRamp.name,
-    );
+    sl<AnalyticsManager>().rampOpened(partnerName: partner.name, rampType: RampType.offRamp.name);
   }
 }

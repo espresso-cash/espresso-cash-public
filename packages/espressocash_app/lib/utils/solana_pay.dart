@@ -6,8 +6,7 @@ SolanaPayRequest? tryParseSolanaPayRequest(Uri link) {
   final linkWithCorrectScheme =
       link.scheme == 'https' &&
               link.host == espressoCashLinkDomain &&
-              (link.queryParameters['t'] == 'solanapay' ||
-                  link.queryParameters['t'] == 'espressopay') &&
+              (link.queryParameters['t'] == 'solanapay' || link.queryParameters['t'] == 'espressopay') &&
               link.queryParameters['recipient'] != null
           ? Uri(
             scheme: 'solana',

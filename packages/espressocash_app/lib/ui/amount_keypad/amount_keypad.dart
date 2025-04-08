@@ -7,12 +7,7 @@ import '../../l10n/device_locale.dart';
 import 'keypad_key.dart';
 
 class AmountKeypad extends StatelessWidget {
-  const AmountKeypad({
-    super.key,
-    required this.controller,
-    required this.maxDecimals,
-    this.isEnabled = true,
-  });
+  const AmountKeypad({super.key, required this.controller, required this.maxDecimals, this.isEnabled = true});
 
   final TextEditingController controller;
   final int maxDecimals;
@@ -59,10 +54,7 @@ class AmountKeypad extends StatelessWidget {
       }
     }
 
-    final decimals = value
-        .split(decimalSeparator)
-        .let((v) => v.length > 1 ? v[1] : '')
-        .let((v) => v.length);
+    final decimals = value.split(decimalSeparator).let((v) => v.length > 1 ? v[1] : '').let((v) => v.length);
 
     if (decimals <= maxDecimals) {
       controller.text = value;
@@ -81,11 +73,7 @@ class AmountKeypad extends StatelessWidget {
                     child: Opacity(
                       opacity: isEnabled ? 1 : 0.5,
                       child: InkWell(
-                        onTap:
-                            isEnabled
-                                ? () =>
-                                    _manageKey(child.value, decimalSeparator)
-                                : null,
+                        onTap: isEnabled ? () => _manageKey(child.value, decimalSeparator) : null,
                         child: Center(child: child),
                       ),
                     ),
@@ -99,19 +87,14 @@ class AmountKeypad extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) {
-      final decimalSeparator = getDecimalSeparator(
-        DeviceLocale.localeOf(context),
-      );
+      final decimalSeparator = getDecimalSeparator(DeviceLocale.localeOf(context));
 
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
         child: Column(
           children: List.generate(
             4,
-            (rowIndex) => _buildRow(
-              _keys.sublist(rowIndex * 3, (rowIndex + 1) * 3),
-              decimalSeparator,
-            ),
+            (rowIndex) => _buildRow(_keys.sublist(rowIndex * 3, (rowIndex + 1) * 3), decimalSeparator),
           ),
         ),
       );

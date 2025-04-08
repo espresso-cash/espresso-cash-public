@@ -23,10 +23,7 @@ Future<bool> showTermsAndPolicyDialog(
         data: context.l10n.brijTermsAndPolicyMessage,
         styleSheet: MarkdownStyleSheet(
           textAlign: WrapAlignment.center,
-          a: _markdownStyle.copyWith(
-            color: CpColors.yellowColor,
-            fontWeight: FontWeight.w700,
-          ),
+          a: _markdownStyle.copyWith(color: CpColors.yellowColor, fontWeight: FontWeight.w700),
           p: _markdownStyle,
         ),
         onTapLink: (_, href, __) {
@@ -53,11 +50,7 @@ Future<bool> showTermsAndPolicyDialog(
           ),
           const SizedBox(width: 16),
           Expanded(
-            child: CpButton(
-              text: context.l10n.iAgree_btn,
-              width: 150,
-              onPressed: () => Navigator.pop(context, true),
-            ),
+            child: CpButton(text: context.l10n.iAgree_btn, width: 150, onPressed: () => Navigator.pop(context, true)),
           ),
         ],
       ),

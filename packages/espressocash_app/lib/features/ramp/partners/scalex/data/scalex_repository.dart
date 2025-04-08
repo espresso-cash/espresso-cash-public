@@ -6,8 +6,7 @@ import '../../../../currency/models/currency.dart';
 
 @injectable
 class ScalexRepository {
-  const ScalexRepository({required EspressoCashClient ecClient})
-    : _client = ecClient;
+  const ScalexRepository({required EspressoCashClient ecClient}) : _client = ecClient;
 
   final EspressoCashClient _client;
 
@@ -28,12 +27,8 @@ class ScalexRepository {
       )
       .then((p) => p.signedUrl);
 
-  Future<ScalexOrderStatus> fetchStatus(String referenceId) => _client
-      .fetchScalexTransaction(
-        OrderStatusScalexRequestDto(referenceId: referenceId),
-      )
-      .then((it) => it.status);
+  Future<ScalexOrderStatus> fetchStatus(String referenceId) =>
+      _client.fetchScalexTransaction(OrderStatusScalexRequestDto(referenceId: referenceId)).then((it) => it.status);
 
-  Future<ScalexRateFeeResponseDto> fetchRateAndFee() =>
-      _client.fetchScalexFeesAndRate();
+  Future<ScalexRateFeeResponseDto> fetchRateAndFee() => _client.fetchScalexFeesAndRate();
 }

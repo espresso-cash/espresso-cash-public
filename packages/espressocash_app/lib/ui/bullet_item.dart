@@ -18,10 +18,7 @@ class CpBulletItemWidget extends StatelessWidget {
           Container(
             width: 23.w,
             margin: EdgeInsets.only(right: 8.w, top: 4.h, bottom: 2.h),
-            decoration: const ShapeDecoration(
-              color: CpColors.yellowColor,
-              shape: CircleBorder(),
-            ),
+            decoration: const ShapeDecoration(color: CpColors.yellowColor, shape: CircleBorder()),
             child: SizedBox(height: 14.h, width: 14.w),
           ),
           Expanded(child: child),

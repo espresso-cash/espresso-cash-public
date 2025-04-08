@@ -12,21 +12,12 @@ import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
 
 class ShareLinkScreen extends StatelessWidget {
-  const ShareLinkScreen({
-    super.key,
-    required this.amount,
-    required this.status,
-  });
+  const ShareLinkScreen({super.key, required this.amount, required this.status});
 
-  static void push(
-    BuildContext context, {
-    required CryptoAmount amount,
-    required OLPStatusLinkReady status,
-  }) => Navigator.of(context).push<void>(
-    MaterialPageRoute(
-      builder: (context) => ShareLinkScreen(amount: amount, status: status),
-    ),
-  );
+  static void push(BuildContext context, {required CryptoAmount amount, required OLPStatusLinkReady status}) =>
+      Navigator.of(
+        context,
+      ).push<void>(MaterialPageRoute(builder: (context) => ShareLinkScreen(amount: amount, status: status)));
 
   final CryptoAmount amount;
   final OLPStatusLinkReady status;

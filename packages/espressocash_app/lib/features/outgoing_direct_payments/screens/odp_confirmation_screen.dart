@@ -130,18 +130,12 @@ class _ScreenState extends State<ODPConfirmationScreen> {
                   builder:
                       (context, constraints) =>
                           widget.isEnabled
-                              ? AmountKeypad(
-                                controller: _amountController,
-                                maxDecimals: 2,
-                              )
+                              ? AmountKeypad(controller: _amountController, maxDecimals: 2)
                               : SizedBox(height: constraints.maxHeight),
                 ),
               ),
               const SizedBox(height: 16),
-              FeeLabel(
-                keyText: '${context.l10n.fee}: ',
-                type: FeeType.direct(widget.recipient),
-              ),
+              FeeLabel(keyText: '${context.l10n.fee}: ', type: FeeType.direct(widget.recipient)),
               const SizedBox(height: 21),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),

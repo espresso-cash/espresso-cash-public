@@ -62,7 +62,4 @@ class _FeeLabelState extends State<FeeLabel> {
   );
 }
 
-const TextStyle _defaultTextStyle = TextStyle(
-  fontSize: 13,
-  fontWeight: FontWeight.w500,
-);
+const TextStyle _defaultTextStyle = TextStyle(fontSize: 13, fontWeight: FontWeight.w500);

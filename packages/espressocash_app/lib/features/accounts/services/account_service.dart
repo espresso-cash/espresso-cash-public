@@ -12,8 +12,7 @@ import '../models/account.dart';
 import '../models/mnemonic.dart';
 
 @Singleton()
-class AccountService extends ChangeNotifier
-    implements ValueListenable<MyAccount?> {
+class AccountService extends ChangeNotifier implements ValueListenable<MyAccount?> {
   AccountService(this._repository, this._analyticsManager, this._storage);
 
   final AccountRepository _repository;
@@ -43,10 +42,7 @@ class AccountService extends ChangeNotifier
     }
   }
 
-  Future<void> logIn({
-    required AccountSource source,
-    required MyAccount account,
-  }) async {
+  Future<void> logIn({required AccountSource source, required MyAccount account}) async {
     await _repository.saveAccountSource(source);
     await _processLogIn(account);
   }
@@ -64,9 +60,7 @@ class AccountService extends ChangeNotifier
   }
 
   Future<void> _processLogIn(MyAccount account) async {
-    Sentry.configureScope(
-      (scope) => scope.setContexts('walletAddress', account.address),
-    );
+    Sentry.configureScope((scope) => scope.setContexts('walletAddress', account.address));
     _analyticsManager.setWalletAddress(account.address);
 
     _value = account;

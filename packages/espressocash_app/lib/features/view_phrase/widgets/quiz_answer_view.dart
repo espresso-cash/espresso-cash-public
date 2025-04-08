@@ -43,8 +43,7 @@ class _QuizAnswerViewState extends State<QuizAnswerView> {
     });
   }
 
-  SvgGenImage get _image =>
-      widget.isCorrect ? Assets.icons.successCheck2 : Assets.icons.failIcon;
+  SvgGenImage get _image => widget.isCorrect ? Assets.icons.successCheck2 : Assets.icons.failIcon;
 
   @override
   Widget build(BuildContext context) => QuizPage(
@@ -58,15 +57,10 @@ class _QuizAnswerViewState extends State<QuizAnswerView> {
           Shake(key: _shakeKey, child: _image.svg(height: 95, width: 95)),
           const SizedBox(height: 24),
           Text(
-            widget.isCorrect
-                ? context.l10n.quizCorrect
-                : context.l10n.quizWrong,
+            widget.isCorrect ? context.l10n.quizCorrect : context.l10n.quizWrong,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color:
-                  widget.isCorrect
-                      ? const Color(0xFFFBC728)
-                      : const Color(0xFFF04E4E),
+              color: widget.isCorrect ? const Color(0xFFFBC728) : const Color(0xFFF04E4E),
               fontSize: 40,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.23,
@@ -76,33 +70,20 @@ class _QuizAnswerViewState extends State<QuizAnswerView> {
           Text(
             widget.explanation.title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.23,
-            ),
+            style: const TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w600, letterSpacing: 0.23),
           ),
           const SizedBox(height: 16),
           Text(
             widget.explanation.description,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 19,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.23,
-            ),
+            style: const TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.w500, letterSpacing: 0.23),
           ),
         ],
       ),
     ),
     footer: [
       CpButton(
-        text:
-            widget.isCorrect
-                ? context.l10n.quizContinue
-                : context.l10n.quizTryAgain,
+        text: widget.isCorrect ? context.l10n.quizContinue : context.l10n.quizTryAgain,
         onPressed: widget.onButtonPressed,
         size: CpButtonSize.big,
         width: 350,

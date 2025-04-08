@@ -51,8 +51,7 @@ class MyDatabase extends _$MyDatabase {
 
   MyDatabase.withExecutor(super.e);
 
-  MyDatabase.connect(DatabaseConnection connection)
-    : super(connection.executor);
+  MyDatabase.connect(DatabaseConnection connection) : super(connection.executor);
 
   @override
   int get schemaVersion => latestVersion;
@@ -125,10 +124,7 @@ class MyDatabase extends _$MyDatabase {
         await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawMemo);
         await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawUrl);
         await m.addColumn(offRampOrderRows, offRampOrderRows.bridgeAmount);
-        await m.addColumn(
-          offRampOrderRows,
-          offRampOrderRows.withdrawAnchorAccount,
-        );
+        await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawAnchorAccount);
         await m.addColumn(offRampOrderRows, offRampOrderRows.stellarTxHash);
         await m.addColumn(offRampOrderRows, offRampOrderRows.solanaBridgeTx);
         await m.addColumn(offRampOrderRows, offRampOrderRows.referenceNumber);
@@ -155,10 +151,7 @@ class MyDatabase extends _$MyDatabase {
       if (from < 61) {
         await m.addColumn(transactionRows, transactionRows.token);
 
-        await customStatement(
-          'UPDATE ${transactionRows.actualTableName} SET token = ?',
-          [Currency.usdc.token.address],
-        );
+        await customStatement('UPDATE ${transactionRows.actualTableName} SET token = ?', [Currency.usdc.token.address]);
       }
     },
   );
@@ -173,8 +166,7 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get partnerOrderId => text()();
   IntColumn get receiveAmount => integer().nullable()();
   TextColumn get txHash => text()();
-  TextColumn get partner =>
-      textEnum<RampPartner>().withDefault(const Constant('kado'))();
+  TextColumn get partner => textEnum<RampPartner>().withDefault(const Constant('kado'))();
   TextColumn get status => textEnum<OnRampOrderStatus>()();
   TextColumn get bankName => text().nullable()();
   TextColumn get bankAccount => text().nullable()();
@@ -204,8 +196,7 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   DateTimeColumn get resolvedAt => dateTime().nullable()();
   IntColumn get receiveAmount => integer().nullable()();
   TextColumn get fiatSymbol => text().nullable()();
-  TextColumn get partner =>
-      textEnum<RampPartner>().withDefault(const Constant('kado'))();
+  TextColumn get partner => textEnum<RampPartner>().withDefault(const Constant('kado'))();
   IntColumn get feeAmount => integer().nullable()();
   TextColumn get feeToken => text().nullable()();
 
@@ -273,14 +264,7 @@ class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
 
 enum BlockchainDto { solana, arbitrum, polygon, ethereum }
 
-enum ODLNPaymentStatusDto {
-  txCreated,
-  txSent,
-  success,
-  txFailure,
-  fulfilled,
-  unfulfilled,
-}
+enum ODLNPaymentStatusDto { txCreated, txSent, success, txFailure, fulfilled, unfulfilled }
 
 class TransactionRows extends Table {
   const TransactionRows();

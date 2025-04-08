@@ -25,9 +25,7 @@ class PayScreen extends StatefulWidget {
   const PayScreen({super.key, required this.amount});
 
   static void push(BuildContext context, {required CryptoAmount amount}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(builder: (context) => PayScreen(amount: amount)),
-      );
+      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => PayScreen(amount: amount)));
 
   final CryptoAmount amount;
 
@@ -36,18 +34,14 @@ class PayScreen extends StatefulWidget {
 }
 
 class _PayScreenState extends State<PayScreen> {
-  void _handlePrimaryPressed() =>
-      OLPConfirmationScreen.push(context, tokenAmount: widget.amount);
+  void _handlePrimaryPressed() => OLPConfirmationScreen.push(context, tokenAmount: widget.amount);
 
   void _handleSecondaryPressed() {
     ODPInputScreen.push(
       context,
       onSubmit: (Blockchain network, String address) async {
         if (network == Blockchain.solana) {
-          final formatted = widget.amount.format(
-            context.locale,
-            skipSymbol: true,
-          );
+          final formatted = widget.amount.format(context.locale, skipSymbol: true);
 
           final recipient = Ed25519HDPublicKey.fromBase58(address);
 
@@ -66,11 +60,7 @@ class _PayScreenState extends State<PayScreen> {
           final confirmedCryptoAmount = widget.amount.decimal;
 
           if (!mounted) return;
-          final id = await context.createODP(
-            amountInUsdc: confirmedCryptoAmount,
-            receiver: recipient,
-            reference: null,
-          );
+          final id = await context.createODP(amountInUsdc: confirmedCryptoAmount, receiver: recipient, reference: null);
 
           if (!mounted) return;
 
@@ -101,21 +91,14 @@ class _PayScreenState extends State<PayScreen> {
           SizedBox(height: 20.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 42.w),
-            child: EcMarkdownText(
-              text: context.l10n.walletEspressoPayLabel.toUpperCase(),
-            ),
+            child: EcMarkdownText(text: context.l10n.walletEspressoPayLabel.toUpperCase()),
           ),
           SizedBox(height: 20.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 42.w),
             child: Text(
               context.l10n.walletEspressoPayDescription,
-              style: TextStyle(
-                fontSize: 16.sp,
-                height: 21 / 16,
-                letterSpacing: 0.23,
-                fontWeight: FontWeight.w400,
-              ),
+              style: TextStyle(fontSize: 16.sp, height: 21 / 16, letterSpacing: 0.23, fontWeight: FontWeight.w400),
             ),
           ),
           SizedBox(height: 20.h),
@@ -153,12 +136,7 @@ class _PayScreenState extends State<PayScreen> {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({
-    required this.title,
-    required this.onPressed,
-    required this.icon,
-    required this.subtitleIcons,
-  });
+  const _Item({required this.title, required this.onPressed, required this.icon, required this.subtitleIcons});
 
   final String title;
   final SvgGenImage icon;
@@ -171,39 +149,23 @@ class _Item extends StatelessWidget {
     child: DecoratedBox(
       decoration: ShapeDecoration(
         color: CpColors.blackGreyColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30.r)),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30.r))),
       ),
       child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30.r)),
-        ),
-        leading: Container(
-          alignment: Alignment.center,
-          width: 40.w,
-          child: icon.svg(),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30.r))),
+        leading: Container(alignment: Alignment.center, width: 40.w, child: icon.svg()),
         minLeadingWidth: 40.w,
         contentPadding: EdgeInsets.only(left: 20.w, top: 10.h, bottom: 10.h),
         title: Padding(
           padding: const EdgeInsets.only(bottom: 6),
           child: Text(
             title,
-            style: TextStyle(
-              fontSize: 18.sp,
-              height: 21 / 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
+            style: TextStyle(fontSize: 18.sp, height: 21 / 18, fontWeight: FontWeight.w600, color: Colors.white),
           ),
         ),
         subtitle: Row(
           children: [
-            for (final icon in subtitleIcons) ...[
-              icon.svg(width: 30.w),
-              SizedBox(width: 5.w),
-            ],
+            for (final icon in subtitleIcons) ...[icon.svg(width: 30.w), SizedBox(width: 5.w)],
           ],
         ),
         onTap: onPressed,

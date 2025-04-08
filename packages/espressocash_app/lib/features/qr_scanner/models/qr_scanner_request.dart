@@ -13,21 +13,16 @@ part 'qr_scanner_request.freezed.dart';
 
 @freezed
 class QrScannerRequest with _$QrScannerRequest {
-  const factory QrScannerRequest.solanaPay(SolanaPayRequest request) =
-      QrScannerSolanaPayRequest;
+  const factory QrScannerRequest.solanaPay(SolanaPayRequest request) = QrScannerSolanaPayRequest;
 
-  const factory QrScannerRequest.transactionRequest(
-    SolanaTransactionRequest request,
-  ) = QrScannerSolanaPayTransactionRequest;
+  const factory QrScannerRequest.transactionRequest(SolanaTransactionRequest request) =
+      QrScannerSolanaPayTransactionRequest;
 
-  const factory QrScannerRequest.address(QrAddressData addressData) =
-      QrScannerAddressRequest;
+  const factory QrScannerRequest.address(QrAddressData addressData) = QrScannerAddressRequest;
 
-  const factory QrScannerRequest.linkPayment(LinkPayment payment) =
-      QrScannerLinkPayment;
+  const factory QrScannerRequest.linkPayment(LinkPayment payment) = QrScannerLinkPayment;
 
-  const factory QrScannerRequest.ambassador(AmbassadorReferral referral) =
-      QrScannerAmbassadorRequest;
+  const factory QrScannerRequest.ambassador(AmbassadorReferral referral) = QrScannerAmbassadorRequest;
 
   const QrScannerRequest._();
 
@@ -47,9 +42,7 @@ class QrScannerRequest with _$QrScannerRequest {
       return QrScannerRequest.transactionRequest(transactionRequest);
     }
 
-    final espressocashRequest = Uri.tryParse(
-      code,
-    )?.let(tryParseSolanaPayRequest);
+    final espressocashRequest = Uri.tryParse(code)?.let(tryParseSolanaPayRequest);
     if (espressocashRequest != null) {
       return QrScannerRequest.solanaPay(espressocashRequest);
     }
@@ -77,7 +70,5 @@ class QrScannerRequest with _$QrScannerRequest {
     ambassador: (r) => r.referral.address,
   );
 
-  Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(
-    solanaPay: (r) => r.reference?.firstOrNull,
-  );
+  Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(solanaPay: (r) => r.reference?.firstOrNull);
 }

@@ -12,12 +12,7 @@ final cpDialog = Story(
           children: [
             ElevatedButton(
               child: const Text('Show Error Dialog'),
-              onPressed:
-                  () => showErrorDialog(
-                    context,
-                    'Error',
-                    Exception('Something went wrong'),
-                  ),
+              onPressed: () => showErrorDialog(context, 'Error', Exception('Something went wrong')),
             ),
             ElevatedButton(
               child: const Text('Show Confirmation Dialog'),
@@ -32,11 +27,7 @@ final cpDialog = Story(
             ElevatedButton(
               child: const Text('Show Warning Dialog'),
               onPressed:
-                  () => showWarningDialog(
-                    context,
-                    title: 'Warning',
-                    message: 'Are you sure you want to do this?',
-                  ),
+                  () => showWarningDialog(context, title: 'Warning', message: 'Are you sure you want to do this?'),
             ),
           ],
         ),

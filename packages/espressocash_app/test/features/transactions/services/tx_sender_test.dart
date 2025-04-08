@@ -10,22 +10,13 @@ import '../../../utils.dart';
 Future<void> main() async {
   final client = createTestSolanaClient();
   final sender = await Ed25519HDKeyPair.random();
-  await client.requestAirdrop(
-    address: sender.publicKey,
-    lamports: lamportsPerSol,
-    commitment: Commitment.confirmed,
-  );
+  await client.requestAirdrop(address: sender.publicKey, lamports: lamportsPerSol, commitment: Commitment.confirmed);
 
   final service = TxSender(client: client);
 
   test('Sends tx', () async {
-    final message = Message.only(
-      MemoInstruction(signers: [sender.publicKey], memo: 'Sends tx'),
-    );
-    final latestBlockhash =
-        await client.rpcClient
-            .getLatestBlockhash(commitment: Commitment.confirmed)
-            .value;
+    final message = Message.only(MemoInstruction(signers: [sender.publicKey], memo: 'Sends tx'));
+    final latestBlockhash = await client.rpcClient.getLatestBlockhash(commitment: Commitment.confirmed).value;
     final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     final result = await service.send(tx, minContextSlot: BigInt.zero);
@@ -34,9 +25,7 @@ Future<void> main() async {
   });
 
   test('Invalid blockhash', () async {
-    final message = Message.only(
-      MemoInstruction(signers: [sender.publicKey], memo: 'Invalid blockhash'),
-    );
+    final message = Message.only(MemoInstruction(signers: [sender.publicKey], memo: 'Invalid blockhash'));
     const invalidBlockhash = LatestBlockhash(
       blockhash: 'EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N',
       lastValidBlockHeight: 0,
@@ -50,13 +39,8 @@ Future<void> main() async {
   });
 
   test('Duplicate', () async {
-    final message = Message.only(
-      MemoInstruction(signers: [sender.publicKey], memo: 'Duplicate'),
-    );
-    final latestBlockhash =
-        await client.rpcClient
-            .getLatestBlockhash(commitment: Commitment.confirmed)
-            .value;
+    final message = Message.only(MemoInstruction(signers: [sender.publicKey], memo: 'Duplicate'));
+    final latestBlockhash = await client.rpcClient.getLatestBlockhash(commitment: Commitment.confirmed).value;
     final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     await service.send(tx, minContextSlot: BigInt.zero);
@@ -67,18 +51,13 @@ Future<void> main() async {
   });
 
   test('Failure', () async {
-    final message = Message.only(
-      MemoInstruction(signers: [sender.publicKey], memo: 'Failure'),
-    );
+    final message = Message.only(MemoInstruction(signers: [sender.publicKey], memo: 'Failure'));
 
     final b = await client.rpcClient
         .getLatestBlockhash(commitment: Commitment.confirmed)
         .value
         .then((value) => value.blockhash);
-    final compiled = message.compile(
-      recentBlockhash: b,
-      feePayer: sender.publicKey,
-    );
+    final compiled = message.compile(recentBlockhash: b, feePayer: sender.publicKey);
     final tx = SignedTx(compiledMessage: compiled);
 
     final result = await service.send(tx, minContextSlot: BigInt.zero);
@@ -87,48 +66,26 @@ Future<void> main() async {
   });
 
   test('Wait for confirmation', () async {
-    final message = Message.only(
-      MemoInstruction(
-        signers: [sender.publicKey],
-        memo: 'Wait for confirmation',
-      ),
-    );
-    final latestBlockhash =
-        await client.rpcClient
-            .getLatestBlockhash(commitment: Commitment.confirmed)
-            .value;
+    final message = Message.only(MemoInstruction(signers: [sender.publicKey], memo: 'Wait for confirmation'));
+    final latestBlockhash = await client.rpcClient.getLatestBlockhash(commitment: Commitment.confirmed).value;
     final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     await service.send(tx, minContextSlot: BigInt.zero);
-    final result = await service.wait(
-      tx,
-      minContextSlot: BigInt.zero,
-      txType: 'Test',
-    );
+    final result = await service.wait(tx, minContextSlot: BigInt.zero, txType: 'Test');
 
     expect(result, const TxWaitResult.success());
   });
 
   test('Wait for confirmation if already confirmed', () async {
     final message = Message.only(
-      MemoInstruction(
-        signers: [sender.publicKey],
-        memo: 'Wait for confirmation if already confirmed',
-      ),
+      MemoInstruction(signers: [sender.publicKey], memo: 'Wait for confirmation if already confirmed'),
     );
-    final latestBlockhash =
-        await client.rpcClient
-            .getLatestBlockhash(commitment: Commitment.confirmed)
-            .value;
+    final latestBlockhash = await client.rpcClient.getLatestBlockhash(commitment: Commitment.confirmed).value;
     final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     await service.send(tx, minContextSlot: BigInt.zero);
     await client.waitForSignatureStatus(tx.id, status: Commitment.confirmed);
-    final result = await service.wait(
-      tx,
-      minContextSlot: BigInt.zero,
-      txType: 'Test',
-    );
+    final result = await service.wait(tx, minContextSlot: BigInt.zero, txType: 'Test');
 
     expect(result, const TxWaitResult.success());
   });

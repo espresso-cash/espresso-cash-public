@@ -8,10 +8,7 @@ class ShareSection extends StatelessWidget {
     child: InkWell(
       onTap: () => context.openLink(twitterUrl, openInApp: true),
       child: DecoratedBox(
-        decoration: const ShapeDecoration(
-          shape: CircleBorder(),
-          color: CpColors.deepGreyColor,
-        ),
+        decoration: const ShapeDecoration(shape: CircleBorder(), color: CpColors.deepGreyColor),
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Row(

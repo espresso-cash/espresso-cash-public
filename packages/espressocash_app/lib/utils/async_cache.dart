@@ -9,6 +9,5 @@ extension AsyncCacheExt<T> on AsyncCache<T> {
         Error.throwWithStackTrace(error, stackTrace);
       });
 
-  AsyncResult<T> fetchEither(Future<T> Function() callback) =>
-      fetchIgnoringError(callback).toEither();
+  AsyncResult<T> fetchEither(Future<T> Function() callback) => fetchIgnoringError(callback).toEither();
 }

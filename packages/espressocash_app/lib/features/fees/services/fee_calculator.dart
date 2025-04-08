@@ -23,15 +23,12 @@ class FeeCalculator {
       .then((fees) async {
         switch (type) {
           case FeeTypeDirect(:final address):
-            return await _hasUsdcAta(address)
-                ? fees.directPayment.ataExists
-                : fees.directPayment.ataDoesNotExist;
+            return await _hasUsdcAta(address) ? fees.directPayment.ataExists : fees.directPayment.ataDoesNotExist;
           case FeeTypeLink():
             return fees.escrowPayment;
           case FeeTypeWithdraw(:final amount, :final partner, :final address):
             final percentageFee = switch (partner) {
-              RampPartner.scalex ||
-              RampPartner.scalexBrij => fees.withdrawFeePercentage.scalex,
+              RampPartner.scalex || RampPartner.scalexBrij => fees.withdrawFeePercentage.scalex,
               RampPartner.coinflow => fees.withdrawFeePercentage.coinflow,
               RampPartner.guardarian => fees.withdrawFeePercentage.guardarian,
               RampPartner.rampNetwork => fees.withdrawFeePercentage.rampNetwork,
@@ -52,6 +49,6 @@ class FeeCalculator {
       })
       .then((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc));
 
-  Future<bool> _hasUsdcAta(Ed25519HDPublicKey address) => _solanaClient
-      .hasAssociatedTokenAccount(owner: address, mint: Token.usdc.publicKey);
+  Future<bool> _hasUsdcAta(Ed25519HDPublicKey address) =>
+      _solanaClient.hasAssociatedTokenAccount(owner: address, mint: Token.usdc.publicKey);
 }

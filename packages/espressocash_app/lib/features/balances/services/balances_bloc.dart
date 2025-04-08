@@ -26,14 +26,9 @@ final _logger = Logger('BalancesBloc');
 typedef BalancesState = ProcessingState;
 
 @Singleton(scope: authScope)
-class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
-    with DisposableBloc {
-  BalancesBloc(
-    this._solanaClient,
-    this._tokenRepository,
-    this._tokensBalanceRepository,
-    this._analyticsManager,
-  ) : super(const ProcessingStateNone()) {
+class BalancesBloc extends Bloc<BalancesEvent, BalancesState> with DisposableBloc {
+  BalancesBloc(this._solanaClient, this._tokenRepository, this._tokensBalanceRepository, this._analyticsManager)
+    : super(const ProcessingStateNone()) {
     on<BalancesEventRequested>(_handleRequested, transformer: droppable());
   }
 
@@ -42,10 +37,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
   final TokenBalancesRepository _tokensBalanceRepository;
   final AnalyticsManager _analyticsManager;
 
-  Future<void> _handleRequested(
-    BalancesEventRequested event,
-    Emitter<BalancesState> emit,
-  ) async {
+  Future<void> _handleRequested(BalancesEventRequested event, Emitter<BalancesState> emit) async {
     try {
       emit(const ProcessingState.processing());
 
@@ -61,12 +53,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
             return data.maybeWhen<Future<_MainTokenAccount?>>(
               splToken:
                   (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
-                    account:
-                        (a) => _MainTokenAccount.create(
-                          programAccount.pubkey,
-                          a.info,
-                          _tokenRepository,
-                        ),
+                    account: (a) => _MainTokenAccount.create(programAccount.pubkey, a.info, _tokenRepository),
                     orElse: () async => null,
                   ),
               orElse: () async => null,
@@ -76,15 +63,11 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
       ).then(compact);
 
       final tokenBalances = mainAccounts.map(
-        (a) => CryptoAmount(
-          value: int.parse(a.info.tokenAmount.amount),
-          cryptoCurrency: CryptoCurrency(token: a.token),
-        ),
+        (a) =>
+            CryptoAmount(value: int.parse(a.info.tokenAmount.amount), cryptoCurrency: CryptoCurrency(token: a.token)),
       );
 
-      final usdcBalance = tokenBalances.firstWhereOrNull(
-        (balance) => balance.cryptoCurrency.token == Token.usdc,
-      );
+      final usdcBalance = tokenBalances.firstWhereOrNull((balance) => balance.cryptoCurrency.token == Token.usdc);
 
       if (isClosed) return;
 
@@ -139,16 +122,12 @@ class BalancesRequestException implements Exception {
 
 @freezed
 sealed class BalancesEvent with _$BalancesEvent {
-  const factory BalancesEvent.refreshRequested({required String address}) =
-      BalancesEventRequested;
+  const factory BalancesEvent.refreshRequested({required String address}) = BalancesEventRequested;
 }
 
 extension on SolanaClient {
   Future<CryptoAmount> getSolBalance(String address) async {
-    final lamports =
-        await rpcClient
-            .getBalance(address, commitment: Commitment.confirmed)
-            .value;
+    final lamports = await rpcClient.getBalance(address, commitment: Commitment.confirmed).value;
 
     return CryptoAmount(value: lamports, cryptoCurrency: Currency.sol);
   }

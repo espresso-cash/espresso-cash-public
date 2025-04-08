@@ -18,10 +18,7 @@ class BrijScalexFeesService {
   Amount? _lastAmount;
   RampType? _lastType;
 
-  Future<BrijScalexFees> fetchFees({
-    required Amount amount,
-    required RampType type,
-  }) {
+  Future<BrijScalexFees> fetchFees({required Amount amount, required RampType type}) {
     if (amount != _lastAmount || type != _lastType) {
       _cache.invalidate();
       _lastAmount = amount;
@@ -36,26 +33,16 @@ class BrijScalexFeesService {
     RampType.offRamp => 1480.00,
   };
 
-  Future<BrijScalexFees> _fetchFeesFromApi({
-    required Amount amount,
-    required RampType type,
-  }) {
+  Future<BrijScalexFees> _fetchFeesFromApi({required Amount amount, required RampType type}) {
     final rate = fetchRate(type);
 
-    final totalFee = Amount.fromDecimal(
-      value: Decimal.parse('1'),
-      currency: Currency.usdc,
-    );
+    final totalFee = Amount.fromDecimal(value: Decimal.parse('1'), currency: Currency.usdc);
 
     final decimalRate = Decimal.parse(rate.toString());
 
     final receiveAmount = switch (type) {
       RampType.onRamp => Amount.fromDecimal(
-        value:
-            (amount.decimal / decimalRate).toDecimal(
-              scaleOnInfinitePrecision: 6,
-            ) -
-            Decimal.one,
+        value: (amount.decimal / decimalRate).toDecimal(scaleOnInfinitePrecision: 6) - Decimal.one,
         currency: Currency.usdc,
       ),
       RampType.offRamp => Amount.fromDecimal(
@@ -64,10 +51,6 @@ class BrijScalexFeesService {
       ),
     };
 
-    return Future.value((
-      receiveAmount: receiveAmount,
-      rate: rate,
-      totalFee: totalFee,
-    ));
+    return Future.value((receiveAmount: receiveAmount, rate: rate, totalFee: totalFee));
   }
 }

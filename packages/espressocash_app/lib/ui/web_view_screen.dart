@@ -15,21 +15,12 @@ extension LinkOpenerExt on BuildContext {
       final url = Uri.parse(link);
 
       if (openInApp) {
-        final launched = await launchUrl(
-          url,
-          mode: LaunchMode.externalNonBrowserApplication,
-        );
+        final launched = await launchUrl(url, mode: LaunchMode.externalNonBrowserApplication);
 
         if (launched) return;
       }
 
-      await WebViewScreen.push(
-        this,
-        url: url,
-        title: null,
-        onLoaded: null,
-        theme: null,
-      );
+      await WebViewScreen.push(this, url: url, title: null, onLoaded: null, theme: null);
     } on FormatException catch (_) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
     }
@@ -37,14 +28,8 @@ extension LinkOpenerExt on BuildContext {
 }
 
 class WebViewScreen extends StatefulWidget {
-  const WebViewScreen({
-    super.key,
-    required this.url,
-    this.title,
-    this.onLoaded,
-    CpThemeData? theme,
-    this.onClosed,
-  }) : theme = theme ?? const CpThemeData.black();
+  const WebViewScreen({super.key, required this.url, this.title, this.onLoaded, CpThemeData? theme, this.onClosed})
+    : theme = theme ?? const CpThemeData.black();
 
   static Future<void> push(
     BuildContext context, {
@@ -55,14 +40,7 @@ class WebViewScreen extends StatefulWidget {
     CpThemeData? theme,
   }) => Navigator.of(context).push<void>(
     MaterialPageRoute(
-      builder:
-          (context) => WebViewScreen(
-            url: url,
-            title: title,
-            onLoaded: onLoaded,
-            theme: theme,
-            onClosed: onClosed,
-          ),
+      builder: (context) => WebViewScreen(url: url, title: title, onLoaded: onLoaded, theme: theme, onClosed: onClosed),
     ),
   );
 
@@ -88,18 +66,13 @@ class _WebViewScreenState extends State<WebViewScreen> {
     setState(() => _title = title);
   }
 
-  Future<PermissionResponse?> _handlePermissionRequest(
-    List<PermissionResourceType> resources,
-  ) async {
+  Future<PermissionResponse?> _handlePermissionRequest(List<PermissionResourceType> resources) async {
     if (!resources.contains(PermissionResourceType.CAMERA)) {
       return null;
     }
 
     if (await Permission.camera.request().isGranted) {
-      return PermissionResponse(
-        resources: resources,
-        action: PermissionResponseAction.GRANT,
-      );
+      return PermissionResponse(resources: resources, action: PermissionResponseAction.GRANT);
     }
   }
 
@@ -128,9 +101,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         appBar: CpAppBar(title: Text(_title ?? context.l10n.loading)),
         body: InAppWebView(
           initialUrlRequest: URLRequest(url: WebUri.uri(widget.url)),
-          onPermissionRequest:
-              (_, permissionRequest) =>
-                  _handlePermissionRequest(permissionRequest.resources),
+          onPermissionRequest: (_, permissionRequest) => _handlePermissionRequest(permissionRequest.resources),
           onLoadStop: (controller, _) => _handleLoaded(controller),
           onCloseWindow: (_) => _handleWindowClosed(),
           onConsoleMessage: (controller, consoleMessage) async {
@@ -142,18 +113,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
             _handleError('Console', consoleMessage.message, url?.toString());
           },
-          onReceivedError:
-              (_, request, error) => _handleError(
-                'JavaScript',
-                error.toString(),
-                request.url.toString(),
-              ),
-          onReceivedHttpError:
-              (_, request, error) => _handleError(
-                'HTTP',
-                error.toString(),
-                request.url.toString(),
-              ),
+          onReceivedError: (_, request, error) => _handleError('JavaScript', error.toString(), request.url.toString()),
+          onReceivedHttpError: (_, request, error) => _handleError('HTTP', error.toString(), request.url.toString()),
           initialSettings: InAppWebViewSettings(
             iframeAllowFullscreen: false,
             allowsInlineMediaPlayback: true,
@@ -174,9 +135,5 @@ class WebViewException implements Exception {
   final String? url;
 
   @override
-  String toString() => [
-    'WebView $type Error:',
-    details,
-    if (url case final url?) 'URL: $url',
-  ].join('\n');
+  String toString() => ['WebView $type Error:', details, if (url case final url?) 'URL: $url'].join('\n');
 }

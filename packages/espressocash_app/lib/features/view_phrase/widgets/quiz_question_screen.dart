@@ -29,10 +29,7 @@ class QuizQuestionView extends StatelessWidget {
     content: Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        Assets.images.quizQuestionBg.image(
-          fit: BoxFit.cover,
-          width: double.infinity,
-        ),
+        Assets.images.quizQuestionBg.image(fit: BoxFit.cover, width: double.infinity),
         Container(decoration: const BoxDecoration(color: Color(0xB7B7A572))),
         Container(
           height: 120,

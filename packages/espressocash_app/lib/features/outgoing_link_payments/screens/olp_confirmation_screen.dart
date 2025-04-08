@@ -22,12 +22,9 @@ import 'olp_screen.dart';
 class OLPConfirmationScreen extends StatefulWidget {
   const OLPConfirmationScreen({super.key, required this.tokenAmount});
 
-  static void push(BuildContext context, {required CryptoAmount tokenAmount}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => OLPConfirmationScreen(tokenAmount: tokenAmount),
-        ),
-      );
+  static void push(BuildContext context, {required CryptoAmount tokenAmount}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => OLPConfirmationScreen(tokenAmount: tokenAmount)));
 
   final CryptoAmount tokenAmount;
 
@@ -53,15 +50,8 @@ class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
         ),
         leading: const CpBackButton(),
       ),
-      body: CpContentPadding(
-        child: _TokenCreateLinkContent(amount: widget.tokenAmount),
-      ),
-      bottomNavigationBar: SafeArea(
-        child: CpBottomButton(
-          onPressed: _handleSubmit,
-          text: context.l10n.create,
-        ),
-      ),
+      body: CpContentPadding(child: _TokenCreateLinkContent(amount: widget.tokenAmount)),
+      bottomNavigationBar: SafeArea(child: CpBottomButton(onPressed: _handleSubmit, text: context.l10n.create)),
     ),
   );
 }
@@ -75,9 +65,7 @@ class _TokenCreateLinkContent extends StatelessWidget {
   Widget build(BuildContext context) => Column(
     children: [
       const SizedBox(height: 20),
-      Center(
-        child: EcMarkdownText(text: context.l10n.reviewPayment.toUpperCase()),
-      ),
+      Center(child: EcMarkdownText(text: context.l10n.reviewPayment.toUpperCase())),
       const SizedBox(height: 30),
       _InformationView(amount: amount),
       const Spacer(),
@@ -95,10 +83,7 @@ class _InformationView extends StatelessWidget {
     final fiatAmount = sl<ConvertToUsd>().call(amount);
 
     final locale = DeviceLocale.localeOf(context);
-    final formattedAmount = amount.format(
-      locale,
-      maxDecimals: amount.currency.decimals,
-    );
+    final formattedAmount = amount.format(locale, maxDecimals: amount.currency.decimals);
     final formattedFiatAmount = fiatAmount.formatMinimum(locale);
 
     return Container(
@@ -114,13 +99,7 @@ class _InformationView extends StatelessWidget {
         children: [
           Center(
             child: FittedBox(
-              child: Text(
-                formattedAmount,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 48,
-                ),
-              ),
+              child: Text(formattedAmount, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 48)),
             ),
           ),
           const SizedBox(height: 12),
@@ -132,20 +111,13 @@ class _InformationView extends StatelessWidget {
                   child: Text(
                     context.l10n.fiatEquivalent,
                     maxLines: 1,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Text(
                   formattedFiatAmount,
                   maxLines: 1,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: CpColors.greyColor,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: const TextStyle(fontSize: 16, color: CpColors.greyColor, fontWeight: FontWeight.w400),
                 ),
               ],
             ),
@@ -154,20 +126,12 @@ class _InformationView extends StatelessWidget {
             type: FeeType.link(),
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             keyTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            valueTextStyle: TextStyle(
-              fontSize: 16,
-              color: CpColors.greyColor,
-              fontWeight: FontWeight.w400,
-            ),
+            valueTextStyle: TextStyle(fontSize: 16, color: CpColors.greyColor, fontWeight: FontWeight.w400),
           ),
           const SizedBox(height: 12),
           Text(
             context.l10n.sendExplanation,
-            style: const TextStyle(
-              fontSize: 14.5,
-              color: CpColors.greyColor,
-              fontWeight: FontWeight.w400,
-            ),
+            style: const TextStyle(fontSize: 14.5, color: CpColors.greyColor, fontWeight: FontWeight.w400),
           ),
         ],
       ),

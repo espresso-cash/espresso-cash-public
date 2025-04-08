@@ -13,27 +13,18 @@ final cpAppBar = Story(
           leading: context.knobs.options(
             label: 'Leading',
             initial: _leading,
-            options: [
-              Option(label: 'With Leading', value: _leading),
-              const Option(label: 'Empty', value: null),
-            ],
+            options: [Option(label: 'With Leading', value: _leading), const Option(label: 'Empty', value: null)],
           ),
           nextButton: context.knobs.options(
             label: 'Next Button',
             initial: _next,
-            options: [
-              Option(label: 'With Next Button', value: _next),
-              const Option(label: 'Empty', value: null),
-            ],
+            options: [Option(label: 'With Next Button', value: _next), const Option(label: 'Empty', value: null)],
           ),
         ),
         body: const Center(child: Text('Espresso Cash')),
       ),
 );
 
-final _leading = IconButton(
-  icon: const Icon(Icons.arrow_back),
-  onPressed: () {},
-);
+final _leading = IconButton(icon: const Icon(Icons.arrow_back), onPressed: () {});
 
 final _next = ElevatedButton(onPressed: () {}, child: const Text('Next'));

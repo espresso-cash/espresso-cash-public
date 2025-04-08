@@ -64,10 +64,7 @@ class StorybookApp extends StatelessWidget {
               final brightness = Theme.of(context).brightness;
 
               return CpTheme(
-                theme:
-                    brightness == Brightness.dark
-                        ? const CpThemeData.dark()
-                        : const CpThemeData.light(),
+                theme: brightness == Brightness.dark ? const CpThemeData.dark() : const CpThemeData.light(),
                 child: Scaffold(body: Center(child: child)),
               );
             },

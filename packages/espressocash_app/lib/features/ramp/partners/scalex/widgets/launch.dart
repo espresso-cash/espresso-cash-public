@@ -25,10 +25,7 @@ import '../../../services/on_ramp_order_service.dart';
 import '../data/scalex_repository.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchScalexOnRamp({
-    required String address,
-    required ProfileData profile,
-  }) async {
+  Future<void> launchScalexOnRamp({required String address, required ProfileData profile}) async {
     final rateAndFee = await _fetchRateAndFee();
 
     if (rateAndFee == null) {
@@ -45,8 +42,7 @@ extension BuildContextExt on BuildContext {
 
     const partner = RampPartner.scalex;
 
-    final minAmountNGN =
-        partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
+    final minAmountNGN = partner.minimumAmountInDecimal * Decimal.parse(rampRate.toString());
 
     await RampAmountScreen.push(
       this,
@@ -73,12 +69,7 @@ extension BuildContextExt on BuildContext {
           fixedFee: fixedFee,
         );
 
-        return Either.right((
-          ourFee: null,
-          partnerFee: null,
-          totalFee: fee,
-          extraFee: null,
-        ));
+        return Either.right((ourFee: null, partnerFee: null, totalFee: fee, extraFee: null));
       },
       exchangeRate: '1 USDC = $rampRate NGN',
       type: RampType.onRamp,
@@ -121,9 +112,7 @@ extension BuildContextExt on BuildContext {
             'to_amount': final num toAmount,
           }) {
             final decimal = Decimal.parse(toAmount.toString());
-            final amount =
-                Amount.fromDecimal(value: decimal, currency: Currency.usdc)
-                    as CryptoAmount;
+            final amount = Amount.fromDecimal(value: decimal, currency: Currency.usdc) as CryptoAmount;
 
             final order = await sl<EspressoCashClient>().fetchScalexTransaction(
               OrderStatusScalexRequestDto(referenceId: reference),
@@ -136,9 +125,7 @@ extension BuildContextExt on BuildContext {
             final transferAmount =
                 Amount.fromDecimal(
                       value: Decimal.parse(details.fromAmount.toString()),
-                      currency: currencyFromString(
-                        details.currency.toUpperCase(),
-                      ),
+                      currency: currencyFromString(details.currency.toUpperCase()),
                     )
                     as FiatAmount;
 
@@ -150,9 +137,7 @@ extension BuildContextExt on BuildContext {
                   bankAccount: details.bankAccount,
                   bankName: details.bankName,
                   transferAmount: transferAmount,
-                  transferExpiryDate: DateTime.now().add(
-                    const Duration(minutes: 30),
-                  ),
+                  transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
                   submittedAmount: equivalentAmount,
                   countryCode: profile.country.code,
                 )
@@ -186,10 +171,7 @@ window.addEventListener("message", (event) => {
     );
   }
 
-  Future<void> launchScalexOffRamp({
-    required String address,
-    required ProfileData profile,
-  }) async {
+  Future<void> launchScalexOffRamp({required String address, required ProfileData profile}) async {
     final rateAndFee = await _fetchRateAndFee();
 
     if (rateAndFee == null) {
@@ -232,12 +214,7 @@ window.addEventListener("message", (event) => {
           fixedFee: fixedFee,
         );
 
-        return Either.right((
-          ourFee: null,
-          partnerFee: null,
-          totalFee: fee,
-          extraFee: null,
-        ));
+        return Either.right((ourFee: null, partnerFee: null, totalFee: fee, extraFee: null));
       },
       type: RampType.offRamp,
     );
@@ -276,16 +253,10 @@ window.addEventListener("message", (event) => {
             'address': final String address,
           }) {
             final decimal = Decimal.parse(fromAmount.toString());
-            final amount =
-                Amount.fromDecimal(value: decimal, currency: Currency.usdc)
-                    as CryptoAmount;
+            final amount = Amount.fromDecimal(value: decimal, currency: Currency.usdc) as CryptoAmount;
 
             final receiveAmount =
-                Amount.fromDecimal(
-                      value: Decimal.parse(toAmount.toString()),
-                      currency: Currency.ngn,
-                    )
-                    as FiatAmount;
+                Amount.fromDecimal(value: Decimal.parse(toAmount.toString()), currency: Currency.ngn) as FiatAmount;
 
             await sl<OffRampOrderService>()
                 .create(
@@ -346,16 +317,15 @@ window.addEventListener("message", (event) => {
     }
   });
 
-  Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() =>
-      runWithLoader<ScalexRateFeeResponseDto?>(this, () async {
-        try {
-          final client = sl<ScalexRepository>();
+  Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() => runWithLoader<ScalexRateFeeResponseDto?>(this, () async {
+    try {
+      final client = sl<ScalexRepository>();
 
-          return await client.fetchRateAndFee();
-        } on Exception {
-          return null;
-        }
-      });
+      return await client.fetchRateAndFee();
+    } on Exception {
+      return null;
+    }
+  });
 }
 
 extension on Amount {
@@ -372,9 +342,7 @@ extension on Amount {
     final double netAmountInNGN = amountInNGN - (feeInUSDC * exchangeRate);
 
     return FiatAmount(
-      value: Currency.ngn.decimalToInt(
-        Decimal.parse(netAmountInNGN.toString()),
-      ),
+      value: Currency.ngn.decimalToInt(Decimal.parse(netAmountInNGN.toString())),
       fiatCurrency: Currency.ngn,
     );
   }
@@ -391,10 +359,7 @@ extension on Amount {
     );
     final double feeInNGN = feeInUSDC * exchangeRate;
 
-    return FiatAmount(
-      value: Currency.ngn.decimalToInt(Decimal.parse(feeInNGN.toString())),
-      fiatCurrency: Currency.ngn,
-    );
+    return FiatAmount(value: Currency.ngn.decimalToInt(Decimal.parse(feeInNGN.toString())), fiatCurrency: Currency.ngn);
   }
 
   (double, double) _calculateOffRampAmounts({
@@ -422,9 +387,7 @@ extension on Amount {
     final double netAmountInUSDC = amountInUSDC - feeInUSDC;
 
     return CryptoAmount(
-      value: Currency.usdc.decimalToInt(
-        Decimal.parse(netAmountInUSDC.toString()),
-      ),
+      value: Currency.usdc.decimalToInt(Decimal.parse(netAmountInUSDC.toString())),
       cryptoCurrency: Currency.usdc,
     );
   }

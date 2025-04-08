@@ -23,9 +23,8 @@ import '../widgets/pick_profile_picture.dart';
 class ManageProfileScreen extends StatefulWidget {
   const ManageProfileScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
-    MaterialPageRoute(builder: (context) => const ManageProfileScreen()),
-  );
+  static void push(BuildContext context) =>
+      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => const ManageProfileScreen()));
 
   @override
   State<ManageProfileScreen> createState() => _ManageProfileScreenState();
@@ -64,32 +63,23 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
     super.dispose();
   }
 
-  void _handleSubmitted() => runWithLoader(
-    context,
-    () async {
-      final photo = await _photo?.let(sl<FileManager>().copyToAppDir);
+  void _handleSubmitted() => runWithLoader(context, () async {
+    final photo = await _photo?.let(sl<FileManager>().copyToAppDir);
 
-      await sl<UpdateProfile>()
-          .call(
-            firstName: _firstNameController.text,
-            lastName: _lastNameController.text,
-            // ignore: avoid-non-null-assertion, should not be null
-            countryCode: _country!.code,
-            photoPath: photo?.path,
-            email: _emailController.text,
-          )
-          .foldAsync((e) => throw e, ignore);
+    await sl<UpdateProfile>()
+        .call(
+          firstName: _firstNameController.text,
+          lastName: _lastNameController.text,
+          // ignore: avoid-non-null-assertion, should not be null
+          countryCode: _country!.code,
+          photoPath: photo?.path,
+          email: _emailController.text,
+        )
+        .foldAsync((e) => throw e, ignore);
 
-      if (!mounted) return;
-      Navigator.of(context).pop();
-    },
-    onError:
-        (error) => showErrorDialog(
-          context,
-          context.l10n.lblProfileUpdateFailed,
-          error,
-        ),
-  );
+    if (!mounted) return;
+    Navigator.of(context).pop();
+  }, onError: (error) => showErrorDialog(context, context.l10n.lblProfileUpdateFailed, error),);
 
   bool get _isValid =>
       _firstNameController.text.isNotEmpty &&
@@ -104,23 +94,14 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
       extendBodyBehindAppBar: true,
       body: OnboardingScreen(
         footer: ListenableBuilder(
-          listenable: Listenable.merge([
-            _firstNameController,
-            _lastNameController,
-            _emailController,
-          ]),
+          listenable: Listenable.merge([_firstNameController, _lastNameController, _emailController]),
           builder:
-              (context, child) => OnboardingFooterButton(
-                text: context.l10n.save,
-                onPressed: _isValid ? _handleSubmitted : null,
-              ),
+              (context, child) =>
+                  OnboardingFooterButton(text: context.l10n.save, onPressed: _isValid ? _handleSubmitted : null),
         ),
         children: [
           SizedBox(height: MediaQuery.paddingOf(context).top + 24),
-          ProfileImagePicker(
-            photo: _photo,
-            onChanged: (File? value) => setState(() => _photo = value),
-          ),
+          ProfileImagePicker(photo: _photo, onChanged: (File? value) => setState(() => _photo = value)),
           const SizedBox(height: 32),
           OnboardingPadding(
             child: CpTextField(
@@ -177,10 +158,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
           ),
           const SizedBox(height: 35),
           OnboardingPadding(
-            child: CountryPicker(
-              country: _country,
-              onSubmitted: (country) => setState(() => _country = country),
-            ),
+            child: CountryPicker(country: _country, onSubmitted: (country) => setState(() => _country = country)),
           ),
         ],
       ),

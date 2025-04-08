@@ -30,8 +30,7 @@ class TransactionRepository {
   final MyDatabase _db;
 
   Stream<IList<String>> watchAll() {
-    final query = _db.select(_db.transactionRows)
-      ..orderBy([(t) => OrderingTerm.desc(t.created)]);
+    final query = _db.select(_db.transactionRows)..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.map((row) => row.id).watch().map((event) => event.toIList());
   }
@@ -58,11 +57,7 @@ class TransactionRepository {
         final created = model.created;
         if (created != null) {
           final date = DateFormat('yyyy-MM-dd').format(created);
-          grouped.update(
-            date,
-            (list) => list.add(model),
-            ifAbsent: () => IList([model]),
-          );
+          grouped.update(date, (list) => list.add(model), ifAbsent: () => IList([model]));
         }
       }
 
@@ -80,21 +75,14 @@ class TransactionRepository {
   }
 
   Stream<Transaction> watch(String id) {
-    final query = _db.select(_db.transactionRows)
-      ..where((tbl) => tbl.id.equals(id));
+    final query = _db.select(_db.transactionRows)..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().asyncMap(
-      (row) => row.toModel().then((value) => _match(value).first),
-    );
+    return query.watchSingle().asyncMap((row) => row.toModel().then((value) => _match(value).first));
   }
 
   Future<void> saveAll(Iterable<TxCommon> txs, {required bool clear}) {
     Future<void> save() => _db.batch(
-      (batch) => batch.insertAll(
-        _db.transactionRows,
-        txs.map((e) => e.toRow()),
-        mode: InsertMode.insertOrReplace,
-      ),
+      (batch) => batch.insertAll(_db.transactionRows, txs.map((e) => e.toRow()), mode: InsertMode.insertOrReplace),
     );
 
     return clear
@@ -118,9 +106,8 @@ class TransactionRepository {
 
   Future<void> clear() => _db.delete(_db.transactionRows).go();
 
-  Stream<Transaction> _match(TxCommon fetched) => _matchActivity(
-    fetched.tx,
-  ).map(Transaction.activity).onErrorReturn(fetched);
+  Stream<Transaction> _match(TxCommon fetched) =>
+      _matchActivity(fetched.tx).map(Transaction.activity).onErrorReturn(fetched);
 
   Stream<Activity> _matchActivity(SignedTx tx) {
     final txId = tx.id;
@@ -140,12 +127,7 @@ class TransactionRepository {
     final olp = _db.oLPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
       builder: (pr) => pr.toActivity(),
-      ignoreWhen:
-          (row) =>
-              const [
-                OLPStatusDto.withdrawn,
-                OLPStatusDto.canceled,
-              ].contains(row.status).not(),
+      ignoreWhen: (row) => const [OLPStatusDto.withdrawn, OLPStatusDto.canceled].contains(row.status).not(),
     );
 
     final onRamp = _db.onRampOrderRows.findActivityOrNull(
@@ -155,10 +137,7 @@ class TransactionRepository {
     );
 
     final offRamp = _db.offRampOrderRows.findActivityOrNull(
-      where:
-          (row) =>
-              row.transaction.equals(tx.encode()) |
-              row.solanaBridgeTx.equals(txId),
+      where: (row) => row.transaction.equals(tx.encode()) | row.solanaBridgeTx.equals(txId),
       builder: (pr) => Activity.offRamp(id: pr.id, created: pr.created),
       ignoreWhen:
           (row) =>
@@ -173,9 +152,7 @@ class TransactionRepository {
     final oDlnP = _db.outgoingDlnPaymentRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
       builder: (pr) => pr.toActivity(),
-      ignoreWhen:
-          (row) =>
-              const [ODLNPaymentStatusDto.fulfilled].contains(row.status).not(),
+      ignoreWhen: (row) => const [ODLNPaymentStatusDto.fulfilled].contains(row.status).not(),
     );
 
     final tr = _db.transactionRequestRows.findActivityOrNull(
@@ -185,15 +162,7 @@ class TransactionRepository {
     );
 
     return Rx.combineLatest(
-      [
-        pr,
-        odp,
-        olp,
-        offRamp,
-        onRamp,
-        oDlnP,
-        tr,
-      ].map((it) => it.onErrorReturn(null)),
+      [pr, odp, olp, offRamp, onRamp, oDlnP, tr].map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );
   }
@@ -212,12 +181,7 @@ extension TransactionRowExt on TransactionRow {
       SignedTx.decode(encodedTx),
       created: created,
       status: status,
-      amount: amount?.let(
-        (it) => CryptoAmount(
-          value: it,
-          cryptoCurrency: CryptoCurrency(token: token ?? Token.unk),
-        ),
-      ),
+      amount: amount?.let((it) => CryptoAmount(value: it, cryptoCurrency: CryptoCurrency(token: token ?? Token.unk))),
     );
   }
 }

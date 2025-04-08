@@ -19,17 +19,9 @@ class CpTimelineItem {
 enum CpTimelineStatus { inProgress, success, failure, neutral }
 
 class CpTimeline extends StatefulWidget {
-  const CpTimeline({
-    super.key,
-    required this.items,
-    required this.status,
-    required this.active,
-    required this.animated,
-  }) : assert(items.length > 0, 'Items must not be empty'),
-       assert(
-         active >= 0 && active < items.length,
-         'Active item must be in range [0, items.length)',
-       );
+  const CpTimeline({super.key, required this.items, required this.status, required this.active, required this.animated})
+    : assert(items.length > 0, 'Items must not be empty'),
+      assert(active >= 0 && active < items.length, 'Active item must be in range [0, items.length)');
 
   final List<CpTimelineItem> items;
   final CpTimelineStatus status;
@@ -46,10 +38,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-    )..repeat();
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 800))..repeat();
   }
 
   @override
@@ -61,9 +50,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final lastIconIndex =
-        widget.status == CpTimelineStatus.inProgress && widget.animated
-            ? widget.active - 1
-            : widget.active;
+        widget.status == CpTimelineStatus.inProgress && widget.animated ? widget.active - 1 : widget.active;
 
     return ListView.builder(
       shrinkWrap: true,
@@ -107,10 +94,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                       width: _indicatorSize,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color:
-                            isHighlighted || index > widget.active
-                                ? Colors.white
-                                : CpColors.deepGreyColor,
+                        color: isHighlighted || index > widget.active ? Colors.white : CpColors.deepGreyColor,
                       ),
                       child:
                           index <= lastIconIndex
@@ -131,10 +115,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                       child: Container(
                         height: _connectorHeight,
                         width: _connectorWidth,
-                        color:
-                            index >= widget.active
-                                ? Colors.white
-                                : CpColors.deepGreyColor,
+                        color: index >= widget.active ? Colors.white : CpColors.deepGreyColor,
                       ),
                     ),
                   ),
@@ -213,32 +194,16 @@ class _IndicatorBackground extends StatelessWidget {
                 bottom: isLast ? _timelineRadius : Radius.zero,
               )
               : null,
-      boxShadow: [
-        BoxShadow(
-          color: backgroundColor,
-          blurRadius: 0.0,
-          spreadRadius: 0.0,
-          offset: const Offset(0, 1),
-        ),
-      ],
+      boxShadow: [BoxShadow(color: backgroundColor, blurRadius: 0.0, spreadRadius: 0.0, offset: const Offset(0, 1))],
     ),
-    padding:
-        (isFirst || isLast)
-            ? EdgeInsets.only(top: isFirst ? 16 : 2, bottom: isLast ? 16 : 2)
-            : EdgeInsets.zero,
+    padding: (isFirst || isLast) ? EdgeInsets.only(top: isFirst ? 16 : 2, bottom: isLast ? 16 : 2) : EdgeInsets.zero,
     margin: EdgeInsets.zero,
-    child: SizedBox(
-      height: _indicatorSize + _indicatorBounceOffset,
-      child: child,
-    ),
+    child: SizedBox(height: _indicatorSize + _indicatorBounceOffset, child: child),
   );
 }
 
 class _ConnectorBackground extends StatelessWidget {
-  const _ConnectorBackground({
-    required this.backgroundColor,
-    required this.child,
-  });
+  const _ConnectorBackground({required this.backgroundColor, required this.child});
 
   final Color backgroundColor;
   final Widget child;
@@ -249,26 +214,14 @@ class _ConnectorBackground extends StatelessWidget {
     height: _connectorHeight,
     decoration: BoxDecoration(
       color: backgroundColor,
-      boxShadow: [
-        BoxShadow(
-          color: backgroundColor,
-          blurRadius: 0.0,
-          spreadRadius: 0.0,
-          offset: const Offset(0, 1),
-        ),
-      ],
+      boxShadow: [BoxShadow(color: backgroundColor, blurRadius: 0.0, spreadRadius: 0.0, offset: const Offset(0, 1))],
     ),
     child: child,
   );
 }
 
 class _Animation extends StatelessWidget {
-  const _Animation({
-    required this.transformer,
-    required this.controller,
-    required this.center,
-    required this.child,
-  });
+  const _Animation({required this.transformer, required this.controller, required this.center, required this.child});
 
   final AnimationController controller;
   final _AnimationTransformer? transformer;
@@ -288,9 +241,7 @@ class _Animation extends StatelessWidget {
             builder:
                 (context, child) => Positioned(
                   bottom: center ? 0 : null,
-                  top: controller.value
-                      .let(_sinoidalTransformer)
-                      .let(transformer),
+                  top: controller.value.let(_sinoidalTransformer).let(transformer),
                   // ignore: avoid-non-null-assertion, child is mandatory for parent
                   child: child!,
                 ),
@@ -329,25 +280,17 @@ extension on CpTimelineStatus {
   }
 }
 
-final _successIcon = Padding(
-  padding: const EdgeInsets.all(6.0),
-  child: Assets.icons.timelineCheck.svg(),
-);
+final _successIcon = Padding(padding: const EdgeInsets.all(6.0), child: Assets.icons.timelineCheck.svg());
 
-final _failIcon = Padding(
-  padding: const EdgeInsets.all(6.0),
-  child: Assets.icons.timelineFail.svg(),
-);
+final _failIcon = Padding(padding: const EdgeInsets.all(6.0), child: Assets.icons.timelineFail.svg());
 
 double _sinoidalTransformer(double value) => sin(2 * pi * value) / 2;
 
 double _connectorTransformer(double value) => value * _connectorHeight;
 
-double _lowerIndicatorTransformer(double value) =>
-    max(0, value) * _indicatorBounceOffset;
+double _lowerIndicatorTransformer(double value) => max(0, value) * _indicatorBounceOffset;
 
-double _upperIndicatorTransformer(double value) =>
-    min(0, value) * _indicatorBounceOffset;
+double _upperIndicatorTransformer(double value) => min(0, value) * _indicatorBounceOffset;
 
 const _titleStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 16);
 const _subtitleStyle = TextStyle(fontWeight: FontWeight.w400, fontSize: 14);

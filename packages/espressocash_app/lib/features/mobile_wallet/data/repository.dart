@@ -7,8 +7,7 @@ import 'package:injectable/injectable.dart';
 import '../../accounts/auth_scope.dart';
 import '../models/notification.dart';
 
-typedef NotificationHanlder =
-    FutureOr<Object?> Function(MobileWalletNotification notification);
+typedef NotificationHanlder = FutureOr<Object?> Function(MobileWalletNotification notification);
 
 @Singleton(scope: authScope)
 class MobileWalletRepository extends ChangeNotifier implements Disposable {
@@ -28,9 +27,7 @@ class MobileWalletRepository extends ChangeNotifier implements Disposable {
     _notification = notification;
     notifyListeners();
 
-    return notification.whenOrNull<Future<T?>>(
-      request: (_) => _waitForRequestComplete<T>(),
-    );
+    return notification.whenOrNull<Future<T?>>(request: (_) => _waitForRequestComplete<T>());
   }
 
   void _completeRequest(Object? result) {

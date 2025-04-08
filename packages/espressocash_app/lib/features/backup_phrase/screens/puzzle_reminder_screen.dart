@@ -10,12 +10,10 @@ import 'puzzle_postpone_screen.dart';
 class PuzzleReminderScreen extends StatelessWidget {
   const PuzzleReminderScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
-    MaterialPageRoute(builder: (context) => const PuzzleReminderScreen()),
-  );
+  static void push(BuildContext context) =>
+      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => const PuzzleReminderScreen()));
 
-  void _handleRemindPressed(BuildContext context) =>
-      PuzzlePostponeScreen.push(context);
+  void _handleRemindPressed(BuildContext context) => PuzzlePostponeScreen.push(context);
 
   @override
   Widget build(BuildContext context) => PuzzleScreen(
@@ -48,11 +46,7 @@ class PuzzleReminderScreen extends StatelessWidget {
             onPressed: () => _handleRemindPressed(context),
             child: Text(
               context.l10n.remindMeLater,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
             ),
           ),
         ],

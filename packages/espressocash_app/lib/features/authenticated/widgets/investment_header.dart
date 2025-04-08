@@ -64,21 +64,11 @@ class _Info extends StatelessWidget {
           child: Text(
             context.l10n.usdcInfo,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.10,
-            ),
+            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.10),
           ),
         ),
         const SizedBox(height: 16),
-        CpButton(
-          text: context.l10n.close,
-          onPressed: onClose,
-          minWidth: 250,
-          size: CpButtonSize.wide,
-        ),
+        CpButton(text: context.l10n.close, onPressed: onClose, minWidth: 250, size: CpButtonSize.wide),
         const SizedBox(height: 12),
       ],
     ),
@@ -92,12 +82,7 @@ class _Headline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const baseStyle = TextStyle(
-      color: Colors.white,
-      fontSize: 16,
-      fontWeight: FontWeight.w500,
-      letterSpacing: 0.23,
-    );
+    const baseStyle = TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.23);
 
     return Text.rich(
       TextSpan(
@@ -109,10 +94,7 @@ class _Headline extends StatelessWidget {
             child: GestureDetector(
               onTap: onInfo,
               child: Text.rich(
-                TextSpan(
-                  text: context.l10n.inUsdc,
-                  style: baseStyle.copyWith(color: CpColors.yellowColor),
-                ),
+                TextSpan(text: context.l10n.inUsdc, style: baseStyle.copyWith(color: CpColors.yellowColor)),
               ),
             ),
           ),
@@ -123,11 +105,7 @@ class _Headline extends StatelessWidget {
 }
 
 class _HeaderSwitcher extends StatefulWidget {
-  const _HeaderSwitcher({
-    required this.first,
-    required this.second,
-    required this.showMore,
-  });
+  const _HeaderSwitcher({required this.first, required this.second, required this.showMore});
 
   final Widget first;
   final Widget second;
@@ -164,11 +142,7 @@ class _HeaderSwitcherState extends State<_HeaderSwitcher> {
         child:
             !widget.showMore
                 ? widget.first
-                : SizedBox(
-                  key: const ValueKey('second'),
-                  height: _firstChildHeight,
-                  child: widget.second,
-                ),
+                : SizedBox(key: const ValueKey('second'), height: _firstChildHeight, child: widget.second),
       );
     },
   );

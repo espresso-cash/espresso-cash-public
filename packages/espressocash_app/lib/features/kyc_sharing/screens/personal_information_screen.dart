@@ -19,16 +19,11 @@ class PersonalInformationScreen extends StatefulWidget {
   const PersonalInformationScreen({super.key});
 
   static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const PersonalInformationScreen(),
-        ),
-      )
+      .push<bool>(MaterialPageRoute(builder: (context) => const PersonalInformationScreen()))
       .then((result) => result ?? false);
 
   @override
-  State<PersonalInformationScreen> createState() =>
-      _PersonalInformationScreenState();
+  State<PersonalInformationScreen> createState() => _PersonalInformationScreenState();
 }
 
 class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
@@ -69,8 +64,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     _citizenship = Country.findByCode(user?.citizenshipCode ?? '');
     _firstNameController.text = user?.firstName ?? '';
     _lastNameController.text = user?.lastName ?? '';
-    _dobController.text =
-        dob != null ? DateFormat('dd/MM/yyyy').format(dob) : '';
+    _dobController.text = dob != null ? DateFormat('dd/MM/yyyy').format(dob) : '';
   }
 
   Future<void> _handleSubmitted() async {
@@ -126,16 +120,9 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
         placeholder: context.l10n.firstName,
       ),
       const SizedBox(height: 10),
-      KycTextField(
-        controller: _lastNameController,
-        inputType: TextInputType.name,
-        placeholder: context.l10n.lastName,
-      ),
+      KycTextField(controller: _lastNameController, inputType: TextInputType.name, placeholder: context.l10n.lastName),
       const SizedBox(height: 10),
-      CpDobTextField(
-        controller: _dobController,
-        placeholder: context.l10n.dateOfBirth,
-      ),
+      CpDobTextField(controller: _dobController, placeholder: context.l10n.dateOfBirth),
       const SizedBox(height: 10),
       CountryPicker(
         backgroundColor: CpColors.blackGreyColor,
@@ -146,11 +133,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
       const SizedBox(height: 28),
       const Spacer(),
       ListenableBuilder(
-        listenable: Listenable.merge([
-          _firstNameController,
-          _lastNameController,
-          _dobController,
-        ]),
+        listenable: Listenable.merge([_firstNameController, _lastNameController, _dobController]),
         builder:
             (context, child) => CpBottomButton(
               horizontalPadding: 16,

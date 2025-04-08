@@ -30,11 +30,7 @@ Future<void> main() {
             ..profilesSampleRate = 1.0;
         },
         appRunner: () async {
-          final spanAppStart = Sentry.startTransaction(
-            'App Start',
-            'Main',
-            bindToScope: true,
-          );
+          final spanAppStart = Sentry.startTransaction('App Start', 'Main', bindToScope: true);
           await _start(spanAppStart);
           await spanAppStart.finish();
         },
@@ -72,10 +68,7 @@ Future<void> _init([ISentrySpan? span]) async {
 Future<void> _start([ISentrySpan? span]) async {
   final spanSystemChrome = span?.startChild('SystemChrome');
   if (!kIsWeb) {
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
   await spanSystemChrome?.finish();

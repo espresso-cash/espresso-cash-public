@@ -21,10 +21,7 @@ class PartnerOrderIdWidget extends StatelessWidget {
               child: Center(
                 child: Text(
                   context.l10n.orderId(orderId.toShortAddress()),
-                  style: const TextStyle(
-                    color: Color(0xFF979593),
-                    fontSize: 14,
-                  ),
+                  style: const TextStyle(color: Color(0xFF979593), fontSize: 14),
                 ),
               ),
             ),

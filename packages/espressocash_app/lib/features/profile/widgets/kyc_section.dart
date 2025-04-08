@@ -28,9 +28,7 @@ class _KycSectionState extends State<KycSection> {
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
     valueListenable: sl<KycSharingService>(),
-    builder:
-        (context, user, _) =>
-            user == null ? const SizedBox.shrink() : _KycInfo(user: user),
+    builder: (context, user, _) => user == null ? const SizedBox.shrink() : _KycInfo(user: user),
   );
 }
 
@@ -46,10 +44,7 @@ class _KycInfo extends StatelessWidget {
         (sl<FeatureFlagsManager>().isBrijDemoEnabled() ? ' (Demo)' : ''),
     padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
     actions: [
-      KycButton(
-        label: context.l10n.bankAccount,
-        onPressed: () => BankAccountListScreen.push(context),
-      ),
+      KycButton(label: context.l10n.bankAccount, onPressed: () => BankAccountListScreen.push(context)),
       KycButton(
         label: context.l10n.emailAddress,
         description: user.getEmail,

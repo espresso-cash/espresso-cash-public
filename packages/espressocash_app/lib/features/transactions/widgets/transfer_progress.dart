@@ -20,12 +20,7 @@ class TransferProgress extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 50),
-          Center(
-            child: CircularProgressIndicator(
-              color: CpColors.yellowColor,
-              strokeWidth: 8,
-            ),
-          ),
+          Center(child: CircularProgressIndicator(color: CpColors.yellowColor, strokeWidth: 8)),
         ],
       ),
     ),

@@ -20,8 +20,7 @@ class HomeAppBar extends StatelessWidget {
         child: CpIconButton(
           icon: Assets.icons.qrScanner.svg(color: Colors.black),
           variant: CpIconButtonVariant.dark,
-          onPressed:
-              () => context.launchQrScannerFlow(cryptoCurrency: Currency.usdc),
+          onPressed: () => context.launchQrScannerFlow(cryptoCurrency: Currency.usdc),
         ),
       ),
     ),
@@ -50,8 +49,7 @@ class HomeAppBar extends StatelessWidget {
   );
 }
 
-class HomeScaffoldAppBar extends StatelessWidget
-    implements PreferredSizeWidget {
+class HomeScaffoldAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeScaffoldAppBar({super.key});
 
   @override
@@ -62,16 +60,12 @@ class HomeScaffoldAppBar extends StatelessWidget
         child: CpIconButton(
           icon: Assets.icons.qrScanner.svg(color: Colors.black),
           variant: CpIconButtonVariant.dark,
-          onPressed:
-              () => context.launchQrScannerFlow(cryptoCurrency: Currency.usdc),
+          onPressed: () => context.launchQrScannerFlow(cryptoCurrency: Currency.usdc),
         ),
       ),
       shape: const Border(),
       title: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: Assets.images.logo.image(height: 32),
-        ),
+        child: Padding(padding: const EdgeInsets.only(right: 16.0), child: Assets.images.logo.image(height: 32)),
       ),
       elevation: 0,
       backgroundColor: CpColors.darkSandColor,

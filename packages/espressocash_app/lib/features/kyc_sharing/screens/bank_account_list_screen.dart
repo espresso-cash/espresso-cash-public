@@ -14,9 +14,7 @@ class BankAccountListScreen extends StatelessWidget {
   const BankAccountListScreen({super.key});
 
   static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(builder: (context) => const BankAccountListScreen()),
-      )
+      .push<bool>(MaterialPageRoute(builder: (context) => const BankAccountListScreen()))
       .then((result) => result ?? false);
 
   @override
@@ -54,30 +52,14 @@ class _BankInfoItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: const ShapeDecoration(
-        color: CpColors.blackGreyColor,
-        shape: StadiumBorder(),
-      ),
+      decoration: const ShapeDecoration(color: CpColors.blackGreyColor, shape: StadiumBorder()),
       child: ListTile(
         title: Text(
           '${bankInfo.bankName} - $countryName',
-          style: const TextStyle(
-            fontSize: 17,
-            color: Colors.white,
-            fontWeight: FontWeight.w700,
-          ),
+          style: const TextStyle(fontSize: 17, color: Colors.white, fontWeight: FontWeight.w700),
         ),
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          size: 14,
-          color: Colors.white,
-        ),
-        onTap:
-            () => BankAccountScreen.push(
-              context,
-              initialBankInfo: bankInfo,
-              buttonLabel: context.l10n.update,
-            ),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.white),
+        onTap: () => BankAccountScreen.push(context, initialBankInfo: bankInfo, buttonLabel: context.l10n.update),
       ),
     );
   }

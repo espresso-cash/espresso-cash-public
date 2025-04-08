@@ -35,21 +35,9 @@ class ShareCodeWidget extends StatelessWidget {
             textAlign: TextAlign.center,
             TextSpan(
               children: <TextSpan>[
-                TextSpan(
-                  text: title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                TextSpan(text: title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                 const TextSpan(text: '\n'),
-                TextSpan(
-                  text: amount,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                TextSpan(text: amount, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
               ],
             ),
           ),

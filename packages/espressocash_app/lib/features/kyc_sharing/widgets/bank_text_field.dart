@@ -6,12 +6,7 @@ import '../../../ui/picker_screen.dart';
 import '../models/bank.dart';
 
 class BankTextField extends StatelessWidget {
-  const BankTextField({
-    super.key,
-    required this.placeholder,
-    this.initialBank,
-    this.onBankChanged,
-  });
+  const BankTextField({super.key, required this.placeholder, this.initialBank, this.onBankChanged});
 
   final String placeholder;
   final Bank? initialBank;
@@ -19,10 +14,7 @@ class BankTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-    decoration: const ShapeDecoration(
-      color: CpColors.blackGreyColor,
-      shape: StadiumBorder(),
-    ),
+    decoration: const ShapeDecoration(color: CpColors.blackGreyColor, shape: StadiumBorder()),
     child: ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24),
       onTap: () async {
@@ -36,23 +28,9 @@ class BankTextField extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 70,
-                    child: Text(
-                      bank.code,
-                      style: TextStyle(
-                        fontSize: selected ? 19 : 17,
-                        color: CpColors.yellowColor,
-                      ),
-                    ),
+                    child: Text(bank.code, style: TextStyle(fontSize: selected ? 19 : 17, color: CpColors.yellowColor)),
                   ),
-                  Expanded(
-                    child: Text(
-                      bank.name,
-                      style: TextStyle(
-                        fontSize: selected ? 19 : 17,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                  Expanded(child: Text(bank.name, style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white))),
                 ],
               ),
           onTap: (bank, _) async {
@@ -69,11 +47,7 @@ class BankTextField extends StatelessWidget {
           height: 1.2,
         ),
       ),
-      trailing: const Icon(
-        Icons.keyboard_arrow_down_outlined,
-        color: Colors.white,
-        size: 28,
-      ),
+      trailing: const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white, size: 28),
     ),
   );
 }

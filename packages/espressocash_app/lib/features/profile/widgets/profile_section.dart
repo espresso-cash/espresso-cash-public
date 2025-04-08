@@ -49,11 +49,7 @@ class ProfileSection extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8, left: 20, bottom: 10),
               child: Text(
                 title.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
               ),
             ),
           ClipRRect(
@@ -62,10 +58,7 @@ class ProfileSection extends StatelessWidget {
               color: color,
               child: Padding(
                 padding: padding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: actions,
-                ),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: actions),
               ),
             ),
           ),

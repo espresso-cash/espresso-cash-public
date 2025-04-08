@@ -20,23 +20,15 @@ class FeatureFlagsManager implements Disposable {
 
   Future<void> _init() async {
     await _remoteConfig.setConfigSettings(
-      RemoteConfigSettings(
-        fetchTimeout: const Duration(minutes: 1),
-        minimumFetchInterval: const Duration(hours: 1),
-      ),
+      RemoteConfigSettings(fetchTimeout: const Duration(minutes: 1), minimumFetchInterval: const Duration(hours: 1)),
     );
     await _remoteConfig.fetchAndActivate();
-    _subscription = _remoteConfig.onConfigUpdated.listen(
-      (_) => _remoteConfig.activate(),
-    );
+    _subscription = _remoteConfig.onConfigUpdated.listen((_) => _remoteConfig.activate());
   }
 
-  bool isMoneygramAccessEnabled() =>
-      _remoteConfig.getBool(FeatureFlag.moneygram.name);
+  bool isMoneygramAccessEnabled() => _remoteConfig.getBool(FeatureFlag.moneygram.name);
 
-  bool isBrijEnabled() =>
-      _remoteConfig.getBool(FeatureFlag.brij.name) ||
-      _ambassadorService.value.isAmbassador;
+  bool isBrijEnabled() => _remoteConfig.getBool(FeatureFlag.brij.name) || _ambassadorService.value.isAmbassador;
 
   bool isBrijDemoEnabled() => _remoteConfig.getBool(FeatureFlag.brijDemo.name);
 

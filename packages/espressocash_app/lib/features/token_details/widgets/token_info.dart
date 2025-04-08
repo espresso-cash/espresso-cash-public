@@ -22,11 +22,7 @@ class TokenInfo extends StatelessWidget {
     final token = Provider.of<Token>(context);
 
     final rate =
-        sl<ConversionRatesRepository>().readRate(
-          CryptoCurrency(token: token),
-          to: defaultFiatCurrency,
-        ) ??
-        Decimal.zero;
+        sl<ConversionRatesRepository>().readRate(CryptoCurrency(token: token), to: defaultFiatCurrency) ?? Decimal.zero;
 
     final fiatRate = Amount.fromDecimal(value: rate, currency: Currency.usd);
 
@@ -38,15 +34,8 @@ class TokenInfo extends StatelessWidget {
             label: token != Token.sol ? context.l10n.token : context.l10n.coin,
             value: '${token.name} (${token.symbol})',
           ),
-          _InfoItem(
-            label: context.l10n.price,
-            value: '\$${fiatRate.formatRate(rate.toDouble(), context.locale)}',
-          ),
-          if (token != Token.sol)
-            _InfoItem(
-              label: context.l10n.mintAddress,
-              value: tokenAddress.toShortAddress(),
-            ),
+          _InfoItem(label: context.l10n.price, value: '\$${fiatRate.formatRate(rate.toDouble(), context.locale)}'),
+          if (token != Token.sol) _InfoItem(label: context.l10n.mintAddress, value: tokenAddress.toShortAddress()),
         ],
       ),
     );
@@ -64,18 +53,8 @@ class _InfoItem extends StatelessWidget {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: Color(0xff999999),
-          ),
-        ),
+        Text(label, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+        Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Color(0xff999999))),
       ],
     ),
   );

@@ -34,12 +34,10 @@ class KadoOnRampOrderWatcher implements RampWatcher {
         .listen((event) async {
           // ignore: prefer-early-return, cannot use
           if (event.data case final data?) {
-            final statement = _db.update(_db.onRampOrderRows)..where(
-              (tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false),
-            );
+            final statement = _db.update(_db.onRampOrderRows)
+              ..where((tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false));
 
-            final isCompleted =
-                data.machineStatusField == MachineStatus.settled;
+            final isCompleted = data.machineStatusField == MachineStatus.settled;
 
             if (isCompleted) await _subscription?.cancel();
 
@@ -47,13 +45,8 @@ class KadoOnRampOrderWatcher implements RampWatcher {
             if (isCompleted) {
               status = OnRampOrderStatus.completed;
 
-              _analytics.rampCompleted(
-                partnerName: RampPartner.kado.name,
-                rampType: RampType.onRamp.name,
-                id: orderId,
-              );
-            } else if (data.machineStatusField ==
-                    MachineStatus.achPaymentFailed ||
+              _analytics.rampCompleted(partnerName: RampPartner.kado.name, rampType: RampType.onRamp.name, id: orderId);
+            } else if (data.machineStatusField == MachineStatus.achPaymentFailed ||
                 data.machineStatusField == MachineStatus.cardPaymentFailed) {
               status = OnRampOrderStatus.failure;
             }

@@ -8,11 +8,6 @@ class Arrow extends StatelessWidget {
   final Color? color;
 
   @override
-  Widget build(BuildContext context) => RotatedBox(
-    quarterTurns: 2,
-    child: Assets.icons.arrow.svg(
-      height: 14,
-      color: color ?? const Color(0xFF2D2B2C),
-    ),
-  );
+  Widget build(BuildContext context) =>
+      RotatedBox(quarterTurns: 2, child: Assets.icons.arrow.svg(height: 14, color: color ?? const Color(0xFF2D2B2C)));
 }

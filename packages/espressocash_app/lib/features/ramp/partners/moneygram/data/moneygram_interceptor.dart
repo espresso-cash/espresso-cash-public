@@ -16,10 +16,7 @@ class MoneygramInterceptor extends Interceptor {
   final StellarClient _stellarClient;
 
   @override
-  Future<void> onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) async {
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     await _handleToken(options);
     handler.next(options);
   }
@@ -63,9 +60,7 @@ class MoneygramInterceptor extends Interceptor {
 
     if (expiration == null) return true;
 
-    final expirationDate = DateTime.fromMillisecondsSinceEpoch(
-      expiration * 1000,
-    );
+    final expirationDate = DateTime.fromMillisecondsSinceEpoch(expiration * 1000);
 
     return DateTime.now().isAfter(expirationDate);
   }

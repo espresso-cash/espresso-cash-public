@@ -12,12 +12,7 @@ import '../../currency/models/amount.dart';
 import '../widgets/merchant_logo_icon.dart';
 
 class TRConfirmationScreen extends StatelessWidget {
-  const TRConfirmationScreen({
-    super.key,
-    required this.request,
-    required this.amount,
-    this.message,
-  });
+  const TRConfirmationScreen({super.key, required this.request, required this.amount, this.message});
 
   static Future<bool?> push(
     BuildContext context, {
@@ -25,14 +20,7 @@ class TRConfirmationScreen extends StatelessWidget {
     required CryptoAmount amount,
     String? message,
   }) => Navigator.of(context).push<bool>(
-    MaterialPageRoute(
-      builder:
-          (context) => TRConfirmationScreen(
-            request: request,
-            amount: amount,
-            message: message,
-          ),
-    ),
+    MaterialPageRoute(builder: (context) => TRConfirmationScreen(request: request, amount: amount, message: message)),
   );
 
   final TransactionRequestInfo request;
@@ -57,24 +45,14 @@ class TRConfirmationScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 32),
                 child: MerchantLogoIcon(logoUrl: request.icon),
               ),
-              Text(
-                request.label,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              Text(request.label, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
               const SizedBox(height: 38),
               Text(
                 amount.format(context.locale, maxDecimals: 2),
-                style: const TextStyle(
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 42),
-              if (message case final message?)
-                _Item(title: 'Message', content: message),
+              if (message case final message?) _Item(title: 'Message', content: message),
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -103,22 +81,13 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedBox(
     decoration: const BoxDecoration(
-      border: Border.symmetric(
-        horizontal: BorderSide(color: CpColors.darkDividerColor, width: 1),
-      ),
+      border: Border.symmetric(horizontal: BorderSide(color: CpColors.darkDividerColor, width: 1)),
     ),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       child: Row(
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 17,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          Text(title, style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w600)),
           const SizedBox(width: 24),
           Expanded(child: Text(content)),
         ],

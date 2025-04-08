@@ -22,19 +22,14 @@ class QrScannerBloc extends Bloc<_Event, _State> {
   }
 
   _EventHandler get _eventHandler =>
-      (event, emit) => event.map(
-        received: (e) => _onReceived(e, emit),
-        initialized: (e) => _onInitialized(e, emit),
-      );
+      (event, emit) => event.map(received: (e) => _onReceived(e, emit), initialized: (e) => _onInitialized(e, emit));
 
   void _onInitialized(QrScannerInitializedEvent _, _Emitter emit) {
     emit(const QrScannerState.initial());
   }
 
   void _onReceived(QrScannerReceivedEvent event, _Emitter emit) {
-    final newState = QrScannerRequest.tryParse(
-      event.code,
-    ).maybeMap(QrScannerState.done);
+    final newState = QrScannerRequest.tryParse(event.code).maybeMap(QrScannerState.done);
 
     if (newState != null) {
       emit(newState);

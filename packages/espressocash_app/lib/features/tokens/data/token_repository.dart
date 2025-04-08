@@ -38,10 +38,7 @@ class TokenRepository {
 
     if (rootToken == null) return;
 
-    await compute(
-      _initializeFromAssets,
-      IsolateParams(rootToken, file.path),
-    ).doOnRightAsync((hash) async {
+    await compute(_initializeFromAssets, IsolateParams(rootToken, file.path)).doOnRightAsync((hash) async {
       await _tokensMetaStorage.saveHash(hash);
     });
   });
@@ -55,10 +52,7 @@ class TokenRepository {
 
     await ecClient.getTokensFile(file.path);
 
-    await compute(
-      _initializeFromAssets,
-      IsolateParams(rootToken, file.path),
-    ).doOnRightAsync((hash) async {
+    await compute(_initializeFromAssets, IsolateParams(rootToken, file.path)).doOnRightAsync((hash) async {
       await _tokensMetaStorage.saveHash(hash);
     });
   }
@@ -73,28 +67,25 @@ class TokenRepository {
   }
 }
 
-Future<Either<Exception, String>> _initializeFromAssets(IsolateParams args) =>
-    tryEitherAsync((_) async {
-      BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);
+Future<Either<Exception, String>> _initializeFromAssets(IsolateParams args) => tryEitherAsync((_) async {
+  BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);
 
-      final tokenStream = File(args.path).openRead().decodeFile();
-      final data = await File(args.path).readAsBytes();
+  final tokenStream = File(args.path).openRead().decodeFile();
+  final data = await File(args.path).readAsBytes();
 
-      final db = MyDatabase();
+  final db = MyDatabase();
 
-      await db.transaction(() async {
-        await tokenStream.forEach((tokenRows) async {
-          for (final tokenRow in tokenRows) {
-            await db
-                .into(db.tokenRows)
-                .insert(tokenRow, mode: InsertMode.insertOrReplace);
-          }
-        });
-      });
-
-      // ignore: avoid-weak-cryptographic-algorithms, non sensitive
-      return md5.convert(data).toString();
+  await db.transaction(() async {
+    await tokenStream.forEach((tokenRows) async {
+      for (final tokenRow in tokenRows) {
+        await db.into(db.tokenRows).insert(tokenRow, mode: InsertMode.insertOrReplace);
+      }
     });
+  });
+
+  // ignore: avoid-weak-cryptographic-algorithms, non sensitive
+  return md5.convert(data).toString();
+});
 
 class IsolateParams {
   const IsolateParams(this.rootToken, this.path);

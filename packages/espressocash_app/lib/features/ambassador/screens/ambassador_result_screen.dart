@@ -12,22 +12,13 @@ class AmbassadorResultScreen extends StatelessWidget {
 
   final AmbassadorResult result;
 
-  static void push(BuildContext context, AmbassadorResult result) =>
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(
-          builder: (_) => AmbassadorResultScreen(result: result),
-        ),
-      );
+  static void push(BuildContext context, AmbassadorResult result) => Navigator.of(
+    context,
+  ).pushReplacement(MaterialPageRoute<void>(builder: (_) => AmbassadorResultScreen(result: result)));
 
-  Color get _backgroundColor =>
-      result == AmbassadorResult.success
-          ? CpColors.sandColor
-          : CpColors.lightSandColor;
+  Color get _backgroundColor => result == AmbassadorResult.success ? CpColors.sandColor : CpColors.lightSandColor;
 
-  Color get _starColor =>
-      result == AmbassadorResult.success
-          ? CpColors.lightSandColor
-          : CpColors.sandColor;
+  Color get _starColor => result == AmbassadorResult.success ? CpColors.lightSandColor : CpColors.sandColor;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -40,20 +31,13 @@ class AmbassadorResultScreen extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.center,
-                  child: Assets.icons.starBackground.svg(
-                    fit: BoxFit.cover,
-                    color: _starColor,
-                    width: 600,
-                    height: 600,
-                  ),
+                  child: Assets.icons.starBackground.svg(fit: BoxFit.cover, color: _starColor, width: 600, height: 600),
                 ),
                 Center(
                   child: switch (result) {
                     AmbassadorResult.success => const _SuccessContent(),
-                    AmbassadorResult.alreadyRegistered =>
-                      const _AlreadyRegisteredContent(),
-                    AmbassadorResult.notAmbassador =>
-                      const _NotAmbassadorContent(),
+                    AmbassadorResult.alreadyRegistered => const _AlreadyRegisteredContent(),
+                    AmbassadorResult.notAmbassador => const _NotAmbassadorContent(),
                   },
                 ),
               ],
@@ -123,11 +107,7 @@ class _AlreadyRegisteredContent extends StatelessWidget {
       Text(
         context.l10n.ambassador_alreadyEnrolledDescription,
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 0.17,
-        ),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.17),
       ),
     ],
   );
@@ -151,11 +131,7 @@ class _NotAmbassadorContent extends StatelessWidget {
       Text(
         context.l10n.ambassador_notAmbassadorDescription,
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 0.17,
-        ),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.17),
       ),
     ],
   );

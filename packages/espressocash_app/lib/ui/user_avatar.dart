@@ -4,12 +4,7 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 
 class CpUserAvatar extends StatelessWidget {
-  const CpUserAvatar({
-    super.key,
-    required this.userName,
-    this.image,
-    this.radius = 24,
-  });
+  const CpUserAvatar({super.key, required this.userName, this.image, this.radius = 24});
 
   final String userName;
   final double radius;
@@ -32,9 +27,4 @@ class CpUserAvatar extends StatelessWidget {
   }
 }
 
-const TextStyle _textStyle = TextStyle(
-  height: 1.4,
-  fontSize: 32.0,
-  fontWeight: FontWeight.w500,
-  color: Colors.white,
-);
+const TextStyle _textStyle = TextStyle(height: 1.4, fontSize: 32.0, fontWeight: FontWeight.w500, color: Colors.white);

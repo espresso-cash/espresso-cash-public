@@ -13,8 +13,7 @@ part 'jupiter_client.g.dart';
 @RestApi(baseUrl: 'https://api.jup.ag')
 abstract class JupiterPriceClient {
   @factoryMethod
-  factory JupiterPriceClient(DioCacheClient client) =>
-      _JupiterPriceClient(client.dio);
+  factory JupiterPriceClient(DioCacheClient client) => _JupiterPriceClient(client.dio);
 
   @GET('/price/v2')
   @Extra({maxAgeOption: Duration(minutes: 1)})
@@ -23,30 +22,23 @@ abstract class JupiterPriceClient {
 
 @freezed
 class PriceResponseDto with _$PriceResponseDto {
-  const factory PriceResponseDto({
-    required Map<String, TokenPricesMapDto> data,
-  }) = _PriceResponseDto;
+  const factory PriceResponseDto({required Map<String, TokenPricesMapDto> data}) = _PriceResponseDto;
 
-  factory PriceResponseDto.fromJson(Map<String, dynamic> data) =>
-      _$PriceResponseDtoFromJson(data);
+  factory PriceResponseDto.fromJson(Map<String, dynamic> data) => _$PriceResponseDtoFromJson(data);
 }
 
 @freezed
 class TokenPricesMapDto with _$TokenPricesMapDto {
-  const factory TokenPricesMapDto({required String? price}) =
-      _TokenPricesMapDto;
+  const factory TokenPricesMapDto({required String? price}) = _TokenPricesMapDto;
 
   const TokenPricesMapDto._();
 
-  factory TokenPricesMapDto.fromJson(Map<String, dynamic> data) =>
-      _$TokenPricesMapDtoFromJson(data);
+  factory TokenPricesMapDto.fromJson(Map<String, dynamic> data) => _$TokenPricesMapDtoFromJson(data);
 }
 
 @freezed
 class TokenRateRequestDto with _$TokenRateRequestDto {
-  const factory TokenRateRequestDto({required IList<String> ids}) =
-      _TokenRateRequestDto;
+  const factory TokenRateRequestDto({required IList<String> ids}) = _TokenRateRequestDto;
 
-  factory TokenRateRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$TokenRateRequestDtoFromJson(json);
+  factory TokenRateRequestDto.fromJson(Map<String, dynamic> json) => _$TokenRateRequestDtoFromJson(json);
 }

@@ -25,15 +25,12 @@ import 'share_link_screen.dart';
 class OLPScreen extends StatefulWidget {
   const OLPScreen({super.key, required this.id});
 
-  static void push(BuildContext context, {required String id}) => Navigator.of(
-    context,
-  ).push<void>(MaterialPageRoute(builder: (context) => OLPScreen(id: id)));
+  static void push(BuildContext context, {required String id}) =>
+      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => OLPScreen(id: id)));
 
-  static void open(BuildContext context, {required String id}) =>
-      Navigator.of(context).pushAndRemoveUntil<void>(
-        MaterialPageRoute(builder: (context) => OLPScreen(id: id)),
-        (route) => route.isFirst,
-      );
+  static void open(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).pushAndRemoveUntil<void>(MaterialPageRoute(builder: (context) => OLPScreen(id: id)), (route) => route.isFirst);
 
   final String id;
 
@@ -58,11 +55,7 @@ class _OLPScreenState extends State<OLPScreen> {
         .listen((payment) {
           if (mounted) {
             final status = payment.status as OLPStatusLinkReady;
-            ShareLinkScreen.push(
-              context,
-              amount: payment.amount,
-              status: status,
-            );
+            ShareLinkScreen.push(context, amount: payment.amount, status: status);
           }
           _shareLinkSubscription?.cancel();
         });
@@ -87,21 +80,15 @@ class _OLPScreenState extends State<OLPScreen> {
 
       void handleCanceled() => showConfirmationDialog(
         context,
-        title:
-            context.l10n.outgoingSplitKeyPayments_lblCancelConfirmationTitle
-                .toUpperCase(),
-        message:
-            context.l10n.outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
+        title: context.l10n.outgoingSplitKeyPayments_lblCancelConfirmationTitle.toUpperCase(),
+        message: context.l10n.outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
         onConfirm: () {
           context.cancelOLP(payment: payment);
         },
       );
 
       final cancelButton = Padding(
-        padding: EdgeInsets.only(
-          top: 24,
-          bottom: MediaQuery.paddingOf(context).bottom + 16,
-        ),
+        padding: EdgeInsets.only(top: 24, bottom: MediaQuery.paddingOf(context).bottom + 16),
         child: CpTextButton(
           text: context.l10n.outgoingSplitKeyPayments_btnCancel,
           variant: CpTextButtonVariant.dark,
@@ -111,10 +98,7 @@ class _OLPScreenState extends State<OLPScreen> {
 
       final created = payment.created;
       final generatedLinksAt = payment.linksGeneratedAt;
-      final resolvedAt = payment.status.mapOrNull(
-        canceled: (e) => e.timestamp,
-        withdrawn: (e) => e.timestamp,
-      );
+      final resolvedAt = payment.status.mapOrNull(canceled: (e) => e.timestamp, withdrawn: (e) => e.timestamp);
 
       final List<Widget> actions = payment.status.maybeMap(
         linkReady:
@@ -123,12 +107,7 @@ class _OLPScreenState extends State<OLPScreen> {
                 size: CpButtonSize.big,
                 width: double.infinity,
                 text: context.l10n.resendLink,
-                onPressed:
-                    () => ShareLinkScreen.push(
-                      context,
-                      amount: payment.amount,
-                      status: s,
-                    ),
+                onPressed: () => ShareLinkScreen.push(context, amount: payment.amount, status: s),
               ),
               cancelButton,
             ],
@@ -157,20 +136,15 @@ class _OLPScreenState extends State<OLPScreen> {
         cancelTxSent: always(CpStatusType.info),
       );
 
-      final String? statusTitle = payment.status.mapOrNull(
-        withdrawn: always(context.l10n.transferSuccessTitle),
-      );
+      final String? statusTitle = payment.status.mapOrNull(withdrawn: always(context.l10n.transferSuccessTitle));
 
       final String statusContent = payment.status.maybeMap(
         withdrawn: always(context.l10n.splitKeySuccessMessage2),
-        canceled: always(
-          context.l10n.splitKeyCanceledMessage1(payment.amount.format(locale)),
-        ),
+        canceled: always(context.l10n.splitKeyCanceledMessage1(payment.amount.format(locale))),
         txFailure:
             (it) => [
               context.l10n.splitKeyErrorMessage2,
-              if (it.reason == TxFailureReason.insufficientFunds)
-                context.l10n.errorMessageInsufficientFunds,
+              if (it.reason == TxFailureReason.insufficientFunds) context.l10n.errorMessageInsufficientFunds,
             ].join(' '),
         cancelTxCreated: always(context.l10n.splitKeyProgressCanceling),
         cancelTxSent: always(context.l10n.splitKeyProgressCanceling),
@@ -180,9 +154,7 @@ class _OLPScreenState extends State<OLPScreen> {
               if (it.reason == TxFailureReason.insufficientFunds)
                 context.l10n.outgoingSplitKeyPayments_lblMoneyWithdrawn,
             ].join(' '),
-        orElse: always(
-          context.l10n.splitKeyProgressOngoing(payment.amount.format(locale)),
-        ),
+        orElse: always(context.l10n.splitKeyProgressOngoing(payment.amount.format(locale))),
       );
 
       final CpTimelineStatus timelineStatus =
@@ -239,8 +211,7 @@ class _OLPScreenState extends State<OLPScreen> {
           normalItems;
 
       final animated =
-          timelineStatus == CpTimelineStatus.inProgress &&
-          payment.status.maybeMap(orElse: T, linkReady: F);
+          timelineStatus == CpTimelineStatus.inProgress && payment.status.maybeMap(orElse: T, linkReady: F);
 
       return StatusScreen(
         onBackButtonPressed: () => Navigator.pop(context),
@@ -252,12 +223,7 @@ class _OLPScreenState extends State<OLPScreen> {
           child: Column(
             children: [
               const Spacer(flex: 1),
-              CpTimeline(
-                status: timelineStatus,
-                items: items,
-                active: activeItem,
-                animated: animated,
-              ),
+              CpTimeline(status: timelineStatus, items: items, active: activeItem, animated: animated),
               const Spacer(flex: 4),
               ...actions,
             ],

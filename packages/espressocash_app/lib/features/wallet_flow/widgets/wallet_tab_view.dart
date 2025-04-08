@@ -94,12 +94,7 @@ class _ScreenState extends State<WalletMainScreen> {
                 error: widget.error,
                 showUsdcInfo: true,
               ),
-              Expanded(
-                child: AmountKeypad(
-                  controller: _amountController,
-                  maxDecimals: 2,
-                ),
-              ),
+              Expanded(child: AmountKeypad(controller: _amountController, maxDecimals: 2)),
               const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.all(16.0),

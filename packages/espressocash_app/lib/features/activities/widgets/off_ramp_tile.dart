@@ -21,18 +21,12 @@ class OffRampTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => OffRampOrderDetails(
     orderId: activity.id,
-    builder:
-        (context, order) =>
-            _ActivityTile(order: order, activity: activity, showIcon: showIcon),
+    builder: (context, order) => _ActivityTile(order: order, activity: activity, showIcon: showIcon),
   );
 }
 
 class _ActivityTile extends StatelessWidget {
-  const _ActivityTile({
-    required this.activity,
-    required this.order,
-    required this.showIcon,
-  });
+  const _ActivityTile({required this.activity, required this.order, required this.showIcon});
 
   final OffRampActivity activity;
   final OffRampOrder? order;
@@ -41,15 +35,11 @@ class _ActivityTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpActivityTile(
     title: context.l10n.activities_lblWithdraw,
-    incomingAmount: order?.receiveAmount?.format(
-      context.locale,
-      maxDecimals: 2,
-    ),
+    incomingAmount: order?.receiveAmount?.format(context.locale, maxDecimals: 2),
     icon: Assets.icons.paymentIcon.svg(),
     status: switch (order?.status) {
       OffRampOrderStatus.completed => CpActivityTileStatus.success,
-      OffRampOrderStatus.failure ||
-      OffRampOrderStatus.rejected => CpActivityTileStatus.failure,
+      OffRampOrderStatus.failure || OffRampOrderStatus.rejected => CpActivityTileStatus.failure,
       OffRampOrderStatus.refunded => CpActivityTileStatus.canceled,
       // ignore: avoid-wildcard-cases-with-enums, check if needed
       _ => CpActivityTileStatus.inProgress,

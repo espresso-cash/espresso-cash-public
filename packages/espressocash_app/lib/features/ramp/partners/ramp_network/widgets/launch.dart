@@ -7,10 +7,7 @@ import '../../../../balances/widgets/context_ext.dart';
 import '../../../models/profile_data.dart';
 
 extension BuildContextExt on BuildContext {
-  void launchRampNetworkOnRamp({
-    required ProfileData profile,
-    required String address,
-  }) {
+  void launchRampNetworkOnRamp({required ProfileData profile, required String address}) {
     final configuration =
         _defaultConfiguration
           ..selectedCountryCode = profile.country.code
@@ -27,8 +24,7 @@ extension BuildContextExt on BuildContext {
 final _defaultConfiguration =
     Configuration()
       ..hostAppName = 'Espresso Cash'
-      ..hostLogoUrl =
-          'https://www.espressocash.com/landing/img/asset-2-2x-copy@2x.png'
+      ..hostLogoUrl = 'https://www.espressocash.com/landing/img/asset-2-2x-copy@2x.png'
       ..hostApiKey = rampApiKey
       ..swapAsset = 'SOLANA_USDC'
       ..defaultAsset = 'SOLANA_USDC';

@@ -23,10 +23,7 @@ class CountryPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-    decoration: ShapeDecoration(
-      color: backgroundColor,
-      shape: const StadiumBorder(),
-    ),
+    decoration: ShapeDecoration(color: backgroundColor, shape: const StadiumBorder()),
     child: ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24),
       onTap: () async {
@@ -36,13 +33,8 @@ class CountryPicker extends StatelessWidget {
           items: countries ?? Country.all,
           initial: country,
           itemBuilder:
-              (context, country, {required bool selected}) => Text(
-                country.name,
-                style: TextStyle(
-                  fontSize: selected ? 19 : 17,
-                  color: Colors.white,
-                ),
-              ),
+              (context, country, {required bool selected}) =>
+                  Text(country.name, style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white)),
           onTap: (country, context) async => onSubmitted(country),
         );
       },
@@ -55,11 +47,7 @@ class CountryPicker extends StatelessWidget {
           color: country != null ? Colors.white : CpColors.greyColor,
         ),
       ),
-      trailing: const Icon(
-        Icons.keyboard_arrow_down_outlined,
-        color: Colors.white,
-        size: 28,
-      ),
+      trailing: const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white, size: 28),
     ),
   );
 }

@@ -32,18 +32,12 @@ import '../widgets/off_ramp_confirmation.dart';
 class OffRampOrderScreen extends StatefulWidget {
   const OffRampOrderScreen({super.key, required this.orderId});
 
-  static void push(BuildContext context, {required String id}) => Navigator.of(
-    context,
-  ).push<void>(
-    MaterialPageRoute(builder: (context) => OffRampOrderScreen(orderId: id)),
-  );
+  static void push(BuildContext context, {required String id}) =>
+      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => OffRampOrderScreen(orderId: id)));
 
-  static void pushReplacement(BuildContext context, {required String id}) =>
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(
-          builder: (context) => OffRampOrderScreen(orderId: id),
-        ),
-      );
+  static void pushReplacement(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).pushReplacement(MaterialPageRoute<void>(builder: (context) => OffRampOrderScreen(orderId: id)));
 
   final String orderId;
 
@@ -107,13 +101,9 @@ class OffRampOrderScreenContent extends StatelessWidget {
       await context.openMoneygramMoreInfoUrl(order);
     }
 
-    final String? statusTitle =
-        order.status == OffRampOrderStatus.completed
-            ? context.l10n.transferSuccessTitle
-            : null;
+    final String? statusTitle = order.status == OffRampOrderStatus.completed ? context.l10n.transferSuccessTitle : null;
 
-    final totalAmount =
-        order.fee?.let((fee) => order.amount + fee) ?? order.amount;
+    final totalAmount = order.fee?.let((fee) => order.amount + fee) ?? order.amount;
 
     final receiveAmount = order.receiveAmount;
 
@@ -121,28 +111,19 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
       OffRampOrderStatus.depositTxReady ||
-      OffRampOrderStatus.sendingDepositTx => context.l10n
-          .offRampWithdrawOngoing(totalAmount.format(locale)),
+      OffRampOrderStatus.sendingDepositTx => context.l10n.offRampWithdrawOngoing(totalAmount.format(locale)),
       OffRampOrderStatus.waitingForPartner =>
-        isMoneygramOrder
-            ? context.l10n.offRampWithdrawalInProgress
-            : context.l10n.offRampWaitingForPartner,
-      OffRampOrderStatus.depositTxConfirmError ||
-      OffRampOrderStatus.depositError => context.l10n.offRampDepositError,
-      OffRampOrderStatus.failure ||
-      OffRampOrderStatus.rejected => context.l10n.offRampWithdrawalFailure,
+        isMoneygramOrder ? context.l10n.offRampWithdrawalInProgress : context.l10n.offRampWaitingForPartner,
+      OffRampOrderStatus.depositTxConfirmError || OffRampOrderStatus.depositError => context.l10n.offRampDepositError,
+      OffRampOrderStatus.failure || OffRampOrderStatus.rejected => context.l10n.offRampWithdrawalFailure,
       OffRampOrderStatus.completed => context.l10n.offRampWithdrawSuccess,
-      OffRampOrderStatus.cancelled => context.l10n.offRampWithdrawCancelled(
-        totalAmount.format(locale),
-      ),
+      OffRampOrderStatus.cancelled => context.l10n.offRampWithdrawCancelled(totalAmount.format(locale)),
       OffRampOrderStatus.insufficientFunds =>
         '${context.l10n.splitKeyErrorMessage2} ${context.l10n.errorMessageInsufficientFunds}',
-      OffRampOrderStatus.preProcessing ||
-      OffRampOrderStatus.postProcessing => context.l10n.preparingWithdrawal,
+      OffRampOrderStatus.preProcessing || OffRampOrderStatus.postProcessing => context.l10n.preparingWithdrawal,
       OffRampOrderStatus.ready => context.l10n.openMoneygramIframeText,
       OffRampOrderStatus.processingRefund => context.l10n.processingRefund,
-      OffRampOrderStatus.waitingForRefundBridge =>
-        context.l10n.refundInProgressText,
+      OffRampOrderStatus.waitingForRefundBridge => context.l10n.refundInProgressText,
       OffRampOrderStatus.refunded => context.l10n.refundSuccessText,
       OffRampOrderStatus.waitingPartnerReview => 'Waiting for partner review',
     };
@@ -150,19 +131,11 @@ class OffRampOrderScreenContent extends StatelessWidget {
     final Widget? primaryButton = switch (order.status) {
       OffRampOrderStatus.depositError ||
       OffRampOrderStatus.depositTxConfirmError ||
-      OffRampOrderStatus.insufficientFunds =>
-        order.partner != RampPartner.moneygram
-            ? _RetryButton(handleRetry: handleRetry)
-            : null,
-      OffRampOrderStatus.failure ||
-      OffRampOrderStatus.rejected => const _ContactUsButton(),
-      OffRampOrderStatus.ready => _ContinueButton(
-        handleContinue: handleContinue,
-      ),
-      OffRampOrderStatus.waitingForPartner =>
-        isMoneygramOrder
-            ? _MoreInfoButton(handleMoreInfo: handleMoreInfo)
-            : null,
+      OffRampOrderStatus
+          .insufficientFunds => order.partner != RampPartner.moneygram ? _RetryButton(handleRetry: handleRetry) : null,
+      OffRampOrderStatus.failure || OffRampOrderStatus.rejected => const _ContactUsButton(),
+      OffRampOrderStatus.ready => _ContinueButton(handleContinue: handleContinue),
+      OffRampOrderStatus.waitingForPartner => isMoneygramOrder ? _MoreInfoButton(handleMoreInfo: handleMoreInfo) : null,
       OffRampOrderStatus.preProcessing ||
       OffRampOrderStatus.postProcessing ||
       OffRampOrderStatus.depositTxRequired ||
@@ -177,26 +150,18 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.waitingPartnerReview => null,
     };
 
-    final theme =
-        isMoneygramOrder
-            ? const CpThemeData.light()
-            : const CpThemeData.black();
+    final theme = isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.black();
 
     final showMoneygramCancel =
-        order.partner == RampPartner.moneygram &&
-        order.status == OffRampOrderStatus.insufficientFunds;
+        order.partner == RampPartner.moneygram && order.status == OffRampOrderStatus.insufficientFunds;
 
     final showCancelButton = order.status.isCancellable || showMoneygramCancel;
 
-    final bridgeTimeInMinutes =
-        order.status == OffRampOrderStatus.waitingForRefundBridge ? 3 : 10;
+    final bridgeTimeInMinutes = order.status == OffRampOrderStatus.waitingForRefundBridge ? 3 : 10;
 
     final bridgeSubtitleContent = [
       const SizedBox(height: 6),
-      Text(
-        context.l10n.transferInProgressText(bridgeTimeInMinutes),
-        style: const TextStyle(fontSize: 14),
-      ),
+      Text(context.l10n.transferInProgressText(bridgeTimeInMinutes), style: const TextStyle(fontSize: 14)),
     ];
 
     return StatusScreen(
@@ -205,26 +170,16 @@ class OffRampOrderScreenContent extends StatelessWidget {
       statusType: order.status.toStatusType(),
       statusTitle: statusTitle?.let(Text.new),
       statusContent: Column(
-        children: [
-          Text(statusContent),
-          if (order.status.isWaitingForBridge) ...bridgeSubtitleContent,
-        ],
+        children: [Text(statusContent), if (order.status.isWaitingForBridge) ...bridgeSubtitleContent],
       ),
       content: CpContentPadding(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _Timeline(
-                order: order,
-                amount: totalAmount,
-                receiveAmount: receiveAmount,
-              ),
+              _Timeline(order: order, amount: totalAmount, receiveAmount: receiveAmount),
               if (isMoneygramOrder) _MgAdditionalInfo(order: order),
               PartnerOrderIdWidget(orderId: order.partnerOrderId),
-              if (primaryButton != null) ...[
-                const SizedBox(height: 12),
-                primaryButton,
-              ],
+              if (primaryButton != null) ...[const SizedBox(height: 12), primaryButton],
               Visibility(
                 visible: showCancelButton,
                 maintainSize: true,
@@ -246,12 +201,8 @@ class _RetryButton extends StatelessWidget {
   final VoidCallback handleRetry;
 
   @override
-  Widget build(BuildContext context) => CpButton(
-    size: CpButtonSize.big,
-    width: double.infinity,
-    text: context.l10n.retry,
-    onPressed: handleRetry,
-  );
+  Widget build(BuildContext context) =>
+      CpButton(size: CpButtonSize.big, width: double.infinity, text: context.l10n.retry, onPressed: handleRetry);
 }
 
 class _ContinueButton extends StatelessWidget {
@@ -274,12 +225,8 @@ class _MoreInfoButton extends StatelessWidget {
   final VoidCallback handleMoreInfo;
 
   @override
-  Widget build(BuildContext context) => CpButton(
-    size: CpButtonSize.big,
-    width: double.infinity,
-    text: context.l10n.moreInfo,
-    onPressed: handleMoreInfo,
-  );
+  Widget build(BuildContext context) =>
+      CpButton(size: CpButtonSize.big, width: double.infinity, text: context.l10n.moreInfo, onPressed: handleMoreInfo);
 }
 
 class _CancelButton extends StatelessWidget {
@@ -318,14 +265,8 @@ class _MgAdditionalInfo extends StatelessWidget {
   Widget build(BuildContext context) => Column(
     children: [
       if (order.fee case final fee?)
-        Text(
-          'MoneyGram Fee: ${fee.format(context.locale, maxDecimals: 2)}',
-          style: _additionalInfoTextStyle,
-        ),
-      Text(
-        'Status: ${order.status.toMoneygramStatus(context).toUpperCase()}',
-        style: _additionalInfoTextStyle,
-      ),
+        Text('MoneyGram Fee: ${fee.format(context.locale, maxDecimals: 2)}', style: _additionalInfoTextStyle),
+      Text('Status: ${order.status.toMoneygramStatus(context).toUpperCase()}', style: _additionalInfoTextStyle),
       if (order.moreInfoUrl case final moreInfoUrl?)
         Text.rich(
           TextSpan(
@@ -345,13 +286,10 @@ class _MgAdditionalInfo extends StatelessWidget {
                         WebViewScreen.push(
                           context,
                           url: Uri.parse(moreInfoUrl),
-                          title:
-                              context.l10n.offRampWithdrawTitle.toUpperCase(),
+                          title: context.l10n.offRampWithdrawTitle.toUpperCase(),
                           theme: const CpThemeData.light(),
                           onLoaded: (controller) async {
-                            await controller.evaluateJavascript(
-                              source: await loadMoneygramStyle(),
-                            );
+                            await controller.evaluateJavascript(source: await loadMoneygramStyle());
                           },
                         );
                       },
@@ -360,20 +298,13 @@ class _MgAdditionalInfo extends StatelessWidget {
           ),
         ),
       if (order.referenceNumber case final referenceNumber?)
-        Text(
-          'Reference number: $referenceNumber',
-          style: _additionalInfoTextStyle,
-        ),
+        Text('Reference number: $referenceNumber', style: _additionalInfoTextStyle),
     ],
   );
 }
 
 class _Timeline extends StatelessWidget {
-  const _Timeline({
-    required this.order,
-    required this.amount,
-    this.receiveAmount,
-  });
+  const _Timeline({required this.order, required this.amount, this.receiveAmount});
 
   final OffRampOrder order;
   final Amount amount;
@@ -384,16 +315,11 @@ class _Timeline extends StatelessWidget {
     final isMoneygramOrder = order.partner == RampPartner.moneygram;
     final CpTimelineStatus timelineStatus = order.status.toTimelineStatus();
     final animatedForMoneygram =
-        (order.status != OffRampOrderStatus.ready &&
-            order.status != OffRampOrderStatus.waitingForPartner) ||
+        (order.status != OffRampOrderStatus.ready && order.status != OffRampOrderStatus.waitingForPartner) ||
         !isMoneygramOrder;
-    final animated =
-        timelineStatus == CpTimelineStatus.inProgress && animatedForMoneygram;
+    final animated = timelineStatus == CpTimelineStatus.inProgress && animatedForMoneygram;
 
-    final int activeItem =
-        isMoneygramOrder
-            ? order.status.toActiveItemForMoneygram()
-            : order.status.toActiveItem();
+    final int activeItem = isMoneygramOrder ? order.status.toActiveItemForMoneygram() : order.status.toActiveItem();
 
     final withdrawInitiated = CpTimelineItem(
       title: context.l10n.offRampWithdrawInitiated,
@@ -401,8 +327,7 @@ class _Timeline extends StatelessWidget {
       subtitle: order.created.let((t) => context.formatDate(t)),
     );
 
-    final showReceiveAmount =
-        isMoneygramOrder ? order.status.showMoneygramReceiveAmount : true;
+    final showReceiveAmount = isMoneygramOrder ? order.status.showMoneygramReceiveAmount : true;
 
     final bridgeFeeAmount = order.bridgeAmount?.let((e) {
       if (e.value == 0) return null;
@@ -413,30 +338,20 @@ class _Timeline extends StatelessWidget {
     final bridgingToStellar = CpTimelineItem(
       title: context.l10n.bridgingText,
       subtitle:
-          bridgeFeeAmount != null
-              ? '${bridgeFeeAmount.format(context.locale, maxDecimals: 2)} fee applied'
-              : null,
+          bridgeFeeAmount != null ? '${bridgeFeeAmount.format(context.locale, maxDecimals: 2)} fee applied' : null,
     );
     final amountSent = CpTimelineItem(
-      title:
-          isMoneygramOrder
-              ? context.l10n.moneygramCashAvailable
-              : context.l10n.offRampWithdrawSent,
+      title: isMoneygramOrder ? context.l10n.moneygramCashAvailable : context.l10n.offRampWithdrawSent,
     );
     final isScalexBrij = order.partner == RampPartner.scalexBrij;
-    final brijAmountArriving = CpTimelineItem(
-      title: context.l10n.scalexBrijOfframpArriving,
-    );
+    final brijAmountArriving = CpTimelineItem(title: context.l10n.scalexBrijOfframpArriving);
 
     final paymentSuccess =
         isScalexBrij
             ? brijAmountArriving
             : CpTimelineItem(
               title: context.l10n.offRampWithdrawReceived,
-              trailing:
-                  showReceiveAmount
-                      ? receiveAmount?.format(context.locale)
-                      : null,
+              trailing: showReceiveAmount ? receiveAmount?.format(context.locale) : null,
               subtitle: order.resolved?.let((t) => context.formatDate(t)),
             );
 
@@ -444,26 +359,16 @@ class _Timeline extends StatelessWidget {
       title: context.l10n.offRampWithdrawCancelledTitle,
       trailing:
           isMoneygramOrder
-              ? order.refundAmount?.let(
-                (e) =>
-                    e.isZero ? null : e.format(context.locale, maxDecimals: 2),
-              )
+              ? order.refundAmount?.let((e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2))
               : null,
       subtitle: order.resolved?.let((t) => context.formatDate(t)),
     );
     final refunding = CpTimelineItem(
       title: 'Refunding USDC',
-      trailing: order.bridgeAmount?.let(
-        (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
-      ),
+      trailing: order.bridgeAmount?.let((e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2)),
     );
 
-    final normalItems = [
-      withdrawInitiated,
-      if (isMoneygramOrder) bridgingToStellar,
-      amountSent,
-      paymentSuccess,
-    ];
+    final normalItems = [withdrawInitiated, if (isMoneygramOrder) bridgingToStellar, amountSent, paymentSuccess];
 
     final cancelingItems = [withdrawInitiated, paymentCanceled];
 
@@ -476,12 +381,7 @@ class _Timeline extends StatelessWidget {
             ? refundingItems
             : normalItems;
 
-    return CpTimeline(
-      status: timelineStatus,
-      items: items,
-      active: activeItem,
-      animated: animated,
-    );
+    return CpTimeline(status: timelineStatus, items: items, active: activeItem, animated: animated);
   }
 }
 
@@ -504,8 +404,7 @@ extension on OffRampOrderStatus {
     OffRampOrderStatus.rejected ||
     OffRampOrderStatus.failure => CpStatusType.error,
     OffRampOrderStatus.completed => CpStatusType.success,
-    OffRampOrderStatus.cancelled ||
-    OffRampOrderStatus.refunded => CpStatusType.neutral,
+    OffRampOrderStatus.cancelled || OffRampOrderStatus.refunded => CpStatusType.neutral,
   };
 
   CpTimelineStatus toTimelineStatus() => switch (this) {
@@ -526,8 +425,7 @@ extension on OffRampOrderStatus {
     OffRampOrderStatus.rejected ||
     OffRampOrderStatus.failure => CpTimelineStatus.failure,
     OffRampOrderStatus.completed => CpTimelineStatus.success,
-    OffRampOrderStatus.cancelled ||
-    OffRampOrderStatus.refunded => CpTimelineStatus.neutral,
+    OffRampOrderStatus.cancelled || OffRampOrderStatus.refunded => CpTimelineStatus.neutral,
   };
 
   int toActiveItem() => switch (this) {
@@ -584,9 +482,7 @@ extension on OffRampOrderStatus {
       this == OffRampOrderStatus.postProcessing;
 
   bool get showMoneygramReceiveAmount => switch (this) {
-    OffRampOrderStatus.sendingDepositTx ||
-    OffRampOrderStatus.completed ||
-    OffRampOrderStatus.waitingForPartner => true,
+    OffRampOrderStatus.sendingDepositTx || OffRampOrderStatus.completed || OffRampOrderStatus.waitingForPartner => true,
     OffRampOrderStatus.depositTxRequired ||
     OffRampOrderStatus.depositTxReady ||
     OffRampOrderStatus.processingRefund ||
@@ -628,7 +524,4 @@ extension on OffRampOrderStatus {
   };
 }
 
-const _additionalInfoTextStyle = TextStyle(
-  color: Color(0xFF979593),
-  fontSize: 14,
-);
+const _additionalInfoTextStyle = TextStyle(color: Color(0xFF979593), fontSize: 14);

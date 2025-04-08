@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PinDisplay extends StatelessWidget {
-  const PinDisplay({
-    super.key,
-    required this.maxDigits,
-    required this.currentDigits,
-  });
+  const PinDisplay({super.key, required this.maxDigits, required this.currentDigits});
 
   final int maxDigits;
   final int currentDigits;
@@ -36,9 +32,6 @@ class PinDisplay extends StatelessWidget {
   Widget build(BuildContext context) => Flex(
     direction: Axis.horizontal,
     mainAxisAlignment: MainAxisAlignment.center,
-    children: List.generate(
-      maxDigits,
-      (index) => index < currentDigits ? _filled : _empty,
-    ),
+    children: List.generate(maxDigits, (index) => index < currentDigits ? _filled : _empty),
   );
 }

@@ -8,14 +8,8 @@ final cpButton = Story(
   builder:
       (context) => CpButton(
         text: context.knobs.text(label: 'Text', initial: 'Press me'),
-        onPressed:
-            context.knobs.boolean(label: 'Enabled', initial: true)
-                ? () {}
-                : null,
-        width:
-            context.knobs.boolean(label: 'Full width', initial: false)
-                ? double.infinity
-                : null,
+        onPressed: context.knobs.boolean(label: 'Enabled', initial: true) ? () {} : null,
+        width: context.knobs.boolean(label: 'Full width', initial: false) ? double.infinity : null,
         variant: context.knobs.options(
           label: 'Variant',
           initial: CpButtonVariant.dark,

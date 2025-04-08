@@ -31,9 +31,8 @@ class ScalexOnRampOrderWatcher implements RampWatcher {
         .whereNotNull()
         .asyncMap((order) => _client.fetchStatus(order.partnerOrderId))
         .listen((data) async {
-          final statement = _db.update(_db.onRampOrderRows)..where(
-            (tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false),
-          );
+          final statement = _db.update(_db.onRampOrderRows)
+            ..where((tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false));
 
           final isCompleted = data == ScalexOrderStatus.completed;
           final isExpired = data == ScalexOrderStatus.expired;
@@ -48,18 +47,11 @@ class ScalexOnRampOrderWatcher implements RampWatcher {
                   : null;
 
           if (isCompleted) {
-            _analytics.rampCompleted(
-              partnerName: RampPartner.scalex.name,
-              rampType: RampType.onRamp.name,
-              id: orderId,
-            );
+            _analytics.rampCompleted(partnerName: RampPartner.scalex.name, rampType: RampType.onRamp.name, id: orderId);
           }
 
           await statement.write(
-            OnRampOrderRowsCompanion(
-              status: Value.ofNullable(status),
-              isCompleted: Value(isCompleted),
-            ),
+            OnRampOrderRowsCompanion(status: Value.ofNullable(status), isCompleted: Value(isCompleted)),
           );
         });
   }

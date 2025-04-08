@@ -16,21 +16,9 @@ final cpRoundedRectangle = Story(
           children: const [
             CpRoundedRectangle(
               backgroundColor: CpColors.successBackgroundColor,
-              child: Center(
-                child: Text(
-                  'Custom color',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+              child: Center(child: Text('Custom color', style: TextStyle(color: Colors.white))),
             ),
-            CpRoundedRectangle(
-              child: Center(
-                child: Text(
-                  'Default color',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
+            CpRoundedRectangle(child: Center(child: Text('Default color', style: TextStyle(color: Colors.white)))),
             ColoredBox(
               color: Colors.blue,
               child: CpRoundedRectangle(
@@ -38,12 +26,7 @@ final cpRoundedRectangle = Story(
                 padding: EdgeInsets.all(32),
                 child: ColoredBox(
                   color: Colors.red,
-                  child: Center(
-                    child: Text(
-                      'Custom margin & padding',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                  child: Center(child: Text('Custom margin & padding', style: TextStyle(color: Colors.white))),
                 ),
               ),
             ),
@@ -51,12 +34,7 @@ final cpRoundedRectangle = Story(
               child: SizedBox(
                 height: 100,
                 child: CpRoundedRectangle(
-                  child: Center(
-                    child: Text(
-                      'Smaller size',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                  child: Center(child: Text('Smaller size', style: TextStyle(color: Colors.white))),
                 ),
               ),
             ),

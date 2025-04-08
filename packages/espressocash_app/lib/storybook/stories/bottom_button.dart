@@ -16,10 +16,7 @@ final cpBottomButton = Story(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: CpBottomButton(
                 text: 'Press me',
-                onPressed:
-                    context.knobs.boolean(label: 'Enabled', initial: true)
-                        ? () {}
-                        : null,
+                onPressed: context.knobs.boolean(label: 'Enabled', initial: true) ? () {} : null,
               ),
             ),
           ],

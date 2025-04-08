@@ -37,10 +37,7 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
       if (sl<AccountService>().value == null) {
         SignInFlowScreen.open(context, navigator: _navigator.currentState);
       } else if (sl<OnboardingRepository>().hasFinishedOnboarding) {
-        AuthenticatedFlowScreen.open(
-          context,
-          navigator: _navigator.currentState,
-        );
+        AuthenticatedFlowScreen.open(context, navigator: _navigator.currentState);
       } else {
         OnboardingFlowScreen.open(context, navigator: _navigator.currentState);
       }

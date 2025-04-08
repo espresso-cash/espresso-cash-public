@@ -8,12 +8,7 @@ import '../../ramp_partner/models/ramp_partner.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 
 class PartnerTile extends StatelessWidget {
-  const PartnerTile({
-    super.key,
-    required this.partner,
-    required this.type,
-    required this.onPartnerSelected,
-  });
+  const PartnerTile({super.key, required this.partner, required this.type, required this.onPartnerSelected});
 
   final RampPartner partner;
   final RampType type;
@@ -25,45 +20,28 @@ class PartnerTile extends StatelessWidget {
     child: DecoratedBox(
       decoration: ShapeDecoration(
         color: CpColors.blackGreyColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30.r)),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30.r))),
       ),
       child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30.r)),
-        ),
-        leading: Container(
-          alignment: Alignment.center,
-          width: 40.w,
-          child: partner.logo.image(),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30.r))),
+        leading: Container(alignment: Alignment.center, width: 40.w, child: partner.logo.image()),
         minLeadingWidth: 40.w,
         contentPadding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 10.h),
         title: Padding(
           padding: const EdgeInsets.only(bottom: 4),
-          child: Text(
-            partner.title,
-            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
-          ),
+          child: Text(partner.title, style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600)),
         ),
         subtitle: Row(
           children: [
-            for (final method in partner.paymentMethods) ...[
-              method.logo.svg(width: 30.w),
-              SizedBox(width: 4.w),
-            ],
+            for (final method in partner.paymentMethods) ...[method.logo.svg(width: 30.w), SizedBox(width: 4.w)],
             if (partner == RampPartner.moneygram) ...[
               Text(switch (type) {
                 RampType.onRamp => context.l10n.moneygramPaymentMethodOnRamp,
                 RampType.offRamp => context.l10n.moneygramPaymentMethodOffRamp,
-              }, style: _subtitleStyle),
+              }, style: _subtitleStyle,),
             ],
             const Spacer(),
-            Text(
-              context.l10n.rampMinimumTransferAmount(partner.minimumAmount),
-              style: _subtitleStyle,
-            ),
+            Text(context.l10n.rampMinimumTransferAmount(partner.minimumAmount), style: _subtitleStyle),
           ],
         ),
         onTap: () => onPartnerSelected(partner),
@@ -72,8 +50,4 @@ class PartnerTile extends StatelessWidget {
   );
 }
 
-final _subtitleStyle = TextStyle(
-  fontSize: 14.sp,
-  color: Colors.white,
-  fontWeight: FontWeight.w400,
-);
+final _subtitleStyle = TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400);

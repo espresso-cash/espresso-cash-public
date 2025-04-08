@@ -8,6 +8,5 @@ class EscrowArgument with _$EscrowArgument {
 
   const EscrowArgument._();
 
-  factory EscrowArgument.fromBorsh(Uint8List data) =>
-      _$EscrowArgumentFromBorsh(data);
+  factory EscrowArgument.fromBorsh(Uint8List data) => _$EscrowArgumentFromBorsh(data);
 }

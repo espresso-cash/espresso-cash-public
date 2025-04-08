@@ -28,8 +28,7 @@ class PickImageContainer extends StatelessWidget {
             image:
                 image == null
                     // ignore: avoid-unnecessary-type-casts, needed here
-                    ? Svg(Assets.images.imagePickerIcon.path)
-                        as ImageProvider<Object>
+                    ? Svg(Assets.images.imagePickerIcon.path) as ImageProvider<Object>
                     : FileImage(image),
           ),
         ),

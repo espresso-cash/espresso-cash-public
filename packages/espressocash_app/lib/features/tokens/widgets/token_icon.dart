@@ -20,19 +20,12 @@ class TokenIcon extends StatelessWidget {
 
     return url == '' || url == null
         ? _DefaultIcon(size: size)
-        : ClipRRect(
-          borderRadius: borderRadius,
-          child: _TokenIconImage(url: url, cacheKey: token.symbol, size: size),
-        );
+        : ClipRRect(borderRadius: borderRadius, child: _TokenIconImage(url: url, cacheKey: token.symbol, size: size));
   }
 }
 
 class _TokenIconImage extends StatelessWidget {
-  const _TokenIconImage({
-    required this.url,
-    required this.cacheKey,
-    required this.size,
-  });
+  const _TokenIconImage({required this.url, required this.cacheKey, required this.size});
 
   @override
   Widget build(BuildContext context) =>
@@ -42,16 +35,11 @@ class _TokenIconImage extends StatelessWidget {
             cacheKey: cacheKey,
             height: size,
             width: size,
-            errorWidget:
-                (BuildContext context, String url, dynamic error) =>
-                    const _DefaultIcon(),
+            errorWidget: (BuildContext context, String url, dynamic error) => const _DefaultIcon(),
             imageUrl: url,
             imageBuilder:
                 (context, provider) => DecoratedBox(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(image: provider),
-                  ),
+                  decoration: BoxDecoration(shape: BoxShape.circle, image: DecorationImage(image: provider)),
                 ),
           );
 
@@ -64,8 +52,7 @@ class _DefaultIcon extends StatelessWidget {
   const _DefaultIcon({this.size});
 
   @override
-  Widget build(BuildContext context) =>
-      Image.asset(Assets.images.tokenLogo.path, width: size, height: size);
+  Widget build(BuildContext context) => Image.asset(Assets.images.tokenLogo.path, width: size, height: size);
 
   final double? size;
 }

@@ -54,15 +54,7 @@ class CpIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     width: _size,
-    decoration: ShapeDecoration(
-      shape: const CircleBorder(),
-      color: _backgroundColor,
-    ),
-    child: IconButton(
-      iconSize: _size,
-      padding: const EdgeInsets.all(6),
-      icon: icon,
-      onPressed: onPressed,
-    ),
+    decoration: ShapeDecoration(shape: const CircleBorder(), color: _backgroundColor),
+    child: IconButton(iconSize: _size, padding: const EdgeInsets.all(6), icon: icon, onPressed: onPressed),
   );
 }

@@ -15,11 +15,7 @@ import '../../link_payments/models/link_payment.dart';
 import '../widgets/terms_disclaimer.dart';
 
 class GetStartedScreen extends StatefulWidget {
-  const GetStartedScreen({
-    super.key,
-    required this.onSignInPressed,
-    required this.onLocalPressed,
-  });
+  const GetStartedScreen({super.key, required this.onSignInPressed, required this.onLocalPressed});
 
   final VoidCallback onSignInPressed;
   final VoidCallback onLocalPressed;
@@ -56,12 +52,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                     backgroundColor: CpColors.lightSandColor,
                     body: Stack(
                       children: [
-                        Align(
-                          child: Assets.images.dollarBg.image(
-                            fit: BoxFit.fitHeight,
-                            height: double.infinity,
-                          ),
-                        ),
+                        Align(child: Assets.images.dollarBg.image(fit: BoxFit.fitHeight, height: double.infinity)),
                         SafeArea(
                           minimum: EdgeInsets.only(top: 70.h),
                           child: LayoutBuilder(
@@ -74,21 +65,16 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                                     ),
                                     child: IntrinsicHeight(
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
-                                          const Expanded(
-                                            child: Center(child: SplashLogo()),
-                                          ),
+                                          const Expanded(child: Center(child: SplashLogo())),
                                           Column(
                                             children: [
                                               const _Body(),
                                               24.verticalSpace,
                                               _Footer(
-                                                onSignInPressed:
-                                                    widget.onSignInPressed,
-                                                onLocalPressed:
-                                                    widget.onLocalPressed,
+                                                onSignInPressed: widget.onSignInPressed,
+                                                onLocalPressed: widget.onLocalPressed,
                                               ),
                                             ],
                                           ),
@@ -137,10 +123,7 @@ class _Footer extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
         ),
         67.verticalSpace,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 19.w),
-          child: const TermsDisclaimer(),
-        ),
+        Padding(padding: EdgeInsets.symmetric(horizontal: 19.w), child: const TermsDisclaimer()),
         SizedBox(height: 12.h),
       ],
     ),
@@ -153,12 +136,8 @@ class _CreateLocalWalletButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => CpButton(
-    key: keyCreateWalletButton,
-    text: context.l10n.signUp,
-    width: double.infinity,
-    onPressed: onPressed,
-  );
+  Widget build(BuildContext context) =>
+      CpButton(key: keyCreateWalletButton, text: context.l10n.signUp, width: double.infinity, onPressed: onPressed);
 }
 
 class _Body extends StatelessWidget {
@@ -177,30 +156,17 @@ class _Body extends StatelessWidget {
                     ? [
                       Text(
                         context.l10n.onboardingWithPaymentTitle.toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 46.sp,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.25,
-                        ),
+                        style: TextStyle(fontSize: 46.sp, fontWeight: FontWeight.w900, letterSpacing: 0.25),
                       ),
                       Text(
-                        context.l10n.onboardingWithPaymentSubtitle
-                            .toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.25,
-                        ),
+                        context.l10n.onboardingWithPaymentSubtitle.toUpperCase(),
+                        style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w900, letterSpacing: 0.25),
                       ),
                     ]
                     : [
                       Text(
                         context.l10n.onboardingIntro.toUpperCase(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 46.sp,
-                          height: 0.9,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w900, fontSize: 46.sp, height: 0.9),
                       ),
                     ],
           ),

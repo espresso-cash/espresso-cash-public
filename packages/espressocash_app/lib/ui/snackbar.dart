@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../l10n/l10n.dart';
 
-void showCpSnackbar(
-  BuildContext context, {
-  required String message,
-  Widget? icon,
-}) {
+void showCpSnackbar(BuildContext context, {required String message, Widget? icon}) {
   final snackbar = SnackBar(
     behavior: SnackBarBehavior.floating,
     shape: const StadiumBorder(),
@@ -15,15 +11,8 @@ void showCpSnackbar(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (icon != null)
-            Container(
-              height: 24,
-              margin: const EdgeInsets.only(right: 16),
-              child: icon,
-            ),
-          Expanded(
-            child: Text(message, style: const TextStyle(color: Colors.white)),
-          ),
+          if (icon != null) Container(height: 24, margin: const EdgeInsets.only(right: 16), child: icon),
+          Expanded(child: Text(message, style: const TextStyle(color: Colors.white))),
         ],
       ),
     ),
@@ -33,11 +22,7 @@ void showCpSnackbar(
 }
 
 void showCpErrorSnackbar(BuildContext context, {required String message}) =>
-    showCpSnackbar(
-      context,
-      message: message,
-      icon: const Icon(Icons.error, color: Colors.red),
-    );
+    showCpSnackbar(context, message: message, icon: const Icon(Icons.error, color: Colors.red));
 
 void showClipboardSnackbar(BuildContext context) => showCpSnackbar(
   context,

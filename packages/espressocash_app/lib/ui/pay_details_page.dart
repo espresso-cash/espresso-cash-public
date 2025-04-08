@@ -24,28 +24,20 @@ class PayDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.black(
     child: Scaffold(
-      appBar: CpAppBar(
-        leading: const CpBackButton(),
-        title: Text(title.toUpperCase()),
-      ),
+      appBar: CpAppBar(leading: const CpBackButton(), title: Text(title.toUpperCase())),
       extendBodyBehindAppBar: true,
       backgroundColor: backgroundColor,
       body: LayoutBuilder(
         builder:
             (context, viewportConstraints) => SingleChildScrollView(
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight,
-                ),
+                constraints: BoxConstraints(minHeight: viewportConstraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Stack(
                     children: [
                       _Header(icon: headerIcon, background: headerBackground),
                       Column(
-                        children: [
-                          SizedBox(height: viewportConstraints.maxHeight * 0.4),
-                          Expanded(child: content),
-                        ],
+                        children: [SizedBox(height: viewportConstraints.maxHeight * 0.4), Expanded(child: content)],
                       ),
                     ],
                   ),
@@ -69,11 +61,7 @@ class _Header extends StatelessWidget {
     child: Stack(
       alignment: Alignment.center,
       children: [
-        background.image(
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: double.infinity,
-        ),
+        background.image(fit: BoxFit.cover, width: double.infinity, height: double.infinity),
         if (icon case final icon?) icon.image(height: 160),
       ],
     ),

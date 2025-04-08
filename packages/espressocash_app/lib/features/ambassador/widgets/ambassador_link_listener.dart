@@ -13,8 +13,7 @@ class AmbassadorLinkListener extends StatefulWidget {
   State<AmbassadorLinkListener> createState() => _AmbassadorLinkListenerState();
 }
 
-class _AmbassadorLinkListenerState extends State<AmbassadorLinkListener>
-    with DynamicLinkHandler {
+class _AmbassadorLinkListenerState extends State<AmbassadorLinkListener> with DynamicLinkHandler {
   @override
   bool handleDynamicLink(Uri uri) {
     final referral = AmbassadorReferral.tryParse(uri.toString());

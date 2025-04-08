@@ -31,11 +31,7 @@ enum RampPartner {
   coinflow(
     title: 'Coinflow',
     minimumAmount: r'$20',
-    paymentMethods: [
-      PaymentMethod.visa,
-      PaymentMethod.mastercard,
-      PaymentMethod.bank,
-    ],
+    paymentMethods: [PaymentMethod.visa, PaymentMethod.mastercard, PaymentMethod.bank],
   ),
 
   guardarian(
@@ -51,11 +47,7 @@ enum RampPartner {
     ],
   ),
 
-  scalex(
-    title: 'Scalex',
-    minimumAmount: r'$5',
-    paymentMethods: [PaymentMethod.bank],
-  ),
+  scalex(title: 'Scalex', minimumAmount: r'$5', paymentMethods: [PaymentMethod.bank]),
 
   moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []),
 
@@ -73,12 +65,7 @@ enum RampPartner {
     partnerPK: '342yN5YEX6bgGaTCuprVquFXhpZ8twyPzBo5kMZWQpDQ',
   );
 
-  const RampPartner({
-    required this.title,
-    required this.minimumAmount,
-    required this.paymentMethods,
-    this.partnerPK,
-  });
+  const RampPartner({required this.title, required this.minimumAmount, required this.paymentMethods, this.partnerPK});
 
   final String title;
   final String minimumAmount;
@@ -86,8 +73,7 @@ enum RampPartner {
 
   final String? partnerPK;
 
-  Decimal get minimumAmountInDecimal =>
-      Decimal.parse(minimumAmount.substring(1));
+  Decimal get minimumAmountInDecimal => Decimal.parse(minimumAmount.substring(1));
 }
 
 extension RampPartnerAssets on RampPartner {

@@ -19,10 +19,7 @@ extension BuildContextExt on BuildContext {
     const currency = Currency.usdc;
     final payment = await sl<ODPService>().create(
       account: sl<MyAccount>().wallet,
-      amount: CryptoAmount(
-        value: currency.decimalToInt(amountInUsdc),
-        cryptoCurrency: currency,
-      ),
+      amount: CryptoAmount(value: currency.decimalToInt(amountInUsdc), cryptoCurrency: currency),
       receiver: receiver,
       reference: reference,
     );
@@ -30,44 +27,39 @@ extension BuildContextExt on BuildContext {
     return payment.id;
   });
 
-  Future<void> cancelODP({required String paymentId}) =>
-      runWithLoader(this, () async {
-        await sl<ODPService>().cancel(paymentId);
-        Navigator.pop(this);
-      });
+  Future<void> cancelODP({required String paymentId}) => runWithLoader(this, () async {
+    await sl<ODPService>().cancel(paymentId);
+    Navigator.pop(this);
+  });
 
-  Future<bool> isSolanaPayRequestPaid({required SolanaPayRequest request}) =>
-      runWithLoader(this, () async {
-        final client = sl<SolanaClient>();
+  Future<bool> isSolanaPayRequestPaid({required SolanaPayRequest request}) => runWithLoader(this, () async {
+    final client = sl<SolanaClient>();
 
-        final reference = request.reference?.firstOrNull;
+    final reference = request.reference?.firstOrNull;
 
-        if (reference == null) {
-          return false;
-        }
+    if (reference == null) {
+      return false;
+    }
 
-        final signature = await client.findSolanaPayTransaction(
-          reference: reference,
-          commitment: Commitment.confirmed,
-        );
+    final signature = await client.findSolanaPayTransaction(reference: reference, commitment: Commitment.confirmed);
 
-        if (signature == null) {
-          return false;
-        }
+    if (signature == null) {
+      return false;
+    }
 
-        try {
-          await client.validateSolanaPayTransaction(
-            signature: signature,
-            recipient: request.recipient,
-            splToken: request.splToken,
-            reference: request.reference,
-            amount: request.amount ?? Decimal.zero,
-            commitment: Commitment.confirmed,
-          );
+    try {
+      await client.validateSolanaPayTransaction(
+        signature: signature,
+        recipient: request.recipient,
+        splToken: request.splToken,
+        reference: request.reference,
+        amount: request.amount ?? Decimal.zero,
+        commitment: Commitment.confirmed,
+      );
 
-          return true;
-        } on Exception {
-          return false;
-        }
-      });
+      return true;
+    } on Exception {
+      return false;
+    }
+  });
 }

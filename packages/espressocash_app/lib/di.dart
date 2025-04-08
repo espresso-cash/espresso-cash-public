@@ -25,10 +25,8 @@ abstract class AppModule {
   Dio get dio => Dio();
 
   @lazySingleton
-  SolanaClient get solanaClient => SolanaClient(
-    rpcUrl: Uri.parse(solanaRpcUrl),
-    websocketUrl: Uri.parse(solanaWebSocketUrl),
-  );
+  SolanaClient get solanaClient =>
+      SolanaClient(rpcUrl: Uri.parse(solanaRpcUrl), websocketUrl: Uri.parse(solanaWebSocketUrl));
 
   @lazySingleton
   RpcClient get rpcClient => solanaClient.rpcClient;
@@ -39,10 +37,7 @@ abstract class AppModule {
   @singleton
   @preResolve
   Future<Mixpanel> mixpanel() async {
-    final mixpanel = await Mixpanel.init(
-      const String.fromEnvironment('MIXPANEL_TOKEN'),
-      trackAutomaticEvents: true,
-    );
+    final mixpanel = await Mixpanel.init(const String.fromEnvironment('MIXPANEL_TOKEN'), trackAutomaticEvents: true);
     mixpanel.setServerURL('https://api-eu.mixpanel.com');
 
     return mixpanel;

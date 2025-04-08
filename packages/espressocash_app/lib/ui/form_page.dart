@@ -33,36 +33,21 @@ class FormPage extends StatelessWidget {
 
     return CpTheme.black(
       child: Scaffold(
-        appBar: CpAppBar(
-          scrolledUnderColor: bgColor,
-          leading: const CpBackButton(),
-          title: title,
-        ),
+        appBar: CpAppBar(scrolledUnderColor: bgColor, leading: const CpBackButton(), title: title),
         backgroundColor: bgColor,
         extendBodyBehindAppBar: true,
         body: Stack(
           children: [
-            Align(
-              child: backgroundImage?.image(
-                fit: BoxFit.fitHeight,
-                height: double.infinity,
-              ),
-            ),
+            Align(child: backgroundImage?.image(fit: BoxFit.fitHeight, height: double.infinity)),
             LayoutBuilder(
               builder:
                   (context, constraints) => SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: constraints.maxHeight,
-                      ),
+                      constraints: BoxConstraints(minHeight: constraints.maxHeight),
                       child: IntrinsicHeight(
                         child: Column(
                           children: [
-                            _Header(
-                              colorTheme: colorTheme,
-                              content: header,
-                              showImage: backgroundImage == null,
-                            ),
+                            _Header(colorTheme: colorTheme, content: header, showImage: backgroundImage == null),
                             _Content(child: child),
                           ],
                         ),
@@ -102,22 +87,14 @@ class FormPageHeader extends StatelessWidget {
         child: title,
       ),
       const SizedBox(height: 16),
-      DefaultTextStyle(
-        style: const TextStyle(fontSize: 13),
-        textAlign: TextAlign.center,
-        child: description,
-      ),
+      DefaultTextStyle(style: const TextStyle(fontSize: 13), textAlign: TextAlign.center, child: description),
       const SizedBox(height: 70),
     ],
   );
 }
 
 class _Header extends StatelessWidget {
-  const _Header({
-    required this.colorTheme,
-    required this.content,
-    required this.showImage,
-  });
+  const _Header({required this.colorTheme, required this.content, required this.showImage});
 
   final FormPageColorTheme colorTheme;
   final Widget content;
@@ -135,11 +112,7 @@ class _Header extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       children: [
         if (showImage) ...[
-          image.image(
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
+          image.image(fit: BoxFit.cover, width: double.infinity, height: double.infinity),
           Container(
             height: 150,
             decoration: BoxDecoration(
@@ -147,14 +120,8 @@ class _Header extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: switch (colorTheme) {
-                  FormPageColorTheme.orange => [
-                    const Color(0x00D06022),
-                    CpColors.darkOrangeBackgroundColor,
-                  ],
-                  FormPageColorTheme.gold => [
-                    const Color(0x00C8B57D),
-                    CpColors.goldBackgroundColor,
-                  ],
+                  FormPageColorTheme.orange => [const Color(0x00D06022), CpColors.darkOrangeBackgroundColor],
+                  FormPageColorTheme.gold => [const Color(0x00C8B57D), CpColors.goldBackgroundColor],
                 },
               ),
             ),
@@ -166,10 +133,7 @@ class _Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: MediaQuery.paddingOf(context).top),
-              Expanded(child: content),
-            ],
+            children: [SizedBox(height: MediaQuery.paddingOf(context).top), Expanded(child: content)],
           ),
         ),
       ],
@@ -184,10 +148,6 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Expanded(
-    child: SafeArea(
-      top: false,
-      minimum: const EdgeInsets.only(bottom: 75, left: 40, right: 40),
-      child: child,
-    ),
+    child: SafeArea(top: false, minimum: const EdgeInsets.only(bottom: 75, left: 40, right: 40), child: child),
   );
 }

@@ -7,23 +7,12 @@ import '../../../l10n/l10n.dart';
 import '../../blockchain/models/blockchain.dart';
 
 class NetworkPickerScreen extends StatelessWidget {
-  const NetworkPickerScreen({
-    super.key,
-    this.initial,
-    required this.onSubmitted,
-  });
+  const NetworkPickerScreen({super.key, this.initial, required this.onSubmitted});
 
-  static void push(
-    BuildContext context, {
-    Blockchain? initial,
-    required ValueSetter<Blockchain> onSubmitted,
-  }) => Navigator.of(context).push<void>(
-    MaterialPageRoute(
-      builder:
-          (context) =>
-              NetworkPickerScreen(initial: initial, onSubmitted: onSubmitted),
-    ),
-  );
+  static void push(BuildContext context, {Blockchain? initial, required ValueSetter<Blockchain> onSubmitted}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(builder: (context) => NetworkPickerScreen(initial: initial, onSubmitted: onSubmitted)),
+      );
 
   final Blockchain? initial;
   final ValueSetter<Blockchain> onSubmitted;
@@ -66,12 +55,7 @@ class _ContentState extends State<_Content> {
       const SizedBox(height: 32),
       Expanded(
         child: ListView.builder(
-          padding: EdgeInsets.only(
-            top: 32,
-            left: 20,
-            right: 20,
-            bottom: MediaQuery.paddingOf(context).bottom,
-          ),
+          padding: EdgeInsets.only(top: 32, left: 20, right: 20, bottom: MediaQuery.paddingOf(context).bottom),
           itemCount: _networks.length,
           itemExtent: _tileHeight,
           itemBuilder: (BuildContext context, int index) {
@@ -81,17 +65,11 @@ class _ContentState extends State<_Content> {
             return DecoratedBox(
               decoration:
                   selected
-                      ? const ShapeDecoration(
-                        color: Color(0xff404040),
-                        shape: StadiumBorder(),
-                      )
+                      ? const ShapeDecoration(color: Color(0xff404040), shape: StadiumBorder())
                       : const BoxDecoration(),
               child: ListTile(
                 dense: true,
-                title: Text(
-                  network.displayName,
-                  style: TextStyle(fontSize: selected ? 19 : 17),
-                ),
+                title: Text(network.displayName, style: TextStyle(fontSize: selected ? 19 : 17)),
                 selectedColor: Colors.white,
                 shape: selected ? const StadiumBorder() : null,
                 onTap: () => widget.onSubmitted(network),

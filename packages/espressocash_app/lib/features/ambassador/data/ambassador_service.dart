@@ -10,8 +10,7 @@ typedef AmbassadorStatus = ({bool isAmbassador, bool isReferral});
 
 @Singleton(scope: authScope)
 class AmbassadorService extends ValueNotifier<AmbassadorStatus> {
-  AmbassadorService(this._ecClient, this._storage)
-    : super(_defaultAmbassadorStatus);
+  AmbassadorService(this._ecClient, this._storage) : super(_defaultAmbassadorStatus);
 
   final EspressoCashClient _ecClient;
   final SharedPreferences _storage;
@@ -46,9 +45,7 @@ class AmbassadorService extends ValueNotifier<AmbassadorStatus> {
   }
 
   Future<void> addReferral(String ambassadorAddress) async {
-    await _ecClient.addAmbassadorReferral(
-      AmbassadorReferralRequestDto(ambassadorAddress: ambassadorAddress),
-    );
+    await _ecClient.addAmbassadorReferral(AmbassadorReferralRequestDto(ambassadorAddress: ambassadorAddress));
 
     _update((isAmbassador: value.isAmbassador, isReferral: true));
   }

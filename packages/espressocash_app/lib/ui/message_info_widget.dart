@@ -20,11 +20,7 @@ class CpMessageInfoWidget extends StatelessWidget {
     padding: padding,
     child: Center(
       child: DefaultTextStyle(
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),
         textAlign: TextAlign.left,
         child: content,
       ),

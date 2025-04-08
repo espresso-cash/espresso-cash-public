@@ -21,11 +21,7 @@ final cpSnackbar = Story(
             ),
             ElevatedButton(
               child: const Text('Show error snackbar'),
-              onPressed:
-                  () => showCpErrorSnackbar(
-                    context,
-                    message: 'Something went wrong',
-                  ),
+              onPressed: () => showCpErrorSnackbar(context, message: 'Something went wrong'),
             ),
           ],
         ),

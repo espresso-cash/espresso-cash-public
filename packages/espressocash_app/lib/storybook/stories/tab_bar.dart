@@ -22,14 +22,7 @@ final cpTabBar = Story(
                 tabs: const [Tab(text: 'Tab 1'), Tab(text: 'Tab 2')],
               ),
             ),
-            const Expanded(
-              child: TabBarView(
-                children: [
-                  Center(child: Text('Tab 1')),
-                  Center(child: Text('Tab 2')),
-                ],
-              ),
-            ),
+            const Expanded(child: TabBarView(children: [Center(child: Text('Tab 1')), Center(child: Text('Tab 2'))])),
           ],
         ),
       ),

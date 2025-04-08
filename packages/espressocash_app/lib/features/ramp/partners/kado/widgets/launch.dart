@@ -23,10 +23,7 @@ import '../../../services/on_ramp_order_service.dart';
 import '../data/kado_api_client.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchKadoOnRamp({
-    required String address,
-    required ProfileData profile,
-  }) async {
+  Future<void> launchKadoOnRamp({required String address, required ProfileData profile}) async {
     FiatAmount? amount;
 
     await RampAmountScreen.push(
@@ -46,9 +43,7 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount == null) return;
 
-    final usdcAmount = submittedAmount
-        .toTokenAmount(Token.usdc)
-        ?.round(Currency.usd.decimals);
+    final usdcAmount = submittedAmount.toTokenAmount(Token.usdc)?.round(Currency.usd.decimals);
 
     if (usdcAmount == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
@@ -121,10 +116,7 @@ window.addEventListener("message", (event) => {
     );
   }
 
-  Future<void> launchKadoOffRamp({
-    required String address,
-    required ProfileData profile,
-  }) async {
+  Future<void> launchKadoOffRamp({required String address, required ProfileData profile}) async {
     Amount? amount;
 
     await RampAmountScreen.push(
@@ -172,9 +164,7 @@ window.addEventListener("message", (event) => {
             'type': 'RAMP_ORDER_ID',
             'payload': {'orderId': final String orderId},
           }) {
-            final partnerOrder = await sl<KadoApiClient>().getOrderStatus(
-              orderId,
-            );
+            final partnerOrder = await sl<KadoApiClient>().getOrderStatus(orderId);
             final depositAddress = partnerOrder.data?.depositAddress;
 
             if (depositAddress == null) return;
@@ -208,12 +198,6 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await WebViewScreen.push(
-      this,
-      url: uri,
-      onLoaded: handleLoaded,
-      title: l10n.ramp_btnCashOut,
-      theme: null,
-    );
+    await WebViewScreen.push(this, url: uri, onLoaded: handleLoaded, title: l10n.ramp_btnCashOut, theme: null);
   }
 }

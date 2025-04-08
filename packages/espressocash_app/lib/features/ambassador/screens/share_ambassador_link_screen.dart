@@ -7,25 +7,14 @@ import '../models/ambassador_referral.dart';
 import '../widgets/ambassador_page.dart';
 
 class ShareAmbassadorLinkScreen extends StatelessWidget {
-  const ShareAmbassadorLinkScreen({
-    super.key,
-    required this.name,
-    required this.address,
-  });
+  const ShareAmbassadorLinkScreen({super.key, required this.name, required this.address});
 
   final String name;
   final Ed25519HDPublicKey address;
 
-  static void push(
-    BuildContext context, {
-    required String name,
-    required Ed25519HDPublicKey address,
-  }) => Navigator.of(context).push<void>(
-    MaterialPageRoute(
-      builder:
-          (context) => ShareAmbassadorLinkScreen(name: name, address: address),
-    ),
-  );
+  static void push(BuildContext context, {required String name, required Ed25519HDPublicKey address}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => ShareAmbassadorLinkScreen(name: name, address: address)));
 
   @override
   Widget build(BuildContext context) {

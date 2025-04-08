@@ -55,8 +55,7 @@ sealed class Currency with _$Currency {
     CryptoCurrency(:final token) => token.symbol,
   };
 
-  int decimalToInt(Decimal value) =>
-      value.shift(decimals).round().toBigInt().toInt();
+  int decimalToInt(Decimal value) => value.shift(decimals).round().toBigInt().toInt();
 }
 
 const defaultFiatCurrency = Currency.usd;

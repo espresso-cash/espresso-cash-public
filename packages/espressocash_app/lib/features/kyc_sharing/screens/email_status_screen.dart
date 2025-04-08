@@ -15,11 +15,9 @@ import 'email_confirmation_screen.dart';
 class EmailStatusScreen extends StatelessWidget {
   const EmailStatusScreen({super.key});
 
-  static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(builder: (context) => const EmailStatusScreen()),
-      )
-      .then((result) => result ?? false);
+  static Future<bool> push(BuildContext context) => Navigator.of(
+    context,
+  ).push<bool>(MaterialPageRoute(builder: (context) => const EmailStatusScreen())).then((result) => result ?? false);
 
   @override
   Widget build(BuildContext context) => UserDataListener(
@@ -31,8 +29,7 @@ class EmailStatusScreen extends StatelessWidget {
         icon: status.kycIcon,
         children: [
           switch (status) {
-            KycValidationStatus.unverified ||
-            KycValidationStatus.pending => KycHeader(
+            KycValidationStatus.unverified || KycValidationStatus.pending => KycHeader(
               title: context.l10n.emailPendingStatusTitle,
               description: context.l10n.emailPendingStatusDescription(email),
             ),
@@ -73,10 +70,7 @@ class __UpdateEmailContentState extends State<_UpdateEmailContent> {
   };
 
   Future<void> _handleSendVerification() async {
-    final result = await context.sendEmailVerification(
-      context,
-      email: _emailController.text,
-    );
+    final result = await context.sendEmailVerification(context, email: _emailController.text);
 
     if (!mounted) return;
     if (!result) return;
@@ -94,11 +88,7 @@ class __UpdateEmailContentState extends State<_UpdateEmailContent> {
   @override
   Widget build(BuildContext context) => Column(
     children: [
-      KycTextField(
-        controller: _emailController,
-        inputType: TextInputType.emailAddress,
-        placeholder: _placeholderText,
-      ),
+      KycTextField(controller: _emailController, inputType: TextInputType.emailAddress, placeholder: _placeholderText),
       const SizedBox(height: 16),
       const Spacer(),
       ListenableBuilder(
@@ -107,10 +97,7 @@ class __UpdateEmailContentState extends State<_UpdateEmailContent> {
             (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.sendVerificationCode,
-              onPressed:
-                  _emailController.text.isValidEmail
-                      ? _handleSendVerification
-                      : null,
+              onPressed: _emailController.text.isValidEmail ? _handleSendVerification : null,
             ),
       ),
     ],

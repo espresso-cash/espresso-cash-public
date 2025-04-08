@@ -7,8 +7,7 @@ class DangerSection extends StatelessWidget {
     context,
     title: context.l10n.signOut.toUpperCase(),
     message: context.l10n.signOutConfirmation,
-    onConfirm:
-        () => runWithLoader(context, () => sl<AccountService>().logOut()),
+    onConfirm: () => runWithLoader(context, () => sl<AccountService>().logOut()),
     cancelLabel: context.l10n.core_btnCancel,
   );
 

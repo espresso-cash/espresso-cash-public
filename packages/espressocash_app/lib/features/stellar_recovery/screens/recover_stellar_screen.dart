@@ -16,12 +16,9 @@ class RecoverStellarScreen extends StatelessWidget {
 
   final VoidCallback onConfirmed;
 
-  static void push(BuildContext context, {required VoidCallback onConfirmed}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => RecoverStellarScreen(onConfirmed: onConfirmed),
-        ),
-      );
+  static void push(BuildContext context, {required VoidCallback onConfirmed}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => RecoverStellarScreen(onConfirmed: onConfirmed)));
 
   void _handleRecoverPressed() {
     sl<StellarRecoveryService>().recover();
@@ -31,29 +28,18 @@ class RecoverStellarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: CpColors.lightSandColor,
-    appBar: CpAppBar(
-      scrolledUnderColor: CpColors.lightSandColor,
-      title: Text(context.l10n.moneyRecoveryTitle),
-    ),
+    appBar: CpAppBar(scrolledUnderColor: CpColors.lightSandColor, title: Text(context.l10n.moneyRecoveryTitle)),
     extendBodyBehindAppBar: true,
     extendBody: true,
     bottomNavigationBar: SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(32),
-        child: CpButton(
-          onPressed: _handleRecoverPressed,
-          text: context.l10n.moneyRecoveryBtn,
-        ),
+        child: CpButton(onPressed: _handleRecoverPressed, text: context.l10n.moneyRecoveryBtn),
       ),
     ),
     body: Stack(
       children: [
-        Align(
-          child: Assets.images.dollarBg.image(
-            fit: BoxFit.fitHeight,
-            height: double.infinity,
-          ),
-        ),
+        Align(child: Assets.images.dollarBg.image(fit: BoxFit.fitHeight, height: double.infinity)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
@@ -63,36 +49,22 @@ class RecoverStellarScreen extends StatelessWidget {
               const SizedBox(height: 24),
               Text(
                 context.l10n.moneyRecoveryContent(
-                  sl<StellarRecoveryService>().value.amount?.format(
-                        context.locale,
-                        maxDecimals: 2,
-                      ) ??
-                      '-',
+                  sl<StellarRecoveryService>().value.amount?.format(context.locale, maxDecimals: 2) ?? '-',
                 ),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 32,
-                  height: 0.95,
-                ),
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 32, height: 0.95),
               ),
               const SizedBox(height: 12),
               Text(
                 context.l10n.moneyRecoverySubContent,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
-                ),
+                style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
               ),
               const SizedBox(height: 6),
               Text(
                 context.l10n.moneyRecoveryDisclaimer,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
+                style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
               ),
             ],
           ),

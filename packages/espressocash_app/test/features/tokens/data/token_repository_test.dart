@@ -32,9 +32,7 @@ void main() {
         isStablecoin: false,
       );
 
-      when(
-        mockRepo.getToken('So00000000000'),
-      ).thenAnswer((_) async => token.toModel());
+      when(mockRepo.getToken('So00000000000')).thenAnswer((_) async => token.toModel());
 
       final Token? response = await mockRepo.getToken('So00000000000');
 
@@ -209,8 +207,7 @@ class MemoryTokenRepository implements TokenRepository {
   final data = BehaviorSubject<TokenMap>.seeded(TokenMap());
 
   @override
-  Future<Token?> getToken(String address) async =>
-      data.value[address]?.toModel();
+  Future<Token?> getToken(String address) async => data.value[address]?.toModel();
 
   @override
   Future<Either<Exception, String>> init() {
@@ -235,18 +232,14 @@ class MemoryTokenRepository implements TokenRepository {
           throw Exception('Invalid line format');
         }).toList();
 
-    final tokenMap = Map.fromEntries(
-      rows.map((row) => MapEntry(row.address, row)),
-    );
+    final tokenMap = Map.fromEntries(rows.map((row) => MapEntry(row.address, row)));
     data.add(data.value.addAll(tokenMap.lock));
 
     return Future.value(const Right(''));
   }
 
   void insertTokens(List<TokenRow> tokens) {
-    final tokenMap = Map.fromEntries(
-      tokens.map((token) => MapEntry(token.address, token)),
-    );
+    final tokenMap = Map.fromEntries(tokens.map((token) => MapEntry(token.address, token)));
     data.add(data.value.addAll(tokenMap.lock));
   }
 

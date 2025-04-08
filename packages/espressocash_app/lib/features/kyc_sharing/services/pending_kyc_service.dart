@@ -18,8 +18,7 @@ class PendingKycService {
   final _controller = BehaviorSubject<DateTime?>();
   Stream<DateTime?> get pendingKycStream => _controller.stream;
 
-  bool get hasPendingKyc =>
-      _sharedPreferences.getString(_kycStartedKey) != null;
+  bool get hasPendingKyc => _sharedPreferences.getString(_kycStartedKey) != null;
 
   @PostConstruct()
   void init() {
@@ -45,16 +44,12 @@ class PendingKycService {
           .startWith(null)
           .exhaustMap(
             (_) =>
-                fetchKycStatus(country: country)
-                    .timeout(
-                      const Duration(seconds: 8),
-                      onTimeout: () => KycValidationStatus.unverified,
-                    )
-                    .asStream(),
+                fetchKycStatus(
+                  country: country,
+                ).timeout(const Duration(seconds: 8), onTimeout: () => KycValidationStatus.unverified).asStream(),
           );
 
-  Future<KycValidationStatus> fetchKycStatus({required String country}) =>
-      _kycService.getKycStatus(country: country);
+  Future<KycValidationStatus> fetchKycStatus({required String country}) => _kycService.getKycStatus(country: country);
 
   DateTime? _getCurrentKycDate() {
     final dateString = _sharedPreferences.getString(_kycStartedKey);

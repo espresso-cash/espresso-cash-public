@@ -23,8 +23,7 @@ class OutgoingDlnPaymentRepository implements Disposable {
   final MyDatabase _db;
 
   Future<OutgoingDlnPayment?> load(String id) {
-    final query = _db.select(_db.outgoingDlnPaymentRows)
-      ..where((p) => p.id.equals(id));
+    final query = _db.select(_db.outgoingDlnPaymentRows)..where((p) => p.id.equals(id));
 
     return query.getSingleOrNull().then((row) => row?.toModel());
   }
@@ -33,9 +32,7 @@ class OutgoingDlnPaymentRepository implements Disposable {
     final query = _db.select(_db.outgoingDlnPaymentRows)
       ..where((p) => p.status.equalsValue(ODLNPaymentStatusDto.success).not());
 
-    return query.watch().map(
-      (rows) => rows.map((row) => row.toModel()).toList(),
-    );
+    return query.watch().map((rows) => rows.map((row) => row.toModel()).toList());
   }
 
   Future<IList<String>> getAllPending() async {
@@ -53,19 +50,16 @@ class OutgoingDlnPaymentRepository implements Disposable {
   }
 
   Stream<OutgoingDlnPayment?> watch(String id) {
-    final query = _db.select(_db.outgoingDlnPaymentRows)
-      ..where((p) => p.id.equals(id));
+    final query = _db.select(_db.outgoingDlnPaymentRows)..where((p) => p.id.equals(id));
 
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel());
   }
 
-  Future<void> save(OutgoingDlnPayment payment) => _db
-      .into(_db.outgoingDlnPaymentRows)
-      .insertOnConflictUpdate(payment.toDto());
+  Future<void> save(OutgoingDlnPayment payment) =>
+      _db.into(_db.outgoingDlnPaymentRows).insertOnConflictUpdate(payment.toDto());
 
   Future<void> delete(String id) {
-    final query = _db.delete(_db.outgoingDlnPaymentRows)
-      ..where((p) => p.id.equals(id));
+    final query = _db.delete(_db.outgoingDlnPaymentRows)..where((p) => p.id.equals(id));
 
     return query.go();
   }
@@ -97,31 +91,17 @@ extension on ODLNPaymentStatusDto {
 
     switch (this) {
       case ODLNPaymentStatusDto.txCreated:
-        return OutgoingDlnPaymentStatus.txCreated(
-          tx!,
-          slot: slot ?? BigInt.zero,
-        );
+        return OutgoingDlnPaymentStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
       case ODLNPaymentStatusDto.txSent:
         return OutgoingDlnPaymentStatus.txSent(tx!, slot: slot ?? BigInt.zero);
       case ODLNPaymentStatusDto.success:
-        return OutgoingDlnPaymentStatus.success(
-          tx!,
-          orderId: row.orderId ?? '',
-        );
+        return OutgoingDlnPaymentStatus.success(tx!, orderId: row.orderId ?? '');
       case ODLNPaymentStatusDto.txFailure:
-        return OutgoingDlnPaymentStatus.txFailure(
-          reason: row.txFailureReason ?? TxFailureReason.unknown,
-        );
+        return OutgoingDlnPaymentStatus.txFailure(reason: row.txFailureReason ?? TxFailureReason.unknown);
       case ODLNPaymentStatusDto.fulfilled:
-        return OutgoingDlnPaymentStatus.fulfilled(
-          tx!,
-          orderId: row.orderId ?? '',
-        );
+        return OutgoingDlnPaymentStatus.fulfilled(tx!, orderId: row.orderId ?? '');
       case ODLNPaymentStatusDto.unfulfilled:
-        return OutgoingDlnPaymentStatus.unfulfilled(
-          tx!,
-          orderId: row.orderId ?? '',
-        );
+        return OutgoingDlnPaymentStatus.unfulfilled(tx!, orderId: row.orderId ?? '');
     }
   }
 }
@@ -184,15 +164,10 @@ extension on OutgoingDlnPaymentStatus {
     unfulfilled: (it) => it.tx.id,
   );
 
-  String? toOrderId() => mapOrNull(
-    success: (it) => it.orderId,
-    fulfilled: (it) => it.orderId,
-    unfulfilled: (it) => it.orderId,
-  );
+  String? toOrderId() =>
+      mapOrNull(success: (it) => it.orderId, fulfilled: (it) => it.orderId, unfulfilled: (it) => it.orderId);
 
-  TxFailureReason? toTxFailureReason() =>
-      mapOrNull<TxFailureReason?>(txFailure: (it) => it.reason);
+  TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(txFailure: (it) => it.reason);
 
-  BigInt? toSlot() =>
-      mapOrNull(txCreated: (it) => it.slot, txSent: (it) => it.slot);
+  BigInt? toSlot() => mapOrNull(txCreated: (it) => it.slot, txSent: (it) => it.slot);
 }

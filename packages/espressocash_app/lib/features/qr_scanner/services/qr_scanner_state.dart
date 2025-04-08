@@ -6,6 +6,5 @@ class QrScannerState with _$QrScannerState {
 
   const factory QrScannerState.error() = QrScannerErrorState;
 
-  const factory QrScannerState.done(QrScannerRequest request) =
-      QrScannerDoneState;
+  const factory QrScannerState.done(QrScannerRequest request) = QrScannerDoneState;
 }

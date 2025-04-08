@@ -39,8 +39,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           text: context.l10n.carouselSendMoneyBtn,
           onPressed: widget.onSendMoneyPressed,
         ),
-        backgroundImage:
-            isIos ? Assets.images.carousel2Ios : Assets.images.carousel2,
+        backgroundImage: isIos ? Assets.images.carousel2Ios : Assets.images.carousel2,
       ),
       _Item(
         title: context.l10n.carousel2Title,
@@ -105,12 +104,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({
-    required this.title,
-    required this.subtitle,
-    this.button,
-    required this.backgroundImage,
-  });
+  const _Item({required this.title, required this.subtitle, this.button, required this.backgroundImage});
 
   final String title;
   final String subtitle;
@@ -124,11 +118,7 @@ class _Item extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(32.0)),
-          child: backgroundImage.image(
-            height: 175,
-            width: 400,
-            fit: BoxFit.fitWidth,
-          ),
+          child: backgroundImage.image(height: 175, width: 400, fit: BoxFit.fitWidth),
         ),
       ),
       const SizedBox(height: 24),
@@ -142,11 +132,7 @@ class _Item extends StatelessWidget {
               child: Text(
                 title,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700),
               ),
             ),
             const SizedBox(height: 6),
@@ -156,11 +142,7 @@ class _Item extends StatelessWidget {
                 subtitle,
                 maxLines: 3,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
               ),
             ),
             const SizedBox(height: 15),

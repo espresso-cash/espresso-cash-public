@@ -6,17 +6,13 @@ import 'package:solana/encoder.dart';
 import '../../accounts/models/ec_wallet.dart';
 
 extension ResignTx on SignedTx {
-  Future<SignedTx> resign(ECWallet wallet) =>
-      [this].resignAll(wallet).then((it) => it.first);
+  Future<SignedTx> resign(ECWallet wallet) => [this].resignAll(wallet).then((it) => it.first);
 }
 
 extension ResignMultipleTx on Iterable<SignedTx> {
   Future<List<SignedTx>> resignAll(ECWallet wallet) async {
     final payloads = this.map(
-      (it) => it.compiledMessage
-          .toByteArray()
-          .let((it) => it.toList())
-          .let(Uint8List.fromList),
+      (it) => it.compiledMessage.toByteArray().let((it) => it.toList()).let(Uint8List.fromList),
     );
     final signatures = await wallet.sign(payloads);
 
@@ -25,10 +21,7 @@ extension ResignMultipleTx on Iterable<SignedTx> {
       final signature = it.$2;
 
       return SignedTx(
-        signatures:
-            tx.signatures
-                .map((e) => e.publicKey == wallet.publicKey ? signature : e)
-                .toList(),
+        signatures: tx.signatures.map((e) => e.publicKey == wallet.publicKey ? signature : e).toList(),
         compiledMessage: tx.compiledMessage,
       );
     }).toList();

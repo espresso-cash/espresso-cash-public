@@ -22,12 +22,7 @@ class Observer extends BlocObserver {
   void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
     super.onEvent(bloc, event);
     _logger.info(event);
-    Sentry.addBreadcrumb(
-      Breadcrumb(
-        category: bloc.runtimeType.toString(),
-        message: event.runtimeType.toString(),
-      ),
-    );
+    Sentry.addBreadcrumb(Breadcrumb(category: bloc.runtimeType.toString(), message: event.runtimeType.toString()));
   }
 
   @override

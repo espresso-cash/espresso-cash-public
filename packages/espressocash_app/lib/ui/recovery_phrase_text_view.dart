@@ -7,12 +7,7 @@ import 'snackbar.dart';
 import 'theme.dart';
 
 class RecoveryPhraseTextView extends StatelessWidget {
-  const RecoveryPhraseTextView({
-    super.key,
-    this.phrase = '',
-    this.backgroundColor,
-    this.hasCopyButton = true,
-  });
+  const RecoveryPhraseTextView({super.key, this.phrase = '', this.backgroundColor, this.hasCopyButton = true});
 
   final String phrase;
   final Color? backgroundColor;
@@ -29,11 +24,7 @@ class RecoveryPhraseTextView extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(24),
-          child: Text(
-            phrase,
-            textAlign: TextAlign.justify,
-            style: twelveWordsTextStyle,
-          ),
+          child: Text(phrase, textAlign: TextAlign.justify, style: twelveWordsTextStyle),
         ),
         if (hasCopyButton)
           Align(

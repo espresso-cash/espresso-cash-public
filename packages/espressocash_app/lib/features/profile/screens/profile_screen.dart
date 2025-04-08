@@ -23,12 +23,9 @@ import '../widgets/security_section.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
-    MaterialPageRoute(
-      fullscreenDialog: true,
-      builder: (context) => const ProfileScreen(),
-    ),
-  );
+  static void push(BuildContext context) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(fullscreenDialog: true, builder: (context) => const ProfileScreen()));
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -41,11 +38,7 @@ class ProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(
-                  left: _buttonSpacing,
-                  top: _buttonSpacing,
-                  right: _buttonSpacing,
-                ),
+                padding: const EdgeInsets.only(left: _buttonSpacing, top: _buttonSpacing, right: _buttonSpacing),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -61,10 +54,8 @@ class ProfileScreen extends StatelessWidget {
                               builder:
                                   (context, child) => CpUserAvatar(
                                     radius: _imageSize / 2,
-                                    image: sl<ProfileRepository>().photoPath
-                                        ?.let((it) => FileImage(File(it))),
-                                    userName: sl<ProfileRepository>().initials
-                                        .ifEmpty(() => 'MW'),
+                                    image: sl<ProfileRepository>().photoPath?.let((it) => FileImage(File(it))),
+                                    userName: sl<ProfileRepository>().initials.ifEmpty(() => 'MW'),
                                   ),
                             ),
                           ),
@@ -72,9 +63,7 @@ class ProfileScreen extends StatelessWidget {
                             top: 0,
                             right: 0,
                             child: CpIconButton(
-                              icon: Assets.icons.closeButtonIcon.svg(
-                                color: Colors.white,
-                              ),
+                              icon: Assets.icons.closeButtonIcon.svg(color: Colors.white),
                               onPressed: Navigator.of(context).pop,
                               variant: CpIconButtonVariant.black,
                             ),
@@ -88,9 +77,7 @@ class ProfileScreen extends StatelessWidget {
                         listenable: sl<ProfileRepository>(),
                         builder:
                             (context, child) => Text(
-                              sl<ProfileRepository>().fullName.ifEmpty(
-                                () => 'My Wallet',
-                              ),
+                              sl<ProfileRepository>().fullName.ifEmpty(() => 'My Wallet'),
                               style: Theme.of(context).textTheme.displaySmall,
                             ),
                       ),
@@ -98,25 +85,18 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 24),
                     ListenableBuilder(
                       listenable: sl<ProfileRepository>(),
-                      builder:
-                          (context, child) =>
-                              _QrCodeWidget(address: sl<MyAccount>().publicKey),
+                      builder: (context, child) => _QrCodeWidget(address: sl<MyAccount>().publicKey),
                     ),
                     const SizedBox(height: 12),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                  horizontal: 24,
-                ),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 child: Column(
                   children: [
                     const EditProfileSection(),
-                    if (sl<FeatureFlagsManager>().isBrijEnabled()) ...[
-                      const KycSection(),
-                    ],
+                    if (sl<FeatureFlagsManager>().isBrijEnabled()) ...[const KycSection()],
                     const AmbassadorSection(),
                     const SecuritySection(),
                     const HelpSection(),
@@ -170,13 +150,7 @@ class _QrCodeWidget extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.zero,
-                  child: Text(
-                    address.toBase58(),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  child: Text(address.toBase58(), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                 ),
               ),
             ],

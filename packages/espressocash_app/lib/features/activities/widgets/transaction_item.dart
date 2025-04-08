@@ -39,56 +39,18 @@ class _TransactionItemState extends State<TransactionItem> {
       if (tx == null) return const SizedBox.shrink();
 
       return tx.map(
-        common:
-            (t) => CommonTile(
-              key: ValueKey(t.tx.id),
-              txCommon: t,
-              showIcon: widget.showIcon,
-            ),
+        common: (t) => CommonTile(key: ValueKey(t.tx.id), txCommon: t, showIcon: widget.showIcon),
         activity:
             (txActivity) => txActivity.activity.map(
               outgoingPaymentRequest:
-                  (p) => PaymentRequestTile(
-                    key: ValueKey(p.id),
-                    id: p.id,
-                    showIcon: widget.showIcon,
-                  ),
-              outgoingDirectPayment:
-                  (p) => ODPTile(
-                    key: ValueKey(p.id),
-                    activity: p,
-                    showIcon: widget.showIcon,
-                  ),
-              outgoingLinkPayment:
-                  (p) => OLPTile(
-                    key: ValueKey(p.id),
-                    activity: p,
-                    showIcon: widget.showIcon,
-                  ),
-              onRamp:
-                  (it) => OnRampTile(
-                    key: ValueKey(it.id),
-                    activity: it,
-                    showIcon: widget.showIcon,
-                  ),
-              offRamp:
-                  (it) => OffRampTile(
-                    key: ValueKey(it.id),
-                    activity: it,
-                    showIcon: widget.showIcon,
-                  ),
+                  (p) => PaymentRequestTile(key: ValueKey(p.id), id: p.id, showIcon: widget.showIcon),
+              outgoingDirectPayment: (p) => ODPTile(key: ValueKey(p.id), activity: p, showIcon: widget.showIcon),
+              outgoingLinkPayment: (p) => OLPTile(key: ValueKey(p.id), activity: p, showIcon: widget.showIcon),
+              onRamp: (it) => OnRampTile(key: ValueKey(it.id), activity: it, showIcon: widget.showIcon),
+              offRamp: (it) => OffRampTile(key: ValueKey(it.id), activity: it, showIcon: widget.showIcon),
               outgoingDlnPayment:
-                  (it) => OutgoingDlnTile(
-                    key: ValueKey(it.id),
-                    activity: it,
-                    showIcon: widget.showIcon,
-                  ),
-              transactionRequest:
-                  (it) => TrTile(
-                    key: ValueKey(it.id),
-                    activity: it,
-                    showIcon: widget.showIcon,
-                  ),
+                  (it) => OutgoingDlnTile(key: ValueKey(it.id), activity: it, showIcon: widget.showIcon),
+              transactionRequest: (it) => TrTile(key: ValueKey(it.id), activity: it, showIcon: widget.showIcon),
               kyc: (it) => const SizedBox.shrink(),
             ),
       );

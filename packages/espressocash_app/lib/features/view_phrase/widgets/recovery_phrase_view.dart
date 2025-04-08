@@ -42,12 +42,7 @@ class _RecoveryPhraseViewState extends State<RecoveryPhraseView> {
           Text(
             context.l10n.yourRecoveryPhrase,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.25,
-            ),
+            style: const TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600, letterSpacing: 0.25),
           ),
           const SizedBox(height: 24),
           Padding(

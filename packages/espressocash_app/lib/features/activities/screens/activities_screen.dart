@@ -17,8 +17,7 @@ class ActivitiesScreen extends StatefulWidget {
   State<ActivitiesScreen> createState() => _ActivitiesScreenState();
 }
 
-class _ActivitiesScreenState extends State<ActivitiesScreen>
-    with SingleTickerProviderStateMixin {
+class _ActivitiesScreenState extends State<ActivitiesScreen> with SingleTickerProviderStateMixin {
   late final _controller = TabController(
     length: ActivitiesTab.values.length,
     initialIndex: widget.initialTab.index,
@@ -53,12 +52,8 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
     );
 
     Widget mapWrapper(ActivitiesTab tab) => switch (tab) {
-      ActivitiesTab.pending => const _Wrapper(
-        child: PendingActivitiesList(padding: insets),
-      ),
-      ActivitiesTab.transactions => const _Wrapper(
-        child: TransactionList(padding: insets),
-      ),
+      ActivitiesTab.pending => const _Wrapper(child: PendingActivitiesList(padding: insets)),
+      ActivitiesTab.transactions => const _Wrapper(child: TransactionList(padding: insets)),
     };
 
     return ColoredBox(
@@ -69,17 +64,9 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
           const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: CpTabBar(
-              controller: _controller,
-              tabs: ActivitiesTab.values.map(mapTab).toList(),
-            ),
+            child: CpTabBar(controller: _controller, tabs: ActivitiesTab.values.map(mapTab).toList()),
           ),
-          Expanded(
-            child: TabBarView(
-              controller: _controller,
-              children: ActivitiesTab.values.map(mapWrapper).toList(),
-            ),
-          ),
+          Expanded(child: TabBarView(controller: _controller, children: ActivitiesTab.values.map(mapWrapper).toList())),
           SizedBox(height: bottom),
         ],
       ),
@@ -96,14 +83,8 @@ class _Wrapper extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
     children: [
       child,
-      Align(
-        alignment: Alignment.topCenter,
-        child: Container(color: CpColors.deepGreyColor, height: 10),
-      ),
-      Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(color: CpColors.deepGreyColor, height: 10),
-      ),
+      Align(alignment: Alignment.topCenter, child: Container(color: CpColors.deepGreyColor, height: 10)),
+      Align(alignment: Alignment.bottomCenter, child: Container(color: CpColors.deepGreyColor, height: 10)),
     ],
   );
 }

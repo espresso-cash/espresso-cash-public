@@ -21,19 +21,13 @@ final offRampAmountScreenStory = Story(
         onSubmitted: ignore,
         minAmount: Decimal.fromInt(10),
         currency: Currency.usdc,
-        type: context.knobs.options(
-          label: 'Type',
-          initial: RampType.onRamp,
-          options: RampType.values.toOptions(),
-        ),
+        type: context.knobs.options(label: 'Type', initial: RampType.onRamp, options: RampType.values.toOptions()),
         calculateEquivalent:
             (amount) async => Future.delayed(
               Duration.zero,
               () => Either.right(
                 FiatAmount(
-                  value: Currency.usd.decimalToInt(
-                    amount.decimal * Decimal.parse('0.95'),
-                  ),
+                  value: Currency.usd.decimalToInt(amount.decimal * Decimal.parse('0.95')),
                   fiatCurrency: Currency.usd,
                 ),
               ),
@@ -45,13 +39,11 @@ final offRampAmountScreenStory = Story(
                 partnerFee: '1 USDC',
                 ourFee: '1 USDC',
                 totalFee: FiatAmount(
-                  value: Currency.usd.decimalToInt(
-                    amount.decimal * Decimal.parse('0.05'),
-                  ),
+                  value: Currency.usd.decimalToInt(amount.decimal * Decimal.parse('0.05')),
                   fiatCurrency: Currency.usd,
                 ),
                 extraFee: null,
-              )),
+              ),),
             ),
         exchangeRate: null,
         receiveCurrency: null,

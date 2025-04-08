@@ -13,10 +13,7 @@ extension SolanaClientExt on SolanaClient {
     required Ed25519HDPublicKey account,
     required CryptoCurrency currency,
   }) async {
-    final tokenAddress = await findAssociatedTokenAddress(
-      owner: account,
-      mint: currency.token.publicKey,
-    );
+    final tokenAddress = await findAssociatedTokenAddress(owner: account, mint: currency.token.publicKey);
 
     // TODO(KB): It's better to run both requests at the same time,
     // JSON RPC allows batch requests, we need to add support for it.
@@ -24,30 +21,19 @@ extension SolanaClientExt on SolanaClient {
     final simulation = await rpcClient.simulateTransaction(
       tx.encode(),
       commitment: Commitment.confirmed,
-      accounts: SimulateTransactionAccounts(
-        encoding: Encoding.base64,
-        addresses: [tokenAddress.toBase58()],
-      ),
+      accounts: SimulateTransactionAccounts(encoding: Encoding.base64, addresses: [tokenAddress.toBase58()]),
     );
 
     if (simulation.value.err != null) return null;
 
-    final postBalance =
-        simulation.value.accounts?.first.data?.parseTokenBalance();
+    final postBalance = simulation.value.accounts?.first.data?.parseTokenBalance();
     final preBalance = await rpcClient
-        .getAccountInfo(
-          tokenAddress.toBase58(),
-          commitment: Commitment.confirmed,
-          encoding: Encoding.base64,
-        )
+        .getAccountInfo(tokenAddress.toBase58(), commitment: Commitment.confirmed, encoding: Encoding.base64)
         .then((e) => e.value?.data?.parseTokenBalance());
 
     if (postBalance == null || preBalance == null) return null;
 
-    return (
-      amountTransferred: preBalance - postBalance,
-      slot: simulation.context.slot,
-    );
+    return (amountTransferred: preBalance - postBalance, slot: simulation.context.slot);
   }
 }
 

@@ -95,9 +95,7 @@ extension ODPRowExt on ODPRow {
     reference: reference?.let(Ed25519HDPublicKey.fromBase58),
     amount: CryptoAmount(
       value: amount,
-      cryptoCurrency: CryptoCurrency(
-        token: (await sl<TokenRepository>().getToken(token)) ?? Token.unk,
-      ),
+      cryptoCurrency: CryptoCurrency(token: (await sl<TokenRepository>().getToken(token)) ?? Token.unk),
     ),
     created: created,
     status: status.toModel(this),
@@ -115,10 +113,7 @@ extension on ODPStatusDto {
         return ODPStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
       case ODPStatusDto.txSent:
       case ODPStatusDto.txWaitFailure:
-        return ODPStatus.txSent(
-          tx ?? StubSignedTx(row.txId!),
-          slot: slot ?? BigInt.zero,
-        );
+        return ODPStatus.txSent(tx ?? StubSignedTx(row.txId!), slot: slot ?? BigInt.zero);
       case ODPStatusDto.success:
         return ODPStatus.success(txId: row.txId!);
       case ODPStatusDto.txFailure:
@@ -151,16 +146,11 @@ extension on ODPStatus {
     txFailure: always(ODPStatusDto.txFailure),
   );
 
-  String? toTx() => mapOrNull(
-    txCreated: (it) => it.tx.encode(),
-    txSent: (it) => it.tx.encode(),
-  );
+  String? toTx() => mapOrNull(txCreated: (it) => it.tx.encode(), txSent: (it) => it.tx.encode());
 
   String? toTxId() => mapOrNull(success: (it) => it.txId);
 
-  TxFailureReason? toTxFailureReason() =>
-      mapOrNull<TxFailureReason?>(txFailure: (it) => it.reason);
+  TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(txFailure: (it) => it.reason);
 
-  BigInt? toSlot() =>
-      mapOrNull(txCreated: (it) => it.slot, txSent: (it) => it.slot);
+  BigInt? toSlot() => mapOrNull(txCreated: (it) => it.slot, txSent: (it) => it.slot);
 }

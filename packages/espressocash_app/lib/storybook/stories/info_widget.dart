@@ -15,9 +15,7 @@ final cpInfoWidget = Story(
             initial: CpInfoVariant.light,
             options: CpInfoVariant.values.toOptions(),
           ),
-          message: Text(
-            context.knobs.text(label: 'Message', initial: 'Info message!'),
-          ),
+          message: Text(context.knobs.text(label: 'Message', initial: 'Info message!')),
         ),
       ),
 );

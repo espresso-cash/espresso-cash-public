@@ -23,16 +23,11 @@ class MerchantLogoIcon extends StatelessWidget {
                 cacheKey: logoUrl,
                 height: size,
                 width: size,
-                errorWidget:
-                    (BuildContext context, String url, dynamic error) =>
-                        Container(),
+                errorWidget: (BuildContext context, String url, dynamic error) => Container(),
                 imageUrl: logoUrl,
                 imageBuilder:
                     (context, provider) => DecoratedBox(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(image: provider),
-                      ),
+                      decoration: BoxDecoration(shape: BoxShape.circle, image: DecorationImage(image: provider)),
                     ),
               ),
     );

@@ -4,11 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../ui/colors.dart';
 
 class LoadingTextField extends StatelessWidget {
-  const LoadingTextField({
-    super.key,
-    required this.prefix,
-    required this.suffix,
-  });
+  const LoadingTextField({super.key, required this.prefix, required this.suffix});
 
   final Widget prefix;
   final Widget suffix;
@@ -16,10 +12,7 @@ class LoadingTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     margin: null,
-    decoration: const ShapeDecoration(
-      color: CpColors.blackGreyColor,
-      shape: StadiumBorder(),
-    ),
+    decoration: const ShapeDecoration(color: CpColors.blackGreyColor, shape: StadiumBorder()),
     padding: EdgeInsets.only(top: 12.h, bottom: 12.h, right: 24.w, left: 17.w),
     child: Row(
       children: [
@@ -46,10 +39,7 @@ class LoaderAnimation extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox(
     height: height,
     width: width,
-    child: const ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(30)),
-      child: _ShimmerEffect(),
-    ),
+    child: const ClipRRect(borderRadius: BorderRadius.all(Radius.circular(30)), child: _ShimmerEffect()),
   );
 }
 
@@ -60,17 +50,13 @@ class _ShimmerEffect extends StatefulWidget {
   _ShimmerEffectState createState() => _ShimmerEffectState();
 }
 
-class _ShimmerEffectState extends State<_ShimmerEffect>
-    with SingleTickerProviderStateMixin {
+class _ShimmerEffectState extends State<_ShimmerEffect> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    )..repeat();
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500))..repeat();
   }
 
   @override

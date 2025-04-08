@@ -7,14 +7,9 @@ part 'country.g.dart';
 
 @freezed
 class Country with _$Country {
-  const factory Country({
-    required String name,
-    required String code,
-    required String dialCode,
-  }) = _Country;
+  const factory Country({required String name, required String code, required String dialCode}) = _Country;
 
-  factory Country.fromJson(Map<String, dynamic> json) =>
-      _$CountryFromJson(json);
+  factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
 
   static List<Country> get all =>
       country.WorldCountry.list
@@ -34,8 +29,7 @@ class Country with _$Country {
 }
 
 extension on country.WorldCountry {
-  Country get toCountry =>
-      Country(name: name.name, code: codeShort, dialCode: idd.phoneCode());
+  Country get toCountry => Country(name: name.name, code: codeShort, dialCode: idd.phoneCode());
 }
 
 const _excludedCountries = {'IR', 'KP', 'SY', 'RU'};

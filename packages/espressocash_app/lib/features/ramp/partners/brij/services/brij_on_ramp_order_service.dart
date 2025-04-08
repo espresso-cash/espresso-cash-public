@@ -22,12 +22,7 @@ import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
 class BrijOnRampOrderService implements Disposable {
-  BrijOnRampOrderService(
-    this._db,
-    this._kycRepository,
-    this._ecWallet,
-    this._analytics,
-  );
+  BrijOnRampOrderService(this._db, this._kycRepository, this._ecWallet, this._analytics);
 
   final MyDatabase _db;
   final KycRepository _kycRepository;
@@ -41,10 +36,7 @@ class BrijOnRampOrderService implements Disposable {
   Future<void> init() async {
     final query = _db.select(_db.onRampOrderRows)..where(
       (tbl) =>
-          tbl.status.isNotInValues([
-            OnRampOrderStatus.completed,
-            OnRampOrderStatus.failure,
-          ]) &
+          tbl.status.isNotInValues([OnRampOrderStatus.completed, OnRampOrderStatus.failure]) &
           tbl.partner.isInValues([RampPartner.brij, RampPartner.scalexBrij]),
     );
 
@@ -67,16 +59,12 @@ class BrijOnRampOrderService implements Disposable {
   }
 
   void _subscribe(String orderId) {
-    _subscriptions[orderId] = (_db.select(_db.onRampOrderRows)
-          ..where((tbl) => tbl.id.equals(orderId)))
+    _subscriptions[orderId] = (_db.select(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(orderId)))
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
           if (order.shouldReportToSentry) {
-            logMessage(
-              message: 'BrijOnRampOrderStatusChange',
-              data: order.toSentry(),
-            );
+            logMessage(message: 'BrijOnRampOrderStatusChange', data: order.toSentry());
           }
 
           switch (order.status) {
@@ -103,11 +91,7 @@ class BrijOnRampOrderService implements Disposable {
           }
         })
         .whereNotNull()
-        .listen(
-          (event) =>
-              (_db.update(_db.onRampOrderRows)
-                ..where((tbl) => tbl.id.equals(orderId))).write(event),
-        );
+        .listen((event) => (_db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(orderId))).write(event));
   }
 
   AsyncResult<String> create({
@@ -173,19 +157,15 @@ class BrijOnRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(
-      const Duration(seconds: 10),
-    ).startWith(null).listen((_) async {
-      final statement = _db.update(_db.onRampOrderRows)
-        ..where((tbl) => tbl.id.equals(id));
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((_) async {
+      final statement = _db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
       final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
         BrijOrderStatus.completed => OnRampOrderStatus.completed,
-        BrijOrderStatus.unknown ||
-        BrijOrderStatus.rejected => OnRampOrderStatus.rejected,
+        BrijOrderStatus.unknown || BrijOrderStatus.rejected => OnRampOrderStatus.rejected,
         BrijOrderStatus.failed => OnRampOrderStatus.failure,
         BrijOrderStatus.pending => OnRampOrderStatus.waitingPartnerReview,
         BrijOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit,
@@ -197,9 +177,7 @@ class BrijOnRampOrderService implements Disposable {
             status: Value.ofNullable(status),
             bankAccount: Value.ofNullable(orderData.bankAccount),
             bankName: Value.ofNullable(orderData.bankName),
-            bankTransferExpiry: Value.ofNullable(
-              DateTime.now().add(const Duration(minutes: 30)),
-            ),
+            bankTransferExpiry: Value.ofNullable(DateTime.now().add(const Duration(minutes: 30))),
           ),
         );
 
@@ -216,19 +194,15 @@ class BrijOnRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(
-      const Duration(seconds: 10),
-    ).startWith(null).listen((_) async {
-      final statement = _db.update(_db.onRampOrderRows)
-        ..where((tbl) => tbl.id.equals(id));
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((_) async {
+      final statement = _db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
       final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
         BrijOrderStatus.completed => OnRampOrderStatus.completed,
-        BrijOrderStatus.unknown ||
-        BrijOrderStatus.rejected => OnRampOrderStatus.rejected,
+        BrijOrderStatus.unknown || BrijOrderStatus.rejected => OnRampOrderStatus.rejected,
         BrijOrderStatus.failed => OnRampOrderStatus.failure,
         BrijOrderStatus.pending => OnRampOrderStatus.waitingPartnerReview,
         BrijOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit,

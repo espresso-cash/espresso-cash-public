@@ -24,22 +24,11 @@ class ProfileSwitch extends StatelessWidget {
     final subtitle = this.subtitle;
 
     return ListTile(
-      title: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontSize: 17,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      title: Text(label, style: TextStyle(color: color, fontSize: 17, fontWeight: FontWeight.bold)),
       subtitle: Text(
         subtitle,
         maxLines: 2,
-        style: const TextStyle(
-          fontSize: 14,
-          color: CpColors.greyColor,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(fontSize: 14, color: CpColors.greyColor, fontWeight: FontWeight.w400),
       ),
       trailing: CpSwitch(value: value, onChanged: onChanged),
     );

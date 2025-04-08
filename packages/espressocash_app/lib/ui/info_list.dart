@@ -22,8 +22,7 @@ class CpInfoListItem {
 }
 
 class CpInfoList extends StatefulWidget {
-  const CpInfoList({super.key, required this.items})
-    : assert(items.length > 0, 'Items must not be empty');
+  const CpInfoList({super.key, required this.items}) : assert(items.length > 0, 'Items must not be empty');
 
   final List<CpInfoListItem> items;
 
@@ -43,10 +42,7 @@ class _State extends State<CpInfoList> with SingleTickerProviderStateMixin {
 
       final indicatorColor = widget.items[index].variant.backgroundColor;
 
-      final connectorColor =
-          isLast
-              ? indicatorColor
-              : widget.items[index + 1].variant.backgroundColor;
+      final connectorColor = isLast ? indicatorColor : widget.items[index + 1].variant.backgroundColor;
 
       return Row(
         key: ValueKey(index),
@@ -64,10 +60,7 @@ class _State extends State<CpInfoList> with SingleTickerProviderStateMixin {
             ],
           ),
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(top: isFirst ? 6 : 0),
-              child: _TileInfo(tile: widget.items[index]),
-            ),
+            child: Padding(padding: EdgeInsets.only(top: isFirst ? 6 : 0), child: _TileInfo(tile: widget.items[index])),
           ),
         ],
       );
@@ -110,12 +103,7 @@ class _TileInfo extends StatelessWidget {
 }
 
 class _Indicator extends StatelessWidget {
-  const _Indicator({
-    required this.isFirst,
-    required this.isLast,
-    required this.backgroundColor,
-    required this.icon,
-  });
+  const _Indicator({required this.isFirst, required this.isLast, required this.backgroundColor, required this.icon});
 
   final bool isFirst;
   final bool isLast;
@@ -128,11 +116,7 @@ class _Indicator extends StatelessWidget {
     margin: const EdgeInsets.symmetric(vertical: 6),
     child: SizedBox(
       height: _indicatorSize,
-      child: CircleAvatar(
-        maxRadius: _indicatorSize,
-        backgroundColor: backgroundColor,
-        child: icon,
-      ),
+      child: CircleAvatar(maxRadius: _indicatorSize, backgroundColor: backgroundColor, child: icon),
     ),
   );
 }
@@ -146,10 +130,7 @@ class _Connector extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     height: _connectorHeight,
     width: _connectorWidth,
-    decoration: BoxDecoration(
-      color: color,
-      borderRadius: const BorderRadius.all(Radius.circular(_connectorRadius)),
-    ),
+    decoration: BoxDecoration(color: color, borderRadius: const BorderRadius.all(Radius.circular(_connectorRadius))),
   );
 }
 

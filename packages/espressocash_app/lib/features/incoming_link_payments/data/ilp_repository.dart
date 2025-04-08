@@ -42,22 +42,14 @@ class ILPRepository implements Disposable {
   @override
   Future<void> onDispose() => _db.delete(_db.iLPRows).go();
 
-  Stream<IList<IncomingLinkPayment>> watchTxCreated() =>
-      _watchWithStatuses([ILPStatusDto.txCreated]);
+  Stream<IList<IncomingLinkPayment>> watchTxCreated() => _watchWithStatuses([ILPStatusDto.txCreated]);
 
-  Stream<IList<IncomingLinkPayment>> watchTxSent() =>
-      _watchWithStatuses([ILPStatusDto.txSent]);
+  Stream<IList<IncomingLinkPayment>> watchTxSent() => _watchWithStatuses([ILPStatusDto.txSent]);
 
-  Stream<IList<IncomingLinkPayment>> _watchWithStatuses(
-    Iterable<ILPStatusDto> statuses,
-  ) {
-    final query = _db.select(_db.iLPRows)
-      ..where((p) => p.status.isInValues(statuses));
+  Stream<IList<IncomingLinkPayment>> _watchWithStatuses(Iterable<ILPStatusDto> statuses) {
+    final query = _db.select(_db.iLPRows)..where((p) => p.status.isInValues(statuses));
 
-    return query
-        .watch()
-        .asyncMap((rows) => Future.wait(rows.map((row) => row.toModel())))
-        .map((it) => it.lock);
+    return query.watch().asyncMap((rows) => Future.wait(rows.map((row) => row.toModel()))).map((it) => it.lock);
   }
 }
 
@@ -91,35 +83,19 @@ extension on ILPStatusDto {
       case ILPStatusDto.txCreated:
         return ILPStatus.txCreated(tx!);
       case ILPStatusDto.txSent:
-        return ILPStatus.txSent(
-          tx ?? StubSignedTx(txId!),
-          signature: row.txId!,
-        );
+        return ILPStatus.txSent(tx ?? StubSignedTx(txId!), signature: row.txId!);
       case ILPStatusDto.success:
         final feeAmount = row.feeAmount;
         final receiveAmount = row.receiveAmount;
 
         return ILPStatus.success(
           tx: tx ?? StubSignedTx(txId!),
-          fee:
-              feeAmount != null
-                  ? CryptoAmount(
-                    value: feeAmount,
-                    cryptoCurrency: Currency.usdc,
-                  )
-                  : null,
+          fee: feeAmount != null ? CryptoAmount(value: feeAmount, cryptoCurrency: Currency.usdc) : null,
           receiveAmount:
-              receiveAmount != null
-                  ? CryptoAmount(
-                    value: receiveAmount,
-                    cryptoCurrency: Currency.usdc,
-                  )
-                  : null,
+              receiveAmount != null ? CryptoAmount(value: receiveAmount, cryptoCurrency: Currency.usdc) : null,
         );
       case ILPStatusDto.txFailure:
-        return ILPStatus.txFailure(
-          reason: row.txFailureReason ?? TxFailureReason.unknown,
-        );
+        return ILPStatus.txFailure(reason: row.txFailureReason ?? TxFailureReason.unknown);
     }
   }
 }
@@ -152,14 +128,9 @@ extension on ILPStatus {
     txFailure: always(ILPStatusDto.txFailure),
   );
 
-  String? toTx() => mapOrNull(
-    txCreated: (it) => it.tx.encode(),
-    txSent: (it) => it.tx.encode(),
-  );
+  String? toTx() => mapOrNull(txCreated: (it) => it.tx.encode(), txSent: (it) => it.tx.encode());
 
-  String? toTxId() =>
-      mapOrNull(txSent: (it) => it.signature, success: (it) => it.tx.id);
+  String? toTxId() => mapOrNull(txSent: (it) => it.signature, success: (it) => it.tx.id);
 
-  TxFailureReason? toTxFailureReason() =>
-      mapOrNull(txFailure: (it) => it.reason);
+  TxFailureReason? toTxFailureReason() => mapOrNull(txFailure: (it) => it.reason);
 }

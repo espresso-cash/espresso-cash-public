@@ -19,8 +19,7 @@ class TransferError extends StatelessWidget {
     statusContent: Text(
       [
         context.l10n.splitKeyErrorMessage2,
-        if (reason == TxFailureReason.insufficientFunds)
-          context.l10n.errorMessageInsufficientFunds,
+        if (reason == TxFailureReason.insufficientFunds) context.l10n.errorMessageInsufficientFunds,
       ].join(' '),
     ),
     statusType: CpStatusType.error,

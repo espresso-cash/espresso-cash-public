@@ -42,22 +42,13 @@ class _ContentState extends State<_Content> {
     _types = widget.types ?? DocumentType.values;
     _selectedType = switch (widget.initial) {
       final type when _types.contains(type) => type,
-      DocumentType.voterId ||
-      DocumentType.ninV2 ||
-      DocumentType.passport ||
-      DocumentType.idCard ||
-      null => null,
+      DocumentType.voterId || DocumentType.ninV2 || DocumentType.passport || DocumentType.idCard || null => null,
     };
   }
 
   @override
   Widget build(BuildContext context) => ListView.builder(
-    padding: EdgeInsets.only(
-      top: 40,
-      left: 20,
-      right: 20,
-      bottom: MediaQuery.paddingOf(context).bottom,
-    ),
+    padding: EdgeInsets.only(top: 40, left: 20, right: 20, bottom: MediaQuery.paddingOf(context).bottom),
     itemCount: _types.length,
     itemExtent: _tileHeight,
     itemBuilder: (BuildContext context, int index) {
@@ -67,17 +58,11 @@ class _ContentState extends State<_Content> {
       return DecoratedBox(
         decoration:
             selected
-                ? const ShapeDecoration(
-                  color: CpColors.blackTextFieldBackgroundColor,
-                  shape: StadiumBorder(),
-                )
+                ? const ShapeDecoration(color: CpColors.blackTextFieldBackgroundColor, shape: StadiumBorder())
                 : const BoxDecoration(),
         child: ListTile(
           dense: true,
-          title: Text(
-            type.name.toUpperCase(),
-            style: TextStyle(fontSize: selected ? 19 : 17),
-          ),
+          title: Text(type.name.toUpperCase(), style: TextStyle(fontSize: selected ? 19 : 17)),
           selectedColor: Colors.white,
           shape: selected ? const StadiumBorder() : null,
           onTap: () => Navigator.pop(context, type),

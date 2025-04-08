@@ -5,11 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'colors.dart';
 
 class EcMarkdownText extends StatelessWidget {
-  const EcMarkdownText({
-    super.key,
-    required this.text,
-    this.textAlign = WrapAlignment.start,
-  });
+  const EcMarkdownText({super.key, required this.text, this.textAlign = WrapAlignment.start});
 
   final String text;
   final WrapAlignment textAlign;

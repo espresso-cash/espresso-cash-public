@@ -11,11 +11,7 @@ Future<LocalWallet> createLocalWallet({required String mnemonic}) async {
 }
 
 Future<Ed25519HDKeyPair> _createKeyPair(KeyPairParams params) =>
-    Ed25519HDKeyPair.fromMnemonic(
-      params.mnemonic,
-      change: params.change,
-      account: params.account,
-    );
+    Ed25519HDKeyPair.fromMnemonic(params.mnemonic, change: params.change, account: params.account);
 
 @immutable
 class KeyPairParams {

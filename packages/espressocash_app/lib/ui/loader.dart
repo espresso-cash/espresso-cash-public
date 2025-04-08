@@ -25,15 +25,7 @@ class _CpLoaderState extends State<CpLoader> {
     return widget.isLoading
         ? PopScope(
           canPop: false,
-          child: Stack(
-            children: [
-              child,
-              const ColoredBox(
-                color: Colors.black38,
-                child: LoadingIndicator(),
-              ),
-            ],
-          ),
+          child: Stack(children: [child, const ColoredBox(color: Colors.black38, child: LoadingIndicator())]),
         )
         : child;
   }
@@ -44,28 +36,17 @@ class LoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Center(
-    child: SizedBox.square(
-      dimension: 20,
-      child: CircularProgressIndicator(color: CpColors.yellowColor),
-    ),
+    child: SizedBox.square(dimension: 20, child: CircularProgressIndicator(color: CpColors.yellowColor)),
   );
 }
 
-Future<T> runWithLoader<T>(
-  BuildContext context,
-  Func0<Future<T>> fn, {
-  Callback1<Exception>? onError,
-}) async {
+Future<T> runWithLoader<T>(BuildContext context, Func0<Future<T>> fn, {Callback1<Exception>? onError}) async {
   final future = fn();
 
   await showDialog<T>(
     barrierDismissible: false,
     context: context,
-    builder:
-        (context) => PopScope(
-          canPop: false,
-          child: LoadingDialog<T>(future: future, onError: onError),
-        ),
+    builder: (context) => PopScope(canPop: false, child: LoadingDialog<T>(future: future, onError: onError)),
   );
 
   return future;

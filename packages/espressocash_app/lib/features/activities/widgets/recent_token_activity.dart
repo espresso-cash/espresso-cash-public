@@ -22,8 +22,7 @@ class RecentTokenActivityWidget extends StatefulWidget {
   final String tokenAddress;
 
   @override
-  State<RecentTokenActivityWidget> createState() =>
-      _RecentTokenActivityWidgetState();
+  State<RecentTokenActivityWidget> createState() => _RecentTokenActivityWidgetState();
 }
 
 class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
@@ -32,9 +31,7 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
   @override
   void initState() {
     super.initState();
-    _groupedTxs = sl<TokenActivitiesRepository>().watchTokenActivities(
-      widget.tokenAddress,
-    );
+    _groupedTxs = sl<TokenActivitiesRepository>().watchTokenActivities(widget.tokenAddress);
   }
 
   @override
@@ -76,10 +73,7 @@ class _ActivityGroupWidget extends StatelessWidget {
     children: [
       Padding(
         padding: const EdgeInsets.only(left: 12.0, bottom: 9.0),
-        child: Text(
-          context.formatActivityDate(group.date),
-          style: dashboardSectionTitleTextStyle,
-        ),
+        child: Text(context.formatActivityDate(group.date), style: dashboardSectionTitleTextStyle),
       ),
       _Card(
         child: ConstrainedBox(
@@ -93,56 +87,18 @@ class _ActivityGroupWidget extends StatelessWidget {
                 group.transactions
                     .map(
                       (tx) => tx.map(
-                        common:
-                            (t) => CommonTile(
-                              key: ValueKey(t.tx.id),
-                              txCommon: t,
-                              showIcon: false,
-                            ),
+                        common: (t) => CommonTile(key: ValueKey(t.tx.id), txCommon: t, showIcon: false),
                         activity:
                             (txActivity) => txActivity.activity.map(
                               outgoingPaymentRequest:
-                                  (p) => PaymentRequestTile(
-                                    key: ValueKey(p.id),
-                                    id: p.id,
-                                    showIcon: false,
-                                  ),
-                              outgoingDirectPayment:
-                                  (p) => ODPTile(
-                                    key: ValueKey(p.id),
-                                    activity: p,
-                                    showIcon: false,
-                                  ),
-                              outgoingLinkPayment:
-                                  (p) => OLPTile(
-                                    key: ValueKey(p.id),
-                                    activity: p,
-                                    showIcon: false,
-                                  ),
-                              onRamp:
-                                  (it) => OnRampTile(
-                                    key: ValueKey(it.id),
-                                    activity: it,
-                                    showIcon: false,
-                                  ),
-                              offRamp:
-                                  (it) => OffRampTile(
-                                    key: ValueKey(it.id),
-                                    activity: it,
-                                    showIcon: false,
-                                  ),
+                                  (p) => PaymentRequestTile(key: ValueKey(p.id), id: p.id, showIcon: false),
+                              outgoingDirectPayment: (p) => ODPTile(key: ValueKey(p.id), activity: p, showIcon: false),
+                              outgoingLinkPayment: (p) => OLPTile(key: ValueKey(p.id), activity: p, showIcon: false),
+                              onRamp: (it) => OnRampTile(key: ValueKey(it.id), activity: it, showIcon: false),
+                              offRamp: (it) => OffRampTile(key: ValueKey(it.id), activity: it, showIcon: false),
                               outgoingDlnPayment:
-                                  (it) => OutgoingDlnTile(
-                                    key: ValueKey(it.id),
-                                    activity: it,
-                                    showIcon: false,
-                                  ),
-                              transactionRequest:
-                                  (it) => TrTile(
-                                    key: ValueKey(it.id),
-                                    activity: it,
-                                    showIcon: false,
-                                  ),
+                                  (it) => OutgoingDlnTile(key: ValueKey(it.id), activity: it, showIcon: false),
+                              transactionRequest: (it) => TrTile(key: ValueKey(it.id), activity: it, showIcon: false),
                               kyc: (it) => const SizedBox.shrink(),
                             ),
                       ),
@@ -165,9 +121,7 @@ class _Card extends StatelessWidget {
     padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
     decoration: const ShapeDecoration(
       color: CpColors.blackGreyColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(28)),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(28))),
     ),
     child: child,
   );
@@ -181,11 +135,7 @@ class _NoActivity extends StatelessWidget {
     padding: const EdgeInsets.only(top: 72.0),
     child: Text(
       context.l10n.noRecentActivity,
-      style: const TextStyle(
-        color: Color(0xFF484848),
-        fontSize: 16,
-        fontWeight: FontWeight.w400,
-      ),
+      style: const TextStyle(color: Color(0xFF484848), fontSize: 16, fontWeight: FontWeight.w400),
     ),
   );
 }
@@ -196,13 +146,9 @@ extension ActivityDateFormatting on BuildContext {
     final now = DateTime.now();
     final yesterday = now.subtract(const Duration(days: 1));
 
-    return (parsedDate.year == now.year &&
-            parsedDate.month == now.month &&
-            parsedDate.day == now.day)
+    return (parsedDate.year == now.year && parsedDate.month == now.month && parsedDate.day == now.day)
         ? l10n.today
-        : (parsedDate.year == yesterday.year &&
-            parsedDate.month == yesterday.month &&
-            parsedDate.day == yesterday.day)
+        : (parsedDate.year == yesterday.year && parsedDate.month == yesterday.month && parsedDate.day == yesterday.day)
         ? l10n.yesterday
         : DateFormat('MMM d, yyyy').format(parsedDate);
   }

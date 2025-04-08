@@ -1,5 +1,8 @@
 include: package:mews_pedantic/analysis_options.yaml
 
+formatter:
+   page_width: 120
+
 analyzer:
   exclude:
     - "lib/src/api.dart"

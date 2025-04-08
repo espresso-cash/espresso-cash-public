@@ -16,24 +16,17 @@ class ViewRecoveryPhraseScreen extends StatefulWidget {
 
   final VoidCallback onConfirmed;
 
-  static void open(
-    BuildContext context, {
-    NavigatorState? navigator,
-    required VoidCallback onConfirmed,
-  }) => (navigator ?? Navigator.of(context, rootNavigator: true))
-      .pushAndRemoveUntil<void>(
+  static void open(BuildContext context, {NavigatorState? navigator, required VoidCallback onConfirmed}) =>
+      (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<void>(
         PageRouteBuilder(
-          pageBuilder:
-              (context, _, __) =>
-                  ViewRecoveryPhraseScreen(onConfirmed: onConfirmed),
+          pageBuilder: (context, _, __) => ViewRecoveryPhraseScreen(onConfirmed: onConfirmed),
           transitionDuration: Duration.zero,
         ),
         F,
       );
 
   @override
-  State<ViewRecoveryPhraseScreen> createState() =>
-      _ViewRecoveryPhraseScreenState();
+  State<ViewRecoveryPhraseScreen> createState() => _ViewRecoveryPhraseScreenState();
 }
 
 class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
@@ -52,17 +45,9 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
   void _handleConfirmPress() => showConfirmationDialog(
     context,
     title: context.l10n.onboardingPhraseConfirmTitle,
-    titleStyle: const TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.w500,
-      color: Colors.white,
-    ),
+    titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),
     message: context.l10n.onboardingPhraseConfirmSubtitle,
-    messageStyle: const TextStyle(
-      fontSize: 15,
-      fontWeight: FontWeight.w400,
-      color: Colors.white,
-    ),
+    messageStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.white),
     onConfirm: () {
       sl<OnboardingRepository>().hasConfirmedPassphrase = true;
       widget.onConfirmed();

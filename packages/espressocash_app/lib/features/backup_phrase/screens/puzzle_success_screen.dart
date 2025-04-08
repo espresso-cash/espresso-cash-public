@@ -35,9 +35,7 @@ class PuzzleSuccessScreen extends StatelessWidget {
               width: double.infinity,
               text: context.l10n.ok,
               onPressed: () {
-                sl<PuzzleReminderBloc>().add(
-                  const PuzzleReminderEvent.solved(),
-                );
+                sl<PuzzleReminderBloc>().add(const PuzzleReminderEvent.solved());
                 onDone();
               },
             ),

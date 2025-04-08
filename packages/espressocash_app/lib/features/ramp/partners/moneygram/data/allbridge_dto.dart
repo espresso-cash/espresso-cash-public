@@ -5,13 +5,9 @@ part 'allbridge_dto.g.dart';
 
 @freezed
 class BridgeStatusRequestDto with _$BridgeStatusRequestDto {
-  const factory BridgeStatusRequestDto({
-    required Chain chain,
-    required String txId,
-  }) = _BridgeStatusRequestDto;
+  const factory BridgeStatusRequestDto({required Chain chain, required String txId}) = _BridgeStatusRequestDto;
 
-  factory BridgeStatusRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$BridgeStatusRequestDtoFromJson(json);
+  factory BridgeStatusRequestDto.fromJson(Map<String, dynamic> json) => _$BridgeStatusRequestDtoFromJson(json);
 }
 
 @freezed
@@ -24,8 +20,7 @@ class BridgeStatusResponseDto with _$BridgeStatusResponseDto {
     required TransactionStatus? receive,
   }) = _BridgeStatusResponseDto;
 
-  factory BridgeStatusResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$BridgeStatusResponseDtoFromJson(json);
+  factory BridgeStatusResponseDto.fromJson(Map<String, dynamic> json) => _$BridgeStatusResponseDtoFromJson(json);
 }
 
 @freezed
@@ -44,25 +39,20 @@ class TransactionStatus with _$TransactionStatus {
     required String hash,
   }) = _TransactionStatus;
 
-  factory TransactionStatus.fromJson(Map<String, dynamic> json) =>
-      _$TransactionStatusFromJson(json);
+  factory TransactionStatus.fromJson(Map<String, dynamic> json) => _$TransactionStatusFromJson(json);
 }
 
 @freezed
 class RestoreStellarTxRequestDto with _$RestoreStellarTxRequestDto {
-  const factory RestoreStellarTxRequestDto({
-    required String xdrTx,
-    required String sender,
-  }) = _RestoreStellarTxRequestDto;
+  const factory RestoreStellarTxRequestDto({required String xdrTx, required String sender}) =
+      _RestoreStellarTxRequestDto;
 
-  factory RestoreStellarTxRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$RestoreStellarTxRequestDtoFromJson(json);
+  factory RestoreStellarTxRequestDto.fromJson(Map<String, dynamic> json) => _$RestoreStellarTxRequestDtoFromJson(json);
 }
 
 @freezed
 class RestoreStellarTxResponseDto with _$RestoreStellarTxResponseDto {
-  const factory RestoreStellarTxResponseDto({required String tx}) =
-      _RestoreStellarTxResponseDto;
+  const factory RestoreStellarTxResponseDto({required String tx}) = _RestoreStellarTxResponseDto;
 
   factory RestoreStellarTxResponseDto.fromJson(Map<String, dynamic> json) =>
       _$RestoreStellarTxResponseDtoFromJson(json);

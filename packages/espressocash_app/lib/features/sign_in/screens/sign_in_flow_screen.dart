@@ -15,14 +15,10 @@ class SignInFlowScreen extends StatefulWidget {
   const SignInFlowScreen({super.key});
 
   static void open(BuildContext context, {NavigatorState? navigator}) =>
-      (navigator ?? Navigator.of(context, rootNavigator: true))
-          .pushAndRemoveUntil<void>(
-            PageRouteBuilder(
-              pageBuilder: (context, _, __) => const SignInFlowScreen(),
-              transitionDuration: Duration.zero,
-            ),
-            F,
-          );
+      (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<void>(
+        PageRouteBuilder(pageBuilder: (context, _, __) => const SignInFlowScreen(), transitionDuration: Duration.zero),
+        F,
+      );
 
   @override
   State<SignInFlowScreen> createState() => _SignInFlowScreenState();
@@ -37,14 +33,11 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
     super.dispose();
   }
 
-  void _handleSignInPressed() => Navigator.of(context).push(
-    MaterialPageRoute<void>(
-      builder: (context) => RestoreAccountScreen(onSubmit: _handleRestore),
-    ),
-  );
+  void _handleSignInPressed() => Navigator.of(
+    context,
+  ).push(MaterialPageRoute<void>(builder: (context) => RestoreAccountScreen(onSubmit: _handleRestore)));
 
-  void _handleCreateLocalPressed() =>
-      _bloc.add(const SignInEvent.newLocalWalletRequested());
+  void _handleCreateLocalPressed() => _bloc.add(const SignInEvent.newLocalWalletRequested());
 
   void _handleRestore(String phrase) {
     _bloc
@@ -63,20 +56,14 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
           ),
           FlowSuccess(:final result) => runWithLoader(
             context,
-            () => sl<AccountService>().logIn(
-              source: state.source,
-              account: result,
-            ),
+            () => sl<AccountService>().logIn(source: state.source, account: result),
           ),
           _ => null,
         },
     builder:
         (context, state) => CpLoader(
           isLoading: state.processingState.isProcessing,
-          child: GetStartedScreen(
-            onSignInPressed: _handleSignInPressed,
-            onLocalPressed: _handleCreateLocalPressed,
-          ),
+          child: GetStartedScreen(onSignInPressed: _handleSignInPressed, onLocalPressed: _handleCreateLocalPressed),
         ),
   );
 }

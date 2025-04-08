@@ -34,17 +34,12 @@ typedef Deposit =
     });
 
 class OnRampDepositWidget extends StatelessWidget {
-  const OnRampDepositWidget({
-    super.key,
-    required this.deposit,
-    required this.partner,
-  });
+  const OnRampDepositWidget({super.key, required this.deposit, required this.partner});
 
   final RampPartner partner;
   final Deposit deposit;
 
-  void _handleConfirmPress() =>
-      sl<OnRampOrderService>().confirmDeposit(deposit.orderId);
+  void _handleConfirmPress() => sl<OnRampOrderService>().confirmDeposit(deposit.orderId);
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +47,10 @@ class OnRampDepositWidget extends StatelessWidget {
 
     final formattedTransferAmount = deposit.transferAmount.format(locale);
 
-    final formattedReceiveAmount = deposit.receiveAmount?.format(
-      locale,
-      skipSymbol: true,
-      maxDecimals: 2,
-    );
+    final formattedReceiveAmount = deposit.receiveAmount?.format(locale, skipSymbol: true, maxDecimals: 2);
 
     return switch (partner) {
-      RampPartner.brij ||
-      RampPartner.scalex ||
-      RampPartner.scalexBrij => _ScalexDepositContent(
+      RampPartner.brij || RampPartner.scalex || RampPartner.scalexBrij => _ScalexDepositContent(
         deposit: deposit,
         formattedTransferAmount: formattedTransferAmount,
         formattedReceiveAmount: formattedReceiveAmount,
@@ -105,10 +94,7 @@ class _ScalexDepositContent extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 24),
-            child: CountdownTimer(
-              expiryDate: deposit.transferExpiryDate,
-              startDate: deposit.orderCreated,
-            ),
+            child: CountdownTimer(expiryDate: deposit.transferExpiryDate, startDate: deposit.orderCreated),
           ),
         ],
         elevation: 0,
@@ -121,10 +107,7 @@ class _ScalexDepositContent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             const SizedBox(height: 16),
-            _InstructionItem(
-              index: 1,
-              text: context.l10n.depositInstruction1(deposit.bankName),
-            ),
+            _InstructionItem(index: 1, text: context.l10n.depositInstruction1(deposit.bankName)),
             const SizedBox(height: 8),
             _ItemWidget(
               title: context.l10n.depositTransferAmount,
@@ -173,11 +156,7 @@ class _ScalexDepositContent extends StatelessWidget {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: CpButton(
-            width: double.infinity,
-            onPressed: onConfirmPress,
-            text: context.l10n.confirmTransfer,
-          ),
+          child: CpButton(width: double.infinity, onPressed: onConfirmPress, text: context.l10n.confirmTransfer),
         ),
       ),
     ),
@@ -198,17 +177,9 @@ class _MoneygramDepositContent extends StatelessWidget {
   void _handleConfirmPress(BuildContext context) => showConfirmationDialog(
     context,
     title: 'Confirm Deposit',
-    titleStyle: const TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.w500,
-      color: Colors.white,
-    ),
+    titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),
     message: 'Have you deposit the funds to the selected MoneyGram location?',
-    messageStyle: const TextStyle(
-      fontSize: 15,
-      fontWeight: FontWeight.w400,
-      color: Colors.white,
-    ),
+    messageStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.white),
     onConfirm: onConfirmPress.call,
   );
 
@@ -218,11 +189,7 @@ class _MoneygramDepositContent extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           context.l10n.depositTitle.toUpperCase(),
-          style: const TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 17,
-            color: Colors.black,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17, color: Colors.black),
         ),
         leading: const CpBackButton(),
         elevation: 0,
@@ -242,20 +209,12 @@ class _MoneygramDepositContent extends StatelessWidget {
                 const SizedBox(height: 16),
                 Text(
                   context.l10n.confirmYourTransferOf,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: const TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 12),
                 Text(
                   formattedTransferAmount,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 46,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: const TextStyle(color: Colors.black, fontSize: 46, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 12),
                 Padding(
@@ -291,9 +250,7 @@ class _MoneygramDepositContent extends StatelessWidget {
                       title: context.l10n.depositTitle.toUpperCase(),
                       theme: const CpThemeData.light(),
                       onLoaded: (controller) async {
-                        await controller.evaluateJavascript(
-                          source: await loadMoneygramStyle(),
-                        );
+                        await controller.evaluateJavascript(source: await loadMoneygramStyle());
                       },
                     );
                   },
@@ -331,11 +288,7 @@ class _MoneygramBackground extends StatelessWidget {
     child: Stack(
       children: [
         Assets.icons.logoBgAlternative.svg(alignment: Alignment.bottomCenter),
-        const FadeGradient(
-          height: 150,
-          color: FadeGradientColor.white,
-          direction: FadeGradientDirection.topDown,
-        ),
+        const FadeGradient(height: 150, color: FadeGradientColor.white, direction: FadeGradientDirection.topDown),
       ],
     ),
   );
@@ -352,19 +305,12 @@ class _InstructionItem extends StatelessWidget {
       Container(
         width: 32,
         height: 32,
-        decoration: const BoxDecoration(
-          color: CpColors.yellowColor,
-          shape: BoxShape.circle,
-        ),
+        decoration: const BoxDecoration(color: CpColors.yellowColor, shape: BoxShape.circle),
         child: Center(
           child: Text(
             '$index',
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-            ),
+            style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w900),
           ),
         ),
       ),
@@ -386,11 +332,7 @@ class _InstructionItem extends StatelessWidget {
 }
 
 class _ItemWidget extends StatelessWidget {
-  const _ItemWidget({
-    required this.value,
-    required this.title,
-    this.trailing = const SizedBox.shrink(),
-  });
+  const _ItemWidget({required this.value, required this.title, this.trailing = const SizedBox.shrink()});
 
   final String title;
   final String value;
@@ -405,21 +347,13 @@ class _ItemWidget extends StatelessWidget {
         padding: const EdgeInsets.only(left: 18),
         child: Text(
           title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 0.17,
-          ),
+          style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.17),
         ),
       ),
       const SizedBox(height: 8),
       Container(
         padding: const EdgeInsets.fromLTRB(30, 10, 18, 10),
-        decoration: const BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.all(Radius.circular(40)),
-        ),
+        decoration: const BoxDecoration(color: Colors.black, borderRadius: BorderRadius.all(Radius.circular(40))),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -428,12 +362,7 @@ class _ItemWidget extends StatelessWidget {
                 value,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 34,
-                  height: 40 / 34,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 34, height: 40 / 34, fontWeight: FontWeight.w700),
               ),
             ),
             trailing,

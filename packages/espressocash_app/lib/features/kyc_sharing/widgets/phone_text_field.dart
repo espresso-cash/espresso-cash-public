@@ -80,20 +80,11 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                       width: 70,
                       child: Text(
                         country.dialCode,
-                        style: TextStyle(
-                          fontSize: selected ? 19 : 17,
-                          color: CpColors.yellowColor,
-                        ),
+                        style: TextStyle(fontSize: selected ? 19 : 17, color: CpColors.yellowColor),
                       ),
                     ),
                     Expanded(
-                      child: Text(
-                        country.name,
-                        style: TextStyle(
-                          fontSize: selected ? 19 : 17,
-                          color: Colors.white,
-                        ),
-                      ),
+                      child: Text(country.name, style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white)),
                     ),
                   ],
                 ),
@@ -115,11 +106,7 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                 height: 1.2,
               ),
             ),
-            const Icon(
-              Icons.keyboard_arrow_down_outlined,
-              color: CpColors.yellowColor,
-              size: 20,
-            ),
+            const Icon(Icons.keyboard_arrow_down_outlined, color: CpColors.yellowColor, size: 20),
           ],
         ),
       ),

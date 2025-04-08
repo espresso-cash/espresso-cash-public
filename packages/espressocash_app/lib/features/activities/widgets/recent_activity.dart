@@ -11,11 +11,7 @@ import '../data/transaction_repository.dart';
 import 'transaction_item.dart';
 
 class RecentActivityWidget extends StatefulWidget {
-  const RecentActivityWidget({
-    super.key,
-    required this.onSendMoneyPressed,
-    required this.onTransactionsPressed,
-  });
+  const RecentActivityWidget({super.key, required this.onSendMoneyPressed, required this.onTransactionsPressed});
 
   final VoidCallback onSendMoneyPressed;
   final VoidCallback onTransactionsPressed;
@@ -51,18 +47,11 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 12.0),
-              child: Text(
-                context.l10n.recentActivityLbl,
-                style: dashboardSectionTitleTextStyle,
-              ),
+              child: Text(context.l10n.recentActivityLbl, style: dashboardSectionTitleTextStyle),
             ),
             const SizedBox(height: 16),
             if (data.isEmpty)
-              Center(
-                child: _NoActivity(
-                  onSendMoneyPressed: widget.onSendMoneyPressed,
-                ),
-              )
+              Center(child: _NoActivity(onSendMoneyPressed: widget.onSendMoneyPressed))
             else ...[
               _Card(
                 child: Column(
@@ -71,9 +60,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                           .map(
                             (e) => _KeepAlive(
                               key: ValueKey(e),
-                              child: CpTheme.black(
-                                child: TransactionItem(tx: e, showIcon: false),
-                              ),
+                              child: CpTheme.black(child: TransactionItem(tx: e, showIcon: false)),
                             ),
                           )
                           .toList(),
@@ -114,19 +101,10 @@ class _NoActivity extends StatelessWidget {
         children: [
           Text(
             context.l10n.recentActivityEmpty,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
-            ),
+            style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400),
           ),
           const SizedBox(height: 16),
-          CpButton(
-            minWidth: 120,
-            size: CpButtonSize.wide,
-            text: context.l10n.yes,
-            onPressed: onSendMoneyPressed,
-          ),
+          CpButton(minWidth: 120, size: CpButtonSize.wide, text: context.l10n.yes, onPressed: onSendMoneyPressed),
         ],
       ),
     ),
@@ -142,9 +120,7 @@ class _Card extends StatelessWidget {
     padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
     decoration: const ShapeDecoration(
       color: CpColors.blackGreyColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(28)),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(28))),
     ),
     child: child,
   );
@@ -159,8 +135,7 @@ class _KeepAlive extends StatefulWidget {
   State<_KeepAlive> createState() => _KeepAliveState();
 }
 
-class _KeepAliveState extends State<_KeepAlive>
-    with AutomaticKeepAliveClientMixin {
+class _KeepAliveState extends State<_KeepAlive> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 

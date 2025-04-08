@@ -11,37 +11,24 @@ part 'amount.freezed.dart';
 
 @freezed
 sealed class Amount with _$Amount {
-  factory Amount({
-    required int value,
-    required Currency currency,
-  }) => switch (currency) {
+  factory Amount({required int value, required Currency currency}) => switch (currency) {
     FiatCurrency() => Amount.fiat(value: value, fiatCurrency: currency),
     CryptoCurrency() => Amount.crypto(value: value, cryptoCurrency: currency),
   };
 
-  const factory Amount.fiat({
-    required int value,
-    required FiatCurrency fiatCurrency,
-  }) = FiatAmount;
+  const factory Amount.fiat({required int value, required FiatCurrency fiatCurrency}) = FiatAmount;
 
-  const factory Amount.crypto({
-    required int value,
-    required CryptoCurrency cryptoCurrency,
-  }) = CryptoAmount;
+  const factory Amount.crypto({required int value, required CryptoCurrency cryptoCurrency}) = CryptoAmount;
 
-  factory Amount.zero({required Currency currency}) =>
-      Amount(value: 0, currency: currency);
+  factory Amount.zero({required Currency currency}) => Amount(value: 0, currency: currency);
 
   factory Amount.fromToken({required int value, required Token token}) =>
       Amount(value: value, currency: Currency.crypto(token: token));
 
-  factory Amount.sol({required int value}) =>
-      Amount.crypto(value: value, cryptoCurrency: Currency.sol);
+  factory Amount.sol({required int value}) => Amount.crypto(value: value, cryptoCurrency: Currency.sol);
 
-  factory Amount.fromDecimal({
-    required Decimal value,
-    required Currency currency,
-  }) => Amount(value: currency.decimalToInt(value), currency: currency);
+  factory Amount.fromDecimal({required Decimal value, required Currency currency}) =>
+      Amount(value: currency.decimalToInt(value), currency: currency);
 
   const Amount._();
 
@@ -108,8 +95,7 @@ extension AmountExt on Amount {
 extension CryptoAmountExt on CryptoAmount {
   Token get token => cryptoCurrency.token;
 
-  CryptoAmount copyWithDecimal(Decimal decimal) =>
-      copyWith(value: currency.decimalToInt(decimal));
+  CryptoAmount copyWithDecimal(Decimal decimal) => copyWith(value: currency.decimalToInt(decimal));
 
   CryptoAmount round(int scale) => copyWithDecimal(decimal.round(scale: scale));
 
@@ -117,18 +103,13 @@ extension CryptoAmountExt on CryptoAmount {
 }
 
 extension FiatAmountExt on FiatAmount {
-  FiatAmount copyWithDecimal(Decimal decimal) =>
-      copyWith(value: currency.decimalToInt(decimal));
+  FiatAmount copyWithDecimal(Decimal decimal) => copyWith(value: currency.decimalToInt(decimal));
 }
 
 extension FormattedAmount on Amount {
   String formatRate(double rate, Locale locale) {
     if (rate >= 1) {
-      return NumberFormat.currency(
-        locale: locale.toString(),
-        symbol: '',
-        decimalDigits: 2,
-      ).format(rate);
+      return NumberFormat.currency(locale: locale.toString(), symbol: '', decimalDigits: 2).format(rate);
     }
 
     if (rate == 0.0 || rate >= 0.01) {

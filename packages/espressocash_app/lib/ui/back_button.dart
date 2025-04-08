@@ -16,10 +16,7 @@ class CpBackButton extends StatelessWidget {
         ? const SizedBox.shrink()
         : CpIconButton(
           icon: Assets.icons.arrow.svg(
-            color:
-                Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
           ),
           variant: CpIconButtonVariant.transparent,
           onPressed: onPressed ?? () => Navigator.pop(context),

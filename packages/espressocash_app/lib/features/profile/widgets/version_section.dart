@@ -15,11 +15,7 @@ class _VersionSectionState extends State<VersionSection> {
     await Clipboard.setData(ClipboardData(text: id));
     if (!mounted) return;
 
-    showCpSnackbar(
-      context,
-      message: context.l10n.copiedFid(id),
-      icon: const Icon(Icons.check, color: Colors.green),
-    );
+    showCpSnackbar(context, message: context.l10n.copiedFid(id), icon: const Icon(Icons.check, color: Colors.green));
   }
 
   @override
@@ -38,10 +34,7 @@ class _VersionSectionState extends State<VersionSection> {
                 onLongPress: _copyFID,
                 child: Text(
                   context.l10n.version(version, buildNumber ?? ''),
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                 ),
               ),
             ),

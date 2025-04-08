@@ -9,15 +9,10 @@ import '../services/on_ramp_order_service.dart';
 
 export '../services/on_ramp_order_service.dart' show OnRampOrder;
 
-typedef OnRampOrderDetailsBuilder =
-    Widget Function(BuildContext context, OnRampOrder? order);
+typedef OnRampOrderDetailsBuilder = Widget Function(BuildContext context, OnRampOrder? order);
 
 class OnRampOrderDetails extends StatefulWidget {
-  const OnRampOrderDetails({
-    super.key,
-    required this.orderId,
-    required this.builder,
-  });
+  const OnRampOrderDetails({super.key, required this.orderId, required this.builder});
 
   final String orderId;
   final OnRampOrderDetailsBuilder builder;
@@ -46,9 +41,7 @@ class _OnRampOrderDetailsState extends State<OnRampOrderDetails> {
     _watcher = switch (onRamp.partner) {
       RampPartner.kado => sl<KadoOnRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOnRampOrderWatcher>(),
-      RampPartner.brij ||
-      RampPartner.scalexBrij ||
-      RampPartner.moneygram => null,
+      RampPartner.brij || RampPartner.scalexBrij || RampPartner.moneygram => null,
       RampPartner.rampNetwork ||
       RampPartner.coinflow ||
       RampPartner.guardarian => throw ArgumentError('Not implemented'),
@@ -62,8 +55,6 @@ class _OnRampOrderDetailsState extends State<OnRampOrderDetails> {
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder(
-    stream: _stream,
-    builder: (context, snapshot) => widget.builder(context, snapshot.data),
-  );
+  Widget build(BuildContext context) =>
+      StreamBuilder(stream: _stream, builder: (context, snapshot) => widget.builder(context, snapshot.data));
 }

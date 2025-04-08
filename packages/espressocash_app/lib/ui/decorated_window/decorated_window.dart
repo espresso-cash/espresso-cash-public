@@ -50,18 +50,11 @@ class DecoratedWindow extends StatelessWidget {
           ),
         ),
         Expanded(child: child),
-        if (bottomButton != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: bottomButton,
-          ),
+        if (bottomButton != null) Padding(padding: const EdgeInsets.symmetric(horizontal: 24), child: bottomButton),
       ],
     );
     final content = CpTheme(
-      theme:
-          backgroundStyle == BackgroundStyle.light
-              ? const CpThemeData.light()
-              : const CpThemeData.dark(),
+      theme: backgroundStyle == BackgroundStyle.light ? const CpThemeData.light() : const CpThemeData.dark(),
       child: Scaffold(
         appBar: CpAppBar(leading: backButton, nextButton: nextButton),
         backgroundColor: CpColors.lightSandColor,
@@ -72,9 +65,7 @@ class DecoratedWindow extends StatelessWidget {
                       (context, constraints) => SingleChildScrollView(
                         physics: const RangeMaintainingScrollPhysics(),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minHeight: constraints.maxHeight,
-                          ),
+                          constraints: BoxConstraints(minHeight: constraints.maxHeight),
                           child: IntrinsicHeight(child: layout),
                         ),
                       ),

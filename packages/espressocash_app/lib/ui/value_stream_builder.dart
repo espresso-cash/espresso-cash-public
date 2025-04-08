@@ -8,11 +8,7 @@ extension ValueExt<T> on (Stream<T>, T) {
 }
 
 class ValueStreamBuilder<T> extends StatefulWidget {
-  const ValueStreamBuilder({
-    super.key,
-    required this.create,
-    required this.builder,
-  });
+  const ValueStreamBuilder({super.key, required this.create, required this.builder});
 
   final ValueStreamFactory<T> create;
   final ValueWidgetBuilder<T> builder;

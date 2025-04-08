@@ -20,17 +20,13 @@ import '../widgets/invalid_escrow_error_widget.dart';
 class IncomingLinkPaymentScreen extends StatefulWidget {
   const IncomingLinkPaymentScreen({super.key, required this.id});
 
-  static void push(BuildContext context, {required String id}) => Navigator.of(
-    context,
-  ).push<void>(
-    MaterialPageRoute(builder: (context) => IncomingLinkPaymentScreen(id: id)),
-  );
+  static void push(BuildContext context, {required String id}) =>
+      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => IncomingLinkPaymentScreen(id: id)));
 
   final String id;
 
   @override
-  State<IncomingLinkPaymentScreen> createState() =>
-      _IncomingLinkPaymentScreenState();
+  State<IncomingLinkPaymentScreen> createState() => _IncomingLinkPaymentScreenState();
 }
 
 class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
@@ -52,9 +48,7 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
           ? TransferProgress(onBack: () => Navigator.pop(context))
           : payment.status.maybeMap(
             success: (e) {
-              final receiveAmount = e.receiveAmount?.let(
-                (e) => e.format(context.locale, maxDecimals: 2),
-              );
+              final receiveAmount = e.receiveAmount?.let((e) => e.format(context.locale, maxDecimals: 2));
 
               return TransferSuccess(
                 onBack: () => Navigator.pop(context),
@@ -71,8 +65,7 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
                     it.reason == TxFailureReason.escrowFailure
                         ? const InvalidEscrowErrorWidget()
                         : TransferError(onBack: () => Navigator.pop(context)),
-            orElse:
-                () => TransferProgress(onBack: () => Navigator.pop(context)),
+            orElse: () => TransferProgress(onBack: () => Navigator.pop(context)),
           );
     },
   );
@@ -101,15 +94,8 @@ class _FeeNotice extends StatelessWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: Text(
-                  context.l10n.incomingUsdcFeeNotice(
-                    amount.format(context.locale),
-                  ),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.50,
-                    fontWeight: FontWeight.w500,
-                    height: 0,
-                  ),
+                  context.l10n.incomingUsdcFeeNotice(amount.format(context.locale)),
+                  style: const TextStyle(color: Colors.white, fontSize: 14.50, fontWeight: FontWeight.w500, height: 0),
                 ),
               ),
             ],

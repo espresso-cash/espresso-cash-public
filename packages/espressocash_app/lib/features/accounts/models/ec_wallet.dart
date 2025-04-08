@@ -23,6 +23,5 @@ class LocalWallet implements ECWallet {
   Ed25519HDPublicKey get publicKey => keyPair.publicKey;
 
   @override
-  Future<List<Signature>> sign(Iterable<Uint8List> payloads) =>
-      Future.wait(payloads.map(keyPair.sign));
+  Future<List<Signature>> sign(Iterable<Uint8List> payloads) => Future.wait(payloads.map(keyPair.sign));
 }

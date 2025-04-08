@@ -19,15 +19,12 @@ class ODPDetailsScreen extends StatefulWidget {
   const ODPDetailsScreen({super.key, required this.id});
 
   static void push(BuildContext context, {required String id}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(builder: (context) => ODPDetailsScreen(id: id)),
-      );
+      Navigator.of(context).push<void>(MaterialPageRoute(builder: (context) => ODPDetailsScreen(id: id)));
 
-  static void open(BuildContext context, {required String id}) =>
-      Navigator.of(context).pushAndRemoveUntil<void>(
-        MaterialPageRoute(builder: (context) => ODPDetailsScreen(id: id)),
-        (route) => route.isFirst,
-      );
+  static void open(BuildContext context, {required String id}) => Navigator.of(context).pushAndRemoveUntil<void>(
+    MaterialPageRoute(builder: (context) => ODPDetailsScreen(id: id)),
+    (route) => route.isFirst,
+  );
 
   final String id;
 
@@ -46,9 +43,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
 
   void _handleCancel(String id) => showConfirmationDialog(
     context,
-    title:
-        context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle
-            .toUpperCase(),
+    title: context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle.toUpperCase(),
     message: context.l10n.outgoingDirectPayments_lblCancelConfirmationSubtitle,
     onConfirm: () => context.cancelODP(paymentId: id),
   );
@@ -70,11 +65,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                     payment.amount.format(DeviceLocale.localeOf(context)),
                   ),
                   onMoreDetailsPressed: () {
-                    final link =
-                        status.txId
-                            .let(createTransactionLink)
-                            .let(Uri.parse)
-                            .toString();
+                    final link = status.txId.let(createTransactionLink).let(Uri.parse).toString();
                     context.openLink(link);
                   },
                 ),
@@ -84,8 +75,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                   onCancel: () => _handleCancel(payment.id),
                   reason: it.reason,
                 ),
-            orElse:
-                () => TransferProgress(onBack: () => Navigator.pop(context)),
+            orElse: () => TransferProgress(onBack: () => Navigator.pop(context)),
           );
     },
   );

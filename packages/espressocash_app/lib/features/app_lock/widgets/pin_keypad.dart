@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../ui/amount_keypad/keypad_key.dart';
 
 class PinKeypad extends StatelessWidget {
-  const PinKeypad({
-    super.key,
-    required this.maxDigits,
-    required TextEditingController controller,
-  }) : _controller = controller;
+  const PinKeypad({super.key, required this.maxDigits, required TextEditingController controller})
+    : _controller = controller;
 
   final TextEditingController _controller;
   final int maxDigits;
@@ -59,10 +56,7 @@ class PinKeypad extends StatelessWidget {
         children:
             _keys
                 .map(
-                  (KeypadKey child) => InkWell(
-                    onTap: () => _handleKeyTapped(child.value),
-                    child: Center(child: child),
-                  ),
+                  (KeypadKey child) => InkWell(onTap: () => _handleKeyTapped(child.value), child: Center(child: child)),
                 )
                 .toList(),
       ),

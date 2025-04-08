@@ -17,11 +17,7 @@ class IntercomService implements Disposable {
   @FactoryMethod(preResolve: true)
   static Future<IntercomService> create(ECWallet account) async {
     if (_instance == null) {
-      await Intercom.instance.initialize(
-        intercomAppId,
-        iosApiKey: intercomIosKey,
-        androidApiKey: intercomAndroidKey,
-      );
+      await Intercom.instance.initialize(intercomAppId, iosApiKey: intercomIosKey, androidApiKey: intercomAndroidKey);
     }
 
     final IntercomService instance = _instance ??= const IntercomService._();
@@ -33,13 +29,11 @@ class IntercomService implements Disposable {
 
   Future<void> displayMessenger() => Intercom.instance.displayMessenger();
 
-  void updateCountry(String? countryCode) => Intercom.instance.updateUser(
-    customAttributes: {'countryCode': countryCode},
-  );
+  void updateCountry(String? countryCode) =>
+      Intercom.instance.updateUser(customAttributes: {'countryCode': countryCode});
 
-  void updateStellarAddress(String address) => Intercom.instance.updateUser(
-    customAttributes: {'stellarAddress': address},
-  );
+  void updateStellarAddress(String address) =>
+      Intercom.instance.updateUser(customAttributes: {'stellarAddress': address});
 
   @override
   Future<void> onDispose() => Intercom.instance.logout();

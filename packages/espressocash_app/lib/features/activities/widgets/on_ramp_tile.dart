@@ -20,18 +20,12 @@ class OnRampTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => OnRampOrderDetails(
     orderId: activity.id,
-    builder:
-        (context, order) =>
-            _ActivityTile(order: order, activity: activity, showIcon: showIcon),
+    builder: (context, order) => _ActivityTile(order: order, activity: activity, showIcon: showIcon),
   );
 }
 
 class _ActivityTile extends StatelessWidget {
-  const _ActivityTile({
-    required this.activity,
-    required this.order,
-    required this.showIcon,
-  });
+  const _ActivityTile({required this.activity, required this.order, required this.showIcon});
 
   final OnRampActivity activity;
   final OnRampOrder? order;
@@ -56,10 +50,7 @@ class _ActivityTile extends StatelessWidget {
       null => CpActivityTileStatus.inProgress,
     },
     timestamp: context.formatDate(activity.created),
-    incomingAmount: order?.receiveAmount?.format(
-      context.locale,
-      maxDecimals: 2,
-    ),
+    incomingAmount: order?.receiveAmount?.format(context.locale, maxDecimals: 2),
     onTap: () => OnRampOrderScreen.push(context, id: order?.id ?? ''),
     showIcon: showIcon,
   );

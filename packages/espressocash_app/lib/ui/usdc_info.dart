@@ -14,10 +14,7 @@ class UsdcInfoWidget extends StatelessWidget {
     child: CpInfoWidget(
       message: Text(
         context.l10n.usdcExplanation,
-        style: TextStyle(
-          fontSize: isSmall ? 12 : 14.5,
-          fontWeight: FontWeight.w500,
-        ),
+        style: TextStyle(fontSize: isSmall ? 12 : 14.5, fontWeight: FontWeight.w500),
         maxLines: 3,
       ),
       variant: CpInfoVariant.black,

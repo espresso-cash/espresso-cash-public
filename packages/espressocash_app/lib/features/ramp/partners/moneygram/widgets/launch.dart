@@ -63,24 +63,9 @@ extension BuildContextExt on BuildContext {
       receiveCurrency: receiveCurrency,
       type: type,
       calculateEquivalent:
-          (amount) => _calculateReceiveAmount(
-            amount: amount,
-            type: type,
-            currency: receiveCurrency,
-            rate: rate,
-          ),
-      calculateFee:
-          (amount) => _calculateFees(
-            amount: amount,
-            type: type,
-            currency: receiveCurrency,
-            rate: rate,
-          ),
-      exchangeRate: _formatExchangeRate(
-        from: inputCurrency,
-        to: receiveCurrency,
-        rate: rate,
-      ),
+          (amount) => _calculateReceiveAmount(amount: amount, type: type, currency: receiveCurrency, rate: rate),
+      calculateFee: (amount) => _calculateFees(amount: amount, type: type, currency: receiveCurrency, rate: rate),
+      exchangeRate: _formatExchangeRate(from: inputCurrency, to: receiveCurrency, rate: rate),
       isEstimatedRate: isEstimatedRate,
     );
 
@@ -95,21 +80,14 @@ extension BuildContextExt on BuildContext {
 
     final fees = await runWithLoader<MoneygramFees>(
       this,
-      () => sl<MoneygramFeesService>().fetchFees(
-        amount: submittedAmount,
-        type: type,
-      ),
+      () => sl<MoneygramFeesService>().fetchFees(amount: submittedAmount, type: type),
     );
 
-    final depositAmount =
-        fees.receiveAmount.convert(rate: rate, to: receiveCurrency)
-            as FiatAmount;
+    final depositAmount = fees.receiveAmount.convert(rate: rate, to: receiveCurrency) as FiatAmount;
 
     final bridgeAmountInUsdc = submittedAmountInUsdc + fees.bridgeFee;
 
-    final response = await _generateDepositLink(
-      amount: bridgeAmountInUsdc.decimal.toDouble(),
-    );
+    final response = await _generateDepositLink(amount: bridgeAmountInUsdc.decimal.toDouble());
 
     if (response == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
@@ -218,24 +196,9 @@ window.addEventListener("message", (event) => {
       receiveCurrency: receiveCurrency,
       type: type,
       calculateEquivalent:
-          (amount) => _calculateReceiveAmount(
-            amount: amount,
-            type: type,
-            currency: receiveCurrency,
-            rate: rate,
-          ),
-      calculateFee:
-          (amount) => _calculateFees(
-            amount: amount,
-            type: type,
-            currency: receiveCurrency,
-            rate: rate,
-          ),
-      exchangeRate: _formatExchangeRate(
-        from: inputCurrency,
-        to: receiveCurrency,
-        rate: rate,
-      ),
+          (amount) => _calculateReceiveAmount(amount: amount, type: type, currency: receiveCurrency, rate: rate),
+      calculateFee: (amount) => _calculateFees(amount: amount, type: type, currency: receiveCurrency, rate: rate),
+      exchangeRate: _formatExchangeRate(from: inputCurrency, to: receiveCurrency, rate: rate),
       isEstimatedRate: isEstimatedRate,
     );
 
@@ -245,10 +208,7 @@ window.addEventListener("message", (event) => {
 
     final fees = await runWithLoader<MoneygramFees>(
       this,
-      () => sl<MoneygramFeesService>().fetchFees(
-        amount: submittedAmount,
-        type: type,
-      ),
+      () => sl<MoneygramFeesService>().fetchFees(amount: submittedAmount, type: type),
     );
 
     final priorityFee = fees.priorityFee;
@@ -258,10 +218,7 @@ window.addEventListener("message", (event) => {
       return;
     }
 
-    final receiveAmount = fees.receiveAmount.convert(
-      rate: rate,
-      to: receiveCurrency,
-    );
+    final receiveAmount = fees.receiveAmount.convert(rate: rate, to: receiveCurrency);
 
     await sl<MoneygramOffRampOrderService>()
         .createMoneygramOrder(
@@ -318,17 +275,12 @@ window.addEventListener("message", (event) => {
     required Currency currency,
     required Decimal rate,
   }) async {
-    final fees = await sl<MoneygramFeesService>().fetchFees(
-      amount: amount,
-      type: type,
-    );
+    final fees = await sl<MoneygramFeesService>().fetchFees(amount: amount, type: type);
 
     final receiveAmount = fees.receiveAmount;
 
     return Either.right(
-      receiveAmount.currency != currency
-          ? receiveAmount.convert(rate: rate, to: currency)
-          : fees.receiveAmount,
+      receiveAmount.currency != currency ? receiveAmount.convert(rate: rate, to: currency) : fees.receiveAmount,
     );
   }
 
@@ -338,63 +290,40 @@ window.addEventListener("message", (event) => {
     required Currency currency,
     required Decimal rate,
   }) async {
-    final fees = await sl<MoneygramFeesService>().fetchFees(
-      amount: amount,
-      type: type,
-    );
+    final fees = await sl<MoneygramFeesService>().fetchFees(amount: amount, type: type);
 
     final totalFees = switch (type) {
       RampType.onRamp => fees.bridgeFee + fees.moneygramFee,
-      RampType.offRamp =>
-        fees.moneygramFee + fees.bridgeFee + fees.gasFeeInUsdc,
+      RampType.offRamp => fees.moneygramFee + fees.bridgeFee + fees.gasFeeInUsdc,
     };
 
-    final convertedTotalFees =
-        totalFees.currency != currency
-            ? totalFees.convert(rate: rate, to: currency)
-            : totalFees;
+    final convertedTotalFees = totalFees.currency != currency ? totalFees.convert(rate: rate, to: currency) : totalFees;
 
-    return Either.right((
-      ourFee: null,
-      partnerFee: null,
-      extraFee: null,
-      totalFee: convertedTotalFees,
-    ));
+    return Either.right((ourFee: null, partnerFee: null, extraFee: null, totalFee: convertedTotalFees));
   }
 
-  Future<Decimal?> _getExchangeRate({required Currency to}) =>
-      runWithLoader<Decimal?>(this, () async {
-        try {
-          final rates = await sl<EspressoCashClient>()
-              .fetchFiatRate(
-                FiatRateRequestDto(
-                  base: Currency.usd.symbol,
-                  target: to.symbol,
-                ),
-              )
-              .then((rates) => rates.rate);
+  Future<Decimal?> _getExchangeRate({required Currency to}) => runWithLoader<Decimal?>(this, () async {
+    try {
+      final rates = await sl<EspressoCashClient>()
+          .fetchFiatRate(FiatRateRequestDto(base: Currency.usd.symbol, target: to.symbol))
+          .then((rates) => rates.rate);
 
-          return Decimal.parse(rates.toString());
-        } on Exception catch (error) {
-          reportError(error);
+      return Decimal.parse(rates.toString());
+    } on Exception catch (error) {
+      reportError(error);
 
-          return null;
-        }
-      });
+      return null;
+    }
+  });
 
-  String _formatExchangeRate({
-    required Currency from,
-    required Currency to,
-    required Decimal rate,
-  }) {
+  String _formatExchangeRate({required Currency from, required Currency to, required Decimal rate}) {
     final symbol = to.symbol == Currency.usd.symbol ? '=' : '≈';
 
     return '1 ${from.symbol} $symbol $rate ${to.symbol}';
   }
 
   FiatCurrency _fromCountryCode(String code) {
-    final currency =
-        country.WorldCountry.fromCodeShort(code).currencies?.firstOrNull;
+    final currency = country.WorldCountry.fromCodeShort(code).currencies?.firstOrNull;
 
     return currency.toFiatCurrency.copyWith(countryCode: code);
   }

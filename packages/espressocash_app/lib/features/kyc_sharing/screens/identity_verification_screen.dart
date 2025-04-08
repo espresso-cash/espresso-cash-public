@@ -10,11 +10,7 @@ class IdentityVerificationScreen extends StatelessWidget {
   const IdentityVerificationScreen({super.key});
 
   static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const IdentityVerificationScreen(),
-        ),
-      )
+      .push<bool>(MaterialPageRoute(builder: (context) => const IdentityVerificationScreen()))
       .then((result) => result ?? false);
 
   @override

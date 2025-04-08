@@ -5,12 +5,7 @@ import 'colors.dart';
 enum CpTabBarVariant { dark, inverted, light, black }
 
 class CpTabBar extends StatelessWidget {
-  const CpTabBar({
-    super.key,
-    this.variant = CpTabBarVariant.black,
-    required this.tabs,
-    this.controller,
-  });
+  const CpTabBar({super.key, this.variant = CpTabBarVariant.black, required this.tabs, this.controller});
 
   final CpTabBarVariant variant;
   final List<Widget> tabs;
@@ -20,23 +15,14 @@ class CpTabBar extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     height: 50,
     clipBehavior: Clip.antiAlias,
-    decoration: ShapeDecoration(
-      color: _backgroundColor(variant),
-      shape: const StadiumBorder(),
-    ),
+    decoration: ShapeDecoration(color: _backgroundColor(variant), shape: const StadiumBorder()),
     child: TabBar(
       controller: controller,
       indicatorColor: Colors.transparent,
       unselectedLabelColor: _unselectedLabelColor(variant),
       labelColor: _labelColor(variant),
-      labelStyle: Theme.of(context).textTheme.displaySmall?.copyWith(
-        fontSize: 13,
-        fontWeight: FontWeight.w500,
-      ),
-      indicator: ShapeDecoration(
-        color: _indicatorBackground(variant),
-        shape: const StadiumBorder(),
-      ),
+      labelStyle: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
+      indicator: ShapeDecoration(color: _indicatorBackground(variant), shape: const StadiumBorder()),
       padding: const EdgeInsets.all(6),
       tabs: tabs,
     ),

@@ -23,10 +23,7 @@ extension ParseTag on String {
   bool hasStablecoinTag() {
     if (this.isEmpty) return false;
 
-    return replaceAll(
-      '[',
-      '',
-    ).replaceAll(']', '').split(',').any((e) => e == 'stablecoin');
+    return replaceAll('[', '').replaceAll(']', '').split(',').any((e) => e == 'stablecoin');
   }
 }
 
@@ -67,6 +64,5 @@ extension ToTokenRows on Stream<String> {
 }
 
 extension DecodeFile on Stream<List<int>> {
-  Stream<List<TokenRow>> decodeFile() =>
-      transform(gzip.decoder).transform(utf8.decoder).transformToTokenRows();
+  Stream<List<TokenRow>> decodeFile() => transform(gzip.decoder).transform(utf8.decoder).transformToTokenRows();
 }
