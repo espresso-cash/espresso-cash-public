@@ -22,12 +22,11 @@ class ShareLinkScreen extends StatelessWidget {
     BuildContext context, {
     required CryptoAmount amount,
     required OLPStatusLinkReady status,
-  }) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => ShareLinkScreen(amount: amount, status: status),
-        ),
-      );
+  }) => Navigator.of(context).push<void>(
+    MaterialPageRoute(
+      builder: (context) => ShareLinkScreen(amount: amount, status: status),
+    ),
+  );
 
   final CryptoAmount amount;
   final OLPStatusLinkReady status;
@@ -41,10 +40,7 @@ class ShareLinkScreen extends StatelessWidget {
 
     final formattedAmount = amount.formatWithFiat(context);
 
-    final message = context.l10n.shareText(
-      formattedAmount,
-      status.link,
-    );
+    final message = context.l10n.shareText(formattedAmount, status.link);
 
     return CpTheme.black(
       child: Scaffold(

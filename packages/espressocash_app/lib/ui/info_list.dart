@@ -22,10 +22,8 @@ class CpInfoListItem {
 }
 
 class CpInfoList extends StatefulWidget {
-  const CpInfoList({
-    super.key,
-    required this.items,
-  }) : assert(items.length > 0, 'Items must not be empty');
+  const CpInfoList({super.key, required this.items})
+    : assert(items.length > 0, 'Items must not be empty');
 
   final List<CpInfoListItem> items;
 
@@ -36,53 +34,49 @@ class CpInfoList extends StatefulWidget {
 class _State extends State<CpInfoList> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) => ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: widget.items.length,
-        itemBuilder: (context, index) {
-          final isFirst = index == 0;
-          final isLast = index == widget.items.length - 1;
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemCount: widget.items.length,
+    itemBuilder: (context, index) {
+      final isFirst = index == 0;
+      final isLast = index == widget.items.length - 1;
 
-          final indicatorColor = widget.items[index].variant.backgroundColor;
+      final indicatorColor = widget.items[index].variant.backgroundColor;
 
-          final connectorColor = isLast
+      final connectorColor =
+          isLast
               ? indicatorColor
               : widget.items[index + 1].variant.backgroundColor;
 
-          return Row(
-            key: ValueKey(index),
-            crossAxisAlignment: CrossAxisAlignment.start,
+      return Row(
+        key: ValueKey(index),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
             children: [
-              Column(
-                children: [
-                  _Indicator(
-                    isFirst: isFirst,
-                    isLast: isLast,
-                    backgroundColor: indicatorColor,
-                    icon: widget.items[index].icon,
-                  ),
-                  if (!isLast)
-                    _Connector(
-                      color: connectorColor,
-                    ),
-                ],
+              _Indicator(
+                isFirst: isFirst,
+                isLast: isLast,
+                backgroundColor: indicatorColor,
+                icon: widget.items[index].icon,
               ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(top: isFirst ? 6 : 0),
-                  child: _TileInfo(tile: widget.items[index]),
-                ),
-              ),
+              if (!isLast) _Connector(color: connectorColor),
             ],
-          );
-        },
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(top: isFirst ? 6 : 0),
+              child: _TileInfo(tile: widget.items[index]),
+            ),
+          ),
+        ],
       );
+    },
+  );
 }
 
 class _TileInfo extends StatelessWidget {
-  const _TileInfo({
-    required this.tile,
-  });
+  const _TileInfo({required this.tile});
 
   final CpInfoListItem tile;
 
@@ -130,36 +124,33 @@ class _Indicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: _timelineWidth,
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        child: SizedBox(
-          height: _indicatorSize,
-          child: CircleAvatar(
-            maxRadius: _indicatorSize,
-            backgroundColor: backgroundColor,
-            child: icon,
-          ),
-        ),
-      );
+    width: _timelineWidth,
+    margin: const EdgeInsets.symmetric(vertical: 6),
+    child: SizedBox(
+      height: _indicatorSize,
+      child: CircleAvatar(
+        maxRadius: _indicatorSize,
+        backgroundColor: backgroundColor,
+        child: icon,
+      ),
+    ),
+  );
 }
 
 class _Connector extends StatelessWidget {
-  const _Connector({
-    required this.color,
-  });
+  const _Connector({required this.color});
 
   final Color color;
 
   @override
   Widget build(BuildContext context) => Container(
-        height: _connectorHeight,
-        width: _connectorWidth,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius:
-              const BorderRadius.all(Radius.circular(_connectorRadius)),
-        ),
-      );
+    height: _connectorHeight,
+    width: _connectorWidth,
+    decoration: BoxDecoration(
+      color: color,
+      borderRadius: const BorderRadius.all(Radius.circular(_connectorRadius)),
+    ),
+  );
 }
 
 extension on CpInfoListVariant {

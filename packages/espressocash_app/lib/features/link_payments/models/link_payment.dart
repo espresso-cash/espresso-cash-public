@@ -22,7 +22,7 @@ abstract class LinkPayment with _$LinkPayment {
   static LinkPayment? tryParse(Uri link) {
     final isProperHost =
         link.scheme == 'https' && link.host == espressoCashLinkDomain ||
-            link.host == 'localhost';
+        link.host == 'localhost';
 
     if ((!isProperHost || link.queryParameters['t'] != 'link') &&
         link.scheme != espressoCashLinkProtocol) {
@@ -32,30 +32,22 @@ abstract class LinkPayment with _$LinkPayment {
     final key = link.queryParameters['k'];
     if (key == null) return null;
 
-    return LinkPayment(
-      key: key,
-      token: Token.usdc.publicKey,
-    );
+    return LinkPayment(key: key, token: Token.usdc.publicKey);
   }
 
   Uri toDeepLinkUri() => Uri(
-        scheme: espressoCashLinkProtocol,
-        host: '',
-        path: '',
-        queryParameters: <String, String>{
-          'k': key,
-        },
-      );
+    scheme: espressoCashLinkProtocol,
+    host: '',
+    path: '',
+    queryParameters: <String, String>{'k': key},
+  );
 
   Uri toShareableLink() => Uri(
-        scheme: 'https',
-        host: espressoCashLinkDomain,
-        path: '',
-        queryParameters: <String, String>{
-          't': 'link',
-          'k': key,
-        },
-      );
+    scheme: 'https',
+    host: espressoCashLinkDomain,
+    path: '',
+    queryParameters: <String, String>{'t': 'link', 'k': key},
+  );
 }
 
 class Ed25519HDPublicKeyConverter

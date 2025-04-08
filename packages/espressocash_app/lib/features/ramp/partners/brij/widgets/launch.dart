@@ -59,14 +59,9 @@ extension BuildContextExt on BuildContext {
       minAmount: minAmountNGN,
       currency: Currency.ngn,
       receiveCurrency: Currency.usdc,
-      calculateEquivalent: (amount) => _calculateReceiveAmount(
-        amount: amount,
-        type: type,
-      ),
-      calculateFee: (amount) => _calculateFees(
-        amount: amount,
-        type: type,
-      ),
+      calculateEquivalent:
+          (amount) => _calculateReceiveAmount(amount: amount, type: type),
+      calculateFee: (amount) => _calculateFees(amount: amount, type: type),
       exchangeRate: '1 USDC = $rate NGN',
       type: type,
     );
@@ -75,15 +70,14 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount == null) return;
 
-    final equivalentAmount = await runWithLoader<Amount>(
-      this,
-      () => sl<BrijScalexFeesService>()
-          .fetchFees(
-            amount: submittedAmount,
-            type: type,
-          )
-          .then((fees) => fees.receiveAmount),
-    ) as CryptoAmount;
+    final equivalentAmount =
+        await runWithLoader<Amount>(
+              this,
+              () => sl<BrijScalexFeesService>()
+                  .fetchFees(amount: submittedAmount, type: type)
+                  .then((fees) => fees.receiveAmount),
+            )
+            as CryptoAmount;
 
     final orderId = await runWithLoader<String?>(
       this,
@@ -94,12 +88,7 @@ extension BuildContextExt on BuildContext {
             partner: partner,
             country: profile.country.code,
           )
-          .then(
-            (order) => order.fold(
-              (error) => null,
-              (id) => id,
-            ),
-          ),
+          .then((order) => order.fold((error) => null, (id) => id)),
     );
 
     if (orderId != null) {
@@ -137,15 +126,10 @@ extension BuildContextExt on BuildContext {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       receiveCurrency: Currency.ngn,
-      calculateEquivalent: (amount) => _calculateReceiveAmount(
-        amount: amount,
-        type: type,
-      ),
+      calculateEquivalent:
+          (amount) => _calculateReceiveAmount(amount: amount, type: type),
       exchangeRate: '1 USDC = $rate NGN',
-      calculateFee: (amount) => _calculateFees(
-        amount: amount,
-        type: type,
-      ),
+      calculateFee: (amount) => _calculateFees(amount: amount, type: type),
       type: type,
     );
 
@@ -153,15 +137,14 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount is! CryptoAmount) return;
 
-    final equivalentAmount = await runWithLoader<Amount>(
-      this,
-      () => sl<BrijScalexFeesService>()
-          .fetchFees(
-            amount: submittedAmount,
-            type: type,
-          )
-          .then((fees) => fees.receiveAmount),
-    ) as FiatAmount;
+    final equivalentAmount =
+        await runWithLoader<Amount>(
+              this,
+              () => sl<BrijScalexFeesService>()
+                  .fetchFees(amount: submittedAmount, type: type)
+                  .then((fees) => fees.receiveAmount),
+            )
+            as FiatAmount;
 
     final orderId = await runWithLoader<String?>(
       this,
@@ -172,12 +155,7 @@ extension BuildContextExt on BuildContext {
             partner: partner,
             country: profile.country.code,
           )
-          .then(
-            (order) => order.fold(
-              (error) => null,
-              (id) => id,
-            ),
-          ),
+          .then((order) => order.fold((error) => null, (id) => id)),
     );
 
     if (orderId != null) {
@@ -219,9 +197,9 @@ extension BuildContextExt on BuildContext {
   }
 
   Future<double> _fetchRate(RampType type) => runWithLoader<double>(
-        this,
-        () async => sl<BrijScalexFeesService>().fetchRate(type),
-      );
+    this,
+    () async => sl<BrijScalexFeesService>().fetchRate(type),
+  );
 
   Future<Either<Exception, Amount>> _calculateReceiveAmount({
     required Amount amount,
@@ -246,14 +224,12 @@ extension BuildContextExt on BuildContext {
       type: type,
     );
 
-    return Either.right(
-      (
-        ourFee: null,
-        partnerFee: null,
-        extraFee: null,
-        totalFee: fees.totalFee,
-      ),
-    );
+    return Either.right((
+      ourFee: null,
+      partnerFee: null,
+      extraFee: null,
+      totalFee: fees.totalFee,
+    ));
   }
 
   void _showPendingKycDialog() {
@@ -265,10 +241,7 @@ extension BuildContextExt on BuildContext {
       ),
       message: Text(
         l10n.pendingKycDialogMessage,
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
       ),
       actions: CpBottomButton(
         text: l10n.activityButton,
@@ -283,13 +256,14 @@ extension BuildContextExt on BuildContext {
 
     if (partnerPK == null) return false;
 
-    final hasGrantedAccess =
-        await sl<KycSharingService>().hasGrantedAccess(partnerPK);
+    final hasGrantedAccess = await sl<KycSharingService>().hasGrantedAccess(
+      partnerPK,
+    );
 
     if (hasGrantedAccess) return true;
 
-    final (:termsUrl, :policyUrl) =
-        await sl<KycSharingService>().fetchPartnerTermsAndPolicy(partnerPK);
+    final (:termsUrl, :policyUrl) = await sl<KycSharingService>()
+        .fetchPartnerTermsAndPolicy(partnerPK);
 
     return showTermsAndPolicyDialog(
       this,

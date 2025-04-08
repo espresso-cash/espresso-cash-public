@@ -20,11 +20,13 @@ class KycRepository extends ChangeNotifier {
 
   Future<void>? _clientInitialization;
 
-  late final _config = _featureFlagsManager.isBrijDemoEnabled()
-      ? const AppConfig.demo()
-      : const AppConfig.production();
+  late final _config =
+      _featureFlagsManager.isBrijDemoEnabled()
+          ? const AppConfig.demo()
+          : const AppConfig.production();
 
-  Future<void> _init() => _clientInitialization ??= Future(() async {
+  Future<void> _init() =>
+      _clientInitialization ??= Future(() async {
         try {
           _kycUserClient = _createClient();
           await _kycUserClient.init(
@@ -44,14 +46,15 @@ class KycRepository extends ChangeNotifier {
   }
 
   KycUserClient _createClient() => KycUserClient(
-        config: _config,
-        sign: (data) async {
-          final signature =
-              await _ecWallet.sign([Uint8List.fromList(data.toList())]);
+    config: _config,
+    sign: (data) async {
+      final signature = await _ecWallet.sign([
+        Uint8List.fromList(data.toList()),
+      ]);
 
-          return signature.first;
-        },
-      );
+      return signature.first;
+    },
+  );
 
   Future<UserData> _getUserData({required bool includeValues}) =>
       _kycUserClient.getUserData(
@@ -111,10 +114,7 @@ class KycRepository extends ChangeNotifier {
   Future<void> initPhoneVerification({required String phoneId}) =>
       _initWrapper(() => _kycUserClient.initPhoneValidation(dataId: phoneId));
 
-  Future<void> verifyPhone({
-    required String code,
-    required String dataId,
-  }) =>
+  Future<void> verifyPhone({required String code, required String dataId}) =>
       _initWrapper(
         () => _kycUserClient.validatePhone(code: code, dataId: dataId),
       );
@@ -122,13 +122,12 @@ class KycRepository extends ChangeNotifier {
   Future<void> startKycVerification({
     required String country,
     required List<String> dataHashes,
-  }) =>
-      _initWrapper(
-        () => _kycUserClient.startKycRequest(
-          country: country,
-          dataHashes: dataHashes,
-        ),
-      );
+  }) => _initWrapper(
+    () => _kycUserClient.startKycRequest(
+      country: country,
+      dataHashes: dataHashes,
+    ),
+  );
 
   Future<String> createOnRampOrder({
     required double cryptoAmount,
@@ -137,17 +136,16 @@ class KycRepository extends ChangeNotifier {
     required String fiatCurrency,
     required String partnerPK,
     required String cryptoWalletAddress,
-  }) =>
-      _initWrapper(
-        () => _kycUserClient.createOnRampOrder(
-          partnerPK: partnerPK,
-          cryptoAmount: cryptoAmount,
-          cryptoCurrency: cryptoCurrency,
-          fiatAmount: fiatAmount,
-          fiatCurrency: fiatCurrency,
-          cryptoWalletAddress: cryptoWalletAddress,
-        ),
-      );
+  }) => _initWrapper(
+    () => _kycUserClient.createOnRampOrder(
+      partnerPK: partnerPK,
+      cryptoAmount: cryptoAmount,
+      cryptoCurrency: cryptoCurrency,
+      fiatAmount: fiatAmount,
+      fiatCurrency: fiatCurrency,
+      cryptoWalletAddress: cryptoWalletAddress,
+    ),
+  );
 
   Future<String> createOffRampOrder({
     required double cryptoAmount,
@@ -158,39 +156,35 @@ class KycRepository extends ChangeNotifier {
     required String partnerPK,
     required String bankName,
     required String bankAccount,
-  }) =>
-      _initWrapper(
-        () => _kycUserClient.createOffRampOrder(
-          partnerPK: partnerPK,
-          cryptoAmount: cryptoAmount,
-          cryptoCurrency: cryptoCurrency,
-          cryptoWalletAddress: cryptoWalletAddress,
-          fiatAmount: fiatAmount,
-          fiatCurrency: fiatCurrency,
-          bankName: bankName,
-          bankAccount: bankAccount,
-        ),
-      );
+  }) => _initWrapper(
+    () => _kycUserClient.createOffRampOrder(
+      partnerPK: partnerPK,
+      cryptoAmount: cryptoAmount,
+      cryptoCurrency: cryptoCurrency,
+      cryptoWalletAddress: cryptoWalletAddress,
+      fiatAmount: fiatAmount,
+      fiatCurrency: fiatCurrency,
+      bankName: bankName,
+      bankAccount: bankAccount,
+    ),
+  );
 
   Future<Order> fetchOrder(String orderId) => _initWrapper(
-        () => _kycUserClient.getOrder(orderId: OrderId.fromOrderId(orderId)),
-      );
+    () => _kycUserClient.getOrder(orderId: OrderId.fromOrderId(orderId)),
+  );
 
-  Future<void> grantPartnerAccess(String partnerPk) => _initWrapper(
-        () => _kycUserClient.grantPartnerAccess(partnerPk),
-      );
+  Future<void> grantPartnerAccess(String partnerPk) =>
+      _initWrapper(() => _kycUserClient.grantPartnerAccess(partnerPk));
 
   Future<void> grantValidatorAccess() => _initWrapper(
-        () => _kycUserClient.grantPartnerAccess(_config.verifierAuthPk),
-      );
+    () => _kycUserClient.grantPartnerAccess(_config.verifierAuthPk),
+  );
 
-  Future<bool> hasGrantedAccess(String partnerPk) => _initWrapper(
-        () => _kycUserClient.hasGrantedAccess(partnerPk),
-      );
+  Future<bool> hasGrantedAccess(String partnerPk) =>
+      _initWrapper(() => _kycUserClient.hasGrantedAccess(partnerPk));
 
-  Future<PartnerModel> fetchPartnerInfo(String partnerPk) => _initWrapper(
-        () => _kycUserClient.getPartnerInfo(partnerPK: partnerPk),
-      );
+  Future<PartnerModel> fetchPartnerInfo(String partnerPk) =>
+      _initWrapper(() => _kycUserClient.getPartnerInfo(partnerPK: partnerPk));
 
   Future<KycValidationStatus> fetchKycStatus({required String country}) =>
       _initWrapper(
@@ -201,7 +195,5 @@ class KycRepository extends ChangeNotifier {
       ).then((value) => value.status.toKycValidationStatus());
 
   Future<KycRequirement> getKycRequirements({required String country}) =>
-      _initWrapper(
-        () => _kycUserClient.getKycRequirements(country: country),
-      );
+      _initWrapper(() => _kycUserClient.getKycRequirements(country: country));
 }

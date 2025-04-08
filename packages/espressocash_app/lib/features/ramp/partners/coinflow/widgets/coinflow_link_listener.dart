@@ -9,10 +9,7 @@ import '../../../widgets/ramp_buttons.dart';
 import 'launch.dart';
 
 class CoinflowLinkListener extends StatefulWidget {
-  const CoinflowLinkListener({
-    super.key,
-    required this.child,
-  });
+  const CoinflowLinkListener({super.key, required this.child});
 
   final Widget child;
 

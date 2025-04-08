@@ -46,31 +46,33 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        children: [
-          KycHeader(
-            title: context.l10n.phoneVerificationTitle.toUpperCase(),
-            description: context.l10n.enterPhoneNumberHintText,
-          ),
-          const SizedBox(height: 16),
-          PhoneNumberTextField(
-            controller: _numberController,
-            initialCountry: Country.findByCode('NG'),
-            placeholder: context.l10n.phoneNumber,
-            onPhoneChanged: (fullNumber) =>
-                setState(() => _fullPhoneNumber = fullNumber),
-          ),
-          const SizedBox(height: 16),
-          const Spacer(),
-          ListenableBuilder(
-            listenable: _numberController,
-            builder: (context, child) => CpBottomButton(
+    children: [
+      KycHeader(
+        title: context.l10n.phoneVerificationTitle.toUpperCase(),
+        description: context.l10n.enterPhoneNumberHintText,
+      ),
+      const SizedBox(height: 16),
+      PhoneNumberTextField(
+        controller: _numberController,
+        initialCountry: Country.findByCode('NG'),
+        placeholder: context.l10n.phoneNumber,
+        onPhoneChanged:
+            (fullNumber) => setState(() => _fullPhoneNumber = fullNumber),
+      ),
+      const SizedBox(height: 16),
+      const Spacer(),
+      ListenableBuilder(
+        listenable: _numberController,
+        builder:
+            (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.sendVerificationCode,
-              onPressed: _fullPhoneNumber.isValidPhone
-                  ? _handleSendVerification
-                  : null,
+              onPressed:
+                  _fullPhoneNumber.isValidPhone
+                      ? _handleSendVerification
+                      : null,
             ),
-          ),
-        ],
-      );
+      ),
+    ],
+  );
 }

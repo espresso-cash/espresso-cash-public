@@ -11,9 +11,7 @@ import '../models/tx_results.dart';
 
 @injectable
 class TxConfirm {
-  const TxConfirm({
-    required SolanaClient client,
-  }) : _client = client;
+  const TxConfirm({required SolanaClient client}) : _client = client;
 
   final SolanaClient _client;
 
@@ -31,10 +29,9 @@ class TxConfirm {
       final innerSpan = span.startChild('getSignatureStatus()');
       _logger.fine('$txId: Checking tx status.');
 
-      final statuses = await _client.rpcClient.getSignatureStatuses(
-        [txId],
-        searchTransactionHistory: true,
-      );
+      final statuses = await _client.rpcClient.getSignatureStatuses([
+        txId,
+      ], searchTransactionHistory: true);
       final t = statuses.value.first;
 
       if (t == null) {

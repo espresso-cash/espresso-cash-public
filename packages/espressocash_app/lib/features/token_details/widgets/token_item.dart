@@ -15,30 +15,27 @@ class TokenItemContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 22),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 12.0),
-              child: Text(
-                title,
-                style: dashboardSectionTitleTextStyle,
-              ),
-            ),
-            const SizedBox(height: 11),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 28),
-              decoration: const ShapeDecoration(
-                color: CpColors.blackGreyColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(28)),
-                ),
-              ),
-              child: content,
-            ),
-          ],
+    padding: const EdgeInsets.symmetric(horizontal: 22),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: Text(title, style: dashboardSectionTitleTextStyle),
         ),
-      );
+        const SizedBox(height: 11),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 28),
+          decoration: const ShapeDecoration(
+            color: CpColors.blackGreyColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(28)),
+            ),
+          ),
+          child: content,
+        ),
+      ],
+    ),
+  );
 }

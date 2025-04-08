@@ -108,13 +108,13 @@ class CreateOutgoingEscrow {
     final priorityFees = await _ecClient.getDurableFees();
 
     return SignedTx(
-      compiledMessage: compiled,
-      signatures: [
-        platformAccount.emptySignature(),
-        escrowAccount.publicKey.emptySignature(),
-        senderAccount.emptySignature(),
-      ],
-    )
+          compiledMessage: compiled,
+          signatures: [
+            platformAccount.emptySignature(),
+            escrowAccount.publicKey.emptySignature(),
+            senderAccount.emptySignature(),
+          ],
+        )
         .let(
           (tx) => _addPriorityFees(
             tx: tx,

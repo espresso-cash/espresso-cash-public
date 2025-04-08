@@ -8,17 +8,12 @@ import '../../ui/text_field.dart';
 import '../../ui/theme.dart';
 import 'page_spacer_wrapper.dart';
 
-typedef ItemBuilder<T> = Widget Function(
-  BuildContext context,
-  T item, {
-  required bool selected,
-});
+typedef ItemBuilder<T> =
+    Widget Function(BuildContext context, T item, {required bool selected});
 
 typedef ItemFilter<T> = bool Function(T item, String searchQuery);
-typedef ItemTapCallback<T> = Future<void> Function(
-  T selected,
-  BuildContext context,
-);
+typedef ItemTapCallback<T> =
+    Future<void> Function(T selected, BuildContext context);
 
 class CustomPickerScreen<T> extends StatelessWidget {
   const CustomPickerScreen({
@@ -42,19 +37,19 @@ class CustomPickerScreen<T> extends StatelessWidget {
     Future<void> Function(T selected, BuildContext context)? onTap,
     ItemFilter<T>? filterItem,
     String? searchPlaceholder,
-  }) =>
-      (navigator ?? Navigator.of(context, rootNavigator: true))
-          .pushAndRemoveUntil<T>(
+  }) => (navigator ?? Navigator.of(context, rootNavigator: true))
+      .pushAndRemoveUntil<T>(
         PageRouteBuilder(
-          pageBuilder: (context, _, __) => CustomPickerScreen<T>(
-            title: title,
-            items: items,
-            itemBuilder: itemBuilder,
-            initial: initial,
-            onTap: onTap,
-            filterItem: filterItem,
-            searchPlaceholder: searchPlaceholder,
-          ),
+          pageBuilder:
+              (context, _, __) => CustomPickerScreen<T>(
+                title: title,
+                items: items,
+                itemBuilder: itemBuilder,
+                initial: initial,
+                onTap: onTap,
+                filterItem: filterItem,
+                searchPlaceholder: searchPlaceholder,
+              ),
           transitionDuration: Duration.zero,
         ),
         F,
@@ -69,10 +64,10 @@ class CustomPickerScreen<T> extends StatelessWidget {
     Future<void> Function(T selected, BuildContext context)? onTap,
     ItemFilter<T>? filterItem,
     String? searchPlaceholder,
-  }) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => CustomPickerScreen<T>(
+  }) => Navigator.of(context).push<void>(
+    MaterialPageRoute(
+      builder:
+          (context) => CustomPickerScreen<T>(
             title: title,
             items: items,
             itemBuilder: itemBuilder,
@@ -81,8 +76,8 @@ class CustomPickerScreen<T> extends StatelessWidget {
             filterItem: filterItem,
             searchPlaceholder: searchPlaceholder,
           ),
-        ),
-      );
+    ),
+  );
 
   final String title;
   final List<T> items;
@@ -94,23 +89,21 @@ class CustomPickerScreen<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
-        child: Scaffold(
-          backgroundColor: CpColors.deepGreyColor,
-          appBar: CpAppBar(
-            title: Text(title.toUpperCase()),
-          ),
-          body: _Wrapper(
-            child: _Content<T>(
-              items: items,
-              itemBuilder: itemBuilder,
-              initial: initial,
-              onTap: onTap,
-              filterItem: filterItem,
-              searchPlaceholder: searchPlaceholder,
-            ),
-          ),
+    child: Scaffold(
+      backgroundColor: CpColors.deepGreyColor,
+      appBar: CpAppBar(title: Text(title.toUpperCase())),
+      body: _Wrapper(
+        child: _Content<T>(
+          items: items,
+          itemBuilder: itemBuilder,
+          initial: initial,
+          onTap: onTap,
+          filterItem: filterItem,
+          searchPlaceholder: searchPlaceholder,
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class _Content<T> extends StatefulWidget {
@@ -171,13 +164,16 @@ class _ContentState<T> extends State<_Content<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredItems = widget.items.where((item) {
-      final filter = widget.filterItem;
+    final filteredItems =
+        widget.items.where((item) {
+          final filter = widget.filterItem;
 
-      return filter != null
-          ? filter(item, _searchText)
-          : item.toString().toLowerCase().contains(_searchText.toLowerCase());
-    }).toList();
+          return filter != null
+              ? filter(item, _searchText)
+              : item.toString().toLowerCase().contains(
+                _searchText.toLowerCase(),
+              );
+        }).toList();
 
     return Column(
       children: [
@@ -201,10 +197,7 @@ class _ContentState<T> extends State<_Content<T>> {
             child: Center(
               child: Text(
                 context.l10n.noResultsFound,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
           )
@@ -224,16 +217,20 @@ class _ContentState<T> extends State<_Content<T>> {
                 final selected = item == _selectedItem;
 
                 return DecoratedBox(
-                  decoration: selected
-                      ? const ShapeDecoration(
-                          color: CpColors.blackTextFieldBackgroundColor,
-                          shape: StadiumBorder(),
-                        )
-                      : const BoxDecoration(),
+                  decoration:
+                      selected
+                          ? const ShapeDecoration(
+                            color: CpColors.blackTextFieldBackgroundColor,
+                            shape: StadiumBorder(),
+                          )
+                          : const BoxDecoration(),
                   child: ListTile(
                     dense: true,
-                    title:
-                        widget.itemBuilder(context, item, selected: selected),
+                    title: widget.itemBuilder(
+                      context,
+                      item,
+                      selected: selected,
+                    ),
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
                     onTap: () async {
@@ -259,19 +256,19 @@ class _Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Stack(
-        children: [
-          child,
-          const Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: FadeGradient(
-              height: 100,
-              direction: FadeGradientDirection.bottomUp,
-            ),
-          ),
-        ],
-      );
+    children: [
+      child,
+      const Positioned(
+        bottom: 0,
+        left: 0,
+        right: 0,
+        child: FadeGradient(
+          height: 100,
+          direction: FadeGradientDirection.bottomUp,
+        ),
+      ),
+    ],
+  );
 }
 
 const _tileHeight = 46.0;

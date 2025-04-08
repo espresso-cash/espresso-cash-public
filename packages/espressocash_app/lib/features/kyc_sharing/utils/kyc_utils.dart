@@ -17,15 +17,12 @@ extension UserDataExtensions on UserData {
 
   Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
 
-  BankInfo? getBankByCountry(String country) => bankInfos?.firstWhereOrNull(
-        (bank) => bank.countryCode == country,
-      );
+  BankInfo? getBankByCountry(String country) =>
+      bankInfos?.firstWhereOrNull((bank) => bank.countryCode == country);
 
   List<Document>? getDocumentsByCountryGroup(List<String> countryGroups) =>
       documents
-          ?.where(
-            (document) => countryGroups.contains(document.countryCode),
-          )
+          ?.where((document) => countryGroups.contains(document.countryCode))
           .toList();
 
   KycValidationStatus get phoneStatus =>

@@ -27,15 +27,10 @@ extension BuildContextExt on BuildContext {
   Future<void> cancelOLP({required OutgoingLinkPayment payment}) =>
       runWithLoader<void>(this, () async {
         final span = _start(function: 'cancelOLP');
-        await sl<OLPService>().cancel(
-          payment,
-          account: sl<MyAccount>().wallet,
-        );
+        await sl<OLPService>().cancel(payment, account: sl<MyAccount>().wallet);
         await span.finish();
       });
 }
 
-ISentrySpan _start({required String function}) => Sentry.startTransaction(
-      'OLP Tx Creation',
-      function,
-    );
+ISentrySpan _start({required String function}) =>
+    Sentry.startTransaction('OLP Tx Creation', function);

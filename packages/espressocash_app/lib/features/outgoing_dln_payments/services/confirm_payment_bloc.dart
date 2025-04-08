@@ -26,16 +26,17 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   ConfirmPaymentBloc({
     required QuoteRepository quoteRepository,
     required TokenBalancesRepository balancesRepository,
-  })  : _quoteRepository = quoteRepository,
-        _balancesRepository = balancesRepository,
-        super(ConfirmPaymentState(flowState: const Flow.initial())) {
+  }) : _quoteRepository = quoteRepository,
+       _balancesRepository = balancesRepository,
+       super(ConfirmPaymentState(flowState: const Flow.initial())) {
     on<Init>(_onInit);
     on<Confirmed>(_onConfirmed);
     on<Invalidated>(
       _onInvalidated,
-      transformer: (events, mapper) => events
-          .debounceTime(const Duration(milliseconds: 500))
-          .switchMap(mapper),
+      transformer:
+          (events, mapper) => events
+              .debounceTime(const Duration(milliseconds: 500))
+              .switchMap(mapper),
     );
   }
 
@@ -62,15 +63,17 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
 
   Future<void> _onConfirmed(Confirmed _, _Emitter emit) async {
     final usdcBalance = await _balancesRepository.read(Token.usdc);
-    state.validate(usdcBalance).fold(
-      (e) {
-        emit(state.copyWith(flowState: Flow.failure(e)));
-        emit(state.copyWith(flowState: const Flow.initial()));
-      },
-      (r) {
-        emit(state.copyWith(flowState: Flow.success(r)));
-      },
-    );
+    state
+        .validate(usdcBalance)
+        .fold(
+          (e) {
+            emit(state.copyWith(flowState: Flow.failure(e)));
+            emit(state.copyWith(flowState: const Flow.initial()));
+          },
+          (r) {
+            emit(state.copyWith(flowState: Flow.success(r)));
+          },
+        );
   }
 
   Future<void> _onInvalidated(Invalidated _, _Emitter emit) async {
@@ -110,19 +113,14 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
 }
 
 extension on ConfirmPaymentState {
-  ConfirmPaymentState processing() => copyWith(
-        flowState: const Flow.processing(),
-      );
+  ConfirmPaymentState processing() =>
+      copyWith(flowState: const Flow.processing());
 
-  ConfirmPaymentState error(CreateOrderException e) => copyWith(
-        quote: null,
-        flowState: Flow.failure(e),
-      );
+  ConfirmPaymentState error(CreateOrderException e) =>
+      copyWith(quote: null, flowState: Flow.failure(e));
 
-  ConfirmPaymentState update(PaymentQuote quote) => copyWith(
-        quote: quote,
-        flowState: const Flow.initial(),
-      );
+  ConfirmPaymentState update(PaymentQuote quote) =>
+      copyWith(quote: quote, flowState: const Flow.initial());
 }
 
 @Freezed(map: FreezedMapOptions.none, when: FreezedWhenOptions.none)

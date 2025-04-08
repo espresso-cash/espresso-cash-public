@@ -14,11 +14,13 @@ class AppLockModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (_) => sl<AppLockBloc>()
-          ..add(const AppLockEvent.init())
-          ..add(const AppLockEvent.lock()),
-        child: _Content(child: child),
-      );
+    create:
+        (_) =>
+            sl<AppLockBloc>()
+              ..add(const AppLockEvent.init())
+              ..add(const AppLockEvent.lock()),
+    child: _Content(child: child),
+  );
 }
 
 class _Content extends StatefulWidget {
@@ -63,8 +65,9 @@ class _ContentState extends State<_Content>
 
   @override
   Widget build(BuildContext context) {
-    final isLocked =
-        context.select<AppLockBloc, bool>((b) => b.state is AppLockStateLocked);
+    final isLocked = context.select<AppLockBloc, bool>(
+      (b) => b.state is AppLockStateLocked,
+    );
 
     return Stack(
       children: [

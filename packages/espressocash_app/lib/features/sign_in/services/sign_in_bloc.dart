@@ -15,22 +15,22 @@ part 'sign_in_bloc.freezed.dart';
 @injectable
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   SignInBloc()
-      // A value of type '_$FlowInitial<Exception, dynamic>' can't be assigned
-      // to a parameter of type 'Flow<Exception, SignInResult>' in a const
-      // constructor.
-      //
-      //ignore: prefer_const_constructors, some bug in analyzer
-      : super(SignInState(processingState: Flow.initial())) {
+    // A value of type '_$FlowInitial<Exception, dynamic>' can't be assigned
+    // to a parameter of type 'Flow<Exception, SignInResult>' in a const
+    // constructor.
+    //
+    //ignore: prefer_const_constructors, some bug in analyzer
+    : super(SignInState(processingState: Flow.initial())) {
     on<SignInEvent>(_eventHandler, transformer: sequential());
   }
 
   EventHandler<SignInEvent, SignInState> get _eventHandler =>
       (event, emit) => event.map(
-            submitted: (event) => _onSubmitted(event, emit),
-            newLocalWalletRequested: (_) => _onNewLocalWalletRequested(emit),
-            existingLocalWalletRequested: (event) =>
-                _onExistingLocalWalletRequested(event, emit),
-          );
+        submitted: (event) => _onSubmitted(event, emit),
+        newLocalWalletRequested: (_) => _onNewLocalWalletRequested(emit),
+        existingLocalWalletRequested:
+            (event) => _onExistingLocalWalletRequested(event, emit),
+      );
 
   void _onNewLocalWalletRequested(Emitter<SignInState> emit) {
     emit(
@@ -66,11 +66,12 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       );
 
       final accessMode = state.source.when(
-        local: (it) => it.when(
-          typed: always(const AccessMode.seedInputted()),
-          generated: always(const AccessMode.created()),
-          empty: () => throw StateError('Seed is empty during submission.'),
-        ),
+        local:
+            (it) => it.when(
+              typed: always(const AccessMode.seedInputted()),
+              generated: always(const AccessMode.created()),
+              empty: () => throw StateError('Seed is empty during submission.'),
+            ),
       );
 
       final myAccount = MyAccount(wallet: wallet, accessMode: accessMode);
@@ -109,7 +110,6 @@ class SignInException with _$SignInException implements Exception {
 }
 
 extension on SignInState {
-  SignInState toGenericException(Exception e) => copyWith(
-        processingState: Flow.failure(SignInException.generic(e)),
-      );
+  SignInState toGenericException(Exception e) =>
+      copyWith(processingState: Flow.failure(SignInException.generic(e)));
 }

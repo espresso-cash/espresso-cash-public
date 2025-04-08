@@ -12,9 +12,6 @@ Future<void> testExecutable(Func0<FutureOr<void>> testMain) =>
       },
       config: GoldenToolkitConfiguration(
         enableRealShadows: true,
-        defaultDevices: const [
-          Device.phone,
-          Device.iphone11,
-        ],
+        defaultDevices: const [Device.phone, Device.iphone11],
       ),
     );

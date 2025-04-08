@@ -26,8 +26,9 @@ class FeatureFlagsManager implements Disposable {
       ),
     );
     await _remoteConfig.fetchAndActivate();
-    _subscription =
-        _remoteConfig.onConfigUpdated.listen((_) => _remoteConfig.activate());
+    _subscription = _remoteConfig.onConfigUpdated.listen(
+      (_) => _remoteConfig.activate(),
+    );
   }
 
   bool isMoneygramAccessEnabled() =>

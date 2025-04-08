@@ -18,8 +18,8 @@ class AccountRepository {
       _storage.read(key: mnemonicKey).letAsync((it) => it ?? '');
 
   Future<void> saveAccountSource(AccountSource source) => source.when(
-        local: (it) => _storage.write(key: mnemonicKey, value: it.phrase),
-      );
+    local: (it) => _storage.write(key: mnemonicKey, value: it.phrase),
+  );
 
   /// Loads existing account if wallet data exists in [FlutterSecureStorage].
   Future<MyAccount?> loadAccount() async {
@@ -33,10 +33,7 @@ class AccountRepository {
       return null;
     }
 
-    return MyAccount(
-      accessMode: const AccessMode.loaded(),
-      wallet: wallet,
-    );
+    return MyAccount(accessMode: const AccessMode.loaded(), wallet: wallet);
   }
 }
 

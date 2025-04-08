@@ -18,27 +18,23 @@ import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
 class BankAccountScreen extends StatefulWidget {
-  const BankAccountScreen({
-    super.key,
-    this.initialBankInfo,
-    this.buttonLabel,
-  });
+  const BankAccountScreen({super.key, this.initialBankInfo, this.buttonLabel});
 
   static Future<bool> push(
     BuildContext context, {
     BankInfo? initialBankInfo,
     String? buttonLabel,
-  }) =>
-      Navigator.of(context)
-          .push<bool>(
-            MaterialPageRoute(
-              builder: (context) => BankAccountScreen(
+  }) => Navigator.of(context)
+      .push<bool>(
+        MaterialPageRoute(
+          builder:
+              (context) => BankAccountScreen(
                 initialBankInfo: initialBankInfo,
                 buttonLabel: buttonLabel,
               ),
-            ),
-          )
-          .then((result) => result ?? false);
+        ),
+      )
+      .then((result) => result ?? false);
 
   final BankInfo? initialBankInfo;
   final String? buttonLabel;
@@ -59,30 +55,24 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
       _selectedCountry != null;
 
   Future<void> _handleSubmitted() async {
-    final success = await runWithLoader<bool>(
-      context,
-      () async {
-        try {
-          await sl<KycSharingService>().updateBankInfo(
-            id: widget.initialBankInfo?.id,
-            bankAccountNumber: _bankAccountNumberController.text,
-            bankCode: _selectedBank?.code ?? '',
-            bankName: _selectedBank?.name ?? '',
-            countryCode: _selectedCountry?.code ?? '',
-          );
+    final success = await runWithLoader<bool>(context, () async {
+      try {
+        await sl<KycSharingService>().updateBankInfo(
+          id: widget.initialBankInfo?.id,
+          bankAccountNumber: _bankAccountNumberController.text,
+          bankCode: _selectedBank?.code ?? '',
+          bankName: _selectedBank?.name ?? '',
+          countryCode: _selectedCountry?.code ?? '',
+        );
 
-          return true;
-        } on Exception {
-          if (!mounted) return false;
-          showCpErrorSnackbar(
-            context,
-            message: context.l10n.failedToUpdateData,
-          );
+        return true;
+      } on Exception {
+        if (!mounted) return false;
+        showCpErrorSnackbar(context, message: context.l10n.failedToUpdateData);
 
-          return false;
-        }
-      },
-    );
+        return false;
+      }
+    });
 
     if (!mounted) return;
     if (success) Navigator.pop(context, true);
@@ -127,55 +117,55 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        children: [
-          KycHeader(
-            title: context.l10n.bankAccountVerificationTitle.toUpperCase(),
-            description: context.l10n.bankAccountInfoCorrectText,
-          ),
-          const SizedBox(height: 16),
-          CountryPicker(
-            backgroundColor: CpColors.blackGreyColor,
-            placeholder: context.l10n.countryOfBank,
-            country: _selectedCountry,
-            onSubmitted: (country) => setState(
-              () {
-                _selectedCountry = country;
-                _selectedBank = null;
-                _bankCodeController.clear();
-              },
-            ),
-          ),
-          const SizedBox(height: 16),
-          if (_selectedCountry?.code == 'NG')
-            BankTextField(
-              placeholder: context.l10n.selectBank,
-              initialBank: _selectedBank,
-              onBankChanged: (bank) => setState(() => _selectedBank = bank),
-            )
-          else
-            KycTextField(
-              controller: _bankCodeController,
-              inputType: TextInputType.name,
-              placeholder: 'Bank Code',
-            ),
-          const SizedBox(height: 16),
-          KycTextField(
-            controller: _bankAccountNumberController,
-            inputType: TextInputType.name,
-            placeholder: context.l10n.accountNumber,
-          ),
-          const Spacer(),
-          ListenableBuilder(
-            listenable: Listenable.merge([
-              _bankAccountNumberController,
-              _bankCodeController,
-            ]),
-            builder: (context, child) => CpBottomButton(
+    children: [
+      KycHeader(
+        title: context.l10n.bankAccountVerificationTitle.toUpperCase(),
+        description: context.l10n.bankAccountInfoCorrectText,
+      ),
+      const SizedBox(height: 16),
+      CountryPicker(
+        backgroundColor: CpColors.blackGreyColor,
+        placeholder: context.l10n.countryOfBank,
+        country: _selectedCountry,
+        onSubmitted:
+            (country) => setState(() {
+              _selectedCountry = country;
+              _selectedBank = null;
+              _bankCodeController.clear();
+            }),
+      ),
+      const SizedBox(height: 16),
+      if (_selectedCountry?.code == 'NG')
+        BankTextField(
+          placeholder: context.l10n.selectBank,
+          initialBank: _selectedBank,
+          onBankChanged: (bank) => setState(() => _selectedBank = bank),
+        )
+      else
+        KycTextField(
+          controller: _bankCodeController,
+          inputType: TextInputType.name,
+          placeholder: 'Bank Code',
+        ),
+      const SizedBox(height: 16),
+      KycTextField(
+        controller: _bankAccountNumberController,
+        inputType: TextInputType.name,
+        placeholder: context.l10n.accountNumber,
+      ),
+      const Spacer(),
+      ListenableBuilder(
+        listenable: Listenable.merge([
+          _bankAccountNumberController,
+          _bankCodeController,
+        ]),
+        builder:
+            (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: widget.buttonLabel ?? context.l10n.next,
               onPressed: _isValid ? _handleSubmitted : null,
             ),
-          ),
-        ],
-      );
+      ),
+    ],
+  );
 }

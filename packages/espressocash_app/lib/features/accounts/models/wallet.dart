@@ -26,9 +26,7 @@ class KeyPairParams {
   final int change;
 }
 
-Future<Wallet> walletFromKey({
-  required String encodedKey,
-}) {
+Future<Wallet> walletFromKey({required String encodedKey}) {
   final key = ByteArray.fromBase58(encodedKey).toList();
 
   return Wallet.fromPrivateKeyBytes(privateKey: key);

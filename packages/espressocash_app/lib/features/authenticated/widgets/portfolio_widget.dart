@@ -31,10 +31,11 @@ class _PortfolioWidgetState extends State<PortfolioWidget>
     super.build(context);
 
     return ValueStreamBuilder<IList<CryptoFiatAmount>>(
-      create: () => (
-        sl<TokenFiatBalanceService>().watchInvestmentBalances(),
-        const IListConst([]),
-      ),
+      create:
+          () => (
+            sl<TokenFiatBalanceService>().watchInvestmentBalances(),
+            const IListConst([]),
+          ),
       builder: (context, balances) {
         final hasTokens = balances.isNotEmpty;
 
@@ -53,55 +54,59 @@ class PortfolioTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => HomeTile(
-        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 4.0),
-                    child: Text(
-                      context.l10n.cryptoPortfolio,
-                      style: dashboardSectionTitleTextStyle,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  ValueStreamBuilder<Amount?>(
-                    create: () => (
+    padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 4.0),
+                child: Text(
+                  context.l10n.cryptoPortfolio,
+                  style: dashboardSectionTitleTextStyle,
+                ),
+              ),
+              const SizedBox(width: 8),
+              ValueStreamBuilder<Amount?>(
+                create:
+                    () => (
                       sl<TokenFiatBalanceService>()
                           .watchTotalInvestmentsBalance(),
                       null,
                     ),
-                    builder: (context, balance) => balance != null
-                        ? Flexible(
-                            child: FittedBox(
-                              child: Text(
-                                balance.format(DeviceLocale.localeOf(context)),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium
-                                    ?.copyWith(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                builder:
+                    (context, balance) =>
+                        balance != null
+                            ? Flexible(
+                              child: FittedBox(
+                                child: Text(
+                                  balance.format(
+                                    DeviceLocale.localeOf(context),
+                                  ),
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.displayMedium?.copyWith(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
-                            ),
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                ],
+                            )
+                            : const SizedBox.shrink(),
               ),
-            ),
-            const SizedBox(height: 24),
-            _PortfolioWidget(balances),
-          ],
+            ],
+          ),
         ),
-      );
+        const SizedBox(height: 24),
+        _PortfolioWidget(balances),
+      ],
+    ),
+  );
 }
 
 class _PortfolioWidget extends StatelessWidget {
@@ -111,21 +116,17 @@ class _PortfolioWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final children = balances
-        .map(
-          (balance) => _TokenItem(
-            key: ValueKey(balance.$1.token),
-            cryptoAmount: balance.$1,
-            fiatAmount: balance.$2,
-          ),
-        )
-        .expand(
-          (widget) => [
-            widget,
-            const SizedBox(height: 8),
-          ],
-        )
-        .toList();
+    final children =
+        balances
+            .map(
+              (balance) => _TokenItem(
+                key: ValueKey(balance.$1.token),
+                cryptoAmount: balance.$1,
+                fiatAmount: balance.$2,
+              ),
+            )
+            .expand((widget) => [widget, const SizedBox(height: 8)])
+            .toList();
 
     return Column(children: children);
   }
@@ -146,8 +147,10 @@ class _TokenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String fiatAmountText =
-        context.portfolioTotalAmountText(fiatAmount, _minFiatAmount);
+    final String fiatAmountText = context.portfolioTotalAmountText(
+      fiatAmount,
+      _minFiatAmount,
+    );
 
     return _Card(
       child: ListTile(
@@ -159,8 +162,8 @@ class _TokenItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(_iconSize / 2),
           child: TokenIcon(token: cryptoAmount.token, size: _iconSize),
         ),
-        onTap: () =>
-            TokenDetailsScreen.push(context, token: cryptoAmount.token),
+        onTap:
+            () => TokenDetailsScreen.push(context, token: cryptoAmount.token),
         title: Text(
           cryptoAmount.token.name,
           style: const TextStyle(
@@ -203,17 +206,15 @@ class _Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.all(4),
-        decoration: const ShapeDecoration(
-          color: CpColors.blackGreyColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-          ),
-        ),
-        child: child,
-      );
+    padding: const EdgeInsets.all(4),
+    decoration: const ShapeDecoration(
+      color: CpColors.blackGreyColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+    ),
+    child: child,
+  );
 }
 
 extension TotalPortfolioTextExtension on BuildContext {

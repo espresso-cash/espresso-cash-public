@@ -17,8 +17,9 @@ class _TRLinkListenerState extends State<TRLinkListener>
     with DynamicLinkHandler {
   @override
   bool handleDynamicLink(Uri uri) {
-    final transactionRequest =
-        SolanaTransactionRequest.tryParse(uri.toString());
+    final transactionRequest = SolanaTransactionRequest.tryParse(
+      uri.toString(),
+    );
     if (transactionRequest != null) {
       context.processSolanaTransactionRequest(transactionRequest);
 

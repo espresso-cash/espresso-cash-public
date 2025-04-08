@@ -20,18 +20,17 @@ extension ResignMultipleTx on Iterable<SignedTx> {
     );
     final signatures = await wallet.sign(payloads);
 
-    return zip2(this, signatures).map(
-      (it) {
-        final tx = it.$1;
-        final signature = it.$2;
+    return zip2(this, signatures).map((it) {
+      final tx = it.$1;
+      final signature = it.$2;
 
-        return SignedTx(
-          signatures: tx.signatures
-              .map((e) => e.publicKey == wallet.publicKey ? signature : e)
-              .toList(),
-          compiledMessage: tx.compiledMessage,
-        );
-      },
-    ).toList();
+      return SignedTx(
+        signatures:
+            tx.signatures
+                .map((e) => e.publicKey == wallet.publicKey ? signature : e)
+                .toList(),
+        compiledMessage: tx.compiledMessage,
+      );
+    }).toList();
   }
 }

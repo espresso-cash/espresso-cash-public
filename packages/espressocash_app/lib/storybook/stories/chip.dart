@@ -6,12 +6,13 @@ import '../utils.dart';
 
 final cpChip = Story(
   name: 'CpChip',
-  builder: (context) => CpChip(
-    padding: context.knobs.options(
-      label: 'Padding',
-      initial: CpChipPadding.normal,
-      options: CpChipPadding.values.toOptions(),
-    ),
-    child: const Text('Espresso Cash'),
-  ),
+  builder:
+      (context) => CpChip(
+        padding: context.knobs.options(
+          label: 'Padding',
+          initial: CpChipPadding.normal,
+          options: CpChipPadding.values.toOptions(),
+        ),
+        child: const Text('Espresso Cash'),
+      ),
 );

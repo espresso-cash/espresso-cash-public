@@ -79,25 +79,25 @@ class _CountdownTimerState extends State<CountdownTimer> {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            SizedBox(
-              width: 50,
-              height: 50,
-              child: CircularProgressIndicator(
-                value: 1 - _percent,
-                backgroundColor: CpColors.yellowColor,
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.black),
-                strokeWidth: 6,
-              ),
-            ),
-            Text(
-              _formattedTime,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 13),
-            ),
-          ],
+    child: Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        SizedBox(
+          width: 50,
+          height: 50,
+          child: CircularProgressIndicator(
+            value: 1 - _percent,
+            backgroundColor: CpColors.yellowColor,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.black),
+            strokeWidth: 6,
+          ),
         ),
-      );
+        Text(
+          _formattedTime,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.white, fontSize: 13),
+        ),
+      ],
+    ),
+  );
 }

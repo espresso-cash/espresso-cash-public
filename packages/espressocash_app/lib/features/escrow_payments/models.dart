@@ -4,9 +4,7 @@ part 'models.g.dart';
 
 @BorshSerializable()
 class EscrowArgument with _$EscrowArgument {
-  factory EscrowArgument({
-    @BU64() required BigInt amount,
-  }) = _EscrowArgument;
+  factory EscrowArgument({@BU64() required BigInt amount}) = _EscrowArgument;
 
   const EscrowArgument._();
 

@@ -11,47 +11,50 @@ import '../../utils.dart';
 
 final offRampAmountScreenStory = Story(
   name: 'Screens/OffRampAmountScreen',
-  builder: (context) => RampAmountScreen(
-    partner: context.knobs.options(
-      label: 'Partner',
-      initial: RampPartner.kado,
-      options: RampPartner.values.toOptions(),
-    ),
-    onSubmitted: ignore,
-    minAmount: Decimal.fromInt(10),
-    currency: Currency.usdc,
-    type: context.knobs.options(
-      label: 'Type',
-      initial: RampType.onRamp,
-      options: RampType.values.toOptions(),
-    ),
-    calculateEquivalent: (amount) async => Future.delayed(
-      Duration.zero,
-      () => Either.right(
-        FiatAmount(
-          value:
-              Currency.usd.decimalToInt(amount.decimal * Decimal.parse('0.95')),
-          fiatCurrency: Currency.usd,
+  builder:
+      (context) => RampAmountScreen(
+        partner: context.knobs.options(
+          label: 'Partner',
+          initial: RampPartner.kado,
+          options: RampPartner.values.toOptions(),
         ),
-      ),
-    ),
-    calculateFee: (amount) => Future.delayed(
-      Duration.zero,
-      () => Either.right(
-        (
-          partnerFee: '1 USDC',
-          ourFee: '1 USDC',
-          totalFee: FiatAmount(
-            value: Currency.usd
-                .decimalToInt(amount.decimal * Decimal.parse('0.05')),
-            fiatCurrency: Currency.usd,
-          ),
-          extraFee: null,
+        onSubmitted: ignore,
+        minAmount: Decimal.fromInt(10),
+        currency: Currency.usdc,
+        type: context.knobs.options(
+          label: 'Type',
+          initial: RampType.onRamp,
+          options: RampType.values.toOptions(),
         ),
+        calculateEquivalent:
+            (amount) async => Future.delayed(
+              Duration.zero,
+              () => Either.right(
+                FiatAmount(
+                  value: Currency.usd.decimalToInt(
+                    amount.decimal * Decimal.parse('0.95'),
+                  ),
+                  fiatCurrency: Currency.usd,
+                ),
+              ),
+            ),
+        calculateFee:
+            (amount) => Future.delayed(
+              Duration.zero,
+              () => Either.right((
+                partnerFee: '1 USDC',
+                ourFee: '1 USDC',
+                totalFee: FiatAmount(
+                  value: Currency.usd.decimalToInt(
+                    amount.decimal * Decimal.parse('0.05'),
+                  ),
+                  fiatCurrency: Currency.usd,
+                ),
+                extraFee: null,
+              )),
+            ),
+        exchangeRate: null,
+        receiveCurrency: null,
+        initialAmount: null,
       ),
-    ),
-    exchangeRate: null,
-    receiveCurrency: null,
-    initialAmount: null,
-  ),
 );

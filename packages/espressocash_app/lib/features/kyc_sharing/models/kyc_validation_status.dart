@@ -1,11 +1,6 @@
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
-enum KycValidationStatus {
-  unverified,
-  pending,
-  approved,
-  rejected,
-}
+enum KycValidationStatus { unverified, pending, approved, rejected }
 
 extension KycValidationStatusX on KycValidationStatus {
   bool get isPending =>
@@ -19,20 +14,19 @@ extension KycValidationStatusX on KycValidationStatus {
 
 extension ValidationStatusX on ValidationStatus {
   KycValidationStatus toKycValidationStatus() => switch (this) {
-        ValidationStatus.unspecified ||
-        ValidationStatus.unverified =>
-          KycValidationStatus.unverified,
-        ValidationStatus.pending => KycValidationStatus.pending,
-        ValidationStatus.approved => KycValidationStatus.approved,
-        ValidationStatus.rejected => KycValidationStatus.rejected,
-      };
+    ValidationStatus.unspecified ||
+    ValidationStatus.unverified => KycValidationStatus.unverified,
+    ValidationStatus.pending => KycValidationStatus.pending,
+    ValidationStatus.approved => KycValidationStatus.approved,
+    ValidationStatus.rejected => KycValidationStatus.rejected,
+  };
 }
 
 extension KycStatusDetailsX on KycStatus {
   KycValidationStatus toKycValidationStatus() => switch (this) {
-        KycStatus.unspecified => KycValidationStatus.unverified,
-        KycStatus.pending => KycValidationStatus.pending,
-        KycStatus.approved => KycValidationStatus.approved,
-        KycStatus.rejected => KycValidationStatus.rejected,
-      };
+    KycStatus.unspecified => KycValidationStatus.unverified,
+    KycStatus.pending => KycValidationStatus.pending,
+    KycStatus.approved => KycValidationStatus.approved,
+    KycStatus.rejected => KycValidationStatus.rejected,
+  };
 }

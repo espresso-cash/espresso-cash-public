@@ -10,9 +10,8 @@ import '../models/payment_quote.dart';
 
 @injectable
 class QuoteRepository {
-  const QuoteRepository({
-    required EspressoCashClient ecClient,
-  }) : _client = ecClient;
+  const QuoteRepository({required EspressoCashClient ecClient})
+    : _client = ecClient;
 
   final EspressoCashClient _client;
 
@@ -43,10 +42,7 @@ class QuoteRepository {
         cryptoCurrency: Currency.usdc,
         value: quote.inputAmount,
       ),
-      fee: CryptoAmount(
-        cryptoCurrency: Currency.usdc,
-        value: quote.feeInUsdc,
-      ),
+      fee: CryptoAmount(cryptoCurrency: Currency.usdc, value: quote.feeInUsdc),
       encodedTx: quote.encodedTx,
       slot: quote.slot,
     );

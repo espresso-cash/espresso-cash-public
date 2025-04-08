@@ -39,38 +39,41 @@ class CoinflowOffRampOrderWatcher implements RampWatcher {
         .asyncMap((_) => _db.getWaitingForPartnerOffRampOrder(orderId))
         .whereNotNull()
         .asyncMap(
-          (order) => _client.getWithdrawalHistory(_account.address).letAsync(
+          (order) => _client
+              .getWithdrawalHistory(_account.address)
+              .letAsync(
                 (response) => response.withdraws.firstWhereOrNull(
                   (e) => e.transaction == SignedTx.decode(order.transaction).id,
                 ),
               ),
         )
         .listen((event) async {
-      final statement = _db.update(_db.offRampOrderRows)
-        ..where((tbl) => tbl.id.equals(orderId));
+          final statement = _db.update(_db.offRampOrderRows)
+            ..where((tbl) => tbl.id.equals(orderId));
 
-      final status = switch (event?.status) {
-        CoinflowOrderStatus.completed => OffRampOrderStatus.completed,
-        CoinflowOrderStatus.failed => OffRampOrderStatus.failure,
-        CoinflowOrderStatus.created ||
-        CoinflowOrderStatus.unknown ||
-        CoinflowOrderStatus.pending ||
-        null =>
-          OffRampOrderStatus.waitingForPartner,
-      };
+          final status = switch (event?.status) {
+            CoinflowOrderStatus.completed => OffRampOrderStatus.completed,
+            CoinflowOrderStatus.failed => OffRampOrderStatus.failure,
+            CoinflowOrderStatus.created ||
+            CoinflowOrderStatus.unknown ||
+            CoinflowOrderStatus.pending ||
+            null => OffRampOrderStatus.waitingForPartner,
+          };
 
-      if (status == OffRampOrderStatus.completed) {
-        await _subscription?.cancel();
+          if (status == OffRampOrderStatus.completed) {
+            await _subscription?.cancel();
 
-        _analytics.rampCompleted(
-          partnerName: RampPartner.coinflow.name,
-          rampType: RampType.offRamp.name,
-          id: orderId,
-        );
-      }
+            _analytics.rampCompleted(
+              partnerName: RampPartner.coinflow.name,
+              rampType: RampType.offRamp.name,
+              id: orderId,
+            );
+          }
 
-      await statement.write(OffRampOrderRowsCompanion(status: Value(status)));
-    });
+          await statement.write(
+            OffRampOrderRowsCompanion(status: Value(status)),
+          );
+        });
   }
 
   @override

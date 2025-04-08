@@ -24,10 +24,7 @@ import '../models/outgoing_payment.dart';
 import '../services/dln_order_service.dart';
 
 class OutgoingDlnPaymentDetailsScreen extends StatefulWidget {
-  const OutgoingDlnPaymentDetailsScreen({
-    super.key,
-    required this.id,
-  });
+  const OutgoingDlnPaymentDetailsScreen({super.key, required this.id});
 
   static void push(BuildContext context, {required String id}) =>
       Navigator.of(context).push<void>(
@@ -63,22 +60,19 @@ class _OutgoingDlnPaymentDetailsScreenState
 
   @override
   Widget build(BuildContext context) => StreamBuilder<OutgoingDlnPayment?>(
-        stream: _order,
-        builder: (context, snapshot) {
-          final order = snapshot.data;
+    stream: _order,
+    builder: (context, snapshot) {
+      final order = snapshot.data;
 
-          return order == null
-              ? TransferProgress(onBack: () => Navigator.pop(context))
-              : OutgoingDlnOrderScreenContent(order: order);
-        },
-      );
+      return order == null
+          ? TransferProgress(onBack: () => Navigator.pop(context))
+          : OutgoingDlnOrderScreenContent(order: order);
+    },
+  );
 }
 
 class OutgoingDlnOrderScreenContent extends StatelessWidget {
-  const OutgoingDlnOrderScreenContent({
-    super.key,
-    required this.order,
-  });
+  const OutgoingDlnOrderScreenContent({super.key, required this.order});
 
   final OutgoingDlnPayment order;
 
@@ -97,10 +91,11 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
     final String statusContent = order.status.maybeMap(
       fulfilled: always(context.l10n.transactionFulfilled),
       success: always(context.l10n.transactionAwaitingFulfillment),
-      txFailure: (it) => [
-        context.l10n.splitKeyErrorMessage2,
-        context.l10n.tryAgainLater,
-      ].join(' '),
+      txFailure:
+          (it) => [
+            context.l10n.splitKeyErrorMessage2,
+            context.l10n.tryAgainLater,
+          ].join(' '),
       unfulfilled: always(context.l10n.outgoingDlnFailure),
       orElse: always(context.l10n.paymentProgressOngoing(amount)),
     );
@@ -110,15 +105,15 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
     );
 
     void handleCanceled() => showConfirmationDialog(
-          context,
-          title: context.l10n.outgoingSplitKeyPayments_btnCancel.toUpperCase(),
-          message: context
-              .l10n.outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
-          onConfirm: () {
-            Navigator.pop(context);
-            sl<OutgoingDlnPaymentService>().cancel(order.id);
-          },
-        );
+      context,
+      title: context.l10n.outgoingSplitKeyPayments_btnCancel.toUpperCase(),
+      message:
+          context.l10n.outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
+      onConfirm: () {
+        Navigator.pop(context);
+        sl<OutgoingDlnPaymentService>().cancel(order.id);
+      },
+    );
 
     final Widget? secondaryButton = order.status.mapOrNull(
       success: (e) => e.orderId?.let((p) => _MoreDetailsButton(orderId: p)),
@@ -199,11 +194,7 @@ class _Timeline extends StatelessWidget {
       title: '${context.l10n.moneyReceived} on $receiverBlockchain',
     );
 
-    final items = [
-      paymentInitiated,
-      txCreated,
-      paymentSuccess,
-    ];
+    final items = [paymentInitiated, txCreated, paymentSuccess];
 
     return CpTimeline(
       status: timelineStatus,
@@ -221,14 +212,14 @@ class _MoreDetailsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpTextButton(
-        variant: CpTextButtonVariant.light,
-        text: context.l10n.moreDetails,
-        onPressed: () {
-          final link = 'https://app.debridge.finance/order?orderId=$orderId';
+    variant: CpTextButtonVariant.light,
+    text: context.l10n.moreDetails,
+    onPressed: () {
+      final link = 'https://app.debridge.finance/order?orderId=$orderId';
 
-          context.openLink(link);
-        },
-      );
+      context.openLink(link);
+    },
+  );
 }
 
 class _CancelButton extends StatelessWidget {
@@ -237,10 +228,10 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpTextButton(
-        variant: CpTextButtonVariant.light,
-        text: context.l10n.outgoingSplitKeyPayments_btnCancel,
-        onPressed: onPressed,
-      );
+    variant: CpTextButtonVariant.light,
+    text: context.l10n.outgoingSplitKeyPayments_btnCancel,
+    onPressed: onPressed,
+  );
 }
 
 class _ContactUsButton extends StatelessWidget {
@@ -248,38 +239,38 @@ class _ContactUsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpButton(
-        size: CpButtonSize.big,
-        width: double.infinity,
-        text: context.l10n.contactUs,
-        onPressed: () => sl<IntercomService>().displayMessenger(),
-      );
+    size: CpButtonSize.big,
+    width: double.infinity,
+    text: context.l10n.contactUs,
+    onPressed: () => sl<IntercomService>().displayMessenger(),
+  );
 }
 
 extension on OutgoingDlnPaymentStatus {
   CpStatusType toStatusType() => this.map(
-        txFailure: always(CpStatusType.error),
-        txCreated: always(CpStatusType.info),
-        txSent: always(CpStatusType.info),
-        success: always(CpStatusType.info),
-        fulfilled: always(CpStatusType.success),
-        unfulfilled: always(CpStatusType.error),
-      );
+    txFailure: always(CpStatusType.error),
+    txCreated: always(CpStatusType.info),
+    txSent: always(CpStatusType.info),
+    success: always(CpStatusType.info),
+    fulfilled: always(CpStatusType.success),
+    unfulfilled: always(CpStatusType.error),
+  );
 
   CpTimelineStatus toTimelineStatus() => this.map(
-        txFailure: always(CpTimelineStatus.failure),
-        txCreated: always(CpTimelineStatus.inProgress),
-        txSent: always(CpTimelineStatus.inProgress),
-        success: always(CpTimelineStatus.inProgress),
-        fulfilled: always(CpTimelineStatus.success),
-        unfulfilled: always(CpTimelineStatus.failure),
-      );
+    txFailure: always(CpTimelineStatus.failure),
+    txCreated: always(CpTimelineStatus.inProgress),
+    txSent: always(CpTimelineStatus.inProgress),
+    success: always(CpTimelineStatus.inProgress),
+    fulfilled: always(CpTimelineStatus.success),
+    unfulfilled: always(CpTimelineStatus.failure),
+  );
 
   int toActiveItem() => this.map(
-        txFailure: always(0),
-        txCreated: always(1),
-        txSent: always(1),
-        success: always(2),
-        fulfilled: always(2),
-        unfulfilled: always(2),
-      );
+    txFailure: always(0),
+    txCreated: always(1),
+    txSent: always(1),
+    success: always(2),
+    fulfilled: always(2),
+    unfulfilled: always(2),
+  );
 }

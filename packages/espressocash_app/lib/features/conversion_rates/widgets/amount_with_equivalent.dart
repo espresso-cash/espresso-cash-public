@@ -39,8 +39,9 @@ class AmountWithEquivalent extends StatelessWidget {
       ValueListenableBuilder<TextEditingValue>(
         valueListenable: inputController,
         builder: (context, value, _) {
-          final num =
-              value.text.toDecimalOrZero(DeviceLocale.localeOf(context));
+          final num = value.text.toDecimalOrZero(
+            DeviceLocale.localeOf(context),
+          );
 
           final isZero = num.toDouble() == 0;
           final hasError = error.isNotEmpty;
@@ -68,17 +69,17 @@ class AmountWithEquivalent extends StatelessWidget {
                       children: [
                         switch (state) {
                           (_, true, _) => _DisplayChip(
-                              key: ValueKey(error),
-                              value: error,
-                              shouldDisplay: true,
-                              backgroundColor: CpColors.alertRedColor,
-                            ),
+                            key: ValueKey(error),
+                            value: error,
+                            shouldDisplay: true,
+                            backgroundColor: CpColors.alertRedColor,
+                          ),
                           (true, false, true) => const _InfoChip(),
                           _ => _EquivalentDisplay(
-                              input: value.text,
-                              token: token,
-                              backgroundColor: Colors.black,
-                            ),
+                            input: value.text,
+                            token: token,
+                            backgroundColor: Colors.black,
+                          ),
                         },
                       ],
                     ),
@@ -174,18 +175,15 @@ class _DisplayChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _Chip(
-        shouldDisplay: shouldDisplay,
-        backgroundColor: backgroundColor,
-        child: Text(
-          value.toUpperCase(),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      );
+    shouldDisplay: shouldDisplay,
+    backgroundColor: backgroundColor,
+    child: Text(
+      value.toUpperCase(),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+    ),
+  );
 }
 
 class _Chip extends StatelessWidget {
@@ -201,24 +199,21 @@ class _Chip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: 45,
-        child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 200),
-          opacity: shouldDisplay ? 1 : 0,
-          child: CpChip(
-            padding: CpChipPadding.small,
-            backgroundColor: backgroundColor,
-            child: child,
-          ),
-        ),
-      );
+    height: 45,
+    child: AnimatedOpacity(
+      duration: const Duration(milliseconds: 200),
+      opacity: shouldDisplay ? 1 : 0,
+      child: CpChip(
+        padding: CpChipPadding.small,
+        backgroundColor: backgroundColor,
+        child: child,
+      ),
+    ),
+  );
 }
 
 class _InputDisplay extends StatelessWidget {
-  const _InputDisplay({
-    required this.input,
-    required this.fontSize,
-  });
+  const _InputDisplay({required this.input, required this.fontSize});
 
   final String input;
   final double fontSize;
@@ -238,10 +233,7 @@ class _InputDisplay extends StatelessWidget {
           child: Text(
             formatted,
             textAlign: TextAlign.right,
-            style: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w700,
-            ),
+            style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w700),
           ),
         ),
       ),

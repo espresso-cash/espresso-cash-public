@@ -2,16 +2,14 @@ import 'package:kyc_client_dart/kyc_client_dart.dart' hide IdTypeExtension;
 
 import '../models/document_type.dart';
 
-enum RequirementRelationship {
-  and,
-  or,
-}
+enum RequirementRelationship { and, or }
 
 extension KycRequirementsExtensions on KycRequirement {
-  List<BasicInfoType> get basicInfoTypes => requirements
-      .whereType<BasicInfoRequirement>()
-      .map((req) => req.type)
-      .toList();
+  List<BasicInfoType> get basicInfoTypes =>
+      requirements
+          .whereType<BasicInfoRequirement>()
+          .map((req) => req.type)
+          .toList();
 
   List<String> get requiredCountryCodes => requirements.parseCountryCodes();
 }
@@ -68,9 +66,9 @@ extension RequirementListExtension on List<Requirement> {
 
           if (hasMatchingDocType) {
             fields.addAll(
-              andReq.requirements
-                  .whereType<DocumentFieldRequirement>()
-                  .map((r) => r.field),
+              andReq.requirements.whereType<DocumentFieldRequirement>().map(
+                (r) => r.field,
+              ),
             );
             break;
           }

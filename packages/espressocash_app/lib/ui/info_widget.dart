@@ -48,10 +48,7 @@ class CpInfoWidget extends StatelessWidget {
         ),
         Flexible(
           child: DefaultTextStyle.merge(
-            style: const TextStyle(
-              fontSize: 14.5,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w500),
             child: message,
           ),
         ),
@@ -60,10 +57,7 @@ class CpInfoWidget extends StatelessWidget {
 
     switch (variant) {
       case CpInfoVariant.dark:
-        return Padding(
-          padding: padding,
-          child: content,
-        );
+        return Padding(padding: padding, child: content);
       case CpInfoVariant.light:
         return CpRoundedRectangle(
           backgroundColor: CpColors.backgroundAccentColor,

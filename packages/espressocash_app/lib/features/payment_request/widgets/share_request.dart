@@ -19,10 +19,7 @@ import '../models/payment_request.dart';
 import '../services/payment_request_service.dart';
 
 class ShareRequestPayment extends StatefulWidget {
-  const ShareRequestPayment({
-    super.key,
-    required this.request,
-  });
+  const ShareRequestPayment({super.key, required this.request});
 
   final PaymentRequest request;
 
@@ -50,10 +47,7 @@ class _ShareRequestPaymentState extends State<ShareRequestPayment> {
 
     return CpTheme.black(
       child: Scaffold(
-        appBar: CpAppBar(
-          title: title,
-          leading: const CpBackButton(),
-        ),
+        appBar: CpAppBar(title: title, leading: const CpBackButton()),
         body: SingleChildScrollView(
           child: IntrinsicHeight(
             child: Column(
@@ -95,16 +89,17 @@ class _ShareRequestPaymentState extends State<ShareRequestPayment> {
                         return const SizedBox.shrink();
                       }
 
-                      final link = widget.request.shortLink ??
+                      final link =
+                          widget.request.shortLink ??
                           widget.request.dynamicLink;
                       final formattedAmount =
                           snapshot.data?.formatWithFiat(context) ?? '';
 
-                      final message =
-                          context.l10n.sharePaymentRequestLinkMessage(
-                        formattedAmount,
-                        link,
-                      );
+                      final message = context.l10n
+                          .sharePaymentRequestLinkMessage(
+                            formattedAmount,
+                            link,
+                          );
 
                       return ShareCodeWidget(
                         title: context.l10n.scanToSend,
@@ -123,18 +118,25 @@ class _ShareRequestPaymentState extends State<ShareRequestPayment> {
                   child: CpTextButton(
                     text: context.l10n.requestDeletePaymentTitle,
                     variant: CpTextButtonVariant.grey,
-                    onPressed: () => showConfirmationDialog(
-                      context,
-                      title: context
-                          .l10n.paymentRequest_lblCancelConfirmationTitle
-                          .toUpperCase(),
-                      message: context
-                          .l10n.paymentRequest_lblCancelConfirmationSubtitle,
-                      onConfirm: () {
-                        sl<PaymentRequestService>().cancel(widget.request.id);
-                        Navigator.of(context).pop();
-                      },
-                    ),
+                    onPressed:
+                        () => showConfirmationDialog(
+                          context,
+                          title:
+                              context
+                                  .l10n
+                                  .paymentRequest_lblCancelConfirmationTitle
+                                  .toUpperCase(),
+                          message:
+                              context
+                                  .l10n
+                                  .paymentRequest_lblCancelConfirmationSubtitle,
+                          onConfirm: () {
+                            sl<PaymentRequestService>().cancel(
+                              widget.request.id,
+                            );
+                            Navigator.of(context).pop();
+                          },
+                        ),
                   ),
                 ),
               ],

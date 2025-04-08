@@ -13,8 +13,6 @@ class CpInfoIcon extends StatelessWidget {
   final double? height;
 
   @override
-  Widget build(BuildContext context) => Assets.icons.info.svg(
-        color: iconColor,
-        height: height,
-      );
+  Widget build(BuildContext context) =>
+      Assets.icons.info.svg(color: iconColor, height: height);
 }

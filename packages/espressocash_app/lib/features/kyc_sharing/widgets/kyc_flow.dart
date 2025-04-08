@@ -39,15 +39,9 @@ const List<KycStepFunction> phoneSteps = [
   PhoneConfirmationScreen.push,
 ];
 
-List<KycStepFunction> documentSteps({
-  required KycRequirement requirement,
-}) =>
-    [
-      (BuildContext ctx) => DocumentInputScreen.push(
-            ctx,
-            requirement: requirement,
-          ),
-    ];
+List<KycStepFunction> documentSteps({required KycRequirement requirement}) => [
+  (BuildContext ctx) => DocumentInputScreen.push(ctx, requirement: requirement),
+];
 
 extension KycFlowExtension on BuildContext {
   Future<bool> openKycFlow({required String countryCode}) async {
@@ -59,8 +53,9 @@ extension KycFlowExtension on BuildContext {
       return false;
     }
 
-    final kycStatus =
-        await sl<PendingKycService>().fetchKycStatus(country: countryCode);
+    final kycStatus = await sl<PendingKycService>().fetchKycStatus(
+      country: countryCode,
+    );
 
     final kycProcessed = kycStatus.isApprovedOrPending;
 
@@ -114,10 +109,7 @@ extension KycFlowExtension on BuildContext {
 
     if (kycStatus != KycValidationStatus.approved) {
       if (!await _navigateToScreen(
-        (BuildContext ctx) => KycStatusScreen.push(
-          ctx,
-          country: countryCode,
-        ),
+        (BuildContext ctx) => KycStatusScreen.push(ctx, country: countryCode),
       )) {
         return false;
       }

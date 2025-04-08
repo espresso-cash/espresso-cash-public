@@ -36,10 +36,7 @@ class TokenActivitiesRepository {
 }
 
 class ActivityGroup {
-  const ActivityGroup({
-    required this.date,
-    required this.transactions,
-  });
+  const ActivityGroup({required this.date, required this.transactions});
 
   final String date;
   final IList<TxCommon> transactions;

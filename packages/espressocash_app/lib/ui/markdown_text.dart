@@ -16,13 +16,13 @@ class EcMarkdownText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MarkdownBody(
-        data: text,
-        styleSheet: MarkdownStyleSheet(
-          em: _markdownStyle.copyWith(color: CpColors.yellowColor),
-          p: _markdownStyle,
-          textAlign: textAlign,
-        ),
-      );
+    data: text,
+    styleSheet: MarkdownStyleSheet(
+      em: _markdownStyle.copyWith(color: CpColors.yellowColor),
+      p: _markdownStyle,
+      textAlign: textAlign,
+    ),
+  );
 }
 
 final _markdownStyle = TextStyle(

@@ -30,29 +30,28 @@ class UpdateProfile {
     String? countryCode,
     String? email,
     String? photoPath,
-  }) =>
-      tryEitherAsync((_) async {
-        if (countryCode != null && _profileRepository.country != countryCode) {
-          _analyticsManager.setProfileCountryCode(countryCode);
-          final request = WalletCountryRequestDto(countryCode: countryCode);
-          await _client.updateUserWalletCountry(request);
-          _intercomService.updateCountry(countryCode);
-          _profileRepository.country = countryCode;
-        }
+  }) => tryEitherAsync((_) async {
+    if (countryCode != null && _profileRepository.country != countryCode) {
+      _analyticsManager.setProfileCountryCode(countryCode);
+      final request = WalletCountryRequestDto(countryCode: countryCode);
+      await _client.updateUserWalletCountry(request);
+      _intercomService.updateCountry(countryCode);
+      _profileRepository.country = countryCode;
+    }
 
-        _pendingKycService.remove();
+    _pendingKycService.remove();
 
-        if (firstName != null) {
-          _profileRepository.firstName = firstName;
-        }
-        if (lastName != null) {
-          _profileRepository.lastName = lastName;
-        }
-        if (photoPath != null) {
-          _profileRepository.photoPath = photoPath;
-        }
-        if (email != null) {
-          _profileRepository.email = email;
-        }
-      }).doOnLeftAsync(reportError);
+    if (firstName != null) {
+      _profileRepository.firstName = firstName;
+    }
+    if (lastName != null) {
+      _profileRepository.lastName = lastName;
+    }
+    if (photoPath != null) {
+      _profileRepository.photoPath = photoPath;
+    }
+    if (email != null) {
+      _profileRepository.email = email;
+    }
+  }).doOnLeftAsync(reportError);
 }

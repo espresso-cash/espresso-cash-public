@@ -16,9 +16,9 @@ class TokenAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SliverPersistentHeader(
-        pinned: true,
-        delegate: _TokenAppBarDelegate(token),
-      );
+    pinned: true,
+    delegate: _TokenAppBarDelegate(token),
+  );
 }
 
 class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
@@ -54,33 +54,30 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   Widget _buildIcon(double ratio, double iconSize) => Positioned(
-        top: (iconSize * ratio) - iconSize + 8,
-        left: 0,
-        right: 0,
-        child: Opacity(
-          opacity: ratio,
-          child: TokenIcon(token: token, size: iconSize),
-        ),
-      );
+    top: (iconSize * ratio) - iconSize + 8,
+    left: 0,
+    right: 0,
+    child: Opacity(
+      opacity: ratio,
+      child: TokenIcon(token: token, size: iconSize),
+    ),
+  );
 
   Widget _buildText(double ratio, double iconSize) => Positioned.fill(
-        top: iconSize * (ratio * 1.15) + 4,
-        left: _buttonSize,
-        right: _buttonSize,
-        child: Center(
-          child: FittedBox(
-            child: Text(
-              '${token.name} (${token.symbol})',
-              maxLines: 1,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 17,
-              ),
-            ),
-          ),
+    top: iconSize * (ratio * 1.15) + 4,
+    left: _buttonSize,
+    right: _buttonSize,
+    child: Center(
+      child: FittedBox(
+        child: Text(
+          '${token.name} (${token.symbol})',
+          maxLines: 1,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
         ),
-      );
+      ),
+    ),
+  );
 
   @override
   double get maxExtent => _tokenSize + (_minExtent - 20);
@@ -105,12 +102,9 @@ class _BackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Align(
-        alignment: Alignment.topLeft,
-        child: SizedBox(
-          height: _minExtent,
-          child: CpBackButton(),
-        ),
-      );
+    alignment: Alignment.topLeft,
+    child: SizedBox(height: _minExtent, child: CpBackButton()),
+  );
 }
 
 const double _tokenSize = 68;

@@ -55,28 +55,26 @@ class ILPService implements Disposable {
         .watch(id)
         .whereNotNull()
         .asyncExpand<IncomingLinkPayment?>((payment) {
-      switch (payment.status) {
-        case ILPStatusTxCreated():
-          return _send(payment).asStream();
-        case ILPStatusTxSent():
-          return _wait(payment).asStream();
-        case ILPStatusSuccess():
-        case ILPStatusTxFailure():
-          _subscriptions.remove(id)?.cancel();
+          switch (payment.status) {
+            case ILPStatusTxCreated():
+              return _send(payment).asStream();
+            case ILPStatusTxSent():
+              return _wait(payment).asStream();
+            case ILPStatusSuccess():
+            case ILPStatusTxFailure():
+              _subscriptions.remove(id)?.cancel();
 
-          return null;
-      }
-    }).listen((payment) => payment?.let(_repository.save));
+              return null;
+          }
+        })
+        .listen((payment) => payment?.let(_repository.save));
   }
 
   Future<IncomingLinkPayment> create({
     required ECWallet account,
     required Ed25519HDKeyPair escrow,
   }) async {
-    final status = await _createTx(
-      escrow: escrow,
-      account: account,
-    );
+    final status = await _createTx(escrow: escrow, account: account);
 
     final id = const Uuid().v4();
 
@@ -108,13 +106,9 @@ class ILPService implements Disposable {
 
       return ILPStatus.txCreated(tx);
     } on EscrowException {
-      return const ILPStatus.txFailure(
-        reason: TxFailureReason.escrowFailure,
-      );
+      return const ILPStatus.txFailure(reason: TxFailureReason.escrowFailure);
     } on Exception {
-      return const ILPStatus.txFailure(
-        reason: TxFailureReason.creatingFailure,
-      );
+      return const ILPStatus.txFailure(reason: TxFailureReason.creatingFailure);
     }
   }
 
@@ -128,11 +122,7 @@ class ILPService implements Disposable {
 
     try {
       final signature = await _ecClient
-          .submitDurableTx(
-            SubmitDurableTxRequestDto(
-              tx: tx.encode(),
-            ),
-          )
+          .submitDurableTx(SubmitDurableTxRequestDto(tx: tx.encode()))
           .then((e) => e.signature);
 
       return payment.copyWith(
@@ -160,9 +150,12 @@ class ILPService implements Disposable {
 
     int? fee;
     try {
-      fee = status.tx.containsAta
-          ? await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee)
-          : null;
+      fee =
+          status.tx.containsAta
+              ? await _ecClient.getFees().then(
+                (value) => value.escrowPaymentAtaFee,
+              )
+              : null;
     } on Object {
       fee = null;
     }
@@ -200,20 +193,23 @@ class ILPService implements Disposable {
       final rawTx = details.transaction as RawTransaction;
       final tx = SignedTx.fromBytes(rawTx.data);
 
-      final accountIndex = tx.compiledMessage.accountKeys
-          .indexWhere((e) => e == usdcTokenAddress);
+      final accountIndex = tx.compiledMessage.accountKeys.indexWhere(
+        (e) => e == usdcTokenAddress,
+      );
 
-      final postTokenBalance = details.meta?.postTokenBalances
-          .where((e) => e.mint == Token.usdc.address)
-          .where((e) => e.accountIndex == accountIndex)
-          .firstOrNull;
+      final postTokenBalance =
+          details.meta?.postTokenBalances
+              .where((e) => e.mint == Token.usdc.address)
+              .where((e) => e.accountIndex == accountIndex)
+              .firstOrNull;
 
       if (postTokenBalance == null) return null;
 
-      final preTokenBalance = details.meta?.preTokenBalances
-          .where((e) => e.mint == Token.usdc.address)
-          .where((e) => e.accountIndex == accountIndex)
-          .firstOrNull;
+      final preTokenBalance =
+          details.meta?.preTokenBalances
+              .where((e) => e.mint == Token.usdc.address)
+              .where((e) => e.accountIndex == accountIndex)
+              .firstOrNull;
 
       final preAmount = preTokenBalance?.uiTokenAmount.amount ?? '0';
       final postAmount = postTokenBalance.uiTokenAmount.amount;
@@ -222,10 +218,7 @@ class ILPService implements Disposable {
 
       if (rawAmount <= 0) return null;
 
-      return CryptoAmount(
-        value: rawAmount,
-        cryptoCurrency: Currency.usdc,
-      );
+      return CryptoAmount(value: rawAmount, cryptoCurrency: Currency.usdc);
     } on Exception {
       return null;
     }
@@ -239,7 +232,8 @@ class ILPService implements Disposable {
 
 extension on SignedTx {
   bool get containsAta => decompileMessage().let(
-        (m) => m.instructions
-            .any((ix) => ix.programId == AssociatedTokenAccountProgram.id),
-      );
+    (m) => m.instructions.any(
+      (ix) => ix.programId == AssociatedTokenAccountProgram.id,
+    ),
+  );
 }

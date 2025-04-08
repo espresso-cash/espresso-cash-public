@@ -22,9 +22,9 @@ class ConversionRatesRepository {
     required MyDatabase db,
     required EspressoCashClient ecClient,
     required JupiterPriceClient jupiterClient,
-  })  : _db = db,
-        _ecClient = ecClient,
-        _jupiterClient = jupiterClient;
+  }) : _db = db,
+       _ecClient = ecClient,
+       _jupiterClient = jupiterClient;
 
   final MyDatabase _db;
   final JupiterPriceClient _jupiterClient;
@@ -41,13 +41,12 @@ class ConversionRatesRepository {
   }
 
   void _initCache() {
-    _cacheSubscription =
-        _db.select(_db.conversionRatesRows).watch().listen((rows) {
+    _cacheSubscription = _db.select(_db.conversionRatesRows).watch().listen((
+      rows,
+    ) {
       for (final row in rows) {
-        _ratesCache.putIfAbsent(
-          row.fiatCurrency,
-          () => {},
-        )[row.token] = Decimal.tryParse(row.rate) ?? Decimal.zero;
+        _ratesCache.putIfAbsent(row.fiatCurrency, () => {})[row.token] =
+            Decimal.tryParse(row.rate) ?? Decimal.zero;
       }
     });
   }
@@ -59,76 +58,76 @@ class ConversionRatesRepository {
     CryptoCurrency crypto, {
     required FiatCurrency to,
   }) {
-    final query = _db.select(_db.conversionRatesRows)
-      ..where(
-        (tbl) =>
-            tbl.token.equals(crypto.token.address) &
-            tbl.fiatCurrency.equals(to.symbol),
-      );
+    final query = _db.select(_db.conversionRatesRows)..where(
+      (tbl) =>
+          tbl.token.equals(crypto.token.address) &
+          tbl.fiatCurrency.equals(to.symbol),
+    );
 
-    return query
-        .watchSingleOrNull()
-        .map((row) => row?.rate.let(Decimal.tryParse));
+    return query.watchSingleOrNull().map(
+      (row) => row?.rate.let(Decimal.tryParse),
+    );
   }
 
   AsyncResult<void> _fetchTokens(
     FiatCurrency currency,
     Iterable<Token> tokens,
-  ) =>
-      tryEitherAsync((_) async {
-        final addresses = await Stream.fromIterable(tokens.addresses)
-            .bufferCount(_maxIds)
-            .toList();
+  ) => tryEitherAsync((_) async {
+    final addresses =
+        await Stream.fromIterable(
+          tokens.addresses,
+        ).bufferCount(_maxIds).toList();
 
-        final results = await Future.wait(
-          addresses.map((ids) async {
-            final request = TokenRateRequestDto(ids: ids.lock);
+    final results = await Future.wait(
+      addresses.map((ids) async {
+        final request = TokenRateRequestDto(ids: ids.lock);
 
-            return _jupiterClient.getPrice(request);
-          }),
-        );
+        return _jupiterClient.getPrice(request);
+      }),
+    );
 
-        final Map<String, TokenPricesMapDto> conversionRates = {};
-        for (final element in results) {
-          conversionRates.addAll(element.data);
+    final Map<String, TokenPricesMapDto> conversionRates = {};
+    for (final element in results) {
+      conversionRates.addAll(element.data);
+    }
+
+    if (conversionRates.containsKey(Token.wrappedSol.address)) {
+      conversionRates[Token.sol.address] =
+          conversionRates[Token.wrappedSol.address]!;
+    }
+
+    final usdcRateQuery = _db.select(_db.conversionRatesRows)..where(
+      (tbl) =>
+          tbl.token.equals(Currency.usdc.token.address) &
+          tbl.fiatCurrency.equals(currency.symbol),
+    );
+    final usdcRateRow = await usdcRateQuery.getSingleOrNull();
+    if (usdcRateRow == null) return;
+
+    final usdcRate = Decimal.parse(usdcRateRow.rate);
+
+    await _db.transaction(() async {
+      for (final entry in conversionRates.entries) {
+        final matchingTokens = tokens.where((t) => t.address == entry.key);
+
+        final rate = Decimal.parse(entry.value.price ?? '0') * usdcRate;
+
+        for (final token in matchingTokens) {
+          await _db
+              .into(_db.conversionRatesRows)
+              .insert(
+                ConversionRatesRowsCompanion.insert(
+                  token: token.address,
+                  fiatCurrency: currency.symbol,
+                  rate: rate.toString(),
+                  updatedAt: DateTime.now(),
+                ),
+                mode: InsertMode.replace,
+              );
         }
-
-        if (conversionRates.containsKey(Token.wrappedSol.address)) {
-          conversionRates[Token.sol.address] =
-              conversionRates[Token.wrappedSol.address]!;
-        }
-
-        final usdcRateQuery = _db.select(_db.conversionRatesRows)
-          ..where(
-            (tbl) =>
-                tbl.token.equals(Currency.usdc.token.address) &
-                tbl.fiatCurrency.equals(currency.symbol),
-          );
-        final usdcRateRow = await usdcRateQuery.getSingleOrNull();
-        if (usdcRateRow == null) return;
-
-        final usdcRate = Decimal.parse(usdcRateRow.rate);
-
-        await _db.transaction(() async {
-          for (final entry in conversionRates.entries) {
-            final matchingTokens = tokens.where((t) => t.address == entry.key);
-
-            final rate = Decimal.parse(entry.value.price ?? '0') * usdcRate;
-
-            for (final token in matchingTokens) {
-              await _db.into(_db.conversionRatesRows).insert(
-                    ConversionRatesRowsCompanion.insert(
-                      token: token.address,
-                      fiatCurrency: currency.symbol,
-                      rate: rate.toString(),
-                      updatedAt: DateTime.now(),
-                    ),
-                    mode: InsertMode.replace,
-                  );
-            }
-          }
-        });
-      });
+      }
+    });
+  });
 
   AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) =>
       _cache.fetchEither(() async {
@@ -139,7 +138,9 @@ class ConversionRatesRepository {
   Future<void> _fetchFiatRates({FiatCurrency? currency}) async {
     final data = await _ecClient.getRates().then((p) => p.usdc);
 
-    await _db.into(_db.conversionRatesRows).insert(
+    await _db
+        .into(_db.conversionRatesRows)
+        .insert(
           ConversionRatesRowsCompanion.insert(
             token: Currency.usdc.token.address,
             fiatCurrency: currency?.symbol ?? Currency.usd.symbol,
@@ -160,8 +161,7 @@ const _maxIds = 100;
 
 extension on Iterable<Token> {
   Iterable<String> get addresses => map(
-        (t) => t.address == Token.sol.address
-            ? Token.wrappedSol.address
-            : t.address,
-      );
+    (t) =>
+        t.address == Token.sol.address ? Token.wrappedSol.address : t.address,
+  );
 }

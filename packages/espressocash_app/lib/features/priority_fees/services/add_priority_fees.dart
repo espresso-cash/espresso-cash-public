@@ -11,10 +11,7 @@ import '../../../utils/transactions.dart';
 
 @injectable
 class AddPriorityFees {
-  const AddPriorityFees(
-    this._solanaClient,
-    this._ecClient,
-  );
+  const AddPriorityFees(this._solanaClient, this._ecClient);
 
   final EspressoCashClient _ecClient;
   final SolanaClient _solanaClient;
@@ -58,8 +55,9 @@ class AddPriorityFees {
     final event = SentryEvent(level: SentryLevel.warning)
       ..contexts['Enrichment'] = sentryData;
 
-    final encodedMessage =
-        base64Encode(tx.compiledMessage.toByteArray().toList());
+    final encodedMessage = base64Encode(
+      tx.compiledMessage.toByteArray().toList(),
+    );
     final feeForMessage = await _solanaClient.rpcClient.getFeeForMessage(
       encodedMessage,
       commitment: Commitment.processed,
@@ -105,8 +103,9 @@ class AddPriorityFees {
     final cuLimit = (unitsConsumed * 1.1).ceil();
     sentryData['cuLimit'] = cuLimit;
 
-    final budgetIx =
-        ComputeBudgetInstruction.setComputeUnitLimit(units: cuLimit);
+    final budgetIx = ComputeBudgetInstruction.setComputeUnitLimit(
+      units: cuLimit,
+    );
 
     final maxCuPrice = (budgetForPriorityFee.toDouble() / cuLimit).floor();
     sentryData['maxCuPrice'] = maxCuPrice;
@@ -124,20 +123,11 @@ class AddPriorityFees {
 
     if (firstIx.data == SystemProgram.advanceNonceAccountInstructionIndex) {
       newMessage = Message(
-        instructions: [
-          firstIx,
-          computePriceIx,
-          budgetIx,
-          ...otherIxs,
-        ],
+        instructions: [firstIx, computePriceIx, budgetIx, ...otherIxs],
       );
     } else {
       newMessage = Message(
-        instructions: [
-          computePriceIx,
-          budgetIx,
-          ...message.instructions,
-        ],
+        instructions: [computePriceIx, budgetIx, ...message.instructions],
       );
     }
 

@@ -38,8 +38,10 @@ extension BuildContextExt on BuildContext {
         final exception = value as DioException;
 
         if (exception.response?.statusCode == 451) {
-          final verificationLink = (exception.response?.data
-              as Map<String, dynamic>)['verificationLink'] as String?;
+          final verificationLink =
+              (exception.response?.data
+                      as Map<String, dynamic>)['verificationLink']
+                  as String?;
 
           if (verificationLink != null) {
             await _launchUrl(Uri.parse(verificationLink));
@@ -76,13 +78,14 @@ extension BuildContextExt on BuildContext {
 
         controller.addJavaScriptHandler(
           handlerName: 'init',
-          callback: (args) => {
-            'publicKey': address,
-            'email': profile.email,
-            'cluster': isProd ? 'mainnet' : 'staging',
-            'rpcUrl': solanaRpcUrl,
-            'token': Token.usdc.address,
-          },
+          callback:
+              (args) => {
+                'publicKey': address,
+                'email': profile.email,
+                'cluster': isProd ? 'mainnet' : 'staging',
+                'rpcUrl': solanaRpcUrl,
+                'token': Token.usdc.address,
+              },
         );
 
         hasLoaded = true;
@@ -111,23 +114,23 @@ extension BuildContextExt on BuildContext {
 
           await sl<OffRampOrderService>()
               .createFromTx(
-            tx: tx,
-            slot: txData.slot,
-            amount: CryptoAmount(
-              value: txData.amountTransferred,
-              cryptoCurrency: currency,
-            ),
-            partner: RampPartner.coinflow,
-            countryCode: profile.country.code,
-          )
+                tx: tx,
+                slot: txData.slot,
+                amount: CryptoAmount(
+                  value: txData.amountTransferred,
+                  cryptoCurrency: currency,
+                ),
+                partner: RampPartner.coinflow,
+                countryCode: profile.country.code,
+              )
               .then((order) {
-            switch (order) {
-              case Left<Exception, String>():
-                break;
-              case Right<Exception, String>(:final value):
-                OffRampOrderScreen.pushReplacement(this, id: value);
-            }
-          });
+                switch (order) {
+                  case Left<Exception, String>():
+                    break;
+                  case Right<Exception, String>(:final value):
+                    OffRampOrderScreen.pushReplacement(this, id: value);
+                }
+              });
 
           orderWasCreated = true;
 
@@ -163,17 +166,15 @@ extension BuildContextExt on BuildContext {
         }
       });
 
-  Uri _buildKycUrl({
-    required String address,
-    required String email,
-  }) {
+  Uri _buildKycUrl({required String address, required String email}) {
     final baseUrl = Uri.parse(coinflowKycUrl);
 
-    final coinflowDeepLinkUrl = Uri(
-      scheme: espressoCashLinkProtocol,
-      host: '',
-      path: 'coinflow',
-    ).toString();
+    final coinflowDeepLinkUrl =
+        Uri(
+          scheme: espressoCashLinkProtocol,
+          host: '',
+          path: 'coinflow',
+        ).toString();
 
     return baseUrl.replace(
       queryParameters: {
@@ -185,7 +186,5 @@ extension BuildContextExt on BuildContext {
   }
 }
 
-Future<void> _launchUrl(Uri url) => launchUrl(
-      url,
-      mode: LaunchMode.externalApplication,
-    );
+Future<void> _launchUrl(Uri url) =>
+    launchUrl(url, mode: LaunchMode.externalApplication);

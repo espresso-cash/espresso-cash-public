@@ -31,18 +31,18 @@ class CpTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: _foregroundColor,
-            ),
-          ),
+    behavior: HitTestBehavior.translucent,
+    onTap: onPressed,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+          color: _foregroundColor,
         ),
-      );
+      ),
+    ),
+  );
 }

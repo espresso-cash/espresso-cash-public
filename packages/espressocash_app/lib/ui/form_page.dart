@@ -49,23 +49,26 @@ class FormPage extends StatelessWidget {
               ),
             ),
             LayoutBuilder(
-              builder: (context, constraints) => SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      children: [
-                        _Header(
-                          colorTheme: colorTheme,
-                          content: header,
-                          showImage: backgroundImage == null,
+              builder:
+                  (context, constraints) => SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                      ),
+                      child: IntrinsicHeight(
+                        child: Column(
+                          children: [
+                            _Header(
+                              colorTheme: colorTheme,
+                              content: header,
+                              showImage: backgroundImage == null,
+                            ),
+                            _Content(child: child),
+                          ],
                         ),
-                        _Content(child: child),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
             ),
           ],
         ),
@@ -90,28 +93,23 @@ class FormPageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          Expanded(
-            child: Align(
-              alignment: iconAlignment,
-              child: icon.image(),
-            ),
-          ),
-          const SizedBox(height: 25),
-          DefaultTextStyle(
-            style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-            textAlign: TextAlign.center,
-            child: title,
-          ),
-          const SizedBox(height: 16),
-          DefaultTextStyle(
-            style: const TextStyle(fontSize: 13),
-            textAlign: TextAlign.center,
-            child: description,
-          ),
-          const SizedBox(height: 70),
-        ],
-      );
+    children: [
+      Expanded(child: Align(alignment: iconAlignment, child: icon.image())),
+      const SizedBox(height: 25),
+      DefaultTextStyle(
+        style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
+        textAlign: TextAlign.center,
+        child: title,
+      ),
+      const SizedBox(height: 16),
+      DefaultTextStyle(
+        style: const TextStyle(fontSize: 13),
+        textAlign: TextAlign.center,
+        child: description,
+      ),
+      const SizedBox(height: 70),
+    ],
+  );
 }
 
 class _Header extends StatelessWidget {
@@ -126,72 +124,70 @@ class _Header extends StatelessWidget {
   final bool showImage;
 
   AssetGenImage get image => switch (colorTheme) {
-        FormPageColorTheme.orange => Assets.images.formPageOrangeBg,
-        FormPageColorTheme.gold => Assets.images.formPageGoldBg,
-      };
+    FormPageColorTheme.orange => Assets.images.formPageOrangeBg,
+    FormPageColorTheme.gold => Assets.images.formPageGoldBg,
+  };
 
   @override
   Widget build(BuildContext context) => AspectRatio(
-        aspectRatio: 420 / 480,
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            if (showImage) ...[
-              image.image(
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-              Container(
-                height: 150,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: switch (colorTheme) {
-                      FormPageColorTheme.orange => [
-                          const Color(0x00D06022),
-                          CpColors.darkOrangeBackgroundColor,
-                        ],
-                      FormPageColorTheme.gold => [
-                          const Color(0x00C8B57D),
-                          CpColors.goldBackgroundColor,
-                        ],
-                    },
-                  ),
-                ),
-              ),
-            ],
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: MediaQuery.paddingOf(context).top),
-                  Expanded(child: content),
-                ],
+    aspectRatio: 420 / 480,
+    child: Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        if (showImage) ...[
+          image.image(
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          Container(
+            height: 150,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: switch (colorTheme) {
+                  FormPageColorTheme.orange => [
+                    const Color(0x00D06022),
+                    CpColors.darkOrangeBackgroundColor,
+                  ],
+                  FormPageColorTheme.gold => [
+                    const Color(0x00C8B57D),
+                    CpColors.goldBackgroundColor,
+                  ],
+                },
               ),
             ),
-          ],
+          ),
+        ],
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: MediaQuery.paddingOf(context).top),
+              Expanded(child: content),
+            ],
+          ),
         ),
-      );
+      ],
+    ),
+  );
 }
 
 class _Content extends StatelessWidget {
-  const _Content({
-    required this.child,
-  });
+  const _Content({required this.child});
 
   final Widget child;
 
   @override
   Widget build(BuildContext context) => Expanded(
-        child: SafeArea(
-          top: false,
-          minimum: const EdgeInsets.only(bottom: 75, left: 40, right: 40),
-          child: child,
-        ),
-      );
+    child: SafeArea(
+      top: false,
+      minimum: const EdgeInsets.only(bottom: 75, left: 40, right: 40),
+      child: child,
+    ),
+  );
 }

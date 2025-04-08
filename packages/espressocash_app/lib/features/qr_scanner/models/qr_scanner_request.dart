@@ -47,8 +47,9 @@ class QrScannerRequest with _$QrScannerRequest {
       return QrScannerRequest.transactionRequest(transactionRequest);
     }
 
-    final espressocashRequest =
-        Uri.tryParse(code)?.let(tryParseSolanaPayRequest);
+    final espressocashRequest = Uri.tryParse(
+      code,
+    )?.let(tryParseSolanaPayRequest);
     if (espressocashRequest != null) {
       return QrScannerRequest.solanaPay(espressocashRequest);
     }
@@ -65,17 +66,18 @@ class QrScannerRequest with _$QrScannerRequest {
   }
 
   Ed25519HDPublicKey? get recipient => this.map(
-        solanaPay: (r) => r.request.recipient,
-        address: (r) => switch (r.addressData) {
+    solanaPay: (r) => r.request.recipient,
+    address:
+        (r) => switch (r.addressData) {
           QrAddressDataSolana(:final address) => address,
           QrAddressDataEvm() => null,
         },
-        linkPayment: always(null),
-        transactionRequest: always(null),
-        ambassador: (r) => r.referral.address,
-      );
+    linkPayment: always(null),
+    transactionRequest: always(null),
+    ambassador: (r) => r.referral.address,
+  );
 
   Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(
-        solanaPay: (r) => r.reference?.firstOrNull,
-      );
+    solanaPay: (r) => r.reference?.firstOrNull,
+  );
 }

@@ -33,9 +33,8 @@ class PriceResponseDto with _$PriceResponseDto {
 
 @freezed
 class TokenPricesMapDto with _$TokenPricesMapDto {
-  const factory TokenPricesMapDto({
-    required String? price,
-  }) = _TokenPricesMapDto;
+  const factory TokenPricesMapDto({required String? price}) =
+      _TokenPricesMapDto;
 
   const TokenPricesMapDto._();
 
@@ -45,9 +44,8 @@ class TokenPricesMapDto with _$TokenPricesMapDto {
 
 @freezed
 class TokenRateRequestDto with _$TokenRateRequestDto {
-  const factory TokenRateRequestDto({
-    required IList<String> ids,
-  }) = _TokenRateRequestDto;
+  const factory TokenRateRequestDto({required IList<String> ids}) =
+      _TokenRateRequestDto;
 
   factory TokenRateRequestDto.fromJson(Map<String, dynamic> json) =>
       _$TokenRateRequestDtoFromJson(json);

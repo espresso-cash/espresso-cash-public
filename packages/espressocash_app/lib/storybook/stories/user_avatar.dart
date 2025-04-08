@@ -5,13 +5,15 @@ import '../../ui/user_avatar.dart';
 
 final cpUserAvatar = Story(
   name: 'CpUserAvatar',
-  builder: (context) => CpUserAvatar(
-    userName: context.knobs.text(label: 'Name', initial: 'Test'),
-    radius: 48,
-    image: context.knobs.boolean(label: 'Image', initial: false)
-        ? const NetworkImage(
-            'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
-          )
-        : null,
-  ),
+  builder:
+      (context) => CpUserAvatar(
+        userName: context.knobs.text(label: 'Name', initial: 'Test'),
+        radius: 48,
+        image:
+            context.knobs.boolean(label: 'Image', initial: false)
+                ? const NetworkImage(
+                  'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                )
+                : null,
+      ),
 );

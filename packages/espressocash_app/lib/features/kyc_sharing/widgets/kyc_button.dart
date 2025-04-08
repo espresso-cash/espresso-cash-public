@@ -57,16 +57,17 @@ class KycButton extends StatelessWidget {
           if (status != null) KycStatusWidget(status),
         ],
       ),
-      subtitle: description != null
-          ? Text(
-              description,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-            )
-          : null,
+      subtitle:
+          description != null
+              ? Text(
+                description,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+              : null,
       trailing: showIcon ? Icon(icon, color: iconColor) : null,
     );
   }

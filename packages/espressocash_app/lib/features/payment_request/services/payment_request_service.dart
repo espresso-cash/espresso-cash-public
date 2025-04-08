@@ -77,32 +77,34 @@ class PaymentRequestService implements Disposable {
       return const Stream<void>.empty().listen(null);
     }
 
-    Stream<TransactionId> solanaPayTransaction() => _solanaClient
-        .findSolanaPayTransaction(
-          reference: reference,
-          commitment: Commitment.confirmed,
-        )
-        .asStream()
-        .whereType<TransactionId>();
+    Stream<TransactionId> solanaPayTransaction() =>
+        _solanaClient
+            .findSolanaPayTransaction(
+              reference: reference,
+              commitment: Commitment.confirmed,
+            )
+            .asStream()
+            .whereType<TransactionId>();
 
     return Stream<void>.periodic(interval)
         .flatMap((a) => solanaPayTransaction())
-        .mergeWith([solanaPayTransaction()]).listen(
-      (id) {
-        _verifyTx(id, request);
-      },
-      onError: (_) async {
-        _currentBackoffs[request.id] =
-            (_currentBackoffs[request.id] ?? _minBackoff) * _backoffStep;
+        .mergeWith([solanaPayTransaction()])
+        .listen(
+          (id) {
+            _verifyTx(id, request);
+          },
+          onError: (_) async {
+            _currentBackoffs[request.id] =
+                (_currentBackoffs[request.id] ?? _minBackoff) * _backoffStep;
 
-        if (_currentBackoffs[request.id]! > _maxBackoff) {
-          _currentBackoffs[request.id] = _maxBackoff;
-        }
-        await Future<void>.delayed(_currentBackoffs[request.id]!);
+            if (_currentBackoffs[request.id]! > _maxBackoff) {
+              _currentBackoffs[request.id] = _maxBackoff;
+            }
+            await Future<void>.delayed(_currentBackoffs[request.id]!);
 
-        _subscribe(request);
-      },
-    );
+            _subscribe(request);
+          },
+        );
   }
 
   Future<void> _verifyTx(TransactionId id, PaymentRequest request) async {
@@ -116,7 +118,8 @@ class PaymentRequestService implements Disposable {
         commitment: Commitment.confirmed,
       );
 
-      final timestamp = txDetails.blockTime?.let(
+      final timestamp =
+          txDetails.blockTime?.let(
             (it) => DateTime.fromMillisecondsSinceEpoch(it * 1000),
           ) ??
           DateTime.now();

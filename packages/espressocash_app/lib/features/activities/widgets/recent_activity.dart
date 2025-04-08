@@ -37,36 +37,37 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<IList<String>>(
-        stream: _txs,
-        builder: (context, snapshot) {
-          final data = snapshot.data;
+    stream: _txs,
+    builder: (context, snapshot) {
+      final data = snapshot.data;
 
-          if (data == null) return const SizedBox.shrink();
+      if (data == null) return const SizedBox.shrink();
 
-          return HomeTile(
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Text(
-                    context.l10n.recentActivityLbl,
-                    style: dashboardSectionTitleTextStyle,
-                  ),
+      return HomeTile(
+        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: Text(
+                context.l10n.recentActivityLbl,
+                style: dashboardSectionTitleTextStyle,
+              ),
+            ),
+            const SizedBox(height: 16),
+            if (data.isEmpty)
+              Center(
+                child: _NoActivity(
+                  onSendMoneyPressed: widget.onSendMoneyPressed,
                 ),
-                const SizedBox(height: 16),
-                if (data.isEmpty)
-                  Center(
-                    child: _NoActivity(
-                      onSendMoneyPressed: widget.onSendMoneyPressed,
-                    ),
-                  )
-                else ...[
-                  _Card(
-                    child: Column(
-                      children: data
+              )
+            else ...[
+              _Card(
+                child: Column(
+                  children:
+                      data
                           .map(
                             (e) => _KeepAlive(
                               key: ValueKey(e),
@@ -76,28 +77,28 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                             ),
                           )
                           .toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  // TODO(KB): Check if needed
-                  // ignore: avoid-single-child-column-or-row
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CpButton(
-                        text: context.l10n.recentActivitySeeAll,
-                        size: CpButtonSize.micro,
-                        variant: CpButtonVariant.dark,
-                        onPressed: widget.onTransactionsPressed,
-                      ),
-                    ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              // TODO(KB): Check if needed
+              // ignore: avoid-single-child-column-or-row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CpButton(
+                    text: context.l10n.recentActivitySeeAll,
+                    size: CpButtonSize.micro,
+                    variant: CpButtonVariant.dark,
+                    onPressed: widget.onTransactionsPressed,
                   ),
                 ],
-              ],
-            ),
-          );
-        },
+              ),
+            ],
+          ],
+        ),
       );
+    },
+  );
 }
 
 class _NoActivity extends StatelessWidget {
@@ -107,29 +108,29 @@ class _NoActivity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _Card(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            children: [
-              Text(
-                context.l10n.recentActivityEmpty,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              const SizedBox(height: 16),
-              CpButton(
-                minWidth: 120,
-                size: CpButtonSize.wide,
-                text: context.l10n.yes,
-                onPressed: onSendMoneyPressed,
-              ),
-            ],
+    child: Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        children: [
+          Text(
+            context.l10n.recentActivityEmpty,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w400,
+            ),
           ),
-        ),
-      );
+          const SizedBox(height: 16),
+          CpButton(
+            minWidth: 120,
+            size: CpButtonSize.wide,
+            text: context.l10n.yes,
+            onPressed: onSendMoneyPressed,
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 class _Card extends StatelessWidget {
@@ -138,24 +139,19 @@ class _Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-        decoration: const ShapeDecoration(
-          color: CpColors.blackGreyColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(28),
-            ),
-          ),
-        ),
-        child: child,
-      );
+    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+    decoration: const ShapeDecoration(
+      color: CpColors.blackGreyColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(28)),
+      ),
+    ),
+    child: child,
+  );
 }
 
 class _KeepAlive extends StatefulWidget {
-  const _KeepAlive({
-    required Key key,
-    required this.child,
-  }) : super(key: key);
+  const _KeepAlive({required Key key, required this.child}) : super(key: key);
 
   final Widget child;
 

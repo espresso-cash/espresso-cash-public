@@ -38,15 +38,13 @@ Future<void> main() async {
     reset(client);
   });
 
-  tearDown(
-    () async {
-      await repository.onDispose();
-    },
-  );
+  tearDown(() async {
+    await repository.onDispose();
+  });
 
   final stubTx = await Message.only(
-    MemoInstruction(signers: const [], memo: 'test'),
-  )
+        MemoInstruction(signers: const [], memo: 'test'),
+      )
       .compile(
         recentBlockhash: 'EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N',
         feePayer: account.publicKey,
@@ -54,9 +52,9 @@ Future<void> main() async {
       .let(
         (it) async => SignedTx(
           compiledMessage: it,
-          signatures: await account.sign(
-            [it.toByteArray().toList().let(Uint8List.fromList)],
-          ),
+          signatures: await account.sign([
+            it.toByteArray().toList().let(Uint8List.fromList),
+          ]),
         ),
       )
       .then((it) => it.encode());
@@ -72,12 +70,8 @@ Future<void> main() async {
     cryptoCurrency: CryptoCurrency(token: Token.usdc),
   );
 
-  ODPService createService() => ODPService(
-        client,
-        repository,
-        sender,
-        const StubAnalyticsManager(),
-      );
+  ODPService createService() =>
+      ODPService(client, repository, sender, const StubAnalyticsManager());
 
   Future<String> createODP(ODPService service) async {
     final payment = await service.create(
@@ -94,11 +88,13 @@ Future<void> main() async {
     provideDummy<TxSendResult>(const TxSendSent());
     provideDummy<TxWaitResult>(const TxWaitSuccess());
 
-    when(client.createDirectPayment(any))
-        .thenAnswer((_) async => testApiResponse);
+    when(
+      client.createDirectPayment(any),
+    ).thenAnswer((_) async => testApiResponse);
 
-    when(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
-        .thenAnswer((_) async => const TxSendResult.sent());
+    when(
+      sender.send(any, minContextSlot: anyNamed('minContextSlot')),
+    ).thenAnswer((_) async => const TxSendResult.sent());
     when(
       sender.wait(
         any,
@@ -112,20 +108,28 @@ Future<void> main() async {
 
     await expectLater(
       payment,
-      emitsInOrder(
-        [
-          isA<OutgoingDirectPayment>()
-              .having((it) => it.status, 'status', isA<ODPStatusTxCreated>()),
-          isA<OutgoingDirectPayment>()
-              .having((it) => it.status, 'status', isA<ODPStatusTxSent>()),
-          isA<OutgoingDirectPayment>()
-              .having((it) => it.status, 'status', isA<ODPStatusSuccess>()),
-        ],
-      ),
+      emitsInOrder([
+        isA<OutgoingDirectPayment>().having(
+          (it) => it.status,
+          'status',
+          isA<ODPStatusTxCreated>(),
+        ),
+        isA<OutgoingDirectPayment>().having(
+          (it) => it.status,
+          'status',
+          isA<ODPStatusTxSent>(),
+        ),
+        isA<OutgoingDirectPayment>().having(
+          (it) => it.status,
+          'status',
+          isA<ODPStatusSuccess>(),
+        ),
+      ]),
     );
 
-    verify(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
-        .called(1);
+    verify(
+      sender.send(any, minContextSlot: anyNamed('minContextSlot')),
+    ).called(1);
     verify(
       sender.wait(
         any,
@@ -150,12 +154,13 @@ Future<void> main() async {
 
     await expectLater(
       payment,
-      emitsInOrder(
-        [
-          isA<OutgoingDirectPayment>()
-              .having((it) => it.status, 'status', isA<ODPStatusTxFailure>()),
-        ],
-      ),
+      emitsInOrder([
+        isA<OutgoingDirectPayment>().having(
+          (it) => it.status,
+          'status',
+          isA<ODPStatusTxFailure>(),
+        ),
+      ]),
     );
 
     verifyNever(sender.send(any, minContextSlot: anyNamed('minContextSlot')));
@@ -194,21 +199,23 @@ class MemoryRepository implements ODPRepository {
 
   @override
   Stream<OutgoingDirectPayment> watch(String id) =>
-      // ignore: avoid-non-null-assertion, should fail if not existent
-      _data.stream.map((it) => it[id]!);
+  // ignore: avoid-non-null-assertion, should fail if not existent
+  _data.stream.map((it) => it[id]!);
 
   @override
-  Future<IList<String>> getNonCompletedPaymentIds() => _data.stream
-      .map(
-        (it) => it.values
-            .where(
-              (it) => switch (it.status) {
-                ODPStatusTxCreated() || ODPStatusTxSent() => true,
-                ODPStatusSuccess() || ODPStatusTxFailure() => false,
-              },
-            )
-            .map((e) => e.id)
-            .toIList(),
-      )
-      .first;
+  Future<IList<String>> getNonCompletedPaymentIds() =>
+      _data.stream
+          .map(
+            (it) =>
+                it.values
+                    .where(
+                      (it) => switch (it.status) {
+                        ODPStatusTxCreated() || ODPStatusTxSent() => true,
+                        ODPStatusSuccess() || ODPStatusTxFailure() => false,
+                      },
+                    )
+                    .map((e) => e.id)
+                    .toIList(),
+          )
+          .first;
 }

@@ -57,11 +57,7 @@ enum RampPartner {
     paymentMethods: [PaymentMethod.bank],
   ),
 
-  moneygram(
-    title: 'MoneyGram',
-    minimumAmount: r'$10',
-    paymentMethods: [],
-  ),
+  moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []),
 
   brij(
     title: 'Brij Network (DEMO)',

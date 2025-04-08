@@ -13,15 +13,9 @@ import '../models/remote_request.dart';
 import '../services/bloc.dart';
 
 class RemoteRequestScreen extends StatelessWidget {
-  const RemoteRequestScreen({
-    super.key,
-    required this.request,
-  });
+  const RemoteRequestScreen({super.key, required this.request});
 
-  static void push(
-    BuildContext context, {
-    required RemoteRequest request,
-  }) =>
+  static void push(BuildContext context, {required RemoteRequest request}) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
           builder: (context) => RemoteRequestScreen(request: request),
@@ -32,12 +26,11 @@ class RemoteRequestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) => sl<RemoteRequestBloc>(
-          param1: request,
-          param2: sl<MyAccount>(),
-        ),
-        child: const _Content(),
-      );
+    create:
+        (context) =>
+            sl<RemoteRequestBloc>(param1: request, param2: sl<MyAccount>()),
+    child: const _Content(),
+  );
 }
 
 class _Content extends StatefulWidget {
@@ -48,37 +41,32 @@ class _Content extends StatefulWidget {
 }
 
 class _ContentState extends State<_Content> {
-  void _handleAccepted() => context
-      .read<RemoteRequestBloc>()
-      .add(const RemoteRequestEvent.accepted());
+  void _handleAccepted() => context.read<RemoteRequestBloc>().add(
+    const RemoteRequestEvent.accepted(),
+  );
 
-  void _handleDeclined() => context
-      .read<RemoteRequestBloc>()
-      .add(const RemoteRequestEvent.declined());
+  void _handleDeclined() => context.read<RemoteRequestBloc>().add(
+    const RemoteRequestEvent.declined(),
+  );
 
   @override
   Widget build(BuildContext context) => CpTheme.light(
-        child: Scaffold(
-          appBar: CpAppBar(
-            title: Text(context.l10n.mobileWalletTitle),
-          ),
-          body: BlocConsumer<RemoteRequestBloc, RemoteRequestState>(
-            listener: (context, state) => state.whenOrNull(
-              result: (r) => Navigator.pop(context, r),
-            ),
-            builder: (context, state) => state.when(
-              loading: always(
-                const Center(child: CircularProgressIndicator()),
-              ),
-              result: always(
-                const Center(child: CircularProgressIndicator()),
-              ),
+    child: Scaffold(
+      appBar: CpAppBar(title: Text(context.l10n.mobileWalletTitle)),
+      body: BlocConsumer<RemoteRequestBloc, RemoteRequestState>(
+        listener:
+            (context, state) =>
+                state.whenOrNull(result: (r) => Navigator.pop(context, r)),
+        builder:
+            (context, state) => state.when(
+              loading: always(const Center(child: CircularProgressIndicator())),
+              result: always(const Center(child: CircularProgressIndicator())),
               requested: (request) {
                 final content = request.when(
                   authorizeDapp: (it) => _AuthorizeRequestWidget(request: it),
                   signPayloads: (it) => _SignPayloadsWidget(request: it),
-                  signTransactionsForSending: (it) =>
-                      _SignAndSendPayloadsWidget(request: it),
+                  signTransactionsForSending:
+                      (it) => _SignAndSendPayloadsWidget(request: it),
                 );
 
                 final acceptLabel = request.when(
@@ -88,12 +76,15 @@ class _ContentState extends State<_Content> {
                   signTransactionsForSending: always(
                     context.l10n.mobileWalletAcceptSignAndSendPayloads,
                   ),
-                  signPayloads: (it) => it.map(
-                    messages:
-                        always(context.l10n.mobileWalletAcceptSignMessages),
-                    transactions:
-                        always(context.l10n.mobileWalletAcceptSignTransactions),
-                  ),
+                  signPayloads:
+                      (it) => it.map(
+                        messages: always(
+                          context.l10n.mobileWalletAcceptSignMessages,
+                        ),
+                        transactions: always(
+                          context.l10n.mobileWalletAcceptSignTransactions,
+                        ),
+                      ),
                 );
 
                 return SafeArea(
@@ -115,9 +106,9 @@ class _ContentState extends State<_Content> {
                 );
               },
             ),
-          ),
-        ),
-      );
+      ),
+    ),
+  );
 }
 
 class _Buttons extends StatelessWidget {
@@ -133,15 +124,15 @@ class _Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            CpButton(text: context.l10n.core_btnCancel, onPressed: onDecline),
-            CpButton(text: acceptLabel, onPressed: onAccept),
-          ],
-        ),
-      );
+    padding: const EdgeInsets.all(8),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        CpButton(text: context.l10n.core_btnCancel, onPressed: onDecline),
+        CpButton(text: acceptLabel, onPressed: onAccept),
+      ],
+    ),
+  );
 }
 
 class _AuthorizeRequestWidget extends StatelessWidget {
@@ -158,15 +149,9 @@ class _AuthorizeRequestWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _DAppIcon(
-          identityUri: identityUri,
-          iconUri: request.iconUri,
-        ),
+        _DAppIcon(identityUri: identityUri, iconUri: request.iconUri),
         const SizedBox(height: 16),
-        Text(
-          context.l10n.mobileWalletAuthorize(name),
-          style: _titleStyle,
-        ),
+        Text(context.l10n.mobileWalletAuthorize(name), style: _titleStyle),
         const SizedBox(height: 8),
         if (identityUri != null) Text(identityUri.toString()),
       ],
@@ -181,37 +166,38 @@ class _SignPayloadsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _DAppIcon(
-            identityUri: request.identityUri,
-            iconUri: request.iconRelativeUri,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            request.map(
-              transactions: always(context.l10n.mobileWalletSignTransactions),
-              messages: always(context.l10n.mobileWalletSignMessages),
-            ),
-            style: _titleStyle,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            request.map(
-              transactions: (it) =>
-                  context.l10n.mobileWalletSignTransactionsRequest(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      _DAppIcon(
+        identityUri: request.identityUri,
+        iconUri: request.iconRelativeUri,
+      ),
+      const SizedBox(height: 16),
+      Text(
+        request.map(
+          transactions: always(context.l10n.mobileWalletSignTransactions),
+          messages: always(context.l10n.mobileWalletSignMessages),
+        ),
+        style: _titleStyle,
+      ),
+      const SizedBox(height: 8),
+      Text(
+        request.map(
+          transactions:
+              (it) => context.l10n.mobileWalletSignTransactionsRequest(
                 it.identityName ?? '',
                 it.payloads.length,
               ),
-              messages: (it) => context.l10n.mobileWalletSignMessagesRequest(
+          messages:
+              (it) => context.l10n.mobileWalletSignMessagesRequest(
                 it.identityName ?? '',
                 it.payloads.length,
               ),
-            ),
-          ),
-        ],
-      );
+        ),
+      ),
+    ],
+  );
 }
 
 class _SignAndSendPayloadsWidget extends StatelessWidget {
@@ -221,36 +207,33 @@ class _SignAndSendPayloadsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _DAppIcon(
-            identityUri: request.identityUri,
-            iconUri: request.iconRelativeUri,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            context.l10n.mobileWalletSignAndSendTransactions,
-            style: _titleStyle,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.mobileWalletSignTransactionsRequest(
-              request.identityName ?? '',
-              request.transactions.length,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(context.l10n.mobileWalletSendTransactions),
-        ],
-      );
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      _DAppIcon(
+        identityUri: request.identityUri,
+        iconUri: request.iconRelativeUri,
+      ),
+      const SizedBox(height: 16),
+      Text(
+        context.l10n.mobileWalletSignAndSendTransactions,
+        style: _titleStyle,
+      ),
+      const SizedBox(height: 8),
+      Text(
+        context.l10n.mobileWalletSignTransactionsRequest(
+          request.identityName ?? '',
+          request.transactions.length,
+        ),
+      ),
+      const SizedBox(height: 8),
+      Text(context.l10n.mobileWalletSendTransactions),
+    ],
+  );
 }
 
 class _DAppIcon extends StatelessWidget {
-  const _DAppIcon({
-    required this.iconUri,
-    required this.identityUri,
-  });
+  const _DAppIcon({required this.iconUri, required this.identityUri});
 
   final Uri? iconUri;
   final Uri? identityUri;

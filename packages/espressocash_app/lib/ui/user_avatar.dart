@@ -26,10 +26,7 @@ class CpUserAvatar extends StatelessWidget {
       child: AnimatedDefaultTextStyle(
         duration: kThemeChangeDuration,
         style: _textStyle,
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-        ),
+        child: Text(text, textAlign: TextAlign.center),
       ),
     );
   }

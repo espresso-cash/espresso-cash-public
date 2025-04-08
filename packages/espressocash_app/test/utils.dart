@@ -11,9 +11,9 @@ final devnetWebsocketUrl =
     Platform.environment['SOLANA_WEBSOCKET_URL'] ?? 'ws://127.0.0.1:8900';
 
 SolanaClient createTestSolanaClient() => SolanaClient(
-      rpcUrl: Uri.parse(devnetRpcUrl),
-      websocketUrl: Uri.parse(devnetWebsocketUrl),
-    );
+  rpcUrl: Uri.parse(devnetRpcUrl),
+  websocketUrl: Uri.parse(devnetWebsocketUrl),
+);
 
 extension SolanaClientExt on SolanaClient {
   Future<void> createToken(
@@ -59,19 +59,15 @@ extension SolanaClientExt on SolanaClient {
     );
 
     await waitForSignatureStatus(
-      await rpcClient.signAndSendTransaction(
-        message,
-        [mintAuthority, mint],
-        commitment: Commitment.confirmed,
-      ),
+      await rpcClient.signAndSendTransaction(message, [
+        mintAuthority,
+        mint,
+      ], commitment: Commitment.confirmed),
       status: ConfirmationStatus.confirmed,
     );
   }
 
-  Future<void> createAndFundAccount(
-    String address, {
-    required int sol,
-  }) async {
+  Future<void> createAndFundAccount(String address, {required int sol}) async {
     final signature = await rpcClient.requestAirdrop(
       address,
       sol * lamportsPerSol,
@@ -95,9 +91,9 @@ extension SolanaClientExt on SolanaClient {
 
     final recipientAssociatedTokenAccountAddress =
         await findAssociatedTokenAddress(
-      owner: recipient,
-      mint: token.publicKey,
-    );
+          owner: recipient,
+          mint: token.publicKey,
+        );
 
     final message = Message(
       instructions: [
@@ -121,11 +117,9 @@ extension SolanaClientExt on SolanaClient {
       ],
     );
 
-    final signature = await rpcClient.signAndSendTransaction(
-      message,
-      [mintAuthority],
-      commitment: Commitment.confirmed,
-    );
+    final signature = await rpcClient.signAndSendTransaction(message, [
+      mintAuthority,
+    ], commitment: Commitment.confirmed);
 
     await waitForSignatureStatus(
       signature,

@@ -39,17 +39,18 @@ class _GridPhraseState extends State<GridPhrase> {
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-        builder: (context, constraints) {
-          const double spacing = 12;
-          const int columns = 3;
-          final itemWidth =
-              ((constraints.maxWidth - (columns - 1) * spacing) / columns)
-                  .floorToDouble();
+    builder: (context, constraints) {
+      const double spacing = 12;
+      const int columns = 3;
+      final itemWidth =
+          ((constraints.maxWidth - (columns - 1) * spacing) / columns)
+              .floorToDouble();
 
-          return Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            spacing: spacing,
-            children: _options.mapIndexed((int position, String word) {
+      return Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        spacing: spacing,
+        children:
+            _options.mapIndexed((int position, String word) {
               final bool selected = _data.containsKey(position);
 
               return CpButton(
@@ -61,7 +62,7 @@ class _GridPhraseState extends State<GridPhrase> {
                 text: word,
               );
             }).toList(),
-          );
-        },
       );
+    },
+  );
 }

@@ -4,10 +4,11 @@ import '../../../di.dart';
 import '../models/kyc_validation_status.dart';
 import '../services/pending_kyc_service.dart';
 
-typedef KycStatusListenerBuilder = Widget Function(
-  BuildContext context,
-  AsyncSnapshot<KycValidationStatus> snapshot,
-);
+typedef KycStatusListenerBuilder =
+    Widget Function(
+      BuildContext context,
+      AsyncSnapshot<KycValidationStatus> snapshot,
+    );
 
 class KycStatusListener extends StatelessWidget {
   const KycStatusListener({
@@ -21,7 +22,7 @@ class KycStatusListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<KycValidationStatus>(
-        stream: sl<PendingKycService>().pollKycStatus(country: country),
-        builder: builder,
-      );
+    stream: sl<PendingKycService>().pollKycStatus(country: country),
+    builder: builder,
+  );
 }

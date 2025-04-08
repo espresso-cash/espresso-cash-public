@@ -10,10 +10,7 @@ import '../../../../stellar/service/stellar_client.dart';
 
 @LazySingleton(scope: authScope)
 class MoneygramInterceptor extends Interceptor {
-  const MoneygramInterceptor(
-    this._db,
-    this._stellarClient,
-  );
+  const MoneygramInterceptor(this._db, this._stellarClient);
 
   final MyDatabase _db;
   final StellarClient _stellarClient;
@@ -49,21 +46,13 @@ class MoneygramInterceptor extends Interceptor {
   void _updateOnRampOrder(String orderId, String token) {
     _db.update(_db.onRampOrderRows)
       ..where((tbl) => tbl.partnerOrderId.equals(orderId))
-      ..write(
-        OnRampOrderRowsCompanion(
-          authToken: Value(token),
-        ),
-      );
+      ..write(OnRampOrderRowsCompanion(authToken: Value(token)));
   }
 
   void _updateOffRampOrder(String orderId, String token) {
     _db.update(_db.offRampOrderRows)
       ..where((tbl) => tbl.partnerOrderId.equals(orderId))
-      ..write(
-        OffRampOrderRowsCompanion(
-          authToken: Value(token),
-        ),
-      );
+      ..write(OffRampOrderRowsCompanion(authToken: Value(token)));
   }
 
   bool _isTokenExpired(String? token) {
@@ -74,8 +63,9 @@ class MoneygramInterceptor extends Interceptor {
 
     if (expiration == null) return true;
 
-    final expirationDate =
-        DateTime.fromMillisecondsSinceEpoch(expiration * 1000);
+    final expirationDate = DateTime.fromMillisecondsSinceEpoch(
+      expiration * 1000,
+    );
 
     return DateTime.now().isAfter(expirationDate);
   }

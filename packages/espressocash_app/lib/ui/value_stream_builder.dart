@@ -26,11 +26,8 @@ class _ValueStreamBuilderState<T> extends State<ValueStreamBuilder<T>> {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<T>(
-        stream: _stream.$1,
-        initialData: _stream.$2,
-        builder: (context, snapshot) => widget.builder(
-          context,
-          snapshot.data as T,
-        ),
-      );
+    stream: _stream.$1,
+    initialData: _stream.$2,
+    builder: (context, snapshot) => widget.builder(context, snapshot.data as T),
+  );
 }

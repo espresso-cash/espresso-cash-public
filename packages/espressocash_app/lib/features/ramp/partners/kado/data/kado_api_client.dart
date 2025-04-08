@@ -52,9 +52,7 @@ enum MachineStatus {
 
 @Freezed(toJson: false)
 class QuoteDto with _$QuoteDto {
-  const factory QuoteDto({
-    required num price,
-  }) = _QuoteDto;
+  const factory QuoteDto({required num price}) = _QuoteDto;
 
   factory QuoteDto.fromJson(Map<String, dynamic> json) =>
       _$QuoteDtoFromJson(json);
@@ -62,9 +60,7 @@ class QuoteDto with _$QuoteDto {
 
 @Freezed(toJson: false)
 class AmountDto with _$AmountDto {
-  const factory AmountDto({
-    required num amount,
-  }) = _AmountDto;
+  const factory AmountDto({required num amount}) = _AmountDto;
 
   factory AmountDto.fromJson(Map<String, dynamic> json) =>
       _$AmountDtoFromJson(json);
@@ -72,9 +68,8 @@ class AmountDto with _$AmountDto {
 
 @Freezed(toJson: false)
 class OrderStatusResponseDto with _$OrderStatusResponseDto {
-  const factory OrderStatusResponseDto({
-    OrderDataDto? data,
-  }) = _OrderStatusResponseDto;
+  const factory OrderStatusResponseDto({OrderDataDto? data}) =
+      _OrderStatusResponseDto;
 
   factory OrderStatusResponseDto.fromJson(Map<String, dynamic> json) =>
       _$OrderStatusResponseDtoFromJson(json);

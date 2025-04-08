@@ -24,12 +24,8 @@ import '../widgets/ramp_loader.dart';
 import '../widgets/ramp_textfield.dart';
 
 typedef AmountCalculator = AsyncResult<Amount> Function(Amount amount);
-typedef RampFees = ({
-  String? ourFee,
-  String? partnerFee,
-  Amount? totalFee,
-  Amount? extraFee
-});
+typedef RampFees =
+    ({String? ourFee, String? partnerFee, Amount? totalFee, Amount? extraFee});
 typedef FeeCalculator = AsyncResult<RampFees> Function(Amount amount);
 
 class RampAmountScreen extends StatefulWidget {
@@ -61,10 +57,10 @@ class RampAmountScreen extends StatefulWidget {
     Currency? receiveCurrency,
     Amount? initialAmount,
     bool isEstimatedRate = false,
-  }) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => RampAmountScreen(
+  }) => Navigator.of(context).push<void>(
+    MaterialPageRoute(
+      builder:
+          (context) => RampAmountScreen(
             onSubmitted: onSubmitted,
             minAmount: minAmount,
             currency: currency,
@@ -77,8 +73,8 @@ class RampAmountScreen extends StatefulWidget {
             initialAmount: initialAmount,
             isEstimatedRate: isEstimatedRate,
           ),
-        ),
-      );
+    ),
+  );
 
   final ValueSetter<Amount> onSubmitted;
   final Decimal minAmount;
@@ -117,22 +113,24 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
   bool get _isCryptoInput => widget.currency is CryptoCurrency;
 
   String get _inputLabel => switch (widget.type) {
-        RampType.offRamp => context.l10n.withdrawalAmountTitle,
-        RampType.onRamp => _isCryptoInput
-            ? context.l10n.youReceiveTitle
-            : context.l10n.depositAmountTitle,
-      };
+    RampType.offRamp => context.l10n.withdrawalAmountTitle,
+    RampType.onRamp =>
+      _isCryptoInput
+          ? context.l10n.youReceiveTitle
+          : context.l10n.depositAmountTitle,
+  };
 
   String get _outputLabel => switch (widget.type) {
-        RampType.offRamp => widget.isEstimatedRate
-            ? context.l10n.approximateReceiveTitle
-            : context.l10n.youReceiveTitle,
-        RampType.onRamp => switch ((_isCryptoInput, widget.isEstimatedRate)) {
-            (true, true) => context.l10n.approximateRequiredDepositTitle,
-            (true, false) => context.l10n.requiredDepositTitle,
-            (false, _) => context.l10n.youReceiveTitle,
-          },
-      };
+    RampType.offRamp =>
+      widget.isEstimatedRate
+          ? context.l10n.approximateReceiveTitle
+          : context.l10n.youReceiveTitle,
+    RampType.onRamp => switch ((_isCryptoInput, widget.isEstimatedRate)) {
+      (true, true) => context.l10n.approximateRequiredDepositTitle,
+      (true, false) => context.l10n.requiredDepositTitle,
+      (false, _) => context.l10n.youReceiveTitle,
+    },
+  };
 
   Amount get _amount {
     final text = _controller.text;
@@ -141,9 +139,9 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
     return value == null
         ? Amount(value: 0, currency: widget.currency)
         : Amount(
-            value: widget.currency.decimalToInt(value),
-            currency: widget.currency,
-          );
+          value: widget.currency.decimalToInt(value),
+          currency: widget.currency,
+        );
   }
 
   void _onSubmit() {
@@ -158,34 +156,34 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
-        child: Scaffold(
-          backgroundColor: CpColors.deepGreyColor,
-          appBar: CpAppBar(
-            leading: const CpBackButton(),
-            title: Text(
-              switch (widget.type) {
-                RampType.onRamp => context.l10n.ramp_btnAddCash,
-                RampType.offRamp => context.l10n.ramp_btnCashOut,
-              }
-                  .toUpperCase(),
-            ),
-          ),
-          body: SafeArea(
-            top: false,
-            minimum: EdgeInsets.symmetric(vertical: 6.h),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      RampTextField(
-                        label: _inputLabel,
-                        controller: _controller,
-                        currency: widget.currency,
-                      ),
-                      ValueListenableBuilder(
-                        valueListenable: _controller,
-                        builder: (context, value, child) => _ReceiveTextField(
+    child: Scaffold(
+      backgroundColor: CpColors.deepGreyColor,
+      appBar: CpAppBar(
+        leading: const CpBackButton(),
+        title: Text(
+          switch (widget.type) {
+            RampType.onRamp => context.l10n.ramp_btnAddCash,
+            RampType.offRamp => context.l10n.ramp_btnCashOut,
+          }.toUpperCase(),
+        ),
+      ),
+      body: SafeArea(
+        top: false,
+        minimum: EdgeInsets.symmetric(vertical: 6.h),
+        child: Column(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  RampTextField(
+                    label: _inputLabel,
+                    controller: _controller,
+                    currency: widget.currency,
+                  ),
+                  ValueListenableBuilder(
+                    valueListenable: _controller,
+                    builder:
+                        (context, value, child) => _ReceiveTextField(
                           label: _outputLabel,
                           amount: _amount,
                           calculateEquivalent: widget.calculateEquivalent,
@@ -193,61 +191,62 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                           type: widget.type,
                           receiveCurrency: widget.receiveCurrency,
                         ),
-                      ),
-                      SizedBox(height: 14.h),
-                      ValueListenableBuilder(
-                        valueListenable: _controller,
-                        builder: (context, value, child) =>
-                            _AdditionalInfoLabel(
+                  ),
+                  SizedBox(height: 14.h),
+                  ValueListenableBuilder(
+                    valueListenable: _controller,
+                    builder:
+                        (context, value, child) => _AdditionalInfoLabel(
                           feeCalculator: widget.calculateFee,
                           amount: _amount,
                           exchangeRate: widget.exchangeRate,
                           minAmount: widget.minAmount,
                           showExchangeRateDisclaimer: widget.isEstimatedRate,
                         ),
-                      ),
-                      ValueListenableBuilder(
-                        valueListenable: _controller,
-                        builder: (context, value, child) =>
-                            _MinimumAmountNotice(
+                  ),
+                  ValueListenableBuilder(
+                    valueListenable: _controller,
+                    builder:
+                        (context, value, child) => _MinimumAmountNotice(
                           key: _minimumAmountNoticeKey,
                           currency: widget.currency,
                           amount: _amount,
                           minAmount: widget.minAmount,
                           type: widget.type,
                         ),
-                      ),
-                    ],
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: AmountKeypad(
-                            controller: _controller,
-                            maxDecimals: 2,
-                          ),
-                        ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: AmountKeypad(
+                        controller: _controller,
+                        maxDecimals: 2,
                       ),
-                      SizedBox(height: 16.h),
-                      ValueListenableBuilder(
-                        valueListenable: _controller,
-                        builder: (context, value, child) => CpBottomButton(
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  ValueListenableBuilder(
+                    valueListenable: _controller,
+                    builder:
+                        (context, value, child) => CpBottomButton(
                           text: context.l10n.next,
                           onPressed: _onSubmit,
                         ),
-                      ),
-                    ],
                   ),
-                ),
-                SizedBox(height: 24.h),
-              ],
+                ],
+              ),
             ),
-          ),
+            SizedBox(height: 24.h),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class _MinimumAmountNotice extends StatefulWidget {
@@ -303,11 +302,11 @@ class _MinimumAmountNoticeState extends State<_MinimumAmountNotice>
       currency: widget.currency,
     ).format(context.locale, roundInteger: true, maxDecimals: 0);
 
-    final message = switch (widget.type) {
-      RampType.onRamp => context.l10n.minAmountToOnRamp(amount),
-      RampType.offRamp => context.l10n.minAmountToOffRamp(amount),
-    }
-        .toUpperCase();
+    final message =
+        switch (widget.type) {
+          RampType.onRamp => context.l10n.minAmountToOnRamp(amount),
+          RampType.offRamp => context.l10n.minAmountToOffRamp(amount),
+        }.toUpperCase();
 
     return Shake(
       key: _shakeKey,
@@ -380,41 +379,41 @@ class _ReceiveTextFieldState extends State<_ReceiveTextField>
               widget.calculateEquivalent == null
           ? const SizedBox.shrink()
           : Column(
-              children: [
-                SizedBox(height: 16.h),
-                FutureBuilder(
-                  future: _result,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return RampTextField(
-                        label: widget.label,
-                        controller: null,
-                        currency: widget.receiveCurrency,
-                      );
-                    }
+            children: [
+              SizedBox(height: 16.h),
+              FutureBuilder(
+                future: _result,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return RampTextField(
+                      label: widget.label,
+                      controller: null,
+                      currency: widget.receiveCurrency,
+                    );
+                  }
 
-                    final data = snapshot.data;
+                  final data = snapshot.data;
 
-                    return data == null
-                        ? const SizedBox.shrink()
-                        : data.fold(
-                            (_) => const SizedBox.shrink(),
-                            (data) => RampTextField(
-                              label: widget.label,
-                              controller: FittedTextEditingController(
-                                text: data.format(
-                                  context.locale,
-                                  maxDecimals: 2,
-                                  skipSymbol: true,
-                                ),
-                              ),
-                              currency: data.currency,
+                  return data == null
+                      ? const SizedBox.shrink()
+                      : data.fold(
+                        (_) => const SizedBox.shrink(),
+                        (data) => RampTextField(
+                          label: widget.label,
+                          controller: FittedTextEditingController(
+                            text: data.format(
+                              context.locale,
+                              maxDecimals: 2,
+                              skipSymbol: true,
                             ),
-                          );
-                  },
-                ),
-              ],
-            );
+                          ),
+                          currency: data.currency,
+                        ),
+                      );
+                },
+              ),
+            ],
+          );
 }
 
 class _AdditionalInfoLabel extends StatefulWidget {
@@ -474,102 +473,96 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel>
 
   String _formatAmount(Amount? amount) =>
       amount?.let(
-        (value) => '${value.format(
-          context.locale,
-          maxDecimals: 2,
-          skipSymbol: true,
-        )} ${value.currency.symbol}',
+        (value) =>
+            '${value.format(context.locale, maxDecimals: 2, skipSymbol: true)} ${value.currency.symbol}',
       ) ??
       '-';
 
   Widget _buildFeeRows(RampFees? rampFees) => Column(
-        children: [
-          if (rampFees?.ourFee case final ourFee?)
-            _InfoRow(
-              title: context.l10n.ourFeeTitle,
-              value: ourFee,
-              isLoading: rampFees == null,
-            ),
-          if (rampFees?.partnerFee case final partnerFee?)
-            _InfoRow(
-              title: context.l10n.partnerFeeTitle,
-              value: partnerFee,
-              isLoading: rampFees == null,
-            ),
-          if (rampFees?.totalFee case final totalFee)
-            _InfoRow(
-              title: context.l10n.totalFeesTitle,
-              value: _formatAmount(totalFee),
-              isLoading: rampFees == null,
-            ),
-          if (rampFees?.extraFee case final extraFee?)
-            _InfoRow(
-              title: context.l10n.additionalFeesTitle,
-              value: _formatAmount(extraFee),
-              isLoading: rampFees == null,
-            ),
-        ],
-      );
+    children: [
+      if (rampFees?.ourFee case final ourFee?)
+        _InfoRow(
+          title: context.l10n.ourFeeTitle,
+          value: ourFee,
+          isLoading: rampFees == null,
+        ),
+      if (rampFees?.partnerFee case final partnerFee?)
+        _InfoRow(
+          title: context.l10n.partnerFeeTitle,
+          value: partnerFee,
+          isLoading: rampFees == null,
+        ),
+      if (rampFees?.totalFee case final totalFee)
+        _InfoRow(
+          title: context.l10n.totalFeesTitle,
+          value: _formatAmount(totalFee),
+          isLoading: rampFees == null,
+        ),
+      if (rampFees?.extraFee case final extraFee?)
+        _InfoRow(
+          title: context.l10n.additionalFeesTitle,
+          value: _formatAmount(extraFee),
+          isLoading: rampFees == null,
+        ),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) =>
       widget.exchangeRate == null && widget.feeCalculator == null
           ? const SizedBox.shrink()
           : FutureBuilder(
-              future: _result,
-              builder: (context, snapshot) {
-                final fees = widget.amount.decimal < widget.minAmount
-                    ? _empty
-                    : snapshot.connectionState == ConnectionState.waiting
-                        ? null
-                        : snapshot.data?.fold((_) => null, (data) => data);
+            future: _result,
+            builder: (context, snapshot) {
+              final fees =
+                  widget.amount.decimal < widget.minAmount
+                      ? _empty
+                      : snapshot.connectionState == ConnectionState.waiting
+                      ? null
+                      : snapshot.data?.fold((_) => null, (data) => data);
 
-                return Column(
-                  children: [
-                    _RampContainer(
-                      content: Column(
-                        children: [
-                          if (widget.exchangeRate case final exchangeRate?)
-                            _InfoRow(
-                              title: context.l10n.exchangeRateTitle,
-                              value: exchangeRate,
-                            ),
-                          if (widget.feeCalculator != null) _buildFeeRows(fees),
-                        ],
-                      ),
+              return Column(
+                children: [
+                  _RampContainer(
+                    content: Column(
+                      children: [
+                        if (widget.exchangeRate case final exchangeRate?)
+                          _InfoRow(
+                            title: context.l10n.exchangeRateTitle,
+                            value: exchangeRate,
+                          ),
+                        if (widget.feeCalculator != null) _buildFeeRows(fees),
+                      ],
                     ),
-                    if (widget.showExchangeRateDisclaimer &&
-                        fees?.totalFee != null)
-                      const _ExchangeRateDisclaimer(),
-                  ],
-                );
-              },
-            );
+                  ),
+                  if (widget.showExchangeRateDisclaimer &&
+                      fees?.totalFee != null)
+                    const _ExchangeRateDisclaimer(),
+                ],
+              );
+            },
+          );
 }
 
 class _RampContainer extends StatelessWidget {
-  const _RampContainer({
-    required this.content,
-  });
+  const _RampContainer({required this.content});
 
   final Widget content;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 24.w),
-          decoration: const ShapeDecoration(
-            color: CpColors.blackGreyColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(28),
-              ),
-            ),
-          ),
-          child: content,
+    padding: EdgeInsets.symmetric(horizontal: 24.w),
+    child: Container(
+      padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 24.w),
+      decoration: const ShapeDecoration(
+        color: CpColors.blackGreyColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(28)),
         ),
-      );
+      ),
+      child: content,
+    ),
+  );
 }
 
 class _InfoRow extends StatelessWidget {
@@ -585,34 +578,28 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.symmetric(vertical: 4.h),
-        child: Row(
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const Spacer(),
-            if (isLoading)
-              LoaderAnimation(
-                height: 18.h,
-                width: 95.w,
-              )
-            else
-              Text(
-                value ?? '-',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xff999999),
-                ),
-              ),
-          ],
+    padding: EdgeInsets.symmetric(vertical: 4.h),
+    child: Row(
+      children: [
+        Text(
+          title,
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
         ),
-      );
+        const Spacer(),
+        if (isLoading)
+          LoaderAnimation(height: 18.h, width: 95.w)
+        else
+          Text(
+            value ?? '-',
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w400,
+              color: const Color(0xff999999),
+            ),
+          ),
+      ],
+    ),
+  );
 }
 
 class _ExchangeRateDisclaimer extends StatelessWidget {
@@ -620,15 +607,15 @@ class _ExchangeRateDisclaimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 16.0),
-        child: Text(
-          context.l10n.exchangeRateDisclaimer,
-          style: TextStyle(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w400,
-            color: Colors.grey,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      );
+    padding: const EdgeInsets.only(top: 16.0),
+    child: Text(
+      context.l10n.exchangeRateDisclaimer,
+      style: TextStyle(
+        fontSize: 13.sp,
+        fontWeight: FontWeight.w400,
+        color: Colors.grey,
+      ),
+      textAlign: TextAlign.center,
+    ),
+  );
 }

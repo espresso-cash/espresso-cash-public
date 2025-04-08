@@ -21,8 +21,9 @@ extension ErrorExt on Exception {
     }
 
     final dioException = this as DioException;
-    final message = (dioException.response?.data
-        as Map<String, dynamic>?)?['message'] as String?;
+    final message =
+        (dioException.response?.data as Map<String, dynamic>?)?['message']
+            as String?;
 
     return switch (message) {
       'invalid token' => const KycException.invalidToken(),

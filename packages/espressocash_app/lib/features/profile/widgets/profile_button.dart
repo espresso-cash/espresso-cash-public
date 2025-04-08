@@ -40,17 +40,18 @@ class ProfileButton extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      subtitle: description != null
-          ? Text(
-              description,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 14,
-                color: CpColors.greyColor,
-                fontWeight: FontWeight.w400,
-              ),
-            )
-          : null,
+      subtitle:
+          description != null
+              ? Text(
+                description,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: CpColors.greyColor,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+              : null,
       trailing: showIcon ? Icon(Icons.chevron_right, color: iconColor) : null,
     );
   }

@@ -20,15 +20,12 @@ class ShareAmbassadorLinkScreen extends StatelessWidget {
     BuildContext context, {
     required String name,
     required Ed25519HDPublicKey address,
-  }) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => ShareAmbassadorLinkScreen(
-            name: name,
-            address: address,
-          ),
-        ),
-      );
+  }) => Navigator.of(context).push<void>(
+    MaterialPageRoute(
+      builder:
+          (context) => ShareAmbassadorLinkScreen(name: name, address: address),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {

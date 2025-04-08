@@ -20,34 +20,31 @@ class TransferError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StatusScreen(
-        title: context.l10n.splitKeyTransferTitle,
-        statusTitle: Text(context.l10n.transferErrorTitle),
-        onBackButtonPressed: onBack,
-        statusContent: Text(
-          [
-            context.l10n.splitKeyErrorMessage2,
-            if (reason == TxFailureReason.insufficientFunds)
-              context.l10n.errorMessageInsufficientFunds
-            else
-              context.l10n.splitKeyErrorRetry,
-          ].join(' '),
-        ),
-        statusType: CpStatusType.error,
-        content: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (onCancel != null)
-                _CancelButton(
-                  onCancel: onCancel,
-                ),
-              const SizedBox(height: 140),
-              SizedBox(height: MediaQuery.paddingOf(context).bottom),
-            ],
-          ),
-        ),
-      );
+    title: context.l10n.splitKeyTransferTitle,
+    statusTitle: Text(context.l10n.transferErrorTitle),
+    onBackButtonPressed: onBack,
+    statusContent: Text(
+      [
+        context.l10n.splitKeyErrorMessage2,
+        if (reason == TxFailureReason.insufficientFunds)
+          context.l10n.errorMessageInsufficientFunds
+        else
+          context.l10n.splitKeyErrorRetry,
+      ].join(' '),
+    ),
+    statusType: CpStatusType.error,
+    content: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          if (onCancel != null) _CancelButton(onCancel: onCancel),
+          const SizedBox(height: 140),
+          SizedBox(height: MediaQuery.paddingOf(context).bottom),
+        ],
+      ),
+    ),
+  );
 }
 
 class _CancelButton extends StatelessWidget {
@@ -57,11 +54,11 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 16),
-        child: CpTextButton(
-          text: context.l10n.cancelTransferBtn,
-          variant: CpTextButtonVariant.light,
-          onPressed: onCancel,
-        ),
-      );
+    padding: const EdgeInsets.only(top: 16),
+    child: CpTextButton(
+      text: context.l10n.cancelTransferBtn,
+      variant: CpTextButtonVariant.light,
+      onPressed: onCancel,
+    ),
+  );
 }

@@ -14,14 +14,14 @@ class CpRadioButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => onChanged(!value),
-        child: Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: value ? CpColors.yellowColor : CpColors.blackGreyColor,
-          ),
-        ),
-      );
+    onTap: () => onChanged(!value),
+    child: Container(
+      width: 24,
+      height: 24,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: value ? CpColors.yellowColor : CpColors.blackGreyColor,
+      ),
+    ),
+  );
 }

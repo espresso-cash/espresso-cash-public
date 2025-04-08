@@ -8,9 +8,7 @@ import '../../accounts/models/account.dart';
 import '../services/ilp_service.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<String> createILP({
-    required Ed25519HDKeyPair escrow,
-  }) =>
+  Future<String> createILP({required Ed25519HDKeyPair escrow}) =>
       runWithLoader(this, () async {
         final span = _start(function: 'createILP');
 
@@ -24,7 +22,5 @@ extension BuildContextExt on BuildContext {
       });
 }
 
-ISentrySpan _start({required String function}) => Sentry.startTransaction(
-      'ILP Tx Creation',
-      function,
-    );
+ISentrySpan _start({required String function}) =>
+    Sentry.startTransaction('ILP Tx Creation', function);

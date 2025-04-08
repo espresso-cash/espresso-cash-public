@@ -10,26 +10,24 @@ class DocumentInfoScreen extends StatelessWidget {
 
   static Future<bool> push(BuildContext context) => Navigator.of(context)
       .push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const DocumentInfoScreen(),
-        ),
+        MaterialPageRoute(builder: (context) => const DocumentInfoScreen()),
       )
       .then((result) => result ?? false);
 
   @override
   Widget build(BuildContext context) => KycPage(
-        children: [
-          KycHeader(
-            title: context.l10n.documentVerificationTitle,
-            description: context.l10n.documentVerificationDescription,
-          ),
-          const SizedBox(height: 16),
-          const Spacer(),
-          CpBottomButton(
-            horizontalPadding: 16,
-            text: context.l10n.continueVerification,
-            onPressed: () => Navigator.pop(context, true),
-          ),
-        ],
-      );
+    children: [
+      KycHeader(
+        title: context.l10n.documentVerificationTitle,
+        description: context.l10n.documentVerificationDescription,
+      ),
+      const SizedBox(height: 16),
+      const Spacer(),
+      CpBottomButton(
+        horizontalPadding: 16,
+        text: context.l10n.continueVerification,
+        onPressed: () => Navigator.pop(context, true),
+      ),
+    ],
+  );
 }

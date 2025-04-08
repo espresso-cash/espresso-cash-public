@@ -18,46 +18,40 @@ class PhoneStatusScreen extends StatelessWidget {
 
   static Future<bool> push(BuildContext context) => Navigator.of(context)
       .push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const PhoneStatusScreen(),
-        ),
+        MaterialPageRoute(builder: (context) => const PhoneStatusScreen()),
       )
       .then((result) => result ?? false);
 
   @override
   Widget build(BuildContext context) => UserDataListener(
-        builder: (context, userData) {
-          final status = userData.phoneStatus;
-          final phone = userData.getPhone ?? '-';
+    builder: (context, userData) {
+      final status = userData.phoneStatus;
+      final phone = userData.getPhone ?? '-';
 
-          return KycPage(
-            icon: status.kycIcon,
-            children: [
-              switch (status) {
-                KycValidationStatus.unverified ||
-                KycValidationStatus.pending =>
-                  KycHeader(
-                    title: context.l10n.phonePendingStatusTitle,
-                    description:
-                        context.l10n.phonePendingStatusDescription(phone),
-                  ),
-                KycValidationStatus.approved => KycHeader(
-                    title: context.l10n.phoneApprovedStatusTitle,
-                    description:
-                        context.l10n.phoneApprovedStatusDescription(phone),
-                  ),
-                KycValidationStatus.rejected => KycHeader(
-                    title: context.l10n.phoneRejectedStatusTitle,
-                    description:
-                        context.l10n.phoneRejectedStatusDescription(phone),
-                  ),
-              },
-              const SizedBox(height: 16),
-              Expanded(child: _UpdatePhoneContent(status: status)),
-            ],
-          );
-        },
+      return KycPage(
+        icon: status.kycIcon,
+        children: [
+          switch (status) {
+            KycValidationStatus.unverified ||
+            KycValidationStatus.pending => KycHeader(
+              title: context.l10n.phonePendingStatusTitle,
+              description: context.l10n.phonePendingStatusDescription(phone),
+            ),
+            KycValidationStatus.approved => KycHeader(
+              title: context.l10n.phoneApprovedStatusTitle,
+              description: context.l10n.phoneApprovedStatusDescription(phone),
+            ),
+            KycValidationStatus.rejected => KycHeader(
+              title: context.l10n.phoneRejectedStatusTitle,
+              description: context.l10n.phoneRejectedStatusDescription(phone),
+            ),
+          },
+          const SizedBox(height: 16),
+          Expanded(child: _UpdatePhoneContent(status: status)),
+        ],
       );
+    },
+  );
 }
 
 class _UpdatePhoneContent extends StatefulWidget {
@@ -74,12 +68,11 @@ class __UpdatePhoneContentState extends State<_UpdatePhoneContent> {
   String _fullPhoneNumber = '';
 
   String get _placeholderText => switch (widget.status) {
-        KycValidationStatus.rejected => context.l10n.phoneNumber,
-        KycValidationStatus.approved ||
-        KycValidationStatus.pending ||
-        KycValidationStatus.unverified =>
-          context.l10n.updatePhoneNumber,
-      };
+    KycValidationStatus.rejected => context.l10n.phoneNumber,
+    KycValidationStatus.approved ||
+    KycValidationStatus.pending ||
+    KycValidationStatus.unverified => context.l10n.updatePhoneNumber,
+  };
 
   Future<void> _handleSendVerification() async {
     final result = await context.sendPhoneVerification(
@@ -102,26 +95,28 @@ class __UpdatePhoneContentState extends State<_UpdatePhoneContent> {
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          PhoneNumberTextField(
-            controller: _phoneController,
-            initialCountry: Country.findByCode('NG'),
-            placeholder: _placeholderText,
-            onPhoneChanged: (fullNumber) =>
-                setState(() => _fullPhoneNumber = fullNumber),
-          ),
-          const SizedBox(height: 16),
-          const Spacer(),
-          ListenableBuilder(
-            listenable: _phoneController,
-            builder: (context, child) => CpBottomButton(
+    children: [
+      PhoneNumberTextField(
+        controller: _phoneController,
+        initialCountry: Country.findByCode('NG'),
+        placeholder: _placeholderText,
+        onPhoneChanged:
+            (fullNumber) => setState(() => _fullPhoneNumber = fullNumber),
+      ),
+      const SizedBox(height: 16),
+      const Spacer(),
+      ListenableBuilder(
+        listenable: _phoneController,
+        builder:
+            (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.sendVerificationCode,
-              onPressed: _fullPhoneNumber.isValidPhone
-                  ? _handleSendVerification
-                  : null,
+              onPressed:
+                  _fullPhoneNumber.isValidPhone
+                      ? _handleSendVerification
+                      : null,
             ),
-          ),
-        ],
-      );
+      ),
+    ],
+  );
 }

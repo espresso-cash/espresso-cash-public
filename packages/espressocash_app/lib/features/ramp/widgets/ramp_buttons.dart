@@ -36,95 +36,86 @@ class PayOrRequestButton extends StatelessWidget {
   final VoidCallback voidCallback;
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          CpIconButton(
-            icon: Assets.icons.dolar.svg(color: Colors.black),
-            variant: CpIconButtonVariant.dark,
-            size: CpIconButtonSize.large,
-            onPressed: voidCallback,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.requestOrSendPayment,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w500),
-          ),
-        ],
-      );
+    children: [
+      CpIconButton(
+        icon: Assets.icons.dolar.svg(color: Colors.black),
+        variant: CpIconButtonVariant.dark,
+        size: CpIconButtonSize.large,
+        onPressed: voidCallback,
+      ),
+      const SizedBox(height: 8),
+      Text(
+        context.l10n.requestOrSendPayment,
+        style: Theme.of(
+          context,
+        ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+      ),
+    ],
+  );
 }
 
 class AddCashButton extends StatelessWidget {
-  const AddCashButton({
-    super.key,
-    this.size = CpButtonSize.normal,
-  });
+  const AddCashButton({super.key, this.size = CpButtonSize.normal});
 
   final CpButtonSize size;
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          CpIconButton(
-            icon: Assets.icons.addAlternative.svg(color: Colors.black),
-            variant: CpIconButtonVariant.dark,
-            size: CpIconButtonSize.large,
-            onPressed: () async {
-              final hasProfile =
-                  await context.ensureProfileData(RampType.onRamp) != null;
+    children: [
+      CpIconButton(
+        icon: Assets.icons.addAlternative.svg(color: Colors.black),
+        variant: CpIconButtonVariant.dark,
+        size: CpIconButtonSize.large,
+        onPressed: () async {
+          final hasProfile =
+              await context.ensureProfileData(RampType.onRamp) != null;
 
-              if (context.mounted && hasProfile) {
-                context.launchOnRampFlow();
-              }
-            },
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.ramp_btnAddCash,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w500),
-          ),
-        ],
-      );
+          if (context.mounted && hasProfile) {
+            context.launchOnRampFlow();
+          }
+        },
+      ),
+      const SizedBox(height: 8),
+      Text(
+        context.l10n.ramp_btnAddCash,
+        style: Theme.of(
+          context,
+        ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+      ),
+    ],
+  );
 }
 
 class CashOutButton extends StatelessWidget {
-  const CashOutButton({
-    super.key,
-    this.size = CpButtonSize.normal,
-  });
+  const CashOutButton({super.key, this.size = CpButtonSize.normal});
 
   final CpButtonSize size;
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          CpIconButton(
-            icon: Assets.icons.withdrawn.svg(color: Colors.black),
-            variant: CpIconButtonVariant.dark,
-            size: CpIconButtonSize.large,
-            onPressed: () async {
-              final hasProfile =
-                  await context.ensureProfileData(RampType.offRamp) != null;
+    children: [
+      CpIconButton(
+        icon: Assets.icons.withdrawn.svg(color: Colors.black),
+        variant: CpIconButtonVariant.dark,
+        size: CpIconButtonSize.large,
+        onPressed: () async {
+          final hasProfile =
+              await context.ensureProfileData(RampType.offRamp) != null;
 
-              if (context.mounted && hasProfile) {
-                context.launchOffRampFlow();
-              }
-            },
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.ramp_btnCashOut,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w500),
-          ),
-        ],
-      );
+          if (context.mounted && hasProfile) {
+            context.launchOffRampFlow();
+          }
+        },
+      ),
+      const SizedBox(height: 8),
+      Text(
+        context.l10n.ramp_btnCashOut,
+        style: Theme.of(
+          context,
+        ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+      ),
+    ],
+  );
 }
 
 extension RampBuildContextExt on BuildContext {

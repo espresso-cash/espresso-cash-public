@@ -17,10 +17,7 @@ Future<bool> showTermsAndPolicyDialog(
       context,
       title: Text(
         context.l10n.brijTermsAndPolicyTitle,
-        style: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w500,
-        ),
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
       ),
       message: MarkdownBody(
         data: context.l10n.brijTermsAndPolicyMessage,
@@ -36,7 +33,7 @@ Future<bool> showTermsAndPolicyDialog(
           final url = switch (href) {
             'partner-terms' => termsUrl,
             'data-sharing-agreement' => privacyUrl,
-            _ => null
+            _ => null,
           };
 
           if (url == null) return;

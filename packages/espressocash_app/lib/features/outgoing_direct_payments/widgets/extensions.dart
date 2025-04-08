@@ -15,21 +15,20 @@ extension BuildContextExt on BuildContext {
     required Decimal amountInUsdc,
     required Ed25519HDPublicKey receiver,
     required Ed25519HDPublicKey? reference,
-  }) =>
-      runWithLoader(this, () async {
-        const currency = Currency.usdc;
-        final payment = await sl<ODPService>().create(
-          account: sl<MyAccount>().wallet,
-          amount: CryptoAmount(
-            value: currency.decimalToInt(amountInUsdc),
-            cryptoCurrency: currency,
-          ),
-          receiver: receiver,
-          reference: reference,
-        );
+  }) => runWithLoader(this, () async {
+    const currency = Currency.usdc;
+    final payment = await sl<ODPService>().create(
+      account: sl<MyAccount>().wallet,
+      amount: CryptoAmount(
+        value: currency.decimalToInt(amountInUsdc),
+        cryptoCurrency: currency,
+      ),
+      receiver: receiver,
+      reference: reference,
+    );
 
-        return payment.id;
-      });
+    return payment.id;
+  });
 
   Future<void> cancelODP({required String paymentId}) =>
       runWithLoader(this, () async {

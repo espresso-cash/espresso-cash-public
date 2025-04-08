@@ -61,9 +61,8 @@ class RestoreStellarTxRequestDto with _$RestoreStellarTxRequestDto {
 
 @freezed
 class RestoreStellarTxResponseDto with _$RestoreStellarTxResponseDto {
-  const factory RestoreStellarTxResponseDto({
-    required String tx,
-  }) = _RestoreStellarTxResponseDto;
+  const factory RestoreStellarTxResponseDto({required String tx}) =
+      _RestoreStellarTxResponseDto;
 
   factory RestoreStellarTxResponseDto.fromJson(Map<String, dynamic> json) =>
       _$RestoreStellarTxResponseDtoFromJson(json);

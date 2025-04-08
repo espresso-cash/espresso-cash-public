@@ -12,9 +12,7 @@ import '../models/tx_results.dart';
 
 @injectable
 class TxSender {
-  const TxSender({
-    required SolanaClient client,
-  }) : _client = client;
+  const TxSender({required SolanaClient client}) : _client = client;
 
   final SolanaClient _client;
 
@@ -23,12 +21,14 @@ class TxSender {
     required BigInt minContextSlot,
   }) async {
     Future<TxSendResult> checkSubmittedTx(String txId) => _client.rpcClient
-            .getSignatureStatuses([txId], searchTransactionHistory: true).then(
-          (statuses) => statuses.value.first == null
-              ? (statuses.context.slot >= minContextSlot
-                  ? const TxSendResult.invalidBlockhash()
-                  : const TxSendResult.networkError())
-              : const TxSendResult.sent(),
+        .getSignatureStatuses([txId], searchTransactionHistory: true)
+        .then(
+          (statuses) =>
+              statuses.value.first == null
+                  ? (statuses.context.slot >= minContextSlot
+                      ? const TxSendResult.invalidBlockhash()
+                      : const TxSendResult.networkError())
+                  : const TxSendResult.sent(),
           onError: (_) => const TxSendResult.networkError(),
         );
 
@@ -71,14 +71,15 @@ class TxSender {
     required BigInt minContextSlot,
     required String txType,
   }) {
-    final sentryTx = Sentry.startTransaction(
-      'Wait TX confirmation',
-      'TxSender.wait()',
-      waitForChildren: true,
-    )
-      ..setData('txId', tx.id)
-      // ignore: avoid-missing-interpolation, intentional string
-      ..setTag('txType', txType);
+    final sentryTx =
+        Sentry.startTransaction(
+            'Wait TX confirmation',
+            'TxSender.wait()',
+            waitForChildren: true,
+          )
+          ..setData('txId', tx.id)
+          // ignore: avoid-missing-interpolation, intentional string
+          ..setTag('txType', txType);
 
     const commitment = Commitment.confirmed;
     final start = DateTime.now();
@@ -95,10 +96,9 @@ class TxSender {
         minContextSlot: minContextSlot.toInt(),
       );
 
-      final statuses = await _client.rpcClient.getSignatureStatuses(
-        [tx.id],
-        searchTransactionHistory: true,
-      );
+      final statuses = await _client.rpcClient.getSignatureStatuses([
+        tx.id,
+      ], searchTransactionHistory: true);
       final t = statuses.value.first;
 
       if (t == null) {
@@ -195,8 +195,9 @@ class TxSender {
         'Wrong confirmation status ${t.confirmationStatus}.',
       );
       await innerSpan.finish();
-      _logger
-          .fine('${tx.id}: Wrong confirmation status ${t.confirmationStatus}.');
+      _logger.fine(
+        '${tx.id}: Wrong confirmation status ${t.confirmationStatus}.',
+      );
     }
 
     Future<TxWaitResult?> waitForSignatureStatus(ISentrySpan span) async {

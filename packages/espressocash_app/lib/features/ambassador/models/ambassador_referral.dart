@@ -38,11 +38,9 @@ class AmbassadorReferral with _$AmbassadorReferral {
   }
 
   Uri toLink() => Uri(
-        scheme: espressoCashLinkProtocol,
-        host: '',
-        path: 'ambassador',
-        queryParameters: <String, String>{
-          'address': address.toBase58(),
-        },
-      );
+    scheme: espressoCashLinkProtocol,
+    host: '',
+    path: 'ambassador',
+    queryParameters: <String, String>{'address': address.toBase58()},
+  );
 }

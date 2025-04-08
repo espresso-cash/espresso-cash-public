@@ -11,12 +11,13 @@ part 'amount.freezed.dart';
 
 @freezed
 sealed class Amount with _$Amount {
-  factory Amount({required int value, required Currency currency}) =>
-      switch (currency) {
-        FiatCurrency() => Amount.fiat(value: value, fiatCurrency: currency),
-        CryptoCurrency() =>
-          Amount.crypto(value: value, cryptoCurrency: currency),
-      };
+  factory Amount({
+    required int value,
+    required Currency currency,
+  }) => switch (currency) {
+    FiatCurrency() => Amount.fiat(value: value, fiatCurrency: currency),
+    CryptoCurrency() => Amount.crypto(value: value, cryptoCurrency: currency),
+  };
 
   const factory Amount.fiat({
     required int value,
@@ -40,15 +41,14 @@ sealed class Amount with _$Amount {
   factory Amount.fromDecimal({
     required Decimal value,
     required Currency currency,
-  }) =>
-      Amount(value: currency.decimalToInt(value), currency: currency);
+  }) => Amount(value: currency.decimalToInt(value), currency: currency);
 
   const Amount._();
 
   Currency get currency => switch (this) {
-        FiatAmount(:final fiatCurrency) => fiatCurrency,
-        CryptoAmount(:final cryptoCurrency) => cryptoCurrency,
-      };
+    FiatAmount(:final fiatCurrency) => fiatCurrency,
+    CryptoAmount(:final cryptoCurrency) => cryptoCurrency,
+  };
 
   Decimal get decimal => Decimal.fromInt(value).shift(-currency.decimals);
 

@@ -55,9 +55,8 @@ class WithdrawHistoryResponseDataDto with _$WithdrawHistoryResponseDataDto {
 
 @freezed
 class WithdrawerResponseDto with _$WithdrawerResponseDto {
-  const factory WithdrawerResponseDto({
-    required WithdrawerDto withdrawer,
-  }) = _WithdrawerResponseDto;
+  const factory WithdrawerResponseDto({required WithdrawerDto withdrawer}) =
+      _WithdrawerResponseDto;
   factory WithdrawerResponseDto.fromJson(Map<String, dynamic> data) =>
       _$WithdrawerResponseDtoFromJson(data);
 }
@@ -82,10 +81,4 @@ class WithdrawerDto with _$WithdrawerDto {
 }
 
 @JsonEnum()
-enum CoinflowOrderStatus {
-  completed,
-  created,
-  failed,
-  pending,
-  unknown,
-}
+enum CoinflowOrderStatus { completed, created, failed, pending, unknown }

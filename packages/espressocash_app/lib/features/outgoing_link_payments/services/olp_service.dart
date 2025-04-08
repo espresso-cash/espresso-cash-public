@@ -59,42 +59,41 @@ class OLPService implements Disposable {
   }
 
   void _subscribe(String id) {
-    _subscriptions[id] =
-        _repository.watch(id).asyncExpand<OutgoingLinkPayment>((payment) {
-      switch (payment.status) {
-        case OLPStatusTxCreated():
-          return _sendOutgoing(payment).asStream();
-        case OLPStatusTxSent():
-          return _wait(payment).asStream();
+    _subscriptions[id] = _repository
+        .watch(id)
+        .asyncExpand<OutgoingLinkPayment>((payment) {
+          switch (payment.status) {
+            case OLPStatusTxCreated():
+              return _sendOutgoing(payment).asStream();
+            case OLPStatusTxSent():
+              return _wait(payment).asStream();
 
-        case OLPStatusLinkReady():
-        case OLPStatusWithdrawn():
-        case OLPStatusCanceled():
-          _subscriptions.remove(id)?.cancel();
+            case OLPStatusLinkReady():
+            case OLPStatusWithdrawn():
+            case OLPStatusCanceled():
+              _subscriptions.remove(id)?.cancel();
 
-          return null;
+              return null;
 
-        case OLPStatusCancelTxCreated():
-          return _sendCanceled(payment).asStream();
+            case OLPStatusCancelTxCreated():
+              return _sendCanceled(payment).asStream();
 
-        case OLPStatusCancelTxSent():
-          return _processCanceled(payment).asStream();
+            case OLPStatusCancelTxSent():
+              return _processCanceled(payment).asStream();
 
-        case OLPStatusTxFailure():
-        case OLPStatusCancelTxFailure():
-          return null;
-      }
-    }).listen((payment) => payment.let(_repository.save));
+            case OLPStatusTxFailure():
+            case OLPStatusCancelTxFailure():
+              return null;
+          }
+        })
+        .listen((payment) => payment.let(_repository.save));
   }
 
   Future<OutgoingLinkPayment> create({
     required CryptoAmount amount,
     required ECWallet account,
   }) async {
-    final status = await _createTx(
-      amount: amount,
-      account: account,
-    );
+    final status = await _createTx(amount: amount, account: account);
 
     final id = const Uuid().v4();
 
@@ -119,10 +118,7 @@ class OLPService implements Disposable {
 
     final OLPStatus newStatus;
     if (status is OLPStatusTxFailure) {
-      newStatus = OLPStatus.canceled(
-        txId: null,
-        timestamp: DateTime.now(),
-      );
+      newStatus = OLPStatus.canceled(txId: null, timestamp: DateTime.now());
     } else {
       final escrow = status.mapOrNull(
         linkReady: (it) => it.escrow,
@@ -207,11 +203,7 @@ class OLPService implements Disposable {
 
     try {
       final signature = await _ecClient
-          .submitDurableTx(
-            SubmitDurableTxRequestDto(
-              tx: tx.encode(),
-            ),
-          )
+          .submitDurableTx(SubmitDurableTxRequestDto(tx: tx.encode()))
           .then((e) => e.signature);
 
       _analyticsManager.singleLinkCreated(amount: payment.amount.decimal);
@@ -231,9 +223,7 @@ class OLPService implements Disposable {
         reason = TxFailureReason.insufficientFunds;
       }
 
-      return payment.copyWith(
-        status: OLPStatus.txFailure(reason: reason),
-      );
+      return payment.copyWith(status: OLPStatus.txFailure(reason: reason));
     }
   }
 
@@ -250,24 +240,17 @@ class OLPService implements Disposable {
     final privateKey = status.escrow.bytes.lock;
     final key = base58encode(privateKey.toList());
 
-    final link = LinkPayment(
-      key: key,
-      token: token.publicKey,
-    ).toShareableLink();
+    final link =
+        LinkPayment(key: key, token: token.publicKey).toShareableLink();
 
-    final newStatus = OLPStatus.linkReady(
-      link: link,
-      escrow: status.escrow,
-    );
+    final newStatus = OLPStatus.linkReady(link: link, escrow: status.escrow);
 
     _refreshBalance();
 
     return payment.copyWith(status: newStatus);
   }
 
-  Future<OutgoingLinkPayment> _sendCanceled(
-    OutgoingLinkPayment payment,
-  ) async {
+  Future<OutgoingLinkPayment> _sendCanceled(OutgoingLinkPayment payment) async {
     final status = payment.status;
     if (status is! OLPStatusCancelTxCreated) {
       return payment;
@@ -277,11 +260,7 @@ class OLPService implements Disposable {
 
     try {
       final signature = await _ecClient
-          .submitDurableTx(
-            SubmitDurableTxRequestDto(
-              tx: tx.encode(),
-            ),
-          )
+          .submitDurableTx(SubmitDurableTxRequestDto(tx: tx.encode()))
           .then((e) => e.signature);
 
       return payment.copyWith(

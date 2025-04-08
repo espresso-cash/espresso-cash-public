@@ -24,15 +24,15 @@ class RampOnboardingScreen extends StatefulWidget {
     BuildContext context, {
     required RampType rampType,
     required VoidCallback onConfirmed,
-  }) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => RampOnboardingScreen(
+  }) => Navigator.of(context).push<void>(
+    MaterialPageRoute(
+      builder:
+          (context) => RampOnboardingScreen(
             rampType: rampType,
             onConfirmed: onConfirmed,
           ),
-        ),
-      );
+    ),
+  );
 
   final RampType rampType;
   final VoidCallback onConfirmed;
@@ -89,56 +89,57 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
 
   @override
   Widget build(BuildContext context) => RampPage(
-        type: widget.rampType,
-        header: FormPageHeader(
-          title: Text(context.l10n.rampBasicInfoRequired),
-          description: Text(context.l10n.yourEmailDisclaimer),
-          iconAlignment: Alignment.topCenter,
-          icon: Assets.images.profileGraphic,
+    type: widget.rampType,
+    header: FormPageHeader(
+      title: Text(context.l10n.rampBasicInfoRequired),
+      description: Text(context.l10n.yourEmailDisclaimer),
+      iconAlignment: Alignment.topCenter,
+      icon: Assets.images.profileGraphic,
+    ),
+    child: Column(
+      children: [
+        _ProfileTextField(
+          emailController: _firstNameController,
+          inputType: TextInputType.name,
+          placeholder: context.l10n.yourFirstNamePlaceholder,
+          textCapitalization: TextCapitalization.words,
         ),
-        child: Column(
-          children: [
-            _ProfileTextField(
-              emailController: _firstNameController,
-              inputType: TextInputType.name,
-              placeholder: context.l10n.yourFirstNamePlaceholder,
-              textCapitalization: TextCapitalization.words,
-            ),
-            const SizedBox(height: 14),
-            _ProfileTextField(
-              emailController: _lastNameController,
-              inputType: TextInputType.name,
-              placeholder: context.l10n.yourLastNamePlaceholder,
-              textCapitalization: TextCapitalization.words,
-            ),
-            const SizedBox(height: 14),
-            _ProfileTextField(
-              emailController: _emailController,
-              inputType: TextInputType.emailAddress,
-              placeholder: context.l10n.yourEmailPlaceholder,
-            ),
-            const SizedBox(height: 14),
-            CountryPicker(
-              country: _country,
-              onSubmitted: (country) => setState(() => _country = country),
-            ),
-            const SizedBox(height: 28),
-            const Spacer(),
-            ListenableBuilder(
-              listenable: Listenable.merge([
-                _firstNameController,
-                _lastNameController,
-                _emailController,
-              ]),
-              builder: (context, child) => CpButton(
+        const SizedBox(height: 14),
+        _ProfileTextField(
+          emailController: _lastNameController,
+          inputType: TextInputType.name,
+          placeholder: context.l10n.yourLastNamePlaceholder,
+          textCapitalization: TextCapitalization.words,
+        ),
+        const SizedBox(height: 14),
+        _ProfileTextField(
+          emailController: _emailController,
+          inputType: TextInputType.emailAddress,
+          placeholder: context.l10n.yourEmailPlaceholder,
+        ),
+        const SizedBox(height: 14),
+        CountryPicker(
+          country: _country,
+          onSubmitted: (country) => setState(() => _country = country),
+        ),
+        const SizedBox(height: 28),
+        const Spacer(),
+        ListenableBuilder(
+          listenable: Listenable.merge([
+            _firstNameController,
+            _lastNameController,
+            _emailController,
+          ]),
+          builder:
+              (context, child) => CpButton(
                 width: double.infinity,
                 text: context.l10n.next,
                 onPressed: _isValid ? _handleSubmitted : null,
               ),
-            ),
-          ],
         ),
-      );
+      ],
+    ),
+  );
 }
 
 class _ProfileTextField extends StatelessWidget {
@@ -158,20 +159,15 @@ class _ProfileTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpTextField(
-        padding: const EdgeInsets.only(
-          top: 18,
-          bottom: 16,
-          left: 26,
-          right: 26,
-        ),
-        controller: emailController,
-        inputType: inputType,
-        textInputAction: TextInputAction.next,
-        textCapitalization: textCapitalization,
-        backgroundColor: _rampTextfieldColor,
-        placeholder: placeholder,
-        placeholderColor: Colors.white,
-        textColor: Colors.white,
-        fontSize: 16,
-      );
+    padding: const EdgeInsets.only(top: 18, bottom: 16, left: 26, right: 26),
+    controller: emailController,
+    inputType: inputType,
+    textInputAction: TextInputAction.next,
+    textCapitalization: textCapitalization,
+    backgroundColor: _rampTextfieldColor,
+    placeholder: placeholder,
+    placeholderColor: Colors.white,
+    textColor: Colors.white,
+    fontSize: 16,
+  );
 }

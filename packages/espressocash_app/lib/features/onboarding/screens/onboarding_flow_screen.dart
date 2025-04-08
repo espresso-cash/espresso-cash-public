@@ -29,10 +29,7 @@ class OnboardingFlowScreen {
       );
 
       if (context.mounted) {
-        AuthenticatedFlowScreen.open(
-          context,
-          navigator: navigator,
-        );
+        AuthenticatedFlowScreen.open(context, navigator: navigator);
       }
     } else {
       ViewRecoveryPhraseScreen.open(
@@ -45,10 +42,7 @@ class OnboardingFlowScreen {
           );
 
           if (context.mounted) {
-            AuthenticatedFlowScreen.open(
-              context,
-              navigator: navigator,
-            );
+            AuthenticatedFlowScreen.open(context, navigator: navigator);
           }
         },
       );
@@ -65,13 +59,11 @@ Future<void> _openCountryPicker({
     navigator: navigator,
     title: context.l10n.selectCountryTitle,
     items: Country.all,
-    itemBuilder: (context, country, {required bool selected}) => Text(
-      country.name,
-      style: TextStyle(
-        fontSize: selected ? 19 : 17,
-        color: Colors.white,
-      ),
-    ),
+    itemBuilder:
+        (context, country, {required bool selected}) => Text(
+          country.name,
+          style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white),
+        ),
     onTap: _updateCountry,
   );
 }
@@ -81,16 +73,15 @@ Future<void> _updateCountry(Country country, BuildContext context) =>
       context,
       () async {
         await sl<UpdateProfile>()
-            .call(
-              countryCode: country.code,
-            )
+            .call(countryCode: country.code)
             .foldAsync((e) => throw e, ignore);
 
         if (!context.mounted) return;
       },
-      onError: (error) => showErrorDialog(
-        context,
-        context.l10n.lblProfileUpdateFailed,
-        error,
-      ),
+      onError:
+          (error) => showErrorDialog(
+            context,
+            context.l10n.lblProfileUpdateFailed,
+            error,
+          ),
     );

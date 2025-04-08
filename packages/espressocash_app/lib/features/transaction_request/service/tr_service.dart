@@ -40,9 +40,7 @@ class TRService {
     final query = _db.select(_db.transactionRequestRows)
       ..where((tbl) => tbl.status.equalsValue(TRStatusDto.success).not());
 
-    return query.watch().map(
-          (rows) => rows.map((r) => r.toModel()).toIList(),
-        );
+    return query.watch().map((rows) => rows.map((r) => r.toModel()).toIList());
   }
 
   Future<String> create({
@@ -81,8 +79,7 @@ class TRService {
     if (payment.status == TRStatusDto.success) return;
 
     await (_db.delete(_db.transactionRequestRows)
-          ..where((p) => p.id.equals(paymentId)))
-        .go();
+      ..where((p) => p.id.equals(paymentId))).go();
   }
 
   void _subscribe(String paymentId) {
@@ -92,13 +89,15 @@ class TRService {
         .asyncExpand<TransactionRequestRowsCompanion?>((payment) {
           switch (payment.status) {
             case TRStatusDto.created:
-              final tx = SignedTx.decode(payment.transaction)
-                  .let((it) => (it, payment.slot));
+              final tx = SignedTx.decode(
+                payment.transaction,
+              ).let((it) => (it, payment.slot));
 
               return Stream.fromFuture(_send(tx));
             case TRStatusDto.sent:
-              final tx = SignedTx.decode(payment.transaction)
-                  .let((it) => (it, payment.slot));
+              final tx = SignedTx.decode(
+                payment.transaction,
+              ).let((it) => (it, payment.slot));
 
               return Stream.fromFuture(_wait(tx));
             case TRStatusDto.success:
@@ -110,9 +109,9 @@ class TRService {
         })
         .whereNotNull()
         .listen(
-          (event) => (_db.update(_db.transactionRequestRows)
-                ..where((tbl) => tbl.id.equals(paymentId)))
-              .write(event),
+          (event) =>
+              (_db.update(_db.transactionRequestRows)
+                ..where((tbl) => tbl.id.equals(paymentId))).write(event),
         );
   }
 
@@ -121,15 +120,12 @@ class TRService {
 
     return switch (sent) {
       TxSendSent() => const TransactionRequestRowsCompanion(
-          status: Value(TRStatusDto.sent),
-        ),
+        status: Value(TRStatusDto.sent),
+      ),
       TxSendInvalidBlockhash() ||
-      TxSendFailure() =>
-        const TransactionRequestRowsCompanion(
-          status: Value(
-            TRStatusDto.failure,
-          ),
-        ),
+      TxSendFailure() => const TransactionRequestRowsCompanion(
+        status: Value(TRStatusDto.failure),
+      ),
       TxSendNetworkError() => null,
     };
   }
@@ -143,11 +139,11 @@ class TRService {
 
     return switch (confirmed) {
       TxWaitSuccess() => const TransactionRequestRowsCompanion(
-          status: Value(TRStatusDto.success),
-        ),
+        status: Value(TRStatusDto.success),
+      ),
       TxWaitFailure() => const TransactionRequestRowsCompanion(
-          status: Value(TRStatusDto.failure),
-        ),
+        status: Value(TRStatusDto.failure),
+      ),
       TxWaitNetworkError() => null,
     };
   }
@@ -155,21 +151,21 @@ class TRService {
 
 extension TransactionRequestRowExt on TransactionRequestRow {
   TransactionRequestPayment toModel() => TransactionRequestPayment(
-        id: id,
-        created: created,
-        status: toStatusModel,
-        amount: CryptoAmount(
-          value: amount,
-          cryptoCurrency: const CryptoCurrency(token: Token.usdc),
-        ),
-        label: label,
-        txId: SignedTx.decode(transaction).id,
-      );
+    id: id,
+    created: created,
+    status: toStatusModel,
+    amount: CryptoAmount(
+      value: amount,
+      cryptoCurrency: const CryptoCurrency(token: Token.usdc),
+    ),
+    label: label,
+    txId: SignedTx.decode(transaction).id,
+  );
 
   TRStatus get toStatusModel => switch (status) {
-        TRStatusDto.created => TRStatus.created,
-        TRStatusDto.sent => TRStatus.sent,
-        TRStatusDto.success => TRStatus.success,
-        TRStatusDto.failure => TRStatus.failure,
-      };
+    TRStatusDto.created => TRStatus.created,
+    TRStatusDto.sent => TRStatus.sent,
+    TRStatusDto.success => TRStatus.success,
+    TRStatusDto.failure => TRStatus.failure,
+  };
 }

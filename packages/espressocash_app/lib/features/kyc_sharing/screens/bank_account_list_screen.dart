@@ -15,32 +15,30 @@ class BankAccountListScreen extends StatelessWidget {
 
   static Future<bool> push(BuildContext context) => Navigator.of(context)
       .push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const BankAccountListScreen(),
-        ),
+        MaterialPageRoute(builder: (context) => const BankAccountListScreen()),
       )
       .then((result) => result ?? false);
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
-        valueListenable: sl<KycSharingService>(),
-        builder: (context, user, _) {
-          final bankInfos = user?.bankInfos ?? [];
+    valueListenable: sl<KycSharingService>(),
+    builder: (context, user, _) {
+      final bankInfos = user?.bankInfos ?? [];
 
-          return KycPage(
-            title: context.l10n.bankAccount.toUpperCase(),
-            children: [
-              for (final bankInfo in bankInfos) _BankInfoItem(bankInfo),
-              const Spacer(),
-              CpBottomButton(
-                horizontalPadding: 16,
-                text: context.l10n.addNewBankAccount,
-                onPressed: () => BankAccountScreen.push(context),
-              ),
-            ],
-          );
-        },
+      return KycPage(
+        title: context.l10n.bankAccount.toUpperCase(),
+        children: [
+          for (final bankInfo in bankInfos) _BankInfoItem(bankInfo),
+          const Spacer(),
+          CpBottomButton(
+            horizontalPadding: 16,
+            text: context.l10n.addNewBankAccount,
+            onPressed: () => BankAccountScreen.push(context),
+          ),
+        ],
       );
+    },
+  );
 }
 
 class _BankInfoItem extends StatelessWidget {
@@ -74,11 +72,12 @@ class _BankInfoItem extends StatelessWidget {
           size: 14,
           color: Colors.white,
         ),
-        onTap: () => BankAccountScreen.push(
-          context,
-          initialBankInfo: bankInfo,
-          buttonLabel: context.l10n.update,
-        ),
+        onTap:
+            () => BankAccountScreen.push(
+              context,
+              initialBankInfo: bankInfo,
+              buttonLabel: context.l10n.update,
+            ),
       ),
     );
   }

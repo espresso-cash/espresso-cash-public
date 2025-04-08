@@ -75,16 +75,15 @@ class MoneygramOffRampOrderService implements Disposable {
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
-    final query = _db.select(_db.offRampOrderRows)
-      ..where(
-        (tbl) =>
-            tbl.status.isNotInValues([
-              OffRampOrderStatus.completed,
-              OffRampOrderStatus.cancelled,
-              OffRampOrderStatus.refunded,
-            ]) &
-            tbl.partner.equalsValue(RampPartner.moneygram),
-      );
+    final query = _db.select(_db.offRampOrderRows)..where(
+      (tbl) =>
+          tbl.status.isNotInValues([
+            OffRampOrderStatus.completed,
+            OffRampOrderStatus.cancelled,
+            OffRampOrderStatus.refunded,
+          ]) &
+          tbl.partner.equalsValue(RampPartner.moneygram),
+    );
 
     final orders = await query.get();
 
@@ -169,9 +168,9 @@ class MoneygramOffRampOrderService implements Disposable {
         })
         .whereNotNull()
         .listen(
-          (event) => (_db.update(_db.offRampOrderRows)
-                ..where((tbl) => tbl.id.equals(orderId)))
-              .write(event),
+          (event) =>
+              (_db.update(_db.offRampOrderRows)
+                ..where((tbl) => tbl.id.equals(orderId))).write(event),
         );
   }
 
@@ -181,43 +180,42 @@ class MoneygramOffRampOrderService implements Disposable {
     required String countryCode,
     required int priorityFee,
     required CryptoAmount gasFee,
-  }) =>
-      tryEitherAsync((_) async {
-        {
-          final order = OffRampOrderRow(
-            id: const Uuid().v4(),
-            partnerOrderId: '',
-            amount: submittedAmount.value,
-            token: Token.usdc.address,
-            receiveAmount: receiveAmount.value,
-            fiatSymbol: receiveAmount.fiatCurrency.symbol,
-            created: DateTime.now(),
-            humanStatus: '',
-            machineStatus: '',
-            partner: RampPartner.moneygram,
-            status: OffRampOrderStatus.preProcessing,
-            transaction: '',
-            depositAddress: '',
-            slot: BigInt.zero,
-            bridgeAmount: null,
-            priorityFee: priorityFee,
-            gasFee: gasFee.value,
-          );
+  }) => tryEitherAsync((_) async {
+    {
+      final order = OffRampOrderRow(
+        id: const Uuid().v4(),
+        partnerOrderId: '',
+        amount: submittedAmount.value,
+        token: Token.usdc.address,
+        receiveAmount: receiveAmount.value,
+        fiatSymbol: receiveAmount.fiatCurrency.symbol,
+        created: DateTime.now(),
+        humanStatus: '',
+        machineStatus: '',
+        partner: RampPartner.moneygram,
+        status: OffRampOrderStatus.preProcessing,
+        transaction: '',
+        depositAddress: '',
+        slot: BigInt.zero,
+        bridgeAmount: null,
+        priorityFee: priorityFee,
+        gasFee: gasFee.value,
+      );
 
-          await _db.into(_db.offRampOrderRows).insert(order);
-          _subscribe(order.id);
+      await _db.into(_db.offRampOrderRows).insert(order);
+      _subscribe(order.id);
 
-          _analytics.rampInitiated(
-            partnerName: RampPartner.moneygram.name,
-            rampType: RampType.offRamp.name,
-            amount: submittedAmount.value.toString(),
-            countryCode: countryCode,
-            id: order.id,
-          );
+      _analytics.rampInitiated(
+        partnerName: RampPartner.moneygram.name,
+        rampType: RampType.offRamp.name,
+        amount: submittedAmount.value.toString(),
+        countryCode: countryCode,
+        id: order.id,
+      );
 
-          return order.id;
-        }
-      });
+      return order.id;
+    }
+  });
 
   AsyncResult<void> updateMoneygramOrder({required String id}) =>
       tryEitherAsync((_) async {
@@ -263,29 +261,29 @@ class MoneygramOffRampOrderService implements Disposable {
       });
 
   AsyncResult<void> processRefund(String id) => tryEitherAsync((_) async {
-        final order = await _fetchOrder(id);
+    final order = await _fetchOrder(id);
 
-        final transaction = await _fetchTransactionStatus(
-          id: order.partnerOrderId,
-          token: order.authToken ?? '',
-        );
+    final transaction = await _fetchTransactionStatus(
+      id: order.partnerOrderId,
+      token: order.authToken ?? '',
+    );
 
-        if (transaction.status != MgStatus.refunded) {
-          return;
-        }
+    if (transaction.status != MgStatus.refunded) {
+      return;
+    }
 
-        // removes waitingForPartner watcher
-        _removeWatcher(id);
+    // removes waitingForPartner watcher
+    _removeWatcher(id);
 
-        final updateQuery = _db.update(_db.offRampOrderRows)
-          ..where((tbl) => tbl.id.equals(id));
+    final updateQuery = _db.update(_db.offRampOrderRows)
+      ..where((tbl) => tbl.id.equals(id));
 
-        await updateQuery.write(
-          const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.processingRefund),
-          ),
-        );
-      });
+    await updateQuery.write(
+      const OffRampOrderRowsCompanion(
+        status: Value(OffRampOrderStatus.processingRefund),
+      ),
+    );
+  });
 
   Future<String?> getWithdrawUrl({
     required OffRampOrder order,
@@ -391,10 +389,7 @@ class MoneygramOffRampOrderService implements Disposable {
           )
           .then((e) => e.encodedTx);
     } on Exception catch (__, stackTrace) {
-      reportError(
-        'Failed to swap to Stellar',
-        stackTrace,
-      );
+      reportError('Failed to swap to Stellar', stackTrace);
 
       return const OffRampOrderRowsCompanion(
         status: Value(OffRampOrderStatus.depositError),
@@ -412,13 +407,13 @@ class MoneygramOffRampOrderService implements Disposable {
 
     if (send != const TxSendSent()) {
       final status = send.maybeMap(
-        failure: (reason) => switch (reason.reason) {
-          TxFailureReason.insufficientFunds ||
-          TxFailureReason.txError =>
-            OffRampOrderStatus.insufficientFunds,
-          // ignore: avoid-wildcard-cases-with-enums, check if needed
-          _ => OffRampOrderStatus.depositError,
-        },
+        failure:
+            (reason) => switch (reason.reason) {
+              TxFailureReason.insufficientFunds ||
+              TxFailureReason.txError => OffRampOrderStatus.insufficientFunds,
+              // ignore: avoid-wildcard-cases-with-enums, check if needed
+              _ => OffRampOrderStatus.depositError,
+            },
         orElse: () => OffRampOrderStatus.depositError,
       );
 
@@ -480,9 +475,9 @@ class MoneygramOffRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10))
-        .startWith(null)
-        .listen((order) async {
+    _watchers[id] = Stream<void>.periodic(
+      const Duration(seconds: 10),
+    ).startWith(null).listen((order) async {
       final statement = _db.update(_db.offRampOrderRows)
         ..where((tbl) => tbl.id.equals(id));
 
@@ -518,15 +513,19 @@ class MoneygramOffRampOrderService implements Disposable {
       token: order.authToken ?? '',
     );
 
-    final receiveAmount = Amount.fromDecimal(
-      value: Decimal.parse(transaction.amountOut ?? '0'),
-      currency: currencyFromString(transaction.amountOutAsset ?? 'USD'),
-    ) as FiatAmount;
+    final receiveAmount =
+        Amount.fromDecimal(
+              value: Decimal.parse(transaction.amountOut ?? '0'),
+              currency: currencyFromString(transaction.amountOutAsset ?? 'USD'),
+            )
+            as FiatAmount;
 
-    final fee = Amount.fromDecimal(
-      value: Decimal.parse(transaction.amountFee ?? '0'),
-      currency: Currency.usdc,
-    ) as CryptoAmount;
+    final fee =
+        Amount.fromDecimal(
+              value: Decimal.parse(transaction.amountFee ?? '0'),
+              currency: Currency.usdc,
+            )
+            as CryptoAmount;
 
     final withdrawAnchorAccount = transaction.withdrawAnchorAccount;
     final withdrawMemo = transaction.withdrawMemo;
@@ -568,47 +567,50 @@ class MoneygramOffRampOrderService implements Disposable {
         )
         .whereNotNull()
         .listen((order) async {
-      final statement = _db.update(_db.offRampOrderRows)
-        ..where((tbl) => tbl.id.equals(id));
+          final statement = _db.update(_db.offRampOrderRows)
+            ..where((tbl) => tbl.id.equals(id));
 
-      final hash = order.solanaBridgeTx;
+          final hash = order.solanaBridgeTx;
 
-      if (hash == null) {
-        return;
-      }
+          if (hash == null) {
+            return;
+          }
 
-      final response = await _allbridgeApiClient.fetchStatus(
-        chain: Chain.solana,
-        hash: hash,
-      );
+          final response = await _allbridgeApiClient.fetchStatus(
+            chain: Chain.solana,
+            hash: hash,
+          );
 
-      final destination = response?.receive;
+          final destination = response?.receive;
 
-      if (destination == null) {
-        return;
-      }
+          if (destination == null) {
+            return;
+          }
 
-      final payment = await _stellarClient.getPaymentByTxId(destination.txId);
+          final payment = await _stellarClient.getPaymentByTxId(
+            destination.txId,
+          );
 
-      if (payment == null) {
-        return;
-      }
+          if (payment == null) {
+            return;
+          }
 
-      final amount = int.parse(destination.amount) ~/ 10;
+          final amount = int.parse(destination.amount) ~/ 10;
 
-      final bridgeAmount =
-          CryptoAmount(value: amount, cryptoCurrency: Currency.usdc)
-              .floor(Currency.usd.decimals);
+          final bridgeAmount = CryptoAmount(
+            value: amount,
+            cryptoCurrency: Currency.usdc,
+          ).floor(Currency.usd.decimals);
 
-      await statement.write(
-        OffRampOrderRowsCompanion(
-          status: const Value(OffRampOrderStatus.ready),
-          bridgeAmount: Value(bridgeAmount.value),
-        ),
-      );
+          await statement.write(
+            OffRampOrderRowsCompanion(
+              status: const Value(OffRampOrderStatus.ready),
+              bridgeAmount: Value(bridgeAmount.value),
+            ),
+          );
 
-      _removeWatcher(id);
-    });
+          _removeWatcher(id);
+        });
   }
 
   void _waitingForPartnerWatcher(OffRampOrderRow order) {
@@ -623,48 +625,46 @@ class MoneygramOffRampOrderService implements Disposable {
         .asyncMap((_) => _db.getWaitingForPartnerOffRampOrder(id))
         .whereNotNull()
         .listen((order) async {
-      final statement = _db.update(_db.offRampOrderRows)
-        ..where(
-          (tbl) => tbl.id.equals(id),
-        );
-      final String token = order.authToken ?? '';
-      final transaction = await _moneygramClient
-          .fetchTransaction(
-            id: order.partnerOrderId,
-            authHeader: token,
-            rampType: RampType.offRamp,
-          )
-          .then((e) => e.transaction);
+          final statement = _db.update(_db.offRampOrderRows)
+            ..where((tbl) => tbl.id.equals(id));
+          final String token = order.authToken ?? '';
+          final transaction = await _moneygramClient
+              .fetchTransaction(
+                id: order.partnerOrderId,
+                authHeader: token,
+                rampType: RampType.offRamp,
+              )
+              .then((e) => e.transaction);
 
-      final isCompleted = transaction.status == MgStatus.completed;
-      final isRefunded = transaction.status == MgStatus.refunded;
+          final isCompleted = transaction.status == MgStatus.completed;
+          final isRefunded = transaction.status == MgStatus.refunded;
 
-      if (!isCompleted && !isRefunded) return;
+          if (!isCompleted && !isRefunded) return;
 
-      _removeWatcher(id);
+          _removeWatcher(id);
 
-      if (isCompleted) {
-        await statement.write(
-          const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.completed),
-          ),
-        );
+          if (isCompleted) {
+            await statement.write(
+              const OffRampOrderRowsCompanion(
+                status: Value(OffRampOrderStatus.completed),
+              ),
+            );
 
-        _analytics.rampCompleted(
-          partnerName: RampPartner.moneygram.name,
-          rampType: RampType.offRamp.name,
-          id: id,
-        );
-      }
+            _analytics.rampCompleted(
+              partnerName: RampPartner.moneygram.name,
+              rampType: RampType.offRamp.name,
+              id: id,
+            );
+          }
 
-      if (isRefunded) {
-        await statement.write(
-          const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.processingRefund),
-          ),
-        );
-      }
-    });
+          if (isRefunded) {
+            await statement.write(
+              const OffRampOrderRowsCompanion(
+                status: Value(OffRampOrderStatus.processingRefund),
+              ),
+            );
+          }
+        });
   }
 
   Future<OffRampOrderRowsCompanion?> _sendPayment(OffRampOrderRow order) async {
@@ -682,8 +682,8 @@ class MoneygramOffRampOrderService implements Disposable {
 
       return transactionSucceed
           ? const OffRampOrderRowsCompanion(
-              status: Value(OffRampOrderStatus.waitingForPartner),
-            )
+            status: Value(OffRampOrderStatus.waitingForPartner),
+          )
           : null;
     } on Exception catch (error, stackTrace) {
       reportError(error, stackTrace);
@@ -736,13 +736,13 @@ class MoneygramOffRampOrderService implements Disposable {
 
     return hash == null
         ? const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.processingRefund),
-          )
+          status: Value(OffRampOrderStatus.processingRefund),
+        )
         : OffRampOrderRowsCompanion(
-            stellarTxHash: Value(hash),
-            status: const Value(OffRampOrderStatus.waitingForRefundBridge),
-            refundAmount: Value(refundAmount.value),
-          );
+          stellarTxHash: Value(hash),
+          status: const Value(OffRampOrderStatus.waitingForRefundBridge),
+          refundAmount: Value(refundAmount.value),
+        );
   }
 
   void _watchRefundBridge(OffRampOrderRow order) {
@@ -752,13 +752,11 @@ class MoneygramOffRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 60))
-        .startWith(null)
-        .listen((_) async {
+    _watchers[id] = Stream<void>.periodic(
+      const Duration(seconds: 60),
+    ).startWith(null).listen((_) async {
       final statement = _db.update(_db.offRampOrderRows)
-        ..where(
-          (tbl) => tbl.id.equals(id),
-        );
+        ..where((tbl) => tbl.id.equals(id));
 
       final hash = order.stellarTxHash;
 
@@ -827,14 +825,9 @@ class MoneygramOffRampOrderService implements Disposable {
   Future<TransactionStatus> _fetchTransactionStatus({
     required String id,
     required String token,
-  }) =>
-      _moneygramClient
-          .fetchTransaction(
-            id: id,
-            authHeader: token,
-            rampType: RampType.offRamp,
-          )
-          .then((e) => e.transaction);
+  }) => _moneygramClient
+      .fetchTransaction(id: id, authHeader: token, rampType: RampType.offRamp)
+      .then((e) => e.transaction);
 
   void _removeWatcher(String id) {
     _watchers.remove(id)?.cancel();

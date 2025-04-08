@@ -15,16 +15,11 @@ import '../models/transaction_request.dart';
 import '../service/tr_service.dart';
 
 class TRDetailsScreen extends StatefulWidget {
-  const TRDetailsScreen({
-    super.key,
-    required this.id,
-  });
+  const TRDetailsScreen({super.key, required this.id});
 
   static void push(BuildContext context, {required String id}) =>
       Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => TRDetailsScreen(id: id),
-        ),
+        MaterialPageRoute(builder: (context) => TRDetailsScreen(id: id)),
       );
 
   final String id;
@@ -48,13 +43,13 @@ class _TRDetailsScreenState extends State<TRDetailsScreen> {
   }
 
   void _handleCancel(String id) => showConfirmationDialog(
-        context,
-        title: context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle
+    context,
+    title:
+        context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle
             .toUpperCase(),
-        message:
-            context.l10n.outgoingDirectPayments_lblCancelConfirmationSubtitle,
-        onConfirm: () => _cancelTR(id),
-      );
+    message: context.l10n.outgoingDirectPayments_lblCancelConfirmationSubtitle,
+    onConfirm: () => _cancelTR(id),
+  );
 
   @override
   Widget build(BuildContext context) =>
@@ -71,23 +66,24 @@ class _TRDetailsScreenState extends State<TRDetailsScreen> {
 
           return switch (payment.status) {
             TRStatus.success => TransferSuccess(
-                onBack: () => Navigator.pop(context),
-                onOkPressed: () => Navigator.pop(context),
-                statusContent: context.l10n.outgoingTransferSuccess(
-                  payment.amount.format(DeviceLocale.localeOf(context)),
-                ),
-                onMoreDetailsPressed: () {
-                  final link = payment.txId
-                      .let(createTransactionLink)
-                      .let(Uri.parse)
-                      .toString();
-                  context.openLink(link);
-                },
+              onBack: () => Navigator.pop(context),
+              onOkPressed: () => Navigator.pop(context),
+              statusContent: context.l10n.outgoingTransferSuccess(
+                payment.amount.format(DeviceLocale.localeOf(context)),
               ),
+              onMoreDetailsPressed: () {
+                final link =
+                    payment.txId
+                        .let(createTransactionLink)
+                        .let(Uri.parse)
+                        .toString();
+                context.openLink(link);
+              },
+            ),
             TRStatus.failure => TransferError(
-                onBack: () => Navigator.pop(context),
-                onCancel: () => _handleCancel(payment.id),
-              ),
+              onBack: () => Navigator.pop(context),
+              onCancel: () => _handleCancel(payment.id),
+            ),
             TRStatus.created || TRStatus.sent => loading,
           };
         },

@@ -48,7 +48,5 @@ class Activity with _$Activity {
     required TransactionRequestPayment data,
   }) = TransactionRequestActivity;
 
-  const factory Activity.kyc({
-    required DateTime created,
-  }) = KycActivity;
+  const factory Activity.kyc({required DateTime created}) = KycActivity;
 }

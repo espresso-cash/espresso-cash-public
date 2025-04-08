@@ -35,14 +35,16 @@ class TxReadyWatcher implements Disposable {
 
   @postConstruct
   void init() {
-    _repoSubscription =
-        _repository.watchReady().distinct().listen((payments) async {
+    _repoSubscription = _repository.watchReady().distinct().listen((
+      payments,
+    ) async {
       for (final payment in payments) {
         Future<void> onSuccess(TransactionDetails txDetails) async {
           final tx = txDetails.transaction as ParsedTransaction;
           final txId = tx.id;
 
-          final timestamp = txDetails.blockTime?.let(
+          final timestamp =
+              txDetails.blockTime?.let(
                 (it) => DateTime.fromMillisecondsSinceEpoch(it * 1000),
               ) ??
               DateTime.now();
@@ -50,14 +52,15 @@ class TxReadyWatcher implements Disposable {
           final IList<String> destinationAccounts =
               txDetails.getInnerDestinations();
 
-          final newStatus = await destinationAccounts.let(
-            (accounts) => findAssociatedTokenAddress(
-              owner: _userPublicKey,
-              mint: payment.amount.cryptoCurrency.token.publicKey,
-            ).then((it) => it.toBase58()).then(accounts.contains),
-          )
-              ? OLPStatus.canceled(txId: txId, timestamp: timestamp)
-              : OLPStatus.withdrawn(txId: txId, timestamp: timestamp);
+          final newStatus =
+              await destinationAccounts.let(
+                    (accounts) => findAssociatedTokenAddress(
+                      owner: _userPublicKey,
+                      mint: payment.amount.cryptoCurrency.token.publicKey,
+                    ).then((it) => it.toBase58()).then(accounts.contains),
+                  )
+                  ? OLPStatus.canceled(txId: txId, timestamp: timestamp)
+                  : OLPStatus.withdrawn(txId: txId, timestamp: timestamp);
 
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions.remove(payment.id)?.cancel();
@@ -73,8 +76,9 @@ class TxReadyWatcher implements Disposable {
         if (!_subscriptions.containsKey(payment.id)) {
           final escrowAccount = await status.escrow.keyPair;
 
-          _subscriptions[payment.id] =
-              _createStream(account: escrowAccount.publicKey).listen(onSuccess);
+          _subscriptions[payment.id] = _createStream(
+            account: escrowAccount.publicKey,
+          ).listen(onSuccess);
         }
       }
     });
@@ -85,24 +89,25 @@ class TxReadyWatcher implements Disposable {
   }) {
     Duration backoff = const Duration(seconds: 1);
 
-    Stream<IList<TransactionDetails>> streamSignatures(void _) =>
-        _client.rpcClient
-            .getTransactionsList(
-              account,
-              limit: 100,
-              commitment: Commitment.confirmed,
-              encoding: Encoding.jsonParsed,
-            )
-            .asStream()
-            .map(
-              (txs) => txs
+    Stream<IList<TransactionDetails>> streamSignatures(void _) => _client
+        .rpcClient
+        .getTransactionsList(
+          account,
+          limit: 100,
+          commitment: Commitment.confirmed,
+          encoding: Encoding.jsonParsed,
+        )
+        .asStream()
+        .map(
+          (txs) =>
+              txs
                   .where(
                     (details) => details.transaction
                         .getSignatureAccounts()
                         .contains(account),
                   )
                   .toIList(),
-            );
+        );
 
     Stream<void> retryWhen(void _, void __) async* {
       await Future<void>.delayed(backoff);
@@ -132,17 +137,15 @@ class TxReadyWatcher implements Disposable {
 
 extension on Transaction {
   List<Ed25519HDPublicKey> getSignatureAccounts() => switch (this) {
-        ParsedTransaction(:final signatures, :final message) => message
-            .accountKeys
-            .map((e) => Ed25519HDPublicKey.fromBase58(e.pubkey))
-            .take(signatures.length)
-            .toList(),
-        RawTransaction(:final data) => SignedTx.fromBytes(data).let(
-            (tx) => tx.compiledMessage.accountKeys
-                .take(tx.signatures.length)
-                .toList(),
-          ),
-        _ =>
-          throw UnsupportedError('Unsupported transaction type: $runtimeType'),
-      };
+    ParsedTransaction(:final signatures, :final message) =>
+      message.accountKeys
+          .map((e) => Ed25519HDPublicKey.fromBase58(e.pubkey))
+          .take(signatures.length)
+          .toList(),
+    RawTransaction(:final data) => SignedTx.fromBytes(data).let(
+      (tx) =>
+          tx.compiledMessage.accountKeys.take(tx.signatures.length).toList(),
+    ),
+    _ => throw UnsupportedError('Unsupported transaction type: $runtimeType'),
+  };
 }

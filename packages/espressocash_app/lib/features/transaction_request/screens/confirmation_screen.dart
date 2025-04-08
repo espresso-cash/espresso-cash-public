@@ -24,16 +24,16 @@ class TRConfirmationScreen extends StatelessWidget {
     required TransactionRequestInfo request,
     required CryptoAmount amount,
     String? message,
-  }) =>
-      Navigator.of(context).push<bool>(
-        MaterialPageRoute(
-          builder: (context) => TRConfirmationScreen(
+  }) => Navigator.of(context).push<bool>(
+    MaterialPageRoute(
+      builder:
+          (context) => TRConfirmationScreen(
             request: request,
             amount: amount,
             message: message,
           ),
-        ),
-      );
+    ),
+  );
 
   final TransactionRequestInfo request;
   final CryptoAmount amount;
@@ -74,10 +74,7 @@ class TRConfirmationScreen extends StatelessWidget {
               ),
               const SizedBox(height: 42),
               if (message case final message?)
-                _Item(
-                  title: 'Message',
-                  content: message,
-                ),
+                _Item(title: 'Message', content: message),
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -98,40 +95,34 @@ class TRConfirmationScreen extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({
-    required this.title,
-    required this.content,
-  });
+  const _Item({required this.title, required this.content});
 
   final String title;
   final String content;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: const BoxDecoration(
-          border: Border.symmetric(
-            horizontal: BorderSide(
-              color: CpColors.darkDividerColor,
-              width: 1,
+    decoration: const BoxDecoration(
+      border: Border.symmetric(
+        horizontal: BorderSide(color: CpColors.darkDividerColor, width: 1),
+      ),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
             ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          child: Row(
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(width: 24),
-              Expanded(child: Text(content)),
-            ],
-          ),
-        ),
-      );
+          const SizedBox(width: 24),
+          Expanded(child: Text(content)),
+        ],
+      ),
+    ),
+  );
 }

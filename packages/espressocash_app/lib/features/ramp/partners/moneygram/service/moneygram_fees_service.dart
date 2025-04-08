@@ -8,13 +8,14 @@ import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 
-typedef MoneygramFees = ({
-  Amount receiveAmount,
-  Amount moneygramFee,
-  Amount bridgeFee,
-  Amount gasFeeInUsdc,
-  int? priorityFee,
-});
+typedef MoneygramFees =
+    ({
+      Amount receiveAmount,
+      Amount moneygramFee,
+      Amount bridgeFee,
+      Amount gasFeeInUsdc,
+      int? priorityFee,
+    });
 
 @Singleton(scope: authScope)
 class MoneygramFeesService {
@@ -87,7 +88,7 @@ class MoneygramFeesService {
 
 extension on RampType {
   RampTypeDto toDto() => switch (this) {
-        RampType.onRamp => RampTypeDto.onRamp,
-        RampType.offRamp => RampTypeDto.offRamp
-      };
+    RampType.onRamp => RampTypeDto.onRamp,
+    RampType.offRamp => RampTypeDto.offRamp,
+  };
 }

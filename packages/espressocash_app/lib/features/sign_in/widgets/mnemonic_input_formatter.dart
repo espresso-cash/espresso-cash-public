@@ -10,16 +10,14 @@ class MnemonicInputFormatter implements TextInputFormatter {
   ) {
     final phrase = newValue.text.toLowerCase().replaceAll(_regex, ' ');
 
-    final selection = newValue.selection.end > phrase.length
-        ? TextSelection.collapsed(
-            offset: phrase.length,
-            affinity: newValue.selection.affinity,
-          )
-        : newValue.selection;
+    final selection =
+        newValue.selection.end > phrase.length
+            ? TextSelection.collapsed(
+              offset: phrase.length,
+              affinity: newValue.selection.affinity,
+            )
+            : newValue.selection;
 
-    return newValue.copyWith(
-      text: phrase,
-      selection: selection,
-    );
+    return newValue.copyWith(text: phrase, selection: selection);
   }
 }

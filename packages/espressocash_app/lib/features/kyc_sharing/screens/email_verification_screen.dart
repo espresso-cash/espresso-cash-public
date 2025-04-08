@@ -45,29 +45,31 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        children: [
-          KycHeader(
-            title: context.l10n.emailVerificationTitle.toUpperCase(),
-            description: context.l10n.enterEmailHintText,
-          ),
-          const SizedBox(height: 16),
-          KycTextField(
-            controller: _emailController,
-            inputType: TextInputType.emailAddress,
-            placeholder: context.l10n.emailAddress,
-          ),
-          const SizedBox(height: 16),
-          const Spacer(),
-          ListenableBuilder(
-            listenable: _emailController,
-            builder: (context, child) => CpBottomButton(
+    children: [
+      KycHeader(
+        title: context.l10n.emailVerificationTitle.toUpperCase(),
+        description: context.l10n.enterEmailHintText,
+      ),
+      const SizedBox(height: 16),
+      KycTextField(
+        controller: _emailController,
+        inputType: TextInputType.emailAddress,
+        placeholder: context.l10n.emailAddress,
+      ),
+      const SizedBox(height: 16),
+      const Spacer(),
+      ListenableBuilder(
+        listenable: _emailController,
+        builder:
+            (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.send,
-              onPressed: _emailController.text.isValidEmail
-                  ? _handleSendVerification
-                  : null,
+              onPressed:
+                  _emailController.text.isValidEmail
+                      ? _handleSendVerification
+                      : null,
             ),
-          ),
-        ],
-      );
+      ),
+    ],
+  );
 }

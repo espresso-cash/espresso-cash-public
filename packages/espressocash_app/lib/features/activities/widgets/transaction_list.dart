@@ -29,67 +29,62 @@ class _TransactionListState extends State<TransactionList> {
 
   @override
   Widget build(BuildContext context) => RefreshIndicator(
-        onRefresh: () => sl<TxUpdater>().call(),
-        color: CpColors.primaryColor,
-        backgroundColor: Colors.white,
-        child: StreamBuilder<IList<String>>(
-          stream: _txs,
-          builder: (context, snapshot) {
-            final data = snapshot.data;
+    onRefresh: () => sl<TxUpdater>().call(),
+    color: CpColors.primaryColor,
+    backgroundColor: Colors.white,
+    child: StreamBuilder<IList<String>>(
+      stream: _txs,
+      builder: (context, snapshot) {
+        final data = snapshot.data;
 
-            if (data == null) return const SizedBox.shrink();
+        if (data == null) return const SizedBox.shrink();
 
-            return data.isEmpty
-                ? const Center(child: NoActivity())
-                : CustomScrollView(
-                    physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics(),
+        return data.isEmpty
+            ? const Center(child: NoActivity())
+            : CustomScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
+              slivers: [
+                const SliverPadding(padding: EdgeInsets.only(top: _topPadding)),
+                SliverPadding(
+                  padding: widget.padding ?? EdgeInsets.zero,
+                  sliver: DecoratedSliver(
+                    decoration: const BoxDecoration(
+                      color: CpColors.blackGreyColor,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
-                    slivers: [
-                      const SliverPadding(
-                        padding: EdgeInsets.only(top: _topPadding),
-                      ),
-                      SliverPadding(
-                        padding: widget.padding ?? EdgeInsets.zero,
-                        sliver: DecoratedSliver(
-                          decoration: const BoxDecoration(
-                            color: CpColors.blackGreyColor,
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                    sliver: SliverPadding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      sliver: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, i) => _KeepAlive(
+                            key: ValueKey(data[i]),
+                            child: TransactionItem(tx: data[i]),
                           ),
-                          sliver: SliverPadding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            sliver: SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                (context, i) => _KeepAlive(
-                                  key: ValueKey(data[i]),
-                                  child: TransactionItem(tx: data[i]),
-                                ),
-                                childCount: data.length,
-                                findChildIndexCallback: (Key key) {
-                                  final ValueKey<String> valueKey =
-                                      key as ValueKey<String>;
-                                  final String keyValue = valueKey.value;
-                                  final index = data.indexOf(keyValue);
+                          childCount: data.length,
+                          findChildIndexCallback: (Key key) {
+                            final ValueKey<String> valueKey =
+                                key as ValueKey<String>;
+                            final String keyValue = valueKey.value;
+                            final index = data.indexOf(keyValue);
 
-                                  return index == -1 ? null : index;
-                                },
-                              ),
-                            ),
-                          ),
+                            return index == -1 ? null : index;
+                          },
                         ),
                       ),
-                    ],
-                  );
-          },
-        ),
-      );
+                    ),
+                  ),
+                ),
+              ],
+            );
+      },
+    ),
+  );
 }
 
 class _KeepAlive extends StatefulWidget {
-  const _KeepAlive({
-    required Key key,
-    required this.child,
-  }) : super(key: key);
+  const _KeepAlive({required Key key, required this.child}) : super(key: key);
 
   final Widget child;
 

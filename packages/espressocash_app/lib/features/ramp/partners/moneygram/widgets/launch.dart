@@ -34,9 +34,7 @@ import 'style.dart';
 typedef MoneygramLink = ({String id, String url, String token});
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchMoneygramOnRamp({
-    required ProfileData profile,
-  }) async {
+  Future<void> launchMoneygramOnRamp({required ProfileData profile}) async {
     CryptoAmount? amount;
 
     const partner = RampPartner.moneygram;
@@ -64,18 +62,20 @@ extension BuildContextExt on BuildContext {
       currency: inputCurrency,
       receiveCurrency: receiveCurrency,
       type: type,
-      calculateEquivalent: (amount) => _calculateReceiveAmount(
-        amount: amount,
-        type: type,
-        currency: receiveCurrency,
-        rate: rate,
-      ),
-      calculateFee: (amount) => _calculateFees(
-        amount: amount,
-        type: type,
-        currency: receiveCurrency,
-        rate: rate,
-      ),
+      calculateEquivalent:
+          (amount) => _calculateReceiveAmount(
+            amount: amount,
+            type: type,
+            currency: receiveCurrency,
+            rate: rate,
+          ),
+      calculateFee:
+          (amount) => _calculateFees(
+            amount: amount,
+            type: type,
+            currency: receiveCurrency,
+            rate: rate,
+          ),
       exchangeRate: _formatExchangeRate(
         from: inputCurrency,
         to: receiveCurrency,
@@ -95,14 +95,15 @@ extension BuildContextExt on BuildContext {
 
     final fees = await runWithLoader<MoneygramFees>(
       this,
-      () => sl<MoneygramFeesService>()
-          .fetchFees(amount: submittedAmount, type: type),
+      () => sl<MoneygramFeesService>().fetchFees(
+        amount: submittedAmount,
+        type: type,
+      ),
     );
 
-    final depositAmount = fees.receiveAmount.convert(
-      rate: rate,
-      to: receiveCurrency,
-    ) as FiatAmount;
+    final depositAmount =
+        fees.receiveAmount.convert(rate: rate, to: receiveCurrency)
+            as FiatAmount;
 
     final bridgeAmountInUsdc = submittedAmountInUsdc + fees.bridgeFee;
 
@@ -122,21 +123,21 @@ extension BuildContextExt on BuildContext {
 
     final id = await sl<MoneygramOnRampOrderService>()
         .createPendingMoneygram(
-      orderId: orderId,
-      submittedAmount: depositAmount,
-      authToken: token,
-      receiveAmount: submittedAmount,
-      countryCode: profile.country.code,
-      bridgeAmount: bridgeAmountInUsdc as CryptoAmount,
-    )
+          orderId: orderId,
+          submittedAmount: depositAmount,
+          authToken: token,
+          receiveAmount: submittedAmount,
+          countryCode: profile.country.code,
+          bridgeAmount: bridgeAmountInUsdc as CryptoAmount,
+        )
         .then((order) {
-      switch (order) {
-        case Left<Exception, String>():
-          return null;
-        case Right<Exception, String>(:final value):
-          return value;
-      }
-    });
+          switch (order) {
+            case Left<Exception, String>():
+              return null;
+            case Right<Exception, String>(:final value):
+              return value;
+          }
+        });
 
     if (id == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
@@ -180,9 +181,7 @@ window.addEventListener("message", (event) => {
     }
   }
 
-  Future<void> launchMoneygramOffRamp({
-    required ProfileData profile,
-  }) async {
+  Future<void> launchMoneygramOffRamp({required ProfileData profile}) async {
     Amount? amount;
 
     const partner = RampPartner.moneygram;
@@ -218,18 +217,20 @@ window.addEventListener("message", (event) => {
       currency: inputCurrency,
       receiveCurrency: receiveCurrency,
       type: type,
-      calculateEquivalent: (amount) => _calculateReceiveAmount(
-        amount: amount,
-        type: type,
-        currency: receiveCurrency,
-        rate: rate,
-      ),
-      calculateFee: (amount) => _calculateFees(
-        amount: amount,
-        type: type,
-        currency: receiveCurrency,
-        rate: rate,
-      ),
+      calculateEquivalent:
+          (amount) => _calculateReceiveAmount(
+            amount: amount,
+            type: type,
+            currency: receiveCurrency,
+            rate: rate,
+          ),
+      calculateFee:
+          (amount) => _calculateFees(
+            amount: amount,
+            type: type,
+            currency: receiveCurrency,
+            rate: rate,
+          ),
       exchangeRate: _formatExchangeRate(
         from: inputCurrency,
         to: receiveCurrency,
@@ -244,8 +245,10 @@ window.addEventListener("message", (event) => {
 
     final fees = await runWithLoader<MoneygramFees>(
       this,
-      () => sl<MoneygramFeesService>()
-          .fetchFees(amount: submittedAmount, type: type),
+      () => sl<MoneygramFeesService>().fetchFees(
+        amount: submittedAmount,
+        type: type,
+      ),
     );
 
     final priorityFee = fees.priorityFee;
@@ -262,21 +265,21 @@ window.addEventListener("message", (event) => {
 
     await sl<MoneygramOffRampOrderService>()
         .createMoneygramOrder(
-      submittedAmount: submittedAmount,
-      receiveAmount: receiveAmount as FiatAmount,
-      countryCode: profile.country.code,
-      priorityFee: priorityFee,
-      gasFee: fees.gasFeeInUsdc as CryptoAmount,
-    )
+          submittedAmount: submittedAmount,
+          receiveAmount: receiveAmount as FiatAmount,
+          countryCode: profile.country.code,
+          priorityFee: priorityFee,
+          gasFee: fees.gasFeeInUsdc as CryptoAmount,
+        )
         .then((order) {
-      switch (order) {
-        case Left<Exception, String>():
-          showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+          switch (order) {
+            case Left<Exception, String>():
+              showCpErrorSnackbar(this, message: l10n.tryAgainLater);
 
-        case Right<Exception, String>(:final value):
-          OffRampOrderScreen.push(this, id: value);
-      }
-    });
+            case Right<Exception, String>(:final value):
+              OffRampOrderScreen.push(this, id: value);
+          }
+        });
   }
 
   Future<MoneygramLink?> _generateDepositLink({required double amount}) =>
@@ -324,10 +327,7 @@ window.addEventListener("message", (event) => {
 
     return Either.right(
       receiveAmount.currency != currency
-          ? receiveAmount.convert(
-              rate: rate,
-              to: currency,
-            )
+          ? receiveAmount.convert(rate: rate, to: currency)
           : fees.receiveAmount,
     );
   }
@@ -349,44 +349,38 @@ window.addEventListener("message", (event) => {
         fees.moneygramFee + fees.bridgeFee + fees.gasFeeInUsdc,
     };
 
-    final convertedTotalFees = totalFees.currency != currency
-        ? totalFees.convert(rate: rate, to: currency)
-        : totalFees;
+    final convertedTotalFees =
+        totalFees.currency != currency
+            ? totalFees.convert(rate: rate, to: currency)
+            : totalFees;
 
-    return Either.right(
-      (
-        ourFee: null,
-        partnerFee: null,
-        extraFee: null,
-        totalFee: convertedTotalFees,
-      ),
-    );
+    return Either.right((
+      ourFee: null,
+      partnerFee: null,
+      extraFee: null,
+      totalFee: convertedTotalFees,
+    ));
   }
 
-  Future<Decimal?> _getExchangeRate({
-    required Currency to,
-  }) =>
-      runWithLoader<Decimal?>(
-        this,
-        () async {
-          try {
-            final rates = await sl<EspressoCashClient>()
-                .fetchFiatRate(
-                  FiatRateRequestDto(
-                    base: Currency.usd.symbol,
-                    target: to.symbol,
-                  ),
-                )
-                .then((rates) => rates.rate);
+  Future<Decimal?> _getExchangeRate({required Currency to}) =>
+      runWithLoader<Decimal?>(this, () async {
+        try {
+          final rates = await sl<EspressoCashClient>()
+              .fetchFiatRate(
+                FiatRateRequestDto(
+                  base: Currency.usd.symbol,
+                  target: to.symbol,
+                ),
+              )
+              .then((rates) => rates.rate);
 
-            return Decimal.parse(rates.toString());
-          } on Exception catch (error) {
-            reportError(error);
+          return Decimal.parse(rates.toString());
+        } on Exception catch (error) {
+          reportError(error);
 
-            return null;
-          }
-        },
-      );
+          return null;
+        }
+      });
 
   String _formatExchangeRate({
     required Currency from,

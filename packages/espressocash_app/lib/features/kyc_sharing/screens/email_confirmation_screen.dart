@@ -33,27 +33,24 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
   bool get _isValid => _controller.text.length == 6;
 
   Future<void> _handleConfirm() async {
-    final success = await runWithLoader<bool>(
-      context,
-      () async {
-        try {
-          await sl<KycSharingService>().verifyEmail(code: _controller.text);
+    final success = await runWithLoader<bool>(context, () async {
+      try {
+        await sl<KycSharingService>().verifyEmail(code: _controller.text);
 
-          return true;
-        } on KycException catch (error) {
-          if (!mounted) return false;
+        return true;
+      } on KycException catch (error) {
+        if (!mounted) return false;
 
-          final message = switch (error) {
-            KycInvalidCode() => context.l10n.wrongVerificationCode,
-            _ => context.l10n.tryAgainLater,
-          };
+        final message = switch (error) {
+          KycInvalidCode() => context.l10n.wrongVerificationCode,
+          _ => context.l10n.tryAgainLater,
+        };
 
-          showCpErrorSnackbar(context, message: message);
+        showCpErrorSnackbar(context, message: message);
 
-          return false;
-        }
-      },
-    );
+        return false;
+      }
+    });
 
     if (!mounted) return;
     if (success) Navigator.pop(context, true);
@@ -67,34 +64,36 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: context.l10n.emailVerification.toUpperCase(),
-        children: [
-          Text(
-            context.l10n
-                .checkEmailText(sl<KycSharingService>().value?.getEmail ?? ''),
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 16,
-              height: 21 / 16,
-              letterSpacing: .19,
-            ),
-          ),
-          const SizedBox(height: 16),
-          KycTextField(
-            controller: _controller,
-            inputType: TextInputType.number,
-            placeholder: context.l10n.enterVerificationCode,
-          ),
-          const SizedBox(height: 16),
-          const Spacer(),
-          ListenableBuilder(
-            listenable: _controller,
-            builder: (context, child) => CpBottomButton(
+    title: context.l10n.emailVerification.toUpperCase(),
+    children: [
+      Text(
+        context.l10n.checkEmailText(
+          sl<KycSharingService>().value?.getEmail ?? '',
+        ),
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 16,
+          height: 21 / 16,
+          letterSpacing: .19,
+        ),
+      ),
+      const SizedBox(height: 16),
+      KycTextField(
+        controller: _controller,
+        inputType: TextInputType.number,
+        placeholder: context.l10n.enterVerificationCode,
+      ),
+      const SizedBox(height: 16),
+      const Spacer(),
+      ListenableBuilder(
+        listenable: _controller,
+        builder:
+            (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.verify,
               onPressed: _isValid ? _handleConfirm : null,
             ),
-          ),
-        ],
-      );
+      ),
+    ],
+  );
 }

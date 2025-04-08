@@ -17,38 +17,39 @@ class BalanceAmount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
-        create: () => (
+    create:
+        () => (
           sl<TokenFiatBalanceService>().watchMainBalance(),
           Amount.zero(currency: Currency.usd),
         ),
-        builder: (context, amount) {
-          final formattedAmount = amount.format(
-            DeviceLocale.localeOf(context),
-            roundInteger: amount.isZero,
-          );
-
-          return GestureDetector(
-            onTap: () => TokenDetailsScreen.push(context, token: Token.usdc),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                FittedBox(
-                  child: Text(
-                    formattedAmount,
-                    style: const TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      letterSpacing: -1,
-                    ),
-                  ),
-                ).let((it) => amount.isZero ? it : Flexible(child: it)),
-                const SizedBox(width: 8),
-                const TokenIcon(token: Token.usdc, size: 30),
-              ],
-            ),
-          );
-        },
+    builder: (context, amount) {
+      final formattedAmount = amount.format(
+        DeviceLocale.localeOf(context),
+        roundInteger: amount.isZero,
       );
+
+      return GestureDetector(
+        onTap: () => TokenDetailsScreen.push(context, token: Token.usdc),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            FittedBox(
+              child: Text(
+                formattedAmount,
+                style: const TextStyle(
+                  fontSize: 48,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  letterSpacing: -1,
+                ),
+              ),
+            ).let((it) => amount.isZero ? it : Flexible(child: it)),
+            const SizedBox(width: 8),
+            const TokenIcon(token: Token.usdc, size: 30),
+          ],
+        ),
+      );
+    },
+  );
 }

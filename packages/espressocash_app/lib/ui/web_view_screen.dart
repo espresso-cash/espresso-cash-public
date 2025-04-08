@@ -10,10 +10,7 @@ import 'snackbar.dart';
 import 'theme.dart';
 
 extension LinkOpenerExt on BuildContext {
-  Future<void> openLink(
-    String link, {
-    bool openInApp = false,
-  }) async {
+  Future<void> openLink(String link, {bool openInApp = false}) async {
     try {
       final url = Uri.parse(link);
 
@@ -34,10 +31,7 @@ extension LinkOpenerExt on BuildContext {
         theme: null,
       );
     } on FormatException catch (_) {
-      showCpErrorSnackbar(
-        this,
-        message: l10n.tryAgainLater,
-      );
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
     }
   }
 }
@@ -59,18 +53,18 @@ class WebViewScreen extends StatefulWidget {
     ValueSetter<InAppWebViewController>? onLoaded,
     VoidCallback? onClosed,
     CpThemeData? theme,
-  }) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => WebViewScreen(
+  }) => Navigator.of(context).push<void>(
+    MaterialPageRoute(
+      builder:
+          (context) => WebViewScreen(
             url: url,
             title: title,
             onLoaded: onLoaded,
             theme: theme,
             onClosed: onClosed,
           ),
-        ),
-      );
+    ),
+  );
 
   final Uri url;
   final String? title;
@@ -120,11 +114,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
   }
 
   void _handleError(String type, String details, [String? url]) {
-    final error = WebViewException(
-      type: type,
-      details: details,
-      url: url,
-    );
+    final error = WebViewException(type: type, details: details, url: url);
     reportWebViewError(error);
   }
 
@@ -135,13 +125,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
     return CpTheme(
       theme: theme,
       child: Scaffold(
-        appBar: CpAppBar(
-          title: Text(_title ?? context.l10n.loading),
-        ),
+        appBar: CpAppBar(title: Text(_title ?? context.l10n.loading)),
         body: InAppWebView(
           initialUrlRequest: URLRequest(url: WebUri.uri(widget.url)),
-          onPermissionRequest: (_, permissionRequest) =>
-              _handlePermissionRequest(permissionRequest.resources),
+          onPermissionRequest:
+              (_, permissionRequest) =>
+                  _handlePermissionRequest(permissionRequest.resources),
           onLoadStop: (controller, _) => _handleLoaded(controller),
           onCloseWindow: (_) => _handleWindowClosed(),
           onConsoleMessage: (controller, consoleMessage) async {
@@ -153,16 +142,18 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
             _handleError('Console', consoleMessage.message, url?.toString());
           },
-          onReceivedError: (_, request, error) => _handleError(
-            'JavaScript',
-            error.toString(),
-            request.url.toString(),
-          ),
-          onReceivedHttpError: (_, request, error) => _handleError(
-            'HTTP',
-            error.toString(),
-            request.url.toString(),
-          ),
+          onReceivedError:
+              (_, request, error) => _handleError(
+                'JavaScript',
+                error.toString(),
+                request.url.toString(),
+              ),
+          onReceivedHttpError:
+              (_, request, error) => _handleError(
+                'HTTP',
+                error.toString(),
+                request.url.toString(),
+              ),
           initialSettings: InAppWebViewSettings(
             iframeAllowFullscreen: false,
             allowsInlineMediaPlayback: true,
@@ -176,11 +167,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
 }
 
 class WebViewException implements Exception {
-  const WebViewException({
-    required this.type,
-    required this.details,
-    this.url,
-  });
+  const WebViewException({required this.type, required this.details, this.url});
 
   final String type;
   final String details;
@@ -188,8 +175,8 @@ class WebViewException implements Exception {
 
   @override
   String toString() => [
-        'WebView $type Error:',
-        details,
-        if (url case final url?) 'URL: $url',
-      ].join('\n');
+    'WebView $type Error:',
+    details,
+    if (url case final url?) 'URL: $url',
+  ].join('\n');
 }

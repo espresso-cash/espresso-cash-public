@@ -20,17 +20,17 @@ import '../utils/kyc_exception.dart';
 @Singleton(scope: authScope)
 class KycSharingService extends ValueNotifier<UserData?> {
   KycSharingService(this._kycRepository, this._featureFlagsManager)
-      : super(null);
+    : super(null);
 
   final KycRepository _kycRepository;
   final FeatureFlagsManager _featureFlagsManager;
 
   final _isInitialized = Completer<void>();
   Future<void> get initialized => _isInitialized.future.then((_) async {
-        if (value == null) {
-          await _fetchUserData();
-        }
-      });
+    if (value == null) {
+      await _fetchUserData();
+    }
+  });
 
   @PostConstruct()
   void init() {
@@ -58,12 +58,14 @@ class KycSharingService extends ValueNotifier<UserData?> {
     final phoneStatus = user?.phone?.status;
 
     value = value?.copyWith(
-      email: emailStatus != null
-          ? value?.email?.copyWith(status: emailStatus)
-          : value?.email,
-      phone: phoneStatus != null
-          ? value?.phone?.copyWith(status: phoneStatus)
-          : value?.phone,
+      email:
+          emailStatus != null
+              ? value?.email?.copyWith(status: emailStatus)
+              : value?.email,
+      phone:
+          phoneStatus != null
+              ? value?.phone?.copyWith(status: phoneStatus)
+              : value?.phone,
     );
     notifyListeners();
   }
@@ -83,10 +85,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
         id: value?.name?.id ?? '',
       ),
       birthDate: dob?.let(
-        (e) => BirthDate(
-          value: e,
-          id: value?.birthDate?.id ?? '',
-        ),
+        (e) => BirthDate(value: e, id: value?.birthDate?.id ?? ''),
       ),
       citizenship: Citizenship(
         value: citizenshipCode ?? '',
@@ -168,11 +167,12 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
     final requiredCountries = requirements.requiredCountryCodes;
     final documents = user.documents?.let(
-      (e) => requiredCountries.isNotEmpty
-          ? e
-              .where((doc) => requiredCountries.contains(doc.countryCode))
-              .toList()
-          : e,
+      (e) =>
+          requiredCountries.isNotEmpty
+              ? e
+                  .where((doc) => requiredCountries.contains(doc.countryCode))
+                  .toList()
+              : e,
     );
 
     if (documents == null) {
@@ -235,12 +235,13 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<void> updateSelfiePhoto({File? photoSelfie}) async {
     await _kycRepository.updateUserData(
-      selfie: photoSelfie != null
-          ? Selfie(
-              value: await photoSelfie.readAsBytes(),
-              id: value?.selfie?.id ?? '',
-            )
-          : null,
+      selfie:
+          photoSelfie != null
+              ? Selfie(
+                value: await photoSelfie.readAsBytes(),
+                id: value?.selfie?.id ?? '',
+              )
+              : null,
     );
 
     await _fetchUserData();
@@ -251,10 +252,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
       await _kycRepository.grantValidatorAccess();
 
       await _kycRepository.updateUserData(
-        email: Email(
-          value: email,
-          id: value?.email?.id ?? '',
-        ),
+        email: Email(value: email, id: value?.email?.id ?? ''),
       );
 
       await _fetchUserData();
@@ -283,10 +281,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
   Future<void> initPhoneVerification({required String phone}) async {
     try {
       await _kycRepository.updateUserData(
-        phone: Phone(
-          value: phone,
-          id: value?.phone?.id ?? '',
-        ),
+        phone: Phone(value: phone, id: value?.phone?.id ?? ''),
       );
 
       await _fetchUserData();
@@ -317,13 +312,14 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<({String termsUrl, String policyUrl})> fetchPartnerTermsAndPolicy(
     String partnerPk,
-  ) =>
-      _kycRepository.fetchPartnerInfo(partnerPk).then(
-            (partner) => (
-              termsUrl: partner.termsUrl,
-              policyUrl: partner.privacyUrl,
-            ),
-          );
+  ) => _kycRepository
+      .fetchPartnerInfo(partnerPk)
+      .then(
+        (partner) => (
+          termsUrl: partner.termsUrl,
+          policyUrl: partner.privacyUrl,
+        ),
+      );
 
   Future<KycValidationStatus> getKycStatus({required String country}) =>
       _kycRepository.fetchKycStatus(country: country);

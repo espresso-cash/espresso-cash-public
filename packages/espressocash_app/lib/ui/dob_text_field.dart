@@ -16,27 +16,22 @@ class CpDobTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpTextField(
-        padding: const EdgeInsets.only(
-          top: 18,
-          bottom: 16,
-          left: 26,
-          right: 26,
-        ),
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp('[0-9-/]')),
-          LengthLimitingTextInputFormatter(10),
-          const _DateInputFormatter(),
-        ],
-        fontWeight: FontWeight.w500,
-        fontSize: 16,
-        controller: controller,
-        inputType: TextInputType.datetime,
-        textInputAction: TextInputAction.next,
-        backgroundColor: CpColors.lightGreyColor,
-        placeholder: placeholder,
-        placeholderColor: CpColors.greyColor,
-        textColor: Colors.white,
-      );
+    padding: const EdgeInsets.only(top: 18, bottom: 16, left: 26, right: 26),
+    inputFormatters: [
+      FilteringTextInputFormatter.allow(RegExp('[0-9-/]')),
+      LengthLimitingTextInputFormatter(10),
+      const _DateInputFormatter(),
+    ],
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    controller: controller,
+    inputType: TextInputType.datetime,
+    textInputAction: TextInputAction.next,
+    backgroundColor: CpColors.lightGreyColor,
+    placeholder: placeholder,
+    placeholderColor: CpColors.greyColor,
+    textColor: Colors.white,
+  );
 }
 
 class _DateInputFormatter extends TextInputFormatter {
@@ -122,7 +117,7 @@ class _DateInputFormatter extends TextInputFormatter {
   }
 
   TextEditingValue _updateText(String text) => TextEditingValue(
-        text: text,
-        selection: TextSelection.collapsed(offset: text.length),
-      );
+    text: text,
+    selection: TextSelection.collapsed(offset: text.length),
+  );
 }

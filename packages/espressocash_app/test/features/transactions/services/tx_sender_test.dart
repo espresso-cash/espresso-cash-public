@@ -22,14 +22,11 @@ Future<void> main() async {
     final message = Message.only(
       MemoInstruction(signers: [sender.publicKey], memo: 'Sends tx'),
     );
-    final latestBlockhash = await client.rpcClient
-        .getLatestBlockhash(commitment: Commitment.confirmed)
-        .value;
-    final tx = await signTransaction(
-      latestBlockhash,
-      message,
-      [sender],
-    );
+    final latestBlockhash =
+        await client.rpcClient
+            .getLatestBlockhash(commitment: Commitment.confirmed)
+            .value;
+    final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     final result = await service.send(tx, minContextSlot: BigInt.zero);
 
@@ -56,14 +53,11 @@ Future<void> main() async {
     final message = Message.only(
       MemoInstruction(signers: [sender.publicKey], memo: 'Duplicate'),
     );
-    final latestBlockhash = await client.rpcClient
-        .getLatestBlockhash(commitment: Commitment.confirmed)
-        .value;
-    final tx = await signTransaction(
-      latestBlockhash,
-      message,
-      [sender],
-    );
+    final latestBlockhash =
+        await client.rpcClient
+            .getLatestBlockhash(commitment: Commitment.confirmed)
+            .value;
+    final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     await service.send(tx, minContextSlot: BigInt.zero);
     await client.waitForSignatureStatus(tx.id, status: Commitment.confirmed);
@@ -89,10 +83,7 @@ Future<void> main() async {
 
     final result = await service.send(tx, minContextSlot: BigInt.zero);
 
-    expect(
-      result,
-      const TxSendResult.failure(reason: TxFailureReason.txError),
-    );
+    expect(result, const TxSendResult.failure(reason: TxFailureReason.txError));
   });
 
   test('Wait for confirmation', () async {
@@ -102,14 +93,11 @@ Future<void> main() async {
         memo: 'Wait for confirmation',
       ),
     );
-    final latestBlockhash = await client.rpcClient
-        .getLatestBlockhash(commitment: Commitment.confirmed)
-        .value;
-    final tx = await signTransaction(
-      latestBlockhash,
-      message,
-      [sender],
-    );
+    final latestBlockhash =
+        await client.rpcClient
+            .getLatestBlockhash(commitment: Commitment.confirmed)
+            .value;
+    final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     await service.send(tx, minContextSlot: BigInt.zero);
     final result = await service.wait(
@@ -128,14 +116,11 @@ Future<void> main() async {
         memo: 'Wait for confirmation if already confirmed',
       ),
     );
-    final latestBlockhash = await client.rpcClient
-        .getLatestBlockhash(commitment: Commitment.confirmed)
-        .value;
-    final tx = await signTransaction(
-      latestBlockhash,
-      message,
-      [sender],
-    );
+    final latestBlockhash =
+        await client.rpcClient
+            .getLatestBlockhash(commitment: Commitment.confirmed)
+            .value;
+    final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     await service.send(tx, minContextSlot: BigInt.zero);
     await client.waitForSignatureStatus(tx.id, status: Commitment.confirmed);

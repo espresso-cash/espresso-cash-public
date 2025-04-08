@@ -19,9 +19,7 @@ sealed class QrAddressData with _$QrAddressData {
 
   static QrAddressData? tryParse(String data) {
     if (isValidAddress(data)) {
-      return QrAddressData.solana(
-        address: Ed25519HDPublicKey.fromBase58(data),
-      );
+      return QrAddressData.solana(address: Ed25519HDPublicKey.fromBase58(data));
     }
 
     final address = Uri.tryParse(data)?.let((p) => p.path);

@@ -19,13 +19,14 @@ class Wrapper extends StatelessWidget {
 
     return CpTheme.light(
       child: Builder(
-        builder: (context) => MaterialApp(
-          theme: context.watch<CpThemeData>().toMaterialTheme(),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          debugShowCheckedModeBanner: false,
-          home: child,
-        ),
+        builder:
+            (context) => MaterialApp(
+              theme: context.watch<CpThemeData>().toMaterialTheme(),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              debugShowCheckedModeBanner: false,
+              home: child,
+            ),
       ),
     );
   }

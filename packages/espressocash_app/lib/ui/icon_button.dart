@@ -3,21 +3,9 @@ import 'package:flutter_svg/svg.dart';
 
 import 'colors.dart';
 
-enum CpIconButtonVariant {
-  dark,
-  grey,
-  light,
-  black,
-  transparent,
-}
+enum CpIconButtonVariant { dark, grey, light, black, transparent }
 
-enum CpIconButtonSize {
-  large,
-  big,
-  normal,
-  small,
-  micro,
-}
+enum CpIconButtonSize { large, big, normal, small, micro }
 
 class CpIconButton extends StatelessWidget {
   const CpIconButton({
@@ -65,16 +53,16 @@ class CpIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: _size,
-        decoration: ShapeDecoration(
-          shape: const CircleBorder(),
-          color: _backgroundColor,
-        ),
-        child: IconButton(
-          iconSize: _size,
-          padding: const EdgeInsets.all(6),
-          icon: icon,
-          onPressed: onPressed,
-        ),
-      );
+    width: _size,
+    decoration: ShapeDecoration(
+      shape: const CircleBorder(),
+      color: _backgroundColor,
+    ),
+    child: IconButton(
+      iconSize: _size,
+      padding: const EdgeInsets.all(6),
+      icon: icon,
+      onPressed: onPressed,
+    ),
+  );
 }

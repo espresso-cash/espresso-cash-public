@@ -74,39 +74,33 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   }
 
   Future<void> _handleSubmitted() async {
-    final success = await runWithLoader<bool>(
-      context,
-      () async {
-        try {
-          final DateTime? dob = _parseDate(_dobController.text);
-          final countryCode = _citizenship?.code;
+    final success = await runWithLoader<bool>(context, () async {
+      try {
+        final DateTime? dob = _parseDate(_dobController.text);
+        final countryCode = _citizenship?.code;
 
-          if (countryCode == null) {
-            throw Exception();
-          }
-
-          await sl<KycSharingService>().updatePersonalInfo(
-            firstName: _firstNameController.text,
-            lastName: _lastNameController.text,
-            dob: dob,
-            citizenshipCode: countryCode,
-          );
-
-          if (!mounted) return false;
-
-          return true;
-        } on Exception {
-          if (!mounted) return false;
-
-          showCpErrorSnackbar(
-            context,
-            message: context.l10n.failedToUpdateData,
-          );
-
-          return false;
+        if (countryCode == null) {
+          throw Exception();
         }
-      },
-    );
+
+        await sl<KycSharingService>().updatePersonalInfo(
+          firstName: _firstNameController.text,
+          lastName: _lastNameController.text,
+          dob: dob,
+          citizenshipCode: countryCode,
+        );
+
+        if (!mounted) return false;
+
+        return true;
+      } on Exception {
+        if (!mounted) return false;
+
+        showCpErrorSnackbar(context, message: context.l10n.failedToUpdateData);
+
+        return false;
+      }
+    });
     if (!mounted) return;
     if (success) Navigator.pop(context, true);
   }
@@ -124,45 +118,46 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: 'Personal Information'.toUpperCase(),
-        children: [
-          KycTextField(
-            controller: _firstNameController,
-            inputType: TextInputType.name,
-            placeholder: context.l10n.firstName,
-          ),
-          const SizedBox(height: 10),
-          KycTextField(
-            controller: _lastNameController,
-            inputType: TextInputType.name,
-            placeholder: context.l10n.lastName,
-          ),
-          const SizedBox(height: 10),
-          CpDobTextField(
-            controller: _dobController,
-            placeholder: context.l10n.dateOfBirth,
-          ),
-          const SizedBox(height: 10),
-          CountryPicker(
-            backgroundColor: CpColors.blackGreyColor,
-            placeholder: 'Country of Citizenship',
-            country: _citizenship,
-            onSubmitted: (country) => setState(() => _citizenship = country),
-          ),
-          const SizedBox(height: 28),
-          const Spacer(),
-          ListenableBuilder(
-            listenable: Listenable.merge([
-              _firstNameController,
-              _lastNameController,
-              _dobController,
-            ]),
-            builder: (context, child) => CpBottomButton(
+    title: 'Personal Information'.toUpperCase(),
+    children: [
+      KycTextField(
+        controller: _firstNameController,
+        inputType: TextInputType.name,
+        placeholder: context.l10n.firstName,
+      ),
+      const SizedBox(height: 10),
+      KycTextField(
+        controller: _lastNameController,
+        inputType: TextInputType.name,
+        placeholder: context.l10n.lastName,
+      ),
+      const SizedBox(height: 10),
+      CpDobTextField(
+        controller: _dobController,
+        placeholder: context.l10n.dateOfBirth,
+      ),
+      const SizedBox(height: 10),
+      CountryPicker(
+        backgroundColor: CpColors.blackGreyColor,
+        placeholder: 'Country of Citizenship',
+        country: _citizenship,
+        onSubmitted: (country) => setState(() => _citizenship = country),
+      ),
+      const SizedBox(height: 28),
+      const Spacer(),
+      ListenableBuilder(
+        listenable: Listenable.merge([
+          _firstNameController,
+          _lastNameController,
+          _dobController,
+        ]),
+        builder:
+            (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.next,
               onPressed: _isValid ? _handleSubmitted : null,
             ),
-          ),
-        ],
-      );
+      ),
+    ],
+  );
 }

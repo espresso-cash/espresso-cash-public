@@ -16,9 +16,4 @@ class TransactionRequestPayment with _$TransactionRequestPayment {
   }) = _OutgoingDirectPayment;
 }
 
-enum TRStatus {
-  created,
-  sent,
-  success,
-  failure,
-}
+enum TRStatus { created, sent, success, failure }

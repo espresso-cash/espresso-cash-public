@@ -12,15 +12,10 @@ class AnalyticsManager {
     required String from,
     required String to,
     required int amount,
-  }) =>
-      _analytics.track(
-        'swapTransactionCreated',
-        properties: {
-          'from': from,
-          'to': to,
-          'amount': amount,
-        },
-      );
+  }) => _analytics.track(
+    'swapTransactionCreated',
+    properties: {'from': from, 'to': to, 'amount': amount},
+  );
 
   void setWalletAddress(String? address) {
     if (address == null) {
@@ -47,64 +42,40 @@ class AnalyticsManager {
     _analytics.getPeople().set('profileCountryCode', countryCode);
   }
 
-  void singleLinkCreated({
-    required Decimal amount,
-  }) =>
-      _analytics.track(
-        'singleLinkCreated',
-        properties: {'amount': amount.toDouble()},
-      );
+  void singleLinkCreated({required Decimal amount}) => _analytics.track(
+    'singleLinkCreated',
+    properties: {'amount': amount.toDouble()},
+  );
 
-  void singleLinkCanceled({
-    required Decimal amount,
-  }) =>
-      _analytics.track(
-        'singleLinkCanceled',
-        properties: {'amount': amount.toDouble()},
-      );
+  void singleLinkCanceled({required Decimal amount}) => _analytics.track(
+    'singleLinkCanceled',
+    properties: {'amount': amount.toDouble()},
+  );
 
-  void singleLinkReceived({
-    required Decimal? amount,
-  }) =>
-      _analytics.track(
-        'singleLinkReceived',
-        properties: amount != null ? {'amount': amount.toDouble()} : {},
-      );
+  void singleLinkReceived({required Decimal? amount}) => _analytics.track(
+    'singleLinkReceived',
+    properties: amount != null ? {'amount': amount.toDouble()} : {},
+  );
 
-  void directPaymentSent({
-    required Decimal amount,
-  }) =>
-      _analytics.track(
-        'directPaymentSent',
-        properties: {'amount': amount.toDouble()},
-      );
+  void directPaymentSent({required Decimal amount}) => _analytics.track(
+    'directPaymentSent',
+    properties: {'amount': amount.toDouble()},
+  );
 
-  void paymentRequestLinkCreated({
-    required Decimal amount,
-  }) =>
-      _analytics.track(
-        'paymentRequestLinkCreated',
-        properties: {'amount': amount.toDouble()},
-      );
+  void paymentRequestLinkCreated({required Decimal amount}) => _analytics.track(
+    'paymentRequestLinkCreated',
+    properties: {'amount': amount.toDouble()},
+  );
 
-  void paymentRequestLinkPaid({
-    required Decimal amount,
-  }) =>
-      _analytics.track(
-        'paymentRequestLinkPaid',
-        properties: {'amount': amount.toDouble()},
-      );
+  void paymentRequestLinkPaid({required Decimal amount}) => _analytics.track(
+    'paymentRequestLinkPaid',
+    properties: {'amount': amount.toDouble()},
+  );
 
-  void rampOpened({
-    required String partnerName,
-    required String rampType,
-  }) =>
+  void rampOpened({required String partnerName, required String rampType}) =>
       _analytics.track(
         'rampOpened',
-        properties: {
-          'partner': partnerName,
-          'type': rampType,
-        },
+        properties: {'partner': partnerName, 'type': rampType},
       );
 
   void rampInitiated({
@@ -113,29 +84,23 @@ class AnalyticsManager {
     required String? amount,
     required String countryCode,
     required String id,
-  }) =>
-      _analytics.track(
-        'rampStarted',
-        properties: {
-          'partner': partnerName,
-          'type': rampType,
-          'amount': amount,
-          'countryCode': countryCode,
-          'id': id,
-        },
-      );
+  }) => _analytics.track(
+    'rampStarted',
+    properties: {
+      'partner': partnerName,
+      'type': rampType,
+      'amount': amount,
+      'countryCode': countryCode,
+      'id': id,
+    },
+  );
 
   void rampCompleted({
     required String partnerName,
     required String rampType,
     required String id,
-  }) =>
-      _analytics.track(
-        'rampCompleted',
-        properties: {
-          'partner': partnerName,
-          'type': rampType,
-          'id': id,
-        },
-      );
+  }) => _analytics.track(
+    'rampCompleted',
+    properties: {'partner': partnerName, 'type': rampType, 'id': id},
+  );
 }

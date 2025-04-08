@@ -15,9 +15,9 @@ class _NumericKey extends KeypadKey {
 
   @override
   Widget build(BuildContext context) => Text(
-        value,
-        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      );
+    value,
+    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+  );
 }
 
 class _BackspaceKey extends KeypadKey {
@@ -28,9 +28,9 @@ class _BackspaceKey extends KeypadKey {
 
   @override
   Widget build(BuildContext context) => Assets.icons.keyDelete.svg(
-        height: 22,
-        color: CpTheme.of(context).primaryTextColor,
-      );
+    height: 22,
+    color: CpTheme.of(context).primaryTextColor,
+  );
 }
 
 class _EmptyKey extends KeypadKey {
@@ -51,9 +51,9 @@ class _DecimalSeparatorKey extends KeypadKey {
 
   @override
   Widget build(BuildContext context) => Text(
-        getDecimalSeparator(DeviceLocale.localeOf(context)),
-        style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
-      );
+    getDecimalSeparator(DeviceLocale.localeOf(context)),
+    style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+  );
 }
 
 abstract class KeypadKey extends StatelessWidget {

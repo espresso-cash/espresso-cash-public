@@ -22,10 +22,7 @@ void showCpSnackbar(
               child: icon,
             ),
           Expanded(
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.white),
-            ),
+            child: Text(message, style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -43,7 +40,7 @@ void showCpErrorSnackbar(BuildContext context, {required String message}) =>
     );
 
 void showClipboardSnackbar(BuildContext context) => showCpSnackbar(
-      context,
-      message: context.l10n.copiedToClipboard,
-      icon: const Icon(Icons.check, color: Colors.green),
-    );
+  context,
+  message: context.l10n.copiedToClipboard,
+  icon: const Icon(Icons.check, color: Colors.green),
+);

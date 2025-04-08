@@ -27,7 +27,8 @@ Future<EscrowAccount?> validateEscrow({
 }) async {
   final usdcAta = await findAssociatedTokenAddress(owner: address, mint: mint);
 
-  final doesAccountExist = await client.rpcClient
+  final doesAccountExist =
+      await client.rpcClient
           .getAccountInfo(
             usdcAta.toBase58(),
             encoding: Encoding.base64,
@@ -77,10 +78,9 @@ Future<EscrowAccount?> validateEscrow({
             final tx = details.transaction;
             if (tx is! RawTransaction) return false;
 
-            return SignedTx.fromBytes(tx.data)
-                .signatures
-                .map((e) => e.publicKey)
-                .contains(address);
+            return SignedTx.fromBytes(
+              tx.data,
+            ).signatures.map((e) => e.publicKey).contains(address);
           }),
         );
 
@@ -88,11 +88,12 @@ Future<EscrowAccount?> validateEscrow({
       await Sentry.captureMessage(
         'Invalid number of signatures for escrow account',
         level: SentryLevel.warning,
-        withScope: (scope) => scope.setContexts('data', {
-          'length': escrowTransactions.length,
-          'address': address.toBase58(),
-          'commitment': commitment.value,
-        }),
+        withScope:
+            (scope) => scope.setContexts('data', {
+              'length': escrowTransactions.length,
+              'address': address.toBase58(),
+              'commitment': commitment.value,
+            }),
       );
 
       throw const EscrowException.invalidEscrow();

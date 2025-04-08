@@ -10,10 +10,7 @@ import 'kyc_service.dart';
 
 @Singleton(scope: authScope)
 class PendingKycService {
-  PendingKycService(
-    this._sharedPreferences,
-    this._kycService,
-  );
+  PendingKycService(this._sharedPreferences, this._kycService);
 
   final SharedPreferences _sharedPreferences;
   final KycSharingService _kycService;
@@ -47,12 +44,13 @@ class PendingKycService {
       Stream<void>.periodic(const Duration(seconds: 15))
           .startWith(null)
           .exhaustMap(
-            (_) => fetchKycStatus(country: country)
-                .timeout(
-                  const Duration(seconds: 8),
-                  onTimeout: () => KycValidationStatus.unverified,
-                )
-                .asStream(),
+            (_) =>
+                fetchKycStatus(country: country)
+                    .timeout(
+                      const Duration(seconds: 8),
+                      onTimeout: () => KycValidationStatus.unverified,
+                    )
+                    .asStream(),
           );
 
   Future<KycValidationStatus> fetchKycStatus({required String country}) =>

@@ -15,12 +15,12 @@ class AuthenticatedFlowScreen extends StatefulWidget {
   static void open(BuildContext context, {NavigatorState? navigator}) =>
       (navigator ?? Navigator.of(context, rootNavigator: true))
           .pushAndRemoveUntil<void>(
-        PageRouteBuilder(
-          pageBuilder: (context, _, __) => const AuthenticatedFlowScreen(),
-          transitionDuration: Duration.zero,
-        ),
-        F,
-      );
+            PageRouteBuilder(
+              pageBuilder: (context, _, __) => const AuthenticatedFlowScreen(),
+              transitionDuration: Duration.zero,
+            ),
+            F,
+          );
 
   @override
   State<AuthenticatedFlowScreen> createState() =>
@@ -44,15 +44,13 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
 
   @override
   Widget build(BuildContext _) => ValueListenableBuilder(
-        valueListenable: sl<AccountService>(),
-        builder: (context, account, child) {
-          if (account == null) return const SplashScreen();
+    valueListenable: sl<AccountService>(),
+    builder: (context, account, child) {
+      if (account == null) return const SplashScreen();
 
-          return const BackupPhraseModule(
-            child: MobileWalletListener(
-              child: HomeScreen(),
-            ),
-          );
-        },
+      return const BackupPhraseModule(
+        child: MobileWalletListener(child: HomeScreen()),
       );
+    },
+  );
 }

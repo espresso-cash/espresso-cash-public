@@ -102,9 +102,7 @@ class ODPService {
 
       return ODPStatus.txCreated(tx, slot: response.slot);
     } on Exception {
-      return const ODPStatus.txFailure(
-        reason: TxFailureReason.creatingFailure,
-      );
+      return const ODPStatus.txFailure(reason: TxFailureReason.creatingFailure);
     }
   }
 
@@ -112,18 +110,19 @@ class ODPService {
     _subscriptions[paymentId] = _repository
         .watch(paymentId)
         .asyncExpand<OutgoingDirectPayment?>((payment) {
-      switch (payment.status) {
-        case ODPStatusTxCreated():
-          return _send(payment).asStream();
-        case ODPStatusTxSent():
-          return _wait(payment).asStream();
-        case ODPStatusSuccess():
-        case ODPStatusTxFailure():
-          _subscriptions.remove(paymentId)?.cancel();
+          switch (payment.status) {
+            case ODPStatusTxCreated():
+              return _send(payment).asStream();
+            case ODPStatusTxSent():
+              return _wait(payment).asStream();
+            case ODPStatusSuccess():
+            case ODPStatusTxFailure():
+              _subscriptions.remove(paymentId)?.cancel();
 
-          return null;
-      }
-    }).listen((payment) => payment?.let(_repository.save));
+              return null;
+          }
+        })
+        .listen((payment) => payment?.let(_repository.save));
   }
 
   Future<OutgoingDirectPayment> _send(OutgoingDirectPayment payment) async {
@@ -135,13 +134,11 @@ class ODPService {
     final tx = await _txSender.send(status.tx, minContextSlot: status.slot);
 
     final ODPStatus? newStatus = tx.map(
-      sent: (_) => ODPStatus.txSent(
-        status.tx,
-        slot: status.slot,
-      ),
-      invalidBlockhash: (_) => const ODPStatus.txFailure(
-        reason: TxFailureReason.invalidBlockhashSending,
-      ),
+      sent: (_) => ODPStatus.txSent(status.tx, slot: status.slot),
+      invalidBlockhash:
+          (_) => const ODPStatus.txFailure(
+            reason: TxFailureReason.invalidBlockhashSending,
+          ),
       failure: (it) => ODPStatus.txFailure(reason: it.reason),
       networkError: (_) => null,
     );

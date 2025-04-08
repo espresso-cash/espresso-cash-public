@@ -13,11 +13,7 @@ import '../models/transaction.dart';
 import 'activity_tile.dart';
 
 class CommonTile extends StatelessWidget {
-  const CommonTile({
-    super.key,
-    required this.txCommon,
-    required this.showIcon,
-  });
+  const CommonTile({super.key, required this.txCommon, required this.showIcon});
 
   final TxCommon txCommon;
   final bool showIcon;
@@ -30,13 +26,14 @@ class CommonTile extends StatelessWidget {
 
     final isOutgoing =
         txCommon.amount?.let((e) => e.value.isNegative || e.value == 0) ??
-            false;
+        false;
 
-    final amount = isUnknown
-        ? null
-        : txCommon.amount
-            ?.let((e) => e.format(context.locale, maxDecimals: 9))
-            .let((e) => e.replaceAll('-', ''));
+    final amount =
+        isUnknown
+            ? null
+            : txCommon.amount
+                ?.let((e) => e.format(context.locale, maxDecimals: 9))
+                .let((e) => e.replaceAll('-', ''));
 
     return CpActivityTile(
       title: isOutgoing ? context.l10n.sentDirectly : context.l10n.received,

@@ -9,23 +9,24 @@ import 'theme.dart';
 void showErrorDialog(BuildContext context, String title, Exception e) =>
     showDialog<void>(
       context: context,
-      builder: (context) => Theme(
-        data: ThemeData.light(),
-        child: AlertDialog(
-          title: Text(title),
-          content: Text(
-            e.isConnectionError()
-                ? context.l10n.lblConnectionError
-                : context.l10n.lblUnknownError,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(context.l10n.ok),
+      builder:
+          (context) => Theme(
+            data: ThemeData.light(),
+            child: AlertDialog(
+              title: Text(title),
+              content: Text(
+                e.isConnectionError()
+                    ? context.l10n.lblConnectionError
+                    : context.l10n.lblUnknownError,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(context.l10n.ok),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
     );
 
 Future<T?> showCustomDialog<T>(
@@ -33,39 +34,33 @@ Future<T?> showCustomDialog<T>(
   Widget? title,
   Widget? message,
   Widget? actions,
-}) =>
-    showModalBottomSheet<T>(
-      context: context,
-      elevation: 0,
-      barrierColor: _barrierColor,
-      backgroundColor: CpColors.lightSandColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(44),
-          topRight: Radius.circular(44),
-        ),
-      ),
-      builder: (context) => CpTheme.black(
+}) => showModalBottomSheet<T>(
+  context: context,
+  elevation: 0,
+  barrierColor: _barrierColor,
+  backgroundColor: CpColors.lightSandColor,
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(44),
+      topRight: Radius.circular(44),
+    ),
+  ),
+  builder:
+      (context) => CpTheme.black(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(40, 40, 40, 48),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (title != null) ...[
-                title,
-                const SizedBox(height: 24),
-              ],
-              if (message != null) ...[
-                message,
-                const SizedBox(height: 32),
-              ],
+              if (title != null) ...[title, const SizedBox(height: 24)],
+              if (message != null) ...[message, const SizedBox(height: 32)],
               if (actions != null) actions,
             ],
           ),
         ),
       ),
-    );
+);
 
 Future<void> showConfirmationDialog(
   BuildContext context, {
@@ -76,19 +71,19 @@ Future<void> showConfirmationDialog(
   String? cancelLabel,
   TextStyle? titleStyle,
   TextStyle? messageStyle,
-}) =>
-    showModalBottomSheet(
-      context: context,
-      elevation: 0,
-      barrierColor: _barrierColor,
-      backgroundColor: CpColors.lightSandColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(44),
-          topRight: Radius.circular(44),
-        ),
-      ),
-      builder: (context) => CpTheme.black(
+}) => showModalBottomSheet(
+  context: context,
+  elevation: 0,
+  barrierColor: _barrierColor,
+  backgroundColor: CpColors.lightSandColor,
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(44),
+      topRight: Radius.circular(44),
+    ),
+  ),
+  builder:
+      (context) => CpTheme.black(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(40, 40, 40, 48),
           child: Column(
@@ -98,7 +93,8 @@ Future<void> showConfirmationDialog(
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: titleStyle ??
+                style:
+                    titleStyle ??
                     const TextStyle(
                       fontSize: 20,
                       color: Colors.white,
@@ -109,7 +105,8 @@ Future<void> showConfirmationDialog(
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: messageStyle ??
+                style:
+                    messageStyle ??
                     const TextStyle(
                       fontSize: 18,
                       color: Colors.white,
@@ -144,17 +141,17 @@ Future<void> showConfirmationDialog(
           ),
         ),
       ),
-    );
+);
 
 Future<void> showWarningDialog(
   BuildContext context, {
   required String title,
   required String message,
-}) =>
-    showDialog(
-      context: context,
-      barrierColor: _barrierColor,
-      builder: (context) => CpTheme.dark(
+}) => showDialog(
+  context: context,
+  barrierColor: _barrierColor,
+  builder:
+      (context) => CpTheme.dark(
         child: Dialog(
           elevation: 0,
           insetPadding: const EdgeInsets.symmetric(horizontal: 24),
@@ -199,6 +196,6 @@ Future<void> showWarningDialog(
           ),
         ),
       ),
-    );
+);
 
 final _barrierColor = Colors.black.withOpacity(0.75);

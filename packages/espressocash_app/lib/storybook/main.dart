@@ -52,7 +52,8 @@ class StorybookApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Storybook(
-        wrapperBuilder: (context, child) => MaterialApp(
+    wrapperBuilder:
+        (context, child) => MaterialApp(
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
           debugShowCheckedModeBanner: false,
@@ -63,49 +64,50 @@ class StorybookApp extends StatelessWidget {
               final brightness = Theme.of(context).brightness;
 
               return CpTheme(
-                theme: brightness == Brightness.dark
-                    ? const CpThemeData.dark()
-                    : const CpThemeData.light(),
+                theme:
+                    brightness == Brightness.dark
+                        ? const CpThemeData.dark()
+                        : const CpThemeData.light(),
                 child: Scaffold(body: Center(child: child)),
               );
             },
           ),
         ),
-        stories: [
-          offRampAmountScreenStory,
-          offRampOrderScreenStory,
-          outgoingDlnScreenStory,
-          onRampPartnerSelectScreen,
-          onRampOrderScreenStory,
-          walletMainScreen,
-          cpActivityTile,
-          cpAppBar,
-          cpBackgroundGradient,
-          cpBorderedRow,
-          cpBottomButton,
-          cpBulletItem,
-          cpButton,
-          cpChip,
-          cpContentPadding,
-          cpCryptoHeader,
-          cpDialog,
-          cpEmptyMessageWidget,
-          cpIconButton,
-          cpInfoWidget,
-          cpLoader,
-          cpNavigationBar,
-          cpRoundedRectangle,
-          cpShake,
-          cpSlider,
-          cpSnackbar,
-          cpStatus,
-          cpStatusScreen,
-          cpSwitch,
-          cpTabBar,
-          cpTextButton,
-          cpTextField,
-          cpTimeline,
-          cpUserAvatar,
-        ],
-      );
+    stories: [
+      offRampAmountScreenStory,
+      offRampOrderScreenStory,
+      outgoingDlnScreenStory,
+      onRampPartnerSelectScreen,
+      onRampOrderScreenStory,
+      walletMainScreen,
+      cpActivityTile,
+      cpAppBar,
+      cpBackgroundGradient,
+      cpBorderedRow,
+      cpBottomButton,
+      cpBulletItem,
+      cpButton,
+      cpChip,
+      cpContentPadding,
+      cpCryptoHeader,
+      cpDialog,
+      cpEmptyMessageWidget,
+      cpIconButton,
+      cpInfoWidget,
+      cpLoader,
+      cpNavigationBar,
+      cpRoundedRectangle,
+      cpShake,
+      cpSlider,
+      cpSnackbar,
+      cpStatus,
+      cpStatusScreen,
+      cpSwitch,
+      cpTabBar,
+      cpTextButton,
+      cpTextField,
+      cpTimeline,
+      cpUserAvatar,
+    ],
+  );
 }

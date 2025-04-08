@@ -11,11 +11,12 @@ extension BuildContextExt on BuildContext {
     required ProfileData profile,
     required String address,
   }) {
-    final configuration = _defaultConfiguration
-      ..selectedCountryCode = profile.country.code
-      ..defaultFlow = 'ONRAMP'
-      ..userAddress = address
-      ..userEmailAddress = profile.email;
+    final configuration =
+        _defaultConfiguration
+          ..selectedCountryCode = profile.country.code
+          ..defaultFlow = 'ONRAMP'
+          ..userAddress = address
+          ..userEmailAddress = profile.email;
 
     RampFlutter()
       ..onRampClosed = notifyBalanceAffected
@@ -23,10 +24,11 @@ extension BuildContextExt on BuildContext {
   }
 }
 
-final _defaultConfiguration = Configuration()
-  ..hostAppName = 'Espresso Cash'
-  ..hostLogoUrl =
-      'https://www.espressocash.com/landing/img/asset-2-2x-copy@2x.png'
-  ..hostApiKey = rampApiKey
-  ..swapAsset = 'SOLANA_USDC'
-  ..defaultAsset = 'SOLANA_USDC';
+final _defaultConfiguration =
+    Configuration()
+      ..hostAppName = 'Espresso Cash'
+      ..hostLogoUrl =
+          'https://www.espressocash.com/landing/img/asset-2-2x-copy@2x.png'
+      ..hostApiKey = rampApiKey
+      ..swapAsset = 'SOLANA_USDC'
+      ..defaultAsset = 'SOLANA_USDC';

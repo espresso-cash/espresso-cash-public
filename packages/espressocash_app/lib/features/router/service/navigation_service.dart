@@ -7,8 +7,9 @@ import '../models/activities_tab.dart';
 @Singleton(scope: authScope)
 class HomeNavigationService {
   final tabNotifier = ValueNotifier<int>(0);
-  final activitiesTabNotifier =
-      ValueNotifier<ActivitiesTab>(ActivitiesTab.pending);
+  final activitiesTabNotifier = ValueNotifier<ActivitiesTab>(
+    ActivitiesTab.pending,
+  );
 
   void openWalletTab(BuildContext context) {
     tabNotifier.value = 1;

@@ -20,20 +20,12 @@ import '../widgets/extensions.dart';
 import 'olp_screen.dart';
 
 class OLPConfirmationScreen extends StatefulWidget {
-  const OLPConfirmationScreen({
-    super.key,
-    required this.tokenAmount,
-  });
+  const OLPConfirmationScreen({super.key, required this.tokenAmount});
 
-  static void push(
-    BuildContext context, {
-    required CryptoAmount tokenAmount,
-  }) =>
+  static void push(BuildContext context, {required CryptoAmount tokenAmount}) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => OLPConfirmationScreen(
-            tokenAmount: tokenAmount,
-          ),
+          builder: (context) => OLPConfirmationScreen(tokenAmount: tokenAmount),
         ),
       );
 
@@ -53,51 +45,44 @@ class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          appBar: CpAppBar(
-            title: Text(
-              context.l10n.sendMoney.toUpperCase(),
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 17,
-              ),
-            ),
-            leading: const CpBackButton(),
-          ),
-          body: CpContentPadding(
-            child: _TokenCreateLinkContent(amount: widget.tokenAmount),
-          ),
-          bottomNavigationBar: SafeArea(
-            child: CpBottomButton(
-              onPressed: _handleSubmit,
-              text: context.l10n.create,
-            ),
-          ),
+    child: Scaffold(
+      appBar: CpAppBar(
+        title: Text(
+          context.l10n.sendMoney.toUpperCase(),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
         ),
-      );
+        leading: const CpBackButton(),
+      ),
+      body: CpContentPadding(
+        child: _TokenCreateLinkContent(amount: widget.tokenAmount),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: CpBottomButton(
+          onPressed: _handleSubmit,
+          text: context.l10n.create,
+        ),
+      ),
+    ),
+  );
 }
 
 class _TokenCreateLinkContent extends StatelessWidget {
-  const _TokenCreateLinkContent({
-    required this.amount,
-  });
+  const _TokenCreateLinkContent({required this.amount});
 
   final Amount amount;
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          const SizedBox(height: 20),
-          Center(
-            child: EcMarkdownText(
-              text: context.l10n.reviewPayment.toUpperCase(),
-            ),
-          ),
-          const SizedBox(height: 30),
-          _InformationView(amount: amount),
-          const Spacer(),
-        ],
-      );
+    children: [
+      const SizedBox(height: 20),
+      Center(
+        child: EcMarkdownText(text: context.l10n.reviewPayment.toUpperCase()),
+      ),
+      const SizedBox(height: 30),
+      _InformationView(amount: amount),
+      const Spacer(),
+    ],
+  );
 }
 
 class _InformationView extends StatelessWidget {
@@ -168,10 +153,7 @@ class _InformationView extends StatelessWidget {
           const FeeLabel(
             type: FeeType.link(),
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            keyTextStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            keyTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             valueTextStyle: TextStyle(
               fontSize: 16,
               color: CpColors.greyColor,

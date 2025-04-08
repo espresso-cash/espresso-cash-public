@@ -22,16 +22,11 @@ import '../../outgoing_dln_payments/screens/confirmation_screen.dart';
 import '../../outgoing_link_payments/screens/olp_confirmation_screen.dart';
 
 class PayScreen extends StatefulWidget {
-  const PayScreen({
-    super.key,
-    required this.amount,
-  });
+  const PayScreen({super.key, required this.amount});
 
   static void push(BuildContext context, {required CryptoAmount amount}) =>
       Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => PayScreen(amount: amount),
-        ),
+        MaterialPageRoute(builder: (context) => PayScreen(amount: amount)),
       );
 
   final CryptoAmount amount;
@@ -49,8 +44,10 @@ class _PayScreenState extends State<PayScreen> {
       context,
       onSubmit: (Blockchain network, String address) async {
         if (network == Blockchain.solana) {
-          final formatted =
-              widget.amount.format(context.locale, skipSymbol: true);
+          final formatted = widget.amount.format(
+            context.locale,
+            skipSymbol: true,
+          );
 
           final recipient = Ed25519HDPublicKey.fromBase58(address);
 
@@ -92,68 +89,67 @@ class _PayScreenState extends State<PayScreen> {
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          appBar: CpAppBar(
-            leading: const CpBackButton(),
-            title:
-                Text(context.l10n.walletTransactionMethodTitle.toUpperCase()),
+    child: Scaffold(
+      appBar: CpAppBar(
+        leading: const CpBackButton(),
+        title: Text(context.l10n.walletTransactionMethodTitle.toUpperCase()),
+      ),
+      body: OnboardingScreen(
+        children: [
+          SizedBox(height: 10.h),
+          Assets.images.sendMoney.image(height: 90.h),
+          SizedBox(height: 20.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 42.w),
+            child: EcMarkdownText(
+              text: context.l10n.walletEspressoPayLabel.toUpperCase(),
+            ),
           ),
-          body: OnboardingScreen(
-            children: [
-              SizedBox(height: 10.h),
-              Assets.images.sendMoney.image(height: 90.h),
-              SizedBox(height: 20.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 42.w),
-                child: EcMarkdownText(
-                  text: context.l10n.walletEspressoPayLabel.toUpperCase(),
-                ),
+          SizedBox(height: 20.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 42.w),
+            child: Text(
+              context.l10n.walletEspressoPayDescription,
+              style: TextStyle(
+                fontSize: 16.sp,
+                height: 21 / 16,
+                letterSpacing: 0.23,
+                fontWeight: FontWeight.w400,
               ),
-              SizedBox(height: 20.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 42.w),
-                child: Text(
-                  context.l10n.walletEspressoPayDescription,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    height: 21 / 16,
-                    letterSpacing: 0.23,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.h),
-              _Item(
-                title: context.l10n.pay,
-                onPressed: _handlePrimaryPressed,
-                icon: Assets.icons.dollarSign,
-                subtitleIcons: [
-                  Assets.brands.telegram,
-                  Assets.brands.whatsapp,
-                  Assets.brands.messenger,
-                  Assets.brands.sms,
-                  Assets.brands.snapchat,
-                  Assets.brands.wechat,
-                  Assets.brands.signal,
-                  Assets.brands.qr,
-                ],
-              ),
-              SizedBox(height: 20.h),
-              _Item(
-                title: context.l10n.walletAddress,
-                onPressed: _handleSecondaryPressed,
-                icon: Assets.icons.walletAddress,
-                subtitleIcons: [
-                  Assets.brands.solana,
-                  Assets.brands.ethereum,
-                  Assets.brands.polygon,
-                  Assets.brands.arbitrum,
-                ],
-              ),
+            ),
+          ),
+          SizedBox(height: 20.h),
+          _Item(
+            title: context.l10n.pay,
+            onPressed: _handlePrimaryPressed,
+            icon: Assets.icons.dollarSign,
+            subtitleIcons: [
+              Assets.brands.telegram,
+              Assets.brands.whatsapp,
+              Assets.brands.messenger,
+              Assets.brands.sms,
+              Assets.brands.snapchat,
+              Assets.brands.wechat,
+              Assets.brands.signal,
+              Assets.brands.qr,
             ],
           ),
-        ),
-      );
+          SizedBox(height: 20.h),
+          _Item(
+            title: context.l10n.walletAddress,
+            onPressed: _handleSecondaryPressed,
+            icon: Assets.icons.walletAddress,
+            subtitleIcons: [
+              Assets.brands.solana,
+              Assets.brands.ethereum,
+              Assets.brands.polygon,
+              Assets.brands.arbitrum,
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 class _Item extends StatelessWidget {
@@ -171,58 +167,47 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: 6.h,
-          horizontal: 18.w,
+    padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 18.w),
+    child: DecoratedBox(
+      decoration: ShapeDecoration(
+        color: CpColors.blackGreyColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30.r)),
         ),
-        child: DecoratedBox(
-          decoration: ShapeDecoration(
-            color: CpColors.blackGreyColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(30.r),
-              ),
+      ),
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30.r)),
+        ),
+        leading: Container(
+          alignment: Alignment.center,
+          width: 40.w,
+          child: icon.svg(),
+        ),
+        minLeadingWidth: 40.w,
+        contentPadding: EdgeInsets.only(left: 20.w, top: 10.h, bottom: 10.h),
+        title: Padding(
+          padding: const EdgeInsets.only(bottom: 6),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 18.sp,
+              height: 21 / 18,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
             ),
           ),
-          child: ListTile(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(30.r),
-              ),
-            ),
-            leading: Container(
-              alignment: Alignment.center,
-              width: 40.w,
-              child: icon.svg(),
-            ),
-            minLeadingWidth: 40.w,
-            contentPadding: EdgeInsets.only(
-              left: 20.w,
-              top: 10.h,
-              bottom: 10.h,
-            ),
-            title: Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  height: 21 / 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            subtitle: Row(
-              children: [
-                for (final icon in subtitleIcons) ...[
-                  icon.svg(width: 30.w),
-                  SizedBox(width: 5.w),
-                ],
-              ],
-            ),
-            onTap: onPressed,
-          ),
         ),
-      );
+        subtitle: Row(
+          children: [
+            for (final icon in subtitleIcons) ...[
+              icon.svg(width: 30.w),
+              SizedBox(width: 5.w),
+            ],
+          ],
+        ),
+        onTap: onPressed,
+      ),
+    ),
+  );
 }
