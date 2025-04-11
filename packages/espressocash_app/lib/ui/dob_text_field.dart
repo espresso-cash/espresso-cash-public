@@ -9,10 +9,12 @@ class CpDobTextField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.placeholder,
+    this.readonly = false,
   });
 
   final TextEditingController controller;
   final String placeholder;
+  final bool readonly;
 
   @override
   Widget build(BuildContext context) => CpTextField(
@@ -22,6 +24,7 @@ class CpDobTextField extends StatelessWidget {
           left: 26,
           right: 26,
         ),
+        readOnly: readonly,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp('[0-9-/]')),
           LengthLimitingTextInputFormatter(10),
