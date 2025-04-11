@@ -1261,5 +1261,9 @@
     "selectDocumentType": "Select Document Type",
     "@selectDocumentType": {},
     "documentTitle": "Document",
-    "@documentTitle": {}
+    "@documentTitle": {},
+    "personalInformationTitle": "Personal Information",
+    "@personalInformationTitle": {},
+    "countryOfCitizenship": "Country of Citizenship",
+    "@countryOfCitizenship": {}
 }

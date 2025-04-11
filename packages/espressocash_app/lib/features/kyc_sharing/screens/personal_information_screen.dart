@@ -16,11 +16,18 @@ import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
 class PersonalInformationScreen extends StatefulWidget {
-  const PersonalInformationScreen({super.key});
+  const PersonalInformationScreen({super.key, this.showActionButton = true});
 
-  static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(MaterialPageRoute(builder: (context) => const PersonalInformationScreen()))
-      .then((result) => result ?? false);
+  static Future<bool> push(BuildContext context, {bool showActionButton = true}) =>
+      Navigator.of(context)
+          .push<bool>(
+            MaterialPageRoute(
+              builder: (context) => PersonalInformationScreen(showActionButton: showActionButton),
+            ),
+          )
+          .then((result) => result ?? false);
+
+  final bool showActionButton;
 
   @override
   State<PersonalInformationScreen> createState() => _PersonalInformationScreenState();
@@ -30,6 +37,8 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _dobController = TextEditingController();
+
+  bool _readOnly = false;
 
   Country? _citizenship;
 
@@ -65,6 +74,8 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     _firstNameController.text = user?.firstName ?? '';
     _lastNameController.text = user?.lastName ?? '';
     _dobController.text = dob != null ? DateFormat('dd/MM/yyyy').format(dob) : '';
+
+    _readOnly = user?.hasPersonalDetails() == true;
   }
 
   Future<void> _handleSubmitted() async {
@@ -99,6 +110,14 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     if (success) Navigator.pop(context, true);
   }
 
+  VoidCallback? _getOnPressedCallback() {
+    if (_readOnly) {
+      return () => Navigator.pop(context, true);
+    }
+
+    return _isValid ? _handleSubmitted : null;
+  }
+
   DateTime? _parseDate(String text) {
     if (text.isEmpty) return null;
 
@@ -112,39 +131,47 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-    title: 'Personal Information'.toUpperCase(),
+    title: context.l10n.personalInformationTitle.toUpperCase(),
     children: [
       KycTextField(
         controller: _firstNameController,
         inputType: TextInputType.name,
         placeholder: context.l10n.firstName,
+        readOnly: _readOnly,
       ),
       const SizedBox(height: 10),
       KycTextField(
         controller: _lastNameController,
         inputType: TextInputType.name,
         placeholder: context.l10n.lastName,
+        readOnly: _readOnly,
       ),
       const SizedBox(height: 10),
-      CpDobTextField(controller: _dobController, placeholder: context.l10n.dateOfBirth),
+      CpDobTextField(
+        controller: _dobController,
+        placeholder: context.l10n.dateOfBirth,
+        readonly: _readOnly,
+      ),
       const SizedBox(height: 10),
       CountryPicker(
         backgroundColor: CpColors.blackGreyColor,
-        placeholder: 'Country of Citizenship',
+        placeholder: context.l10n.countryOfCitizenship,
         country: _citizenship,
         onSubmitted: (country) => setState(() => _citizenship = country),
+        readOnly: _readOnly,
       ),
       const SizedBox(height: 28),
       const Spacer(),
-      ListenableBuilder(
-        listenable: Listenable.merge([_firstNameController, _lastNameController, _dobController]),
-        builder:
-            (context, child) => CpBottomButton(
-              horizontalPadding: 16,
-              text: context.l10n.next,
-              onPressed: _isValid ? _handleSubmitted : null,
-            ),
-      ),
+      if (widget.showActionButton)
+        ListenableBuilder(
+          listenable: Listenable.merge([_firstNameController, _lastNameController, _dobController]),
+          builder:
+              (context, child) => CpBottomButton(
+                horizontalPadding: 16,
+                text: context.l10n.next,
+                onPressed: _getOnPressedCallback(),
+              ),
+        ),
     ],
   );
 }

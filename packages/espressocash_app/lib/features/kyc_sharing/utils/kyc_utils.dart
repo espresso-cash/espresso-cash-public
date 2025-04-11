@@ -32,8 +32,18 @@ extension UserDataExtensions on UserData {
       bankInfo.bankCode.isNotEmpty &&
       bankInfo.accountNumber.isNotEmpty &&
       bankInfo.bankName.isNotEmpty;
+
+  bool hasPersonalDetails() =>
+      firstName.isNotNullOrEmpty &&
+      lastName.isNotNullOrEmpty &&
+      dob != null &&
+      citizenshipCode.isNotNullOrEmpty;
 }
 
 extension StringNullIfEmpty on String {
   String? get nullIfEmpty => this.isEmpty ? null : this;
+}
+
+extension StringNullOrEmptyCheck on String? {
+  bool get isNotNullOrEmpty => this?.isNotEmpty ?? false;
 }

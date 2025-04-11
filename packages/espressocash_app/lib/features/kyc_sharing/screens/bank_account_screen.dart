@@ -58,7 +58,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
         await sl<KycSharingService>().updateBankInfo(
           id: widget.initialBankInfo?.id,
           bankAccountNumber: _bankAccountNumberController.text,
-          bankCode: _selectedBank?.code ?? '',
+          bankCode: _selectedBank?.code ?? _bankCodeController.text.trim(),
           bankName: _selectedBank?.name ?? '',
           countryCode: _selectedCountry?.code ?? '',
         );
@@ -79,7 +79,10 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
   @override
   void initState() {
     super.initState();
-    _bankCodeController.addListener(_updateSelectedBank);
+
+    _bankCodeController
+      ..text = widget.initialBankInfo?.bankCode ?? ''
+      ..addListener(_updateSelectedBank);
 
     _bankAccountNumberController.text = widget.initialBankInfo?.accountNumber ?? '';
 
@@ -127,6 +130,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
               _selectedCountry = country;
               _selectedBank = null;
               _bankCodeController.clear();
+              _bankAccountNumberController.clear();
             }),
       ),
       const SizedBox(height: 16),

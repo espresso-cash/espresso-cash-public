@@ -5,14 +5,21 @@ import 'colors.dart';
 import 'text_field.dart';
 
 class CpDobTextField extends StatelessWidget {
-  const CpDobTextField({super.key, required this.controller, required this.placeholder});
+  const CpDobTextField({
+    super.key,
+    required this.controller,
+    required this.placeholder,
+    this.readonly = false,
+  });
 
   final TextEditingController controller;
   final String placeholder;
+  final bool readonly;
 
   @override
   Widget build(BuildContext context) => CpTextField(
     padding: const EdgeInsets.only(top: 18, bottom: 16, left: 26, right: 26),
+    readOnly: readonly,
     inputFormatters: [
       FilteringTextInputFormatter.allow(RegExp('[0-9-/]')),
       LengthLimitingTextInputFormatter(10),

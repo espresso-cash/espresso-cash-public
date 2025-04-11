@@ -12,6 +12,7 @@ class CountryPicker extends StatelessWidget {
     this.countries,
     this.placeholder,
     this.backgroundColor = Colors.black,
+    this.readOnly = false,
     required this.onSubmitted,
   });
 
@@ -19,6 +20,7 @@ class CountryPicker extends StatelessWidget {
   final List<Country>? countries;
   final String? placeholder;
   final Color backgroundColor;
+  final bool readOnly;
   final ValueSetter<Country> onSubmitted;
 
   @override
@@ -26,20 +28,23 @@ class CountryPicker extends StatelessWidget {
     decoration: ShapeDecoration(color: backgroundColor, shape: const StadiumBorder()),
     child: ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-      onTap: () async {
-        await CustomPickerScreen.push<Country>(
-          context: context,
-          title: context.l10n.selectCountryTitle,
-          items: countries ?? Country.all,
-          initial: country,
-          itemBuilder:
-              (context, country, {required bool selected}) => Text(
-                country.name,
-                style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white),
-              ),
-          onTap: (country, context) async => onSubmitted(country),
-        );
-      },
+      onTap:
+          readOnly
+              ? null
+              : () async {
+                await CustomPickerScreen.push<Country>(
+                  context: context,
+                  title: context.l10n.selectCountryTitle,
+                  items: countries ?? Country.all,
+                  initial: country,
+                  itemBuilder:
+                      (context, country, {required bool selected}) => Text(
+                        country.name,
+                        style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white),
+                      ),
+                  onTap: (country, context) async => onSubmitted(country),
+                );
+              },
       title: Text(
         country?.name ?? placeholder ?? context.l10n.countryOfResidence,
         style: TextStyle(
