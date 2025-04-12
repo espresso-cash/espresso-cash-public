@@ -9,11 +9,7 @@ import 'colors.dart';
 typedef _AnimationTransformer = double Function(double value);
 
 class CpTimelineItem {
-  const CpTimelineItem({
-    this.title,
-    this.subtitle,
-    this.trailing,
-  });
+  const CpTimelineItem({this.title, this.subtitle, this.trailing});
 
   final String? title;
   final String? subtitle;
@@ -29,11 +25,11 @@ class CpTimeline extends StatefulWidget {
     required this.status,
     required this.active,
     required this.animated,
-  })  : assert(items.length > 0, 'Items must not be empty'),
-        assert(
-          active >= 0 && active < items.length,
-          'Active item must be in range [0, items.length)',
-        );
+  }) : assert(items.length > 0, 'Items must not be empty'),
+       assert(
+         active >= 0 && active < items.length,
+         'Active item must be in range [0, items.length)',
+       );
 
   final List<CpTimelineItem> items;
   final CpTimelineStatus status;
@@ -50,10 +46,8 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-    )..repeat();
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 800))
+      ..repeat();
   }
 
   @override
@@ -111,15 +105,17 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                       width: _indicatorSize,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: isHighlighted || index > widget.active
-                            ? Colors.white
-                            : CpColors.deepGreyColor,
+                        color:
+                            isHighlighted || index > widget.active
+                                ? Colors.white
+                                : CpColors.deepGreyColor,
                       ),
-                      child: index <= lastIconIndex
-                          ? isActive
-                              ? widget.status.icon
-                              : _successIcon
-                          : null,
+                      child:
+                          index <= lastIconIndex
+                              ? isActive
+                                  ? widget.status.icon
+                                  : _successIcon
+                              : null,
                     ),
                   ),
                 ),
@@ -133,9 +129,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                       child: Container(
                         height: _connectorHeight,
                         width: _connectorWidth,
-                        color: index >= widget.active
-                            ? Colors.white
-                            : CpColors.deepGreyColor,
+                        color: index >= widget.active ? Colors.white : CpColors.deepGreyColor,
                       ),
                     ),
                   ),
@@ -155,9 +149,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
 }
 
 class _TileInfo extends StatelessWidget {
-  const _TileInfo({
-    required this.tile,
-  });
+  const _TileInfo({required this.tile});
 
   final CpTimelineItem tile;
 
@@ -205,62 +197,58 @@ class _IndicatorBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: _timelineWidth,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          border: Border.all(color: backgroundColor, width: 2),
-          borderRadius: (isFirst || isLast)
+    width: _timelineWidth,
+    decoration: BoxDecoration(
+      color: backgroundColor,
+      border: Border.all(color: backgroundColor, width: 2),
+      borderRadius:
+          (isFirst || isLast)
               ? BorderRadius.vertical(
-                  top: isFirst ? _timelineRadius : Radius.zero,
-                  bottom: isLast ? _timelineRadius : Radius.zero,
-                )
+                top: isFirst ? _timelineRadius : Radius.zero,
+                bottom: isLast ? _timelineRadius : Radius.zero,
+              )
               : null,
-          boxShadow: [
-            BoxShadow(
-              color: backgroundColor,
-              blurRadius: 0.0,
-              spreadRadius: 0.0,
-              offset: const Offset(0, 1),
-            ),
-          ],
+      boxShadow: [
+        BoxShadow(
+          color: backgroundColor,
+          blurRadius: 0.0,
+          spreadRadius: 0.0,
+          offset: const Offset(0, 1),
         ),
-        padding: (isFirst || isLast)
+      ],
+    ),
+    padding:
+        (isFirst || isLast)
             ? EdgeInsets.only(top: isFirst ? 16 : 2, bottom: isLast ? 16 : 2)
             : EdgeInsets.zero,
-        margin: EdgeInsets.zero,
-        child: SizedBox(
-          height: _indicatorSize + _indicatorBounceOffset,
-          child: child,
-        ),
-      );
+    margin: EdgeInsets.zero,
+    child: SizedBox(height: _indicatorSize + _indicatorBounceOffset, child: child),
+  );
 }
 
 class _ConnectorBackground extends StatelessWidget {
-  const _ConnectorBackground({
-    required this.backgroundColor,
-    required this.child,
-  });
+  const _ConnectorBackground({required this.backgroundColor, required this.child});
 
   final Color backgroundColor;
   final Widget child;
 
   @override
   Widget build(BuildContext context) => Container(
-        width: _timelineWidth,
-        height: _connectorHeight,
-        decoration: BoxDecoration(
+    width: _timelineWidth,
+    height: _connectorHeight,
+    decoration: BoxDecoration(
+      color: backgroundColor,
+      boxShadow: [
+        BoxShadow(
           color: backgroundColor,
-          boxShadow: [
-            BoxShadow(
-              color: backgroundColor,
-              blurRadius: 0.0,
-              spreadRadius: 0.0,
-              offset: const Offset(0, 1),
-            ),
-          ],
+          blurRadius: 0.0,
+          spreadRadius: 0.0,
+          offset: const Offset(0, 1),
         ),
-        child: child,
-      );
+      ],
+    ),
+    child: child,
+  );
 }
 
 class _Animation extends StatelessWidget {
@@ -286,12 +274,13 @@ class _Animation extends StatelessWidget {
         if (transformer != null)
           AnimatedBuilder(
             animation: controller,
-            builder: (context, child) => Positioned(
-              bottom: center ? 0 : null,
-              top: controller.value.let(_sinoidalTransformer).let(transformer),
-              // ignore: avoid-non-null-assertion, child is mandatory for parent
-              child: child!,
-            ),
+            builder:
+                (context, child) => Positioned(
+                  bottom: center ? 0 : null,
+                  top: controller.value.let(_sinoidalTransformer).let(transformer),
+                  // ignore: avoid-non-null-assertion, child is mandatory for parent
+                  child: child!,
+                ),
             child: child,
           )
         else
@@ -341,11 +330,9 @@ double _sinoidalTransformer(double value) => sin(2 * pi * value) / 2;
 
 double _connectorTransformer(double value) => value * _connectorHeight;
 
-double _lowerIndicatorTransformer(double value) =>
-    max(0, value) * _indicatorBounceOffset;
+double _lowerIndicatorTransformer(double value) => max(0, value) * _indicatorBounceOffset;
 
-double _upperIndicatorTransformer(double value) =>
-    min(0, value) * _indicatorBounceOffset;
+double _upperIndicatorTransformer(double value) => min(0, value) * _indicatorBounceOffset;
 
 const _titleStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 16);
 const _subtitleStyle = TextStyle(fontWeight: FontWeight.w400, fontSize: 14);

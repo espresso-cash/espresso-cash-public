@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'signing_response.dart';
 
@@ -12,7 +12,8 @@ part of 'signing_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SigningResponse {
@@ -20,14 +21,12 @@ mixin _$SigningResponse {
   List<Uri> get resolvedDerivationPaths => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SigningResponseCopyWith<SigningResponse> get copyWith =>
-      throw _privateConstructorUsedError;
+  $SigningResponseCopyWith<SigningResponse> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SigningResponseCopyWith<$Res> {
-  factory $SigningResponseCopyWith(
-          SigningResponse value, $Res Function(SigningResponse) then) =
+  factory $SigningResponseCopyWith(SigningResponse value, $Res Function(SigningResponse) then) =
       _$SigningResponseCopyWithImpl<$Res, SigningResponse>;
   @useResult
   $Res call({List<Uint8List> signatures, List<Uri> resolvedDerivationPaths});
@@ -45,75 +44,78 @@ class _$SigningResponseCopyWithImpl<$Res, $Val extends SigningResponse>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signatures = null,
-    Object? resolvedDerivationPaths = null,
-  }) {
-    return _then(_value.copyWith(
-      signatures: null == signatures
-          ? _value.signatures
-          : signatures // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-      resolvedDerivationPaths: null == resolvedDerivationPaths
-          ? _value.resolvedDerivationPaths
-          : resolvedDerivationPaths // ignore: cast_nullable_to_non_nullable
-              as List<Uri>,
-    ) as $Val);
+  $Res call({Object? signatures = null, Object? resolvedDerivationPaths = null}) {
+    return _then(
+      _value.copyWith(
+            signatures:
+                null == signatures
+                    ? _value.signatures
+                    : signatures // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
+            resolvedDerivationPaths:
+                null == resolvedDerivationPaths
+                    ? _value.resolvedDerivationPaths
+                    : resolvedDerivationPaths // ignore: cast_nullable_to_non_nullable
+                        as List<Uri>,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_SigningResponseCopyWith<$Res>
-    implements $SigningResponseCopyWith<$Res> {
-  factory _$$_SigningResponseCopyWith(
-          _$_SigningResponse value, $Res Function(_$_SigningResponse) then) =
-      __$$_SigningResponseCopyWithImpl<$Res>;
+abstract class _$$SigningResponseImplCopyWith<$Res> implements $SigningResponseCopyWith<$Res> {
+  factory _$$SigningResponseImplCopyWith(
+    _$SigningResponseImpl value,
+    $Res Function(_$SigningResponseImpl) then,
+  ) = __$$SigningResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Uint8List> signatures, List<Uri> resolvedDerivationPaths});
 }
 
 /// @nodoc
-class __$$_SigningResponseCopyWithImpl<$Res>
-    extends _$SigningResponseCopyWithImpl<$Res, _$_SigningResponse>
-    implements _$$_SigningResponseCopyWith<$Res> {
-  __$$_SigningResponseCopyWithImpl(
-      _$_SigningResponse _value, $Res Function(_$_SigningResponse) _then)
-      : super(_value, _then);
+class __$$SigningResponseImplCopyWithImpl<$Res>
+    extends _$SigningResponseCopyWithImpl<$Res, _$SigningResponseImpl>
+    implements _$$SigningResponseImplCopyWith<$Res> {
+  __$$SigningResponseImplCopyWithImpl(
+    _$SigningResponseImpl _value,
+    $Res Function(_$SigningResponseImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signatures = null,
-    Object? resolvedDerivationPaths = null,
-  }) {
-    return _then(_$_SigningResponse(
-      signatures: null == signatures
-          ? _value._signatures
-          : signatures // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-      resolvedDerivationPaths: null == resolvedDerivationPaths
-          ? _value._resolvedDerivationPaths
-          : resolvedDerivationPaths // ignore: cast_nullable_to_non_nullable
-              as List<Uri>,
-    ));
+  $Res call({Object? signatures = null, Object? resolvedDerivationPaths = null}) {
+    return _then(
+      _$SigningResponseImpl(
+        signatures:
+            null == signatures
+                ? _value._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+        resolvedDerivationPaths:
+            null == resolvedDerivationPaths
+                ? _value._resolvedDerivationPaths
+                : resolvedDerivationPaths // ignore: cast_nullable_to_non_nullable
+                    as List<Uri>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_SigningResponse
-    with DiagnosticableTreeMixin
-    implements _SigningResponse {
-  const _$_SigningResponse(
-      {required final List<Uint8List> signatures,
-      required final List<Uri> resolvedDerivationPaths})
-      : _signatures = signatures,
-        _resolvedDerivationPaths = resolvedDerivationPaths;
+class _$SigningResponseImpl with DiagnosticableTreeMixin implements _SigningResponse {
+  const _$SigningResponseImpl({
+    required final List<Uint8List> signatures,
+    required final List<Uri> resolvedDerivationPaths,
+  }) : _signatures = signatures,
+       _resolvedDerivationPaths = resolvedDerivationPaths;
 
   final List<Uint8List> _signatures;
   @override
   List<Uint8List> get signatures {
+    if (_signatures is EqualUnmodifiableListView) return _signatures;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_signatures);
   }
@@ -121,6 +123,7 @@ class _$_SigningResponse
   final List<Uri> _resolvedDerivationPaths;
   @override
   List<Uri> get resolvedDerivationPaths {
+    if (_resolvedDerivationPaths is EqualUnmodifiableListView) return _resolvedDerivationPaths;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_resolvedDerivationPaths);
   }
@@ -136,38 +139,40 @@ class _$_SigningResponse
     properties
       ..add(DiagnosticsProperty('type', 'SigningResponse'))
       ..add(DiagnosticsProperty('signatures', signatures))
-      ..add(DiagnosticsProperty(
-          'resolvedDerivationPaths', resolvedDerivationPaths));
+      ..add(DiagnosticsProperty('resolvedDerivationPaths', resolvedDerivationPaths));
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SigningResponse &&
-            const DeepCollectionEquality()
-                .equals(other._signatures, _signatures) &&
+            other is _$SigningResponseImpl &&
+            const DeepCollectionEquality().equals(other._signatures, _signatures) &&
             const DeepCollectionEquality().equals(
-                other._resolvedDerivationPaths, _resolvedDerivationPaths));
+              other._resolvedDerivationPaths,
+              _resolvedDerivationPaths,
+            ));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_signatures),
-      const DeepCollectionEquality().hash(_resolvedDerivationPaths));
+    runtimeType,
+    const DeepCollectionEquality().hash(_signatures),
+    const DeepCollectionEquality().hash(_resolvedDerivationPaths),
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SigningResponseCopyWith<_$_SigningResponse> get copyWith =>
-      __$$_SigningResponseCopyWithImpl<_$_SigningResponse>(this, _$identity);
+  _$$SigningResponseImplCopyWith<_$SigningResponseImpl> get copyWith =>
+      __$$SigningResponseImplCopyWithImpl<_$SigningResponseImpl>(this, _$identity);
 }
 
 abstract class _SigningResponse implements SigningResponse {
-  const factory _SigningResponse(
-      {required final List<Uint8List> signatures,
-      required final List<Uri> resolvedDerivationPaths}) = _$_SigningResponse;
+  const factory _SigningResponse({
+    required final List<Uint8List> signatures,
+    required final List<Uri> resolvedDerivationPaths,
+  }) = _$SigningResponseImpl;
 
   @override
   List<Uint8List> get signatures;
@@ -175,6 +180,6 @@ abstract class _SigningResponse implements SigningResponse {
   List<Uri> get resolvedDerivationPaths;
   @override
   @JsonKey(ignore: true)
-  _$$_SigningResponseCopyWith<_$_SigningResponse> get copyWith =>
+  _$$SigningResponseImplCopyWith<_$SigningResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

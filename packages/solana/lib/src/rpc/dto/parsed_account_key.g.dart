@@ -7,11 +7,8 @@ part of 'parsed_account_key.dart';
 // **************************************************************************
 
 ParsedAccountKey _$ParsedAccountKeyFromJson(Map<String, dynamic> json) =>
-    ParsedAccountKey(
-      pubkey: json['pubkey'] as String,
-    );
+    ParsedAccountKey(pubkey: json['pubkey'] as String);
 
-Map<String, dynamic> _$ParsedAccountKeyToJson(ParsedAccountKey instance) =>
-    <String, dynamic>{
-      'pubkey': instance.pubkey,
-    };
+Map<String, dynamic> _$ParsedAccountKeyToJson(ParsedAccountKey instance) => <String, dynamic>{
+  'pubkey': instance.pubkey,
+};

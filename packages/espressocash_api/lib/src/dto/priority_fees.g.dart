@@ -6,20 +6,13 @@ part of 'priority_fees.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PriorityFeesRequestDtoImpl _$$PriorityFeesRequestDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PriorityFeesRequestDtoImpl(
-      encodedTx: json['encodedTx'] as String,
-    );
+_$PriorityFeesRequestDtoImpl _$$PriorityFeesRequestDtoImplFromJson(Map<String, dynamic> json) =>
+    _$PriorityFeesRequestDtoImpl(encodedTx: json['encodedTx'] as String);
 
-Map<String, dynamic> _$$PriorityFeesRequestDtoImplToJson(
-        _$PriorityFeesRequestDtoImpl instance) =>
-    <String, dynamic>{
-      'encodedTx': instance.encodedTx,
-    };
+Map<String, dynamic> _$$PriorityFeesRequestDtoImplToJson(_$PriorityFeesRequestDtoImpl instance) =>
+    <String, dynamic>{'encodedTx': instance.encodedTx};
 
-_$PriorityFeesResponseDtoImpl _$$PriorityFeesResponseDtoImplFromJson(
-        Map<String, dynamic> json) =>
+_$PriorityFeesResponseDtoImpl _$$PriorityFeesResponseDtoImplFromJson(Map<String, dynamic> json) =>
     _$PriorityFeesResponseDtoImpl(
       none: (json['none'] as num?)?.toInt(),
       low: (json['low'] as num?)?.toInt(),
@@ -29,8 +22,7 @@ _$PriorityFeesResponseDtoImpl _$$PriorityFeesResponseDtoImplFromJson(
       unsafeMax: (json['unsafeMax'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$PriorityFeesResponseDtoImplToJson(
-        _$PriorityFeesResponseDtoImpl instance) =>
+Map<String, dynamic> _$$PriorityFeesResponseDtoImplToJson(_$PriorityFeesResponseDtoImpl instance) =>
     <String, dynamic>{
       'none': instance.none,
       'low': instance.low,

@@ -2,16 +2,11 @@ import 'package:kyc_client_dart/kyc_client_dart.dart' hide IdTypeExtension;
 
 import '../models/document_type.dart';
 
-enum RequirementRelationship {
-  and,
-  or,
-}
+enum RequirementRelationship { and, or }
 
 extension KycRequirementsExtensions on KycRequirement {
-  List<BasicInfoType> get basicInfoTypes => requirements
-      .whereType<BasicInfoRequirement>()
-      .map((req) => req.type)
-      .toList();
+  List<BasicInfoType> get basicInfoTypes =>
+      requirements.whereType<BasicInfoRequirement>().map((req) => req.type).toList();
 
   List<String> get requiredCountryCodes => requirements.parseCountryCodes();
 }
@@ -62,15 +57,13 @@ extension RequirementListExtension on List<Requirement> {
       final req = queue.removeLast();
       if (req is OrRequirement) {
         for (final andReq in req.requirements.whereType<AndRequirement>()) {
-          final hasMatchingDocType = andReq.requirements
-              .whereType<DocumentTypeRequirement>()
-              .any((r) => r.type.toDocumentType() == selectedDocType);
+          final hasMatchingDocType = andReq.requirements.whereType<DocumentTypeRequirement>().any(
+            (r) => r.type.toDocumentType() == selectedDocType,
+          );
 
           if (hasMatchingDocType) {
             fields.addAll(
-              andReq.requirements
-                  .whereType<DocumentFieldRequirement>()
-                  .map((r) => r.field),
+              andReq.requirements.whereType<DocumentFieldRequirement>().map((r) => r.field),
             );
             break;
           }
@@ -87,8 +80,7 @@ extension RequirementListExtension on List<Requirement> {
     final queue = [...this];
     while (queue.isNotEmpty) {
       final req = queue.removeLast();
-      if (req is AndRequirement &&
-          req.requirements.any((r) => r is DocumentFieldRequirement)) {
+      if (req is AndRequirement && req.requirements.any((r) => r is DocumentFieldRequirement)) {
         return RequirementRelationship.and;
       } else if (req is AndRequirement) {
         queue.addAll(req.requirements);

@@ -5,10 +5,7 @@ part 'range.g.dart';
 /// A range of bytes
 @JsonSerializable(includeIfNull: false)
 class Range {
-  const Range({
-    required this.firstSlot,
-    required this.lastSlot,
-  });
+  const Range({required this.firstSlot, required this.lastSlot});
 
   factory Range.fromJson(Map<String, dynamic> json) => _$RangeFromJson(json);
 

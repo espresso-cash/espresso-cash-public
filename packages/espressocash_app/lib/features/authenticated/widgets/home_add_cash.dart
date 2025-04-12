@@ -20,14 +20,12 @@ class HomeAddCashContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ColoredBox(
-        color: CpColors.sandColor,
-        child: RefreshBalancesWrapper(
-          builder: (context, onRefresh) => RefreshIndicator(
+    color: CpColors.sandColor,
+    child: RefreshBalancesWrapper(
+      builder:
+          (context, onRefresh) => RefreshIndicator(
             displacement: 80,
-            onRefresh: () => Future.wait([
-              onRefresh(),
-              sl<TxUpdater>().call(),
-            ]),
+            onRefresh: () => Future.wait([onRefresh(), sl<TxUpdater>().call()]),
             color: CpColors.primaryColor,
             backgroundColor: Colors.white,
             child: const Stack(
@@ -54,8 +52,8 @@ class HomeAddCashContent extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      );
+    ),
+  );
 }
 
 class _NoticeContent extends StatelessWidget {
@@ -63,87 +61,73 @@ class _NoticeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.l10n.depositTitle.toUpperCase(),
-              style: TextStyle(
-                fontSize: 50.h,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0.25,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              context.l10n.addCashNoticeSubtitle.toUpperCase(),
-              style: TextStyle(
-                fontSize: 22.h,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0.25,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 24.h),
-            CpBulletItemWidget(
-              child: Text.rich(
-                style: _bulletTextStyle,
-                textAlign: TextAlign.left,
-                TextSpan(
-                  text: '${context.l10n.addCash_noInflation1}\n',
-                  children: [
-                    TextSpan(
-                      text: context.l10n.addCash_noInflation2,
-                    ),
-                    TextSpan(
-                      text: context.l10n.addCash_noInflation3,
-                      style: const TextStyle(color: Color(0xffFFDA66)),
-                    ),
-                    TextSpan(
-                      text: context.l10n.addCash_noInflation4,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            CpBulletItemWidget(
-              child: Text(
-                context.l10n.addCash_CashoutAnytime,
-                style: _bulletTextStyle,
-              ),
-            ),
-            const SizedBox(height: 8),
-            CpBulletItemWidget(
-              child: Text(
-                context.l10n.addCash_sendReceiveMoney,
-                style: _bulletTextStyle,
-              ),
-            ),
-            SizedBox(height: 28.h),
-            CpButton(
-              text: context.l10n.ramp_btnAddCash,
-              onPressed: () async {
-                final hasProfile =
-                    await context.ensureProfileData(RampType.onRamp) != null;
-
-                if (context.mounted && hasProfile) {
-                  context.launchOnRampFlow();
-                }
-              },
-              width: double.infinity,
-              size: CpButtonSize.big,
-              trailing: Padding(
-                padding: EdgeInsets.only(right: 8.h),
-                child: const Arrow(),
-              ),
-            ),
-          ],
+    padding: const EdgeInsets.symmetric(horizontal: 32),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          context.l10n.depositTitle.toUpperCase(),
+          style: TextStyle(
+            fontSize: 50.h,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 0.25,
+            color: Colors.white,
+          ),
         ),
-      );
+        SizedBox(height: 16.h),
+        Text(
+          context.l10n.addCashNoticeSubtitle.toUpperCase(),
+          style: TextStyle(
+            fontSize: 22.h,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 0.25,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(height: 24.h),
+        CpBulletItemWidget(
+          child: Text.rich(
+            style: _bulletTextStyle,
+            textAlign: TextAlign.left,
+            TextSpan(
+              text: '${context.l10n.addCash_noInflation1}\n',
+              children: [
+                TextSpan(text: context.l10n.addCash_noInflation2),
+                TextSpan(
+                  text: context.l10n.addCash_noInflation3,
+                  style: const TextStyle(color: Color(0xffFFDA66)),
+                ),
+                TextSpan(text: context.l10n.addCash_noInflation4),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        CpBulletItemWidget(
+          child: Text(context.l10n.addCash_CashoutAnytime, style: _bulletTextStyle),
+        ),
+        const SizedBox(height: 8),
+        CpBulletItemWidget(
+          child: Text(context.l10n.addCash_sendReceiveMoney, style: _bulletTextStyle),
+        ),
+        SizedBox(height: 28.h),
+        CpButton(
+          text: context.l10n.ramp_btnAddCash,
+          onPressed: () async {
+            final hasProfile = await context.ensureProfileData(RampType.onRamp) != null;
+
+            if (context.mounted && hasProfile) {
+              context.launchOnRampFlow();
+            }
+          },
+          width: double.infinity,
+          size: CpButtonSize.big,
+          trailing: Padding(padding: EdgeInsets.only(right: 8.h), child: const Arrow()),
+        ),
+      ],
+    ),
+  );
 }
 
 class _Background extends StatelessWidget {
@@ -151,39 +135,33 @@ class _Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: MediaQuery.sizeOf(context).height / 1.5,
-        child: Stack(
-          children: [
-            Transform.rotate(
-              angle: 0.2,
-              child: Transform.translate(
-                offset: const Offset(-30, -25),
-                child: Assets.images.dollarBg.image(
-                  fit: BoxFit.cover,
-                  height: double.infinity,
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 400,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    stops: [0.1, 1],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0x00C8B57D),
-                      CpColors.sandColor,
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
+    height: MediaQuery.sizeOf(context).height / 1.5,
+    child: Stack(
+      children: [
+        Transform.rotate(
+          angle: 0.2,
+          child: Transform.translate(
+            offset: const Offset(-30, -25),
+            child: Assets.images.dollarBg.image(fit: BoxFit.cover, height: double.infinity),
+          ),
         ),
-      );
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: 400,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                stops: [0.1, 1],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0x00C8B57D), CpColors.sandColor],
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 class _BottomBalance extends StatelessWidget {
@@ -191,43 +169,38 @@ class _BottomBalance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: const ShapeDecoration(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(44),
-              topRight: Radius.circular(44),
-            ),
-          ),
-          color: CpColors.deepGreyColor,
+    decoration: const ShapeDecoration(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(44),
+          topRight: Radius.circular(44),
         ),
+      ),
+      color: CpColors.deepGreyColor,
+    ),
+    child: Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+      child: Center(
         child: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.paddingOf(context).bottom,
-          ),
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: 40.h,
-                bottom: 8.h,
+          padding: EdgeInsets.only(top: 40.h, bottom: 8.h),
+          child: Column(
+            children: [
+              Text(
+                context.l10n.cryptoCashBalance,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.23,
+                ),
               ),
-              child: Column(
-                children: [
-                  Text(
-                    context.l10n.cryptoCashBalance,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.23,
-                    ),
-                  ),
-                  const BalanceAmount(),
-                ],
-              ),
-            ),
+              const BalanceAmount(),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 }
 
 final _bulletTextStyle = TextStyle(

@@ -40,16 +40,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        home: BlocBuilder<SeedVaultBloc, SeedVaultState>(
-          builder: (context, state) => Scaffold(
+    home: BlocBuilder<SeedVaultBloc, SeedVaultState>(
+      builder:
+          (context, state) => Scaffold(
             appBar: AppBar(
               title: const Text('FakeWallet'),
-              actions: [
-                IconButton(
-                  onPressed: _bloc.refreshUI,
-                  icon: const Icon(Icons.refresh),
-                ),
-              ],
+              actions: [IconButton(onPressed: _bloc.refreshUI, icon: const Icon(Icons.refresh))],
             ),
             body: Center(
               child: state.map(
@@ -57,16 +53,13 @@ class _MyAppState extends State<MyApp> {
                 loaded: always(const SeedVaultContent()),
                 error: (state) => Text(state.err),
                 unauthorized: always(
-                  ElevatedButton(
-                    onPressed: _bloc.init,
-                    child: const Text('Request permission'),
-                  ),
+                  ElevatedButton(onPressed: _bloc.init, child: const Text('Request permission')),
                 ),
               ),
             ),
           ),
-        ),
-      );
+    ),
+  );
 }
 
 class SeedVaultContent extends StatelessWidget {
@@ -74,22 +67,20 @@ class SeedVaultContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16),
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const LimitsSection(),
-                  const SizedBox(height: 16),
-                  const SeedSection(),
-                  const SizedBox(height: 16),
-                  const SeedList(),
-                ],
-              ),
-            ),
-          ],
+    padding: const EdgeInsets.all(16),
+    child: CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        SliverList(
+          delegate: SliverChildListDelegate([
+            const LimitsSection(),
+            const SizedBox(height: 16),
+            const SeedSection(),
+            const SizedBox(height: 16),
+            const SeedList(),
+          ]),
         ),
-      );
+      ],
+    ),
+  );
 }

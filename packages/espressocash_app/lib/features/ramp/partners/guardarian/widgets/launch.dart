@@ -8,10 +8,7 @@ import '../../../../../ui/web_view_screen.dart';
 import '../../../models/profile_data.dart';
 
 extension BuildContextExt on BuildContext {
-  void launchGuardarianOnRamp({
-    required String address,
-    required ProfileData profile,
-  }) {
+  void launchGuardarianOnRamp({required String address, required ProfileData profile}) {
     final uri = Uri.parse(guardarianBaseUrl).replace(
       queryParameters: {
         'partner_api_token': guardarianApiKey,

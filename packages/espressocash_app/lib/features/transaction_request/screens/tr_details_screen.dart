@@ -15,17 +15,11 @@ import '../models/transaction_request.dart';
 import '../service/tr_service.dart';
 
 class TRDetailsScreen extends StatefulWidget {
-  const TRDetailsScreen({
-    super.key,
-    required this.id,
-  });
+  const TRDetailsScreen({super.key, required this.id});
 
-  static void push(BuildContext context, {required String id}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => TRDetailsScreen(id: id),
-        ),
-      );
+  static void push(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => TRDetailsScreen(id: id)));
 
   final String id;
 
@@ -48,48 +42,40 @@ class _TRDetailsScreenState extends State<TRDetailsScreen> {
   }
 
   void _handleCancel(String id) => showConfirmationDialog(
-        context,
-        title: context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle
-            .toUpperCase(),
-        message:
-            context.l10n.outgoingDirectPayments_lblCancelConfirmationSubtitle,
-        onConfirm: () => _cancelTR(id),
-      );
+    context,
+    title: context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle.toUpperCase(),
+    message: context.l10n.outgoingDirectPayments_lblCancelConfirmationSubtitle,
+    onConfirm: () => _cancelTR(id),
+  );
 
   @override
-  Widget build(BuildContext context) =>
-      StreamBuilder<TransactionRequestPayment>(
-        stream: _payment,
-        builder: (context, snapshot) {
-          final payment = snapshot.data;
+  Widget build(BuildContext context) => StreamBuilder<TransactionRequestPayment>(
+    stream: _payment,
+    builder: (context, snapshot) {
+      final payment = snapshot.data;
 
-          final loading = TransferProgress(
-            onBack: () => Navigator.pop(context),
-          );
+      final loading = TransferProgress(onBack: () => Navigator.pop(context));
 
-          if (payment == null) return loading;
+      if (payment == null) return loading;
 
-          return switch (payment.status) {
-            TRStatus.success => TransferSuccess(
-                onBack: () => Navigator.pop(context),
-                onOkPressed: () => Navigator.pop(context),
-                statusContent: context.l10n.outgoingTransferSuccess(
-                  payment.amount.format(DeviceLocale.localeOf(context)),
-                ),
-                onMoreDetailsPressed: () {
-                  final link = payment.txId
-                      .let(createTransactionLink)
-                      .let(Uri.parse)
-                      .toString();
-                  context.openLink(link);
-                },
-              ),
-            TRStatus.failure => TransferError(
-                onBack: () => Navigator.pop(context),
-                onCancel: () => _handleCancel(payment.id),
-              ),
-            TRStatus.created || TRStatus.sent => loading,
-          };
-        },
-      );
+      return switch (payment.status) {
+        TRStatus.success => TransferSuccess(
+          onBack: () => Navigator.pop(context),
+          onOkPressed: () => Navigator.pop(context),
+          statusContent: context.l10n.outgoingTransferSuccess(
+            payment.amount.format(DeviceLocale.localeOf(context)),
+          ),
+          onMoreDetailsPressed: () {
+            final link = payment.txId.let(createTransactionLink).let(Uri.parse).toString();
+            context.openLink(link);
+          },
+        ),
+        TRStatus.failure => TransferError(
+          onBack: () => Navigator.pop(context),
+          onCancel: () => _handleCancel(payment.id),
+        ),
+        TRStatus.created || TRStatus.sent => loading,
+      };
+    },
+  );
 }

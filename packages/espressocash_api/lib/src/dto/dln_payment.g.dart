@@ -6,24 +6,21 @@ part of 'dln_payment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PaymentQuoteRequestDtoImpl _$$PaymentQuoteRequestDtoImplFromJson(
-        Map<String, dynamic> json) =>
+_$PaymentQuoteRequestDtoImpl _$$PaymentQuoteRequestDtoImplFromJson(Map<String, dynamic> json) =>
     _$PaymentQuoteRequestDtoImpl(
       amount: (json['amount'] as num).toInt(),
       receiverAddress: json['receiverAddress'] as String,
       receiverBlockchain: json['receiverBlockchain'] as String,
     );
 
-Map<String, dynamic> _$$PaymentQuoteRequestDtoImplToJson(
-        _$PaymentQuoteRequestDtoImpl instance) =>
+Map<String, dynamic> _$$PaymentQuoteRequestDtoImplToJson(_$PaymentQuoteRequestDtoImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
       'receiverAddress': instance.receiverAddress,
       'receiverBlockchain': instance.receiverBlockchain,
     };
 
-_$PaymentQuoteResponseDtoImpl _$$PaymentQuoteResponseDtoImplFromJson(
-        Map<String, dynamic> json) =>
+_$PaymentQuoteResponseDtoImpl _$$PaymentQuoteResponseDtoImplFromJson(Map<String, dynamic> json) =>
     _$PaymentQuoteResponseDtoImpl(
       inputAmount: (json['inputAmount'] as num).toInt(),
       receiverAmount: (json['receiverAmount'] as num).toInt(),
@@ -32,8 +29,7 @@ _$PaymentQuoteResponseDtoImpl _$$PaymentQuoteResponseDtoImplFromJson(
       slot: BigInt.parse(json['slot'] as String),
     );
 
-Map<String, dynamic> _$$PaymentQuoteResponseDtoImplToJson(
-        _$PaymentQuoteResponseDtoImpl instance) =>
+Map<String, dynamic> _$$PaymentQuoteResponseDtoImplToJson(_$PaymentQuoteResponseDtoImpl instance) =>
     <String, dynamic>{
       'inputAmount': instance.inputAmount,
       'receiverAmount': instance.receiverAmount,
@@ -42,29 +38,20 @@ Map<String, dynamic> _$$PaymentQuoteResponseDtoImplToJson(
       'slot': instance.slot.toString(),
     };
 
-_$OrderStatusDlnRequestDtoImpl _$$OrderStatusDlnRequestDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$OrderStatusDlnRequestDtoImpl(
-      orderId: json['orderId'] as String,
-    );
+_$OrderStatusDlnRequestDtoImpl _$$OrderStatusDlnRequestDtoImplFromJson(Map<String, dynamic> json) =>
+    _$OrderStatusDlnRequestDtoImpl(orderId: json['orderId'] as String);
 
 Map<String, dynamic> _$$OrderStatusDlnRequestDtoImplToJson(
-        _$OrderStatusDlnRequestDtoImpl instance) =>
-    <String, dynamic>{
-      'orderId': instance.orderId,
-    };
+  _$OrderStatusDlnRequestDtoImpl instance,
+) => <String, dynamic>{'orderId': instance.orderId};
 
 _$OrderStatusDlnResponseDtoImpl _$$OrderStatusDlnResponseDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$OrderStatusDlnResponseDtoImpl(
-      status: $enumDecode(_$DlnOrderStatusEnumMap, json['status']),
-    );
+  Map<String, dynamic> json,
+) => _$OrderStatusDlnResponseDtoImpl(status: $enumDecode(_$DlnOrderStatusEnumMap, json['status']));
 
 Map<String, dynamic> _$$OrderStatusDlnResponseDtoImplToJson(
-        _$OrderStatusDlnResponseDtoImpl instance) =>
-    <String, dynamic>{
-      'status': _$DlnOrderStatusEnumMap[instance.status]!,
-    };
+  _$OrderStatusDlnResponseDtoImpl instance,
+) => <String, dynamic>{'status': _$DlnOrderStatusEnumMap[instance.status]!};
 
 const _$DlnOrderStatusEnumMap = {
   DlnOrderStatus.none: 'None',
@@ -77,32 +64,19 @@ const _$DlnOrderStatusEnumMap = {
   DlnOrderStatus.claimedOrderCancel: 'ClaimedOrderCancel',
 };
 
-_$OrderIdDlnRequestDtoImpl _$$OrderIdDlnRequestDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$OrderIdDlnRequestDtoImpl(
-      txId: json['txId'] as String,
-    );
+_$OrderIdDlnRequestDtoImpl _$$OrderIdDlnRequestDtoImplFromJson(Map<String, dynamic> json) =>
+    _$OrderIdDlnRequestDtoImpl(txId: json['txId'] as String);
 
-Map<String, dynamic> _$$OrderIdDlnRequestDtoImplToJson(
-        _$OrderIdDlnRequestDtoImpl instance) =>
-    <String, dynamic>{
-      'txId': instance.txId,
-    };
+Map<String, dynamic> _$$OrderIdDlnRequestDtoImplToJson(_$OrderIdDlnRequestDtoImpl instance) =>
+    <String, dynamic>{'txId': instance.txId};
 
-_$OrderIdDlnResponseDtoImpl _$$OrderIdDlnResponseDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$OrderIdDlnResponseDtoImpl(
-      orderId: json['orderId'] as String?,
-    );
+_$OrderIdDlnResponseDtoImpl _$$OrderIdDlnResponseDtoImplFromJson(Map<String, dynamic> json) =>
+    _$OrderIdDlnResponseDtoImpl(orderId: json['orderId'] as String?);
 
-Map<String, dynamic> _$$OrderIdDlnResponseDtoImplToJson(
-        _$OrderIdDlnResponseDtoImpl instance) =>
-    <String, dynamic>{
-      'orderId': instance.orderId,
-    };
+Map<String, dynamic> _$$OrderIdDlnResponseDtoImplToJson(_$OrderIdDlnResponseDtoImpl instance) =>
+    <String, dynamic>{'orderId': instance.orderId};
 
-_$IncomingQuoteRequestDtoImpl _$$IncomingQuoteRequestDtoImplFromJson(
-        Map<String, dynamic> json) =>
+_$IncomingQuoteRequestDtoImpl _$$IncomingQuoteRequestDtoImplFromJson(Map<String, dynamic> json) =>
     _$IncomingQuoteRequestDtoImpl(
       amount: (json['amount'] as num).toInt(),
       senderAddress: json['senderAddress'] as String,
@@ -111,8 +85,7 @@ _$IncomingQuoteRequestDtoImpl _$$IncomingQuoteRequestDtoImplFromJson(
       solanaReferenceAddress: json['solanaReferenceAddress'] as String?,
     );
 
-Map<String, dynamic> _$$IncomingQuoteRequestDtoImplToJson(
-        _$IncomingQuoteRequestDtoImpl instance) =>
+Map<String, dynamic> _$$IncomingQuoteRequestDtoImplToJson(_$IncomingQuoteRequestDtoImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
       'senderAddress': instance.senderAddress,
@@ -121,49 +94,43 @@ Map<String, dynamic> _$$IncomingQuoteRequestDtoImplToJson(
       'solanaReferenceAddress': instance.solanaReferenceAddress,
     };
 
-_$IncomingQuoteResponseDtoImpl _$$IncomingQuoteResponseDtoImplFromJson(
-        Map<String, dynamic> json) =>
+_$IncomingQuoteResponseDtoImpl _$$IncomingQuoteResponseDtoImplFromJson(Map<String, dynamic> json) =>
     _$IncomingQuoteResponseDtoImpl(
       tx: QuoteTx.fromJson(json['tx'] as Map<String, dynamic>),
-      usdcInfo:
-          QuoteUsdcInfo.fromJson(json['usdcInfo'] as Map<String, dynamic>),
+      usdcInfo: QuoteUsdcInfo.fromJson(json['usdcInfo'] as Map<String, dynamic>),
       inputAmount: (json['inputAmount'] as num).toInt(),
       receiverAmount: (json['receiverAmount'] as num).toInt(),
       feeInUsdc: (json['feeInUsdc'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$IncomingQuoteResponseDtoImplToJson(
-        _$IncomingQuoteResponseDtoImpl instance) =>
-    <String, dynamic>{
-      'tx': instance.tx,
-      'usdcInfo': instance.usdcInfo,
-      'inputAmount': instance.inputAmount,
-      'receiverAmount': instance.receiverAmount,
-      'feeInUsdc': instance.feeInUsdc,
-    };
+  _$IncomingQuoteResponseDtoImpl instance,
+) => <String, dynamic>{
+  'tx': instance.tx,
+  'usdcInfo': instance.usdcInfo,
+  'inputAmount': instance.inputAmount,
+  'receiverAmount': instance.receiverAmount,
+  'feeInUsdc': instance.feeInUsdc,
+};
 
-_$QuoteTxImpl _$$QuoteTxImplFromJson(Map<String, dynamic> json) =>
-    _$QuoteTxImpl(
-      to: json['to'] as String,
-      data: json['data'] as String,
-      value: (json['value'] as num).toInt(),
-    );
+_$QuoteTxImpl _$$QuoteTxImplFromJson(Map<String, dynamic> json) => _$QuoteTxImpl(
+  to: json['to'] as String,
+  data: json['data'] as String,
+  value: (json['value'] as num).toInt(),
+);
 
-Map<String, dynamic> _$$QuoteTxImplToJson(_$QuoteTxImpl instance) =>
-    <String, dynamic>{
-      'to': instance.to,
-      'data': instance.data,
-      'value': instance.value,
-    };
+Map<String, dynamic> _$$QuoteTxImplToJson(_$QuoteTxImpl instance) => <String, dynamic>{
+  'to': instance.to,
+  'data': instance.data,
+  'value': instance.value,
+};
 
-_$QuoteUsdcInfoImpl _$$QuoteUsdcInfoImplFromJson(Map<String, dynamic> json) =>
-    _$QuoteUsdcInfoImpl(
-      usdcAddress: json['usdcAddress'] as String,
-      approvalAmount: (json['approvalAmount'] as num).toInt(),
-    );
+_$QuoteUsdcInfoImpl _$$QuoteUsdcInfoImplFromJson(Map<String, dynamic> json) => _$QuoteUsdcInfoImpl(
+  usdcAddress: json['usdcAddress'] as String,
+  approvalAmount: (json['approvalAmount'] as num).toInt(),
+);
 
-Map<String, dynamic> _$$QuoteUsdcInfoImplToJson(_$QuoteUsdcInfoImpl instance) =>
-    <String, dynamic>{
-      'usdcAddress': instance.usdcAddress,
-      'approvalAmount': instance.approvalAmount,
-    };
+Map<String, dynamic> _$$QuoteUsdcInfoImplToJson(_$QuoteUsdcInfoImpl instance) => <String, dynamic>{
+  'usdcAddress': instance.usdcAddress,
+  'approvalAmount': instance.approvalAmount,
+};

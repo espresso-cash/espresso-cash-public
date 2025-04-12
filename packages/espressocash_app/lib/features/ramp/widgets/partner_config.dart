@@ -9,8 +9,7 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
 
   final partners = <RampPartner>{};
 
-  final isMoneygramEnabled =
-      sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
+  final isMoneygramEnabled = sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
 
   if (isMoneygramEnabled && _moneygramOnRampCountries.contains(countryCode)) {
     partners.add(RampPartner.moneygram);
@@ -20,8 +19,8 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
     partners.add(RampPartner.kado);
   }
 
-  final isBrijPartnerEnabled = sl<FeatureFlagsManager>().isBrijEnabled() &&
-      sl<FeatureFlagsManager>().isBrijDemoEnabled();
+  final isBrijPartnerEnabled =
+      sl<FeatureFlagsManager>().isBrijEnabled() && sl<FeatureFlagsManager>().isBrijDemoEnabled();
 
   if (isBrijPartnerEnabled && _brijCountries.contains(countryCode)) {
     partners.add(RampPartner.brij);
@@ -41,8 +40,7 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
 
   final partners = <RampPartner>{};
 
-  final isMoneygramEnabled =
-      sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
+  final isMoneygramEnabled = sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
 
   if (isMoneygramEnabled && _moneygramOffRampCountries.contains(countryCode)) {
     partners.add(RampPartner.moneygram);
@@ -52,8 +50,8 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
     partners.add(RampPartner.coinflow);
   }
 
-  final isBrijPartnerEnabled = sl<FeatureFlagsManager>().isBrijEnabled() &&
-      sl<FeatureFlagsManager>().isBrijDemoEnabled();
+  final isBrijPartnerEnabled =
+      sl<FeatureFlagsManager>().isBrijEnabled() && sl<FeatureFlagsManager>().isBrijDemoEnabled();
 
   if (isBrijPartnerEnabled && _brijCountries.contains(countryCode)) {
     partners.add(RampPartner.brij);

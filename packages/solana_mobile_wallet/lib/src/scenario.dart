@@ -11,11 +11,7 @@ import 'package:solana_mobile_wallet/src/requests/sign_transactions.dart';
 import 'package:solana_mobile_wallet/src/wallet_config.dart';
 
 class Scenario {
-  const Scenario._({
-    required this.associationPublicKey,
-    required this.callbacks,
-    required this.id,
-  });
+  const Scenario._({required this.associationPublicKey, required this.callbacks, required this.id});
 
   static Future<Scenario?> _create({
     required MobileWalletAdapterConfig walletConfig,
@@ -26,27 +22,19 @@ class Scenario {
     final associationPublicKey = await _host.createScenario(
       id,
       WalletConfigDto(
-        supportsSignAndSendTransactions:
-            walletConfig.supportsSignAndSendTransactions,
-        maxTransactionsPerSigningRequest:
-            walletConfig.maxTransactionsPerSigningRequest,
+        supportsSignAndSendTransactions: walletConfig.supportsSignAndSendTransactions,
+        maxTransactionsPerSigningRequest: walletConfig.maxTransactionsPerSigningRequest,
         maxMessagesPerSigningRequest: walletConfig.maxMessagesPerSigningRequest,
-        supportedTransactionVersions: walletConfig.supportedTransactionVersions
-            .whereType<String>()
-            .toList(),
-        noConnectionWarningTimeoutInMs:
-            walletConfig.noConnectionWarningTimeout.inMilliseconds,
+        supportedTransactionVersions:
+            walletConfig.supportedTransactionVersions.whereType<String>().toList(),
+        noConnectionWarningTimeoutInMs: walletConfig.noConnectionWarningTimeout.inMilliseconds,
       ),
       AuthIssuerConfigDto(
         name: issuerConfig.name,
-        maxOutstandingTokensPerIdentility:
-            issuerConfig.maxOutstandingTokensPerIdentity,
-        authorizationValidityInMs:
-            issuerConfig.authorizationValidity.inMilliseconds,
-        reauthorizationValidityInMs:
-            issuerConfig.reauthorizationValidity.inMilliseconds,
-        reauthorizationNopDurationInMs:
-            issuerConfig.reauthorizationNopDuration.inMilliseconds,
+        maxOutstandingTokensPerIdentility: issuerConfig.maxOutstandingTokensPerIdentity,
+        authorizationValidityInMs: issuerConfig.authorizationValidity.inMilliseconds,
+        reauthorizationValidityInMs: issuerConfig.reauthorizationValidity.inMilliseconds,
+        reauthorizationNopDurationInMs: issuerConfig.reauthorizationNopDuration.inMilliseconds,
       ),
     );
     if (associationPublicKey == null) {
@@ -95,12 +83,8 @@ abstract class ScenarioCallbacks {
   // Request callbacks
   Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request);
   Future<bool> onReauthorizeRequest(ReauthorizeRequest request);
-  Future<SignedPayloadResult?> onSignTransactionsRequest(
-    SignTransactionsRequest request,
-  );
-  Future<SignedPayloadResult?> onSignMessagesRequest(
-    SignMessagesRequest request,
-  );
+  Future<SignedPayloadResult?> onSignTransactionsRequest(SignTransactionsRequest request);
+  Future<SignedPayloadResult?> onSignMessagesRequest(SignMessagesRequest request);
   Future<SignaturesResult?> onSignAndSendTransactionsRequest(
     SignAndSendTransactionsRequest request,
   );
@@ -147,10 +131,7 @@ class Api implements ApiFlutter {
   }
 
   @override
-  Future<AuthorizeResultDto?> authorize(
-    AuthorizeRequestDto request,
-    int id,
-  ) async {
+  Future<AuthorizeResultDto?> authorize(AuthorizeRequestDto request, int id) async {
     final r = AuthorizeRequest(
       identityName: request.identityName,
       identityUri: Uri.tryParse(request.identityUri ?? ''),
@@ -200,27 +181,24 @@ class Api implements ApiFlutter {
 
     return result?.when(
       (value) => SignedPayloadsResultDto(payloads: value),
-      requestDeclined: () => SignedPayloadsResultDto(
-        error: MobileWalletAdapterServerException.requestDeclined,
-      ),
-      invalidPayloads: (valid) => SignedPayloadsResultDto(
-        error: MobileWalletAdapterServerException.invalidPayloads,
-        validPayloads: valid,
-      ),
-      tooManyPayloads: () => SignedPayloadsResultDto(
-        error: MobileWalletAdapterServerException.tooManyPayloads,
-      ),
-      authorizationNotValid: () => SignedPayloadsResultDto(
-        error: MobileWalletAdapterServerException.authorizationNotValid,
-      ),
+      requestDeclined:
+          () => SignedPayloadsResultDto(error: MobileWalletAdapterServerException.requestDeclined),
+      invalidPayloads:
+          (valid) => SignedPayloadsResultDto(
+            error: MobileWalletAdapterServerException.invalidPayloads,
+            validPayloads: valid,
+          ),
+      tooManyPayloads:
+          () => SignedPayloadsResultDto(error: MobileWalletAdapterServerException.tooManyPayloads),
+      authorizationNotValid:
+          () => SignedPayloadsResultDto(
+            error: MobileWalletAdapterServerException.authorizationNotValid,
+          ),
     );
   }
 
   @override
-  Future<SignedPayloadsResultDto?> signMessages(
-    SignMessagesRequestDto request,
-    int id,
-  ) async {
+  Future<SignedPayloadsResultDto?> signMessages(SignMessagesRequestDto request, int id) async {
     final r = SignMessagesRequest(
       identityName: request.identityName,
       identityUri: Uri.tryParse(request.identityUri ?? ''),
@@ -234,19 +212,19 @@ class Api implements ApiFlutter {
 
     return result?.when(
       (value) => SignedPayloadsResultDto(payloads: value),
-      requestDeclined: () => SignedPayloadsResultDto(
-        error: MobileWalletAdapterServerException.requestDeclined,
-      ),
-      invalidPayloads: (valid) => SignedPayloadsResultDto(
-        error: MobileWalletAdapterServerException.invalidPayloads,
-        validPayloads: valid,
-      ),
-      tooManyPayloads: () => SignedPayloadsResultDto(
-        error: MobileWalletAdapterServerException.tooManyPayloads,
-      ),
-      authorizationNotValid: () => SignedPayloadsResultDto(
-        error: MobileWalletAdapterServerException.authorizationNotValid,
-      ),
+      requestDeclined:
+          () => SignedPayloadsResultDto(error: MobileWalletAdapterServerException.requestDeclined),
+      invalidPayloads:
+          (valid) => SignedPayloadsResultDto(
+            error: MobileWalletAdapterServerException.invalidPayloads,
+            validPayloads: valid,
+          ),
+      tooManyPayloads:
+          () => SignedPayloadsResultDto(error: MobileWalletAdapterServerException.tooManyPayloads),
+      authorizationNotValid:
+          () => SignedPayloadsResultDto(
+            error: MobileWalletAdapterServerException.authorizationNotValid,
+          ),
     );
   }
 
@@ -265,28 +243,27 @@ class Api implements ApiFlutter {
       transactions: request.transactions.whereType<Uint8List>().toList(),
     );
 
-    final result =
-        await _scenarios[id]?.callbacks.onSignAndSendTransactionsRequest(r);
+    final result = await _scenarios[id]?.callbacks.onSignAndSendTransactionsRequest(r);
 
     return result?.when(
       (value) => SignaturesResultDto(signatures: value),
-      requestDeclined: () => SignaturesResultDto(
-        error: MobileWalletAdapterServerException.requestDeclined,
-      ),
-      invalidPayloads: (valid) => SignaturesResultDto(
-        error: MobileWalletAdapterServerException.invalidPayloads,
-        validSignatures: valid,
-      ),
-      tooManyPayloads: () => SignaturesResultDto(
-        error: MobileWalletAdapterServerException.tooManyPayloads,
-      ),
-      authorizationNotValid: () => SignaturesResultDto(
-        error: MobileWalletAdapterServerException.authorizationNotValid,
-      ),
-      notSubmitted: (signatures) => SignaturesResultDto(
-        error: MobileWalletAdapterServerException.notSubmitted,
-        signatures: signatures,
-      ),
+      requestDeclined:
+          () => SignaturesResultDto(error: MobileWalletAdapterServerException.requestDeclined),
+      invalidPayloads:
+          (valid) => SignaturesResultDto(
+            error: MobileWalletAdapterServerException.invalidPayloads,
+            validSignatures: valid,
+          ),
+      tooManyPayloads:
+          () => SignaturesResultDto(error: MobileWalletAdapterServerException.tooManyPayloads),
+      authorizationNotValid:
+          () =>
+              SignaturesResultDto(error: MobileWalletAdapterServerException.authorizationNotValid),
+      notSubmitted:
+          (signatures) => SignaturesResultDto(
+            error: MobileWalletAdapterServerException.notSubmitted,
+            signatures: signatures,
+          ),
     );
   }
 

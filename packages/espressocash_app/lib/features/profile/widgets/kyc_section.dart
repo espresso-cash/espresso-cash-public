@@ -28,10 +28,9 @@ class _KycSectionState extends State<KycSection> {
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
-        valueListenable: sl<KycSharingService>(),
-        builder: (context, user, _) =>
-            user == null ? const SizedBox.shrink() : _KycInfo(user: user),
-      );
+    valueListenable: sl<KycSharingService>(),
+    builder: (context, user, _) => user == null ? const SizedBox.shrink() : _KycInfo(user: user),
+  );
 }
 
 class _KycInfo extends StatelessWidget {
@@ -41,40 +40,38 @@ class _KycInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ProfileSection(
-        title: context.l10n.identityVerification.toUpperCase() +
-            (sl<FeatureFlagsManager>().isBrijDemoEnabled() ? ' (Demo)' : ''),
-        padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
-        actions: [
-          if (user.hasPersonalDetails())
-            KycButton(
-              label: context.l10n.personalInformationTitle,
-              onPressed: () => PersonalInformationScreen.push(
-                context,
-                showActionButton: false,
-              ),
-            ),
-          KycButton(
-            label: context.l10n.bankAccount,
-            onPressed: () => BankAccountListScreen.push(context),
-          ),
-          KycButton(
-            label: context.l10n.emailAddress,
-            description: user.getEmail,
-            onPressed: context.openEmailFlow,
-            status: user.emailStatus,
-          ),
-          KycButton(
-            label: context.l10n.phoneNumber,
-            description: user.getPhone,
-            onPressed: context.openPhoneFlow,
-            status: user.phoneStatus,
-          ),
-          // TODO(dev): hidden for now, still in development
-          // if (!user.kycStatus.isUnspecified)
-          //   KycButton(
-          //     label: context.l10n.manageDataAccess,
-          //     onPressed: () => ManageDataAccessScreen.push(context),
-          //   ),
-        ],
-      );
+    title:
+        context.l10n.identityVerification.toUpperCase() +
+        (sl<FeatureFlagsManager>().isBrijDemoEnabled() ? ' (Demo)' : ''),
+    padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
+    actions: [
+      if (user.hasPersonalDetails())
+        KycButton(
+          label: context.l10n.personalInformationTitle,
+          onPressed: () => PersonalInformationScreen.push(context, showActionButton: false),
+        ),
+      KycButton(
+        label: context.l10n.bankAccount,
+        onPressed: () => BankAccountListScreen.push(context),
+      ),
+      KycButton(
+        label: context.l10n.emailAddress,
+        description: user.getEmail,
+        onPressed: context.openEmailFlow,
+        status: user.emailStatus,
+      ),
+      KycButton(
+        label: context.l10n.phoneNumber,
+        description: user.getPhone,
+        onPressed: context.openPhoneFlow,
+        status: user.phoneStatus,
+      ),
+      // TODO(dev): hidden for now, still in development
+      // if (!user.kycStatus.isUnspecified)
+      //   KycButton(
+      //     label: context.l10n.manageDataAccess,
+      //     onPressed: () => ManageDataAccessScreen.push(context),
+      //   ),
+    ],
+  );
 }

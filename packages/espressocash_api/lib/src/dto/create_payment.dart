@@ -19,10 +19,8 @@ class CreatePaymentRequestDto with _$CreatePaymentRequestDto {
 
 @freezed
 class CreatePaymentResponseDto with _$CreatePaymentResponseDto {
-  const factory CreatePaymentResponseDto({
-    required String transaction,
-    required BigInt slot,
-  }) = _CreatePaymentResponseDto;
+  const factory CreatePaymentResponseDto({required String transaction, required BigInt slot}) =
+      _CreatePaymentResponseDto;
 
   factory CreatePaymentResponseDto.fromJson(Map<String, dynamic> json) =>
       _$CreatePaymentResponseDtoFromJson(json);
@@ -43,10 +41,8 @@ class ReceivePaymentRequestDto with _$ReceivePaymentRequestDto {
 
 @freezed
 class ReceivePaymentResponseDto with _$ReceivePaymentResponseDto {
-  const factory ReceivePaymentResponseDto({
-    required String transaction,
-    required BigInt slot,
-  }) = _ReceivePaymentResponseDto;
+  const factory ReceivePaymentResponseDto({required String transaction, required BigInt slot}) =
+      _ReceivePaymentResponseDto;
 
   factory ReceivePaymentResponseDto.fromJson(Map<String, dynamic> json) =>
       _$ReceivePaymentResponseDtoFromJson(json);
@@ -95,10 +91,8 @@ class CancelPaymentRequestDto with _$CancelPaymentRequestDto {
 
 @freezed
 class CancelPaymentResponseDto with _$CancelPaymentResponseDto {
-  const factory CancelPaymentResponseDto({
-    required String transaction,
-    required BigInt slot,
-  }) = _CancelPaymentResponseDto;
+  const factory CancelPaymentResponseDto({required String transaction, required BigInt slot}) =
+      _CancelPaymentResponseDto;
 
   factory CancelPaymentResponseDto.fromJson(Map<String, dynamic> json) =>
       _$CancelPaymentResponseDtoFromJson(json);

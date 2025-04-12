@@ -13,8 +13,7 @@ class InflationReward {
     required this.commission,
   });
 
-  factory InflationReward.fromJson(Map<String, dynamic> json) =>
-      _$InflationRewardFromJson(json);
+  factory InflationReward.fromJson(Map<String, dynamic> json) => _$InflationRewardFromJson(json);
 
   /// Epoch for which reward occurred.
   final int epoch;

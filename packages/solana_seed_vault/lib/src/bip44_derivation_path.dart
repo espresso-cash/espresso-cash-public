@@ -3,9 +3,10 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 class Bip44DerivationPath {
   static Uri toUri(List<BipLevel> bipLevels) {
     final pathSegments = bipLevels.map(
-      (it) => it.hardened
-          ? '${it.index}${WalletContractV1.bipUriHardenedIndexIdentifier}'
-          : it.index.toString(),
+      (it) =>
+          it.hardened
+              ? '${it.index}${WalletContractV1.bipUriHardenedIndexIdentifier}'
+              : it.index.toString(),
     );
 
     return Uri(
@@ -35,33 +36,23 @@ class Bip44DerivationPath {
 
     final path = uri.pathSegments;
     if (path.isEmpty || path.length > 3) {
-      throw UnsupportedError(
-        'BIP44 URI path must contain between 1 and 3 elements',
-      );
+      throw UnsupportedError('BIP44 URI path must contain between 1 and 3 elements');
     }
 
-    final levels = path.map(
-      (it) {
-        final hardened =
-            it.endsWith(WalletContractV1.bipUriHardenedIndexIdentifier);
-        final index = int.tryParse(
-          it.substring(
-            0,
-            it.length -
-                (hardened
-                    ? WalletContractV1.bipUriHardenedIndexIdentifier.length
-                    : 0),
-          ),
-        );
-        if (index == null) {
-          throw UnsupportedError(
-            'Path element $it could not be parsed as a BIP44 level',
-          );
-        }
+    final levels = path.map((it) {
+      final hardened = it.endsWith(WalletContractV1.bipUriHardenedIndexIdentifier);
+      final index = int.tryParse(
+        it.substring(
+          0,
+          it.length - (hardened ? WalletContractV1.bipUriHardenedIndexIdentifier.length : 0),
+        ),
+      );
+      if (index == null) {
+        throw UnsupportedError('Path element $it could not be parsed as a BIP44 level');
+      }
 
-        return BipLevel(index: index, hardened: hardened);
-      },
-    );
+      return BipLevel(index: index, hardened: hardened);
+    });
 
     BipLevel? getLevelOrNull(int index) {
       if (levels.length <= index) return null;
@@ -74,10 +65,6 @@ class Bip44DerivationPath {
       throw AssertionError('Account must not be null');
     }
 
-    return Bip44Data(
-      account: account,
-      change: getLevelOrNull(1),
-      addressIndex: getLevelOrNull(2),
-    );
+    return Bip44Data(account: account, change: getLevelOrNull(1), addressIndex: getLevelOrNull(2));
   }
 }

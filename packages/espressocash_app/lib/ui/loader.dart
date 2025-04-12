@@ -6,11 +6,7 @@ import 'colors.dart';
 
 // ignore: avoid-unnecessary-stateful-widgets, DCM bug
 class CpLoader extends StatefulWidget {
-  const CpLoader({
-    super.key,
-    required this.child,
-    required this.isLoading,
-  });
+  const CpLoader({super.key, required this.child, required this.isLoading});
 
   final Widget child;
   final bool isLoading;
@@ -28,17 +24,11 @@ class _CpLoaderState extends State<CpLoader> {
 
     return widget.isLoading
         ? PopScope(
-            canPop: false,
-            child: Stack(
-              children: [
-                child,
-                const ColoredBox(
-                  color: Colors.black38,
-                  child: LoadingIndicator(),
-                ),
-              ],
-            ),
-          )
+          canPop: false,
+          child: Stack(
+            children: [child, const ColoredBox(color: Colors.black38, child: LoadingIndicator())],
+          ),
+        )
         : child;
   }
 }
@@ -48,13 +38,11 @@ class LoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Center(
-        child: SizedBox.square(
-          dimension: 20,
-          child: CircularProgressIndicator(
-            color: CpColors.yellowColor,
-          ),
-        ),
-      );
+    child: SizedBox.square(
+      dimension: 20,
+      child: CircularProgressIndicator(color: CpColors.yellowColor),
+    ),
+  );
 }
 
 Future<T> runWithLoader<T>(
@@ -67,21 +55,16 @@ Future<T> runWithLoader<T>(
   await showDialog<T>(
     barrierDismissible: false,
     context: context,
-    builder: (context) => PopScope(
-      canPop: false,
-      child: LoadingDialog<T>(future: future, onError: onError),
-    ),
+    builder:
+        (context) =>
+            PopScope(canPop: false, child: LoadingDialog<T>(future: future, onError: onError)),
   );
 
   return future;
 }
 
 class LoadingDialog<T> extends StatefulWidget {
-  const LoadingDialog({
-    super.key,
-    required this.future,
-    this.onError,
-  });
+  const LoadingDialog({super.key, required this.future, this.onError});
 
   final Future<T> future;
   final Callback1<Exception>? onError;

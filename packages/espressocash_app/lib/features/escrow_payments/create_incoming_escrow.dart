@@ -14,11 +14,7 @@ import 'instructions.dart';
 
 @injectable
 class CreateIncomingEscrow {
-  const CreateIncomingEscrow(
-    this._client,
-    this._addPriorityFees,
-    this._ecClient,
-  );
+  const CreateIncomingEscrow(this._client, this._addPriorityFees, this._ecClient);
 
   final SolanaClient _client;
   final AddPriorityFees _addPriorityFees;
@@ -43,21 +39,16 @@ class CreateIncomingEscrow {
 
     final instructions = <Instruction>[];
 
-    final ataEscrow = await findAssociatedTokenAddress(
-      owner: escrowAccount.publicKey,
-      mint: mint,
-    );
+    final ataEscrow = await findAssociatedTokenAddress(owner: escrowAccount.publicKey, mint: mint);
 
-    final ataReceiver = await findAssociatedTokenAddress(
-      owner: receiverAccount,
-      mint: mint,
-    );
+    final ataReceiver = await findAssociatedTokenAddress(owner: receiverAccount, mint: mint);
 
-    final shouldCreateAta = !await _client.hasAssociatedTokenAccount(
-      owner: receiverAccount,
-      mint: mint,
-      commitment: commitment,
-    );
+    final shouldCreateAta =
+        !await _client.hasAssociatedTokenAccount(
+          owner: receiverAccount,
+          mint: mint,
+          commitment: commitment,
+        );
 
     if (shouldCreateAta) {
       final iCreateATA = AssociatedTokenAccountInstruction.createAccount(
@@ -83,10 +74,7 @@ class CreateIncomingEscrow {
     if (shouldCreateAta) {
       final transactionFees = await _ecClient.getFees();
       fee = transactionFees.escrowPaymentAtaFee;
-      final ataPlatform = await findAssociatedTokenAddress(
-        owner: platformAccount,
-        mint: mint,
-      );
+      final ataPlatform = await findAssociatedTokenAddress(owner: platformAccount, mint: mint);
       final iTransferFee = TokenInstruction.transfer(
         amount: fee,
         source: ataReceiver,
@@ -108,21 +96,18 @@ class CreateIncomingEscrow {
       ],
     );
 
-    final compiled = message.compile(
-      recentBlockhash: nonceData.nonce,
-      feePayer: platformAccount,
-    );
+    final compiled = message.compile(recentBlockhash: nonceData.nonce, feePayer: platformAccount);
 
     final priorityFees = await _ecClient.getDurableFees();
 
     return SignedTx(
-      compiledMessage: compiled,
-      signatures: [
-        platformAccount.emptySignature(),
-        escrowAccount.publicKey.emptySignature(),
-        if (shouldCreateAta) receiverAccount.emptySignature(),
-      ],
-    )
+          compiledMessage: compiled,
+          signatures: [
+            platformAccount.emptySignature(),
+            escrowAccount.publicKey.emptySignature(),
+            if (shouldCreateAta) receiverAccount.emptySignature(),
+          ],
+        )
         .let(
           (tx) => _addPriorityFees(
             tx: tx,

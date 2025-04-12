@@ -29,34 +29,26 @@ class AssociatedTokenAccountInstruction extends Instruction {
     required Ed25519HDPublicKey owner,
     required Ed25519HDPublicKey mint,
     Ed25519HDPublicKey? tokenProgramId,
-  }) =>
-      AssociatedTokenAccountInstruction._(
-        accounts: [
-          AccountMeta.writeable(pubKey: funder, isSigner: true),
-          AccountMeta.writeable(pubKey: address, isSigner: false),
-          AccountMeta.readonly(pubKey: owner, isSigner: false),
-          AccountMeta.readonly(pubKey: mint, isSigner: false),
-          AccountMeta.readonly(
-            pubKey: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
-            isSigner: false,
-          ),
-          AccountMeta.readonly(
-            pubKey: Ed25519HDPublicKey.fromBase58(
-              tokenProgramId?.toBase58() ?? TokenProgram.id.toBase58(),
-            ),
-            isSigner: false,
-          ),
-          AccountMeta.readonly(
-            pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-            isSigner: false,
-          ),
-        ],
-      );
+  }) => AssociatedTokenAccountInstruction._(
+    accounts: [
+      AccountMeta.writeable(pubKey: funder, isSigner: true),
+      AccountMeta.writeable(pubKey: address, isSigner: false),
+      AccountMeta.readonly(pubKey: owner, isSigner: false),
+      AccountMeta.readonly(pubKey: mint, isSigner: false),
+      AccountMeta.readonly(
+        pubKey: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
+        isSigner: false,
+      ),
+      AccountMeta.readonly(
+        pubKey: Ed25519HDPublicKey.fromBase58(
+          tokenProgramId?.toBase58() ?? TokenProgram.id.toBase58(),
+        ),
+        isSigner: false,
+      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
+    ],
+  );
 
-  AssociatedTokenAccountInstruction._({
-    required super.accounts,
-  }) : super(
-          programId: AssociatedTokenAccountProgram.id,
-          data: const ByteArray.empty(),
-        );
+  AssociatedTokenAccountInstruction._({required super.accounts})
+    : super(programId: AssociatedTokenAccountProgram.id, data: const ByteArray.empty());
 }

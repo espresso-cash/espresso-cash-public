@@ -8,13 +8,14 @@ import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 
-typedef MoneygramFees = ({
-  Amount receiveAmount,
-  Amount moneygramFee,
-  Amount bridgeFee,
-  Amount gasFeeInUsdc,
-  int? priorityFee,
-});
+typedef MoneygramFees =
+    ({
+      Amount receiveAmount,
+      Amount moneygramFee,
+      Amount bridgeFee,
+      Amount gasFeeInUsdc,
+      int? priorityFee,
+    });
 
 @Singleton(scope: authScope)
 class MoneygramFeesService {
@@ -26,10 +27,7 @@ class MoneygramFeesService {
   Amount? _lastAmount;
   RampType? _lastType;
 
-  Future<MoneygramFees> fetchFees({
-    required Amount amount,
-    required RampType type,
-  }) {
+  Future<MoneygramFees> fetchFees({required Amount amount, required RampType type}) {
     if (amount != _lastAmount || type != _lastType) {
       _cache.invalidate();
       _lastAmount = amount;
@@ -39,15 +37,9 @@ class MoneygramFeesService {
     return _cache.fetch(() => _fetchFeesFromApi(amount: amount, type: type));
   }
 
-  Future<MoneygramFees> _fetchFeesFromApi({
-    required Amount amount,
-    required RampType type,
-  }) async {
+  Future<MoneygramFees> _fetchFeesFromApi({required Amount amount, required RampType type}) async {
     final fee = await _client.calculateMoneygramFee(
-      MoneygramFeeRequestDto(
-        type: type.toDto(),
-        amount: amount.decimal.toString(),
-      ),
+      MoneygramFeeRequestDto(type: type.toDto(), amount: amount.decimal.toString()),
     );
 
     final bridgeFee = Amount.fromDecimal(
@@ -87,7 +79,7 @@ class MoneygramFeesService {
 
 extension on RampType {
   RampTypeDto toDto() => switch (this) {
-        RampType.onRamp => RampTypeDto.onRamp,
-        RampType.offRamp => RampTypeDto.offRamp
-      };
+    RampType.onRamp => RampTypeDto.onRamp,
+    RampType.offRamp => RampTypeDto.offRamp,
+  };
 }

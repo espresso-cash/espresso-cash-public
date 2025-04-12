@@ -40,33 +40,26 @@ class KycButton extends StatelessWidget {
       onTap: onPressed,
       title: Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment:
-            centerText ? MainAxisAlignment.center : MainAxisAlignment.start,
+        mainAxisAlignment: centerText ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
           Flexible(
             child: Text(
               label,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(color: textColor, fontSize: 17, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(width: 8),
           if (status != null) KycStatusWidget(status),
         ],
       ),
-      subtitle: description != null
-          ? Text(
-              description,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-            )
-          : null,
+      subtitle:
+          description != null
+              ? Text(
+                description,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              )
+              : null,
       trailing: showIcon ? Icon(icon, color: iconColor) : null,
     );
   }

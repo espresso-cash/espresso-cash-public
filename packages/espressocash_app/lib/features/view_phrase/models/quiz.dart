@@ -3,10 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'quiz.freezed.dart';
 
-typedef Explanation = ({
-  String title,
-  String description,
-});
+typedef Explanation = ({String title, String description});
 
 @freezed
 class QuizQuestion with _$QuizQuestion {

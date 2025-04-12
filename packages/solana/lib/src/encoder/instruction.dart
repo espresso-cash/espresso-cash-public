@@ -14,11 +14,7 @@ class Instruction {
   ///
   /// Some programs take specific [data]. You can provide raw 8bit bytes arrays
   /// with the [data] parameter.
-  const Instruction({
-    required this.programId,
-    required this.accounts,
-    required this.data,
-  });
+  const Instruction({required this.programId, required this.accounts, required this.data});
 
   final Ed25519HDPublicKey programId;
   final List<AccountMeta> accounts;
@@ -27,9 +23,7 @@ class Instruction {
   /// Compiles instruction according to the [instruction format][1].
   ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#instruction-format
-  CompiledInstruction compile(
-    Map<Ed25519HDPublicKey, int> accountIndexesMap,
-  ) {
+  CompiledInstruction compile(Map<Ed25519HDPublicKey, int> accountIndexesMap) {
     if (!accountIndexesMap.containsKey(programId)) {
       throw const FormatException('programId not found in accountIndexesMap');
     }
@@ -61,9 +55,9 @@ class Instruction {
 
   @override
   int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(programId),
-        const DeepCollectionEquality().hash(accounts),
-        const DeepCollectionEquality().hash(data),
-      );
+    runtimeType,
+    const DeepCollectionEquality().hash(programId),
+    const DeepCollectionEquality().hash(accounts),
+    const DeepCollectionEquality().hash(data),
+  );
 }

@@ -5,11 +5,7 @@ import '../../ramp_partner/models/ramp_partner.dart';
 
 part 'fee_type.freezed.dart';
 
-@Freezed(
-  when: FreezedWhenOptions.none,
-  map: FreezedMapOptions.none,
-  copyWith: false,
-)
+@Freezed(when: FreezedWhenOptions.none, map: FreezedMapOptions.none, copyWith: false)
 sealed class FeeType with _$FeeType {
   const factory FeeType.direct(Ed25519HDPublicKey address) = FeeTypeDirect;
   const factory FeeType.link() = FeeTypeLink;

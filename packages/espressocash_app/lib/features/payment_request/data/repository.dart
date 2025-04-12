@@ -21,8 +21,7 @@ class PaymentRequestRepository implements Disposable {
   final MyDatabase _db;
 
   Stream<PaymentRequest> watchById(String id) {
-    final query = _db.select(_db.paymentRequestRows)
-      ..where((p) => p.id.equals(id));
+    final query = _db.select(_db.paymentRequestRows)..where((p) => p.id.equals(id));
 
     return query.watchSingle().map((row) => row.toPaymentRequest());
   }
@@ -31,8 +30,7 @@ class PaymentRequestRepository implements Disposable {
       _db.into(_db.paymentRequestRows).insertOnConflictUpdate(payment.toRow());
 
   Future<void> delete(String id) =>
-      (_db.delete(_db.paymentRequestRows)..where((tbl) => tbl.id.equals(id)))
-          .go();
+      (_db.delete(_db.paymentRequestRows)..where((tbl) => tbl.id.equals(id))).go();
 
   Future<IList<PaymentRequest>> getAllPending() async {
     final query = _db.select(_db.paymentRequestRows)
@@ -69,56 +67,54 @@ class PaymentRequestRows extends Table with EntityMixin {
 
 extension on PaymentRequestRow {
   PaymentRequest toPaymentRequest() => PaymentRequest(
-        id: id,
-        created: created,
-        payRequest: SolanaPayRequest(
-          amount: amount?.let(Decimal.parse),
-          recipient: Ed25519HDPublicKey.fromBase58(recipient),
-          splToken: spltToken?.let(Ed25519HDPublicKey.fromBase58),
-          reference: reference?.let(
-            (it) => it.split(',').map(Ed25519HDPublicKey.fromBase58).toIList(),
-          ),
-          message: message,
-          memo: memo,
-        ),
-        dynamicLink: dynamicLink,
-        transactionId: transactionId,
-        resolvedAt: resolvedAt,
-        shortLink: shortLink,
-        state: state.toPaymentRequestState(),
-      );
+    id: id,
+    created: created,
+    payRequest: SolanaPayRequest(
+      amount: amount?.let(Decimal.parse),
+      recipient: Ed25519HDPublicKey.fromBase58(recipient),
+      splToken: spltToken?.let(Ed25519HDPublicKey.fromBase58),
+      reference: reference?.let((it) => it.split(',').map(Ed25519HDPublicKey.fromBase58).toIList()),
+      message: message,
+      memo: memo,
+    ),
+    dynamicLink: dynamicLink,
+    transactionId: transactionId,
+    resolvedAt: resolvedAt,
+    shortLink: shortLink,
+    state: state.toPaymentRequestState(),
+  );
 }
 
 extension on PaymentRequest {
   PaymentRequestRow toRow() => PaymentRequestRow(
-        id: id,
-        created: created,
-        dynamicLink: dynamicLink,
-        shortLink: shortLink,
-        state: state.toPaymentRequestStateDto(),
-        transactionId: transactionId,
-        recipient: payRequest.recipient.toBase58(),
-        amount: payRequest.amount?.toString(),
-        memo: payRequest.memo,
-        message: payRequest.message,
-        reference: payRequest.reference?.map((it) => it.toBase58()).join(','),
-        spltToken: payRequest.splToken?.toBase58(),
-        resolvedAt: resolvedAt,
-      );
+    id: id,
+    created: created,
+    dynamicLink: dynamicLink,
+    shortLink: shortLink,
+    state: state.toPaymentRequestStateDto(),
+    transactionId: transactionId,
+    recipient: payRequest.recipient.toBase58(),
+    amount: payRequest.amount?.toString(),
+    memo: payRequest.memo,
+    message: payRequest.message,
+    reference: payRequest.reference?.map((it) => it.toBase58()).join(','),
+    spltToken: payRequest.splToken?.toBase58(),
+    resolvedAt: resolvedAt,
+  );
 }
 
 extension on PaymentRequestStateDto {
   PaymentRequestState toPaymentRequestState() => switch (this) {
-        PaymentRequestStateDto.initial => PaymentRequestState.initial,
-        PaymentRequestStateDto.completed => PaymentRequestState.completed,
-        PaymentRequestStateDto.error => PaymentRequestState.error,
-      };
+    PaymentRequestStateDto.initial => PaymentRequestState.initial,
+    PaymentRequestStateDto.completed => PaymentRequestState.completed,
+    PaymentRequestStateDto.error => PaymentRequestState.error,
+  };
 }
 
 extension on PaymentRequestState {
   PaymentRequestStateDto toPaymentRequestStateDto() => switch (this) {
-        PaymentRequestState.initial => PaymentRequestStateDto.initial,
-        PaymentRequestState.completed => PaymentRequestStateDto.completed,
-        PaymentRequestState.error => PaymentRequestStateDto.error,
-      };
+    PaymentRequestState.initial => PaymentRequestStateDto.initial,
+    PaymentRequestState.completed => PaymentRequestStateDto.completed,
+    PaymentRequestState.error => PaymentRequestStateDto.error,
+  };
 }

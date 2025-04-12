@@ -6,8 +6,8 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 QueryExecutor openConnection() => LazyDatabase(() async {
-      final dbFolder = await getApplicationDocumentsDirectory();
-      final file = File(p.join(dbFolder.path, 'db.sqlite'));
+  final dbFolder = await getApplicationDocumentsDirectory();
+  final file = File(p.join(dbFolder.path, 'db.sqlite'));
 
-      return NativeDatabase(file);
-    });
+  return NativeDatabase(file);
+});

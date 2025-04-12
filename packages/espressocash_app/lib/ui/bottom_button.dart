@@ -19,20 +19,16 @@ class CpBottomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.only(
-          bottom: 24.h,
-          left: horizontalPadding.w,
-          right: horizontalPadding.w,
-        ),
-        child: CpButton(
-          key: keyBottomButton,
-          variant: variant,
-          size: CpButtonSize.big,
-          width: double.infinity,
-          onPressed: onPressed,
-          text: text,
-        ),
-      );
+    padding: EdgeInsets.only(bottom: 24.h, left: horizontalPadding.w, right: horizontalPadding.w),
+    child: CpButton(
+      key: keyBottomButton,
+      variant: variant,
+      size: CpButtonSize.big,
+      width: double.infinity,
+      onPressed: onPressed,
+      text: text,
+    ),
+  );
 }
 
 const keyBottomButton = Key('bottomButton');

@@ -6,10 +6,7 @@ part 'stake_initialized_account_info.g.dart';
 
 @JsonSerializable()
 class StakeInitializedAccountInfo {
-  const StakeInitializedAccountInfo({
-    required this.meta,
-    required this.stake,
-  });
+  const StakeInitializedAccountInfo({required this.meta, required this.stake});
 
   factory StakeInitializedAccountInfo.fromJson(Map<String, dynamic> json) =>
       _$StakeInitializedAccountInfoFromJson(json);

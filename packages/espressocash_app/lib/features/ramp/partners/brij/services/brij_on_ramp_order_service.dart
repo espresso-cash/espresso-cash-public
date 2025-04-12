@@ -22,12 +22,7 @@ import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
 class BrijOnRampOrderService implements Disposable {
-  BrijOnRampOrderService(
-    this._db,
-    this._kycRepository,
-    this._ecWallet,
-    this._analytics,
-  );
+  BrijOnRampOrderService(this._db, this._kycRepository, this._ecWallet, this._analytics);
 
   final MyDatabase _db;
   final KycRepository _kycRepository;
@@ -39,15 +34,11 @@ class BrijOnRampOrderService implements Disposable {
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
-    final query = _db.select(_db.onRampOrderRows)
-      ..where(
-        (tbl) =>
-            tbl.status.isNotInValues([
-              OnRampOrderStatus.completed,
-              OnRampOrderStatus.failure,
-            ]) &
-            tbl.partner.isInValues([RampPartner.brij, RampPartner.scalexBrij]),
-      );
+    final query = _db.select(_db.onRampOrderRows)..where(
+      (tbl) =>
+          tbl.status.isNotInValues([OnRampOrderStatus.completed, OnRampOrderStatus.failure]) &
+          tbl.partner.isInValues([RampPartner.brij, RampPartner.scalexBrij]),
+    );
 
     final orders = await query.get();
 
@@ -74,10 +65,7 @@ class BrijOnRampOrderService implements Disposable {
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
           if (order.shouldReportToSentry) {
-            logMessage(
-              message: 'BrijOnRampOrderStatusChange',
-              data: order.toSentry(),
-            );
+            logMessage(message: 'BrijOnRampOrderStatusChange', data: order.toSentry());
           }
 
           switch (order.status) {
@@ -105,9 +93,9 @@ class BrijOnRampOrderService implements Disposable {
         })
         .whereNotNull()
         .listen(
-          (event) => (_db.update(_db.onRampOrderRows)
-                ..where((tbl) => tbl.id.equals(orderId)))
-              .write(event),
+          (event) =>
+              (_db.update(_db.onRampOrderRows)
+                ..where((tbl) => tbl.id.equals(orderId))).write(event),
         );
   }
 
@@ -116,56 +104,55 @@ class BrijOnRampOrderService implements Disposable {
     required CryptoAmount receiveAmount,
     required RampPartner partner,
     required String country,
-  }) =>
-      tryEitherAsync((_) async {
-        {
-          final partnerAuthPk = partner.partnerPK ?? '';
-          await _kycRepository.grantPartnerAccess(partnerAuthPk);
+  }) => tryEitherAsync((_) async {
+    {
+      final partnerAuthPk = partner.partnerPK ?? '';
+      await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
-          final orderId = await _kycRepository.createOnRampOrder(
-            cryptoAmount: receiveAmount.decimal.toDouble(),
-            cryptoCurrency: receiveAmount.cryptoCurrency.token.symbol,
-            fiatAmount: submittedAmount.decimal.toDouble(),
-            fiatCurrency: submittedAmount.currency.symbol,
-            partnerPK: partnerAuthPk,
-            cryptoWalletAddress: _ecWallet.publicKey.toString(),
-          );
+      final orderId = await _kycRepository.createOnRampOrder(
+        cryptoAmount: receiveAmount.decimal.toDouble(),
+        cryptoCurrency: receiveAmount.cryptoCurrency.token.symbol,
+        fiatAmount: submittedAmount.decimal.toDouble(),
+        fiatCurrency: submittedAmount.currency.symbol,
+        partnerPK: partnerAuthPk,
+        cryptoWalletAddress: _ecWallet.publicKey.toString(),
+      );
 
-          final order = OnRampOrderRow(
-            id: const Uuid().v4(),
-            partnerOrderId: orderId,
-            amount: submittedAmount.value,
-            token: Token.usdc.address,
-            humanStatus: '',
-            machineStatus: '',
-            isCompleted: false,
-            created: DateTime.now(),
-            txHash: '',
-            partner: partner,
-            receiveAmount: receiveAmount.value,
-            status: OnRampOrderStatus.waitingPartnerReview,
-            bankAccount: null,
-            bankName: null,
-            bankTransferAmount: submittedAmount.value,
-            fiatSymbol: submittedAmount.currency.symbol,
-            authToken: null,
-            moreInfoUrl: null,
-          );
+      final order = OnRampOrderRow(
+        id: const Uuid().v4(),
+        partnerOrderId: orderId,
+        amount: submittedAmount.value,
+        token: Token.usdc.address,
+        humanStatus: '',
+        machineStatus: '',
+        isCompleted: false,
+        created: DateTime.now(),
+        txHash: '',
+        partner: partner,
+        receiveAmount: receiveAmount.value,
+        status: OnRampOrderStatus.waitingPartnerReview,
+        bankAccount: null,
+        bankName: null,
+        bankTransferAmount: submittedAmount.value,
+        fiatSymbol: submittedAmount.currency.symbol,
+        authToken: null,
+        moreInfoUrl: null,
+      );
 
-          await _db.into(_db.onRampOrderRows).insertOnConflictUpdate(order);
-          _subscribe(order.id);
+      await _db.into(_db.onRampOrderRows).insertOnConflictUpdate(order);
+      _subscribe(order.id);
 
-          _analytics.rampInitiated(
-            partnerName: partner.name,
-            rampType: RampType.onRamp.name,
-            amount: submittedAmount.value.toString(),
-            countryCode: country,
-            id: order.id,
-          );
+      _analytics.rampInitiated(
+        partnerName: partner.name,
+        rampType: RampType.onRamp.name,
+        amount: submittedAmount.value.toString(),
+        countryCode: country,
+        id: order.id,
+      );
 
-          return order.id;
-        }
-      });
+      return order.id;
+    }
+  });
 
   // Either approve or reject
   void _waitingPartnerReviewWatcher(OnRampOrderRow order) {
@@ -175,22 +162,17 @@ class BrijOnRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10))
-        .startWith(null)
-        .listen((_) async {
-      final statement = _db.update(_db.onRampOrderRows)
-        ..where(
-          (tbl) => tbl.id.equals(id),
-        );
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((
+      _,
+    ) async {
+      final statement = _db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
       final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
         BrijOrderStatus.completed => OnRampOrderStatus.completed,
-        BrijOrderStatus.unknown ||
-        BrijOrderStatus.rejected =>
-          OnRampOrderStatus.rejected,
+        BrijOrderStatus.unknown || BrijOrderStatus.rejected => OnRampOrderStatus.rejected,
         BrijOrderStatus.failed => OnRampOrderStatus.failure,
         BrijOrderStatus.pending => OnRampOrderStatus.waitingPartnerReview,
         BrijOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit,
@@ -202,9 +184,7 @@ class BrijOnRampOrderService implements Disposable {
             status: Value.ofNullable(status),
             bankAccount: Value.ofNullable(orderData.bankAccount),
             bankName: Value.ofNullable(orderData.bankName),
-            bankTransferExpiry: Value.ofNullable(
-              DateTime.now().add(const Duration(minutes: 30)),
-            ),
+            bankTransferExpiry: Value.ofNullable(DateTime.now().add(const Duration(minutes: 30))),
           ),
         );
 
@@ -221,22 +201,17 @@ class BrijOnRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10))
-        .startWith(null)
-        .listen((_) async {
-      final statement = _db.update(_db.onRampOrderRows)
-        ..where(
-          (tbl) => tbl.id.equals(id),
-        );
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((
+      _,
+    ) async {
+      final statement = _db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
       final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
         BrijOrderStatus.completed => OnRampOrderStatus.completed,
-        BrijOrderStatus.unknown ||
-        BrijOrderStatus.rejected =>
-          OnRampOrderStatus.rejected,
+        BrijOrderStatus.unknown || BrijOrderStatus.rejected => OnRampOrderStatus.rejected,
         BrijOrderStatus.failed => OnRampOrderStatus.failure,
         BrijOrderStatus.pending => OnRampOrderStatus.waitingPartnerReview,
         BrijOrderStatus.accepted => OnRampOrderStatus.waitingForDeposit,

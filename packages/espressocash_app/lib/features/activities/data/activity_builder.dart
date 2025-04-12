@@ -6,40 +6,23 @@ import '../../transaction_request/models/transaction_request.dart';
 import '../models/activity.dart';
 
 extension PaymentRequestRowToActivityExt on PaymentRequestRow {
-  Activity toActivity() => Activity.outgoingPaymentRequest(
-        id: id,
-        created: created,
-      );
+  Activity toActivity() => Activity.outgoingPaymentRequest(id: id, created: created);
 }
 
 extension ODPRowToActivityExt on ODPRow {
-  Future<Activity> toActivity() async => Activity.outgoingDirectPayment(
-        id: id,
-        created: created,
-        data: await toModel(),
-      );
+  Future<Activity> toActivity() async =>
+      Activity.outgoingDirectPayment(id: id, created: created, data: await toModel());
 }
 
 extension OutgoingDlnPaymentRowToActivityExt on OutgoingDlnPaymentRow {
-  Activity toActivity() => Activity.outgoingDlnPayment(
-        id: id,
-        created: created,
-        data: toModel(),
-      );
+  Activity toActivity() => Activity.outgoingDlnPayment(id: id, created: created, data: toModel());
 }
 
 extension OLPRowToActivityExt on OLPRow {
-  Future<Activity> toActivity() async => Activity.outgoingLinkPayment(
-        id: id,
-        created: created,
-        data: await toModel(),
-      );
+  Future<Activity> toActivity() async =>
+      Activity.outgoingLinkPayment(id: id, created: created, data: await toModel());
 }
 
 extension TransactionRequestPaymentExt on TransactionRequestPayment {
-  Activity toActivity() => Activity.transactionRequest(
-        id: id,
-        created: created,
-        data: this,
-      );
+  Activity toActivity() => Activity.transactionRequest(id: id, created: created, data: this);
 }

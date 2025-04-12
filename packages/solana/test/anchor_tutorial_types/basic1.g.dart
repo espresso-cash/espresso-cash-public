@@ -21,10 +21,7 @@ mixin _$_AccountData {
 }
 
 class __AccountData extends _AccountData {
-  __AccountData({
-    required this.discriminator,
-    required this.data,
-  }) : super._();
+  __AccountData({required this.discriminator, required this.data}) : super._();
 
   final List<int> discriminator;
   final BigInt data;
@@ -66,9 +63,7 @@ mixin _$Basic1Arguments {
 }
 
 class _Basic1Arguments extends Basic1Arguments {
-  _Basic1Arguments({
-    required this.data,
-  }) : super._();
+  _Basic1Arguments({required this.data}) : super._();
 
   final BigInt data;
 }
@@ -83,9 +78,7 @@ class BBasic1Arguments implements BType<Basic1Arguments> {
 
   @override
   Basic1Arguments read(BinaryReader reader) {
-    return Basic1Arguments(
-      data: const BU64().read(reader),
-    );
+    return Basic1Arguments(data: const BU64().read(reader));
   }
 }
 

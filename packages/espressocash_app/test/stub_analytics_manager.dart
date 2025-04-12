@@ -26,11 +26,7 @@ class StubAnalyticsManager implements AnalyticsManager {
   void singleLinkReceived({required Decimal? amount}) {}
 
   @override
-  void swapTransactionCreated({
-    required String from,
-    required String to,
-    required int amount,
-  }) {}
+  void swapTransactionCreated({required String from, required String to, required int amount}) {}
 
   @override
   void setTotalInvestmentsBalance(Decimal value) {}
@@ -45,11 +41,7 @@ class StubAnalyticsManager implements AnalyticsManager {
   void paymentRequestLinkPaid({required Decimal amount}) {}
 
   @override
-  void rampCompleted({
-    required String partnerName,
-    required String rampType,
-    required String id,
-  }) {}
+  void rampCompleted({required String partnerName, required String rampType, required String id}) {}
 
   @override
   void rampInitiated({

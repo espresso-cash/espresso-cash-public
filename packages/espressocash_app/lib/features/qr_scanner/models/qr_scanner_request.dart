@@ -13,18 +13,14 @@ part 'qr_scanner_request.freezed.dart';
 
 @freezed
 class QrScannerRequest with _$QrScannerRequest {
-  const factory QrScannerRequest.solanaPay(SolanaPayRequest request) =
-      QrScannerSolanaPayRequest;
+  const factory QrScannerRequest.solanaPay(SolanaPayRequest request) = QrScannerSolanaPayRequest;
 
-  const factory QrScannerRequest.transactionRequest(
-    SolanaTransactionRequest request,
-  ) = QrScannerSolanaPayTransactionRequest;
+  const factory QrScannerRequest.transactionRequest(SolanaTransactionRequest request) =
+      QrScannerSolanaPayTransactionRequest;
 
-  const factory QrScannerRequest.address(QrAddressData addressData) =
-      QrScannerAddressRequest;
+  const factory QrScannerRequest.address(QrAddressData addressData) = QrScannerAddressRequest;
 
-  const factory QrScannerRequest.linkPayment(LinkPayment payment) =
-      QrScannerLinkPayment;
+  const factory QrScannerRequest.linkPayment(LinkPayment payment) = QrScannerLinkPayment;
 
   const factory QrScannerRequest.ambassador(AmbassadorReferral referral) =
       QrScannerAmbassadorRequest;
@@ -47,8 +43,7 @@ class QrScannerRequest with _$QrScannerRequest {
       return QrScannerRequest.transactionRequest(transactionRequest);
     }
 
-    final espressocashRequest =
-        Uri.tryParse(code)?.let(tryParseSolanaPayRequest);
+    final espressocashRequest = Uri.tryParse(code)?.let(tryParseSolanaPayRequest);
     if (espressocashRequest != null) {
       return QrScannerRequest.solanaPay(espressocashRequest);
     }
@@ -65,17 +60,17 @@ class QrScannerRequest with _$QrScannerRequest {
   }
 
   Ed25519HDPublicKey? get recipient => this.map(
-        solanaPay: (r) => r.request.recipient,
-        address: (r) => switch (r.addressData) {
+    solanaPay: (r) => r.request.recipient,
+    address:
+        (r) => switch (r.addressData) {
           QrAddressDataSolana(:final address) => address,
           QrAddressDataEvm() => null,
         },
-        linkPayment: always(null),
-        transactionRequest: always(null),
-        ambassador: (r) => r.referral.address,
-      );
+    linkPayment: always(null),
+    transactionRequest: always(null),
+    ambassador: (r) => r.referral.address,
+  );
 
-  Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(
-        solanaPay: (r) => r.reference?.firstOrNull,
-      );
+  Ed25519HDPublicKey? get reference =>
+      whenOrNull<Ed25519HDPublicKey?>(solanaPay: (r) => r.reference?.firstOrNull);
 }

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'bloc.dart';
 
@@ -12,7 +12,8 @@ part of 'bloc.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SeedVaultState {
@@ -22,59 +23,57 @@ mixin _$SeedVaultState {
     required TResult Function(String err) error,
     required TResult Function() unauthorized,
     required TResult Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)
-        loaded,
-  }) =>
-      throw _privateConstructorUsedError;
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )
+    loaded,
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? none,
     TResult? Function(String err)? error,
     TResult? Function()? unauthorized,
     TResult? Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)?
-        loaded,
-  }) =>
-      throw _privateConstructorUsedError;
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )?
+    loaded,
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function(String err)? error,
     TResult Function()? unauthorized,
     TResult Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)?
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )?
+    loaded,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_None value) none,
     required TResult Function(_Error value) error,
     required TResult Function(_Unauthorized value) unauthorized,
     required TResult Function(_Loaded value) loaded,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_None value)? none,
     TResult? Function(_Error value)? error,
     TResult? Function(_Unauthorized value)? unauthorized,
     TResult? Function(_Loaded value)? loaded,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_None value)? none,
@@ -82,14 +81,12 @@ mixin _$SeedVaultState {
     TResult Function(_Unauthorized value)? unauthorized,
     TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SeedVaultStateCopyWith<$Res> {
-  factory $SeedVaultStateCopyWith(
-          SeedVaultState value, $Res Function(SeedVaultState) then) =
+  factory $SeedVaultStateCopyWith(SeedVaultState value, $Res Function(SeedVaultState) then) =
       _$SeedVaultStateCopyWithImpl<$Res, SeedVaultState>;
 }
 
@@ -105,23 +102,22 @@ class _$SeedVaultStateCopyWithImpl<$Res, $Val extends SeedVaultState>
 }
 
 /// @nodoc
-abstract class _$$_NoneCopyWith<$Res> {
-  factory _$$_NoneCopyWith(_$_None value, $Res Function(_$_None) then) =
-      __$$_NoneCopyWithImpl<$Res>;
+abstract class _$$NoneImplCopyWith<$Res> {
+  factory _$$NoneImplCopyWith(_$NoneImpl value, $Res Function(_$NoneImpl) then) =
+      __$$NoneImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_NoneCopyWithImpl<$Res>
-    extends _$SeedVaultStateCopyWithImpl<$Res, _$_None>
-    implements _$$_NoneCopyWith<$Res> {
-  __$$_NoneCopyWithImpl(_$_None _value, $Res Function(_$_None) _then)
-      : super(_value, _then);
+class __$$NoneImplCopyWithImpl<$Res> extends _$SeedVaultStateCopyWithImpl<$Res, _$NoneImpl>
+    implements _$$NoneImplCopyWith<$Res> {
+  __$$NoneImplCopyWithImpl(_$NoneImpl _value, $Res Function(_$NoneImpl) _then)
+    : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_None with DiagnosticableTreeMixin implements _None {
-  const _$_None();
+class _$NoneImpl with DiagnosticableTreeMixin implements _None {
+  const _$NoneImpl();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -135,9 +131,8 @@ class _$_None with DiagnosticableTreeMixin implements _None {
   }
 
   @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_None);
+  bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$NoneImpl);
   }
 
   @override
@@ -150,12 +145,13 @@ class _$_None with DiagnosticableTreeMixin implements _None {
     required TResult Function(String err) error,
     required TResult Function() unauthorized,
     required TResult Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )
+    loaded,
   }) {
     return none();
   }
@@ -167,12 +163,13 @@ class _$_None with DiagnosticableTreeMixin implements _None {
     TResult? Function(String err)? error,
     TResult? Function()? unauthorized,
     TResult? Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)?
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )?
+    loaded,
   }) {
     return none?.call();
   }
@@ -184,12 +181,13 @@ class _$_None with DiagnosticableTreeMixin implements _None {
     TResult Function(String err)? error,
     TResult Function()? unauthorized,
     TResult Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)?
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )?
+    loaded,
     required TResult orElse(),
   }) {
     if (none != null) {
@@ -237,42 +235,41 @@ class _$_None with DiagnosticableTreeMixin implements _None {
 }
 
 abstract class _None implements SeedVaultState {
-  const factory _None() = _$_None;
+  const factory _None() = _$NoneImpl;
 }
 
 /// @nodoc
-abstract class _$$_ErrorCopyWith<$Res> {
-  factory _$$_ErrorCopyWith(_$_Error value, $Res Function(_$_Error) then) =
-      __$$_ErrorCopyWithImpl<$Res>;
+abstract class _$$ErrorImplCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String err});
 }
 
 /// @nodoc
-class __$$_ErrorCopyWithImpl<$Res>
-    extends _$SeedVaultStateCopyWithImpl<$Res, _$_Error>
-    implements _$$_ErrorCopyWith<$Res> {
-  __$$_ErrorCopyWithImpl(_$_Error _value, $Res Function(_$_Error) _then)
-      : super(_value, _then);
+class __$$ErrorImplCopyWithImpl<$Res> extends _$SeedVaultStateCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(_$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+    : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? err = null,
-  }) {
-    return _then(_$_Error(
-      null == err
-          ? _value.err
-          : err // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? err = null}) {
+    return _then(
+      _$ErrorImpl(
+        null == err
+            ? _value.err
+            : err // ignore: cast_nullable_to_non_nullable
+                as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_Error with DiagnosticableTreeMixin implements _Error {
-  const _$_Error(this.err);
+class _$ErrorImpl with DiagnosticableTreeMixin implements _Error {
+  const _$ErrorImpl(this.err);
 
   @override
   final String err;
@@ -291,10 +288,10 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Error &&
+            other is _$ErrorImpl &&
             (identical(other.err, err) || other.err == err));
   }
 
@@ -304,8 +301,8 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ErrorCopyWith<_$_Error> get copyWith =>
-      __$$_ErrorCopyWithImpl<_$_Error>(this, _$identity);
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -314,12 +311,13 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
     required TResult Function(String err) error,
     required TResult Function() unauthorized,
     required TResult Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )
+    loaded,
   }) {
     return error(err);
   }
@@ -331,12 +329,13 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
     TResult? Function(String err)? error,
     TResult? Function()? unauthorized,
     TResult? Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)?
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )?
+    loaded,
   }) {
     return error?.call(err);
   }
@@ -348,12 +347,13 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
     TResult Function(String err)? error,
     TResult Function()? unauthorized,
     TResult Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)?
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )?
+    loaded,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -401,34 +401,35 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
 }
 
 abstract class _Error implements SeedVaultState {
-  const factory _Error(final String err) = _$_Error;
+  const factory _Error(final String err) = _$ErrorImpl;
 
   String get err;
   @JsonKey(ignore: true)
-  _$$_ErrorCopyWith<_$_Error> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_UnauthorizedCopyWith<$Res> {
-  factory _$$_UnauthorizedCopyWith(
-          _$_Unauthorized value, $Res Function(_$_Unauthorized) then) =
-      __$$_UnauthorizedCopyWithImpl<$Res>;
+abstract class _$$UnauthorizedImplCopyWith<$Res> {
+  factory _$$UnauthorizedImplCopyWith(
+    _$UnauthorizedImpl value,
+    $Res Function(_$UnauthorizedImpl) then,
+  ) = __$$UnauthorizedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_UnauthorizedCopyWithImpl<$Res>
-    extends _$SeedVaultStateCopyWithImpl<$Res, _$_Unauthorized>
-    implements _$$_UnauthorizedCopyWith<$Res> {
-  __$$_UnauthorizedCopyWithImpl(
-      _$_Unauthorized _value, $Res Function(_$_Unauthorized) _then)
-      : super(_value, _then);
+class __$$UnauthorizedImplCopyWithImpl<$Res>
+    extends _$SeedVaultStateCopyWithImpl<$Res, _$UnauthorizedImpl>
+    implements _$$UnauthorizedImplCopyWith<$Res> {
+  __$$UnauthorizedImplCopyWithImpl(
+    _$UnauthorizedImpl _value,
+    $Res Function(_$UnauthorizedImpl) _then,
+  ) : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Unauthorized with DiagnosticableTreeMixin implements _Unauthorized {
-  const _$_Unauthorized();
+class _$UnauthorizedImpl with DiagnosticableTreeMixin implements _Unauthorized {
+  const _$UnauthorizedImpl();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -442,9 +443,9 @@ class _$_Unauthorized with DiagnosticableTreeMixin implements _Unauthorized {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Unauthorized);
+        (other.runtimeType == runtimeType && other is _$UnauthorizedImpl);
   }
 
   @override
@@ -457,12 +458,13 @@ class _$_Unauthorized with DiagnosticableTreeMixin implements _Unauthorized {
     required TResult Function(String err) error,
     required TResult Function() unauthorized,
     required TResult Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )
+    loaded,
   }) {
     return unauthorized();
   }
@@ -474,12 +476,13 @@ class _$_Unauthorized with DiagnosticableTreeMixin implements _Unauthorized {
     TResult? Function(String err)? error,
     TResult? Function()? unauthorized,
     TResult? Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)?
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )?
+    loaded,
   }) {
     return unauthorized?.call();
   }
@@ -491,12 +494,13 @@ class _$_Unauthorized with DiagnosticableTreeMixin implements _Unauthorized {
     TResult Function(String err)? error,
     TResult Function()? unauthorized,
     TResult Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)?
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )?
+    loaded,
     required TResult orElse(),
   }) {
     if (unauthorized != null) {
@@ -544,30 +548,30 @@ class _$_Unauthorized with DiagnosticableTreeMixin implements _Unauthorized {
 }
 
 abstract class _Unauthorized implements SeedVaultState {
-  const factory _Unauthorized() = _$_Unauthorized;
+  const factory _Unauthorized() = _$UnauthorizedImpl;
 }
 
 /// @nodoc
-abstract class _$$_LoadedCopyWith<$Res> {
-  factory _$$_LoadedCopyWith(_$_Loaded value, $Res Function(_$_Loaded) then) =
-      __$$_LoadedCopyWithImpl<$Res>;
+abstract class _$$LoadedImplCopyWith<$Res> {
+  factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
+      __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call(
-      {List<Seed> seeds,
-      ImplementationLimits limits,
-      bool hasUnauthorizedSeeds,
-      Uri? firstRequestedPublicKey,
-      Uri? lastRequestedPublicKey});
+  $Res call({
+    List<Seed> seeds,
+    ImplementationLimits limits,
+    bool hasUnauthorizedSeeds,
+    Uri? firstRequestedPublicKey,
+    Uri? lastRequestedPublicKey,
+  });
 
   $ImplementationLimitsCopyWith<$Res> get limits;
 }
 
 /// @nodoc
-class __$$_LoadedCopyWithImpl<$Res>
-    extends _$SeedVaultStateCopyWithImpl<$Res, _$_Loaded>
-    implements _$$_LoadedCopyWith<$Res> {
-  __$$_LoadedCopyWithImpl(_$_Loaded _value, $Res Function(_$_Loaded) _then)
-      : super(_value, _then);
+class __$$LoadedImplCopyWithImpl<$Res> extends _$SeedVaultStateCopyWithImpl<$Res, _$LoadedImpl>
+    implements _$$LoadedImplCopyWith<$Res> {
+  __$$LoadedImplCopyWithImpl(_$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
+    : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -578,28 +582,35 @@ class __$$_LoadedCopyWithImpl<$Res>
     Object? firstRequestedPublicKey = freezed,
     Object? lastRequestedPublicKey = freezed,
   }) {
-    return _then(_$_Loaded(
-      seeds: null == seeds
-          ? _value._seeds
-          : seeds // ignore: cast_nullable_to_non_nullable
-              as List<Seed>,
-      limits: null == limits
-          ? _value.limits
-          : limits // ignore: cast_nullable_to_non_nullable
-              as ImplementationLimits,
-      hasUnauthorizedSeeds: null == hasUnauthorizedSeeds
-          ? _value.hasUnauthorizedSeeds
-          : hasUnauthorizedSeeds // ignore: cast_nullable_to_non_nullable
-              as bool,
-      firstRequestedPublicKey: freezed == firstRequestedPublicKey
-          ? _value.firstRequestedPublicKey
-          : firstRequestedPublicKey // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      lastRequestedPublicKey: freezed == lastRequestedPublicKey
-          ? _value.lastRequestedPublicKey
-          : lastRequestedPublicKey // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-    ));
+    return _then(
+      _$LoadedImpl(
+        seeds:
+            null == seeds
+                ? _value._seeds
+                : seeds // ignore: cast_nullable_to_non_nullable
+                    as List<Seed>,
+        limits:
+            null == limits
+                ? _value.limits
+                : limits // ignore: cast_nullable_to_non_nullable
+                    as ImplementationLimits,
+        hasUnauthorizedSeeds:
+            null == hasUnauthorizedSeeds
+                ? _value.hasUnauthorizedSeeds
+                : hasUnauthorizedSeeds // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        firstRequestedPublicKey:
+            freezed == firstRequestedPublicKey
+                ? _value.firstRequestedPublicKey
+                : firstRequestedPublicKey // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        lastRequestedPublicKey:
+            freezed == lastRequestedPublicKey
+                ? _value.lastRequestedPublicKey
+                : lastRequestedPublicKey // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+      ),
+    );
   }
 
   @override
@@ -613,18 +624,19 @@ class __$$_LoadedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
-  const _$_Loaded(
-      {required final List<Seed> seeds,
-      required this.limits,
-      required this.hasUnauthorizedSeeds,
-      required this.firstRequestedPublicKey,
-      required this.lastRequestedPublicKey})
-      : _seeds = seeds;
+class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
+  const _$LoadedImpl({
+    required final List<Seed> seeds,
+    required this.limits,
+    required this.hasUnauthorizedSeeds,
+    required this.firstRequestedPublicKey,
+    required this.lastRequestedPublicKey,
+  }) : _seeds = seeds;
 
   final List<Seed> _seeds;
   @override
   List<Seed> get seeds {
+    if (_seeds is EqualUnmodifiableListView) return _seeds;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_seeds);
   }
@@ -651,23 +663,20 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
       ..add(DiagnosticsProperty('seeds', seeds))
       ..add(DiagnosticsProperty('limits', limits))
       ..add(DiagnosticsProperty('hasUnauthorizedSeeds', hasUnauthorizedSeeds))
-      ..add(DiagnosticsProperty(
-          'firstRequestedPublicKey', firstRequestedPublicKey))
-      ..add(DiagnosticsProperty(
-          'lastRequestedPublicKey', lastRequestedPublicKey));
+      ..add(DiagnosticsProperty('firstRequestedPublicKey', firstRequestedPublicKey))
+      ..add(DiagnosticsProperty('lastRequestedPublicKey', lastRequestedPublicKey));
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Loaded &&
+            other is _$LoadedImpl &&
             const DeepCollectionEquality().equals(other._seeds, _seeds) &&
             (identical(other.limits, limits) || other.limits == limits) &&
             (identical(other.hasUnauthorizedSeeds, hasUnauthorizedSeeds) ||
                 other.hasUnauthorizedSeeds == hasUnauthorizedSeeds) &&
-            (identical(
-                    other.firstRequestedPublicKey, firstRequestedPublicKey) ||
+            (identical(other.firstRequestedPublicKey, firstRequestedPublicKey) ||
                 other.firstRequestedPublicKey == firstRequestedPublicKey) &&
             (identical(other.lastRequestedPublicKey, lastRequestedPublicKey) ||
                 other.lastRequestedPublicKey == lastRequestedPublicKey));
@@ -675,18 +684,19 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_seeds),
-      limits,
-      hasUnauthorizedSeeds,
-      firstRequestedPublicKey,
-      lastRequestedPublicKey);
+    runtimeType,
+    const DeepCollectionEquality().hash(_seeds),
+    limits,
+    hasUnauthorizedSeeds,
+    firstRequestedPublicKey,
+    lastRequestedPublicKey,
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LoadedCopyWith<_$_Loaded> get copyWith =>
-      __$$_LoadedCopyWithImpl<_$_Loaded>(this, _$identity);
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -695,15 +705,21 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
     required TResult Function(String err) error,
     required TResult Function() unauthorized,
     required TResult Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )
+    loaded,
   }) {
-    return loaded(seeds, limits, hasUnauthorizedSeeds, firstRequestedPublicKey,
-        lastRequestedPublicKey);
+    return loaded(
+      seeds,
+      limits,
+      hasUnauthorizedSeeds,
+      firstRequestedPublicKey,
+      lastRequestedPublicKey,
+    );
   }
 
   @override
@@ -713,15 +729,21 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
     TResult? Function(String err)? error,
     TResult? Function()? unauthorized,
     TResult? Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)?
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )?
+    loaded,
   }) {
-    return loaded?.call(seeds, limits, hasUnauthorizedSeeds,
-        firstRequestedPublicKey, lastRequestedPublicKey);
+    return loaded?.call(
+      seeds,
+      limits,
+      hasUnauthorizedSeeds,
+      firstRequestedPublicKey,
+      lastRequestedPublicKey,
+    );
   }
 
   @override
@@ -731,17 +753,23 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
     TResult Function(String err)? error,
     TResult Function()? unauthorized,
     TResult Function(
-            List<Seed> seeds,
-            ImplementationLimits limits,
-            bool hasUnauthorizedSeeds,
-            Uri? firstRequestedPublicKey,
-            Uri? lastRequestedPublicKey)?
-        loaded,
+      List<Seed> seeds,
+      ImplementationLimits limits,
+      bool hasUnauthorizedSeeds,
+      Uri? firstRequestedPublicKey,
+      Uri? lastRequestedPublicKey,
+    )?
+    loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(seeds, limits, hasUnauthorizedSeeds,
-          firstRequestedPublicKey, lastRequestedPublicKey);
+      return loaded(
+        seeds,
+        limits,
+        hasUnauthorizedSeeds,
+        firstRequestedPublicKey,
+        lastRequestedPublicKey,
+      );
     }
     return orElse();
   }
@@ -785,12 +813,13 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
 }
 
 abstract class _Loaded implements SeedVaultState {
-  const factory _Loaded(
-      {required final List<Seed> seeds,
-      required final ImplementationLimits limits,
-      required final bool hasUnauthorizedSeeds,
-      required final Uri? firstRequestedPublicKey,
-      required final Uri? lastRequestedPublicKey}) = _$_Loaded;
+  const factory _Loaded({
+    required final List<Seed> seeds,
+    required final ImplementationLimits limits,
+    required final bool hasUnauthorizedSeeds,
+    required final Uri? firstRequestedPublicKey,
+    required final Uri? lastRequestedPublicKey,
+  }) = _$LoadedImpl;
 
   List<Seed> get seeds;
   ImplementationLimits get limits;
@@ -798,6 +827,5 @@ abstract class _Loaded implements SeedVaultState {
   Uri? get firstRequestedPublicKey;
   Uri? get lastRequestedPublicKey;
   @JsonKey(ignore: true)
-  _$$_LoadedCopyWith<_$_Loaded> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => throw _privateConstructorUsedError;
 }

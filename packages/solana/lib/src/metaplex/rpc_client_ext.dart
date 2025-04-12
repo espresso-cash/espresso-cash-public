@@ -10,11 +10,12 @@ extension GetMetaplexMetadata on RpcClient {
     Commitment commitment = Commitment.finalized,
   }) async {
     final programAddress = await findMetaplexMetadataProgramAddress(mint);
-    final account = await getAccountInfo(
-      programAddress.toBase58(),
-      encoding: Encoding.base64,
-      commitment: commitment,
-    ).value;
+    final account =
+        await getAccountInfo(
+          programAddress.toBase58(),
+          encoding: Encoding.base64,
+          commitment: commitment,
+        ).value;
     if (account == null) {
       return null;
     }
@@ -29,11 +30,12 @@ extension GetMetaplexMetadata on RpcClient {
     Commitment commitment = Commitment.finalized,
   }) async {
     final programAddress = await findMetaplexEditionProgramAddress(mint);
-    final account = await getAccountInfo(
-      programAddress.toBase58(),
-      encoding: Encoding.base64,
-      commitment: commitment,
-    ).value;
+    final account =
+        await getAccountInfo(
+          programAddress.toBase58(),
+          encoding: Encoding.base64,
+          commitment: commitment,
+        ).value;
     if (account == null) {
       return null;
     }

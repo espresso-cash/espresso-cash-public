@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'account.dart';
 
@@ -12,7 +12,8 @@ part of 'account.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$Account {
@@ -33,19 +34,19 @@ abstract class $AccountCopyWith<$Res> {
   factory $AccountCopyWith(Account value, $Res Function(Account) then) =
       _$AccountCopyWithImpl<$Res, Account>;
   @useResult
-  $Res call(
-      {int id,
-      String name,
-      Uri derivationPath,
-      String publicKeyEncoded,
-      Uint8List publicKeyRaw,
-      bool isUserWallet,
-      bool isValid});
+  $Res call({
+    int id,
+    String name,
+    Uri derivationPath,
+    String publicKeyEncoded,
+    Uint8List publicKeyRaw,
+    bool isUserWallet,
+    bool isValid,
+  });
 }
 
 /// @nodoc
-class _$AccountCopyWithImpl<$Res, $Val extends Account>
-    implements $AccountCopyWith<$Res> {
+class _$AccountCopyWithImpl<$Res, $Val extends Account> implements $AccountCopyWith<$Res> {
   _$AccountCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -64,62 +65,71 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
     Object? isUserWallet = null,
     Object? isValid = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      derivationPath: null == derivationPath
-          ? _value.derivationPath
-          : derivationPath // ignore: cast_nullable_to_non_nullable
-              as Uri,
-      publicKeyEncoded: null == publicKeyEncoded
-          ? _value.publicKeyEncoded
-          : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
-              as String,
-      publicKeyRaw: null == publicKeyRaw
-          ? _value.publicKeyRaw
-          : publicKeyRaw // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      isUserWallet: null == isUserWallet
-          ? _value.isUserWallet
-          : isUserWallet // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isValid: null == isValid
-          ? _value.isValid
-          : isValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id:
+                null == id
+                    ? _value.id
+                    : id // ignore: cast_nullable_to_non_nullable
+                        as int,
+            name:
+                null == name
+                    ? _value.name
+                    : name // ignore: cast_nullable_to_non_nullable
+                        as String,
+            derivationPath:
+                null == derivationPath
+                    ? _value.derivationPath
+                    : derivationPath // ignore: cast_nullable_to_non_nullable
+                        as Uri,
+            publicKeyEncoded:
+                null == publicKeyEncoded
+                    ? _value.publicKeyEncoded
+                    : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
+                        as String,
+            publicKeyRaw:
+                null == publicKeyRaw
+                    ? _value.publicKeyRaw
+                    : publicKeyRaw // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
+            isUserWallet:
+                null == isUserWallet
+                    ? _value.isUserWallet
+                    : isUserWallet // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            isValid:
+                null == isValid
+                    ? _value.isValid
+                    : isValid // ignore: cast_nullable_to_non_nullable
+                        as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_AccountCopyWith<$Res> implements $AccountCopyWith<$Res> {
-  factory _$$_AccountCopyWith(
-          _$_Account value, $Res Function(_$_Account) then) =
-      __$$_AccountCopyWithImpl<$Res>;
+abstract class _$$AccountImplCopyWith<$Res> implements $AccountCopyWith<$Res> {
+  factory _$$AccountImplCopyWith(_$AccountImpl value, $Res Function(_$AccountImpl) then) =
+      __$$AccountImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int id,
-      String name,
-      Uri derivationPath,
-      String publicKeyEncoded,
-      Uint8List publicKeyRaw,
-      bool isUserWallet,
-      bool isValid});
+  $Res call({
+    int id,
+    String name,
+    Uri derivationPath,
+    String publicKeyEncoded,
+    Uint8List publicKeyRaw,
+    bool isUserWallet,
+    bool isValid,
+  });
 }
 
 /// @nodoc
-class __$$_AccountCopyWithImpl<$Res>
-    extends _$AccountCopyWithImpl<$Res, _$_Account>
-    implements _$$_AccountCopyWith<$Res> {
-  __$$_AccountCopyWithImpl(_$_Account _value, $Res Function(_$_Account) _then)
-      : super(_value, _then);
+class __$$AccountImplCopyWithImpl<$Res> extends _$AccountCopyWithImpl<$Res, _$AccountImpl>
+    implements _$$AccountImplCopyWith<$Res> {
+  __$$AccountImplCopyWithImpl(_$AccountImpl _value, $Res Function(_$AccountImpl) _then)
+    : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -132,50 +142,60 @@ class __$$_AccountCopyWithImpl<$Res>
     Object? isUserWallet = null,
     Object? isValid = null,
   }) {
-    return _then(_$_Account(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      derivationPath: null == derivationPath
-          ? _value.derivationPath
-          : derivationPath // ignore: cast_nullable_to_non_nullable
-              as Uri,
-      publicKeyEncoded: null == publicKeyEncoded
-          ? _value.publicKeyEncoded
-          : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
-              as String,
-      publicKeyRaw: null == publicKeyRaw
-          ? _value.publicKeyRaw
-          : publicKeyRaw // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      isUserWallet: null == isUserWallet
-          ? _value.isUserWallet
-          : isUserWallet // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isValid: null == isValid
-          ? _value.isValid
-          : isValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$AccountImpl(
+        id:
+            null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                    as int,
+        name:
+            null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                    as String,
+        derivationPath:
+            null == derivationPath
+                ? _value.derivationPath
+                : derivationPath // ignore: cast_nullable_to_non_nullable
+                    as Uri,
+        publicKeyEncoded:
+            null == publicKeyEncoded
+                ? _value.publicKeyEncoded
+                : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
+                    as String,
+        publicKeyRaw:
+            null == publicKeyRaw
+                ? _value.publicKeyRaw
+                : publicKeyRaw // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        isUserWallet:
+            null == isUserWallet
+                ? _value.isUserWallet
+                : isUserWallet // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        isValid:
+            null == isValid
+                ? _value.isValid
+                : isValid // ignore: cast_nullable_to_non_nullable
+                    as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_Account with DiagnosticableTreeMixin implements _Account {
-  const _$_Account(
-      {required this.id,
-      required this.name,
-      required this.derivationPath,
-      required this.publicKeyEncoded,
-      required this.publicKeyRaw,
-      required this.isUserWallet,
-      required this.isValid});
+class _$AccountImpl with DiagnosticableTreeMixin implements _Account {
+  const _$AccountImpl({
+    required this.id,
+    required this.name,
+    required this.derivationPath,
+    required this.publicKeyEncoded,
+    required this.publicKeyRaw,
+    required this.isUserWallet,
+    required this.isValid,
+  });
 
   @override
   final int id;
@@ -212,50 +232,50 @@ class _$_Account with DiagnosticableTreeMixin implements _Account {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Account &&
+            other is _$AccountImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.derivationPath, derivationPath) ||
                 other.derivationPath == derivationPath) &&
             (identical(other.publicKeyEncoded, publicKeyEncoded) ||
                 other.publicKeyEncoded == publicKeyEncoded) &&
-            const DeepCollectionEquality()
-                .equals(other.publicKeyRaw, publicKeyRaw) &&
-            (identical(other.isUserWallet, isUserWallet) ||
-                other.isUserWallet == isUserWallet) &&
+            const DeepCollectionEquality().equals(other.publicKeyRaw, publicKeyRaw) &&
+            (identical(other.isUserWallet, isUserWallet) || other.isUserWallet == isUserWallet) &&
             (identical(other.isValid, isValid) || other.isValid == isValid));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      derivationPath,
-      publicKeyEncoded,
-      const DeepCollectionEquality().hash(publicKeyRaw),
-      isUserWallet,
-      isValid);
+    runtimeType,
+    id,
+    name,
+    derivationPath,
+    publicKeyEncoded,
+    const DeepCollectionEquality().hash(publicKeyRaw),
+    isUserWallet,
+    isValid,
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AccountCopyWith<_$_Account> get copyWith =>
-      __$$_AccountCopyWithImpl<_$_Account>(this, _$identity);
+  _$$AccountImplCopyWith<_$AccountImpl> get copyWith =>
+      __$$AccountImplCopyWithImpl<_$AccountImpl>(this, _$identity);
 }
 
 abstract class _Account implements Account {
-  const factory _Account(
-      {required final int id,
-      required final String name,
-      required final Uri derivationPath,
-      required final String publicKeyEncoded,
-      required final Uint8List publicKeyRaw,
-      required final bool isUserWallet,
-      required final bool isValid}) = _$_Account;
+  const factory _Account({
+    required final int id,
+    required final String name,
+    required final Uri derivationPath,
+    required final String publicKeyEncoded,
+    required final Uint8List publicKeyRaw,
+    required final bool isUserWallet,
+    required final bool isValid,
+  }) = _$AccountImpl;
 
   @override
   int get id;
@@ -273,6 +293,5 @@ abstract class _Account implements Account {
   bool get isValid;
   @override
   @JsonKey(ignore: true)
-  _$$_AccountCopyWith<_$_Account> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$AccountImplCopyWith<_$AccountImpl> get copyWith => throw _privateConstructorUsedError;
 }

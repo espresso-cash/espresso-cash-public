@@ -15,6 +15,5 @@ abstract class NonceAccount with _$NonceAccount {
 
   const NonceAccount._();
 
-  factory NonceAccount.fromBorsh(Uint8List data) =>
-      _$NonceAccountFromBorsh(data);
+  factory NonceAccount.fromBorsh(Uint8List data) => _$NonceAccountFromBorsh(data);
 }

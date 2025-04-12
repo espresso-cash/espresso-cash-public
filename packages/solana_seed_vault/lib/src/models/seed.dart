@@ -4,9 +4,7 @@ import 'package:solana_seed_vault/src/models/auth_token.dart';
 
 part 'seed.freezed.dart';
 
-enum Purpose {
-  signSolanaTransaction,
-}
+enum Purpose { signSolanaTransaction }
 
 @freezed
 class Seed with _$Seed {

@@ -12,7 +12,8 @@ part of 'model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 JupiterMarketFee _$JupiterMarketFeeFromJson(Map<String, dynamic> json) {
   return _JupiterMarketFee.fromJson(json);
@@ -29,14 +30,12 @@ mixin _$JupiterMarketFee {
   /// Create a copy of JupiterMarketFee
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $JupiterMarketFeeCopyWith<JupiterMarketFee> get copyWith =>
-      throw _privateConstructorUsedError;
+  $JupiterMarketFeeCopyWith<JupiterMarketFee> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $JupiterMarketFeeCopyWith<$Res> {
-  factory $JupiterMarketFeeCopyWith(
-          JupiterMarketFee value, $Res Function(JupiterMarketFee) then) =
+  factory $JupiterMarketFeeCopyWith(JupiterMarketFee value, $Res Function(JupiterMarketFee) then) =
       _$JupiterMarketFeeCopyWithImpl<$Res, JupiterMarketFee>;
   @useResult
   $Res call({String? amount, num? feeBps});
@@ -56,29 +55,31 @@ class _$JupiterMarketFeeCopyWithImpl<$Res, $Val extends JupiterMarketFee>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? amount = freezed,
-    Object? feeBps = freezed,
-  }) {
-    return _then(_value.copyWith(
-      amount: freezed == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String?,
-      feeBps: freezed == feeBps
-          ? _value.feeBps
-          : feeBps // ignore: cast_nullable_to_non_nullable
-              as num?,
-    ) as $Val);
+  $Res call({Object? amount = freezed, Object? feeBps = freezed}) {
+    return _then(
+      _value.copyWith(
+            amount:
+                freezed == amount
+                    ? _value.amount
+                    : amount // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            feeBps:
+                freezed == feeBps
+                    ? _value.feeBps
+                    : feeBps // ignore: cast_nullable_to_non_nullable
+                        as num?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$JupiterMarketFeeImplCopyWith<$Res>
-    implements $JupiterMarketFeeCopyWith<$Res> {
-  factory _$$JupiterMarketFeeImplCopyWith(_$JupiterMarketFeeImpl value,
-          $Res Function(_$JupiterMarketFeeImpl) then) =
-      __$$JupiterMarketFeeImplCopyWithImpl<$Res>;
+abstract class _$$JupiterMarketFeeImplCopyWith<$Res> implements $JupiterMarketFeeCopyWith<$Res> {
+  factory _$$JupiterMarketFeeImplCopyWith(
+    _$JupiterMarketFeeImpl value,
+    $Res Function(_$JupiterMarketFeeImpl) then,
+  ) = __$$JupiterMarketFeeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? amount, num? feeBps});
@@ -88,28 +89,30 @@ abstract class _$$JupiterMarketFeeImplCopyWith<$Res>
 class __$$JupiterMarketFeeImplCopyWithImpl<$Res>
     extends _$JupiterMarketFeeCopyWithImpl<$Res, _$JupiterMarketFeeImpl>
     implements _$$JupiterMarketFeeImplCopyWith<$Res> {
-  __$$JupiterMarketFeeImplCopyWithImpl(_$JupiterMarketFeeImpl _value,
-      $Res Function(_$JupiterMarketFeeImpl) _then)
-      : super(_value, _then);
+  __$$JupiterMarketFeeImplCopyWithImpl(
+    _$JupiterMarketFeeImpl _value,
+    $Res Function(_$JupiterMarketFeeImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of JupiterMarketFee
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? amount = freezed,
-    Object? feeBps = freezed,
-  }) {
-    return _then(_$JupiterMarketFeeImpl(
-      amount: freezed == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String?,
-      feeBps: freezed == feeBps
-          ? _value.feeBps
-          : feeBps // ignore: cast_nullable_to_non_nullable
-              as num?,
-    ));
+  $Res call({Object? amount = freezed, Object? feeBps = freezed}) {
+    return _then(
+      _$JupiterMarketFeeImpl(
+        amount:
+            freezed == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        feeBps:
+            freezed == feeBps
+                ? _value.feeBps
+                : feeBps // ignore: cast_nullable_to_non_nullable
+                    as num?,
+      ),
+    );
   }
 }
 
@@ -150,14 +153,11 @@ class _$JupiterMarketFeeImpl implements _JupiterMarketFee {
   @override
   @pragma('vm:prefer-inline')
   _$$JupiterMarketFeeImplCopyWith<_$JupiterMarketFeeImpl> get copyWith =>
-      __$$JupiterMarketFeeImplCopyWithImpl<_$JupiterMarketFeeImpl>(
-          this, _$identity);
+      __$$JupiterMarketFeeImplCopyWithImpl<_$JupiterMarketFeeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$JupiterMarketFeeImplToJson(
-      this,
-    );
+    return _$$JupiterMarketFeeImplToJson(this);
   }
 }
 
@@ -165,8 +165,7 @@ abstract class _JupiterMarketFee implements JupiterMarketFee {
   const factory _JupiterMarketFee({final String? amount, final num? feeBps}) =
       _$JupiterMarketFeeImpl;
 
-  factory _JupiterMarketFee.fromJson(Map<String, dynamic> json) =
-      _$JupiterMarketFeeImpl.fromJson;
+  factory _JupiterMarketFee.fromJson(Map<String, dynamic> json) = _$JupiterMarketFeeImpl.fromJson;
 
   @override
   String? get amount;
@@ -196,8 +195,7 @@ mixin _$RoutePlan {
   /// Create a copy of RoutePlan
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $RoutePlanCopyWith<RoutePlan> get copyWith =>
-      throw _privateConstructorUsedError;
+  $RoutePlanCopyWith<RoutePlan> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -211,8 +209,7 @@ abstract class $RoutePlanCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RoutePlanCopyWithImpl<$Res, $Val extends RoutePlan>
-    implements $RoutePlanCopyWith<$Res> {
+class _$RoutePlanCopyWithImpl<$Res, $Val extends RoutePlan> implements $RoutePlanCopyWith<$Res> {
   _$RoutePlanCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -224,20 +221,22 @@ class _$RoutePlanCopyWithImpl<$Res, $Val extends RoutePlan>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? swapInfo = null,
-    Object? percent = null,
-  }) {
-    return _then(_value.copyWith(
-      swapInfo: null == swapInfo
-          ? _value.swapInfo
-          : swapInfo // ignore: cast_nullable_to_non_nullable
-              as JupiterSwapInfo,
-      percent: null == percent
-          ? _value.percent
-          : percent // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? swapInfo = null, Object? percent = null}) {
+    return _then(
+      _value.copyWith(
+            swapInfo:
+                null == swapInfo
+                    ? _value.swapInfo
+                    : swapInfo // ignore: cast_nullable_to_non_nullable
+                        as JupiterSwapInfo,
+            percent:
+                null == percent
+                    ? _value.percent
+                    : percent // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of RoutePlan
@@ -252,10 +251,8 @@ class _$RoutePlanCopyWithImpl<$Res, $Val extends RoutePlan>
 }
 
 /// @nodoc
-abstract class _$$RoutePlanImplCopyWith<$Res>
-    implements $RoutePlanCopyWith<$Res> {
-  factory _$$RoutePlanImplCopyWith(
-          _$RoutePlanImpl value, $Res Function(_$RoutePlanImpl) then) =
+abstract class _$$RoutePlanImplCopyWith<$Res> implements $RoutePlanCopyWith<$Res> {
+  factory _$$RoutePlanImplCopyWith(_$RoutePlanImpl value, $Res Function(_$RoutePlanImpl) then) =
       __$$RoutePlanImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -266,31 +263,30 @@ abstract class _$$RoutePlanImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$RoutePlanImplCopyWithImpl<$Res>
-    extends _$RoutePlanCopyWithImpl<$Res, _$RoutePlanImpl>
+class __$$RoutePlanImplCopyWithImpl<$Res> extends _$RoutePlanCopyWithImpl<$Res, _$RoutePlanImpl>
     implements _$$RoutePlanImplCopyWith<$Res> {
-  __$$RoutePlanImplCopyWithImpl(
-      _$RoutePlanImpl _value, $Res Function(_$RoutePlanImpl) _then)
-      : super(_value, _then);
+  __$$RoutePlanImplCopyWithImpl(_$RoutePlanImpl _value, $Res Function(_$RoutePlanImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of RoutePlan
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? swapInfo = null,
-    Object? percent = null,
-  }) {
-    return _then(_$RoutePlanImpl(
-      swapInfo: null == swapInfo
-          ? _value.swapInfo
-          : swapInfo // ignore: cast_nullable_to_non_nullable
-              as JupiterSwapInfo,
-      percent: null == percent
-          ? _value.percent
-          : percent // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? swapInfo = null, Object? percent = null}) {
+    return _then(
+      _$RoutePlanImpl(
+        swapInfo:
+            null == swapInfo
+                ? _value.swapInfo
+                : swapInfo // ignore: cast_nullable_to_non_nullable
+                    as JupiterSwapInfo,
+        percent:
+            null == percent
+                ? _value.percent
+                : percent // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
@@ -299,8 +295,7 @@ class __$$RoutePlanImplCopyWithImpl<$Res>
 class _$RoutePlanImpl implements _RoutePlan {
   const _$RoutePlanImpl({required this.swapInfo, required this.percent});
 
-  factory _$RoutePlanImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RoutePlanImplFromJson(json);
+  factory _$RoutePlanImpl.fromJson(Map<String, dynamic> json) => _$$RoutePlanImplFromJson(json);
 
   @override
   final JupiterSwapInfo swapInfo;
@@ -317,8 +312,7 @@ class _$RoutePlanImpl implements _RoutePlan {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RoutePlanImpl &&
-            (identical(other.swapInfo, swapInfo) ||
-                other.swapInfo == swapInfo) &&
+            (identical(other.swapInfo, swapInfo) || other.swapInfo == swapInfo) &&
             (identical(other.percent, percent) || other.percent == percent));
   }
 
@@ -336,19 +330,15 @@ class _$RoutePlanImpl implements _RoutePlan {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RoutePlanImplToJson(
-      this,
-    );
+    return _$$RoutePlanImplToJson(this);
   }
 }
 
 abstract class _RoutePlan implements RoutePlan {
-  const factory _RoutePlan(
-      {required final JupiterSwapInfo swapInfo,
-      required final int percent}) = _$RoutePlanImpl;
+  const factory _RoutePlan({required final JupiterSwapInfo swapInfo, required final int percent}) =
+      _$RoutePlanImpl;
 
-  factory _RoutePlan.fromJson(Map<String, dynamic> json) =
-      _$RoutePlanImpl.fromJson;
+  factory _RoutePlan.fromJson(Map<String, dynamic> json) = _$RoutePlanImpl.fromJson;
 
   @override
   JupiterSwapInfo get swapInfo;
@@ -359,8 +349,7 @@ abstract class _RoutePlan implements RoutePlan {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RoutePlanImplCopyWith<_$RoutePlanImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$RoutePlanImplCopyWith<_$RoutePlanImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 JupiterSwapInfo _$JupiterSwapInfoFromJson(Map<String, dynamic> json) {
@@ -384,25 +373,24 @@ mixin _$JupiterSwapInfo {
   /// Create a copy of JupiterSwapInfo
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $JupiterSwapInfoCopyWith<JupiterSwapInfo> get copyWith =>
-      throw _privateConstructorUsedError;
+  $JupiterSwapInfoCopyWith<JupiterSwapInfo> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $JupiterSwapInfoCopyWith<$Res> {
-  factory $JupiterSwapInfoCopyWith(
-          JupiterSwapInfo value, $Res Function(JupiterSwapInfo) then) =
+  factory $JupiterSwapInfoCopyWith(JupiterSwapInfo value, $Res Function(JupiterSwapInfo) then) =
       _$JupiterSwapInfoCopyWithImpl<$Res, JupiterSwapInfo>;
   @useResult
-  $Res call(
-      {String ammKey,
-      String? label,
-      String inputMint,
-      String outputMint,
-      String inAmount,
-      String outAmount,
-      String feeAmount,
-      String feeMint});
+  $Res call({
+    String ammKey,
+    String? label,
+    String inputMint,
+    String outputMint,
+    String inAmount,
+    String outAmount,
+    String feeAmount,
+    String feeMint,
+  });
 }
 
 /// @nodoc
@@ -429,60 +417,72 @@ class _$JupiterSwapInfoCopyWithImpl<$Res, $Val extends JupiterSwapInfo>
     Object? feeAmount = null,
     Object? feeMint = null,
   }) {
-    return _then(_value.copyWith(
-      ammKey: null == ammKey
-          ? _value.ammKey
-          : ammKey // ignore: cast_nullable_to_non_nullable
-              as String,
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
-      inputMint: null == inputMint
-          ? _value.inputMint
-          : inputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      outputMint: null == outputMint
-          ? _value.outputMint
-          : outputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      inAmount: null == inAmount
-          ? _value.inAmount
-          : inAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      outAmount: null == outAmount
-          ? _value.outAmount
-          : outAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      feeAmount: null == feeAmount
-          ? _value.feeAmount
-          : feeAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      feeMint: null == feeMint
-          ? _value.feeMint
-          : feeMint // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            ammKey:
+                null == ammKey
+                    ? _value.ammKey
+                    : ammKey // ignore: cast_nullable_to_non_nullable
+                        as String,
+            label:
+                freezed == label
+                    ? _value.label
+                    : label // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            inputMint:
+                null == inputMint
+                    ? _value.inputMint
+                    : inputMint // ignore: cast_nullable_to_non_nullable
+                        as String,
+            outputMint:
+                null == outputMint
+                    ? _value.outputMint
+                    : outputMint // ignore: cast_nullable_to_non_nullable
+                        as String,
+            inAmount:
+                null == inAmount
+                    ? _value.inAmount
+                    : inAmount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            outAmount:
+                null == outAmount
+                    ? _value.outAmount
+                    : outAmount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            feeAmount:
+                null == feeAmount
+                    ? _value.feeAmount
+                    : feeAmount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            feeMint:
+                null == feeMint
+                    ? _value.feeMint
+                    : feeMint // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$JupiterSwapInfoImplCopyWith<$Res>
-    implements $JupiterSwapInfoCopyWith<$Res> {
-  factory _$$JupiterSwapInfoImplCopyWith(_$JupiterSwapInfoImpl value,
-          $Res Function(_$JupiterSwapInfoImpl) then) =
-      __$$JupiterSwapInfoImplCopyWithImpl<$Res>;
+abstract class _$$JupiterSwapInfoImplCopyWith<$Res> implements $JupiterSwapInfoCopyWith<$Res> {
+  factory _$$JupiterSwapInfoImplCopyWith(
+    _$JupiterSwapInfoImpl value,
+    $Res Function(_$JupiterSwapInfoImpl) then,
+  ) = __$$JupiterSwapInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String ammKey,
-      String? label,
-      String inputMint,
-      String outputMint,
-      String inAmount,
-      String outAmount,
-      String feeAmount,
-      String feeMint});
+  $Res call({
+    String ammKey,
+    String? label,
+    String inputMint,
+    String outputMint,
+    String inAmount,
+    String outAmount,
+    String feeAmount,
+    String feeMint,
+  });
 }
 
 /// @nodoc
@@ -490,8 +490,9 @@ class __$$JupiterSwapInfoImplCopyWithImpl<$Res>
     extends _$JupiterSwapInfoCopyWithImpl<$Res, _$JupiterSwapInfoImpl>
     implements _$$JupiterSwapInfoImplCopyWith<$Res> {
   __$$JupiterSwapInfoImplCopyWithImpl(
-      _$JupiterSwapInfoImpl _value, $Res Function(_$JupiterSwapInfoImpl) _then)
-      : super(_value, _then);
+    _$JupiterSwapInfoImpl _value,
+    $Res Function(_$JupiterSwapInfoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of JupiterSwapInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -507,55 +508,66 @@ class __$$JupiterSwapInfoImplCopyWithImpl<$Res>
     Object? feeAmount = null,
     Object? feeMint = null,
   }) {
-    return _then(_$JupiterSwapInfoImpl(
-      ammKey: null == ammKey
-          ? _value.ammKey
-          : ammKey // ignore: cast_nullable_to_non_nullable
-              as String,
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
-      inputMint: null == inputMint
-          ? _value.inputMint
-          : inputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      outputMint: null == outputMint
-          ? _value.outputMint
-          : outputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      inAmount: null == inAmount
-          ? _value.inAmount
-          : inAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      outAmount: null == outAmount
-          ? _value.outAmount
-          : outAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      feeAmount: null == feeAmount
-          ? _value.feeAmount
-          : feeAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      feeMint: null == feeMint
-          ? _value.feeMint
-          : feeMint // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$JupiterSwapInfoImpl(
+        ammKey:
+            null == ammKey
+                ? _value.ammKey
+                : ammKey // ignore: cast_nullable_to_non_nullable
+                    as String,
+        label:
+            freezed == label
+                ? _value.label
+                : label // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        inputMint:
+            null == inputMint
+                ? _value.inputMint
+                : inputMint // ignore: cast_nullable_to_non_nullable
+                    as String,
+        outputMint:
+            null == outputMint
+                ? _value.outputMint
+                : outputMint // ignore: cast_nullable_to_non_nullable
+                    as String,
+        inAmount:
+            null == inAmount
+                ? _value.inAmount
+                : inAmount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        outAmount:
+            null == outAmount
+                ? _value.outAmount
+                : outAmount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        feeAmount:
+            null == feeAmount
+                ? _value.feeAmount
+                : feeAmount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        feeMint:
+            null == feeMint
+                ? _value.feeMint
+                : feeMint // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$JupiterSwapInfoImpl implements _JupiterSwapInfo {
-  const _$JupiterSwapInfoImpl(
-      {required this.ammKey,
-      this.label,
-      required this.inputMint,
-      required this.outputMint,
-      required this.inAmount,
-      required this.outAmount,
-      required this.feeAmount,
-      required this.feeMint});
+  const _$JupiterSwapInfoImpl({
+    required this.ammKey,
+    this.label,
+    required this.inputMint,
+    required this.outputMint,
+    required this.inAmount,
+    required this.outAmount,
+    required this.feeAmount,
+    required this.feeMint,
+  });
 
   factory _$JupiterSwapInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$JupiterSwapInfoImplFromJson(json);
@@ -589,23 +601,27 @@ class _$JupiterSwapInfoImpl implements _JupiterSwapInfo {
             other is _$JupiterSwapInfoImpl &&
             (identical(other.ammKey, ammKey) || other.ammKey == ammKey) &&
             (identical(other.label, label) || other.label == label) &&
-            (identical(other.inputMint, inputMint) ||
-                other.inputMint == inputMint) &&
-            (identical(other.outputMint, outputMint) ||
-                other.outputMint == outputMint) &&
-            (identical(other.inAmount, inAmount) ||
-                other.inAmount == inAmount) &&
-            (identical(other.outAmount, outAmount) ||
-                other.outAmount == outAmount) &&
-            (identical(other.feeAmount, feeAmount) ||
-                other.feeAmount == feeAmount) &&
+            (identical(other.inputMint, inputMint) || other.inputMint == inputMint) &&
+            (identical(other.outputMint, outputMint) || other.outputMint == outputMint) &&
+            (identical(other.inAmount, inAmount) || other.inAmount == inAmount) &&
+            (identical(other.outAmount, outAmount) || other.outAmount == outAmount) &&
+            (identical(other.feeAmount, feeAmount) || other.feeAmount == feeAmount) &&
             (identical(other.feeMint, feeMint) || other.feeMint == feeMint));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, ammKey, label, inputMint,
-      outputMint, inAmount, outAmount, feeAmount, feeMint);
+  int get hashCode => Object.hash(
+    runtimeType,
+    ammKey,
+    label,
+    inputMint,
+    outputMint,
+    inAmount,
+    outAmount,
+    feeAmount,
+    feeMint,
+  );
 
   /// Create a copy of JupiterSwapInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -613,30 +629,27 @@ class _$JupiterSwapInfoImpl implements _JupiterSwapInfo {
   @override
   @pragma('vm:prefer-inline')
   _$$JupiterSwapInfoImplCopyWith<_$JupiterSwapInfoImpl> get copyWith =>
-      __$$JupiterSwapInfoImplCopyWithImpl<_$JupiterSwapInfoImpl>(
-          this, _$identity);
+      __$$JupiterSwapInfoImplCopyWithImpl<_$JupiterSwapInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$JupiterSwapInfoImplToJson(
-      this,
-    );
+    return _$$JupiterSwapInfoImplToJson(this);
   }
 }
 
 abstract class _JupiterSwapInfo implements JupiterSwapInfo {
-  const factory _JupiterSwapInfo(
-      {required final String ammKey,
-      final String? label,
-      required final String inputMint,
-      required final String outputMint,
-      required final String inAmount,
-      required final String outAmount,
-      required final String feeAmount,
-      required final String feeMint}) = _$JupiterSwapInfoImpl;
+  const factory _JupiterSwapInfo({
+    required final String ammKey,
+    final String? label,
+    required final String inputMint,
+    required final String outputMint,
+    required final String inAmount,
+    required final String outAmount,
+    required final String feeAmount,
+    required final String feeMint,
+  }) = _$JupiterSwapInfoImpl;
 
-  factory _JupiterSwapInfo.fromJson(Map<String, dynamic> json) =
-      _$JupiterSwapInfoImpl.fromJson;
+  factory _JupiterSwapInfo.fromJson(Map<String, dynamic> json) = _$JupiterSwapInfoImpl.fromJson;
 
   @override
   String get ammKey;
@@ -688,29 +701,28 @@ mixin _$QuoteResponseDto {
   /// Create a copy of QuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $QuoteResponseDtoCopyWith<QuoteResponseDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  $QuoteResponseDtoCopyWith<QuoteResponseDto> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $QuoteResponseDtoCopyWith<$Res> {
-  factory $QuoteResponseDtoCopyWith(
-          QuoteResponseDto value, $Res Function(QuoteResponseDto) then) =
+  factory $QuoteResponseDtoCopyWith(QuoteResponseDto value, $Res Function(QuoteResponseDto) then) =
       _$QuoteResponseDtoCopyWithImpl<$Res, QuoteResponseDto>;
   @useResult
-  $Res call(
-      {String inputMint,
-      String inAmount,
-      String outputMint,
-      String outAmount,
-      String otherAmountThreshold,
-      SwapMode swapMode,
-      int slippageBps,
-      JupiterMarketFee? platformFee,
-      String priceImpactPct,
-      List<RoutePlan> routePlan,
-      num? contextSlot,
-      double? timeTaken});
+  $Res call({
+    String inputMint,
+    String inAmount,
+    String outputMint,
+    String outAmount,
+    String otherAmountThreshold,
+    SwapMode swapMode,
+    int slippageBps,
+    JupiterMarketFee? platformFee,
+    String priceImpactPct,
+    List<RoutePlan> routePlan,
+    num? contextSlot,
+    double? timeTaken,
+  });
 
   $JupiterMarketFeeCopyWith<$Res>? get platformFee;
 }
@@ -743,56 +755,71 @@ class _$QuoteResponseDtoCopyWithImpl<$Res, $Val extends QuoteResponseDto>
     Object? contextSlot = freezed,
     Object? timeTaken = freezed,
   }) {
-    return _then(_value.copyWith(
-      inputMint: null == inputMint
-          ? _value.inputMint
-          : inputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      inAmount: null == inAmount
-          ? _value.inAmount
-          : inAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      outputMint: null == outputMint
-          ? _value.outputMint
-          : outputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      outAmount: null == outAmount
-          ? _value.outAmount
-          : outAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      otherAmountThreshold: null == otherAmountThreshold
-          ? _value.otherAmountThreshold
-          : otherAmountThreshold // ignore: cast_nullable_to_non_nullable
-              as String,
-      swapMode: null == swapMode
-          ? _value.swapMode
-          : swapMode // ignore: cast_nullable_to_non_nullable
-              as SwapMode,
-      slippageBps: null == slippageBps
-          ? _value.slippageBps
-          : slippageBps // ignore: cast_nullable_to_non_nullable
-              as int,
-      platformFee: freezed == platformFee
-          ? _value.platformFee
-          : platformFee // ignore: cast_nullable_to_non_nullable
-              as JupiterMarketFee?,
-      priceImpactPct: null == priceImpactPct
-          ? _value.priceImpactPct
-          : priceImpactPct // ignore: cast_nullable_to_non_nullable
-              as String,
-      routePlan: null == routePlan
-          ? _value.routePlan
-          : routePlan // ignore: cast_nullable_to_non_nullable
-              as List<RoutePlan>,
-      contextSlot: freezed == contextSlot
-          ? _value.contextSlot
-          : contextSlot // ignore: cast_nullable_to_non_nullable
-              as num?,
-      timeTaken: freezed == timeTaken
-          ? _value.timeTaken
-          : timeTaken // ignore: cast_nullable_to_non_nullable
-              as double?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            inputMint:
+                null == inputMint
+                    ? _value.inputMint
+                    : inputMint // ignore: cast_nullable_to_non_nullable
+                        as String,
+            inAmount:
+                null == inAmount
+                    ? _value.inAmount
+                    : inAmount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            outputMint:
+                null == outputMint
+                    ? _value.outputMint
+                    : outputMint // ignore: cast_nullable_to_non_nullable
+                        as String,
+            outAmount:
+                null == outAmount
+                    ? _value.outAmount
+                    : outAmount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            otherAmountThreshold:
+                null == otherAmountThreshold
+                    ? _value.otherAmountThreshold
+                    : otherAmountThreshold // ignore: cast_nullable_to_non_nullable
+                        as String,
+            swapMode:
+                null == swapMode
+                    ? _value.swapMode
+                    : swapMode // ignore: cast_nullable_to_non_nullable
+                        as SwapMode,
+            slippageBps:
+                null == slippageBps
+                    ? _value.slippageBps
+                    : slippageBps // ignore: cast_nullable_to_non_nullable
+                        as int,
+            platformFee:
+                freezed == platformFee
+                    ? _value.platformFee
+                    : platformFee // ignore: cast_nullable_to_non_nullable
+                        as JupiterMarketFee?,
+            priceImpactPct:
+                null == priceImpactPct
+                    ? _value.priceImpactPct
+                    : priceImpactPct // ignore: cast_nullable_to_non_nullable
+                        as String,
+            routePlan:
+                null == routePlan
+                    ? _value.routePlan
+                    : routePlan // ignore: cast_nullable_to_non_nullable
+                        as List<RoutePlan>,
+            contextSlot:
+                freezed == contextSlot
+                    ? _value.contextSlot
+                    : contextSlot // ignore: cast_nullable_to_non_nullable
+                        as num?,
+            timeTaken:
+                freezed == timeTaken
+                    ? _value.timeTaken
+                    : timeTaken // ignore: cast_nullable_to_non_nullable
+                        as double?,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of QuoteResponseDto
@@ -811,26 +838,27 @@ class _$QuoteResponseDtoCopyWithImpl<$Res, $Val extends QuoteResponseDto>
 }
 
 /// @nodoc
-abstract class _$$QuoteResponseDtoImplCopyWith<$Res>
-    implements $QuoteResponseDtoCopyWith<$Res> {
-  factory _$$QuoteResponseDtoImplCopyWith(_$QuoteResponseDtoImpl value,
-          $Res Function(_$QuoteResponseDtoImpl) then) =
-      __$$QuoteResponseDtoImplCopyWithImpl<$Res>;
+abstract class _$$QuoteResponseDtoImplCopyWith<$Res> implements $QuoteResponseDtoCopyWith<$Res> {
+  factory _$$QuoteResponseDtoImplCopyWith(
+    _$QuoteResponseDtoImpl value,
+    $Res Function(_$QuoteResponseDtoImpl) then,
+  ) = __$$QuoteResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String inputMint,
-      String inAmount,
-      String outputMint,
-      String outAmount,
-      String otherAmountThreshold,
-      SwapMode swapMode,
-      int slippageBps,
-      JupiterMarketFee? platformFee,
-      String priceImpactPct,
-      List<RoutePlan> routePlan,
-      num? contextSlot,
-      double? timeTaken});
+  $Res call({
+    String inputMint,
+    String inAmount,
+    String outputMint,
+    String outAmount,
+    String otherAmountThreshold,
+    SwapMode swapMode,
+    int slippageBps,
+    JupiterMarketFee? platformFee,
+    String priceImpactPct,
+    List<RoutePlan> routePlan,
+    num? contextSlot,
+    double? timeTaken,
+  });
 
   @override
   $JupiterMarketFeeCopyWith<$Res>? get platformFee;
@@ -840,9 +868,10 @@ abstract class _$$QuoteResponseDtoImplCopyWith<$Res>
 class __$$QuoteResponseDtoImplCopyWithImpl<$Res>
     extends _$QuoteResponseDtoCopyWithImpl<$Res, _$QuoteResponseDtoImpl>
     implements _$$QuoteResponseDtoImplCopyWith<$Res> {
-  __$$QuoteResponseDtoImplCopyWithImpl(_$QuoteResponseDtoImpl _value,
-      $Res Function(_$QuoteResponseDtoImpl) _then)
-      : super(_value, _then);
+  __$$QuoteResponseDtoImplCopyWithImpl(
+    _$QuoteResponseDtoImpl _value,
+    $Res Function(_$QuoteResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of QuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -862,76 +891,90 @@ class __$$QuoteResponseDtoImplCopyWithImpl<$Res>
     Object? contextSlot = freezed,
     Object? timeTaken = freezed,
   }) {
-    return _then(_$QuoteResponseDtoImpl(
-      inputMint: null == inputMint
-          ? _value.inputMint
-          : inputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      inAmount: null == inAmount
-          ? _value.inAmount
-          : inAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      outputMint: null == outputMint
-          ? _value.outputMint
-          : outputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      outAmount: null == outAmount
-          ? _value.outAmount
-          : outAmount // ignore: cast_nullable_to_non_nullable
-              as String,
-      otherAmountThreshold: null == otherAmountThreshold
-          ? _value.otherAmountThreshold
-          : otherAmountThreshold // ignore: cast_nullable_to_non_nullable
-              as String,
-      swapMode: null == swapMode
-          ? _value.swapMode
-          : swapMode // ignore: cast_nullable_to_non_nullable
-              as SwapMode,
-      slippageBps: null == slippageBps
-          ? _value.slippageBps
-          : slippageBps // ignore: cast_nullable_to_non_nullable
-              as int,
-      platformFee: freezed == platformFee
-          ? _value.platformFee
-          : platformFee // ignore: cast_nullable_to_non_nullable
-              as JupiterMarketFee?,
-      priceImpactPct: null == priceImpactPct
-          ? _value.priceImpactPct
-          : priceImpactPct // ignore: cast_nullable_to_non_nullable
-              as String,
-      routePlan: null == routePlan
-          ? _value._routePlan
-          : routePlan // ignore: cast_nullable_to_non_nullable
-              as List<RoutePlan>,
-      contextSlot: freezed == contextSlot
-          ? _value.contextSlot
-          : contextSlot // ignore: cast_nullable_to_non_nullable
-              as num?,
-      timeTaken: freezed == timeTaken
-          ? _value.timeTaken
-          : timeTaken // ignore: cast_nullable_to_non_nullable
-              as double?,
-    ));
+    return _then(
+      _$QuoteResponseDtoImpl(
+        inputMint:
+            null == inputMint
+                ? _value.inputMint
+                : inputMint // ignore: cast_nullable_to_non_nullable
+                    as String,
+        inAmount:
+            null == inAmount
+                ? _value.inAmount
+                : inAmount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        outputMint:
+            null == outputMint
+                ? _value.outputMint
+                : outputMint // ignore: cast_nullable_to_non_nullable
+                    as String,
+        outAmount:
+            null == outAmount
+                ? _value.outAmount
+                : outAmount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        otherAmountThreshold:
+            null == otherAmountThreshold
+                ? _value.otherAmountThreshold
+                : otherAmountThreshold // ignore: cast_nullable_to_non_nullable
+                    as String,
+        swapMode:
+            null == swapMode
+                ? _value.swapMode
+                : swapMode // ignore: cast_nullable_to_non_nullable
+                    as SwapMode,
+        slippageBps:
+            null == slippageBps
+                ? _value.slippageBps
+                : slippageBps // ignore: cast_nullable_to_non_nullable
+                    as int,
+        platformFee:
+            freezed == platformFee
+                ? _value.platformFee
+                : platformFee // ignore: cast_nullable_to_non_nullable
+                    as JupiterMarketFee?,
+        priceImpactPct:
+            null == priceImpactPct
+                ? _value.priceImpactPct
+                : priceImpactPct // ignore: cast_nullable_to_non_nullable
+                    as String,
+        routePlan:
+            null == routePlan
+                ? _value._routePlan
+                : routePlan // ignore: cast_nullable_to_non_nullable
+                    as List<RoutePlan>,
+        contextSlot:
+            freezed == contextSlot
+                ? _value.contextSlot
+                : contextSlot // ignore: cast_nullable_to_non_nullable
+                    as num?,
+        timeTaken:
+            freezed == timeTaken
+                ? _value.timeTaken
+                : timeTaken // ignore: cast_nullable_to_non_nullable
+                    as double?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$QuoteResponseDtoImpl implements _QuoteResponseDto {
-  const _$QuoteResponseDtoImpl(
-      {required this.inputMint,
-      required this.inAmount,
-      required this.outputMint,
-      required this.outAmount,
-      required this.otherAmountThreshold,
-      this.swapMode = SwapMode.exactIn,
-      required this.slippageBps,
-      this.platformFee,
-      required this.priceImpactPct,
-      required final List<RoutePlan> routePlan,
-      this.contextSlot,
-      this.timeTaken})
-      : _routePlan = routePlan;
+  const _$QuoteResponseDtoImpl({
+    required this.inputMint,
+    required this.inAmount,
+    required this.outputMint,
+    required this.outAmount,
+    required this.otherAmountThreshold,
+    this.swapMode = SwapMode.exactIn,
+    required this.slippageBps,
+    this.platformFee,
+    required this.priceImpactPct,
+    required final List<RoutePlan> routePlan,
+    this.contextSlot,
+    this.timeTaken,
+  }) : _routePlan = routePlan;
 
   factory _$QuoteResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuoteResponseDtoImplFromJson(json);
@@ -978,48 +1021,39 @@ class _$QuoteResponseDtoImpl implements _QuoteResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuoteResponseDtoImpl &&
-            (identical(other.inputMint, inputMint) ||
-                other.inputMint == inputMint) &&
-            (identical(other.inAmount, inAmount) ||
-                other.inAmount == inAmount) &&
-            (identical(other.outputMint, outputMint) ||
-                other.outputMint == outputMint) &&
-            (identical(other.outAmount, outAmount) ||
-                other.outAmount == outAmount) &&
+            (identical(other.inputMint, inputMint) || other.inputMint == inputMint) &&
+            (identical(other.inAmount, inAmount) || other.inAmount == inAmount) &&
+            (identical(other.outputMint, outputMint) || other.outputMint == outputMint) &&
+            (identical(other.outAmount, outAmount) || other.outAmount == outAmount) &&
             (identical(other.otherAmountThreshold, otherAmountThreshold) ||
                 other.otherAmountThreshold == otherAmountThreshold) &&
-            (identical(other.swapMode, swapMode) ||
-                other.swapMode == swapMode) &&
-            (identical(other.slippageBps, slippageBps) ||
-                other.slippageBps == slippageBps) &&
-            (identical(other.platformFee, platformFee) ||
-                other.platformFee == platformFee) &&
+            (identical(other.swapMode, swapMode) || other.swapMode == swapMode) &&
+            (identical(other.slippageBps, slippageBps) || other.slippageBps == slippageBps) &&
+            (identical(other.platformFee, platformFee) || other.platformFee == platformFee) &&
             (identical(other.priceImpactPct, priceImpactPct) ||
                 other.priceImpactPct == priceImpactPct) &&
-            const DeepCollectionEquality()
-                .equals(other._routePlan, _routePlan) &&
-            (identical(other.contextSlot, contextSlot) ||
-                other.contextSlot == contextSlot) &&
-            (identical(other.timeTaken, timeTaken) ||
-                other.timeTaken == timeTaken));
+            const DeepCollectionEquality().equals(other._routePlan, _routePlan) &&
+            (identical(other.contextSlot, contextSlot) || other.contextSlot == contextSlot) &&
+            (identical(other.timeTaken, timeTaken) || other.timeTaken == timeTaken));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      inputMint,
-      inAmount,
-      outputMint,
-      outAmount,
-      otherAmountThreshold,
-      swapMode,
-      slippageBps,
-      platformFee,
-      priceImpactPct,
-      const DeepCollectionEquality().hash(_routePlan),
-      contextSlot,
-      timeTaken);
+    runtimeType,
+    inputMint,
+    inAmount,
+    outputMint,
+    outAmount,
+    otherAmountThreshold,
+    swapMode,
+    slippageBps,
+    platformFee,
+    priceImpactPct,
+    const DeepCollectionEquality().hash(_routePlan),
+    contextSlot,
+    timeTaken,
+  );
 
   /// Create a copy of QuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -1027,34 +1061,31 @@ class _$QuoteResponseDtoImpl implements _QuoteResponseDto {
   @override
   @pragma('vm:prefer-inline')
   _$$QuoteResponseDtoImplCopyWith<_$QuoteResponseDtoImpl> get copyWith =>
-      __$$QuoteResponseDtoImplCopyWithImpl<_$QuoteResponseDtoImpl>(
-          this, _$identity);
+      __$$QuoteResponseDtoImplCopyWithImpl<_$QuoteResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$QuoteResponseDtoImplToJson(
-      this,
-    );
+    return _$$QuoteResponseDtoImplToJson(this);
   }
 }
 
 abstract class _QuoteResponseDto implements QuoteResponseDto {
-  const factory _QuoteResponseDto(
-      {required final String inputMint,
-      required final String inAmount,
-      required final String outputMint,
-      required final String outAmount,
-      required final String otherAmountThreshold,
-      final SwapMode swapMode,
-      required final int slippageBps,
-      final JupiterMarketFee? platformFee,
-      required final String priceImpactPct,
-      required final List<RoutePlan> routePlan,
-      final num? contextSlot,
-      final double? timeTaken}) = _$QuoteResponseDtoImpl;
+  const factory _QuoteResponseDto({
+    required final String inputMint,
+    required final String inAmount,
+    required final String outputMint,
+    required final String outAmount,
+    required final String otherAmountThreshold,
+    final SwapMode swapMode,
+    required final int slippageBps,
+    final JupiterMarketFee? platformFee,
+    required final String priceImpactPct,
+    required final List<RoutePlan> routePlan,
+    final num? contextSlot,
+    final double? timeTaken,
+  }) = _$QuoteResponseDtoImpl;
 
-  factory _QuoteResponseDto.fromJson(Map<String, dynamic> json) =
-      _$QuoteResponseDtoImpl.fromJson;
+  factory _QuoteResponseDto.fromJson(Map<String, dynamic> json) = _$QuoteResponseDtoImpl.fromJson;
 
   @override
   String get inputMint;
@@ -1117,32 +1148,31 @@ mixin _$QuoteRequestDto {
   /// Create a copy of QuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $QuoteRequestDtoCopyWith<QuoteRequestDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  $QuoteRequestDtoCopyWith<QuoteRequestDto> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $QuoteRequestDtoCopyWith<$Res> {
-  factory $QuoteRequestDtoCopyWith(
-          QuoteRequestDto value, $Res Function(QuoteRequestDto) then) =
+  factory $QuoteRequestDtoCopyWith(QuoteRequestDto value, $Res Function(QuoteRequestDto) then) =
       _$QuoteRequestDtoCopyWithImpl<$Res, QuoteRequestDto>;
   @useResult
-  $Res call(
-      {String inputMint,
-      String outputMint,
-      int amount,
-      int? slippageBps,
-      SwapMode swapMode,
-      List<String>? dexes,
-      List<String>? excludeDexes,
-      bool? onlyDirectRoutes,
-      bool? asLegacyTransaction,
-      int? platformFeeBps,
-      int? maxAccounts,
-      bool? restrictIntermediateTokens,
-      bool? autoSlippage,
-      int? maxAutoSlippageBps,
-      int? autoSlippageCollisionUsdValue});
+  $Res call({
+    String inputMint,
+    String outputMint,
+    int amount,
+    int? slippageBps,
+    SwapMode swapMode,
+    List<String>? dexes,
+    List<String>? excludeDexes,
+    bool? onlyDirectRoutes,
+    bool? asLegacyTransaction,
+    int? platformFeeBps,
+    int? maxAccounts,
+    bool? restrictIntermediateTokens,
+    bool? autoSlippage,
+    int? maxAutoSlippageBps,
+    int? autoSlippageCollisionUsdValue,
+  });
 }
 
 /// @nodoc
@@ -1176,95 +1206,114 @@ class _$QuoteRequestDtoCopyWithImpl<$Res, $Val extends QuoteRequestDto>
     Object? maxAutoSlippageBps = freezed,
     Object? autoSlippageCollisionUsdValue = freezed,
   }) {
-    return _then(_value.copyWith(
-      inputMint: null == inputMint
-          ? _value.inputMint
-          : inputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      outputMint: null == outputMint
-          ? _value.outputMint
-          : outputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
-      slippageBps: freezed == slippageBps
-          ? _value.slippageBps
-          : slippageBps // ignore: cast_nullable_to_non_nullable
-              as int?,
-      swapMode: null == swapMode
-          ? _value.swapMode
-          : swapMode // ignore: cast_nullable_to_non_nullable
-              as SwapMode,
-      dexes: freezed == dexes
-          ? _value.dexes
-          : dexes // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      excludeDexes: freezed == excludeDexes
-          ? _value.excludeDexes
-          : excludeDexes // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      onlyDirectRoutes: freezed == onlyDirectRoutes
-          ? _value.onlyDirectRoutes
-          : onlyDirectRoutes // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      asLegacyTransaction: freezed == asLegacyTransaction
-          ? _value.asLegacyTransaction
-          : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      platformFeeBps: freezed == platformFeeBps
-          ? _value.platformFeeBps
-          : platformFeeBps // ignore: cast_nullable_to_non_nullable
-              as int?,
-      maxAccounts: freezed == maxAccounts
-          ? _value.maxAccounts
-          : maxAccounts // ignore: cast_nullable_to_non_nullable
-              as int?,
-      restrictIntermediateTokens: freezed == restrictIntermediateTokens
-          ? _value.restrictIntermediateTokens
-          : restrictIntermediateTokens // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      autoSlippage: freezed == autoSlippage
-          ? _value.autoSlippage
-          : autoSlippage // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      maxAutoSlippageBps: freezed == maxAutoSlippageBps
-          ? _value.maxAutoSlippageBps
-          : maxAutoSlippageBps // ignore: cast_nullable_to_non_nullable
-              as int?,
-      autoSlippageCollisionUsdValue: freezed == autoSlippageCollisionUsdValue
-          ? _value.autoSlippageCollisionUsdValue
-          : autoSlippageCollisionUsdValue // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            inputMint:
+                null == inputMint
+                    ? _value.inputMint
+                    : inputMint // ignore: cast_nullable_to_non_nullable
+                        as String,
+            outputMint:
+                null == outputMint
+                    ? _value.outputMint
+                    : outputMint // ignore: cast_nullable_to_non_nullable
+                        as String,
+            amount:
+                null == amount
+                    ? _value.amount
+                    : amount // ignore: cast_nullable_to_non_nullable
+                        as int,
+            slippageBps:
+                freezed == slippageBps
+                    ? _value.slippageBps
+                    : slippageBps // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            swapMode:
+                null == swapMode
+                    ? _value.swapMode
+                    : swapMode // ignore: cast_nullable_to_non_nullable
+                        as SwapMode,
+            dexes:
+                freezed == dexes
+                    ? _value.dexes
+                    : dexes // ignore: cast_nullable_to_non_nullable
+                        as List<String>?,
+            excludeDexes:
+                freezed == excludeDexes
+                    ? _value.excludeDexes
+                    : excludeDexes // ignore: cast_nullable_to_non_nullable
+                        as List<String>?,
+            onlyDirectRoutes:
+                freezed == onlyDirectRoutes
+                    ? _value.onlyDirectRoutes
+                    : onlyDirectRoutes // ignore: cast_nullable_to_non_nullable
+                        as bool?,
+            asLegacyTransaction:
+                freezed == asLegacyTransaction
+                    ? _value.asLegacyTransaction
+                    : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
+                        as bool?,
+            platformFeeBps:
+                freezed == platformFeeBps
+                    ? _value.platformFeeBps
+                    : platformFeeBps // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            maxAccounts:
+                freezed == maxAccounts
+                    ? _value.maxAccounts
+                    : maxAccounts // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            restrictIntermediateTokens:
+                freezed == restrictIntermediateTokens
+                    ? _value.restrictIntermediateTokens
+                    : restrictIntermediateTokens // ignore: cast_nullable_to_non_nullable
+                        as bool?,
+            autoSlippage:
+                freezed == autoSlippage
+                    ? _value.autoSlippage
+                    : autoSlippage // ignore: cast_nullable_to_non_nullable
+                        as bool?,
+            maxAutoSlippageBps:
+                freezed == maxAutoSlippageBps
+                    ? _value.maxAutoSlippageBps
+                    : maxAutoSlippageBps // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            autoSlippageCollisionUsdValue:
+                freezed == autoSlippageCollisionUsdValue
+                    ? _value.autoSlippageCollisionUsdValue
+                    : autoSlippageCollisionUsdValue // ignore: cast_nullable_to_non_nullable
+                        as int?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$QuoteRequestDtoImplCopyWith<$Res>
-    implements $QuoteRequestDtoCopyWith<$Res> {
-  factory _$$QuoteRequestDtoImplCopyWith(_$QuoteRequestDtoImpl value,
-          $Res Function(_$QuoteRequestDtoImpl) then) =
-      __$$QuoteRequestDtoImplCopyWithImpl<$Res>;
+abstract class _$$QuoteRequestDtoImplCopyWith<$Res> implements $QuoteRequestDtoCopyWith<$Res> {
+  factory _$$QuoteRequestDtoImplCopyWith(
+    _$QuoteRequestDtoImpl value,
+    $Res Function(_$QuoteRequestDtoImpl) then,
+  ) = __$$QuoteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String inputMint,
-      String outputMint,
-      int amount,
-      int? slippageBps,
-      SwapMode swapMode,
-      List<String>? dexes,
-      List<String>? excludeDexes,
-      bool? onlyDirectRoutes,
-      bool? asLegacyTransaction,
-      int? platformFeeBps,
-      int? maxAccounts,
-      bool? restrictIntermediateTokens,
-      bool? autoSlippage,
-      int? maxAutoSlippageBps,
-      int? autoSlippageCollisionUsdValue});
+  $Res call({
+    String inputMint,
+    String outputMint,
+    int amount,
+    int? slippageBps,
+    SwapMode swapMode,
+    List<String>? dexes,
+    List<String>? excludeDexes,
+    bool? onlyDirectRoutes,
+    bool? asLegacyTransaction,
+    int? platformFeeBps,
+    int? maxAccounts,
+    bool? restrictIntermediateTokens,
+    bool? autoSlippage,
+    int? maxAutoSlippageBps,
+    int? autoSlippageCollisionUsdValue,
+  });
 }
 
 /// @nodoc
@@ -1272,8 +1321,9 @@ class __$$QuoteRequestDtoImplCopyWithImpl<$Res>
     extends _$QuoteRequestDtoCopyWithImpl<$Res, _$QuoteRequestDtoImpl>
     implements _$$QuoteRequestDtoImplCopyWith<$Res> {
   __$$QuoteRequestDtoImplCopyWithImpl(
-      _$QuoteRequestDtoImpl _value, $Res Function(_$QuoteRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$QuoteRequestDtoImpl _value,
+    $Res Function(_$QuoteRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of QuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -1296,92 +1346,109 @@ class __$$QuoteRequestDtoImplCopyWithImpl<$Res>
     Object? maxAutoSlippageBps = freezed,
     Object? autoSlippageCollisionUsdValue = freezed,
   }) {
-    return _then(_$QuoteRequestDtoImpl(
-      inputMint: null == inputMint
-          ? _value.inputMint
-          : inputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      outputMint: null == outputMint
-          ? _value.outputMint
-          : outputMint // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
-      slippageBps: freezed == slippageBps
-          ? _value.slippageBps
-          : slippageBps // ignore: cast_nullable_to_non_nullable
-              as int?,
-      swapMode: null == swapMode
-          ? _value.swapMode
-          : swapMode // ignore: cast_nullable_to_non_nullable
-              as SwapMode,
-      dexes: freezed == dexes
-          ? _value._dexes
-          : dexes // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      excludeDexes: freezed == excludeDexes
-          ? _value._excludeDexes
-          : excludeDexes // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      onlyDirectRoutes: freezed == onlyDirectRoutes
-          ? _value.onlyDirectRoutes
-          : onlyDirectRoutes // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      asLegacyTransaction: freezed == asLegacyTransaction
-          ? _value.asLegacyTransaction
-          : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      platformFeeBps: freezed == platformFeeBps
-          ? _value.platformFeeBps
-          : platformFeeBps // ignore: cast_nullable_to_non_nullable
-              as int?,
-      maxAccounts: freezed == maxAccounts
-          ? _value.maxAccounts
-          : maxAccounts // ignore: cast_nullable_to_non_nullable
-              as int?,
-      restrictIntermediateTokens: freezed == restrictIntermediateTokens
-          ? _value.restrictIntermediateTokens
-          : restrictIntermediateTokens // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      autoSlippage: freezed == autoSlippage
-          ? _value.autoSlippage
-          : autoSlippage // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      maxAutoSlippageBps: freezed == maxAutoSlippageBps
-          ? _value.maxAutoSlippageBps
-          : maxAutoSlippageBps // ignore: cast_nullable_to_non_nullable
-              as int?,
-      autoSlippageCollisionUsdValue: freezed == autoSlippageCollisionUsdValue
-          ? _value.autoSlippageCollisionUsdValue
-          : autoSlippageCollisionUsdValue // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
+    return _then(
+      _$QuoteRequestDtoImpl(
+        inputMint:
+            null == inputMint
+                ? _value.inputMint
+                : inputMint // ignore: cast_nullable_to_non_nullable
+                    as String,
+        outputMint:
+            null == outputMint
+                ? _value.outputMint
+                : outputMint // ignore: cast_nullable_to_non_nullable
+                    as String,
+        amount:
+            null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                    as int,
+        slippageBps:
+            freezed == slippageBps
+                ? _value.slippageBps
+                : slippageBps // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        swapMode:
+            null == swapMode
+                ? _value.swapMode
+                : swapMode // ignore: cast_nullable_to_non_nullable
+                    as SwapMode,
+        dexes:
+            freezed == dexes
+                ? _value._dexes
+                : dexes // ignore: cast_nullable_to_non_nullable
+                    as List<String>?,
+        excludeDexes:
+            freezed == excludeDexes
+                ? _value._excludeDexes
+                : excludeDexes // ignore: cast_nullable_to_non_nullable
+                    as List<String>?,
+        onlyDirectRoutes:
+            freezed == onlyDirectRoutes
+                ? _value.onlyDirectRoutes
+                : onlyDirectRoutes // ignore: cast_nullable_to_non_nullable
+                    as bool?,
+        asLegacyTransaction:
+            freezed == asLegacyTransaction
+                ? _value.asLegacyTransaction
+                : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
+                    as bool?,
+        platformFeeBps:
+            freezed == platformFeeBps
+                ? _value.platformFeeBps
+                : platformFeeBps // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        maxAccounts:
+            freezed == maxAccounts
+                ? _value.maxAccounts
+                : maxAccounts // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        restrictIntermediateTokens:
+            freezed == restrictIntermediateTokens
+                ? _value.restrictIntermediateTokens
+                : restrictIntermediateTokens // ignore: cast_nullable_to_non_nullable
+                    as bool?,
+        autoSlippage:
+            freezed == autoSlippage
+                ? _value.autoSlippage
+                : autoSlippage // ignore: cast_nullable_to_non_nullable
+                    as bool?,
+        maxAutoSlippageBps:
+            freezed == maxAutoSlippageBps
+                ? _value.maxAutoSlippageBps
+                : maxAutoSlippageBps // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        autoSlippageCollisionUsdValue:
+            freezed == autoSlippageCollisionUsdValue
+                ? _value.autoSlippageCollisionUsdValue
+                : autoSlippageCollisionUsdValue // ignore: cast_nullable_to_non_nullable
+                    as int?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$QuoteRequestDtoImpl implements _QuoteRequestDto {
-  const _$QuoteRequestDtoImpl(
-      {required this.inputMint,
-      required this.outputMint,
-      required this.amount,
-      this.slippageBps,
-      this.swapMode = SwapMode.exactIn,
-      final List<String>? dexes,
-      final List<String>? excludeDexes,
-      this.onlyDirectRoutes,
-      this.asLegacyTransaction,
-      this.platformFeeBps,
-      this.maxAccounts,
-      this.restrictIntermediateTokens,
-      this.autoSlippage,
-      this.maxAutoSlippageBps,
-      this.autoSlippageCollisionUsdValue})
-      : _dexes = dexes,
-        _excludeDexes = excludeDexes;
+  const _$QuoteRequestDtoImpl({
+    required this.inputMint,
+    required this.outputMint,
+    required this.amount,
+    this.slippageBps,
+    this.swapMode = SwapMode.exactIn,
+    final List<String>? dexes,
+    final List<String>? excludeDexes,
+    this.onlyDirectRoutes,
+    this.asLegacyTransaction,
+    this.platformFeeBps,
+    this.maxAccounts,
+    this.restrictIntermediateTokens,
+    this.autoSlippage,
+    this.maxAutoSlippageBps,
+    this.autoSlippageCollisionUsdValue,
+  }) : _dexes = dexes,
+       _excludeDexes = excludeDexes;
 
   factory _$QuoteRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuoteRequestDtoImplFromJson(json);
@@ -1444,59 +1511,49 @@ class _$QuoteRequestDtoImpl implements _QuoteRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuoteRequestDtoImpl &&
-            (identical(other.inputMint, inputMint) ||
-                other.inputMint == inputMint) &&
-            (identical(other.outputMint, outputMint) ||
-                other.outputMint == outputMint) &&
+            (identical(other.inputMint, inputMint) || other.inputMint == inputMint) &&
+            (identical(other.outputMint, outputMint) || other.outputMint == outputMint) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.slippageBps, slippageBps) ||
-                other.slippageBps == slippageBps) &&
-            (identical(other.swapMode, swapMode) ||
-                other.swapMode == swapMode) &&
+            (identical(other.slippageBps, slippageBps) || other.slippageBps == slippageBps) &&
+            (identical(other.swapMode, swapMode) || other.swapMode == swapMode) &&
             const DeepCollectionEquality().equals(other._dexes, _dexes) &&
-            const DeepCollectionEquality()
-                .equals(other._excludeDexes, _excludeDexes) &&
+            const DeepCollectionEquality().equals(other._excludeDexes, _excludeDexes) &&
             (identical(other.onlyDirectRoutes, onlyDirectRoutes) ||
                 other.onlyDirectRoutes == onlyDirectRoutes) &&
             (identical(other.asLegacyTransaction, asLegacyTransaction) ||
                 other.asLegacyTransaction == asLegacyTransaction) &&
             (identical(other.platformFeeBps, platformFeeBps) ||
                 other.platformFeeBps == platformFeeBps) &&
-            (identical(other.maxAccounts, maxAccounts) ||
-                other.maxAccounts == maxAccounts) &&
-            (identical(other.restrictIntermediateTokens,
-                    restrictIntermediateTokens) ||
-                other.restrictIntermediateTokens ==
-                    restrictIntermediateTokens) &&
-            (identical(other.autoSlippage, autoSlippage) ||
-                other.autoSlippage == autoSlippage) &&
+            (identical(other.maxAccounts, maxAccounts) || other.maxAccounts == maxAccounts) &&
+            (identical(other.restrictIntermediateTokens, restrictIntermediateTokens) ||
+                other.restrictIntermediateTokens == restrictIntermediateTokens) &&
+            (identical(other.autoSlippage, autoSlippage) || other.autoSlippage == autoSlippage) &&
             (identical(other.maxAutoSlippageBps, maxAutoSlippageBps) ||
                 other.maxAutoSlippageBps == maxAutoSlippageBps) &&
-            (identical(other.autoSlippageCollisionUsdValue,
-                    autoSlippageCollisionUsdValue) ||
-                other.autoSlippageCollisionUsdValue ==
-                    autoSlippageCollisionUsdValue));
+            (identical(other.autoSlippageCollisionUsdValue, autoSlippageCollisionUsdValue) ||
+                other.autoSlippageCollisionUsdValue == autoSlippageCollisionUsdValue));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      inputMint,
-      outputMint,
-      amount,
-      slippageBps,
-      swapMode,
-      const DeepCollectionEquality().hash(_dexes),
-      const DeepCollectionEquality().hash(_excludeDexes),
-      onlyDirectRoutes,
-      asLegacyTransaction,
-      platformFeeBps,
-      maxAccounts,
-      restrictIntermediateTokens,
-      autoSlippage,
-      maxAutoSlippageBps,
-      autoSlippageCollisionUsdValue);
+    runtimeType,
+    inputMint,
+    outputMint,
+    amount,
+    slippageBps,
+    swapMode,
+    const DeepCollectionEquality().hash(_dexes),
+    const DeepCollectionEquality().hash(_excludeDexes),
+    onlyDirectRoutes,
+    asLegacyTransaction,
+    platformFeeBps,
+    maxAccounts,
+    restrictIntermediateTokens,
+    autoSlippage,
+    maxAutoSlippageBps,
+    autoSlippageCollisionUsdValue,
+  );
 
   /// Create a copy of QuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -1504,37 +1561,34 @@ class _$QuoteRequestDtoImpl implements _QuoteRequestDto {
   @override
   @pragma('vm:prefer-inline')
   _$$QuoteRequestDtoImplCopyWith<_$QuoteRequestDtoImpl> get copyWith =>
-      __$$QuoteRequestDtoImplCopyWithImpl<_$QuoteRequestDtoImpl>(
-          this, _$identity);
+      __$$QuoteRequestDtoImplCopyWithImpl<_$QuoteRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$QuoteRequestDtoImplToJson(
-      this,
-    );
+    return _$$QuoteRequestDtoImplToJson(this);
   }
 }
 
 abstract class _QuoteRequestDto implements QuoteRequestDto {
-  const factory _QuoteRequestDto(
-      {required final String inputMint,
-      required final String outputMint,
-      required final int amount,
-      final int? slippageBps,
-      final SwapMode swapMode,
-      final List<String>? dexes,
-      final List<String>? excludeDexes,
-      final bool? onlyDirectRoutes,
-      final bool? asLegacyTransaction,
-      final int? platformFeeBps,
-      final int? maxAccounts,
-      final bool? restrictIntermediateTokens,
-      final bool? autoSlippage,
-      final int? maxAutoSlippageBps,
-      final int? autoSlippageCollisionUsdValue}) = _$QuoteRequestDtoImpl;
+  const factory _QuoteRequestDto({
+    required final String inputMint,
+    required final String outputMint,
+    required final int amount,
+    final int? slippageBps,
+    final SwapMode swapMode,
+    final List<String>? dexes,
+    final List<String>? excludeDexes,
+    final bool? onlyDirectRoutes,
+    final bool? asLegacyTransaction,
+    final int? platformFeeBps,
+    final int? maxAccounts,
+    final bool? restrictIntermediateTokens,
+    final bool? autoSlippage,
+    final int? maxAutoSlippageBps,
+    final int? autoSlippageCollisionUsdValue,
+  }) = _$QuoteRequestDtoImpl;
 
-  factory _QuoteRequestDto.fromJson(Map<String, dynamic> json) =
-      _$QuoteRequestDtoImpl.fromJson;
+  factory _QuoteRequestDto.fromJson(Map<String, dynamic> json) = _$QuoteRequestDtoImpl.fromJson;
 
   @override
   String get inputMint;
@@ -1575,8 +1629,7 @@ abstract class _QuoteRequestDto implements QuoteRequestDto {
       throw _privateConstructorUsedError;
 }
 
-JupiterSwapRequestDto _$JupiterSwapRequestDtoFromJson(
-    Map<String, dynamic> json) {
+JupiterSwapRequestDto _$JupiterSwapRequestDtoFromJson(Map<String, dynamic> json) {
   return _JupiterSwapRequestDto.fromJson(json);
 }
 
@@ -1610,34 +1663,35 @@ mixin _$JupiterSwapRequestDto {
 
 /// @nodoc
 abstract class $JupiterSwapRequestDtoCopyWith<$Res> {
-  factory $JupiterSwapRequestDtoCopyWith(JupiterSwapRequestDto value,
-          $Res Function(JupiterSwapRequestDto) then) =
-      _$JupiterSwapRequestDtoCopyWithImpl<$Res, JupiterSwapRequestDto>;
+  factory $JupiterSwapRequestDtoCopyWith(
+    JupiterSwapRequestDto value,
+    $Res Function(JupiterSwapRequestDto) then,
+  ) = _$JupiterSwapRequestDtoCopyWithImpl<$Res, JupiterSwapRequestDto>;
   @useResult
-  $Res call(
-      {String userPublicKey,
-      QuoteResponseDto quoteResponse,
-      bool? wrapAndUnwrapSol,
-      bool? useSharedAccounts,
-      String? feeAccount,
-      int? computeUnitPriceMicroLamports,
-      int? prioritizationFeeLamports,
-      bool? asLegacyTransaction,
-      bool? restrictIntermediateTokens,
-      bool? useTokenLedger,
-      String? destinationTokenAccount,
-      bool? dynamicComputeUnitLimit,
-      bool? skipUserAccountsRpcCalls,
-      String? trackingAccount,
-      DynamicSlippage? dynamicSlippage});
+  $Res call({
+    String userPublicKey,
+    QuoteResponseDto quoteResponse,
+    bool? wrapAndUnwrapSol,
+    bool? useSharedAccounts,
+    String? feeAccount,
+    int? computeUnitPriceMicroLamports,
+    int? prioritizationFeeLamports,
+    bool? asLegacyTransaction,
+    bool? restrictIntermediateTokens,
+    bool? useTokenLedger,
+    String? destinationTokenAccount,
+    bool? dynamicComputeUnitLimit,
+    bool? skipUserAccountsRpcCalls,
+    String? trackingAccount,
+    DynamicSlippage? dynamicSlippage,
+  });
 
   $QuoteResponseDtoCopyWith<$Res> get quoteResponse;
   $DynamicSlippageCopyWith<$Res>? get dynamicSlippage;
 }
 
 /// @nodoc
-class _$JupiterSwapRequestDtoCopyWithImpl<$Res,
-        $Val extends JupiterSwapRequestDto>
+class _$JupiterSwapRequestDtoCopyWithImpl<$Res, $Val extends JupiterSwapRequestDto>
     implements $JupiterSwapRequestDtoCopyWith<$Res> {
   _$JupiterSwapRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -1667,68 +1721,86 @@ class _$JupiterSwapRequestDtoCopyWithImpl<$Res,
     Object? trackingAccount = freezed,
     Object? dynamicSlippage = freezed,
   }) {
-    return _then(_value.copyWith(
-      userPublicKey: null == userPublicKey
-          ? _value.userPublicKey
-          : userPublicKey // ignore: cast_nullable_to_non_nullable
-              as String,
-      quoteResponse: null == quoteResponse
-          ? _value.quoteResponse
-          : quoteResponse // ignore: cast_nullable_to_non_nullable
-              as QuoteResponseDto,
-      wrapAndUnwrapSol: freezed == wrapAndUnwrapSol
-          ? _value.wrapAndUnwrapSol
-          : wrapAndUnwrapSol // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      useSharedAccounts: freezed == useSharedAccounts
-          ? _value.useSharedAccounts
-          : useSharedAccounts // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      feeAccount: freezed == feeAccount
-          ? _value.feeAccount
-          : feeAccount // ignore: cast_nullable_to_non_nullable
-              as String?,
-      computeUnitPriceMicroLamports: freezed == computeUnitPriceMicroLamports
-          ? _value.computeUnitPriceMicroLamports
-          : computeUnitPriceMicroLamports // ignore: cast_nullable_to_non_nullable
-              as int?,
-      prioritizationFeeLamports: freezed == prioritizationFeeLamports
-          ? _value.prioritizationFeeLamports
-          : prioritizationFeeLamports // ignore: cast_nullable_to_non_nullable
-              as int?,
-      asLegacyTransaction: freezed == asLegacyTransaction
-          ? _value.asLegacyTransaction
-          : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      restrictIntermediateTokens: freezed == restrictIntermediateTokens
-          ? _value.restrictIntermediateTokens
-          : restrictIntermediateTokens // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      useTokenLedger: freezed == useTokenLedger
-          ? _value.useTokenLedger
-          : useTokenLedger // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      destinationTokenAccount: freezed == destinationTokenAccount
-          ? _value.destinationTokenAccount
-          : destinationTokenAccount // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dynamicComputeUnitLimit: freezed == dynamicComputeUnitLimit
-          ? _value.dynamicComputeUnitLimit
-          : dynamicComputeUnitLimit // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      skipUserAccountsRpcCalls: freezed == skipUserAccountsRpcCalls
-          ? _value.skipUserAccountsRpcCalls
-          : skipUserAccountsRpcCalls // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      trackingAccount: freezed == trackingAccount
-          ? _value.trackingAccount
-          : trackingAccount // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dynamicSlippage: freezed == dynamicSlippage
-          ? _value.dynamicSlippage
-          : dynamicSlippage // ignore: cast_nullable_to_non_nullable
-              as DynamicSlippage?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            userPublicKey:
+                null == userPublicKey
+                    ? _value.userPublicKey
+                    : userPublicKey // ignore: cast_nullable_to_non_nullable
+                        as String,
+            quoteResponse:
+                null == quoteResponse
+                    ? _value.quoteResponse
+                    : quoteResponse // ignore: cast_nullable_to_non_nullable
+                        as QuoteResponseDto,
+            wrapAndUnwrapSol:
+                freezed == wrapAndUnwrapSol
+                    ? _value.wrapAndUnwrapSol
+                    : wrapAndUnwrapSol // ignore: cast_nullable_to_non_nullable
+                        as bool?,
+            useSharedAccounts:
+                freezed == useSharedAccounts
+                    ? _value.useSharedAccounts
+                    : useSharedAccounts // ignore: cast_nullable_to_non_nullable
+                        as bool?,
+            feeAccount:
+                freezed == feeAccount
+                    ? _value.feeAccount
+                    : feeAccount // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            computeUnitPriceMicroLamports:
+                freezed == computeUnitPriceMicroLamports
+                    ? _value.computeUnitPriceMicroLamports
+                    : computeUnitPriceMicroLamports // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            prioritizationFeeLamports:
+                freezed == prioritizationFeeLamports
+                    ? _value.prioritizationFeeLamports
+                    : prioritizationFeeLamports // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            asLegacyTransaction:
+                freezed == asLegacyTransaction
+                    ? _value.asLegacyTransaction
+                    : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
+                        as bool?,
+            restrictIntermediateTokens:
+                freezed == restrictIntermediateTokens
+                    ? _value.restrictIntermediateTokens
+                    : restrictIntermediateTokens // ignore: cast_nullable_to_non_nullable
+                        as bool?,
+            useTokenLedger:
+                freezed == useTokenLedger
+                    ? _value.useTokenLedger
+                    : useTokenLedger // ignore: cast_nullable_to_non_nullable
+                        as bool?,
+            destinationTokenAccount:
+                freezed == destinationTokenAccount
+                    ? _value.destinationTokenAccount
+                    : destinationTokenAccount // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            dynamicComputeUnitLimit:
+                freezed == dynamicComputeUnitLimit
+                    ? _value.dynamicComputeUnitLimit
+                    : dynamicComputeUnitLimit // ignore: cast_nullable_to_non_nullable
+                        as bool?,
+            skipUserAccountsRpcCalls:
+                freezed == skipUserAccountsRpcCalls
+                    ? _value.skipUserAccountsRpcCalls
+                    : skipUserAccountsRpcCalls // ignore: cast_nullable_to_non_nullable
+                        as bool?,
+            trackingAccount:
+                freezed == trackingAccount
+                    ? _value.trackingAccount
+                    : trackingAccount // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            dynamicSlippage:
+                freezed == dynamicSlippage
+                    ? _value.dynamicSlippage
+                    : dynamicSlippage // ignore: cast_nullable_to_non_nullable
+                        as DynamicSlippage?,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of JupiterSwapRequestDto
@@ -1760,27 +1832,28 @@ class _$JupiterSwapRequestDtoCopyWithImpl<$Res,
 abstract class _$$JupiterSwapRequestDtoImplCopyWith<$Res>
     implements $JupiterSwapRequestDtoCopyWith<$Res> {
   factory _$$JupiterSwapRequestDtoImplCopyWith(
-          _$JupiterSwapRequestDtoImpl value,
-          $Res Function(_$JupiterSwapRequestDtoImpl) then) =
-      __$$JupiterSwapRequestDtoImplCopyWithImpl<$Res>;
+    _$JupiterSwapRequestDtoImpl value,
+    $Res Function(_$JupiterSwapRequestDtoImpl) then,
+  ) = __$$JupiterSwapRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String userPublicKey,
-      QuoteResponseDto quoteResponse,
-      bool? wrapAndUnwrapSol,
-      bool? useSharedAccounts,
-      String? feeAccount,
-      int? computeUnitPriceMicroLamports,
-      int? prioritizationFeeLamports,
-      bool? asLegacyTransaction,
-      bool? restrictIntermediateTokens,
-      bool? useTokenLedger,
-      String? destinationTokenAccount,
-      bool? dynamicComputeUnitLimit,
-      bool? skipUserAccountsRpcCalls,
-      String? trackingAccount,
-      DynamicSlippage? dynamicSlippage});
+  $Res call({
+    String userPublicKey,
+    QuoteResponseDto quoteResponse,
+    bool? wrapAndUnwrapSol,
+    bool? useSharedAccounts,
+    String? feeAccount,
+    int? computeUnitPriceMicroLamports,
+    int? prioritizationFeeLamports,
+    bool? asLegacyTransaction,
+    bool? restrictIntermediateTokens,
+    bool? useTokenLedger,
+    String? destinationTokenAccount,
+    bool? dynamicComputeUnitLimit,
+    bool? skipUserAccountsRpcCalls,
+    String? trackingAccount,
+    DynamicSlippage? dynamicSlippage,
+  });
 
   @override
   $QuoteResponseDtoCopyWith<$Res> get quoteResponse;
@@ -1790,12 +1863,12 @@ abstract class _$$JupiterSwapRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$JupiterSwapRequestDtoImplCopyWithImpl<$Res>
-    extends _$JupiterSwapRequestDtoCopyWithImpl<$Res,
-        _$JupiterSwapRequestDtoImpl>
+    extends _$JupiterSwapRequestDtoCopyWithImpl<$Res, _$JupiterSwapRequestDtoImpl>
     implements _$$JupiterSwapRequestDtoImplCopyWith<$Res> {
-  __$$JupiterSwapRequestDtoImplCopyWithImpl(_$JupiterSwapRequestDtoImpl _value,
-      $Res Function(_$JupiterSwapRequestDtoImpl) _then)
-      : super(_value, _then);
+  __$$JupiterSwapRequestDtoImplCopyWithImpl(
+    _$JupiterSwapRequestDtoImpl _value,
+    $Res Function(_$JupiterSwapRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of JupiterSwapRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -1818,90 +1891,108 @@ class __$$JupiterSwapRequestDtoImplCopyWithImpl<$Res>
     Object? trackingAccount = freezed,
     Object? dynamicSlippage = freezed,
   }) {
-    return _then(_$JupiterSwapRequestDtoImpl(
-      userPublicKey: null == userPublicKey
-          ? _value.userPublicKey
-          : userPublicKey // ignore: cast_nullable_to_non_nullable
-              as String,
-      quoteResponse: null == quoteResponse
-          ? _value.quoteResponse
-          : quoteResponse // ignore: cast_nullable_to_non_nullable
-              as QuoteResponseDto,
-      wrapAndUnwrapSol: freezed == wrapAndUnwrapSol
-          ? _value.wrapAndUnwrapSol
-          : wrapAndUnwrapSol // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      useSharedAccounts: freezed == useSharedAccounts
-          ? _value.useSharedAccounts
-          : useSharedAccounts // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      feeAccount: freezed == feeAccount
-          ? _value.feeAccount
-          : feeAccount // ignore: cast_nullable_to_non_nullable
-              as String?,
-      computeUnitPriceMicroLamports: freezed == computeUnitPriceMicroLamports
-          ? _value.computeUnitPriceMicroLamports
-          : computeUnitPriceMicroLamports // ignore: cast_nullable_to_non_nullable
-              as int?,
-      prioritizationFeeLamports: freezed == prioritizationFeeLamports
-          ? _value.prioritizationFeeLamports
-          : prioritizationFeeLamports // ignore: cast_nullable_to_non_nullable
-              as int?,
-      asLegacyTransaction: freezed == asLegacyTransaction
-          ? _value.asLegacyTransaction
-          : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      restrictIntermediateTokens: freezed == restrictIntermediateTokens
-          ? _value.restrictIntermediateTokens
-          : restrictIntermediateTokens // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      useTokenLedger: freezed == useTokenLedger
-          ? _value.useTokenLedger
-          : useTokenLedger // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      destinationTokenAccount: freezed == destinationTokenAccount
-          ? _value.destinationTokenAccount
-          : destinationTokenAccount // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dynamicComputeUnitLimit: freezed == dynamicComputeUnitLimit
-          ? _value.dynamicComputeUnitLimit
-          : dynamicComputeUnitLimit // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      skipUserAccountsRpcCalls: freezed == skipUserAccountsRpcCalls
-          ? _value.skipUserAccountsRpcCalls
-          : skipUserAccountsRpcCalls // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      trackingAccount: freezed == trackingAccount
-          ? _value.trackingAccount
-          : trackingAccount // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dynamicSlippage: freezed == dynamicSlippage
-          ? _value.dynamicSlippage
-          : dynamicSlippage // ignore: cast_nullable_to_non_nullable
-              as DynamicSlippage?,
-    ));
+    return _then(
+      _$JupiterSwapRequestDtoImpl(
+        userPublicKey:
+            null == userPublicKey
+                ? _value.userPublicKey
+                : userPublicKey // ignore: cast_nullable_to_non_nullable
+                    as String,
+        quoteResponse:
+            null == quoteResponse
+                ? _value.quoteResponse
+                : quoteResponse // ignore: cast_nullable_to_non_nullable
+                    as QuoteResponseDto,
+        wrapAndUnwrapSol:
+            freezed == wrapAndUnwrapSol
+                ? _value.wrapAndUnwrapSol
+                : wrapAndUnwrapSol // ignore: cast_nullable_to_non_nullable
+                    as bool?,
+        useSharedAccounts:
+            freezed == useSharedAccounts
+                ? _value.useSharedAccounts
+                : useSharedAccounts // ignore: cast_nullable_to_non_nullable
+                    as bool?,
+        feeAccount:
+            freezed == feeAccount
+                ? _value.feeAccount
+                : feeAccount // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        computeUnitPriceMicroLamports:
+            freezed == computeUnitPriceMicroLamports
+                ? _value.computeUnitPriceMicroLamports
+                : computeUnitPriceMicroLamports // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        prioritizationFeeLamports:
+            freezed == prioritizationFeeLamports
+                ? _value.prioritizationFeeLamports
+                : prioritizationFeeLamports // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        asLegacyTransaction:
+            freezed == asLegacyTransaction
+                ? _value.asLegacyTransaction
+                : asLegacyTransaction // ignore: cast_nullable_to_non_nullable
+                    as bool?,
+        restrictIntermediateTokens:
+            freezed == restrictIntermediateTokens
+                ? _value.restrictIntermediateTokens
+                : restrictIntermediateTokens // ignore: cast_nullable_to_non_nullable
+                    as bool?,
+        useTokenLedger:
+            freezed == useTokenLedger
+                ? _value.useTokenLedger
+                : useTokenLedger // ignore: cast_nullable_to_non_nullable
+                    as bool?,
+        destinationTokenAccount:
+            freezed == destinationTokenAccount
+                ? _value.destinationTokenAccount
+                : destinationTokenAccount // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        dynamicComputeUnitLimit:
+            freezed == dynamicComputeUnitLimit
+                ? _value.dynamicComputeUnitLimit
+                : dynamicComputeUnitLimit // ignore: cast_nullable_to_non_nullable
+                    as bool?,
+        skipUserAccountsRpcCalls:
+            freezed == skipUserAccountsRpcCalls
+                ? _value.skipUserAccountsRpcCalls
+                : skipUserAccountsRpcCalls // ignore: cast_nullable_to_non_nullable
+                    as bool?,
+        trackingAccount:
+            freezed == trackingAccount
+                ? _value.trackingAccount
+                : trackingAccount // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        dynamicSlippage:
+            freezed == dynamicSlippage
+                ? _value.dynamicSlippage
+                : dynamicSlippage // ignore: cast_nullable_to_non_nullable
+                    as DynamicSlippage?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$JupiterSwapRequestDtoImpl implements _JupiterSwapRequestDto {
-  const _$JupiterSwapRequestDtoImpl(
-      {required this.userPublicKey,
-      required this.quoteResponse,
-      this.wrapAndUnwrapSol = true,
-      this.useSharedAccounts = true,
-      this.feeAccount,
-      this.computeUnitPriceMicroLamports,
-      this.prioritizationFeeLamports,
-      this.asLegacyTransaction,
-      this.restrictIntermediateTokens,
-      this.useTokenLedger,
-      this.destinationTokenAccount,
-      this.dynamicComputeUnitLimit,
-      this.skipUserAccountsRpcCalls,
-      this.trackingAccount,
-      this.dynamicSlippage});
+  const _$JupiterSwapRequestDtoImpl({
+    required this.userPublicKey,
+    required this.quoteResponse,
+    this.wrapAndUnwrapSol = true,
+    this.useSharedAccounts = true,
+    this.feeAccount,
+    this.computeUnitPriceMicroLamports,
+    this.prioritizationFeeLamports,
+    this.asLegacyTransaction,
+    this.restrictIntermediateTokens,
+    this.useTokenLedger,
+    this.destinationTokenAccount,
+    this.dynamicComputeUnitLimit,
+    this.skipUserAccountsRpcCalls,
+    this.trackingAccount,
+    this.dynamicSlippage,
+  });
 
   factory _$JupiterSwapRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$JupiterSwapRequestDtoImplFromJson(json);
@@ -1957,21 +2048,15 @@ class _$JupiterSwapRequestDtoImpl implements _JupiterSwapRequestDto {
                 other.wrapAndUnwrapSol == wrapAndUnwrapSol) &&
             (identical(other.useSharedAccounts, useSharedAccounts) ||
                 other.useSharedAccounts == useSharedAccounts) &&
-            (identical(other.feeAccount, feeAccount) ||
-                other.feeAccount == feeAccount) &&
-            (identical(other.computeUnitPriceMicroLamports,
-                    computeUnitPriceMicroLamports) ||
-                other.computeUnitPriceMicroLamports ==
-                    computeUnitPriceMicroLamports) &&
-            (identical(other.prioritizationFeeLamports,
-                    prioritizationFeeLamports) ||
+            (identical(other.feeAccount, feeAccount) || other.feeAccount == feeAccount) &&
+            (identical(other.computeUnitPriceMicroLamports, computeUnitPriceMicroLamports) ||
+                other.computeUnitPriceMicroLamports == computeUnitPriceMicroLamports) &&
+            (identical(other.prioritizationFeeLamports, prioritizationFeeLamports) ||
                 other.prioritizationFeeLamports == prioritizationFeeLamports) &&
             (identical(other.asLegacyTransaction, asLegacyTransaction) ||
                 other.asLegacyTransaction == asLegacyTransaction) &&
-            (identical(other.restrictIntermediateTokens,
-                    restrictIntermediateTokens) ||
-                other.restrictIntermediateTokens ==
-                    restrictIntermediateTokens) &&
+            (identical(other.restrictIntermediateTokens, restrictIntermediateTokens) ||
+                other.restrictIntermediateTokens == restrictIntermediateTokens) &&
             (identical(other.useTokenLedger, useTokenLedger) ||
                 other.useTokenLedger == useTokenLedger) &&
             (identical(other.destinationTokenAccount, destinationTokenAccount) ||
@@ -1989,57 +2074,56 @@ class _$JupiterSwapRequestDtoImpl implements _JupiterSwapRequestDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      userPublicKey,
-      quoteResponse,
-      wrapAndUnwrapSol,
-      useSharedAccounts,
-      feeAccount,
-      computeUnitPriceMicroLamports,
-      prioritizationFeeLamports,
-      asLegacyTransaction,
-      restrictIntermediateTokens,
-      useTokenLedger,
-      destinationTokenAccount,
-      dynamicComputeUnitLimit,
-      skipUserAccountsRpcCalls,
-      trackingAccount,
-      dynamicSlippage);
+    runtimeType,
+    userPublicKey,
+    quoteResponse,
+    wrapAndUnwrapSol,
+    useSharedAccounts,
+    feeAccount,
+    computeUnitPriceMicroLamports,
+    prioritizationFeeLamports,
+    asLegacyTransaction,
+    restrictIntermediateTokens,
+    useTokenLedger,
+    destinationTokenAccount,
+    dynamicComputeUnitLimit,
+    skipUserAccountsRpcCalls,
+    trackingAccount,
+    dynamicSlippage,
+  );
 
   /// Create a copy of JupiterSwapRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$JupiterSwapRequestDtoImplCopyWith<_$JupiterSwapRequestDtoImpl>
-      get copyWith => __$$JupiterSwapRequestDtoImplCopyWithImpl<
-          _$JupiterSwapRequestDtoImpl>(this, _$identity);
+  _$$JupiterSwapRequestDtoImplCopyWith<_$JupiterSwapRequestDtoImpl> get copyWith =>
+      __$$JupiterSwapRequestDtoImplCopyWithImpl<_$JupiterSwapRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$JupiterSwapRequestDtoImplToJson(
-      this,
-    );
+    return _$$JupiterSwapRequestDtoImplToJson(this);
   }
 }
 
 abstract class _JupiterSwapRequestDto implements JupiterSwapRequestDto {
-  const factory _JupiterSwapRequestDto(
-      {required final String userPublicKey,
-      required final QuoteResponseDto quoteResponse,
-      final bool? wrapAndUnwrapSol,
-      final bool? useSharedAccounts,
-      final String? feeAccount,
-      final int? computeUnitPriceMicroLamports,
-      final int? prioritizationFeeLamports,
-      final bool? asLegacyTransaction,
-      final bool? restrictIntermediateTokens,
-      final bool? useTokenLedger,
-      final String? destinationTokenAccount,
-      final bool? dynamicComputeUnitLimit,
-      final bool? skipUserAccountsRpcCalls,
-      final String? trackingAccount,
-      final DynamicSlippage? dynamicSlippage}) = _$JupiterSwapRequestDtoImpl;
+  const factory _JupiterSwapRequestDto({
+    required final String userPublicKey,
+    required final QuoteResponseDto quoteResponse,
+    final bool? wrapAndUnwrapSol,
+    final bool? useSharedAccounts,
+    final String? feeAccount,
+    final int? computeUnitPriceMicroLamports,
+    final int? prioritizationFeeLamports,
+    final bool? asLegacyTransaction,
+    final bool? restrictIntermediateTokens,
+    final bool? useTokenLedger,
+    final String? destinationTokenAccount,
+    final bool? dynamicComputeUnitLimit,
+    final bool? skipUserAccountsRpcCalls,
+    final String? trackingAccount,
+    final DynamicSlippage? dynamicSlippage,
+  }) = _$JupiterSwapRequestDtoImpl;
 
   factory _JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =
       _$JupiterSwapRequestDtoImpl.fromJson;
@@ -2079,8 +2163,8 @@ abstract class _JupiterSwapRequestDto implements JupiterSwapRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$JupiterSwapRequestDtoImplCopyWith<_$JupiterSwapRequestDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$JupiterSwapRequestDtoImplCopyWith<_$JupiterSwapRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 DynamicSlippage _$DynamicSlippageFromJson(Map<String, dynamic> json) {
@@ -2098,14 +2182,12 @@ mixin _$DynamicSlippage {
   /// Create a copy of DynamicSlippage
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $DynamicSlippageCopyWith<DynamicSlippage> get copyWith =>
-      throw _privateConstructorUsedError;
+  $DynamicSlippageCopyWith<DynamicSlippage> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $DynamicSlippageCopyWith<$Res> {
-  factory $DynamicSlippageCopyWith(
-          DynamicSlippage value, $Res Function(DynamicSlippage) then) =
+  factory $DynamicSlippageCopyWith(DynamicSlippage value, $Res Function(DynamicSlippage) then) =
       _$DynamicSlippageCopyWithImpl<$Res, DynamicSlippage>;
   @useResult
   $Res call({int minBps, int maxBps});
@@ -2125,29 +2207,31 @@ class _$DynamicSlippageCopyWithImpl<$Res, $Val extends DynamicSlippage>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? minBps = null,
-    Object? maxBps = null,
-  }) {
-    return _then(_value.copyWith(
-      minBps: null == minBps
-          ? _value.minBps
-          : minBps // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxBps: null == maxBps
-          ? _value.maxBps
-          : maxBps // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? minBps = null, Object? maxBps = null}) {
+    return _then(
+      _value.copyWith(
+            minBps:
+                null == minBps
+                    ? _value.minBps
+                    : minBps // ignore: cast_nullable_to_non_nullable
+                        as int,
+            maxBps:
+                null == maxBps
+                    ? _value.maxBps
+                    : maxBps // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$DynamicSlippageImplCopyWith<$Res>
-    implements $DynamicSlippageCopyWith<$Res> {
-  factory _$$DynamicSlippageImplCopyWith(_$DynamicSlippageImpl value,
-          $Res Function(_$DynamicSlippageImpl) then) =
-      __$$DynamicSlippageImplCopyWithImpl<$Res>;
+abstract class _$$DynamicSlippageImplCopyWith<$Res> implements $DynamicSlippageCopyWith<$Res> {
+  factory _$$DynamicSlippageImplCopyWith(
+    _$DynamicSlippageImpl value,
+    $Res Function(_$DynamicSlippageImpl) then,
+  ) = __$$DynamicSlippageImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int minBps, int maxBps});
@@ -2158,27 +2242,29 @@ class __$$DynamicSlippageImplCopyWithImpl<$Res>
     extends _$DynamicSlippageCopyWithImpl<$Res, _$DynamicSlippageImpl>
     implements _$$DynamicSlippageImplCopyWith<$Res> {
   __$$DynamicSlippageImplCopyWithImpl(
-      _$DynamicSlippageImpl _value, $Res Function(_$DynamicSlippageImpl) _then)
-      : super(_value, _then);
+    _$DynamicSlippageImpl _value,
+    $Res Function(_$DynamicSlippageImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of DynamicSlippage
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? minBps = null,
-    Object? maxBps = null,
-  }) {
-    return _then(_$DynamicSlippageImpl(
-      minBps: null == minBps
-          ? _value.minBps
-          : minBps // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxBps: null == maxBps
-          ? _value.maxBps
-          : maxBps // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? minBps = null, Object? maxBps = null}) {
+    return _then(
+      _$DynamicSlippageImpl(
+        minBps:
+            null == minBps
+                ? _value.minBps
+                : minBps // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxBps:
+            null == maxBps
+                ? _value.maxBps
+                : maxBps // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
@@ -2219,24 +2305,19 @@ class _$DynamicSlippageImpl implements _DynamicSlippage {
   @override
   @pragma('vm:prefer-inline')
   _$$DynamicSlippageImplCopyWith<_$DynamicSlippageImpl> get copyWith =>
-      __$$DynamicSlippageImplCopyWithImpl<_$DynamicSlippageImpl>(
-          this, _$identity);
+      __$$DynamicSlippageImplCopyWithImpl<_$DynamicSlippageImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DynamicSlippageImplToJson(
-      this,
-    );
+    return _$$DynamicSlippageImplToJson(this);
   }
 }
 
 abstract class _DynamicSlippage implements DynamicSlippage {
-  const factory _DynamicSlippage(
-      {required final int minBps,
-      required final int maxBps}) = _$DynamicSlippageImpl;
+  const factory _DynamicSlippage({required final int minBps, required final int maxBps}) =
+      _$DynamicSlippageImpl;
 
-  factory _DynamicSlippage.fromJson(Map<String, dynamic> json) =
-      _$DynamicSlippageImpl.fromJson;
+  factory _DynamicSlippage.fromJson(Map<String, dynamic> json) = _$DynamicSlippageImpl.fromJson;
 
   @override
   int get minBps;
@@ -2251,8 +2332,7 @@ abstract class _DynamicSlippage implements DynamicSlippage {
       throw _privateConstructorUsedError;
 }
 
-JupiterSwapResponseDto _$JupiterSwapResponseDtoFromJson(
-    Map<String, dynamic> json) {
+JupiterSwapResponseDto _$JupiterSwapResponseDtoFromJson(Map<String, dynamic> json) {
   return _JupiterSwapResponseDto.fromJson(json);
 }
 
@@ -2261,8 +2341,7 @@ mixin _$JupiterSwapResponseDto {
   String get swapTransaction => throw _privateConstructorUsedError;
   int get lastValidBlockHeight => throw _privateConstructorUsedError;
   int? get prioritizationFeeLamports => throw _privateConstructorUsedError;
-  DynamicSlippageReport? get dynamicSlippageReport =>
-      throw _privateConstructorUsedError;
+  DynamicSlippageReport? get dynamicSlippageReport => throw _privateConstructorUsedError;
 
   /// Serializes this JupiterSwapResponseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2276,22 +2355,23 @@ mixin _$JupiterSwapResponseDto {
 
 /// @nodoc
 abstract class $JupiterSwapResponseDtoCopyWith<$Res> {
-  factory $JupiterSwapResponseDtoCopyWith(JupiterSwapResponseDto value,
-          $Res Function(JupiterSwapResponseDto) then) =
-      _$JupiterSwapResponseDtoCopyWithImpl<$Res, JupiterSwapResponseDto>;
+  factory $JupiterSwapResponseDtoCopyWith(
+    JupiterSwapResponseDto value,
+    $Res Function(JupiterSwapResponseDto) then,
+  ) = _$JupiterSwapResponseDtoCopyWithImpl<$Res, JupiterSwapResponseDto>;
   @useResult
-  $Res call(
-      {String swapTransaction,
-      int lastValidBlockHeight,
-      int? prioritizationFeeLamports,
-      DynamicSlippageReport? dynamicSlippageReport});
+  $Res call({
+    String swapTransaction,
+    int lastValidBlockHeight,
+    int? prioritizationFeeLamports,
+    DynamicSlippageReport? dynamicSlippageReport,
+  });
 
   $DynamicSlippageReportCopyWith<$Res>? get dynamicSlippageReport;
 }
 
 /// @nodoc
-class _$JupiterSwapResponseDtoCopyWithImpl<$Res,
-        $Val extends JupiterSwapResponseDto>
+class _$JupiterSwapResponseDtoCopyWithImpl<$Res, $Val extends JupiterSwapResponseDto>
     implements $JupiterSwapResponseDtoCopyWith<$Res> {
   _$JupiterSwapResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -2310,24 +2390,31 @@ class _$JupiterSwapResponseDtoCopyWithImpl<$Res,
     Object? prioritizationFeeLamports = freezed,
     Object? dynamicSlippageReport = freezed,
   }) {
-    return _then(_value.copyWith(
-      swapTransaction: null == swapTransaction
-          ? _value.swapTransaction
-          : swapTransaction // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastValidBlockHeight: null == lastValidBlockHeight
-          ? _value.lastValidBlockHeight
-          : lastValidBlockHeight // ignore: cast_nullable_to_non_nullable
-              as int,
-      prioritizationFeeLamports: freezed == prioritizationFeeLamports
-          ? _value.prioritizationFeeLamports
-          : prioritizationFeeLamports // ignore: cast_nullable_to_non_nullable
-              as int?,
-      dynamicSlippageReport: freezed == dynamicSlippageReport
-          ? _value.dynamicSlippageReport
-          : dynamicSlippageReport // ignore: cast_nullable_to_non_nullable
-              as DynamicSlippageReport?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            swapTransaction:
+                null == swapTransaction
+                    ? _value.swapTransaction
+                    : swapTransaction // ignore: cast_nullable_to_non_nullable
+                        as String,
+            lastValidBlockHeight:
+                null == lastValidBlockHeight
+                    ? _value.lastValidBlockHeight
+                    : lastValidBlockHeight // ignore: cast_nullable_to_non_nullable
+                        as int,
+            prioritizationFeeLamports:
+                freezed == prioritizationFeeLamports
+                    ? _value.prioritizationFeeLamports
+                    : prioritizationFeeLamports // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            dynamicSlippageReport:
+                freezed == dynamicSlippageReport
+                    ? _value.dynamicSlippageReport
+                    : dynamicSlippageReport // ignore: cast_nullable_to_non_nullable
+                        as DynamicSlippageReport?,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of JupiterSwapResponseDto
@@ -2339,8 +2426,7 @@ class _$JupiterSwapResponseDtoCopyWithImpl<$Res,
       return null;
     }
 
-    return $DynamicSlippageReportCopyWith<$Res>(_value.dynamicSlippageReport!,
-        (value) {
+    return $DynamicSlippageReportCopyWith<$Res>(_value.dynamicSlippageReport!, (value) {
       return _then(_value.copyWith(dynamicSlippageReport: value) as $Val);
     });
   }
@@ -2350,16 +2436,17 @@ class _$JupiterSwapResponseDtoCopyWithImpl<$Res,
 abstract class _$$JupiterSwapResponseDtoImplCopyWith<$Res>
     implements $JupiterSwapResponseDtoCopyWith<$Res> {
   factory _$$JupiterSwapResponseDtoImplCopyWith(
-          _$JupiterSwapResponseDtoImpl value,
-          $Res Function(_$JupiterSwapResponseDtoImpl) then) =
-      __$$JupiterSwapResponseDtoImplCopyWithImpl<$Res>;
+    _$JupiterSwapResponseDtoImpl value,
+    $Res Function(_$JupiterSwapResponseDtoImpl) then,
+  ) = __$$JupiterSwapResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String swapTransaction,
-      int lastValidBlockHeight,
-      int? prioritizationFeeLamports,
-      DynamicSlippageReport? dynamicSlippageReport});
+  $Res call({
+    String swapTransaction,
+    int lastValidBlockHeight,
+    int? prioritizationFeeLamports,
+    DynamicSlippageReport? dynamicSlippageReport,
+  });
 
   @override
   $DynamicSlippageReportCopyWith<$Res>? get dynamicSlippageReport;
@@ -2367,13 +2454,12 @@ abstract class _$$JupiterSwapResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$JupiterSwapResponseDtoImplCopyWithImpl<$Res>
-    extends _$JupiterSwapResponseDtoCopyWithImpl<$Res,
-        _$JupiterSwapResponseDtoImpl>
+    extends _$JupiterSwapResponseDtoCopyWithImpl<$Res, _$JupiterSwapResponseDtoImpl>
     implements _$$JupiterSwapResponseDtoImplCopyWith<$Res> {
   __$$JupiterSwapResponseDtoImplCopyWithImpl(
-      _$JupiterSwapResponseDtoImpl _value,
-      $Res Function(_$JupiterSwapResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$JupiterSwapResponseDtoImpl _value,
+    $Res Function(_$JupiterSwapResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of JupiterSwapResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -2385,35 +2471,42 @@ class __$$JupiterSwapResponseDtoImplCopyWithImpl<$Res>
     Object? prioritizationFeeLamports = freezed,
     Object? dynamicSlippageReport = freezed,
   }) {
-    return _then(_$JupiterSwapResponseDtoImpl(
-      swapTransaction: null == swapTransaction
-          ? _value.swapTransaction
-          : swapTransaction // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastValidBlockHeight: null == lastValidBlockHeight
-          ? _value.lastValidBlockHeight
-          : lastValidBlockHeight // ignore: cast_nullable_to_non_nullable
-              as int,
-      prioritizationFeeLamports: freezed == prioritizationFeeLamports
-          ? _value.prioritizationFeeLamports
-          : prioritizationFeeLamports // ignore: cast_nullable_to_non_nullable
-              as int?,
-      dynamicSlippageReport: freezed == dynamicSlippageReport
-          ? _value.dynamicSlippageReport
-          : dynamicSlippageReport // ignore: cast_nullable_to_non_nullable
-              as DynamicSlippageReport?,
-    ));
+    return _then(
+      _$JupiterSwapResponseDtoImpl(
+        swapTransaction:
+            null == swapTransaction
+                ? _value.swapTransaction
+                : swapTransaction // ignore: cast_nullable_to_non_nullable
+                    as String,
+        lastValidBlockHeight:
+            null == lastValidBlockHeight
+                ? _value.lastValidBlockHeight
+                : lastValidBlockHeight // ignore: cast_nullable_to_non_nullable
+                    as int,
+        prioritizationFeeLamports:
+            freezed == prioritizationFeeLamports
+                ? _value.prioritizationFeeLamports
+                : prioritizationFeeLamports // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        dynamicSlippageReport:
+            freezed == dynamicSlippageReport
+                ? _value.dynamicSlippageReport
+                : dynamicSlippageReport // ignore: cast_nullable_to_non_nullable
+                    as DynamicSlippageReport?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$JupiterSwapResponseDtoImpl implements _JupiterSwapResponseDto {
-  const _$JupiterSwapResponseDtoImpl(
-      {required this.swapTransaction,
-      required this.lastValidBlockHeight,
-      this.prioritizationFeeLamports,
-      this.dynamicSlippageReport});
+  const _$JupiterSwapResponseDtoImpl({
+    required this.swapTransaction,
+    required this.lastValidBlockHeight,
+    this.prioritizationFeeLamports,
+    this.dynamicSlippageReport,
+  });
 
   factory _$JupiterSwapResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$JupiterSwapResponseDtoImplFromJson(json);
@@ -2441,8 +2534,7 @@ class _$JupiterSwapResponseDtoImpl implements _JupiterSwapResponseDto {
                 other.swapTransaction == swapTransaction) &&
             (identical(other.lastValidBlockHeight, lastValidBlockHeight) ||
                 other.lastValidBlockHeight == lastValidBlockHeight) &&
-            (identical(other.prioritizationFeeLamports,
-                    prioritizationFeeLamports) ||
+            (identical(other.prioritizationFeeLamports, prioritizationFeeLamports) ||
                 other.prioritizationFeeLamports == prioritizationFeeLamports) &&
             (identical(other.dynamicSlippageReport, dynamicSlippageReport) ||
                 other.dynamicSlippageReport == dynamicSlippageReport));
@@ -2450,33 +2542,35 @@ class _$JupiterSwapResponseDtoImpl implements _JupiterSwapResponseDto {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, swapTransaction,
-      lastValidBlockHeight, prioritizationFeeLamports, dynamicSlippageReport);
+  int get hashCode => Object.hash(
+    runtimeType,
+    swapTransaction,
+    lastValidBlockHeight,
+    prioritizationFeeLamports,
+    dynamicSlippageReport,
+  );
 
   /// Create a copy of JupiterSwapResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$JupiterSwapResponseDtoImplCopyWith<_$JupiterSwapResponseDtoImpl>
-      get copyWith => __$$JupiterSwapResponseDtoImplCopyWithImpl<
-          _$JupiterSwapResponseDtoImpl>(this, _$identity);
+  _$$JupiterSwapResponseDtoImplCopyWith<_$JupiterSwapResponseDtoImpl> get copyWith =>
+      __$$JupiterSwapResponseDtoImplCopyWithImpl<_$JupiterSwapResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$JupiterSwapResponseDtoImplToJson(
-      this,
-    );
+    return _$$JupiterSwapResponseDtoImplToJson(this);
   }
 }
 
 abstract class _JupiterSwapResponseDto implements JupiterSwapResponseDto {
-  const factory _JupiterSwapResponseDto(
-          {required final String swapTransaction,
-          required final int lastValidBlockHeight,
-          final int? prioritizationFeeLamports,
-          final DynamicSlippageReport? dynamicSlippageReport}) =
-      _$JupiterSwapResponseDtoImpl;
+  const factory _JupiterSwapResponseDto({
+    required final String swapTransaction,
+    required final int lastValidBlockHeight,
+    final int? prioritizationFeeLamports,
+    final DynamicSlippageReport? dynamicSlippageReport,
+  }) = _$JupiterSwapResponseDtoImpl;
 
   factory _JupiterSwapResponseDto.fromJson(Map<String, dynamic> json) =
       _$JupiterSwapResponseDtoImpl.fromJson;
@@ -2494,12 +2588,11 @@ abstract class _JupiterSwapResponseDto implements JupiterSwapResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$JupiterSwapResponseDtoImplCopyWith<_$JupiterSwapResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$JupiterSwapResponseDtoImplCopyWith<_$JupiterSwapResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-DynamicSlippageReport _$DynamicSlippageReportFromJson(
-    Map<String, dynamic> json) {
+DynamicSlippageReport _$DynamicSlippageReportFromJson(Map<String, dynamic> json) {
   return _DynamicSlippageReport.fromJson(json);
 }
 
@@ -2522,20 +2615,21 @@ mixin _$DynamicSlippageReport {
 
 /// @nodoc
 abstract class $DynamicSlippageReportCopyWith<$Res> {
-  factory $DynamicSlippageReportCopyWith(DynamicSlippageReport value,
-          $Res Function(DynamicSlippageReport) then) =
-      _$DynamicSlippageReportCopyWithImpl<$Res, DynamicSlippageReport>;
+  factory $DynamicSlippageReportCopyWith(
+    DynamicSlippageReport value,
+    $Res Function(DynamicSlippageReport) then,
+  ) = _$DynamicSlippageReportCopyWithImpl<$Res, DynamicSlippageReport>;
   @useResult
-  $Res call(
-      {int? slippageBps,
-      int? otherAmount,
-      int? simulatedIncurredSlippageBps,
-      String? amplificationRatio});
+  $Res call({
+    int? slippageBps,
+    int? otherAmount,
+    int? simulatedIncurredSlippageBps,
+    String? amplificationRatio,
+  });
 }
 
 /// @nodoc
-class _$DynamicSlippageReportCopyWithImpl<$Res,
-        $Val extends DynamicSlippageReport>
+class _$DynamicSlippageReportCopyWithImpl<$Res, $Val extends DynamicSlippageReport>
     implements $DynamicSlippageReportCopyWith<$Res> {
   _$DynamicSlippageReportCopyWithImpl(this._value, this._then);
 
@@ -2554,24 +2648,31 @@ class _$DynamicSlippageReportCopyWithImpl<$Res,
     Object? simulatedIncurredSlippageBps = freezed,
     Object? amplificationRatio = freezed,
   }) {
-    return _then(_value.copyWith(
-      slippageBps: freezed == slippageBps
-          ? _value.slippageBps
-          : slippageBps // ignore: cast_nullable_to_non_nullable
-              as int?,
-      otherAmount: freezed == otherAmount
-          ? _value.otherAmount
-          : otherAmount // ignore: cast_nullable_to_non_nullable
-              as int?,
-      simulatedIncurredSlippageBps: freezed == simulatedIncurredSlippageBps
-          ? _value.simulatedIncurredSlippageBps
-          : simulatedIncurredSlippageBps // ignore: cast_nullable_to_non_nullable
-              as int?,
-      amplificationRatio: freezed == amplificationRatio
-          ? _value.amplificationRatio
-          : amplificationRatio // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            slippageBps:
+                freezed == slippageBps
+                    ? _value.slippageBps
+                    : slippageBps // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            otherAmount:
+                freezed == otherAmount
+                    ? _value.otherAmount
+                    : otherAmount // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            simulatedIncurredSlippageBps:
+                freezed == simulatedIncurredSlippageBps
+                    ? _value.simulatedIncurredSlippageBps
+                    : simulatedIncurredSlippageBps // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            amplificationRatio:
+                freezed == amplificationRatio
+                    ? _value.amplificationRatio
+                    : amplificationRatio // ignore: cast_nullable_to_non_nullable
+                        as String?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -2579,26 +2680,27 @@ class _$DynamicSlippageReportCopyWithImpl<$Res,
 abstract class _$$DynamicSlippageReportImplCopyWith<$Res>
     implements $DynamicSlippageReportCopyWith<$Res> {
   factory _$$DynamicSlippageReportImplCopyWith(
-          _$DynamicSlippageReportImpl value,
-          $Res Function(_$DynamicSlippageReportImpl) then) =
-      __$$DynamicSlippageReportImplCopyWithImpl<$Res>;
+    _$DynamicSlippageReportImpl value,
+    $Res Function(_$DynamicSlippageReportImpl) then,
+  ) = __$$DynamicSlippageReportImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int? slippageBps,
-      int? otherAmount,
-      int? simulatedIncurredSlippageBps,
-      String? amplificationRatio});
+  $Res call({
+    int? slippageBps,
+    int? otherAmount,
+    int? simulatedIncurredSlippageBps,
+    String? amplificationRatio,
+  });
 }
 
 /// @nodoc
 class __$$DynamicSlippageReportImplCopyWithImpl<$Res>
-    extends _$DynamicSlippageReportCopyWithImpl<$Res,
-        _$DynamicSlippageReportImpl>
+    extends _$DynamicSlippageReportCopyWithImpl<$Res, _$DynamicSlippageReportImpl>
     implements _$$DynamicSlippageReportImplCopyWith<$Res> {
-  __$$DynamicSlippageReportImplCopyWithImpl(_$DynamicSlippageReportImpl _value,
-      $Res Function(_$DynamicSlippageReportImpl) _then)
-      : super(_value, _then);
+  __$$DynamicSlippageReportImplCopyWithImpl(
+    _$DynamicSlippageReportImpl _value,
+    $Res Function(_$DynamicSlippageReportImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of DynamicSlippageReport
   /// with the given fields replaced by the non-null parameter values.
@@ -2610,35 +2712,42 @@ class __$$DynamicSlippageReportImplCopyWithImpl<$Res>
     Object? simulatedIncurredSlippageBps = freezed,
     Object? amplificationRatio = freezed,
   }) {
-    return _then(_$DynamicSlippageReportImpl(
-      slippageBps: freezed == slippageBps
-          ? _value.slippageBps
-          : slippageBps // ignore: cast_nullable_to_non_nullable
-              as int?,
-      otherAmount: freezed == otherAmount
-          ? _value.otherAmount
-          : otherAmount // ignore: cast_nullable_to_non_nullable
-              as int?,
-      simulatedIncurredSlippageBps: freezed == simulatedIncurredSlippageBps
-          ? _value.simulatedIncurredSlippageBps
-          : simulatedIncurredSlippageBps // ignore: cast_nullable_to_non_nullable
-              as int?,
-      amplificationRatio: freezed == amplificationRatio
-          ? _value.amplificationRatio
-          : amplificationRatio // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$DynamicSlippageReportImpl(
+        slippageBps:
+            freezed == slippageBps
+                ? _value.slippageBps
+                : slippageBps // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        otherAmount:
+            freezed == otherAmount
+                ? _value.otherAmount
+                : otherAmount // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        simulatedIncurredSlippageBps:
+            freezed == simulatedIncurredSlippageBps
+                ? _value.simulatedIncurredSlippageBps
+                : simulatedIncurredSlippageBps // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        amplificationRatio:
+            freezed == amplificationRatio
+                ? _value.amplificationRatio
+                : amplificationRatio // ignore: cast_nullable_to_non_nullable
+                    as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$DynamicSlippageReportImpl implements _DynamicSlippageReport {
-  const _$DynamicSlippageReportImpl(
-      {this.slippageBps,
-      this.otherAmount,
-      this.simulatedIncurredSlippageBps,
-      this.amplificationRatio});
+  const _$DynamicSlippageReportImpl({
+    this.slippageBps,
+    this.otherAmount,
+    this.simulatedIncurredSlippageBps,
+    this.amplificationRatio,
+  });
 
   factory _$DynamicSlippageReportImpl.fromJson(Map<String, dynamic> json) =>
       _$$DynamicSlippageReportImplFromJson(json);
@@ -2662,46 +2771,45 @@ class _$DynamicSlippageReportImpl implements _DynamicSlippageReport {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DynamicSlippageReportImpl &&
-            (identical(other.slippageBps, slippageBps) ||
-                other.slippageBps == slippageBps) &&
-            (identical(other.otherAmount, otherAmount) ||
-                other.otherAmount == otherAmount) &&
-            (identical(other.simulatedIncurredSlippageBps,
-                    simulatedIncurredSlippageBps) ||
-                other.simulatedIncurredSlippageBps ==
-                    simulatedIncurredSlippageBps) &&
+            (identical(other.slippageBps, slippageBps) || other.slippageBps == slippageBps) &&
+            (identical(other.otherAmount, otherAmount) || other.otherAmount == otherAmount) &&
+            (identical(other.simulatedIncurredSlippageBps, simulatedIncurredSlippageBps) ||
+                other.simulatedIncurredSlippageBps == simulatedIncurredSlippageBps) &&
             (identical(other.amplificationRatio, amplificationRatio) ||
                 other.amplificationRatio == amplificationRatio));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, slippageBps, otherAmount,
-      simulatedIncurredSlippageBps, amplificationRatio);
+  int get hashCode => Object.hash(
+    runtimeType,
+    slippageBps,
+    otherAmount,
+    simulatedIncurredSlippageBps,
+    amplificationRatio,
+  );
 
   /// Create a copy of DynamicSlippageReport
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$DynamicSlippageReportImplCopyWith<_$DynamicSlippageReportImpl>
-      get copyWith => __$$DynamicSlippageReportImplCopyWithImpl<
-          _$DynamicSlippageReportImpl>(this, _$identity);
+  _$$DynamicSlippageReportImplCopyWith<_$DynamicSlippageReportImpl> get copyWith =>
+      __$$DynamicSlippageReportImplCopyWithImpl<_$DynamicSlippageReportImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DynamicSlippageReportImplToJson(
-      this,
-    );
+    return _$$DynamicSlippageReportImplToJson(this);
   }
 }
 
 abstract class _DynamicSlippageReport implements DynamicSlippageReport {
-  const factory _DynamicSlippageReport(
-      {final int? slippageBps,
-      final int? otherAmount,
-      final int? simulatedIncurredSlippageBps,
-      final String? amplificationRatio}) = _$DynamicSlippageReportImpl;
+  const factory _DynamicSlippageReport({
+    final int? slippageBps,
+    final int? otherAmount,
+    final int? simulatedIncurredSlippageBps,
+    final String? amplificationRatio,
+  }) = _$DynamicSlippageReportImpl;
 
   factory _DynamicSlippageReport.fromJson(Map<String, dynamic> json) =
       _$DynamicSlippageReportImpl.fromJson;
@@ -2719,8 +2827,8 @@ abstract class _DynamicSlippageReport implements DynamicSlippageReport {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DynamicSlippageReportImplCopyWith<_$DynamicSlippageReportImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$DynamicSlippageReportImplCopyWith<_$DynamicSlippageReportImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 PriceRequestDto _$PriceRequestDtoFromJson(Map<String, dynamic> json) {
@@ -2738,14 +2846,12 @@ mixin _$PriceRequestDto {
   /// Create a copy of PriceRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PriceRequestDtoCopyWith<PriceRequestDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PriceRequestDtoCopyWith<PriceRequestDto> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PriceRequestDtoCopyWith<$Res> {
-  factory $PriceRequestDtoCopyWith(
-          PriceRequestDto value, $Res Function(PriceRequestDto) then) =
+  factory $PriceRequestDtoCopyWith(PriceRequestDto value, $Res Function(PriceRequestDto) then) =
       _$PriceRequestDtoCopyWithImpl<$Res, PriceRequestDto>;
   @useResult
   $Res call({@JsonKey(toJson: _listToString) List<String> ids});
@@ -2765,24 +2871,26 @@ class _$PriceRequestDtoCopyWithImpl<$Res, $Val extends PriceRequestDto>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? ids = null,
-  }) {
-    return _then(_value.copyWith(
-      ids: null == ids
-          ? _value.ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ) as $Val);
+  $Res call({Object? ids = null}) {
+    return _then(
+      _value.copyWith(
+            ids:
+                null == ids
+                    ? _value.ids
+                    : ids // ignore: cast_nullable_to_non_nullable
+                        as List<String>,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$PriceRequestDtoImplCopyWith<$Res>
-    implements $PriceRequestDtoCopyWith<$Res> {
-  factory _$$PriceRequestDtoImplCopyWith(_$PriceRequestDtoImpl value,
-          $Res Function(_$PriceRequestDtoImpl) then) =
-      __$$PriceRequestDtoImplCopyWithImpl<$Res>;
+abstract class _$$PriceRequestDtoImplCopyWith<$Res> implements $PriceRequestDtoCopyWith<$Res> {
+  factory _$$PriceRequestDtoImplCopyWith(
+    _$PriceRequestDtoImpl value,
+    $Res Function(_$PriceRequestDtoImpl) then,
+  ) = __$$PriceRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({@JsonKey(toJson: _listToString) List<String> ids});
@@ -2793,31 +2901,32 @@ class __$$PriceRequestDtoImplCopyWithImpl<$Res>
     extends _$PriceRequestDtoCopyWithImpl<$Res, _$PriceRequestDtoImpl>
     implements _$$PriceRequestDtoImplCopyWith<$Res> {
   __$$PriceRequestDtoImplCopyWithImpl(
-      _$PriceRequestDtoImpl _value, $Res Function(_$PriceRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$PriceRequestDtoImpl _value,
+    $Res Function(_$PriceRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of PriceRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? ids = null,
-  }) {
-    return _then(_$PriceRequestDtoImpl(
-      ids: null == ids
-          ? _value._ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ));
+  $Res call({Object? ids = null}) {
+    return _then(
+      _$PriceRequestDtoImpl(
+        ids:
+            null == ids
+                ? _value._ids
+                : ids // ignore: cast_nullable_to_non_nullable
+                    as List<String>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$PriceRequestDtoImpl implements _PriceRequestDto {
-  const _$PriceRequestDtoImpl(
-      {@JsonKey(toJson: _listToString) required final List<String> ids})
-      : _ids = ids;
+  const _$PriceRequestDtoImpl({@JsonKey(toJson: _listToString) required final List<String> ids})
+    : _ids = ids;
 
   factory _$PriceRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$PriceRequestDtoImplFromJson(json);
@@ -2846,8 +2955,7 @@ class _$PriceRequestDtoImpl implements _PriceRequestDto {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_ids));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_ids));
 
   /// Create a copy of PriceRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -2855,24 +2963,20 @@ class _$PriceRequestDtoImpl implements _PriceRequestDto {
   @override
   @pragma('vm:prefer-inline')
   _$$PriceRequestDtoImplCopyWith<_$PriceRequestDtoImpl> get copyWith =>
-      __$$PriceRequestDtoImplCopyWithImpl<_$PriceRequestDtoImpl>(
-          this, _$identity);
+      __$$PriceRequestDtoImplCopyWithImpl<_$PriceRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PriceRequestDtoImplToJson(
-      this,
-    );
+    return _$$PriceRequestDtoImplToJson(this);
   }
 }
 
 abstract class _PriceRequestDto implements PriceRequestDto {
-  const factory _PriceRequestDto(
-          {@JsonKey(toJson: _listToString) required final List<String> ids}) =
-      _$PriceRequestDtoImpl;
+  const factory _PriceRequestDto({
+    @JsonKey(toJson: _listToString) required final List<String> ids,
+  }) = _$PriceRequestDtoImpl;
 
-  factory _PriceRequestDto.fromJson(Map<String, dynamic> json) =
-      _$PriceRequestDtoImpl.fromJson;
+  factory _PriceRequestDto.fromJson(Map<String, dynamic> json) = _$PriceRequestDtoImpl.fromJson;
 
   @override
   @JsonKey(toJson: _listToString)
@@ -2900,14 +3004,12 @@ mixin _$PriceResponseDto {
   /// Create a copy of PriceResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PriceResponseDtoCopyWith<PriceResponseDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PriceResponseDtoCopyWith<PriceResponseDto> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PriceResponseDtoCopyWith<$Res> {
-  factory $PriceResponseDtoCopyWith(
-          PriceResponseDto value, $Res Function(PriceResponseDto) then) =
+  factory $PriceResponseDtoCopyWith(PriceResponseDto value, $Res Function(PriceResponseDto) then) =
       _$PriceResponseDtoCopyWithImpl<$Res, PriceResponseDto>;
   @useResult
   $Res call({Map<String, PriceDto> data});
@@ -2927,24 +3029,26 @@ class _$PriceResponseDtoCopyWithImpl<$Res, $Val extends PriceResponseDto>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? data = null,
-  }) {
-    return _then(_value.copyWith(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, PriceDto>,
-    ) as $Val);
+  $Res call({Object? data = null}) {
+    return _then(
+      _value.copyWith(
+            data:
+                null == data
+                    ? _value.data
+                    : data // ignore: cast_nullable_to_non_nullable
+                        as Map<String, PriceDto>,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$PriceResponseDtoImplCopyWith<$Res>
-    implements $PriceResponseDtoCopyWith<$Res> {
-  factory _$$PriceResponseDtoImplCopyWith(_$PriceResponseDtoImpl value,
-          $Res Function(_$PriceResponseDtoImpl) then) =
-      __$$PriceResponseDtoImplCopyWithImpl<$Res>;
+abstract class _$$PriceResponseDtoImplCopyWith<$Res> implements $PriceResponseDtoCopyWith<$Res> {
+  factory _$$PriceResponseDtoImplCopyWith(
+    _$PriceResponseDtoImpl value,
+    $Res Function(_$PriceResponseDtoImpl) then,
+  ) = __$$PriceResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Map<String, PriceDto> data});
@@ -2954,31 +3058,32 @@ abstract class _$$PriceResponseDtoImplCopyWith<$Res>
 class __$$PriceResponseDtoImplCopyWithImpl<$Res>
     extends _$PriceResponseDtoCopyWithImpl<$Res, _$PriceResponseDtoImpl>
     implements _$$PriceResponseDtoImplCopyWith<$Res> {
-  __$$PriceResponseDtoImplCopyWithImpl(_$PriceResponseDtoImpl _value,
-      $Res Function(_$PriceResponseDtoImpl) _then)
-      : super(_value, _then);
+  __$$PriceResponseDtoImplCopyWithImpl(
+    _$PriceResponseDtoImpl _value,
+    $Res Function(_$PriceResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of PriceResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? data = null,
-  }) {
-    return _then(_$PriceResponseDtoImpl(
-      data: null == data
-          ? _value._data
-          : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, PriceDto>,
-    ));
+  $Res call({Object? data = null}) {
+    return _then(
+      _$PriceResponseDtoImpl(
+        data:
+            null == data
+                ? _value._data
+                : data // ignore: cast_nullable_to_non_nullable
+                    as Map<String, PriceDto>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$PriceResponseDtoImpl implements _PriceResponseDto {
-  const _$PriceResponseDtoImpl({required final Map<String, PriceDto> data})
-      : _data = data;
+  const _$PriceResponseDtoImpl({required final Map<String, PriceDto> data}) : _data = data;
 
   factory _$PriceResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$PriceResponseDtoImplFromJson(json);
@@ -3006,8 +3111,7 @@ class _$PriceResponseDtoImpl implements _PriceResponseDto {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
   /// Create a copy of PriceResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -3015,14 +3119,11 @@ class _$PriceResponseDtoImpl implements _PriceResponseDto {
   @override
   @pragma('vm:prefer-inline')
   _$$PriceResponseDtoImplCopyWith<_$PriceResponseDtoImpl> get copyWith =>
-      __$$PriceResponseDtoImplCopyWithImpl<_$PriceResponseDtoImpl>(
-          this, _$identity);
+      __$$PriceResponseDtoImplCopyWithImpl<_$PriceResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PriceResponseDtoImplToJson(
-      this,
-    );
+    return _$$PriceResponseDtoImplToJson(this);
   }
 }
 
@@ -3030,8 +3131,7 @@ abstract class _PriceResponseDto implements PriceResponseDto {
   const factory _PriceResponseDto({required final Map<String, PriceDto> data}) =
       _$PriceResponseDtoImpl;
 
-  factory _PriceResponseDto.fromJson(Map<String, dynamic> json) =
-      _$PriceResponseDtoImpl.fromJson;
+  factory _PriceResponseDto.fromJson(Map<String, dynamic> json) = _$PriceResponseDtoImpl.fromJson;
 
   @override
   Map<String, PriceDto> get data;
@@ -3058,8 +3158,7 @@ mixin _$PriceDto {
   /// Create a copy of PriceDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PriceDtoCopyWith<PriceDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PriceDtoCopyWith<PriceDto> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -3071,8 +3170,7 @@ abstract class $PriceDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PriceDtoCopyWithImpl<$Res, $Val extends PriceDto>
-    implements $PriceDtoCopyWith<$Res> {
+class _$PriceDtoCopyWithImpl<$Res, $Val extends PriceDto> implements $PriceDtoCopyWith<$Res> {
   _$PriceDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -3084,23 +3182,23 @@ class _$PriceDtoCopyWithImpl<$Res, $Val extends PriceDto>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? price = freezed,
-  }) {
-    return _then(_value.copyWith(
-      price: freezed == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+  $Res call({Object? price = freezed}) {
+    return _then(
+      _value.copyWith(
+            price:
+                freezed == price
+                    ? _value.price
+                    : price // ignore: cast_nullable_to_non_nullable
+                        as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$PriceDtoImplCopyWith<$Res>
-    implements $PriceDtoCopyWith<$Res> {
-  factory _$$PriceDtoImplCopyWith(
-          _$PriceDtoImpl value, $Res Function(_$PriceDtoImpl) then) =
+abstract class _$$PriceDtoImplCopyWith<$Res> implements $PriceDtoCopyWith<$Res> {
+  factory _$$PriceDtoImplCopyWith(_$PriceDtoImpl value, $Res Function(_$PriceDtoImpl) then) =
       __$$PriceDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -3108,26 +3206,25 @@ abstract class _$$PriceDtoImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$PriceDtoImplCopyWithImpl<$Res>
-    extends _$PriceDtoCopyWithImpl<$Res, _$PriceDtoImpl>
+class __$$PriceDtoImplCopyWithImpl<$Res> extends _$PriceDtoCopyWithImpl<$Res, _$PriceDtoImpl>
     implements _$$PriceDtoImplCopyWith<$Res> {
-  __$$PriceDtoImplCopyWithImpl(
-      _$PriceDtoImpl _value, $Res Function(_$PriceDtoImpl) _then)
-      : super(_value, _then);
+  __$$PriceDtoImplCopyWithImpl(_$PriceDtoImpl _value, $Res Function(_$PriceDtoImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of PriceDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? price = freezed,
-  }) {
-    return _then(_$PriceDtoImpl(
-      price: freezed == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+  $Res call({Object? price = freezed}) {
+    return _then(
+      _$PriceDtoImpl(
+        price:
+            freezed == price
+                ? _value.price
+                : price // ignore: cast_nullable_to_non_nullable
+                    as String?,
+      ),
+    );
   }
 }
 
@@ -3136,8 +3233,7 @@ class __$$PriceDtoImplCopyWithImpl<$Res>
 class _$PriceDtoImpl implements _PriceDto {
   const _$PriceDtoImpl({required this.price});
 
-  factory _$PriceDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PriceDtoImplFromJson(json);
+  factory _$PriceDtoImpl.fromJson(Map<String, dynamic> json) => _$$PriceDtoImplFromJson(json);
 
   @override
   final String? price;
@@ -3169,17 +3265,14 @@ class _$PriceDtoImpl implements _PriceDto {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PriceDtoImplToJson(
-      this,
-    );
+    return _$$PriceDtoImplToJson(this);
   }
 }
 
 abstract class _PriceDto implements PriceDto {
   const factory _PriceDto({required final String? price}) = _$PriceDtoImpl;
 
-  factory _PriceDto.fromJson(Map<String, dynamic> json) =
-      _$PriceDtoImpl.fromJson;
+  factory _PriceDto.fromJson(Map<String, dynamic> json) = _$PriceDtoImpl.fromJson;
 
   @override
   String? get price;
@@ -3188,6 +3281,5 @@ abstract class _PriceDto implements PriceDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PriceDtoImplCopyWith<_$PriceDtoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$PriceDtoImplCopyWith<_$PriceDtoImpl> get copyWith => throw _privateConstructorUsedError;
 }

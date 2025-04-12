@@ -12,23 +12,20 @@ import '../models/tx_results.dart';
 
 @injectable
 class TxSender {
-  const TxSender({
-    required SolanaClient client,
-  }) : _client = client;
+  const TxSender({required SolanaClient client}) : _client = client;
 
   final SolanaClient _client;
 
-  Future<TxSendResult> send(
-    SignedTx tx, {
-    required BigInt minContextSlot,
-  }) async {
+  Future<TxSendResult> send(SignedTx tx, {required BigInt minContextSlot}) async {
     Future<TxSendResult> checkSubmittedTx(String txId) => _client.rpcClient
-            .getSignatureStatuses([txId], searchTransactionHistory: true).then(
-          (statuses) => statuses.value.first == null
-              ? (statuses.context.slot >= minContextSlot
-                  ? const TxSendResult.invalidBlockhash()
-                  : const TxSendResult.networkError())
-              : const TxSendResult.sent(),
+        .getSignatureStatuses([txId], searchTransactionHistory: true)
+        .then(
+          (statuses) =>
+              statuses.value.first == null
+                  ? (statuses.context.slot >= minContextSlot
+                      ? const TxSendResult.invalidBlockhash()
+                      : const TxSendResult.networkError())
+                  : const TxSendResult.sent(),
           onError: (_) => const TxSendResult.networkError(),
         );
 
@@ -45,12 +42,8 @@ class TxSender {
         return const TxSendResult.networkError();
       }
 
-      if (error.isInsufficientFunds ||
-          error.invalidTransferAccount ||
-          error.hasNoAccount) {
-        return const TxSendResult.failure(
-          reason: TxFailureReason.insufficientFunds,
-        );
+      if (error.isInsufficientFunds || error.invalidTransferAccount || error.hasNoAccount) {
+        return const TxSendResult.failure(reason: TxFailureReason.insufficientFunds);
       }
       switch (error.transactionError) {
         case TransactionError.alreadyProcessed:
@@ -66,19 +59,12 @@ class TxSender {
     }
   }
 
-  Future<TxWaitResult> wait(
-    SignedTx tx, {
-    required BigInt minContextSlot,
-    required String txType,
-  }) {
-    final sentryTx = Sentry.startTransaction(
-      'Wait TX confirmation',
-      'TxSender.wait()',
-      waitForChildren: true,
-    )
-      ..setData('txId', tx.id)
-      // ignore: avoid-missing-interpolation, intentional string
-      ..setTag('txType', txType);
+  Future<TxWaitResult> wait(SignedTx tx, {required BigInt minContextSlot, required String txType}) {
+    final sentryTx =
+        Sentry.startTransaction('Wait TX confirmation', 'TxSender.wait()', waitForChildren: true)
+          ..setData('txId', tx.id)
+          // ignore: avoid-missing-interpolation, intentional string
+          ..setTag('txType', txType);
 
     const commitment = Commitment.confirmed;
     final start = DateTime.now();
@@ -95,10 +81,9 @@ class TxSender {
         minContextSlot: minContextSlot.toInt(),
       );
 
-      final statuses = await _client.rpcClient.getSignatureStatuses(
-        [tx.id],
-        searchTransactionHistory: true,
-      );
+      final statuses = await _client.rpcClient.getSignatureStatuses([
+        tx.id,
+      ], searchTransactionHistory: true);
       final t = statuses.value.first;
 
       if (t == null) {
@@ -190,13 +175,9 @@ class TxSender {
         return const TxWaitResult.success();
       }
 
-      innerSpan.setData(
-        'reason',
-        'Wrong confirmation status ${t.confirmationStatus}.',
-      );
+      innerSpan.setData('reason', 'Wrong confirmation status ${t.confirmationStatus}.');
       await innerSpan.finish();
-      _logger
-          .fine('${tx.id}: Wrong confirmation status ${t.confirmationStatus}.');
+      _logger.fine('${tx.id}: Wrong confirmation status ${t.confirmationStatus}.');
     }
 
     Future<TxWaitResult?> waitForSignatureStatus(ISentrySpan span) async {
@@ -236,9 +217,7 @@ class TxSender {
 
     final polling = Stream<void>.periodic(const Duration(seconds: 10))
         .startWith(null)
-        .exhaustMap(
-          (_) => getSignatureStatus(sentryTx).asStream().onErrorReturn(null),
-        );
+        .exhaustMap((_) => getSignatureStatus(sentryTx).asStream().onErrorReturn(null));
 
     return MergeStream([
       polling,

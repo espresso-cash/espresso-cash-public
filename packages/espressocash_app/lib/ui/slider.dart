@@ -8,11 +8,7 @@ import '../gen/assets.gen.dart';
 import 'colors.dart';
 
 class CpSlider extends StatefulWidget {
-  const CpSlider({
-    super.key,
-    required this.text,
-    required this.onSlideCompleted,
-  });
+  const CpSlider({super.key, required this.text, required this.onSlideCompleted});
 
   final String text;
   final VoidCallback? onSlideCompleted;
@@ -21,8 +17,7 @@ class CpSlider extends StatefulWidget {
   State<CpSlider> createState() => _CpSliderState();
 }
 
-class _CpSliderState extends State<CpSlider>
-    with SingleTickerProviderStateMixin {
+class _CpSliderState extends State<CpSlider> with SingleTickerProviderStateMixin {
   late final AnimationController _reverseAnimationController;
 
   final _positionNotifier = ValueNotifier<double>(.0);
@@ -34,12 +29,10 @@ class _CpSliderState extends State<CpSlider>
   @override
   void initState() {
     super.initState();
-    _reverseAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    )
-      ..addListener(_reverseListener)
-      ..addStatusListener(_statusListener);
+    _reverseAnimationController =
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 500))
+          ..addListener(_reverseListener)
+          ..addStatusListener(_statusListener);
   }
 
   @override
@@ -85,94 +78,84 @@ class _CpSliderState extends State<CpSlider>
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: _maxBarHeight,
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(_radius)),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final maxWidth = min(_maxBarWidth, constraints.maxWidth);
-              final maxSlideWidth = maxWidth - _minBarWidth;
-              final enabled = widget.onSlideCompleted != null;
+    height: _maxBarHeight,
+    child: ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(_radius)),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final maxWidth = min(_maxBarWidth, constraints.maxWidth);
+          final maxSlideWidth = maxWidth - _minBarWidth;
+          final enabled = widget.onSlideCompleted != null;
 
-              return SizedBox(
-                width: maxWidth,
-                child: Stack(
-                  children: [
-                    _Background(
-                      text: widget.text,
-                      enabled: enabled,
-                    ),
-                    AnimatedBuilder(
-                      animation: _positionNotifier,
-                      builder: (context, child) => Positioned(
+          return SizedBox(
+            width: maxWidth,
+            child: Stack(
+              children: [
+                _Background(text: widget.text, enabled: enabled),
+                AnimatedBuilder(
+                  animation: _positionNotifier,
+                  builder:
+                      (context, child) => Positioned(
                         left: _exposedBarPosition(_positionNotifier.value),
                         // ignore: avoid-non-null-assertion, child is declared below
                         child: child!,
                       ),
-                      child: AbsorbPointer(
-                        absorbing: !enabled,
-                        child: GestureDetector(
-                          onHorizontalDragUpdate: (details) {
-                            final value =
-                                _positionNotifier.value + details.delta.dx;
-                            if (value < 0) return;
-                            if (value > maxSlideWidth) {
-                              _onDone();
+                  child: AbsorbPointer(
+                    absorbing: !enabled,
+                    child: GestureDetector(
+                      onHorizontalDragUpdate: (details) {
+                        final value = _positionNotifier.value + details.delta.dx;
+                        if (value < 0) return;
+                        if (value > maxSlideWidth) {
+                          _onDone();
 
-                              return;
-                            }
-                            _positionNotifier.value = value;
-                          },
-                          onHorizontalDragEnd: (_) => _resetPosition(),
-                          child: _SlideBar(
-                            enabled: enabled,
-                          ),
-                        ),
-                      ),
+                          return;
+                        }
+                        _positionNotifier.value = value;
+                      },
+                      onHorizontalDragEnd: (_) => _resetPosition(),
+                      child: _SlideBar(enabled: enabled),
                     ),
-                  ],
+                  ),
                 ),
-              );
-            },
-          ),
-        ),
-      );
+              ],
+            ),
+          );
+        },
+      ),
+    ),
+  );
 }
 
 class _Background extends StatelessWidget {
-  const _Background({
-    required this.text,
-    required this.enabled,
-  });
+  const _Background({required this.text, required this.enabled});
 
   final String text;
   final bool enabled;
 
   @override
   Widget build(BuildContext context) => ColoredBox(
-        color: CpColors.blackGreyColor,
-        child: Padding(
-          padding: const EdgeInsets.only(left: _minBarWidth / 2),
-          child: Center(
-            child: Text(
-              text,
-              maxLines: 1,
-              style: TextStyle(
-                fontSize: 17,
-                letterSpacing: 0.13,
-                fontWeight: FontWeight.w500,
-                color: enabled ? Colors.white : CpColors.sliderDisabledColor,
-              ),
-            ),
+    color: CpColors.blackGreyColor,
+    child: Padding(
+      padding: const EdgeInsets.only(left: _minBarWidth / 2),
+      child: Center(
+        child: Text(
+          text,
+          maxLines: 1,
+          style: TextStyle(
+            fontSize: 17,
+            letterSpacing: 0.13,
+            fontWeight: FontWeight.w500,
+            color: enabled ? Colors.white : CpColors.sliderDisabledColor,
           ),
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class _SlideBar extends StatefulWidget {
-  const _SlideBar({
-    required this.enabled,
-  });
+  const _SlideBar({required this.enabled});
 
   final bool enabled;
 
@@ -202,14 +185,14 @@ class _SlideBarState extends State<_SlideBar> {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        width: _maxBarWidth,
-        height: _maxBarHeight,
-        child: Assets.rive.slider.rive(
-          fit: BoxFit.contain,
-          alignment: Alignment.centerLeft,
-          onInit: _onInit,
-        ),
-      );
+    width: _maxBarWidth,
+    height: _maxBarHeight,
+    child: Assets.rive.slider.rive(
+      fit: BoxFit.contain,
+      alignment: Alignment.centerLeft,
+      onInit: _onInit,
+    ),
+  );
 }
 
 double _exposedBarPosition(double value) => value - _maxBarWidth + _minBarWidth;

@@ -36,10 +36,7 @@ void main() {
     );
   });
 
-  Future<void> sendMessage(
-    Message message,
-    List<Ed25519HDKeyPair> signers,
-  ) async {
+  Future<void> sendMessage(Message message, List<Ed25519HDKeyPair> signers) async {
     await client.sendAndConfirmTransaction(
       message: message,
       signers: signers,
@@ -48,8 +45,9 @@ void main() {
   }
 
   test('Initialize Mint', () async {
-    final rent = await client.rpcClient
-        .getMinimumBalanceForRentExemption(TokenProgram.neededMintAccountSpace);
+    final rent = await client.rpcClient.getMinimumBalanceForRentExemption(
+      TokenProgram.neededMintAccountSpace,
+    );
     // Not throwing is sufficient as test, we need the mint to exist
     final instructions = TokenInstruction.createAccountAndInitializeMint(
       mint: mint.publicKey,
@@ -59,15 +57,13 @@ void main() {
       space: TokenProgram.neededMintAccountSpace,
       decimals: 5,
     );
-    await sendMessage(
-      Message(instructions: instructions),
-      [mintAuthority, mint],
-    );
+    await sendMessage(Message(instructions: instructions), [mintAuthority, mint]);
   });
 
   test('Create Account', () async {
-    final rent = await client.rpcClient
-        .getMinimumBalanceForRentExemption(TokenProgram.neededAccountSpace);
+    final rent = await client.rpcClient.getMinimumBalanceForRentExemption(
+      TokenProgram.neededAccountSpace,
+    );
     final instructions = TokenInstruction.createAndInitializeAccount(
       mint: mint.publicKey,
       address: tokensHolder.publicKey,
@@ -77,10 +73,7 @@ void main() {
     );
 
     expect(
-      sendMessage(
-        Message(instructions: instructions),
-        [mintAuthority, tokensHolder],
-      ),
+      sendMessage(Message(instructions: instructions), [mintAuthority, tokensHolder]),
       completes,
     );
   });
@@ -93,10 +86,7 @@ void main() {
       amount: 10000000000,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Mint To Checked', () {
@@ -108,10 +98,7 @@ void main() {
       decimals: 5,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Transfer', () {
@@ -122,10 +109,7 @@ void main() {
       amount: 100000,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Transfer Checked', () {
@@ -138,10 +122,7 @@ void main() {
       mint: mint.publicKey,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Approve', () {
@@ -152,10 +133,7 @@ void main() {
       sourceOwner: mintAuthority.publicKey,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Revoke', () {
@@ -164,10 +142,7 @@ void main() {
       sourceOwner: mintAuthority.publicKey,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Approve Checked', () {
@@ -180,10 +155,7 @@ void main() {
       mint: mint.publicKey,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Burn', () {
@@ -194,10 +166,7 @@ void main() {
       owner: mintAuthority.publicKey,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Burn Checked', () {
@@ -209,10 +178,7 @@ void main() {
       decimals: 5,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Freeze Account', () {
@@ -222,10 +188,7 @@ void main() {
       freezeAuthority: freezeAuthority.publicKey,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]), completes);
   });
 
   test('Thaw Account', () {
@@ -235,10 +198,7 @@ void main() {
       freezeAuthority: freezeAuthority.publicKey,
     );
 
-    expect(
-      sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]),
-      completes,
-    );
+    expect(sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]), completes);
   });
 
   test('Set Authority', () async {
@@ -251,13 +211,14 @@ void main() {
 
     await sendMessage(Message.only(instruction), [mintAuthority]);
 
-    final accountInfo = await client.rpcClient
-        .getAccountInfo(
-          mint.publicKey.toBase58(),
-          commitment: Commitment.confirmed,
-          encoding: Encoding.jsonParsed,
-        )
-        .value;
+    final accountInfo =
+        await client.rpcClient
+            .getAccountInfo(
+              mint.publicKey.toBase58(),
+              commitment: Commitment.confirmed,
+              encoding: Encoding.jsonParsed,
+            )
+            .value;
 
     expect(accountInfo?.data, _hasMintAuthority(newAuthority.address));
   });
@@ -271,25 +232,21 @@ void main() {
 
     await sendMessage(Message.only(instruction), [newAuthority]);
 
-    final accountInfo = await client.rpcClient
-        .getAccountInfo(
-          mint.publicKey.toBase58(),
-          commitment: Commitment.confirmed,
-          encoding: Encoding.jsonParsed,
-        )
-        .value;
+    final accountInfo =
+        await client.rpcClient
+            .getAccountInfo(
+              mint.publicKey.toBase58(),
+              commitment: Commitment.confirmed,
+              encoding: Encoding.jsonParsed,
+            )
+            .value;
 
     expect(accountInfo?.data, _hasMintAuthority(null));
   });
 }
 
-Matcher _hasMintAuthority(String? address) =>
-    isA<ParsedSplTokenProgramAccountData>().having(
-      (it) => it.parsed,
-      'parsed',
-      isA<MintAccountData>().having(
-        (it) => it.info.mintAuthority,
-        'mintAuthority',
-        address,
-      ),
-    );
+Matcher _hasMintAuthority(String? address) => isA<ParsedSplTokenProgramAccountData>().having(
+  (it) => it.parsed,
+  'parsed',
+  isA<MintAccountData>().having((it) => it.info.mintAuthority, 'mintAuthority', address),
+);

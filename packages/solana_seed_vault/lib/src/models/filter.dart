@@ -12,14 +12,12 @@ class AccountFilter with _$AccountFilter {
 
   const factory AccountFilter.byName(String name) = _AccountFilterName;
 
-  const factory AccountFilter.byDerivationPath(Uri derivationPath) =
-      _AccountFilterDerivationPath;
+  const factory AccountFilter.byDerivationPath(Uri derivationPath) = _AccountFilterDerivationPath;
 
   const factory AccountFilter.byPublicKeyEncoded(String publicKeyEncoded) =
       _AccountFilterPublicKeyEncoded;
 
-  const factory AccountFilter.byIsUserWallet(bool isUserWallet) =
-      _AccountFilterIsUserWallet;
+  const factory AccountFilter.byIsUserWallet(bool isUserWallet) = _AccountFilterIsUserWallet;
 
   const factory AccountFilter.byIsValid(bool isValid) = _AccountFilterIsValid;
 }

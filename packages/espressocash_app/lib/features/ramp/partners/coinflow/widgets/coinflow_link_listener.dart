@@ -9,10 +9,7 @@ import '../../../widgets/ramp_buttons.dart';
 import 'launch.dart';
 
 class CoinflowLinkListener extends StatefulWidget {
-  const CoinflowLinkListener({
-    super.key,
-    required this.child,
-  });
+  const CoinflowLinkListener({super.key, required this.child});
 
   final Widget child;
 
@@ -20,8 +17,7 @@ class CoinflowLinkListener extends StatefulWidget {
   State<StatefulWidget> createState() => _CoinflowLinkListenerState();
 }
 
-class _CoinflowLinkListenerState extends State<CoinflowLinkListener>
-    with DynamicLinkHandler {
+class _CoinflowLinkListenerState extends State<CoinflowLinkListener> with DynamicLinkHandler {
   static bool _isCoinflowDeepLink(Uri uri) =>
       uri.scheme == espressoCashLinkProtocol && uri.path == '/coinflow';
 

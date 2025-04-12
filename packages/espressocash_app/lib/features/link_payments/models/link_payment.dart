@@ -14,15 +14,13 @@ abstract class LinkPayment with _$LinkPayment {
     @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey token,
   }) = _LinkPayment;
 
-  factory LinkPayment.fromJson(Map<String, dynamic> json) =>
-      _$LinkPaymentFromJson(json);
+  factory LinkPayment.fromJson(Map<String, dynamic> json) => _$LinkPaymentFromJson(json);
 
   const LinkPayment._();
 
   static LinkPayment? tryParse(Uri link) {
     final isProperHost =
-        link.scheme == 'https' && link.host == espressoCashLinkDomain ||
-            link.host == 'localhost';
+        link.scheme == 'https' && link.host == espressoCashLinkDomain || link.host == 'localhost';
 
     if ((!isProperHost || link.queryParameters['t'] != 'link') &&
         link.scheme != espressoCashLinkProtocol) {
@@ -32,39 +30,29 @@ abstract class LinkPayment with _$LinkPayment {
     final key = link.queryParameters['k'];
     if (key == null) return null;
 
-    return LinkPayment(
-      key: key,
-      token: Token.usdc.publicKey,
-    );
+    return LinkPayment(key: key, token: Token.usdc.publicKey);
   }
 
   Uri toDeepLinkUri() => Uri(
-        scheme: espressoCashLinkProtocol,
-        host: '',
-        path: '',
-        queryParameters: <String, String>{
-          'k': key,
-        },
-      );
+    scheme: espressoCashLinkProtocol,
+    host: '',
+    path: '',
+    queryParameters: <String, String>{'k': key},
+  );
 
   Uri toShareableLink() => Uri(
-        scheme: 'https',
-        host: espressoCashLinkDomain,
-        path: '',
-        queryParameters: <String, String>{
-          't': 'link',
-          'k': key,
-        },
-      );
+    scheme: 'https',
+    host: espressoCashLinkDomain,
+    path: '',
+    queryParameters: <String, String>{'t': 'link', 'k': key},
+  );
 }
 
-class Ed25519HDPublicKeyConverter
-    implements JsonConverter<Ed25519HDPublicKey, String> {
+class Ed25519HDPublicKeyConverter implements JsonConverter<Ed25519HDPublicKey, String> {
   const Ed25519HDPublicKeyConverter();
 
   @override
-  Ed25519HDPublicKey fromJson(String json) =>
-      Ed25519HDPublicKey.fromBase58(json);
+  Ed25519HDPublicKey fromJson(String json) => Ed25519HDPublicKey.fromBase58(json);
 
   @override
   String toJson(Ed25519HDPublicKey object) => object.toBase58();

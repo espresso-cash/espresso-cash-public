@@ -12,25 +12,16 @@ abstract class AllbridgeApiClient {
   factory AllbridgeApiClient() => _AllbridgeApiClient(Dio());
 
   @GET('/transfer/status')
-  Future<BridgeStatusResponseDto> fetchBridgeStatus(
-    @Queries() BridgeStatusRequestDto requestDto,
-  );
+  Future<BridgeStatusResponseDto> fetchBridgeStatus(@Queries() BridgeStatusRequestDto requestDto);
 
   @GET('/raw/stellar/restore')
-  Future<String> restoreStellarTx(
-    @Queries() RestoreStellarTxRequestDto requestDto,
-  );
+  Future<String> restoreStellarTx(@Queries() RestoreStellarTxRequestDto requestDto);
 }
 
 extension AllbridgeApiClientX on AllbridgeApiClient {
-  Future<BridgeStatusResponseDto?> fetchStatus({
-    required Chain chain,
-    required String hash,
-  }) async {
+  Future<BridgeStatusResponseDto?> fetchStatus({required Chain chain, required String hash}) async {
     try {
-      return await fetchBridgeStatus(
-        BridgeStatusRequestDto(chain: chain, txId: hash),
-      );
+      return await fetchBridgeStatus(BridgeStatusRequestDto(chain: chain, txId: hash));
     } on Exception catch (error) {
       if (error is DioException && error.response?.statusCode == 400) {
         return null;

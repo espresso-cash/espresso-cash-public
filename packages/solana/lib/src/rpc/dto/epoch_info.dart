@@ -14,8 +14,7 @@ class EpochInfo {
     required this.transactionCount,
   });
 
-  factory EpochInfo.fromJson(Map<String, dynamic> json) =>
-      _$EpochInfoFromJson(json);
+  factory EpochInfo.fromJson(Map<String, dynamic> json) => _$EpochInfoFromJson(json);
 
   /// The current slot
   final int absoluteSlot;

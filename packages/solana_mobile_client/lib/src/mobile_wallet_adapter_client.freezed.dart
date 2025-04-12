@@ -12,15 +12,14 @@ part of 'mobile_wallet_adapter_client.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$GetCapabilitiesResult {
   bool get supportsCloneAuthorization => throw _privateConstructorUsedError;
-  bool get supportsSignAndSendTransactions =>
-      throw _privateConstructorUsedError;
-  int get maxTransactionsPerSigningRequest =>
-      throw _privateConstructorUsedError;
+  bool get supportsSignAndSendTransactions => throw _privateConstructorUsedError;
+  int get maxTransactionsPerSigningRequest => throw _privateConstructorUsedError;
   int get maxMessagesPerSigningRequest => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,20 +29,21 @@ mixin _$GetCapabilitiesResult {
 
 /// @nodoc
 abstract class $GetCapabilitiesResultCopyWith<$Res> {
-  factory $GetCapabilitiesResultCopyWith(GetCapabilitiesResult value,
-          $Res Function(GetCapabilitiesResult) then) =
-      _$GetCapabilitiesResultCopyWithImpl<$Res, GetCapabilitiesResult>;
+  factory $GetCapabilitiesResultCopyWith(
+    GetCapabilitiesResult value,
+    $Res Function(GetCapabilitiesResult) then,
+  ) = _$GetCapabilitiesResultCopyWithImpl<$Res, GetCapabilitiesResult>;
   @useResult
-  $Res call(
-      {bool supportsCloneAuthorization,
-      bool supportsSignAndSendTransactions,
-      int maxTransactionsPerSigningRequest,
-      int maxMessagesPerSigningRequest});
+  $Res call({
+    bool supportsCloneAuthorization,
+    bool supportsSignAndSendTransactions,
+    int maxTransactionsPerSigningRequest,
+    int maxMessagesPerSigningRequest,
+  });
 }
 
 /// @nodoc
-class _$GetCapabilitiesResultCopyWithImpl<$Res,
-        $Val extends GetCapabilitiesResult>
+class _$GetCapabilitiesResultCopyWithImpl<$Res, $Val extends GetCapabilitiesResult>
     implements $GetCapabilitiesResultCopyWith<$Res> {
   _$GetCapabilitiesResultCopyWithImpl(this._value, this._then);
 
@@ -60,49 +60,59 @@ class _$GetCapabilitiesResultCopyWithImpl<$Res,
     Object? maxTransactionsPerSigningRequest = null,
     Object? maxMessagesPerSigningRequest = null,
   }) {
-    return _then(_value.copyWith(
-      supportsCloneAuthorization: null == supportsCloneAuthorization
-          ? _value.supportsCloneAuthorization
-          : supportsCloneAuthorization // ignore: cast_nullable_to_non_nullable
-              as bool,
-      supportsSignAndSendTransactions: null == supportsSignAndSendTransactions
-          ? _value.supportsSignAndSendTransactions
-          : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
-              as bool,
-      maxTransactionsPerSigningRequest: null == maxTransactionsPerSigningRequest
-          ? _value.maxTransactionsPerSigningRequest
-          : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxMessagesPerSigningRequest: null == maxMessagesPerSigningRequest
-          ? _value.maxMessagesPerSigningRequest
-          : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            supportsCloneAuthorization:
+                null == supportsCloneAuthorization
+                    ? _value.supportsCloneAuthorization
+                    : supportsCloneAuthorization // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            supportsSignAndSendTransactions:
+                null == supportsSignAndSendTransactions
+                    ? _value.supportsSignAndSendTransactions
+                    : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            maxTransactionsPerSigningRequest:
+                null == maxTransactionsPerSigningRequest
+                    ? _value.maxTransactionsPerSigningRequest
+                    : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                        as int,
+            maxMessagesPerSigningRequest:
+                null == maxMessagesPerSigningRequest
+                    ? _value.maxMessagesPerSigningRequest
+                    : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_GetCapabilitiesResultCopyWith<$Res>
+abstract class _$$GetCapabilitiesResultImplCopyWith<$Res>
     implements $GetCapabilitiesResultCopyWith<$Res> {
-  factory _$$_GetCapabilitiesResultCopyWith(_$_GetCapabilitiesResult value,
-          $Res Function(_$_GetCapabilitiesResult) then) =
-      __$$_GetCapabilitiesResultCopyWithImpl<$Res>;
+  factory _$$GetCapabilitiesResultImplCopyWith(
+    _$GetCapabilitiesResultImpl value,
+    $Res Function(_$GetCapabilitiesResultImpl) then,
+  ) = __$$GetCapabilitiesResultImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool supportsCloneAuthorization,
-      bool supportsSignAndSendTransactions,
-      int maxTransactionsPerSigningRequest,
-      int maxMessagesPerSigningRequest});
+  $Res call({
+    bool supportsCloneAuthorization,
+    bool supportsSignAndSendTransactions,
+    int maxTransactionsPerSigningRequest,
+    int maxMessagesPerSigningRequest,
+  });
 }
 
 /// @nodoc
-class __$$_GetCapabilitiesResultCopyWithImpl<$Res>
-    extends _$GetCapabilitiesResultCopyWithImpl<$Res, _$_GetCapabilitiesResult>
-    implements _$$_GetCapabilitiesResultCopyWith<$Res> {
-  __$$_GetCapabilitiesResultCopyWithImpl(_$_GetCapabilitiesResult _value,
-      $Res Function(_$_GetCapabilitiesResult) _then)
-      : super(_value, _then);
+class __$$GetCapabilitiesResultImplCopyWithImpl<$Res>
+    extends _$GetCapabilitiesResultCopyWithImpl<$Res, _$GetCapabilitiesResultImpl>
+    implements _$$GetCapabilitiesResultImplCopyWith<$Res> {
+  __$$GetCapabilitiesResultImplCopyWithImpl(
+    _$GetCapabilitiesResultImpl _value,
+    $Res Function(_$GetCapabilitiesResultImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -112,35 +122,42 @@ class __$$_GetCapabilitiesResultCopyWithImpl<$Res>
     Object? maxTransactionsPerSigningRequest = null,
     Object? maxMessagesPerSigningRequest = null,
   }) {
-    return _then(_$_GetCapabilitiesResult(
-      supportsCloneAuthorization: null == supportsCloneAuthorization
-          ? _value.supportsCloneAuthorization
-          : supportsCloneAuthorization // ignore: cast_nullable_to_non_nullable
-              as bool,
-      supportsSignAndSendTransactions: null == supportsSignAndSendTransactions
-          ? _value.supportsSignAndSendTransactions
-          : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
-              as bool,
-      maxTransactionsPerSigningRequest: null == maxTransactionsPerSigningRequest
-          ? _value.maxTransactionsPerSigningRequest
-          : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxMessagesPerSigningRequest: null == maxMessagesPerSigningRequest
-          ? _value.maxMessagesPerSigningRequest
-          : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      _$GetCapabilitiesResultImpl(
+        supportsCloneAuthorization:
+            null == supportsCloneAuthorization
+                ? _value.supportsCloneAuthorization
+                : supportsCloneAuthorization // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        supportsSignAndSendTransactions:
+            null == supportsSignAndSendTransactions
+                ? _value.supportsSignAndSendTransactions
+                : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        maxTransactionsPerSigningRequest:
+            null == maxTransactionsPerSigningRequest
+                ? _value.maxTransactionsPerSigningRequest
+                : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxMessagesPerSigningRequest:
+            null == maxMessagesPerSigningRequest
+                ? _value.maxMessagesPerSigningRequest
+                : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_GetCapabilitiesResult implements _GetCapabilitiesResult {
-  const _$_GetCapabilitiesResult(
-      {required this.supportsCloneAuthorization,
-      required this.supportsSignAndSendTransactions,
-      required this.maxTransactionsPerSigningRequest,
-      required this.maxMessagesPerSigningRequest});
+class _$GetCapabilitiesResultImpl implements _GetCapabilitiesResult {
+  const _$GetCapabilitiesResultImpl({
+    required this.supportsCloneAuthorization,
+    required this.supportsSignAndSendTransactions,
+    required this.maxTransactionsPerSigningRequest,
+    required this.maxMessagesPerSigningRequest,
+  });
 
   @override
   final bool supportsCloneAuthorization;
@@ -157,51 +174,43 @@ class _$_GetCapabilitiesResult implements _GetCapabilitiesResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GetCapabilitiesResult &&
-            (identical(other.supportsCloneAuthorization,
-                    supportsCloneAuthorization) ||
-                other.supportsCloneAuthorization ==
-                    supportsCloneAuthorization) &&
-            (identical(other.supportsSignAndSendTransactions,
-                    supportsSignAndSendTransactions) ||
-                other.supportsSignAndSendTransactions ==
-                    supportsSignAndSendTransactions) &&
-            (identical(other.maxTransactionsPerSigningRequest,
-                    maxTransactionsPerSigningRequest) ||
-                other.maxTransactionsPerSigningRequest ==
-                    maxTransactionsPerSigningRequest) &&
-            (identical(other.maxMessagesPerSigningRequest,
-                    maxMessagesPerSigningRequest) ||
-                other.maxMessagesPerSigningRequest ==
-                    maxMessagesPerSigningRequest));
+            other is _$GetCapabilitiesResultImpl &&
+            (identical(other.supportsCloneAuthorization, supportsCloneAuthorization) ||
+                other.supportsCloneAuthorization == supportsCloneAuthorization) &&
+            (identical(other.supportsSignAndSendTransactions, supportsSignAndSendTransactions) ||
+                other.supportsSignAndSendTransactions == supportsSignAndSendTransactions) &&
+            (identical(other.maxTransactionsPerSigningRequest, maxTransactionsPerSigningRequest) ||
+                other.maxTransactionsPerSigningRequest == maxTransactionsPerSigningRequest) &&
+            (identical(other.maxMessagesPerSigningRequest, maxMessagesPerSigningRequest) ||
+                other.maxMessagesPerSigningRequest == maxMessagesPerSigningRequest));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      supportsCloneAuthorization,
-      supportsSignAndSendTransactions,
-      maxTransactionsPerSigningRequest,
-      maxMessagesPerSigningRequest);
+    runtimeType,
+    supportsCloneAuthorization,
+    supportsSignAndSendTransactions,
+    maxTransactionsPerSigningRequest,
+    maxMessagesPerSigningRequest,
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_GetCapabilitiesResultCopyWith<_$_GetCapabilitiesResult> get copyWith =>
-      __$$_GetCapabilitiesResultCopyWithImpl<_$_GetCapabilitiesResult>(
-          this, _$identity);
+  _$$GetCapabilitiesResultImplCopyWith<_$GetCapabilitiesResultImpl> get copyWith =>
+      __$$GetCapabilitiesResultImplCopyWithImpl<_$GetCapabilitiesResultImpl>(this, _$identity);
 }
 
 abstract class _GetCapabilitiesResult implements GetCapabilitiesResult {
-  const factory _GetCapabilitiesResult(
-          {required final bool supportsCloneAuthorization,
-          required final bool supportsSignAndSendTransactions,
-          required final int maxTransactionsPerSigningRequest,
-          required final int maxMessagesPerSigningRequest}) =
-      _$_GetCapabilitiesResult;
+  const factory _GetCapabilitiesResult({
+    required final bool supportsCloneAuthorization,
+    required final bool supportsSignAndSendTransactions,
+    required final int maxTransactionsPerSigningRequest,
+    required final int maxMessagesPerSigningRequest,
+  }) = _$GetCapabilitiesResultImpl;
 
   @override
   bool get supportsCloneAuthorization;
@@ -213,7 +222,7 @@ abstract class _GetCapabilitiesResult implements GetCapabilitiesResult {
   int get maxMessagesPerSigningRequest;
   @override
   @JsonKey(ignore: true)
-  _$$_GetCapabilitiesResultCopyWith<_$_GetCapabilitiesResult> get copyWith =>
+  _$$GetCapabilitiesResultImplCopyWith<_$GetCapabilitiesResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -232,14 +241,11 @@ mixin _$AuthorizationResult {
 /// @nodoc
 abstract class $AuthorizationResultCopyWith<$Res> {
   factory $AuthorizationResultCopyWith(
-          AuthorizationResult value, $Res Function(AuthorizationResult) then) =
-      _$AuthorizationResultCopyWithImpl<$Res, AuthorizationResult>;
+    AuthorizationResult value,
+    $Res Function(AuthorizationResult) then,
+  ) = _$AuthorizationResultCopyWithImpl<$Res, AuthorizationResult>;
   @useResult
-  $Res call(
-      {String authToken,
-      Uint8List publicKey,
-      String? accountLabel,
-      Uri? walletUriBase});
+  $Res call({String authToken, Uint8List publicKey, String? accountLabel, Uri? walletUriBase});
 }
 
 /// @nodoc
@@ -260,49 +266,54 @@ class _$AuthorizationResultCopyWithImpl<$Res, $Val extends AuthorizationResult>
     Object? accountLabel = freezed,
     Object? walletUriBase = freezed,
   }) {
-    return _then(_value.copyWith(
-      authToken: null == authToken
-          ? _value.authToken
-          : authToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      publicKey: null == publicKey
-          ? _value.publicKey
-          : publicKey // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      accountLabel: freezed == accountLabel
-          ? _value.accountLabel
-          : accountLabel // ignore: cast_nullable_to_non_nullable
-              as String?,
-      walletUriBase: freezed == walletUriBase
-          ? _value.walletUriBase
-          : walletUriBase // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            authToken:
+                null == authToken
+                    ? _value.authToken
+                    : authToken // ignore: cast_nullable_to_non_nullable
+                        as String,
+            publicKey:
+                null == publicKey
+                    ? _value.publicKey
+                    : publicKey // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
+            accountLabel:
+                freezed == accountLabel
+                    ? _value.accountLabel
+                    : accountLabel // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            walletUriBase:
+                freezed == walletUriBase
+                    ? _value.walletUriBase
+                    : walletUriBase // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_AuthorizationResultCopyWith<$Res>
+abstract class _$$AuthorizationResultImplCopyWith<$Res>
     implements $AuthorizationResultCopyWith<$Res> {
-  factory _$$_AuthorizationResultCopyWith(_$_AuthorizationResult value,
-          $Res Function(_$_AuthorizationResult) then) =
-      __$$_AuthorizationResultCopyWithImpl<$Res>;
+  factory _$$AuthorizationResultImplCopyWith(
+    _$AuthorizationResultImpl value,
+    $Res Function(_$AuthorizationResultImpl) then,
+  ) = __$$AuthorizationResultImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String authToken,
-      Uint8List publicKey,
-      String? accountLabel,
-      Uri? walletUriBase});
+  $Res call({String authToken, Uint8List publicKey, String? accountLabel, Uri? walletUriBase});
 }
 
 /// @nodoc
-class __$$_AuthorizationResultCopyWithImpl<$Res>
-    extends _$AuthorizationResultCopyWithImpl<$Res, _$_AuthorizationResult>
-    implements _$$_AuthorizationResultCopyWith<$Res> {
-  __$$_AuthorizationResultCopyWithImpl(_$_AuthorizationResult _value,
-      $Res Function(_$_AuthorizationResult) _then)
-      : super(_value, _then);
+class __$$AuthorizationResultImplCopyWithImpl<$Res>
+    extends _$AuthorizationResultCopyWithImpl<$Res, _$AuthorizationResultImpl>
+    implements _$$AuthorizationResultImplCopyWith<$Res> {
+  __$$AuthorizationResultImplCopyWithImpl(
+    _$AuthorizationResultImpl _value,
+    $Res Function(_$AuthorizationResultImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -312,35 +323,42 @@ class __$$_AuthorizationResultCopyWithImpl<$Res>
     Object? accountLabel = freezed,
     Object? walletUriBase = freezed,
   }) {
-    return _then(_$_AuthorizationResult(
-      authToken: null == authToken
-          ? _value.authToken
-          : authToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      publicKey: null == publicKey
-          ? _value.publicKey
-          : publicKey // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      accountLabel: freezed == accountLabel
-          ? _value.accountLabel
-          : accountLabel // ignore: cast_nullable_to_non_nullable
-              as String?,
-      walletUriBase: freezed == walletUriBase
-          ? _value.walletUriBase
-          : walletUriBase // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-    ));
+    return _then(
+      _$AuthorizationResultImpl(
+        authToken:
+            null == authToken
+                ? _value.authToken
+                : authToken // ignore: cast_nullable_to_non_nullable
+                    as String,
+        publicKey:
+            null == publicKey
+                ? _value.publicKey
+                : publicKey // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        accountLabel:
+            freezed == accountLabel
+                ? _value.accountLabel
+                : accountLabel // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        walletUriBase:
+            freezed == walletUriBase
+                ? _value.walletUriBase
+                : walletUriBase // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_AuthorizationResult implements _AuthorizationResult {
-  const _$_AuthorizationResult(
-      {required this.authToken,
-      required this.publicKey,
-      required this.accountLabel,
-      required this.walletUriBase});
+class _$AuthorizationResultImpl implements _AuthorizationResult {
+  const _$AuthorizationResultImpl({
+    required this.authToken,
+    required this.publicKey,
+    required this.accountLabel,
+    required this.walletUriBase,
+  });
 
   @override
   final String authToken;
@@ -357,41 +375,40 @@ class _$_AuthorizationResult implements _AuthorizationResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AuthorizationResult &&
-            (identical(other.authToken, authToken) ||
-                other.authToken == authToken) &&
+            other is _$AuthorizationResultImpl &&
+            (identical(other.authToken, authToken) || other.authToken == authToken) &&
             const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
-            (identical(other.accountLabel, accountLabel) ||
-                other.accountLabel == accountLabel) &&
+            (identical(other.accountLabel, accountLabel) || other.accountLabel == accountLabel) &&
             (identical(other.walletUriBase, walletUriBase) ||
                 other.walletUriBase == walletUriBase));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      authToken,
-      const DeepCollectionEquality().hash(publicKey),
-      accountLabel,
-      walletUriBase);
+    runtimeType,
+    authToken,
+    const DeepCollectionEquality().hash(publicKey),
+    accountLabel,
+    walletUriBase,
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AuthorizationResultCopyWith<_$_AuthorizationResult> get copyWith =>
-      __$$_AuthorizationResultCopyWithImpl<_$_AuthorizationResult>(
-          this, _$identity);
+  _$$AuthorizationResultImplCopyWith<_$AuthorizationResultImpl> get copyWith =>
+      __$$AuthorizationResultImplCopyWithImpl<_$AuthorizationResultImpl>(this, _$identity);
 }
 
 abstract class _AuthorizationResult implements AuthorizationResult {
-  const factory _AuthorizationResult(
-      {required final String authToken,
-      required final Uint8List publicKey,
-      required final String? accountLabel,
-      required final Uri? walletUriBase}) = _$_AuthorizationResult;
+  const factory _AuthorizationResult({
+    required final String authToken,
+    required final Uint8List publicKey,
+    required final String? accountLabel,
+    required final Uri? walletUriBase,
+  }) = _$AuthorizationResultImpl;
 
   @override
   String get authToken;
@@ -403,7 +420,7 @@ abstract class _AuthorizationResult implements AuthorizationResult {
   Uri? get walletUriBase;
   @override
   @JsonKey(ignore: true)
-  _$$_AuthorizationResultCopyWith<_$_AuthorizationResult> get copyWith =>
+  _$$AuthorizationResultImplCopyWith<_$AuthorizationResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -419,8 +436,9 @@ mixin _$SignPayloadsResult {
 /// @nodoc
 abstract class $SignPayloadsResultCopyWith<$Res> {
   factory $SignPayloadsResultCopyWith(
-          SignPayloadsResult value, $Res Function(SignPayloadsResult) then) =
-      _$SignPayloadsResultCopyWithImpl<$Res, SignPayloadsResult>;
+    SignPayloadsResult value,
+    $Res Function(SignPayloadsResult) then,
+  ) = _$SignPayloadsResultCopyWithImpl<$Res, SignPayloadsResult>;
   @useResult
   $Res call({List<Uint8List> signedPayloads});
 }
@@ -437,56 +455,61 @@ class _$SignPayloadsResultCopyWithImpl<$Res, $Val extends SignPayloadsResult>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signedPayloads = null,
-  }) {
-    return _then(_value.copyWith(
-      signedPayloads: null == signedPayloads
-          ? _value.signedPayloads
-          : signedPayloads // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ) as $Val);
+  $Res call({Object? signedPayloads = null}) {
+    return _then(
+      _value.copyWith(
+            signedPayloads:
+                null == signedPayloads
+                    ? _value.signedPayloads
+                    : signedPayloads // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_SignPayloadsResultCopyWith<$Res>
+abstract class _$$SignPayloadsResultImplCopyWith<$Res>
     implements $SignPayloadsResultCopyWith<$Res> {
-  factory _$$_SignPayloadsResultCopyWith(_$_SignPayloadsResult value,
-          $Res Function(_$_SignPayloadsResult) then) =
-      __$$_SignPayloadsResultCopyWithImpl<$Res>;
+  factory _$$SignPayloadsResultImplCopyWith(
+    _$SignPayloadsResultImpl value,
+    $Res Function(_$SignPayloadsResultImpl) then,
+  ) = __$$SignPayloadsResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Uint8List> signedPayloads});
 }
 
 /// @nodoc
-class __$$_SignPayloadsResultCopyWithImpl<$Res>
-    extends _$SignPayloadsResultCopyWithImpl<$Res, _$_SignPayloadsResult>
-    implements _$$_SignPayloadsResultCopyWith<$Res> {
-  __$$_SignPayloadsResultCopyWithImpl(
-      _$_SignPayloadsResult _value, $Res Function(_$_SignPayloadsResult) _then)
-      : super(_value, _then);
+class __$$SignPayloadsResultImplCopyWithImpl<$Res>
+    extends _$SignPayloadsResultCopyWithImpl<$Res, _$SignPayloadsResultImpl>
+    implements _$$SignPayloadsResultImplCopyWith<$Res> {
+  __$$SignPayloadsResultImplCopyWithImpl(
+    _$SignPayloadsResultImpl _value,
+    $Res Function(_$SignPayloadsResultImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signedPayloads = null,
-  }) {
-    return _then(_$_SignPayloadsResult(
-      signedPayloads: null == signedPayloads
-          ? _value._signedPayloads
-          : signedPayloads // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ));
+  $Res call({Object? signedPayloads = null}) {
+    return _then(
+      _$SignPayloadsResultImpl(
+        signedPayloads:
+            null == signedPayloads
+                ? _value._signedPayloads
+                : signedPayloads // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_SignPayloadsResult implements _SignPayloadsResult {
-  const _$_SignPayloadsResult({required final List<Uint8List> signedPayloads})
-      : _signedPayloads = signedPayloads;
+class _$SignPayloadsResultImpl implements _SignPayloadsResult {
+  const _$SignPayloadsResultImpl({required final List<Uint8List> signedPayloads})
+    : _signedPayloads = signedPayloads;
 
   final List<Uint8List> _signedPayloads;
   @override
@@ -502,35 +525,33 @@ class _$_SignPayloadsResult implements _SignPayloadsResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SignPayloadsResult &&
-            const DeepCollectionEquality()
-                .equals(other._signedPayloads, _signedPayloads));
+            other is _$SignPayloadsResultImpl &&
+            const DeepCollectionEquality().equals(other._signedPayloads, _signedPayloads));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_signedPayloads));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_signedPayloads));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SignPayloadsResultCopyWith<_$_SignPayloadsResult> get copyWith =>
-      __$$_SignPayloadsResultCopyWithImpl<_$_SignPayloadsResult>(
-          this, _$identity);
+  _$$SignPayloadsResultImplCopyWith<_$SignPayloadsResultImpl> get copyWith =>
+      __$$SignPayloadsResultImplCopyWithImpl<_$SignPayloadsResultImpl>(this, _$identity);
 }
 
 abstract class _SignPayloadsResult implements SignPayloadsResult {
-  const factory _SignPayloadsResult(
-      {required final List<Uint8List> signedPayloads}) = _$_SignPayloadsResult;
+  const factory _SignPayloadsResult({required final List<Uint8List> signedPayloads}) =
+      _$SignPayloadsResultImpl;
 
   @override
   List<Uint8List> get signedPayloads;
   @override
   @JsonKey(ignore: true)
-  _$$_SignPayloadsResultCopyWith<_$_SignPayloadsResult> get copyWith =>
+  _$$SignPayloadsResultImplCopyWith<_$SignPayloadsResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -539,24 +560,22 @@ mixin _$SignAndSendTransactionsResult {
   List<Uint8List> get signatures => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SignAndSendTransactionsResultCopyWith<SignAndSendTransactionsResult>
-      get copyWith => throw _privateConstructorUsedError;
+  $SignAndSendTransactionsResultCopyWith<SignAndSendTransactionsResult> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SignAndSendTransactionsResultCopyWith<$Res> {
   factory $SignAndSendTransactionsResultCopyWith(
-          SignAndSendTransactionsResult value,
-          $Res Function(SignAndSendTransactionsResult) then) =
-      _$SignAndSendTransactionsResultCopyWithImpl<$Res,
-          SignAndSendTransactionsResult>;
+    SignAndSendTransactionsResult value,
+    $Res Function(SignAndSendTransactionsResult) then,
+  ) = _$SignAndSendTransactionsResultCopyWithImpl<$Res, SignAndSendTransactionsResult>;
   @useResult
   $Res call({List<Uint8List> signatures});
 }
 
 /// @nodoc
-class _$SignAndSendTransactionsResultCopyWithImpl<$Res,
-        $Val extends SignAndSendTransactionsResult>
+class _$SignAndSendTransactionsResultCopyWithImpl<$Res, $Val extends SignAndSendTransactionsResult>
     implements $SignAndSendTransactionsResultCopyWith<$Res> {
   _$SignAndSendTransactionsResultCopyWithImpl(this._value, this._then);
 
@@ -567,61 +586,61 @@ class _$SignAndSendTransactionsResultCopyWithImpl<$Res,
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signatures = null,
-  }) {
-    return _then(_value.copyWith(
-      signatures: null == signatures
-          ? _value.signatures
-          : signatures // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ) as $Val);
+  $Res call({Object? signatures = null}) {
+    return _then(
+      _value.copyWith(
+            signatures:
+                null == signatures
+                    ? _value.signatures
+                    : signatures // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_SignAndSendTransactionsResultCopyWith<$Res>
+abstract class _$$SignAndSendTransactionsResultImplCopyWith<$Res>
     implements $SignAndSendTransactionsResultCopyWith<$Res> {
-  factory _$$_SignAndSendTransactionsResultCopyWith(
-          _$_SignAndSendTransactionsResult value,
-          $Res Function(_$_SignAndSendTransactionsResult) then) =
-      __$$_SignAndSendTransactionsResultCopyWithImpl<$Res>;
+  factory _$$SignAndSendTransactionsResultImplCopyWith(
+    _$SignAndSendTransactionsResultImpl value,
+    $Res Function(_$SignAndSendTransactionsResultImpl) then,
+  ) = __$$SignAndSendTransactionsResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Uint8List> signatures});
 }
 
 /// @nodoc
-class __$$_SignAndSendTransactionsResultCopyWithImpl<$Res>
-    extends _$SignAndSendTransactionsResultCopyWithImpl<$Res,
-        _$_SignAndSendTransactionsResult>
-    implements _$$_SignAndSendTransactionsResultCopyWith<$Res> {
-  __$$_SignAndSendTransactionsResultCopyWithImpl(
-      _$_SignAndSendTransactionsResult _value,
-      $Res Function(_$_SignAndSendTransactionsResult) _then)
-      : super(_value, _then);
+class __$$SignAndSendTransactionsResultImplCopyWithImpl<$Res>
+    extends _$SignAndSendTransactionsResultCopyWithImpl<$Res, _$SignAndSendTransactionsResultImpl>
+    implements _$$SignAndSendTransactionsResultImplCopyWith<$Res> {
+  __$$SignAndSendTransactionsResultImplCopyWithImpl(
+    _$SignAndSendTransactionsResultImpl _value,
+    $Res Function(_$SignAndSendTransactionsResultImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signatures = null,
-  }) {
-    return _then(_$_SignAndSendTransactionsResult(
-      signatures: null == signatures
-          ? _value._signatures
-          : signatures // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ));
+  $Res call({Object? signatures = null}) {
+    return _then(
+      _$SignAndSendTransactionsResultImpl(
+        signatures:
+            null == signatures
+                ? _value._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_SignAndSendTransactionsResult
-    implements _SignAndSendTransactionsResult {
-  const _$_SignAndSendTransactionsResult(
-      {required final List<Uint8List> signatures})
-      : _signatures = signatures;
+class _$SignAndSendTransactionsResultImpl implements _SignAndSendTransactionsResult {
+  const _$SignAndSendTransactionsResultImpl({required final List<Uint8List> signatures})
+    : _signatures = signatures;
 
   final List<Uint8List> _signatures;
   @override
@@ -637,38 +656,36 @@ class _$_SignAndSendTransactionsResult
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SignAndSendTransactionsResult &&
-            const DeepCollectionEquality()
-                .equals(other._signatures, _signatures));
+            other is _$SignAndSendTransactionsResultImpl &&
+            const DeepCollectionEquality().equals(other._signatures, _signatures));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_signatures));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_signatures));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SignAndSendTransactionsResultCopyWith<_$_SignAndSendTransactionsResult>
-      get copyWith => __$$_SignAndSendTransactionsResultCopyWithImpl<
-          _$_SignAndSendTransactionsResult>(this, _$identity);
+  _$$SignAndSendTransactionsResultImplCopyWith<_$SignAndSendTransactionsResultImpl> get copyWith =>
+      __$$SignAndSendTransactionsResultImplCopyWithImpl<_$SignAndSendTransactionsResultImpl>(
+        this,
+        _$identity,
+      );
 }
 
-abstract class _SignAndSendTransactionsResult
-    implements SignAndSendTransactionsResult {
-  const factory _SignAndSendTransactionsResult(
-          {required final List<Uint8List> signatures}) =
-      _$_SignAndSendTransactionsResult;
+abstract class _SignAndSendTransactionsResult implements SignAndSendTransactionsResult {
+  const factory _SignAndSendTransactionsResult({required final List<Uint8List> signatures}) =
+      _$SignAndSendTransactionsResultImpl;
 
   @override
   List<Uint8List> get signatures;
   @override
   @JsonKey(ignore: true)
-  _$$_SignAndSendTransactionsResultCopyWith<_$_SignAndSendTransactionsResult>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$SignAndSendTransactionsResultImplCopyWith<_$SignAndSendTransactionsResultImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -678,20 +695,15 @@ mixin _$SignedMessage {
   List<Uint8List> get signatures => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SignedMessageCopyWith<SignedMessage> get copyWith =>
-      throw _privateConstructorUsedError;
+  $SignedMessageCopyWith<SignedMessage> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SignedMessageCopyWith<$Res> {
-  factory $SignedMessageCopyWith(
-          SignedMessage value, $Res Function(SignedMessage) then) =
+  factory $SignedMessageCopyWith(SignedMessage value, $Res Function(SignedMessage) then) =
       _$SignedMessageCopyWithImpl<$Res, SignedMessage>;
   @useResult
-  $Res call(
-      {Uint8List message,
-      List<Uint8List> addresses,
-      List<Uint8List> signatures});
+  $Res call({Uint8List message, List<Uint8List> addresses, List<Uint8List> signatures});
 }
 
 /// @nodoc
@@ -706,83 +718,84 @@ class _$SignedMessageCopyWithImpl<$Res, $Val extends SignedMessage>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? message = null,
-    Object? addresses = null,
-    Object? signatures = null,
-  }) {
-    return _then(_value.copyWith(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      addresses: null == addresses
-          ? _value.addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-      signatures: null == signatures
-          ? _value.signatures
-          : signatures // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ) as $Val);
+  $Res call({Object? message = null, Object? addresses = null, Object? signatures = null}) {
+    return _then(
+      _value.copyWith(
+            message:
+                null == message
+                    ? _value.message
+                    : message // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
+            addresses:
+                null == addresses
+                    ? _value.addresses
+                    : addresses // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
+            signatures:
+                null == signatures
+                    ? _value.signatures
+                    : signatures // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_SignedMessageCopyWith<$Res>
-    implements $SignedMessageCopyWith<$Res> {
-  factory _$$_SignedMessageCopyWith(
-          _$_SignedMessage value, $Res Function(_$_SignedMessage) then) =
-      __$$_SignedMessageCopyWithImpl<$Res>;
+abstract class _$$SignedMessageImplCopyWith<$Res> implements $SignedMessageCopyWith<$Res> {
+  factory _$$SignedMessageImplCopyWith(
+    _$SignedMessageImpl value,
+    $Res Function(_$SignedMessageImpl) then,
+  ) = __$$SignedMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {Uint8List message,
-      List<Uint8List> addresses,
-      List<Uint8List> signatures});
+  $Res call({Uint8List message, List<Uint8List> addresses, List<Uint8List> signatures});
 }
 
 /// @nodoc
-class __$$_SignedMessageCopyWithImpl<$Res>
-    extends _$SignedMessageCopyWithImpl<$Res, _$_SignedMessage>
-    implements _$$_SignedMessageCopyWith<$Res> {
-  __$$_SignedMessageCopyWithImpl(
-      _$_SignedMessage _value, $Res Function(_$_SignedMessage) _then)
-      : super(_value, _then);
+class __$$SignedMessageImplCopyWithImpl<$Res>
+    extends _$SignedMessageCopyWithImpl<$Res, _$SignedMessageImpl>
+    implements _$$SignedMessageImplCopyWith<$Res> {
+  __$$SignedMessageImplCopyWithImpl(
+    _$SignedMessageImpl _value,
+    $Res Function(_$SignedMessageImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? message = null,
-    Object? addresses = null,
-    Object? signatures = null,
-  }) {
-    return _then(_$_SignedMessage(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      addresses: null == addresses
-          ? _value._addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-      signatures: null == signatures
-          ? _value._signatures
-          : signatures // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ));
+  $Res call({Object? message = null, Object? addresses = null, Object? signatures = null}) {
+    return _then(
+      _$SignedMessageImpl(
+        message:
+            null == message
+                ? _value.message
+                : message // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        addresses:
+            null == addresses
+                ? _value._addresses
+                : addresses // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+        signatures:
+            null == signatures
+                ? _value._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_SignedMessage implements _SignedMessage {
-  const _$_SignedMessage(
-      {required this.message,
-      required final List<Uint8List> addresses,
-      required final List<Uint8List> signatures})
-      : _addresses = addresses,
-        _signatures = signatures;
+class _$SignedMessageImpl implements _SignedMessage {
+  const _$SignedMessageImpl({
+    required this.message,
+    required final List<Uint8List> addresses,
+    required final List<Uint8List> signatures,
+  }) : _addresses = addresses,
+       _signatures = signatures;
 
   @override
   final Uint8List message;
@@ -808,36 +821,36 @@ class _$_SignedMessage implements _SignedMessage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SignedMessage &&
+            other is _$SignedMessageImpl &&
             const DeepCollectionEquality().equals(other.message, message) &&
-            const DeepCollectionEquality()
-                .equals(other._addresses, _addresses) &&
-            const DeepCollectionEquality()
-                .equals(other._signatures, _signatures));
+            const DeepCollectionEquality().equals(other._addresses, _addresses) &&
+            const DeepCollectionEquality().equals(other._signatures, _signatures));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(message),
-      const DeepCollectionEquality().hash(_addresses),
-      const DeepCollectionEquality().hash(_signatures));
+    runtimeType,
+    const DeepCollectionEquality().hash(message),
+    const DeepCollectionEquality().hash(_addresses),
+    const DeepCollectionEquality().hash(_signatures),
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SignedMessageCopyWith<_$_SignedMessage> get copyWith =>
-      __$$_SignedMessageCopyWithImpl<_$_SignedMessage>(this, _$identity);
+  _$$SignedMessageImplCopyWith<_$SignedMessageImpl> get copyWith =>
+      __$$SignedMessageImplCopyWithImpl<_$SignedMessageImpl>(this, _$identity);
 }
 
 abstract class _SignedMessage implements SignedMessage {
-  const factory _SignedMessage(
-      {required final Uint8List message,
-      required final List<Uint8List> addresses,
-      required final List<Uint8List> signatures}) = _$_SignedMessage;
+  const factory _SignedMessage({
+    required final Uint8List message,
+    required final List<Uint8List> addresses,
+    required final List<Uint8List> signatures,
+  }) = _$SignedMessageImpl;
 
   @override
   Uint8List get message;
@@ -847,7 +860,7 @@ abstract class _SignedMessage implements SignedMessage {
   List<Uint8List> get signatures;
   @override
   @JsonKey(ignore: true)
-  _$$_SignedMessageCopyWith<_$_SignedMessage> get copyWith =>
+  _$$SignedMessageImplCopyWith<_$SignedMessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -863,8 +876,9 @@ mixin _$SignMessagesResult {
 /// @nodoc
 abstract class $SignMessagesResultCopyWith<$Res> {
   factory $SignMessagesResultCopyWith(
-          SignMessagesResult value, $Res Function(SignMessagesResult) then) =
-      _$SignMessagesResultCopyWithImpl<$Res, SignMessagesResult>;
+    SignMessagesResult value,
+    $Res Function(SignMessagesResult) then,
+  ) = _$SignMessagesResultCopyWithImpl<$Res, SignMessagesResult>;
   @useResult
   $Res call({List<SignedMessage> signedMessages});
 }
@@ -881,57 +895,61 @@ class _$SignMessagesResultCopyWithImpl<$Res, $Val extends SignMessagesResult>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signedMessages = null,
-  }) {
-    return _then(_value.copyWith(
-      signedMessages: null == signedMessages
-          ? _value.signedMessages
-          : signedMessages // ignore: cast_nullable_to_non_nullable
-              as List<SignedMessage>,
-    ) as $Val);
+  $Res call({Object? signedMessages = null}) {
+    return _then(
+      _value.copyWith(
+            signedMessages:
+                null == signedMessages
+                    ? _value.signedMessages
+                    : signedMessages // ignore: cast_nullable_to_non_nullable
+                        as List<SignedMessage>,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_SignMessagesResultCopyWith<$Res>
+abstract class _$$SignMessagesResultImplCopyWith<$Res>
     implements $SignMessagesResultCopyWith<$Res> {
-  factory _$$_SignMessagesResultCopyWith(_$_SignMessagesResult value,
-          $Res Function(_$_SignMessagesResult) then) =
-      __$$_SignMessagesResultCopyWithImpl<$Res>;
+  factory _$$SignMessagesResultImplCopyWith(
+    _$SignMessagesResultImpl value,
+    $Res Function(_$SignMessagesResultImpl) then,
+  ) = __$$SignMessagesResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<SignedMessage> signedMessages});
 }
 
 /// @nodoc
-class __$$_SignMessagesResultCopyWithImpl<$Res>
-    extends _$SignMessagesResultCopyWithImpl<$Res, _$_SignMessagesResult>
-    implements _$$_SignMessagesResultCopyWith<$Res> {
-  __$$_SignMessagesResultCopyWithImpl(
-      _$_SignMessagesResult _value, $Res Function(_$_SignMessagesResult) _then)
-      : super(_value, _then);
+class __$$SignMessagesResultImplCopyWithImpl<$Res>
+    extends _$SignMessagesResultCopyWithImpl<$Res, _$SignMessagesResultImpl>
+    implements _$$SignMessagesResultImplCopyWith<$Res> {
+  __$$SignMessagesResultImplCopyWithImpl(
+    _$SignMessagesResultImpl _value,
+    $Res Function(_$SignMessagesResultImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signedMessages = null,
-  }) {
-    return _then(_$_SignMessagesResult(
-      signedMessages: null == signedMessages
-          ? _value._signedMessages
-          : signedMessages // ignore: cast_nullable_to_non_nullable
-              as List<SignedMessage>,
-    ));
+  $Res call({Object? signedMessages = null}) {
+    return _then(
+      _$SignMessagesResultImpl(
+        signedMessages:
+            null == signedMessages
+                ? _value._signedMessages
+                : signedMessages // ignore: cast_nullable_to_non_nullable
+                    as List<SignedMessage>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_SignMessagesResult implements _SignMessagesResult {
-  const _$_SignMessagesResult(
-      {required final List<SignedMessage> signedMessages})
-      : _signedMessages = signedMessages;
+class _$SignMessagesResultImpl implements _SignMessagesResult {
+  const _$SignMessagesResultImpl({required final List<SignedMessage> signedMessages})
+    : _signedMessages = signedMessages;
 
   final List<SignedMessage> _signedMessages;
   @override
@@ -947,35 +965,32 @@ class _$_SignMessagesResult implements _SignMessagesResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SignMessagesResult &&
-            const DeepCollectionEquality()
-                .equals(other._signedMessages, _signedMessages));
+            other is _$SignMessagesResultImpl &&
+            const DeepCollectionEquality().equals(other._signedMessages, _signedMessages));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_signedMessages));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_signedMessages));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SignMessagesResultCopyWith<_$_SignMessagesResult> get copyWith =>
-      __$$_SignMessagesResultCopyWithImpl<_$_SignMessagesResult>(
-          this, _$identity);
+  _$$SignMessagesResultImplCopyWith<_$SignMessagesResultImpl> get copyWith =>
+      __$$SignMessagesResultImplCopyWithImpl<_$SignMessagesResultImpl>(this, _$identity);
 }
 
 abstract class _SignMessagesResult implements SignMessagesResult {
-  const factory _SignMessagesResult(
-          {required final List<SignedMessage> signedMessages}) =
-      _$_SignMessagesResult;
+  const factory _SignMessagesResult({required final List<SignedMessage> signedMessages}) =
+      _$SignMessagesResultImpl;
 
   @override
   List<SignedMessage> get signedMessages;
   @override
   @JsonKey(ignore: true)
-  _$$_SignMessagesResultCopyWith<_$_SignMessagesResult> get copyWith =>
+  _$$SignMessagesResultImplCopyWith<_$SignMessagesResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

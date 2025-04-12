@@ -22,11 +22,12 @@ abstract class AuthModule {
 
   @LazySingleton(scope: authScope)
   EspressoCashClient ecClient(ECWallet wallet) => EspressoCashClient(
-        sign: (data) async => (
-          signature:
-              await wallet.sign([Uint8List.fromList(utf8.encode(data))]) //
-                  .then((value) => value.first.toBase58()),
+    sign:
+        (data) async => (
+          signature: await wallet
+              .sign([Uint8List.fromList(utf8.encode(data))]) //
+              .then((value) => value.first.toBase58()),
           publicKey: wallet.publicKey.toBase58(),
         ),
-      );
+  );
 }

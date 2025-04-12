@@ -13,8 +13,9 @@ class AppWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpTheme.light(
-        child: Builder(
-          builder: (context) => MaterialApp(
+    child: Builder(
+      builder:
+          (context) => MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             debugShowCheckedModeBanner: false,
@@ -22,10 +23,8 @@ class AppWrapper extends StatelessWidget {
             theme: context.watch<CpThemeData>().toMaterialTheme(),
             home: child,
           ),
-        ),
-      );
+    ),
+  );
 }
 
-final TransitionBuilder appWrapper = (context, child) => AppWrapper(
-      child: child!,
-    );
+final TransitionBuilder appWrapper = (context, child) => AppWrapper(child: child!);

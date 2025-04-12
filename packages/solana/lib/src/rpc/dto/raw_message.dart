@@ -17,8 +17,7 @@ class RawMessage implements Message {
     required this.addressTableLookups,
   });
 
-  factory RawMessage.fromJson(Map<String, dynamic> json) =>
-      _$RawMessageFromJson(json);
+  factory RawMessage.fromJson(Map<String, dynamic> json) => _$RawMessageFromJson(json);
 
   @override
   final List<AccountKey> accountKeys;

@@ -15,8 +15,7 @@ class SignInFlowScreen extends StatefulWidget {
   const SignInFlowScreen({super.key});
 
   static void open(BuildContext context, {NavigatorState? navigator}) =>
-      (navigator ?? Navigator.of(context, rootNavigator: true))
-          .pushAndRemoveUntil<void>(
+      (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<void>(
         PageRouteBuilder(
           pageBuilder: (context, _, __) => const SignInFlowScreen(),
           transitionDuration: Duration.zero,
@@ -38,15 +37,10 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
   }
 
   void _handleSignInPressed() => Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (context) => RestoreAccountScreen(
-            onSubmit: _handleRestore,
-          ),
-        ),
-      );
+    MaterialPageRoute<void>(builder: (context) => RestoreAccountScreen(onSubmit: _handleRestore)),
+  );
 
-  void _handleCreateLocalPressed() =>
-      _bloc.add(const SignInEvent.newLocalWalletRequested());
+  void _handleCreateLocalPressed() => _bloc.add(const SignInEvent.newLocalWalletRequested());
 
   void _handleRestore(String phrase) {
     _bloc
@@ -56,25 +50,26 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
 
   @override
   Widget build(BuildContext context) => BlocConsumer<SignInBloc, SignInState>(
-        bloc: _bloc,
-        listener: (context, state) => switch (state.processingState) {
+    bloc: _bloc,
+    listener:
+        (context, state) => switch (state.processingState) {
           FlowFailure(:final error) => error.when(
-              seedVaultActionCanceled: ignore,
-              generic: (e) => showErrorDialog(context, 'Error', e),
-            ),
+            seedVaultActionCanceled: ignore,
+            generic: (e) => showErrorDialog(context, 'Error', e),
+          ),
           FlowSuccess(:final result) => runWithLoader(
-              context,
-              () => sl<AccountService>()
-                  .logIn(source: state.source, account: result),
-            ),
+            context,
+            () => sl<AccountService>().logIn(source: state.source, account: result),
+          ),
           _ => null,
         },
-        builder: (context, state) => CpLoader(
+    builder:
+        (context, state) => CpLoader(
           isLoading: state.processingState.isProcessing,
           child: GetStartedScreen(
             onSignInPressed: _handleSignInPressed,
             onLocalPressed: _handleCreateLocalPressed,
           ),
         ),
-      );
+  );
 }

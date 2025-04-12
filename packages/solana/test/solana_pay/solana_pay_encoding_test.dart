@@ -4,10 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group('TransactionRequestInfo', () {
     test('fromJson returns correct object', () {
-      final json = {
-        'label': 'Test Label',
-        'icon': 'https://example.com/image.png',
-      };
+      final json = {'label': 'Test Label', 'icon': 'https://example.com/image.png'};
       final info = TransactionRequestInfo.fromJson(json);
       expect(info.label, equals('Test Label'));
       expect(info.icon, equals('https://example.com/image.png'));
@@ -43,10 +40,7 @@ void main() {
 
     test('ValidateTransactionException toString', () {
       const exception = ValidateTransactionException('Error message');
-      expect(
-        exception.toString(),
-        'ValidateTransactionException(Error message)',
-      );
+      expect(exception.toString(), 'ValidateTransactionException(Error message)');
     });
 
     test('FetchTransactionException toString', () {

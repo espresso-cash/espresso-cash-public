@@ -3,17 +3,11 @@ import 'package:test/test.dart';
 
 void main() {
   test('Throws for invalid base58 characters', () {
-    expect(
-      isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpdSl'),
-      equals(false),
-    );
+    expect(isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpdSl'), equals(false));
   });
 
   test('Throws for invalid length', () {
-    expect(
-      isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpd'),
-      equals(false),
-    );
+    expect(isValidAddress('2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpd'), equals(false));
   });
 
   test('Correctly validates valid addresses', () {

@@ -12,7 +12,7 @@ class CountryPicker extends StatelessWidget {
     this.countries,
     this.placeholder,
     this.backgroundColor = Colors.black,
-    this.readonly = false,
+    this.readOnly = false,
     required this.onSubmitted,
   });
 
@@ -20,50 +20,41 @@ class CountryPicker extends StatelessWidget {
   final List<Country>? countries;
   final String? placeholder;
   final Color backgroundColor;
-  final bool readonly;
+  final bool readOnly;
   final ValueSetter<Country> onSubmitted;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: ShapeDecoration(
-          color: backgroundColor,
-          shape: const StadiumBorder(),
-        ),
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-          onTap: readonly
+    decoration: ShapeDecoration(color: backgroundColor, shape: const StadiumBorder()),
+    child: ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+      onTap:
+          readOnly
               ? null
               : () async {
-                  await CustomPickerScreen.push<Country>(
-                    context: context,
-                    title: context.l10n.selectCountryTitle,
-                    items: countries ?? Country.all,
-                    initial: country,
-                    itemBuilder: (context, country, {required bool selected}) =>
-                        Text(
-                      country.name,
-                      style: TextStyle(
-                        fontSize: selected ? 19 : 17,
-                        color: Colors.white,
+                await CustomPickerScreen.push<Country>(
+                  context: context,
+                  title: context.l10n.selectCountryTitle,
+                  items: countries ?? Country.all,
+                  initial: country,
+                  itemBuilder:
+                      (context, country, {required bool selected}) => Text(
+                        country.name,
+                        style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white),
                       ),
-                    ),
-                    onTap: (country, context) async => onSubmitted(country),
-                  );
-                },
-          title: Text(
-            country?.name ?? placeholder ?? context.l10n.countryOfResidence,
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 16,
-              height: 1.2,
-              color: country != null ? Colors.white : CpColors.greyColor,
-            ),
-          ),
-          trailing: const Icon(
-            Icons.keyboard_arrow_down_outlined,
-            color: Colors.white,
-            size: 28,
-          ),
+                  onTap: (country, context) async => onSubmitted(country),
+                );
+              },
+      title: Text(
+        country?.name ?? placeholder ?? context.l10n.countryOfResidence,
+        style: TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: 16,
+          height: 1.2,
+          color: country != null ? Colors.white : CpColors.greyColor,
         ),
-      );
+      ),
+      trailing: const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white, size: 28),
+    ),
+  );
 }

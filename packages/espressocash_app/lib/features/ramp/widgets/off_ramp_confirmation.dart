@@ -19,102 +19,85 @@ import '../../fees/widgets/fee_label.dart';
 import '../services/off_ramp_order_service.dart';
 
 class OffRampConfirmation extends StatelessWidget {
-  const OffRampConfirmation({
-    super.key,
-    required this.order,
-  });
+  const OffRampConfirmation({super.key, required this.order});
 
   final OffRampOrder order;
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          appBar: CpAppBar(
-            title: Text(
-              context.l10n.offRampWithdrawTitle.toUpperCase(),
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 17,
-              ),
-            ),
-            leading: const CpBackButton(),
+    child: Scaffold(
+      appBar: CpAppBar(
+        title: Text(
+          context.l10n.offRampWithdrawTitle.toUpperCase(),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+        ),
+        leading: const CpBackButton(),
+      ),
+      body: Stack(
+        children: [
+          SizedBox(
+            height: double.infinity,
+            child: Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter),
           ),
-          body: Stack(
-            children: [
-              SizedBox(
-                height: double.infinity,
-                child:
-                    Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter),
-              ),
-              _Content(
-                withdrawAmount: order.amount,
-                receiveAmount: order.receiveAmount,
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        FeeLabel(
-                          keyText: '${context.l10n.fee}: ',
-                          type: FeeType.withdraw(
-                            amount: order.amount.value,
-                            partner: order.partner,
-                            address: order.depositAddress,
-                          ),
-                        ),
-                        const SizedBox(height: 21),
-                        CpButton(
-                          size: CpButtonSize.big,
-                          width: double.infinity,
-                          onPressed: () =>
-                              sl<OffRampOrderService>().retry(order.id),
-                          text: context.l10n.ramp_btnContinue,
-                        ),
-                      ],
+          _Content(withdrawAmount: order.amount, receiveAmount: order.receiveAmount),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FeeLabel(
+                      keyText: '${context.l10n.fee}: ',
+                      type: FeeType.withdraw(
+                        amount: order.amount.value,
+                        partner: order.partner,
+                        address: order.depositAddress,
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 21),
+                    CpButton(
+                      size: CpButtonSize.big,
+                      width: double.infinity,
+                      onPressed: () => sl<OffRampOrderService>().retry(order.id),
+                      text: context.l10n.ramp_btnContinue,
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
-      );
+        ],
+      ),
+    ),
+  );
 }
 
 class _Content extends StatelessWidget {
-  const _Content({
-    required this.withdrawAmount,
-    this.receiveAmount,
-  });
+  const _Content({required this.withdrawAmount, this.receiveAmount});
 
   final Amount withdrawAmount;
   final Amount? receiveAmount;
 
   @override
   Widget build(BuildContext context) => CpContentPadding(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            _AmountView(
-              withdrawAmount: withdrawAmount,
-              receiveAmount: receiveAmount,
-            ),
-            const SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: CpInfoWidget(
-                message: Text(context.l10n.offRampWithdrawNotice),
-                variant: CpInfoVariant.black,
-              ),
-            ),
-            const Spacer(),
-          ],
+    child: Column(
+      children: [
+        const SizedBox(height: 16),
+        _AmountView(withdrawAmount: withdrawAmount, receiveAmount: receiveAmount),
+        const SizedBox(height: 24),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: CpInfoWidget(
+            message: Text(context.l10n.offRampWithdrawNotice),
+            variant: CpInfoVariant.black,
+          ),
         ),
-      );
+        const Spacer(),
+      ],
+    ),
+  );
 }
 
 class _AmountView extends StatelessWidget {
@@ -143,10 +126,7 @@ class _AmountView extends StatelessWidget {
         FittedBox(
           child: Text(
             formattedAmount,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 55,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 55),
           ),
         ),
         const SizedBox(height: 40),
@@ -156,11 +136,7 @@ class _AmountView extends StatelessWidget {
               TextSpan(
                 children: [
                   TextSpan(
-                    text: context.l10n
-                        .offRampReceiveAmount(
-                          formattedReceiveAmount,
-                        )
-                        .toUpperCase(),
+                    text: context.l10n.offRampReceiveAmount(formattedReceiveAmount).toUpperCase(),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -168,8 +144,7 @@ class _AmountView extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text:
-                        ' ${receiveAmount?.currency.symbol.toUpperCase() ?? ''}',
+                    text: ' ${receiveAmount?.currency.symbol.toUpperCase() ?? ''}',
                     style: const TextStyle(
                       color: CpColors.yellowColor,
                       fontSize: 15,
@@ -192,11 +167,7 @@ class _ReceiveChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: 55,
-        child: CpChip(
-          padding: CpChipPadding.normal,
-          backgroundColor: Colors.black,
-          child: child,
-        ),
-      );
+    height: 55,
+    child: CpChip(padding: CpChipPadding.normal, backgroundColor: Colors.black, child: child),
+  );
 }

@@ -34,32 +34,33 @@ class _CpRoundedRectangleState extends State<CpRoundedRectangle> {
 
   @override
   Widget build(BuildContext context) => Container(
-        margin: widget.margin,
-        padding: widget.padding,
-        decoration: BoxDecoration(
-          color: widget.backgroundColor ?? CpColors.deepGreyColor,
-          borderRadius: const BorderRadius.only(
-            bottomLeft: _radius,
-            bottomRight: _radius,
-            topLeft: _radius,
-          ),
-        ),
-        child: widget.scrollable
+    margin: widget.margin,
+    padding: widget.padding,
+    decoration: BoxDecoration(
+      color: widget.backgroundColor ?? CpColors.deepGreyColor,
+      borderRadius: const BorderRadius.only(
+        bottomLeft: _radius,
+        bottomRight: _radius,
+        topLeft: _radius,
+      ),
+    ),
+    child:
+        widget.scrollable
             ? RawScrollbar(
-                thumbVisibility: true,
-                thickness: 8,
-                thumbColor: const Color(0xff525252),
-                crossAxisMargin: -24,
-                radius: const Radius.circular(9),
+              thumbVisibility: true,
+              thickness: 8,
+              thumbColor: const Color(0xff525252),
+              crossAxisMargin: -24,
+              radius: const Radius.circular(9),
+              controller: _scrollController,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.zero,
                 controller: _scrollController,
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.zero,
-                  controller: _scrollController,
-                  child: widget.child,
-                ),
-              )
+                child: widget.child,
+              ),
+            )
             : widget.child,
-      );
+  );
 }
 
 const _radius = Radius.circular(39);

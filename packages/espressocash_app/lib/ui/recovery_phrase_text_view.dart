@@ -20,40 +20,36 @@ class RecoveryPhraseTextView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: backgroundColor ?? Colors.black,
-          borderRadius: const BorderRadius.all(Radius.circular(30)),
+    decoration: BoxDecoration(
+      color: backgroundColor ?? Colors.black,
+      borderRadius: const BorderRadius.all(Radius.circular(30)),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(phrase, textAlign: TextAlign.justify, style: twelveWordsTextStyle),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: Text(
-                phrase,
-                textAlign: TextAlign.justify,
-                style: twelveWordsTextStyle,
+        if (hasCopyButton)
+          Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              margin: const EdgeInsets.only(right: 24, bottom: 12),
+              height: kToolbarHeight / 2,
+              child: CpButton(
+                text: context.l10n.copy,
+                minWidth: 80,
+                onPressed: () {
+                  final data = ClipboardData(text: phrase);
+                  Clipboard.setData(data);
+                  showClipboardSnackbar(context);
+                },
+                size: CpButtonSize.micro,
               ),
             ),
-            if (hasCopyButton)
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  margin: const EdgeInsets.only(right: 24, bottom: 12),
-                  height: kToolbarHeight / 2,
-                  child: CpButton(
-                    text: context.l10n.copy,
-                    minWidth: 80,
-                    onPressed: () {
-                      final data = ClipboardData(text: phrase);
-                      Clipboard.setData(data);
-                      showClipboardSnackbar(context);
-                    },
-                    size: CpButtonSize.micro,
-                  ),
-                ),
-              ),
-          ],
-        ),
-      );
+          ),
+      ],
+    ),
+  );
 }

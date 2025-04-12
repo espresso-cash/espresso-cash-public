@@ -7,13 +7,11 @@ part 'stake_program_account_data.g.dart';
 
 @Freezed(unionKey: 'type', fallbackUnion: 'unknown')
 class StakeProgramAccountData with _$StakeProgramAccountData {
-  const factory StakeProgramAccountData.delegated({
-    required StakeDelegatedAccountInfo info,
-  }) = StakeProgramDelegatedAccountData;
+  const factory StakeProgramAccountData.delegated({required StakeDelegatedAccountInfo info}) =
+      StakeProgramDelegatedAccountData;
 
-  const factory StakeProgramAccountData.initialize({
-    required StakeInitializedAccountInfo info,
-  }) = StakeProgramInitializedAccountData;
+  const factory StakeProgramAccountData.initialize({required StakeInitializedAccountInfo info}) =
+      StakeProgramInitializedAccountData;
 
   const factory StakeProgramAccountData.unknown(Map<String, dynamic> info) =
       StakeProgramUnknownAccountData;

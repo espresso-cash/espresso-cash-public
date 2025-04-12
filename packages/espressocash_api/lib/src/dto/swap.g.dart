@@ -6,8 +6,7 @@ part of 'swap.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SwapRouteRequestDtoImpl _$$SwapRouteRequestDtoImplFromJson(
-        Map<String, dynamic> json) =>
+_$SwapRouteRequestDtoImpl _$$SwapRouteRequestDtoImplFromJson(Map<String, dynamic> json) =>
     _$SwapRouteRequestDtoImpl(
       inputToken: json['inputToken'] as String,
       outputToken: json['outputToken'] as String,
@@ -18,8 +17,7 @@ _$SwapRouteRequestDtoImpl _$$SwapRouteRequestDtoImplFromJson(
       asLegacyTx: json['asLegacyTx'] as bool? ?? true,
     );
 
-Map<String, dynamic> _$$SwapRouteRequestDtoImplToJson(
-        _$SwapRouteRequestDtoImpl instance) =>
+Map<String, dynamic> _$$SwapRouteRequestDtoImplToJson(_$SwapRouteRequestDtoImpl instance) =>
     <String, dynamic>{
       'inputToken': instance.inputToken,
       'outputToken': instance.outputToken,
@@ -30,10 +28,7 @@ Map<String, dynamic> _$$SwapRouteRequestDtoImplToJson(
       'asLegacyTx': instance.asLegacyTx,
     };
 
-const _$SwapMatchEnumMap = {
-  SwapMatch.inAmount: 'inAmount',
-  SwapMatch.outAmount: 'outAmount',
-};
+const _$SwapMatchEnumMap = {SwapMatch.inAmount: 'inAmount', SwapMatch.outAmount: 'outAmount'};
 
 const _$SwapSlippageEnumMap = {
   SwapSlippage.zpOne: 'zpOne',
@@ -41,8 +36,7 @@ const _$SwapSlippageEnumMap = {
   SwapSlippage.onePercent: 'onePercent',
 };
 
-_$SwapRouteResponseDtoImpl _$$SwapRouteResponseDtoImplFromJson(
-        Map<String, dynamic> json) =>
+_$SwapRouteResponseDtoImpl _$$SwapRouteResponseDtoImplFromJson(Map<String, dynamic> json) =>
     _$SwapRouteResponseDtoImpl(
       inAmount: json['inAmount'] as String,
       outAmount: json['outAmount'] as String,
@@ -52,8 +46,7 @@ _$SwapRouteResponseDtoImpl _$$SwapRouteResponseDtoImplFromJson(
       slot: BigInt.parse(json['slot'] as String),
     );
 
-Map<String, dynamic> _$$SwapRouteResponseDtoImplToJson(
-        _$SwapRouteResponseDtoImpl instance) =>
+Map<String, dynamic> _$$SwapRouteResponseDtoImplToJson(_$SwapRouteResponseDtoImpl instance) =>
     <String, dynamic>{
       'inAmount': instance.inAmount,
       'outAmount': instance.outAmount,

@@ -16,47 +16,38 @@ class EmailStatusScreen extends StatelessWidget {
   const EmailStatusScreen({super.key});
 
   static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const EmailStatusScreen(),
-        ),
-      )
+      .push<bool>(MaterialPageRoute(builder: (context) => const EmailStatusScreen()))
       .then((result) => result ?? false);
 
   @override
   Widget build(BuildContext context) => UserDataListener(
-        builder: (context, userData) {
-          final status = userData.emailStatus;
-          final email = userData.getEmail ?? '-';
+    builder: (context, userData) {
+      final status = userData.emailStatus;
+      final email = userData.getEmail ?? '-';
 
-          return KycPage(
-            icon: status.kycIcon,
-            children: [
-              switch (status) {
-                KycValidationStatus.unverified ||
-                KycValidationStatus.pending =>
-                  KycHeader(
-                    title: context.l10n.emailPendingStatusTitle,
-                    description:
-                        context.l10n.emailPendingStatusDescription(email),
-                  ),
-                KycValidationStatus.approved => KycHeader(
-                    title: context.l10n.emailApprovedStatusTitle,
-                    description:
-                        context.l10n.emailApprovedStatusDescription(email),
-                  ),
-                KycValidationStatus.rejected => KycHeader(
-                    title: context.l10n.emailRejectedStatusTitle,
-                    description:
-                        context.l10n.emailRejectedStatusDescription(email),
-                  ),
-              },
-              const SizedBox(height: 16),
-              Expanded(child: _UpdateEmailContent(status: status)),
-            ],
-          );
-        },
+      return KycPage(
+        icon: status.kycIcon,
+        children: [
+          switch (status) {
+            KycValidationStatus.unverified || KycValidationStatus.pending => KycHeader(
+              title: context.l10n.emailPendingStatusTitle,
+              description: context.l10n.emailPendingStatusDescription(email),
+            ),
+            KycValidationStatus.approved => KycHeader(
+              title: context.l10n.emailApprovedStatusTitle,
+              description: context.l10n.emailApprovedStatusDescription(email),
+            ),
+            KycValidationStatus.rejected => KycHeader(
+              title: context.l10n.emailRejectedStatusTitle,
+              description: context.l10n.emailRejectedStatusDescription(email),
+            ),
+          },
+          const SizedBox(height: 16),
+          Expanded(child: _UpdateEmailContent(status: status)),
+        ],
       );
+    },
+  );
 }
 
 class _UpdateEmailContent extends StatefulWidget {
@@ -72,18 +63,14 @@ class __UpdateEmailContentState extends State<_UpdateEmailContent> {
   final _emailController = TextEditingController();
 
   String get _placeholderText => switch (widget.status) {
-        KycValidationStatus.rejected => context.l10n.emailAddress,
-        KycValidationStatus.approved ||
-        KycValidationStatus.pending ||
-        KycValidationStatus.unverified =>
-          context.l10n.updateEmailAddress,
-      };
+    KycValidationStatus.rejected => context.l10n.emailAddress,
+    KycValidationStatus.approved ||
+    KycValidationStatus.pending ||
+    KycValidationStatus.unverified => context.l10n.updateEmailAddress,
+  };
 
   Future<void> _handleSendVerification() async {
-    final result = await context.sendEmailVerification(
-      context,
-      email: _emailController.text,
-    );
+    final result = await context.sendEmailVerification(context, email: _emailController.text);
 
     if (!mounted) return;
     if (!result) return;
@@ -100,24 +87,23 @@ class __UpdateEmailContentState extends State<_UpdateEmailContent> {
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          KycTextField(
-            controller: _emailController,
-            inputType: TextInputType.emailAddress,
-            placeholder: _placeholderText,
-          ),
-          const SizedBox(height: 16),
-          const Spacer(),
-          ListenableBuilder(
-            listenable: _emailController,
-            builder: (context, child) => CpBottomButton(
+    children: [
+      KycTextField(
+        controller: _emailController,
+        inputType: TextInputType.emailAddress,
+        placeholder: _placeholderText,
+      ),
+      const SizedBox(height: 16),
+      const Spacer(),
+      ListenableBuilder(
+        listenable: _emailController,
+        builder:
+            (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.sendVerificationCode,
-              onPressed: _emailController.text.isValidEmail
-                  ? _handleSendVerification
-                  : null,
+              onPressed: _emailController.text.isValidEmail ? _handleSendVerification : null,
             ),
-          ),
-        ],
-      );
+      ),
+    ],
+  );
 }

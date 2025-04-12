@@ -26,16 +26,13 @@ class FeatureFlagsManager implements Disposable {
       ),
     );
     await _remoteConfig.fetchAndActivate();
-    _subscription =
-        _remoteConfig.onConfigUpdated.listen((_) => _remoteConfig.activate());
+    _subscription = _remoteConfig.onConfigUpdated.listen((_) => _remoteConfig.activate());
   }
 
-  bool isMoneygramAccessEnabled() =>
-      _remoteConfig.getBool(FeatureFlag.moneygram.name);
+  bool isMoneygramAccessEnabled() => _remoteConfig.getBool(FeatureFlag.moneygram.name);
 
   bool isBrijEnabled() =>
-      _remoteConfig.getBool(FeatureFlag.brij.name) ||
-      _ambassadorService.value.isAmbassador;
+      _remoteConfig.getBool(FeatureFlag.brij.name) || _ambassadorService.value.isAmbassador;
 
   bool isBrijDemoEnabled() => _remoteConfig.getBool(FeatureFlag.brijDemo.name);
 

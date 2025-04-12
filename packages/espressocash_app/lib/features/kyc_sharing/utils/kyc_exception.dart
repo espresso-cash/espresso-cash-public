@@ -21,8 +21,7 @@ extension ErrorExt on Exception {
     }
 
     final dioException = this as DioException;
-    final message = (dioException.response?.data
-        as Map<String, dynamic>?)?['message'] as String?;
+    final message = (dioException.response?.data as Map<String, dynamic>?)?['message'] as String?;
 
     return switch (message) {
       'invalid token' => const KycException.invalidToken(),
@@ -30,8 +29,7 @@ extension ErrorExt on Exception {
       'invalid phone' => const KycException.invalidPhone(),
       'invalid code' => const KycException.invalidCode(),
       'invalid data' => const KycException.invalidData(),
-      'too many verification attempts' =>
-        const KycException.phoneTooManyAttempts(),
+      'too many verification attempts' => const KycException.phoneTooManyAttempts(),
       _ => const KycException.genericError(),
     };
   }

@@ -18,23 +18,16 @@ import '../models/incoming_link_payment.dart';
 import '../widgets/invalid_escrow_error_widget.dart';
 
 class IncomingLinkPaymentScreen extends StatefulWidget {
-  const IncomingLinkPaymentScreen({
-    super.key,
-    required this.id,
-  });
+  const IncomingLinkPaymentScreen({super.key, required this.id});
 
-  static void push(BuildContext context, {required String id}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => IncomingLinkPaymentScreen(id: id),
-        ),
-      );
+  static void push(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => IncomingLinkPaymentScreen(id: id)));
 
   final String id;
 
   @override
-  State<IncomingLinkPaymentScreen> createState() =>
-      _IncomingLinkPaymentScreenState();
+  State<IncomingLinkPaymentScreen> createState() => _IncomingLinkPaymentScreenState();
 }
 
 class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
@@ -48,40 +41,37 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<IncomingLinkPayment?>(
-        stream: _payment,
-        builder: (context, state) {
-          final payment = state.data;
+    stream: _payment,
+    builder: (context, state) {
+      final payment = state.data;
 
-          return payment == null
-              ? TransferProgress(
-                  onBack: () => Navigator.pop(context),
-                )
-              : payment.status.maybeMap(
-                  success: (e) {
-                    final receiveAmount = e.receiveAmount?.let(
-                      (e) => e.format(context.locale, maxDecimals: 2),
-                    );
+      return payment == null
+          ? TransferProgress(onBack: () => Navigator.pop(context))
+          : payment.status.maybeMap(
+            success: (e) {
+              final receiveAmount = e.receiveAmount?.let(
+                (e) => e.format(context.locale, maxDecimals: 2),
+              );
 
-                    return TransferSuccess(
-                      onBack: () => Navigator.pop(context),
-                      onOkPressed: () => Navigator.pop(context),
-                      content: e.fee?.let(_FeeNotice.new),
-                      statusContent: receiveAmount != null
-                          ? context.l10n.moneyReceivedAmount(receiveAmount)
-                          : context.l10n.moneyReceived,
-                    );
-                  },
-                  txFailure: (it) => it.reason == TxFailureReason.escrowFailure
-                      ? const InvalidEscrowErrorWidget()
-                      : TransferError(
-                          onBack: () => Navigator.pop(context),
-                        ),
-                  orElse: () => TransferProgress(
-                    onBack: () => Navigator.pop(context),
-                  ),
-                );
-        },
-      );
+              return TransferSuccess(
+                onBack: () => Navigator.pop(context),
+                onOkPressed: () => Navigator.pop(context),
+                content: e.fee?.let(_FeeNotice.new),
+                statusContent:
+                    receiveAmount != null
+                        ? context.l10n.moneyReceivedAmount(receiveAmount)
+                        : context.l10n.moneyReceived,
+              );
+            },
+            txFailure:
+                (it) =>
+                    it.reason == TxFailureReason.escrowFailure
+                        ? const InvalidEscrowErrorWidget()
+                        : TransferError(onBack: () => Navigator.pop(context)),
+            orElse: () => TransferProgress(onBack: () => Navigator.pop(context)),
+          );
+    },
+  );
 }
 
 class _FeeNotice extends StatelessWidget {
@@ -91,39 +81,36 @@ class _FeeNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Expanded(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            CpMessageInfoWidget(
-              backgroundColor: Colors.black,
-              padding: const EdgeInsets.all(18),
-              content: Row(
-                children: [
-                  const CircleAvatar(
-                    maxRadius: 14,
-                    backgroundColor: CpColors.yellowColor,
-                    child: CpInfoIcon(
-                      iconColor: CpColors.blackGreyColor,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Text(
-                      context.l10n
-                          .incomingUsdcFeeNotice(amount.format(context.locale)),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.50,
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        CpMessageInfoWidget(
+          backgroundColor: Colors.black,
+          padding: const EdgeInsets.all(18),
+          content: Row(
+            children: [
+              const CircleAvatar(
+                maxRadius: 14,
+                backgroundColor: CpColors.yellowColor,
+                child: CpInfoIcon(iconColor: CpColors.blackGreyColor),
               ),
-            ),
-            const SizedBox(height: 32),
-          ],
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  context.l10n.incomingUsdcFeeNotice(amount.format(context.locale)),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.50,
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      );
+        const SizedBox(height: 32),
+      ],
+    ),
+  );
 }

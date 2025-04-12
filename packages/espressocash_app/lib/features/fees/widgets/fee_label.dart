@@ -43,29 +43,23 @@ class _FeeLabelState extends State<FeeLabel> {
 
   @override
   Widget build(BuildContext context) => FutureBuilder<String>(
-        future: _amount,
-        builder: (context, snapshot) {
-          final String value = switch (snapshot.toResult()) {
-            AsyncSnapshotLoading() => context.l10n.feesCalculating,
-            AsyncSnapshotError() => context.l10n.feesFailed,
-            AsyncSnapshotData(:final data) => data,
-          };
+    future: _amount,
+    builder: (context, snapshot) {
+      final String value = switch (snapshot.toResult()) {
+        AsyncSnapshotLoading() => context.l10n.feesCalculating,
+        AsyncSnapshotError() => context.l10n.feesFailed,
+        AsyncSnapshotData(:final data) => data,
+      };
 
-          return Row(
-            mainAxisAlignment: widget.mainAxisAlignment,
-            children: [
-              Text(
-                widget.keyText ?? context.l10n.fee,
-                style: widget.keyTextStyle,
-              ),
-              Text(value, style: widget.valueTextStyle),
-            ],
-          );
-        },
+      return Row(
+        mainAxisAlignment: widget.mainAxisAlignment,
+        children: [
+          Text(widget.keyText ?? context.l10n.fee, style: widget.keyTextStyle),
+          Text(value, style: widget.valueTextStyle),
+        ],
       );
+    },
+  );
 }
 
-const TextStyle _defaultTextStyle = TextStyle(
-  fontSize: 13,
-  fontWeight: FontWeight.w500,
-);
+const TextStyle _defaultTextStyle = TextStyle(fontSize: 13, fontWeight: FontWeight.w500);

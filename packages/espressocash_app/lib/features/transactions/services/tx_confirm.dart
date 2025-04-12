@@ -11,9 +11,7 @@ import '../models/tx_results.dart';
 
 @injectable
 class TxConfirm {
-  const TxConfirm({
-    required SolanaClient client,
-  }) : _client = client;
+  const TxConfirm({required SolanaClient client}) : _client = client;
 
   final SolanaClient _client;
 
@@ -31,10 +29,9 @@ class TxConfirm {
       final innerSpan = span.startChild('getSignatureStatus()');
       _logger.fine('$txId: Checking tx status.');
 
-      final statuses = await _client.rpcClient.getSignatureStatuses(
-        [txId],
-        searchTransactionHistory: true,
-      );
+      final statuses = await _client.rpcClient.getSignatureStatuses([
+        txId,
+      ], searchTransactionHistory: true);
       final t = statuses.value.first;
 
       if (t == null) {
@@ -61,10 +58,7 @@ class TxConfirm {
         return const TxWaitResult.success();
       }
 
-      innerSpan.setData(
-        'reason',
-        'Wrong confirmation status ${t.confirmationStatus}.',
-      );
+      innerSpan.setData('reason', 'Wrong confirmation status ${t.confirmationStatus}.');
       await innerSpan.finish();
       _logger.fine('$txId: Wrong confirmation status ${t.confirmationStatus}.');
     }
@@ -106,9 +100,7 @@ class TxConfirm {
 
     final polling = Stream<void>.periodic(const Duration(seconds: 10))
         .startWith(null)
-        .exhaustMap(
-          (_) => getSignatureStatus(sentryTx).asStream().onErrorReturn(null),
-        );
+        .exhaustMap((_) => getSignatureStatus(sentryTx).asStream().onErrorReturn(null));
 
     return MergeStream([
       polling,

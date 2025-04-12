@@ -71,30 +71,29 @@ class Token {
 
 class _SolanaToken extends Token {
   const _SolanaToken()
-      : super(
-          address: 'So11111111111111111111111111111111111111111',
-          logoURI:
-              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
-          chainId: currentChainId,
-          decimals: 9,
-          name: 'Solana',
-          symbol: 'SOL',
-          isStablecoin: false,
-        );
+    : super(
+        address: 'So11111111111111111111111111111111111111111',
+        logoURI:
+            'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
+        chainId: currentChainId,
+        decimals: 9,
+        name: 'Solana',
+        symbol: 'SOL',
+        isStablecoin: false,
+      );
 }
 
 class _UnknownToken extends Token {
   const _UnknownToken()
-      : super(
-          address: 'Unknown1111111111111111111111111111111111111',
-          logoURI:
-              'https://upload.wikimedia.org/wikipedia/commons/5/57/ABCQ.png',
-          chainId: currentChainId,
-          decimals: 9,
-          name: 'Unknown Token',
-          symbol: 'UNKNOWN',
-          isStablecoin: false,
-        );
+    : super(
+        address: 'Unknown1111111111111111111111111111111111111',
+        logoURI: 'https://upload.wikimedia.org/wikipedia/commons/5/57/ABCQ.png',
+        chainId: currentChainId,
+        decimals: 9,
+        name: 'Unknown Token',
+        symbol: 'UNKNOWN',
+        isStablecoin: false,
+      );
 }
 
 class SplToken extends Token {
@@ -111,44 +110,44 @@ class SplToken extends Token {
 
 class _WrappedSolanaToken extends SplToken {
   const _WrappedSolanaToken()
-      : super(
-          address: 'So11111111111111111111111111111111111111112',
-          logoURI:
-              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
-          chainId: currentChainId,
-          decimals: 9,
-          name: 'Wrapped SOL',
-          symbol: 'SOL',
-          isStablecoin: false,
-        );
+    : super(
+        address: 'So11111111111111111111111111111111111111112',
+        logoURI:
+            'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
+        chainId: currentChainId,
+        decimals: 9,
+        name: 'Wrapped SOL',
+        symbol: 'SOL',
+        isStablecoin: false,
+      );
 }
 
 class _UsdcMainToken extends SplToken {
   const _UsdcMainToken()
-      : super(
-          address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-          logoURI:
-              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png',
-          chainId: currentChainId,
-          decimals: 6,
-          name: 'USD Coin',
-          symbol: 'USDC',
-          isStablecoin: true,
-        );
+    : super(
+        address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+        logoURI:
+            'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png',
+        chainId: currentChainId,
+        decimals: 6,
+        name: 'USD Coin',
+        symbol: 'USDC',
+        isStablecoin: true,
+      );
 }
 
 class _UsdcDevToken extends SplToken {
   const _UsdcDevToken()
-      : super(
-          address: '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU',
-          logoURI:
-              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU/logo.png',
-          chainId: currentChainId,
-          decimals: 6,
-          name: 'USD Coin',
-          symbol: 'USDC',
-          isStablecoin: true,
-        );
+    : super(
+        address: '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU',
+        logoURI:
+            'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU/logo.png',
+        chainId: currentChainId,
+        decimals: 6,
+        name: 'USD Coin',
+        symbol: 'USDC',
+        isStablecoin: true,
+      );
 }
 
 extension TokenUtils on Token {

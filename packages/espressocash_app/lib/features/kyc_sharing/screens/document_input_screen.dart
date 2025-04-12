@@ -25,16 +25,10 @@ class DocumentInputScreen extends StatefulWidget {
 
   final KycRequirement requirement;
 
-  static Future<bool> push(
-    BuildContext context, {
-    required KycRequirement requirement,
-  }) =>
+  static Future<bool> push(BuildContext context, {required KycRequirement requirement}) =>
       Navigator.of(context)
           .push<bool>(
-            MaterialPageRoute(
-              builder: (context) =>
-                  DocumentInputScreen(requirement: requirement),
-            ),
+            MaterialPageRoute(builder: (context) => DocumentInputScreen(requirement: requirement)),
           )
           .then((result) => result ?? false);
 
@@ -52,8 +46,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
   final Map<DocumentField, dynamic> _documentFields = {};
   final Map<DocumentField, TextEditingController> _controllers = {};
 
-  RequirementRelationship _documentFieldsRelationship =
-      RequirementRelationship.or;
+  RequirementRelationship _documentFieldsRelationship = RequirementRelationship.or;
 
   @override
   void initState() {
@@ -64,15 +57,11 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
 
   void _parseRequirements() {
     final requirements = widget.requirement.requirements;
-    _availableCountries = requirements
-        .parseCountryCodes()
-        .map(Country.findByCode)
-        .nonNulls
-        .toList();
+    _availableCountries =
+        requirements.parseCountryCodes().map(Country.findByCode).nonNulls.toList();
 
     _availableDocumentTypes = requirements.parseDocumentTypes();
-    _documentFieldsRelationship =
-        requirements.determineDocumentFieldsRelationship();
+    _documentFieldsRelationship = requirements.determineDocumentFieldsRelationship();
   }
 
   void _initializeControllers() {
@@ -84,8 +73,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
     final selectedDocType = _selectedDocumentType;
 
     if (selectedDocType != null) {
-      final requiredFields =
-          widget.requirement.requirements.parseRequiredFields(selectedDocType);
+      final requiredFields = widget.requirement.requirements.parseRequiredFields(selectedDocType);
 
       for (final field in requiredFields) {
         if (_needsTextController(field)) {
@@ -95,8 +83,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
     }
   }
 
-  bool _needsTextController(DocumentField field) =>
-      field == DocumentField.idNumber;
+  bool _needsTextController(DocumentField field) => field == DocumentField.idNumber;
 
   @override
   void dispose() {
@@ -107,39 +94,33 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
   }
 
   Future<void> _handleSubmitted() async {
-    final success = await runWithLoader<bool>(
-      context,
-      () async {
-        try {
-          if (_selectedCountry == null || _selectedDocumentType == null) {
-            throw Exception('Missing required information');
-          }
-
-          final idNumber = _controllers[DocumentField.idNumber]?.text;
-          final frontImage = _documentFields[DocumentField.photoFront] as File?;
-          final backImage = _documentFields[DocumentField.photoBack] as File?;
-
-          await sl<KycSharingService>().updateDocumentInfo(
-            idType: _selectedDocumentType,
-            idNumber: idNumber,
-            countryCode: _selectedCountry?.code,
-            frontImage: frontImage,
-            backImage: backImage,
-          );
-
-          return true;
-        } on Exception {
-          if (!mounted) return false;
-
-          showCpErrorSnackbar(
-            context,
-            message: context.l10n.failedToUpdateData,
-          );
-
-          return false;
+    final success = await runWithLoader<bool>(context, () async {
+      try {
+        if (_selectedCountry == null || _selectedDocumentType == null) {
+          throw Exception('Missing required information');
         }
-      },
-    );
+
+        final idNumber = _controllers[DocumentField.idNumber]?.text;
+        final frontImage = _documentFields[DocumentField.photoFront] as File?;
+        final backImage = _documentFields[DocumentField.photoBack] as File?;
+
+        await sl<KycSharingService>().updateDocumentInfo(
+          idType: _selectedDocumentType,
+          idNumber: idNumber,
+          countryCode: _selectedCountry?.code,
+          frontImage: frontImage,
+          backImage: backImage,
+        );
+
+        return true;
+      } on Exception {
+        if (!mounted) return false;
+
+        showCpErrorSnackbar(context, message: context.l10n.failedToUpdateData);
+
+        return false;
+      }
+    });
 
     if (!mounted) return;
     if (success) Navigator.pop(context, true);
@@ -152,27 +133,23 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
   }
 
   Future<File?> _pickPhoto() async {
-    final shouldProceed = await Navigator.of(context).push<bool>(
-      MaterialPageRoute(
-        builder: (context) => const DocumentInfoScreen(),
-      ),
-    );
+    final shouldProceed = await Navigator.of(
+      context,
+    ).push<bool>(MaterialPageRoute(builder: (context) => const DocumentInfoScreen()));
 
     if (!mounted) return null;
 
     return shouldProceed == true
-        ? Navigator.of(context).push<File?>(
-            MaterialPageRoute(
-              builder: (context) => const DocumentCameraScreen(),
-            ),
-          )
+        ? Navigator.of(
+          context,
+        ).push<File?>(MaterialPageRoute(builder: (context) => const DocumentCameraScreen()))
         : null;
   }
 
   Widget _buildDocumentFieldWidget(DocumentField field) {
     final isInRequiredList = _requiredFields.contains(field);
-    final isRequired = isInRequiredList &&
-        _documentFieldsRelationship == RequirementRelationship.and;
+    final isRequired =
+        isInRequiredList && _documentFieldsRelationship == RequirementRelationship.and;
 
     switch (field) {
       case DocumentField.idNumber:
@@ -241,59 +218,52 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: context.l10n.documentTitle.toUpperCase(),
-        children: [
-          const _RequiredCountryNotice(),
-          const SizedBox(height: 24),
-          CountryPicker(
-            backgroundColor: CpColors.blackGreyColor,
-            placeholder: 'Country of Document',
-            country: _selectedCountry,
-            countries: _availableCountries,
-            onSubmitted: (country) => setState(
-              () => _selectedCountry = country,
-            ),
-          ),
-          const SizedBox(height: 24),
-          Text(
-            context.l10n.selectDocumentType,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-            ),
-          ),
-          const SizedBox(height: 8),
-          DocumentPicker(
-            type: _selectedDocumentType,
-            types: _availableDocumentTypes,
-            onSubmitted: (docType) => setState(() {
+    title: context.l10n.documentTitle.toUpperCase(),
+    children: [
+      const _RequiredCountryNotice(),
+      const SizedBox(height: 24),
+      CountryPicker(
+        backgroundColor: CpColors.blackGreyColor,
+        placeholder: 'Country of Document',
+        country: _selectedCountry,
+        countries: _availableCountries,
+        onSubmitted: (country) => setState(() => _selectedCountry = country),
+      ),
+      const SizedBox(height: 24),
+      Text(
+        context.l10n.selectDocumentType,
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+      ),
+      const SizedBox(height: 8),
+      DocumentPicker(
+        type: _selectedDocumentType,
+        types: _availableDocumentTypes,
+        onSubmitted:
+            (docType) => setState(() {
               _selectedDocumentType = docType;
               _documentFields.clear();
               _initializeControllers();
             }),
-          ),
-          const SizedBox(height: 16),
-          if (_selectedDocumentType != null)
-            ..._requiredFields.map(
-              (field) => Column(
-                children: [
-                  _buildDocumentFieldWidget(field),
-                  const SizedBox(height: 16),
-                ],
-              ),
-            ),
-          const SizedBox(height: 28),
-          const Spacer(),
-          ListenableBuilder(
-            listenable: Listenable.merge(_controllers.values.toList()),
-            builder: (context, child) => CpBottomButton(
+      ),
+      const SizedBox(height: 16),
+      if (_selectedDocumentType != null)
+        ..._requiredFields.map(
+          (field) =>
+              Column(children: [_buildDocumentFieldWidget(field), const SizedBox(height: 16)]),
+        ),
+      const SizedBox(height: 28),
+      const Spacer(),
+      ListenableBuilder(
+        listenable: Listenable.merge(_controllers.values.toList()),
+        builder:
+            (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.next,
               onPressed: _isValid ? _handleSubmitted : null,
             ),
-          ),
-        ],
-      );
+      ),
+    ],
+  );
 }
 
 class _IdNumberField extends StatefulWidget {
@@ -346,10 +316,10 @@ class _IdNumberFieldState extends State<_IdNumberField> {
 
   @override
   Widget build(BuildContext context) => KycTextField(
-        controller: widget.controller,
-        inputType: TextInputType.text,
-        placeholder: context.l10n.idNumber,
-      );
+    controller: widget.controller,
+    inputType: TextInputType.text,
+    placeholder: context.l10n.idNumber,
+  );
 }
 
 class _PhotoUploadField extends StatelessWidget {
@@ -367,98 +337,79 @@ class _PhotoUploadField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$label${isRequired ? ' *' : ''}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-            ),
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        '$label${isRequired ? ' *' : ''}',
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+      ),
+      const SizedBox(height: 8),
+      GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 120,
+          decoration: const BoxDecoration(
+            color: CpColors.blackGreyColor,
+            borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
-          const SizedBox(height: 8),
-          GestureDetector(
-            onTap: onTap,
-            child: Container(
-              height: 120,
-              decoration: const BoxDecoration(
-                color: CpColors.blackGreyColor,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: _buildPhotoPreview(context),
-            ),
-          ),
-        ],
-      );
+          child: _buildPhotoPreview(context),
+        ),
+      ),
+    ],
+  );
 
   Widget _buildPhotoPreview(BuildContext context) => switch (currentValue) {
-        final file? => Stack(
-            fit: StackFit.expand,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                child: LayoutBuilder(
-                  builder: (context, constraints) => Image.file(
-                    file,
-                    fit: BoxFit.cover,
-                    alignment: Alignment.center,
-                    width: constraints.maxWidth,
-                    height: constraints.maxHeight,
-                  ),
+    final file? => Stack(
+      fit: StackFit.expand,
+      children: [
+        ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          child: LayoutBuilder(
+            builder:
+                (context, constraints) => Image.file(
+                  file,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                  width: constraints.maxWidth,
+                  height: constraints.maxHeight,
                 ),
-              ),
-              Positioned(
-                right: 8,
-                bottom: 8,
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.6),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        context.l10n.changeDocumentPhoto,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
           ),
-        _ => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        Positioned(
+          right: 8,
+          bottom: 8,
+          child: Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.6),
+              borderRadius: const BorderRadius.all(Radius.circular(4)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.add_a_photo,
-                  color: Colors.white.withOpacity(0.5),
-                ),
-                const SizedBox(height: 8),
+                const Icon(Icons.edit, color: Colors.white, size: 16),
+                const SizedBox(width: 4),
                 Text(
-                  context.l10n.tapToUpload,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
-                  ),
+                  context.l10n.changeDocumentPhoto,
+                  style: const TextStyle(color: Colors.white, fontSize: 12),
                 ),
               ],
             ),
           ),
-      };
+        ),
+      ],
+    ),
+    _ => Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.add_a_photo, color: Colors.white.withOpacity(0.5)),
+          const SizedBox(height: 8),
+          Text(context.l10n.tapToUpload, style: TextStyle(color: Colors.white.withOpacity(0.5))),
+        ],
+      ),
+    ),
+  };
 }
 
 class _RequiredCountryNotice extends StatelessWidget {
@@ -466,31 +417,22 @@ class _RequiredCountryNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
-          color: CpColors.blackGreyColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
+    padding: const EdgeInsets.all(16),
+    decoration: const BoxDecoration(
+      color: CpColors.blackGreyColor,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    ),
+    child: Row(
+      children: [
+        Icon(Icons.info_outline, color: Colors.white.withOpacity(0.7), size: 20),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            context.l10n.documentFromCountry,
+            style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 14),
           ),
         ),
-        child: Row(
-          children: [
-            Icon(
-              Icons.info_outline,
-              color: Colors.white.withOpacity(0.7),
-              size: 20,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                context.l10n.documentFromCountry,
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.7),
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
+      ],
+    ),
+  );
 }

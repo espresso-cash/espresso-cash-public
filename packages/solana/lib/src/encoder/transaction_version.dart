@@ -11,9 +11,7 @@ enum TransactionVersion {
     return maskedPrefix == byte
         ? TransactionVersion.legacy
         : maskedPrefix == 0
-            ? TransactionVersion.v0
-            : throw UnimplementedError(
-                'Version $maskedPrefix is not supported',
-              );
+        ? TransactionVersion.v0
+        : throw UnimplementedError('Version $maskedPrefix is not supported');
   }
 }

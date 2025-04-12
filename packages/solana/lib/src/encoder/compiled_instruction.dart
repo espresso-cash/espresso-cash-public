@@ -15,8 +15,8 @@ class CompiledInstruction with _$CompiledInstruction {
   const CompiledInstruction._();
 
   ByteArray toByteArray() => ByteArray.merge([
-        ByteArray.u8(programIdIndex),
-        CompactArray(ByteArray(accountKeyIndexes)).toByteArray(),
-        CompactArray(data).toByteArray(),
-      ]);
+    ByteArray.u8(programIdIndex),
+    CompactArray(ByteArray(accountKeyIndexes)).toByteArray(),
+    CompactArray(data).toByteArray(),
+  ]);
 }

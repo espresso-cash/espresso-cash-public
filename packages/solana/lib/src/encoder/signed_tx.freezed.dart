@@ -12,7 +12,8 @@ part of 'signed_tx.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SignedTx {
@@ -22,8 +23,7 @@ mixin _$SignedTx {
   /// Create a copy of SignedTx
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SignedTxCopyWith<SignedTx> get copyWith =>
-      throw _privateConstructorUsedError;
+  $SignedTxCopyWith<SignedTx> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -37,8 +37,7 @@ abstract class $SignedTxCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SignedTxCopyWithImpl<$Res, $Val extends SignedTx>
-    implements $SignedTxCopyWith<$Res> {
+class _$SignedTxCopyWithImpl<$Res, $Val extends SignedTx> implements $SignedTxCopyWith<$Res> {
   _$SignedTxCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -50,20 +49,22 @@ class _$SignedTxCopyWithImpl<$Res, $Val extends SignedTx>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signatures = null,
-    Object? compiledMessage = null,
-  }) {
-    return _then(_value.copyWith(
-      signatures: null == signatures
-          ? _value.signatures
-          : signatures // ignore: cast_nullable_to_non_nullable
-              as List<Signature>,
-      compiledMessage: null == compiledMessage
-          ? _value.compiledMessage
-          : compiledMessage // ignore: cast_nullable_to_non_nullable
-              as CompiledMessage,
-    ) as $Val);
+  $Res call({Object? signatures = null, Object? compiledMessage = null}) {
+    return _then(
+      _value.copyWith(
+            signatures:
+                null == signatures
+                    ? _value.signatures
+                    : signatures // ignore: cast_nullable_to_non_nullable
+                        as List<Signature>,
+            compiledMessage:
+                null == compiledMessage
+                    ? _value.compiledMessage
+                    : compiledMessage // ignore: cast_nullable_to_non_nullable
+                        as CompiledMessage,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of SignedTx
@@ -78,10 +79,8 @@ class _$SignedTxCopyWithImpl<$Res, $Val extends SignedTx>
 }
 
 /// @nodoc
-abstract class _$$SignedTxImplCopyWith<$Res>
-    implements $SignedTxCopyWith<$Res> {
-  factory _$$SignedTxImplCopyWith(
-          _$SignedTxImpl value, $Res Function(_$SignedTxImpl) then) =
+abstract class _$$SignedTxImplCopyWith<$Res> implements $SignedTxCopyWith<$Res> {
+  factory _$$SignedTxImplCopyWith(_$SignedTxImpl value, $Res Function(_$SignedTxImpl) then) =
       __$$SignedTxImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -92,42 +91,41 @@ abstract class _$$SignedTxImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$SignedTxImplCopyWithImpl<$Res>
-    extends _$SignedTxCopyWithImpl<$Res, _$SignedTxImpl>
+class __$$SignedTxImplCopyWithImpl<$Res> extends _$SignedTxCopyWithImpl<$Res, _$SignedTxImpl>
     implements _$$SignedTxImplCopyWith<$Res> {
-  __$$SignedTxImplCopyWithImpl(
-      _$SignedTxImpl _value, $Res Function(_$SignedTxImpl) _then)
-      : super(_value, _then);
+  __$$SignedTxImplCopyWithImpl(_$SignedTxImpl _value, $Res Function(_$SignedTxImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of SignedTx
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signatures = null,
-    Object? compiledMessage = null,
-  }) {
-    return _then(_$SignedTxImpl(
-      signatures: null == signatures
-          ? _value._signatures
-          : signatures // ignore: cast_nullable_to_non_nullable
-              as List<Signature>,
-      compiledMessage: null == compiledMessage
-          ? _value.compiledMessage
-          : compiledMessage // ignore: cast_nullable_to_non_nullable
-              as CompiledMessage,
-    ));
+  $Res call({Object? signatures = null, Object? compiledMessage = null}) {
+    return _then(
+      _$SignedTxImpl(
+        signatures:
+            null == signatures
+                ? _value._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Signature>,
+        compiledMessage:
+            null == compiledMessage
+                ? _value.compiledMessage
+                : compiledMessage // ignore: cast_nullable_to_non_nullable
+                    as CompiledMessage,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$SignedTxImpl extends _SignedTx {
-  const _$SignedTxImpl(
-      {final List<Signature> signatures = const <Signature>[],
-      required this.compiledMessage})
-      : _signatures = signatures,
-        super._();
+  const _$SignedTxImpl({
+    final List<Signature> signatures = const <Signature>[],
+    required this.compiledMessage,
+  }) : _signatures = signatures,
+       super._();
 
   final List<Signature> _signatures;
   @override
@@ -151,15 +149,14 @@ class _$SignedTxImpl extends _SignedTx {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignedTxImpl &&
-            const DeepCollectionEquality()
-                .equals(other._signatures, _signatures) &&
+            const DeepCollectionEquality().equals(other._signatures, _signatures) &&
             (identical(other.compiledMessage, compiledMessage) ||
                 other.compiledMessage == compiledMessage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_signatures), compiledMessage);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_signatures), compiledMessage);
 
   /// Create a copy of SignedTx
   /// with the given fields replaced by the non-null parameter values.
@@ -171,9 +168,10 @@ class _$SignedTxImpl extends _SignedTx {
 }
 
 abstract class _SignedTx extends SignedTx {
-  const factory _SignedTx(
-      {final List<Signature> signatures,
-      required final CompiledMessage compiledMessage}) = _$SignedTxImpl;
+  const factory _SignedTx({
+    final List<Signature> signatures,
+    required final CompiledMessage compiledMessage,
+  }) = _$SignedTxImpl;
   const _SignedTx._() : super._();
 
   @override
@@ -185,6 +183,5 @@ abstract class _SignedTx extends SignedTx {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SignedTxImplCopyWith<_$SignedTxImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SignedTxImplCopyWith<_$SignedTxImpl> get copyWith => throw _privateConstructorUsedError;
 }

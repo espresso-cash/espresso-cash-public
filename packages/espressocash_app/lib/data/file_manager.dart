@@ -12,7 +12,6 @@ class FileManager {
       .then((d) => join(d.path, basename(file.path)))
       .then(file.copy);
 
-  Future<File> loadFromAppDir(String path) => getApplicationDocumentsDirectory()
-      .then((d) => join(d.path, path))
-      .then(File.new);
+  Future<File> loadFromAppDir(String path) =>
+      getApplicationDocumentsDirectory().then((d) => join(d.path, path)).then(File.new);
 }

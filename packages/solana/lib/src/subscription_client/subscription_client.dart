@@ -19,11 +19,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 /// Provides a websocket based connection to Solana.
 class SubscriptionClient {
-  SubscriptionClient(
-    Uri uri, {
-    Duration? pingInterval,
-    Duration? connectTimeout,
-  }) {
+  SubscriptionClient(Uri uri, {Duration? pingInterval, Duration? connectTimeout}) {
     final channel = IOWebSocketChannel.connect(
       uri,
       pingInterval: pingInterval,
@@ -54,17 +50,16 @@ class SubscriptionClient {
     String address, {
     Commitment? commitment,
     Encoding encoding = Encoding.jsonParsed,
-  }) =>
-      _subscribe<Account>(
-        'account',
-        params: <dynamic>[
-          address,
-          <String, String>{
-            if (commitment != null) 'commitment': commitment.value,
-            'encoding': encoding.value,
-          },
-        ],
-      );
+  }) => _subscribe<Account>(
+    'account',
+    params: <dynamic>[
+      address,
+      <String, String>{
+        if (commitment != null) 'commitment': commitment.value,
+        'encoding': encoding.value,
+      },
+    ],
+  );
 
   /// Subscribe to transaction logging.
   ///
@@ -77,26 +72,17 @@ class SubscriptionClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Stream<Logs> logsSubscribe(
-    LogsFilter filter, {
-    Commitment? commitment,
-  }) =>
-      _subscribe<Logs>(
-        'logs',
-        params: <dynamic>[
-          filter.when(
-            all: () => 'all',
-            allWithVotes: () => 'allWithVotes',
-            mentions: (pubKeys) => <String, List<String>>{
-              'mentions': pubKeys,
-            },
-          ),
-          if (commitment != null)
-            <String, String>{
-              'commitment': commitment.value,
-            },
-        ],
-      );
+  Stream<Logs> logsSubscribe(LogsFilter filter, {Commitment? commitment}) => _subscribe<Logs>(
+    'logs',
+    params: <dynamic>[
+      filter.when(
+        all: () => 'all',
+        allWithVotes: () => 'allWithVotes',
+        mentions: (pubKeys) => <String, List<String>>{'mentions': pubKeys},
+      ),
+      if (commitment != null) <String, String>{'commitment': commitment.value},
+    ],
+  );
 
   /// Subscribe to a program to receive notifications when the lamports or data
   /// for a given account owned by the program changes.
@@ -115,21 +101,15 @@ class SubscriptionClient {
     Encoding encoding = Encoding.jsonParsed,
     List<ProgramFilter>? filters,
     Commitment? commitment,
-  }) =>
-      _subscribe<dynamic>(
-        'program',
-        params: <dynamic>[
-          programId,
-          <String, String>{
-            'encoding': encoding.value,
-          },
-          ...?filters,
-          if (commitment != null)
-            <String, String>{
-              'commitment': commitment.value,
-            },
-        ],
-      );
+  }) => _subscribe<dynamic>(
+    'program',
+    params: <dynamic>[
+      programId,
+      <String, String>{'encoding': encoding.value},
+      ...?filters,
+      if (commitment != null) <String, String>{'commitment': commitment.value},
+    ],
+  );
 
   /// Subscribe to a transaction signature to receive notification when the
   /// transaction is confirmed On signatureNotification, the subscription is
@@ -144,18 +124,12 @@ class SubscriptionClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [1]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  Stream<OptionalError> signatureSubscribe(
-    String signature, {
-    Commitment? commitment,
-  }) =>
+  Stream<OptionalError> signatureSubscribe(String signature, {Commitment? commitment}) =>
       _subscribe<OptionalError>(
         'signature',
         params: <dynamic>[
           signature,
-          if (commitment != null)
-            <String, String>{
-              'commitment': commitment.value,
-            },
+          if (commitment != null) <String, String>{'commitment': commitment.value},
         ],
         singleShot: true,
       );
@@ -191,11 +165,7 @@ class SubscriptionClient {
 
   bool _isClosed = false;
 
-  Stream<T> _subscribe<T>(
-    String method, {
-    List<dynamic>? params,
-    bool singleShot = false,
-  }) {
+  Stream<T> _subscribe<T>(String method, {List<dynamic>? params, bool singleShot = false}) {
     if (_isClosed) {
       throw StateError('Subscribe should not be called after close.');
     }
@@ -235,11 +205,7 @@ class SubscriptionClient {
         final id = subscriptionId;
         if (id == null) return;
 
-        _sendRequest(
-          _requestId++,
-          '${method}Unsubscribe',
-          <int>[id],
-        );
+        _sendRequest(_requestId++, '${method}Unsubscribe', <int>[id]);
       };
 
       _sendRequest(requestId, '${method}Subscribe', params);
@@ -255,16 +221,10 @@ class SubscriptionClient {
       return SubscriptionMessage.fromJson(parsed);
     }
 
-    throw FormatException(
-      'unexpected type received through the websocket ${event.runtimeType}',
-    );
+    throw FormatException('unexpected type received through the websocket ${event.runtimeType}');
   }
 
-  void _sendRequest(
-    int id,
-    String method,
-    List<dynamic>? params,
-  ) {
+  void _sendRequest(int id, String method, List<dynamic>? params) {
     // If connection is already closed, ignore the request.
     // Otherwise, it will try to send unsubscription request when
     // the client just closes the connection instead of unsubscribing.

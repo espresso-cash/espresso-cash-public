@@ -35,40 +35,32 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
-        child: ValueStreamBuilder<bool>(
-          create: () => (
-            sl<TokenBalancesRepository>()
-                .watchUserTokens()
-                .map((it) => it.isEmpty),
-            true
-          ),
-          builder: (context, isEmpty) => isEmpty
-              ? const HomeAddCashContent()
-              : _MainContent(
-                  onSendMoneyPressed: onSendMoneyPressed,
-                  onTransactionsPressed: onTransactionsPressed,
-                ),
-        ),
-      );
+    child: ValueStreamBuilder<bool>(
+      create: () => (sl<TokenBalancesRepository>().watchUserTokens().map((it) => it.isEmpty), true),
+      builder:
+          (context, isEmpty) =>
+              isEmpty
+                  ? const HomeAddCashContent()
+                  : _MainContent(
+                    onSendMoneyPressed: onSendMoneyPressed,
+                    onTransactionsPressed: onTransactionsPressed,
+                  ),
+    ),
+  );
 }
 
 class _MainContent extends StatelessWidget {
-  const _MainContent({
-    required this.onSendMoneyPressed,
-    required this.onTransactionsPressed,
-  });
+  const _MainContent({required this.onSendMoneyPressed, required this.onTransactionsPressed});
 
   final VoidCallback onSendMoneyPressed;
   final VoidCallback onTransactionsPressed;
 
   @override
   Widget build(BuildContext context) => RefreshBalancesWrapper(
-        builder: (context, onRefresh) => RefreshIndicator(
+    builder:
+        (context, onRefresh) => RefreshIndicator(
           displacement: 80,
-          onRefresh: () => Future.wait([
-            onRefresh(),
-            sl<TxUpdater>().call(),
-          ]),
+          onRefresh: () => Future.wait([onRefresh(), sl<TxUpdater>().call()]),
           color: CpColors.primaryColor,
           backgroundColor: Colors.white,
           child: Scaffold(
@@ -79,10 +71,7 @@ class _MainContent extends StatelessWidget {
                 Container(
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [
-                        CpColors.darkSandColor,
-                        CpColors.deepGreyColor,
-                      ],
+                      colors: [CpColors.darkSandColor, CpColors.deepGreyColor],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       stops: [0.49, 0.51],
@@ -97,7 +86,7 @@ class _MainContent extends StatelessWidget {
             ),
           ),
         ),
-      );
+  );
 }
 
 class _HomeScrollableRegion extends StatelessWidget {
@@ -111,56 +100,46 @@ class _HomeScrollableRegion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ClipRRect(
-        borderRadius: _borderRadius,
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.paddingOf(context).bottom,
+    borderRadius: _borderRadius,
+    child: SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+      child: Column(
+        children: [
+          const InvestmentHeader(),
+          DecoratedBox(
+            decoration: const BoxDecoration(
+              color: CpColors.deepGreyColor,
+              borderRadius: _borderRadius,
+              boxShadow: _dashboardBoxShadow,
+            ),
+            child: _Buttons(onSendMoneyPressed: onSendMoneyPressed),
           ),
-          child: Column(
-            children: [
-              const InvestmentHeader(),
-              DecoratedBox(
-                decoration: const BoxDecoration(
-                  color: CpColors.deepGreyColor,
-                  borderRadius: _borderRadius,
-                  boxShadow: _dashboardBoxShadow,
+          const _HomeDivider(),
+          ValueStreamBuilder<IList<CryptoAmount>>(
+            create:
+                () => (
+                  sl<TokenBalancesRepository>().watchTokenBalances(ignoreTokens: [Token.usdc]),
+                  const IListConst([]),
                 ),
-                child: _Buttons(
-                  onSendMoneyPressed: onSendMoneyPressed,
-                ),
-              ),
-              const _HomeDivider(),
-              ValueStreamBuilder<IList<CryptoAmount>>(
-                create: () => (
-                  sl<TokenBalancesRepository>().watchTokenBalances(
-                    ignoreTokens: [Token.usdc],
-                  ),
-                  const IListConst([])
-                ),
-                builder: (context, tokens) => tokens.isNotEmpty
-                    ? const SizedBox.shrink()
-                    : HomeCarouselWidget(
-                        onSendMoneyPressed: onSendMoneyPressed,
-                      ),
-              ),
-              const PortfolioWidget(),
-              RecentActivityWidget(
-                onSendMoneyPressed: onSendMoneyPressed,
-                onTransactionsPressed: onTransactionsPressed,
-              ),
-              SizedBox(
-                height: max(
-                  0,
-                  MediaQuery.paddingOf(context).bottom -
-                      cpNavigationBarheight +
-                      16,
-                ),
-              ),
-            ],
+            builder:
+                (context, tokens) =>
+                    tokens.isNotEmpty
+                        ? const SizedBox.shrink()
+                        : HomeCarouselWidget(onSendMoneyPressed: onSendMoneyPressed),
           ),
-        ),
-      );
+          const PortfolioWidget(),
+          RecentActivityWidget(
+            onSendMoneyPressed: onSendMoneyPressed,
+            onTransactionsPressed: onTransactionsPressed,
+          ),
+          SizedBox(
+            height: max(0, MediaQuery.paddingOf(context).bottom - cpNavigationBarheight + 16),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 class _Buttons extends StatelessWidget {
@@ -170,48 +149,35 @@ class _Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(
-          left: 18,
-          top: 32,
-          right: 18,
-          bottom: 8,
+    padding: const EdgeInsets.only(left: 18, top: 32, right: 18, bottom: 8),
+    child: Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        FittedBox(
+          child: Text(
+            context.l10n.investmentHeaderButtonsTitle,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 17,
+              letterSpacing: 0.23,
+            ),
+          ),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        const SizedBox(height: 19),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            FittedBox(
-              child: Text(
-                context.l10n.investmentHeaderButtonsTitle,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 17,
-                  letterSpacing: 0.23,
-                ),
-              ),
-            ),
-            const SizedBox(height: 19),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: PayOrRequestButton(
-                    voidCallback: onSendMoneyPressed,
-                  ),
-                ),
-                const Expanded(
-                  child: AddCashButton(size: CpButtonSize.wide),
-                ),
-                const Expanded(
-                  child: CashOutButton(size: CpButtonSize.wide),
-                ),
-              ],
-            ),
+            Expanded(child: PayOrRequestButton(voidCallback: onSendMoneyPressed)),
+            const Expanded(child: AddCashButton(size: CpButtonSize.wide)),
+            const Expanded(child: CashOutButton(size: CpButtonSize.wide)),
           ],
         ),
-      );
+      ],
+    ),
+  );
 }
 
 class _HomeDivider extends StatelessWidget {
@@ -219,26 +185,11 @@ class _HomeDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.only(
-          top: 28,
-          bottom: 18,
-        ),
-        decoration: const BoxDecoration(
-          color: CpColors.deepGreyColor,
-          boxShadow: _dashboardBoxShadow,
-        ),
-        child: const Divider(
-          color: CpColors.homeDividerColor,
-          thickness: 1.0,
-          height: 1.0,
-        ),
-      );
+    padding: const EdgeInsets.only(top: 28, bottom: 18),
+    decoration: const BoxDecoration(color: CpColors.deepGreyColor, boxShadow: _dashboardBoxShadow),
+    child: const Divider(color: CpColors.homeDividerColor, thickness: 1.0, height: 1.0),
+  );
 }
 
 const _borderRadius = BorderRadius.vertical(top: Radius.circular(31));
-const _dashboardBoxShadow = [
-  BoxShadow(
-    color: CpColors.deepGreyColor,
-    offset: Offset(0, 2),
-  ),
-];
+const _dashboardBoxShadow = [BoxShadow(color: CpColors.deepGreyColor, offset: Offset(0, 2))];

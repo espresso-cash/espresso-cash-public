@@ -11,10 +11,7 @@ import 'di.config.dart';
 
 final sl = GetIt.instance;
 
-@InjectableInit(
-  preferRelativeImports: false,
-  throwOnMissingDependencies: true,
-)
+@InjectableInit(preferRelativeImports: false, throwOnMissingDependencies: true)
 Future<void> configureDependencies() => sl.init();
 
 @module
@@ -28,10 +25,8 @@ abstract class AppModule {
   Dio get dio => Dio();
 
   @lazySingleton
-  SolanaClient get solanaClient => SolanaClient(
-        rpcUrl: Uri.parse(solanaRpcUrl),
-        websocketUrl: Uri.parse(solanaWebSocketUrl),
-      );
+  SolanaClient get solanaClient =>
+      SolanaClient(rpcUrl: Uri.parse(solanaRpcUrl), websocketUrl: Uri.parse(solanaWebSocketUrl));
 
   @lazySingleton
   RpcClient get rpcClient => solanaClient.rpcClient;

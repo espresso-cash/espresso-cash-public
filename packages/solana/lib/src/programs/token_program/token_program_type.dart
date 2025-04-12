@@ -1,9 +1,6 @@
 import 'package:solana/solana.dart';
 
-enum TokenProgramType {
-  tokenProgram,
-  token2022Program,
-}
+enum TokenProgramType { tokenProgram, token2022Program }
 
 extension TokenProgramTypeExt on TokenProgramType {
   Ed25519HDPublicKey get id {

@@ -62,10 +62,7 @@ class ProfileSection extends StatelessWidget {
               color: color,
               child: Padding(
                 padding: padding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: actions,
-                ),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: actions),
               ),
             ),
           ),

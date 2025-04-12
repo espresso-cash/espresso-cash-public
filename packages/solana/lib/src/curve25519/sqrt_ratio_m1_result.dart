@@ -8,10 +8,7 @@ final FieldElement sqrtM1 = FieldElement.fromConstList(
 );
 
 class SqrtRatioM1Result {
-  const SqrtRatioM1Result(
-    this.result, {
-    required this.wasSquare,
-  });
+  const SqrtRatioM1Result(this.result, {required this.wasSquare});
 
   final bool wasSquare;
   final FieldElement result;

@@ -12,7 +12,8 @@ part of 'sign_and_send_transactions.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SignAndSendTransactionsRequest {
@@ -25,31 +26,33 @@ mixin _$SignAndSendTransactionsRequest {
   int? get minContextSlot => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SignAndSendTransactionsRequestCopyWith<SignAndSendTransactionsRequest>
-      get copyWith => throw _privateConstructorUsedError;
+  $SignAndSendTransactionsRequestCopyWith<SignAndSendTransactionsRequest> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SignAndSendTransactionsRequestCopyWith<$Res> {
   factory $SignAndSendTransactionsRequestCopyWith(
-          SignAndSendTransactionsRequest value,
-          $Res Function(SignAndSendTransactionsRequest) then) =
-      _$SignAndSendTransactionsRequestCopyWithImpl<$Res,
-          SignAndSendTransactionsRequest>;
+    SignAndSendTransactionsRequest value,
+    $Res Function(SignAndSendTransactionsRequest) then,
+  ) = _$SignAndSendTransactionsRequestCopyWithImpl<$Res, SignAndSendTransactionsRequest>;
   @useResult
-  $Res call(
-      {String? identityName,
-      Uri? identityUri,
-      Uri? iconRelativeUri,
-      String cluster,
-      Uint8List authorizationScope,
-      List<Uint8List> transactions,
-      int? minContextSlot});
+  $Res call({
+    String? identityName,
+    Uri? identityUri,
+    Uri? iconRelativeUri,
+    String cluster,
+    Uint8List authorizationScope,
+    List<Uint8List> transactions,
+    int? minContextSlot,
+  });
 }
 
 /// @nodoc
-class _$SignAndSendTransactionsRequestCopyWithImpl<$Res,
-        $Val extends SignAndSendTransactionsRequest>
+class _$SignAndSendTransactionsRequestCopyWithImpl<
+  $Res,
+  $Val extends SignAndSendTransactionsRequest
+>
     implements $SignAndSendTransactionsRequestCopyWith<$Res> {
   _$SignAndSendTransactionsRequestCopyWithImpl(this._value, this._then);
 
@@ -69,67 +72,77 @@ class _$SignAndSendTransactionsRequestCopyWithImpl<$Res,
     Object? transactions = null,
     Object? minContextSlot = freezed,
   }) {
-    return _then(_value.copyWith(
-      identityName: freezed == identityName
-          ? _value.identityName
-          : identityName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      identityUri: freezed == identityUri
-          ? _value.identityUri
-          : identityUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      iconRelativeUri: freezed == iconRelativeUri
-          ? _value.iconRelativeUri
-          : iconRelativeUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      cluster: null == cluster
-          ? _value.cluster
-          : cluster // ignore: cast_nullable_to_non_nullable
-              as String,
-      authorizationScope: null == authorizationScope
-          ? _value.authorizationScope
-          : authorizationScope // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      transactions: null == transactions
-          ? _value.transactions
-          : transactions // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-      minContextSlot: freezed == minContextSlot
-          ? _value.minContextSlot
-          : minContextSlot // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            identityName:
+                freezed == identityName
+                    ? _value.identityName
+                    : identityName // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            identityUri:
+                freezed == identityUri
+                    ? _value.identityUri
+                    : identityUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+            iconRelativeUri:
+                freezed == iconRelativeUri
+                    ? _value.iconRelativeUri
+                    : iconRelativeUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+            cluster:
+                null == cluster
+                    ? _value.cluster
+                    : cluster // ignore: cast_nullable_to_non_nullable
+                        as String,
+            authorizationScope:
+                null == authorizationScope
+                    ? _value.authorizationScope
+                    : authorizationScope // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
+            transactions:
+                null == transactions
+                    ? _value.transactions
+                    : transactions // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
+            minContextSlot:
+                freezed == minContextSlot
+                    ? _value.minContextSlot
+                    : minContextSlot // ignore: cast_nullable_to_non_nullable
+                        as int?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_SignAndSendTransactionsRequestCopyWith<$Res>
+abstract class _$$SignAndSendTransactionsRequestImplCopyWith<$Res>
     implements $SignAndSendTransactionsRequestCopyWith<$Res> {
-  factory _$$_SignAndSendTransactionsRequestCopyWith(
-          _$_SignAndSendTransactionsRequest value,
-          $Res Function(_$_SignAndSendTransactionsRequest) then) =
-      __$$_SignAndSendTransactionsRequestCopyWithImpl<$Res>;
+  factory _$$SignAndSendTransactionsRequestImplCopyWith(
+    _$SignAndSendTransactionsRequestImpl value,
+    $Res Function(_$SignAndSendTransactionsRequestImpl) then,
+  ) = __$$SignAndSendTransactionsRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String? identityName,
-      Uri? identityUri,
-      Uri? iconRelativeUri,
-      String cluster,
-      Uint8List authorizationScope,
-      List<Uint8List> transactions,
-      int? minContextSlot});
+  $Res call({
+    String? identityName,
+    Uri? identityUri,
+    Uri? iconRelativeUri,
+    String cluster,
+    Uint8List authorizationScope,
+    List<Uint8List> transactions,
+    int? minContextSlot,
+  });
 }
 
 /// @nodoc
-class __$$_SignAndSendTransactionsRequestCopyWithImpl<$Res>
-    extends _$SignAndSendTransactionsRequestCopyWithImpl<$Res,
-        _$_SignAndSendTransactionsRequest>
-    implements _$$_SignAndSendTransactionsRequestCopyWith<$Res> {
-  __$$_SignAndSendTransactionsRequestCopyWithImpl(
-      _$_SignAndSendTransactionsRequest _value,
-      $Res Function(_$_SignAndSendTransactionsRequest) _then)
-      : super(_value, _then);
+class __$$SignAndSendTransactionsRequestImplCopyWithImpl<$Res>
+    extends _$SignAndSendTransactionsRequestCopyWithImpl<$Res, _$SignAndSendTransactionsRequestImpl>
+    implements _$$SignAndSendTransactionsRequestImplCopyWith<$Res> {
+  __$$SignAndSendTransactionsRequestImplCopyWithImpl(
+    _$SignAndSendTransactionsRequestImpl _value,
+    $Res Function(_$SignAndSendTransactionsRequestImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -142,52 +155,60 @@ class __$$_SignAndSendTransactionsRequestCopyWithImpl<$Res>
     Object? transactions = null,
     Object? minContextSlot = freezed,
   }) {
-    return _then(_$_SignAndSendTransactionsRequest(
-      identityName: freezed == identityName
-          ? _value.identityName
-          : identityName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      identityUri: freezed == identityUri
-          ? _value.identityUri
-          : identityUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      iconRelativeUri: freezed == iconRelativeUri
-          ? _value.iconRelativeUri
-          : iconRelativeUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      cluster: null == cluster
-          ? _value.cluster
-          : cluster // ignore: cast_nullable_to_non_nullable
-              as String,
-      authorizationScope: null == authorizationScope
-          ? _value.authorizationScope
-          : authorizationScope // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      transactions: null == transactions
-          ? _value._transactions
-          : transactions // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-      minContextSlot: freezed == minContextSlot
-          ? _value.minContextSlot
-          : minContextSlot // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
+    return _then(
+      _$SignAndSendTransactionsRequestImpl(
+        identityName:
+            freezed == identityName
+                ? _value.identityName
+                : identityName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        identityUri:
+            freezed == identityUri
+                ? _value.identityUri
+                : identityUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        iconRelativeUri:
+            freezed == iconRelativeUri
+                ? _value.iconRelativeUri
+                : iconRelativeUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        cluster:
+            null == cluster
+                ? _value.cluster
+                : cluster // ignore: cast_nullable_to_non_nullable
+                    as String,
+        authorizationScope:
+            null == authorizationScope
+                ? _value.authorizationScope
+                : authorizationScope // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        transactions:
+            null == transactions
+                ? _value._transactions
+                : transactions // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+        minContextSlot:
+            freezed == minContextSlot
+                ? _value.minContextSlot
+                : minContextSlot // ignore: cast_nullable_to_non_nullable
+                    as int?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_SignAndSendTransactionsRequest
-    implements _SignAndSendTransactionsRequest {
-  const _$_SignAndSendTransactionsRequest(
-      {required this.identityName,
-      required this.identityUri,
-      required this.iconRelativeUri,
-      required this.cluster,
-      required this.authorizationScope,
-      required final List<Uint8List> transactions,
-      required this.minContextSlot})
-      : _transactions = transactions;
+class _$SignAndSendTransactionsRequestImpl implements _SignAndSendTransactionsRequest {
+  const _$SignAndSendTransactionsRequestImpl({
+    required this.identityName,
+    required this.identityUri,
+    required this.iconRelativeUri,
+    required this.cluster,
+    required this.authorizationScope,
+    required final List<Uint8List> transactions,
+    required this.minContextSlot,
+  }) : _transactions = transactions;
 
   @override
   final String? identityName;
@@ -216,54 +237,54 @@ class _$_SignAndSendTransactionsRequest
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SignAndSendTransactionsRequest &&
-            (identical(other.identityName, identityName) ||
-                other.identityName == identityName) &&
-            (identical(other.identityUri, identityUri) ||
-                other.identityUri == identityUri) &&
+            other is _$SignAndSendTransactionsRequestImpl &&
+            (identical(other.identityName, identityName) || other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
             (identical(other.iconRelativeUri, iconRelativeUri) ||
                 other.iconRelativeUri == iconRelativeUri) &&
             (identical(other.cluster, cluster) || other.cluster == cluster) &&
-            const DeepCollectionEquality()
-                .equals(other.authorizationScope, authorizationScope) &&
-            const DeepCollectionEquality()
-                .equals(other._transactions, _transactions) &&
+            const DeepCollectionEquality().equals(other.authorizationScope, authorizationScope) &&
+            const DeepCollectionEquality().equals(other._transactions, _transactions) &&
             (identical(other.minContextSlot, minContextSlot) ||
                 other.minContextSlot == minContextSlot));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      identityName,
-      identityUri,
-      iconRelativeUri,
-      cluster,
-      const DeepCollectionEquality().hash(authorizationScope),
-      const DeepCollectionEquality().hash(_transactions),
-      minContextSlot);
+    runtimeType,
+    identityName,
+    identityUri,
+    iconRelativeUri,
+    cluster,
+    const DeepCollectionEquality().hash(authorizationScope),
+    const DeepCollectionEquality().hash(_transactions),
+    minContextSlot,
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SignAndSendTransactionsRequestCopyWith<_$_SignAndSendTransactionsRequest>
-      get copyWith => __$$_SignAndSendTransactionsRequestCopyWithImpl<
-          _$_SignAndSendTransactionsRequest>(this, _$identity);
+  _$$SignAndSendTransactionsRequestImplCopyWith<_$SignAndSendTransactionsRequestImpl>
+  get copyWith =>
+      __$$SignAndSendTransactionsRequestImplCopyWithImpl<_$SignAndSendTransactionsRequestImpl>(
+        this,
+        _$identity,
+      );
 }
 
-abstract class _SignAndSendTransactionsRequest
-    implements SignAndSendTransactionsRequest {
-  const factory _SignAndSendTransactionsRequest(
-      {required final String? identityName,
-      required final Uri? identityUri,
-      required final Uri? iconRelativeUri,
-      required final String cluster,
-      required final Uint8List authorizationScope,
-      required final List<Uint8List> transactions,
-      required final int? minContextSlot}) = _$_SignAndSendTransactionsRequest;
+abstract class _SignAndSendTransactionsRequest implements SignAndSendTransactionsRequest {
+  const factory _SignAndSendTransactionsRequest({
+    required final String? identityName,
+    required final Uri? identityUri,
+    required final Uri? iconRelativeUri,
+    required final String cluster,
+    required final Uint8List authorizationScope,
+    required final List<Uint8List> transactions,
+    required final int? minContextSlot,
+  }) = _$SignAndSendTransactionsRequestImpl;
 
   @override
   String? get identityName;
@@ -281,8 +302,8 @@ abstract class _SignAndSendTransactionsRequest
   int? get minContextSlot;
   @override
   @JsonKey(ignore: true)
-  _$$_SignAndSendTransactionsRequestCopyWith<_$_SignAndSendTransactionsRequest>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$SignAndSendTransactionsRequestImplCopyWith<_$SignAndSendTransactionsRequestImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -295,8 +316,7 @@ mixin _$SignaturesResult {
     required TResult Function() tooManyPayloads,
     required TResult Function() authorizationNotValid,
     required TResult Function(List<Uint8List> signatures) notSubmitted,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(List<Uint8List> signatures)? $default, {
@@ -305,8 +325,7 @@ mixin _$SignaturesResult {
     TResult? Function()? tooManyPayloads,
     TResult? Function()? authorizationNotValid,
     TResult? Function(List<Uint8List> signatures)? notSubmitted,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(List<Uint8List> signatures)? $default, {
@@ -316,19 +335,16 @@ mixin _$SignaturesResult {
     TResult Function()? authorizationNotValid,
     TResult Function(List<Uint8List> signatures)? notSubmitted,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_SignaturesResult value) $default, {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult? Function(_SignaturesResult value)? $default, {
@@ -337,8 +353,7 @@ mixin _$SignaturesResult {
     TResult? Function(_TooManyPayloads value)? tooManyPayloads,
     TResult? Function(_AuthorizationNotValid value)? authorizationNotValid,
     TResult? Function(_NotSubmitted value)? notSubmitted,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_SignaturesResult value)? $default, {
@@ -348,14 +363,12 @@ mixin _$SignaturesResult {
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
     TResult Function(_NotSubmitted value)? notSubmitted,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SignaturesResultCopyWith<$Res> {
-  factory $SignaturesResultCopyWith(
-          SignaturesResult value, $Res Function(SignaturesResult) then) =
+  factory $SignaturesResultCopyWith(SignaturesResult value, $Res Function(SignaturesResult) then) =
       _$SignaturesResultCopyWithImpl<$Res, SignaturesResult>;
 }
 
@@ -371,42 +384,45 @@ class _$SignaturesResultCopyWithImpl<$Res, $Val extends SignaturesResult>
 }
 
 /// @nodoc
-abstract class _$$_SignaturesResultCopyWith<$Res> {
-  factory _$$_SignaturesResultCopyWith(
-          _$_SignaturesResult value, $Res Function(_$_SignaturesResult) then) =
-      __$$_SignaturesResultCopyWithImpl<$Res>;
+abstract class _$$SignaturesResultImplCopyWith<$Res> {
+  factory _$$SignaturesResultImplCopyWith(
+    _$SignaturesResultImpl value,
+    $Res Function(_$SignaturesResultImpl) then,
+  ) = __$$SignaturesResultImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<Uint8List> signatures});
 }
 
 /// @nodoc
-class __$$_SignaturesResultCopyWithImpl<$Res>
-    extends _$SignaturesResultCopyWithImpl<$Res, _$_SignaturesResult>
-    implements _$$_SignaturesResultCopyWith<$Res> {
-  __$$_SignaturesResultCopyWithImpl(
-      _$_SignaturesResult _value, $Res Function(_$_SignaturesResult) _then)
-      : super(_value, _then);
+class __$$SignaturesResultImplCopyWithImpl<$Res>
+    extends _$SignaturesResultCopyWithImpl<$Res, _$SignaturesResultImpl>
+    implements _$$SignaturesResultImplCopyWith<$Res> {
+  __$$SignaturesResultImplCopyWithImpl(
+    _$SignaturesResultImpl _value,
+    $Res Function(_$SignaturesResultImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signatures = null,
-  }) {
-    return _then(_$_SignaturesResult(
-      signatures: null == signatures
-          ? _value._signatures
-          : signatures // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ));
+  $Res call({Object? signatures = null}) {
+    return _then(
+      _$SignaturesResultImpl(
+        signatures:
+            null == signatures
+                ? _value._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_SignaturesResult extends _SignaturesResult {
-  const _$_SignaturesResult({required final List<Uint8List> signatures})
-      : _signatures = signatures,
-        super._();
+class _$SignaturesResultImpl extends _SignaturesResult {
+  const _$SignaturesResultImpl({required final List<Uint8List> signatures})
+    : _signatures = signatures,
+      super._();
 
   final List<Uint8List> _signatures;
   @override
@@ -422,23 +438,21 @@ class _$_SignaturesResult extends _SignaturesResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SignaturesResult &&
-            const DeepCollectionEquality()
-                .equals(other._signatures, _signatures));
+            other is _$SignaturesResultImpl &&
+            const DeepCollectionEquality().equals(other._signatures, _signatures));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_signatures));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_signatures));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SignaturesResultCopyWith<_$_SignaturesResult> get copyWith =>
-      __$$_SignaturesResultCopyWithImpl<_$_SignaturesResult>(this, _$identity);
+  _$$SignaturesResultImplCopyWith<_$SignaturesResultImpl> get copyWith =>
+      __$$SignaturesResultImplCopyWithImpl<_$SignaturesResultImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -490,8 +504,7 @@ class _$_SignaturesResult extends _SignaturesResult {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return $default(this);
@@ -530,35 +543,37 @@ class _$_SignaturesResult extends _SignaturesResult {
 
 abstract class _SignaturesResult extends SignaturesResult {
   const factory _SignaturesResult({required final List<Uint8List> signatures}) =
-      _$_SignaturesResult;
+      _$SignaturesResultImpl;
   const _SignaturesResult._() : super._();
 
   List<Uint8List> get signatures;
   @JsonKey(ignore: true)
-  _$$_SignaturesResultCopyWith<_$_SignaturesResult> get copyWith =>
+  _$$SignaturesResultImplCopyWith<_$SignaturesResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_RequestDeclinedCopyWith<$Res> {
-  factory _$$_RequestDeclinedCopyWith(
-          _$_RequestDeclined value, $Res Function(_$_RequestDeclined) then) =
-      __$$_RequestDeclinedCopyWithImpl<$Res>;
+abstract class _$$RequestDeclinedImplCopyWith<$Res> {
+  factory _$$RequestDeclinedImplCopyWith(
+    _$RequestDeclinedImpl value,
+    $Res Function(_$RequestDeclinedImpl) then,
+  ) = __$$RequestDeclinedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_RequestDeclinedCopyWithImpl<$Res>
-    extends _$SignaturesResultCopyWithImpl<$Res, _$_RequestDeclined>
-    implements _$$_RequestDeclinedCopyWith<$Res> {
-  __$$_RequestDeclinedCopyWithImpl(
-      _$_RequestDeclined _value, $Res Function(_$_RequestDeclined) _then)
-      : super(_value, _then);
+class __$$RequestDeclinedImplCopyWithImpl<$Res>
+    extends _$SignaturesResultCopyWithImpl<$Res, _$RequestDeclinedImpl>
+    implements _$$RequestDeclinedImplCopyWith<$Res> {
+  __$$RequestDeclinedImplCopyWithImpl(
+    _$RequestDeclinedImpl _value,
+    $Res Function(_$RequestDeclinedImpl) _then,
+  ) : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_RequestDeclined extends _RequestDeclined {
-  const _$_RequestDeclined() : super._();
+class _$RequestDeclinedImpl extends _RequestDeclined {
+  const _$RequestDeclinedImpl() : super._();
 
   @override
   String toString() {
@@ -566,9 +581,9 @@ class _$_RequestDeclined extends _RequestDeclined {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_RequestDeclined);
+        (other.runtimeType == runtimeType && other is _$RequestDeclinedImpl);
   }
 
   @override
@@ -624,8 +639,7 @@ class _$_RequestDeclined extends _RequestDeclined {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return requestDeclined(this);
@@ -663,47 +677,48 @@ class _$_RequestDeclined extends _RequestDeclined {
 }
 
 abstract class _RequestDeclined extends SignaturesResult {
-  const factory _RequestDeclined() = _$_RequestDeclined;
+  const factory _RequestDeclined() = _$RequestDeclinedImpl;
   const _RequestDeclined._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_InvalidPayloadsCopyWith<$Res> {
-  factory _$$_InvalidPayloadsCopyWith(
-          _$_InvalidPayloads value, $Res Function(_$_InvalidPayloads) then) =
-      __$$_InvalidPayloadsCopyWithImpl<$Res>;
+abstract class _$$InvalidPayloadsImplCopyWith<$Res> {
+  factory _$$InvalidPayloadsImplCopyWith(
+    _$InvalidPayloadsImpl value,
+    $Res Function(_$InvalidPayloadsImpl) then,
+  ) = __$$InvalidPayloadsImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<bool> valid});
 }
 
 /// @nodoc
-class __$$_InvalidPayloadsCopyWithImpl<$Res>
-    extends _$SignaturesResultCopyWithImpl<$Res, _$_InvalidPayloads>
-    implements _$$_InvalidPayloadsCopyWith<$Res> {
-  __$$_InvalidPayloadsCopyWithImpl(
-      _$_InvalidPayloads _value, $Res Function(_$_InvalidPayloads) _then)
-      : super(_value, _then);
+class __$$InvalidPayloadsImplCopyWithImpl<$Res>
+    extends _$SignaturesResultCopyWithImpl<$Res, _$InvalidPayloadsImpl>
+    implements _$$InvalidPayloadsImplCopyWith<$Res> {
+  __$$InvalidPayloadsImplCopyWithImpl(
+    _$InvalidPayloadsImpl _value,
+    $Res Function(_$InvalidPayloadsImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? valid = null,
-  }) {
-    return _then(_$_InvalidPayloads(
-      valid: null == valid
-          ? _value._valid
-          : valid // ignore: cast_nullable_to_non_nullable
-              as List<bool>,
-    ));
+  $Res call({Object? valid = null}) {
+    return _then(
+      _$InvalidPayloadsImpl(
+        valid:
+            null == valid
+                ? _value._valid
+                : valid // ignore: cast_nullable_to_non_nullable
+                    as List<bool>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_InvalidPayloads extends _InvalidPayloads {
-  const _$_InvalidPayloads({required final List<bool> valid})
-      : _valid = valid,
-        super._();
+class _$InvalidPayloadsImpl extends _InvalidPayloads {
+  const _$InvalidPayloadsImpl({required final List<bool> valid}) : _valid = valid, super._();
 
   final List<bool> _valid;
   @override
@@ -719,22 +734,21 @@ class _$_InvalidPayloads extends _InvalidPayloads {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_InvalidPayloads &&
+            other is _$InvalidPayloadsImpl &&
             const DeepCollectionEquality().equals(other._valid, _valid));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_valid));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_valid));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_InvalidPayloadsCopyWith<_$_InvalidPayloads> get copyWith =>
-      __$$_InvalidPayloadsCopyWithImpl<_$_InvalidPayloads>(this, _$identity);
+  _$$InvalidPayloadsImplCopyWith<_$InvalidPayloadsImpl> get copyWith =>
+      __$$InvalidPayloadsImplCopyWithImpl<_$InvalidPayloadsImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -786,8 +800,7 @@ class _$_InvalidPayloads extends _InvalidPayloads {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return invalidPayloads(this);
@@ -825,36 +838,37 @@ class _$_InvalidPayloads extends _InvalidPayloads {
 }
 
 abstract class _InvalidPayloads extends SignaturesResult {
-  const factory _InvalidPayloads({required final List<bool> valid}) =
-      _$_InvalidPayloads;
+  const factory _InvalidPayloads({required final List<bool> valid}) = _$InvalidPayloadsImpl;
   const _InvalidPayloads._() : super._();
 
   List<bool> get valid;
   @JsonKey(ignore: true)
-  _$$_InvalidPayloadsCopyWith<_$_InvalidPayloads> get copyWith =>
+  _$$InvalidPayloadsImplCopyWith<_$InvalidPayloadsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_TooManyPayloadsCopyWith<$Res> {
-  factory _$$_TooManyPayloadsCopyWith(
-          _$_TooManyPayloads value, $Res Function(_$_TooManyPayloads) then) =
-      __$$_TooManyPayloadsCopyWithImpl<$Res>;
+abstract class _$$TooManyPayloadsImplCopyWith<$Res> {
+  factory _$$TooManyPayloadsImplCopyWith(
+    _$TooManyPayloadsImpl value,
+    $Res Function(_$TooManyPayloadsImpl) then,
+  ) = __$$TooManyPayloadsImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TooManyPayloadsCopyWithImpl<$Res>
-    extends _$SignaturesResultCopyWithImpl<$Res, _$_TooManyPayloads>
-    implements _$$_TooManyPayloadsCopyWith<$Res> {
-  __$$_TooManyPayloadsCopyWithImpl(
-      _$_TooManyPayloads _value, $Res Function(_$_TooManyPayloads) _then)
-      : super(_value, _then);
+class __$$TooManyPayloadsImplCopyWithImpl<$Res>
+    extends _$SignaturesResultCopyWithImpl<$Res, _$TooManyPayloadsImpl>
+    implements _$$TooManyPayloadsImplCopyWith<$Res> {
+  __$$TooManyPayloadsImplCopyWithImpl(
+    _$TooManyPayloadsImpl _value,
+    $Res Function(_$TooManyPayloadsImpl) _then,
+  ) : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_TooManyPayloads extends _TooManyPayloads {
-  const _$_TooManyPayloads() : super._();
+class _$TooManyPayloadsImpl extends _TooManyPayloads {
+  const _$TooManyPayloadsImpl() : super._();
 
   @override
   String toString() {
@@ -862,9 +876,9 @@ class _$_TooManyPayloads extends _TooManyPayloads {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_TooManyPayloads);
+        (other.runtimeType == runtimeType && other is _$TooManyPayloadsImpl);
   }
 
   @override
@@ -920,8 +934,7 @@ class _$_TooManyPayloads extends _TooManyPayloads {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return tooManyPayloads(this);
@@ -959,30 +972,32 @@ class _$_TooManyPayloads extends _TooManyPayloads {
 }
 
 abstract class _TooManyPayloads extends SignaturesResult {
-  const factory _TooManyPayloads() = _$_TooManyPayloads;
+  const factory _TooManyPayloads() = _$TooManyPayloadsImpl;
   const _TooManyPayloads._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_AuthorizationNotValidCopyWith<$Res> {
-  factory _$$_AuthorizationNotValidCopyWith(_$_AuthorizationNotValid value,
-          $Res Function(_$_AuthorizationNotValid) then) =
-      __$$_AuthorizationNotValidCopyWithImpl<$Res>;
+abstract class _$$AuthorizationNotValidImplCopyWith<$Res> {
+  factory _$$AuthorizationNotValidImplCopyWith(
+    _$AuthorizationNotValidImpl value,
+    $Res Function(_$AuthorizationNotValidImpl) then,
+  ) = __$$AuthorizationNotValidImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_AuthorizationNotValidCopyWithImpl<$Res>
-    extends _$SignaturesResultCopyWithImpl<$Res, _$_AuthorizationNotValid>
-    implements _$$_AuthorizationNotValidCopyWith<$Res> {
-  __$$_AuthorizationNotValidCopyWithImpl(_$_AuthorizationNotValid _value,
-      $Res Function(_$_AuthorizationNotValid) _then)
-      : super(_value, _then);
+class __$$AuthorizationNotValidImplCopyWithImpl<$Res>
+    extends _$SignaturesResultCopyWithImpl<$Res, _$AuthorizationNotValidImpl>
+    implements _$$AuthorizationNotValidImplCopyWith<$Res> {
+  __$$AuthorizationNotValidImplCopyWithImpl(
+    _$AuthorizationNotValidImpl _value,
+    $Res Function(_$AuthorizationNotValidImpl) _then,
+  ) : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_AuthorizationNotValid extends _AuthorizationNotValid {
-  const _$_AuthorizationNotValid() : super._();
+class _$AuthorizationNotValidImpl extends _AuthorizationNotValid {
+  const _$AuthorizationNotValidImpl() : super._();
 
   @override
   String toString() {
@@ -990,9 +1005,9 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_AuthorizationNotValid);
+        (other.runtimeType == runtimeType && other is _$AuthorizationNotValidImpl);
   }
 
   @override
@@ -1048,8 +1063,7 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return authorizationNotValid(this);
@@ -1087,47 +1101,50 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
 }
 
 abstract class _AuthorizationNotValid extends SignaturesResult {
-  const factory _AuthorizationNotValid() = _$_AuthorizationNotValid;
+  const factory _AuthorizationNotValid() = _$AuthorizationNotValidImpl;
   const _AuthorizationNotValid._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_NotSubmittedCopyWith<$Res> {
-  factory _$$_NotSubmittedCopyWith(
-          _$_NotSubmitted value, $Res Function(_$_NotSubmitted) then) =
-      __$$_NotSubmittedCopyWithImpl<$Res>;
+abstract class _$$NotSubmittedImplCopyWith<$Res> {
+  factory _$$NotSubmittedImplCopyWith(
+    _$NotSubmittedImpl value,
+    $Res Function(_$NotSubmittedImpl) then,
+  ) = __$$NotSubmittedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<Uint8List> signatures});
 }
 
 /// @nodoc
-class __$$_NotSubmittedCopyWithImpl<$Res>
-    extends _$SignaturesResultCopyWithImpl<$Res, _$_NotSubmitted>
-    implements _$$_NotSubmittedCopyWith<$Res> {
-  __$$_NotSubmittedCopyWithImpl(
-      _$_NotSubmitted _value, $Res Function(_$_NotSubmitted) _then)
-      : super(_value, _then);
+class __$$NotSubmittedImplCopyWithImpl<$Res>
+    extends _$SignaturesResultCopyWithImpl<$Res, _$NotSubmittedImpl>
+    implements _$$NotSubmittedImplCopyWith<$Res> {
+  __$$NotSubmittedImplCopyWithImpl(
+    _$NotSubmittedImpl _value,
+    $Res Function(_$NotSubmittedImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signatures = null,
-  }) {
-    return _then(_$_NotSubmitted(
-      signatures: null == signatures
-          ? _value._signatures
-          : signatures // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ));
+  $Res call({Object? signatures = null}) {
+    return _then(
+      _$NotSubmittedImpl(
+        signatures:
+            null == signatures
+                ? _value._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_NotSubmitted extends _NotSubmitted {
-  const _$_NotSubmitted({required final List<Uint8List> signatures})
-      : _signatures = signatures,
-        super._();
+class _$NotSubmittedImpl extends _NotSubmitted {
+  const _$NotSubmittedImpl({required final List<Uint8List> signatures})
+    : _signatures = signatures,
+      super._();
 
   final List<Uint8List> _signatures;
   @override
@@ -1143,23 +1160,21 @@ class _$_NotSubmitted extends _NotSubmitted {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_NotSubmitted &&
-            const DeepCollectionEquality()
-                .equals(other._signatures, _signatures));
+            other is _$NotSubmittedImpl &&
+            const DeepCollectionEquality().equals(other._signatures, _signatures));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_signatures));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_signatures));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_NotSubmittedCopyWith<_$_NotSubmitted> get copyWith =>
-      __$$_NotSubmittedCopyWithImpl<_$_NotSubmitted>(this, _$identity);
+  _$$NotSubmittedImplCopyWith<_$NotSubmittedImpl> get copyWith =>
+      __$$NotSubmittedImplCopyWithImpl<_$NotSubmittedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1211,8 +1226,7 @@ class _$_NotSubmitted extends _NotSubmitted {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
     required TResult Function(_NotSubmitted value) notSubmitted,
   }) {
     return notSubmitted(this);
@@ -1250,12 +1264,11 @@ class _$_NotSubmitted extends _NotSubmitted {
 }
 
 abstract class _NotSubmitted extends SignaturesResult {
-  const factory _NotSubmitted({required final List<Uint8List> signatures}) =
-      _$_NotSubmitted;
+  const factory _NotSubmitted({required final List<Uint8List> signatures}) = _$NotSubmittedImpl;
   const _NotSubmitted._() : super._();
 
   List<Uint8List> get signatures;
   @JsonKey(ignore: true)
-  _$$_NotSubmittedCopyWith<_$_NotSubmitted> get copyWith =>
+  _$$NotSubmittedImplCopyWith<_$NotSubmittedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

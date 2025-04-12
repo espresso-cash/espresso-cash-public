@@ -31,11 +31,7 @@ enum RampPartner {
   coinflow(
     title: 'Coinflow',
     minimumAmount: r'$20',
-    paymentMethods: [
-      PaymentMethod.visa,
-      PaymentMethod.mastercard,
-      PaymentMethod.bank,
-    ],
+    paymentMethods: [PaymentMethod.visa, PaymentMethod.mastercard, PaymentMethod.bank],
   ),
 
   guardarian(
@@ -51,17 +47,9 @@ enum RampPartner {
     ],
   ),
 
-  scalex(
-    title: 'Scalex',
-    minimumAmount: r'$5',
-    paymentMethods: [PaymentMethod.bank],
-  ),
+  scalex(title: 'Scalex', minimumAmount: r'$5', paymentMethods: [PaymentMethod.bank]),
 
-  moneygram(
-    title: 'MoneyGram',
-    minimumAmount: r'$10',
-    paymentMethods: [],
-  ),
+  moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []),
 
   brij(
     title: 'Brij Network (DEMO)',
@@ -90,8 +78,7 @@ enum RampPartner {
 
   final String? partnerPK;
 
-  Decimal get minimumAmountInDecimal =>
-      Decimal.parse(minimumAmount.substring(1));
+  Decimal get minimumAmountInDecimal => Decimal.parse(minimumAmount.substring(1));
 }
 
 extension RampPartnerAssets on RampPartner {

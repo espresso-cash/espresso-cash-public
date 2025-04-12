@@ -7,13 +7,9 @@ part 'inner_instruction.g.dart';
 /// recording was not yet enabled during this transaction
 @JsonSerializable()
 class InnerInstruction {
-  const InnerInstruction({
-    required this.index,
-    required this.instructions,
-  });
+  const InnerInstruction({required this.index, required this.instructions});
 
-  factory InnerInstruction.fromJson(Map<String, dynamic> json) =>
-      _$InnerInstructionFromJson(json);
+  factory InnerInstruction.fromJson(Map<String, dynamic> json) => _$InnerInstructionFromJson(json);
 
   /// Index of the transaction instruction from which the inner
   /// instruction(s) originated

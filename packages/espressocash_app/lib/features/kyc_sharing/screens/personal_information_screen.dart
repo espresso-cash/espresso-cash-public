@@ -16,20 +16,13 @@ import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
 
 class PersonalInformationScreen extends StatefulWidget {
-  const PersonalInformationScreen({
-    super.key,
-    this.showActionButton = true,
-  });
+  const PersonalInformationScreen({super.key, this.showActionButton = true});
 
-  static Future<bool> push(
-    BuildContext context, {
-    bool showActionButton = true,
-  }) =>
+  static Future<bool> push(BuildContext context, {bool showActionButton = true}) =>
       Navigator.of(context)
           .push<bool>(
             MaterialPageRoute(
-              builder: (context) =>
-                  PersonalInformationScreen(showActionButton: showActionButton),
+              builder: (context) => PersonalInformationScreen(showActionButton: showActionButton),
             ),
           )
           .then((result) => result ?? false);
@@ -37,8 +30,7 @@ class PersonalInformationScreen extends StatefulWidget {
   final bool showActionButton;
 
   @override
-  State<PersonalInformationScreen> createState() =>
-      _PersonalInformationScreenState();
+  State<PersonalInformationScreen> createState() => _PersonalInformationScreenState();
 }
 
 class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
@@ -81,46 +73,39 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     _citizenship = Country.findByCode(user?.citizenshipCode ?? '');
     _firstNameController.text = user?.firstName ?? '';
     _lastNameController.text = user?.lastName ?? '';
-    _dobController.text =
-        dob != null ? DateFormat('dd/MM/yyyy').format(dob) : '';
+    _dobController.text = dob != null ? DateFormat('dd/MM/yyyy').format(dob) : '';
 
     _readOnly = user?.hasPersonalDetails() == true;
   }
 
   Future<void> _handleSubmitted() async {
-    final success = await runWithLoader<bool>(
-      context,
-      () async {
-        try {
-          final DateTime? dob = _parseDate(_dobController.text);
-          final countryCode = _citizenship?.code;
+    final success = await runWithLoader<bool>(context, () async {
+      try {
+        final DateTime? dob = _parseDate(_dobController.text);
+        final countryCode = _citizenship?.code;
 
-          if (countryCode == null) {
-            throw Exception();
-          }
-
-          await sl<KycSharingService>().updatePersonalInfo(
-            firstName: _firstNameController.text,
-            lastName: _lastNameController.text,
-            dob: dob,
-            citizenshipCode: countryCode,
-          );
-
-          if (!mounted) return false;
-
-          return true;
-        } on Exception {
-          if (!mounted) return false;
-
-          showCpErrorSnackbar(
-            context,
-            message: context.l10n.failedToUpdateData,
-          );
-
-          return false;
+        if (countryCode == null) {
+          throw Exception();
         }
-      },
-    );
+
+        await sl<KycSharingService>().updatePersonalInfo(
+          firstName: _firstNameController.text,
+          lastName: _lastNameController.text,
+          dob: dob,
+          citizenshipCode: countryCode,
+        );
+
+        if (!mounted) return false;
+
+        return true;
+      } on Exception {
+        if (!mounted) return false;
+
+        showCpErrorSnackbar(context, message: context.l10n.failedToUpdateData);
+
+        return false;
+      }
+    });
     if (!mounted) return;
     if (success) Navigator.pop(context, true);
   }
@@ -146,50 +131,47 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        title: context.l10n.personalInformationTitle.toUpperCase(),
-        children: [
-          KycTextField(
-            controller: _firstNameController,
-            inputType: TextInputType.name,
-            placeholder: context.l10n.firstName,
-            readOnly: _readOnly,
-          ),
-          const SizedBox(height: 10),
-          KycTextField(
-            controller: _lastNameController,
-            inputType: TextInputType.name,
-            placeholder: context.l10n.lastName,
-            readOnly: _readOnly,
-          ),
-          const SizedBox(height: 10),
-          CpDobTextField(
-            controller: _dobController,
-            placeholder: context.l10n.dateOfBirth,
-            readonly: _readOnly,
-          ),
-          const SizedBox(height: 10),
-          CountryPicker(
-            backgroundColor: CpColors.blackGreyColor,
-            placeholder: context.l10n.countryOfCitizenship,
-            country: _citizenship,
-            onSubmitted: (country) => setState(() => _citizenship = country),
-            readonly: _readOnly,
-          ),
-          const SizedBox(height: 28),
-          const Spacer(),
-          if (widget.showActionButton)
-            ListenableBuilder(
-              listenable: Listenable.merge([
-                _firstNameController,
-                _lastNameController,
-                _dobController,
-              ]),
-              builder: (context, child) => CpBottomButton(
+    title: context.l10n.personalInformationTitle.toUpperCase(),
+    children: [
+      KycTextField(
+        controller: _firstNameController,
+        inputType: TextInputType.name,
+        placeholder: context.l10n.firstName,
+        readOnly: _readOnly,
+      ),
+      const SizedBox(height: 10),
+      KycTextField(
+        controller: _lastNameController,
+        inputType: TextInputType.name,
+        placeholder: context.l10n.lastName,
+        readOnly: _readOnly,
+      ),
+      const SizedBox(height: 10),
+      CpDobTextField(
+        controller: _dobController,
+        placeholder: context.l10n.dateOfBirth,
+        readonly: _readOnly,
+      ),
+      const SizedBox(height: 10),
+      CountryPicker(
+        backgroundColor: CpColors.blackGreyColor,
+        placeholder: context.l10n.countryOfCitizenship,
+        country: _citizenship,
+        onSubmitted: (country) => setState(() => _citizenship = country),
+        readOnly: _readOnly,
+      ),
+      const SizedBox(height: 28),
+      const Spacer(),
+      if (widget.showActionButton)
+        ListenableBuilder(
+          listenable: Listenable.merge([_firstNameController, _lastNameController, _dobController]),
+          builder:
+              (context, child) => CpBottomButton(
                 horizontalPadding: 16,
                 text: context.l10n.next,
                 onPressed: _getOnPressedCallback(),
               ),
-            ),
-        ],
-      );
+        ),
+    ],
+  );
 }

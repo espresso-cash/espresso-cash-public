@@ -4,7 +4,7 @@ publish_to: "none"
 version: 1.149.0
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ">=3.7.0 <4.0.0"
 
 dependencies:
   async: ^2.11.0
@@ -105,7 +105,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.7.1
-  mews_pedantic: ^0.28.0
+  mews_pedantic: ^0.36.0
   mockito: ^5.4.4
   retrofit_generator: ^8.0.6
 

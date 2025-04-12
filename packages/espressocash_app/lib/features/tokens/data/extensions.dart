@@ -9,35 +9,30 @@ import '../token.dart';
 
 extension TokenRowsExt on TokenRow {
   Token toModel() => Token(
-        address: address,
-        name: name,
-        symbol: symbol,
-        decimals: decimals,
-        logoURI: logoURI,
-        chainId: chainId,
-        isStablecoin: isStablecoin,
-      );
+    address: address,
+    name: name,
+    symbol: symbol,
+    decimals: decimals,
+    logoURI: logoURI,
+    chainId: chainId,
+    isStablecoin: isStablecoin,
+  );
 }
 
 extension ParseTag on String {
   bool hasStablecoinTag() {
     if (this.isEmpty) return false;
 
-    return replaceAll('[', '')
-        .replaceAll(']', '')
-        .split(',')
-        .any((e) => e == 'stablecoin');
+    return replaceAll('[', '').replaceAll(']', '').split(',').any((e) => e == 'stablecoin');
   }
 }
 
 extension ToTokenRows on Stream<String> {
   Stream<List<TokenRow>> transformToTokenRows() => transform(
-        StreamTransformer<String, List<TokenRow>>.fromHandlers(
-          handleData: (data, sink) => _parseRow(data).let(
-            (rows) => sink.add(rows),
-          ),
-        ),
-      );
+    StreamTransformer<String, List<TokenRow>>.fromHandlers(
+      handleData: (data, sink) => _parseRow(data).let((rows) => sink.add(rows)),
+    ),
+  );
 
   List<TokenRow> _parseRow(String data) {
     final List<TokenRow> rows = [];

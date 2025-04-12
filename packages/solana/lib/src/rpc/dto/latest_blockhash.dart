@@ -6,13 +6,9 @@ part 'latest_blockhash.g.dart';
 /// A Latest Blockhash
 @JsonSerializable()
 class LatestBlockhash {
-  const LatestBlockhash({
-    required this.blockhash,
-    required this.lastValidBlockHeight,
-  });
+  const LatestBlockhash({required this.blockhash, required this.lastValidBlockHeight});
 
-  factory LatestBlockhash.fromJson(Map<String, dynamic> json) =>
-      _$LatestBlockhashFromJson(json);
+  factory LatestBlockhash.fromJson(Map<String, dynamic> json) => _$LatestBlockhashFromJson(json);
 
   /// A Hash as base-58 encoded string accounts
   final String blockhash;

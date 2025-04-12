@@ -15,11 +15,7 @@ import '../../link_payments/models/link_payment.dart';
 import '../widgets/terms_disclaimer.dart';
 
 class GetStartedScreen extends StatefulWidget {
-  const GetStartedScreen({
-    super.key,
-    required this.onSignInPressed,
-    required this.onLocalPressed,
-  });
+  const GetStartedScreen({super.key, required this.onSignInPressed, required this.onLocalPressed});
 
   final VoidCallback onSignInPressed;
   final VoidCallback onLocalPressed;
@@ -35,75 +31,71 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   void initState() {
     super.initState();
 
-    _imagesCache = Future(
-      () async {
-        if (!mounted) return;
+    _imagesCache = Future(() async {
+      if (!mounted) return;
 
-        await Future.wait([
-          precacheImage(Assets.images.logo.provider(), context),
-          precacheImage(Assets.images.dollarBg.provider(), context),
-        ]);
-      },
-    );
+      await Future.wait([
+        precacheImage(Assets.images.logo.provider(), context),
+        precacheImage(Assets.images.dollarBg.provider(), context),
+      ]);
+    });
   }
 
   @override
   Widget build(BuildContext context) => FutureBuilder(
-        future: _imagesCache,
-        builder: (context, snapshot) => snapshot.connectionState ==
-                ConnectionState.done
-            ? CpTheme.dark(
-                child: Scaffold(
-                  backgroundColor: CpColors.lightSandColor,
-                  body: Stack(
-                    children: [
-                      Align(
-                        child: Assets.images.dollarBg.image(
-                          fit: BoxFit.fitHeight,
-                          height: double.infinity,
-                        ),
-                      ),
-                      SafeArea(
-                        minimum: EdgeInsets.only(top: 70.h),
-                        child: LayoutBuilder(
-                          builder: (context, constraints) =>
-                              SingleChildScrollView(
-                            child: ConstrainedBox(
-                              constraints: constraints.copyWith(
-                                minHeight: constraints.maxHeight,
-                                maxHeight: double.infinity,
-                              ),
-                              child: IntrinsicHeight(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    const Expanded(
-                                      child: Center(child: SplashLogo()),
-                                    ),
-                                    Column(
-                                      children: [
-                                        const _Body(),
-                                        24.verticalSpace,
-                                        _Footer(
-                                          onSignInPressed:
-                                              widget.onSignInPressed,
-                                          onLocalPressed: widget.onLocalPressed,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+    future: _imagesCache,
+    builder:
+        (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.done
+                ? CpTheme.dark(
+                  child: Scaffold(
+                    backgroundColor: CpColors.lightSandColor,
+                    body: Stack(
+                      children: [
+                        Align(
+                          child: Assets.images.dollarBg.image(
+                            fit: BoxFit.fitHeight,
+                            height: double.infinity,
                           ),
                         ),
-                      ),
-                    ],
+                        SafeArea(
+                          minimum: EdgeInsets.only(top: 70.h),
+                          child: LayoutBuilder(
+                            builder:
+                                (context, constraints) => SingleChildScrollView(
+                                  child: ConstrainedBox(
+                                    constraints: constraints.copyWith(
+                                      minHeight: constraints.maxHeight,
+                                      maxHeight: double.infinity,
+                                    ),
+                                    child: IntrinsicHeight(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          const Expanded(child: Center(child: SplashLogo())),
+                                          Column(
+                                            children: [
+                                              const _Body(),
+                                              24.verticalSpace,
+                                              _Footer(
+                                                onSignInPressed: widget.onSignInPressed,
+                                                onLocalPressed: widget.onLocalPressed,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              )
-            : const SplashScreen(),
-      );
+                )
+                : const SplashScreen(),
+  );
 }
 
 class _Footer extends StatelessWidget {
@@ -114,36 +106,33 @@ class _Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 44.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            8.verticalSpace,
-            _CreateLocalWalletButton(onPressed: onLocalPressed),
-            19.verticalSpace,
-            Text.rich(
-              key: keyUseExistingWalletButton,
+    padding: EdgeInsets.symmetric(horizontal: 44.w),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        8.verticalSpace,
+        _CreateLocalWalletButton(onPressed: onLocalPressed),
+        19.verticalSpace,
+        Text.rich(
+          key: keyUseExistingWalletButton,
+          TextSpan(
+            text: context.l10n.signIn1,
+            children: [
               TextSpan(
-                text: context.l10n.signIn1,
-                children: [
-                  TextSpan(
-                    text: context.l10n.signIn2,
-                    recognizer: TapGestureRecognizer()..onTap = onSignInPressed,
-                    style: const TextStyle(color: CpColors.yellowColor),
-                  ),
-                ],
+                text: context.l10n.signIn2,
+                recognizer: TapGestureRecognizer()..onTap = onSignInPressed,
+                style: const TextStyle(color: CpColors.yellowColor),
               ),
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
-            ),
-            67.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 19.w),
-              child: const TermsDisclaimer(),
-            ),
-            SizedBox(height: 12.h),
-          ],
+            ],
+          ),
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
         ),
-      );
+        67.verticalSpace,
+        Padding(padding: EdgeInsets.symmetric(horizontal: 19.w), child: const TermsDisclaimer()),
+        SizedBox(height: 12.h),
+      ],
+    ),
+  );
 }
 
 class _CreateLocalWalletButton extends StatelessWidget {
@@ -153,11 +142,11 @@ class _CreateLocalWalletButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpButton(
-        key: keyCreateWalletButton,
-        text: context.l10n.signUp,
-        width: double.infinity,
-        onPressed: onPressed,
-      );
+    key: keyCreateWalletButton,
+    text: context.l10n.signUp,
+    width: double.infinity,
+    onPressed: onPressed,
+  );
 }
 
 class _Body extends StatelessWidget {
@@ -165,43 +154,41 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-        listenable: sl<DynamicLinksNotifier>(),
-        builder: (context, _) => Padding(
+    listenable: sl<DynamicLinksNotifier>(),
+    builder:
+        (context, _) => Padding(
           padding: EdgeInsets.only(left: 30.w, right: 40.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: sl<DynamicLinksNotifier>().link.let(_parseUri)
-                ? [
-                    Text(
-                      context.l10n.onboardingWithPaymentTitle.toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 46.sp,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0.25,
+            children:
+                sl<DynamicLinksNotifier>().link.let(_parseUri)
+                    ? [
+                      Text(
+                        context.l10n.onboardingWithPaymentTitle.toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 46.sp,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.25,
+                        ),
                       ),
-                    ),
-                    Text(
-                      context.l10n.onboardingWithPaymentSubtitle.toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0.25,
+                      Text(
+                        context.l10n.onboardingWithPaymentSubtitle.toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.25,
+                        ),
                       ),
-                    ),
-                  ]
-                : [
-                    Text(
-                      context.l10n.onboardingIntro.toUpperCase(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 46.sp,
-                        height: 0.9,
+                    ]
+                    : [
+                      Text(
+                        context.l10n.onboardingIntro.toUpperCase(),
+                        style: TextStyle(fontWeight: FontWeight.w900, fontSize: 46.sp, height: 0.9),
                       ),
-                    ),
-                  ],
+                    ],
           ),
         ),
-      );
+  );
 }
 
 const keyCreateWalletButton = Key('createWalletButton');

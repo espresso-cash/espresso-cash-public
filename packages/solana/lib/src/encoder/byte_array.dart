@@ -8,11 +8,8 @@ import 'package:solana/base58.dart';
 @immutable
 class ByteArray extends Iterable<int> {
   ByteArray(Iterable<int> data)
-      : assert(
-          data.every((e) => e < 256),
-          'All elements should be less than 256',
-        ),
-        _data = data.toList();
+    : assert(data.every((e) => e < 256), 'All elements should be less than 256'),
+      _data = data.toList();
 
   const ByteArray._(this._data);
 
@@ -29,16 +26,12 @@ class ByteArray extends Iterable<int> {
   factory ByteArray.fromBase58(String base58String) =>
       ByteArray(Uint8List.fromList(base58decode(base58String)));
 
-  factory ByteArray.fromString(String string) => ByteArray.merge([
-        ByteArray.u64(string.length),
-        ByteArray(utf8.encode(string)),
-      ]);
+  factory ByteArray.fromString(String string) =>
+      ByteArray.merge([ByteArray.u64(string.length), ByteArray(utf8.encode(string))]);
 
-  factory ByteArray.i8(int value) =>
-      ByteArray._fromByteData(ByteData(1)..setUint8(0, value));
+  factory ByteArray.i8(int value) => ByteArray._fromByteData(ByteData(1)..setUint8(0, value));
 
-  factory ByteArray.u8(int value) =>
-      ByteArray._fromByteData(ByteData(1)..setUint8(0, value));
+  factory ByteArray.u8(int value) => ByteArray._fromByteData(ByteData(1)..setUint8(0, value));
 
   factory ByteArray.i16(int value) =>
       ByteArray._fromByteData(ByteData(2)..setUint16(0, value, Endian.little));
@@ -54,8 +47,7 @@ class ByteArray extends Iterable<int> {
 
   factory ByteArray.i64(int value) => _encodeBigInt(BigInt.from(value), 8);
 
-  factory ByteArray.u64(int value) =>
-      _encodeBigIntAsUnsigned(BigInt.from(value), 8);
+  factory ByteArray.u64(int value) => _encodeBigIntAsUnsigned(BigInt.from(value), 8);
 
   final List<int> _data;
 
@@ -65,8 +57,7 @@ class ByteArray extends Iterable<int> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is ByteArray &&
-          const ListEquality<int>().equals(_data, other._data));
+      (other is ByteArray && const ListEquality<int>().equals(_data, other._data));
 
   @override
   int get hashCode => const ListEquality<int>().hash(_data);

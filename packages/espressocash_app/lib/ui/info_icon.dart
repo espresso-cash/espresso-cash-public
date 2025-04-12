@@ -4,17 +4,10 @@ import '../gen/assets.gen.dart';
 import 'colors.dart';
 
 class CpInfoIcon extends StatelessWidget {
-  const CpInfoIcon({
-    super.key,
-    this.iconColor = CpColors.yellowColor,
-    this.height = 20,
-  });
+  const CpInfoIcon({super.key, this.iconColor = CpColors.yellowColor, this.height = 20});
   final Color iconColor;
   final double? height;
 
   @override
-  Widget build(BuildContext context) => Assets.icons.info.svg(
-        color: iconColor,
-        height: height,
-      );
+  Widget build(BuildContext context) => Assets.icons.info.svg(color: iconColor, height: height);
 }

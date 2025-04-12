@@ -52,8 +52,7 @@ class EdwardsPoint {
   bool isSmallOrder() => _multiplyByCofactor().isIdentity();
 
   @override
-  bool operator ==(Object other) =>
-      other is EdwardsPoint && compress() == other.compress();
+  bool operator ==(Object other) => other is EdwardsPoint && compress() == other.compress();
 
   @override
   int get hashCode => '$_x$_y$_z$_t'.hashCode;
