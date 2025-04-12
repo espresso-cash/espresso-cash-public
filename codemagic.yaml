@@ -10,7 +10,7 @@ workflows:
       groups:
         - common
         - google_credentials
-      flutter: 3.29.0
+      flutter: 3.29.2
       xcode: 16.1
       java: 17
       cocoapods: 1.16.2

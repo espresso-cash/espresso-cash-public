@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.29.0"
+  FLUTTER_VERSION: "3.29.2"
 
 jobs:
   e2e:

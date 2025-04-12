@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.29.0"
+  FLUTTER_VERSION: "3.29.2"
   DART_VERSION: "3.7.0"
   DCM_VERSION: "1.17.0"
 
@@ -24,7 +24,7 @@ jobs:
           sdk: ${{ env.DART_VERSION }}
 
       - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed --line-length=100 .
+        run: dart format --output=none --set-exit-if-changed .
 
   dart_libs:
     needs: [formatting]
