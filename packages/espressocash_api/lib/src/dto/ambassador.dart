@@ -7,9 +7,8 @@ part 'ambassador.g.dart';
 
 @freezed
 class AmbassadorReferralRequestDto with _$AmbassadorReferralRequestDto {
-  const factory AmbassadorReferralRequestDto({
-    required String ambassadorAddress,
-  }) = _AmbassadorReferralRequestDto;
+  const factory AmbassadorReferralRequestDto({required String ambassadorAddress}) =
+      _AmbassadorReferralRequestDto;
 
   factory AmbassadorReferralRequestDto.fromJson(Map<String, dynamic> json) =>
       _$AmbassadorReferralRequestDtoFromJson(json);
@@ -17,24 +16,20 @@ class AmbassadorReferralRequestDto with _$AmbassadorReferralRequestDto {
 
 @freezed
 class AmbassadorStatsResponseDto with _$AmbassadorStatsResponseDto {
-  const factory AmbassadorStatsResponseDto({
-    required int referralCount,
-  }) = _AmbassadorStatsResponseDto;
+  const factory AmbassadorStatsResponseDto({required int referralCount}) =
+      _AmbassadorStatsResponseDto;
 
   factory AmbassadorStatsResponseDto.fromJson(Map<String, dynamic> json) =>
       _$AmbassadorStatsResponseDtoFromJson(json);
 }
 
 @freezed
-class AmbassadorVerificationResponseDto
-    with _$AmbassadorVerificationResponseDto {
+class AmbassadorVerificationResponseDto with _$AmbassadorVerificationResponseDto {
   const factory AmbassadorVerificationResponseDto({
     required bool isAmbassador,
     required bool isReferral,
   }) = _AmbassadorVerificationResponseDto;
 
-  factory AmbassadorVerificationResponseDto.fromJson(
-    Map<String, dynamic> json,
-  ) =>
+  factory AmbassadorVerificationResponseDto.fromJson(Map<String, dynamic> json) =>
       _$AmbassadorVerificationResponseDtoFromJson(json);
 }

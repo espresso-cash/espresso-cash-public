@@ -7,7 +7,6 @@ class DeviceLocale {
 
     return installedIntlLocale.countryCode != null
         ? installedIntlLocale
-
         // NOTE: This locale reflects current user settings preferred locale
         //       as opposed to extracting it from the locales installed by the
         //       cryptoplease application.

@@ -14,8 +14,7 @@ extension StringExt on String {
         '${substring(this, length - 4)}';
   }
 
-  String withZeroWidthSpaces() =>
-      splitMapJoin('', onMatch: (m) => '${m.group(0) ?? ''}\u200b');
+  String withZeroWidthSpaces() => splitMapJoin('', onMatch: (m) => '${m.group(0) ?? ''}\u200b');
 }
 
 extension FormatDate on BuildContext {
@@ -23,9 +22,7 @@ extension FormatDate on BuildContext {
     final now = DateTime.now();
     final time = DateFormat.jm().format(date);
 
-    return now.year == date.year &&
-            now.month == date.month &&
-            now.day == date.day
+    return now.year == date.year && now.month == date.month && now.day == date.day
         ? l10n.todayAt(time)
         : DateFormat.MMMd().add_jm().format(date);
   }

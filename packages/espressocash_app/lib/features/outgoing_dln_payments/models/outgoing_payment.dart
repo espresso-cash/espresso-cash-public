@@ -21,37 +21,26 @@ class OutgoingDlnPayment with _$OutgoingDlnPayment {
 @freezed
 sealed class OutgoingDlnPaymentStatus with _$OutgoingDlnPaymentStatus {
   /// Tx is successfully created and ready to be sent.
-  const factory OutgoingDlnPaymentStatus.txCreated(
-    SignedTx tx, {
-    required BigInt slot,
-  }) = OutgoingDlnPaymentStatusTxCreated;
+  const factory OutgoingDlnPaymentStatus.txCreated(SignedTx tx, {required BigInt slot}) =
+      OutgoingDlnPaymentStatusTxCreated;
 
   /// Tx is successfully sent.
-  const factory OutgoingDlnPaymentStatus.txSent(
-    SignedTx tx, {
-    required BigInt slot,
-  }) = OutgoingDlnPaymentStatusTxSent;
+  const factory OutgoingDlnPaymentStatus.txSent(SignedTx tx, {required BigInt slot}) =
+      OutgoingDlnPaymentStatusTxSent;
 
   /// Tx is successfully confirmed and order awaiting fulfillment.
-  const factory OutgoingDlnPaymentStatus.success(
-    SignedTx tx, {
-    required String? orderId,
-  }) = OutgoingDlnPaymentStatusSuccess;
+  const factory OutgoingDlnPaymentStatus.success(SignedTx tx, {required String? orderId}) =
+      OutgoingDlnPaymentStatusSuccess;
 
   /// Failed to create the tx, a new tx should be created.
-  const factory OutgoingDlnPaymentStatus.txFailure({
-    required TxFailureReason reason,
-  }) = OutgoingDlnPaymentStatusTxFailure;
+  const factory OutgoingDlnPaymentStatus.txFailure({required TxFailureReason reason}) =
+      OutgoingDlnPaymentStatusTxFailure;
 
   /// Order is fulfilled and funds are sent to the recipient.
-  const factory OutgoingDlnPaymentStatus.fulfilled(
-    SignedTx tx, {
-    required String orderId,
-  }) = OutgoingDlnPaymentStatusFulfilled;
+  const factory OutgoingDlnPaymentStatus.fulfilled(SignedTx tx, {required String orderId}) =
+      OutgoingDlnPaymentStatusFulfilled;
 
   /// Order has been stale for some time and most likely wont be fulfilled.
-  const factory OutgoingDlnPaymentStatus.unfulfilled(
-    SignedTx tx, {
-    required String orderId,
-  }) = OutgoingDlnPaymentStatusUnFulfilled;
+  const factory OutgoingDlnPaymentStatus.unfulfilled(SignedTx tx, {required String orderId}) =
+      OutgoingDlnPaymentStatusUnFulfilled;
 }

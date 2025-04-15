@@ -14,10 +14,7 @@ part 'moneygram_client.g.dart';
 abstract class MoneygramApiClient {
   @factoryMethod
   factory MoneygramApiClient(MoneygramInterceptor interceptor) =>
-      _MoneygramApiClient(
-        Dio()..interceptors.add(interceptor),
-        baseUrl: moneygramBaseUrl,
-      );
+      _MoneygramApiClient(Dio()..interceptors.add(interceptor), baseUrl: moneygramBaseUrl);
 
   @POST('/sep24/transactions/withdraw/interactive')
   Future<MgWithdrawResponseDto> generateWithdrawUrl(

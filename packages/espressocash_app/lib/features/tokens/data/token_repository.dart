@@ -25,26 +25,25 @@ class TokenRepository {
 
   @PostConstruct(preResolve: true)
   Future<void> init() => tryEitherAsync((_) async {
-        final actualHash = _tokensMetaStorage.getHash();
-        if (actualHash != null) return;
+    final actualHash = _tokensMetaStorage.getHash();
+    if (actualHash != null) return;
 
-        final rootToken = ServicesBinding.rootIsolateToken;
+    final rootToken = ServicesBinding.rootIsolateToken;
 
-        final assetFile = await rootBundle.load('assets/tokens/tokens.csv.gz');
-        final file = await _fileManager.loadFromAppDir('tokens.csv.gz');
-        final sink = file.openWrite()..add(assetFile.buffer.asUint8List());
-        await sink.flush();
-        await sink.close();
+    final assetFile = await rootBundle.load('assets/tokens/tokens.csv.gz');
+    final file = await _fileManager.loadFromAppDir('tokens.csv.gz');
+    final sink = file.openWrite()..add(assetFile.buffer.asUint8List());
+    await sink.flush();
+    await sink.close();
 
-        if (rootToken == null) return;
+    if (rootToken == null) return;
 
-        await compute(
-          _initializeFromAssets,
-          IsolateParams(rootToken, file.path),
-        ).doOnRightAsync((hash) async {
-          await _tokensMetaStorage.saveHash(hash);
-        });
-      });
+    await compute(_initializeFromAssets, IsolateParams(rootToken, file.path)).doOnRightAsync((
+      hash,
+    ) async {
+      await _tokensMetaStorage.saveHash(hash);
+    });
+  });
 
   Future<void> update(EspressoCashClient ecClient) async {
     final rootToken = ServicesBinding.rootIsolateToken;
@@ -55,47 +54,43 @@ class TokenRepository {
 
     await ecClient.getTokensFile(file.path);
 
-    await compute(
-      _initializeFromAssets,
-      IsolateParams(rootToken, file.path),
-    ).doOnRightAsync((hash) async {
+    await compute(_initializeFromAssets, IsolateParams(rootToken, file.path)).doOnRightAsync((
+      hash,
+    ) async {
       await _tokensMetaStorage.saveHash(hash);
     });
   }
 
   Future<Token?> getToken(String address) {
-    final query = _db.select(_db.tokenRows)
-      ..where((token) => token.address.equals(address))
-      ..limit(1);
+    final query =
+        _db.select(_db.tokenRows)
+          ..where((token) => token.address.equals(address))
+          ..limit(1);
 
     return query.getSingleOrNull().letAsync((token) => token?.toModel());
   }
 }
 
 Future<Either<Exception, String>> _initializeFromAssets(IsolateParams args) =>
-    tryEitherAsync(
-      (_) async {
-        BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);
+    tryEitherAsync((_) async {
+      BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);
 
-        final tokenStream = File(args.path).openRead().decodeFile();
-        final data = await File(args.path).readAsBytes();
+      final tokenStream = File(args.path).openRead().decodeFile();
+      final data = await File(args.path).readAsBytes();
 
-        final db = MyDatabase();
+      final db = MyDatabase();
 
-        await db.transaction(() async {
-          await tokenStream.forEach((tokenRows) async {
-            for (final tokenRow in tokenRows) {
-              await db
-                  .into(db.tokenRows)
-                  .insert(tokenRow, mode: InsertMode.insertOrReplace);
-            }
-          });
+      await db.transaction(() async {
+        await tokenStream.forEach((tokenRows) async {
+          for (final tokenRow in tokenRows) {
+            await db.into(db.tokenRows).insert(tokenRow, mode: InsertMode.insertOrReplace);
+          }
         });
+      });
 
-        // ignore: avoid-weak-cryptographic-algorithms, non sensitive
-        return md5.convert(data).toString();
-      },
-    );
+      // ignore: avoid-weak-cryptographic-algorithms, non sensitive
+      return md5.convert(data).toString();
+    });
 
 class IsolateParams {
   const IsolateParams(this.rootToken, this.path);

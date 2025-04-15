@@ -47,25 +47,20 @@ class FadeGradient extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IgnorePointer(
-        child: Container(
-          height: height,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: direction.begin,
-              end: direction.end,
-              colors: color == FadeGradientColor.white
-                  ? [
-                      Colors.white,
-                      Colors.white.withOpacity(0),
-                    ]
-                  : [
-                      CpColors.deepGreyColor,
-                      CpColors.deepGreyColor.withOpacity(0),
-                    ],
-            ),
-          ),
+    child: Container(
+      height: height,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: direction.begin,
+          end: direction.end,
+          colors:
+              color == FadeGradientColor.white
+                  ? [Colors.white, Colors.white.withOpacity(0)]
+                  : [CpColors.deepGreyColor, CpColors.deepGreyColor.withOpacity(0)],
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class SolidPadding extends StatelessWidget {
@@ -82,13 +77,11 @@ class SolidPadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IgnorePointer(
-        child: Container(
-          height: height,
-          decoration: const BoxDecoration(
-            color: CpColors.deepGreyColor,
-          ),
-        ),
-      );
+    child: Container(
+      height: height,
+      decoration: const BoxDecoration(color: CpColors.deepGreyColor),
+    ),
+  );
 }
 
 extension on FadeGradientDirection {

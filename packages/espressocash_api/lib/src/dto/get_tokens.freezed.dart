@@ -12,10 +12,10 @@ part of 'get_tokens.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
-GetTokensMetaResponseDto _$GetTokensMetaResponseDtoFromJson(
-    Map<String, dynamic> json) {
+GetTokensMetaResponseDto _$GetTokensMetaResponseDtoFromJson(Map<String, dynamic> json) {
   return _GetTokensMetaResponseDto.fromJson(json);
 }
 
@@ -35,16 +35,16 @@ mixin _$GetTokensMetaResponseDto {
 
 /// @nodoc
 abstract class $GetTokensMetaResponseDtoCopyWith<$Res> {
-  factory $GetTokensMetaResponseDtoCopyWith(GetTokensMetaResponseDto value,
-          $Res Function(GetTokensMetaResponseDto) then) =
-      _$GetTokensMetaResponseDtoCopyWithImpl<$Res, GetTokensMetaResponseDto>;
+  factory $GetTokensMetaResponseDtoCopyWith(
+    GetTokensMetaResponseDto value,
+    $Res Function(GetTokensMetaResponseDto) then,
+  ) = _$GetTokensMetaResponseDtoCopyWithImpl<$Res, GetTokensMetaResponseDto>;
   @useResult
   $Res call({String md5});
 }
 
 /// @nodoc
-class _$GetTokensMetaResponseDtoCopyWithImpl<$Res,
-        $Val extends GetTokensMetaResponseDto>
+class _$GetTokensMetaResponseDtoCopyWithImpl<$Res, $Val extends GetTokensMetaResponseDto>
     implements $GetTokensMetaResponseDtoCopyWith<$Res> {
   _$GetTokensMetaResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -57,15 +57,17 @@ class _$GetTokensMetaResponseDtoCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? md5 = null,
-  }) {
-    return _then(_value.copyWith(
-      md5: null == md5
-          ? _value.md5
-          : md5 // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? md5 = null}) {
+    return _then(
+      _value.copyWith(
+            md5:
+                null == md5
+                    ? _value.md5
+                    : md5 // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -73,9 +75,9 @@ class _$GetTokensMetaResponseDtoCopyWithImpl<$Res,
 abstract class _$$GetTokensMetaResponseDtoImplCopyWith<$Res>
     implements $GetTokensMetaResponseDtoCopyWith<$Res> {
   factory _$$GetTokensMetaResponseDtoImplCopyWith(
-          _$GetTokensMetaResponseDtoImpl value,
-          $Res Function(_$GetTokensMetaResponseDtoImpl) then) =
-      __$$GetTokensMetaResponseDtoImplCopyWithImpl<$Res>;
+    _$GetTokensMetaResponseDtoImpl value,
+    $Res Function(_$GetTokensMetaResponseDtoImpl) then,
+  ) = __$$GetTokensMetaResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String md5});
@@ -83,27 +85,27 @@ abstract class _$$GetTokensMetaResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$GetTokensMetaResponseDtoImplCopyWithImpl<$Res>
-    extends _$GetTokensMetaResponseDtoCopyWithImpl<$Res,
-        _$GetTokensMetaResponseDtoImpl>
+    extends _$GetTokensMetaResponseDtoCopyWithImpl<$Res, _$GetTokensMetaResponseDtoImpl>
     implements _$$GetTokensMetaResponseDtoImplCopyWith<$Res> {
   __$$GetTokensMetaResponseDtoImplCopyWithImpl(
-      _$GetTokensMetaResponseDtoImpl _value,
-      $Res Function(_$GetTokensMetaResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$GetTokensMetaResponseDtoImpl _value,
+    $Res Function(_$GetTokensMetaResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of GetTokensMetaResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? md5 = null,
-  }) {
-    return _then(_$GetTokensMetaResponseDtoImpl(
-      md5: null == md5
-          ? _value.md5
-          : md5 // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? md5 = null}) {
+    return _then(
+      _$GetTokensMetaResponseDtoImpl(
+        md5:
+            null == md5
+                ? _value.md5
+                : md5 // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -140,15 +142,15 @@ class _$GetTokensMetaResponseDtoImpl implements _GetTokensMetaResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetTokensMetaResponseDtoImplCopyWith<_$GetTokensMetaResponseDtoImpl>
-      get copyWith => __$$GetTokensMetaResponseDtoImplCopyWithImpl<
-          _$GetTokensMetaResponseDtoImpl>(this, _$identity);
+  _$$GetTokensMetaResponseDtoImplCopyWith<_$GetTokensMetaResponseDtoImpl> get copyWith =>
+      __$$GetTokensMetaResponseDtoImplCopyWithImpl<_$GetTokensMetaResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GetTokensMetaResponseDtoImplToJson(
-      this,
-    );
+    return _$$GetTokensMetaResponseDtoImplToJson(this);
   }
 }
 
@@ -166,6 +168,6 @@ abstract class _GetTokensMetaResponseDto implements GetTokensMetaResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GetTokensMetaResponseDtoImplCopyWith<_$GetTokensMetaResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$GetTokensMetaResponseDtoImplCopyWith<_$GetTokensMetaResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

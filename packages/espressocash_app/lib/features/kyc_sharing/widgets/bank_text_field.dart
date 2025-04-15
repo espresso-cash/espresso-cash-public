@@ -6,12 +6,7 @@ import '../../../ui/picker_screen.dart';
 import '../models/bank.dart';
 
 class BankTextField extends StatelessWidget {
-  const BankTextField({
-    super.key,
-    required this.placeholder,
-    this.initialBank,
-    this.onBankChanged,
-  });
+  const BankTextField({super.key, required this.placeholder, this.initialBank, this.onBankChanged});
 
   final String placeholder;
   final Bank? initialBank;
@@ -19,60 +14,48 @@ class BankTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: const ShapeDecoration(
-          color: CpColors.lightGreyColor,
-          shape: StadiumBorder(),
-        ),
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-          onTap: () async {
-            await CustomPickerScreen.push<Bank>(
-              context: context,
-              title: context.l10n.selectBank,
-              items: scalexBanks,
-              initial: initialBank,
-              itemBuilder: (context, bank, {required bool selected}) => Row(
+    decoration: const ShapeDecoration(color: CpColors.blackGreyColor, shape: StadiumBorder()),
+    child: ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+      onTap: () async {
+        await CustomPickerScreen.push<Bank>(
+          context: context,
+          title: context.l10n.selectBank,
+          items: scalexBanks,
+          initial: initialBank,
+          itemBuilder:
+              (context, bank, {required bool selected}) => Row(
                 children: [
                   SizedBox(
                     width: 70,
                     child: Text(
                       bank.code,
-                      style: TextStyle(
-                        fontSize: selected ? 19 : 17,
-                        color: CpColors.yellowColor,
-                      ),
+                      style: TextStyle(fontSize: selected ? 19 : 17, color: CpColors.yellowColor),
                     ),
                   ),
                   Expanded(
                     child: Text(
                       bank.name,
-                      style: TextStyle(
-                        fontSize: selected ? 19 : 17,
-                        color: Colors.white,
-                      ),
+                      style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white),
                     ),
                   ),
                 ],
               ),
-              onTap: (bank, _) async {
-                onBankChanged?.call(bank);
-              },
-            );
+          onTap: (bank, _) async {
+            onBankChanged?.call(bank);
           },
-          title: Text(
-            initialBank?.name ?? placeholder,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: initialBank != null ? Colors.white : CpColors.greyColor,
-              height: 1.2,
-            ),
-          ),
-          trailing: const Icon(
-            Icons.keyboard_arrow_down_outlined,
-            color: Colors.white,
-            size: 28,
-          ),
+        );
+      },
+      title: Text(
+        initialBank?.name ?? placeholder,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: initialBank != null ? Colors.white : CpColors.greyColor,
+          height: 1.2,
         ),
-      );
+      ),
+      trailing: const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white, size: 28),
+    ),
+  );
 }

@@ -22,10 +22,7 @@ void main() {
       nonceAccount.authorizedPubkey.toBase58(),
       '34ftAgb5qa379JHBmbLBHeKyNo4j6iMYA2yRszA6U5Bp',
     );
-    expect(
-      nonceAccount.nonce.toBase58(),
-      '5yVYNAxRAeGLamfNUictaVzw2qr8t2bVHzE3Dro1iN24',
-    );
+    expect(nonceAccount.nonce.toBase58(), '5yVYNAxRAeGLamfNUictaVzw2qr8t2bVHzE3Dro1iN24');
     expect(nonceAccount.lamportsPerSignature, BigInt.from(5000));
   });
 }

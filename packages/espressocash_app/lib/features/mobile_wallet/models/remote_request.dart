@@ -5,13 +5,9 @@ part 'remote_request.freezed.dart';
 
 @freezed
 class RemoteRequest with _$RemoteRequest {
-  const factory RemoteRequest.authorizeDapp({
-    required AuthorizeRequest request,
-  }) = AuthorizeDapp;
+  const factory RemoteRequest.authorizeDapp({required AuthorizeRequest request}) = AuthorizeDapp;
 
-  const factory RemoteRequest.signPayloads({
-    required SignPayloadsRequest request,
-  }) = SignPayloads;
+  const factory RemoteRequest.signPayloads({required SignPayloadsRequest request}) = SignPayloads;
 
   const factory RemoteRequest.signTransactionsForSending({
     required SignAndSendTransactionsRequest request,

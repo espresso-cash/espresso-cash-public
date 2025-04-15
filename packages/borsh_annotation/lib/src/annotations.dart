@@ -85,8 +85,7 @@ class BFixedArray<T> extends BType<List<T>> {
   }
 
   @override
-  List<T> read(BinaryReader reader) =>
-      reader.readFixedArray(length, () => type.read(reader));
+  List<T> read(BinaryReader reader) => reader.readFixedArray(length, () => type.read(reader));
 }
 
 class BArray<T> extends BType<List<T>> {
@@ -100,8 +99,7 @@ class BArray<T> extends BType<List<T>> {
   }
 
   @override
-  List<T> read(BinaryReader reader) =>
-      reader.readArray(() => type.read(reader));
+  List<T> read(BinaryReader reader) => reader.readArray(() => type.read(reader));
 }
 
 class BOption<T> extends BType<T?> {

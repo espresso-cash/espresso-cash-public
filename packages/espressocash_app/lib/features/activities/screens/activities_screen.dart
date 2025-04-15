@@ -17,8 +17,7 @@ class ActivitiesScreen extends StatefulWidget {
   State<ActivitiesScreen> createState() => _ActivitiesScreenState();
 }
 
-class _ActivitiesScreenState extends State<ActivitiesScreen>
-    with SingleTickerProviderStateMixin {
+class _ActivitiesScreenState extends State<ActivitiesScreen> with SingleTickerProviderStateMixin {
   late final _controller = TabController(
     length: ActivitiesTab.values.length,
     initialIndex: widget.initialTab.index,
@@ -46,30 +45,22 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
     const insets = EdgeInsets.symmetric(horizontal: 24);
 
     Widget mapTab(ActivitiesTab tab) => Tab(
-          text: switch (tab) {
-            ActivitiesTab.pending => context.l10n.pending,
-            ActivitiesTab.transactions => context.l10n.transactions,
-          },
-        );
+      text: switch (tab) {
+        ActivitiesTab.pending => context.l10n.pending,
+        ActivitiesTab.transactions => context.l10n.transactions,
+      },
+    );
 
     Widget mapWrapper(ActivitiesTab tab) => switch (tab) {
-          ActivitiesTab.pending => const _Wrapper(
-              child: PendingActivitiesList(padding: insets),
-            ),
-          ActivitiesTab.transactions => const _Wrapper(
-              child: TransactionList(padding: insets),
-            ),
-        };
+      ActivitiesTab.pending => const _Wrapper(child: PendingActivitiesList(padding: insets)),
+      ActivitiesTab.transactions => const _Wrapper(child: TransactionList(padding: insets)),
+    };
 
     return ColoredBox(
       color: CpColors.deepGreyColor,
       child: Column(
         children: [
-          CpAppBar(
-            title: Text(
-              context.l10n.activities_lblTitle.toUpperCase(),
-            ),
-          ),
+          CpAppBar(title: Text(context.l10n.activities_lblTitle.toUpperCase())),
           const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -98,22 +89,16 @@ class _Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Stack(
-        children: [
-          child,
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              color: CpColors.deepGreyColor,
-              height: 10,
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              color: CpColors.deepGreyColor,
-              height: 10,
-            ),
-          ),
-        ],
-      );
+    children: [
+      child,
+      Align(
+        alignment: Alignment.topCenter,
+        child: Container(color: CpColors.deepGreyColor, height: 10),
+      ),
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(color: CpColors.deepGreyColor, height: 10),
+      ),
+    ],
+  );
 }

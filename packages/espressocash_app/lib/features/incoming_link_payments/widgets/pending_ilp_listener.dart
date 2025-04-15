@@ -15,8 +15,7 @@ class PendingILPListener extends StatefulWidget {
   State<PendingILPListener> createState() => _PendingILPListenerState();
 }
 
-class _PendingILPListenerState extends State<PendingILPListener>
-    with DynamicLinkHandler {
+class _PendingILPListenerState extends State<PendingILPListener> with DynamicLinkHandler {
   Future<void> _processLink(LinkPayment paymentData) async {
     final key = paymentData.key;
 

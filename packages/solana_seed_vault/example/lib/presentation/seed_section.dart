@@ -38,49 +38,48 @@ class _SeedSectionState extends State<SeedSection> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<SeedVaultBloc, SeedVaultState>(
-        builder: (context, state) => state.maybeMap(
+  Widget build(BuildContext context) => BlocBuilder<SeedVaultBloc, SeedVaultState>(
+    builder:
+        (context, state) => state.maybeMap(
           orElse: always(const SizedBox.shrink()),
-          loaded: (state) => ListView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              if (state.hasUnauthorizedSeeds)
-                ListTile(
-                  title: Text(
-                    'Authorize seed for ${Purpose.signSolanaTransaction}',
-                    style: _style,
+          loaded:
+              (state) => ListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  if (state.hasUnauthorizedSeeds)
+                    ListTile(
+                      title: Text(
+                        'Authorize seed for ${Purpose.signSolanaTransaction}',
+                        style: _style,
+                      ),
+                      trailing: IconButton(
+                        onPressed: _handleAuthorizeSeed,
+                        icon: const Icon(Icons.add, color: Colors.green),
+                      ),
+                    )
+                  else
+                    const ListTile(title: Text('No more seeds to be authorized', style: _style)),
+                  const Divider(),
+                  ListTile(
+                    title: const Text('Create a new seed', style: _style),
+                    trailing: IconButton(
+                      onPressed: _handleCreateSeed,
+                      icon: const Icon(Icons.add, color: Colors.green),
+                    ),
                   ),
-                  trailing: IconButton(
-                    onPressed: _handleAuthorizeSeed,
-                    icon: const Icon(Icons.add, color: Colors.green),
+                  const Divider(),
+                  ListTile(
+                    title: const Text('Import an existing seed', style: _style),
+                    trailing: IconButton(
+                      onPressed: _handleImportSeed,
+                      icon: const Icon(Icons.add, color: Colors.green),
+                    ),
                   ),
-                )
-              else
-                const ListTile(
-                  title: Text('No more seeds to be authorized', style: _style),
-                ),
-              const Divider(),
-              ListTile(
-                title: const Text('Create a new seed', style: _style),
-                trailing: IconButton(
-                  onPressed: _handleCreateSeed,
-                  icon: const Icon(Icons.add, color: Colors.green),
-                ),
+                ],
               ),
-              const Divider(),
-              ListTile(
-                title: const Text('Import an existing seed', style: _style),
-                trailing: IconButton(
-                  onPressed: _handleImportSeed,
-                  icon: const Icon(Icons.add, color: Colors.green),
-                ),
-              ),
-            ],
-          ),
         ),
-      );
+  );
 }
 
 const _style = TextStyle(fontSize: 18);

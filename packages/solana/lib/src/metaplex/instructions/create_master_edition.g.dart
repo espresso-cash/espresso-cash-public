@@ -19,9 +19,7 @@ mixin _$CreateMasterEditionV3Data {
 }
 
 class _CreateMasterEditionV3Data extends CreateMasterEditionV3Data {
-  _CreateMasterEditionV3Data({
-    this.maxSupply,
-  }) : super._();
+  _CreateMasterEditionV3Data({this.maxSupply}) : super._();
 
   final BigInt? maxSupply;
 }
@@ -36,9 +34,7 @@ class BCreateMasterEditionV3Data implements BType<CreateMasterEditionV3Data> {
 
   @override
   CreateMasterEditionV3Data read(BinaryReader reader) {
-    return CreateMasterEditionV3Data(
-      maxSupply: const BOption(BU64()).read(reader),
-    );
+    return CreateMasterEditionV3Data(maxSupply: const BOption(BU64()).read(reader));
   }
 }
 

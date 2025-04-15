@@ -15,8 +15,7 @@ class FieldElement {
     }
   }
 
-  FieldElement.fromByteArray(List<BigInt> input)
-      : _t = List.filled(10, BigInt.zero) {
+  FieldElement.fromByteArray(List<BigInt> input) : _t = List.filled(10, BigInt.zero) {
     BigInt h0 = load_4(input, 0);
     BigInt h1 = load_3(input, 4) << 6;
     BigInt h2 = load_3(input, 7) << 5;
@@ -378,7 +377,8 @@ class FieldElement {
     final f9g7_38 = f9_2 * g7_19;
     final f9g8_19 = _t[9] * g8_19;
     final f9g9_38 = f9_2 * g9_19;
-    BigInt h0 = f0g0 +
+    BigInt h0 =
+        f0g0 +
         f1g9_38 +
         f2g8_19 +
         f3g7_38 +
@@ -388,88 +388,19 @@ class FieldElement {
         f7g3_38 +
         f8g2_19 +
         f9g1_38;
-    BigInt h1 = f0g1 +
-        f1g0 +
-        f2g9_19 +
-        f3g8_19 +
-        f4g7_19 +
-        f5g6_19 +
-        f6g5_19 +
-        f7g4_19 +
-        f8g3_19 +
-        f9g2_19;
-    BigInt h2 = f0g2 +
-        f1g1_2 +
-        f2g0 +
-        f3g9_38 +
-        f4g8_19 +
-        f5g7_38 +
-        f6g6_19 +
-        f7g5_38 +
-        f8g4_19 +
-        f9g3_38;
-    BigInt h3 = f0g3 +
-        f1g2 +
-        f2g1 +
-        f3g0 +
-        f4g9_19 +
-        f5g8_19 +
-        f6g7_19 +
-        f7g6_19 +
-        f8g5_19 +
-        f9g4_19;
-    BigInt h4 = f0g4 +
-        f1g3_2 +
-        f2g2 +
-        f3g1_2 +
-        f4g0 +
-        f5g9_38 +
-        f6g8_19 +
-        f7g7_38 +
-        f8g6_19 +
-        f9g5_38;
-    BigInt h5 = f0g5 +
-        f1g4 +
-        f2g3 +
-        f3g2 +
-        f4g1 +
-        f5g0 +
-        f6g9_19 +
-        f7g8_19 +
-        f8g7_19 +
-        f9g6_19;
-    BigInt h6 = f0g6 +
-        f1g5_2 +
-        f2g4 +
-        f3g3_2 +
-        f4g2 +
-        f5g1_2 +
-        f6g0 +
-        f7g9_38 +
-        f8g8_19 +
-        f9g7_38;
-    BigInt h7 = f0g7 +
-        f1g6 +
-        f2g5 +
-        f3g4 +
-        f4g3 +
-        f5g2 +
-        f6g1 +
-        f7g0 +
-        f8g9_19 +
-        f9g8_19;
-    BigInt h8 = f0g8 +
-        f1g7_2 +
-        f2g6 +
-        f3g5_2 +
-        f4g4 +
-        f5g3_2 +
-        f6g2 +
-        f7g1_2 +
-        f8g0 +
-        f9g9_38;
-    BigInt h9 =
-        f0g9 + f1g8 + f2g7 + f3g6 + f4g5 + f5g4 + f6g3 + f7g2 + f8g1 + f9g0;
+    BigInt h1 =
+        f0g1 + f1g0 + f2g9_19 + f3g8_19 + f4g7_19 + f5g6_19 + f6g5_19 + f7g4_19 + f8g3_19 + f9g2_19;
+    BigInt h2 =
+        f0g2 + f1g1_2 + f2g0 + f3g9_38 + f4g8_19 + f5g7_38 + f6g6_19 + f7g5_38 + f8g4_19 + f9g3_38;
+    BigInt h3 =
+        f0g3 + f1g2 + f2g1 + f3g0 + f4g9_19 + f5g8_19 + f6g7_19 + f7g6_19 + f8g5_19 + f9g4_19;
+    BigInt h4 =
+        f0g4 + f1g3_2 + f2g2 + f3g1_2 + f4g0 + f5g9_38 + f6g8_19 + f7g7_38 + f8g6_19 + f9g5_38;
+    BigInt h5 = f0g5 + f1g4 + f2g3 + f3g2 + f4g1 + f5g0 + f6g9_19 + f7g8_19 + f8g7_19 + f9g6_19;
+    BigInt h6 = f0g6 + f1g5_2 + f2g4 + f3g3_2 + f4g2 + f5g1_2 + f6g0 + f7g9_38 + f8g8_19 + f9g7_38;
+    BigInt h7 = f0g7 + f1g6 + f2g5 + f3g4 + f4g3 + f5g2 + f6g1 + f7g0 + f8g9_19 + f9g8_19;
+    BigInt h8 = f0g8 + f1g7_2 + f2g6 + f3g5_2 + f4g4 + f5g3_2 + f6g2 + f7g1_2 + f8g0 + f9g9_38;
+    BigInt h9 = f0g9 + f1g8 + f2g7 + f3g6 + f4g5 + f5g4 + f6g3 + f7g2 + f8g1 + f9g0;
     BigInt carry0 = (h0 + (BigInt.one << 25)) >> 26;
     h1 += carry0;
     h0 -= carry0 << 26;

@@ -17,10 +17,7 @@ extension RpcClientExt on RpcClient {
       await onSigned(signedTx.signatures.first);
     }
 
-    return sendTransaction(
-      signedTx.encode(),
-      preflightCommitment: commitment,
-    );
+    return sendTransaction(signedTx.encode(), preflightCommitment: commitment);
   }
 
   Future<SignedTx> signMessage(
@@ -29,8 +26,7 @@ extension RpcClientExt on RpcClient {
     LatestBlockhash? blockhash,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final latestBlockhash =
-        blockhash ?? await getLatestBlockhash(commitment: commitment).value;
+    final latestBlockhash = blockhash ?? await getLatestBlockhash(commitment: commitment).value;
 
     return signTransaction(latestBlockhash, message, signers);
   }
@@ -111,8 +107,7 @@ extension RpcClientExt on RpcClient {
   /// Get multiple signatures for multiple addresses in 1 call.
   /// The parameters are "passed as is"
   /// to the internal call to [RpcClient.getSignaturesForAddress()]
-  Future<List<List<TransactionSignatureInformation>>>
-      getMultipleSignaturesForAddresses(
+  Future<List<List<TransactionSignatureInformation>>> getMultipleSignaturesForAddresses(
     List<Ed25519HDPublicKey> addresses, {
     int limit = 10,
     String? before,
@@ -138,19 +133,14 @@ extension RpcClientExt on RpcClient {
           .toList(),
     );
 
-    return response
-        .map<List<TransactionSignatureInformation>>((dynamic result) {
+    return response.map<List<TransactionSignatureInformation>>((dynamic result) {
       if (result == null) return [];
       final data = getResult(result);
       if (data == null) return [];
       if (data is! List) return [];
 
       return data
-          .map(
-            (dynamic s) => TransactionSignatureInformation.fromJson(
-              s as Map<String, dynamic>,
-            ),
-          )
+          .map((dynamic s) => TransactionSignatureInformation.fromJson(s as Map<String, dynamic>))
           .toList();
     }).toList();
   }
@@ -187,19 +177,12 @@ extension RpcClientExt on RpcClient {
 
     return transactions
         .where((t) => t != null)
-        .map(
-          (dynamic t) => TransactionDetails.fromJson(t as Map<String, dynamic>),
-        )
+        .map((dynamic t) => TransactionDetails.fromJson(t as Map<String, dynamic>))
         .toList(growable: false);
   }
 
-  Future<AddressLookupTableAccount> getAddressLookupTable(
-    Ed25519HDPublicKey account,
-  ) async {
-    final accountInfo = await getAccountInfo(
-      account.toBase58(),
-      encoding: Encoding.base64,
-    ).value;
+  Future<AddressLookupTableAccount> getAddressLookupTable(Ed25519HDPublicKey account) async {
+    final accountInfo = await getAccountInfo(account.toBase58(), encoding: Encoding.base64).value;
 
     if (accountInfo == null) {
       throw const FormatException('Account not found');
@@ -218,12 +201,9 @@ extension RpcClientExt on RpcClient {
 
   Future<List<AddressLookupTableAccount>> getAddressLookUpTableAccounts(
     List<MessageAddressTableLookup> addressTableLookups,
-  ) =>
-      Future.wait(
-        addressTableLookups
-            .map((lookup) async => getAddressLookupTable(lookup.accountKey))
-            .toList(),
-      );
+  ) => Future.wait(
+    addressTableLookups.map((lookup) async => getAddressLookupTable(lookup.accountKey)).toList(),
+  );
 
   Future<Message> getMessageFromEncodedTx(String encodedTx) {
     final tx = SignedTx.decode(encodedTx);
@@ -233,8 +213,7 @@ extension RpcClientExt on RpcClient {
       v0: (compiledMessage) async {
         final addressTableLookups = compiledMessage.addressTableLookups;
 
-        final lookUpTables =
-            await getAddressLookUpTableAccounts(addressTableLookups);
+        final lookUpTables = await getAddressLookUpTableAccounts(addressTableLookups);
 
         return tx.decompileMessage(addressLookupTableAccounts: lookUpTables);
       },

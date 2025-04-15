@@ -7,8 +7,7 @@ part 'balance.g.dart';
 class BalanceResult extends ContextResult<int> {
   const BalanceResult({required super.context, required super.value});
 
-  factory BalanceResult.fromJson(Map<String, dynamic> json) =>
-      _$BalanceResultFromJson(json);
+  factory BalanceResult.fromJson(Map<String, dynamic> json) => _$BalanceResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$BalanceResultToJson(this);
 }

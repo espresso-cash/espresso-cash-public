@@ -3,12 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana_mobile_client_example/client.dart';
 
 void main() {
-  runApp(
-    BlocProvider(
-      create: (_) => ClientBloc(),
-      child: const MyApp(),
-    ),
-  );
+  runApp(BlocProvider(create: (_) => ClientBloc(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,27 +11,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Plugin example app'),
-          ),
-          body: SingleChildScrollView(
-            child: BlocConsumer<ClientBloc, ClientState>(
-              listener: (context, state) {
-                // ignore: avoid_print, only for example
-                print(state.capabilities);
-              },
-              listenWhen: (previous, current) =>
-                  previous.capabilities != current.capabilities,
-              builder: (context, state) => Column(
+    home: Scaffold(
+      appBar: AppBar(title: const Text('Plugin example app')),
+      body: SingleChildScrollView(
+        child: BlocConsumer<ClientBloc, ClientState>(
+          listener: (context, state) {
+            // ignore: avoid_print, only for example
+            print(state.capabilities);
+          },
+          listenWhen: (previous, current) => previous.capabilities != current.capabilities,
+          builder:
+              (context, state) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const NetworkToggleButtons(),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 16,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                     child: Text(
                       'Public key: ${state.address ?? '<none>'}',
                       style: Theme.of(context).textTheme.labelMedium,
@@ -44,21 +34,19 @@ class MyApp extends StatelessWidget {
                   ),
                   Button(
                     onPressed: () async {
-                      final result =
-                          await context.read<ClientBloc>().isWalletAvailable();
+                      final result = await context.read<ClientBloc>().isWalletAvailable();
 
                       // ignore: use_build_context_synchronously, checked for mounted
                       if (!context.mounted) return;
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Wallet available: $result')),
-                      );
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text('Wallet available: $result')));
                     },
                     text: 'Is wallet available?',
                   ),
                   Button(
-                    onPressed: () =>
-                        context.read<ClientBloc>().requestCapabilities(),
+                    onPressed: () => context.read<ClientBloc>().requestCapabilities(),
                     text: 'Get capabilities',
                   ),
                   Button(
@@ -66,45 +54,36 @@ class MyApp extends StatelessWidget {
                     text: 'Authorize',
                   ),
                   Button(
-                    onPressed: state.isAuthorized
-                        ? () => context.read<ClientBloc>().reauthorize()
-                        : null,
+                    onPressed:
+                        state.isAuthorized ? () => context.read<ClientBloc>().reauthorize() : null,
                     text: 'Reauthorize',
                   ),
                   Button(
-                    onPressed: state.isAuthorized
-                        ? () => context.read<ClientBloc>().deauthorize()
-                        : null,
+                    onPressed:
+                        state.isAuthorized ? () => context.read<ClientBloc>().deauthorize() : null,
                     text: 'Deauthorize',
                   ),
                   Button(
-                    onPressed: state.canRequestAirdrop
-                        ? () => context.read<ClientBloc>().requestAirdrop()
-                        : null,
+                    onPressed:
+                        state.canRequestAirdrop
+                            ? () => context.read<ClientBloc>().requestAirdrop()
+                            : null,
                     text: 'Request airdrop',
                   ),
                   const Row(
                     children: [
-                      Expanded(
-                        flex: 3,
-                        child: SignTxButton(count: 1, text: 'Sign txn x1'),
-                      ),
+                      Expanded(flex: 3, child: SignTxButton(count: 1, text: 'Sign txn x1')),
                       Expanded(child: SignTxButton(count: 3, text: 'x3')),
                       Expanded(child: SignTxButton(count: 20, text: 'x20')),
                     ],
                   ),
                   Button(
-                    onPressed: () => context
-                        .read<ClientBloc>()
-                        .authorizeAndSignTransactions(),
+                    onPressed: () => context.read<ClientBloc>().authorizeAndSignTransactions(),
                     text: 'Combined authorize and sign txn x1',
                   ),
                   const Row(
                     children: [
-                      Expanded(
-                        flex: 3,
-                        child: SignMsgButton(count: 1, text: 'Sign msg x1'),
-                      ),
+                      Expanded(flex: 3, child: SignMsgButton(count: 1, text: 'Sign msg x1')),
                       Expanded(child: SignMsgButton(count: 3, text: 'x3')),
                       Expanded(child: SignMsgButton(count: 20, text: 'x20')),
                     ],
@@ -113,17 +92,10 @@ class MyApp extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 3,
-                        child: SignAndSendTxButton(
-                          count: 1,
-                          text: 'Sign and send txn x1',
-                        ),
+                        child: SignAndSendTxButton(count: 1, text: 'Sign and send txn x1'),
                       ),
-                      Expanded(
-                        child: SignAndSendTxButton(count: 3, text: 'x3'),
-                      ),
-                      Expanded(
-                        child: SignAndSendTxButton(count: 20, text: 'x20'),
-                      ),
+                      Expanded(child: SignAndSendTxButton(count: 3, text: 'x3')),
+                      Expanded(child: SignAndSendTxButton(count: 20, text: 'x20')),
                     ],
                   ),
                   Footer(
@@ -133,10 +105,10 @@ class MyApp extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ),
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class NetworkToggleButtons extends StatelessWidget {
@@ -144,107 +116,86 @@ class NetworkToggleButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: ToggleButtons(
-          isSelected: [
-            !context.watch<ClientBloc>().state.isMainnet,
-            context.watch<ClientBloc>().state.isMainnet,
-          ],
-          onPressed: (index) {
-            context.read<ClientBloc>().updateNetwork(isMainnet: index == 1);
-          },
-          children: const [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text('Testnet'),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text('Mainnet'),
-            ),
-          ],
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 8),
+    child: ToggleButtons(
+      isSelected: [
+        !context.watch<ClientBloc>().state.isMainnet,
+        context.watch<ClientBloc>().state.isMainnet,
+      ],
+      onPressed: (index) {
+        context.read<ClientBloc>().updateNetwork(isMainnet: index == 1);
+      },
+      children: const [
+        Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text('Testnet')),
+        Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Text('Mainnet')),
+      ],
+    ),
+  );
 }
 
 class SignAndSendTxButton extends StatelessWidget {
-  const SignAndSendTxButton({
-    super.key,
-    required this.text,
-    required this.count,
-  });
+  const SignAndSendTxButton({super.key, required this.text, required this.count});
 
   final String text;
   final int count;
 
   @override
   Widget build(BuildContext context) => Button(
-        onPressed: context.watch<ClientBloc>().state.isAuthorized
+    onPressed:
+        context.watch<ClientBloc>().state.isAuthorized
             ? () => context.read<ClientBloc>().signAndSendTransactions(count)
             : null,
-        text: text,
-      );
+    text: text,
+  );
 }
 
 class SignMsgButton extends StatelessWidget {
-  const SignMsgButton({
-    super.key,
-    required this.text,
-    required this.count,
-  });
+  const SignMsgButton({super.key, required this.text, required this.count});
 
   final String text;
   final int count;
 
   @override
   Widget build(BuildContext context) => Button(
-        onPressed: context.watch<ClientBloc>().state.isAuthorized
+    onPressed:
+        context.watch<ClientBloc>().state.isAuthorized
             ? () => context.read<ClientBloc>().signMessages(count)
             : null,
-        text: text,
-      );
+    text: text,
+  );
 }
 
 class SignTxButton extends StatelessWidget {
-  const SignTxButton({
-    super.key,
-    required this.text,
-    required this.count,
-  });
+  const SignTxButton({super.key, required this.text, required this.count});
 
   final String text;
   final int count;
 
   @override
   Widget build(BuildContext context) => Button(
-        onPressed: context.watch<ClientBloc>().state.isAuthorized
+    onPressed:
+        context.watch<ClientBloc>().state.isAuthorized
             ? () => context.read<ClientBloc>().signTransactions(count)
             : null,
-        text: text,
-      );
+    text: text,
+  );
 }
 
 class Button extends StatelessWidget {
-  const Button({
-    super.key,
-    this.onPressed,
-    required this.text,
-  });
+  const Button({super.key, this.onPressed, required this.text});
 
   final VoidCallback? onPressed;
   final String text;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(40),
-          ),
-          onPressed: onPressed,
-          child: Text(text),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 8),
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
+      onPressed: onPressed,
+      child: Text(text),
+    ),
+  );
 }
 
 class Footer extends StatelessWidget {
@@ -261,49 +212,42 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FooterRow(
-              title: 'Has auth token?',
-              value: SizedBox.square(
-                dimension: 18,
-                child: Checkbox(value: hasAuthToken, onChanged: null),
-              ),
-            ),
-            FooterRow(
-              title: 'Account Name:',
-              value: Text(accountName ?? '<none>'),
-            ),
-            FooterRow(
-              title: 'Wallet Uri Prefix:',
-              value: Text(walletUriPrefix?.toString() ?? '<none>'),
-            ),
-          ],
+    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FooterRow(
+          title: 'Has auth token?',
+          value: SizedBox.square(
+            dimension: 18,
+            child: Checkbox(value: hasAuthToken, onChanged: null),
+          ),
         ),
-      );
+        FooterRow(title: 'Account Name:', value: Text(accountName ?? '<none>')),
+        FooterRow(
+          title: 'Wallet Uri Prefix:',
+          value: Text(walletUriPrefix?.toString() ?? '<none>'),
+        ),
+      ],
+    ),
+  );
 }
 
 class FooterRow extends StatelessWidget {
-  const FooterRow({
-    super.key,
-    required this.title,
-    required this.value,
-  });
+  const FooterRow({super.key, required this.title, required this.value});
 
   final String title;
   final Widget value;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: Row(
-          children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(width: 4),
-            value,
-          ],
-        ),
-      );
+    padding: const EdgeInsets.only(bottom: 8.0),
+    child: Row(
+      children: [
+        Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(width: 4),
+        value,
+      ],
+    ),
+  );
 }

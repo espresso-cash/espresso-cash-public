@@ -95,13 +95,14 @@ void main() {
     });
 
     test('Create an associated token account', () async {
-      List<ProgramAccount> accounts = await solanaClient.rpcClient
-          .getTokenAccountsByOwner(
-            owner.address,
-            TokenAccountsFilter.byMint(newToken.address.toBase58()),
-            commitment: Commitment.confirmed,
-          )
-          .value;
+      List<ProgramAccount> accounts =
+          await solanaClient.rpcClient
+              .getTokenAccountsByOwner(
+                owner.address,
+                TokenAccountsFilter.byMint(newToken.address.toBase58()),
+                commitment: Commitment.confirmed,
+              )
+              .value;
       expect(accounts, isNot(null));
       expect(accounts.length, equals(0));
 
@@ -111,32 +112,31 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      accounts = await solanaClient.rpcClient
-          .getTokenAccountsByOwner(
-            owner.address,
-            TokenAccountsFilter.byMint(newToken.address.toBase58()),
-            encoding: Encoding.jsonParsed,
-            commitment: Commitment.confirmed,
-          )
-          .value;
+      accounts =
+          await solanaClient.rpcClient
+              .getTokenAccountsByOwner(
+                owner.address,
+                TokenAccountsFilter.byMint(newToken.address.toBase58()),
+                encoding: Encoding.jsonParsed,
+                commitment: Commitment.confirmed,
+              )
+              .value;
       // ignore: avoid-duplicate-test-assertions, accounts have changed
       expect(accounts, isNot(null));
       expect(accounts.length, equals(1));
-      expect(
-        accounts.where((a) => a.pubkey == newAccount.pubkey),
-        isNot(null),
-      );
+      expect(accounts.where((a) => a.pubkey == newAccount.pubkey), isNot(null));
     });
 
     test('Mint the newly created token and account', () async {
-      final accounts = await solanaClient.rpcClient
-          .getTokenAccountsByOwner(
-            owner.address,
-            TokenAccountsFilter.byMint(newToken.address.toBase58()),
-            encoding: Encoding.jsonParsed,
-            commitment: Commitment.confirmed,
-          )
-          .value;
+      final accounts =
+          await solanaClient.rpcClient
+              .getTokenAccountsByOwner(
+                owner.address,
+                TokenAccountsFilter.byMint(newToken.address.toBase58()),
+                encoding: Encoding.jsonParsed,
+                commitment: Commitment.confirmed,
+              )
+              .value;
       await solanaClient.mintTo(
         destination: Ed25519HDPublicKey.fromBase58(accounts.first.pubkey),
         amount: _totalSupply,
@@ -145,12 +145,10 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      final TokenAmount tokenSupply = await solanaClient.rpcClient
-          .getTokenSupply(
-            newToken.address.toBase58(),
-            commitment: Commitment.confirmed,
-          )
-          .value;
+      final TokenAmount tokenSupply =
+          await solanaClient.rpcClient
+              .getTokenSupply(newToken.address.toBase58(), commitment: Commitment.confirmed)
+              .value;
 
       expect(int.parse(tokenSupply.amount), equals(_totalSupply));
     });
@@ -173,12 +171,10 @@ void main() {
         mint: newToken.address,
         commitment: Commitment.confirmed,
       );
-      final balance = await solanaClient.rpcClient
-          .getTokenAccountBalance(
-            account.pubkey,
-            commitment: Commitment.confirmed,
-          )
-          .value;
+      final balance =
+          await solanaClient.rpcClient
+              .getTokenAccountBalance(account.pubkey, commitment: Commitment.confirmed)
+              .value;
 
       expect(balance.amount, '100');
     });
@@ -202,15 +198,13 @@ void main() {
       );
       // A sender must have the appropriate associated account, in case they
       // don't it's an error and we should throw an exception.
-      final sourceAssociatedTokenAddress =
-          await solanaClient.getAssociatedTokenAccount(
+      final sourceAssociatedTokenAddress = await solanaClient.getAssociatedTokenAccount(
         mint: newToken.address,
         owner: owner.publicKey,
         commitment: Commitment.confirmed,
       );
       // A recipient needs an associated account as well
-      final destinationAssociatedTokenAddress =
-          await solanaClient.getAssociatedTokenAccount(
+      final destinationAssociatedTokenAddress = await solanaClient.getAssociatedTokenAccount(
         mint: newToken.address,
         owner: recipient.publicKey,
         commitment: Commitment.confirmed,
@@ -242,9 +236,7 @@ void main() {
       expect(signature, isNot(null));
     });
 
-    test(
-        'Fails to transfer tokens if the recipient has no associated token account',
-        () async {
+    test('Fails to transfer tokens if the recipient has no associated token account', () async {
       final recipient = await Ed25519HDKeyPair.random();
       // Send to the newly created account
       expect(
@@ -259,9 +251,7 @@ void main() {
       );
     });
 
-    test(
-        'Fails to transfer tokens if the sender has no associated token account',
-        () async {
+    test('Fails to transfer tokens if the sender has no associated token account', () async {
       final sender = await Ed25519HDKeyPair.random();
       // Send to the newly created account
       expect(

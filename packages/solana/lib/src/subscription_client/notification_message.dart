@@ -10,9 +10,7 @@ part 'notification_message.freezed.dart';
 part 'notification_message.g.dart';
 
 @Freezed(unionKey: 'method', fallbackUnion: 'unsupported')
-class NotificationMessage
-    with _$NotificationMessage
-    implements SubscriptionMessage {
+class NotificationMessage with _$NotificationMessage implements SubscriptionMessage {
   const NotificationMessage._();
 
   const factory NotificationMessage.unsupported() = _UnsupportedNotification;
@@ -21,9 +19,8 @@ class NotificationMessage
     required NotificationParams<Account> params,
   }) = AccountNotification;
 
-  const factory NotificationMessage.logsNotification({
-    required NotificationParams<Logs> params,
-  }) = LogsNotification;
+  const factory NotificationMessage.logsNotification({required NotificationParams<Logs> params}) =
+      LogsNotification;
 
   const factory NotificationMessage.programNotification({
     required NotificationParams<dynamic> params,
@@ -33,9 +30,8 @@ class NotificationMessage
     required NotificationParams<OptionalError> params,
   }) = SignatureNotification;
 
-  const factory NotificationMessage.slotNotification({
-    required NotificationParams<Slot> params,
-  }) = SlotNotification;
+  const factory NotificationMessage.slotNotification({required NotificationParams<Slot> params}) =
+      SlotNotification;
 
   factory NotificationMessage.fromJson(Map<String, dynamic> json) =>
       _$NotificationMessageFromJson(json);
@@ -43,20 +39,20 @@ class NotificationMessage
   /// Each of these objects has a `value` field and we want to
   /// use it to send it to the caller
   dynamic get value => when<dynamic>(
-        accountNotification: (params) => params.result.value,
-        logsNotification: (params) => params.result.value,
-        programNotification: (params) => params.result.value,
-        signatureNotification: (params) => params.result.value,
-        slotNotification: (params) => params.result.value,
-        unsupported: () => null,
-      );
+    accountNotification: (params) => params.result.value,
+    logsNotification: (params) => params.result.value,
+    programNotification: (params) => params.result.value,
+    signatureNotification: (params) => params.result.value,
+    slotNotification: (params) => params.result.value,
+    unsupported: () => null,
+  );
 
   int get subscription => when(
-        accountNotification: (params) => params.subscription,
-        logsNotification: (params) => params.subscription,
-        programNotification: (params) => params.subscription,
-        signatureNotification: (params) => params.subscription,
-        slotNotification: (params) => params.subscription,
-        unsupported: () => -1,
-      );
+    accountNotification: (params) => params.subscription,
+    logsNotification: (params) => params.subscription,
+    programNotification: (params) => params.subscription,
+    signatureNotification: (params) => params.subscription,
+    slotNotification: (params) => params.subscription,
+    unsupported: () => -1,
+  );
 }

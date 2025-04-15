@@ -2,16 +2,12 @@ import 'package:solana/encoder.dart';
 import 'package:solana/src/programs/compute_budget_program/program.dart';
 
 class ComputeBudgetInstruction extends Instruction {
-  ComputeBudgetInstruction({
-    required super.data,
-  }) : super(programId: ComputeBudgetProgram.id, accounts: []);
+  ComputeBudgetInstruction({required super.data})
+    : super(programId: ComputeBudgetProgram.id, accounts: []);
 
   factory ComputeBudgetInstruction.requestHeapFrame({required int bytes}) =>
       ComputeBudgetInstruction(
-        data: ByteArray.merge([
-          ComputeBudgetProgram.requestHeapFrameIndex,
-          ByteArray.u32(bytes),
-        ]),
+        data: ByteArray.merge([ComputeBudgetProgram.requestHeapFrameIndex, ByteArray.u32(bytes)]),
       );
 
   factory ComputeBudgetInstruction.setComputeUnitLimit({required int units}) =>
@@ -22,9 +18,7 @@ class ComputeBudgetInstruction extends Instruction {
         ]),
       );
 
-  factory ComputeBudgetInstruction.setComputeUnitPrice({
-    required int microLamports,
-  }) =>
+  factory ComputeBudgetInstruction.setComputeUnitPrice({required int microLamports}) =>
       ComputeBudgetInstruction(
         data: ByteArray.merge([
           ComputeBudgetProgram.setComputeUnitPriceIndex,
@@ -32,9 +26,7 @@ class ComputeBudgetInstruction extends Instruction {
         ]),
       );
 
-  factory ComputeBudgetInstruction.setLoadedAccountsDataSizeLimit({
-    required int bytes,
-  }) =>
+  factory ComputeBudgetInstruction.setLoadedAccountsDataSizeLimit({required int bytes}) =>
       ComputeBudgetInstruction(
         data: ByteArray.merge([
           ComputeBudgetProgram.setLoadedAccountsDataSizeLimitIndex,

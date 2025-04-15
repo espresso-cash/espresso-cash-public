@@ -7,15 +7,9 @@ import 'utils.dart';
 void main() {
   testGoldensWidget(
     'Get started screen',
-    GetStartedScreen(
-      onSignInPressed: () {},
-      onLocalPressed: () {},
-    ),
+    GetStartedScreen(onSignInPressed: () {}, onLocalPressed: () {}),
     skip: true, // Need to resolve issues with screenutil
   );
 
-  testGoldensWidget(
-    'WalletFlowScreen',
-    const Scaffold(body: WalletScreen()),
-  );
+  testGoldensWidget('WalletFlowScreen', const Scaffold(body: WalletScreen()));
 }

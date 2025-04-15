@@ -12,8 +12,7 @@ part 'bloc.freezed.dart';
 part 'state.dart';
 
 // ignore: avoid-cubits, just an example
-class MobileWalletBloc extends Cubit<MobileWalletState>
-    implements ScenarioCallbacks {
+class MobileWalletBloc extends Cubit<MobileWalletState> implements ScenarioCallbacks {
   MobileWalletBloc(this._keyPair) : super(const MobileWalletState.none()) {
     Api.instance.setup(
       walletConfig: const MobileWalletAdapterConfig(
@@ -43,8 +42,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     required String scopeTag,
     required String? qualifier,
   }) {
-    final request =
-        state.whenOrNull(remote: (r) => r)?.whenOrNull(authorizeDapp: (r) => r);
+    final request = state.whenOrNull(remote: (r) => r)?.whenOrNull(authorizeDapp: (r) => r);
 
     if (request == null) return;
 
@@ -65,8 +63,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   Future<void> signPayloadsSimulateSign() async {
-    final request =
-        state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
+    final request = state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
 
     if (request == null) return;
 
@@ -74,21 +71,18 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
 
     final transactions = await Future.wait(
       request.map(
-        transactions: (request) => payloads.map(
-          (e) async {
-            final tx = SignedTx.fromBytes(e);
+        transactions:
+            (request) => payloads.map((e) async {
+              final tx = SignedTx.fromBytes(e);
 
-            return SignedTx(
-              compiledMessage: tx.compiledMessage,
-              signatures: [
-                await _keyPair.sign(tx.compiledMessage.toByteArray()),
-              ],
-            ).toByteArray().toList();
-          },
-        ),
-        messages: (request) => payloads.map(
-          (e) async => e + await _keyPair.sign(e).then((value) => value.bytes),
-        ),
+              return SignedTx(
+                compiledMessage: tx.compiledMessage,
+                signatures: [await _keyPair.sign(tx.compiledMessage.toByteArray())],
+              ).toByteArray().toList();
+            }),
+        messages:
+            (request) =>
+                payloads.map((e) async => e + await _keyPair.sign(e).then((value) => value.bytes)),
       ),
     );
 
@@ -100,8 +94,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   void signPayloadsDeclined() {
-    final request =
-        state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
+    final request = state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
 
     if (request == null) return;
 
@@ -109,8 +102,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   void signPayloadsSimulateAuthTokenInvalid() {
-    final request =
-        state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
+    final request = state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
 
     if (request == null) return;
 
@@ -118,8 +110,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   void signPayloadsSimulateInvalidPayloads() {
-    final request =
-        state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
+    final request = state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
 
     if (request == null) return;
 
@@ -128,8 +119,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   void signPayloadsSimulateTooManyPayloads() {
-    final request =
-        state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
+    final request = state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
 
     if (request == null) return;
 
@@ -144,30 +134,24 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     if (request == null) return;
 
     final transactions = await Future.wait(
-      request.transactions.map(
-        (e) async {
-          final tx = SignedTx.fromBytes(e);
+      request.transactions.map((e) async {
+        final tx = SignedTx.fromBytes(e);
 
-          return SignedTx(
-            compiledMessage: tx.compiledMessage,
-            signatures: [await _keyPair.sign(tx.compiledMessage.toByteArray())],
-          );
-        },
-      ),
+        return SignedTx(
+          compiledMessage: tx.compiledMessage,
+          signatures: [await _keyPair.sign(tx.compiledMessage.toByteArray())],
+        );
+      }),
     );
 
     emit(
       MobileWalletState.remote(
         RemoteRequest.sendTransactions(
           request: request,
-          signatures: transactions
-              .map((e) => e.signatures.first.bytes)
-              .map(Uint8List.fromList)
-              .toList(),
-          signedTransactions: transactions
-              .map((e) => e.toByteArray().toList())
-              .map(Uint8List.fromList)
-              .toList(),
+          signatures:
+              transactions.map((e) => e.signatures.first.bytes).map(Uint8List.fromList).toList(),
+          signedTransactions:
+              transactions.map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList(),
         ),
       ),
     );
@@ -215,9 +199,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   void signAndSendTransactionsSubmitted() {
-    final request = state
-        .whenOrNull(remote: (r) => r)
-        ?.mapOrNull(sendTransactions: (r) => r);
+    final request = state.whenOrNull(remote: (r) => r)?.mapOrNull(sendTransactions: (r) => r);
 
     if (request == null) return;
 
@@ -227,36 +209,30 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   void signAndSendTransactionsNotSubmitted() {
-    final request = state
-        .whenOrNull(remote: (r) => r)
-        ?.mapOrNull(sendTransactions: (r) => r);
+    final request = state.whenOrNull(remote: (r) => r)?.mapOrNull(sendTransactions: (r) => r);
 
     if (request == null) return;
 
-    final result =
-        SignaturesResult.notSubmitted(signatures: request.signatures);
+    final result = SignaturesResult.notSubmitted(signatures: request.signatures);
 
     _completer?.complete(result);
   }
 
   Future<void> signAndSendTransactionsSend() async {
-    final request = state
-        .whenOrNull(remote: (r) => r)
-        ?.mapOrNull(sendTransactions: (r) => r);
+    final request = state.whenOrNull(remote: (r) => r)?.mapOrNull(sendTransactions: (r) => r);
 
     if (request == null) return;
 
     final results = await Future.wait(
-      request.signedTransactions.map(base64.encode).map(
-            (e) => _client
-                .sendTransaction(e)
-                .then((_) => true, onError: (_) => false),
-          ),
+      request.signedTransactions
+          .map(base64.encode)
+          .map((e) => _client.sendTransaction(e).then((_) => true, onError: (_) => false)),
     );
 
-    final result = results.any((e) => !e)
-        ? SignaturesResult.invalidPayloads(valid: results)
-        : SignaturesResult(signatures: request.signatures);
+    final result =
+        results.any((e) => !e)
+            ? SignaturesResult.invalidPayloads(valid: results)
+            : SignaturesResult(signatures: request.signatures);
 
     _completer?.complete(result);
   }
@@ -280,9 +256,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request) {
     _cancelCurrentRequest();
 
-    emit(
-      MobileWalletState.remote(RemoteRequest.authorizeDapp(request: request)),
-    );
+    emit(MobileWalletState.remote(RemoteRequest.authorizeDapp(request: request)));
 
     return _createNewRequest<AuthorizeResult>();
   }
@@ -295,27 +269,19 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   @override
-  Future<SignedPayloadResult?> onSignTransactionsRequest(
-    SignTransactionsRequest request,
-  ) {
+  Future<SignedPayloadResult?> onSignTransactionsRequest(SignTransactionsRequest request) {
     _cancelCurrentRequest();
 
-    emit(
-      MobileWalletState.remote(RemoteRequest.signPayloads(request: request)),
-    );
+    emit(MobileWalletState.remote(RemoteRequest.signPayloads(request: request)));
 
     return _createNewRequest<SignedPayloadResult>();
   }
 
   @override
-  Future<SignedPayloadResult?> onSignMessagesRequest(
-    SignMessagesRequest request,
-  ) {
+  Future<SignedPayloadResult?> onSignMessagesRequest(SignMessagesRequest request) {
     _cancelCurrentRequest();
 
-    emit(
-      MobileWalletState.remote(RemoteRequest.signPayloads(request: request)),
-    );
+    emit(MobileWalletState.remote(RemoteRequest.signPayloads(request: request)));
 
     return _createNewRequest<SignedPayloadResult>();
   }
@@ -326,11 +292,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   ) {
     _cancelCurrentRequest();
 
-    emit(
-      MobileWalletState.remote(
-        RemoteRequest.signTransactionsForSending(request: request),
-      ),
-    );
+    emit(MobileWalletState.remote(RemoteRequest.signTransactionsForSending(request: request)));
 
     return _createNewRequest<SignaturesResult>();
   }

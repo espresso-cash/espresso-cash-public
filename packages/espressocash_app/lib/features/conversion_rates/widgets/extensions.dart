@@ -13,8 +13,10 @@ extension FormatAmountWithFiatExt on CryptoAmount {
     const fiat = Currency.usd;
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = format(locale, maxDecimals: fiat.decimals);
-    final conversionRate = sl<ConversionRatesRepository>()
-        .readRate(CryptoCurrency(token: token), to: fiat);
+    final conversionRate = sl<ConversionRatesRepository>().readRate(
+      CryptoCurrency(token: token),
+      to: fiat,
+    );
 
     if (conversionRate == null) return formattedAmount;
 
@@ -30,25 +32,24 @@ extension FormatAmountExt on Amount {
     bool skipSymbol = false,
     bool roundInteger = false,
     int? maxDecimals,
-  }) =>
-      switch (currency) {
-        FiatCurrency(:final sign) => formatAmount(
-            locale: locale,
-            value: decimal,
-            decimals: maxDecimals ?? currency.decimals,
-            symbol: skipSymbol ? null : sign,
-            prefixedSymbol: true,
-            roundInteger: roundInteger,
-          ),
-        CryptoCurrency() => formatAmount(
-            locale: locale,
-            value: decimal,
-            decimals: maxDecimals ?? currency.decimals,
-            symbol: skipSymbol ? null : currency.symbol,
-            prefixedSymbol: false,
-            roundInteger: roundInteger,
-          ),
-      };
+  }) => switch (currency) {
+    FiatCurrency(:final sign) => formatAmount(
+      locale: locale,
+      value: decimal,
+      decimals: maxDecimals ?? currency.decimals,
+      symbol: skipSymbol ? null : sign,
+      prefixedSymbol: true,
+      roundInteger: roundInteger,
+    ),
+    CryptoCurrency() => formatAmount(
+      locale: locale,
+      value: decimal,
+      decimals: maxDecimals ?? currency.decimals,
+      symbol: skipSymbol ? null : currency.symbol,
+      prefixedSymbol: false,
+      roundInteger: roundInteger,
+    ),
+  };
 }
 
 String formatAmount({
@@ -61,9 +62,10 @@ String formatAmount({
 }) {
   final minimumDigits = roundInteger && value.isInteger ? 0 : 2;
 
-  final formatter = NumberFormat.decimalPattern(locale.languageCode)
-    ..minimumFractionDigits = minimumDigits
-    ..maximumFractionDigits = decimals;
+  final formatter =
+      NumberFormat.decimalPattern(locale.languageCode)
+        ..minimumFractionDigits = minimumDigits
+        ..maximumFractionDigits = decimals;
 
   final formatted = formatter.format(value.toDouble());
 

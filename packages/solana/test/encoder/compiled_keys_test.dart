@@ -35,21 +35,9 @@ void main() {
           ],
           data: ByteArray.u8(0),
         ),
-        Instruction(
-          programId: programIds[1],
-          accounts: const [],
-          data: ByteArray.u8(0),
-        ),
-        Instruction(
-          programId: programIds[2],
-          accounts: const [],
-          data: ByteArray.u8(0),
-        ),
-        Instruction(
-          programId: programIds[3],
-          accounts: const [],
-          data: ByteArray.u8(0),
-        ),
+        Instruction(programId: programIds[1], accounts: const [], data: ByteArray.u8(0)),
+        Instruction(programId: programIds[2], accounts: const [], data: ByteArray.u8(0)),
+        Instruction(programId: programIds[3], accounts: const [], data: ByteArray.u8(0)),
       ],
     );
 
@@ -187,13 +175,7 @@ void main() {
       ),
     );
 
-    expect(
-      extractedAddresses,
-      LoadedAddresses(
-        writable: [keys[2]],
-        readonly: [keys[3]],
-      ),
-    );
+    expect(extractedAddresses, LoadedAddresses(writable: [keys[2]], readonly: [keys[3]]));
   });
 
   test('extractTableLookup with no extractable keys found', () async {

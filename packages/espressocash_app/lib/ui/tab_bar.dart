@@ -18,29 +18,25 @@ class CpTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 50,
-        clipBehavior: Clip.antiAlias,
-        decoration: ShapeDecoration(
-          color: _backgroundColor(variant),
-          shape: const StadiumBorder(),
-        ),
-        child: TabBar(
-          controller: controller,
-          indicatorColor: Colors.transparent,
-          unselectedLabelColor: _unselectedLabelColor(variant),
-          labelColor: _labelColor(variant),
-          labelStyle: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-              ),
-          indicator: ShapeDecoration(
-            color: _indicatorBackground(variant),
-            shape: const StadiumBorder(),
-          ),
-          padding: const EdgeInsets.all(6),
-          tabs: tabs,
-        ),
-      );
+    height: 50,
+    clipBehavior: Clip.antiAlias,
+    decoration: ShapeDecoration(color: _backgroundColor(variant), shape: const StadiumBorder()),
+    child: TabBar(
+      controller: controller,
+      indicatorColor: Colors.transparent,
+      unselectedLabelColor: _unselectedLabelColor(variant),
+      labelColor: _labelColor(variant),
+      labelStyle: Theme.of(
+        context,
+      ).textTheme.displaySmall?.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
+      indicator: ShapeDecoration(
+        color: _indicatorBackground(variant),
+        shape: const StadiumBorder(),
+      ),
+      padding: const EdgeInsets.all(6),
+      tabs: tabs,
+    ),
+  );
 }
 
 Color _backgroundColor(CpTabBarVariant variant) {

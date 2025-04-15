@@ -39,8 +39,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           text: context.l10n.carouselSendMoneyBtn,
           onPressed: widget.onSendMoneyPressed,
         ),
-        backgroundImage:
-            isIos ? Assets.images.carousel2Ios : Assets.images.carousel2,
+        backgroundImage: isIos ? Assets.images.carousel2Ios : Assets.images.carousel2,
       ),
       _Item(
         title: context.l10n.carousel2Title,
@@ -82,10 +81,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
         height: 385,
         child: Stack(
           children: [
-            PageView(
-              controller: _controller,
-              children: items,
-            ),
+            PageView(controller: _controller, children: items),
             Align(
               alignment: const Alignment(0, 0.1),
               child: SmoothPageIndicator(
@@ -122,57 +118,51 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(32.0),
-              ),
-              child: backgroundImage.image(
-                height: 175,
-                width: 400,
-                fit: BoxFit.fitWidth,
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(16),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+          child: backgroundImage.image(height: 175, width: 400, fit: BoxFit.fitWidth),
+        ),
+      ),
+      const SizedBox(height: 24),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FittedBox(
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FittedBox(
-                  child: Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+            const SizedBox(height: 6),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                subtitle,
+                maxLines: 3,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
                 ),
-                const SizedBox(height: 6),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Text(
-                    subtitle,
-                    maxLines: 3,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                button ?? const SizedBox(height: 44),
-              ],
+              ),
             ),
-          ),
-        ],
-      );
+            const SizedBox(height: 15),
+            button ?? const SizedBox(height: 44),
+          ],
+        ),
+      ),
+    ],
+  );
 }

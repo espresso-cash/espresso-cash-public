@@ -6,9 +6,7 @@ extension SignedTxExt on SignedTx {
     final signature = await wallet.sign(compiledMessage.toByteArray());
 
     return SignedTx(
-      signatures: signatures
-          .map((e) => e.publicKey == wallet.publicKey ? signature : e)
-          .toList(),
+      signatures: signatures.map((e) => e.publicKey == wallet.publicKey ? signature : e).toList(),
       compiledMessage: compiledMessage,
     );
   }

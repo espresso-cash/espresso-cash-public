@@ -9,52 +9,52 @@ class CountryPicker extends StatelessWidget {
   const CountryPicker({
     super.key,
     this.country,
+    this.countries,
+    this.placeholder,
     this.backgroundColor = Colors.black,
+    this.readOnly = false,
     required this.onSubmitted,
   });
 
   final Country? country;
+  final List<Country>? countries;
+  final String? placeholder;
   final Color backgroundColor;
+  final bool readOnly;
   final ValueSetter<Country> onSubmitted;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: ShapeDecoration(
-          color: backgroundColor,
-          shape: const StadiumBorder(),
+    decoration: ShapeDecoration(color: backgroundColor, shape: const StadiumBorder()),
+    child: ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+      onTap:
+          readOnly
+              ? null
+              : () async {
+                await CustomPickerScreen.push<Country>(
+                  context: context,
+                  title: context.l10n.selectCountryTitle,
+                  items: countries ?? Country.all,
+                  initial: country,
+                  itemBuilder:
+                      (context, country, {required bool selected}) => Text(
+                        country.name,
+                        style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white),
+                      ),
+                  onTap: (country, context) async => onSubmitted(country),
+                );
+              },
+      title: Text(
+        country?.name ?? placeholder ?? context.l10n.countryOfResidence,
+        style: TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: 16,
+          height: 1.2,
+          color: country != null ? Colors.white : CpColors.greyColor,
         ),
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-          onTap: () async {
-            await CustomPickerScreen.push<Country>(
-              context: context,
-              title: context.l10n.selectCountryTitle,
-              items: Country.all,
-              initial: country,
-              itemBuilder: (context, country, {required bool selected}) => Text(
-                country.name,
-                style: TextStyle(
-                  fontSize: selected ? 19 : 17,
-                  color: Colors.white,
-                ),
-              ),
-              onTap: (country, context) async => onSubmitted(country),
-            );
-          },
-          title: Text(
-            country?.name ?? context.l10n.countryOfResidence,
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 16,
-              height: 1.2,
-              color: country != null ? Colors.white : CpColors.greyColor,
-            ),
-          ),
-          trailing: const Icon(
-            Icons.keyboard_arrow_down_outlined,
-            color: Colors.white,
-            size: 28,
-          ),
-        ),
-      );
+      ),
+      trailing: const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white, size: 28),
+    ),
+  );
 }

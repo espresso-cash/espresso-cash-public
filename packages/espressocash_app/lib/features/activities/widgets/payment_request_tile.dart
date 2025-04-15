@@ -11,11 +11,7 @@ import '../../payment_request/widgets/formatted_amount.dart';
 import 'activity_tile.dart';
 
 class PaymentRequestTile extends StatefulWidget {
-  const PaymentRequestTile({
-    super.key,
-    required this.id,
-    this.showIcon = true,
-  });
+  const PaymentRequestTile({super.key, required this.id, this.showIcon = true});
 
   final String id;
   final bool showIcon;
@@ -39,31 +35,26 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<(PaymentRequest, String)>(
-        stream: _stream,
-        builder: (context, snapshot) {
-          final data = snapshot.data;
+    stream: _stream,
+    builder: (context, snapshot) {
+      final data = snapshot.data;
 
-          return (data == null)
-              ? SizedBox.shrink(key: ValueKey(widget.id))
-              : CpActivityTile(
-                  key: ValueKey(widget.id),
-                  title: context.l10n.paymentRequestTitle,
-                  icon: Assets.icons.paymentIcon.svg(),
-                  timestamp: context.formatDate(data.$1.created),
-                  incomingAmount: data.$2,
-                  status: switch (data.$1.state) {
-                    PaymentRequestState.initial =>
-                      CpActivityTileStatus.inProgress,
-                    PaymentRequestState.completed =>
-                      CpActivityTileStatus.success,
-                    PaymentRequestState.error => CpActivityTileStatus.failure,
-                  },
-                  onTap: () => PaymentRequestScreen.push(
-                    context,
-                    id: data.$1.id,
-                  ),
-                  showIcon: widget.showIcon,
-                );
-        },
-      );
+      return (data == null)
+          ? SizedBox.shrink(key: ValueKey(widget.id))
+          : CpActivityTile(
+            key: ValueKey(widget.id),
+            title: context.l10n.paymentRequestTitle,
+            icon: Assets.icons.paymentIcon.svg(),
+            timestamp: context.formatDate(data.$1.created),
+            incomingAmount: data.$2,
+            status: switch (data.$1.state) {
+              PaymentRequestState.initial => CpActivityTileStatus.inProgress,
+              PaymentRequestState.completed => CpActivityTileStatus.success,
+              PaymentRequestState.error => CpActivityTileStatus.failure,
+            },
+            onTap: () => PaymentRequestScreen.push(context, id: data.$1.id),
+            showIcon: widget.showIcon,
+          );
+    },
+  );
 }

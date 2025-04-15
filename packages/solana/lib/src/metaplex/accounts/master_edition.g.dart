@@ -23,11 +23,7 @@ mixin _$MasterEdition {
 }
 
 class _MasterEdition extends MasterEdition {
-  _MasterEdition({
-    required this.key,
-    required this.supply,
-    this.maxSupply,
-  }) : super._();
+  _MasterEdition({required this.key, required this.supply, this.maxSupply}) : super._();
 
   final int key;
   final BigInt supply;

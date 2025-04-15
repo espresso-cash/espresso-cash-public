@@ -11,29 +11,24 @@ import '../models/activity.dart';
 import 'activity_tile.dart';
 
 class OLPTile extends StatelessWidget {
-  const OLPTile({
-    super.key,
-    required this.activity,
-    this.showIcon = true,
-  });
+  const OLPTile({super.key, required this.activity, this.showIcon = true});
 
   final OLPActivity activity;
   final bool showIcon;
 
   @override
   Widget build(BuildContext context) => CpActivityTile(
-        title: context.l10n.sentViaLink,
-        outgoingAmount:
-            activity.data.amount.format(DeviceLocale.localeOf(context)),
-        timestamp: context.formatDate(activity.created),
-        icon: Assets.icons.paymentIcon.svg(),
-        status: activity.data.status.maybeMap(
-          withdrawn: always(CpActivityTileStatus.success),
-          canceled: always(CpActivityTileStatus.canceled),
-          txFailure: always(CpActivityTileStatus.failure),
-          orElse: always(CpActivityTileStatus.inProgress),
-        ),
-        onTap: () => OLPScreen.push(context, id: activity.id),
-        showIcon: showIcon,
-      );
+    title: context.l10n.sentViaLink,
+    outgoingAmount: activity.data.amount.format(DeviceLocale.localeOf(context)),
+    timestamp: context.formatDate(activity.created),
+    icon: Assets.icons.paymentIcon.svg(),
+    status: activity.data.status.maybeMap(
+      withdrawn: always(CpActivityTileStatus.success),
+      canceled: always(CpActivityTileStatus.canceled),
+      txFailure: always(CpActivityTileStatus.failure),
+      orElse: always(CpActivityTileStatus.inProgress),
+    ),
+    onTap: () => OLPScreen.push(context, id: activity.id),
+    showIcon: showIcon,
+  );
 }

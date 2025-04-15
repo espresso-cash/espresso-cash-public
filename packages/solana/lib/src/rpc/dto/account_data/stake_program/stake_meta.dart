@@ -12,8 +12,7 @@ class StakeMeta {
     required this.rentExemptReserve,
   });
 
-  factory StakeMeta.fromJson(Map<String, dynamic> json) =>
-      _$StakeMetaFromJson(json);
+  factory StakeMeta.fromJson(Map<String, dynamic> json) => _$StakeMetaFromJson(json);
 
   final Authorized authorized;
   final Lockup lockup;

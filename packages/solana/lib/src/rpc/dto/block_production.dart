@@ -8,13 +8,9 @@ part 'block_production.g.dart';
 /// A block production
 @JsonSerializable()
 class BlockProduction {
-  const BlockProduction({
-    required this.byIdentity,
-    required this.range,
-  });
+  const BlockProduction({required this.byIdentity, required this.range});
 
-  factory BlockProduction.fromJson(Map<String, dynamic> json) =>
-      _$BlockProductionFromJson(json);
+  factory BlockProduction.fromJson(Map<String, dynamic> json) => _$BlockProductionFromJson(json);
 
   /// A dictionary of validator identities, as base-58 encoded
   /// strings. Value is a two element array containing the number

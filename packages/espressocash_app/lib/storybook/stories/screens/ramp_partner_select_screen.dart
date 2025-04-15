@@ -11,12 +11,13 @@ import '../../utils.dart';
 final onRampPartnerSelectScreen = Story(
   name: 'Screens/RampPartnerSelectScreen',
   wrapperBuilder: appWrapper,
-  builder: (context) => RampPartnerSelectScreen(
-    onPartnerSelected: ignore,
-    type: context.knobs.options(
-      label: 'Type',
-      options: RampType.values.toOptions(),
-      initial: RampType.onRamp,
-    ),
-  ),
+  builder:
+      (context) => RampPartnerSelectScreen(
+        onPartnerSelected: ignore,
+        type: context.knobs.options(
+          label: 'Type',
+          options: RampType.values.toOptions(),
+          initial: RampType.onRamp,
+        ),
+      ),
 );

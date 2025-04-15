@@ -55,28 +55,26 @@ extension BuildContextExt on BuildContext {
       final recipient = request.recipient;
       if (recipient == null) return;
 
-      final name = request.mapOrNull(
-        solanaPay: (r) => r.request.label,
-      );
+      final name = request.mapOrNull(solanaPay: (r) => r.request.label);
       final requestAmount = await request.whenOrNull(
-        solanaPay: (r) => r.cryptoAmount(
-          sl<TokenRepository>().getToken,
-        ),
+        solanaPay: (r) => r.cryptoAmount(sl<TokenRepository>().getToken),
       );
 
       if (!mounted) return;
 
       final isEnabled = requestAmount == null || requestAmount.value == 0;
-      defaultFiatAmount = defaultFiatAmount ??
-          const FiatAmount(value: 0, fiatCurrency: Currency.usd);
-      final FiatAmount initialAmount = requestAmount?.toFiatAmount(
+      defaultFiatAmount =
+          defaultFiatAmount ?? const FiatAmount(value: 0, fiatCurrency: Currency.usd);
+      final FiatAmount initialAmount =
+          requestAmount?.toFiatAmount(
             Currency.usd,
             ratesRepository: sl<ConversionRatesRepository>(),
           ) ??
           defaultFiatAmount;
-      final formatted = initialAmount.value == 0
-          ? ''
-          : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
+      final formatted =
+          initialAmount.value == 0
+              ? ''
+              : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
 
       if (request is QrScannerSolanaPayRequest) {
         final isPaid = await isSolanaPayRequestPaid(request: request.request);
@@ -106,7 +104,8 @@ extension BuildContextExt on BuildContext {
           final finalAmount = defaultFiatAmount.copyWithDecimal(fiatDecimal);
           onFiatAmountChanged?.call(finalAmount);
 
-          cryptoAmount = finalAmount.toTokenAmount(cryptoCurrency.token) ??
+          cryptoAmount =
+              finalAmount.toTokenAmount(cryptoCurrency.token) ??
               CryptoAmount(value: 0, cryptoCurrency: cryptoCurrency);
         } else {
           cryptoAmount = requestAmount;

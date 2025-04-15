@@ -53,81 +53,66 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
 
   @override
   Widget build(BuildContext context) => CpTextField(
-        padding: const EdgeInsets.only(
-          top: 18,
-          bottom: 16,
-          left: 8,
-          right: 26,
-        ),
-        autocorrect: false,
-        fontWeight: FontWeight.w500,
-        fontSize: 16,
-        controller: widget.controller,
-        inputType: TextInputType.phone,
-        textInputAction: TextInputAction.next,
-        backgroundColor: CpColors.lightGreyColor,
-        placeholder: widget.placeholder,
-        placeholderColor: CpColors.greyColor,
-        textColor: Colors.white,
-        prefix: Padding(
-          padding: const EdgeInsets.only(left: 26),
-          child: GestureDetector(
-            onTap: () async {
-              await CustomPickerScreen.push<Country>(
-                context: context,
-                title: context.l10n.selectCountryTitle,
-                items: Country.all,
-                initial: _selectedCountry,
-                itemBuilder: (context, country, {required bool selected}) =>
-                    Row(
+    padding: const EdgeInsets.only(top: 18, bottom: 16, left: 8, right: 26),
+    autocorrect: false,
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    controller: widget.controller,
+    inputType: TextInputType.phone,
+    textInputAction: TextInputAction.next,
+    backgroundColor: CpColors.lightGreyColor,
+    placeholder: widget.placeholder,
+    placeholderColor: CpColors.greyColor,
+    textColor: Colors.white,
+    prefix: Padding(
+      padding: const EdgeInsets.only(left: 26),
+      child: GestureDetector(
+        onTap: () async {
+          await CustomPickerScreen.push<Country>(
+            context: context,
+            title: context.l10n.selectCountryTitle,
+            items: Country.all,
+            initial: _selectedCountry,
+            itemBuilder:
+                (context, country, {required bool selected}) => Row(
                   children: [
                     SizedBox(
                       width: 70,
                       child: Text(
                         country.dialCode,
-                        style: TextStyle(
-                          fontSize: selected ? 19 : 17,
-                          color: CpColors.yellowColor,
-                        ),
+                        style: TextStyle(fontSize: selected ? 19 : 17, color: CpColors.yellowColor),
                       ),
                     ),
                     Expanded(
                       child: Text(
                         country.name,
-                        style: TextStyle(
-                          fontSize: selected ? 19 : 17,
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white),
                       ),
                     ),
                   ],
                 ),
-                onTap: (country, _) async {
-                  setState(() => _selectedCountry = country);
-                  _notifyPhoneChanged();
-                },
-              );
+            onTap: (country, _) async {
+              setState(() => _selectedCountry = country);
+              _notifyPhoneChanged();
             },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  _selectedCountry?.dialCode ?? '',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: CpColors.yellowColor,
-                    height: 1.2,
-                  ),
-                ),
-                const Icon(
-                  Icons.keyboard_arrow_down_outlined,
-                  color: CpColors.yellowColor,
-                  size: 20,
-                ),
-              ],
+          );
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              _selectedCountry?.dialCode ?? '',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: CpColors.yellowColor,
+                height: 1.2,
+              ),
             ),
-          ),
+            const Icon(Icons.keyboard_arrow_down_outlined, color: CpColors.yellowColor, size: 20),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }

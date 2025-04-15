@@ -11,6 +11,5 @@ class RefreshBalance {
 
   final ECWallet _wallet;
 
-  void call() =>
-      sl<BalancesBloc>().add(BalancesEventRequested(address: _wallet.address));
+  void call() => sl<BalancesBloc>().add(BalancesEventRequested(address: _wallet.address));
 }

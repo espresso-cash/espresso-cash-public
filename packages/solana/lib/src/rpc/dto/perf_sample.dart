@@ -12,8 +12,7 @@ class PerfSample {
     required this.samplePeriodSecs,
   });
 
-  factory PerfSample.fromJson(Map<String, dynamic> json) =>
-      _$PerfSampleFromJson(json);
+  factory PerfSample.fromJson(Map<String, dynamic> json) => _$PerfSampleFromJson(json);
 
   /// Slot in which sample was taken at.
   final int slot;

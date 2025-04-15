@@ -10,27 +10,24 @@ extension PuzzleFlow on BuildContext {
     final navigator = Navigator.of(this, rootNavigator: true);
 
     MaterialPageRoute<void> successRoute() => MaterialPageRoute(
-          builder: (context) => PuzzleSuccessScreen(
-            onDone: () => context.openFirstScreen(),
-          ),
-        );
+      builder: (context) => PuzzleSuccessScreen(onDone: () => context.openFirstScreen()),
+    );
 
-    MaterialPageRoute<void> inputPhraseRoute(String phrase) =>
-        MaterialPageRoute(
-          builder: (context) => PuzzleInputScreen(
+    MaterialPageRoute<void> inputPhraseRoute(String phrase) => MaterialPageRoute(
+      builder:
+          (context) => PuzzleInputScreen(
             correctPhrase: phrase,
-            onConfirmed: () => navigator.pushAndRemoveUntil(
-              successRoute(),
-              (route) => route.isFirst,
-            ),
+            onConfirmed:
+                () => navigator.pushAndRemoveUntil(successRoute(), (route) => route.isFirst),
           ),
-        );
+    );
 
     navigator.push<void>(
       MaterialPageRoute(
-        builder: (context) => PuzzleViewPhraseScreen(
-          onConfirmed: (phrase) => navigator.push(inputPhraseRoute(phrase)),
-        ),
+        builder:
+            (context) => PuzzleViewPhraseScreen(
+              onConfirmed: (phrase) => navigator.push(inputPhraseRoute(phrase)),
+            ),
       ),
     );
   }

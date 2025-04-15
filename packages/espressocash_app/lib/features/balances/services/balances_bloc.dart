@@ -26,8 +26,7 @@ final _logger = Logger('BalancesBloc');
 typedef BalancesState = ProcessingState;
 
 @Singleton(scope: authScope)
-class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
-    with DisposableBloc {
+class BalancesBloc extends Bloc<BalancesEvent, BalancesState> with DisposableBloc {
   BalancesBloc(
     this._solanaClient,
     this._tokenRepository,
@@ -42,10 +41,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
   final TokenBalancesRepository _tokensBalanceRepository;
   final AnalyticsManager _analyticsManager;
 
-  Future<void> _handleRequested(
-    BalancesEventRequested event,
-    Emitter<BalancesState> emit,
-  ) async {
+  Future<void> _handleRequested(BalancesEventRequested event, Emitter<BalancesState> emit) async {
     try {
       emit(const ProcessingState.processing());
 
@@ -59,14 +55,16 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
 
           if (data is ParsedAccountData) {
             return data.maybeWhen<Future<_MainTokenAccount?>>(
-              splToken: (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
-                account: (a) => _MainTokenAccount.create(
-                  programAccount.pubkey,
-                  a.info,
-                  _tokenRepository,
-                ),
-                orElse: () async => null,
-              ),
+              splToken:
+                  (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
+                    account:
+                        (a) => _MainTokenAccount.create(
+                          programAccount.pubkey,
+                          a.info,
+                          _tokenRepository,
+                        ),
+                    orElse: () async => null,
+                  ),
               orElse: () async => null,
             );
           }
@@ -137,29 +135,23 @@ class BalancesRequestException implements Exception {
 
 @freezed
 sealed class BalancesEvent with _$BalancesEvent {
-  const factory BalancesEvent.refreshRequested({
-    required String address,
-  }) = BalancesEventRequested;
+  const factory BalancesEvent.refreshRequested({required String address}) = BalancesEventRequested;
 }
 
 extension on SolanaClient {
   Future<CryptoAmount> getSolBalance(String address) async {
-    final lamports = await rpcClient
-        .getBalance(
-          address,
-          commitment: Commitment.confirmed,
-        )
-        .value;
+    final lamports = await rpcClient.getBalance(address, commitment: Commitment.confirmed).value;
 
     return CryptoAmount(value: lamports, cryptoCurrency: Currency.sol);
   }
 
-  Future<Iterable<ProgramAccount>> getSplAccounts(String address) => rpcClient
-      .getTokenAccountsByOwner(
-        address,
-        const TokenAccountsFilter.byProgramId(TokenProgram.programId),
-        commitment: Commitment.confirmed,
-        encoding: Encoding.jsonParsed,
-      )
-      .value;
+  Future<Iterable<ProgramAccount>> getSplAccounts(String address) =>
+      rpcClient
+          .getTokenAccountsByOwner(
+            address,
+            const TokenAccountsFilter.byProgramId(TokenProgram.programId),
+            commitment: Commitment.confirmed,
+            encoding: Encoding.jsonParsed,
+          )
+          .value;
 }

@@ -51,135 +51,112 @@ class MyDatabase extends _$MyDatabase {
 
   MyDatabase.withExecutor(super.e);
 
-  MyDatabase.connect(DatabaseConnection connection)
-      : super(connection.executor);
+  MyDatabase.connect(DatabaseConnection connection) : super(connection.executor);
 
   @override
   int get schemaVersion => latestVersion;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (Migrator m) => m.createAll(),
-        onUpgrade: (Migrator m, int from, int to) async {
-          if (from < 39) {
-            await m.createTable(oLPRows);
-            await m.createTable(iLPRows);
-          }
-          if (from < 40) {
-            await m.createTable(offRampOrderRows);
-          }
-          if (from >= 37 && from < 41) {
-            await m.addColumn(onRampOrderRows, onRampOrderRows.partner);
-          }
-          if (from >= 40 && from < 42) {
-            await m.addColumn(offRampOrderRows, offRampOrderRows.partner);
-          }
-          if (from >= 40 && from < 43) {
-            await m.addColumn(offRampOrderRows, offRampOrderRows.resolvedAt);
-            await m.addColumn(offRampOrderRows, offRampOrderRows.receiveAmount);
-            await m.addColumn(offRampOrderRows, offRampOrderRows.fiatSymbol);
-          }
-          if (from >= 37 && from < 44) {
-            await m.addColumn(onRampOrderRows, onRampOrderRows.status);
-          }
-          if (from >= 37 && from < 45) {
-            await m.addColumn(onRampOrderRows, onRampOrderRows.bankName);
-            await m.addColumn(onRampOrderRows, onRampOrderRows.bankAccount);
-            await m.addColumn(
-              onRampOrderRows,
-              onRampOrderRows.bankTransferExpiry,
-            );
-            await m.addColumn(
-              onRampOrderRows,
-              onRampOrderRows.bankTransferAmount,
-            );
-            await m.addColumn(onRampOrderRows, onRampOrderRows.fiatSymbol);
-          }
-          if (from >= 39 && from < 46) {
-            await m.addColumn(iLPRows, iLPRows.feeAmount);
-          }
-          if (from < 47) {
-            await m.createTable(outgoingDlnPaymentRows);
-          }
-          if (from >= 40 && from < 48) {
-            await m.addColumn(offRampOrderRows, offRampOrderRows.feeAmount);
-            await m.addColumn(offRampOrderRows, offRampOrderRows.feeToken);
-          }
-          if (from < 49) {
-            await m.createTable(transactionRequestRows);
-          }
-          if (from < 50) {
-            await m.addColumn(
-              paymentRequestRows,
-              paymentRequestRows.resolvedAt,
-            );
-            await m.addColumn(paymentRequestRows, paymentRequestRows.shortLink);
-          }
-          if (from < 51) {
-            await m.addColumn(transactionRows, transactionRows.amount);
-          }
-          if (from < 52) {
-            await m.createTable(tokenBalanceRows);
-          }
-          if (from < 53) {
-            await m.addColumn(onRampOrderRows, onRampOrderRows.authToken);
-            await m.addColumn(onRampOrderRows, onRampOrderRows.moreInfoUrl);
-            await m.addColumn(onRampOrderRows, onRampOrderRows.stellarTxHash);
-            await m.addColumn(onRampOrderRows, onRampOrderRows.referenceNumber);
-            await m.addColumn(onRampOrderRows, onRampOrderRows.feeAmount);
-          }
-          if (from >= 40 && from < 54) {
-            await m.addColumn(offRampOrderRows, offRampOrderRows.authToken);
-            await m.addColumn(offRampOrderRows, offRampOrderRows.moreInfoUrl);
-            await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawMemo);
-            await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawUrl);
-            await m.addColumn(offRampOrderRows, offRampOrderRows.bridgeAmount);
-            await m.addColumn(
-              offRampOrderRows,
-              offRampOrderRows.withdrawAnchorAccount,
-            );
-            await m.addColumn(
-              offRampOrderRows,
-              offRampOrderRows.stellarTxHash,
-            );
-            await m.addColumn(
-              offRampOrderRows,
-              offRampOrderRows.solanaBridgeTx,
-            );
-            await m.addColumn(
-              offRampOrderRows,
-              offRampOrderRows.referenceNumber,
-            );
-          }
-          if (from >= 40 && from < 55) {
-            await m.addColumn(offRampOrderRows, offRampOrderRows.refundAmount);
-          }
-          if (from < 56) {
-            await m.createTable(conversionRatesRows);
-          }
-          if (from < 57) {
-            await m.addColumn(onRampOrderRows, onRampOrderRows.bridgeAmount);
-          }
-          if (from < 58) {
-            await m.createTable(tokenRows);
-          }
-          if (from >= 40 && from < 59) {
-            await m.addColumn(offRampOrderRows, offRampOrderRows.priorityFee);
-            await m.addColumn(offRampOrderRows, offRampOrderRows.gasFee);
-          }
-          if (from >= 39 && from < 60) {
-            await m.addColumn(iLPRows, iLPRows.receiveAmount);
-          }
-          if (from < 61) {
-            await m.addColumn(transactionRows, transactionRows.token);
+    onCreate: (Migrator m) => m.createAll(),
+    onUpgrade: (Migrator m, int from, int to) async {
+      if (from < 39) {
+        await m.createTable(oLPRows);
+        await m.createTable(iLPRows);
+      }
+      if (from < 40) {
+        await m.createTable(offRampOrderRows);
+      }
+      if (from >= 37 && from < 41) {
+        await m.addColumn(onRampOrderRows, onRampOrderRows.partner);
+      }
+      if (from >= 40 && from < 42) {
+        await m.addColumn(offRampOrderRows, offRampOrderRows.partner);
+      }
+      if (from >= 40 && from < 43) {
+        await m.addColumn(offRampOrderRows, offRampOrderRows.resolvedAt);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.receiveAmount);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.fiatSymbol);
+      }
+      if (from >= 37 && from < 44) {
+        await m.addColumn(onRampOrderRows, onRampOrderRows.status);
+      }
+      if (from >= 37 && from < 45) {
+        await m.addColumn(onRampOrderRows, onRampOrderRows.bankName);
+        await m.addColumn(onRampOrderRows, onRampOrderRows.bankAccount);
+        await m.addColumn(onRampOrderRows, onRampOrderRows.bankTransferExpiry);
+        await m.addColumn(onRampOrderRows, onRampOrderRows.bankTransferAmount);
+        await m.addColumn(onRampOrderRows, onRampOrderRows.fiatSymbol);
+      }
+      if (from >= 39 && from < 46) {
+        await m.addColumn(iLPRows, iLPRows.feeAmount);
+      }
+      if (from < 47) {
+        await m.createTable(outgoingDlnPaymentRows);
+      }
+      if (from >= 40 && from < 48) {
+        await m.addColumn(offRampOrderRows, offRampOrderRows.feeAmount);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.feeToken);
+      }
+      if (from < 49) {
+        await m.createTable(transactionRequestRows);
+      }
+      if (from < 50) {
+        await m.addColumn(paymentRequestRows, paymentRequestRows.resolvedAt);
+        await m.addColumn(paymentRequestRows, paymentRequestRows.shortLink);
+      }
+      if (from < 51) {
+        await m.addColumn(transactionRows, transactionRows.amount);
+      }
+      if (from < 52) {
+        await m.createTable(tokenBalanceRows);
+      }
+      if (from < 53) {
+        await m.addColumn(onRampOrderRows, onRampOrderRows.authToken);
+        await m.addColumn(onRampOrderRows, onRampOrderRows.moreInfoUrl);
+        await m.addColumn(onRampOrderRows, onRampOrderRows.stellarTxHash);
+        await m.addColumn(onRampOrderRows, onRampOrderRows.referenceNumber);
+        await m.addColumn(onRampOrderRows, onRampOrderRows.feeAmount);
+      }
+      if (from >= 40 && from < 54) {
+        await m.addColumn(offRampOrderRows, offRampOrderRows.authToken);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.moreInfoUrl);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawMemo);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawUrl);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.bridgeAmount);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawAnchorAccount);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.stellarTxHash);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.solanaBridgeTx);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.referenceNumber);
+      }
+      if (from >= 40 && from < 55) {
+        await m.addColumn(offRampOrderRows, offRampOrderRows.refundAmount);
+      }
+      if (from < 56) {
+        await m.createTable(conversionRatesRows);
+      }
+      if (from < 57) {
+        await m.addColumn(onRampOrderRows, onRampOrderRows.bridgeAmount);
+      }
+      if (from < 58) {
+        await m.createTable(tokenRows);
+      }
+      if (from >= 40 && from < 59) {
+        await m.addColumn(offRampOrderRows, offRampOrderRows.priorityFee);
+        await m.addColumn(offRampOrderRows, offRampOrderRows.gasFee);
+      }
+      if (from >= 39 && from < 60) {
+        await m.addColumn(iLPRows, iLPRows.receiveAmount);
+      }
+      if (from < 61) {
+        await m.addColumn(transactionRows, transactionRows.token);
 
-            await customStatement(
-              'UPDATE ${transactionRows.actualTableName} SET token = ?',
-              [Currency.usdc.token.address],
-            );
-          }
-        },
-      );
+        await customStatement('UPDATE ${transactionRows.actualTableName} SET token = ?', [
+          Currency.usdc.token.address,
+        ]);
+      }
+    },
+  );
 }
 
 class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
@@ -191,8 +168,7 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get partnerOrderId => text()();
   IntColumn get receiveAmount => integer().nullable()();
   TextColumn get txHash => text()();
-  TextColumn get partner =>
-      textEnum<RampPartner>().withDefault(const Constant('kado'))();
+  TextColumn get partner => textEnum<RampPartner>().withDefault(const Constant('kado'))();
   TextColumn get status => textEnum<OnRampOrderStatus>()();
   TextColumn get bankName => text().nullable()();
   TextColumn get bankAccount => text().nullable()();
@@ -222,8 +198,7 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   DateTimeColumn get resolvedAt => dateTime().nullable()();
   IntColumn get receiveAmount => integer().nullable()();
   TextColumn get fiatSymbol => text().nullable()();
-  TextColumn get partner =>
-      textEnum<RampPartner>().withDefault(const Constant('kado'))();
+  TextColumn get partner => textEnum<RampPartner>().withDefault(const Constant('kado'))();
   IntColumn get feeAmount => integer().nullable()();
   TextColumn get feeToken => text().nullable()();
 
@@ -289,21 +264,9 @@ class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
   TextColumn get orderId => text().nullable()();
 }
 
-enum BlockchainDto {
-  solana,
-  arbitrum,
-  polygon,
-  ethereum,
-}
+enum BlockchainDto { solana, arbitrum, polygon, ethereum }
 
-enum ODLNPaymentStatusDto {
-  txCreated,
-  txSent,
-  success,
-  txFailure,
-  fulfilled,
-  unfulfilled,
-}
+enum ODLNPaymentStatusDto { txCreated, txSent, success, txFailure, fulfilled, unfulfilled }
 
 class TransactionRows extends Table {
   const TransactionRows();
@@ -328,12 +291,7 @@ class TransactionRequestRows extends Table with AmountMixin, EntityMixin {
   TextColumn get status => textEnum<TRStatusDto>()();
 }
 
-enum TRStatusDto {
-  created,
-  sent,
-  success,
-  failure,
-}
+enum TRStatusDto { created, sent, success, failure }
 
 class TokenBalanceRows extends Table with AmountMixin {
   const TokenBalanceRows();

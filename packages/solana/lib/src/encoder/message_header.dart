@@ -18,16 +18,15 @@ class MessageHeader with _$MessageHeader {
 
   /// Constructs a message header by counting signers, and readonly accounts
   /// from [accounts].
-  factory MessageHeader.fromAccounts(List<AccountMeta> accounts) =>
-      MessageHeader(
-        numRequiredSignatures: accounts.getNumSigners(),
-        numReadonlySignedAccounts: accounts.getNumReadonlySigners(),
-        numReadonlyUnsignedAccounts: accounts.getNumReadonlyNonSigners(),
-      );
+  factory MessageHeader.fromAccounts(List<AccountMeta> accounts) => MessageHeader(
+    numRequiredSignatures: accounts.getNumSigners(),
+    numReadonlySignedAccounts: accounts.getNumReadonlySigners(),
+    numReadonlyUnsignedAccounts: accounts.getNumReadonlyNonSigners(),
+  );
 
   ByteArray toByteArray() => ByteArray.merge([
-        ByteArray.u8(numRequiredSignatures),
-        ByteArray.u8(numReadonlySignedAccounts),
-        ByteArray.u8(numReadonlyUnsignedAccounts),
-      ]);
+    ByteArray.u8(numRequiredSignatures),
+    ByteArray.u8(numReadonlySignedAccounts),
+    ByteArray.u8(numReadonlyUnsignedAccounts),
+  ]);
 }

@@ -7,8 +7,7 @@ import 'package:test/test.dart';
 import 'config.dart';
 
 void main() {
-  test('accountSubscribe must return account owned by the system program',
-      () async {
+  test('accountSubscribe must return account owned by the system program', () async {
     const originalLamports = lamportsPerSol;
     final sender = await Ed25519HDKeyPair.random();
     final recipient = await Ed25519HDKeyPair.random();
@@ -21,12 +20,10 @@ void main() {
 
     final subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
 
-    final result = await subscriptionClient
-        .signatureSubscribe(
-          signature,
-          commitment: Commitment.confirmed,
-        )
-        .first;
+    final result =
+        await subscriptionClient
+            .signatureSubscribe(signature, commitment: Commitment.confirmed)
+            .first;
     expect(result.err, isNull);
 
     // System program

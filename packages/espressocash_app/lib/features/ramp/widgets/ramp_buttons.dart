@@ -36,95 +36,78 @@ class PayOrRequestButton extends StatelessWidget {
   final VoidCallback voidCallback;
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          CpIconButton(
-            icon: Assets.icons.dolar.svg(color: Colors.black),
-            variant: CpIconButtonVariant.dark,
-            size: CpIconButtonSize.large,
-            onPressed: voidCallback,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.requestOrSendPayment,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w500),
-          ),
-        ],
-      );
+    children: [
+      CpIconButton(
+        icon: Assets.icons.dolar.svg(color: Colors.black),
+        variant: CpIconButtonVariant.dark,
+        size: CpIconButtonSize.large,
+        onPressed: voidCallback,
+      ),
+      const SizedBox(height: 8),
+      Text(
+        context.l10n.requestOrSendPayment,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+      ),
+    ],
+  );
 }
 
 class AddCashButton extends StatelessWidget {
-  const AddCashButton({
-    super.key,
-    this.size = CpButtonSize.normal,
-  });
+  const AddCashButton({super.key, this.size = CpButtonSize.normal});
 
   final CpButtonSize size;
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          CpIconButton(
-            icon: Assets.icons.addAlternative.svg(color: Colors.black),
-            variant: CpIconButtonVariant.dark,
-            size: CpIconButtonSize.large,
-            onPressed: () async {
-              final hasProfile =
-                  await context.ensureProfileData(RampType.onRamp) != null;
+    children: [
+      CpIconButton(
+        icon: Assets.icons.addAlternative.svg(color: Colors.black),
+        variant: CpIconButtonVariant.dark,
+        size: CpIconButtonSize.large,
+        onPressed: () async {
+          final hasProfile = await context.ensureProfileData(RampType.onRamp) != null;
 
-              if (context.mounted && hasProfile) {
-                context.launchOnRampFlow();
-              }
-            },
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.ramp_btnAddCash,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w500),
-          ),
-        ],
-      );
+          if (context.mounted && hasProfile) {
+            context.launchOnRampFlow();
+          }
+        },
+      ),
+      const SizedBox(height: 8),
+      Text(
+        context.l10n.ramp_btnAddCash,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+      ),
+    ],
+  );
 }
 
 class CashOutButton extends StatelessWidget {
-  const CashOutButton({
-    super.key,
-    this.size = CpButtonSize.normal,
-  });
+  const CashOutButton({super.key, this.size = CpButtonSize.normal});
 
   final CpButtonSize size;
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          CpIconButton(
-            icon: Assets.icons.withdrawn.svg(color: Colors.black),
-            variant: CpIconButtonVariant.dark,
-            size: CpIconButtonSize.large,
-            onPressed: () async {
-              final hasProfile =
-                  await context.ensureProfileData(RampType.offRamp) != null;
+    children: [
+      CpIconButton(
+        icon: Assets.icons.withdrawn.svg(color: Colors.black),
+        variant: CpIconButtonVariant.dark,
+        size: CpIconButtonSize.large,
+        onPressed: () async {
+          final hasProfile = await context.ensureProfileData(RampType.offRamp) != null;
 
-              if (context.mounted && hasProfile) {
-                context.launchOffRampFlow();
-              }
-            },
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.ramp_btnCashOut,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w500),
-          ),
-        ],
-      );
+          if (context.mounted && hasProfile) {
+            context.launchOffRampFlow();
+          }
+        },
+      ),
+      const SizedBox(height: 8),
+      Text(
+        context.l10n.ramp_btnCashOut,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+      ),
+    ],
+  );
 }
 
 extension RampBuildContextExt on BuildContext {
@@ -141,18 +124,12 @@ extension RampBuildContextExt on BuildContext {
       return (country: country, email: email);
     }
 
-    await RampOnboardingScreen.push(
-      this,
-      onConfirmed: handleSubmitted,
-      rampType: rampType,
-    );
+    await RampOnboardingScreen.push(this, onConfirmed: handleSubmitted, rampType: rampType);
 
     country = repository.country?.let(Country.findByCode);
     email = repository.email;
 
-    return country != null && email.isNotEmpty
-        ? (country: country, email: email)
-        : null;
+    return country != null && email.isNotEmpty ? (country: country, email: email) : null;
   }
 
   ProfileData getProfileData() {
@@ -213,17 +190,14 @@ extension RampBuildContextExt on BuildContext {
         launchScalexOnRamp(profile: profile, address: address);
       case RampPartner.brij:
       case RampPartner.scalexBrij:
-        launchBrijOnRamp(partner);
+        launchBrijOnRamp(partner: partner, profile: profile);
       case RampPartner.moneygram:
         launchMoneygramOnRamp(profile: profile);
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
 
-    sl<AnalyticsManager>().rampOpened(
-      partnerName: partner.name,
-      rampType: RampType.onRamp.name,
-    );
+    sl<AnalyticsManager>().rampOpened(partnerName: partner.name, rampType: RampType.onRamp.name);
   }
 
   void _launchOffRampPartner(
@@ -242,15 +216,12 @@ extension RampBuildContextExt on BuildContext {
         launchMoneygramOffRamp(profile: profile);
       case RampPartner.brij:
       case RampPartner.scalexBrij:
-        launchBrijOffRamp(partner);
+        launchBrijOffRamp(partner: partner, profile: profile);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');
     }
 
-    sl<AnalyticsManager>().rampOpened(
-      partnerName: partner.name,
-      rampType: RampType.offRamp.name,
-    );
+    sl<AnalyticsManager>().rampOpened(partnerName: partner.name, rampType: RampType.offRamp.name);
   }
 }

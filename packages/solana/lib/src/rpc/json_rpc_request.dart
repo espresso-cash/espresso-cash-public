@@ -1,7 +1,5 @@
 abstract class JsonRpcRequest {
-  const factory JsonRpcRequest.bulk(
-    List<JsonRpcSingleRequest> list,
-  ) = JsonRpcBulkRequest;
+  const factory JsonRpcRequest.bulk(List<JsonRpcSingleRequest> list) = JsonRpcBulkRequest;
 
   String get method;
 
@@ -12,8 +10,7 @@ class JsonRpcBulkRequest implements JsonRpcRequest {
   const JsonRpcBulkRequest(this.list);
 
   @override
-  List<dynamic> toJson() =>
-      list.map<dynamic>((i) => i.toJson()).toList(growable: false);
+  List<dynamic> toJson() => list.map<dynamic>((i) => i.toJson()).toList(growable: false);
 
   final List<JsonRpcRequest> list;
 
@@ -22,19 +19,15 @@ class JsonRpcBulkRequest implements JsonRpcRequest {
 }
 
 class JsonRpcSingleRequest implements JsonRpcRequest {
-  const JsonRpcSingleRequest({
-    required this.id,
-    required this.method,
-    this.params,
-  });
+  const JsonRpcSingleRequest({required this.id, required this.method, this.params});
 
   @override
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'jsonrpc': '2.0',
-        'id': id,
-        'method': method,
-        if (params != null) 'params': params,
-      };
+    'jsonrpc': '2.0',
+    'id': id,
+    'method': method,
+    if (params != null) 'params': params,
+  };
 
   final String id;
 

@@ -12,10 +12,10 @@ part of 'durable_transactions.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
-GetFreeNonceResponseDto _$GetFreeNonceResponseDtoFromJson(
-    Map<String, dynamic> json) {
+GetFreeNonceResponseDto _$GetFreeNonceResponseDtoFromJson(Map<String, dynamic> json) {
   return _GetFreeNonceResponseDto.fromJson(json);
 }
 
@@ -37,16 +37,16 @@ mixin _$GetFreeNonceResponseDto {
 
 /// @nodoc
 abstract class $GetFreeNonceResponseDtoCopyWith<$Res> {
-  factory $GetFreeNonceResponseDtoCopyWith(GetFreeNonceResponseDto value,
-          $Res Function(GetFreeNonceResponseDto) then) =
-      _$GetFreeNonceResponseDtoCopyWithImpl<$Res, GetFreeNonceResponseDto>;
+  factory $GetFreeNonceResponseDtoCopyWith(
+    GetFreeNonceResponseDto value,
+    $Res Function(GetFreeNonceResponseDto) then,
+  ) = _$GetFreeNonceResponseDtoCopyWithImpl<$Res, GetFreeNonceResponseDto>;
   @useResult
   $Res call({String nonce, String nonceAccount, String authority});
 }
 
 /// @nodoc
-class _$GetFreeNonceResponseDtoCopyWithImpl<$Res,
-        $Val extends GetFreeNonceResponseDto>
+class _$GetFreeNonceResponseDtoCopyWithImpl<$Res, $Val extends GetFreeNonceResponseDto>
     implements $GetFreeNonceResponseDtoCopyWith<$Res> {
   _$GetFreeNonceResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -59,25 +59,27 @@ class _$GetFreeNonceResponseDtoCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? nonce = null,
-    Object? nonceAccount = null,
-    Object? authority = null,
-  }) {
-    return _then(_value.copyWith(
-      nonce: null == nonce
-          ? _value.nonce
-          : nonce // ignore: cast_nullable_to_non_nullable
-              as String,
-      nonceAccount: null == nonceAccount
-          ? _value.nonceAccount
-          : nonceAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      authority: null == authority
-          ? _value.authority
-          : authority // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? nonce = null, Object? nonceAccount = null, Object? authority = null}) {
+    return _then(
+      _value.copyWith(
+            nonce:
+                null == nonce
+                    ? _value.nonce
+                    : nonce // ignore: cast_nullable_to_non_nullable
+                        as String,
+            nonceAccount:
+                null == nonceAccount
+                    ? _value.nonceAccount
+                    : nonceAccount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            authority:
+                null == authority
+                    ? _value.authority
+                    : authority // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -85,9 +87,9 @@ class _$GetFreeNonceResponseDtoCopyWithImpl<$Res,
 abstract class _$$GetFreeNonceResponseDtoImplCopyWith<$Res>
     implements $GetFreeNonceResponseDtoCopyWith<$Res> {
   factory _$$GetFreeNonceResponseDtoImplCopyWith(
-          _$GetFreeNonceResponseDtoImpl value,
-          $Res Function(_$GetFreeNonceResponseDtoImpl) then) =
-      __$$GetFreeNonceResponseDtoImplCopyWithImpl<$Res>;
+    _$GetFreeNonceResponseDtoImpl value,
+    $Res Function(_$GetFreeNonceResponseDtoImpl) then,
+  ) = __$$GetFreeNonceResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String nonce, String nonceAccount, String authority});
@@ -95,47 +97,48 @@ abstract class _$$GetFreeNonceResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$GetFreeNonceResponseDtoImplCopyWithImpl<$Res>
-    extends _$GetFreeNonceResponseDtoCopyWithImpl<$Res,
-        _$GetFreeNonceResponseDtoImpl>
+    extends _$GetFreeNonceResponseDtoCopyWithImpl<$Res, _$GetFreeNonceResponseDtoImpl>
     implements _$$GetFreeNonceResponseDtoImplCopyWith<$Res> {
   __$$GetFreeNonceResponseDtoImplCopyWithImpl(
-      _$GetFreeNonceResponseDtoImpl _value,
-      $Res Function(_$GetFreeNonceResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$GetFreeNonceResponseDtoImpl _value,
+    $Res Function(_$GetFreeNonceResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of GetFreeNonceResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? nonce = null,
-    Object? nonceAccount = null,
-    Object? authority = null,
-  }) {
-    return _then(_$GetFreeNonceResponseDtoImpl(
-      nonce: null == nonce
-          ? _value.nonce
-          : nonce // ignore: cast_nullable_to_non_nullable
-              as String,
-      nonceAccount: null == nonceAccount
-          ? _value.nonceAccount
-          : nonceAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      authority: null == authority
-          ? _value.authority
-          : authority // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? nonce = null, Object? nonceAccount = null, Object? authority = null}) {
+    return _then(
+      _$GetFreeNonceResponseDtoImpl(
+        nonce:
+            null == nonce
+                ? _value.nonce
+                : nonce // ignore: cast_nullable_to_non_nullable
+                    as String,
+        nonceAccount:
+            null == nonceAccount
+                ? _value.nonceAccount
+                : nonceAccount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        authority:
+            null == authority
+                ? _value.authority
+                : authority // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$GetFreeNonceResponseDtoImpl implements _GetFreeNonceResponseDto {
-  const _$GetFreeNonceResponseDtoImpl(
-      {required this.nonce,
-      required this.nonceAccount,
-      required this.authority});
+  const _$GetFreeNonceResponseDtoImpl({
+    required this.nonce,
+    required this.nonceAccount,
+    required this.authority,
+  });
 
   factory _$GetFreeNonceResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetFreeNonceResponseDtoImplFromJson(json);
@@ -158,10 +161,8 @@ class _$GetFreeNonceResponseDtoImpl implements _GetFreeNonceResponseDto {
         (other.runtimeType == runtimeType &&
             other is _$GetFreeNonceResponseDtoImpl &&
             (identical(other.nonce, nonce) || other.nonce == nonce) &&
-            (identical(other.nonceAccount, nonceAccount) ||
-                other.nonceAccount == nonceAccount) &&
-            (identical(other.authority, authority) ||
-                other.authority == authority));
+            (identical(other.nonceAccount, nonceAccount) || other.nonceAccount == nonceAccount) &&
+            (identical(other.authority, authority) || other.authority == authority));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -173,23 +174,21 @@ class _$GetFreeNonceResponseDtoImpl implements _GetFreeNonceResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetFreeNonceResponseDtoImplCopyWith<_$GetFreeNonceResponseDtoImpl>
-      get copyWith => __$$GetFreeNonceResponseDtoImplCopyWithImpl<
-          _$GetFreeNonceResponseDtoImpl>(this, _$identity);
+  _$$GetFreeNonceResponseDtoImplCopyWith<_$GetFreeNonceResponseDtoImpl> get copyWith =>
+      __$$GetFreeNonceResponseDtoImplCopyWithImpl<_$GetFreeNonceResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GetFreeNonceResponseDtoImplToJson(
-      this,
-    );
+    return _$$GetFreeNonceResponseDtoImplToJson(this);
   }
 }
 
 abstract class _GetFreeNonceResponseDto implements GetFreeNonceResponseDto {
-  const factory _GetFreeNonceResponseDto(
-      {required final String nonce,
-      required final String nonceAccount,
-      required final String authority}) = _$GetFreeNonceResponseDtoImpl;
+  const factory _GetFreeNonceResponseDto({
+    required final String nonce,
+    required final String nonceAccount,
+    required final String authority,
+  }) = _$GetFreeNonceResponseDtoImpl;
 
   factory _GetFreeNonceResponseDto.fromJson(Map<String, dynamic> json) =
       _$GetFreeNonceResponseDtoImpl.fromJson;
@@ -205,12 +204,11 @@ abstract class _GetFreeNonceResponseDto implements GetFreeNonceResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GetFreeNonceResponseDtoImplCopyWith<_$GetFreeNonceResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$GetFreeNonceResponseDtoImplCopyWith<_$GetFreeNonceResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-SubmitDurableTxRequestDto _$SubmitDurableTxRequestDtoFromJson(
-    Map<String, dynamic> json) {
+SubmitDurableTxRequestDto _$SubmitDurableTxRequestDtoFromJson(Map<String, dynamic> json) {
   return _SubmitDurableTxRequestDto.fromJson(json);
 }
 
@@ -230,16 +228,16 @@ mixin _$SubmitDurableTxRequestDto {
 
 /// @nodoc
 abstract class $SubmitDurableTxRequestDtoCopyWith<$Res> {
-  factory $SubmitDurableTxRequestDtoCopyWith(SubmitDurableTxRequestDto value,
-          $Res Function(SubmitDurableTxRequestDto) then) =
-      _$SubmitDurableTxRequestDtoCopyWithImpl<$Res, SubmitDurableTxRequestDto>;
+  factory $SubmitDurableTxRequestDtoCopyWith(
+    SubmitDurableTxRequestDto value,
+    $Res Function(SubmitDurableTxRequestDto) then,
+  ) = _$SubmitDurableTxRequestDtoCopyWithImpl<$Res, SubmitDurableTxRequestDto>;
   @useResult
   $Res call({String tx});
 }
 
 /// @nodoc
-class _$SubmitDurableTxRequestDtoCopyWithImpl<$Res,
-        $Val extends SubmitDurableTxRequestDto>
+class _$SubmitDurableTxRequestDtoCopyWithImpl<$Res, $Val extends SubmitDurableTxRequestDto>
     implements $SubmitDurableTxRequestDtoCopyWith<$Res> {
   _$SubmitDurableTxRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -252,15 +250,17 @@ class _$SubmitDurableTxRequestDtoCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? tx = null,
-  }) {
-    return _then(_value.copyWith(
-      tx: null == tx
-          ? _value.tx
-          : tx // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? tx = null}) {
+    return _then(
+      _value.copyWith(
+            tx:
+                null == tx
+                    ? _value.tx
+                    : tx // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -268,9 +268,9 @@ class _$SubmitDurableTxRequestDtoCopyWithImpl<$Res,
 abstract class _$$SubmitDurableTxRequestDtoImplCopyWith<$Res>
     implements $SubmitDurableTxRequestDtoCopyWith<$Res> {
   factory _$$SubmitDurableTxRequestDtoImplCopyWith(
-          _$SubmitDurableTxRequestDtoImpl value,
-          $Res Function(_$SubmitDurableTxRequestDtoImpl) then) =
-      __$$SubmitDurableTxRequestDtoImplCopyWithImpl<$Res>;
+    _$SubmitDurableTxRequestDtoImpl value,
+    $Res Function(_$SubmitDurableTxRequestDtoImpl) then,
+  ) = __$$SubmitDurableTxRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String tx});
@@ -278,27 +278,27 @@ abstract class _$$SubmitDurableTxRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$SubmitDurableTxRequestDtoImplCopyWithImpl<$Res>
-    extends _$SubmitDurableTxRequestDtoCopyWithImpl<$Res,
-        _$SubmitDurableTxRequestDtoImpl>
+    extends _$SubmitDurableTxRequestDtoCopyWithImpl<$Res, _$SubmitDurableTxRequestDtoImpl>
     implements _$$SubmitDurableTxRequestDtoImplCopyWith<$Res> {
   __$$SubmitDurableTxRequestDtoImplCopyWithImpl(
-      _$SubmitDurableTxRequestDtoImpl _value,
-      $Res Function(_$SubmitDurableTxRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$SubmitDurableTxRequestDtoImpl _value,
+    $Res Function(_$SubmitDurableTxRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SubmitDurableTxRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? tx = null,
-  }) {
-    return _then(_$SubmitDurableTxRequestDtoImpl(
-      tx: null == tx
-          ? _value.tx
-          : tx // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? tx = null}) {
+    return _then(
+      _$SubmitDurableTxRequestDtoImpl(
+        tx:
+            null == tx
+                ? _value.tx
+                : tx // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -335,15 +335,15 @@ class _$SubmitDurableTxRequestDtoImpl implements _SubmitDurableTxRequestDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$SubmitDurableTxRequestDtoImplCopyWith<_$SubmitDurableTxRequestDtoImpl>
-      get copyWith => __$$SubmitDurableTxRequestDtoImplCopyWithImpl<
-          _$SubmitDurableTxRequestDtoImpl>(this, _$identity);
+  _$$SubmitDurableTxRequestDtoImplCopyWith<_$SubmitDurableTxRequestDtoImpl> get copyWith =>
+      __$$SubmitDurableTxRequestDtoImplCopyWithImpl<_$SubmitDurableTxRequestDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SubmitDurableTxRequestDtoImplToJson(
-      this,
-    );
+    return _$$SubmitDurableTxRequestDtoImplToJson(this);
   }
 }
 
@@ -361,12 +361,11 @@ abstract class _SubmitDurableTxRequestDto implements SubmitDurableTxRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SubmitDurableTxRequestDtoImplCopyWith<_$SubmitDurableTxRequestDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$SubmitDurableTxRequestDtoImplCopyWith<_$SubmitDurableTxRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-SubmitDurableTxResponseDto _$SubmitDurableTxResponseDtoFromJson(
-    Map<String, dynamic> json) {
+SubmitDurableTxResponseDto _$SubmitDurableTxResponseDtoFromJson(Map<String, dynamic> json) {
   return _SubmitDurableTxResponseDto.fromJson(json);
 }
 
@@ -380,23 +379,22 @@ mixin _$SubmitDurableTxResponseDto {
   /// Create a copy of SubmitDurableTxResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SubmitDurableTxResponseDtoCopyWith<SubmitDurableTxResponseDto>
-      get copyWith => throw _privateConstructorUsedError;
+  $SubmitDurableTxResponseDtoCopyWith<SubmitDurableTxResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SubmitDurableTxResponseDtoCopyWith<$Res> {
-  factory $SubmitDurableTxResponseDtoCopyWith(SubmitDurableTxResponseDto value,
-          $Res Function(SubmitDurableTxResponseDto) then) =
-      _$SubmitDurableTxResponseDtoCopyWithImpl<$Res,
-          SubmitDurableTxResponseDto>;
+  factory $SubmitDurableTxResponseDtoCopyWith(
+    SubmitDurableTxResponseDto value,
+    $Res Function(SubmitDurableTxResponseDto) then,
+  ) = _$SubmitDurableTxResponseDtoCopyWithImpl<$Res, SubmitDurableTxResponseDto>;
   @useResult
   $Res call({String signature});
 }
 
 /// @nodoc
-class _$SubmitDurableTxResponseDtoCopyWithImpl<$Res,
-        $Val extends SubmitDurableTxResponseDto>
+class _$SubmitDurableTxResponseDtoCopyWithImpl<$Res, $Val extends SubmitDurableTxResponseDto>
     implements $SubmitDurableTxResponseDtoCopyWith<$Res> {
   _$SubmitDurableTxResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -409,15 +407,17 @@ class _$SubmitDurableTxResponseDtoCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signature = null,
-  }) {
-    return _then(_value.copyWith(
-      signature: null == signature
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? signature = null}) {
+    return _then(
+      _value.copyWith(
+            signature:
+                null == signature
+                    ? _value.signature
+                    : signature // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -425,9 +425,9 @@ class _$SubmitDurableTxResponseDtoCopyWithImpl<$Res,
 abstract class _$$SubmitDurableTxResponseDtoImplCopyWith<$Res>
     implements $SubmitDurableTxResponseDtoCopyWith<$Res> {
   factory _$$SubmitDurableTxResponseDtoImplCopyWith(
-          _$SubmitDurableTxResponseDtoImpl value,
-          $Res Function(_$SubmitDurableTxResponseDtoImpl) then) =
-      __$$SubmitDurableTxResponseDtoImplCopyWithImpl<$Res>;
+    _$SubmitDurableTxResponseDtoImpl value,
+    $Res Function(_$SubmitDurableTxResponseDtoImpl) then,
+  ) = __$$SubmitDurableTxResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String signature});
@@ -435,27 +435,27 @@ abstract class _$$SubmitDurableTxResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$SubmitDurableTxResponseDtoImplCopyWithImpl<$Res>
-    extends _$SubmitDurableTxResponseDtoCopyWithImpl<$Res,
-        _$SubmitDurableTxResponseDtoImpl>
+    extends _$SubmitDurableTxResponseDtoCopyWithImpl<$Res, _$SubmitDurableTxResponseDtoImpl>
     implements _$$SubmitDurableTxResponseDtoImplCopyWith<$Res> {
   __$$SubmitDurableTxResponseDtoImplCopyWithImpl(
-      _$SubmitDurableTxResponseDtoImpl _value,
-      $Res Function(_$SubmitDurableTxResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$SubmitDurableTxResponseDtoImpl _value,
+    $Res Function(_$SubmitDurableTxResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SubmitDurableTxResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signature = null,
-  }) {
-    return _then(_$SubmitDurableTxResponseDtoImpl(
-      signature: null == signature
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? signature = null}) {
+    return _then(
+      _$SubmitDurableTxResponseDtoImpl(
+        signature:
+            null == signature
+                ? _value.signature
+                : signature // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -464,8 +464,7 @@ class __$$SubmitDurableTxResponseDtoImplCopyWithImpl<$Res>
 class _$SubmitDurableTxResponseDtoImpl implements _SubmitDurableTxResponseDto {
   const _$SubmitDurableTxResponseDtoImpl({required this.signature});
 
-  factory _$SubmitDurableTxResponseDtoImpl.fromJson(
-          Map<String, dynamic> json) =>
+  factory _$SubmitDurableTxResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$SubmitDurableTxResponseDtoImplFromJson(json);
 
   @override
@@ -481,8 +480,7 @@ class _$SubmitDurableTxResponseDtoImpl implements _SubmitDurableTxResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SubmitDurableTxResponseDtoImpl &&
-            (identical(other.signature, signature) ||
-                other.signature == signature));
+            (identical(other.signature, signature) || other.signature == signature));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -494,20 +492,19 @@ class _$SubmitDurableTxResponseDtoImpl implements _SubmitDurableTxResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$SubmitDurableTxResponseDtoImplCopyWith<_$SubmitDurableTxResponseDtoImpl>
-      get copyWith => __$$SubmitDurableTxResponseDtoImplCopyWithImpl<
-          _$SubmitDurableTxResponseDtoImpl>(this, _$identity);
+  _$$SubmitDurableTxResponseDtoImplCopyWith<_$SubmitDurableTxResponseDtoImpl> get copyWith =>
+      __$$SubmitDurableTxResponseDtoImplCopyWithImpl<_$SubmitDurableTxResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SubmitDurableTxResponseDtoImplToJson(
-      this,
-    );
+    return _$$SubmitDurableTxResponseDtoImplToJson(this);
   }
 }
 
-abstract class _SubmitDurableTxResponseDto
-    implements SubmitDurableTxResponseDto {
+abstract class _SubmitDurableTxResponseDto implements SubmitDurableTxResponseDto {
   const factory _SubmitDurableTxResponseDto({required final String signature}) =
       _$SubmitDurableTxResponseDtoImpl;
 
@@ -521,12 +518,11 @@ abstract class _SubmitDurableTxResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SubmitDurableTxResponseDtoImplCopyWith<_$SubmitDurableTxResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$SubmitDurableTxResponseDtoImplCopyWith<_$SubmitDurableTxResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-GetDurableFeesResponseDto _$GetDurableFeesResponseDtoFromJson(
-    Map<String, dynamic> json) {
+GetDurableFeesResponseDto _$GetDurableFeesResponseDtoFromJson(Map<String, dynamic> json) {
   return _GetDurableFeesResponseDto.fromJson(json);
 }
 
@@ -548,16 +544,16 @@ mixin _$GetDurableFeesResponseDto {
 
 /// @nodoc
 abstract class $GetDurableFeesResponseDtoCopyWith<$Res> {
-  factory $GetDurableFeesResponseDtoCopyWith(GetDurableFeesResponseDto value,
-          $Res Function(GetDurableFeesResponseDto) then) =
-      _$GetDurableFeesResponseDtoCopyWithImpl<$Res, GetDurableFeesResponseDto>;
+  factory $GetDurableFeesResponseDtoCopyWith(
+    GetDurableFeesResponseDto value,
+    $Res Function(GetDurableFeesResponseDto) then,
+  ) = _$GetDurableFeesResponseDtoCopyWithImpl<$Res, GetDurableFeesResponseDto>;
   @useResult
   $Res call({int outgoingLink, int incomingLink, int cancelLink});
 }
 
 /// @nodoc
-class _$GetDurableFeesResponseDtoCopyWithImpl<$Res,
-        $Val extends GetDurableFeesResponseDto>
+class _$GetDurableFeesResponseDtoCopyWithImpl<$Res, $Val extends GetDurableFeesResponseDto>
     implements $GetDurableFeesResponseDtoCopyWith<$Res> {
   _$GetDurableFeesResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -570,25 +566,27 @@ class _$GetDurableFeesResponseDtoCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? outgoingLink = null,
-    Object? incomingLink = null,
-    Object? cancelLink = null,
-  }) {
-    return _then(_value.copyWith(
-      outgoingLink: null == outgoingLink
-          ? _value.outgoingLink
-          : outgoingLink // ignore: cast_nullable_to_non_nullable
-              as int,
-      incomingLink: null == incomingLink
-          ? _value.incomingLink
-          : incomingLink // ignore: cast_nullable_to_non_nullable
-              as int,
-      cancelLink: null == cancelLink
-          ? _value.cancelLink
-          : cancelLink // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? outgoingLink = null, Object? incomingLink = null, Object? cancelLink = null}) {
+    return _then(
+      _value.copyWith(
+            outgoingLink:
+                null == outgoingLink
+                    ? _value.outgoingLink
+                    : outgoingLink // ignore: cast_nullable_to_non_nullable
+                        as int,
+            incomingLink:
+                null == incomingLink
+                    ? _value.incomingLink
+                    : incomingLink // ignore: cast_nullable_to_non_nullable
+                        as int,
+            cancelLink:
+                null == cancelLink
+                    ? _value.cancelLink
+                    : cancelLink // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -596,9 +594,9 @@ class _$GetDurableFeesResponseDtoCopyWithImpl<$Res,
 abstract class _$$GetDurableFeesResponseDtoImplCopyWith<$Res>
     implements $GetDurableFeesResponseDtoCopyWith<$Res> {
   factory _$$GetDurableFeesResponseDtoImplCopyWith(
-          _$GetDurableFeesResponseDtoImpl value,
-          $Res Function(_$GetDurableFeesResponseDtoImpl) then) =
-      __$$GetDurableFeesResponseDtoImplCopyWithImpl<$Res>;
+    _$GetDurableFeesResponseDtoImpl value,
+    $Res Function(_$GetDurableFeesResponseDtoImpl) then,
+  ) = __$$GetDurableFeesResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int outgoingLink, int incomingLink, int cancelLink});
@@ -606,47 +604,48 @@ abstract class _$$GetDurableFeesResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$GetDurableFeesResponseDtoImplCopyWithImpl<$Res>
-    extends _$GetDurableFeesResponseDtoCopyWithImpl<$Res,
-        _$GetDurableFeesResponseDtoImpl>
+    extends _$GetDurableFeesResponseDtoCopyWithImpl<$Res, _$GetDurableFeesResponseDtoImpl>
     implements _$$GetDurableFeesResponseDtoImplCopyWith<$Res> {
   __$$GetDurableFeesResponseDtoImplCopyWithImpl(
-      _$GetDurableFeesResponseDtoImpl _value,
-      $Res Function(_$GetDurableFeesResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$GetDurableFeesResponseDtoImpl _value,
+    $Res Function(_$GetDurableFeesResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of GetDurableFeesResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? outgoingLink = null,
-    Object? incomingLink = null,
-    Object? cancelLink = null,
-  }) {
-    return _then(_$GetDurableFeesResponseDtoImpl(
-      outgoingLink: null == outgoingLink
-          ? _value.outgoingLink
-          : outgoingLink // ignore: cast_nullable_to_non_nullable
-              as int,
-      incomingLink: null == incomingLink
-          ? _value.incomingLink
-          : incomingLink // ignore: cast_nullable_to_non_nullable
-              as int,
-      cancelLink: null == cancelLink
-          ? _value.cancelLink
-          : cancelLink // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? outgoingLink = null, Object? incomingLink = null, Object? cancelLink = null}) {
+    return _then(
+      _$GetDurableFeesResponseDtoImpl(
+        outgoingLink:
+            null == outgoingLink
+                ? _value.outgoingLink
+                : outgoingLink // ignore: cast_nullable_to_non_nullable
+                    as int,
+        incomingLink:
+            null == incomingLink
+                ? _value.incomingLink
+                : incomingLink // ignore: cast_nullable_to_non_nullable
+                    as int,
+        cancelLink:
+            null == cancelLink
+                ? _value.cancelLink
+                : cancelLink // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$GetDurableFeesResponseDtoImpl implements _GetDurableFeesResponseDto {
-  const _$GetDurableFeesResponseDtoImpl(
-      {required this.outgoingLink,
-      required this.incomingLink,
-      required this.cancelLink});
+  const _$GetDurableFeesResponseDtoImpl({
+    required this.outgoingLink,
+    required this.incomingLink,
+    required this.cancelLink,
+  });
 
   factory _$GetDurableFeesResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetDurableFeesResponseDtoImplFromJson(json);
@@ -668,41 +667,38 @@ class _$GetDurableFeesResponseDtoImpl implements _GetDurableFeesResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetDurableFeesResponseDtoImpl &&
-            (identical(other.outgoingLink, outgoingLink) ||
-                other.outgoingLink == outgoingLink) &&
-            (identical(other.incomingLink, incomingLink) ||
-                other.incomingLink == incomingLink) &&
-            (identical(other.cancelLink, cancelLink) ||
-                other.cancelLink == cancelLink));
+            (identical(other.outgoingLink, outgoingLink) || other.outgoingLink == outgoingLink) &&
+            (identical(other.incomingLink, incomingLink) || other.incomingLink == incomingLink) &&
+            (identical(other.cancelLink, cancelLink) || other.cancelLink == cancelLink));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, outgoingLink, incomingLink, cancelLink);
+  int get hashCode => Object.hash(runtimeType, outgoingLink, incomingLink, cancelLink);
 
   /// Create a copy of GetDurableFeesResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetDurableFeesResponseDtoImplCopyWith<_$GetDurableFeesResponseDtoImpl>
-      get copyWith => __$$GetDurableFeesResponseDtoImplCopyWithImpl<
-          _$GetDurableFeesResponseDtoImpl>(this, _$identity);
+  _$$GetDurableFeesResponseDtoImplCopyWith<_$GetDurableFeesResponseDtoImpl> get copyWith =>
+      __$$GetDurableFeesResponseDtoImplCopyWithImpl<_$GetDurableFeesResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GetDurableFeesResponseDtoImplToJson(
-      this,
-    );
+    return _$$GetDurableFeesResponseDtoImplToJson(this);
   }
 }
 
 abstract class _GetDurableFeesResponseDto implements GetDurableFeesResponseDto {
-  const factory _GetDurableFeesResponseDto(
-      {required final int outgoingLink,
-      required final int incomingLink,
-      required final int cancelLink}) = _$GetDurableFeesResponseDtoImpl;
+  const factory _GetDurableFeesResponseDto({
+    required final int outgoingLink,
+    required final int incomingLink,
+    required final int cancelLink,
+  }) = _$GetDurableFeesResponseDtoImpl;
 
   factory _GetDurableFeesResponseDto.fromJson(Map<String, dynamic> json) =
       _$GetDurableFeesResponseDtoImpl.fromJson;
@@ -718,6 +714,6 @@ abstract class _GetDurableFeesResponseDto implements GetDurableFeesResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GetDurableFeesResponseDtoImplCopyWith<_$GetDurableFeesResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$GetDurableFeesResponseDtoImplCopyWith<_$GetDurableFeesResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

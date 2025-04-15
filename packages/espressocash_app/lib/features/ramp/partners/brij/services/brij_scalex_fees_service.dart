@@ -1,6 +1,5 @@
 import 'package:async/async.dart';
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../accounts/auth_scope.dart';
@@ -8,26 +7,18 @@ import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 
-typedef BrijScalexFees = ({
-  Amount receiveAmount,
-  double rate,
-  Amount totalFee,
-});
+typedef BrijScalexFees = ({Amount receiveAmount, double rate, Amount totalFee});
 
 @Singleton(scope: authScope)
 class BrijScalexFeesService {
-  BrijScalexFeesService(this._client);
+  BrijScalexFeesService();
 
-  final EspressoCashClient _client;
   final _cache = AsyncCache<BrijScalexFees>(const Duration(seconds: 30));
 
   Amount? _lastAmount;
   RampType? _lastType;
 
-  Future<BrijScalexFees> fetchFees({
-    required Amount amount,
-    required RampType type,
-  }) {
+  Future<BrijScalexFees> fetchFees({required Amount amount, required RampType type}) {
     if (amount != _lastAmount || type != _lastType) {
       _cache.invalidate();
       _lastAmount = amount;
@@ -37,55 +28,29 @@ class BrijScalexFeesService {
     return _cache.fetch(() => _fetchFeesFromApi(amount: amount, type: type));
   }
 
-  Future<double> fetchRate(RampType type) async {
-    final response = await _client.fetchScalexBrijFees(
-      ScalexBrijFeeRequestDto(
-        amount: '1',
-        type: type.toDto(),
-      ),
-    );
+  double fetchRate(RampType type) => switch (type) {
+    RampType.onRamp => 1500.00,
+    RampType.offRamp => 1480.00,
+  };
 
-    return response.rate;
-  }
+  Future<BrijScalexFees> _fetchFeesFromApi({required Amount amount, required RampType type}) {
+    final rate = fetchRate(type);
 
-  Future<BrijScalexFees> _fetchFeesFromApi({
-    required Amount amount,
-    required RampType type,
-  }) async {
-    final response = await _client.fetchScalexBrijFees(
-      ScalexBrijFeeRequestDto(
-        amount: amount.decimal.toString(),
-        type: type.toDto(),
-      ),
-    );
+    final totalFee = Amount.fromDecimal(value: Decimal.parse('1'), currency: Currency.usdc);
 
-    final totalFee = Amount.fromDecimal(
-      value: Decimal.parse(response.scalexFees.totalFee.toString()),
-      currency: Currency.usdc,
-    );
+    final decimalRate = Decimal.parse(rate.toString());
 
     final receiveAmount = switch (type) {
       RampType.onRamp => Amount.fromDecimal(
-          value: Decimal.parse(response.cryptoAmount.toString()),
-          currency: Currency.usdc,
-        ),
+        value: (amount.decimal / decimalRate).toDecimal(scaleOnInfinitePrecision: 6) - Decimal.one,
+        currency: Currency.usdc,
+      ),
       RampType.offRamp => Amount.fromDecimal(
-          value: Decimal.parse(response.fiatAmount.toString()),
-          currency: Currency.ngn,
-        ),
+        value: (amount.decimal * decimalRate) - Decimal.one,
+        currency: Currency.ngn,
+      ),
     };
 
-    return (
-      receiveAmount: receiveAmount,
-      rate: response.rate,
-      totalFee: totalFee,
-    );
+    return Future.value((receiveAmount: receiveAmount, rate: rate, totalFee: totalFee));
   }
-}
-
-extension on RampType {
-  RampTypeDto toDto() => switch (this) {
-        RampType.onRamp => RampTypeDto.onRamp,
-        RampType.offRamp => RampTypeDto.offRamp
-      };
 }

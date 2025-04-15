@@ -36,8 +36,7 @@ class Supply {
 class SupplyResult extends ContextResult<Supply> {
   const SupplyResult({required super.context, required super.value});
 
-  factory SupplyResult.fromJson(Map<String, dynamic> json) =>
-      _$SupplyResultFromJson(json);
+  factory SupplyResult.fromJson(Map<String, dynamic> json) => _$SupplyResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$SupplyResultToJson(this);
 }

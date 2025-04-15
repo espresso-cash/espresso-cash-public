@@ -15,26 +15,24 @@ class SecuritySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ProfileSection(
-        title: context.l10n.securitySectionTitle,
-        padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
-        actions: [
-          const AppLockMenuItem(),
-          ValueListenableBuilder(
-            valueListenable: sl<AccountService>(),
-            builder: (context, value, child) => ProfileButton(
+    title: context.l10n.securitySectionTitle,
+    padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
+    actions: [
+      const AppLockMenuItem(),
+      ValueListenableBuilder(
+        valueListenable: sl<AccountService>(),
+        builder:
+            (context, value, child) => ProfileButton(
               label: context.l10n.viewRecoveryPhrase,
               description: context.l10n.viewRecoveryPhraseDescription,
               onPressed: () => context.launchViewRecoveryPhraseFlow(),
             ),
-          ),
-          ProfileButton(
-            label: context.l10n.termsOfUse,
-            onPressed: () => TermsScreen.push(context),
-          ),
-          ProfileButton(
-            label: context.l10n.privacyPolicy,
-            onPressed: () => PrivacyScreen.push(context),
-          ),
-        ],
-      );
+      ),
+      ProfileButton(label: context.l10n.termsOfUse, onPressed: () => TermsScreen.push(context)),
+      ProfileButton(
+        label: context.l10n.privacyPolicy,
+        onPressed: () => PrivacyScreen.push(context),
+      ),
+    ],
+  );
 }

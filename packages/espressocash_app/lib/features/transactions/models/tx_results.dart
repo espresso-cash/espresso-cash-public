@@ -45,18 +45,14 @@ class StubSignedTx implements SignedTx {
 sealed class TxSendResult with _$TxSendResult {
   const factory TxSendResult.sent() = TxSendSent;
   const factory TxSendResult.invalidBlockhash() = TxSendInvalidBlockhash;
-  const factory TxSendResult.failure({
-    required TxFailureReason reason,
-  }) = TxSendFailure;
+  const factory TxSendResult.failure({required TxFailureReason reason}) = TxSendFailure;
   const factory TxSendResult.networkError() = TxSendNetworkError;
 }
 
 @freezed
 sealed class TxWaitResult with _$TxWaitResult {
   const factory TxWaitResult.success() = TxWaitSuccess;
-  const factory TxWaitResult.failure({
-    required TxFailureReason reason,
-  }) = TxWaitFailure;
+  const factory TxWaitResult.failure({required TxFailureReason reason}) = TxWaitFailure;
   const factory TxWaitResult.networkError() = TxWaitNetworkError;
 }
 

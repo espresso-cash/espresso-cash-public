@@ -21,12 +21,13 @@ class DioCacheClient {
       policy: CachePolicy.refreshForceCache,
     );
 
-    final dio = Dio()
-      ..interceptors.addAll([
-        CacheInterceptor(options: options),
-        DioCacheInterceptor(options: options),
-      ])
-      ..options.listFormat = ListFormat.csv;
+    final dio =
+        Dio()
+          ..interceptors.addAll([
+            CacheInterceptor(options: options),
+            DioCacheInterceptor(options: options),
+          ])
+          ..options.listFormat = ListFormat.csv;
 
     return DioCacheClient._(dio, options);
   }
@@ -38,10 +39,7 @@ class CacheInterceptor extends Interceptor {
   final CacheOptions options;
 
   @override
-  Future<void> onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) async {
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     // ignore: avoid-non-null-assertion, we know its not null
     final store = this.options.store!;
 

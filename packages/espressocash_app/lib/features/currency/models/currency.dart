@@ -6,10 +6,7 @@ import '../../tokens/token.dart';
 
 part 'currency.freezed.dart';
 
-@Freezed(
-  when: FreezedWhenOptions.none,
-  map: FreezedMapOptions.none,
-)
+@Freezed(when: FreezedWhenOptions.none, map: FreezedMapOptions.none)
 sealed class Currency with _$Currency {
   const factory Currency.fiat({
     required String name,
@@ -19,9 +16,7 @@ sealed class Currency with _$Currency {
     String? countryCode,
   }) = FiatCurrency;
 
-  const factory Currency.crypto({
-    required Token token,
-  }) = CryptoCurrency;
+  const factory Currency.crypto({required Token token}) = CryptoCurrency;
 
   const Currency._();
 
@@ -46,22 +41,21 @@ sealed class Currency with _$Currency {
   );
 
   String get name => switch (this) {
-        FiatCurrency(:final name) => name,
-        CryptoCurrency(:final token) => token.name,
-      };
+    FiatCurrency(:final name) => name,
+    CryptoCurrency(:final token) => token.name,
+  };
 
   int get decimals => switch (this) {
-        FiatCurrency(:final decimals) => decimals,
-        CryptoCurrency(:final token) => token.decimals,
-      };
+    FiatCurrency(:final decimals) => decimals,
+    CryptoCurrency(:final token) => token.decimals,
+  };
 
   String get symbol => switch (this) {
-        FiatCurrency(:final symbol) => symbol,
-        CryptoCurrency(:final token) => token.symbol,
-      };
+    FiatCurrency(:final symbol) => symbol,
+    CryptoCurrency(:final token) => token.symbol,
+  };
 
-  int decimalToInt(Decimal value) =>
-      value.shift(decimals).round().toBigInt().toInt();
+  int decimalToInt(Decimal value) => value.shift(decimals).round().toBigInt().toInt();
 }
 
 const defaultFiatCurrency = Currency.usd;
@@ -74,12 +68,8 @@ FiatCurrency currencyFromString(String currency) {
   }
 }
 
-FiatCurrency _fallbackFiatCurrency(String currency) => FiatCurrency(
-      symbol: currency,
-      sign: currency,
-      name: currency,
-      decimals: 2,
-    );
+FiatCurrency _fallbackFiatCurrency(String currency) =>
+    FiatCurrency(symbol: currency, sign: currency, name: currency, decimals: 2);
 
 extension FiatCurrencyExt on curr.FiatCurrency? {
   FiatCurrency get toFiatCurrency {

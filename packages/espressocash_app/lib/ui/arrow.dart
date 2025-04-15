@@ -9,10 +9,7 @@ class Arrow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RotatedBox(
-        quarterTurns: 2,
-        child: Assets.icons.arrow.svg(
-          height: 14,
-          color: color ?? const Color(0xFF2D2B2C),
-        ),
-      );
+    quarterTurns: 2,
+    child: Assets.icons.arrow.svg(height: 14, color: color ?? const Color(0xFF2D2B2C)),
+  );
 }

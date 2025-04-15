@@ -12,10 +12,10 @@ part of 'stake_program_account_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
-StakeProgramAccountData _$StakeProgramAccountDataFromJson(
-    Map<String, dynamic> json) {
+StakeProgramAccountData _$StakeProgramAccountDataFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'delegated':
       return StakeProgramDelegatedAccountData.fromJson(json);
@@ -35,46 +35,39 @@ mixin _$StakeProgramAccountData {
     required TResult Function(StakeDelegatedAccountInfo info) delegated,
     required TResult Function(StakeInitializedAccountInfo info) initialize,
     required TResult Function(Map<String, dynamic> info) unknown,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(StakeDelegatedAccountInfo info)? delegated,
     TResult? Function(StakeInitializedAccountInfo info)? initialize,
     TResult? Function(Map<String, dynamic> info)? unknown,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(StakeDelegatedAccountInfo info)? delegated,
     TResult Function(StakeInitializedAccountInfo info)? initialize,
     TResult Function(Map<String, dynamic> info)? unknown,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(StakeProgramDelegatedAccountData value) delegated,
-    required TResult Function(StakeProgramInitializedAccountData value)
-        initialize,
+    required TResult Function(StakeProgramInitializedAccountData value) initialize,
     required TResult Function(StakeProgramUnknownAccountData value) unknown,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(StakeProgramDelegatedAccountData value)? delegated,
     TResult? Function(StakeProgramInitializedAccountData value)? initialize,
     TResult? Function(StakeProgramUnknownAccountData value)? unknown,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(StakeProgramDelegatedAccountData value)? delegated,
     TResult Function(StakeProgramInitializedAccountData value)? initialize,
     TResult Function(StakeProgramUnknownAccountData value)? unknown,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 
   /// Serializes this StakeProgramAccountData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -82,14 +75,14 @@ mixin _$StakeProgramAccountData {
 
 /// @nodoc
 abstract class $StakeProgramAccountDataCopyWith<$Res> {
-  factory $StakeProgramAccountDataCopyWith(StakeProgramAccountData value,
-          $Res Function(StakeProgramAccountData) then) =
-      _$StakeProgramAccountDataCopyWithImpl<$Res, StakeProgramAccountData>;
+  factory $StakeProgramAccountDataCopyWith(
+    StakeProgramAccountData value,
+    $Res Function(StakeProgramAccountData) then,
+  ) = _$StakeProgramAccountDataCopyWithImpl<$Res, StakeProgramAccountData>;
 }
 
 /// @nodoc
-class _$StakeProgramAccountDataCopyWithImpl<$Res,
-        $Val extends StakeProgramAccountData>
+class _$StakeProgramAccountDataCopyWithImpl<$Res, $Val extends StakeProgramAccountData>
     implements $StakeProgramAccountDataCopyWith<$Res> {
   _$StakeProgramAccountDataCopyWithImpl(this._value, this._then);
 
@@ -105,49 +98,46 @@ class _$StakeProgramAccountDataCopyWithImpl<$Res,
 /// @nodoc
 abstract class _$$StakeProgramDelegatedAccountDataImplCopyWith<$Res> {
   factory _$$StakeProgramDelegatedAccountDataImplCopyWith(
-          _$StakeProgramDelegatedAccountDataImpl value,
-          $Res Function(_$StakeProgramDelegatedAccountDataImpl) then) =
-      __$$StakeProgramDelegatedAccountDataImplCopyWithImpl<$Res>;
+    _$StakeProgramDelegatedAccountDataImpl value,
+    $Res Function(_$StakeProgramDelegatedAccountDataImpl) then,
+  ) = __$$StakeProgramDelegatedAccountDataImplCopyWithImpl<$Res>;
   @useResult
   $Res call({StakeDelegatedAccountInfo info});
 }
 
 /// @nodoc
 class __$$StakeProgramDelegatedAccountDataImplCopyWithImpl<$Res>
-    extends _$StakeProgramAccountDataCopyWithImpl<$Res,
-        _$StakeProgramDelegatedAccountDataImpl>
+    extends _$StakeProgramAccountDataCopyWithImpl<$Res, _$StakeProgramDelegatedAccountDataImpl>
     implements _$$StakeProgramDelegatedAccountDataImplCopyWith<$Res> {
   __$$StakeProgramDelegatedAccountDataImplCopyWithImpl(
-      _$StakeProgramDelegatedAccountDataImpl _value,
-      $Res Function(_$StakeProgramDelegatedAccountDataImpl) _then)
-      : super(_value, _then);
+    _$StakeProgramDelegatedAccountDataImpl _value,
+    $Res Function(_$StakeProgramDelegatedAccountDataImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of StakeProgramAccountData
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? info = null,
-  }) {
-    return _then(_$StakeProgramDelegatedAccountDataImpl(
-      info: null == info
-          ? _value.info
-          : info // ignore: cast_nullable_to_non_nullable
-              as StakeDelegatedAccountInfo,
-    ));
+  $Res call({Object? info = null}) {
+    return _then(
+      _$StakeProgramDelegatedAccountDataImpl(
+        info:
+            null == info
+                ? _value.info
+                : info // ignore: cast_nullable_to_non_nullable
+                    as StakeDelegatedAccountInfo,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$StakeProgramDelegatedAccountDataImpl
-    implements StakeProgramDelegatedAccountData {
-  const _$StakeProgramDelegatedAccountDataImpl(
-      {required this.info, final String? $type})
-      : $type = $type ?? 'delegated';
+class _$StakeProgramDelegatedAccountDataImpl implements StakeProgramDelegatedAccountData {
+  const _$StakeProgramDelegatedAccountDataImpl({required this.info, final String? $type})
+    : $type = $type ?? 'delegated';
 
-  factory _$StakeProgramDelegatedAccountDataImpl.fromJson(
-          Map<String, dynamic> json) =>
+  factory _$StakeProgramDelegatedAccountDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$StakeProgramDelegatedAccountDataImplFromJson(json);
 
   @override
@@ -178,10 +168,12 @@ class _$StakeProgramDelegatedAccountDataImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$StakeProgramDelegatedAccountDataImplCopyWith<
-          _$StakeProgramDelegatedAccountDataImpl>
-      get copyWith => __$$StakeProgramDelegatedAccountDataImplCopyWithImpl<
-          _$StakeProgramDelegatedAccountDataImpl>(this, _$identity);
+  _$$StakeProgramDelegatedAccountDataImplCopyWith<_$StakeProgramDelegatedAccountDataImpl>
+  get copyWith =>
+      __$$StakeProgramDelegatedAccountDataImplCopyWithImpl<_$StakeProgramDelegatedAccountDataImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -221,8 +213,7 @@ class _$StakeProgramDelegatedAccountDataImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(StakeProgramDelegatedAccountData value) delegated,
-    required TResult Function(StakeProgramInitializedAccountData value)
-        initialize,
+    required TResult Function(StakeProgramInitializedAccountData value) initialize,
     required TResult Function(StakeProgramUnknownAccountData value) unknown,
   }) {
     return delegated(this);
@@ -254,16 +245,12 @@ class _$StakeProgramDelegatedAccountDataImpl
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramDelegatedAccountDataImplToJson(
-      this,
-    );
+    return _$$StakeProgramDelegatedAccountDataImplToJson(this);
   }
 }
 
-abstract class StakeProgramDelegatedAccountData
-    implements StakeProgramAccountData {
-  const factory StakeProgramDelegatedAccountData(
-          {required final StakeDelegatedAccountInfo info}) =
+abstract class StakeProgramDelegatedAccountData implements StakeProgramAccountData {
+  const factory StakeProgramDelegatedAccountData({required final StakeDelegatedAccountInfo info}) =
       _$StakeProgramDelegatedAccountDataImpl;
 
   factory StakeProgramDelegatedAccountData.fromJson(Map<String, dynamic> json) =
@@ -275,57 +262,53 @@ abstract class StakeProgramDelegatedAccountData
   /// Create a copy of StakeProgramAccountData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$StakeProgramDelegatedAccountDataImplCopyWith<
-          _$StakeProgramDelegatedAccountDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$StakeProgramDelegatedAccountDataImplCopyWith<_$StakeProgramDelegatedAccountDataImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$StakeProgramInitializedAccountDataImplCopyWith<$Res> {
   factory _$$StakeProgramInitializedAccountDataImplCopyWith(
-          _$StakeProgramInitializedAccountDataImpl value,
-          $Res Function(_$StakeProgramInitializedAccountDataImpl) then) =
-      __$$StakeProgramInitializedAccountDataImplCopyWithImpl<$Res>;
+    _$StakeProgramInitializedAccountDataImpl value,
+    $Res Function(_$StakeProgramInitializedAccountDataImpl) then,
+  ) = __$$StakeProgramInitializedAccountDataImplCopyWithImpl<$Res>;
   @useResult
   $Res call({StakeInitializedAccountInfo info});
 }
 
 /// @nodoc
 class __$$StakeProgramInitializedAccountDataImplCopyWithImpl<$Res>
-    extends _$StakeProgramAccountDataCopyWithImpl<$Res,
-        _$StakeProgramInitializedAccountDataImpl>
+    extends _$StakeProgramAccountDataCopyWithImpl<$Res, _$StakeProgramInitializedAccountDataImpl>
     implements _$$StakeProgramInitializedAccountDataImplCopyWith<$Res> {
   __$$StakeProgramInitializedAccountDataImplCopyWithImpl(
-      _$StakeProgramInitializedAccountDataImpl _value,
-      $Res Function(_$StakeProgramInitializedAccountDataImpl) _then)
-      : super(_value, _then);
+    _$StakeProgramInitializedAccountDataImpl _value,
+    $Res Function(_$StakeProgramInitializedAccountDataImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of StakeProgramAccountData
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? info = null,
-  }) {
-    return _then(_$StakeProgramInitializedAccountDataImpl(
-      info: null == info
-          ? _value.info
-          : info // ignore: cast_nullable_to_non_nullable
-              as StakeInitializedAccountInfo,
-    ));
+  $Res call({Object? info = null}) {
+    return _then(
+      _$StakeProgramInitializedAccountDataImpl(
+        info:
+            null == info
+                ? _value.info
+                : info // ignore: cast_nullable_to_non_nullable
+                    as StakeInitializedAccountInfo,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$StakeProgramInitializedAccountDataImpl
-    implements StakeProgramInitializedAccountData {
-  const _$StakeProgramInitializedAccountDataImpl(
-      {required this.info, final String? $type})
-      : $type = $type ?? 'initialize';
+class _$StakeProgramInitializedAccountDataImpl implements StakeProgramInitializedAccountData {
+  const _$StakeProgramInitializedAccountDataImpl({required this.info, final String? $type})
+    : $type = $type ?? 'initialize';
 
-  factory _$StakeProgramInitializedAccountDataImpl.fromJson(
-          Map<String, dynamic> json) =>
+  factory _$StakeProgramInitializedAccountDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$StakeProgramInitializedAccountDataImplFromJson(json);
 
   @override
@@ -356,10 +339,10 @@ class _$StakeProgramInitializedAccountDataImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$StakeProgramInitializedAccountDataImplCopyWith<
-          _$StakeProgramInitializedAccountDataImpl>
-      get copyWith => __$$StakeProgramInitializedAccountDataImplCopyWithImpl<
-          _$StakeProgramInitializedAccountDataImpl>(this, _$identity);
+  _$$StakeProgramInitializedAccountDataImplCopyWith<_$StakeProgramInitializedAccountDataImpl>
+  get copyWith => __$$StakeProgramInitializedAccountDataImplCopyWithImpl<
+    _$StakeProgramInitializedAccountDataImpl
+  >(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -399,8 +382,7 @@ class _$StakeProgramInitializedAccountDataImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(StakeProgramDelegatedAccountData value) delegated,
-    required TResult Function(StakeProgramInitializedAccountData value)
-        initialize,
+    required TResult Function(StakeProgramInitializedAccountData value) initialize,
     required TResult Function(StakeProgramUnknownAccountData value) unknown,
   }) {
     return initialize(this);
@@ -432,20 +414,16 @@ class _$StakeProgramInitializedAccountDataImpl
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramInitializedAccountDataImplToJson(
-      this,
-    );
+    return _$$StakeProgramInitializedAccountDataImplToJson(this);
   }
 }
 
-abstract class StakeProgramInitializedAccountData
-    implements StakeProgramAccountData {
-  const factory StakeProgramInitializedAccountData(
-          {required final StakeInitializedAccountInfo info}) =
-      _$StakeProgramInitializedAccountDataImpl;
+abstract class StakeProgramInitializedAccountData implements StakeProgramAccountData {
+  const factory StakeProgramInitializedAccountData({
+    required final StakeInitializedAccountInfo info,
+  }) = _$StakeProgramInitializedAccountDataImpl;
 
-  factory StakeProgramInitializedAccountData.fromJson(
-          Map<String, dynamic> json) =
+  factory StakeProgramInitializedAccountData.fromJson(Map<String, dynamic> json) =
       _$StakeProgramInitializedAccountDataImpl.fromJson;
 
   @override
@@ -454,58 +432,53 @@ abstract class StakeProgramInitializedAccountData
   /// Create a copy of StakeProgramAccountData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$StakeProgramInitializedAccountDataImplCopyWith<
-          _$StakeProgramInitializedAccountDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$StakeProgramInitializedAccountDataImplCopyWith<_$StakeProgramInitializedAccountDataImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$StakeProgramUnknownAccountDataImplCopyWith<$Res> {
   factory _$$StakeProgramUnknownAccountDataImplCopyWith(
-          _$StakeProgramUnknownAccountDataImpl value,
-          $Res Function(_$StakeProgramUnknownAccountDataImpl) then) =
-      __$$StakeProgramUnknownAccountDataImplCopyWithImpl<$Res>;
+    _$StakeProgramUnknownAccountDataImpl value,
+    $Res Function(_$StakeProgramUnknownAccountDataImpl) then,
+  ) = __$$StakeProgramUnknownAccountDataImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Map<String, dynamic> info});
 }
 
 /// @nodoc
 class __$$StakeProgramUnknownAccountDataImplCopyWithImpl<$Res>
-    extends _$StakeProgramAccountDataCopyWithImpl<$Res,
-        _$StakeProgramUnknownAccountDataImpl>
+    extends _$StakeProgramAccountDataCopyWithImpl<$Res, _$StakeProgramUnknownAccountDataImpl>
     implements _$$StakeProgramUnknownAccountDataImplCopyWith<$Res> {
   __$$StakeProgramUnknownAccountDataImplCopyWithImpl(
-      _$StakeProgramUnknownAccountDataImpl _value,
-      $Res Function(_$StakeProgramUnknownAccountDataImpl) _then)
-      : super(_value, _then);
+    _$StakeProgramUnknownAccountDataImpl _value,
+    $Res Function(_$StakeProgramUnknownAccountDataImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of StakeProgramAccountData
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? info = null,
-  }) {
-    return _then(_$StakeProgramUnknownAccountDataImpl(
-      null == info
-          ? _value._info
-          : info // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
-    ));
+  $Res call({Object? info = null}) {
+    return _then(
+      _$StakeProgramUnknownAccountDataImpl(
+        null == info
+            ? _value._info
+            : info // ignore: cast_nullable_to_non_nullable
+                as Map<String, dynamic>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$StakeProgramUnknownAccountDataImpl
-    implements StakeProgramUnknownAccountData {
-  const _$StakeProgramUnknownAccountDataImpl(final Map<String, dynamic> info,
-      {final String? $type})
-      : _info = info,
-        $type = $type ?? 'unknown';
+class _$StakeProgramUnknownAccountDataImpl implements StakeProgramUnknownAccountData {
+  const _$StakeProgramUnknownAccountDataImpl(final Map<String, dynamic> info, {final String? $type})
+    : _info = info,
+      $type = $type ?? 'unknown';
 
-  factory _$StakeProgramUnknownAccountDataImpl.fromJson(
-          Map<String, dynamic> json) =>
+  factory _$StakeProgramUnknownAccountDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$StakeProgramUnknownAccountDataImplFromJson(json);
 
   final Map<String, dynamic> _info;
@@ -534,18 +507,19 @@ class _$StakeProgramUnknownAccountDataImpl
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_info));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_info));
 
   /// Create a copy of StakeProgramAccountData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$StakeProgramUnknownAccountDataImplCopyWith<
-          _$StakeProgramUnknownAccountDataImpl>
-      get copyWith => __$$StakeProgramUnknownAccountDataImplCopyWithImpl<
-          _$StakeProgramUnknownAccountDataImpl>(this, _$identity);
+  _$$StakeProgramUnknownAccountDataImplCopyWith<_$StakeProgramUnknownAccountDataImpl>
+  get copyWith =>
+      __$$StakeProgramUnknownAccountDataImplCopyWithImpl<_$StakeProgramUnknownAccountDataImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -585,8 +559,7 @@ class _$StakeProgramUnknownAccountDataImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(StakeProgramDelegatedAccountData value) delegated,
-    required TResult Function(StakeProgramInitializedAccountData value)
-        initialize,
+    required TResult Function(StakeProgramInitializedAccountData value) initialize,
     required TResult Function(StakeProgramUnknownAccountData value) unknown,
   }) {
     return unknown(this);
@@ -618,16 +591,13 @@ class _$StakeProgramUnknownAccountDataImpl
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StakeProgramUnknownAccountDataImplToJson(
-      this,
-    );
+    return _$$StakeProgramUnknownAccountDataImplToJson(this);
   }
 }
 
-abstract class StakeProgramUnknownAccountData
-    implements StakeProgramAccountData {
-  const factory StakeProgramUnknownAccountData(
-      final Map<String, dynamic> info) = _$StakeProgramUnknownAccountDataImpl;
+abstract class StakeProgramUnknownAccountData implements StakeProgramAccountData {
+  const factory StakeProgramUnknownAccountData(final Map<String, dynamic> info) =
+      _$StakeProgramUnknownAccountDataImpl;
 
   factory StakeProgramUnknownAccountData.fromJson(Map<String, dynamic> json) =
       _$StakeProgramUnknownAccountDataImpl.fromJson;
@@ -638,7 +608,6 @@ abstract class StakeProgramUnknownAccountData
   /// Create a copy of StakeProgramAccountData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$StakeProgramUnknownAccountDataImplCopyWith<
-          _$StakeProgramUnknownAccountDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$StakeProgramUnknownAccountDataImplCopyWith<_$StakeProgramUnknownAccountDataImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }

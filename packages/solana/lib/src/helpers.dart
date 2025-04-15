@@ -17,9 +17,7 @@ bool isValidAddress(String address) {
 // Returns whether the point [data] is on the ed25519 curve.
 bool isPointOnEd25519Curve(Iterable<int> data) {
   if (data.length != 32) {
-    throw const FormatException(
-      'invalid length, decoded address is not 32 bytes long',
-    );
+    throw const FormatException('invalid length, decoded address is not 32 bytes long');
   }
   try {
     final compressed = CompressedEdwardsY(data.map(BigInt.from).toList());
@@ -36,11 +34,10 @@ Future<Ed25519HDPublicKey> findAssociatedTokenAddress({
   required Ed25519HDPublicKey owner,
   required Ed25519HDPublicKey mint,
   TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
-}) =>
-    Ed25519HDPublicKey.findProgramAddress(
-      seeds: [owner.bytes, tokenProgramType.id.toByteArray(), mint.bytes],
-      programId: AssociatedTokenAccountProgram.id,
-    );
+}) => Ed25519HDPublicKey.findProgramAddress(
+  seeds: [owner.bytes, tokenProgramType.id.toByteArray(), mint.bytes],
+  programId: AssociatedTokenAccountProgram.id,
+);
 
 Future<SignedTx> signTransaction(
   LatestBlockhash latestBlockhash,
@@ -56,10 +53,7 @@ Future<SignedTx> signTransaction(
     feePayer: signers.first.publicKey,
   );
 
-  return _signCompiledMessage(
-    compiledMessage,
-    signers,
-  );
+  return _signCompiledMessage(compiledMessage, signers);
 }
 
 Future<SignedTx> signV0Transaction(
@@ -78,10 +72,7 @@ Future<SignedTx> signV0Transaction(
     addressLookupTableAccounts: addressLookupTableAccounts,
   );
 
-  return _signCompiledMessage(
-    compiledMessage,
-    signers,
-  );
+  return _signCompiledMessage(compiledMessage, signers);
 }
 
 Future<SignedTx> _signCompiledMessage(
@@ -101,8 +92,5 @@ Future<SignedTx> _signCompiledMessage(
     signers.map((signer) => signer.sign(compiledMessage.toByteArray())),
   );
 
-  return SignedTx(
-    compiledMessage: compiledMessage,
-    signatures: signatures,
-  );
+  return SignedTx(compiledMessage: compiledMessage, signatures: signatures);
 }

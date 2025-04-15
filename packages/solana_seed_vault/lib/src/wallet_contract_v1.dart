@@ -1,19 +1,15 @@
 class WalletContractV1 {
   static const packageSeedVault = 'com.solanamobile.seedvaultimpl';
 
-  static const permissionAccessSeedVault =
-      'com.solanamobile.seedvault.ACCESS_SEED_VAULT';
+  static const permissionAccessSeedVault = 'com.solanamobile.seedvault.ACCESS_SEED_VAULT';
 
-  static const permissionSeedVaultImpl =
-      'com.solanamobile.seedvault.SEED_VAULT_IMPL';
+  static const permissionSeedVaultImpl = 'com.solanamobile.seedvault.SEED_VAULT_IMPL';
 
   static const authorityWallet = 'com.solanamobile.seedvault.wallet.v1';
 
-  static const actionAuthorizeSeedAccess =
-      '$authorityWallet.ACTION_AUTHORIZE_SEED_ACCESS';
+  static const actionAuthorizeSeedAccess = '$authorityWallet.ACTION_AUTHORIZE_SEED_ACCESS';
 
-  static const actionSignTransaction =
-      '$authorityWallet.ACTION_SIGN_TRANSACTION';
+  static const actionSignTransaction = '$authorityWallet.ACTION_SIGN_TRANSACTION';
 
   static const actionSignMessage = '$authorityWallet.ACTION_SIGN_MESSAGE';
 
@@ -37,8 +33,7 @@ class WalletContractV1 {
 
   static const resultInvalidDerivationPath = _Activity.resultFirstUser + 1006;
 
-  static const resultImplementationLimitExceeded =
-      _Activity.resultFirstUser + 1007;
+  static const resultImplementationLimitExceeded = _Activity.resultFirstUser + 1007;
 
   static const extraPurpose = 'Purpose';
 
@@ -72,16 +67,13 @@ class WalletContractV1 {
 
   static const authorityWalletProvider = '$authorityWallet.walletprovider';
 
-  final Uri walletProviderContentUriBase =
-      Uri.parse('content://$authorityWalletProvider');
+  final Uri walletProviderContentUriBase = Uri.parse('content://$authorityWalletProvider');
 
   static const authorizedSeedsTable = 'authorizedseeds';
 
-  Uri get authorizedSeedsContentUri =>
-      walletProviderContentUriBase.resolve(authorizedSeedsTable);
+  Uri get authorizedSeedsContentUri => walletProviderContentUriBase.resolve(authorizedSeedsTable);
 
-  static const authorizedSeedsMimeSubtype =
-      'vnd.$authorityWalletProvider.$authorizedSeedsTable';
+  static const authorizedSeedsMimeSubtype = 'vnd.$authorityWalletProvider.$authorizedSeedsTable';
 
   static const authorizedSeedsAuthToken = _BaseColumns.id;
 
@@ -105,8 +97,7 @@ class WalletContractV1 {
 
   static const unauthorizedSeedsAuthPurpose = _BaseColumns.id;
 
-  static const unauthorizedSeedsHasUnauthorizedSeeds =
-      'UnauthorizedSeeds_HasUnauthorizedSeeds';
+  static const unauthorizedSeedsHasUnauthorizedSeeds = 'UnauthorizedSeeds_HasUnauthorizedSeeds';
 
   static const unauthorizedSeedsAllColumns = [
     unauthorizedSeedsAuthPurpose,
@@ -115,11 +106,9 @@ class WalletContractV1 {
 
   static const accountsTable = 'accounts';
 
-  Uri get accountsContentUri =>
-      walletProviderContentUriBase.resolve(accountsTable);
+  Uri get accountsContentUri => walletProviderContentUriBase.resolve(accountsTable);
 
-  static const accountsMimeSubtype =
-      'vnd.$authorityWalletProvider.$accountsTable';
+  static const accountsMimeSubtype = 'vnd.$authorityWalletProvider.$accountsTable';
 
   static const accountsAccountId = _BaseColumns.id;
 
@@ -157,11 +146,9 @@ class WalletContractV1 {
 
   static const implementationLimitsMaxSigningRequests = 'MaxSigningRequests';
 
-  static const implementationLimitsMaxRequestedSignatures =
-      'MaxRequestedSignatures';
+  static const implementationLimitsMaxRequestedSignatures = 'MaxRequestedSignatures';
 
-  static const implementationLimitsMaxRequestedPublicKeys =
-      'MaxRequestedPublicKeys';
+  static const implementationLimitsMaxRequestedPublicKeys = 'MaxRequestedPublicKeys';
 
   static const implementationLimitsAllColumns = [
     implementationLimitsAuthPurpose,

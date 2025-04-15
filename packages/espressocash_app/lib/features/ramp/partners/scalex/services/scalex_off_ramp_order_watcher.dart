@@ -31,40 +31,38 @@ class ScalexOffRampOrderWatcher implements RampWatcher {
         .whereNotNull()
         .asyncMap((order) => _client.fetchStatus(order.partnerOrderId))
         .listen((status) async {
-      final statement = _db.update(_db.offRampOrderRows)
-        ..where(
-          (tbl) =>
-              tbl.id.equals(orderId) &
-              tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
-        );
+          final statement = _db.update(_db.offRampOrderRows)..where(
+            (tbl) =>
+                tbl.id.equals(orderId) &
+                tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
+          );
 
-      final orderStatus = switch (status) {
-        ScalexOrderStatus.pending => OffRampOrderStatus.waitingForPartner,
-        ScalexOrderStatus.completed => OffRampOrderStatus.completed,
-        ScalexOrderStatus.expired ||
-        ScalexOrderStatus.failed ||
-        ScalexOrderStatus.unknown =>
-          OffRampOrderStatus.failure,
-      };
+          final orderStatus = switch (status) {
+            ScalexOrderStatus.pending => OffRampOrderStatus.waitingForPartner,
+            ScalexOrderStatus.completed => OffRampOrderStatus.completed,
+            ScalexOrderStatus.expired ||
+            ScalexOrderStatus.failed ||
+            ScalexOrderStatus.unknown => OffRampOrderStatus.failure,
+          };
 
-      if (orderStatus == OffRampOrderStatus.completed) {
-        await _subscription?.cancel();
+          if (orderStatus == OffRampOrderStatus.completed) {
+            await _subscription?.cancel();
 
-        _analytics.rampCompleted(
-          partnerName: RampPartner.scalex.name,
-          rampType: RampType.offRamp.name,
-          id: orderId,
-        );
-      }
+            _analytics.rampCompleted(
+              partnerName: RampPartner.scalex.name,
+              rampType: RampType.offRamp.name,
+              id: orderId,
+            );
+          }
 
-      await statement.write(
-        OffRampOrderRowsCompanion(
-          humanStatus: Value(status.name),
-          machineStatus: Value(status.name),
-          status: Value(orderStatus),
-        ),
-      );
-    });
+          await statement.write(
+            OffRampOrderRowsCompanion(
+              humanStatus: Value(status.name),
+              machineStatus: Value(status.name),
+              status: Value(orderStatus),
+            ),
+          );
+        });
   }
 
   @override

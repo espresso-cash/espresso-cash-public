@@ -8,26 +8,15 @@ part 'properties.g.dart';
 class Properties with _$Properties {
   const factory Properties.unknown() = Unknown;
 
-  const factory Properties.video({
-    required List<File> files,
-  }) = Video;
+  const factory Properties.video({required List<File> files}) = Video;
 
-  const factory Properties.image({
-    required List<File> files,
-  }) = Image;
+  const factory Properties.image({required List<File> files}) = Image;
 
-  const factory Properties.vr({
-    required List<File> files,
-  }) = Model3D;
+  const factory Properties.vr({required List<File> files}) = Model3D;
 
-  const factory Properties.audio({
-    required List<File> files,
-  }) = Audio;
+  const factory Properties.audio({required List<File> files}) = Audio;
 
-  const factory Properties.html({
-    required List<File> files,
-  }) = Html;
+  const factory Properties.html({required List<File> files}) = Html;
 
-  factory Properties.fromJson(Map<String, dynamic> json) =>
-      _$PropertiesFromJson(json);
+  factory Properties.fromJson(Map<String, dynamic> json) => _$PropertiesFromJson(json);
 }

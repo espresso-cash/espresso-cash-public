@@ -17,40 +17,28 @@ extension SeedVaultHelperExt on SeedVault {
   }) async {
     final result = await getAuthorizedSeeds();
 
-    return Future.wait(
-      result.map((it) => it.cursorToSeed(this, accountFilter)),
-    );
+    return Future.wait(result.map((it) => it.cursorToSeed(this, accountFilter)));
   }
 
   Future<Seed> getParsedAuthorizedSeed(
     AuthToken authToken, {
     AccountFilter accountFilter = const AccountFilter(),
-  }) =>
-      getAuthorizedSeed(authToken: authToken)
-          .then((it) => it.cursorToSeed(this, accountFilter));
+  }) => getAuthorizedSeed(authToken: authToken).then((it) => it.cursorToSeed(this, accountFilter));
 
   Future<List<Account>> getParsedAccounts(
     AuthToken authToken, {
     AccountFilter filter = const AccountFilter(),
-  }) =>
-      getAccounts(
-        authToken: authToken,
-        filterOnColumn: filter.toColumn(),
-        value: filter.toValue(),
-      ).then((it) => it.map((it) => it.cursorToAccount()).toList());
+  }) => getAccounts(
+    authToken: authToken,
+    filterOnColumn: filter.toColumn(),
+    value: filter.toValue(),
+  ).then((it) => it.map((it) => it.cursorToAccount()).toList());
 
-  Future<Account> getParsedAccount({
-    required AuthToken authToken,
-    required int accountId,
-  }) =>
-      getAccount(authToken: authToken, id: accountId)
-          .then((it) => it.cursorToAccount());
+  Future<Account> getParsedAccount({required AuthToken authToken, required int accountId}) =>
+      getAccount(authToken: authToken, id: accountId).then((it) => it.cursorToAccount());
 
-  Future<ImplementationLimits> getParsedImplementationLimitsForPurpose(
-    Purpose purpose,
-  ) =>
-      getImplementationLimitsForPurpose(purpose)
-          .then((it) => it.cursorToImplementationLimits());
+  Future<ImplementationLimits> getParsedImplementationLimitsForPurpose(Purpose purpose) =>
+      getImplementationLimitsForPurpose(purpose).then((it) => it.cursorToImplementationLimits());
 }
 
 extension CursorToModelExt on CursorData {
@@ -58,10 +46,7 @@ extension CursorToModelExt on CursorData {
     final authToken = this[WalletContractV1.authorizedSeedsAuthToken] as int;
     final name = this[WalletContractV1.authorizedSeedsSeedName] as String;
     final purpose = this[WalletContractV1.authorizedSeedsAuthPurpose] as int;
-    final accounts = await seedVault.getParsedAccounts(
-      authToken,
-      filter: filter,
-    );
+    final accounts = await seedVault.getParsedAccounts(authToken, filter: filter);
 
     return Seed(
       authToken: authToken,
@@ -72,50 +57,43 @@ extension CursorToModelExt on CursorData {
   }
 
   Account cursorToAccount() => Account(
-        id: this[WalletContractV1.accountsAccountId] as int,
-        name: this[WalletContractV1.accountsAccountName] as String,
-        derivationPath: Uri.parse(
-          this[WalletContractV1.accountsBip32DerivationPath] as String,
-        ),
-        publicKeyEncoded:
-            this[WalletContractV1.accountsPublicKeyEncoded] as String,
-        publicKeyRaw: this[WalletContractV1.accountsPublicKeyRaw] as Uint8List,
-        isUserWallet: this[WalletContractV1.accountsAccountIsUserWallet] == 1,
-        isValid: this[WalletContractV1.accountsAccountIsValid] == 1,
-      );
+    id: this[WalletContractV1.accountsAccountId] as int,
+    name: this[WalletContractV1.accountsAccountName] as String,
+    derivationPath: Uri.parse(this[WalletContractV1.accountsBip32DerivationPath] as String),
+    publicKeyEncoded: this[WalletContractV1.accountsPublicKeyEncoded] as String,
+    publicKeyRaw: this[WalletContractV1.accountsPublicKeyRaw] as Uint8List,
+    isUserWallet: this[WalletContractV1.accountsAccountIsUserWallet] == 1,
+    isValid: this[WalletContractV1.accountsAccountIsValid] == 1,
+  );
 
   ImplementationLimits cursorToImplementationLimits() => ImplementationLimits(
-        maxBip32PathDepth: WalletContractV1.bip32UriMaxDepth,
-        maxSigningRequests:
-            this[WalletContractV1.implementationLimitsMaxSigningRequests]
-                as int,
-        maxRequestedSignatures:
-            this[WalletContractV1.implementationLimitsMaxRequestedSignatures]
-                as int,
-        maxRequestedPublicKeys:
-            this[WalletContractV1.implementationLimitsMaxRequestedPublicKeys]
-                as int,
-      );
+    maxBip32PathDepth: WalletContractV1.bip32UriMaxDepth,
+    maxSigningRequests: this[WalletContractV1.implementationLimitsMaxSigningRequests] as int,
+    maxRequestedSignatures:
+        this[WalletContractV1.implementationLimitsMaxRequestedSignatures] as int,
+    maxRequestedPublicKeys:
+        this[WalletContractV1.implementationLimitsMaxRequestedPublicKeys] as int,
+  );
 }
 
 extension on AccountFilter {
   String? toColumn() => when(
-        () => null,
-        byId: (_) => WalletContractV1.accountsAccountId,
-        byName: (_) => WalletContractV1.accountsAccountName,
-        byDerivationPath: (_) => WalletContractV1.accountsBip32DerivationPath,
-        byPublicKeyEncoded: (_) => WalletContractV1.accountsPublicKeyEncoded,
-        byIsUserWallet: (_) => WalletContractV1.accountsAccountIsUserWallet,
-        byIsValid: (_) => WalletContractV1.accountsAccountIsValid,
-      );
+    () => null,
+    byId: (_) => WalletContractV1.accountsAccountId,
+    byName: (_) => WalletContractV1.accountsAccountName,
+    byDerivationPath: (_) => WalletContractV1.accountsBip32DerivationPath,
+    byPublicKeyEncoded: (_) => WalletContractV1.accountsPublicKeyEncoded,
+    byIsUserWallet: (_) => WalletContractV1.accountsAccountIsUserWallet,
+    byIsValid: (_) => WalletContractV1.accountsAccountIsValid,
+  );
 
   dynamic toValue() => when(
-        () => null,
-        byId: (it) => it,
-        byName: (it) => it,
-        byDerivationPath: (it) => it.toString(),
-        byPublicKeyEncoded: (it) => it,
-        byIsUserWallet: (it) => it ? '1' : '0',
-        byIsValid: (it) => it ? '1' : '0',
-      );
+    () => null,
+    byId: (it) => it,
+    byName: (it) => it,
+    byDerivationPath: (it) => it.toString(),
+    byPublicKeyEncoded: (it) => it,
+    byIsUserWallet: (it) => it ? '1' : '0',
+    byIsValid: (it) => it ? '1' : '0',
+  );
 }

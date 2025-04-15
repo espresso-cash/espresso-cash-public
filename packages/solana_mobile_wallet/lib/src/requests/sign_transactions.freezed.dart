@@ -12,7 +12,8 @@ part of 'sign_transactions.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SignPayloadsRequest {
@@ -25,83 +26,83 @@ mixin _$SignPayloadsRequest {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)
-        transactions,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )
+    transactions,
     required TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)
-        messages,
-  }) =>
-      throw _privateConstructorUsedError;
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )
+    messages,
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        transactions,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    transactions,
     TResult? Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        messages,
-  }) =>
-      throw _privateConstructorUsedError;
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    messages,
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        transactions,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    transactions,
     TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        messages,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    messages,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SignTransactionsRequest value) transactions,
     required TResult Function(SignMessagesRequest value) messages,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(SignTransactionsRequest value)? transactions,
     TResult? Function(SignMessagesRequest value)? messages,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(SignTransactionsRequest value)? transactions,
     TResult Function(SignMessagesRequest value)? messages,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SignPayloadsRequestCopyWith<SignPayloadsRequest> get copyWith =>
@@ -111,16 +112,18 @@ mixin _$SignPayloadsRequest {
 /// @nodoc
 abstract class $SignPayloadsRequestCopyWith<$Res> {
   factory $SignPayloadsRequestCopyWith(
-          SignPayloadsRequest value, $Res Function(SignPayloadsRequest) then) =
-      _$SignPayloadsRequestCopyWithImpl<$Res, SignPayloadsRequest>;
+    SignPayloadsRequest value,
+    $Res Function(SignPayloadsRequest) then,
+  ) = _$SignPayloadsRequestCopyWithImpl<$Res, SignPayloadsRequest>;
   @useResult
-  $Res call(
-      {String? identityName,
-      Uri? identityUri,
-      Uri? iconRelativeUri,
-      String cluster,
-      Uint8List authorizationScope,
-      List<Uint8List> payloads});
+  $Res call({
+    String? identityName,
+    Uri? identityUri,
+    Uri? iconRelativeUri,
+    String cluster,
+    Uint8List authorizationScope,
+    List<Uint8List> payloads,
+  });
 }
 
 /// @nodoc
@@ -143,59 +146,71 @@ class _$SignPayloadsRequestCopyWithImpl<$Res, $Val extends SignPayloadsRequest>
     Object? authorizationScope = null,
     Object? payloads = null,
   }) {
-    return _then(_value.copyWith(
-      identityName: freezed == identityName
-          ? _value.identityName
-          : identityName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      identityUri: freezed == identityUri
-          ? _value.identityUri
-          : identityUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      iconRelativeUri: freezed == iconRelativeUri
-          ? _value.iconRelativeUri
-          : iconRelativeUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      cluster: null == cluster
-          ? _value.cluster
-          : cluster // ignore: cast_nullable_to_non_nullable
-              as String,
-      authorizationScope: null == authorizationScope
-          ? _value.authorizationScope
-          : authorizationScope // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      payloads: null == payloads
-          ? _value.payloads
-          : payloads // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            identityName:
+                freezed == identityName
+                    ? _value.identityName
+                    : identityName // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            identityUri:
+                freezed == identityUri
+                    ? _value.identityUri
+                    : identityUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+            iconRelativeUri:
+                freezed == iconRelativeUri
+                    ? _value.iconRelativeUri
+                    : iconRelativeUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+            cluster:
+                null == cluster
+                    ? _value.cluster
+                    : cluster // ignore: cast_nullable_to_non_nullable
+                        as String,
+            authorizationScope:
+                null == authorizationScope
+                    ? _value.authorizationScope
+                    : authorizationScope // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
+            payloads:
+                null == payloads
+                    ? _value.payloads
+                    : payloads // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$SignTransactionsRequestCopyWith<$Res>
+abstract class _$$SignTransactionsRequestImplCopyWith<$Res>
     implements $SignPayloadsRequestCopyWith<$Res> {
-  factory _$$SignTransactionsRequestCopyWith(_$SignTransactionsRequest value,
-          $Res Function(_$SignTransactionsRequest) then) =
-      __$$SignTransactionsRequestCopyWithImpl<$Res>;
+  factory _$$SignTransactionsRequestImplCopyWith(
+    _$SignTransactionsRequestImpl value,
+    $Res Function(_$SignTransactionsRequestImpl) then,
+  ) = __$$SignTransactionsRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String? identityName,
-      Uri? identityUri,
-      Uri? iconRelativeUri,
-      String cluster,
-      Uint8List authorizationScope,
-      List<Uint8List> payloads});
+  $Res call({
+    String? identityName,
+    Uri? identityUri,
+    Uri? iconRelativeUri,
+    String cluster,
+    Uint8List authorizationScope,
+    List<Uint8List> payloads,
+  });
 }
 
 /// @nodoc
-class __$$SignTransactionsRequestCopyWithImpl<$Res>
-    extends _$SignPayloadsRequestCopyWithImpl<$Res, _$SignTransactionsRequest>
-    implements _$$SignTransactionsRequestCopyWith<$Res> {
-  __$$SignTransactionsRequestCopyWithImpl(_$SignTransactionsRequest _value,
-      $Res Function(_$SignTransactionsRequest) _then)
-      : super(_value, _then);
+class __$$SignTransactionsRequestImplCopyWithImpl<$Res>
+    extends _$SignPayloadsRequestCopyWithImpl<$Res, _$SignTransactionsRequestImpl>
+    implements _$$SignTransactionsRequestImplCopyWith<$Res> {
+  __$$SignTransactionsRequestImplCopyWithImpl(
+    _$SignTransactionsRequestImpl _value,
+    $Res Function(_$SignTransactionsRequestImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -207,46 +222,54 @@ class __$$SignTransactionsRequestCopyWithImpl<$Res>
     Object? authorizationScope = null,
     Object? payloads = null,
   }) {
-    return _then(_$SignTransactionsRequest(
-      identityName: freezed == identityName
-          ? _value.identityName
-          : identityName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      identityUri: freezed == identityUri
-          ? _value.identityUri
-          : identityUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      iconRelativeUri: freezed == iconRelativeUri
-          ? _value.iconRelativeUri
-          : iconRelativeUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      cluster: null == cluster
-          ? _value.cluster
-          : cluster // ignore: cast_nullable_to_non_nullable
-              as String,
-      authorizationScope: null == authorizationScope
-          ? _value.authorizationScope
-          : authorizationScope // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      payloads: null == payloads
-          ? _value._payloads
-          : payloads // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ));
+    return _then(
+      _$SignTransactionsRequestImpl(
+        identityName:
+            freezed == identityName
+                ? _value.identityName
+                : identityName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        identityUri:
+            freezed == identityUri
+                ? _value.identityUri
+                : identityUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        iconRelativeUri:
+            freezed == iconRelativeUri
+                ? _value.iconRelativeUri
+                : iconRelativeUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        cluster:
+            null == cluster
+                ? _value.cluster
+                : cluster // ignore: cast_nullable_to_non_nullable
+                    as String,
+        authorizationScope:
+            null == authorizationScope
+                ? _value.authorizationScope
+                : authorizationScope // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        payloads:
+            null == payloads
+                ? _value._payloads
+                : payloads // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$SignTransactionsRequest implements SignTransactionsRequest {
-  const _$SignTransactionsRequest(
-      {required this.identityName,
-      required this.identityUri,
-      required this.iconRelativeUri,
-      required this.cluster,
-      required this.authorizationScope,
-      required final List<Uint8List> payloads})
-      : _payloads = payloads;
+class _$SignTransactionsRequestImpl implements SignTransactionsRequest {
+  const _$SignTransactionsRequestImpl({
+    required this.identityName,
+    required this.identityUri,
+    required this.iconRelativeUri,
+    required this.cluster,
+    required this.authorizationScope,
+    required final List<Uint8List> payloads,
+  }) : _payloads = payloads;
 
   @override
   final String? identityName;
@@ -272,111 +295,132 @@ class _$SignTransactionsRequest implements SignTransactionsRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SignTransactionsRequest &&
-            (identical(other.identityName, identityName) ||
-                other.identityName == identityName) &&
-            (identical(other.identityUri, identityUri) ||
-                other.identityUri == identityUri) &&
+            other is _$SignTransactionsRequestImpl &&
+            (identical(other.identityName, identityName) || other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
             (identical(other.iconRelativeUri, iconRelativeUri) ||
                 other.iconRelativeUri == iconRelativeUri) &&
             (identical(other.cluster, cluster) || other.cluster == cluster) &&
-            const DeepCollectionEquality()
-                .equals(other.authorizationScope, authorizationScope) &&
+            const DeepCollectionEquality().equals(other.authorizationScope, authorizationScope) &&
             const DeepCollectionEquality().equals(other._payloads, _payloads));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      identityName,
-      identityUri,
-      iconRelativeUri,
-      cluster,
-      const DeepCollectionEquality().hash(authorizationScope),
-      const DeepCollectionEquality().hash(_payloads));
+    runtimeType,
+    identityName,
+    identityUri,
+    iconRelativeUri,
+    cluster,
+    const DeepCollectionEquality().hash(authorizationScope),
+    const DeepCollectionEquality().hash(_payloads),
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SignTransactionsRequestCopyWith<_$SignTransactionsRequest> get copyWith =>
-      __$$SignTransactionsRequestCopyWithImpl<_$SignTransactionsRequest>(
-          this, _$identity);
+  _$$SignTransactionsRequestImplCopyWith<_$SignTransactionsRequestImpl> get copyWith =>
+      __$$SignTransactionsRequestImplCopyWithImpl<_$SignTransactionsRequestImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)
-        transactions,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )
+    transactions,
     required TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)
-        messages,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )
+    messages,
   }) {
-    return transactions(identityName, identityUri, iconRelativeUri, cluster,
-        authorizationScope, payloads);
+    return transactions(
+      identityName,
+      identityUri,
+      iconRelativeUri,
+      cluster,
+      authorizationScope,
+      payloads,
+    );
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        transactions,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    transactions,
     TResult? Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        messages,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    messages,
   }) {
-    return transactions?.call(identityName, identityUri, iconRelativeUri,
-        cluster, authorizationScope, payloads);
+    return transactions?.call(
+      identityName,
+      identityUri,
+      iconRelativeUri,
+      cluster,
+      authorizationScope,
+      payloads,
+    );
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        transactions,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    transactions,
     TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        messages,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    messages,
     required TResult orElse(),
   }) {
     if (transactions != null) {
-      return transactions(identityName, identityUri, iconRelativeUri, cluster,
-          authorizationScope, payloads);
+      return transactions(
+        identityName,
+        identityUri,
+        iconRelativeUri,
+        cluster,
+        authorizationScope,
+        payloads,
+      );
     }
     return orElse();
   }
@@ -414,13 +458,14 @@ class _$SignTransactionsRequest implements SignTransactionsRequest {
 }
 
 abstract class SignTransactionsRequest implements SignPayloadsRequest {
-  const factory SignTransactionsRequest(
-      {required final String? identityName,
-      required final Uri? identityUri,
-      required final Uri? iconRelativeUri,
-      required final String cluster,
-      required final Uint8List authorizationScope,
-      required final List<Uint8List> payloads}) = _$SignTransactionsRequest;
+  const factory SignTransactionsRequest({
+    required final String? identityName,
+    required final Uri? identityUri,
+    required final Uri? iconRelativeUri,
+    required final String cluster,
+    required final Uint8List authorizationScope,
+    required final List<Uint8List> payloads,
+  }) = _$SignTransactionsRequestImpl;
 
   @override
   String? get identityName;
@@ -436,34 +481,37 @@ abstract class SignTransactionsRequest implements SignPayloadsRequest {
   List<Uint8List> get payloads;
   @override
   @JsonKey(ignore: true)
-  _$$SignTransactionsRequestCopyWith<_$SignTransactionsRequest> get copyWith =>
+  _$$SignTransactionsRequestImplCopyWith<_$SignTransactionsRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SignMessagesRequestCopyWith<$Res>
+abstract class _$$SignMessagesRequestImplCopyWith<$Res>
     implements $SignPayloadsRequestCopyWith<$Res> {
-  factory _$$SignMessagesRequestCopyWith(_$SignMessagesRequest value,
-          $Res Function(_$SignMessagesRequest) then) =
-      __$$SignMessagesRequestCopyWithImpl<$Res>;
+  factory _$$SignMessagesRequestImplCopyWith(
+    _$SignMessagesRequestImpl value,
+    $Res Function(_$SignMessagesRequestImpl) then,
+  ) = __$$SignMessagesRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String? identityName,
-      Uri? identityUri,
-      Uri? iconRelativeUri,
-      String cluster,
-      Uint8List authorizationScope,
-      List<Uint8List> payloads});
+  $Res call({
+    String? identityName,
+    Uri? identityUri,
+    Uri? iconRelativeUri,
+    String cluster,
+    Uint8List authorizationScope,
+    List<Uint8List> payloads,
+  });
 }
 
 /// @nodoc
-class __$$SignMessagesRequestCopyWithImpl<$Res>
-    extends _$SignPayloadsRequestCopyWithImpl<$Res, _$SignMessagesRequest>
-    implements _$$SignMessagesRequestCopyWith<$Res> {
-  __$$SignMessagesRequestCopyWithImpl(
-      _$SignMessagesRequest _value, $Res Function(_$SignMessagesRequest) _then)
-      : super(_value, _then);
+class __$$SignMessagesRequestImplCopyWithImpl<$Res>
+    extends _$SignPayloadsRequestCopyWithImpl<$Res, _$SignMessagesRequestImpl>
+    implements _$$SignMessagesRequestImplCopyWith<$Res> {
+  __$$SignMessagesRequestImplCopyWithImpl(
+    _$SignMessagesRequestImpl _value,
+    $Res Function(_$SignMessagesRequestImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -475,46 +523,54 @@ class __$$SignMessagesRequestCopyWithImpl<$Res>
     Object? authorizationScope = null,
     Object? payloads = null,
   }) {
-    return _then(_$SignMessagesRequest(
-      identityName: freezed == identityName
-          ? _value.identityName
-          : identityName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      identityUri: freezed == identityUri
-          ? _value.identityUri
-          : identityUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      iconRelativeUri: freezed == iconRelativeUri
-          ? _value.iconRelativeUri
-          : iconRelativeUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      cluster: null == cluster
-          ? _value.cluster
-          : cluster // ignore: cast_nullable_to_non_nullable
-              as String,
-      authorizationScope: null == authorizationScope
-          ? _value.authorizationScope
-          : authorizationScope // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      payloads: null == payloads
-          ? _value._payloads
-          : payloads // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ));
+    return _then(
+      _$SignMessagesRequestImpl(
+        identityName:
+            freezed == identityName
+                ? _value.identityName
+                : identityName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        identityUri:
+            freezed == identityUri
+                ? _value.identityUri
+                : identityUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        iconRelativeUri:
+            freezed == iconRelativeUri
+                ? _value.iconRelativeUri
+                : iconRelativeUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        cluster:
+            null == cluster
+                ? _value.cluster
+                : cluster // ignore: cast_nullable_to_non_nullable
+                    as String,
+        authorizationScope:
+            null == authorizationScope
+                ? _value.authorizationScope
+                : authorizationScope // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        payloads:
+            null == payloads
+                ? _value._payloads
+                : payloads // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$SignMessagesRequest implements SignMessagesRequest {
-  const _$SignMessagesRequest(
-      {required this.identityName,
-      required this.identityUri,
-      required this.iconRelativeUri,
-      required this.cluster,
-      required this.authorizationScope,
-      required final List<Uint8List> payloads})
-      : _payloads = payloads;
+class _$SignMessagesRequestImpl implements SignMessagesRequest {
+  const _$SignMessagesRequestImpl({
+    required this.identityName,
+    required this.identityUri,
+    required this.iconRelativeUri,
+    required this.cluster,
+    required this.authorizationScope,
+    required final List<Uint8List> payloads,
+  }) : _payloads = payloads;
 
   @override
   final String? identityName;
@@ -540,111 +596,132 @@ class _$SignMessagesRequest implements SignMessagesRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SignMessagesRequest &&
-            (identical(other.identityName, identityName) ||
-                other.identityName == identityName) &&
-            (identical(other.identityUri, identityUri) ||
-                other.identityUri == identityUri) &&
+            other is _$SignMessagesRequestImpl &&
+            (identical(other.identityName, identityName) || other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
             (identical(other.iconRelativeUri, iconRelativeUri) ||
                 other.iconRelativeUri == iconRelativeUri) &&
             (identical(other.cluster, cluster) || other.cluster == cluster) &&
-            const DeepCollectionEquality()
-                .equals(other.authorizationScope, authorizationScope) &&
+            const DeepCollectionEquality().equals(other.authorizationScope, authorizationScope) &&
             const DeepCollectionEquality().equals(other._payloads, _payloads));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      identityName,
-      identityUri,
-      iconRelativeUri,
-      cluster,
-      const DeepCollectionEquality().hash(authorizationScope),
-      const DeepCollectionEquality().hash(_payloads));
+    runtimeType,
+    identityName,
+    identityUri,
+    iconRelativeUri,
+    cluster,
+    const DeepCollectionEquality().hash(authorizationScope),
+    const DeepCollectionEquality().hash(_payloads),
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SignMessagesRequestCopyWith<_$SignMessagesRequest> get copyWith =>
-      __$$SignMessagesRequestCopyWithImpl<_$SignMessagesRequest>(
-          this, _$identity);
+  _$$SignMessagesRequestImplCopyWith<_$SignMessagesRequestImpl> get copyWith =>
+      __$$SignMessagesRequestImplCopyWithImpl<_$SignMessagesRequestImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)
-        transactions,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )
+    transactions,
     required TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)
-        messages,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )
+    messages,
   }) {
-    return messages(identityName, identityUri, iconRelativeUri, cluster,
-        authorizationScope, payloads);
+    return messages(
+      identityName,
+      identityUri,
+      iconRelativeUri,
+      cluster,
+      authorizationScope,
+      payloads,
+    );
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        transactions,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    transactions,
     TResult? Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        messages,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    messages,
   }) {
-    return messages?.call(identityName, identityUri, iconRelativeUri, cluster,
-        authorizationScope, payloads);
+    return messages?.call(
+      identityName,
+      identityUri,
+      iconRelativeUri,
+      cluster,
+      authorizationScope,
+      payloads,
+    );
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        transactions,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    transactions,
     TResult Function(
-            String? identityName,
-            Uri? identityUri,
-            Uri? iconRelativeUri,
-            String cluster,
-            Uint8List authorizationScope,
-            List<Uint8List> payloads)?
-        messages,
+      String? identityName,
+      Uri? identityUri,
+      Uri? iconRelativeUri,
+      String cluster,
+      Uint8List authorizationScope,
+      List<Uint8List> payloads,
+    )?
+    messages,
     required TResult orElse(),
   }) {
     if (messages != null) {
-      return messages(identityName, identityUri, iconRelativeUri, cluster,
-          authorizationScope, payloads);
+      return messages(
+        identityName,
+        identityUri,
+        iconRelativeUri,
+        cluster,
+        authorizationScope,
+        payloads,
+      );
     }
     return orElse();
   }
@@ -682,13 +759,14 @@ class _$SignMessagesRequest implements SignMessagesRequest {
 }
 
 abstract class SignMessagesRequest implements SignPayloadsRequest {
-  const factory SignMessagesRequest(
-      {required final String? identityName,
-      required final Uri? identityUri,
-      required final Uri? iconRelativeUri,
-      required final String cluster,
-      required final Uint8List authorizationScope,
-      required final List<Uint8List> payloads}) = _$SignMessagesRequest;
+  const factory SignMessagesRequest({
+    required final String? identityName,
+    required final Uri? identityUri,
+    required final Uri? iconRelativeUri,
+    required final String cluster,
+    required final Uint8List authorizationScope,
+    required final List<Uint8List> payloads,
+  }) = _$SignMessagesRequestImpl;
 
   @override
   String? get identityName;
@@ -704,7 +782,7 @@ abstract class SignMessagesRequest implements SignPayloadsRequest {
   List<Uint8List> get payloads;
   @override
   @JsonKey(ignore: true)
-  _$$SignMessagesRequestCopyWith<_$SignMessagesRequest> get copyWith =>
+  _$$SignMessagesRequestImplCopyWith<_$SignMessagesRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -717,8 +795,7 @@ mixin _$SignedPayloadResult {
     required TResult Function(List<bool> valid) invalidPayloads,
     required TResult Function() tooManyPayloads,
     required TResult Function() authorizationNotValid,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(List<Uint8List> signedPayloads)? $default, {
@@ -726,8 +803,7 @@ mixin _$SignedPayloadResult {
     TResult? Function(List<bool> valid)? invalidPayloads,
     TResult? Function()? tooManyPayloads,
     TResult? Function()? authorizationNotValid,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(List<Uint8List> signedPayloads)? $default, {
@@ -736,18 +812,15 @@ mixin _$SignedPayloadResult {
     TResult Function()? tooManyPayloads,
     TResult Function()? authorizationNotValid,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_SignedPayloadResult value) $default, {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
-  }) =>
-      throw _privateConstructorUsedError;
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult? Function(_SignedPayloadResult value)? $default, {
@@ -755,8 +828,7 @@ mixin _$SignedPayloadResult {
     TResult? Function(_InvalidPayloads value)? invalidPayloads,
     TResult? Function(_TooManyPayloads value)? tooManyPayloads,
     TResult? Function(_AuthorizationNotValid value)? authorizationNotValid,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_SignedPayloadResult value)? $default, {
@@ -765,15 +837,15 @@ mixin _$SignedPayloadResult {
     TResult Function(_TooManyPayloads value)? tooManyPayloads,
     TResult Function(_AuthorizationNotValid value)? authorizationNotValid,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SignedPayloadResultCopyWith<$Res> {
   factory $SignedPayloadResultCopyWith(
-          SignedPayloadResult value, $Res Function(SignedPayloadResult) then) =
-      _$SignedPayloadResultCopyWithImpl<$Res, SignedPayloadResult>;
+    SignedPayloadResult value,
+    $Res Function(SignedPayloadResult) then,
+  ) = _$SignedPayloadResultCopyWithImpl<$Res, SignedPayloadResult>;
 }
 
 /// @nodoc
@@ -788,42 +860,45 @@ class _$SignedPayloadResultCopyWithImpl<$Res, $Val extends SignedPayloadResult>
 }
 
 /// @nodoc
-abstract class _$$_SignedPayloadResultCopyWith<$Res> {
-  factory _$$_SignedPayloadResultCopyWith(_$_SignedPayloadResult value,
-          $Res Function(_$_SignedPayloadResult) then) =
-      __$$_SignedPayloadResultCopyWithImpl<$Res>;
+abstract class _$$SignedPayloadResultImplCopyWith<$Res> {
+  factory _$$SignedPayloadResultImplCopyWith(
+    _$SignedPayloadResultImpl value,
+    $Res Function(_$SignedPayloadResultImpl) then,
+  ) = __$$SignedPayloadResultImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<Uint8List> signedPayloads});
 }
 
 /// @nodoc
-class __$$_SignedPayloadResultCopyWithImpl<$Res>
-    extends _$SignedPayloadResultCopyWithImpl<$Res, _$_SignedPayloadResult>
-    implements _$$_SignedPayloadResultCopyWith<$Res> {
-  __$$_SignedPayloadResultCopyWithImpl(_$_SignedPayloadResult _value,
-      $Res Function(_$_SignedPayloadResult) _then)
-      : super(_value, _then);
+class __$$SignedPayloadResultImplCopyWithImpl<$Res>
+    extends _$SignedPayloadResultCopyWithImpl<$Res, _$SignedPayloadResultImpl>
+    implements _$$SignedPayloadResultImplCopyWith<$Res> {
+  __$$SignedPayloadResultImplCopyWithImpl(
+    _$SignedPayloadResultImpl _value,
+    $Res Function(_$SignedPayloadResultImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signedPayloads = null,
-  }) {
-    return _then(_$_SignedPayloadResult(
-      signedPayloads: null == signedPayloads
-          ? _value._signedPayloads
-          : signedPayloads // ignore: cast_nullable_to_non_nullable
-              as List<Uint8List>,
-    ));
+  $Res call({Object? signedPayloads = null}) {
+    return _then(
+      _$SignedPayloadResultImpl(
+        signedPayloads:
+            null == signedPayloads
+                ? _value._signedPayloads
+                : signedPayloads // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_SignedPayloadResult extends _SignedPayloadResult {
-  const _$_SignedPayloadResult({required final List<Uint8List> signedPayloads})
-      : _signedPayloads = signedPayloads,
-        super._();
+class _$SignedPayloadResultImpl extends _SignedPayloadResult {
+  const _$SignedPayloadResultImpl({required final List<Uint8List> signedPayloads})
+    : _signedPayloads = signedPayloads,
+      super._();
 
   final List<Uint8List> _signedPayloads;
   @override
@@ -839,24 +914,22 @@ class _$_SignedPayloadResult extends _SignedPayloadResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SignedPayloadResult &&
-            const DeepCollectionEquality()
-                .equals(other._signedPayloads, _signedPayloads));
+            other is _$SignedPayloadResultImpl &&
+            const DeepCollectionEquality().equals(other._signedPayloads, _signedPayloads));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_signedPayloads));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_signedPayloads));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SignedPayloadResultCopyWith<_$_SignedPayloadResult> get copyWith =>
-      __$$_SignedPayloadResultCopyWithImpl<_$_SignedPayloadResult>(
-          this, _$identity);
+  _$$SignedPayloadResultImplCopyWith<_$SignedPayloadResultImpl> get copyWith =>
+      __$$SignedPayloadResultImplCopyWithImpl<_$SignedPayloadResultImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -905,8 +978,7 @@ class _$_SignedPayloadResult extends _SignedPayloadResult {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
   }) {
     return $default(this);
   }
@@ -941,36 +1013,38 @@ class _$_SignedPayloadResult extends _SignedPayloadResult {
 }
 
 abstract class _SignedPayloadResult extends SignedPayloadResult {
-  const factory _SignedPayloadResult(
-      {required final List<Uint8List> signedPayloads}) = _$_SignedPayloadResult;
+  const factory _SignedPayloadResult({required final List<Uint8List> signedPayloads}) =
+      _$SignedPayloadResultImpl;
   const _SignedPayloadResult._() : super._();
 
   List<Uint8List> get signedPayloads;
   @JsonKey(ignore: true)
-  _$$_SignedPayloadResultCopyWith<_$_SignedPayloadResult> get copyWith =>
+  _$$SignedPayloadResultImplCopyWith<_$SignedPayloadResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_RequestDeclinedCopyWith<$Res> {
-  factory _$$_RequestDeclinedCopyWith(
-          _$_RequestDeclined value, $Res Function(_$_RequestDeclined) then) =
-      __$$_RequestDeclinedCopyWithImpl<$Res>;
+abstract class _$$RequestDeclinedImplCopyWith<$Res> {
+  factory _$$RequestDeclinedImplCopyWith(
+    _$RequestDeclinedImpl value,
+    $Res Function(_$RequestDeclinedImpl) then,
+  ) = __$$RequestDeclinedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_RequestDeclinedCopyWithImpl<$Res>
-    extends _$SignedPayloadResultCopyWithImpl<$Res, _$_RequestDeclined>
-    implements _$$_RequestDeclinedCopyWith<$Res> {
-  __$$_RequestDeclinedCopyWithImpl(
-      _$_RequestDeclined _value, $Res Function(_$_RequestDeclined) _then)
-      : super(_value, _then);
+class __$$RequestDeclinedImplCopyWithImpl<$Res>
+    extends _$SignedPayloadResultCopyWithImpl<$Res, _$RequestDeclinedImpl>
+    implements _$$RequestDeclinedImplCopyWith<$Res> {
+  __$$RequestDeclinedImplCopyWithImpl(
+    _$RequestDeclinedImpl _value,
+    $Res Function(_$RequestDeclinedImpl) _then,
+  ) : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_RequestDeclined extends _RequestDeclined {
-  const _$_RequestDeclined() : super._();
+class _$RequestDeclinedImpl extends _RequestDeclined {
+  const _$RequestDeclinedImpl() : super._();
 
   @override
   String toString() {
@@ -978,9 +1052,9 @@ class _$_RequestDeclined extends _RequestDeclined {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_RequestDeclined);
+        (other.runtimeType == runtimeType && other is _$RequestDeclinedImpl);
   }
 
   @override
@@ -1033,8 +1107,7 @@ class _$_RequestDeclined extends _RequestDeclined {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
   }) {
     return requestDeclined(this);
   }
@@ -1069,47 +1142,48 @@ class _$_RequestDeclined extends _RequestDeclined {
 }
 
 abstract class _RequestDeclined extends SignedPayloadResult {
-  const factory _RequestDeclined() = _$_RequestDeclined;
+  const factory _RequestDeclined() = _$RequestDeclinedImpl;
   const _RequestDeclined._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_InvalidPayloadsCopyWith<$Res> {
-  factory _$$_InvalidPayloadsCopyWith(
-          _$_InvalidPayloads value, $Res Function(_$_InvalidPayloads) then) =
-      __$$_InvalidPayloadsCopyWithImpl<$Res>;
+abstract class _$$InvalidPayloadsImplCopyWith<$Res> {
+  factory _$$InvalidPayloadsImplCopyWith(
+    _$InvalidPayloadsImpl value,
+    $Res Function(_$InvalidPayloadsImpl) then,
+  ) = __$$InvalidPayloadsImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<bool> valid});
 }
 
 /// @nodoc
-class __$$_InvalidPayloadsCopyWithImpl<$Res>
-    extends _$SignedPayloadResultCopyWithImpl<$Res, _$_InvalidPayloads>
-    implements _$$_InvalidPayloadsCopyWith<$Res> {
-  __$$_InvalidPayloadsCopyWithImpl(
-      _$_InvalidPayloads _value, $Res Function(_$_InvalidPayloads) _then)
-      : super(_value, _then);
+class __$$InvalidPayloadsImplCopyWithImpl<$Res>
+    extends _$SignedPayloadResultCopyWithImpl<$Res, _$InvalidPayloadsImpl>
+    implements _$$InvalidPayloadsImplCopyWith<$Res> {
+  __$$InvalidPayloadsImplCopyWithImpl(
+    _$InvalidPayloadsImpl _value,
+    $Res Function(_$InvalidPayloadsImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? valid = null,
-  }) {
-    return _then(_$_InvalidPayloads(
-      valid: null == valid
-          ? _value._valid
-          : valid // ignore: cast_nullable_to_non_nullable
-              as List<bool>,
-    ));
+  $Res call({Object? valid = null}) {
+    return _then(
+      _$InvalidPayloadsImpl(
+        valid:
+            null == valid
+                ? _value._valid
+                : valid // ignore: cast_nullable_to_non_nullable
+                    as List<bool>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_InvalidPayloads extends _InvalidPayloads {
-  const _$_InvalidPayloads({required final List<bool> valid})
-      : _valid = valid,
-        super._();
+class _$InvalidPayloadsImpl extends _InvalidPayloads {
+  const _$InvalidPayloadsImpl({required final List<bool> valid}) : _valid = valid, super._();
 
   final List<bool> _valid;
   @override
@@ -1125,22 +1199,21 @@ class _$_InvalidPayloads extends _InvalidPayloads {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_InvalidPayloads &&
+            other is _$InvalidPayloadsImpl &&
             const DeepCollectionEquality().equals(other._valid, _valid));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_valid));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_valid));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_InvalidPayloadsCopyWith<_$_InvalidPayloads> get copyWith =>
-      __$$_InvalidPayloadsCopyWithImpl<_$_InvalidPayloads>(this, _$identity);
+  _$$InvalidPayloadsImplCopyWith<_$InvalidPayloadsImpl> get copyWith =>
+      __$$InvalidPayloadsImplCopyWithImpl<_$InvalidPayloadsImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1189,8 +1262,7 @@ class _$_InvalidPayloads extends _InvalidPayloads {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
   }) {
     return invalidPayloads(this);
   }
@@ -1225,36 +1297,37 @@ class _$_InvalidPayloads extends _InvalidPayloads {
 }
 
 abstract class _InvalidPayloads extends SignedPayloadResult {
-  const factory _InvalidPayloads({required final List<bool> valid}) =
-      _$_InvalidPayloads;
+  const factory _InvalidPayloads({required final List<bool> valid}) = _$InvalidPayloadsImpl;
   const _InvalidPayloads._() : super._();
 
   List<bool> get valid;
   @JsonKey(ignore: true)
-  _$$_InvalidPayloadsCopyWith<_$_InvalidPayloads> get copyWith =>
+  _$$InvalidPayloadsImplCopyWith<_$InvalidPayloadsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_TooManyPayloadsCopyWith<$Res> {
-  factory _$$_TooManyPayloadsCopyWith(
-          _$_TooManyPayloads value, $Res Function(_$_TooManyPayloads) then) =
-      __$$_TooManyPayloadsCopyWithImpl<$Res>;
+abstract class _$$TooManyPayloadsImplCopyWith<$Res> {
+  factory _$$TooManyPayloadsImplCopyWith(
+    _$TooManyPayloadsImpl value,
+    $Res Function(_$TooManyPayloadsImpl) then,
+  ) = __$$TooManyPayloadsImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TooManyPayloadsCopyWithImpl<$Res>
-    extends _$SignedPayloadResultCopyWithImpl<$Res, _$_TooManyPayloads>
-    implements _$$_TooManyPayloadsCopyWith<$Res> {
-  __$$_TooManyPayloadsCopyWithImpl(
-      _$_TooManyPayloads _value, $Res Function(_$_TooManyPayloads) _then)
-      : super(_value, _then);
+class __$$TooManyPayloadsImplCopyWithImpl<$Res>
+    extends _$SignedPayloadResultCopyWithImpl<$Res, _$TooManyPayloadsImpl>
+    implements _$$TooManyPayloadsImplCopyWith<$Res> {
+  __$$TooManyPayloadsImplCopyWithImpl(
+    _$TooManyPayloadsImpl _value,
+    $Res Function(_$TooManyPayloadsImpl) _then,
+  ) : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_TooManyPayloads extends _TooManyPayloads {
-  const _$_TooManyPayloads() : super._();
+class _$TooManyPayloadsImpl extends _TooManyPayloads {
+  const _$TooManyPayloadsImpl() : super._();
 
   @override
   String toString() {
@@ -1262,9 +1335,9 @@ class _$_TooManyPayloads extends _TooManyPayloads {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_TooManyPayloads);
+        (other.runtimeType == runtimeType && other is _$TooManyPayloadsImpl);
   }
 
   @override
@@ -1317,8 +1390,7 @@ class _$_TooManyPayloads extends _TooManyPayloads {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
   }) {
     return tooManyPayloads(this);
   }
@@ -1353,30 +1425,32 @@ class _$_TooManyPayloads extends _TooManyPayloads {
 }
 
 abstract class _TooManyPayloads extends SignedPayloadResult {
-  const factory _TooManyPayloads() = _$_TooManyPayloads;
+  const factory _TooManyPayloads() = _$TooManyPayloadsImpl;
   const _TooManyPayloads._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_AuthorizationNotValidCopyWith<$Res> {
-  factory _$$_AuthorizationNotValidCopyWith(_$_AuthorizationNotValid value,
-          $Res Function(_$_AuthorizationNotValid) then) =
-      __$$_AuthorizationNotValidCopyWithImpl<$Res>;
+abstract class _$$AuthorizationNotValidImplCopyWith<$Res> {
+  factory _$$AuthorizationNotValidImplCopyWith(
+    _$AuthorizationNotValidImpl value,
+    $Res Function(_$AuthorizationNotValidImpl) then,
+  ) = __$$AuthorizationNotValidImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_AuthorizationNotValidCopyWithImpl<$Res>
-    extends _$SignedPayloadResultCopyWithImpl<$Res, _$_AuthorizationNotValid>
-    implements _$$_AuthorizationNotValidCopyWith<$Res> {
-  __$$_AuthorizationNotValidCopyWithImpl(_$_AuthorizationNotValid _value,
-      $Res Function(_$_AuthorizationNotValid) _then)
-      : super(_value, _then);
+class __$$AuthorizationNotValidImplCopyWithImpl<$Res>
+    extends _$SignedPayloadResultCopyWithImpl<$Res, _$AuthorizationNotValidImpl>
+    implements _$$AuthorizationNotValidImplCopyWith<$Res> {
+  __$$AuthorizationNotValidImplCopyWithImpl(
+    _$AuthorizationNotValidImpl _value,
+    $Res Function(_$AuthorizationNotValidImpl) _then,
+  ) : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_AuthorizationNotValid extends _AuthorizationNotValid {
-  const _$_AuthorizationNotValid() : super._();
+class _$AuthorizationNotValidImpl extends _AuthorizationNotValid {
+  const _$AuthorizationNotValidImpl() : super._();
 
   @override
   String toString() {
@@ -1384,9 +1458,9 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_AuthorizationNotValid);
+        (other.runtimeType == runtimeType && other is _$AuthorizationNotValidImpl);
   }
 
   @override
@@ -1439,8 +1513,7 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
     required TResult Function(_RequestDeclined value) requestDeclined,
     required TResult Function(_InvalidPayloads value) invalidPayloads,
     required TResult Function(_TooManyPayloads value) tooManyPayloads,
-    required TResult Function(_AuthorizationNotValid value)
-        authorizationNotValid,
+    required TResult Function(_AuthorizationNotValid value) authorizationNotValid,
   }) {
     return authorizationNotValid(this);
   }
@@ -1475,6 +1548,6 @@ class _$_AuthorizationNotValid extends _AuthorizationNotValid {
 }
 
 abstract class _AuthorizationNotValid extends SignedPayloadResult {
-  const factory _AuthorizationNotValid() = _$_AuthorizationNotValid;
+  const factory _AuthorizationNotValid() = _$AuthorizationNotValidImpl;
   const _AuthorizationNotValid._() : super._();
 }

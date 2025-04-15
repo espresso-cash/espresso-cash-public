@@ -13,8 +13,7 @@ class EpochSchedule {
     required this.firstNormalSlot,
   });
 
-  factory EpochSchedule.fromJson(Map<String, dynamic> json) =>
-      _$EpochScheduleFromJson(json);
+  factory EpochSchedule.fromJson(Map<String, dynamic> json) => _$EpochScheduleFromJson(json);
 
   /// The maximum number of slots in each epoch.
   final int slotsPerEpoch;

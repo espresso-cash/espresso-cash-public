@@ -5,10 +5,7 @@ part 'stake.g.dart';
 
 @JsonSerializable()
 class Stake {
-  const Stake({
-    required this.delegation,
-    required this.creditsObserved,
-  });
+  const Stake({required this.delegation, required this.creditsObserved});
 
   factory Stake.fromJson(Map<String, dynamic> json) => _$StakeFromJson(json);
 

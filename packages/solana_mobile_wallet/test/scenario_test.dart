@@ -17,9 +17,7 @@ void main() {
   setUp(() {
     Api.instance = Api();
     callbacks = MockScenarioCallbacks();
-    publicKey = Uint8List.fromList(
-      List.generate(32, (_) => Random().nextInt(64)),
-    );
+    publicKey = Uint8List.fromList(List.generate(32, (_) => Random().nextInt(64)));
   });
 
   int createAndRegisterScenario() {
@@ -36,17 +34,11 @@ void main() {
   test('Authorize', () async {
     final id = createAndRegisterScenario();
 
-    final requestDto = AuthorizeRequestDto(
-      identityName: '',
-      identityUri: '',
-      iconUri: '',
-    );
+    final requestDto = AuthorizeRequestDto(identityName: '', identityUri: '', iconUri: '');
 
     when(
       callbacks.onAuthorizeRequest(any),
-    ).thenAnswer(
-      (_) async => AuthorizeResult(publicKey: publicKey),
-    );
+    ).thenAnswer((_) async => AuthorizeResult(publicKey: publicKey));
 
     final result = await Api.instance.authorize(requestDto, id);
 
@@ -58,10 +50,7 @@ void main() {
   test('Reauthorize', () async {
     final id = createAndRegisterScenario();
 
-    final requestDto = ReauthorizeRequestDto(
-      cluster: 'testnet',
-      authorizationScope: Uint8List(32),
-    );
+    final requestDto = ReauthorizeRequestDto(cluster: 'testnet', authorizationScope: Uint8List(32));
 
     when(callbacks.onReauthorizeRequest(any)).thenAnswer((_) async => true);
 
@@ -83,9 +72,7 @@ void main() {
 
     when(
       callbacks.onSignTransactionsRequest(any),
-    ).thenAnswer(
-      (_) async => SignedPayloadResult(signedPayloads: payloads),
-    );
+    ).thenAnswer((_) async => SignedPayloadResult(signedPayloads: payloads));
 
     final result = await Api.instance.signTransactions(requestDto, id);
 
@@ -105,9 +92,7 @@ void main() {
 
     when(
       callbacks.onSignMessagesRequest(any),
-    ).thenAnswer(
-      (_) async => SignedPayloadResult(signedPayloads: payloads),
-    );
+    ).thenAnswer((_) async => SignedPayloadResult(signedPayloads: payloads));
 
     final result = await Api.instance.signMessages(requestDto, id);
 
@@ -128,9 +113,7 @@ void main() {
 
     when(
       callbacks.onSignAndSendTransactionsRequest(any),
-    ).thenAnswer(
-      (_) async => SignaturesResult(signatures: [Uint8List(64)]),
-    );
+    ).thenAnswer((_) async => SignaturesResult(signatures: [Uint8List(64)]));
 
     final result = await Api.instance.signAndSendTransactions(requestDto, id);
 

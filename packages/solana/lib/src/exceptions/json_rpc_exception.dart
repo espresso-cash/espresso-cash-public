@@ -25,8 +25,7 @@ abstract class JsonRpcErrorCode {
 class JsonRpcException implements Exception {
   const JsonRpcException(this.message, this.code, this.data);
 
-  factory JsonRpcException.fromJson(Map<String, dynamic> json) =>
-      _$JsonRpcExceptionFromJson(json);
+  factory JsonRpcException.fromJson(Map<String, dynamic> json) => _$JsonRpcExceptionFromJson(json);
 
   final String message;
   final int code;
@@ -50,9 +49,10 @@ class JsonRpcException implements Exception {
   Map<String, dynamic> toJson() => _$JsonRpcExceptionToJson(this);
 
   @override
-  String toString() => data != null
-      ? 'jsonrpc-2.0 error ($code): $message\n\t$data'
-      : 'jsonrpc-2.0 error ($code): $message';
+  String toString() =>
+      data != null
+          ? 'jsonrpc-2.0 error ($code): $message\n\t$data'
+          : 'jsonrpc-2.0 error ($code): $message';
 }
 
 @JsonEnum(fieldRename: FieldRename.pascal)

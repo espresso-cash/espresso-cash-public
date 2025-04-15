@@ -36,22 +36,15 @@ extension AccountMetaListExt on List<AccountMeta> {
       toList(growable: false).indexWhere((account) => account.pubKey == pubKey);
 
   /// Counts the number of accounts that are signers.
-  int getNumSigners() =>
-      fold(0, (total, account) => total + (account.isSigner ? 1 : 0));
+  int getNumSigners() => fold(0, (total, account) => total + (account.isSigner ? 1 : 0));
 
   /// Counts the number of accounts that are signers and readonly.
-  int getNumReadonlySigners() => fold(
-        0,
-        (total, account) =>
-            total + (!account.isWriteable && account.isSigner ? 1 : 0),
-      );
+  int getNumReadonlySigners() =>
+      fold(0, (total, account) => total + (!account.isWriteable && account.isSigner ? 1 : 0));
 
   /// Counts the number of accounts that are non signers and readonly.
-  int getNumReadonlyNonSigners() => fold(
-        0,
-        (total, account) =>
-            total + (!account.isWriteable && !account.isSigner ? 1 : 0),
-      );
+  int getNumReadonlyNonSigners() =>
+      fold(0, (total, account) => total + (!account.isWriteable && !account.isSigner ? 1 : 0));
 }
 
 extension InstructionListExt on List<Instruction> {
@@ -64,20 +57,16 @@ extension InstructionListExt on List<Instruction> {
   /// - sorts accounts according to [Account Addresses Format][1].
   ///
   /// [1]: https://docs.solana.com/developing/programming-model/transactions#account-addresses-format
-  List<AccountMeta> getAccounts({
-    required Ed25519HDPublicKey feePayer,
-  }) {
-    final accounts = expand<AccountMeta>(
-      (Instruction instruction) => [
-        ...instruction.accounts,
+  List<AccountMeta> getAccounts({required Ed25519HDPublicKey feePayer}) {
+    final accounts =
+        expand<AccountMeta>(
+          (Instruction instruction) => [
+            ...instruction.accounts,
 
-        /// Append the instruction program id
-        AccountMeta.readonly(
-          pubKey: instruction.programId,
-          isSigner: false,
-        ),
-      ],
-    ).toList();
+            /// Append the instruction program id
+            AccountMeta.readonly(pubKey: instruction.programId, isSigner: false),
+          ],
+        ).toList();
     final index = accounts.indexWhere((account) => account.pubKey == feePayer);
     if (index != -1) {
       // If the account is already here, remove it as we are going
@@ -86,10 +75,7 @@ extension InstructionListExt on List<Instruction> {
     }
     // The fee payer must be the first account in they "keys" provided with
     // the message object
-    accounts.insert(
-      0,
-      AccountMeta.writeable(pubKey: feePayer, isSigner: true),
-    );
+    accounts.insert(0, AccountMeta.writeable(pubKey: feePayer, isSigner: true));
 
     return accounts.unique()..sort();
   }

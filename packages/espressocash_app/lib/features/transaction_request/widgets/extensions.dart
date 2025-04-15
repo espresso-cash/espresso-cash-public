@@ -21,20 +21,12 @@ import '../screens/tr_details_screen.dart';
 import '../service/tr_service.dart';
 import 'solana_client_ext.dart';
 
-typedef TransactionRequestResult = ({
-  CryptoAmount amount,
-  BigInt slot,
-  TransactionRequestInfo info,
-  SignedTx tx,
-  String? message,
-});
+typedef TransactionRequestResult =
+    ({CryptoAmount amount, BigInt slot, TransactionRequestInfo info, SignedTx tx, String? message});
 
 extension BuildContextExt on BuildContext {
-  Future<void> processSolanaTransactionRequest(
-    SolanaTransactionRequest request,
-  ) async {
-    final response =
-        await runWithLoader<TransactionRequestResult?>(this, () async {
+  Future<void> processSolanaTransactionRequest(SolanaTransactionRequest request) async {
+    final response = await runWithLoader<TransactionRequestResult?>(this, () async {
       final info = await request.get();
 
       final wallet = sl<MyAccount>().wallet.publicKey;
@@ -79,10 +71,7 @@ extension BuildContextExt on BuildContext {
       }
 
       return (
-        amount: CryptoAmount(
-          value: simulate.amountTransferred,
-          cryptoCurrency: Currency.usdc,
-        ),
+        amount: CryptoAmount(value: simulate.amountTransferred, cryptoCurrency: Currency.usdc),
         slot: simulate.slot,
         info: info,
         tx: tx,
@@ -119,31 +108,20 @@ extension BuildContextExt on BuildContext {
     required CryptoAmount amount,
     required BigInt slot,
     required String label,
-  }) =>
-      runWithLoader(
-        this,
-        () async => sl<TRService>().create(
-          tx: tx,
-          amount: amount,
-          slot: slot,
-          label: label,
-        ),
-      );
+  }) => runWithLoader(
+    this,
+    () async => sl<TRService>().create(tx: tx, amount: amount, slot: slot, label: label),
+  );
 }
 
 bool _checkIfUsdcTransfer(SignedTx tx) => tx
-        .decompileMessage()
-        .instructions
-        .firstWhereOrNull(
-          (e) => e.programId.toBase58() == TokenProgram.programId,
-        )
-        .let((i) {
+    .decompileMessage()
+    .instructions
+    .firstWhereOrNull((e) => e.programId.toBase58() == TokenProgram.programId)
+    .let((i) {
       if (i == null) return false;
 
-      return i.accounts
-          .map((e) => e.pubKey.toBase58())
-          .toList()
-          .contains(Token.usdc.address);
+      return i.accounts.map((e) => e.pubKey.toBase58()).toList().contains(Token.usdc.address);
     });
 
 extension SolanaClientExt on SolanaClient {

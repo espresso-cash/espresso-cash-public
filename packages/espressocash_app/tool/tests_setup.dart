@@ -18,9 +18,7 @@ Future<void> main() async {
   final tokenKeys = [token1PrivateKey, token2PrivateKey, token3PrivateKey];
   final List<Ed25519HDKeyPair> tokenPubKeys = [];
   for (final tokenKey in tokenKeys) {
-    final key = await Ed25519HDKeyPair.fromPrivateKeyBytes(
-      privateKey: tokenKey,
-    );
+    final key = await Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: tokenKey);
 
     tokenPubKeys.add(key);
 
@@ -35,11 +33,8 @@ Future<void> main() async {
 
   await Future.wait(
     tokenPubKeys.map(
-      (Ed25519HDKeyPair token) async => solanaClient.airdropSplTokens(
-        accountKey.publicKey,
-        token,
-        amount: 100000,
-      ),
+      (Ed25519HDKeyPair token) async =>
+          solanaClient.airdropSplTokens(accountKey.publicKey, token, amount: 100000),
     ),
   );
 

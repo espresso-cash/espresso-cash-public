@@ -24,11 +24,11 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
   bool _isVisible = true;
 
   void _handleRecoverPressed() => RecoverStellarScreen.push(
-        context,
-        onConfirmed: () {
-          Navigator.of(context).pop();
-        },
-      );
+    context,
+    onConfirmed: () {
+      Navigator.of(context).pop();
+    },
+  );
 
   void _handleHideNoticePressed() {
     setState(() {
@@ -41,30 +41,24 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
   }
 
   @override
-  Widget build(BuildContext context) => _isVisible
-      ? ListenableBuilder(
-          listenable: sl<StellarRecoveryService>(),
-          builder: (context, child) {
-            Widget notice(Widget child) => _RecoveryNoticeContent(
-                  onClosePressed: _handleHideNoticePressed,
-                  child: child,
-                );
+  Widget build(BuildContext context) =>
+      _isVisible
+          ? ListenableBuilder(
+            listenable: sl<StellarRecoveryService>(),
+            builder: (context, child) {
+              Widget notice(Widget child) =>
+                  _RecoveryNoticeContent(onClosePressed: _handleHideNoticePressed, child: child);
 
-            return switch (sl<StellarRecoveryService>().value) {
-              RecoveryNone() || RecoveryDismissed() => const SizedBox.shrink(),
-              RecoveryPending() => notice(
-                  _Pending(onRecoverPressed: _handleRecoverPressed),
-                ),
-              RecoveryProcessing() => notice(const _Processing()),
-              RecoveryCompleted(:final amount) =>
-                notice(_Completed(amount: amount)),
-              RecoveryFailed() => notice(
-                  _Failed(onRecoverPressed: _handleRecoverPressed),
-                ),
-            };
-          },
-        )
-      : const SizedBox.shrink();
+              return switch (sl<StellarRecoveryService>().value) {
+                RecoveryNone() || RecoveryDismissed() => const SizedBox.shrink(),
+                RecoveryPending() => notice(_Pending(onRecoverPressed: _handleRecoverPressed)),
+                RecoveryProcessing() => notice(const _Processing()),
+                RecoveryCompleted(:final amount) => notice(_Completed(amount: amount)),
+                RecoveryFailed() => notice(_Failed(onRecoverPressed: _handleRecoverPressed)),
+              };
+            },
+          )
+          : const SizedBox.shrink();
 }
 
 class _Pending extends StatelessWidget {
@@ -74,21 +68,17 @@ class _Pending extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text.rich(
+    TextSpan(
+      children: <TextSpan>[
+        TextSpan(text: '${context.l10n.moneyRecoveryNoticeTitle} '),
         TextSpan(
-          children: <TextSpan>[
-            TextSpan(
-              text: '${context.l10n.moneyRecoveryNoticeTitle} ',
-            ),
-            TextSpan(
-              text: context.l10n.moneyRecoveryNoticeAction,
-              style: const TextStyle(
-                color: CpColors.yellowColor,
-              ),
-              recognizer: TapGestureRecognizer()..onTap = onRecoverPressed,
-            ),
-          ],
+          text: context.l10n.moneyRecoveryNoticeAction,
+          style: const TextStyle(color: CpColors.yellowColor),
+          recognizer: TapGestureRecognizer()..onTap = onRecoverPressed,
         ),
-      );
+      ],
+    ),
+  );
 }
 
 class _Processing extends StatelessWidget {
@@ -104,11 +94,8 @@ class _Completed extends StatelessWidget {
   final CryptoAmount amount;
 
   @override
-  Widget build(BuildContext context) => Text(
-        context.l10n.moneyRecoverySuccess(
-          amount.format(context.locale, maxDecimals: 2),
-        ),
-      );
+  Widget build(BuildContext context) =>
+      Text(context.l10n.moneyRecoverySuccess(amount.format(context.locale, maxDecimals: 2)));
 }
 
 class _Failed extends StatelessWidget {
@@ -118,75 +105,60 @@ class _Failed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text.rich(
+    TextSpan(
+      children: <TextSpan>[
+        TextSpan(text: '${context.l10n.moneyRecoveryFailure} '),
         TextSpan(
-          children: <TextSpan>[
-            TextSpan(text: '${context.l10n.moneyRecoveryFailure} '),
-            TextSpan(
-              text: context.l10n.moneyRecoveryNoticeAction,
-              style: const TextStyle(
-                color: CpColors.yellowColor,
-              ),
-              recognizer: TapGestureRecognizer()..onTap = onRecoverPressed,
-            ),
-          ],
+          text: context.l10n.moneyRecoveryNoticeAction,
+          style: const TextStyle(color: CpColors.yellowColor),
+          recognizer: TapGestureRecognizer()..onTap = onRecoverPressed,
         ),
-      );
+      ],
+    ),
+  );
 }
 
 class _RecoveryNoticeContent extends StatelessWidget {
-  const _RecoveryNoticeContent({
-    required this.onClosePressed,
-    required this.child,
-  });
+  const _RecoveryNoticeContent({required this.onClosePressed, required this.child});
 
   final VoidCallback onClosePressed;
   final Widget child;
 
   @override
   Widget build(BuildContext context) => DefaultTextStyle(
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 14.5,
-          fontWeight: FontWeight.w500,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: Center(
-            child: SizedBox(
-              width: 360,
-              child: CpInfoWidget(
-                message: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 4.0,
-                          vertical: 2,
-                        ),
-                        child: Center(child: child),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: onClosePressed,
-                      child: SizedBox.square(
-                        dimension: 12,
-                        child: Assets.icons.closeButtonIcon.svg(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
+    style: const TextStyle(color: Colors.white, fontSize: 14.5, fontWeight: FontWeight.w500),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Center(
+        child: SizedBox(
+          width: 360,
+          child: CpInfoWidget(
+            message: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2),
+                    child: Center(child: child),
+                  ),
                 ),
-                infoRadius: 12,
-                iconSize: 12,
-                variant: CpInfoVariant.black,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              ),
+                GestureDetector(
+                  onTap: onClosePressed,
+                  child: SizedBox.square(
+                    dimension: 12,
+                    child: Assets.icons.closeButtonIcon.svg(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
+            infoRadius: 12,
+            iconSize: 12,
+            variant: CpInfoVariant.black,
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           ),
         ),
-      );
+      ),
+    ),
+  );
 }

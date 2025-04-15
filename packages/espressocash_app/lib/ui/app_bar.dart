@@ -80,28 +80,31 @@ class _CpAppBarState extends State<CpAppBar> {
     return AppBar(
       title: widget.title,
       automaticallyImplyLeading: widget.automaticallyImplyLeading,
-      backgroundColor: scrolledUnderColor == null
-          ? widget.backgroundColor
-          : WidgetStateColor.resolveWith(
-              (states) => states.contains(WidgetState.scrolledUnder)
-                  ? scrolledUnderColor
-                  : widget.backgroundColor,
-            ),
+      backgroundColor:
+          scrolledUnderColor == null
+              ? widget.backgroundColor
+              : WidgetStateColor.resolveWith(
+                (states) =>
+                    states.contains(WidgetState.scrolledUnder)
+                        ? scrolledUnderColor
+                        : widget.backgroundColor,
+              ),
       clipBehavior: Clip.none,
       leading: widget.leading ?? const CpBackButton(),
-      actions: widget.nextButton != null
-          ? [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(minWidth: 93),
-                    child: widget.nextButton,
+      actions:
+          widget.nextButton != null
+              ? [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(minWidth: 93),
+                      child: widget.nextButton,
+                    ),
                   ),
                 ),
-              ),
-            ]
-          : null,
+              ]
+              : null,
       elevation: 0,
       shape: const Border(),
       scrolledUnderElevation: scrolledUnderColor == null ? 0 : 4,

@@ -23,25 +23,21 @@ class AmbassadorSection extends StatelessWidget {
 
         return status.isAmbassador
             ? ProfileSection(
-                title: l10n.ambassador_title,
-                padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
-                actions: [
-                  ProfileButton(
-                    label: l10n.ambassador_userOnboardingLabel,
-                    description: l10n.ambassador_userOnboardingDescription,
-                    onPressed: () {
-                      final wallet = sl<ECWallet>().publicKey;
-                      final name = sl<ProfileRepository>().fullName;
+              title: l10n.ambassador_title,
+              padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
+              actions: [
+                ProfileButton(
+                  label: l10n.ambassador_userOnboardingLabel,
+                  description: l10n.ambassador_userOnboardingDescription,
+                  onPressed: () {
+                    final wallet = sl<ECWallet>().publicKey;
+                    final name = sl<ProfileRepository>().fullName;
 
-                      ShareAmbassadorLinkScreen.push(
-                        context,
-                        name: name,
-                        address: wallet,
-                      );
-                    },
-                  ),
-                ],
-              )
+                    ShareAmbassadorLinkScreen.push(context, name: name, address: wallet);
+                  },
+                ),
+              ],
+            )
             : const SizedBox.shrink();
       },
     );

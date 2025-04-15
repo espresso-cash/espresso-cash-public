@@ -4,9 +4,7 @@ part 'notification_context.g.dart';
 
 @JsonSerializable()
 class NotificationContext {
-  const NotificationContext({
-    required this.slot,
-  });
+  const NotificationContext({required this.slot});
 
   factory NotificationContext.fromJson(Map<String, dynamic> json) =>
       _$NotificationContextFromJson(json);

@@ -5,10 +5,7 @@ part 'unsubscribed_message.g.dart';
 
 @JsonSerializable()
 class UnsubscribedMessage implements SubscriptionMessage {
-  const UnsubscribedMessage({
-    required this.result,
-    required this.id,
-  });
+  const UnsubscribedMessage({required this.result, required this.id});
 
   factory UnsubscribedMessage.fromJson(Map<String, dynamic> json) =>
       _$UnsubscribedMessageFromJson(json);

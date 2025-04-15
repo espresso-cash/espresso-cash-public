@@ -15,8 +15,7 @@ class ClusterNode {
     required this.shredVersion,
   });
 
-  factory ClusterNode.fromJson(Map<String, dynamic> json) =>
-      _$ClusterNodeFromJson(json);
+  factory ClusterNode.fromJson(Map<String, dynamic> json) => _$ClusterNodeFromJson(json);
 
   /// Node public key, as base-58 encoded string
   final String pubkey;

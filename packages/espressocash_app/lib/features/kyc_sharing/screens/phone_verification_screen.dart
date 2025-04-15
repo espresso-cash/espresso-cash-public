@@ -13,11 +13,7 @@ class PhoneVerificationScreen extends StatefulWidget {
   const PhoneVerificationScreen({super.key});
 
   static Future<bool> push(BuildContext context) => Navigator.of(context)
-      .push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const PhoneVerificationScreen(),
-        ),
-      )
+      .push<bool>(MaterialPageRoute(builder: (context) => const PhoneVerificationScreen()))
       .then((result) => result ?? false);
 
   @override
@@ -29,10 +25,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
   String _fullPhoneNumber = '';
 
   Future<void> _handleSendVerification() async {
-    final result = await context.sendPhoneVerification(
-      context,
-      phone: _fullPhoneNumber,
-    );
+    final result = await context.sendPhoneVerification(context, phone: _fullPhoneNumber);
 
     if (!mounted) return;
     if (result) Navigator.pop(context, true);
@@ -46,31 +39,29 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
 
   @override
   Widget build(BuildContext context) => KycPage(
-        children: [
-          KycHeader(
-            title: context.l10n.phoneVerificationTitle.toUpperCase(),
-            description: context.l10n.enterPhoneNumberHintText,
-          ),
-          const SizedBox(height: 16),
-          PhoneNumberTextField(
-            controller: _numberController,
-            initialCountry: Country.findByCode('NG'),
-            placeholder: context.l10n.phoneNumber,
-            onPhoneChanged: (fullNumber) =>
-                setState(() => _fullPhoneNumber = fullNumber),
-          ),
-          const SizedBox(height: 16),
-          const Spacer(),
-          ListenableBuilder(
-            listenable: _numberController,
-            builder: (context, child) => CpBottomButton(
+    children: [
+      KycHeader(
+        title: context.l10n.phoneVerificationTitle.toUpperCase(),
+        description: context.l10n.enterPhoneNumberHintText,
+      ),
+      const SizedBox(height: 16),
+      PhoneNumberTextField(
+        controller: _numberController,
+        initialCountry: Country.findByCode('NG'),
+        placeholder: context.l10n.phoneNumber,
+        onPhoneChanged: (fullNumber) => setState(() => _fullPhoneNumber = fullNumber),
+      ),
+      const SizedBox(height: 16),
+      const Spacer(),
+      ListenableBuilder(
+        listenable: _numberController,
+        builder:
+            (context, child) => CpBottomButton(
               horizontalPadding: 16,
               text: context.l10n.sendVerificationCode,
-              onPressed: _fullPhoneNumber.isValidPhone
-                  ? _handleSendVerification
-                  : null,
+              onPressed: _fullPhoneNumber.isValidPhone ? _handleSendVerification : null,
             ),
-          ),
-        ],
-      );
+      ),
+    ],
+  );
 }

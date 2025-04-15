@@ -53,17 +53,16 @@ class BrijOffRampOrderService implements Disposable {
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
-    final query = _db.select(_db.offRampOrderRows)
-      ..where(
-        (tbl) =>
-            tbl.status.isNotInValues([
-              OffRampOrderStatus.completed,
-              OffRampOrderStatus.cancelled,
-              OffRampOrderStatus.refunded,
-              OffRampOrderStatus.rejected,
-            ]) &
-            tbl.partner.isInValues([RampPartner.brij, RampPartner.scalexBrij]),
-      );
+    final query = _db.select(_db.offRampOrderRows)..where(
+      (tbl) =>
+          tbl.status.isNotInValues([
+            OffRampOrderStatus.completed,
+            OffRampOrderStatus.cancelled,
+            OffRampOrderStatus.refunded,
+            OffRampOrderStatus.rejected,
+          ]) &
+          tbl.partner.isInValues([RampPartner.brij, RampPartner.scalexBrij]),
+    );
 
     final orders = await query.get();
 
@@ -90,10 +89,7 @@ class BrijOffRampOrderService implements Disposable {
         .whereNotNull()
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
           if (order.shouldReportToSentry) {
-            logMessage(
-              message: 'BrijOffRampOrderStatusChange',
-              data: order.toSentry(),
-            );
+            logMessage(message: 'BrijOffRampOrderStatusChange', data: order.toSentry());
           }
 
           switch (order.status) {
@@ -114,21 +110,16 @@ class BrijOffRampOrderService implements Disposable {
                   receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
                 ),
               ).onErrorReturn(
-                const OffRampOrderRowsCompanion(
-                  status: Value(OffRampOrderStatus.depositError),
-                ),
+                const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositError)),
               );
 
             case OffRampOrderStatus.depositTxReady:
               return Stream.value(
-                const OffRampOrderRowsCompanion(
-                  status: Value(OffRampOrderStatus.sendingDepositTx),
-                ),
+                const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.sendingDepositTx)),
               );
 
             case OffRampOrderStatus.sendingDepositTx:
-              final tx = SignedTx.decode(order.transaction)
-                  .let((it) => (it, order.slot));
+              final tx = SignedTx.decode(order.transaction).let((it) => (it, order.slot));
 
               return Stream.fromFuture(_sendTx(tx));
 
@@ -163,9 +154,9 @@ class BrijOffRampOrderService implements Disposable {
         })
         .whereNotNull()
         .listen(
-          (event) => (_db.update(_db.offRampOrderRows)
-                ..where((tbl) => tbl.id.equals(orderId)))
-              .write(event),
+          (event) =>
+              (_db.update(_db.offRampOrderRows)
+                ..where((tbl) => tbl.id.equals(orderId))).write(event),
         );
   }
 
@@ -173,70 +164,63 @@ class BrijOffRampOrderService implements Disposable {
     required CryptoAmount submittedAmount,
     required FiatAmount receiveAmount,
     required RampPartner partner,
-  }) =>
-      tryEitherAsync((_) async {
-        {
-          final partnerAuthPk = partner.partnerPK ?? '';
-          await _kycRepository.grantPartnerAccess(partnerAuthPk);
+    required String country,
+  }) => tryEitherAsync((_) async {
+    {
+      final partnerAuthPk = partner.partnerPK ?? '';
+      await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
-          final user = await _kycRepository.fetchUser();
+      final user = await _kycRepository.fetchUser();
 
-          final validUser = user?.let(
-            (u) => u.accountNumber != null && u.bankCode != null ? u : null,
-          );
+      final bank = user?.getBankByCountry(country);
 
-          if (validUser == null) {
-            throw Exception(
-              'Invalid user data: User not found or missing bank information',
-            );
-          }
+      if (bank == null) {
+        throw Exception('Invalid user data: User not found or missing bank information');
+      }
 
-          final orderId = await _kycRepository.createOffRampOrder(
-            cryptoAmount: submittedAmount.decimal.toDouble(),
-            cryptoCurrency: submittedAmount.cryptoCurrency.token.symbol,
-            fiatAmount: receiveAmount.decimal.toDouble(),
-            fiatCurrency: receiveAmount.currency.symbol,
-            partnerPK: partnerAuthPk,
-            bankAccount: validUser.accountNumber ?? '',
-            bankName: validUser.bankCode ?? '',
-          );
+      final orderId = await _kycRepository.createOffRampOrder(
+        cryptoAmount: submittedAmount.decimal.toDouble(),
+        cryptoCurrency: submittedAmount.cryptoCurrency.token.symbol,
+        fiatAmount: receiveAmount.decimal.toDouble(),
+        fiatCurrency: receiveAmount.currency.symbol,
+        partnerPK: partnerAuthPk,
+        cryptoWalletAddress: _account.publicKey.toString(),
+        bankAccount: bank.accountNumber,
+        bankName: bank.bankCode,
+      );
 
-          final order = OffRampOrderRow(
-            id: const Uuid().v4(),
-            partnerOrderId: orderId,
-            amount: submittedAmount.value,
-            token: Token.usdc.address,
-            receiveAmount: receiveAmount.value,
-            fiatSymbol: receiveAmount.fiatCurrency.symbol,
-            created: DateTime.now(),
-            humanStatus: '',
-            machineStatus: '',
-            partner: partner,
-            status: OffRampOrderStatus.waitingPartnerReview,
-            transaction: '',
-            depositAddress: '',
-            slot: BigInt.zero,
-            bridgeAmount: null,
-          );
+      final order = OffRampOrderRow(
+        id: const Uuid().v4(),
+        partnerOrderId: orderId,
+        amount: submittedAmount.value,
+        token: Token.usdc.address,
+        receiveAmount: receiveAmount.value,
+        fiatSymbol: receiveAmount.fiatCurrency.symbol,
+        created: DateTime.now(),
+        humanStatus: '',
+        machineStatus: '',
+        partner: partner,
+        status: OffRampOrderStatus.waitingPartnerReview,
+        transaction: '',
+        depositAddress: '',
+        slot: BigInt.zero,
+        bridgeAmount: null,
+      );
 
-          await _db.into(_db.offRampOrderRows).insertOnConflictUpdate(order);
-          _subscribe(order.id);
+      await _db.into(_db.offRampOrderRows).insertOnConflictUpdate(order);
+      _subscribe(order.id);
 
-          final countryCode = await _kycRepository.fetchUser().letAsync(
-                (user) => user?.countryCode ?? '',
-              );
+      _analytics.rampInitiated(
+        partnerName: partner.name,
+        rampType: RampType.offRamp.name,
+        amount: submittedAmount.value.toString(),
+        countryCode: country,
+        id: order.id,
+      );
 
-          _analytics.rampInitiated(
-            partnerName: partner.name,
-            rampType: RampType.offRamp.name,
-            amount: submittedAmount.value.toString(),
-            countryCode: countryCode,
-            id: order.id,
-          );
-
-          return order.id;
-        }
-      });
+      return order.id;
+    }
+  });
 
   void _waitingPartnerReviewWatcher(OffRampOrderRow order) {
     final id = order.id;
@@ -245,22 +229,17 @@ class BrijOffRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10))
-        .startWith(null)
-        .listen((_) async {
-      final statement = _db.update(_db.offRampOrderRows)
-        ..where(
-          (tbl) => tbl.id.equals(id),
-        );
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((
+      _,
+    ) async {
+      final statement = _db.update(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
       final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
         BrijOrderStatus.completed => OffRampOrderStatus.completed,
-        BrijOrderStatus.unknown ||
-        BrijOrderStatus.rejected =>
-          OffRampOrderStatus.rejected,
+        BrijOrderStatus.unknown || BrijOrderStatus.rejected => OffRampOrderStatus.rejected,
         BrijOrderStatus.failed => OffRampOrderStatus.failure,
         BrijOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
         BrijOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
@@ -287,22 +266,17 @@ class BrijOffRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10))
-        .startWith(null)
-        .listen((_) async {
-      final statement = _db.update(_db.offRampOrderRows)
-        ..where(
-          (tbl) => tbl.id.equals(id),
-        );
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10)).startWith(null).listen((
+      _,
+    ) async {
+      final statement = _db.update(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
       final orderData = await _kycRepository.fetchOrder(order.partnerOrderId);
       final kycStatus = BrijOrderStatus.fromString(orderData.status);
 
       final status = switch (kycStatus) {
         BrijOrderStatus.completed => OffRampOrderStatus.completed,
-        BrijOrderStatus.unknown ||
-        BrijOrderStatus.rejected =>
-          OffRampOrderStatus.rejected,
+        BrijOrderStatus.unknown || BrijOrderStatus.rejected => OffRampOrderStatus.rejected,
         BrijOrderStatus.failed => OffRampOrderStatus.failure,
         BrijOrderStatus.pending => OffRampOrderStatus.waitingPartnerReview,
         BrijOrderStatus.accepted => OffRampOrderStatus.creatingDepositTx,
@@ -311,11 +285,7 @@ class BrijOffRampOrderService implements Disposable {
       if (status == OffRampOrderStatus.creatingDepositTx) return;
 
       if (status != order.status) {
-        await statement.write(
-          OffRampOrderRowsCompanion(
-            status: Value.ofNullable(status),
-          ),
-        );
+        await statement.write(OffRampOrderRowsCompanion(status: Value.ofNullable(status)));
 
         _removeWatcher(id);
       }
@@ -335,8 +305,7 @@ class BrijOffRampOrderService implements Disposable {
     );
     final response = await _ecClient.createDirectPayment(dto);
 
-    final tx = await SignedTx.decode(response.transaction)
-        .let((it) => it.resign(_account));
+    final tx = await SignedTx.decode(response.transaction).let((it) => it.resign(_account));
 
     return OffRampOrderRowsCompanion(
       status: const Value(OffRampOrderStatus.depositTxReady),
@@ -359,9 +328,10 @@ class BrijOffRampOrderService implements Disposable {
         );
       case TxSendFailure(:final reason):
         return OffRampOrderRowsCompanion(
-          status: reason == TxFailureReason.insufficientFunds
-              ? const Value(OffRampOrderStatus.insufficientFunds)
-              : const Value(OffRampOrderStatus.depositError),
+          status:
+              reason == TxFailureReason.insufficientFunds
+                  ? const Value(OffRampOrderStatus.insufficientFunds)
+                  : const Value(OffRampOrderStatus.depositError),
           transaction: const Value(''),
           slot: Value(BigInt.zero),
         );
@@ -369,22 +339,17 @@ class BrijOffRampOrderService implements Disposable {
         return _depositError;
     }
 
-    final confirmed = await _sender.wait(
-      tx.$1,
-      minContextSlot: tx.$2,
-      txType: 'OffRamp',
-    );
+    final confirmed = await _sender.wait(tx.$1, minContextSlot: tx.$2, txType: 'OffRamp');
 
     switch (confirmed) {
       case TxWaitSuccess():
-        return const OffRampOrderRowsCompanion(
-          status: Value(OffRampOrderStatus.waitingForPartner),
-        );
+        return const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.waitingForPartner));
       case TxWaitFailure(:final reason):
         return OffRampOrderRowsCompanion(
-          status: reason == TxFailureReason.insufficientFunds
-              ? const Value(OffRampOrderStatus.insufficientFunds)
-              : const Value(OffRampOrderStatus.depositTxConfirmError),
+          status:
+              reason == TxFailureReason.insufficientFunds
+                  ? const Value(OffRampOrderStatus.insufficientFunds)
+                  : const Value(OffRampOrderStatus.depositTxConfirmError),
           transaction: const Value(''),
           slot: Value(BigInt.zero),
         );

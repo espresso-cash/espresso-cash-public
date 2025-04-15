@@ -7,13 +7,9 @@ part 'recent_blockhash.g.dart';
 /// A recent blockhash
 @JsonSerializable()
 class RecentBlockhash {
-  const RecentBlockhash({
-    required this.blockhash,
-    required this.feeCalculator,
-  });
+  const RecentBlockhash({required this.blockhash, required this.feeCalculator});
 
-  factory RecentBlockhash.fromJson(Map<String, dynamic> json) =>
-      _$RecentBlockhashFromJson(json);
+  factory RecentBlockhash.fromJson(Map<String, dynamic> json) => _$RecentBlockhashFromJson(json);
 
   /// Hash as base-58 encoded string
   final String blockhash;

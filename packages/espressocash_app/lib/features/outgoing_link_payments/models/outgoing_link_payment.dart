@@ -23,10 +23,8 @@ class OutgoingLinkPayment with _$OutgoingLinkPayment {
 @freezed
 class OLPStatus with _$OLPStatus {
   /// Tx created, but not sent yet. At this stage, it's safe to cancel it.
-  const factory OLPStatus.txCreated(
-    SignedTx tx, {
-    required EscrowPrivateKey escrow,
-  }) = OLPStatusTxCreated;
+  const factory OLPStatus.txCreated(SignedTx tx, {required EscrowPrivateKey escrow}) =
+      OLPStatusTxCreated;
 
   /// Tx sent sent to backend. Should be good as confirmed at this point
   const factory OLPStatus.txSent(
@@ -36,34 +34,25 @@ class OLPStatus with _$OLPStatus {
   }) = OLPStatusTxSent;
 
   /// Link is ready to be sent to the recipient.
-  const factory OLPStatus.linkReady({
-    required Uri link,
-    required EscrowPrivateKey escrow,
-  }) = OLPStatusLinkReady;
+  const factory OLPStatus.linkReady({required Uri link, required EscrowPrivateKey escrow}) =
+      OLPStatusLinkReady;
 
   /// Money are withdrawn from the escrow by someone, but not by the sender. The
   /// payment is complete.
-  const factory OLPStatus.withdrawn({
-    required String txId,
-    required DateTime? timestamp,
-  }) = OLPStatusWithdrawn;
+  const factory OLPStatus.withdrawn({required String txId, required DateTime? timestamp}) =
+      OLPStatusWithdrawn;
 
   /// Money are withdrawn by the sender. The payment is complete.
-  const factory OLPStatus.canceled({
-    required String? txId,
-    required DateTime? timestamp,
-  }) = OLPStatusCanceled;
+  const factory OLPStatus.canceled({required String? txId, required DateTime? timestamp}) =
+      OLPStatusCanceled;
 
   /// There was an error while creating the tx, or the tx was rejected. In any
   /// case, it's safe to recreate the tx or directly cancel the payment.
-  const factory OLPStatus.txFailure({required TxFailureReason reason}) =
-      OLPStatusTxFailure;
+  const factory OLPStatus.txFailure({required TxFailureReason reason}) = OLPStatusTxFailure;
 
   /// Cancellation tx was created but not sent yet
-  const factory OLPStatus.cancelTxCreated(
-    SignedTx tx, {
-    required EscrowPrivateKey escrow,
-  }) = OLPStatusCancelTxCreated;
+  const factory OLPStatus.cancelTxCreated(SignedTx tx, {required EscrowPrivateKey escrow}) =
+      OLPStatusCancelTxCreated;
 
   /// There was an error while creating the cancellation tx, or the tx was
   /// rejected. It's safe to recreate it.

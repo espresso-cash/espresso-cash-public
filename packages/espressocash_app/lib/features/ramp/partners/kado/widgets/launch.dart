@@ -23,10 +23,7 @@ import '../../../services/on_ramp_order_service.dart';
 import '../data/kado_api_client.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchKadoOnRamp({
-    required String address,
-    required ProfileData profile,
-  }) async {
+  Future<void> launchKadoOnRamp({required String address, required ProfileData profile}) async {
     FiatAmount? amount;
 
     await RampAmountScreen.push(
@@ -46,8 +43,7 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount == null) return;
 
-    final usdcAmount =
-        submittedAmount.toTokenAmount(Token.usdc)?.round(Currency.usd.decimals);
+    final usdcAmount = submittedAmount.toTokenAmount(Token.usdc)?.round(Currency.usd.decimals);
 
     if (usdcAmount == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
@@ -79,26 +75,25 @@ extension BuildContextExt on BuildContext {
         callback: (args) {
           if (orderWasCreated) return;
 
-          if (args.firstOrNull
-              case <String, dynamic>{
-                'type': 'RAMP_ORDER_ID',
-                'payload': {'orderId': final String orderId}
-              }) {
+          if (args.firstOrNull case <String, dynamic>{
+            'type': 'RAMP_ORDER_ID',
+            'payload': {'orderId': final String orderId},
+          }) {
             sl<OnRampOrderService>()
                 .create(
-              orderId: orderId,
-              submittedAmount: usdcAmount,
-              partner: RampPartner.kado,
-              countryCode: profile.country.code,
-            )
+                  orderId: orderId,
+                  submittedAmount: usdcAmount,
+                  partner: RampPartner.kado,
+                  countryCode: profile.country.code,
+                )
                 .then((order) {
-              switch (order) {
-                case Left<Exception, String>():
-                  break;
-                case Right<Exception, String>(:final value):
-                  OnRampOrderScreen.pushReplacement(this, id: value);
-              }
-            });
+                  switch (order) {
+                    case Left<Exception, String>():
+                      break;
+                    case Right<Exception, String>(:final value):
+                      OnRampOrderScreen.pushReplacement(this, id: value);
+                  }
+                });
             orderWasCreated = true;
           }
         },
@@ -121,10 +116,7 @@ window.addEventListener("message", (event) => {
     );
   }
 
-  Future<void> launchKadoOffRamp({
-    required String address,
-    required ProfileData profile,
-  }) async {
+  Future<void> launchKadoOffRamp({required String address, required ProfileData profile}) async {
     Amount? amount;
 
     await RampAmountScreen.push(
@@ -168,33 +160,31 @@ window.addEventListener("message", (event) => {
         callback: (args) async {
           if (orderWasCreated) return;
 
-          if (args.firstOrNull
-              case <String, dynamic>{
-                'type': 'RAMP_ORDER_ID',
-                'payload': {'orderId': final String orderId}
-              }) {
-            final partnerOrder =
-                await sl<KadoApiClient>().getOrderStatus(orderId);
+          if (args.firstOrNull case <String, dynamic>{
+            'type': 'RAMP_ORDER_ID',
+            'payload': {'orderId': final String orderId},
+          }) {
+            final partnerOrder = await sl<KadoApiClient>().getOrderStatus(orderId);
             final depositAddress = partnerOrder.data?.depositAddress;
 
             if (depositAddress == null) return;
 
             await sl<OffRampOrderService>()
                 .create(
-              partnerOrderId: orderId,
-              amount: submittedAmount,
-              partner: RampPartner.kado,
-              depositAddress: depositAddress,
-              countryCode: profile.country.code,
-            )
+                  partnerOrderId: orderId,
+                  amount: submittedAmount,
+                  partner: RampPartner.kado,
+                  depositAddress: depositAddress,
+                  countryCode: profile.country.code,
+                )
                 .then((order) {
-              switch (order) {
-                case Left<Exception, String>():
-                  break;
-                case Right<Exception, String>(:final value):
-                  OffRampOrderScreen.pushReplacement(this, id: value);
-              }
-            });
+                  switch (order) {
+                    case Left<Exception, String>():
+                      break;
+                    case Right<Exception, String>(:final value):
+                      OffRampOrderScreen.pushReplacement(this, id: value);
+                  }
+                });
             orderWasCreated = true;
           }
         },

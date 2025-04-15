@@ -5,10 +5,7 @@ part 'highest_snapshot_slot.g.dart';
 /// A Highest Snapshot Slot
 @JsonSerializable()
 class HighestSnapshotSlot {
-  const HighestSnapshotSlot({
-    required this.full,
-    required this.incremental,
-  });
+  const HighestSnapshotSlot({required this.full, required this.incremental});
 
   factory HighestSnapshotSlot.fromJson(Map<String, dynamic> json) =>
       _$HighestSnapshotSlotFromJson(json);

@@ -6,10 +6,7 @@ part 'simulate_transaction_accounts.g.dart';
 /// Accounts for a transaction simulation
 @JsonSerializable(includeIfNull: false)
 class SimulateTransactionAccounts {
-  const SimulateTransactionAccounts({
-    this.encoding,
-    this.addresses,
-  });
+  const SimulateTransactionAccounts({this.encoding, this.addresses});
 
   factory SimulateTransactionAccounts.fromJson(Map<String, dynamic> json) =>
       _$SimulateTransactionAccountsFromJson(json);

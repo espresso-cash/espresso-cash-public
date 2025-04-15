@@ -31,16 +31,14 @@ class Account with _$Account {
     @JsonKey(fromJson: bigIntFromJson) required BigInt rentEpoch,
   }) = _Account;
 
-  factory Account.fromJson(Map<String, dynamic> json) =>
-      _$AccountFromJson(json);
+  factory Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);
 }
 
 @JsonSerializable()
 class AccountResult extends ContextResult<Account?> {
   const AccountResult({required super.context, required super.value});
 
-  factory AccountResult.fromJson(Map<String, dynamic> json) =>
-      _$AccountResultFromJson(json);
+  factory AccountResult.fromJson(Map<String, dynamic> json) => _$AccountResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$AccountResultToJson(this);
 }

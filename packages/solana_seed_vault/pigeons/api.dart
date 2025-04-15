@@ -3,20 +3,14 @@
 import 'package:pigeon/pigeon.dart';
 
 class SigningRequestDto {
-  const SigningRequestDto({
-    required this.payload,
-    required this.requestedSignatures,
-  });
+  const SigningRequestDto({required this.payload, required this.requestedSignatures});
 
   final Uint8List payload;
   final List<String?> requestedSignatures;
 }
 
 class SigningResponseDto {
-  const SigningResponseDto({
-    required this.signatures,
-    required this.resolvedDerivationPaths,
-  });
+  const SigningResponseDto({required this.signatures, required this.resolvedDerivationPaths});
 
   final List<Uint8List?> signatures;
   final List<String?> resolvedDerivationPaths;
@@ -47,22 +41,13 @@ abstract class WalletApiHost {
   int importSeed(int purpose);
 
   @async
-  List<SigningResponseDto> signMessages(
-    int authToken,
-    List<SigningRequestDto> signingRequests,
-  );
+  List<SigningResponseDto> signMessages(int authToken, List<SigningRequestDto> signingRequests);
 
   @async
-  List<SigningResponseDto> signTransactions(
-    int authToken,
-    List<SigningRequestDto> signingRequests,
-  );
+  List<SigningResponseDto> signTransactions(int authToken, List<SigningRequestDto> signingRequests);
 
   @async
-  List<PublicKeyResponseDto> requestPublicKeys(
-    int authToken,
-    List<String> derivationPaths,
-  );
+  List<PublicKeyResponseDto> requestPublicKeys(int authToken, List<String> derivationPaths);
 
   List<Map<Object?, Object?>> getAuthorizedSeeds(
     List<String> projection,
@@ -70,10 +55,7 @@ abstract class WalletApiHost {
     Object? value,
   );
 
-  Map<Object?, Object?> getAuthorizedSeed(
-    int authToken,
-    List<String> projection,
-  );
+  Map<Object?, Object?> getAuthorizedSeed(int authToken, List<String> projection);
 
   void deauthorizeSeed(int authToken);
 
@@ -92,25 +74,13 @@ abstract class WalletApiHost {
     Object? value,
   );
 
-  Map<Object?, Object?> getAccount(
-    int authToken,
-    int id,
-    List<String> projection,
-  );
+  Map<Object?, Object?> getAccount(int authToken, int id, List<String> projection);
 
   void updateAccountName(int authToken, int accountId, String? name);
 
-  void updateAccountIsUserWallet(
-    int authToken,
-    int accountId,
-    bool isUserWallet,
-  );
+  void updateAccountIsUserWallet(int authToken, int accountId, bool isUserWallet);
 
-  void updateAccountIsValid(
-    int authToken,
-    int accountId,
-    bool isValid,
-  );
+  void updateAccountIsValid(int authToken, int accountId, bool isValid);
 
   List<Map<Object?, Object?>> getImplementationLimits(
     List<String> projection,

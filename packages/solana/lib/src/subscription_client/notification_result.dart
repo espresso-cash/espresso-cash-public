@@ -7,16 +7,12 @@ part 'notification_result.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true)
 class NotificationResult<T> {
-  const NotificationResult({
-    required this.context,
-    required this.value,
-  });
+  const NotificationResult({required this.context, required this.value});
 
   factory NotificationResult.fromJson(
     Map<String, dynamic> json,
     T Function(Object? object) fromJsonT,
-  ) =>
-      _$NotificationResultFromJson<T>(json, fromJsonT);
+  ) => _$NotificationResultFromJson<T>(json, fromJsonT);
 
   final NotificationContext context;
   final T value;

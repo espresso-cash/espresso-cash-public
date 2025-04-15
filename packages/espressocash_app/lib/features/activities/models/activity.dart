@@ -9,10 +9,8 @@ part 'activity.freezed.dart';
 
 @freezed
 class Activity with _$Activity {
-  const factory Activity.outgoingPaymentRequest({
-    required String id,
-    required DateTime created,
-  }) = OPRActivity;
+  const factory Activity.outgoingPaymentRequest({required String id, required DateTime created}) =
+      OPRActivity;
 
   const factory Activity.outgoingDirectPayment({
     required String id,
@@ -26,15 +24,9 @@ class Activity with _$Activity {
     required OutgoingLinkPayment data,
   }) = OLPActivity;
 
-  const factory Activity.onRamp({
-    required String id,
-    required DateTime created,
-  }) = OnRampActivity;
+  const factory Activity.onRamp({required String id, required DateTime created}) = OnRampActivity;
 
-  const factory Activity.offRamp({
-    required String id,
-    required DateTime created,
-  }) = OffRampActivity;
+  const factory Activity.offRamp({required String id, required DateTime created}) = OffRampActivity;
 
   const factory Activity.outgoingDlnPayment({
     required String id,
@@ -48,7 +40,5 @@ class Activity with _$Activity {
     required TransactionRequestPayment data,
   }) = TransactionRequestActivity;
 
-  const factory Activity.kyc({
-    required DateTime created,
-  }) = KycActivity;
+  const factory Activity.kyc({required DateTime created}) = KycActivity;
 }

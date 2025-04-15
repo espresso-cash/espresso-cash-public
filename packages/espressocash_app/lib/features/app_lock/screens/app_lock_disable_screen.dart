@@ -10,32 +10,30 @@ import '../widgets/pin_input_display_widget.dart';
 class AppLockDisableScreen extends StatelessWidget {
   const AppLockDisableScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => const AppLockDisableScreen(),
-        ),
-      );
+  static void push(BuildContext context) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => const AppLockDisableScreen()));
 
   @override
   Widget build(BuildContext context) => BlocConsumer<AppLockBloc, AppLockState>(
-        listener: (context, state) => switch (state) {
+    listener:
+        (context, state) => switch (state) {
           AppLockStateDisabled() => Navigator.pop(context),
           _ => null,
         },
-        builder: (context, state) => DecoratedWindow(
+    builder:
+        (context, state) => DecoratedWindow(
           backButton: const CpBackButton(),
           hasLogo: true,
           backgroundStyle: BackgroundStyle.dark,
           child: PinInputDisplayWidget(
             message: switch (state) {
-              AppLockStateEnabled() => state.disableFailed
-                  ? context.l10n.incorrectPasscode
-                  : context.l10n.enterPasscode,
+              AppLockStateEnabled() =>
+                state.disableFailed ? context.l10n.incorrectPasscode : context.l10n.enterPasscode,
               _ => context.l10n.enterPasscode,
             },
-            onCompleted: (pin) =>
-                context.read<AppLockBloc>().add(AppLockEvent.disable(pin)),
+            onCompleted: (pin) => context.read<AppLockBloc>().add(AppLockEvent.disable(pin)),
           ),
         ),
-      );
+  );
 }

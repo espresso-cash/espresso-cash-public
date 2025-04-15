@@ -4,10 +4,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../ui/colors.dart';
 
 class QuizIndicator extends StatelessWidget {
-  const QuizIndicator({
-    super.key,
-    required this.controller,
-  });
+  const QuizIndicator({super.key, required this.controller});
 
   final AnimationController controller;
 
@@ -27,12 +24,13 @@ class QuizIndicator extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 2.0),
       child: ValueListenableBuilder(
         valueListenable: controller,
-        builder: (context, offset, _) => SmoothIndicator(
-          size: effect.calculateSize(_count),
-          offset: offset,
-          count: _count,
-          effect: effect,
-        ),
+        builder:
+            (context, offset, _) => SmoothIndicator(
+              size: effect.calculateSize(_count),
+              offset: offset,
+              count: _count,
+              effect: effect,
+            ),
       ),
     );
   }

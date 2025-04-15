@@ -8,13 +8,11 @@ import '../models/quiz.dart';
 class QuizRepository {
   const QuizRepository();
 
-  IList<QuizQuestion> getQuestions(AppLocalizations l10n) => [
+  IList<QuizQuestion> getQuestions(AppLocalizations l10n) =>
+      [
         QuizQuestion(
           question: l10n.quizFirstQuestion,
-          options: [
-            l10n.quizFirstQuestionOptionA,
-            l10n.quizFirstQuestionOptionB,
-          ].lock,
+          options: [l10n.quizFirstQuestionOptionA, l10n.quizFirstQuestionOptionB].lock,
           correctAnswer: 1,
           correctExplanation: (
             title: l10n.quizFirstQuestionExplanationTitle,
@@ -27,10 +25,7 @@ class QuizRepository {
         ),
         QuizQuestion(
           question: l10n.quizSecondQuestion,
-          options: [
-            l10n.quizSecondQuestionOptionA,
-            l10n.quizSecondQuestionOptionB,
-          ].lock,
+          options: [l10n.quizSecondQuestionOptionA, l10n.quizSecondQuestionOptionB].lock,
           correctAnswer: 0,
           correctExplanation: (
             title: l10n.quizSecondQuestionExplanationTitle,

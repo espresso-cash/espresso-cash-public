@@ -12,8 +12,7 @@ class Delegation {
     required this.warmupCooldownRate,
   });
 
-  factory Delegation.fromJson(Map<String, dynamic> json) =>
-      _$DelegationFromJson(json);
+  factory Delegation.fromJson(Map<String, dynamic> json) => _$DelegationFromJson(json);
 
   final String activationEpoch;
   final String deactivationEpoch;

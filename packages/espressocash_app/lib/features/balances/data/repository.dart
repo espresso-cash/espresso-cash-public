@@ -19,98 +19,85 @@ class TokenBalancesRepository {
   final TokenRepository _tokenRepository;
 
   Future<CryptoAmount> read(Token token) async {
-    final query = _db.tokenBalanceRows.select()
-      ..where((tbl) => tbl.token.equals(token.address));
+    final query = _db.tokenBalanceRows.select()..where((tbl) => tbl.token.equals(token.address));
 
     final row = await query.getSingleOrNull();
 
     return row == null
         ? CryptoAmount(value: 0, cryptoCurrency: CryptoCurrency(token: token))
-        : CryptoAmount(
-            value: row.amount,
-            cryptoCurrency: CryptoCurrency(token: token),
-          );
+        : CryptoAmount(value: row.amount, cryptoCurrency: CryptoCurrency(token: token));
   }
 
   Future<ISet<Token>> readUserTokens() {
-    final query = _db.tokenBalanceRows.select()
-      ..where((tbl) => tbl.amount.isBiggerThanValue(0));
+    final query = _db.tokenBalanceRows.select()..where((tbl) => tbl.amount.isBiggerThanValue(0));
 
     return query.get().then(
-          (rows) => Future.wait(
-            rows.map((row) async => _tokenRepository.getToken(row.token)),
-          ).then((tokens) => tokens.whereNotNull().toISet()),
-        );
+      (rows) => Future.wait(
+        rows.map((row) async => _tokenRepository.getToken(row.token)),
+      ).then((tokens) => tokens.whereNotNull().toISet()),
+    );
   }
 
-  Stream<ISet<Token>> watchUserTokens({
-    Iterable<Token> ignoreTokens = const [],
-  }) {
-    final query = _db.tokenBalanceRows.select()
-      ..where(
-        (tbl) =>
-            tbl.amount.isBiggerThanValue(0) &
-            tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
-      );
+  Stream<ISet<Token>> watchUserTokens({Iterable<Token> ignoreTokens = const []}) {
+    final query =
+        _db.tokenBalanceRows.select()..where(
+          (tbl) =>
+              tbl.amount.isBiggerThanValue(0) &
+              tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
+        );
 
     return query.watch().asyncMap(
-          (rows) async => Future.wait(
-            rows.map((row) async => _tokenRepository.getToken(row.token)),
-          ).then((tokens) => tokens.whereNotNull().toISet()),
-        );
+      (rows) async => Future.wait(
+        rows.map((row) async => _tokenRepository.getToken(row.token)),
+      ).then((tokens) => tokens.whereNotNull().toISet()),
+    );
   }
 
-  Stream<IList<CryptoAmount>> watchTokenBalances({
-    Iterable<Token> ignoreTokens = const [],
-  }) {
-    final query = _db.tokenBalanceRows.select()
-      ..where(
-        (tbl) =>
-            tbl.amount.isBiggerThanValue(0) &
-            tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
-      );
+  Stream<IList<CryptoAmount>> watchTokenBalances({Iterable<Token> ignoreTokens = const []}) {
+    final query =
+        _db.tokenBalanceRows.select()..where(
+          (tbl) =>
+              tbl.amount.isBiggerThanValue(0) &
+              tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
+        );
 
     return query.watch().asyncMap(
-          (rows) async => Future.wait(
-            rows.map(
-              (row) async => _tokenRepository.getToken(row.token).letAsync(
-                    (token) => token?.let(
-                      (t) => CryptoAmount(
-                        value: row.amount,
-                        cryptoCurrency: CryptoCurrency(token: t),
-                      ),
-                    ),
-                  ),
-            ),
-          ).then((balances) => balances.whereNotNull().toIList()),
-        );
+      (rows) async => Future.wait(
+        rows.map(
+          (row) async => _tokenRepository
+              .getToken(row.token)
+              .letAsync(
+                (token) => token?.let(
+                  (t) => CryptoAmount(value: row.amount, cryptoCurrency: CryptoCurrency(token: t)),
+                ),
+              ),
+        ),
+      ).then((balances) => balances.whereNotNull().toIList()),
+    );
   }
 
   Stream<CryptoAmount> watch(Token token) {
-    final query = _db.tokenBalanceRows.select()
-      ..where((tbl) => tbl.token.equals(token.address));
+    final query = _db.tokenBalanceRows.select()..where((tbl) => tbl.token.equals(token.address));
     final currency = CryptoCurrency(token: token);
 
     return query.watchSingleOrNull().map(
-          (row) => row == null
+      (row) =>
+          row == null
               ? CryptoAmount(value: 0, cryptoCurrency: currency)
               : CryptoAmount(value: row.amount, cryptoCurrency: currency),
-        );
+    );
   }
 
-  Future<void> save(Iterable<CryptoAmount> balances) =>
-      _db.transaction(() async {
-        await _db.delete(_db.tokenBalanceRows).go();
-        await _db.batch(
-          (batch) => batch.insertAll(
-            _db.tokenBalanceRows,
-            balances.map(
-              (e) => TokenBalanceRow(amount: e.value, token: e.token.address),
-            ),
-            mode: InsertMode.insertOrReplace,
-          ),
-        );
-      });
+  Future<void> save(Iterable<CryptoAmount> balances) => _db.transaction(() async {
+    await _db.delete(_db.tokenBalanceRows).go();
+    await _db.batch(
+      (batch) => batch.insertAll(
+        _db.tokenBalanceRows,
+        balances.map((e) => TokenBalanceRow(amount: e.value, token: e.token.address)),
+        mode: InsertMode.insertOrReplace,
+      ),
+    );
+  });
 
   @disposeMethod
   void dispose() {

@@ -71,23 +71,13 @@ void main() {
           ],
           data: ByteArray.u8(1),
         ),
-        Instruction(
-          programId: keys[1],
-          accounts: const [],
-          data: ByteArray.u8(2),
-        ),
-        Instruction(
-          programId: keys[3],
-          accounts: const [],
-          data: ByteArray.u8(3),
-        ),
+        Instruction(programId: keys[1], accounts: const [], data: ByteArray.u8(2)),
+        Instruction(programId: keys[3], accounts: const [], data: ByteArray.u8(3)),
       ];
 
       final message = Message(instructions: instructions);
 
-      final addressLookupTableAccounts = [
-        await createTestAddressLookUpTable(keys),
-      ];
+      final addressLookupTableAccounts = [await createTestAddressLookUpTable(keys)];
 
       final compiledMessage = message.compileV0(
         recentBlockhash: base58encode(List.filled(32, 0)),
@@ -95,10 +85,7 @@ void main() {
         addressLookupTableAccounts: addressLookupTableAccounts,
       );
 
-      expect(
-        () => Message.decompile(compiledMessage),
-        throwsException,
-      );
+      expect(() => Message.decompile(compiledMessage), throwsException);
 
       final decompiledMessage = Message.decompile(
         compiledMessage,

@@ -13,11 +13,9 @@ class ProfileRepository extends ChangeNotifier {
 
   bool get hasAllRequiredFields => country != null;
 
-  String get fullName =>
-      [firstName, lastName].where((it) => it.isNotEmpty).join(' ');
+  String get fullName => [firstName, lastName].where((it) => it.isNotEmpty).join(' ');
 
-  String get initials =>
-      (substring(firstName, 0, 1) + substring(lastName, 0, 1)).toUpperCase();
+  String get initials => (substring(firstName, 0, 1) + substring(lastName, 0, 1)).toUpperCase();
 
   String get firstName => _sharedPreferences.getString(firstNameKey) ?? '';
 

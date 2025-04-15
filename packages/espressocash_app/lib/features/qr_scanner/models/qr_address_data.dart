@@ -14,14 +14,11 @@ sealed class QrAddressData with _$QrAddressData {
 
   const factory QrAddressData.evm({required String address}) = QrAddressDataEvm;
 
-  factory QrAddressData.fromJson(Map<String, dynamic> json) =>
-      _$QrAddressDataFromJson(json);
+  factory QrAddressData.fromJson(Map<String, dynamic> json) => _$QrAddressDataFromJson(json);
 
   static QrAddressData? tryParse(String data) {
     if (isValidAddress(data)) {
-      return QrAddressData.solana(
-        address: Ed25519HDPublicKey.fromBase58(data),
-      );
+      return QrAddressData.solana(address: Ed25519HDPublicKey.fromBase58(data));
     }
 
     final address = Uri.tryParse(data)?.let((p) => p.path);
@@ -32,13 +29,11 @@ sealed class QrAddressData with _$QrAddressData {
   }
 }
 
-class Ed25519HDPublicKeyConverter
-    extends JsonConverter<Ed25519HDPublicKey, String> {
+class Ed25519HDPublicKeyConverter extends JsonConverter<Ed25519HDPublicKey, String> {
   const Ed25519HDPublicKeyConverter();
 
   @override
-  Ed25519HDPublicKey fromJson(String json) =>
-      Ed25519HDPublicKey.fromBase58(json);
+  Ed25519HDPublicKey fromJson(String json) => Ed25519HDPublicKey.fromBase58(json);
 
   @override
   String toJson(Ed25519HDPublicKey object) => object.toBase58();

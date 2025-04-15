@@ -51,34 +51,30 @@ class DecoratedWindow extends StatelessWidget {
         ),
         Expanded(child: child),
         if (bottomButton != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: bottomButton,
-          ),
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 24), child: bottomButton),
       ],
     );
     final content = CpTheme(
-      theme: backgroundStyle == BackgroundStyle.light
-          ? const CpThemeData.light()
-          : const CpThemeData.dark(),
+      theme:
+          backgroundStyle == BackgroundStyle.light
+              ? const CpThemeData.light()
+              : const CpThemeData.dark(),
       child: Scaffold(
-        appBar: CpAppBar(
-          leading: backButton,
-          nextButton: nextButton,
-        ),
+        appBar: CpAppBar(leading: backButton, nextButton: nextButton),
         backgroundColor: CpColors.lightSandColor,
-        body: isScrollable
-            ? LayoutBuilder(
-                builder: (context, constraints) => SingleChildScrollView(
-                  physics: const RangeMaintainingScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints:
-                        BoxConstraints(minHeight: constraints.maxHeight),
-                    child: IntrinsicHeight(child: layout),
-                  ),
-                ),
-              )
-            : layout,
+        body:
+            isScrollable
+                ? LayoutBuilder(
+                  builder:
+                      (context, constraints) => SingleChildScrollView(
+                        physics: const RangeMaintainingScrollPhysics(),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                          child: IntrinsicHeight(child: layout),
+                        ),
+                      ),
+                )
+                : layout,
       ),
     );
     switch (backgroundStyle) {

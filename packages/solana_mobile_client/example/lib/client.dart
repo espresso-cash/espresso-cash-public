@@ -21,10 +21,7 @@ class ClientBloc extends Cubit<ClientState> {
   void _initializeClient() {
     final rpcUrl = state.isMainnet ? mainnetRpcUrl : testnetRpcUrl;
     final websocketUrl = state.isMainnet ? mainnetWsUrl : testnetWsUrl;
-    _solanaClient = SolanaClient(
-      rpcUrl: Uri.parse(rpcUrl),
-      websocketUrl: Uri.parse(websocketUrl),
-    );
+    _solanaClient = SolanaClient(rpcUrl: Uri.parse(rpcUrl), websocketUrl: Uri.parse(websocketUrl));
   }
 
   void updateNetwork({required bool isMainnet}) {
@@ -113,15 +110,11 @@ class ClientBloc extends Cubit<ClientState> {
       final signer = state.publicKey as Ed25519HDPublicKey;
 
       final addresses = [signer.bytes].map(Uint8List.fromList).toList();
-      final messages = _generateMessages(number: number, signer: signer)
-          .map(
-            (e) => e
-                .compile(recentBlockhash: '', feePayer: signer)
-                .toByteArray()
-                .toList(),
-          )
-          .map(Uint8List.fromList)
-          .toList();
+      final messages =
+          _generateMessages(number: number, signer: signer)
+              .map((e) => e.compile(recentBlockhash: '', feePayer: signer).toByteArray().toList())
+              .map(Uint8List.fromList)
+              .toList();
 
       await client.signMessages(messages: messages, addresses: addresses);
     }
@@ -137,14 +130,15 @@ class ClientBloc extends Cubit<ClientState> {
     if (await _doReauthorize(client)) {
       final signer = state.publicKey as Ed25519HDPublicKey;
 
-      final blockhash = await _solanaClient.rpcClient
-          .getLatestBlockhash()
-          .then((it) => it.value.blockhash);
-      final txs = _generateTransactions(
-        number: number,
-        signer: signer,
-        blockhash: blockhash,
-      ).map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList();
+      final blockhash = await _solanaClient.rpcClient.getLatestBlockhash().then(
+        (it) => it.value.blockhash,
+      );
+      final txs =
+          _generateTransactions(
+            number: number,
+            signer: signer,
+            blockhash: blockhash,
+          ).map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList();
 
       await client.signAndSendTransactions(transactions: txs);
     }
@@ -175,20 +169,18 @@ class ClientBloc extends Cubit<ClientState> {
     await session.close();
   }
 
-  Future<void> _doGenerateAndSignTransactions(
-    MobileWalletAdapterClient client,
-    int number,
-  ) async {
+  Future<void> _doGenerateAndSignTransactions(MobileWalletAdapterClient client, int number) async {
     final signer = state.publicKey as Ed25519HDPublicKey;
 
-    final blockhash = await _solanaClient.rpcClient
-        .getLatestBlockhash()
-        .then((it) => it.value.blockhash);
-    final txs = _generateTransactions(
-      number: number,
-      signer: signer,
-      blockhash: blockhash,
-    ).map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList();
+    final blockhash = await _solanaClient.rpcClient.getLatestBlockhash().then(
+      (it) => it.value.blockhash,
+    );
+    final txs =
+        _generateTransactions(
+          number: number,
+          signer: signer,
+          blockhash: blockhash,
+        ).map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList();
 
     await client.signTransactions(transactions: txs);
   }
@@ -263,18 +255,14 @@ List<SignedTx> _generateTransactions({
       .map(Message.only)
       .map(
         (e) => SignedTx(
-          compiledMessage:
-              e.compile(recentBlockhash: blockhash, feePayer: signer),
+          compiledMessage: e.compile(recentBlockhash: blockhash, feePayer: signer),
           signatures: [signature],
         ),
       )
       .toList();
 }
 
-List<Message> _generateMessages({
-  required int number,
-  required Ed25519HDPublicKey signer,
-}) =>
+List<Message> _generateMessages({required int number, required Ed25519HDPublicKey signer}) =>
     List.generate(
       number,
       (index) => MemoInstruction(signers: [signer], memo: 'Memo #$index'),

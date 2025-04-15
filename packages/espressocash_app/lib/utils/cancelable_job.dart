@@ -16,11 +16,7 @@ abstract class CancelableJob<T extends Object> {
 
     Future<void> finishTransaction() async {
       transaction
-        ..setMeasurement(
-          'backoff',
-          backoff.inSeconds,
-          unit: DurationSentryMeasurementUnit.second,
-        )
+        ..setMeasurement('backoff', backoff.inSeconds, unit: DurationSentryMeasurementUnit.second)
         ..setData('backoff', backoff.inSeconds);
       await transaction.finish();
     }

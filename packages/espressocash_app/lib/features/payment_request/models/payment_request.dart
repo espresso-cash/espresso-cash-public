@@ -32,32 +32,22 @@ extension SolanaPayRequestExt on SolanaPayRequest {
       scheme: 'https',
       path: '/',
       host: espressoCashLinkDomain,
-      queryParameters: {
-        't': 'espressopay',
-        'recipient': link.path,
-        ...link.queryParameters,
-      },
+      queryParameters: {'t': 'espressopay', 'recipient': link.path, ...link.queryParameters},
     );
   }
 
-  Future<CryptoAmount?> cryptoAmount(
-    Future<Token?> Function(String address) getToken,
-  ) async {
+  Future<CryptoAmount?> cryptoAmount(Future<Token?> Function(String address) getToken) async {
     final amount = this.amount;
     if (amount == null) return null;
 
     final splToken = this.splToken;
-    final token =
-        splToken == null ? Token.sol : await getToken(splToken.toBase58());
+    final token = splToken == null ? Token.sol : await getToken(splToken.toBase58());
 
     if (token == null) return null;
 
     final currency = CryptoCurrency(token: token);
 
-    return CryptoAmount(
-      cryptoCurrency: currency,
-      value: currency.decimalToInt(amount),
-    );
+    return CryptoAmount(cryptoCurrency: currency, value: currency.decimalToInt(amount));
   }
 
   String? get invoice => reference?.firstOrNull?.toBase58();

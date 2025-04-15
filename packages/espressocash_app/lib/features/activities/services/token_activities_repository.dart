@@ -13,9 +13,7 @@ class TokenActivitiesRepository {
   Stream<List<ActivityGroup>> watchTokenActivities(String tokenAddress) =>
       _repository.watchGroupedByDate(tokenAddress).map(_prepareActivityGroups);
 
-  List<ActivityGroup> _prepareActivityGroups(
-    Map<String, IList<TxCommon>> data,
-  ) {
+  List<ActivityGroup> _prepareActivityGroups(Map<String, IList<TxCommon>> data) {
     final sortedDates = data.keys.toList()..sort((a, b) => b.compareTo(a));
 
     return sortedDates.map((date) {
@@ -25,9 +23,7 @@ class TokenActivitiesRepository {
         final aCreated = a.created;
         final bCreated = b.created;
 
-        return (aCreated != null && bCreated != null)
-            ? bCreated.compareTo(aCreated)
-            : 0;
+        return (aCreated != null && bCreated != null) ? bCreated.compareTo(aCreated) : 0;
       });
 
       return ActivityGroup(date: date, transactions: sortedTxs);
@@ -36,10 +32,7 @@ class TokenActivitiesRepository {
 }
 
 class ActivityGroup {
-  const ActivityGroup({
-    required this.date,
-    required this.transactions,
-  });
+  const ActivityGroup({required this.date, required this.transactions});
 
   final String date;
   final IList<TxCommon> transactions;
