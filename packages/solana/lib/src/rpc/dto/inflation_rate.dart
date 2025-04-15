@@ -12,8 +12,7 @@ class InflationRate {
     required this.epoch,
   });
 
-  factory InflationRate.fromJson(Map<String, dynamic> json) =>
-      _$InflationRateFromJson(json);
+  factory InflationRate.fromJson(Map<String, dynamic> json) => _$InflationRateFromJson(json);
 
   /// Total inflation.
   final double total;

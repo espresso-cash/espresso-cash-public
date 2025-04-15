@@ -1,15 +1,6 @@
 import '../../../gen/assets.gen.dart';
 
-enum PaymentMethod {
-  visa,
-  mastercard,
-  applePay,
-  googlePay,
-  bank,
-  sepa,
-  pix,
-  swift,
-}
+enum PaymentMethod { visa, mastercard, applePay, googlePay, bank, sepa, pix, swift }
 
 extension PaymentMethodAssets on PaymentMethod {
   SvgGenImage get logo {

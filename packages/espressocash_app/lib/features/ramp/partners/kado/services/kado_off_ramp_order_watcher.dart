@@ -30,37 +30,37 @@ class KadoOffRampOrderWatcher implements RampWatcher {
         .whereNotNull()
         .asyncMap((order) => _client.getOrderStatus(order.partnerOrderId))
         .listen((event) async {
-      // ignore: prefer-early-return, cannot use
-      if (event.data case final data?) {
-        final statement = _db.update(_db.offRampOrderRows)
-          ..where(
-            (tbl) =>
-                tbl.id.equals(orderId) &
-                tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
-          );
-        final isCompleted = data.machineStatusField == MachineStatus.settled;
+          // ignore: prefer-early-return, cannot use
+          if (event.data case final data?) {
+            final statement = _db.update(_db.offRampOrderRows)..where(
+              (tbl) =>
+                  tbl.id.equals(orderId) &
+                  tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
+            );
+            final isCompleted = data.machineStatusField == MachineStatus.settled;
 
-        if (isCompleted) {
-          await _subscription?.cancel();
+            if (isCompleted) {
+              await _subscription?.cancel();
 
-          _analytics.rampCompleted(
-            partnerName: RampPartner.kado.name,
-            rampType: RampType.offRamp.name,
-            id: orderId,
-          );
-        }
+              _analytics.rampCompleted(
+                partnerName: RampPartner.kado.name,
+                rampType: RampType.offRamp.name,
+                id: orderId,
+              );
+            }
 
-        await statement.write(
-          OffRampOrderRowsCompanion(
-            machineStatus: Value(data.machineStatusField.name),
-            humanStatus: Value(data.humanStatusField),
-            status: isCompleted
-                ? const Value(OffRampOrderStatus.completed)
-                : const Value(OffRampOrderStatus.waitingForPartner),
-          ),
-        );
-      }
-    });
+            await statement.write(
+              OffRampOrderRowsCompanion(
+                machineStatus: Value(data.machineStatusField.name),
+                humanStatus: Value(data.humanStatusField),
+                status:
+                    isCompleted
+                        ? const Value(OffRampOrderStatus.completed)
+                        : const Value(OffRampOrderStatus.waitingForPartner),
+              ),
+            );
+          }
+        });
   }
 
   @override

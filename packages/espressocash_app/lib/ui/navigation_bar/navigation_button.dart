@@ -22,30 +22,29 @@ class CpNavigationButton extends StatelessWidget {
     final badge = this.badge;
 
     return LayoutBuilder(
-      builder: (context, constraints) => Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onPressed,
-          child: Stack(
-            alignment: Alignment.center,
-            clipBehavior: Clip.none,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: icon.svg(
-                  color: active ? CpColors.yellowColor : Colors.white,
-                ),
+      builder:
+          (context, constraints) => Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onPressed,
+              child: Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: icon.svg(color: active ? CpColors.yellowColor : Colors.white),
+                  ),
+                  if (badge != null && badge > 0)
+                    Positioned(
+                      top: 15,
+                      left: constraints.maxWidth / 2 + 30 / 2,
+                      child: _Badge(value: badge),
+                    ),
+                ],
               ),
-              if (badge != null && badge > 0)
-                Positioned(
-                  top: 15,
-                  left: constraints.maxWidth / 2 + 30 / 2,
-                  child: _Badge(value: badge),
-                ),
-            ],
+            ),
           ),
-        ),
-      ),
     );
   }
 }
@@ -57,21 +56,17 @@ class _Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 15,
-        height: 15,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-          color: CpColors.primaryColor,
-        ),
-        child: Center(
-          child: Text(
-            value.toString(),
-            style: const TextStyle(
-              fontSize: 10,
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      );
+    width: 15,
+    height: 15,
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(15)),
+      color: CpColors.primaryColor,
+    ),
+    child: Center(
+      child: Text(
+        value.toString(),
+        style: const TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.w500),
+      ),
+    ),
+  );
 }

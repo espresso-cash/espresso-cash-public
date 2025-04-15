@@ -16,16 +16,10 @@ import '../../currency/models/currency.dart';
 
 final _logger = Logger('RefreshBalanceWrapper');
 
-typedef RefreshBalancesBuilder = Widget Function(
-  BuildContext context,
-  AsyncCallback callback,
-);
+typedef RefreshBalancesBuilder = Widget Function(BuildContext context, AsyncCallback callback);
 
 class RefreshBalancesWrapper extends StatefulWidget {
-  const RefreshBalancesWrapper({
-    super.key,
-    required this.builder,
-  });
+  const RefreshBalancesWrapper({super.key, required this.builder});
 
   final RefreshBalancesBuilder builder;
 
@@ -34,9 +28,7 @@ class RefreshBalancesWrapper extends StatefulWidget {
 }
 
 class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
-  AsyncResult<void> _listenForProcessingStateAndThrowOnError(
-    Stream<ProcessingState> stream,
-  ) =>
+  AsyncResult<void> _listenForProcessingStateAndThrowOnError(Stream<ProcessingState> stream) =>
       stream
           .firstWhere(
             (state) => switch (state) {
@@ -56,9 +48,7 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
 
     if (tokens.isEmpty) return const Either.right(null);
 
-    return sl<ConversionRatesRepository>()
-        .refresh(defaultFiatCurrency, tokens)
-        .doOnLeftAsync((_) {
+    return sl<ConversionRatesRepository>().refresh(defaultFiatCurrency, tokens).doOnLeftAsync((_) {
       if (!mounted) return;
 
       _showConversionRatesFetchErrorToast(context);
@@ -85,32 +75,27 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   }
 
   Future<void> _onRefreshWithErrorHandling(BuildContext context) =>
-      _onPulledToRefreshBalances().doOnLeftAsync(
-        (error) {
-          if (error is BalancesRequestException) {
-            _showFetchBalancesErrorToast(context);
-          } else {
-            _logger.severe('Failed to update', error);
-          }
-        },
-      );
+      _onPulledToRefreshBalances().doOnLeftAsync((error) {
+        if (error is BalancesRequestException) {
+          _showFetchBalancesErrorToast(context);
+        } else {
+          _logger.severe('Failed to update', error);
+        }
+      });
 
   @override
-  Widget build(BuildContext context) => widget.builder(
-        context,
-        () => _onRefreshWithErrorHandling(context),
-      );
+  Widget build(BuildContext context) =>
+      widget.builder(context, () => _onRefreshWithErrorHandling(context));
 }
 
 void _showFetchBalancesErrorToast(BuildContext context) => showCpSnackbar(
-      context,
-      message: context.l10n.balances_lblConnectionError,
-      icon: Assets.icons.toastWarning.image(),
-    );
+  context,
+  message: context.l10n.balances_lblConnectionError,
+  icon: Assets.icons.toastWarning.image(),
+);
 
-void _showConversionRatesFetchErrorToast(BuildContext context) =>
-    showCpSnackbar(
-      context,
-      message: context.l10n.weWereUnableToFetchTokenPrice,
-      icon: Assets.icons.toastWarning.image(),
-    );
+void _showConversionRatesFetchErrorToast(BuildContext context) => showCpSnackbar(
+  context,
+  message: context.l10n.weWereUnableToFetchTokenPrice,
+  icon: Assets.icons.toastWarning.image(),
+);

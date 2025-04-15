@@ -6,11 +6,7 @@ part 'simple_instruction.g.dart';
 
 @JsonSerializable()
 class SimpleInstruction implements Instruction {
-  const SimpleInstruction({
-    required this.programId,
-    required this.data,
-    required this.accounts,
-  });
+  const SimpleInstruction({required this.programId, required this.data, required this.accounts});
 
   factory SimpleInstruction.fromJson(Map<String, dynamic> json) =>
       _$SimpleInstructionFromJson(json);

@@ -28,11 +28,8 @@ extension FiatAmountExt on FiatAmount {
 
     if (rate == null) return null;
 
-    final inverted = rate.inverse.toDecimal(
-      scaleOnInfinitePrecision: token.decimals,
-    );
+    final inverted = rate.inverse.toDecimal(scaleOnInfinitePrecision: token.decimals);
 
-    return convert(rate: inverted, to: CryptoCurrency(token: token))
-        as CryptoAmount;
+    return convert(rate: inverted, to: CryptoCurrency(token: token)) as CryptoAmount;
   }
 }

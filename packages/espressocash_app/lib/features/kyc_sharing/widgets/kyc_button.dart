@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../ui/colors.dart';
 import '../models/kyc_validation_status.dart';
@@ -14,6 +13,7 @@ class KycButton extends StatelessWidget {
     this.textColor = CpColors.lightGreyBackground,
     this.iconColor,
     this.backgroundColor,
+    this.icon = Icons.chevron_right,
     this.showIcon = true,
     this.centerText = false,
     this.status,
@@ -25,9 +25,10 @@ class KycButton extends StatelessWidget {
   final Color textColor;
   final Color? backgroundColor;
   final Color? iconColor;
+  final IconData? icon;
   final bool showIcon;
   final bool centerText;
-  final ValidationStatus? status;
+  final KycValidationStatus? status;
 
   @override
   Widget build(BuildContext context) {
@@ -39,34 +40,27 @@ class KycButton extends StatelessWidget {
       onTap: onPressed,
       title: Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment:
-            centerText ? MainAxisAlignment.center : MainAxisAlignment.start,
+        mainAxisAlignment: centerText ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
           Flexible(
             child: Text(
               label,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(color: textColor, fontSize: 17, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(width: 8),
-          if (status != null) KycStatusWidget(status.toKycValidationStatus()),
+          if (status != null) KycStatusWidget(status),
         ],
       ),
-      subtitle: description != null
-          ? Text(
-              description,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-            )
-          : null,
-      trailing: showIcon ? Icon(Icons.chevron_right, color: iconColor) : null,
+      subtitle:
+          description != null
+              ? Text(
+                description,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              )
+              : null,
+      trailing: showIcon ? Icon(icon, color: iconColor) : null,
     );
   }
 }

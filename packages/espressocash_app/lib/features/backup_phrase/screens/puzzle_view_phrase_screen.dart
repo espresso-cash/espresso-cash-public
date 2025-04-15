@@ -9,10 +9,7 @@ import '../../../../ui/theme.dart';
 import '../../accounts/data/account_repository.dart';
 
 class PuzzleViewPhraseScreen extends StatefulWidget {
-  const PuzzleViewPhraseScreen({
-    super.key,
-    required this.onConfirmed,
-  });
+  const PuzzleViewPhraseScreen({super.key, required this.onConfirmed});
 
   final ValueSetter<String> onConfirmed;
 
@@ -35,22 +32,20 @@ class _PuzzleViewPhraseScreenState extends State<PuzzleViewPhraseScreen> {
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          body: OnboardingScreen(
-            footer: OnboardingFooterButton(
-              text: context.l10n.next,
-              onPressed: () => widget.onConfirmed(_phrase),
-            ),
-            children: [
-              const CpAppBar(),
-              const OnboardingLogo(),
-              OnboardingTitle(text: context.l10n.yourRecoveryPhrase),
-              OnboardingDescription(text: context.l10n.yourRecoveryPhraseSub),
-              OnboardingPadding(
-                child: RecoveryPhraseTextView(phrase: _phrase),
-              ),
-            ],
-          ),
+    child: Scaffold(
+      body: OnboardingScreen(
+        footer: OnboardingFooterButton(
+          text: context.l10n.next,
+          onPressed: () => widget.onConfirmed(_phrase),
         ),
-      );
+        children: [
+          const CpAppBar(),
+          const OnboardingLogo(),
+          OnboardingTitle(text: context.l10n.yourRecoveryPhrase),
+          OnboardingDescription(text: context.l10n.yourRecoveryPhraseSub),
+          OnboardingPadding(child: RecoveryPhraseTextView(phrase: _phrase)),
+        ],
+      ),
+    ),
+  );
 }

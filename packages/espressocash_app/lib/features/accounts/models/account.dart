@@ -7,10 +7,7 @@ part 'account.freezed.dart';
 
 @freezed
 class MyAccount with _$MyAccount {
-  const factory MyAccount({
-    required ECWallet wallet,
-    required AccessMode accessMode,
-  }) = _MyAccount;
+  const factory MyAccount({required ECWallet wallet, required AccessMode accessMode}) = _MyAccount;
 
   const MyAccount._();
 

@@ -11,11 +11,7 @@ Future<LocalWallet> createLocalWallet({required String mnemonic}) async {
 }
 
 Future<Ed25519HDKeyPair> _createKeyPair(KeyPairParams params) =>
-    Ed25519HDKeyPair.fromMnemonic(
-      params.mnemonic,
-      change: params.change,
-      account: params.account,
-    );
+    Ed25519HDKeyPair.fromMnemonic(params.mnemonic, change: params.change, account: params.account);
 
 @immutable
 class KeyPairParams {
@@ -26,9 +22,7 @@ class KeyPairParams {
   final int change;
 }
 
-Future<Wallet> walletFromKey({
-  required String encodedKey,
-}) {
+Future<Wallet> walletFromKey({required String encodedKey}) {
   final key = ByteArray.fromBase58(encodedKey).toList();
 
   return Wallet.fromPrivateKeyBytes(privateKey: key);

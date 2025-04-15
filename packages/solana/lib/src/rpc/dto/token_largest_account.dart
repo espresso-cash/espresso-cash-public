@@ -24,12 +24,8 @@ class TokenLargestAccount {
 }
 
 @JsonSerializable()
-class TokenLargestAccountsResult
-    extends ContextResult<List<TokenLargestAccount>> {
-  const TokenLargestAccountsResult({
-    required super.context,
-    required super.value,
-  });
+class TokenLargestAccountsResult extends ContextResult<List<TokenLargestAccount>> {
+  const TokenLargestAccountsResult({required super.context, required super.value});
 
   factory TokenLargestAccountsResult.fromJson(Map<String, dynamic> json) =>
       _$TokenLargestAccountsResultFromJson(json);

@@ -9,8 +9,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.27.4"
-  DART_VERSION: "3.6.2"
+  FLUTTER_VERSION: "3.29.2"
+  DART_VERSION: "3.7.0"
   DCM_VERSION: "1.17.0"
 
 jobs:
@@ -19,12 +19,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1.6.5
+      - uses: dart-lang/setup-dart@v1.7.1
         with:
           sdk: ${{ env.DART_VERSION }}
 
       - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed .
+        run: dart format --output=none --set-exit-if-changed --line-length=100 .
 
   dart_libs:
     needs: [formatting]
@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1.6.5
+      - uses: dart-lang/setup-dart@v1.7.1
         with:
           sdk: ${{ env.DART_VERSION }}
 

@@ -17,12 +17,11 @@ class AnchorInstruction extends Instruction {
     required ByteArray discriminator,
     required List<AccountMeta> accounts,
     ByteArray arguments = const ByteArray.empty(),
-  }) =>
-      AnchorInstruction._(
-        programId: programId,
-        accounts: accounts,
-        data: ByteArray(discriminator.followedBy(arguments)),
-      );
+  }) => AnchorInstruction._(
+    programId: programId,
+    accounts: accounts,
+    data: ByteArray(discriminator.followedBy(arguments)),
+  );
 
   static Future<AnchorInstruction> forMethod({
     required Ed25519HDPublicKey programId,
@@ -30,12 +29,11 @@ class AnchorInstruction extends Instruction {
     required String namespace,
     required List<AccountMeta> accounts,
     ByteArray arguments = const ByteArray.empty(),
-  }) async =>
-      AnchorInstruction._(
-        programId: programId,
-        accounts: accounts,
-        data: await arguments.addDiscriminator(namespace, method),
-      );
+  }) async => AnchorInstruction._(
+    programId: programId,
+    accounts: accounts,
+    data: await arguments.addDiscriminator(namespace, method),
+  );
 
   @override
   String toString() => hex.encode(data.toList(growable: false));

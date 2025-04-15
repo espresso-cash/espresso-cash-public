@@ -8,11 +8,7 @@ import '../../../../ui/theme.dart';
 import '../widgets/grid_phrase.dart';
 
 class PuzzleInputScreen extends StatefulWidget {
-  const PuzzleInputScreen({
-    super.key,
-    required this.correctPhrase,
-    required this.onConfirmed,
-  });
+  const PuzzleInputScreen({super.key, required this.correctPhrase, required this.onConfirmed});
 
   final String correctPhrase;
   final VoidCallback onConfirmed;
@@ -33,18 +29,14 @@ class _PuzzleInputScreenState extends State<PuzzleInputScreen> {
         body: OnboardingScreen(
           footer: OnboardingFooterButton(
             text: context.l10n.next,
-            onPressed:
-                _currentPhrase == correctPhrase ? widget.onConfirmed : null,
+            onPressed: _currentPhrase == correctPhrase ? widget.onConfirmed : null,
           ),
           children: [
             const CpAppBar(),
             const OnboardingLogo(),
             OnboardingDescription(text: context.l10n.completeThePuzzle),
             OnboardingPadding(
-              child: RecoveryPhraseTextView(
-                phrase: _currentPhrase,
-                hasCopyButton: false,
-              ),
+              child: RecoveryPhraseTextView(phrase: _currentPhrase, hasCopyButton: false),
             ),
             const SizedBox(height: 32),
             SizedBox(

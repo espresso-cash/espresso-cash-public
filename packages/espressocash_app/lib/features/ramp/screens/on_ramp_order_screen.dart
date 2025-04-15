@@ -29,19 +29,13 @@ import '../widgets/on_ramp_deposit_widget.dart';
 class OnRampOrderScreen extends StatefulWidget {
   const OnRampOrderScreen({super.key, required this.orderId});
 
-  static void push(BuildContext context, {required String id}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => OnRampOrderScreen(orderId: id),
-        ),
-      );
+  static void push(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => OnRampOrderScreen(orderId: id)));
 
-  static void pushReplacement(BuildContext context, {required String id}) =>
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(
-          builder: (context) => OnRampOrderScreen(orderId: id),
-        ),
-      );
+  static void pushReplacement(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).pushReplacement(MaterialPageRoute<void>(builder: (context) => OnRampOrderScreen(orderId: id)));
 
   final String orderId;
 
@@ -60,22 +54,19 @@ class _OnRampOrderScreenState extends State<OnRampOrderScreen> {
 
   @override
   Widget build(BuildContext context) => StreamBuilder(
-        stream: _stream,
-        builder: (context, snapshot) {
-          final order = snapshot.data;
+    stream: _stream,
+    builder: (context, snapshot) {
+      final order = snapshot.data;
 
-          return order == null
-              ? TransferProgress(onBack: () => Navigator.pop(context))
-              : OnRampOrderScreenContent(order: order);
-        },
-      );
+      return order == null
+          ? TransferProgress(onBack: () => Navigator.pop(context))
+          : OnRampOrderScreenContent(order: order);
+    },
+  );
 }
 
 class OnRampOrderScreenContent extends StatelessWidget {
-  const OnRampOrderScreenContent({
-    super.key,
-    required this.order,
-  });
+  const OnRampOrderScreenContent({super.key, required this.order});
 
   final OnRampOrder order;
 
@@ -85,19 +76,13 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final bool isManualBankTransfer = manualDeposit != null;
     final isMoneygramOrder = order.partner == RampPartner.moneygram;
 
-    final theme = isMoneygramOrder
-        ? const CpThemeData.light()
-        : const CpThemeData.black();
+    final theme = isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.black();
 
     if (order.status == OnRampOrderStatus.pending) {
-      return CpTheme(
-        theme: theme,
-        child: TransferProgress(onBack: () => Navigator.pop(context)),
-      );
+      return CpTheme(theme: theme, child: TransferProgress(onBack: () => Navigator.pop(context)));
     }
 
-    if (order.status == OnRampOrderStatus.waitingForDeposit &&
-        isManualBankTransfer) {
+    if (order.status == OnRampOrderStatus.waitingForDeposit && isManualBankTransfer) {
       return OnRampDepositWidget(
         partner: order.partner,
         deposit: (
@@ -116,9 +101,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final locale = DeviceLocale.localeOf(context);
     final amount = order.receiveAmount ?? order.submittedAmount;
 
-    final String? statusTitle = order.status == OnRampOrderStatus.completed
-        ? context.l10n.transferSuccessTitle
-        : null;
+    final String? statusTitle =
+        order.status == OnRampOrderStatus.completed ? context.l10n.transferSuccessTitle : null;
 
     final String statusContent = switch (order.status) {
       OnRampOrderStatus.pending ||
@@ -126,23 +110,19 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.waitingForBridge ||
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.postProcessing ||
-      OnRampOrderStatus.waitingForPartner =>
-        context.l10n
-            .onRampDepositOngoing(amount.format(locale, maxDecimals: 2)),
+      OnRampOrderStatus.waitingForPartner => context.l10n.onRampDepositOngoing(
+        amount.format(locale, maxDecimals: 2),
+      ),
       OnRampOrderStatus.depositExpired => context.l10n.onRampDepositExpired,
-      OnRampOrderStatus.failure ||
-      OnRampOrderStatus.rejected =>
-        context.l10n.onRampDepositFailure,
+      OnRampOrderStatus.failure || OnRampOrderStatus.rejected => context.l10n.onRampDepositFailure,
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
       OnRampOrderStatus.waitingPartnerReview => 'Waiting for partner review',
     };
 
     final String? statusSubtitle = switch (order.status) {
       OnRampOrderStatus.waitingForPartner ||
-      OnRampOrderStatus.postProcessing =>
-        context.l10n.onRampAwaitingFunds,
-      OnRampOrderStatus.waitingForBridge =>
-        context.l10n.transferInProgressText(3),
+      OnRampOrderStatus.postProcessing => context.l10n.onRampAwaitingFunds,
+      OnRampOrderStatus.waitingForBridge => context.l10n.transferInProgressText(3),
       OnRampOrderStatus.pending ||
       OnRampOrderStatus.preProcessing ||
       OnRampOrderStatus.waitingForDeposit ||
@@ -150,16 +130,13 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.failure ||
       OnRampOrderStatus.rejected ||
       OnRampOrderStatus.waitingPartnerReview ||
-      OnRampOrderStatus.completed =>
-        null
+      OnRampOrderStatus.completed => null,
     };
 
-    final Widget? primaryButton = order.status == OnRampOrderStatus.failure
-        ? const _ContactUsButton()
-        : null;
+    final Widget? primaryButton =
+        order.status == OnRampOrderStatus.failure ? const _ContactUsButton() : null;
 
-    final depositAmount =
-        manualDeposit?.transferAmount ?? order.submittedAmount;
+    final depositAmount = manualDeposit?.transferAmount ?? order.submittedAmount;
 
     final showCancelButton = order.status.isCancellable;
 
@@ -173,10 +150,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
           Text(statusContent),
           if (statusSubtitle != null) ...[
             const SizedBox(height: 8),
-            Text(
-              statusSubtitle,
-              style: _contentSubtitleTextStyle,
-            ),
+            Text(statusSubtitle, style: _contentSubtitleTextStyle),
           ],
         ],
       ),
@@ -199,10 +173,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
                 status: order.status.toMoneygramStatus(),
               ),
             PartnerOrderIdWidget(orderId: order.partnerOrderId),
-            if (primaryButton != null) ...[
-              const SizedBox(height: 12),
-              primaryButton,
-            ],
+            if (primaryButton != null) ...[const SizedBox(height: 12), primaryButton],
             Visibility(
               visible: showCancelButton,
               maintainSize: true,
@@ -224,11 +195,12 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: CpTextButton(
-          text: context.l10n.onRampCancelTitle,
-          variant: CpTextButtonVariant.light,
-          onPressed: () => showConfirmationDialog(
+    padding: const EdgeInsets.symmetric(vertical: 12),
+    child: CpTextButton(
+      text: context.l10n.onRampCancelTitle,
+      variant: CpTextButtonVariant.light,
+      onPressed:
+          () => showConfirmationDialog(
             context,
             title: context.l10n.onRampCancelTitle.toUpperCase(),
             message: context.l10n.onRampCancelSubtitle,
@@ -237,8 +209,8 @@ class _CancelButton extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-        ),
-      );
+    ),
+  );
 }
 
 class _ContactUsButton extends StatelessWidget {
@@ -246,49 +218,42 @@ class _ContactUsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpButton(
-        size: CpButtonSize.big,
-        width: double.infinity,
-        text: context.l10n.contactUs,
-        onPressed: () => sl<IntercomService>().displayMessenger(),
-      );
+    size: CpButtonSize.big,
+    width: double.infinity,
+    text: context.l10n.contactUs,
+    onPressed: () => sl<IntercomService>().displayMessenger(),
+  );
 }
 
 class _MgAdditionalInfo extends StatelessWidget {
-  const _MgAdditionalInfo({
-    required this.details,
-    required this.status,
-  });
+  const _MgAdditionalInfo({required this.details, required this.status});
   final AdditionalDetails details;
   final String status;
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          if (details.fee case final fee?)
-            Text(
-              'MoneyGram Fee: ${fee.format(context.locale, maxDecimals: 2)}',
-              style: _additionalInfoTextStyle,
-            ),
-          Text(
-            'Status: ${status.toUpperCase()}',
+    children: [
+      if (details.fee case final fee?)
+        Text(
+          'MoneyGram Fee: ${fee.format(context.locale, maxDecimals: 2)}',
+          style: _additionalInfoTextStyle,
+        ),
+      Text('Status: ${status.toUpperCase()}', style: _additionalInfoTextStyle),
+      if (details.moreInfoUrl case final moreInfoUrl?)
+        Text.rich(
+          TextSpan(
             style: _additionalInfoTextStyle,
-          ),
-          if (details.moreInfoUrl case final moreInfoUrl?)
-            Text.rich(
+            children: <TextSpan>[
+              const TextSpan(text: 'Additional info: '),
               TextSpan(
-                style: _additionalInfoTextStyle,
-                children: <TextSpan>[
-                  const TextSpan(
-                    text: 'Additional info: ',
-                  ),
-                  TextSpan(
-                    text: 'Click here',
-                    style: const TextStyle(
-                      color: Color(0xffCB6E00),
-                      decoration: TextDecoration.underline,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    recognizer: TapGestureRecognizer()
+                text: 'Click here',
+                style: const TextStyle(
+                  color: Color(0xffCB6E00),
+                  decoration: TextDecoration.underline,
+                  fontWeight: FontWeight.bold,
+                ),
+                recognizer:
+                    TapGestureRecognizer()
                       ..onTap = () {
                         WebViewScreen.push(
                           context,
@@ -296,23 +261,18 @@ class _MgAdditionalInfo extends StatelessWidget {
                           title: context.l10n.depositTitle.toUpperCase(),
                           theme: const CpThemeData.light(),
                           onLoaded: (controller) async {
-                            await controller.evaluateJavascript(
-                              source: await loadMoneygramStyle(),
-                            );
+                            await controller.evaluateJavascript(source: await loadMoneygramStyle());
                           },
                         );
                       },
-                  ),
-                ],
               ),
-            ),
-          if (details.referenceNumber case final referenceNumber?)
-            Text(
-              'Reference number: $referenceNumber',
-              style: _additionalInfoTextStyle,
-            ),
-        ],
-      );
+            ],
+          ),
+        ),
+      if (details.referenceNumber case final referenceNumber?)
+        Text('Reference number: $referenceNumber', style: _additionalInfoTextStyle),
+    ],
+  );
 }
 
 class _Timeline extends StatelessWidget {
@@ -347,35 +307,31 @@ class _Timeline extends StatelessWidget {
     );
 
     final isScalexBrij = partner == RampPartner.scalexBrij;
-    final brijAmountArriving = CpTimelineItem(
-      title: context.l10n.scalexBrijOnrampArriving,
-    );
+    final brijAmountArriving = CpTimelineItem(title: context.l10n.scalexBrijOnrampArriving);
 
-    final amountReceived = isScalexBrij
-        ? brijAmountArriving
-        : CpTimelineItem(
-            title: context.l10n.onRampDepositReceived,
-            trailing: receiveAmount?.format(context.locale, maxDecimals: 2),
-          );
+    final amountReceived =
+        isScalexBrij
+            ? brijAmountArriving
+            : CpTimelineItem(
+              title: context.l10n.onRampDepositReceived,
+              trailing: receiveAmount?.format(context.locale, maxDecimals: 2),
+            );
 
     CpTimelineItem? deposited;
     if (isManualBankTransfer) {
       deposited = CpTimelineItem(
-        title: partner == RampPartner.moneygram
-            ? 'Deposited to MoneyGram'
-            : context.l10n.onRampLocalTransferTile(
-                manualDeposit.transferAmount.format(context.locale),
-                manualDeposit.bankName,
-                manualDeposit.bankAccount,
-              ),
+        title:
+            partner == RampPartner.moneygram
+                ? 'Deposited to MoneyGram'
+                : context.l10n.onRampLocalTransferTile(
+                  manualDeposit.transferAmount.format(context.locale),
+                  manualDeposit.bankName,
+                  manualDeposit.bankAccount,
+                ),
       );
     }
 
-    final items = [
-      depositInitiated,
-      if (deposited != null) deposited,
-      amountReceived,
-    ];
+    final items = [depositInitiated, if (deposited != null) deposited, amountReceived];
 
     return CpTimeline(
       status: timelineStatus,
@@ -388,66 +344,59 @@ class _Timeline extends StatelessWidget {
 
 extension on OnRampOrderStatus {
   CpStatusType toStatusType() => switch (this) {
-        OnRampOrderStatus.pending ||
-        OnRampOrderStatus.preProcessing ||
-        OnRampOrderStatus.postProcessing ||
-        OnRampOrderStatus.waitingForBridge ||
-        OnRampOrderStatus.waitingPartnerReview ||
-        OnRampOrderStatus.waitingForDeposit ||
-        OnRampOrderStatus.waitingForPartner =>
-          CpStatusType.info,
-        OnRampOrderStatus.depositExpired ||
-        OnRampOrderStatus.failure ||
-        OnRampOrderStatus.rejected =>
-          CpStatusType.error,
-        OnRampOrderStatus.completed => CpStatusType.success,
-      };
+    OnRampOrderStatus.pending ||
+    OnRampOrderStatus.preProcessing ||
+    OnRampOrderStatus.postProcessing ||
+    OnRampOrderStatus.waitingForBridge ||
+    OnRampOrderStatus.waitingPartnerReview ||
+    OnRampOrderStatus.waitingForDeposit ||
+    OnRampOrderStatus.waitingForPartner => CpStatusType.info,
+    OnRampOrderStatus.depositExpired ||
+    OnRampOrderStatus.failure ||
+    OnRampOrderStatus.rejected => CpStatusType.error,
+    OnRampOrderStatus.completed => CpStatusType.success,
+  };
 
   CpTimelineStatus toTimelineStatus() => switch (this) {
-        OnRampOrderStatus.pending ||
-        OnRampOrderStatus.preProcessing ||
-        OnRampOrderStatus.postProcessing ||
-        OnRampOrderStatus.waitingForBridge ||
-        OnRampOrderStatus.waitingPartnerReview ||
-        OnRampOrderStatus.waitingForDeposit ||
-        OnRampOrderStatus.waitingForPartner =>
-          CpTimelineStatus.inProgress,
-        OnRampOrderStatus.depositExpired ||
-        OnRampOrderStatus.failure ||
-        OnRampOrderStatus.rejected =>
-          CpTimelineStatus.failure,
-        OnRampOrderStatus.completed => CpTimelineStatus.success,
-      };
+    OnRampOrderStatus.pending ||
+    OnRampOrderStatus.preProcessing ||
+    OnRampOrderStatus.postProcessing ||
+    OnRampOrderStatus.waitingForBridge ||
+    OnRampOrderStatus.waitingPartnerReview ||
+    OnRampOrderStatus.waitingForDeposit ||
+    OnRampOrderStatus.waitingForPartner => CpTimelineStatus.inProgress,
+    OnRampOrderStatus.depositExpired ||
+    OnRampOrderStatus.failure ||
+    OnRampOrderStatus.rejected => CpTimelineStatus.failure,
+    OnRampOrderStatus.completed => CpTimelineStatus.success,
+  };
 
   int toActiveItem() => switch (this) {
-        OnRampOrderStatus.pending ||
-        OnRampOrderStatus.preProcessing ||
-        OnRampOrderStatus.depositExpired ||
-        OnRampOrderStatus.waitingForDeposit ||
-        OnRampOrderStatus.rejected =>
-          0,
-        OnRampOrderStatus.waitingPartnerReview ||
-        OnRampOrderStatus.waitingForPartner ||
-        OnRampOrderStatus.postProcessing ||
-        OnRampOrderStatus.waitingForBridge ||
-        OnRampOrderStatus.failure ||
-        OnRampOrderStatus.completed =>
-          1,
-      };
+    OnRampOrderStatus.pending ||
+    OnRampOrderStatus.preProcessing ||
+    OnRampOrderStatus.depositExpired ||
+    OnRampOrderStatus.waitingForDeposit ||
+    OnRampOrderStatus.rejected => 0,
+    OnRampOrderStatus.waitingPartnerReview ||
+    OnRampOrderStatus.waitingForPartner ||
+    OnRampOrderStatus.postProcessing ||
+    OnRampOrderStatus.waitingForBridge ||
+    OnRampOrderStatus.failure ||
+    OnRampOrderStatus.completed => 1,
+  };
 
   String toMoneygramStatus() => switch (this) {
-        OnRampOrderStatus.pending ||
-        OnRampOrderStatus.preProcessing ||
-        OnRampOrderStatus.waitingForBridge ||
-        OnRampOrderStatus.waitingPartnerReview ||
-        OnRampOrderStatus.waitingForDeposit ||
-        OnRampOrderStatus.postProcessing ||
-        OnRampOrderStatus.waitingForPartner =>
-          'Pending',
-        OnRampOrderStatus.depositExpired => 'Expired',
-        OnRampOrderStatus.rejected || OnRampOrderStatus.failure => 'Failed',
-        OnRampOrderStatus.completed => 'Completed',
-      };
+    OnRampOrderStatus.pending ||
+    OnRampOrderStatus.preProcessing ||
+    OnRampOrderStatus.waitingForBridge ||
+    OnRampOrderStatus.waitingPartnerReview ||
+    OnRampOrderStatus.waitingForDeposit ||
+    OnRampOrderStatus.postProcessing ||
+    OnRampOrderStatus.waitingForPartner => 'Pending',
+    OnRampOrderStatus.depositExpired => 'Expired',
+    OnRampOrderStatus.rejected || OnRampOrderStatus.failure => 'Failed',
+    OnRampOrderStatus.completed => 'Completed',
+  };
 }
 
 const _contentSubtitleTextStyle = TextStyle(
@@ -456,7 +405,4 @@ const _contentSubtitleTextStyle = TextStyle(
   letterSpacing: 0.23,
 );
 
-const _additionalInfoTextStyle = TextStyle(
-  color: Color(0xFF979593),
-  fontSize: 14,
-);
+const _additionalInfoTextStyle = TextStyle(color: Color(0xFF979593), fontSize: 14);

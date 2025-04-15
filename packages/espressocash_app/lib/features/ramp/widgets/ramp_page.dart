@@ -6,12 +6,7 @@ import '../../../ui/form_page.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 
 class RampPage extends StatelessWidget {
-  const RampPage({
-    super.key,
-    required this.type,
-    required this.header,
-    required this.child,
-  });
+  const RampPage({super.key, required this.type, required this.header, required this.child});
 
   final RampType type;
   final Widget header;

@@ -23,8 +23,7 @@ mixin _$Test1 {
     const BU64().write(writer, bigIntValue);
     const BFixedArray(3, BString()).write(writer, listOfStrings);
     const BFixedArray(3, BU8()).write(writer, listOfInts);
-    const BFixedArray(3, BFixedArray(2, BU8()))
-        .write(writer, listOfListsOfInts);
+    const BFixedArray(3, BFixedArray(2, BU8())).write(writer, listOfListsOfInts);
     const BArray(BString()).write(writer, dynamicListOfStrings);
 
     return writer.toArray();
@@ -67,8 +66,7 @@ class BTest1 implements BType<Test1> {
       bigIntValue: const BU64().read(reader),
       listOfStrings: const BFixedArray(3, BString()).read(reader),
       listOfInts: const BFixedArray(3, BU8()).read(reader),
-      listOfListsOfInts:
-          const BFixedArray(3, BFixedArray(2, BU8())).read(reader),
+      listOfListsOfInts: const BFixedArray(3, BFixedArray(2, BU8())).read(reader),
       dynamicListOfStrings: const BArray(BString()).read(reader),
     );
   }
@@ -95,10 +93,7 @@ mixin _$SimpleStruct {
 }
 
 class _SimpleStruct extends SimpleStruct {
-  _SimpleStruct({
-    required this.stringValue,
-    required this.intValue,
-  }) : super._();
+  _SimpleStruct({required this.stringValue, required this.intValue}) : super._();
 
   final String stringValue;
   final int intValue;
@@ -142,10 +137,7 @@ mixin _$CompositeStruct {
 }
 
 class _CompositeStruct extends CompositeStruct {
-  _CompositeStruct({
-    required this.intValue,
-    required this.simpleStruct,
-  }) : super._();
+  _CompositeStruct({required this.intValue, required this.simpleStruct}) : super._();
 
   final int intValue;
   final SimpleStruct simpleStruct;
@@ -189,10 +181,7 @@ mixin _$StructWithOption {
 }
 
 class _StructWithOption extends StructWithOption {
-  _StructWithOption({
-    required this.stringValue,
-    required this.option,
-  }) : super._();
+  _StructWithOption({required this.stringValue, required this.option}) : super._();
 
   final String stringValue;
   final String? option;

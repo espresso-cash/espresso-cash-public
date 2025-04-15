@@ -18,8 +18,10 @@ extension BuildContextExt on BuildContext {
   Future<void> openMoneygramWithdrawUrl(OffRampOrder order) async {
     final withdrawUrl = await runWithLoader<String?>(
       this,
-      () async => sl<MoneygramOffRampOrderService>()
-          .getWithdrawUrl(order: order, languageCode: locale.languageCode),
+      () async => sl<MoneygramOffRampOrderService>().getWithdrawUrl(
+        order: order,
+        languageCode: locale.languageCode,
+      ),
     );
 
     if (withdrawUrl == null) {
@@ -40,9 +42,7 @@ extension BuildContextExt on BuildContext {
           orderWasCreated = true;
 
           Navigator.pop(this);
-          await sl<MoneygramOffRampOrderService>().updateMoneygramOrder(
-            id: order.id,
-          );
+          await sl<MoneygramOffRampOrderService>().updateMoneygramOrder(id: order.id);
         },
       );
       await controller.evaluateJavascript(
@@ -63,9 +63,7 @@ window.addEventListener("message", (event) => {
     );
 
     if (!orderWasCreated) {
-      await sl<MoneygramOffRampOrderService>().updateMoneygramOrder(
-        id: order.id,
-      );
+      await sl<MoneygramOffRampOrderService>().updateMoneygramOrder(id: order.id);
     }
   }
 
@@ -76,9 +74,7 @@ window.addEventListener("message", (event) => {
       title: l10n.offRampWithdrawTitle.toUpperCase(),
       theme: const CpThemeData.light(),
       onLoaded: (controller) async {
-        await controller.evaluateJavascript(
-          source: await loadMoneygramStyle(),
-        );
+        await controller.evaluateJavascript(source: await loadMoneygramStyle());
       },
     );
 

@@ -35,16 +35,14 @@ sealed class PuzzleReminderEvent with _$PuzzleReminderEvent {
   const factory PuzzleReminderEvent.solved() = PuzzleReminderEventSolved;
 
   /// Indicates that the user postponed the puzzle
-  const factory PuzzleReminderEvent.postponed({
-    required Duration postponedBy,
-  }) = PuzzleReminderEventPostponed;
+  const factory PuzzleReminderEvent.postponed({required Duration postponedBy}) =
+      PuzzleReminderEventPostponed;
 }
 
 @Singleton(scope: authScope)
 class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState>
     with DisposableBloc {
-  PuzzleReminderBloc(this._sharedPreferences)
-      : super(const PuzzleReminderState.none()) {
+  PuzzleReminderBloc(this._sharedPreferences) : super(const PuzzleReminderState.none()) {
     on<PuzzleReminderEvent>(_eventHandler, transformer: sequential());
   }
 
@@ -52,20 +50,17 @@ class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState>
 
   EventHandler<PuzzleReminderEvent, PuzzleReminderState> get _eventHandler =>
       (event, emit) => switch (event) {
-            PuzzleReminderEventCheckRequested() =>
-              _onCheckRequested(event, emit),
-            PuzzleReminderEventSolved() => _onSolved(),
-            PuzzleReminderEventPostponed() => _onPostponed(event),
-          };
+        PuzzleReminderEventCheckRequested() => _onCheckRequested(event, emit),
+        PuzzleReminderEventSolved() => _onSolved(),
+        PuzzleReminderEventPostponed() => _onPostponed(event),
+      };
 
   PuzzleReminderData _readSharedPreferences() {
     final content = _sharedPreferences.getString(_spKey);
 
     return content == null
         ? const PuzzleReminderData.unset()
-        : PuzzleReminderData.fromJson(
-            json.decode(content) as Map<String, dynamic>,
-          );
+        : PuzzleReminderData.fromJson(json.decode(content) as Map<String, dynamic>);
   }
 
   Future<void> _writeSharedPreferences(PuzzleReminderData data) =>
@@ -84,9 +79,7 @@ class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState>
       // Don't set a reminder if user logged in (they already know the seed)
       seedInputted: () async => add(const PuzzleReminderEvent.solved()),
       // Postpone the reminder by 1 day if user created account now
-      created: () async => add(
-        const PuzzleReminderEvent.postponed(postponedBy: Duration(days: 1)),
-      ),
+      created: () async => add(const PuzzleReminderEvent.postponed(postponedBy: Duration(days: 1))),
       // Check for reminder if user account was loaded from storage
       loaded: () async {
         final data = _readSharedPreferences();
@@ -102,14 +95,11 @@ class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState>
   /// Mark the reminder as postponed and set a date time in which to remind
   Future<void> _onPostponed(PuzzleReminderEventPostponed event) async {
     final newDate = DateTime.now().add(event.postponedBy);
-    await _writeSharedPreferences(
-      PuzzleReminderData.remindAfter(remindAt: newDate),
-    );
+    await _writeSharedPreferences(PuzzleReminderData.remindAfter(remindAt: newDate));
   }
 
   /// Mark the puzzle as solved and never ask again
-  Future<void> _onSolved() =>
-      _writeSharedPreferences(const PuzzleReminderData.solved());
+  Future<void> _onSolved() => _writeSharedPreferences(const PuzzleReminderData.solved());
 
   @override
   Future<void> close() {
@@ -129,16 +119,15 @@ class PuzzleReminderData with _$PuzzleReminderData {
 
   const factory PuzzleReminderData.solved() = _PuzzleReminderDataSolved;
 
-  const factory PuzzleReminderData.remindAfter({
-    required DateTime remindAt,
-  }) = _PuzzleReminderDataRemindAfter;
+  const factory PuzzleReminderData.remindAfter({required DateTime remindAt}) =
+      _PuzzleReminderDataRemindAfter;
 
   factory PuzzleReminderData.fromJson(Map<String, dynamic> json) =>
       _$PuzzleReminderDataFromJson(json);
 
   bool get shouldRemindNow => maybeWhen(
-        unset: () => true,
-        remindAfter: (remindAt) => remindAt.isBefore(DateTime.now()),
-        orElse: () => false,
-      );
+    unset: () => true,
+    remindAfter: (remindAt) => remindAt.isBefore(DateTime.now()),
+    orElse: () => false,
+  );
 }

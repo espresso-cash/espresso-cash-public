@@ -35,75 +35,68 @@ class AmountWithEquivalent extends StatelessWidget {
   final bool showUsdcInfo;
 
   @override
-  Widget build(BuildContext context) =>
-      ValueListenableBuilder<TextEditingValue>(
-        valueListenable: inputController,
-        builder: (context, value, _) {
-          final num =
-              value.text.toDecimalOrZero(DeviceLocale.localeOf(context));
+  Widget build(BuildContext context) => ValueListenableBuilder<TextEditingValue>(
+    valueListenable: inputController,
+    builder: (context, value, _) {
+      final num = value.text.toDecimalOrZero(DeviceLocale.localeOf(context));
 
-          final isZero = num.toDouble() == 0;
-          final hasError = error.isNotEmpty;
+      final isZero = num.toDouble() == 0;
+      final hasError = error.isNotEmpty;
 
-          final state = (isZero, hasError, showUsdcInfo);
+      final state = (isZero, hasError, showUsdcInfo);
 
-          return Column(
-            children: [
-              Shake(
-                key: shakeKey,
-                child: _InputDisplay(
-                  input: value.text,
-                  fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
+      return Column(
+        children: [
+          Shake(
+            key: shakeKey,
+            child: _InputDisplay(
+              input: value.text,
+              fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
+            ),
+          ),
+          if (!collapsed)
+            Container(
+              height: showUsdcInfo ? (context.isSmall ? 90 : 105) : null,
+              padding: EdgeInsets.only(top: context.isSmall ? 2 : 16),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 100),
+                // TODO(KB): Check if needed
+                // ignore: avoid-single-child-column-or-row
+                child: Column(
+                  children: [
+                    switch (state) {
+                      (_, true, _) => _DisplayChip(
+                        key: ValueKey(error),
+                        value: error,
+                        shouldDisplay: true,
+                        backgroundColor: CpColors.alertRedColor,
+                      ),
+                      (true, false, true) => const _InfoChip(),
+                      _ => _EquivalentDisplay(
+                        input: value.text,
+                        token: token,
+                        backgroundColor: Colors.black,
+                      ),
+                    },
+                  ],
                 ),
               ),
-              if (!collapsed)
-                Container(
-                  height: showUsdcInfo ? (context.isSmall ? 90 : 105) : null,
-                  padding: EdgeInsets.only(top: context.isSmall ? 2 : 16),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 100),
-                    // TODO(KB): Check if needed
-                    // ignore: avoid-single-child-column-or-row
-                    child: Column(
-                      children: [
-                        switch (state) {
-                          (_, true, _) => _DisplayChip(
-                              key: ValueKey(error),
-                              value: error,
-                              shouldDisplay: true,
-                              backgroundColor: CpColors.alertRedColor,
-                            ),
-                          (true, false, true) => const _InfoChip(),
-                          _ => _EquivalentDisplay(
-                              input: value.text,
-                              token: token,
-                              backgroundColor: Colors.black,
-                            ),
-                        },
-                      ],
-                    ),
-                  ),
-                ),
-            ],
-          );
-        },
+            ),
+        ],
       );
+    },
+  );
 }
 
 class _InfoChip extends StatelessWidget {
   const _InfoChip();
 
   @override
-  Widget build(BuildContext context) =>
-      UsdcInfoWidget(isSmall: context.isSmall);
+  Widget build(BuildContext context) => UsdcInfoWidget(isSmall: context.isSmall);
 }
 
 class _EquivalentDisplay extends StatelessWidget {
-  const _EquivalentDisplay({
-    required this.input,
-    required this.token,
-    this.backgroundColor,
-  });
+  const _EquivalentDisplay({required this.input, required this.token, this.backgroundColor});
 
   final String input;
   final Token token;
@@ -120,9 +113,7 @@ class _EquivalentDisplay extends StatelessWidget {
       formattedAmount = Amount.fromDecimal(value: value, currency: Currency.usd)
           .let((it) => it as FiatAmount)
           .let((it) => it.toTokenAmount(token)?.round(Currency.usd.decimals))
-          .maybeFlatMap(
-            (it) => it.format(locale, roundInteger: true, skipSymbol: true),
-          )
+          .maybeFlatMap((it) => it.format(locale, roundInteger: true, skipSymbol: true))
           .ifNull(() => '0');
     } else {
       formattedAmount = '0';
@@ -133,11 +124,7 @@ class _EquivalentDisplay extends StatelessWidget {
         children: [
           TextSpan(
             text: context.l10n.tokenEquivalent(formattedAmount).toUpperCase(),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-            ),
+            style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
           ),
           TextSpan(
             text: ' ${token.symbol.toUpperCase()}',
@@ -152,11 +139,7 @@ class _EquivalentDisplay extends StatelessWidget {
       textAlign: TextAlign.center,
     );
 
-    return _Chip(
-      shouldDisplay: shouldDisplay,
-      backgroundColor: backgroundColor,
-      child: child,
-    );
+    return _Chip(shouldDisplay: shouldDisplay, backgroundColor: backgroundColor, child: child);
   }
 }
 
@@ -174,26 +157,19 @@ class _DisplayChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _Chip(
-        shouldDisplay: shouldDisplay,
-        backgroundColor: backgroundColor,
-        child: Text(
-          value.toUpperCase(),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      );
+    shouldDisplay: shouldDisplay,
+    backgroundColor: backgroundColor,
+    child: Text(
+      value.toUpperCase(),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+    ),
+  );
 }
 
 class _Chip extends StatelessWidget {
-  const _Chip({
-    required this.shouldDisplay,
-    required this.child,
-    this.backgroundColor,
-  });
+  const _Chip({required this.shouldDisplay, required this.child, this.backgroundColor});
 
   final bool shouldDisplay;
   final Widget child;
@@ -201,24 +177,17 @@ class _Chip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: 45,
-        child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 200),
-          opacity: shouldDisplay ? 1 : 0,
-          child: CpChip(
-            padding: CpChipPadding.small,
-            backgroundColor: backgroundColor,
-            child: child,
-          ),
-        ),
-      );
+    height: 45,
+    child: AnimatedOpacity(
+      duration: const Duration(milliseconds: 200),
+      opacity: shouldDisplay ? 1 : 0,
+      child: CpChip(padding: CpChipPadding.small, backgroundColor: backgroundColor, child: child),
+    ),
+  );
 }
 
 class _InputDisplay extends StatelessWidget {
-  const _InputDisplay({
-    required this.input,
-    required this.fontSize,
-  });
+  const _InputDisplay({required this.input, required this.fontSize});
 
   final String input;
   final double fontSize;
@@ -238,10 +207,7 @@ class _InputDisplay extends StatelessWidget {
           child: Text(
             formatted,
             textAlign: TextAlign.right,
-            style: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w700,
-            ),
+            style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w700),
           ),
         ),
       ),

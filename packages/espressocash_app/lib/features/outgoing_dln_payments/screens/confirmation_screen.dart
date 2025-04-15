@@ -25,16 +25,16 @@ class OutgoingDlnPaymentConfirmationScreen extends StatefulWidget {
     required CryptoAmount amount,
     required String receiverAddress,
     required Blockchain blockchain,
-  }) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => OutgoingDlnPaymentConfirmationScreen(
+  }) => Navigator.of(context).push<void>(
+    MaterialPageRoute(
+      builder:
+          (context) => OutgoingDlnPaymentConfirmationScreen(
             amount: amount,
             receiverAddress: receiverAddress,
             blockchain: blockchain,
           ),
-        ),
-      );
+    ),
+  );
 
   final CryptoAmount amount;
   final String receiverAddress;
@@ -54,24 +54,22 @@ class _FlowState extends State<OutgoingDlnPaymentConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          appBar: CpAppBar(
-            title: Text(context.l10n.confirmation.toUpperCase()),
-            leading: const CloseButton(),
-          ),
-          body: ConfirmationContent(
-            onConfirm: _onConfirm,
-            amount: widget.amount,
-            receiverAddress: widget.receiverAddress,
-            blockchain: widget.blockchain,
-          ),
-        ),
-      );
+    child: Scaffold(
+      appBar: CpAppBar(
+        title: Text(context.l10n.confirmation.toUpperCase()),
+        leading: const CloseButton(),
+      ),
+      body: ConfirmationContent(
+        onConfirm: _onConfirm,
+        amount: widget.amount,
+        receiverAddress: widget.receiverAddress,
+        blockchain: widget.blockchain,
+      ),
+    ),
+  );
 }
 
 extension on BuildContext {
-  Future<String> createDlnPayment(PaymentQuote quote) => runWithLoader(
-        this,
-        () => sl<OutgoingDlnPaymentService>().create(quote),
-      );
+  Future<String> createDlnPayment(PaymentQuote quote) =>
+      runWithLoader(this, () => sl<OutgoingDlnPaymentService>().create(quote));
 }

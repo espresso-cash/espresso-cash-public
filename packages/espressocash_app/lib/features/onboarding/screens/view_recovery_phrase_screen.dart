@@ -20,21 +20,16 @@ class ViewRecoveryPhraseScreen extends StatefulWidget {
     BuildContext context, {
     NavigatorState? navigator,
     required VoidCallback onConfirmed,
-  }) =>
-      (navigator ?? Navigator.of(context, rootNavigator: true))
-          .pushAndRemoveUntil<void>(
-        PageRouteBuilder(
-          pageBuilder: (context, _, __) => ViewRecoveryPhraseScreen(
-            onConfirmed: onConfirmed,
-          ),
-          transitionDuration: Duration.zero,
-        ),
-        F,
-      );
+  }) => (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<void>(
+    PageRouteBuilder(
+      pageBuilder: (context, _, __) => ViewRecoveryPhraseScreen(onConfirmed: onConfirmed),
+      transitionDuration: Duration.zero,
+    ),
+    F,
+  );
 
   @override
-  State<ViewRecoveryPhraseScreen> createState() =>
-      _ViewRecoveryPhraseScreenState();
+  State<ViewRecoveryPhraseScreen> createState() => _ViewRecoveryPhraseScreenState();
 }
 
 class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
@@ -51,56 +46,45 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
   }
 
   void _handleConfirmPress() => showConfirmationDialog(
-        context,
-        title: context.l10n.onboardingPhraseConfirmTitle,
-        titleStyle: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w500,
-          color: Colors.white,
-        ),
-        message: context.l10n.onboardingPhraseConfirmSubtitle,
-        messageStyle: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
-          color: Colors.white,
-        ),
-        onConfirm: () {
-          sl<OnboardingRepository>().hasConfirmedPassphrase = true;
-          widget.onConfirmed();
-        },
-      );
+    context,
+    title: context.l10n.onboardingPhraseConfirmTitle,
+    titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),
+    message: context.l10n.onboardingPhraseConfirmSubtitle,
+    messageStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.white),
+    onConfirm: () {
+      sl<OnboardingRepository>().hasConfirmedPassphrase = true;
+      widget.onConfirmed();
+    },
+  );
 
   @override
   Widget build(BuildContext context) => FormPage(
-        colorTheme: FormPageColorTheme.gold,
-        title: const SizedBox(),
-        backgroundImage: Assets.images.dollarBg,
-        header: FormPageHeader(
-          title: Text(
-            context.l10n.onboardingPhraseTitle,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          description: Text(
-            context.l10n.onboardingPhraseSubtitle,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-          ),
-          icon: Assets.images.securityGraphic,
+    colorTheme: FormPageColorTheme.gold,
+    title: const SizedBox(),
+    backgroundImage: Assets.images.dollarBg,
+    header: FormPageHeader(
+      title: Text(
+        context.l10n.onboardingPhraseTitle,
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+      ),
+      description: Text(
+        context.l10n.onboardingPhraseSubtitle,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+      ),
+      icon: Assets.images.securityGraphic,
+    ),
+    child: Column(
+      children: [
+        RecoveryPhraseTextView(phrase: _phrase),
+        const Spacer(),
+        CpButton(
+          text: context.l10n.onboardingPhraseConfirmBtn,
+          width: double.infinity,
+          size: CpButtonSize.big,
+          onPressed: _handleConfirmPress,
         ),
-        child: Column(
-          children: [
-            RecoveryPhraseTextView(phrase: _phrase),
-            const Spacer(),
-            CpButton(
-              text: context.l10n.onboardingPhraseConfirmBtn,
-              width: double.infinity,
-              size: CpButtonSize.big,
-              onPressed: _handleConfirmPress,
-            ),
-            const SizedBox(height: 32),
-          ],
-        ),
-      );
+        const SizedBox(height: 32),
+      ],
+    ),
+  );
 }

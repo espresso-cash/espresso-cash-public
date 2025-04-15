@@ -25,27 +25,22 @@ class RampTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logo = switch (currency) {
-      FiatCurrency(:final countryCode) => countryCode != null
-          ? CountryFlag.fromCountryCode(
+      FiatCurrency(:final countryCode) =>
+        countryCode != null
+            ? CountryFlag.fromCountryCode(
               countryCode,
               shape: const Circle(),
               width: 36.w,
               height: 36.h,
             )
-          : _defaultLogo,
-      CryptoCurrency(:final Token token) => TokenIcon(
-          token: token,
-          size: 40.w,
-        ),
+            : _defaultLogo,
+      CryptoCurrency(:final Token token) => TokenIcon(token: token, size: 40.w),
       _ => _defaultLogo,
     };
 
     final symbol = Text(
       currency?.symbol ?? '',
-      style: TextStyle(
-        fontSize: 34.sp,
-        fontWeight: FontWeight.w700,
-      ),
+      style: TextStyle(fontSize: 34.sp, fontWeight: FontWeight.w700),
     );
 
     return Padding(
@@ -55,25 +50,13 @@ class RampTextField extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(left: 16.w, bottom: 6.h),
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            child: Text(label, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
           ),
           if (controller == null)
-            LoadingTextField(
-              prefix: logo,
-              suffix: symbol,
-            )
+            LoadingTextField(prefix: logo, suffix: symbol)
           else
             CpTextField(
-              padding: EdgeInsets.symmetric(
-                vertical: 12.h,
-                horizontal: 24.w,
-              ),
+              padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 24.w),
               controller: controller,
               inputType: const TextInputType.numberWithOptions(decimal: true),
               textInputAction: TextInputAction.next,
@@ -84,15 +67,9 @@ class RampTextField extends StatelessWidget {
               textColor: Colors.white,
               fontSize: 34.sp,
               fontWeight: FontWeight.w700,
-              prefix: Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: logo,
-              ),
+              prefix: Padding(padding: const EdgeInsets.only(left: 16), child: logo),
               readOnly: true,
-              suffix: Padding(
-                padding: EdgeInsets.only(right: 24.w),
-                child: symbol,
-              ),
+              suffix: Padding(padding: EdgeInsets.only(right: 24.w), child: symbol),
             ),
         ],
       ),
@@ -101,7 +78,7 @@ class RampTextField extends StatelessWidget {
 }
 
 Widget get _defaultLogo => CircleAvatar(
-      maxRadius: 20.w,
-      backgroundColor: CpColors.blackGreyColor,
-      child: Assets.icons.money.svg(),
-    );
+  maxRadius: 20.w,
+  backgroundColor: CpColors.blackGreyColor,
+  child: Assets.icons.money.svg(),
+);

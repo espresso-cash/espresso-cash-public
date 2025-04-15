@@ -5,14 +5,9 @@ import 'package:solana/dto.dart';
 part 'basic1.g.dart';
 
 class Basic1DataAccount implements AnchorAccount {
-  const Basic1DataAccount._({
-    required this.discriminator,
-    required this.data,
-  });
+  const Basic1DataAccount._({required this.discriminator, required this.data});
 
-  factory Basic1DataAccount._fromBinary(
-    List<int> bytes,
-  ) {
+  factory Basic1DataAccount._fromBinary(List<int> bytes) {
     final accountData = _AccountData.fromBorsh(Uint8List.fromList(bytes));
 
     return Basic1DataAccount._(
@@ -44,18 +39,14 @@ class _AccountData with _$_AccountData {
 
   const _AccountData._();
 
-  factory _AccountData.fromBorsh(Uint8List data) =>
-      _$_AccountDataFromBorsh(data);
+  factory _AccountData.fromBorsh(Uint8List data) => _$_AccountDataFromBorsh(data);
 }
 
 @BorshSerializable()
 class Basic1Arguments with _$Basic1Arguments {
-  factory Basic1Arguments({
-    @BU64() required BigInt data,
-  }) = _Basic1Arguments;
+  factory Basic1Arguments({@BU64() required BigInt data}) = _Basic1Arguments;
 
   const Basic1Arguments._();
 
-  factory Basic1Arguments.fromBorsh(Uint8List data) =>
-      _$Basic1ArgumentsFromBorsh(data);
+  factory Basic1Arguments.fromBorsh(Uint8List data) => _$Basic1ArgumentsFromBorsh(data);
 }

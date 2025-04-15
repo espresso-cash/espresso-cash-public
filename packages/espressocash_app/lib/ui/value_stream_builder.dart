@@ -8,11 +8,7 @@ extension ValueExt<T> on (Stream<T>, T) {
 }
 
 class ValueStreamBuilder<T> extends StatefulWidget {
-  const ValueStreamBuilder({
-    super.key,
-    required this.create,
-    required this.builder,
-  });
+  const ValueStreamBuilder({super.key, required this.create, required this.builder});
 
   final ValueStreamFactory<T> create;
   final ValueWidgetBuilder<T> builder;
@@ -26,11 +22,8 @@ class _ValueStreamBuilderState<T> extends State<ValueStreamBuilder<T>> {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<T>(
-        stream: _stream.$1,
-        initialData: _stream.$2,
-        builder: (context, snapshot) => widget.builder(
-          context,
-          snapshot.data as T,
-        ),
-      );
+    stream: _stream.$1,
+    initialData: _stream.$2,
+    builder: (context, snapshot) => widget.builder(context, snapshot.data as T),
+  );
 }

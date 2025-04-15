@@ -12,7 +12,8 @@ part of 'fiat_rate.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 FiatRateRequestDto _$FiatRateRequestDtoFromJson(Map<String, dynamic> json) {
   return _FiatRateRequestDto.fromJson(json);
@@ -36,8 +37,9 @@ mixin _$FiatRateRequestDto {
 /// @nodoc
 abstract class $FiatRateRequestDtoCopyWith<$Res> {
   factory $FiatRateRequestDtoCopyWith(
-          FiatRateRequestDto value, $Res Function(FiatRateRequestDto) then) =
-      _$FiatRateRequestDtoCopyWithImpl<$Res, FiatRateRequestDto>;
+    FiatRateRequestDto value,
+    $Res Function(FiatRateRequestDto) then,
+  ) = _$FiatRateRequestDtoCopyWithImpl<$Res, FiatRateRequestDto>;
   @useResult
   $Res call({String base, String target});
 }
@@ -56,29 +58,32 @@ class _$FiatRateRequestDtoCopyWithImpl<$Res, $Val extends FiatRateRequestDto>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? base = null,
-    Object? target = null,
-  }) {
-    return _then(_value.copyWith(
-      base: null == base
-          ? _value.base
-          : base // ignore: cast_nullable_to_non_nullable
-              as String,
-      target: null == target
-          ? _value.target
-          : target // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? base = null, Object? target = null}) {
+    return _then(
+      _value.copyWith(
+            base:
+                null == base
+                    ? _value.base
+                    : base // ignore: cast_nullable_to_non_nullable
+                        as String,
+            target:
+                null == target
+                    ? _value.target
+                    : target // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$FiatRateRequestDtoImplCopyWith<$Res>
     implements $FiatRateRequestDtoCopyWith<$Res> {
-  factory _$$FiatRateRequestDtoImplCopyWith(_$FiatRateRequestDtoImpl value,
-          $Res Function(_$FiatRateRequestDtoImpl) then) =
-      __$$FiatRateRequestDtoImplCopyWithImpl<$Res>;
+  factory _$$FiatRateRequestDtoImplCopyWith(
+    _$FiatRateRequestDtoImpl value,
+    $Res Function(_$FiatRateRequestDtoImpl) then,
+  ) = __$$FiatRateRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String base, String target});
@@ -88,28 +93,30 @@ abstract class _$$FiatRateRequestDtoImplCopyWith<$Res>
 class __$$FiatRateRequestDtoImplCopyWithImpl<$Res>
     extends _$FiatRateRequestDtoCopyWithImpl<$Res, _$FiatRateRequestDtoImpl>
     implements _$$FiatRateRequestDtoImplCopyWith<$Res> {
-  __$$FiatRateRequestDtoImplCopyWithImpl(_$FiatRateRequestDtoImpl _value,
-      $Res Function(_$FiatRateRequestDtoImpl) _then)
-      : super(_value, _then);
+  __$$FiatRateRequestDtoImplCopyWithImpl(
+    _$FiatRateRequestDtoImpl _value,
+    $Res Function(_$FiatRateRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of FiatRateRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? base = null,
-    Object? target = null,
-  }) {
-    return _then(_$FiatRateRequestDtoImpl(
-      base: null == base
-          ? _value.base
-          : base // ignore: cast_nullable_to_non_nullable
-              as String,
-      target: null == target
-          ? _value.target
-          : target // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? base = null, Object? target = null}) {
+    return _then(
+      _$FiatRateRequestDtoImpl(
+        base:
+            null == base
+                ? _value.base
+                : base // ignore: cast_nullable_to_non_nullable
+                    as String,
+        target:
+            null == target
+                ? _value.target
+                : target // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -150,21 +157,17 @@ class _$FiatRateRequestDtoImpl implements _FiatRateRequestDto {
   @override
   @pragma('vm:prefer-inline')
   _$$FiatRateRequestDtoImplCopyWith<_$FiatRateRequestDtoImpl> get copyWith =>
-      __$$FiatRateRequestDtoImplCopyWithImpl<_$FiatRateRequestDtoImpl>(
-          this, _$identity);
+      __$$FiatRateRequestDtoImplCopyWithImpl<_$FiatRateRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$FiatRateRequestDtoImplToJson(
-      this,
-    );
+    return _$$FiatRateRequestDtoImplToJson(this);
   }
 }
 
 abstract class _FiatRateRequestDto implements FiatRateRequestDto {
-  const factory _FiatRateRequestDto(
-      {required final String base,
-      required final String target}) = _$FiatRateRequestDtoImpl;
+  const factory _FiatRateRequestDto({required final String base, required final String target}) =
+      _$FiatRateRequestDtoImpl;
 
   factory _FiatRateRequestDto.fromJson(Map<String, dynamic> json) =
       _$FiatRateRequestDtoImpl.fromJson;
@@ -203,8 +206,9 @@ mixin _$FiatRateResponseDto {
 /// @nodoc
 abstract class $FiatRateResponseDtoCopyWith<$Res> {
   factory $FiatRateResponseDtoCopyWith(
-          FiatRateResponseDto value, $Res Function(FiatRateResponseDto) then) =
-      _$FiatRateResponseDtoCopyWithImpl<$Res, FiatRateResponseDto>;
+    FiatRateResponseDto value,
+    $Res Function(FiatRateResponseDto) then,
+  ) = _$FiatRateResponseDtoCopyWithImpl<$Res, FiatRateResponseDto>;
   @useResult
   $Res call({double rate});
 }
@@ -223,24 +227,27 @@ class _$FiatRateResponseDtoCopyWithImpl<$Res, $Val extends FiatRateResponseDto>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? rate = null,
-  }) {
-    return _then(_value.copyWith(
-      rate: null == rate
-          ? _value.rate
-          : rate // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+  $Res call({Object? rate = null}) {
+    return _then(
+      _value.copyWith(
+            rate:
+                null == rate
+                    ? _value.rate
+                    : rate // ignore: cast_nullable_to_non_nullable
+                        as double,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$FiatRateResponseDtoImplCopyWith<$Res>
     implements $FiatRateResponseDtoCopyWith<$Res> {
-  factory _$$FiatRateResponseDtoImplCopyWith(_$FiatRateResponseDtoImpl value,
-          $Res Function(_$FiatRateResponseDtoImpl) then) =
-      __$$FiatRateResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$FiatRateResponseDtoImplCopyWith(
+    _$FiatRateResponseDtoImpl value,
+    $Res Function(_$FiatRateResponseDtoImpl) then,
+  ) = __$$FiatRateResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double rate});
@@ -250,23 +257,25 @@ abstract class _$$FiatRateResponseDtoImplCopyWith<$Res>
 class __$$FiatRateResponseDtoImplCopyWithImpl<$Res>
     extends _$FiatRateResponseDtoCopyWithImpl<$Res, _$FiatRateResponseDtoImpl>
     implements _$$FiatRateResponseDtoImplCopyWith<$Res> {
-  __$$FiatRateResponseDtoImplCopyWithImpl(_$FiatRateResponseDtoImpl _value,
-      $Res Function(_$FiatRateResponseDtoImpl) _then)
-      : super(_value, _then);
+  __$$FiatRateResponseDtoImplCopyWithImpl(
+    _$FiatRateResponseDtoImpl _value,
+    $Res Function(_$FiatRateResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of FiatRateResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? rate = null,
-  }) {
-    return _then(_$FiatRateResponseDtoImpl(
-      rate: null == rate
-          ? _value.rate
-          : rate // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
+  $Res call({Object? rate = null}) {
+    return _then(
+      _$FiatRateResponseDtoImpl(
+        rate:
+            null == rate
+                ? _value.rate
+                : rate // ignore: cast_nullable_to_non_nullable
+                    as double,
+      ),
+    );
   }
 }
 
@@ -304,20 +313,16 @@ class _$FiatRateResponseDtoImpl implements _FiatRateResponseDto {
   @override
   @pragma('vm:prefer-inline')
   _$$FiatRateResponseDtoImplCopyWith<_$FiatRateResponseDtoImpl> get copyWith =>
-      __$$FiatRateResponseDtoImplCopyWithImpl<_$FiatRateResponseDtoImpl>(
-          this, _$identity);
+      __$$FiatRateResponseDtoImplCopyWithImpl<_$FiatRateResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$FiatRateResponseDtoImplToJson(
-      this,
-    );
+    return _$$FiatRateResponseDtoImplToJson(this);
   }
 }
 
 abstract class _FiatRateResponseDto implements FiatRateResponseDto {
-  const factory _FiatRateResponseDto({required final double rate}) =
-      _$FiatRateResponseDtoImpl;
+  const factory _FiatRateResponseDto({required final double rate}) = _$FiatRateResponseDtoImpl;
 
   factory _FiatRateResponseDto.fromJson(Map<String, dynamic> json) =
       _$FiatRateResponseDtoImpl.fromJson;

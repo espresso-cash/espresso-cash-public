@@ -4,10 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path/path.dart';
 
 class MerchantLogoIcon extends StatelessWidget {
-  const MerchantLogoIcon({
-    super.key,
-    required this.logoUrl,
-  });
+  const MerchantLogoIcon({super.key, required this.logoUrl});
 
   final String logoUrl;
 
@@ -19,22 +16,23 @@ class MerchantLogoIcon extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: borderRadius,
-      child: extension(logoUrl) == '.svg'
-          ? SvgPicture.network(logoUrl, width: size / 2, height: size / 2)
-          : CachedNetworkImage(
-              cacheKey: logoUrl,
-              height: size,
-              width: size,
-              errorWidget: (BuildContext context, String url, dynamic error) =>
-                  Container(),
-              imageUrl: logoUrl,
-              imageBuilder: (context, provider) => DecoratedBox(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(image: provider),
-                ),
+      child:
+          extension(logoUrl) == '.svg'
+              ? SvgPicture.network(logoUrl, width: size / 2, height: size / 2)
+              : CachedNetworkImage(
+                cacheKey: logoUrl,
+                height: size,
+                width: size,
+                errorWidget: (BuildContext context, String url, dynamic error) => Container(),
+                imageUrl: logoUrl,
+                imageBuilder:
+                    (context, provider) => DecoratedBox(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(image: provider),
+                      ),
+                    ),
               ),
-            ),
     );
   }
 }

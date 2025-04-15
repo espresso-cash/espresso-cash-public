@@ -12,16 +12,12 @@ T parseWithEncoding<T>(
 }) {
   if (data is List<dynamic>) {
     if (data.length != 2) {
-      throw const FormatException(
-        'expected an array of 2 elements [data, encoding]',
-      );
+      throw const FormatException('expected an array of 2 elements [data, encoding]');
     }
 
     final elements = data.whereType<String>();
     if (elements.length != 2) {
-      throw const FormatException(
-        'array has two elements but of incompatible types',
-      );
+      throw const FormatException('array has two elements but of incompatible types');
     }
 
     final dynamic encoded = data.first;

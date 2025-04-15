@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
@@ -12,12 +11,14 @@ import '../../../../../ui/markdown_text.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
+import '../../../../kyc_sharing/models/kyc_validation_status.dart';
 import '../../../../kyc_sharing/services/kyc_service.dart';
-import '../../../../kyc_sharing/utils/kyc_utils.dart';
+import '../../../../kyc_sharing/services/pending_kyc_service.dart';
 import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../router/service/navigation_service.dart';
+import '../../../models/profile_data.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
@@ -27,28 +28,13 @@ import '../services/brij_scalex_fees_service.dart';
 import 'terms_notice.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchBrijOnRamp(RampPartner partner) async {
-    final kycService = sl<KycSharingService>();
+  Future<void> launchBrijOnRamp({
+    required RampPartner partner,
+    required ProfileData profile,
+  }) async {
+    final isValid = await _validateKyc(profile);
 
-    await runWithLoader(this, () async => kycService.initialized);
-
-    final user = kycService.value;
-
-    if (user == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-      return;
-    }
-
-    if (user.kycStatus == ValidationStatus.pending) {
-      _showPendingKycDialog();
-
-      return;
-    }
-
-    final kycPassed = await openKycFlow();
-
-    if (!kycPassed) return;
+    if (!isValid) return;
 
     const type = RampType.onRamp;
 
@@ -56,8 +42,7 @@ extension BuildContextExt on BuildContext {
 
     Amount? amount;
 
-    final minAmountNGN =
-        partner.minimumAmountInDecimal * Decimal.parse(rate.toString());
+    final minAmountNGN = partner.minimumAmountInDecimal * Decimal.parse(rate.toString());
 
     await RampAmountScreen.push(
       this,
@@ -73,14 +58,8 @@ extension BuildContextExt on BuildContext {
       minAmount: minAmountNGN,
       currency: Currency.ngn,
       receiveCurrency: Currency.usdc,
-      calculateEquivalent: (amount) => _calculateReceiveAmount(
-        amount: amount,
-        type: type,
-      ),
-      calculateFee: (amount) => _calculateFees(
-        amount: amount,
-        type: type,
-      ),
+      calculateEquivalent: (amount) => _calculateReceiveAmount(amount: amount, type: type),
+      calculateFee: (amount) => _calculateFees(amount: amount, type: type),
       exchangeRate: '1 USDC = $rate NGN',
       type: type,
     );
@@ -89,15 +68,14 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount == null) return;
 
-    final equivalentAmount = await runWithLoader<Amount>(
-      this,
-      () => sl<BrijScalexFeesService>()
-          .fetchFees(
-            amount: submittedAmount,
-            type: type,
-          )
-          .then((fees) => fees.receiveAmount),
-    ) as CryptoAmount;
+    final equivalentAmount =
+        await runWithLoader<Amount>(
+              this,
+              () => sl<BrijScalexFeesService>()
+                  .fetchFees(amount: submittedAmount, type: type)
+                  .then((fees) => fees.receiveAmount),
+            )
+            as CryptoAmount;
 
     final orderId = await runWithLoader<String?>(
       this,
@@ -106,13 +84,9 @@ extension BuildContextExt on BuildContext {
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount as FiatAmount,
             partner: partner,
+            country: profile.country.code,
           )
-          .then(
-            (order) => order.fold(
-              (error) => null,
-              (id) => id,
-            ),
-          ),
+          .then((order) => order.fold((error) => null, (id) => id)),
     );
 
     if (orderId != null) {
@@ -122,27 +96,13 @@ extension BuildContextExt on BuildContext {
     }
   }
 
-  Future<void> launchBrijOffRamp(RampPartner partner) async {
-    final kycService = sl<KycSharingService>();
+  Future<void> launchBrijOffRamp({
+    required RampPartner partner,
+    required ProfileData profile,
+  }) async {
+    final isValid = await _validateKyc(profile);
 
-    await runWithLoader(this, () async => kycService.initialized);
-
-    final user = kycService.value;
-
-    if (user == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-      return;
-    }
-
-    if (user.kycStatus == ValidationStatus.pending) {
-      _showPendingKycDialog();
-
-      return;
-    }
-    final kycPassed = await openKycFlow();
-
-    if (!kycPassed) return;
+    if (!isValid) return;
 
     const type = RampType.offRamp;
 
@@ -164,15 +124,9 @@ extension BuildContextExt on BuildContext {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       receiveCurrency: Currency.ngn,
-      calculateEquivalent: (amount) => _calculateReceiveAmount(
-        amount: amount,
-        type: type,
-      ),
+      calculateEquivalent: (amount) => _calculateReceiveAmount(amount: amount, type: type),
       exchangeRate: '1 USDC = $rate NGN',
-      calculateFee: (amount) => _calculateFees(
-        amount: amount,
-        type: type,
-      ),
+      calculateFee: (amount) => _calculateFees(amount: amount, type: type),
       type: type,
     );
 
@@ -180,15 +134,14 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount is! CryptoAmount) return;
 
-    final equivalentAmount = await runWithLoader<Amount>(
-      this,
-      () => sl<BrijScalexFeesService>()
-          .fetchFees(
-            amount: submittedAmount,
-            type: type,
-          )
-          .then((fees) => fees.receiveAmount),
-    ) as FiatAmount;
+    final equivalentAmount =
+        await runWithLoader<Amount>(
+              this,
+              () => sl<BrijScalexFeesService>()
+                  .fetchFees(amount: submittedAmount, type: type)
+                  .then((fees) => fees.receiveAmount),
+            )
+            as FiatAmount;
 
     final orderId = await runWithLoader<String?>(
       this,
@@ -197,13 +150,9 @@ extension BuildContextExt on BuildContext {
             receiveAmount: equivalentAmount,
             submittedAmount: submittedAmount,
             partner: partner,
+            country: profile.country.code,
           )
-          .then(
-            (order) => order.fold(
-              (error) => null,
-              (id) => id,
-            ),
-          ),
+          .then((order) => order.fold((error) => null, (id) => id)),
     );
 
     if (orderId != null) {
@@ -213,19 +162,41 @@ extension BuildContextExt on BuildContext {
     }
   }
 
-  Future<double> _fetchRate(RampType type) => runWithLoader<double>(
-        this,
-        () async => sl<BrijScalexFeesService>().fetchRate(type),
-      );
+  Future<bool> _validateKyc(ProfileData profile) async {
+    final kycService = sl<KycSharingService>();
+
+    await runWithLoader(this, () async => kycService.initialized);
+
+    final user = kycService.value;
+
+    if (user == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return false;
+    }
+
+    final kycStatus = await runWithLoader(
+      this,
+      () => sl<PendingKycService>().fetchKycStatus(country: profile.country.code),
+    );
+
+    if (kycStatus == KycValidationStatus.pending) {
+      _showPendingKycDialog();
+
+      return false;
+    }
+
+    return runWithLoader(this, () => openKycFlow(countryCode: profile.country.code));
+  }
+
+  Future<double> _fetchRate(RampType type) =>
+      runWithLoader<double>(this, () async => sl<BrijScalexFeesService>().fetchRate(type));
 
   Future<Either<Exception, Amount>> _calculateReceiveAmount({
     required Amount amount,
     required RampType type,
   }) async {
-    final fees = await sl<BrijScalexFeesService>().fetchFees(
-      amount: amount,
-      type: type,
-    );
+    final fees = await sl<BrijScalexFeesService>().fetchFees(amount: amount, type: type);
 
     final receiveAmount = fees.receiveAmount;
 
@@ -236,19 +207,9 @@ extension BuildContextExt on BuildContext {
     required Amount amount,
     required RampType type,
   }) async {
-    final fees = await sl<BrijScalexFeesService>().fetchFees(
-      amount: amount,
-      type: type,
-    );
+    final fees = await sl<BrijScalexFeesService>().fetchFees(amount: amount, type: type);
 
-    return Either.right(
-      (
-        ourFee: null,
-        partnerFee: null,
-        extraFee: null,
-        totalFee: fees.totalFee,
-      ),
-    );
+    return Either.right((ourFee: null, partnerFee: null, extraFee: null, totalFee: fees.totalFee));
   }
 
   void _showPendingKycDialog() {
@@ -260,10 +221,7 @@ extension BuildContextExt on BuildContext {
       ),
       message: Text(
         l10n.pendingKycDialogMessage,
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
       ),
       actions: CpBottomButton(
         text: l10n.activityButton,
@@ -278,18 +236,14 @@ extension BuildContextExt on BuildContext {
 
     if (partnerPK == null) return false;
 
-    final hasGrantedAccess =
-        await sl<KycSharingService>().hasGrantedAccess(partnerPK);
+    final hasGrantedAccess = await sl<KycSharingService>().hasGrantedAccess(partnerPK);
 
     if (hasGrantedAccess) return true;
 
-    final (:termsUrl, :policyUrl) =
-        await sl<KycSharingService>().fetchPartnerTermsAndPolicy(partnerPK);
-
-    return showTermsAndPolicyDialog(
-      this,
-      termsUrl: termsUrl,
-      privacyUrl: policyUrl,
+    final (:termsUrl, :policyUrl) = await sl<KycSharingService>().fetchPartnerTermsAndPolicy(
+      partnerPK,
     );
+
+    return showTermsAndPolicyDialog(this, termsUrl: termsUrl, privacyUrl: policyUrl);
   }
 }

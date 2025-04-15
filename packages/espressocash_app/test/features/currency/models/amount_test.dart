@@ -15,9 +15,7 @@ void main() {
         expect(amount.formatRate(123.456, locale), '123.46');
       });
 
-      test(
-          'formats small decimals with 2 significant digits after first non-zero',
-          () {
+      test('formats small decimals with 2 significant digits after first non-zero', () {
         expect(amount.formatRate(0.00123456, locale), '0.0012');
         expect(amount.formatRate(0.00012345, locale), '0.00012');
         expect(amount.formatRate(0.00001234, locale), '0.000012');

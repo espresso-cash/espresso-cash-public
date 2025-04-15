@@ -39,5 +39,4 @@ AccountMeta createAccountMeta(
   bool isSigner,
   // ignore: prefer-named-boolean-parameters, test usage
   bool isWriteable,
-) =>
-    AccountMeta(pubKey: pubKey, isWriteable: isWriteable, isSigner: isSigner);
+) => AccountMeta(pubKey: pubKey, isWriteable: isWriteable, isSigner: isSigner);

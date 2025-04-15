@@ -6,9 +6,7 @@ import '../../../../currency/models/currency.dart';
 
 @injectable
 class ScalexRepository {
-  const ScalexRepository({
-    required EspressoCashClient ecClient,
-  }) : _client = ecClient;
+  const ScalexRepository({required EspressoCashClient ecClient}) : _client = ecClient;
 
   final EspressoCashClient _client;
 
@@ -17,25 +15,21 @@ class ScalexRepository {
     required String address,
     required String email,
     required double amount,
-  }) =>
-      _client
-          .generateScalexLink(
-            GenerateScalexLinkRequestDto(
-              type: type,
-              address: address,
-              email: email,
-              amount: amount,
-              currency: Currency.ngn.symbol,
-            ),
-          )
-          .then((p) => p.signedUrl);
+  }) => _client
+      .generateScalexLink(
+        GenerateScalexLinkRequestDto(
+          type: type,
+          address: address,
+          email: email,
+          amount: amount,
+          currency: Currency.ngn.symbol,
+        ),
+      )
+      .then((p) => p.signedUrl);
 
   Future<ScalexOrderStatus> fetchStatus(String referenceId) => _client
-      .fetchScalexTransaction(
-        OrderStatusScalexRequestDto(referenceId: referenceId),
-      )
+      .fetchScalexTransaction(OrderStatusScalexRequestDto(referenceId: referenceId))
       .then((it) => it.status);
 
-  Future<ScalexRateFeeResponseDto> fetchRateAndFee() =>
-      _client.fetchScalexFeesAndRate();
+  Future<ScalexRateFeeResponseDto> fetchRateAndFee() => _client.fetchScalexFeesAndRate();
 }

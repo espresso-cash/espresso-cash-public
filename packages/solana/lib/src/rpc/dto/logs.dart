@@ -7,11 +7,7 @@ part 'logs.g.dart';
 /// Logs entry
 @JsonSerializable()
 class Logs {
-  const Logs({
-    required this.signature,
-    required this.logs,
-    required this.err,
-  });
+  const Logs({required this.signature, required this.logs, required this.err});
 
   factory Logs.fromJson(Map<String, dynamic> json) => _$LogsFromJson(json);
 

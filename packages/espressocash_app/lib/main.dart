@@ -23,22 +23,18 @@ Future<void> main() {
 
   return sentryDsn.isNotEmpty
       ? SentryFlutter.init(
-          (options) {
-            options
-              ..dsn = sentryDsn
-              ..tracesSampleRate = 1.0
-              ..profilesSampleRate = 1.0;
-          },
-          appRunner: () async {
-            final spanAppStart = Sentry.startTransaction(
-              'App Start',
-              'Main',
-              bindToScope: true,
-            );
-            await _start(spanAppStart);
-            await spanAppStart.finish();
-          },
-        )
+        (options) {
+          options
+            ..dsn = sentryDsn
+            ..tracesSampleRate = 1.0
+            ..profilesSampleRate = 1.0;
+        },
+        appRunner: () async {
+          final spanAppStart = Sentry.startTransaction('App Start', 'Main', bindToScope: true);
+          await _start(spanAppStart);
+          await spanAppStart.finish();
+        },
+      )
       : _start();
 }
 
@@ -84,12 +80,13 @@ Future<void> _start([ISentrySpan? span]) async {
 
   final app = DevicePreview(
     enabled: const bool.fromEnvironment('DEVICE_PREVIEW', defaultValue: false),
-    builder: (context) => ScreenUtilInit(
-      designSize: const Size(428, 926),
-      useInheritedMediaQuery: true,
-      minTextAdapt: true,
-      builder: (context, child) => const EspressoCashApp(),
-    ),
+    builder:
+        (context) => ScreenUtilInit(
+          designSize: const Size(428, 926),
+          useInheritedMediaQuery: true,
+          minTextAdapt: true,
+          builder: (context, child) => const EspressoCashApp(),
+        ),
   );
 
   runApp(app);

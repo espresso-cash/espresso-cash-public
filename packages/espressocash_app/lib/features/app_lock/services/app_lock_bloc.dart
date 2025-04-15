@@ -25,13 +25,9 @@ sealed class AppLockEvent with _$AppLockEvent {
 sealed class AppLockState with _$AppLockState {
   const factory AppLockState.none() = AppLockStateNone;
 
-  const factory AppLockState.enabled({
-    required bool disableFailed,
-  }) = AppLockStateEnabled;
+  const factory AppLockState.enabled({required bool disableFailed}) = AppLockStateEnabled;
 
-  const factory AppLockState.locked({
-    required bool isRetrying,
-  }) = AppLockStateLocked;
+  const factory AppLockState.locked({required bool isRetrying}) = AppLockStateLocked;
 
   const factory AppLockState.disabled() = AppLockStateDisabled;
 }
@@ -40,10 +36,9 @@ typedef _Emitter = Emitter<AppLockState>;
 
 @injectable
 class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
-  AppLockBloc({
-    required FlutterSecureStorage secureStorage,
-  })  : _secureStorage = secureStorage,
-        super(const AppLockState.none()) {
+  AppLockBloc({required FlutterSecureStorage secureStorage})
+    : _secureStorage = secureStorage,
+      super(const AppLockState.none()) {
     on<AppLockEvent>(_eventHandler, transformer: sequential());
   }
 
@@ -51,13 +46,13 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
 
   EventHandler<AppLockEvent, AppLockState> get _eventHandler =>
       (e, emit) => switch (e) {
-            AppLockEventInit() => _onInit(e, emit),
-            AppLockEventEnable() => _onEnable(e, emit),
-            AppLockEventDisable() => _onDisable(e, emit),
-            AppLockEventLock() => _onLock(e, emit),
-            AppLockEventUnlock() => _onUnlock(e, emit),
-            AppLockEventLogout() => _onLogout(e, emit),
-          };
+        AppLockEventInit() => _onInit(e, emit),
+        AppLockEventEnable() => _onEnable(e, emit),
+        AppLockEventDisable() => _onDisable(e, emit),
+        AppLockEventLock() => _onLock(e, emit),
+        AppLockEventUnlock() => _onUnlock(e, emit),
+        AppLockEventLogout() => _onLogout(e, emit),
+      };
 
   Future<void> _onInit(AppLockEventInit _, _Emitter emit) async {
     final pin = await _secureStorage.read(key: _key);

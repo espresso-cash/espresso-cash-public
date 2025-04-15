@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'filter.dart';
 
@@ -12,7 +12,8 @@ part of 'filter.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$AccountFilter {
@@ -25,8 +26,7 @@ mixin _$AccountFilter {
     required TResult Function(String publicKeyEncoded) byPublicKeyEncoded,
     required TResult Function(bool isUserWallet) byIsUserWallet,
     required TResult Function(bool isValid) byIsValid,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function()? $default, {
@@ -36,8 +36,7 @@ mixin _$AccountFilter {
     TResult? Function(String publicKeyEncoded)? byPublicKeyEncoded,
     TResult? Function(bool isUserWallet)? byIsUserWallet,
     TResult? Function(bool isValid)? byIsValid,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function()? $default, {
@@ -48,21 +47,17 @@ mixin _$AccountFilter {
     TResult Function(bool isUserWallet)? byIsUserWallet,
     TResult Function(bool isValid)? byIsValid,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_AccountFilterNone value) $default, {
     required TResult Function(_AccountFilterId value) byId,
     required TResult Function(_AccountFilterName value) byName,
-    required TResult Function(_AccountFilterDerivationPath value)
-        byDerivationPath,
-    required TResult Function(_AccountFilterPublicKeyEncoded value)
-        byPublicKeyEncoded,
+    required TResult Function(_AccountFilterDerivationPath value) byDerivationPath,
+    required TResult Function(_AccountFilterPublicKeyEncoded value) byPublicKeyEncoded,
     required TResult Function(_AccountFilterIsUserWallet value) byIsUserWallet,
     required TResult Function(_AccountFilterIsValid value) byIsValid,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult? Function(_AccountFilterNone value)? $default, {
@@ -72,8 +67,7 @@ mixin _$AccountFilter {
     TResult? Function(_AccountFilterPublicKeyEncoded value)? byPublicKeyEncoded,
     TResult? Function(_AccountFilterIsUserWallet value)? byIsUserWallet,
     TResult? Function(_AccountFilterIsValid value)? byIsValid,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_AccountFilterNone value)? $default, {
@@ -84,14 +78,12 @@ mixin _$AccountFilter {
     TResult Function(_AccountFilterIsUserWallet value)? byIsUserWallet,
     TResult Function(_AccountFilterIsValid value)? byIsValid,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AccountFilterCopyWith<$Res> {
-  factory $AccountFilterCopyWith(
-          AccountFilter value, $Res Function(AccountFilter) then) =
+  factory $AccountFilterCopyWith(AccountFilter value, $Res Function(AccountFilter) then) =
       _$AccountFilterCopyWithImpl<$Res, AccountFilter>;
 }
 
@@ -107,25 +99,27 @@ class _$AccountFilterCopyWithImpl<$Res, $Val extends AccountFilter>
 }
 
 /// @nodoc
-abstract class _$$_AccountFilterNoneCopyWith<$Res> {
-  factory _$$_AccountFilterNoneCopyWith(_$_AccountFilterNone value,
-          $Res Function(_$_AccountFilterNone) then) =
-      __$$_AccountFilterNoneCopyWithImpl<$Res>;
+abstract class _$$AccountFilterNoneImplCopyWith<$Res> {
+  factory _$$AccountFilterNoneImplCopyWith(
+    _$AccountFilterNoneImpl value,
+    $Res Function(_$AccountFilterNoneImpl) then,
+  ) = __$$AccountFilterNoneImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_AccountFilterNoneCopyWithImpl<$Res>
-    extends _$AccountFilterCopyWithImpl<$Res, _$_AccountFilterNone>
-    implements _$$_AccountFilterNoneCopyWith<$Res> {
-  __$$_AccountFilterNoneCopyWithImpl(
-      _$_AccountFilterNone _value, $Res Function(_$_AccountFilterNone) _then)
-      : super(_value, _then);
+class __$$AccountFilterNoneImplCopyWithImpl<$Res>
+    extends _$AccountFilterCopyWithImpl<$Res, _$AccountFilterNoneImpl>
+    implements _$$AccountFilterNoneImplCopyWith<$Res> {
+  __$$AccountFilterNoneImplCopyWithImpl(
+    _$AccountFilterNoneImpl _value,
+    $Res Function(_$AccountFilterNoneImpl) _then,
+  ) : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_AccountFilterNone implements _AccountFilterNone {
-  const _$_AccountFilterNone();
+class _$AccountFilterNoneImpl implements _AccountFilterNone {
+  const _$AccountFilterNoneImpl();
 
   @override
   String toString() {
@@ -133,9 +127,9 @@ class _$_AccountFilterNone implements _AccountFilterNone {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_AccountFilterNone);
+        (other.runtimeType == runtimeType && other is _$AccountFilterNoneImpl);
   }
 
   @override
@@ -193,10 +187,8 @@ class _$_AccountFilterNone implements _AccountFilterNone {
     TResult Function(_AccountFilterNone value) $default, {
     required TResult Function(_AccountFilterId value) byId,
     required TResult Function(_AccountFilterName value) byName,
-    required TResult Function(_AccountFilterDerivationPath value)
-        byDerivationPath,
-    required TResult Function(_AccountFilterPublicKeyEncoded value)
-        byPublicKeyEncoded,
+    required TResult Function(_AccountFilterDerivationPath value) byDerivationPath,
+    required TResult Function(_AccountFilterPublicKeyEncoded value) byPublicKeyEncoded,
     required TResult Function(_AccountFilterIsUserWallet value) byIsUserWallet,
     required TResult Function(_AccountFilterIsValid value) byIsValid,
   }) {
@@ -237,44 +229,46 @@ class _$_AccountFilterNone implements _AccountFilterNone {
 }
 
 abstract class _AccountFilterNone implements AccountFilter {
-  const factory _AccountFilterNone() = _$_AccountFilterNone;
+  const factory _AccountFilterNone() = _$AccountFilterNoneImpl;
 }
 
 /// @nodoc
-abstract class _$$_AccountFilterIdCopyWith<$Res> {
-  factory _$$_AccountFilterIdCopyWith(
-          _$_AccountFilterId value, $Res Function(_$_AccountFilterId) then) =
-      __$$_AccountFilterIdCopyWithImpl<$Res>;
+abstract class _$$AccountFilterIdImplCopyWith<$Res> {
+  factory _$$AccountFilterIdImplCopyWith(
+    _$AccountFilterIdImpl value,
+    $Res Function(_$AccountFilterIdImpl) then,
+  ) = __$$AccountFilterIdImplCopyWithImpl<$Res>;
   @useResult
   $Res call({int id});
 }
 
 /// @nodoc
-class __$$_AccountFilterIdCopyWithImpl<$Res>
-    extends _$AccountFilterCopyWithImpl<$Res, _$_AccountFilterId>
-    implements _$$_AccountFilterIdCopyWith<$Res> {
-  __$$_AccountFilterIdCopyWithImpl(
-      _$_AccountFilterId _value, $Res Function(_$_AccountFilterId) _then)
-      : super(_value, _then);
+class __$$AccountFilterIdImplCopyWithImpl<$Res>
+    extends _$AccountFilterCopyWithImpl<$Res, _$AccountFilterIdImpl>
+    implements _$$AccountFilterIdImplCopyWith<$Res> {
+  __$$AccountFilterIdImplCopyWithImpl(
+    _$AccountFilterIdImpl _value,
+    $Res Function(_$AccountFilterIdImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_$_AccountFilterId(
-      null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? id = null}) {
+    return _then(
+      _$AccountFilterIdImpl(
+        null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_AccountFilterId implements _AccountFilterId {
-  const _$_AccountFilterId(this.id);
+class _$AccountFilterIdImpl implements _AccountFilterId {
+  const _$AccountFilterIdImpl(this.id);
 
   @override
   final int id;
@@ -285,10 +279,10 @@ class _$_AccountFilterId implements _AccountFilterId {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AccountFilterId &&
+            other is _$AccountFilterIdImpl &&
             (identical(other.id, id) || other.id == id));
   }
 
@@ -298,8 +292,8 @@ class _$_AccountFilterId implements _AccountFilterId {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AccountFilterIdCopyWith<_$_AccountFilterId> get copyWith =>
-      __$$_AccountFilterIdCopyWithImpl<_$_AccountFilterId>(this, _$identity);
+  _$$AccountFilterIdImplCopyWith<_$AccountFilterIdImpl> get copyWith =>
+      __$$AccountFilterIdImplCopyWithImpl<_$AccountFilterIdImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -353,10 +347,8 @@ class _$_AccountFilterId implements _AccountFilterId {
     TResult Function(_AccountFilterNone value) $default, {
     required TResult Function(_AccountFilterId value) byId,
     required TResult Function(_AccountFilterName value) byName,
-    required TResult Function(_AccountFilterDerivationPath value)
-        byDerivationPath,
-    required TResult Function(_AccountFilterPublicKeyEncoded value)
-        byPublicKeyEncoded,
+    required TResult Function(_AccountFilterDerivationPath value) byDerivationPath,
+    required TResult Function(_AccountFilterPublicKeyEncoded value) byPublicKeyEncoded,
     required TResult Function(_AccountFilterIsUserWallet value) byIsUserWallet,
     required TResult Function(_AccountFilterIsValid value) byIsValid,
   }) {
@@ -397,49 +389,51 @@ class _$_AccountFilterId implements _AccountFilterId {
 }
 
 abstract class _AccountFilterId implements AccountFilter {
-  const factory _AccountFilterId(final int id) = _$_AccountFilterId;
+  const factory _AccountFilterId(final int id) = _$AccountFilterIdImpl;
 
   int get id;
   @JsonKey(ignore: true)
-  _$$_AccountFilterIdCopyWith<_$_AccountFilterId> get copyWith =>
+  _$$AccountFilterIdImplCopyWith<_$AccountFilterIdImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_AccountFilterNameCopyWith<$Res> {
-  factory _$$_AccountFilterNameCopyWith(_$_AccountFilterName value,
-          $Res Function(_$_AccountFilterName) then) =
-      __$$_AccountFilterNameCopyWithImpl<$Res>;
+abstract class _$$AccountFilterNameImplCopyWith<$Res> {
+  factory _$$AccountFilterNameImplCopyWith(
+    _$AccountFilterNameImpl value,
+    $Res Function(_$AccountFilterNameImpl) then,
+  ) = __$$AccountFilterNameImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String name});
 }
 
 /// @nodoc
-class __$$_AccountFilterNameCopyWithImpl<$Res>
-    extends _$AccountFilterCopyWithImpl<$Res, _$_AccountFilterName>
-    implements _$$_AccountFilterNameCopyWith<$Res> {
-  __$$_AccountFilterNameCopyWithImpl(
-      _$_AccountFilterName _value, $Res Function(_$_AccountFilterName) _then)
-      : super(_value, _then);
+class __$$AccountFilterNameImplCopyWithImpl<$Res>
+    extends _$AccountFilterCopyWithImpl<$Res, _$AccountFilterNameImpl>
+    implements _$$AccountFilterNameImplCopyWith<$Res> {
+  __$$AccountFilterNameImplCopyWithImpl(
+    _$AccountFilterNameImpl _value,
+    $Res Function(_$AccountFilterNameImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? name = null,
-  }) {
-    return _then(_$_AccountFilterName(
-      null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? name = null}) {
+    return _then(
+      _$AccountFilterNameImpl(
+        null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_AccountFilterName implements _AccountFilterName {
-  const _$_AccountFilterName(this.name);
+class _$AccountFilterNameImpl implements _AccountFilterName {
+  const _$AccountFilterNameImpl(this.name);
 
   @override
   final String name;
@@ -450,10 +444,10 @@ class _$_AccountFilterName implements _AccountFilterName {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AccountFilterName &&
+            other is _$AccountFilterNameImpl &&
             (identical(other.name, name) || other.name == name));
   }
 
@@ -463,9 +457,8 @@ class _$_AccountFilterName implements _AccountFilterName {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AccountFilterNameCopyWith<_$_AccountFilterName> get copyWith =>
-      __$$_AccountFilterNameCopyWithImpl<_$_AccountFilterName>(
-          this, _$identity);
+  _$$AccountFilterNameImplCopyWith<_$AccountFilterNameImpl> get copyWith =>
+      __$$AccountFilterNameImplCopyWithImpl<_$AccountFilterNameImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -519,10 +512,8 @@ class _$_AccountFilterName implements _AccountFilterName {
     TResult Function(_AccountFilterNone value) $default, {
     required TResult Function(_AccountFilterId value) byId,
     required TResult Function(_AccountFilterName value) byName,
-    required TResult Function(_AccountFilterDerivationPath value)
-        byDerivationPath,
-    required TResult Function(_AccountFilterPublicKeyEncoded value)
-        byPublicKeyEncoded,
+    required TResult Function(_AccountFilterDerivationPath value) byDerivationPath,
+    required TResult Function(_AccountFilterPublicKeyEncoded value) byPublicKeyEncoded,
     required TResult Function(_AccountFilterIsUserWallet value) byIsUserWallet,
     required TResult Function(_AccountFilterIsValid value) byIsValid,
   }) {
@@ -563,51 +554,51 @@ class _$_AccountFilterName implements _AccountFilterName {
 }
 
 abstract class _AccountFilterName implements AccountFilter {
-  const factory _AccountFilterName(final String name) = _$_AccountFilterName;
+  const factory _AccountFilterName(final String name) = _$AccountFilterNameImpl;
 
   String get name;
   @JsonKey(ignore: true)
-  _$$_AccountFilterNameCopyWith<_$_AccountFilterName> get copyWith =>
+  _$$AccountFilterNameImplCopyWith<_$AccountFilterNameImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_AccountFilterDerivationPathCopyWith<$Res> {
-  factory _$$_AccountFilterDerivationPathCopyWith(
-          _$_AccountFilterDerivationPath value,
-          $Res Function(_$_AccountFilterDerivationPath) then) =
-      __$$_AccountFilterDerivationPathCopyWithImpl<$Res>;
+abstract class _$$AccountFilterDerivationPathImplCopyWith<$Res> {
+  factory _$$AccountFilterDerivationPathImplCopyWith(
+    _$AccountFilterDerivationPathImpl value,
+    $Res Function(_$AccountFilterDerivationPathImpl) then,
+  ) = __$$AccountFilterDerivationPathImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Uri derivationPath});
 }
 
 /// @nodoc
-class __$$_AccountFilterDerivationPathCopyWithImpl<$Res>
-    extends _$AccountFilterCopyWithImpl<$Res, _$_AccountFilterDerivationPath>
-    implements _$$_AccountFilterDerivationPathCopyWith<$Res> {
-  __$$_AccountFilterDerivationPathCopyWithImpl(
-      _$_AccountFilterDerivationPath _value,
-      $Res Function(_$_AccountFilterDerivationPath) _then)
-      : super(_value, _then);
+class __$$AccountFilterDerivationPathImplCopyWithImpl<$Res>
+    extends _$AccountFilterCopyWithImpl<$Res, _$AccountFilterDerivationPathImpl>
+    implements _$$AccountFilterDerivationPathImplCopyWith<$Res> {
+  __$$AccountFilterDerivationPathImplCopyWithImpl(
+    _$AccountFilterDerivationPathImpl _value,
+    $Res Function(_$AccountFilterDerivationPathImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? derivationPath = null,
-  }) {
-    return _then(_$_AccountFilterDerivationPath(
-      null == derivationPath
-          ? _value.derivationPath
-          : derivationPath // ignore: cast_nullable_to_non_nullable
-              as Uri,
-    ));
+  $Res call({Object? derivationPath = null}) {
+    return _then(
+      _$AccountFilterDerivationPathImpl(
+        null == derivationPath
+            ? _value.derivationPath
+            : derivationPath // ignore: cast_nullable_to_non_nullable
+                as Uri,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_AccountFilterDerivationPath implements _AccountFilterDerivationPath {
-  const _$_AccountFilterDerivationPath(this.derivationPath);
+class _$AccountFilterDerivationPathImpl implements _AccountFilterDerivationPath {
+  const _$AccountFilterDerivationPathImpl(this.derivationPath);
 
   @override
   final Uri derivationPath;
@@ -618,10 +609,10 @@ class _$_AccountFilterDerivationPath implements _AccountFilterDerivationPath {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AccountFilterDerivationPath &&
+            other is _$AccountFilterDerivationPathImpl &&
             (identical(other.derivationPath, derivationPath) ||
                 other.derivationPath == derivationPath));
   }
@@ -632,9 +623,11 @@ class _$_AccountFilterDerivationPath implements _AccountFilterDerivationPath {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AccountFilterDerivationPathCopyWith<_$_AccountFilterDerivationPath>
-      get copyWith => __$$_AccountFilterDerivationPathCopyWithImpl<
-          _$_AccountFilterDerivationPath>(this, _$identity);
+  _$$AccountFilterDerivationPathImplCopyWith<_$AccountFilterDerivationPathImpl> get copyWith =>
+      __$$AccountFilterDerivationPathImplCopyWithImpl<_$AccountFilterDerivationPathImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -688,10 +681,8 @@ class _$_AccountFilterDerivationPath implements _AccountFilterDerivationPath {
     TResult Function(_AccountFilterNone value) $default, {
     required TResult Function(_AccountFilterId value) byId,
     required TResult Function(_AccountFilterName value) byName,
-    required TResult Function(_AccountFilterDerivationPath value)
-        byDerivationPath,
-    required TResult Function(_AccountFilterPublicKeyEncoded value)
-        byPublicKeyEncoded,
+    required TResult Function(_AccountFilterDerivationPath value) byDerivationPath,
+    required TResult Function(_AccountFilterPublicKeyEncoded value) byPublicKeyEncoded,
     required TResult Function(_AccountFilterIsUserWallet value) byIsUserWallet,
     required TResult Function(_AccountFilterIsValid value) byIsValid,
   }) {
@@ -733,52 +724,51 @@ class _$_AccountFilterDerivationPath implements _AccountFilterDerivationPath {
 
 abstract class _AccountFilterDerivationPath implements AccountFilter {
   const factory _AccountFilterDerivationPath(final Uri derivationPath) =
-      _$_AccountFilterDerivationPath;
+      _$AccountFilterDerivationPathImpl;
 
   Uri get derivationPath;
   @JsonKey(ignore: true)
-  _$$_AccountFilterDerivationPathCopyWith<_$_AccountFilterDerivationPath>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$AccountFilterDerivationPathImplCopyWith<_$AccountFilterDerivationPathImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_AccountFilterPublicKeyEncodedCopyWith<$Res> {
-  factory _$$_AccountFilterPublicKeyEncodedCopyWith(
-          _$_AccountFilterPublicKeyEncoded value,
-          $Res Function(_$_AccountFilterPublicKeyEncoded) then) =
-      __$$_AccountFilterPublicKeyEncodedCopyWithImpl<$Res>;
+abstract class _$$AccountFilterPublicKeyEncodedImplCopyWith<$Res> {
+  factory _$$AccountFilterPublicKeyEncodedImplCopyWith(
+    _$AccountFilterPublicKeyEncodedImpl value,
+    $Res Function(_$AccountFilterPublicKeyEncodedImpl) then,
+  ) = __$$AccountFilterPublicKeyEncodedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String publicKeyEncoded});
 }
 
 /// @nodoc
-class __$$_AccountFilterPublicKeyEncodedCopyWithImpl<$Res>
-    extends _$AccountFilterCopyWithImpl<$Res, _$_AccountFilterPublicKeyEncoded>
-    implements _$$_AccountFilterPublicKeyEncodedCopyWith<$Res> {
-  __$$_AccountFilterPublicKeyEncodedCopyWithImpl(
-      _$_AccountFilterPublicKeyEncoded _value,
-      $Res Function(_$_AccountFilterPublicKeyEncoded) _then)
-      : super(_value, _then);
+class __$$AccountFilterPublicKeyEncodedImplCopyWithImpl<$Res>
+    extends _$AccountFilterCopyWithImpl<$Res, _$AccountFilterPublicKeyEncodedImpl>
+    implements _$$AccountFilterPublicKeyEncodedImplCopyWith<$Res> {
+  __$$AccountFilterPublicKeyEncodedImplCopyWithImpl(
+    _$AccountFilterPublicKeyEncodedImpl _value,
+    $Res Function(_$AccountFilterPublicKeyEncodedImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? publicKeyEncoded = null,
-  }) {
-    return _then(_$_AccountFilterPublicKeyEncoded(
-      null == publicKeyEncoded
-          ? _value.publicKeyEncoded
-          : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? publicKeyEncoded = null}) {
+    return _then(
+      _$AccountFilterPublicKeyEncodedImpl(
+        null == publicKeyEncoded
+            ? _value.publicKeyEncoded
+            : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
+                as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_AccountFilterPublicKeyEncoded
-    implements _AccountFilterPublicKeyEncoded {
-  const _$_AccountFilterPublicKeyEncoded(this.publicKeyEncoded);
+class _$AccountFilterPublicKeyEncodedImpl implements _AccountFilterPublicKeyEncoded {
+  const _$AccountFilterPublicKeyEncodedImpl(this.publicKeyEncoded);
 
   @override
   final String publicKeyEncoded;
@@ -789,10 +779,10 @@ class _$_AccountFilterPublicKeyEncoded
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AccountFilterPublicKeyEncoded &&
+            other is _$AccountFilterPublicKeyEncodedImpl &&
             (identical(other.publicKeyEncoded, publicKeyEncoded) ||
                 other.publicKeyEncoded == publicKeyEncoded));
   }
@@ -803,9 +793,11 @@ class _$_AccountFilterPublicKeyEncoded
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AccountFilterPublicKeyEncodedCopyWith<_$_AccountFilterPublicKeyEncoded>
-      get copyWith => __$$_AccountFilterPublicKeyEncodedCopyWithImpl<
-          _$_AccountFilterPublicKeyEncoded>(this, _$identity);
+  _$$AccountFilterPublicKeyEncodedImplCopyWith<_$AccountFilterPublicKeyEncodedImpl> get copyWith =>
+      __$$AccountFilterPublicKeyEncodedImplCopyWithImpl<_$AccountFilterPublicKeyEncodedImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -859,10 +851,8 @@ class _$_AccountFilterPublicKeyEncoded
     TResult Function(_AccountFilterNone value) $default, {
     required TResult Function(_AccountFilterId value) byId,
     required TResult Function(_AccountFilterName value) byName,
-    required TResult Function(_AccountFilterDerivationPath value)
-        byDerivationPath,
-    required TResult Function(_AccountFilterPublicKeyEncoded value)
-        byPublicKeyEncoded,
+    required TResult Function(_AccountFilterDerivationPath value) byDerivationPath,
+    required TResult Function(_AccountFilterPublicKeyEncoded value) byPublicKeyEncoded,
     required TResult Function(_AccountFilterIsUserWallet value) byIsUserWallet,
     required TResult Function(_AccountFilterIsValid value) byIsValid,
   }) {
@@ -904,51 +894,51 @@ class _$_AccountFilterPublicKeyEncoded
 
 abstract class _AccountFilterPublicKeyEncoded implements AccountFilter {
   const factory _AccountFilterPublicKeyEncoded(final String publicKeyEncoded) =
-      _$_AccountFilterPublicKeyEncoded;
+      _$AccountFilterPublicKeyEncodedImpl;
 
   String get publicKeyEncoded;
   @JsonKey(ignore: true)
-  _$$_AccountFilterPublicKeyEncodedCopyWith<_$_AccountFilterPublicKeyEncoded>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$AccountFilterPublicKeyEncodedImplCopyWith<_$AccountFilterPublicKeyEncodedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_AccountFilterIsUserWalletCopyWith<$Res> {
-  factory _$$_AccountFilterIsUserWalletCopyWith(
-          _$_AccountFilterIsUserWallet value,
-          $Res Function(_$_AccountFilterIsUserWallet) then) =
-      __$$_AccountFilterIsUserWalletCopyWithImpl<$Res>;
+abstract class _$$AccountFilterIsUserWalletImplCopyWith<$Res> {
+  factory _$$AccountFilterIsUserWalletImplCopyWith(
+    _$AccountFilterIsUserWalletImpl value,
+    $Res Function(_$AccountFilterIsUserWalletImpl) then,
+  ) = __$$AccountFilterIsUserWalletImplCopyWithImpl<$Res>;
   @useResult
   $Res call({bool isUserWallet});
 }
 
 /// @nodoc
-class __$$_AccountFilterIsUserWalletCopyWithImpl<$Res>
-    extends _$AccountFilterCopyWithImpl<$Res, _$_AccountFilterIsUserWallet>
-    implements _$$_AccountFilterIsUserWalletCopyWith<$Res> {
-  __$$_AccountFilterIsUserWalletCopyWithImpl(
-      _$_AccountFilterIsUserWallet _value,
-      $Res Function(_$_AccountFilterIsUserWallet) _then)
-      : super(_value, _then);
+class __$$AccountFilterIsUserWalletImplCopyWithImpl<$Res>
+    extends _$AccountFilterCopyWithImpl<$Res, _$AccountFilterIsUserWalletImpl>
+    implements _$$AccountFilterIsUserWalletImplCopyWith<$Res> {
+  __$$AccountFilterIsUserWalletImplCopyWithImpl(
+    _$AccountFilterIsUserWalletImpl _value,
+    $Res Function(_$AccountFilterIsUserWalletImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? isUserWallet = null,
-  }) {
-    return _then(_$_AccountFilterIsUserWallet(
-      null == isUserWallet
-          ? _value.isUserWallet
-          : isUserWallet // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+  $Res call({Object? isUserWallet = null}) {
+    return _then(
+      _$AccountFilterIsUserWalletImpl(
+        null == isUserWallet
+            ? _value.isUserWallet
+            : isUserWallet // ignore: cast_nullable_to_non_nullable
+                as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_AccountFilterIsUserWallet implements _AccountFilterIsUserWallet {
-  const _$_AccountFilterIsUserWallet(this.isUserWallet);
+class _$AccountFilterIsUserWalletImpl implements _AccountFilterIsUserWallet {
+  const _$AccountFilterIsUserWalletImpl(this.isUserWallet);
 
   @override
   final bool isUserWallet;
@@ -959,12 +949,11 @@ class _$_AccountFilterIsUserWallet implements _AccountFilterIsUserWallet {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AccountFilterIsUserWallet &&
-            (identical(other.isUserWallet, isUserWallet) ||
-                other.isUserWallet == isUserWallet));
+            other is _$AccountFilterIsUserWalletImpl &&
+            (identical(other.isUserWallet, isUserWallet) || other.isUserWallet == isUserWallet));
   }
 
   @override
@@ -973,9 +962,11 @@ class _$_AccountFilterIsUserWallet implements _AccountFilterIsUserWallet {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AccountFilterIsUserWalletCopyWith<_$_AccountFilterIsUserWallet>
-      get copyWith => __$$_AccountFilterIsUserWalletCopyWithImpl<
-          _$_AccountFilterIsUserWallet>(this, _$identity);
+  _$$AccountFilterIsUserWalletImplCopyWith<_$AccountFilterIsUserWalletImpl> get copyWith =>
+      __$$AccountFilterIsUserWalletImplCopyWithImpl<_$AccountFilterIsUserWalletImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -1029,10 +1020,8 @@ class _$_AccountFilterIsUserWallet implements _AccountFilterIsUserWallet {
     TResult Function(_AccountFilterNone value) $default, {
     required TResult Function(_AccountFilterId value) byId,
     required TResult Function(_AccountFilterName value) byName,
-    required TResult Function(_AccountFilterDerivationPath value)
-        byDerivationPath,
-    required TResult Function(_AccountFilterPublicKeyEncoded value)
-        byPublicKeyEncoded,
+    required TResult Function(_AccountFilterDerivationPath value) byDerivationPath,
+    required TResult Function(_AccountFilterPublicKeyEncoded value) byPublicKeyEncoded,
     required TResult Function(_AccountFilterIsUserWallet value) byIsUserWallet,
     required TResult Function(_AccountFilterIsValid value) byIsValid,
   }) {
@@ -1074,49 +1063,51 @@ class _$_AccountFilterIsUserWallet implements _AccountFilterIsUserWallet {
 
 abstract class _AccountFilterIsUserWallet implements AccountFilter {
   const factory _AccountFilterIsUserWallet(final bool isUserWallet) =
-      _$_AccountFilterIsUserWallet;
+      _$AccountFilterIsUserWalletImpl;
 
   bool get isUserWallet;
   @JsonKey(ignore: true)
-  _$$_AccountFilterIsUserWalletCopyWith<_$_AccountFilterIsUserWallet>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$AccountFilterIsUserWalletImplCopyWith<_$AccountFilterIsUserWalletImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_AccountFilterIsValidCopyWith<$Res> {
-  factory _$$_AccountFilterIsValidCopyWith(_$_AccountFilterIsValid value,
-          $Res Function(_$_AccountFilterIsValid) then) =
-      __$$_AccountFilterIsValidCopyWithImpl<$Res>;
+abstract class _$$AccountFilterIsValidImplCopyWith<$Res> {
+  factory _$$AccountFilterIsValidImplCopyWith(
+    _$AccountFilterIsValidImpl value,
+    $Res Function(_$AccountFilterIsValidImpl) then,
+  ) = __$$AccountFilterIsValidImplCopyWithImpl<$Res>;
   @useResult
   $Res call({bool isValid});
 }
 
 /// @nodoc
-class __$$_AccountFilterIsValidCopyWithImpl<$Res>
-    extends _$AccountFilterCopyWithImpl<$Res, _$_AccountFilterIsValid>
-    implements _$$_AccountFilterIsValidCopyWith<$Res> {
-  __$$_AccountFilterIsValidCopyWithImpl(_$_AccountFilterIsValid _value,
-      $Res Function(_$_AccountFilterIsValid) _then)
-      : super(_value, _then);
+class __$$AccountFilterIsValidImplCopyWithImpl<$Res>
+    extends _$AccountFilterCopyWithImpl<$Res, _$AccountFilterIsValidImpl>
+    implements _$$AccountFilterIsValidImplCopyWith<$Res> {
+  __$$AccountFilterIsValidImplCopyWithImpl(
+    _$AccountFilterIsValidImpl _value,
+    $Res Function(_$AccountFilterIsValidImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? isValid = null,
-  }) {
-    return _then(_$_AccountFilterIsValid(
-      null == isValid
-          ? _value.isValid
-          : isValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+  $Res call({Object? isValid = null}) {
+    return _then(
+      _$AccountFilterIsValidImpl(
+        null == isValid
+            ? _value.isValid
+            : isValid // ignore: cast_nullable_to_non_nullable
+                as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_AccountFilterIsValid implements _AccountFilterIsValid {
-  const _$_AccountFilterIsValid(this.isValid);
+class _$AccountFilterIsValidImpl implements _AccountFilterIsValid {
+  const _$AccountFilterIsValidImpl(this.isValid);
 
   @override
   final bool isValid;
@@ -1127,10 +1118,10 @@ class _$_AccountFilterIsValid implements _AccountFilterIsValid {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AccountFilterIsValid &&
+            other is _$AccountFilterIsValidImpl &&
             (identical(other.isValid, isValid) || other.isValid == isValid));
   }
 
@@ -1140,9 +1131,8 @@ class _$_AccountFilterIsValid implements _AccountFilterIsValid {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AccountFilterIsValidCopyWith<_$_AccountFilterIsValid> get copyWith =>
-      __$$_AccountFilterIsValidCopyWithImpl<_$_AccountFilterIsValid>(
-          this, _$identity);
+  _$$AccountFilterIsValidImplCopyWith<_$AccountFilterIsValidImpl> get copyWith =>
+      __$$AccountFilterIsValidImplCopyWithImpl<_$AccountFilterIsValidImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1196,10 +1186,8 @@ class _$_AccountFilterIsValid implements _AccountFilterIsValid {
     TResult Function(_AccountFilterNone value) $default, {
     required TResult Function(_AccountFilterId value) byId,
     required TResult Function(_AccountFilterName value) byName,
-    required TResult Function(_AccountFilterDerivationPath value)
-        byDerivationPath,
-    required TResult Function(_AccountFilterPublicKeyEncoded value)
-        byPublicKeyEncoded,
+    required TResult Function(_AccountFilterDerivationPath value) byDerivationPath,
+    required TResult Function(_AccountFilterPublicKeyEncoded value) byPublicKeyEncoded,
     required TResult Function(_AccountFilterIsUserWallet value) byIsUserWallet,
     required TResult Function(_AccountFilterIsValid value) byIsValid,
   }) {
@@ -1240,11 +1228,10 @@ class _$_AccountFilterIsValid implements _AccountFilterIsValid {
 }
 
 abstract class _AccountFilterIsValid implements AccountFilter {
-  const factory _AccountFilterIsValid(final bool isValid) =
-      _$_AccountFilterIsValid;
+  const factory _AccountFilterIsValid(final bool isValid) = _$AccountFilterIsValidImpl;
 
   bool get isValid;
   @JsonKey(ignore: true)
-  _$$_AccountFilterIsValidCopyWith<_$_AccountFilterIsValid> get copyWith =>
+  _$$AccountFilterIsValidImplCopyWith<_$AccountFilterIsValidImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

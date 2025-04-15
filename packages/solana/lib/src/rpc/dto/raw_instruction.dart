@@ -5,14 +5,9 @@ part 'raw_instruction.g.dart';
 
 @JsonSerializable()
 class RawInstruction implements Instruction {
-  const RawInstruction({
-    required this.programIdIndex,
-    required this.accounts,
-    required this.data,
-  });
+  const RawInstruction({required this.programIdIndex, required this.accounts, required this.data});
 
-  factory RawInstruction.fromJson(Map<String, dynamic> json) =>
-      _$RawInstructionFromJson(json);
+  factory RawInstruction.fromJson(Map<String, dynamic> json) => _$RawInstructionFromJson(json);
 
   /// Index into the message.accountKeys array indicating the
   /// program account that executes this instruction.

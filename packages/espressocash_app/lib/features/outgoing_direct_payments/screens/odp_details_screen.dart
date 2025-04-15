@@ -16,23 +16,15 @@ import '../models/outgoing_direct_payment.dart';
 import '../widgets/extensions.dart';
 
 class ODPDetailsScreen extends StatefulWidget {
-  const ODPDetailsScreen({
-    super.key,
-    required this.id,
-  });
+  const ODPDetailsScreen({super.key, required this.id});
 
-  static void push(BuildContext context, {required String id}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => ODPDetailsScreen(id: id),
-        ),
-      );
+  static void push(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => ODPDetailsScreen(id: id)));
 
   static void open(BuildContext context, {required String id}) =>
       Navigator.of(context).pushAndRemoveUntil<void>(
-        MaterialPageRoute(
-          builder: (context) => ODPDetailsScreen(id: id),
-        ),
+        MaterialPageRoute(builder: (context) => ODPDetailsScreen(id: id)),
         (route) => route.isFirst,
       );
 
@@ -52,46 +44,41 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
   }
 
   void _handleCancel(String id) => showConfirmationDialog(
-        context,
-        title: context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle
-            .toUpperCase(),
-        message:
-            context.l10n.outgoingDirectPayments_lblCancelConfirmationSubtitle,
-        onConfirm: () => context.cancelODP(paymentId: id),
-      );
+    context,
+    title: context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle.toUpperCase(),
+    message: context.l10n.outgoingDirectPayments_lblCancelConfirmationSubtitle,
+    onConfirm: () => context.cancelODP(paymentId: id),
+  );
 
   @override
   Widget build(BuildContext context) => StreamBuilder<OutgoingDirectPayment>(
-        stream: _payment,
-        builder: (context, snapshot) {
-          final payment = snapshot.data;
+    stream: _payment,
+    builder: (context, snapshot) {
+      final payment = snapshot.data;
 
-          return payment == null
-              ? TransferProgress(onBack: () => Navigator.pop(context))
-              : payment.status.maybeMap(
-                  success: (status) => TransferSuccess(
-                    onBack: () => Navigator.pop(context),
-                    onOkPressed: () => Navigator.pop(context),
-                    statusContent: context.l10n.outgoingTransferSuccess(
-                      payment.amount.format(DeviceLocale.localeOf(context)),
-                    ),
-                    onMoreDetailsPressed: () {
-                      final link = status.txId
-                          .let(createTransactionLink)
-                          .let(Uri.parse)
-                          .toString();
-                      context.openLink(link);
-                    },
+      return payment == null
+          ? TransferProgress(onBack: () => Navigator.pop(context))
+          : payment.status.maybeMap(
+            success:
+                (status) => TransferSuccess(
+                  onBack: () => Navigator.pop(context),
+                  onOkPressed: () => Navigator.pop(context),
+                  statusContent: context.l10n.outgoingTransferSuccess(
+                    payment.amount.format(DeviceLocale.localeOf(context)),
                   ),
-                  txFailure: (it) => TransferError(
-                    onBack: () => Navigator.pop(context),
-                    onCancel: () => _handleCancel(payment.id),
-                    reason: it.reason,
-                  ),
-                  orElse: () => TransferProgress(
-                    onBack: () => Navigator.pop(context),
-                  ),
-                );
-        },
-      );
+                  onMoreDetailsPressed: () {
+                    final link = status.txId.let(createTransactionLink).let(Uri.parse).toString();
+                    context.openLink(link);
+                  },
+                ),
+            txFailure:
+                (it) => TransferError(
+                  onBack: () => Navigator.pop(context),
+                  onCancel: () => _handleCancel(payment.id),
+                  reason: it.reason,
+                ),
+            orElse: () => TransferProgress(onBack: () => Navigator.pop(context)),
+          );
+    },
+  );
 }

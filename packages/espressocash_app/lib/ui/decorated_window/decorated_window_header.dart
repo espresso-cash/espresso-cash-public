@@ -19,8 +19,7 @@ class DecoratedWindowHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final messageStyle =
-        Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 18);
+    final messageStyle = Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 18);
     final title = this.title;
     final message = this.message;
 
@@ -30,33 +29,25 @@ class DecoratedWindowHeader extends StatelessWidget {
         if (hasLogo) Assets.images.lockScreen.svg(fit: BoxFit.fitHeight),
         if (title != null)
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .displayMedium
-                  ?.copyWith(fontSize: 30),
+              style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 30),
             ),
           ),
         if (message != null)
           Padding(
             padding: const EdgeInsets.only(top: 16),
-            child: markdownMessage
-                ? Markdown(
-                    data: message,
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    styleSheet: MarkdownStyleSheet(p: messageStyle),
-                  )
-                : Text(
-                    message,
-                    textAlign: TextAlign.center,
-                    style: messageStyle,
-                  ),
+            child:
+                markdownMessage
+                    ? Markdown(
+                      data: message,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      styleSheet: MarkdownStyleSheet(p: messageStyle),
+                    )
+                    : Text(message, textAlign: TextAlign.center, style: messageStyle),
           ),
       ],
     );

@@ -24,14 +24,7 @@ class ProfileSwitch extends StatelessWidget {
     final subtitle = this.subtitle;
 
     return ListTile(
-      title: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontSize: 17,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      title: Text(label, style: TextStyle(color: color, fontSize: 17, fontWeight: FontWeight.bold)),
       subtitle: Text(
         subtitle,
         maxLines: 2,

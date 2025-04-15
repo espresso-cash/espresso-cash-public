@@ -38,10 +38,7 @@ void main() {
     final deserialized = CompositeStruct.fromBorsh(serialized);
 
     expect(deserialized.intValue, struct.intValue);
-    expect(
-      deserialized.simpleStruct.stringValue,
-      struct.simpleStruct.stringValue,
-    );
+    expect(deserialized.simpleStruct.stringValue, struct.simpleStruct.stringValue);
     expect(deserialized.simpleStruct.intValue, struct.simpleStruct.intValue);
   });
 

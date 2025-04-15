@@ -77,8 +77,7 @@ class DynamicLinksNotifier extends ChangeNotifier {
 }
 
 extension on Uri {
-  bool get isShortened =>
-      host == espressoCashLinkDomain && shortLinkHash.isNotEmpty;
+  bool get isShortened => host == espressoCashLinkDomain && shortLinkHash.isNotEmpty;
 
   bool isValidHash(String hash) => _calculateHash(this) == hash;
 

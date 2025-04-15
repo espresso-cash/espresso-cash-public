@@ -17,11 +17,7 @@ enum MobileWalletAdapterServerException {
 }
 
 class AuthorizeRequestDto {
-  AuthorizeRequestDto({
-    this.identityName,
-    this.identityUri,
-    this.iconUri,
-  });
+  AuthorizeRequestDto({this.identityName, this.identityUri, this.iconUri});
 
   String? identityName;
 
@@ -30,11 +26,7 @@ class AuthorizeRequestDto {
   String? iconUri;
 
   Object encode() {
-    return <Object?>[
-      identityName,
-      identityUri,
-      iconUri,
-    ];
+    return <Object?>[identityName, identityUri, iconUri];
   }
 
   static AuthorizeRequestDto decode(Object result) {
@@ -48,12 +40,7 @@ class AuthorizeRequestDto {
 }
 
 class AuthorizeResultDto {
-  AuthorizeResultDto({
-    required this.publicKey,
-    this.accountLabel,
-    this.walletUriBase,
-    this.scope,
-  });
+  AuthorizeResultDto({required this.publicKey, this.accountLabel, this.walletUriBase, this.scope});
 
   Uint8List publicKey;
 
@@ -64,12 +51,7 @@ class AuthorizeResultDto {
   Uint8List? scope;
 
   Object encode() {
-    return <Object?>[
-      publicKey,
-      accountLabel,
-      walletUriBase,
-      scope,
-    ];
+    return <Object?>[publicKey, accountLabel, walletUriBase, scope];
   }
 
   static AuthorizeResultDto decode(Object result) {
@@ -103,13 +85,7 @@ class ReauthorizeRequestDto {
   Uint8List authorizationScope;
 
   Object encode() {
-    return <Object?>[
-      identityName,
-      identityUri,
-      iconRelativeUri,
-      cluster,
-      authorizationScope,
-    ];
+    return <Object?>[identityName, identityUri, iconRelativeUri, cluster, authorizationScope];
   }
 
   static ReauthorizeRequestDto decode(Object result) {
@@ -125,11 +101,7 @@ class ReauthorizeRequestDto {
 }
 
 class SignedPayloadsResultDto {
-  SignedPayloadsResultDto({
-    this.payloads,
-    this.error,
-    this.validPayloads,
-  });
+  SignedPayloadsResultDto({this.payloads, this.error, this.validPayloads});
 
   List<Uint8List?>? payloads;
 
@@ -138,20 +110,15 @@ class SignedPayloadsResultDto {
   List<bool?>? validPayloads;
 
   Object encode() {
-    return <Object?>[
-      payloads,
-      error?.index,
-      validPayloads,
-    ];
+    return <Object?>[payloads, error?.index, validPayloads];
   }
 
   static SignedPayloadsResultDto decode(Object result) {
     result as List<Object?>;
     return SignedPayloadsResultDto(
       payloads: (result[0] as List<Object?>?)?.cast<Uint8List?>(),
-      error: result[1] != null
-          ? MobileWalletAdapterServerException.values[result[1]! as int]
-          : null,
+      error:
+          result[1] != null ? MobileWalletAdapterServerException.values[result[1]! as int] : null,
       validPayloads: (result[2] as List<Object?>?)?.cast<bool?>(),
     );
   }
@@ -306,11 +273,7 @@ class SignAndSendTransactionsRequestDto {
 }
 
 class SignaturesResultDto {
-  SignaturesResultDto({
-    this.signatures,
-    this.error,
-    this.validSignatures,
-  });
+  SignaturesResultDto({this.signatures, this.error, this.validSignatures});
 
   List<Uint8List?>? signatures;
 
@@ -319,20 +282,15 @@ class SignaturesResultDto {
   List<bool?>? validSignatures;
 
   Object encode() {
-    return <Object?>[
-      signatures,
-      error?.index,
-      validSignatures,
-    ];
+    return <Object?>[signatures, error?.index, validSignatures];
   }
 
   static SignaturesResultDto decode(Object result) {
     result as List<Object?>;
     return SignaturesResultDto(
       signatures: (result[0] as List<Object?>?)?.cast<Uint8List?>(),
-      error: result[1] != null
-          ? MobileWalletAdapterServerException.values[result[1]! as int]
-          : null,
+      error:
+          result[1] != null ? MobileWalletAdapterServerException.values[result[1]! as int] : null,
       validSignatures: (result[2] as List<Object?>?)?.cast<bool?>(),
     );
   }
@@ -358,13 +316,7 @@ class DeauthorizeEventDto {
   Uint8List authorizationScope;
 
   Object encode() {
-    return <Object?>[
-      identityName,
-      identityUri,
-      iconRelativeUri,
-      cluster,
-      authorizationScope,
-    ];
+    return <Object?>[identityName, identityUri, iconRelativeUri, cluster, authorizationScope];
   }
 
   static DeauthorizeEventDto decode(Object result) {
@@ -414,8 +366,7 @@ class WalletConfigDto {
       supportsSignAndSendTransactions: result[0]! as bool,
       maxTransactionsPerSigningRequest: result[1]! as int,
       maxMessagesPerSigningRequest: result[2]! as int,
-      supportedTransactionVersions:
-          (result[3] as List<Object?>?)!.cast<String?>(),
+      supportedTransactionVersions: (result[3] as List<Object?>?)!.cast<String?>(),
       noConnectionWarningTimeoutInMs: result[4]! as int,
     );
   }
@@ -546,14 +497,14 @@ abstract class ApiFlutter {
 
   Future<bool> reauthorize(ReauthorizeRequestDto request, int id);
 
-  Future<SignedPayloadsResultDto?> signTransactions(
-      SignTransactionsRequestDto request, int id);
+  Future<SignedPayloadsResultDto?> signTransactions(SignTransactionsRequestDto request, int id);
 
-  Future<SignedPayloadsResultDto?> signMessages(
-      SignMessagesRequestDto request, int id);
+  Future<SignedPayloadsResultDto?> signMessages(SignMessagesRequestDto request, int id);
 
   Future<SignaturesResultDto?> signAndSendTransactions(
-      SignAndSendTransactionsRequestDto request, int id);
+    SignAndSendTransactionsRequestDto request,
+    int id,
+  );
 
   Future<void> deauthorize(DeauthorizeEventDto event, int id);
 
@@ -562,18 +513,24 @@ abstract class ApiFlutter {
   static void setup(ApiFlutter? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioReady', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.onScenarioReady',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioReady was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioReady was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioReady was null, expected non-null int.');
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioReady was null, expected non-null int.',
+          );
           api.onScenarioReady(arg_id!);
           return;
         });
@@ -581,18 +538,24 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioServingClients', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.onScenarioServingClients',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingClients was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingClients was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingClients was null, expected non-null int.');
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingClients was null, expected non-null int.',
+          );
           api.onScenarioServingClients(arg_id!);
           return;
         });
@@ -600,18 +563,24 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete was null, expected non-null int.');
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioServingComplete was null, expected non-null int.',
+          );
           api.onScenarioServingComplete(arg_id!);
           return;
         });
@@ -619,18 +588,24 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioComplete', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.onScenarioComplete',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioComplete was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioComplete was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioComplete was null, expected non-null int.');
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioComplete was null, expected non-null int.',
+          );
           api.onScenarioComplete(arg_id!);
           return;
         });
@@ -638,18 +613,24 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioError', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.onScenarioError',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioError was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioError was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioError was null, expected non-null int.');
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioError was null, expected non-null int.',
+          );
           api.onScenarioError(arg_id!);
           return;
         });
@@ -657,18 +638,24 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete was null, expected non-null int.');
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete was null, expected non-null int.',
+          );
           api.onScenarioTeardownComplete(arg_id!);
           return;
         });
@@ -676,18 +663,24 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onLowPowerAndNoConnection', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.onLowPowerAndNoConnection',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onLowPowerAndNoConnection was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onLowPowerAndNoConnection was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_id = (args[0] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onLowPowerAndNoConnection was null, expected non-null int.');
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onLowPowerAndNoConnection was null, expected non-null int.',
+          );
           api.onLowPowerAndNoConnection(arg_id!);
           return;
         });
@@ -695,46 +688,56 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.authorize', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.authorize',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null.');
+          assert(message != null, 'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final AuthorizeRequestDto? arg_request =
-              (args[0] as AuthorizeRequestDto?);
-          assert(arg_request != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null AuthorizeRequestDto.');
+          final AuthorizeRequestDto? arg_request = (args[0] as AuthorizeRequestDto?);
+          assert(
+            arg_request != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null AuthorizeRequestDto.',
+          );
           final int? arg_id = (args[1] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null int.');
-          final AuthorizeResultDto? output =
-              await api.authorize(arg_request!, arg_id!);
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.authorize was null, expected non-null int.',
+          );
+          final AuthorizeResultDto? output = await api.authorize(arg_request!, arg_id!);
           return output;
         });
       }
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.reauthorize', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.reauthorize',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.reauthorize was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.reauthorize was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
-          final ReauthorizeRequestDto? arg_request =
-              (args[0] as ReauthorizeRequestDto?);
-          assert(arg_request != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.reauthorize was null, expected non-null ReauthorizeRequestDto.');
+          final ReauthorizeRequestDto? arg_request = (args[0] as ReauthorizeRequestDto?);
+          assert(
+            arg_request != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.reauthorize was null, expected non-null ReauthorizeRequestDto.',
+          );
           final int? arg_id = (args[1] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.reauthorize was null, expected non-null int.');
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.reauthorize was null, expected non-null int.',
+          );
           final bool output = await api.reauthorize(arg_request!, arg_id!);
           return output;
         });
@@ -742,94 +745,123 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.signTransactions', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.signTransactions',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.signTransactions was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.signTransactions was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
-          final SignTransactionsRequestDto? arg_request =
-              (args[0] as SignTransactionsRequestDto?);
-          assert(arg_request != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.signTransactions was null, expected non-null SignTransactionsRequestDto.');
+          final SignTransactionsRequestDto? arg_request = (args[0] as SignTransactionsRequestDto?);
+          assert(
+            arg_request != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.signTransactions was null, expected non-null SignTransactionsRequestDto.',
+          );
           final int? arg_id = (args[1] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.signTransactions was null, expected non-null int.');
-          final SignedPayloadsResultDto? output =
-              await api.signTransactions(arg_request!, arg_id!);
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.signTransactions was null, expected non-null int.',
+          );
+          final SignedPayloadsResultDto? output = await api.signTransactions(arg_request!, arg_id!);
           return output;
         });
       }
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.signMessages', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.signMessages',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.signMessages was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.signMessages was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
-          final SignMessagesRequestDto? arg_request =
-              (args[0] as SignMessagesRequestDto?);
-          assert(arg_request != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.signMessages was null, expected non-null SignMessagesRequestDto.');
+          final SignMessagesRequestDto? arg_request = (args[0] as SignMessagesRequestDto?);
+          assert(
+            arg_request != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.signMessages was null, expected non-null SignMessagesRequestDto.',
+          );
           final int? arg_id = (args[1] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.signMessages was null, expected non-null int.');
-          final SignedPayloadsResultDto? output =
-              await api.signMessages(arg_request!, arg_id!);
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.signMessages was null, expected non-null int.',
+          );
+          final SignedPayloadsResultDto? output = await api.signMessages(arg_request!, arg_id!);
           return output;
         });
       }
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.signAndSendTransactions', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.signAndSendTransactions',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.signAndSendTransactions was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.signAndSendTransactions was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final SignAndSendTransactionsRequestDto? arg_request =
               (args[0] as SignAndSendTransactionsRequestDto?);
-          assert(arg_request != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.signAndSendTransactions was null, expected non-null SignAndSendTransactionsRequestDto.');
+          assert(
+            arg_request != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.signAndSendTransactions was null, expected non-null SignAndSendTransactionsRequestDto.',
+          );
           final int? arg_id = (args[1] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.signAndSendTransactions was null, expected non-null int.');
-          final SignaturesResultDto? output =
-              await api.signAndSendTransactions(arg_request!, arg_id!);
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.signAndSendTransactions was null, expected non-null int.',
+          );
+          final SignaturesResultDto? output = await api.signAndSendTransactions(
+            arg_request!,
+            arg_id!,
+          );
           return output;
         });
       }
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.deauthorize', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.deauthorize',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.deauthorize was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.deauthorize was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
-          final DeauthorizeEventDto? arg_event =
-              (args[0] as DeauthorizeEventDto?);
-          assert(arg_event != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.deauthorize was null, expected non-null DeauthorizeEventDto.');
+          final DeauthorizeEventDto? arg_event = (args[0] as DeauthorizeEventDto?);
+          assert(
+            arg_event != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.deauthorize was null, expected non-null DeauthorizeEventDto.',
+          );
           final int? arg_id = (args[1] as int?);
-          assert(arg_id != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.deauthorize was null, expected non-null int.');
+          assert(
+            arg_id != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.deauthorize was null, expected non-null int.',
+          );
           await api.deauthorize(arg_event!, arg_id!);
           return;
         });
@@ -837,18 +869,24 @@ abstract class ApiFlutter {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ApiFlutter.onNewIntent', codec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.ApiFlutter.onNewIntent',
+        codec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onNewIntent was null.');
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onNewIntent was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final bool? arg_isInitialIntent = (args[0] as bool?);
-          assert(arg_isInitialIntent != null,
-              'Argument for dev.flutter.pigeon.ApiFlutter.onNewIntent was null, expected non-null bool.');
+          assert(
+            arg_isInitialIntent != null,
+            'Argument for dev.flutter.pigeon.ApiFlutter.onNewIntent was null, expected non-null bool.',
+          );
           api.onNewIntent(arg_isInitialIntent!);
           return;
         });
@@ -889,18 +927,18 @@ class ApiHost {
   /// Constructor for [ApiHost].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  ApiHost({BinaryMessenger? binaryMessenger})
-      : _binaryMessenger = binaryMessenger;
+  ApiHost({BinaryMessenger? binaryMessenger}) : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
   static const MessageCodec<Object?> codec = _ApiHostCodec();
 
   Future<void> start(int arg_id) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiHost.start', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id]) as List<Object?>?;
+      'dev.flutter.pigeon.ApiHost.start',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final List<Object?>? replyList = await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -919,10 +957,11 @@ class ApiHost {
 
   Future<void> close(int arg_id) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiHost.close', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id]) as List<Object?>?;
+      'dev.flutter.pigeon.ApiHost.close',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final List<Object?>? replyList = await channel.send(<Object?>[arg_id]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -940,15 +979,18 @@ class ApiHost {
   }
 
   Future<Uint8List?> createScenario(
-      int arg_id,
-      WalletConfigDto arg_walletConfig,
-      AuthIssuerConfigDto arg_authIssuerConfig) async {
+    int arg_id,
+    WalletConfigDto arg_walletConfig,
+    AuthIssuerConfigDto arg_authIssuerConfig,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ApiHost.createScenario', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel
-            .send(<Object?>[arg_id, arg_walletConfig, arg_authIssuerConfig])
-        as List<Object?>?;
+      'dev.flutter.pigeon.ApiHost.createScenario',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_id, arg_walletConfig, arg_authIssuerConfig])
+            as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

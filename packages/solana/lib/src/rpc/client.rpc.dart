@@ -14,23 +14,23 @@ class _RpcClient implements RpcClient {
   final JsonRpcClient _jsonRpcClient;
 
   @override
-  Future<AccountResult> getAccountInfo(String pubKey,
-      {Commitment commitment = Commitment.finalized,
-      Encoding? encoding,
-      DataSlice? dataSlice,
-      num? minContextSlot}) async {
-    final config = GetAccountInfoConfig(
-            commitment: commitment,
-            encoding: encoding,
-            dataSlice: dataSlice,
-            minContextSlot: minContextSlot)
-        .toJson();
+  Future<AccountResult> getAccountInfo(
+    String pubKey, {
+    Commitment commitment = Commitment.finalized,
+    Encoding? encoding,
+    DataSlice? dataSlice,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetAccountInfoConfig(
+          commitment: commitment,
+          encoding: encoding,
+          dataSlice: dataSlice,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getAccountInfo',
-      params: <dynamic>[
-        pubKey,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[pubKey, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -38,17 +38,19 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<BalanceResult> getBalance(String pubKey,
-      {Commitment? commitment, num? minContextSlot}) async {
+  Future<BalanceResult> getBalance(
+    String pubKey, {
+    Commitment? commitment,
+    num? minContextSlot,
+  }) async {
     final config =
-        GetBalanceConfig(commitment: commitment, minContextSlot: minContextSlot)
-            .toJson();
+        GetBalanceConfig(
+          commitment: commitment,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getBalance',
-      params: <dynamic>[
-        pubKey,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[pubKey, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -56,25 +58,25 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<Block?> getBlock(int slot,
-      {Encoding? encoding,
-      TransactionDetailLevel? transactionDetails,
-      bool? rewards = false,
-      Commitment? commitment = Commitment.finalized,
-      num? maxSupportedTransactionVersion = 0}) async {
-    final config = GetBlockConfig(
-            encoding: encoding,
-            transactionDetails: transactionDetails,
-            rewards: rewards,
-            commitment: commitment,
-            maxSupportedTransactionVersion: maxSupportedTransactionVersion)
-        .toJson();
+  Future<Block?> getBlock(
+    int slot, {
+    Encoding? encoding,
+    TransactionDetailLevel? transactionDetails,
+    bool? rewards = false,
+    Commitment? commitment = Commitment.finalized,
+    num? maxSupportedTransactionVersion = 0,
+  }) async {
+    final config =
+        GetBlockConfig(
+          encoding: encoding,
+          transactionDetails: transactionDetails,
+          rewards: rewards,
+          commitment: commitment,
+          maxSupportedTransactionVersion: maxSupportedTransactionVersion,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getBlock',
-      params: <dynamic>[
-        slot,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[slot, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -84,16 +86,18 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<int> getBlockHeight(
-      {Commitment? commitment, num? minContextSlot}) async {
-    final config = GetBlockHeightConfig(
-            commitment: commitment, minContextSlot: minContextSlot)
-        .toJson();
+  Future<int> getBlockHeight({
+    Commitment? commitment,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetBlockHeightConfig(
+          commitment: commitment,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getBlockHeight',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -101,18 +105,20 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<BlockProductionResult> getBlockProduction(
-      {Commitment? commitment = Commitment.finalized,
-      Range? range,
-      String? identity}) async {
-    final config = GetBlockProductionConfig(
-            commitment: commitment, range: range, identity: identity)
-        .toJson();
+  Future<BlockProductionResult> getBlockProduction({
+    Commitment? commitment = Commitment.finalized,
+    Range? range,
+    String? identity,
+  }) async {
+    final config =
+        GetBlockProductionConfig(
+          commitment: commitment,
+          range: range,
+          identity: identity,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getBlockProduction',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -124,10 +130,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getBlockCommitment',
-      params: <dynamic>[
-        block,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[block, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -137,8 +140,11 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<List<int>> getBlocks(int startSlot, int? endSlot,
-      {Commitment? commitment}) async {
+  Future<List<int>> getBlocks(
+    int startSlot,
+    int? endSlot, {
+    Commitment? commitment,
+  }) async {
     final config = GetBlocksConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
       'getBlocks',
@@ -154,16 +160,15 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<List<int>> getBlocksWithLimit(int startSlot, int limit,
-      {Commitment? commitment}) async {
+  Future<List<int>> getBlocksWithLimit(
+    int startSlot,
+    int limit, {
+    Commitment? commitment,
+  }) async {
     final config = GetBlocksWithLimitConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
       'getBlocksWithLimit',
-      params: <dynamic>[
-        startSlot,
-        limit,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[startSlot, limit, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -175,10 +180,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getBlockTime',
-      params: <dynamic>[
-        block,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[block, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -190,27 +192,29 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getClusterNodes',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
     return fromJsonArray(
-        value, (dynamic v) => ClusterNode.fromJson(v as Map<String, dynamic>));
+      value,
+      (dynamic v) => ClusterNode.fromJson(v as Map<String, dynamic>),
+    );
   }
 
   @override
-  Future<EpochInfo> getEpochInfo(
-      {Commitment? commitment, num? minContextSlot}) async {
-    final config = GetEpochInfoConfig(
-            commitment: commitment, minContextSlot: minContextSlot)
-        .toJson();
+  Future<EpochInfo> getEpochInfo({
+    Commitment? commitment,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetEpochInfoConfig(
+          commitment: commitment,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getEpochInfo',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -222,9 +226,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getEpochSchedule',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -232,17 +234,19 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<int?> getFeeForMessage(String message,
-      {Commitment? commitment, num? minContextSlot}) async {
-    final config = GetFeeForMessageConfig(
-            commitment: commitment, minContextSlot: minContextSlot)
-        .toJson();
+  Future<int?> getFeeForMessage(
+    String message, {
+    Commitment? commitment,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetFeeForMessageConfig(
+          commitment: commitment,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getFeeForMessage',
-      params: <dynamic>[
-        message,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[message, if (config.isNotEmpty) config],
     );
     final dynamic value = unwrapAndGetResult(response);
 
@@ -254,9 +258,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getFirstAvailableBlock',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -268,9 +270,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getGenesisHash',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -282,9 +282,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getHealth',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -296,9 +294,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getHighestSnapshotSlot',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -310,9 +306,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getIdentity',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -320,14 +314,13 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<InflationGovernor> getInflationGovernor(
-      {Commitment? commitment}) async {
+  Future<InflationGovernor> getInflationGovernor({
+    Commitment? commitment,
+  }) async {
     final config = GetInflationGovernorConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
       'getInflationGovernor',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -339,9 +332,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getInflationRate',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -349,38 +340,43 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<List<InflationReward>> getInflationReward(List<String> addresses,
-      {Commitment? commitment, int? epoch, num? minContextSlot}) async {
-    final config = GetInflationRewardConfig(
-            commitment: commitment,
-            epoch: epoch,
-            minContextSlot: minContextSlot)
-        .toJson();
+  Future<List<InflationReward>> getInflationReward(
+    List<String> addresses, {
+    Commitment? commitment,
+    int? epoch,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetInflationRewardConfig(
+          commitment: commitment,
+          epoch: epoch,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getInflationReward',
-      params: <dynamic>[
-        addresses,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[addresses, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
-    return fromJsonArray(value,
-        (dynamic v) => InflationReward.fromJson(v as Map<String, dynamic>));
+    return fromJsonArray(
+      value,
+      (dynamic v) => InflationReward.fromJson(v as Map<String, dynamic>),
+    );
   }
 
   @override
-  Future<LargeAccountsResult> getLargestAccounts(
-      {Commitment? commitment = Commitment.finalized,
-      CirculationStatus? filter}) async {
+  Future<LargeAccountsResult> getLargestAccounts({
+    Commitment? commitment = Commitment.finalized,
+    CirculationStatus? filter,
+  }) async {
     final config =
-        GetLargestAccountsConfig(commitment: commitment, filter: filter)
-            .toJson();
+        GetLargestAccountsConfig(
+          commitment: commitment,
+          filter: filter,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getLargestAccounts',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -388,16 +384,18 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<LatestBlockhashResult> getLatestBlockhash(
-      {Commitment? commitment, num? minContextSlot}) async {
-    final config = GetLatestBlockhashConfig(
-            commitment: commitment, minContextSlot: minContextSlot)
-        .toJson();
+  Future<LatestBlockhashResult> getLatestBlockhash({
+    Commitment? commitment,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetLatestBlockhashConfig(
+          commitment: commitment,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getLatestBlockhash',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -405,22 +403,27 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<Map<String, List<int>>?> getLeaderSchedule(int? slot,
-      {Commitment? commitment = Commitment.finalized, String? identity}) async {
+  Future<Map<String, List<int>>?> getLeaderSchedule(
+    int? slot, {
+    Commitment? commitment = Commitment.finalized,
+    String? identity,
+  }) async {
     final config =
-        GetLeaderScheduleConfig(commitment: commitment, identity: identity)
-            .toJson();
+        GetLeaderScheduleConfig(
+          commitment: commitment,
+          identity: identity,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getLeaderSchedule',
-      params: <dynamic>[
-        if (slot != null) slot,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (slot != null) slot, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
-    return fromJsonMap(value, (dynamic v) => v as String,
-        (dynamic v) => fromJsonArray(v, (dynamic v) => v as int));
+    return fromJsonMap(
+      value,
+      (dynamic v) => v as String,
+      (dynamic v) => fromJsonArray(v, (dynamic v) => v as int),
+    );
   }
 
   @override
@@ -428,9 +431,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getMaxRetransmitSlot',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -442,9 +443,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getMaxShredInsertSlot',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -452,17 +451,17 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<int> getMinimumBalanceForRentExemption(int accountDataLength,
-      {Commitment? commitment}) async {
+  Future<int> getMinimumBalanceForRentExemption(
+    int accountDataLength, {
+    Commitment? commitment,
+  }) async {
     final config =
-        GetMinimumBalanceForRentExemptionConfig(commitment: commitment)
-            .toJson();
+        GetMinimumBalanceForRentExemptionConfig(
+          commitment: commitment,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getMinimumBalanceForRentExemption',
-      params: <dynamic>[
-        accountDataLength,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[accountDataLength, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -470,23 +469,23 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<MultipleAccountsResult> getMultipleAccounts(List<String> pubKeys,
-      {Commitment commitment = Commitment.finalized,
-      Encoding? encoding,
-      DataSlice? dataSlice,
-      num? minContextSlot}) async {
-    final config = GetMultipleAccountsConfig(
-            commitment: commitment,
-            encoding: encoding,
-            dataSlice: dataSlice,
-            minContextSlot: minContextSlot)
-        .toJson();
+  Future<MultipleAccountsResult> getMultipleAccounts(
+    List<String> pubKeys, {
+    Commitment commitment = Commitment.finalized,
+    Encoding? encoding,
+    DataSlice? dataSlice,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetMultipleAccountsConfig(
+          commitment: commitment,
+          encoding: encoding,
+          dataSlice: dataSlice,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getMultipleAccounts',
-      params: <dynamic>[
-        pubKeys,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[pubKeys, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -494,32 +493,34 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<List<ProgramAccount>> getProgramAccounts(String pubKey,
-      {Commitment? commitment = Commitment.finalized,
-      required Encoding encoding,
-      DataSlice? dataSlice,
-      List<ProgramDataFilter>? filters,
-      bool? withContext,
-      num? minContextSlot}) async {
-    final config = GetProgramAccountsConfig(
-            commitment: commitment,
-            encoding: encoding,
-            dataSlice: dataSlice,
-            filters: filters,
-            withContext: withContext,
-            minContextSlot: minContextSlot)
-        .toJson();
+  Future<List<ProgramAccount>> getProgramAccounts(
+    String pubKey, {
+    Commitment? commitment = Commitment.finalized,
+    required Encoding encoding,
+    DataSlice? dataSlice,
+    List<ProgramDataFilter>? filters,
+    bool? withContext,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetProgramAccountsConfig(
+          commitment: commitment,
+          encoding: encoding,
+          dataSlice: dataSlice,
+          filters: filters,
+          withContext: withContext,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getProgramAccounts',
-      params: <dynamic>[
-        pubKey,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[pubKey, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
-    return fromJsonArray(value,
-        (dynamic v) => ProgramAccount.fromJson(v as Map<String, dynamic>));
+    return fromJsonArray(
+      value,
+      (dynamic v) => ProgramAccount.fromJson(v as Map<String, dynamic>),
+    );
   }
 
   @override
@@ -535,51 +536,53 @@ class _RpcClient implements RpcClient {
     final dynamic value = getResult(response);
 
     return fromJsonArray(
-        value, (dynamic v) => PerfSample.fromJson(v as Map<String, dynamic>));
+      value,
+      (dynamic v) => PerfSample.fromJson(v as Map<String, dynamic>),
+    );
   }
 
   @override
   Future<List<TransactionSignatureInformation>> getSignaturesForAddress(
-      String pubKey,
-      {int? limit,
-      String? before,
-      String? until,
-      Commitment? commitment = Commitment.finalized,
-      num? minContextSlot}) async {
-    final config = GetSignaturesForAddressConfig(
-            limit: limit,
-            before: before,
-            until: until,
-            commitment: commitment,
-            minContextSlot: minContextSlot)
-        .toJson();
+    String pubKey, {
+    int? limit,
+    String? before,
+    String? until,
+    Commitment? commitment = Commitment.finalized,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetSignaturesForAddressConfig(
+          limit: limit,
+          before: before,
+          until: until,
+          commitment: commitment,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getSignaturesForAddress',
-      params: <dynamic>[
-        pubKey,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[pubKey, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
     return fromJsonArray(
-        value,
-        (dynamic v) => TransactionSignatureInformation.fromJson(
-            v as Map<String, dynamic>));
+      value,
+      (dynamic v) =>
+          TransactionSignatureInformation.fromJson(v as Map<String, dynamic>),
+    );
   }
 
   @override
-  Future<SignatureStatusesResult> getSignatureStatuses(List<String> signatures,
-      {bool? searchTransactionHistory}) async {
-    final config = GetSignatureStatusesConfig(
-            searchTransactionHistory: searchTransactionHistory)
-        .toJson();
+  Future<SignatureStatusesResult> getSignatureStatuses(
+    List<String> signatures, {
+    bool? searchTransactionHistory,
+  }) async {
+    final config =
+        GetSignatureStatusesConfig(
+          searchTransactionHistory: searchTransactionHistory,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getSignatureStatuses',
-      params: <dynamic>[
-        signatures,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[signatures, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -589,13 +592,13 @@ class _RpcClient implements RpcClient {
   @override
   Future<int> getSlot({Commitment? commitment, num? minContextSlot}) async {
     final config =
-        GetSlotConfig(commitment: commitment, minContextSlot: minContextSlot)
-            .toJson();
+        GetSlotConfig(
+          commitment: commitment,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getSlot',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -603,16 +606,18 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<String> getSlotLeader(
-      {Commitment? commitment, num? minContextSlot}) async {
-    final config = GetSlotLeaderConfig(
-            commitment: commitment, minContextSlot: minContextSlot)
-        .toJson();
+  Future<String> getSlotLeader({
+    Commitment? commitment,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetSlotLeaderConfig(
+          commitment: commitment,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getSlotLeader',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -624,11 +629,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getSlotLeaders',
-      params: <dynamic>[
-        startSlot,
-        limit,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[startSlot, limit, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -636,15 +637,14 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<StakeMinimumDelegationResult> getStakeMinimumDelegation(
-      {Commitment? commitment}) async {
+  Future<StakeMinimumDelegationResult> getStakeMinimumDelegation({
+    Commitment? commitment,
+  }) async {
     final config =
         GetStakeMinimumDelegationConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
       'getStakeMinimumDelegation',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -652,19 +652,18 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<SupplyResult> getSupply(
-      {Commitment commitment = Commitment.finalized,
-      bool? excludeNonCirculatingAccountsList}) async {
-    final config = GetSupplyConfig(
-            commitment: commitment,
-            excludeNonCirculatingAccountsList:
-                excludeNonCirculatingAccountsList)
-        .toJson();
+  Future<SupplyResult> getSupply({
+    Commitment commitment = Commitment.finalized,
+    bool? excludeNonCirculatingAccountsList,
+  }) async {
+    final config =
+        GetSupplyConfig(
+          commitment: commitment,
+          excludeNonCirculatingAccountsList: excludeNonCirculatingAccountsList,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getSupply',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -672,16 +671,15 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<TokenAmountResult> getTokenAccountBalance(String pubKey,
-      {Commitment? commitment}) async {
+  Future<TokenAmountResult> getTokenAccountBalance(
+    String pubKey, {
+    Commitment? commitment,
+  }) async {
     final config =
         GetTokenAccountBalanceConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
       'getTokenAccountBalance',
-      params: <dynamic>[
-        pubKey,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[pubKey, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -690,24 +688,23 @@ class _RpcClient implements RpcClient {
 
   @override
   Future<ProgramAccountsResult> getTokenAccountsByDelegate(
-      String pubKey, TokenAccountsFilter filter,
-      {Commitment commitment = Commitment.finalized,
-      Encoding? encoding,
-      DataSlice? dataSlice,
-      num? minContextSlot}) async {
-    final config = GetTokenAccountsByDelegateConfig(
-            commitment: commitment,
-            encoding: encoding,
-            dataSlice: dataSlice,
-            minContextSlot: minContextSlot)
-        .toJson();
+    String pubKey,
+    TokenAccountsFilter filter, {
+    Commitment commitment = Commitment.finalized,
+    Encoding? encoding,
+    DataSlice? dataSlice,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetTokenAccountsByDelegateConfig(
+          commitment: commitment,
+          encoding: encoding,
+          dataSlice: dataSlice,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getTokenAccountsByDelegate',
-      params: <dynamic>[
-        pubKey,
-        filter.toJson(),
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[pubKey, filter.toJson(), if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -716,24 +713,23 @@ class _RpcClient implements RpcClient {
 
   @override
   Future<ProgramAccountsResult> getTokenAccountsByOwner(
-      String pubKey, TokenAccountsFilter filter,
-      {Commitment commitment = Commitment.finalized,
-      Encoding? encoding,
-      DataSlice? dataSlice,
-      num? minContextSlot}) async {
-    final config = GetTokenAccountsByOwnerConfig(
-            commitment: commitment,
-            encoding: encoding,
-            dataSlice: dataSlice,
-            minContextSlot: minContextSlot)
-        .toJson();
+    String pubKey,
+    TokenAccountsFilter filter, {
+    Commitment commitment = Commitment.finalized,
+    Encoding? encoding,
+    DataSlice? dataSlice,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetTokenAccountsByOwnerConfig(
+          commitment: commitment,
+          encoding: encoding,
+          dataSlice: dataSlice,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getTokenAccountsByOwner',
-      params: <dynamic>[
-        pubKey,
-        filter.toJson(),
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[pubKey, filter.toJson(), if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -741,16 +737,15 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<TokenLargestAccountsResult> getTokenLargestAccounts(String pubKey,
-      {Commitment? commitment}) async {
+  Future<TokenLargestAccountsResult> getTokenLargestAccounts(
+    String pubKey, {
+    Commitment? commitment,
+  }) async {
     final config =
         GetTokenLargestAccountsConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
       'getTokenLargestAccounts',
-      params: <dynamic>[
-        pubKey,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[pubKey, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -758,15 +753,14 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<TokenAmountResult> getTokenSupply(String mint,
-      {Commitment? commitment}) async {
+  Future<TokenAmountResult> getTokenSupply(
+    String mint, {
+    Commitment? commitment,
+  }) async {
     final config = GetTokenSupplyConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
       'getTokenSupply',
-      params: <dynamic>[
-        mint,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[mint, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -774,21 +768,21 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<TransactionDetails?> getTransaction(String signature,
-      {Encoding? encoding,
-      Commitment? commitment = Commitment.finalized,
-      num? maxSupportedTransactionVersion = 0}) async {
-    final config = GetTransactionConfig(
-            encoding: encoding,
-            commitment: commitment,
-            maxSupportedTransactionVersion: maxSupportedTransactionVersion)
-        .toJson();
+  Future<TransactionDetails?> getTransaction(
+    String signature, {
+    Encoding? encoding,
+    Commitment? commitment = Commitment.finalized,
+    num? maxSupportedTransactionVersion = 0,
+  }) async {
+    final config =
+        GetTransactionConfig(
+          encoding: encoding,
+          commitment: commitment,
+          maxSupportedTransactionVersion: maxSupportedTransactionVersion,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getTransaction',
-      params: <dynamic>[
-        signature,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[signature, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -798,16 +792,18 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<int> getTransactionCount(
-      {Commitment? commitment, num? minContextSlot}) async {
-    final config = GetTransactionCountConfig(
-            commitment: commitment, minContextSlot: minContextSlot)
-        .toJson();
+  Future<int> getTransactionCount({
+    Commitment? commitment,
+    num? minContextSlot,
+  }) async {
+    final config =
+        GetTransactionCountConfig(
+          commitment: commitment,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getTransactionCount',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -819,9 +815,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'getVersion',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -829,22 +823,22 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<VoteAccounts> getVoteAccounts(
-      {Commitment? commitment = Commitment.finalized,
-      String? votePubKey,
-      bool? keepUnstakedDelinquents,
-      int? delinquentSlotDistance}) async {
-    final config = GetVoteAccountsConfig(
-            commitment: commitment,
-            votePubKey: votePubKey,
-            keepUnstakedDelinquents: keepUnstakedDelinquents,
-            delinquentSlotDistance: delinquentSlotDistance)
-        .toJson();
+  Future<VoteAccounts> getVoteAccounts({
+    Commitment? commitment = Commitment.finalized,
+    String? votePubKey,
+    bool? keepUnstakedDelinquents,
+    int? delinquentSlotDistance,
+  }) async {
+    final config =
+        GetVoteAccountsConfig(
+          commitment: commitment,
+          votePubKey: votePubKey,
+          keepUnstakedDelinquents: keepUnstakedDelinquents,
+          delinquentSlotDistance: delinquentSlotDistance,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'getVoteAccounts',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -852,17 +846,19 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<BlockhasValidResult> isBlockhashValid(String blockhash,
-      {Commitment? commitment, num? minContextSlot}) async {
-    final config = IsBlockhashValidConfig(
-            commitment: commitment, minContextSlot: minContextSlot)
-        .toJson();
+  Future<BlockhasValidResult> isBlockhashValid(
+    String blockhash, {
+    Commitment? commitment,
+    num? minContextSlot,
+  }) async {
+    final config =
+        IsBlockhashValidConfig(
+          commitment: commitment,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'isBlockhashValid',
-      params: <dynamic>[
-        blockhash,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[blockhash, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -874,9 +870,7 @@ class _RpcClient implements RpcClient {
     final config = <String, dynamic>{};
     final response = await _jsonRpcClient.request(
       'minimumLedgerSlot',
-      params: <dynamic>[
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -884,16 +878,15 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<String> requestAirdrop(String pubKey, int lamports,
-      {Commitment? commitment}) async {
+  Future<String> requestAirdrop(
+    String pubKey,
+    int lamports, {
+    Commitment? commitment,
+  }) async {
     final config = RequestAirdropConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
       'requestAirdrop',
-      params: <dynamic>[
-        pubKey,
-        lamports,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[pubKey, lamports, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -901,25 +894,25 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<String> sendTransaction(String transaction,
-      {Encoding encoding = Encoding.base64,
-      Commitment? preflightCommitment = Commitment.finalized,
-      bool? skipPreflight = false,
-      int? maxRetries,
-      num? minContextSlot}) async {
-    final config = SendTransactionConfig(
-            encoding: encoding,
-            preflightCommitment: preflightCommitment,
-            skipPreflight: skipPreflight,
-            maxRetries: maxRetries,
-            minContextSlot: minContextSlot)
-        .toJson();
+  Future<String> sendTransaction(
+    String transaction, {
+    Encoding encoding = Encoding.base64,
+    Commitment? preflightCommitment = Commitment.finalized,
+    bool? skipPreflight = false,
+    int? maxRetries,
+    num? minContextSlot,
+  }) async {
+    final config =
+        SendTransactionConfig(
+          encoding: encoding,
+          preflightCommitment: preflightCommitment,
+          skipPreflight: skipPreflight,
+          maxRetries: maxRetries,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'sendTransaction',
-      params: <dynamic>[
-        transaction,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[transaction, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -927,27 +920,27 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<TransactionStatusResult> simulateTransaction(String transaction,
-      {bool? sigVerify,
-      Encoding encoding = Encoding.base64,
-      Commitment? commitment = Commitment.finalized,
-      bool? replaceRecentBlockhash = false,
-      SimulateTransactionAccounts? accounts,
-      num? minContextSlot}) async {
-    final config = SimulateTransactionConfig(
-            sigVerify: sigVerify,
-            encoding: encoding,
-            commitment: commitment,
-            replaceRecentBlockhash: replaceRecentBlockhash,
-            accounts: accounts,
-            minContextSlot: minContextSlot)
-        .toJson();
+  Future<TransactionStatusResult> simulateTransaction(
+    String transaction, {
+    bool? sigVerify,
+    Encoding encoding = Encoding.base64,
+    Commitment? commitment = Commitment.finalized,
+    bool? replaceRecentBlockhash = false,
+    SimulateTransactionAccounts? accounts,
+    num? minContextSlot,
+  }) async {
+    final config =
+        SimulateTransactionConfig(
+          sigVerify: sigVerify,
+          encoding: encoding,
+          commitment: commitment,
+          replaceRecentBlockhash: replaceRecentBlockhash,
+          accounts: accounts,
+          minContextSlot: minContextSlot,
+        ).toJson();
     final response = await _jsonRpcClient.request(
       'simulateTransaction',
-      params: <dynamic>[
-        transaction,
-        if (config.isNotEmpty) config,
-      ],
+      params: <dynamic>[transaction, if (config.isNotEmpty) config],
     );
     final dynamic value = getResult(response);
 
@@ -956,7 +949,10 @@ class _RpcClient implements RpcClient {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetAccountInfoConfig {
   GetAccountInfoConfig({
     this.commitment = Commitment.finalized,
@@ -974,12 +970,12 @@ class GetAccountInfoConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetBalanceConfig {
-  GetBalanceConfig({
-    this.commitment,
-    this.minContextSlot,
-  });
+  GetBalanceConfig({this.commitment, this.minContextSlot});
 
   final Commitment? commitment;
   final num? minContextSlot;
@@ -988,7 +984,10 @@ class GetBalanceConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetBlockConfig {
   GetBlockConfig({
     this.encoding,
@@ -1008,12 +1007,12 @@ class GetBlockConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetBlockHeightConfig {
-  GetBlockHeightConfig({
-    this.commitment,
-    this.minContextSlot,
-  });
+  GetBlockHeightConfig({this.commitment, this.minContextSlot});
 
   final Commitment? commitment;
   final num? minContextSlot;
@@ -1022,7 +1021,10 @@ class GetBlockHeightConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetBlockProductionConfig {
   GetBlockProductionConfig({
     this.commitment = Commitment.finalized,
@@ -1038,11 +1040,12 @@ class GetBlockProductionConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetBlocksConfig {
-  GetBlocksConfig({
-    this.commitment,
-  });
+  GetBlocksConfig({this.commitment});
 
   final Commitment? commitment;
 
@@ -1050,11 +1053,12 @@ class GetBlocksConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetBlocksWithLimitConfig {
-  GetBlocksWithLimitConfig({
-    this.commitment,
-  });
+  GetBlocksWithLimitConfig({this.commitment});
 
   final Commitment? commitment;
 
@@ -1062,12 +1066,12 @@ class GetBlocksWithLimitConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetEpochInfoConfig {
-  GetEpochInfoConfig({
-    this.commitment,
-    this.minContextSlot,
-  });
+  GetEpochInfoConfig({this.commitment, this.minContextSlot});
 
   final Commitment? commitment;
   final num? minContextSlot;
@@ -1076,12 +1080,12 @@ class GetEpochInfoConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetFeeForMessageConfig {
-  GetFeeForMessageConfig({
-    this.commitment,
-    this.minContextSlot,
-  });
+  GetFeeForMessageConfig({this.commitment, this.minContextSlot});
 
   final Commitment? commitment;
   final num? minContextSlot;
@@ -1090,11 +1094,12 @@ class GetFeeForMessageConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetInflationGovernorConfig {
-  GetInflationGovernorConfig({
-    this.commitment,
-  });
+  GetInflationGovernorConfig({this.commitment});
 
   final Commitment? commitment;
 
@@ -1102,13 +1107,12 @@ class GetInflationGovernorConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetInflationRewardConfig {
-  GetInflationRewardConfig({
-    this.commitment,
-    this.epoch,
-    this.minContextSlot,
-  });
+  GetInflationRewardConfig({this.commitment, this.epoch, this.minContextSlot});
 
   final Commitment? commitment;
   final int? epoch;
@@ -1118,7 +1122,10 @@ class GetInflationRewardConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetLargestAccountsConfig {
   GetLargestAccountsConfig({
     this.commitment = Commitment.finalized,
@@ -1132,12 +1139,12 @@ class GetLargestAccountsConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetLatestBlockhashConfig {
-  GetLatestBlockhashConfig({
-    this.commitment,
-    this.minContextSlot,
-  });
+  GetLatestBlockhashConfig({this.commitment, this.minContextSlot});
 
   final Commitment? commitment;
   final num? minContextSlot;
@@ -1146,7 +1153,10 @@ class GetLatestBlockhashConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetLeaderScheduleConfig {
   GetLeaderScheduleConfig({
     this.commitment = Commitment.finalized,
@@ -1160,11 +1170,12 @@ class GetLeaderScheduleConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetMinimumBalanceForRentExemptionConfig {
-  GetMinimumBalanceForRentExemptionConfig({
-    this.commitment,
-  });
+  GetMinimumBalanceForRentExemptionConfig({this.commitment});
 
   final Commitment? commitment;
 
@@ -1173,7 +1184,10 @@ class GetMinimumBalanceForRentExemptionConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetMultipleAccountsConfig {
   GetMultipleAccountsConfig({
     this.commitment = Commitment.finalized,
@@ -1191,7 +1205,10 @@ class GetMultipleAccountsConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetProgramAccountsConfig {
   GetProgramAccountsConfig({
     this.commitment = Commitment.finalized,
@@ -1213,7 +1230,10 @@ class GetProgramAccountsConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetSignaturesForAddressConfig {
   GetSignaturesForAddressConfig({
     this.limit,
@@ -1233,11 +1253,12 @@ class GetSignaturesForAddressConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetSignatureStatusesConfig {
-  GetSignatureStatusesConfig({
-    this.searchTransactionHistory,
-  });
+  GetSignatureStatusesConfig({this.searchTransactionHistory});
 
   final bool? searchTransactionHistory;
 
@@ -1245,12 +1266,12 @@ class GetSignatureStatusesConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetSlotConfig {
-  GetSlotConfig({
-    this.commitment,
-    this.minContextSlot,
-  });
+  GetSlotConfig({this.commitment, this.minContextSlot});
 
   final Commitment? commitment;
   final num? minContextSlot;
@@ -1259,12 +1280,12 @@ class GetSlotConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetSlotLeaderConfig {
-  GetSlotLeaderConfig({
-    this.commitment,
-    this.minContextSlot,
-  });
+  GetSlotLeaderConfig({this.commitment, this.minContextSlot});
 
   final Commitment? commitment;
   final num? minContextSlot;
@@ -1273,11 +1294,12 @@ class GetSlotLeaderConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetStakeMinimumDelegationConfig {
-  GetStakeMinimumDelegationConfig({
-    this.commitment,
-  });
+  GetStakeMinimumDelegationConfig({this.commitment});
 
   final Commitment? commitment;
 
@@ -1286,7 +1308,10 @@ class GetStakeMinimumDelegationConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetSupplyConfig {
   GetSupplyConfig({
     this.commitment = Commitment.finalized,
@@ -1300,11 +1325,12 @@ class GetSupplyConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetTokenAccountBalanceConfig {
-  GetTokenAccountBalanceConfig({
-    this.commitment,
-  });
+  GetTokenAccountBalanceConfig({this.commitment});
 
   final Commitment? commitment;
 
@@ -1312,7 +1338,10 @@ class GetTokenAccountBalanceConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetTokenAccountsByDelegateConfig {
   GetTokenAccountsByDelegateConfig({
     this.commitment = Commitment.finalized,
@@ -1331,7 +1360,10 @@ class GetTokenAccountsByDelegateConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetTokenAccountsByOwnerConfig {
   GetTokenAccountsByOwnerConfig({
     this.commitment = Commitment.finalized,
@@ -1349,11 +1381,12 @@ class GetTokenAccountsByOwnerConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetTokenLargestAccountsConfig {
-  GetTokenLargestAccountsConfig({
-    this.commitment,
-  });
+  GetTokenLargestAccountsConfig({this.commitment});
 
   final Commitment? commitment;
 
@@ -1361,11 +1394,12 @@ class GetTokenLargestAccountsConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetTokenSupplyConfig {
-  GetTokenSupplyConfig({
-    this.commitment,
-  });
+  GetTokenSupplyConfig({this.commitment});
 
   final Commitment? commitment;
 
@@ -1373,7 +1407,10 @@ class GetTokenSupplyConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetTransactionConfig {
   GetTransactionConfig({
     this.encoding,
@@ -1389,12 +1426,12 @@ class GetTransactionConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetTransactionCountConfig {
-  GetTransactionCountConfig({
-    this.commitment,
-    this.minContextSlot,
-  });
+  GetTransactionCountConfig({this.commitment, this.minContextSlot});
 
   final Commitment? commitment;
   final num? minContextSlot;
@@ -1403,7 +1440,10 @@ class GetTransactionCountConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class GetVoteAccountsConfig {
   GetVoteAccountsConfig({
     this.commitment = Commitment.finalized,
@@ -1421,12 +1461,12 @@ class GetVoteAccountsConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class IsBlockhashValidConfig {
-  IsBlockhashValidConfig({
-    this.commitment,
-    this.minContextSlot,
-  });
+  IsBlockhashValidConfig({this.commitment, this.minContextSlot});
 
   final Commitment? commitment;
   final num? minContextSlot;
@@ -1435,11 +1475,12 @@ class IsBlockhashValidConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class RequestAirdropConfig {
-  RequestAirdropConfig({
-    this.commitment,
-  });
+  RequestAirdropConfig({this.commitment});
 
   final Commitment? commitment;
 
@@ -1447,7 +1488,10 @@ class RequestAirdropConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class SendTransactionConfig {
   SendTransactionConfig({
     this.encoding = Encoding.base64,
@@ -1467,7 +1511,10 @@ class SendTransactionConfig {
 }
 
 @JsonSerializable(
-    createFactory: false, includeIfNull: false, explicitToJson: true)
+  createFactory: false,
+  includeIfNull: false,
+  explicitToJson: true,
+)
 class SimulateTransactionConfig {
   SimulateTransactionConfig({
     this.sigVerify,

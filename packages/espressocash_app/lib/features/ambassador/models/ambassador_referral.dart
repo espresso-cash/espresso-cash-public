@@ -21,28 +21,23 @@ class AmbassadorReferral with _$AmbassadorReferral {
   static AmbassadorReferral? tryParse(String code) {
     try {
       final uri = Uri.parse(code);
-      if (uri.scheme != espressoCashLinkProtocol ||
-          !uri.path.contains('ambassador')) {
+      if (uri.scheme != espressoCashLinkProtocol || !uri.path.contains('ambassador')) {
         return null;
       }
 
       final address = uri.queryParameters['address'];
       if (address == null || !isValidAddress(address)) return null;
 
-      return AmbassadorReferral(
-        address: Ed25519HDPublicKey.fromBase58(address),
-      );
+      return AmbassadorReferral(address: Ed25519HDPublicKey.fromBase58(address));
     } on Exception {
       return null;
     }
   }
 
   Uri toLink() => Uri(
-        scheme: espressoCashLinkProtocol,
-        host: '',
-        path: 'ambassador',
-        queryParameters: <String, String>{
-          'address': address.toBase58(),
-        },
-      );
+    scheme: espressoCashLinkProtocol,
+    host: '',
+    path: 'ambassador',
+    queryParameters: <String, String>{'address': address.toBase58()},
+  );
 }

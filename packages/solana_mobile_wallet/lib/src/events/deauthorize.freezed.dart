@@ -12,7 +12,8 @@ part of 'deauthorize.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$DeauthorizeEvent {
@@ -21,14 +22,12 @@ mixin _$DeauthorizeEvent {
   Uri? get iconUri => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $DeauthorizeEventCopyWith<DeauthorizeEvent> get copyWith =>
-      throw _privateConstructorUsedError;
+  $DeauthorizeEventCopyWith<DeauthorizeEvent> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $DeauthorizeEventCopyWith<$Res> {
-  factory $DeauthorizeEventCopyWith(
-          DeauthorizeEvent value, $Res Function(DeauthorizeEvent) then) =
+  factory $DeauthorizeEventCopyWith(DeauthorizeEvent value, $Res Function(DeauthorizeEvent) then) =
       _$DeauthorizeEventCopyWithImpl<$Res, DeauthorizeEvent>;
   @useResult
   $Res call({String? identityName, Uri? identityUri, Uri? iconUri});
@@ -51,41 +50,48 @@ class _$DeauthorizeEventCopyWithImpl<$Res, $Val extends DeauthorizeEvent>
     Object? identityUri = freezed,
     Object? iconUri = freezed,
   }) {
-    return _then(_value.copyWith(
-      identityName: freezed == identityName
-          ? _value.identityName
-          : identityName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      identityUri: freezed == identityUri
-          ? _value.identityUri
-          : identityUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      iconUri: freezed == iconUri
-          ? _value.iconUri
-          : iconUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            identityName:
+                freezed == identityName
+                    ? _value.identityName
+                    : identityName // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            identityUri:
+                freezed == identityUri
+                    ? _value.identityUri
+                    : identityUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+            iconUri:
+                freezed == iconUri
+                    ? _value.iconUri
+                    : iconUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_DeauthorizeEventCopyWith<$Res>
-    implements $DeauthorizeEventCopyWith<$Res> {
-  factory _$$_DeauthorizeEventCopyWith(
-          _$_DeauthorizeEvent value, $Res Function(_$_DeauthorizeEvent) then) =
-      __$$_DeauthorizeEventCopyWithImpl<$Res>;
+abstract class _$$DeauthorizeEventImplCopyWith<$Res> implements $DeauthorizeEventCopyWith<$Res> {
+  factory _$$DeauthorizeEventImplCopyWith(
+    _$DeauthorizeEventImpl value,
+    $Res Function(_$DeauthorizeEventImpl) then,
+  ) = __$$DeauthorizeEventImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? identityName, Uri? identityUri, Uri? iconUri});
 }
 
 /// @nodoc
-class __$$_DeauthorizeEventCopyWithImpl<$Res>
-    extends _$DeauthorizeEventCopyWithImpl<$Res, _$_DeauthorizeEvent>
-    implements _$$_DeauthorizeEventCopyWith<$Res> {
-  __$$_DeauthorizeEventCopyWithImpl(
-      _$_DeauthorizeEvent _value, $Res Function(_$_DeauthorizeEvent) _then)
-      : super(_value, _then);
+class __$$DeauthorizeEventImplCopyWithImpl<$Res>
+    extends _$DeauthorizeEventCopyWithImpl<$Res, _$DeauthorizeEventImpl>
+    implements _$$DeauthorizeEventImplCopyWith<$Res> {
+  __$$DeauthorizeEventImplCopyWithImpl(
+    _$DeauthorizeEventImpl _value,
+    $Res Function(_$DeauthorizeEventImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -94,30 +100,36 @@ class __$$_DeauthorizeEventCopyWithImpl<$Res>
     Object? identityUri = freezed,
     Object? iconUri = freezed,
   }) {
-    return _then(_$_DeauthorizeEvent(
-      identityName: freezed == identityName
-          ? _value.identityName
-          : identityName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      identityUri: freezed == identityUri
-          ? _value.identityUri
-          : identityUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-      iconUri: freezed == iconUri
-          ? _value.iconUri
-          : iconUri // ignore: cast_nullable_to_non_nullable
-              as Uri?,
-    ));
+    return _then(
+      _$DeauthorizeEventImpl(
+        identityName:
+            freezed == identityName
+                ? _value.identityName
+                : identityName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        identityUri:
+            freezed == identityUri
+                ? _value.identityUri
+                : identityUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        iconUri:
+            freezed == iconUri
+                ? _value.iconUri
+                : iconUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_DeauthorizeEvent implements _DeauthorizeEvent {
-  const _$_DeauthorizeEvent(
-      {required this.identityName,
-      required this.identityUri,
-      required this.iconUri});
+class _$DeauthorizeEventImpl implements _DeauthorizeEvent {
+  const _$DeauthorizeEventImpl({
+    required this.identityName,
+    required this.identityUri,
+    required this.iconUri,
+  });
 
   @override
   final String? identityName;
@@ -132,33 +144,31 @@ class _$_DeauthorizeEvent implements _DeauthorizeEvent {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DeauthorizeEvent &&
-            (identical(other.identityName, identityName) ||
-                other.identityName == identityName) &&
-            (identical(other.identityUri, identityUri) ||
-                other.identityUri == identityUri) &&
+            other is _$DeauthorizeEventImpl &&
+            (identical(other.identityName, identityName) || other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
             (identical(other.iconUri, iconUri) || other.iconUri == iconUri));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, identityName, identityUri, iconUri);
+  int get hashCode => Object.hash(runtimeType, identityName, identityUri, iconUri);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DeauthorizeEventCopyWith<_$_DeauthorizeEvent> get copyWith =>
-      __$$_DeauthorizeEventCopyWithImpl<_$_DeauthorizeEvent>(this, _$identity);
+  _$$DeauthorizeEventImplCopyWith<_$DeauthorizeEventImpl> get copyWith =>
+      __$$DeauthorizeEventImplCopyWithImpl<_$DeauthorizeEventImpl>(this, _$identity);
 }
 
 abstract class _DeauthorizeEvent implements DeauthorizeEvent {
-  const factory _DeauthorizeEvent(
-      {required final String? identityName,
-      required final Uri? identityUri,
-      required final Uri? iconUri}) = _$_DeauthorizeEvent;
+  const factory _DeauthorizeEvent({
+    required final String? identityName,
+    required final Uri? identityUri,
+    required final Uri? iconUri,
+  }) = _$DeauthorizeEventImpl;
 
   @override
   String? get identityName;
@@ -168,6 +178,6 @@ abstract class _DeauthorizeEvent implements DeauthorizeEvent {
   Uri? get iconUri;
   @override
   @JsonKey(ignore: true)
-  _$$_DeauthorizeEventCopyWith<_$_DeauthorizeEvent> get copyWith =>
+  _$$DeauthorizeEventImplCopyWith<_$DeauthorizeEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

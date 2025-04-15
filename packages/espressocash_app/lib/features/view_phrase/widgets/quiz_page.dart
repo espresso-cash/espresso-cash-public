@@ -29,22 +29,20 @@ class QuizPage extends StatelessWidget {
   final Widget? backButton;
 
   Color get backgroundColor => switch (type) {
-        QuizPageType.light => CpColors.lightSandColor,
-        QuizPageType.dark => CpColors.deepGreyColor
-      };
+    QuizPageType.light => CpColors.lightSandColor,
+    QuizPageType.dark => CpColors.deepGreyColor,
+  };
 
   @override
   Widget build(BuildContext context) => CpTheme(
-        theme: const CpThemeData.black(),
-        child: Scaffold(
-          backgroundColor: backgroundColor,
-          appBar: CpAppBar(
-            title: title?.let(Text.new),
-            leading: backButton ?? const SizedBox.shrink(),
-          ),
-          body: SafeArea(
-            child: LayoutBuilder(
-              builder: (context, constraint) => SingleChildScrollView(
+    theme: const CpThemeData.black(),
+    child: Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: CpAppBar(title: title?.let(Text.new), leading: backButton ?? const SizedBox.shrink()),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder:
+              (context, constraint) => SingleChildScrollView(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(minHeight: constraint.maxHeight),
                   child: IntrinsicHeight(
@@ -65,10 +63,8 @@ class QuizPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               ...footer.map(
-                                (button) => Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: button,
-                                ),
+                                (button) =>
+                                    Padding(padding: const EdgeInsets.all(8.0), child: button),
                               ),
                               const SizedBox(height: 32),
                             ],
@@ -79,8 +75,8 @@ class QuizPage extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ),
         ),
-      );
+      ),
+    ),
+  );
 }

@@ -19,29 +19,20 @@ class SignAndSendTransactionsRequest with _$SignAndSendTransactionsRequest {
 
 @freezed
 class SignaturesResult with _$SignaturesResult {
-  const factory SignaturesResult({
-    required List<Uint8List> signatures,
-  }) = _SignaturesResult;
+  const factory SignaturesResult({required List<Uint8List> signatures}) = _SignaturesResult;
 
   const factory SignaturesResult.requestDeclined() = _RequestDeclined;
 
-  const factory SignaturesResult.invalidPayloads({
-    required List<bool> valid,
-  }) = _InvalidPayloads;
+  const factory SignaturesResult.invalidPayloads({required List<bool> valid}) = _InvalidPayloads;
 
   const factory SignaturesResult.tooManyPayloads() = _TooManyPayloads;
 
-  const factory SignaturesResult.authorizationNotValid() =
-      _AuthorizationNotValid;
+  const factory SignaturesResult.authorizationNotValid() = _AuthorizationNotValid;
 
-  const factory SignaturesResult.notSubmitted({
-    required List<Uint8List> signatures,
-  }) = _NotSubmitted;
+  const factory SignaturesResult.notSubmitted({required List<Uint8List> signatures}) =
+      _NotSubmitted;
 
   const SignaturesResult._();
 
-  int get numResults => maybeWhen(
-        (signatures) => signatures.length,
-        orElse: () => 0,
-      );
+  int get numResults => maybeWhen((signatures) => signatures.length, orElse: () => 0);
 }

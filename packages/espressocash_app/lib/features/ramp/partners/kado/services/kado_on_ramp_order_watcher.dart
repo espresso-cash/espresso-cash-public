@@ -32,48 +32,46 @@ class KadoOnRampOrderWatcher implements RampWatcher {
         .whereNotNull()
         .asyncMap((order) => _client.getOrderStatus(order.partnerOrderId))
         .listen((event) async {
-      // ignore: prefer-early-return, cannot use
-      if (event.data case final data?) {
-        final statement = _db.update(_db.onRampOrderRows)
-          ..where(
-            (tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false),
-          );
+          // ignore: prefer-early-return, cannot use
+          if (event.data case final data?) {
+            final statement = _db.update(_db.onRampOrderRows)
+              ..where((tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false));
 
-        final isCompleted = data.machineStatusField == MachineStatus.settled;
+            final isCompleted = data.machineStatusField == MachineStatus.settled;
 
-        if (isCompleted) await _subscription?.cancel();
+            if (isCompleted) await _subscription?.cancel();
 
-        OnRampOrderStatus? status;
-        if (isCompleted) {
-          status = OnRampOrderStatus.completed;
+            OnRampOrderStatus? status;
+            if (isCompleted) {
+              status = OnRampOrderStatus.completed;
 
-          _analytics.rampCompleted(
-            partnerName: RampPartner.kado.name,
-            rampType: RampType.onRamp.name,
-            id: orderId,
-          );
-        } else if (data.machineStatusField == MachineStatus.achPaymentFailed ||
-            data.machineStatusField == MachineStatus.cardPaymentFailed) {
-          status = OnRampOrderStatus.failure;
-        }
+              _analytics.rampCompleted(
+                partnerName: RampPartner.kado.name,
+                rampType: RampType.onRamp.name,
+                id: orderId,
+              );
+            } else if (data.machineStatusField == MachineStatus.achPaymentFailed ||
+                data.machineStatusField == MachineStatus.cardPaymentFailed) {
+              status = OnRampOrderStatus.failure;
+            }
 
-        await statement.write(
-          OnRampOrderRowsCompanion(
-            humanStatus: Value(data.humanStatusField),
-            machineStatus: Value(data.machineStatusField.name),
-            isCompleted: Value(isCompleted),
-            status: Value.ofNullable(status),
-            txHash: Value.ofNullable(data.txHash),
-            receiveAmount: Value(
-              ((data.payAmount.amount - (data.totalFee?.amount ?? 0)) /
-                      (data.quote?.price ?? 0) *
-                      pow(10, Currency.usdc.decimals))
-                  .toInt(),
-            ),
-          ),
-        );
-      }
-    });
+            await statement.write(
+              OnRampOrderRowsCompanion(
+                humanStatus: Value(data.humanStatusField),
+                machineStatus: Value(data.machineStatusField.name),
+                isCompleted: Value(isCompleted),
+                status: Value.ofNullable(status),
+                txHash: Value.ofNullable(data.txHash),
+                receiveAmount: Value(
+                  ((data.payAmount.amount - (data.totalFee?.amount ?? 0)) /
+                          (data.quote?.price ?? 0) *
+                          pow(10, Currency.usdc.decimals))
+                      .toInt(),
+                ),
+              ),
+            );
+          }
+        });
   }
 
   @override

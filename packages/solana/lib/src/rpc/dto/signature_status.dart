@@ -15,8 +15,7 @@ class SignatureStatus {
     this.err,
   });
 
-  factory SignatureStatus.fromJson(Map<String, dynamic> json) =>
-      _$SignatureStatusFromJson(json);
+  factory SignatureStatus.fromJson(Map<String, dynamic> json) => _$SignatureStatusFromJson(json);
 
   /// The slot the transaction was processed.
   final int slot;

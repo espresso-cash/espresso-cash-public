@@ -11,10 +11,7 @@ const apiCluster = isProd ? Cluster.mainnet : Cluster.devnet;
 
 // Environment dependent constants
 
-const solanaRpcUrl = String.fromEnvironment(
-  'SOLANA_RPC_URL',
-  defaultValue: 'https://$_solanaHost',
-);
+const solanaRpcUrl = String.fromEnvironment('SOLANA_RPC_URL', defaultValue: 'https://$_solanaHost');
 
 const solanaWebSocketUrl = String.fromEnvironment(
   'SOLANA_WEBSOCKET_URL',
@@ -53,9 +50,10 @@ const _devNetChainId = 103;
 
 /// Although this depends on the environment the only difference is
 /// PROD vs non-PROD
-const _solanaHost = isProd
-    ? '' // mainnet URL should be provided via environment variable
-    : 'api.devnet.solana.com';
+const _solanaHost =
+    isProd
+        ? '' // mainnet URL should be provided via environment variable
+        : 'api.devnet.solana.com';
 
 const espressoCashLinkDomain = 'pay.espressocash.com';
 const espressoCashLinkProtocol = 'espressocash';
@@ -69,13 +67,13 @@ const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
 const guardarianBaseUrl = 'https://guardarian.com/calculator/v1';
 const guardarianApiKey = String.fromEnvironment('GUARDARIAN_API_KEY');
 
-const coinflowApiUrl = isProd
-    ? 'https://api.coinflow.cash/api/'
-    : 'https://api-sandbox.coinflow.cash/api/';
+const coinflowApiUrl =
+    isProd ? 'https://api.coinflow.cash/api/' : 'https://api-sandbox.coinflow.cash/api/';
 
-const coinflowKycUrl = isProd
-    ? 'https://coinflow.cash/withdraw/espresso'
-    : 'https://sandbox.coinflow.cash/withdraw/espresso';
+const coinflowKycUrl =
+    isProd
+        ? 'https://coinflow.cash/withdraw/espresso'
+        : 'https://sandbox.coinflow.cash/withdraw/espresso';
 
 const maxPayloadsPerSigningRequest = 10;
 

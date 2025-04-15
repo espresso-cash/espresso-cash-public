@@ -9,10 +9,7 @@ import '../../accounts/data/account_repository.dart';
 import 'quiz_page.dart';
 
 class RecoveryPhraseView extends StatefulWidget {
-  const RecoveryPhraseView({
-    super.key,
-    required this.indicator,
-  });
+  const RecoveryPhraseView({super.key, required this.indicator});
 
   final Widget indicator;
 
@@ -35,44 +32,42 @@ class _RecoveryPhraseViewState extends State<RecoveryPhraseView> {
 
   @override
   Widget build(BuildContext context) => QuizPage(
-        backButton: const CpBackButton(),
-        indicator: widget.indicator,
-        content: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Column(
-            children: [
-              const OnboardingLogo(),
-              Text(
-                context.l10n.yourRecoveryPhrase,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.25,
-                ),
-              ),
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Text(
-                  context.l10n.yourRecoveryPhraseSub,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.25,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
-              OnboardingPadding(
-                child: RecoveryPhraseTextView(phrase: _phrase),
-              ),
-            ],
+    backButton: const CpBackButton(),
+    indicator: widget.indicator,
+    content: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Column(
+        children: [
+          const OnboardingLogo(),
+          Text(
+            context.l10n.yourRecoveryPhrase,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.25,
+            ),
           ),
-        ),
-        footer: const [],
-        type: QuizPageType.dark,
-      );
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Text(
+              context.l10n.yourRecoveryPhraseSub,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.25,
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
+          OnboardingPadding(child: RecoveryPhraseTextView(phrase: _phrase)),
+        ],
+      ),
+    ),
+    footer: const [],
+    type: QuizPageType.dark,
+  );
 }

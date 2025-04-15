@@ -5,11 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../ui/button.dart';
 
 class GridPhrase extends StatefulWidget {
-  const GridPhrase({
-    super.key,
-    required this.callback,
-    required this.correctPhrase,
-  });
+  const GridPhrase({super.key, required this.callback, required this.correctPhrase});
 
   final ValueSetter<String> callback;
   final String correctPhrase;
@@ -39,29 +35,28 @@ class _GridPhraseState extends State<GridPhrase> {
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-        builder: (context, constraints) {
-          const double spacing = 12;
-          const int columns = 3;
-          final itemWidth =
-              ((constraints.maxWidth - (columns - 1) * spacing) / columns)
-                  .floorToDouble();
+    builder: (context, constraints) {
+      const double spacing = 12;
+      const int columns = 3;
+      final itemWidth =
+          ((constraints.maxWidth - (columns - 1) * spacing) / columns).floorToDouble();
 
-          return Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            spacing: spacing,
-            children: _options.mapIndexed((int position, String word) {
+      return Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        spacing: spacing,
+        children:
+            _options.mapIndexed((int position, String word) {
               final bool selected = _data.containsKey(position);
 
               return CpButton(
                 width: itemWidth,
                 size: CpButtonSize.micro,
                 onPressed: () => _handlePressed(position, word),
-                variant:
-                    selected ? CpButtonVariant.dark : CpButtonVariant.black,
+                variant: selected ? CpButtonVariant.dark : CpButtonVariant.black,
                 text: word,
               );
             }).toList(),
-          );
-        },
       );
+    },
+  );
 }

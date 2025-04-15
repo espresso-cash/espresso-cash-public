@@ -21,7 +21,8 @@ class TokenInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final token = Provider.of<Token>(context);
 
-    final rate = sl<ConversionRatesRepository>().readRate(
+    final rate =
+        sl<ConversionRatesRepository>().readRate(
           CryptoCurrency(token: token),
           to: defaultFiatCurrency,
         ) ??
@@ -42,10 +43,7 @@ class TokenInfo extends StatelessWidget {
             value: '\$${fiatRate.formatRate(rate.toDouble(), context.locale)}',
           ),
           if (token != Token.sol)
-            _InfoItem(
-              label: context.l10n.mintAddress,
-              value: tokenAddress.toShortAddress(),
-            ),
+            _InfoItem(label: context.l10n.mintAddress, value: tokenAddress.toShortAddress()),
         ],
       ),
     );
@@ -53,35 +51,26 @@ class TokenInfo extends StatelessWidget {
 }
 
 class _InfoItem extends StatelessWidget {
-  const _InfoItem({
-    required this.label,
-    required this.value,
-  });
+  const _InfoItem({required this.label, required this.value});
   final String label;
   final String value;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff999999),
-              ),
-            ),
-          ],
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: Color(0xff999999),
+          ),
         ),
-      );
+      ],
+    ),
+  );
 }

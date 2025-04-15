@@ -12,10 +12,10 @@ part of 'shorten_link.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
-ShortenLinkRequestDto _$ShortenLinkRequestDtoFromJson(
-    Map<String, dynamic> json) {
+ShortenLinkRequestDto _$ShortenLinkRequestDtoFromJson(Map<String, dynamic> json) {
   return _ShortenLinkRequestDto.fromJson(json);
 }
 
@@ -35,16 +35,16 @@ mixin _$ShortenLinkRequestDto {
 
 /// @nodoc
 abstract class $ShortenLinkRequestDtoCopyWith<$Res> {
-  factory $ShortenLinkRequestDtoCopyWith(ShortenLinkRequestDto value,
-          $Res Function(ShortenLinkRequestDto) then) =
-      _$ShortenLinkRequestDtoCopyWithImpl<$Res, ShortenLinkRequestDto>;
+  factory $ShortenLinkRequestDtoCopyWith(
+    ShortenLinkRequestDto value,
+    $Res Function(ShortenLinkRequestDto) then,
+  ) = _$ShortenLinkRequestDtoCopyWithImpl<$Res, ShortenLinkRequestDto>;
   @useResult
   $Res call({String fullLink});
 }
 
 /// @nodoc
-class _$ShortenLinkRequestDtoCopyWithImpl<$Res,
-        $Val extends ShortenLinkRequestDto>
+class _$ShortenLinkRequestDtoCopyWithImpl<$Res, $Val extends ShortenLinkRequestDto>
     implements $ShortenLinkRequestDtoCopyWith<$Res> {
   _$ShortenLinkRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -57,15 +57,17 @@ class _$ShortenLinkRequestDtoCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? fullLink = null,
-  }) {
-    return _then(_value.copyWith(
-      fullLink: null == fullLink
-          ? _value.fullLink
-          : fullLink // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? fullLink = null}) {
+    return _then(
+      _value.copyWith(
+            fullLink:
+                null == fullLink
+                    ? _value.fullLink
+                    : fullLink // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -73,9 +75,9 @@ class _$ShortenLinkRequestDtoCopyWithImpl<$Res,
 abstract class _$$ShortenLinkRequestDtoImplCopyWith<$Res>
     implements $ShortenLinkRequestDtoCopyWith<$Res> {
   factory _$$ShortenLinkRequestDtoImplCopyWith(
-          _$ShortenLinkRequestDtoImpl value,
-          $Res Function(_$ShortenLinkRequestDtoImpl) then) =
-      __$$ShortenLinkRequestDtoImplCopyWithImpl<$Res>;
+    _$ShortenLinkRequestDtoImpl value,
+    $Res Function(_$ShortenLinkRequestDtoImpl) then,
+  ) = __$$ShortenLinkRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String fullLink});
@@ -83,26 +85,27 @@ abstract class _$$ShortenLinkRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$ShortenLinkRequestDtoImplCopyWithImpl<$Res>
-    extends _$ShortenLinkRequestDtoCopyWithImpl<$Res,
-        _$ShortenLinkRequestDtoImpl>
+    extends _$ShortenLinkRequestDtoCopyWithImpl<$Res, _$ShortenLinkRequestDtoImpl>
     implements _$$ShortenLinkRequestDtoImplCopyWith<$Res> {
-  __$$ShortenLinkRequestDtoImplCopyWithImpl(_$ShortenLinkRequestDtoImpl _value,
-      $Res Function(_$ShortenLinkRequestDtoImpl) _then)
-      : super(_value, _then);
+  __$$ShortenLinkRequestDtoImplCopyWithImpl(
+    _$ShortenLinkRequestDtoImpl _value,
+    $Res Function(_$ShortenLinkRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ShortenLinkRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? fullLink = null,
-  }) {
-    return _then(_$ShortenLinkRequestDtoImpl(
-      fullLink: null == fullLink
-          ? _value.fullLink
-          : fullLink // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? fullLink = null}) {
+    return _then(
+      _$ShortenLinkRequestDtoImpl(
+        fullLink:
+            null == fullLink
+                ? _value.fullLink
+                : fullLink // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -127,8 +130,7 @@ class _$ShortenLinkRequestDtoImpl implements _ShortenLinkRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ShortenLinkRequestDtoImpl &&
-            (identical(other.fullLink, fullLink) ||
-                other.fullLink == fullLink));
+            (identical(other.fullLink, fullLink) || other.fullLink == fullLink));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -140,15 +142,12 @@ class _$ShortenLinkRequestDtoImpl implements _ShortenLinkRequestDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ShortenLinkRequestDtoImplCopyWith<_$ShortenLinkRequestDtoImpl>
-      get copyWith => __$$ShortenLinkRequestDtoImplCopyWithImpl<
-          _$ShortenLinkRequestDtoImpl>(this, _$identity);
+  _$$ShortenLinkRequestDtoImplCopyWith<_$ShortenLinkRequestDtoImpl> get copyWith =>
+      __$$ShortenLinkRequestDtoImplCopyWithImpl<_$ShortenLinkRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ShortenLinkRequestDtoImplToJson(
-      this,
-    );
+    return _$$ShortenLinkRequestDtoImplToJson(this);
   }
 }
 
@@ -166,12 +165,11 @@ abstract class _ShortenLinkRequestDto implements ShortenLinkRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ShortenLinkRequestDtoImplCopyWith<_$ShortenLinkRequestDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$ShortenLinkRequestDtoImplCopyWith<_$ShortenLinkRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-ShortenLinkResponseDto _$ShortenLinkResponseDtoFromJson(
-    Map<String, dynamic> json) {
+ShortenLinkResponseDto _$ShortenLinkResponseDtoFromJson(Map<String, dynamic> json) {
   return _ShortenLinkResponseDto.fromJson(json);
 }
 
@@ -191,16 +189,16 @@ mixin _$ShortenLinkResponseDto {
 
 /// @nodoc
 abstract class $ShortenLinkResponseDtoCopyWith<$Res> {
-  factory $ShortenLinkResponseDtoCopyWith(ShortenLinkResponseDto value,
-          $Res Function(ShortenLinkResponseDto) then) =
-      _$ShortenLinkResponseDtoCopyWithImpl<$Res, ShortenLinkResponseDto>;
+  factory $ShortenLinkResponseDtoCopyWith(
+    ShortenLinkResponseDto value,
+    $Res Function(ShortenLinkResponseDto) then,
+  ) = _$ShortenLinkResponseDtoCopyWithImpl<$Res, ShortenLinkResponseDto>;
   @useResult
   $Res call({String shortLink});
 }
 
 /// @nodoc
-class _$ShortenLinkResponseDtoCopyWithImpl<$Res,
-        $Val extends ShortenLinkResponseDto>
+class _$ShortenLinkResponseDtoCopyWithImpl<$Res, $Val extends ShortenLinkResponseDto>
     implements $ShortenLinkResponseDtoCopyWith<$Res> {
   _$ShortenLinkResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -213,15 +211,17 @@ class _$ShortenLinkResponseDtoCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? shortLink = null,
-  }) {
-    return _then(_value.copyWith(
-      shortLink: null == shortLink
-          ? _value.shortLink
-          : shortLink // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? shortLink = null}) {
+    return _then(
+      _value.copyWith(
+            shortLink:
+                null == shortLink
+                    ? _value.shortLink
+                    : shortLink // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -229,9 +229,9 @@ class _$ShortenLinkResponseDtoCopyWithImpl<$Res,
 abstract class _$$ShortenLinkResponseDtoImplCopyWith<$Res>
     implements $ShortenLinkResponseDtoCopyWith<$Res> {
   factory _$$ShortenLinkResponseDtoImplCopyWith(
-          _$ShortenLinkResponseDtoImpl value,
-          $Res Function(_$ShortenLinkResponseDtoImpl) then) =
-      __$$ShortenLinkResponseDtoImplCopyWithImpl<$Res>;
+    _$ShortenLinkResponseDtoImpl value,
+    $Res Function(_$ShortenLinkResponseDtoImpl) then,
+  ) = __$$ShortenLinkResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String shortLink});
@@ -239,27 +239,27 @@ abstract class _$$ShortenLinkResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$ShortenLinkResponseDtoImplCopyWithImpl<$Res>
-    extends _$ShortenLinkResponseDtoCopyWithImpl<$Res,
-        _$ShortenLinkResponseDtoImpl>
+    extends _$ShortenLinkResponseDtoCopyWithImpl<$Res, _$ShortenLinkResponseDtoImpl>
     implements _$$ShortenLinkResponseDtoImplCopyWith<$Res> {
   __$$ShortenLinkResponseDtoImplCopyWithImpl(
-      _$ShortenLinkResponseDtoImpl _value,
-      $Res Function(_$ShortenLinkResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$ShortenLinkResponseDtoImpl _value,
+    $Res Function(_$ShortenLinkResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ShortenLinkResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? shortLink = null,
-  }) {
-    return _then(_$ShortenLinkResponseDtoImpl(
-      shortLink: null == shortLink
-          ? _value.shortLink
-          : shortLink // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? shortLink = null}) {
+    return _then(
+      _$ShortenLinkResponseDtoImpl(
+        shortLink:
+            null == shortLink
+                ? _value.shortLink
+                : shortLink // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -284,8 +284,7 @@ class _$ShortenLinkResponseDtoImpl implements _ShortenLinkResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ShortenLinkResponseDtoImpl &&
-            (identical(other.shortLink, shortLink) ||
-                other.shortLink == shortLink));
+            (identical(other.shortLink, shortLink) || other.shortLink == shortLink));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -297,15 +296,12 @@ class _$ShortenLinkResponseDtoImpl implements _ShortenLinkResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ShortenLinkResponseDtoImplCopyWith<_$ShortenLinkResponseDtoImpl>
-      get copyWith => __$$ShortenLinkResponseDtoImplCopyWithImpl<
-          _$ShortenLinkResponseDtoImpl>(this, _$identity);
+  _$$ShortenLinkResponseDtoImplCopyWith<_$ShortenLinkResponseDtoImpl> get copyWith =>
+      __$$ShortenLinkResponseDtoImplCopyWithImpl<_$ShortenLinkResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ShortenLinkResponseDtoImplToJson(
-      this,
-    );
+    return _$$ShortenLinkResponseDtoImplToJson(this);
   }
 }
 
@@ -323,12 +319,11 @@ abstract class _ShortenLinkResponseDto implements ShortenLinkResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ShortenLinkResponseDtoImplCopyWith<_$ShortenLinkResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$ShortenLinkResponseDtoImplCopyWith<_$ShortenLinkResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-UnshortenLinkRequestDto _$UnshortenLinkRequestDtoFromJson(
-    Map<String, dynamic> json) {
+UnshortenLinkRequestDto _$UnshortenLinkRequestDtoFromJson(Map<String, dynamic> json) {
   return _UnshortenLinkRequestDto.fromJson(json);
 }
 
@@ -348,16 +343,16 @@ mixin _$UnshortenLinkRequestDto {
 
 /// @nodoc
 abstract class $UnshortenLinkRequestDtoCopyWith<$Res> {
-  factory $UnshortenLinkRequestDtoCopyWith(UnshortenLinkRequestDto value,
-          $Res Function(UnshortenLinkRequestDto) then) =
-      _$UnshortenLinkRequestDtoCopyWithImpl<$Res, UnshortenLinkRequestDto>;
+  factory $UnshortenLinkRequestDtoCopyWith(
+    UnshortenLinkRequestDto value,
+    $Res Function(UnshortenLinkRequestDto) then,
+  ) = _$UnshortenLinkRequestDtoCopyWithImpl<$Res, UnshortenLinkRequestDto>;
   @useResult
   $Res call({String shortLink});
 }
 
 /// @nodoc
-class _$UnshortenLinkRequestDtoCopyWithImpl<$Res,
-        $Val extends UnshortenLinkRequestDto>
+class _$UnshortenLinkRequestDtoCopyWithImpl<$Res, $Val extends UnshortenLinkRequestDto>
     implements $UnshortenLinkRequestDtoCopyWith<$Res> {
   _$UnshortenLinkRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -370,15 +365,17 @@ class _$UnshortenLinkRequestDtoCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? shortLink = null,
-  }) {
-    return _then(_value.copyWith(
-      shortLink: null == shortLink
-          ? _value.shortLink
-          : shortLink // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? shortLink = null}) {
+    return _then(
+      _value.copyWith(
+            shortLink:
+                null == shortLink
+                    ? _value.shortLink
+                    : shortLink // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -386,9 +383,9 @@ class _$UnshortenLinkRequestDtoCopyWithImpl<$Res,
 abstract class _$$UnshortenLinkRequestDtoImplCopyWith<$Res>
     implements $UnshortenLinkRequestDtoCopyWith<$Res> {
   factory _$$UnshortenLinkRequestDtoImplCopyWith(
-          _$UnshortenLinkRequestDtoImpl value,
-          $Res Function(_$UnshortenLinkRequestDtoImpl) then) =
-      __$$UnshortenLinkRequestDtoImplCopyWithImpl<$Res>;
+    _$UnshortenLinkRequestDtoImpl value,
+    $Res Function(_$UnshortenLinkRequestDtoImpl) then,
+  ) = __$$UnshortenLinkRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String shortLink});
@@ -396,27 +393,27 @@ abstract class _$$UnshortenLinkRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$UnshortenLinkRequestDtoImplCopyWithImpl<$Res>
-    extends _$UnshortenLinkRequestDtoCopyWithImpl<$Res,
-        _$UnshortenLinkRequestDtoImpl>
+    extends _$UnshortenLinkRequestDtoCopyWithImpl<$Res, _$UnshortenLinkRequestDtoImpl>
     implements _$$UnshortenLinkRequestDtoImplCopyWith<$Res> {
   __$$UnshortenLinkRequestDtoImplCopyWithImpl(
-      _$UnshortenLinkRequestDtoImpl _value,
-      $Res Function(_$UnshortenLinkRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$UnshortenLinkRequestDtoImpl _value,
+    $Res Function(_$UnshortenLinkRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of UnshortenLinkRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? shortLink = null,
-  }) {
-    return _then(_$UnshortenLinkRequestDtoImpl(
-      shortLink: null == shortLink
-          ? _value.shortLink
-          : shortLink // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? shortLink = null}) {
+    return _then(
+      _$UnshortenLinkRequestDtoImpl(
+        shortLink:
+            null == shortLink
+                ? _value.shortLink
+                : shortLink // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -441,8 +438,7 @@ class _$UnshortenLinkRequestDtoImpl implements _UnshortenLinkRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UnshortenLinkRequestDtoImpl &&
-            (identical(other.shortLink, shortLink) ||
-                other.shortLink == shortLink));
+            (identical(other.shortLink, shortLink) || other.shortLink == shortLink));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -454,15 +450,12 @@ class _$UnshortenLinkRequestDtoImpl implements _UnshortenLinkRequestDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnshortenLinkRequestDtoImplCopyWith<_$UnshortenLinkRequestDtoImpl>
-      get copyWith => __$$UnshortenLinkRequestDtoImplCopyWithImpl<
-          _$UnshortenLinkRequestDtoImpl>(this, _$identity);
+  _$$UnshortenLinkRequestDtoImplCopyWith<_$UnshortenLinkRequestDtoImpl> get copyWith =>
+      __$$UnshortenLinkRequestDtoImplCopyWithImpl<_$UnshortenLinkRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnshortenLinkRequestDtoImplToJson(
-      this,
-    );
+    return _$$UnshortenLinkRequestDtoImplToJson(this);
   }
 }
 
@@ -480,12 +473,11 @@ abstract class _UnshortenLinkRequestDto implements UnshortenLinkRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UnshortenLinkRequestDtoImplCopyWith<_$UnshortenLinkRequestDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$UnshortenLinkRequestDtoImplCopyWith<_$UnshortenLinkRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-UnshortenLinkResponseDto _$UnshortenLinkResponseDtoFromJson(
-    Map<String, dynamic> json) {
+UnshortenLinkResponseDto _$UnshortenLinkResponseDtoFromJson(Map<String, dynamic> json) {
   return _UnshortenLinkResponseDto.fromJson(json);
 }
 
@@ -505,16 +497,16 @@ mixin _$UnshortenLinkResponseDto {
 
 /// @nodoc
 abstract class $UnshortenLinkResponseDtoCopyWith<$Res> {
-  factory $UnshortenLinkResponseDtoCopyWith(UnshortenLinkResponseDto value,
-          $Res Function(UnshortenLinkResponseDto) then) =
-      _$UnshortenLinkResponseDtoCopyWithImpl<$Res, UnshortenLinkResponseDto>;
+  factory $UnshortenLinkResponseDtoCopyWith(
+    UnshortenLinkResponseDto value,
+    $Res Function(UnshortenLinkResponseDto) then,
+  ) = _$UnshortenLinkResponseDtoCopyWithImpl<$Res, UnshortenLinkResponseDto>;
   @useResult
   $Res call({String fullLink});
 }
 
 /// @nodoc
-class _$UnshortenLinkResponseDtoCopyWithImpl<$Res,
-        $Val extends UnshortenLinkResponseDto>
+class _$UnshortenLinkResponseDtoCopyWithImpl<$Res, $Val extends UnshortenLinkResponseDto>
     implements $UnshortenLinkResponseDtoCopyWith<$Res> {
   _$UnshortenLinkResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -527,15 +519,17 @@ class _$UnshortenLinkResponseDtoCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? fullLink = null,
-  }) {
-    return _then(_value.copyWith(
-      fullLink: null == fullLink
-          ? _value.fullLink
-          : fullLink // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? fullLink = null}) {
+    return _then(
+      _value.copyWith(
+            fullLink:
+                null == fullLink
+                    ? _value.fullLink
+                    : fullLink // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -543,9 +537,9 @@ class _$UnshortenLinkResponseDtoCopyWithImpl<$Res,
 abstract class _$$UnshortenLinkResponseDtoImplCopyWith<$Res>
     implements $UnshortenLinkResponseDtoCopyWith<$Res> {
   factory _$$UnshortenLinkResponseDtoImplCopyWith(
-          _$UnshortenLinkResponseDtoImpl value,
-          $Res Function(_$UnshortenLinkResponseDtoImpl) then) =
-      __$$UnshortenLinkResponseDtoImplCopyWithImpl<$Res>;
+    _$UnshortenLinkResponseDtoImpl value,
+    $Res Function(_$UnshortenLinkResponseDtoImpl) then,
+  ) = __$$UnshortenLinkResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String fullLink});
@@ -553,27 +547,27 @@ abstract class _$$UnshortenLinkResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$UnshortenLinkResponseDtoImplCopyWithImpl<$Res>
-    extends _$UnshortenLinkResponseDtoCopyWithImpl<$Res,
-        _$UnshortenLinkResponseDtoImpl>
+    extends _$UnshortenLinkResponseDtoCopyWithImpl<$Res, _$UnshortenLinkResponseDtoImpl>
     implements _$$UnshortenLinkResponseDtoImplCopyWith<$Res> {
   __$$UnshortenLinkResponseDtoImplCopyWithImpl(
-      _$UnshortenLinkResponseDtoImpl _value,
-      $Res Function(_$UnshortenLinkResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$UnshortenLinkResponseDtoImpl _value,
+    $Res Function(_$UnshortenLinkResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of UnshortenLinkResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? fullLink = null,
-  }) {
-    return _then(_$UnshortenLinkResponseDtoImpl(
-      fullLink: null == fullLink
-          ? _value.fullLink
-          : fullLink // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? fullLink = null}) {
+    return _then(
+      _$UnshortenLinkResponseDtoImpl(
+        fullLink:
+            null == fullLink
+                ? _value.fullLink
+                : fullLink // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -598,8 +592,7 @@ class _$UnshortenLinkResponseDtoImpl implements _UnshortenLinkResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UnshortenLinkResponseDtoImpl &&
-            (identical(other.fullLink, fullLink) ||
-                other.fullLink == fullLink));
+            (identical(other.fullLink, fullLink) || other.fullLink == fullLink));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -611,15 +604,15 @@ class _$UnshortenLinkResponseDtoImpl implements _UnshortenLinkResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnshortenLinkResponseDtoImplCopyWith<_$UnshortenLinkResponseDtoImpl>
-      get copyWith => __$$UnshortenLinkResponseDtoImplCopyWithImpl<
-          _$UnshortenLinkResponseDtoImpl>(this, _$identity);
+  _$$UnshortenLinkResponseDtoImplCopyWith<_$UnshortenLinkResponseDtoImpl> get copyWith =>
+      __$$UnshortenLinkResponseDtoImplCopyWithImpl<_$UnshortenLinkResponseDtoImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnshortenLinkResponseDtoImplToJson(
-      this,
-    );
+    return _$$UnshortenLinkResponseDtoImplToJson(this);
   }
 }
 
@@ -637,6 +630,6 @@ abstract class _UnshortenLinkResponseDto implements UnshortenLinkResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UnshortenLinkResponseDtoImplCopyWith<_$UnshortenLinkResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$UnshortenLinkResponseDtoImplCopyWith<_$UnshortenLinkResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

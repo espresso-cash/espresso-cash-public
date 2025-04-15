@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'signing_request.dart';
 
@@ -12,7 +12,8 @@ part of 'signing_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$SigningRequest {
@@ -20,14 +21,12 @@ mixin _$SigningRequest {
   List<Uri> get requestedSignatures => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SigningRequestCopyWith<SigningRequest> get copyWith =>
-      throw _privateConstructorUsedError;
+  $SigningRequestCopyWith<SigningRequest> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SigningRequestCopyWith<$Res> {
-  factory $SigningRequestCopyWith(
-          SigningRequest value, $Res Function(SigningRequest) then) =
+  factory $SigningRequestCopyWith(SigningRequest value, $Res Function(SigningRequest) then) =
       _$SigningRequestCopyWithImpl<$Res, SigningRequest>;
   @useResult
   $Res call({Uint8List payload, List<Uri> requestedSignatures});
@@ -45,75 +44,77 @@ class _$SigningRequestCopyWithImpl<$Res, $Val extends SigningRequest>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? payload = null,
-    Object? requestedSignatures = null,
-  }) {
-    return _then(_value.copyWith(
-      payload: null == payload
-          ? _value.payload
-          : payload // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      requestedSignatures: null == requestedSignatures
-          ? _value.requestedSignatures
-          : requestedSignatures // ignore: cast_nullable_to_non_nullable
-              as List<Uri>,
-    ) as $Val);
+  $Res call({Object? payload = null, Object? requestedSignatures = null}) {
+    return _then(
+      _value.copyWith(
+            payload:
+                null == payload
+                    ? _value.payload
+                    : payload // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
+            requestedSignatures:
+                null == requestedSignatures
+                    ? _value.requestedSignatures
+                    : requestedSignatures // ignore: cast_nullable_to_non_nullable
+                        as List<Uri>,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_SigningRequestCopyWith<$Res>
-    implements $SigningRequestCopyWith<$Res> {
-  factory _$$_SigningRequestCopyWith(
-          _$_SigningRequest value, $Res Function(_$_SigningRequest) then) =
-      __$$_SigningRequestCopyWithImpl<$Res>;
+abstract class _$$SigningRequestImplCopyWith<$Res> implements $SigningRequestCopyWith<$Res> {
+  factory _$$SigningRequestImplCopyWith(
+    _$SigningRequestImpl value,
+    $Res Function(_$SigningRequestImpl) then,
+  ) = __$$SigningRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Uint8List payload, List<Uri> requestedSignatures});
 }
 
 /// @nodoc
-class __$$_SigningRequestCopyWithImpl<$Res>
-    extends _$SigningRequestCopyWithImpl<$Res, _$_SigningRequest>
-    implements _$$_SigningRequestCopyWith<$Res> {
-  __$$_SigningRequestCopyWithImpl(
-      _$_SigningRequest _value, $Res Function(_$_SigningRequest) _then)
-      : super(_value, _then);
+class __$$SigningRequestImplCopyWithImpl<$Res>
+    extends _$SigningRequestCopyWithImpl<$Res, _$SigningRequestImpl>
+    implements _$$SigningRequestImplCopyWith<$Res> {
+  __$$SigningRequestImplCopyWithImpl(
+    _$SigningRequestImpl _value,
+    $Res Function(_$SigningRequestImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? payload = null,
-    Object? requestedSignatures = null,
-  }) {
-    return _then(_$_SigningRequest(
-      payload: null == payload
-          ? _value.payload
-          : payload // ignore: cast_nullable_to_non_nullable
-              as Uint8List,
-      requestedSignatures: null == requestedSignatures
-          ? _value._requestedSignatures
-          : requestedSignatures // ignore: cast_nullable_to_non_nullable
-              as List<Uri>,
-    ));
+  $Res call({Object? payload = null, Object? requestedSignatures = null}) {
+    return _then(
+      _$SigningRequestImpl(
+        payload:
+            null == payload
+                ? _value.payload
+                : payload // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        requestedSignatures:
+            null == requestedSignatures
+                ? _value._requestedSignatures
+                : requestedSignatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uri>,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_SigningRequest
-    with DiagnosticableTreeMixin
-    implements _SigningRequest {
-  const _$_SigningRequest(
-      {required this.payload, required final List<Uri> requestedSignatures})
-      : _requestedSignatures = requestedSignatures;
+class _$SigningRequestImpl with DiagnosticableTreeMixin implements _SigningRequest {
+  const _$SigningRequestImpl({required this.payload, required final List<Uri> requestedSignatures})
+    : _requestedSignatures = requestedSignatures;
 
   @override
   final Uint8List payload;
   final List<Uri> _requestedSignatures;
   @override
   List<Uri> get requestedSignatures {
+    if (_requestedSignatures is EqualUnmodifiableListView) return _requestedSignatures;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_requestedSignatures);
   }
@@ -133,32 +134,36 @@ class _$_SigningRequest
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SigningRequest &&
+            other is _$SigningRequestImpl &&
             const DeepCollectionEquality().equals(other.payload, payload) &&
-            const DeepCollectionEquality()
-                .equals(other._requestedSignatures, _requestedSignatures));
+            const DeepCollectionEquality().equals(
+              other._requestedSignatures,
+              _requestedSignatures,
+            ));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(payload),
-      const DeepCollectionEquality().hash(_requestedSignatures));
+    runtimeType,
+    const DeepCollectionEquality().hash(payload),
+    const DeepCollectionEquality().hash(_requestedSignatures),
+  );
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SigningRequestCopyWith<_$_SigningRequest> get copyWith =>
-      __$$_SigningRequestCopyWithImpl<_$_SigningRequest>(this, _$identity);
+  _$$SigningRequestImplCopyWith<_$SigningRequestImpl> get copyWith =>
+      __$$SigningRequestImplCopyWithImpl<_$SigningRequestImpl>(this, _$identity);
 }
 
 abstract class _SigningRequest implements SigningRequest {
-  const factory _SigningRequest(
-      {required final Uint8List payload,
-      required final List<Uri> requestedSignatures}) = _$_SigningRequest;
+  const factory _SigningRequest({
+    required final Uint8List payload,
+    required final List<Uri> requestedSignatures,
+  }) = _$SigningRequestImpl;
 
   @override
   Uint8List get payload;
@@ -166,6 +171,6 @@ abstract class _SigningRequest implements SigningRequest {
   List<Uri> get requestedSignatures;
   @override
   @JsonKey(ignore: true)
-  _$$_SigningRequestCopyWith<_$_SigningRequest> get copyWith =>
+  _$$SigningRequestImplCopyWith<_$SigningRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

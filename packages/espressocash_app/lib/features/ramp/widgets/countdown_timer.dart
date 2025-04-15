@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../ui/colors.dart';
 
 class CountdownTimer extends StatefulWidget {
-  const CountdownTimer({
-    super.key,
-    required this.startDate,
-    required this.expiryDate,
-  });
+  const CountdownTimer({super.key, required this.startDate, required this.expiryDate});
 
   final DateTime startDate;
   final DateTime expiryDate;
@@ -23,8 +19,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
   @override
   void initState() {
     super.initState();
-    _totalDurationSeconds =
-        widget.expiryDate.difference(widget.startDate).inSeconds;
+    _totalDurationSeconds = widget.expiryDate.difference(widget.startDate).inSeconds;
     _startTimer();
   }
 
@@ -32,8 +27,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
   void didUpdateWidget(covariant CountdownTimer oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.expiryDate != oldWidget.expiryDate ||
-        widget.startDate != oldWidget.startDate) {
+    if (widget.expiryDate != oldWidget.expiryDate || widget.startDate != oldWidget.startDate) {
       _cancelTimer();
       _startTimer();
     }
@@ -71,33 +65,32 @@ class _CountdownTimerState extends State<CountdownTimer> {
   }
 
   double get _percent {
-    final currentDuration =
-        widget.expiryDate.difference(DateTime.now()).inSeconds;
+    final currentDuration = widget.expiryDate.difference(DateTime.now()).inSeconds;
 
     return currentDuration > 0 ? currentDuration / _totalDurationSeconds : 0;
   }
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            SizedBox(
-              width: 50,
-              height: 50,
-              child: CircularProgressIndicator(
-                value: 1 - _percent,
-                backgroundColor: CpColors.yellowColor,
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.black),
-                strokeWidth: 6,
-              ),
-            ),
-            Text(
-              _formattedTime,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 13),
-            ),
-          ],
+    child: Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        SizedBox(
+          width: 50,
+          height: 50,
+          child: CircularProgressIndicator(
+            value: 1 - _percent,
+            backgroundColor: CpColors.yellowColor,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.black),
+            strokeWidth: 6,
+          ),
         ),
-      );
+        Text(
+          _formattedTime,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.white, fontSize: 13),
+        ),
+      ],
+    ),
+  );
 }

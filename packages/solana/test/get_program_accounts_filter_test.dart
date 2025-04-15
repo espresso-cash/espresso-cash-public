@@ -7,38 +7,23 @@ void main() {
       expect(
         ProgramDataFilter.memcmp(offset: 1, bytes: '123'.codeUnits).toJson(),
         equals(<String, dynamic>{
-          'memcmp': {
-            'offset': 1,
-            'bytes': 'HXRC',
-          },
+          'memcmp': {'offset': 1, 'bytes': 'HXRC'},
         }),
       );
 
       expect(
-        ProgramDataFilter.memcmp(
-          offset: 0,
-          bytes: 'some different data'.codeUnits,
-        ).toJson(),
+        ProgramDataFilter.memcmp(offset: 0, bytes: 'some different data'.codeUnits).toJson(),
         equals(<String, dynamic>{
-          'memcmp': {
-            'offset': 0,
-            'bytes': 'N8huH18outpM8wBvyyeH9z6tiL',
-          },
+          'memcmp': {'offset': 0, 'bytes': 'N8huH18outpM8wBvyyeH9z6tiL'},
         }),
       );
     });
 
     test('can serialize a filter built with base58 factory', () {
       expect(
-        ProgramDataFilter.memcmpBase58(
-          offset: 1,
-          bytes: 'N8huH18outpM8wBvyyeH9z6tiL',
-        ).toJson(),
+        ProgramDataFilter.memcmpBase58(offset: 1, bytes: 'N8huH18outpM8wBvyyeH9z6tiL').toJson(),
         equals(<String, dynamic>{
-          'memcmp': {
-            'offset': 1,
-            'bytes': 'N8huH18outpM8wBvyyeH9z6tiL',
-          },
+          'memcmp': {'offset': 1, 'bytes': 'N8huH18outpM8wBvyyeH9z6tiL'},
         }),
       );
     });

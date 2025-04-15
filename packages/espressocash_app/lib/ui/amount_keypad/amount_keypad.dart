@@ -69,24 +69,19 @@ class AmountKeypad extends StatelessWidget {
     }
   }
 
-  Widget _buildRow(
-    List<KeypadKey> keys,
-    String decimalSeparator,
-  ) =>
-      Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: keys
+  Widget _buildRow(List<KeypadKey> keys, String decimalSeparator) => Expanded(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children:
+          keys
               .map(
                 (child) => Expanded(
                   child: Center(
                     child: Opacity(
                       opacity: isEnabled ? 1 : 0.5,
                       child: InkWell(
-                        onTap: isEnabled
-                            ? () => _manageKey(child.value, decimalSeparator)
-                            : null,
+                        onTap: isEnabled ? () => _manageKey(child.value, decimalSeparator) : null,
                         child: Center(child: child),
                       ),
                     ),
@@ -94,27 +89,24 @@ class AmountKeypad extends StatelessWidget {
                 ),
               )
               .toList(),
-        ),
-      );
+    ),
+  );
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-        builder: (context, constraints) {
-          final decimalSeparator =
-              getDecimalSeparator(DeviceLocale.localeOf(context));
+    builder: (context, constraints) {
+      final decimalSeparator = getDecimalSeparator(DeviceLocale.localeOf(context));
 
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-            child: Column(
-              children: List.generate(
-                4,
-                (rowIndex) => _buildRow(
-                  _keys.sublist(rowIndex * 3, (rowIndex + 1) * 3),
-                  decimalSeparator,
-                ),
-              ),
-            ),
-          );
-        },
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+        child: Column(
+          children: List.generate(
+            4,
+            (rowIndex) =>
+                _buildRow(_keys.sublist(rowIndex * 3, (rowIndex + 1) * 3), decimalSeparator),
+          ),
+        ),
       );
+    },
+  );
 }

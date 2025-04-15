@@ -16,8 +16,7 @@ class VoteAccount {
     required this.epochCredits,
   });
 
-  factory VoteAccount.fromJson(Map<String, dynamic> json) =>
-      _$VoteAccountFromJson(json);
+  factory VoteAccount.fromJson(Map<String, dynamic> json) => _$VoteAccountFromJson(json);
 
   /// Vote account address, as base-58 encoded string.
   final String votePubkey;

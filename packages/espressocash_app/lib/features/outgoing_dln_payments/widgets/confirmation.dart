@@ -78,37 +78,34 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      BlocConsumer<ConfirmPaymentBloc, ConfirmPaymentState>(
-        bloc: _bloc,
-        listenWhen: (prev, cur) => prev.flowState != cur.flowState,
-        listener: (context, state) => switch (state.flowState) {
+  Widget build(BuildContext context) => BlocConsumer<ConfirmPaymentBloc, ConfirmPaymentState>(
+    bloc: _bloc,
+    listenWhen: (prev, cur) => prev.flowState != cur.flowState,
+    listener:
+        (context, state) => switch (state.flowState) {
           FlowFailure(:final error) => _onException(error),
           FlowSuccess(:final result) => widget.onConfirm(result),
           _ => null,
         },
-        builder: (context, state) {
-          final receiverAmount = state.receiverAmount.format(
-            context.locale,
-            maxDecimals: 2,
-            roundInteger: false,
-          );
+    builder: (context, state) {
+      final receiverAmount = state.receiverAmount.format(
+        context.locale,
+        maxDecimals: 2,
+        roundInteger: false,
+      );
 
-          final totalDeductedAmount = (state.inputAmount + state.fee).format(
-            context.locale,
-            maxDecimals: 2,
-            roundInteger: false,
-          );
+      final totalDeductedAmount = (state.inputAmount + state.fee).format(
+        context.locale,
+        maxDecimals: 2,
+        roundInteger: false,
+      );
 
-          final feeAmount = state.fee.format(
-            context.locale,
-            maxDecimals: 2,
-            roundInteger: false,
-          );
+      final feeAmount = state.fee.format(context.locale, maxDecimals: 2, roundInteger: false);
 
-          return SafeArea(
-            child: LayoutBuilder(
-              builder: (context, constraints) => SingleChildScrollView(
+      return SafeArea(
+        child: LayoutBuilder(
+          builder:
+              (context, constraints) => SingleChildScrollView(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minWidth: constraints.maxWidth,
@@ -130,8 +127,7 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
                           value: widget.receiverAddress,
                           backgroundColor: Colors.black,
                         ),
-                        if (state.flowState.isProcessing ||
-                            state.quote == null) ...[
+                        if (state.flowState.isProcessing || state.quote == null) ...[
                           const SizedBox(height: 16),
                           const _Loading(),
                         ] else ...[
@@ -150,10 +146,10 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
                         CpContentPadding(
                           child: CpSlider(
                             text: context.l10n.confirm,
-                            onSlideCompleted: (state.quote == null ||
-                                    state.flowState.isProcessing)
-                                ? null
-                                : _onSubmit,
+                            onSlideCompleted:
+                                (state.quote == null || state.flowState.isProcessing)
+                                    ? null
+                                    : _onSubmit,
                           ),
                         ),
                       ],
@@ -161,10 +157,10 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
                   ),
                 ),
               ),
-            ),
-          );
-        },
+        ),
       );
+    },
+  );
 }
 
 class _DisclaimerText extends StatelessWidget {
@@ -172,47 +168,35 @@ class _DisclaimerText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-        child: Text.rich(
+    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+    child: Text.rich(
+      TextSpan(
+        children: [
           TextSpan(
-            children: [
-              TextSpan(
-                text: context.l10n.outgoingDlnDisclaimer1,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              TextSpan(
-                text: context.l10n.outgoingDlnDisclaimer2,
-                style: const TextStyle(
-                  color: Color(0xFFFFDA66),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              TextSpan(
-                text: context.l10n.outgoingDlnDisclaimer3,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
+            text: context.l10n.outgoingDlnDisclaimer1,
+            style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
           ),
-          textAlign: TextAlign.center,
-        ),
-      );
+          TextSpan(
+            text: context.l10n.outgoingDlnDisclaimer2,
+            style: const TextStyle(
+              color: Color(0xFFFFDA66),
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          TextSpan(
+            text: context.l10n.outgoingDlnDisclaimer3,
+            style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+      textAlign: TextAlign.center,
+    ),
+  );
 }
 
 class _Item extends StatelessWidget {
-  const _Item({
-    required this.title,
-    required this.value,
-    required this.backgroundColor,
-  });
+  const _Item({required this.title, required this.value, required this.backgroundColor});
 
   final String title;
   final String value;
@@ -220,43 +204,39 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              title,
+    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.23,
+          ),
+        ),
+        const SizedBox(height: 8),
+        DecoratedBox(
+          decoration: ShapeDecoration(color: backgroundColor, shape: const StadiumBorder()),
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 2),
+            title: Text(
+              value,
+              maxLines: null,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 17,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
-                letterSpacing: 0.23,
               ),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
-            DecoratedBox(
-              decoration: ShapeDecoration(
-                color: backgroundColor,
-                shape: const StadiumBorder(),
-              ),
-              child: ListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 2),
-                title: Text(
-                  value,
-                  maxLines: null,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-      );
+      ],
+    ),
+  );
 }
 
 class _Loading extends StatelessWidget {
@@ -264,28 +244,18 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Center(
-        child: SizedBox.square(
-          dimension: 16,
-          child: CircularProgressIndicator(color: Colors.white),
-        ),
-      );
+    child: SizedBox.square(dimension: 16, child: CircularProgressIndicator(color: Colors.white)),
+  );
 }
 
 extension on CreateOrderException {
   String description(BuildContext context) => this.map(
-        quoteNotFound: always(context.l10n.outgoingDlnNoQuoteFound),
-        insufficientBalance: (e) => context.l10n.insufficientFundsMessage(
-          e.amount.format(
-            DeviceLocale.localeOf(context),
-            maxDecimals: 2,
-            roundInteger: false,
-          ),
-          e.balance.format(
-            DeviceLocale.localeOf(context),
-            maxDecimals: 2,
-            roundInteger: false,
-          ),
+    quoteNotFound: always(context.l10n.outgoingDlnNoQuoteFound),
+    insufficientBalance:
+        (e) => context.l10n.insufficientFundsMessage(
+          e.amount.format(DeviceLocale.localeOf(context), maxDecimals: 2, roundInteger: false),
+          e.balance.format(DeviceLocale.localeOf(context), maxDecimals: 2, roundInteger: false),
         ),
-        other: always(context.l10n.swapFailUnknown),
-      );
+    other: always(context.l10n.swapFailUnknown),
+  );
 }

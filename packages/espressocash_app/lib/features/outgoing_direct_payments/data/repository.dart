@@ -27,15 +27,14 @@ class ODPRepository implements Disposable {
 
   final MyDatabase _db;
   Future<IList<String>> getNonCompletedPaymentIds() async {
-    final query = _db.select(_db.oDPRows)
-      ..where(
-        (p) => p.status.isNotInValues([
-          ODPStatusDto.success,
-          ODPStatusDto.txFailure,
-          ODPStatusDto.txSendFailure,
-          ODPStatusDto.txWaitFailure,
-        ]),
-      );
+    final query = _db.select(_db.oDPRows)..where(
+      (p) => p.status.isNotInValues([
+        ODPStatusDto.success,
+        ODPStatusDto.txFailure,
+        ODPStatusDto.txSendFailure,
+        ODPStatusDto.txWaitFailure,
+      ]),
+    );
 
     final rows = await query.get();
 
@@ -91,18 +90,18 @@ enum ODPStatusDto {
 
 extension ODPRowExt on ODPRow {
   Future<OutgoingDirectPayment> toModel() async => OutgoingDirectPayment(
-        id: id,
-        receiver: Ed25519HDPublicKey.fromBase58(receiver),
-        reference: reference?.let(Ed25519HDPublicKey.fromBase58),
-        amount: CryptoAmount(
-          value: amount,
-          cryptoCurrency: CryptoCurrency(
-            token: (await sl<TokenRepository>().getToken(token)) ?? Token.unk,
-          ),
-        ),
-        created: created,
-        status: status.toModel(this),
-      );
+    id: id,
+    receiver: Ed25519HDPublicKey.fromBase58(receiver),
+    reference: reference?.let(Ed25519HDPublicKey.fromBase58),
+    amount: CryptoAmount(
+      value: amount,
+      cryptoCurrency: CryptoCurrency(
+        token: (await sl<TokenRepository>().getToken(token)) ?? Token.unk,
+      ),
+    ),
+    created: created,
+    status: status.toModel(this),
+  );
 }
 
 extension on ODPStatusDto {
@@ -113,16 +112,10 @@ extension on ODPStatusDto {
     switch (this) {
       case ODPStatusDto.txCreated:
       case ODPStatusDto.txSendFailure:
-        return ODPStatus.txCreated(
-          tx!,
-          slot: slot ?? BigInt.zero,
-        );
+        return ODPStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
       case ODPStatusDto.txSent:
       case ODPStatusDto.txWaitFailure:
-        return ODPStatus.txSent(
-          tx ?? StubSignedTx(row.txId!),
-          slot: slot ?? BigInt.zero,
-        );
+        return ODPStatus.txSent(tx ?? StubSignedTx(row.txId!), slot: slot ?? BigInt.zero);
       case ODPStatusDto.success:
         return ODPStatus.success(txId: row.txId!);
       case ODPStatusDto.txFailure:
@@ -133,43 +126,33 @@ extension on ODPStatusDto {
 
 extension on OutgoingDirectPayment {
   ODPRow toDto() => ODPRow(
-        id: id,
-        receiver: receiver.toBase58(),
-        reference: reference?.toBase58(),
-        amount: amount.value,
-        token: amount.cryptoCurrency.token.address,
-        created: created,
-        status: status.toDto(),
-        tx: status.toTx(),
-        txId: status.toTxId(),
-        txFailureReason: status.toTxFailureReason(),
-        slot: status.toSlot()?.toString(),
-      );
+    id: id,
+    receiver: receiver.toBase58(),
+    reference: reference?.toBase58(),
+    amount: amount.value,
+    token: amount.cryptoCurrency.token.address,
+    created: created,
+    status: status.toDto(),
+    tx: status.toTx(),
+    txId: status.toTxId(),
+    txFailureReason: status.toTxFailureReason(),
+    slot: status.toSlot()?.toString(),
+  );
 }
 
 extension on ODPStatus {
   ODPStatusDto toDto() => this.map(
-        txCreated: always(ODPStatusDto.txCreated),
-        txSent: always(ODPStatusDto.txSent),
-        success: always(ODPStatusDto.success),
-        txFailure: always(ODPStatusDto.txFailure),
-      );
+    txCreated: always(ODPStatusDto.txCreated),
+    txSent: always(ODPStatusDto.txSent),
+    success: always(ODPStatusDto.success),
+    txFailure: always(ODPStatusDto.txFailure),
+  );
 
-  String? toTx() => mapOrNull(
-        txCreated: (it) => it.tx.encode(),
-        txSent: (it) => it.tx.encode(),
-      );
+  String? toTx() => mapOrNull(txCreated: (it) => it.tx.encode(), txSent: (it) => it.tx.encode());
 
-  String? toTxId() => mapOrNull(
-        success: (it) => it.txId,
-      );
+  String? toTxId() => mapOrNull(success: (it) => it.txId);
 
-  TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
-        txFailure: (it) => it.reason,
-      );
+  TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(txFailure: (it) => it.reason);
 
-  BigInt? toSlot() => mapOrNull(
-        txCreated: (it) => it.slot,
-        txSent: (it) => it.slot,
-      );
+  BigInt? toSlot() => mapOrNull(txCreated: (it) => it.slot, txSent: (it) => it.slot);
 }

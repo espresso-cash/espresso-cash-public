@@ -14,8 +14,7 @@ part 'coinflow_api_client.g.dart';
 @RestApi()
 abstract class CoinflowClient {
   @factoryMethod
-  factory CoinflowClient() =>
-      _CoinflowClient(Dio(BaseOptions(baseUrl: coinflowApiUrl)));
+  factory CoinflowClient() => _CoinflowClient(Dio(BaseOptions(baseUrl: coinflowApiUrl)));
 
   @GET('/withdraw/history')
   @Headers(<String, dynamic>{'x-coinflow-auth-blockchain': 'solana'})
@@ -25,9 +24,7 @@ abstract class CoinflowClient {
 
   @GET('/withdraw')
   @Headers(<String, dynamic>{'x-coinflow-auth-blockchain': 'solana'})
-  Future<WithdrawerResponseDto> getWithdrawer(
-    @Header('x-coinflow-auth-wallet') String walletId,
-  );
+  Future<WithdrawerResponseDto> getWithdrawer(@Header('x-coinflow-auth-wallet') String walletId);
 }
 
 @freezed
@@ -44,8 +41,7 @@ class WithdrawHistoryResponseDto with _$WithdrawHistoryResponseDto {
 class WithdrawHistoryResponseDataDto with _$WithdrawHistoryResponseDataDto {
   const factory WithdrawHistoryResponseDataDto({
     required String transaction,
-    @JsonKey(unknownEnumValue: CoinflowOrderStatus.unknown)
-    required CoinflowOrderStatus status,
+    @JsonKey(unknownEnumValue: CoinflowOrderStatus.unknown) required CoinflowOrderStatus status,
     required DateTime updatedAt,
   }) = _WithdrawHistoryResponseDataDto;
 
@@ -55,9 +51,7 @@ class WithdrawHistoryResponseDataDto with _$WithdrawHistoryResponseDataDto {
 
 @freezed
 class WithdrawerResponseDto with _$WithdrawerResponseDto {
-  const factory WithdrawerResponseDto({
-    required WithdrawerDto withdrawer,
-  }) = _WithdrawerResponseDto;
+  const factory WithdrawerResponseDto({required WithdrawerDto withdrawer}) = _WithdrawerResponseDto;
   factory WithdrawerResponseDto.fromJson(Map<String, dynamic> data) =>
       _$WithdrawerResponseDtoFromJson(data);
 }
@@ -74,18 +68,10 @@ class WithdrawerDto with _$WithdrawerDto {
 
   const WithdrawerDto._();
 
-  factory WithdrawerDto.fromJson(Map<String, dynamic> data) =>
-      _$WithdrawerDtoFromJson(data);
+  factory WithdrawerDto.fromJson(Map<String, dynamic> data) => _$WithdrawerDtoFromJson(data);
 
-  bool get hasLinkedAccounts =>
-      bankAccounts.isNotEmpty || cards.isNotEmpty || ibans.isNotEmpty;
+  bool get hasLinkedAccounts => bankAccounts.isNotEmpty || cards.isNotEmpty || ibans.isNotEmpty;
 }
 
 @JsonEnum()
-enum CoinflowOrderStatus {
-  completed,
-  created,
-  failed,
-  pending,
-  unknown,
-}
+enum CoinflowOrderStatus { completed, created, failed, pending, unknown }

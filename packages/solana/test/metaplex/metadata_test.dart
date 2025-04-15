@@ -47,11 +47,7 @@ void main() {
       isA<Metadata>()
           .having((m) => m.name, 'name', 'Cofre #514')
           .having((m) => m.symbol, 'symbol', 'COFR')
-          .having(
-            (m) => m.mint,
-            'mintAccount',
-            'FxqBSMd2pYwTvAYjUKb4mWUBtV4LWCF4o9yvmtEMxcFB',
-          )
+          .having((m) => m.mint, 'mintAccount', 'FxqBSMd2pYwTvAYjUKb4mWUBtV4LWCF4o9yvmtEMxcFB')
           .having(
             (m) => m.updateAuthority,
             'updateAuthority',

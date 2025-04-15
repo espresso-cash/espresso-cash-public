@@ -8,14 +8,10 @@ part 'recovery_state.freezed.dart';
 sealed class StellarRecoveryState with _$StellarRecoveryState {
   const factory StellarRecoveryState.none() = RecoveryNone;
 
-  const factory StellarRecoveryState.pending({
-    required CryptoAmount amount,
-  }) = RecoveryPending;
+  const factory StellarRecoveryState.pending({required CryptoAmount amount}) = RecoveryPending;
 
-  const factory StellarRecoveryState.processing({
-    CryptoAmount? amount,
-    String? txId,
-  }) = RecoveryProcessing;
+  const factory StellarRecoveryState.processing({CryptoAmount? amount, String? txId}) =
+      RecoveryProcessing;
 
   const factory StellarRecoveryState.completed({
     required CryptoAmount amount,
@@ -29,9 +25,9 @@ sealed class StellarRecoveryState with _$StellarRecoveryState {
 
 extension StellarRecoveryStateX on StellarRecoveryState {
   CryptoAmount? get amount => switch (this) {
-        RecoveryPending(:final amount) => amount,
-        RecoveryProcessing(:final amount) => amount,
-        RecoveryCompleted(:final amount) => amount,
-        _ => null,
-      };
+    RecoveryPending(:final amount) => amount,
+    RecoveryProcessing(:final amount) => amount,
+    RecoveryCompleted(:final amount) => amount,
+    _ => null,
+  };
 }

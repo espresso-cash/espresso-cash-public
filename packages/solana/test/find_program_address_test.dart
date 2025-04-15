@@ -4,17 +4,14 @@ import 'package:test/test.dart';
 
 void main() {
   for (final entry in _map.entries) {
-    test('Generates associated token account address for ${entry.key}',
-        () async {
+    test('Generates associated token account address for ${entry.key}', () async {
       final address = await Ed25519HDPublicKey.findProgramAddress(
         seeds: [
           ByteArray.fromBase58(entry.key),
           ByteArray.fromBase58(TokenProgram.programId),
           ByteArray.fromBase58(_mint),
         ],
-        programId: Ed25519HDPublicKey.fromBase58(
-          AssociatedTokenAccountProgram.programId,
-        ),
+        programId: Ed25519HDPublicKey.fromBase58(AssociatedTokenAccountProgram.programId),
       );
       expect(address, equals(entry.value));
     });

@@ -4,12 +4,7 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 
 class CpUserAvatar extends StatelessWidget {
-  const CpUserAvatar({
-    super.key,
-    required this.userName,
-    this.image,
-    this.radius = 24,
-  });
+  const CpUserAvatar({super.key, required this.userName, this.image, this.radius = 24});
 
   final String userName;
   final double radius;
@@ -26,10 +21,7 @@ class CpUserAvatar extends StatelessWidget {
       child: AnimatedDefaultTextStyle(
         duration: kThemeChangeDuration,
         style: _textStyle,
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-        ),
+        child: Text(text, textAlign: TextAlign.center),
       ),
     );
   }

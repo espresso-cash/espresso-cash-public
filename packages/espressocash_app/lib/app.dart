@@ -37,15 +37,9 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
       if (sl<AccountService>().value == null) {
         SignInFlowScreen.open(context, navigator: _navigator.currentState);
       } else if (sl<OnboardingRepository>().hasFinishedOnboarding) {
-        AuthenticatedFlowScreen.open(
-          context,
-          navigator: _navigator.currentState,
-        );
+        AuthenticatedFlowScreen.open(context, navigator: _navigator.currentState);
       } else {
-        OnboardingFlowScreen.open(
-          context,
-          navigator: _navigator.currentState,
-        );
+        OnboardingFlowScreen.open(context, navigator: _navigator.currentState);
       }
     });
   }
@@ -58,21 +52,23 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
 
   @override
   Widget build(BuildContext context) => CpTheme(
-        theme: const CpThemeData.dark(),
-        child: Builder(
-          builder: (context) => MaterialApp(
+    theme: const CpThemeData.dark(),
+    child: Builder(
+      builder:
+          (context) => MaterialApp(
             home: const SplashScreen(),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             debugShowCheckedModeBanner: false,
             title: 'Espresso Cash',
             theme: context.watch<CpThemeData>().toMaterialTheme(),
-            builder: (context, child) => AppLockModule(
-              // ignore: avoid-non-null-assertion, should not be null
-              child: child!,
-            ),
+            builder:
+                (context, child) => AppLockModule(
+                  // ignore: avoid-non-null-assertion, should not be null
+                  child: child!,
+                ),
             navigatorKey: _navigator,
           ),
-        ),
-      );
+    ),
+  );
 }

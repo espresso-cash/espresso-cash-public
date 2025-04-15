@@ -23,11 +23,9 @@ import '../widgets/pick_profile_picture.dart';
 class ManageProfileScreen extends StatefulWidget {
   const ManageProfileScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => const ManageProfileScreen(),
-        ),
-      );
+  static void push(BuildContext context) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => const ManageProfileScreen()));
 
   @override
   State<ManageProfileScreen> createState() => _ManageProfileScreenState();
@@ -66,31 +64,23 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
     super.dispose();
   }
 
-  void _handleSubmitted() => runWithLoader(
-        context,
-        () async {
-          final photo = await _photo?.let(sl<FileManager>().copyToAppDir);
+  void _handleSubmitted() => runWithLoader(context, () async {
+    final photo = await _photo?.let(sl<FileManager>().copyToAppDir);
 
-          await sl<UpdateProfile>()
-              .call(
-                firstName: _firstNameController.text,
-                lastName: _lastNameController.text,
-                // ignore: avoid-non-null-assertion, should not be null
-                countryCode: _country!.code,
-                photoPath: photo?.path,
-                email: _emailController.text,
-              )
-              .foldAsync((e) => throw e, ignore);
+    await sl<UpdateProfile>()
+        .call(
+          firstName: _firstNameController.text,
+          lastName: _lastNameController.text,
+          // ignore: avoid-non-null-assertion, should not be null
+          countryCode: _country!.code,
+          photoPath: photo?.path,
+          email: _emailController.text,
+        )
+        .foldAsync((e) => throw e, ignore);
 
-          if (!mounted) return;
-          Navigator.of(context).pop();
-        },
-        onError: (error) => showErrorDialog(
-          context,
-          context.l10n.lblProfileUpdateFailed,
-          error,
-        ),
-      );
+    if (!mounted) return;
+    Navigator.of(context).pop();
+  }, onError: (error) => showErrorDialog(context, context.l10n.lblProfileUpdateFailed, error));
 
   bool get _isValid =>
       _firstNameController.text.isNotEmpty &&
@@ -100,104 +90,93 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          appBar: const CpAppBar(),
-          extendBodyBehindAppBar: true,
-          body: OnboardingScreen(
-            footer: ListenableBuilder(
-              listenable: Listenable.merge([
-                _firstNameController,
-                _lastNameController,
-                _emailController,
-              ]),
-              builder: (context, child) => OnboardingFooterButton(
+    child: Scaffold(
+      appBar: const CpAppBar(),
+      extendBodyBehindAppBar: true,
+      body: OnboardingScreen(
+        footer: ListenableBuilder(
+          listenable: Listenable.merge([
+            _firstNameController,
+            _lastNameController,
+            _emailController,
+          ]),
+          builder:
+              (context, child) => OnboardingFooterButton(
                 text: context.l10n.save,
                 onPressed: _isValid ? _handleSubmitted : null,
               ),
-            ),
-            children: [
-              SizedBox(height: MediaQuery.paddingOf(context).top + 24),
-              ProfileImagePicker(
-                photo: _photo,
-                onChanged: (File? value) => setState(() => _photo = value),
-              ),
-              const SizedBox(height: 32),
-              OnboardingPadding(
-                child: CpTextField(
-                  key: keyCreateProfileName,
-                  margin: const EdgeInsets.only(top: 16),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  placeholder: context.l10n.yourFirstNamePlaceholder,
-                  controller: _firstNameController,
-                  textColor: Colors.white,
-                  placeholderColor: _placeholderTextColor,
-                  backgroundColor: CpColors.blackTextFieldBackgroundColor,
-                  fontSize: 16,
-                  inputType: TextInputType.name,
-                  textCapitalization: TextCapitalization.words,
-                ),
-              ),
-              OnboardingPadding(
-                child: CpTextField(
-                  margin: const EdgeInsets.only(top: 16),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  placeholder: context.l10n.yourLastNamePlaceholder,
-                  controller: _lastNameController,
-                  textColor: Colors.white,
-                  placeholderColor: _placeholderTextColor,
-                  backgroundColor: CpColors.blackTextFieldBackgroundColor,
-                  fontSize: 16,
-                  inputType: TextInputType.name,
-                  textCapitalization: TextCapitalization.words,
-                ),
-              ),
-              OnboardingPadding(
-                child: CpTextField(
-                  margin: const EdgeInsets.only(top: 16),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  placeholder: context.l10n.yourEmailPlaceholder,
-                  controller: _emailController,
-                  textColor: Colors.white,
-                  placeholderColor: _placeholderTextColor,
-                  backgroundColor: CpColors.blackTextFieldBackgroundColor,
-                  fontSize: 16,
-                  inputType: TextInputType.emailAddress,
-                ),
-              ),
-              const SizedBox(height: 12),
-              OnboardingPadding(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Text(
-                    context.l10n.profileDisclaimer,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 35),
-              OnboardingPadding(
-                child: CountryPicker(
-                  country: _country,
-                  onSubmitted: (country) => setState(() => _country = country),
-                ),
-              ),
-            ],
-          ),
         ),
-      );
+        children: [
+          SizedBox(height: MediaQuery.paddingOf(context).top + 24),
+          ProfileImagePicker(
+            photo: _photo,
+            onChanged: (File? value) => setState(() => _photo = value),
+          ),
+          const SizedBox(height: 32),
+          OnboardingPadding(
+            child: CpTextField(
+              key: keyCreateProfileName,
+              margin: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              placeholder: context.l10n.yourFirstNamePlaceholder,
+              controller: _firstNameController,
+              textColor: Colors.white,
+              placeholderColor: _placeholderTextColor,
+              backgroundColor: CpColors.blackTextFieldBackgroundColor,
+              fontSize: 16,
+              inputType: TextInputType.name,
+              textCapitalization: TextCapitalization.words,
+            ),
+          ),
+          OnboardingPadding(
+            child: CpTextField(
+              margin: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              placeholder: context.l10n.yourLastNamePlaceholder,
+              controller: _lastNameController,
+              textColor: Colors.white,
+              placeholderColor: _placeholderTextColor,
+              backgroundColor: CpColors.blackTextFieldBackgroundColor,
+              fontSize: 16,
+              inputType: TextInputType.name,
+              textCapitalization: TextCapitalization.words,
+            ),
+          ),
+          OnboardingPadding(
+            child: CpTextField(
+              margin: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              placeholder: context.l10n.yourEmailPlaceholder,
+              controller: _emailController,
+              textColor: Colors.white,
+              placeholderColor: _placeholderTextColor,
+              backgroundColor: CpColors.blackTextFieldBackgroundColor,
+              fontSize: 16,
+              inputType: TextInputType.emailAddress,
+            ),
+          ),
+          const SizedBox(height: 12),
+          OnboardingPadding(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                context.l10n.profileDisclaimer,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white, fontSize: 13),
+              ),
+            ),
+          ),
+          const SizedBox(height: 35),
+          OnboardingPadding(
+            child: CountryPicker(
+              country: _country,
+              onSubmitted: (country) => setState(() => _country = country),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 const _placeholderTextColor = Color(0xff858585);

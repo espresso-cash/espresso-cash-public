@@ -32,8 +32,7 @@ extension SolanaClientExt on SolanaClient {
 
     if (simulation.value.err != null) return null;
 
-    final postBalance =
-        simulation.value.accounts?.first.data?.parseTokenBalance();
+    final postBalance = simulation.value.accounts?.first.data?.parseTokenBalance();
     final preBalance = await rpcClient
         .getAccountInfo(
           tokenAddress.toBase58(),
@@ -44,10 +43,7 @@ extension SolanaClientExt on SolanaClient {
 
     if (postBalance == null || preBalance == null) return null;
 
-    return (
-      amountTransferred: preBalance - postBalance,
-      slot: simulation.context.slot,
-    );
+    return (amountTransferred: preBalance - postBalance, slot: simulation.context.slot);
   }
 }
 

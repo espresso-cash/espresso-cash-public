@@ -13,11 +13,7 @@ class Ed25519HDPublicKey implements PublicKey {
   factory Ed25519HDPublicKey.fromBase58(String data) {
     final bytes = base58decode(data);
     if (bytes.length != 32) {
-      throw ArgumentError.value(
-        data,
-        'data',
-        'Expected 32 bytes, got ${bytes.length}',
-      );
+      throw ArgumentError.value(data, 'data', 'Expected 32 bytes, got ${bytes.length}');
     }
 
     return Ed25519HDPublicKey(bytes);
@@ -49,9 +45,7 @@ class Ed25519HDPublicKey implements PublicKey {
         .toList(growable: false);
     final data = await _computeHash(seedBytes);
     if (isPointOnEd25519Curve(data)) {
-      throw const FormatException(
-        'failed to create address with provided seeds',
-      );
+      throw const FormatException('failed to create address with provided seeds');
     }
 
     return Ed25519HDPublicKey(data);
@@ -71,18 +65,13 @@ class Ed25519HDPublicKey implements PublicKey {
     }
     final overflowingSeed = seeds.where((s) => s.length > _maxSeedLength);
     if (overflowingSeed.isNotEmpty) {
-      throw const FormatException(
-        'one or more of the seeds provided is too big',
-      );
+      throw const FormatException('one or more of the seeds provided is too big');
     }
     final flatSeeds = seeds.fold(<int>[], _flatten);
     int bumpSeed = _maxBumpSeed;
     while (bumpSeed >= 0) {
       try {
-        return await createProgramAddress(
-          seeds: [...flatSeeds, bumpSeed],
-          programId: programId,
-        );
+        return await createProgramAddress(seeds: [...flatSeeds, bumpSeed], programId: programId);
       } on FormatException {
         bumpSeed -= 1;
       }
@@ -108,8 +97,7 @@ class Ed25519HDPublicKey implements PublicKey {
 
   @override
   bool operator ==(Object other) =>
-      other is Ed25519HDPublicKey &&
-      const ListEquality<int>().equals(bytes, other.bytes);
+      other is Ed25519HDPublicKey && const ListEquality<int>().equals(bytes, other.bytes);
 }
 
 final _sha256 = Sha256();

@@ -25,8 +25,7 @@ class ParsedMessage implements Message {
     required this.addressTableLookups,
   });
 
-  factory ParsedMessage.fromJson(Map<String, dynamic> json) =>
-      _$ParsedMessageFromJson(json);
+  factory ParsedMessage.fromJson(Map<String, dynamic> json) => _$ParsedMessageFromJson(json);
 
   @override
   final List<AccountKey> accountKeys;

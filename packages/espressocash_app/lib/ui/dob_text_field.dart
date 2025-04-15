@@ -9,44 +9,39 @@ class CpDobTextField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.placeholder,
+    this.readonly = false,
   });
 
   final TextEditingController controller;
   final String placeholder;
+  final bool readonly;
 
   @override
   Widget build(BuildContext context) => CpTextField(
-        padding: const EdgeInsets.only(
-          top: 18,
-          bottom: 16,
-          left: 26,
-          right: 26,
-        ),
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp('[0-9-/]')),
-          LengthLimitingTextInputFormatter(10),
-          const _DateInputFormatter(),
-        ],
-        fontWeight: FontWeight.w500,
-        fontSize: 16,
-        controller: controller,
-        inputType: TextInputType.datetime,
-        textInputAction: TextInputAction.next,
-        backgroundColor: CpColors.lightGreyColor,
-        placeholder: placeholder,
-        placeholderColor: CpColors.greyColor,
-        textColor: Colors.white,
-      );
+    padding: const EdgeInsets.only(top: 18, bottom: 16, left: 26, right: 26),
+    readOnly: readonly,
+    inputFormatters: [
+      FilteringTextInputFormatter.allow(RegExp('[0-9-/]')),
+      LengthLimitingTextInputFormatter(10),
+      const _DateInputFormatter(),
+    ],
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    controller: controller,
+    inputType: TextInputType.datetime,
+    textInputAction: TextInputAction.next,
+    backgroundColor: CpColors.lightGreyColor,
+    placeholder: placeholder,
+    placeholderColor: CpColors.greyColor,
+    textColor: Colors.white,
+  );
 }
 
 class _DateInputFormatter extends TextInputFormatter {
   const _DateInputFormatter();
 
   @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue previousValue,
-    TextEditingValue currentValue,
-  ) {
+  TextEditingValue formatEditUpdate(TextEditingValue previousValue, TextEditingValue currentValue) {
     final String currentText = currentValue.text;
 
     final int currentLength = currentText.length;
@@ -90,17 +85,13 @@ class _DateInputFormatter extends TextInputFormatter {
 
     if (currentLength == 3 && previousLength == 2) {
       if (!currentText.contains('/')) {
-        return _updateText(
-          '${currentText.substring(0, 2)}/${currentText.substring(2)}',
-        );
+        return _updateText('${currentText.substring(0, 2)}/${currentText.substring(2)}');
       }
     }
 
     if (currentLength == 6 && previousLength == 5) {
       if (!currentText.contains('/', 5)) {
-        return _updateText(
-          '${currentText.substring(0, 5)}/${currentText.substring(5)}',
-        );
+        return _updateText('${currentText.substring(0, 5)}/${currentText.substring(5)}');
       }
     }
 
@@ -121,8 +112,6 @@ class _DateInputFormatter extends TextInputFormatter {
     return _updateText(currentText);
   }
 
-  TextEditingValue _updateText(String text) => TextEditingValue(
-        text: text,
-        selection: TextSelection.collapsed(offset: text.length),
-      );
+  TextEditingValue _updateText(String text) =>
+      TextEditingValue(text: text, selection: TextSelection.collapsed(offset: text.length));
 }

@@ -13,11 +13,7 @@ class Mnemonic with _$Mnemonic {
 }
 
 extension MnemonicExt on Mnemonic {
-  String get phrase => when(
-        empty: always(''),
-        typed: identity,
-        generated: identity,
-      );
+  String get phrase => when(empty: always(''), typed: identity, generated: identity);
 }
 
 @freezed

@@ -23,11 +23,10 @@ void main() {
     blocTest<QrScannerBloc, QrScannerState>(
       'solana pay QR code leads to done state',
       build: QrScannerBloc.new,
-      act: (bloc) => bloc.add(
-        QrScannerEvent.received(
-          _buildSolanaPayURI(recipientAddress: sampleAddress),
-        ),
-      ),
+      act:
+          (bloc) => bloc.add(
+            QrScannerEvent.received(_buildSolanaPayURI(recipientAddress: sampleAddress)),
+          ),
       expect: () => [isA<QrScannerDoneState>()],
     );
 
@@ -35,15 +34,14 @@ void main() {
       'simple address qr scanned',
       build: QrScannerBloc.new,
       act: (bloc) => bloc.add(QrScannerEvent.received(sampleAddress)),
-      expect: () => [
-        QrScannerState.done(
-          QrScannerRequest.address(
-            QrAddressDataSolana(
-              address: Ed25519HDPublicKey.fromBase58(sampleAddress),
+      expect:
+          () => [
+            QrScannerState.done(
+              QrScannerRequest.address(
+                QrAddressDataSolana(address: Ed25519HDPublicKey.fromBase58(sampleAddress)),
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
     );
   });
 }
@@ -58,10 +56,7 @@ String _buildSolanaPayURI({
     'spl-token': splToken,
     'reference': reference,
     'amount': amount?.toString(),
-  }
-      .entries
-      .where((entry) => entry.value != null)
-      .map((entry) => '${entry.key}=${entry.value}');
+  }.entries.where((entry) => entry.value != null).map((entry) => '${entry.key}=${entry.value}');
 
   return 'solana:$recipientAddress?${values.join('&')}';
 }

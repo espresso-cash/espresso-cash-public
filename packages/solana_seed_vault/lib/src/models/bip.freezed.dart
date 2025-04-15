@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'bip.dart';
 
@@ -12,7 +12,8 @@ part of 'bip.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$BipLevel {
@@ -20,8 +21,7 @@ mixin _$BipLevel {
   bool get hardened => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $BipLevelCopyWith<BipLevel> get copyWith =>
-      throw _privateConstructorUsedError;
+  $BipLevelCopyWith<BipLevel> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -33,8 +33,7 @@ abstract class $BipLevelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BipLevelCopyWithImpl<$Res, $Val extends BipLevel>
-    implements $BipLevelCopyWith<$Res> {
+class _$BipLevelCopyWithImpl<$Res, $Val extends BipLevel> implements $BipLevelCopyWith<$Res> {
   _$BipLevelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -44,64 +43,64 @@ class _$BipLevelCopyWithImpl<$Res, $Val extends BipLevel>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? index = null,
-    Object? hardened = null,
-  }) {
-    return _then(_value.copyWith(
-      index: null == index
-          ? _value.index
-          : index // ignore: cast_nullable_to_non_nullable
-              as int,
-      hardened: null == hardened
-          ? _value.hardened
-          : hardened // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+  $Res call({Object? index = null, Object? hardened = null}) {
+    return _then(
+      _value.copyWith(
+            index:
+                null == index
+                    ? _value.index
+                    : index // ignore: cast_nullable_to_non_nullable
+                        as int,
+            hardened:
+                null == hardened
+                    ? _value.hardened
+                    : hardened // ignore: cast_nullable_to_non_nullable
+                        as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
-abstract class _$$_BipLevelCopyWith<$Res> implements $BipLevelCopyWith<$Res> {
-  factory _$$_BipLevelCopyWith(
-          _$_BipLevel value, $Res Function(_$_BipLevel) then) =
-      __$$_BipLevelCopyWithImpl<$Res>;
+abstract class _$$BipLevelImplCopyWith<$Res> implements $BipLevelCopyWith<$Res> {
+  factory _$$BipLevelImplCopyWith(_$BipLevelImpl value, $Res Function(_$BipLevelImpl) then) =
+      __$$BipLevelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int index, bool hardened});
 }
 
 /// @nodoc
-class __$$_BipLevelCopyWithImpl<$Res>
-    extends _$BipLevelCopyWithImpl<$Res, _$_BipLevel>
-    implements _$$_BipLevelCopyWith<$Res> {
-  __$$_BipLevelCopyWithImpl(
-      _$_BipLevel _value, $Res Function(_$_BipLevel) _then)
-      : super(_value, _then);
+class __$$BipLevelImplCopyWithImpl<$Res> extends _$BipLevelCopyWithImpl<$Res, _$BipLevelImpl>
+    implements _$$BipLevelImplCopyWith<$Res> {
+  __$$BipLevelImplCopyWithImpl(_$BipLevelImpl _value, $Res Function(_$BipLevelImpl) _then)
+    : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? index = null,
-    Object? hardened = null,
-  }) {
-    return _then(_$_BipLevel(
-      index: null == index
-          ? _value.index
-          : index // ignore: cast_nullable_to_non_nullable
-              as int,
-      hardened: null == hardened
-          ? _value.hardened
-          : hardened // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+  $Res call({Object? index = null, Object? hardened = null}) {
+    return _then(
+      _$BipLevelImpl(
+        index:
+            null == index
+                ? _value.index
+                : index // ignore: cast_nullable_to_non_nullable
+                    as int,
+        hardened:
+            null == hardened
+                ? _value.hardened
+                : hardened // ignore: cast_nullable_to_non_nullable
+                    as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_BipLevel implements _BipLevel {
-  const _$_BipLevel({required this.index, required this.hardened});
+class _$BipLevelImpl implements _BipLevel {
+  const _$BipLevelImpl({required this.index, required this.hardened});
 
   @override
   final int index;
@@ -114,13 +113,12 @@ class _$_BipLevel implements _BipLevel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BipLevel &&
+            other is _$BipLevelImpl &&
             (identical(other.index, index) || other.index == index) &&
-            (identical(other.hardened, hardened) ||
-                other.hardened == hardened));
+            (identical(other.hardened, hardened) || other.hardened == hardened));
   }
 
   @override
@@ -129,13 +127,13 @@ class _$_BipLevel implements _BipLevel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BipLevelCopyWith<_$_BipLevel> get copyWith =>
-      __$$_BipLevelCopyWithImpl<_$_BipLevel>(this, _$identity);
+  _$$BipLevelImplCopyWith<_$BipLevelImpl> get copyWith =>
+      __$$BipLevelImplCopyWithImpl<_$BipLevelImpl>(this, _$identity);
 }
 
 abstract class _BipLevel implements BipLevel {
-  const factory _BipLevel(
-      {required final int index, required final bool hardened}) = _$_BipLevel;
+  const factory _BipLevel({required final int index, required final bool hardened}) =
+      _$BipLevelImpl;
 
   @override
   int get index;
@@ -143,8 +141,7 @@ abstract class _BipLevel implements BipLevel {
   bool get hardened;
   @override
   @JsonKey(ignore: true)
-  _$$_BipLevelCopyWith<_$_BipLevel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$BipLevelImplCopyWith<_$BipLevelImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -154,8 +151,7 @@ mixin _$Bip44Data {
   BipLevel? get addressIndex => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $Bip44DataCopyWith<Bip44Data> get copyWith =>
-      throw _privateConstructorUsedError;
+  $Bip44DataCopyWith<Bip44Data> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -171,8 +167,7 @@ abstract class $Bip44DataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$Bip44DataCopyWithImpl<$Res, $Val extends Bip44Data>
-    implements $Bip44DataCopyWith<$Res> {
+class _$Bip44DataCopyWithImpl<$Res, $Val extends Bip44Data> implements $Bip44DataCopyWith<$Res> {
   _$Bip44DataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -182,25 +177,27 @@ class _$Bip44DataCopyWithImpl<$Res, $Val extends Bip44Data>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? account = null,
-    Object? change = freezed,
-    Object? addressIndex = freezed,
-  }) {
-    return _then(_value.copyWith(
-      account: null == account
-          ? _value.account
-          : account // ignore: cast_nullable_to_non_nullable
-              as BipLevel,
-      change: freezed == change
-          ? _value.change
-          : change // ignore: cast_nullable_to_non_nullable
-              as BipLevel?,
-      addressIndex: freezed == addressIndex
-          ? _value.addressIndex
-          : addressIndex // ignore: cast_nullable_to_non_nullable
-              as BipLevel?,
-    ) as $Val);
+  $Res call({Object? account = null, Object? change = freezed, Object? addressIndex = freezed}) {
+    return _then(
+      _value.copyWith(
+            account:
+                null == account
+                    ? _value.account
+                    : account // ignore: cast_nullable_to_non_nullable
+                        as BipLevel,
+            change:
+                freezed == change
+                    ? _value.change
+                    : change // ignore: cast_nullable_to_non_nullable
+                        as BipLevel?,
+            addressIndex:
+                freezed == addressIndex
+                    ? _value.addressIndex
+                    : addressIndex // ignore: cast_nullable_to_non_nullable
+                        as BipLevel?,
+          )
+          as $Val,
+    );
   }
 
   @override
@@ -237,10 +234,9 @@ class _$Bip44DataCopyWithImpl<$Res, $Val extends Bip44Data>
 }
 
 /// @nodoc
-abstract class _$$_Bip44DataCopyWith<$Res> implements $Bip44DataCopyWith<$Res> {
-  factory _$$_Bip44DataCopyWith(
-          _$_Bip44Data value, $Res Function(_$_Bip44Data) then) =
-      __$$_Bip44DataCopyWithImpl<$Res>;
+abstract class _$$Bip44DataImplCopyWith<$Res> implements $Bip44DataCopyWith<$Res> {
+  factory _$$Bip44DataImplCopyWith(_$Bip44DataImpl value, $Res Function(_$Bip44DataImpl) then) =
+      __$$Bip44DataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({BipLevel account, BipLevel? change, BipLevel? addressIndex});
@@ -254,41 +250,40 @@ abstract class _$$_Bip44DataCopyWith<$Res> implements $Bip44DataCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_Bip44DataCopyWithImpl<$Res>
-    extends _$Bip44DataCopyWithImpl<$Res, _$_Bip44Data>
-    implements _$$_Bip44DataCopyWith<$Res> {
-  __$$_Bip44DataCopyWithImpl(
-      _$_Bip44Data _value, $Res Function(_$_Bip44Data) _then)
-      : super(_value, _then);
+class __$$Bip44DataImplCopyWithImpl<$Res> extends _$Bip44DataCopyWithImpl<$Res, _$Bip44DataImpl>
+    implements _$$Bip44DataImplCopyWith<$Res> {
+  __$$Bip44DataImplCopyWithImpl(_$Bip44DataImpl _value, $Res Function(_$Bip44DataImpl) _then)
+    : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? account = null,
-    Object? change = freezed,
-    Object? addressIndex = freezed,
-  }) {
-    return _then(_$_Bip44Data(
-      account: null == account
-          ? _value.account
-          : account // ignore: cast_nullable_to_non_nullable
-              as BipLevel,
-      change: freezed == change
-          ? _value.change
-          : change // ignore: cast_nullable_to_non_nullable
-              as BipLevel?,
-      addressIndex: freezed == addressIndex
-          ? _value.addressIndex
-          : addressIndex // ignore: cast_nullable_to_non_nullable
-              as BipLevel?,
-    ));
+  $Res call({Object? account = null, Object? change = freezed, Object? addressIndex = freezed}) {
+    return _then(
+      _$Bip44DataImpl(
+        account:
+            null == account
+                ? _value.account
+                : account // ignore: cast_nullable_to_non_nullable
+                    as BipLevel,
+        change:
+            freezed == change
+                ? _value.change
+                : change // ignore: cast_nullable_to_non_nullable
+                    as BipLevel?,
+        addressIndex:
+            freezed == addressIndex
+                ? _value.addressIndex
+                : addressIndex // ignore: cast_nullable_to_non_nullable
+                    as BipLevel?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
-class _$_Bip44Data implements _Bip44Data {
-  const _$_Bip44Data({required this.account, this.change, this.addressIndex});
+class _$Bip44DataImpl implements _Bip44Data {
+  const _$Bip44DataImpl({required this.account, this.change, this.addressIndex});
 
   @override
   final BipLevel account;
@@ -303,14 +298,13 @@ class _$_Bip44Data implements _Bip44Data {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Bip44Data &&
+            other is _$Bip44DataImpl &&
             (identical(other.account, account) || other.account == account) &&
             (identical(other.change, change) || other.change == change) &&
-            (identical(other.addressIndex, addressIndex) ||
-                other.addressIndex == addressIndex));
+            (identical(other.addressIndex, addressIndex) || other.addressIndex == addressIndex));
   }
 
   @override
@@ -319,15 +313,16 @@ class _$_Bip44Data implements _Bip44Data {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_Bip44DataCopyWith<_$_Bip44Data> get copyWith =>
-      __$$_Bip44DataCopyWithImpl<_$_Bip44Data>(this, _$identity);
+  _$$Bip44DataImplCopyWith<_$Bip44DataImpl> get copyWith =>
+      __$$Bip44DataImplCopyWithImpl<_$Bip44DataImpl>(this, _$identity);
 }
 
 abstract class _Bip44Data implements Bip44Data {
-  const factory _Bip44Data(
-      {required final BipLevel account,
-      final BipLevel? change,
-      final BipLevel? addressIndex}) = _$_Bip44Data;
+  const factory _Bip44Data({
+    required final BipLevel account,
+    final BipLevel? change,
+    final BipLevel? addressIndex,
+  }) = _$Bip44DataImpl;
 
   @override
   BipLevel get account;
@@ -337,6 +332,5 @@ abstract class _Bip44Data implements Bip44Data {
   BipLevel? get addressIndex;
   @override
   @JsonKey(ignore: true)
-  _$$_Bip44DataCopyWith<_$_Bip44Data> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$Bip44DataImplCopyWith<_$Bip44DataImpl> get copyWith => throw _privateConstructorUsedError;
 }

@@ -9,12 +9,7 @@ class ProjectivePoint {
   final FieldElement _y;
   final FieldElement _z;
 
-  EdwardsPoint toExtended() => EdwardsPoint(
-        _x * _z,
-        _y * _z,
-        _z.square(),
-        _x * _y,
-      );
+  EdwardsPoint toExtended() => EdwardsPoint(_x * _z, _y * _z, _z.square(), _x * _y);
 
   CompletedPoint dbl() {
     final xx = _x.square();
@@ -25,11 +20,6 @@ class ProjectivePoint {
     final yyPlusXX = yy + xx;
     final yyMinusXX = yy - xx;
 
-    return CompletedPoint(
-      xPlusYSq - yyPlusXX,
-      yyPlusXX,
-      yyMinusXX,
-      zz2 - yyMinusXX,
-    );
+    return CompletedPoint(xPlusYSq - yyPlusXX, yyPlusXX, yyMinusXX, zz2 - yyMinusXX);
   }
 }

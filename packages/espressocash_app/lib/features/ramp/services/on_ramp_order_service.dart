@@ -18,31 +18,24 @@ import '../../ramp_partner/models/ramp_type.dart';
 import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
 
-typedef OnRampOrder = ({
-  String id,
-  DateTime created,
-  Amount submittedAmount,
-  CryptoAmount? receiveAmount,
-  RampPartner partner,
-  OnRampOrderStatus status,
-  String partnerOrderId,
-  DepositDetails? manualDeposit,
-  String? authToken,
-  AdditionalDetails additionalDetails,
-});
+typedef OnRampOrder =
+    ({
+      String id,
+      DateTime created,
+      Amount submittedAmount,
+      CryptoAmount? receiveAmount,
+      RampPartner partner,
+      OnRampOrderStatus status,
+      String partnerOrderId,
+      DepositDetails? manualDeposit,
+      String? authToken,
+      AdditionalDetails additionalDetails,
+    });
 
-typedef DepositDetails = ({
-  String bankAccount,
-  String bankName,
-  DateTime transferExpiryDate,
-  FiatAmount transferAmount,
-});
+typedef DepositDetails =
+    ({String bankAccount, String bankName, DateTime transferExpiryDate, FiatAmount transferAmount});
 
-typedef AdditionalDetails = ({
-  FiatAmount? fee,
-  String? referenceNumber,
-  String? moreInfoUrl
-});
+typedef AdditionalDetails = ({FiatAmount? fee, String? referenceNumber, String? moreInfoUrl});
 
 @Singleton(scope: authScope)
 class OnRampOrderService implements Disposable {
@@ -57,9 +50,7 @@ class OnRampOrderService implements Disposable {
   @PostConstruct(preResolve: true)
   Future<void> init() async {
     final query = _db.select(_db.onRampOrderRows)
-      ..where(
-        (tbl) => tbl.status.equalsValue(OnRampOrderStatus.waitingForDeposit),
-      );
+      ..where((tbl) => tbl.status.equalsValue(OnRampOrderStatus.waitingForDeposit));
 
     final orders = await query.get();
 
@@ -90,45 +81,44 @@ class OnRampOrderService implements Disposable {
     DateTime? transferExpiryDate,
     FiatAmount? transferAmount,
     required String countryCode,
-  }) =>
-      tryEitherAsync((_) async {
-        {
-          final order = OnRampOrderRow(
-            id: const Uuid().v4(),
-            partnerOrderId: orderId,
-            amount: submittedAmount.value,
-            token: Token.usdc.address,
-            humanStatus: '',
-            machineStatus: '',
-            isCompleted: false,
-            created: DateTime.now(),
-            txHash: '',
-            partner: partner,
-            receiveAmount: receiveAmount?.value,
-            status: status,
-            bankAccount: bankAccount,
-            bankName: bankName,
-            bankTransferExpiry: transferExpiryDate,
-            bankTransferAmount: transferAmount?.value,
-            fiatSymbol: transferAmount?.currency.symbol,
-            authToken: null,
-            moreInfoUrl: null,
-          );
+  }) => tryEitherAsync((_) async {
+    {
+      final order = OnRampOrderRow(
+        id: const Uuid().v4(),
+        partnerOrderId: orderId,
+        amount: submittedAmount.value,
+        token: Token.usdc.address,
+        humanStatus: '',
+        machineStatus: '',
+        isCompleted: false,
+        created: DateTime.now(),
+        txHash: '',
+        partner: partner,
+        receiveAmount: receiveAmount?.value,
+        status: status,
+        bankAccount: bankAccount,
+        bankName: bankName,
+        bankTransferExpiry: transferExpiryDate,
+        bankTransferAmount: transferAmount?.value,
+        fiatSymbol: transferAmount?.currency.symbol,
+        authToken: null,
+        moreInfoUrl: null,
+      );
 
-          await _db.into(_db.onRampOrderRows).insert(order);
-          _subscribe(order.id);
+      await _db.into(_db.onRampOrderRows).insert(order);
+      _subscribe(order.id);
 
-          _analytics.rampInitiated(
-            partnerName: partner.name,
-            rampType: RampType.onRamp.name,
-            amount: submittedAmount.value.toString(),
-            countryCode: countryCode,
-            id: order.id,
-          );
+      _analytics.rampInitiated(
+        partnerName: partner.name,
+        rampType: RampType.onRamp.name,
+        amount: submittedAmount.value.toString(),
+        countryCode: countryCode,
+        id: order.id,
+      );
 
-          return order.id;
-        }
-      });
+      return order.id;
+    }
+  });
 
   AsyncResult<String> createForManualTransfer({
     required String orderId,
@@ -141,34 +131,29 @@ class OnRampOrderService implements Disposable {
     required FiatAmount transferAmount,
     OnRampOrderStatus status = OnRampOrderStatus.waitingForDeposit,
     required String countryCode,
-  }) =>
-      create(
-        orderId: orderId,
-        partner: partner,
-        submittedAmount: submittedAmount,
-        receiveAmount: receiveAmount,
-        bankAccount: bankAccount,
-        bankName: bankName,
-        transferExpiryDate: transferExpiryDate,
-        transferAmount: transferAmount,
-        status: status,
-        countryCode: countryCode,
-      );
+  }) => create(
+    orderId: orderId,
+    partner: partner,
+    submittedAmount: submittedAmount,
+    receiveAmount: receiveAmount,
+    bankAccount: bankAccount,
+    bankName: bankName,
+    transferExpiryDate: transferExpiryDate,
+    transferAmount: transferAmount,
+    status: status,
+    countryCode: countryCode,
+  );
 
   Future<void> confirmDeposit(String orderId) async {
-    final query = _db.select(_db.onRampOrderRows)
-      ..where((tbl) => tbl.id.equals(orderId));
+    final query = _db.select(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(orderId));
     final order = await query.getSingle();
 
-    final updateQuery = _db.update(_db.onRampOrderRows)
-      ..where((tbl) => tbl.id.equals(orderId));
+    final updateQuery = _db.update(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(orderId));
 
     switch (order.status) {
       case OnRampOrderStatus.waitingForDeposit:
         await updateQuery.write(
-          const OnRampOrderRowsCompanion(
-            status: Value(OnRampOrderStatus.waitingForPartner),
-          ),
+          const OnRampOrderRowsCompanion(status: Value(OnRampOrderStatus.waitingForPartner)),
         );
       case OnRampOrderStatus.depositExpired:
       case OnRampOrderStatus.waitingPartnerReview:
@@ -185,76 +170,65 @@ class OnRampOrderService implements Disposable {
   }
 
   Future<void> delete(String orderId) async {
-    final query = _db.select(_db.onRampOrderRows)
-      ..where((tbl) => tbl.id.equals(orderId));
+    final query = _db.select(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(orderId));
     final order = await query.getSingle();
 
     if (!order.status.isCancellable) {
       return;
     }
 
-    await (_db.delete(_db.onRampOrderRows)
-          ..where((tbl) => tbl.id.equals(orderId)))
-        .go();
+    await (_db.delete(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(orderId))).go();
   }
 
   Stream<OnRampOrder> watch(String id) {
-    final query = _db.select(_db.onRampOrderRows)
-      ..where((tbl) => tbl.id.equals(id));
+    final query = _db.select(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().asyncMap(
-      (row) async {
-        final bankAccount = row.bankAccount;
-        final bankName = row.bankName;
-        final transferExpiryDate = row.bankTransferExpiry;
-        final transferAmount = row.bankTransferAmount;
-        final fiatSymbol = row.fiatSymbol;
-        final moreInfoUrl = row.moreInfoUrl;
+    return query.watchSingle().asyncMap((row) async {
+      final bankAccount = row.bankAccount;
+      final bankName = row.bankName;
+      final transferExpiryDate = row.bankTransferExpiry;
+      final transferAmount = row.bankTransferAmount;
+      final fiatSymbol = row.fiatSymbol;
+      final moreInfoUrl = row.moreInfoUrl;
 
-        final isManualDeposit =
-            bankName != null && transferAmount != null && fiatSymbol != null;
+      final isManualDeposit = bankName != null && transferAmount != null && fiatSymbol != null;
 
-        final Token? token = await _tokenRepository.getToken(row.token);
+      final Token? token = await _tokenRepository.getToken(row.token);
 
-        final feeAmount = row.feeAmount?.let(
-          (it) => Amount(
-            value: it,
-            currency: currencyFromString(row.fiatSymbol ?? 'USD'),
-          ) as FiatAmount,
-        );
+      final feeAmount = row.feeAmount?.let(
+        (it) =>
+            Amount(value: it, currency: currencyFromString(row.fiatSymbol ?? 'USD')) as FiatAmount,
+      );
 
-        final isFiat = row.partner == RampPartner.brij ||
-            row.partner == RampPartner.scalexBrij;
+      final isFiat = row.partner == RampPartner.brij || row.partner == RampPartner.scalexBrij;
 
-        final submittedAmount = isFiat
-            ? FiatAmount(
+      final submittedAmount =
+          isFiat
+              ? FiatAmount(
                 value: row.amount,
                 fiatCurrency: currencyFromString(row.fiatSymbol ?? 'USD'),
               )
-            : CryptoAmount(
+              : CryptoAmount(
                 value: row.amount,
-                cryptoCurrency: CryptoCurrency(
-                  token: token ?? Token.unk,
-                ),
+                cryptoCurrency: CryptoCurrency(token: token ?? Token.unk),
               );
 
-        return (
-          id: row.id,
-          created: row.created,
-          submittedAmount: submittedAmount,
-          receiveAmount: row.receiveAmount?.let(
-            (amount) => CryptoAmount(
-              value: amount,
-              cryptoCurrency: CryptoCurrency(
-                token: token ?? Token.unk,
-              ),
-            ),
+      return (
+        id: row.id,
+        created: row.created,
+        submittedAmount: submittedAmount,
+        receiveAmount: row.receiveAmount?.let(
+          (amount) => CryptoAmount(
+            value: amount,
+            cryptoCurrency: CryptoCurrency(token: token ?? Token.unk),
           ),
-          partner: row.partner,
-          status: row.status,
-          partnerOrderId: row.partnerOrderId,
-          manualDeposit: isManualDeposit
-              ? (
+        ),
+        partner: row.partner,
+        status: row.status,
+        partnerOrderId: row.partnerOrderId,
+        manualDeposit:
+            isManualDeposit
+                ? (
                   bankAccount: bankAccount ?? '',
                   bankName: bankName,
                   transferExpiryDate: transferExpiryDate ?? DateTime.now(),
@@ -263,24 +237,20 @@ class OnRampOrderService implements Disposable {
                     fiatCurrency: currencyFromString(fiatSymbol),
                   ),
                 )
-              : null,
-          authToken: row.authToken,
-          additionalDetails: (
-            fee: feeAmount,
-            moreInfoUrl: moreInfoUrl,
-            referenceNumber: row.referenceNumber
-          ),
-        );
-      },
-    );
+                : null,
+        authToken: row.authToken,
+        additionalDetails: (
+          fee: feeAmount,
+          moreInfoUrl: moreInfoUrl,
+          referenceNumber: row.referenceNumber,
+        ),
+      );
+    });
   }
 
   Stream<IList<({String id, DateTime created})>> watchPending() {
     final query = _db.select(_db.onRampOrderRows)
-      ..where(
-        (tbl) =>
-            tbl.isCompleted.equals(false) & tbl.status.isNotValue('pending'),
-      );
+      ..where((tbl) => tbl.isCompleted.equals(false) & tbl.status.isNotValue('pending'));
 
     return query
         .watch()
@@ -291,9 +261,9 @@ class OnRampOrderService implements Disposable {
   void _subscribe(String orderId) {
     _subscriptions[orderId] = Stream<void>.periodic(const Duration(seconds: 5))
         .asyncMap((_) async {
-          final order = await (_db.select(_db.onRampOrderRows)
-                ..where((tbl) => tbl.id.equals(orderId)))
-              .getSingle();
+          final order =
+              await (_db.select(_db.onRampOrderRows)
+                ..where((tbl) => tbl.id.equals(orderId))).getSingle();
 
           if (order.status != OnRampOrderStatus.waitingForDeposit) {
             await _subscriptions.remove(orderId)?.cancel();
@@ -314,8 +284,7 @@ class OnRampOrderService implements Disposable {
           await _subscriptions.remove(orderId)?.cancel();
 
           await (_db.update(_db.onRampOrderRows)
-                ..where((tbl) => tbl.id.equals(orderId)))
-              .write(event);
+            ..where((tbl) => tbl.id.equals(orderId))).write(event);
         });
   }
 

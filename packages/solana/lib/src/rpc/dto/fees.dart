@@ -31,8 +31,7 @@ class Fees {
 class FeesResult extends ContextResult<Fees> {
   const FeesResult({required super.context, required super.value});
 
-  factory FeesResult.fromJson(Map<String, dynamic> json) =>
-      _$FeesResultFromJson(json);
+  factory FeesResult.fromJson(Map<String, dynamic> json) => _$FeesResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$FeesResultToJson(this);
 }

@@ -17,29 +17,17 @@ class MemoInstruction extends Instruction {
   /// The limit as [specified in this document][1] is 566 bytes.
   ///
   /// [1](https://spl.solana.com/memo#compute-limits)
-  factory MemoInstruction({
-    required List<Ed25519HDPublicKey> signers,
-    required String memo,
-  }) {
+  factory MemoInstruction({required List<Ed25519HDPublicKey> signers, required String memo}) {
     if (memo.length > _memoSizeLimit) {
-      throw const FormatException(
-        'the [memo] cannot be more than 566 bytes length',
-      );
+      throw const FormatException('the [memo] cannot be more than 566 bytes length');
     }
     final accounts = signers.map(_addressToAccount).toList(growable: false);
 
-    return MemoInstruction._(
-      accounts: accounts,
-      data: ByteArray(utf8.encode(memo)),
-    );
+    return MemoInstruction._(accounts: accounts, data: ByteArray(utf8.encode(memo)));
   }
 
-  MemoInstruction._({
-    required super.accounts,
-    required super.data,
-  }) : super(
-          programId: MemoProgram.id,
-        );
+  MemoInstruction._({required super.accounts, required super.data})
+    : super(programId: MemoProgram.id);
 
   static AccountMeta _addressToAccount(Ed25519HDPublicKey address) =>
       AccountMeta.writeable(pubKey: address, isSigner: true);

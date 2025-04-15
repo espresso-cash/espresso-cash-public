@@ -22,24 +22,17 @@ class OutgoingDirectPayment with _$OutgoingDirectPayment {
 @freezed
 sealed class ODPStatus with _$ODPStatus {
   /// Tx created, but not sent yet. At this stage, it's safe to recreate it.
-  const factory ODPStatus.txCreated(
-    SignedTx tx, {
-    required BigInt slot,
-  }) = ODPStatusTxCreated;
+  const factory ODPStatus.txCreated(SignedTx tx, {required BigInt slot}) = ODPStatusTxCreated;
 
   /// Tx sent, but not confirmed yet. We cannot say if it was accepted.
-  const factory ODPStatus.txSent(
-    SignedTx tx, {
-    required BigInt slot,
-  }) = ODPStatusTxSent;
+  const factory ODPStatus.txSent(SignedTx tx, {required BigInt slot}) = ODPStatusTxSent;
 
   /// Money is received by the recipient address. The payment is complete.
   const factory ODPStatus.success({required String txId}) = ODPStatusSuccess;
 
   /// There was an error while creating the tx, or the tx was rejected. In any
   /// case, it's safe to recreate the tx.
-  const factory ODPStatus.txFailure({TxFailureReason? reason}) =
-      ODPStatusTxFailure;
+  const factory ODPStatus.txFailure({TxFailureReason? reason}) = ODPStatusTxFailure;
 }
 
 extension OutgoingDirectPaymentExt on OutgoingDirectPayment {

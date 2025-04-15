@@ -61,15 +61,13 @@ class CpTextField extends StatelessWidget {
 
     return Container(
       margin: margin,
-      decoration: border == CpTextFieldBorder.stadium
-          ? ShapeDecoration(
-              color: backgroundColor,
-              shape: const StadiumBorder(),
-            )
-          : BoxDecoration(
-              color: backgroundColor,
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-            ),
+      decoration:
+          border == CpTextFieldBorder.stadium
+              ? ShapeDecoration(color: backgroundColor, shape: const StadiumBorder())
+              : BoxDecoration(
+                color: backgroundColor,
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+              ),
       child: CupertinoTextField(
         autocorrect: autocorrect,
         enabled: !disabled,
@@ -81,12 +79,7 @@ class CpTextField extends StatelessWidget {
         controller: controller,
         maxLines: multiLine ? null : 1,
         cursorColor: CpColors.yellowColor,
-        style: TextStyle(
-          fontWeight: fontWeight,
-          fontSize: fontSize,
-          color: textColor,
-          height: 1.2,
-        ),
+        style: TextStyle(fontWeight: fontWeight, fontSize: fontSize, color: textColor, height: 1.2),
         textAlign: textAlign,
         placeholder: placeholder,
         keyboardType: inputType,
@@ -109,23 +102,17 @@ class FittedTextEditingController extends TextEditingController {
     required BuildContext context,
     TextStyle? style,
     required bool withComposing,
-  }) =>
-      TextSpan(
-        style: style,
-        children: [
-          WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) =>
-                  FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  text,
-                  style: style,
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
+  }) => TextSpan(
+    style: style,
+    children: [
+      WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: LayoutBuilder(
+          builder:
+              (BuildContext context, BoxConstraints constraints) =>
+                  FittedBox(fit: BoxFit.scaleDown, child: Text(text, style: style)),
+        ),
+      ),
+    ],
+  );
 }

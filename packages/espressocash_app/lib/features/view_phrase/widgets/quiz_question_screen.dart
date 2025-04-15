@@ -23,47 +23,43 @@ class QuizQuestionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => QuizPage(
-        title: title,
-        indicator: indicator,
-        type: QuizPageType.light,
-        content: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Assets.images.quizQuestionBg.image(
-              fit: BoxFit.cover,
-              width: double.infinity,
+    title: title,
+    indicator: indicator,
+    type: QuizPageType.light,
+    content: Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Assets.images.quizQuestionBg.image(fit: BoxFit.cover, width: double.infinity),
+        Container(decoration: const BoxDecoration(color: Color(0xB7B7A572))),
+        Container(
+          height: 120,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0x00B7A572), Color(0xFFB7A572)],
             ),
-            Container(
-              decoration: const BoxDecoration(color: Color(0xB7B7A572)),
-            ),
-            Container(
-              height: 120,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0x00B7A572), Color(0xFFB7A572)],
-                ),
-              ),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Text(
-                  question.question,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.23,
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-        footer: question.options
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Text(
+              question.question,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 40,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.23,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+    footer:
+        question.options
             .mapIndexed(
               (i, entry) => CpButton(
                 text: entry,
@@ -73,5 +69,5 @@ class QuizQuestionView extends StatelessWidget {
               ),
             )
             .toList(),
-      );
+  );
 }

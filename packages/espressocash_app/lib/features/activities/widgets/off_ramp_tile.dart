@@ -13,32 +13,21 @@ import '../models/activity.dart';
 import 'activity_tile.dart';
 
 class OffRampTile extends StatelessWidget {
-  const OffRampTile({
-    super.key,
-    required this.activity,
-    this.showIcon = true,
-  });
+  const OffRampTile({super.key, required this.activity, this.showIcon = true});
 
   final OffRampActivity activity;
   final bool showIcon;
 
   @override
   Widget build(BuildContext context) => OffRampOrderDetails(
-        orderId: activity.id,
-        builder: (context, order) => _ActivityTile(
-          order: order,
-          activity: activity,
-          showIcon: showIcon,
-        ),
-      );
+    orderId: activity.id,
+    builder:
+        (context, order) => _ActivityTile(order: order, activity: activity, showIcon: showIcon),
+  );
 }
 
 class _ActivityTile extends StatelessWidget {
-  const _ActivityTile({
-    required this.activity,
-    required this.order,
-    required this.showIcon,
-  });
+  const _ActivityTile({required this.activity, required this.order, required this.showIcon});
 
   final OffRampActivity activity;
   final OffRampOrder? order;
@@ -46,23 +35,18 @@ class _ActivityTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpActivityTile(
-        title: context.l10n.activities_lblWithdraw,
-        incomingAmount: order?.receiveAmount?.format(
-          context.locale,
-          maxDecimals: 2,
-        ),
-        icon: Assets.icons.paymentIcon.svg(),
-        status: switch (order?.status) {
-          OffRampOrderStatus.completed => CpActivityTileStatus.success,
-          OffRampOrderStatus.failure ||
-          OffRampOrderStatus.rejected =>
-            CpActivityTileStatus.failure,
-          OffRampOrderStatus.refunded => CpActivityTileStatus.canceled,
-          // ignore: avoid-wildcard-cases-with-enums, check if needed
-          _ => CpActivityTileStatus.inProgress,
-        },
-        timestamp: context.formatDate(activity.created),
-        onTap: () => OffRampOrderScreen.push(context, id: activity.id),
-        showIcon: showIcon,
-      );
+    title: context.l10n.activities_lblWithdraw,
+    incomingAmount: order?.receiveAmount?.format(context.locale, maxDecimals: 2),
+    icon: Assets.icons.paymentIcon.svg(),
+    status: switch (order?.status) {
+      OffRampOrderStatus.completed => CpActivityTileStatus.success,
+      OffRampOrderStatus.failure || OffRampOrderStatus.rejected => CpActivityTileStatus.failure,
+      OffRampOrderStatus.refunded => CpActivityTileStatus.canceled,
+      // ignore: avoid-wildcard-cases-with-enums, check if needed
+      _ => CpActivityTileStatus.inProgress,
+    },
+    timestamp: context.formatDate(activity.created),
+    onTap: () => OffRampOrderScreen.push(context, id: activity.id),
+    showIcon: showIcon,
+  );
 }

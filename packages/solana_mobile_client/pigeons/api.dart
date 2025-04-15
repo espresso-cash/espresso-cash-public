@@ -45,11 +45,7 @@ abstract class ApiLocalAssociationScenario {
   SignPayloadsResultDto signTransactions(int id, List<Uint8List> transactions);
 
   @async
-  SignMessagesResultDto signMessages(
-    int id,
-    List<Uint8List> messages,
-    List<Uint8List> addresses,
-  );
+  SignMessagesResultDto signMessages(int id, List<Uint8List> messages, List<Uint8List> addresses);
 
   @async
   SignAndSendTransactionsResultDto signAndSendTransactions(
@@ -88,17 +84,13 @@ class AuthorizationResultDto {
 }
 
 class SignPayloadsResultDto {
-  const SignPayloadsResultDto({
-    required this.signedPayloads,
-  });
+  const SignPayloadsResultDto({required this.signedPayloads});
 
   final List<Uint8List?> signedPayloads;
 }
 
 class SignAndSendTransactionsResultDto {
-  const SignAndSendTransactionsResultDto({
-    required this.signatures,
-  });
+  const SignAndSendTransactionsResultDto({required this.signatures});
 
   final List<Uint8List?> signatures;
 }
@@ -116,9 +108,7 @@ class SignedMessageDto {
 }
 
 class SignMessagesResultDto {
-  const SignMessagesResultDto({
-    required this.messages,
-  });
+  const SignMessagesResultDto({required this.messages});
 
   final List<SignedMessageDto?> messages;
 }

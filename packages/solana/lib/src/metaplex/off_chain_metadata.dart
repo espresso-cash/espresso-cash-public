@@ -17,8 +17,7 @@ class OffChainMetadata {
     required this.collection,
   });
 
-  factory OffChainMetadata.fromJson(Map<String, dynamic> json) =>
-      _$OffChainMetadataFromJson(json);
+  factory OffChainMetadata.fromJson(Map<String, dynamic> json) => _$OffChainMetadataFromJson(json);
 
   final String name;
   final String description;

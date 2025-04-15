@@ -15,13 +15,15 @@ abstract class AccountData {
   const factory AccountData.empty() = EmptyAccountData;
 
   factory AccountData.fromJson(dynamic data) => parseWithEncoding(
-        data,
-        fromEncoded: AccountData.binary,
-        fromParsed: ParsedAccountData.fromJson,
-        onUnknownEncoding: (String encoding) => encoding.isEmpty
-            ? const AccountData.empty()
-            : throw FormatException('unknown encoding $encoding'),
-      );
+    data,
+    fromEncoded: AccountData.binary,
+    fromParsed: ParsedAccountData.fromJson,
+    onUnknownEncoding:
+        (String encoding) =>
+            encoding.isEmpty
+                ? const AccountData.empty()
+                : throw FormatException('unknown encoding $encoding'),
+  );
 
   dynamic toJson();
 }

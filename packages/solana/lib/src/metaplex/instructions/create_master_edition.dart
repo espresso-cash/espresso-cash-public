@@ -28,10 +28,7 @@ Future<AnchorInstruction> createMasterEditionV3({
       AccountMeta.writeable(pubKey: metadataAccount, isSigner: false),
       AccountMeta.readonly(pubKey: TokenProgram.id, isSigner: false),
       AccountMeta.readonly(pubKey: SystemProgram.id, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
-        isSigner: false,
-      ),
+      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
     ],
     arguments: ByteArray(data.toBorsh()),
   );
@@ -39,9 +36,8 @@ Future<AnchorInstruction> createMasterEditionV3({
 
 @BorshSerializable()
 abstract class CreateMasterEditionV3Data with _$CreateMasterEditionV3Data {
-  factory CreateMasterEditionV3Data({
-    @BOption(BU64()) BigInt? maxSupply,
-  }) = _CreateMasterEditionV3Data;
+  factory CreateMasterEditionV3Data({@BOption(BU64()) BigInt? maxSupply}) =
+      _CreateMasterEditionV3Data;
 
   const CreateMasterEditionV3Data._();
 

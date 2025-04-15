@@ -70,10 +70,7 @@ void main() {
   test('Compile Instructions', () async {
     final keys = await createTestKeys(3);
     final staticAccountKeys = [keys.first];
-    final accountKeysFromLookups = LoadedAddresses(
-      writable: [keys[1]],
-      readonly: [keys[2]],
-    );
+    final accountKeysFromLookups = LoadedAddresses(writable: [keys[1]], readonly: [keys[2]]);
 
     final accountKeys = MessageAccountKeys(
       staticAccountKeys: staticAccountKeys,
@@ -105,10 +102,7 @@ void main() {
   test('Compile instructions with unknown key', () async {
     final keys = await createTestKeys(3);
     final staticAccountKeys = [keys.first];
-    final accountKeysFromLookups = LoadedAddresses(
-      writable: [keys[1]],
-      readonly: [keys[2]],
-    );
+    final accountKeysFromLookups = LoadedAddresses(writable: [keys[1]], readonly: [keys[2]]);
 
     final accountKeys = MessageAccountKeys(
       staticAccountKeys: staticAccountKeys,
@@ -118,11 +112,7 @@ void main() {
     final unknown = await Ed25519HDKeyPair.random();
 
     final instructions = [
-      Instruction(
-        programId: unknown.publicKey,
-        accounts: const [],
-        data: ByteArray.u8(0),
-      ),
+      Instruction(programId: unknown.publicKey, accounts: const [], data: ByteArray.u8(0)),
       Instruction(
         programId: keys.first,
         accounts: [
@@ -134,29 +124,20 @@ void main() {
     ];
 
     for (final instruction in instructions) {
-      expect(
-        () => accountKeys.compileInstructions([instruction]),
-        throwsException,
-      );
+      expect(() => accountKeys.compileInstructions([instruction]), throwsException);
     }
   });
 
   test('Expect overflow', () async {
     final keys = await createTestKeys(257);
     final staticAccountKeys = keys.getRange(0, 256).toList();
-    final accountKeysFromLookups = LoadedAddresses(
-      writable: [keys[256]],
-      readonly: [],
-    );
+    final accountKeysFromLookups = LoadedAddresses(writable: [keys[256]], readonly: []);
 
     final accountKeys = MessageAccountKeys(
       staticAccountKeys: staticAccountKeys,
       accountKeysFromLookups: accountKeysFromLookups,
     );
 
-    expect(
-      () => accountKeys.compileInstructions([]),
-      throwsException,
-    );
+    expect(() => accountKeys.compileInstructions([]), throwsException);
   });
 }

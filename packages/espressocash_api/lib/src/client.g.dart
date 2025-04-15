@@ -57,12 +57,7 @@ class _EspressoCashClient implements EspressoCashClient {
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GetFeesResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/getFees',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/getFees', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -85,12 +80,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<SwapRouteResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/getSwapRoute',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/getSwapRoute', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -105,9 +95,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<CreatePaymentResponseDto> createPaymentEc(
-    CreatePaymentRequestDto request,
-  ) async {
+  Future<CreatePaymentResponseDto> createPaymentEc(CreatePaymentRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -115,12 +103,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<CreatePaymentResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/escrow/create',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/escrow/create', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -135,9 +118,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<ReceivePaymentResponseDto> receivePaymentEc(
-    ReceivePaymentRequestDto request,
-  ) async {
+  Future<ReceivePaymentResponseDto> receivePaymentEc(ReceivePaymentRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -145,12 +126,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<ReceivePaymentResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/escrow/receive',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/escrow/receive', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -165,9 +141,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<CancelPaymentResponseDto> cancelPaymentEc(
-    CancelPaymentRequestDto request,
-  ) async {
+  Future<CancelPaymentResponseDto> cancelPaymentEc(CancelPaymentRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -175,12 +149,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<CancelPaymentResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/escrow/cancel',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/escrow/cancel', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -205,12 +174,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<GenerateScalexLinkResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/scalex/generate',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/scalex/generate', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -235,12 +199,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(referenceId.toJson());
     final _options = _setStreamType<OrderStatusScalexResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/scalex/fetch',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/scalex/fetch', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -255,9 +214,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<ScalexWithdrawResponseDto> createScalexWithdraw(
-    ScalexWithdrawRequestDto request,
-  ) async {
+  Future<ScalexWithdrawResponseDto> createScalexWithdraw(ScalexWithdrawRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -265,12 +222,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<ScalexWithdrawResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/scalex/withdraw',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/scalex/withdraw', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -292,12 +244,7 @@ class _EspressoCashClient implements EspressoCashClient {
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<ScalexRateFeeResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/scalex/fees',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/scalex/fees', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -312,9 +259,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<ScalexBrijFeeResponseDto> fetchScalexBrijFees(
-    ScalexBrijFeeRequestDto request,
-  ) async {
+  Future<ScalexBrijFeeResponseDto> fetchScalexBrijFees(ScalexBrijFeeRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -322,12 +267,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<ScalexBrijFeeResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/scalex/brij/fees',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/scalex/brij/fees', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -362,9 +302,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<PaymentQuoteResponseDto> getDlnQuote(
-    PaymentQuoteRequestDto request,
-  ) async {
+  Future<PaymentQuoteResponseDto> getDlnQuote(PaymentQuoteRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -372,12 +310,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<PaymentQuoteResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/dln/quote',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/dln/quote', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -392,9 +325,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<OrderIdDlnResponseDto> fetchDlnOrderId(
-    OrderIdDlnRequestDto request,
-  ) async {
+  Future<OrderIdDlnResponseDto> fetchDlnOrderId(OrderIdDlnRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -402,12 +333,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<OrderIdDlnResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/dln/orderId',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/dln/orderId', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -422,9 +348,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<OrderStatusDlnResponseDto> fetchDlnStatus(
-    OrderStatusDlnRequestDto request,
-  ) async {
+  Future<OrderStatusDlnResponseDto> fetchDlnStatus(OrderStatusDlnRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -432,12 +356,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<OrderStatusDlnResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/dln/status',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/dln/status', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -452,9 +371,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<IncomingQuoteResponseDto> getIncomingDlnQuote(
-    IncomingQuoteRequestDto request,
-  ) async {
+  Future<IncomingQuoteResponseDto> getIncomingDlnQuote(IncomingQuoteRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -489,12 +406,7 @@ class _EspressoCashClient implements EspressoCashClient {
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GetFreeNonceResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/getFreeNonce',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/getFreeNonce', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -509,9 +421,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<SubmitDurableTxResponseDto> submitDurableTx(
-    SubmitDurableTxRequestDto request,
-  ) async {
+  Future<SubmitDurableTxResponseDto> submitDurableTx(SubmitDurableTxRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -519,12 +429,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<SubmitDurableTxResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/submitDurableTx',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/submitDurableTx', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -546,12 +451,7 @@ class _EspressoCashClient implements EspressoCashClient {
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GetDurableFeesResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/getDurableFees',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/getDurableFees', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -566,9 +466,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<ShortenLinkResponseDto> shortenLink(
-    ShortenLinkRequestDto request,
-  ) async {
+  Future<ShortenLinkResponseDto> shortenLink(ShortenLinkRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -576,12 +474,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<ShortenLinkResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/shortenLink',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/shortenLink', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -596,9 +489,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<UnshortenLinkResponseDto> unshortenLink(
-    UnshortenLinkRequestDto request,
-  ) async {
+  Future<UnshortenLinkResponseDto> unshortenLink(UnshortenLinkRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -606,12 +497,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<UnshortenLinkResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/unshortenLink',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/unshortenLink', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -661,12 +547,7 @@ class _EspressoCashClient implements EspressoCashClient {
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GetRatesResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/rates',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/rates', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -689,12 +570,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<FiatRateResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/fiatRate',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/fiatRate', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -709,9 +585,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
-    PriorityFeesRequestDto request,
-  ) async {
+  Future<PriorityFeesResponseDto> getPriorityFeeEstimate(PriorityFeesRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -749,12 +623,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<MoneygramChallengeSignResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/moneygram/sign',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/moneygram/sign', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -769,9 +638,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<MoneygramSwapResponseDto> swapToSolana(
-    SwapToSolanaRequestDto request,
-  ) async {
+  Future<MoneygramSwapResponseDto> swapToSolana(SwapToSolanaRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -799,9 +666,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<MoneygramSwapResponseDto> swapToStellar(
-    SwapToStellarRequestDto request,
-  ) async {
+  Future<MoneygramSwapResponseDto> swapToStellar(SwapToStellarRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -829,9 +694,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<MoneygramFeeResponseDto> calculateMoneygramFee(
-    MoneygramFeeRequestDto request,
-  ) async {
+  Future<MoneygramFeeResponseDto> calculateMoneygramFee(MoneygramFeeRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -867,12 +730,7 @@ class _EspressoCashClient implements EspressoCashClient {
     _data.addAll(request.toJson());
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/moneygram/fund',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/moneygram/fund', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -886,12 +744,7 @@ class _EspressoCashClient implements EspressoCashClient {
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GetTokensMetaResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/tokens/meta',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/tokens/meta', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -906,9 +759,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<void> addAmbassadorReferral(
-    AmbassadorReferralRequestDto request,
-  ) async {
+  Future<void> addAmbassadorReferral(AmbassadorReferralRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -935,12 +786,7 @@ class _EspressoCashClient implements EspressoCashClient {
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<AmbassadorStatsResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/ambassador/stats',
-            queryParameters: queryParameters,
-            data: _data,
-          )
+          .compose(_dio.options, '/ambassador/stats', queryParameters: queryParameters, data: _data)
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);

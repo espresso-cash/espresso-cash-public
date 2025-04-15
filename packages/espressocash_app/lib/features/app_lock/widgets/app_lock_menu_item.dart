@@ -12,13 +12,14 @@ class AppLockMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<AppLockBloc, AppLockState>(
-        builder: (context, state) => ProfileSwitch(
+    builder:
+        (context, state) => ProfileSwitch(
           label: context.l10n.appLock_lblAutoLock,
           subtitle: context.l10n.appLock_lblAutoLockDescription,
           value: state is AppLockStateEnabled,
-          onChanged: (value) => value
-              ? AppLockEnableScreen.push(context)
-              : AppLockDisableScreen.push(context),
+          onChanged:
+              (value) =>
+                  value ? AppLockEnableScreen.push(context) : AppLockDisableScreen.push(context),
         ),
-      );
+  );
 }

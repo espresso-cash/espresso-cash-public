@@ -5,6 +5,5 @@ class HttpException implements Exception {
   final String _message;
 
   @override
-  String toString() =>
-      'http status code $_code, the following content\n\n---\n$_message';
+  String toString() => 'http status code $_code, the following content\n\n---\n$_message';
 }

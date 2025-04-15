@@ -24,28 +24,25 @@ class _VersionSectionState extends State<VersionSection> {
 
   @override
   Widget build(BuildContext context) => FutureBuilder<PackageInfo>(
-        future: _packageInfo,
-        builder: (context, snapshot) {
-          final version = snapshot.data?.version;
-          final buildNumber = snapshot.data?.buildNumber;
+    future: _packageInfo,
+    builder: (context, snapshot) {
+      final version = snapshot.data?.version;
+      final buildNumber = snapshot.data?.buildNumber;
 
-          return version == null
-              ? const SizedBox.shrink()
-              : SizedBox(
-                  height: kToolbarHeight,
-                  child: Center(
-                    child: GestureDetector(
-                      onLongPress: _copyFID,
-                      child: Text(
-                        context.l10n.version(version, buildNumber ?? ''),
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-        },
-      );
+      return version == null
+          ? const SizedBox.shrink()
+          : SizedBox(
+            height: kToolbarHeight,
+            child: Center(
+              child: GestureDetector(
+                onLongPress: _copyFID,
+                child: Text(
+                  context.l10n.version(version, buildNumber ?? ''),
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+          );
+    },
+  );
 }

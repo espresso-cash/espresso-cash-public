@@ -6,13 +6,9 @@ part 'large_account.g.dart';
 /// A large account
 @JsonSerializable()
 class LargeAccount {
-  const LargeAccount({
-    required this.address,
-    required this.lamports,
-  });
+  const LargeAccount({required this.address, required this.lamports});
 
-  factory LargeAccount.fromJson(Map<String, dynamic> json) =>
-      _$LargeAccountFromJson(json);
+  factory LargeAccount.fromJson(Map<String, dynamic> json) => _$LargeAccountFromJson(json);
 
   /// base-58 encoded address of the account
   final String address;

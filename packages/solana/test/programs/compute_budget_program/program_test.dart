@@ -47,15 +47,10 @@ void main() {
       instructions: [
         ...message.instructions,
         ComputeBudgetInstruction.setComputeUnitLimit(units: computeUnitLimit),
-        ComputeBudgetInstruction.setComputeUnitPrice(
-          microLamports: unitPriceMicroLamports,
-        ),
+        ComputeBudgetInstruction.setComputeUnitPrice(microLamports: unitPriceMicroLamports),
       ],
     );
-    compiledMessage = message.compile(
-      recentBlockhash: bh,
-      feePayer: sender.publicKey,
-    );
+    compiledMessage = message.compile(recentBlockhash: bh, feePayer: sender.publicKey);
 
     final feeWithComputeUnitPrice = await client.rpcClient.getFeeForMessage(
       base64Encode(compiledMessage.toByteArray().toList()),

@@ -19,10 +19,8 @@ class GetFeesResponseDto with _$GetFeesResponseDto {
 
 @freezed
 class DirectPaymentFeeDto with _$DirectPaymentFeeDto {
-  const factory DirectPaymentFeeDto({
-    required int ataExists,
-    required int ataDoesNotExist,
-  }) = _DirectPaymentFeeDto;
+  const factory DirectPaymentFeeDto({required int ataExists, required int ataDoesNotExist}) =
+      _DirectPaymentFeeDto;
 
   factory DirectPaymentFeeDto.fromJson(Map<String, dynamic> json) =>
       _$DirectPaymentFeeDtoFromJson(json);
@@ -38,6 +36,5 @@ class WithdrawFeeDto with _$WithdrawFeeDto {
     @Default(0) double guardarian,
   }) = _WithdrawFeeDto;
 
-  factory WithdrawFeeDto.fromJson(Map<String, dynamic> json) =>
-      _$WithdrawFeeDtoFromJson(json);
+  factory WithdrawFeeDto.fromJson(Map<String, dynamic> json) => _$WithdrawFeeDtoFromJson(json);
 }

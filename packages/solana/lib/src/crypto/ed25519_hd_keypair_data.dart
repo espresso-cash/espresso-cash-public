@@ -5,10 +5,7 @@ import 'package:cryptography/cryptography.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
 class Ed25519HDKeyPairData implements KeyPairData {
-  Ed25519HDKeyPairData(
-    List<int> bytes, {
-    required this.publicKey,
-  }) : _bytes = SensitiveBytes(bytes);
+  Ed25519HDKeyPairData(List<int> bytes, {required this.publicKey}) : _bytes = SensitiveBytes(bytes);
 
   final SensitiveBytes _bytes;
 

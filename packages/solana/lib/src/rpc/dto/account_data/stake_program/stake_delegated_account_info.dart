@@ -6,10 +6,7 @@ part 'stake_delegated_account_info.g.dart';
 
 @JsonSerializable()
 class StakeDelegatedAccountInfo {
-  const StakeDelegatedAccountInfo({
-    required this.meta,
-    required this.stake,
-  });
+  const StakeDelegatedAccountInfo({required this.meta, required this.stake});
 
   factory StakeDelegatedAccountInfo.fromJson(Map<String, dynamic> json) =>
       _$StakeDelegatedAccountInfoFromJson(json);

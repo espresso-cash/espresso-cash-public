@@ -5,10 +5,8 @@ part 'allbridge_dto.g.dart';
 
 @freezed
 class BridgeStatusRequestDto with _$BridgeStatusRequestDto {
-  const factory BridgeStatusRequestDto({
-    required Chain chain,
-    required String txId,
-  }) = _BridgeStatusRequestDto;
+  const factory BridgeStatusRequestDto({required Chain chain, required String txId}) =
+      _BridgeStatusRequestDto;
 
   factory BridgeStatusRequestDto.fromJson(Map<String, dynamic> json) =>
       _$BridgeStatusRequestDtoFromJson(json);
@@ -50,10 +48,8 @@ class TransactionStatus with _$TransactionStatus {
 
 @freezed
 class RestoreStellarTxRequestDto with _$RestoreStellarTxRequestDto {
-  const factory RestoreStellarTxRequestDto({
-    required String xdrTx,
-    required String sender,
-  }) = _RestoreStellarTxRequestDto;
+  const factory RestoreStellarTxRequestDto({required String xdrTx, required String sender}) =
+      _RestoreStellarTxRequestDto;
 
   factory RestoreStellarTxRequestDto.fromJson(Map<String, dynamic> json) =>
       _$RestoreStellarTxRequestDtoFromJson(json);
@@ -61,9 +57,7 @@ class RestoreStellarTxRequestDto with _$RestoreStellarTxRequestDto {
 
 @freezed
 class RestoreStellarTxResponseDto with _$RestoreStellarTxResponseDto {
-  const factory RestoreStellarTxResponseDto({
-    required String tx,
-  }) = _RestoreStellarTxResponseDto;
+  const factory RestoreStellarTxResponseDto({required String tx}) = _RestoreStellarTxResponseDto;
 
   factory RestoreStellarTxResponseDto.fromJson(Map<String, dynamic> json) =>
       _$RestoreStellarTxResponseDtoFromJson(json);

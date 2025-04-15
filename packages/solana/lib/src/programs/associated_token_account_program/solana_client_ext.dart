@@ -23,14 +23,15 @@ extension SolanaClientAssociatedTokenAccontProgram on SolanaClient {
     required Ed25519HDPublicKey mint,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final accounts = await rpcClient
-        .getTokenAccountsByOwner(
-          owner.toBase58(),
-          TokenAccountsFilter.byMint(mint.toBase58()),
-          encoding: Encoding.jsonParsed,
-          commitment: commitment,
-        )
-        .value;
+    final accounts =
+        await rpcClient
+            .getTokenAccountsByOwner(
+              owner.toBase58(),
+              TokenAccountsFilter.byMint(mint.toBase58()),
+              encoding: Encoding.jsonParsed,
+              commitment: commitment,
+            )
+            .value;
     if (accounts.isEmpty) return null;
 
     return accounts.first;
@@ -141,8 +142,6 @@ extension SolanaClientAssociatedTokenAccontProgram on SolanaClient {
       tokenProgramType: tokenProgramType,
     );
 
-    return rpcClient
-        .getTokenAccountBalance(ata.toBase58(), commitment: commitment)
-        .value;
+    return rpcClient.getTokenAccountBalance(ata.toBase58(), commitment: commitment).value;
   }
 }

@@ -14,19 +14,14 @@ extension SolanaClientTokenProgram on SolanaClient {
     required Ed25519HDPublicKey address,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final info = await rpcClient
-        .getAccountInfo(
-          address.toBase58(),
-          commitment: commitment,
-          encoding: Encoding.base64,
-        )
-        .value;
+    final info =
+        await rpcClient
+            .getAccountInfo(address.toBase58(), commitment: commitment, encoding: Encoding.base64)
+            .value;
 
     if (info == null) throw const TokenAccountNotFoundException();
 
-    final raw = RawMint.fromBorsh(
-      Uint8List.fromList((info.data as BinaryAccountData).data),
-    );
+    final raw = RawMint.fromBorsh(Uint8List.fromList((info.data as BinaryAccountData).data));
 
     return Mint(
       address: address,
@@ -34,15 +29,12 @@ extension SolanaClientTokenProgram on SolanaClient {
       decimals: raw.decimals,
       isInitialized: raw.isInitialized,
       mintAuthority: raw.mintAuthorityOption == 0 ? null : raw.mintAuthority,
-      freezeAuthority:
-          raw.freezeAuthorityOption == 0 ? null : raw.freezeAuthority,
+      freezeAuthority: raw.freezeAuthorityOption == 0 ? null : raw.freezeAuthority,
     );
   }
 
   /// Get the minimum lamport balance for a rent-exempt mint.
-  Future<int> getMinimumBalanceForMintRentExemption({
-    Commitment? commitment,
-  }) =>
+  Future<int> getMinimumBalanceForMintRentExemption({Commitment? commitment}) =>
       rpcClient.getMinimumBalanceForRentExemption(
         TokenProgram.neededMintAccountSpace,
         commitment: commitment,
@@ -65,10 +57,7 @@ extension SolanaClientTokenProgram on SolanaClient {
     final mint = await Ed25519HDKeyPair.random();
 
     const space = TokenProgram.neededMintAccountSpace;
-    final rent = await rpcClient.getMinimumBalanceForRentExemption(
-      space,
-      commitment: commitment,
-    );
+    final rent = await rpcClient.getMinimumBalanceForRentExemption(space, commitment: commitment);
 
     final instructions = TokenInstruction.createAccountAndInitializeMint(
       mint: mint.publicKey,
@@ -151,16 +140,12 @@ extension SolanaClientTokenProgram on SolanaClient {
     // Also throw an adequate exception if the recipient has no associated
     // token account
     if (associatedRecipientAccount == null) {
-      throw NoAssociatedTokenAccountException(
-        destination.toBase58(),
-        mint.toBase58(),
-      );
+      throw NoAssociatedTokenAccountException(destination.toBase58(), mint.toBase58());
     }
 
     final instruction = TokenInstruction.transfer(
       source: Ed25519HDPublicKey.fromBase58(associatedSenderAccount.pubkey),
-      destination:
-          Ed25519HDPublicKey.fromBase58(associatedRecipientAccount.pubkey),
+      destination: Ed25519HDPublicKey.fromBase58(associatedRecipientAccount.pubkey),
       owner: owner.publicKey,
       amount: amount,
       tokenProgram: tokenProgram,
