@@ -170,4 +170,20 @@ class KycRepository extends ChangeNotifier {
 
   Future<KycRequirement> getKycRequirements({required String country}) =>
       _initWrapper(() => _kycUserClient.getKycRequirements(country: country));
+
+  Future<Quote> getQuote({
+    required String partnerPK,
+    required String walletPK,
+    required String fiatCurrency,
+    required double cryptoAmount,
+    required RampType rampType,
+  }) => _initWrapper(
+    () => _kycUserClient.getQuote(
+      fiatCurrency: fiatCurrency,
+      cryptoAmount: cryptoAmount,
+      partnerPK: partnerPK,
+      walletPK: walletPK,
+      rampType: rampType,
+    ),
+  );
 }

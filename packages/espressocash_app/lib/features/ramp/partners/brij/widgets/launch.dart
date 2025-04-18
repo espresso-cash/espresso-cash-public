@@ -22,9 +22,9 @@ import '../../../models/profile_data.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
+import '../services/brij_fees_service.dart';
 import '../services/brij_off_ramp_order_service.dart';
 import '../services/brij_on_ramp_order_service.dart';
-import '../services/brij_scalex_fees_service.dart';
 import 'terms_notice.dart';
 
 extension BuildContextExt on BuildContext {
@@ -38,11 +38,12 @@ extension BuildContextExt on BuildContext {
 
     const type = RampType.onRamp;
 
-    final rate = await _fetchRate(type);
+    const inputCurrency = Currency.usdc;
+    final receiveCurrency = currencyFromString('EUR');
+
+    final rate = await _fetchRate(type, partner, receiveCurrency.symbol);
 
     Amount? amount;
-
-    final minAmountNGN = partner.minimumAmountInDecimal * Decimal.parse(rate.toString());
 
     await RampAmountScreen.push(
       this,
@@ -55,12 +56,24 @@ extension BuildContextExt on BuildContext {
         Navigator.pop(this);
         amount = value;
       },
-      minAmount: minAmountNGN,
-      currency: Currency.ngn,
-      receiveCurrency: Currency.usdc,
-      calculateEquivalent: (amount) => _calculateReceiveAmount(amount: amount, type: type),
-      calculateFee: (amount) => _calculateFees(amount: amount, type: type),
-      exchangeRate: '1 USDC = $rate NGN',
+      minAmount: partner.minimumAmountInDecimal,
+      currency: inputCurrency,
+      receiveCurrency: receiveCurrency,
+      calculateEquivalent:
+          (amount) => _calculateReceiveAmount(
+            amount: amount,
+            type: type,
+            partner: partner,
+            currency: receiveCurrency.symbol,
+          ),
+      calculateFee:
+          (amount) => _calculateFees(
+            amount: amount,
+            type: type,
+            partner: partner,
+            currency: receiveCurrency.symbol,
+          ),
+      exchangeRate: '1 USDC = $rate ${receiveCurrency.symbol}',
       type: type,
     );
 
@@ -71,8 +84,14 @@ extension BuildContextExt on BuildContext {
     final equivalentAmount =
         await runWithLoader<Amount>(
               this,
-              () => sl<BrijScalexFeesService>()
-                  .fetchFees(amount: submittedAmount, type: type)
+              () => sl<BrijFeesService>()
+                  .fetchFees(
+                    amount: submittedAmount,
+                    type: type,
+                    partnerPK: partner.partnerPK ?? '',
+                    walletPK: walletAuthPk,
+                    fiatCurrency: profile.country.code,
+                  )
                   .then((fees) => fees.receiveAmount),
             )
             as CryptoAmount;
@@ -106,7 +125,10 @@ extension BuildContextExt on BuildContext {
 
     const type = RampType.offRamp;
 
-    final rate = await _fetchRate(type);
+    const inputCurrency = Currency.usdc;
+    final receiveCurrency = currencyFromString('EUR');
+
+    final rate = await _fetchRate(type, partner, receiveCurrency.symbol);
 
     Amount? amount;
 
@@ -122,11 +144,23 @@ extension BuildContextExt on BuildContext {
         amount = value;
       },
       minAmount: partner.minimumAmountInDecimal,
-      currency: Currency.usdc,
-      receiveCurrency: Currency.ngn,
-      calculateEquivalent: (amount) => _calculateReceiveAmount(amount: amount, type: type),
-      exchangeRate: '1 USDC = $rate NGN',
-      calculateFee: (amount) => _calculateFees(amount: amount, type: type),
+      currency: inputCurrency,
+      receiveCurrency: receiveCurrency,
+      calculateEquivalent:
+          (amount) => _calculateReceiveAmount(
+            amount: amount,
+            type: type,
+            partner: partner,
+            currency: receiveCurrency.symbol,
+          ),
+      exchangeRate: '1 USDC = $rate ${receiveCurrency.symbol}',
+      calculateFee:
+          (amount) => _calculateFees(
+            amount: amount,
+            type: type,
+            partner: partner,
+            currency: receiveCurrency.symbol,
+          ),
       type: type,
     );
 
@@ -137,8 +171,14 @@ extension BuildContextExt on BuildContext {
     final equivalentAmount =
         await runWithLoader<Amount>(
               this,
-              () => sl<BrijScalexFeesService>()
-                  .fetchFees(amount: submittedAmount, type: type)
+              () => sl<BrijFeesService>()
+                  .fetchFees(
+                    amount: submittedAmount,
+                    type: type,
+                    partnerPK: partner.partnerPK ?? '',
+                    walletPK: walletAuthPk,
+                    fiatCurrency: profile.country.code,
+                  )
                   .then((fees) => fees.receiveAmount),
             )
             as FiatAmount;
@@ -189,14 +229,29 @@ extension BuildContextExt on BuildContext {
     return runWithLoader(this, () => openKycFlow(countryCode: profile.country.code));
   }
 
-  Future<double> _fetchRate(RampType type) =>
-      runWithLoader<double>(this, () async => sl<BrijScalexFeesService>().fetchRate(type));
-
+  Future<double> _fetchRate(RampType type, RampPartner partner, String currency) =>
+      runWithLoader<double>(
+        this,
+        () async => sl<BrijFeesService>().fetchRate(
+          partnerPK: partner.partnerPK ?? '',
+          walletPK: walletAuthPk,
+          fiatCurrency: currency,
+          type: type,
+        ),
+      );
   Future<Either<Exception, Amount>> _calculateReceiveAmount({
     required Amount amount,
     required RampType type,
+    required RampPartner partner,
+    required String currency,
   }) async {
-    final fees = await sl<BrijScalexFeesService>().fetchFees(amount: amount, type: type);
+    final fees = await sl<BrijFeesService>().fetchFees(
+      partnerPK: partner.partnerPK ?? '',
+      walletPK: walletAuthPk,
+      fiatCurrency: currency,
+      amount: amount,
+      type: type,
+    );
 
     final receiveAmount = fees.receiveAmount;
 
@@ -206,8 +261,16 @@ extension BuildContextExt on BuildContext {
   Future<Either<Exception, RampFees>> _calculateFees({
     required Amount amount,
     required RampType type,
+    required RampPartner partner,
+    required String currency,
   }) async {
-    final fees = await sl<BrijScalexFeesService>().fetchFees(amount: amount, type: type);
+    final fees = await sl<BrijFeesService>().fetchFees(
+      partnerPK: partner.partnerPK ?? '',
+      walletPK: walletAuthPk,
+      fiatCurrency: currency,
+      amount: amount,
+      type: type,
+    );
 
     return Either.right((ourFee: null, partnerFee: null, extraFee: null, totalFee: fees.totalFee));
   }

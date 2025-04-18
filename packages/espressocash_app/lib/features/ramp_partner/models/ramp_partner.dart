@@ -55,7 +55,8 @@ enum RampPartner {
     title: 'Brij Network (DEMO)',
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
-    partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
+    partnerPK: 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E',
+    feeWalletAddress: '5EY2wqRSXsnfU7YwBnW45HoTLGmZgFkfA1A69N8T7Vtx',
   ),
 
   scalexBrij(
@@ -70,6 +71,7 @@ enum RampPartner {
     required this.minimumAmount,
     required this.paymentMethods,
     this.partnerPK,
+    this.feeWalletAddress,
   });
 
   final String title;
@@ -77,6 +79,7 @@ enum RampPartner {
   final List<PaymentMethod> paymentMethods;
 
   final String? partnerPK;
+  final String? feeWalletAddress;
 
   Decimal get minimumAmountInDecimal => Decimal.parse(minimumAmount.substring(1));
 }
