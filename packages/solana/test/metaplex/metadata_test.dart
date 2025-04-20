@@ -70,10 +70,7 @@ void main() {
       updateAuthority: '2wmVCSfPxGPjrnMMn7rchp4uaeoTqN39mXFC2zhPdri9',
       mint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
     );
-    expect(
-      await metadataUSDC.getExternalJson(),
-      equals(null),
-    );
+    expect(await metadataUSDC.getExternalJson(), equals(null));
 
     // JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN
     const metadataJUP = Metadata(
@@ -83,10 +80,7 @@ void main() {
       updateAuthority: '61aq585V8cR2sZBeawJFt2NPqmN7zDi1sws4KLs5xHXV',
       mint: 'JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN',
     );
-    expect(
-      await metadataJUP.getExternalJson(),
-      isA<OffChainMetadata>(),
-    );
+    expect(await metadataJUP.getExternalJson(), isA<OffChainMetadata>());
 
     const metadataMock = Metadata(
       name: 'Mock',
@@ -96,9 +90,6 @@ void main() {
       updateAuthority: '',
       mint: '',
     );
-    await expectLater(
-      () => metadataMock.getExternalJson(),
-      throwsA(isA<FormatException>()),
-    );
+    await expectLater(() => metadataMock.getExternalJson(), throwsA(isA<FormatException>()));
   });
 }
