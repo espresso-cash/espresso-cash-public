@@ -12,7 +12,8 @@ part of 'account.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Account _$AccountFromJson(Map<String, dynamic> json) {
   return _Account.fromJson(json);
@@ -54,17 +55,17 @@ abstract class $AccountCopyWith<$Res> {
   factory $AccountCopyWith(Account value, $Res Function(Account) then) =
       _$AccountCopyWithImpl<$Res, Account>;
   @useResult
-  $Res call(
-      {int lamports,
-      String owner,
-      AccountData? data,
-      bool executable,
-      @JsonKey(fromJson: bigIntFromJson) BigInt rentEpoch});
+  $Res call({
+    int lamports,
+    String owner,
+    AccountData? data,
+    bool executable,
+    @JsonKey(fromJson: bigIntFromJson) BigInt rentEpoch,
+  });
 }
 
 /// @nodoc
-class _$AccountCopyWithImpl<$Res, $Val extends Account>
-    implements $AccountCopyWith<$Res> {
+class _$AccountCopyWithImpl<$Res, $Val extends Account> implements $AccountCopyWith<$Res> {
   _$AccountCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -83,53 +84,59 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
     Object? executable = null,
     Object? rentEpoch = null,
   }) {
-    return _then(_value.copyWith(
-      lamports: null == lamports
-          ? _value.lamports
-          : lamports // ignore: cast_nullable_to_non_nullable
-              as int,
-      owner: null == owner
-          ? _value.owner
-          : owner // ignore: cast_nullable_to_non_nullable
-              as String,
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as AccountData?,
-      executable: null == executable
-          ? _value.executable
-          : executable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      rentEpoch: null == rentEpoch
-          ? _value.rentEpoch
-          : rentEpoch // ignore: cast_nullable_to_non_nullable
-              as BigInt,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            lamports:
+                null == lamports
+                    ? _value.lamports
+                    : lamports // ignore: cast_nullable_to_non_nullable
+                        as int,
+            owner:
+                null == owner
+                    ? _value.owner
+                    : owner // ignore: cast_nullable_to_non_nullable
+                        as String,
+            data:
+                freezed == data
+                    ? _value.data
+                    : data // ignore: cast_nullable_to_non_nullable
+                        as AccountData?,
+            executable:
+                null == executable
+                    ? _value.executable
+                    : executable // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            rentEpoch:
+                null == rentEpoch
+                    ? _value.rentEpoch
+                    : rentEpoch // ignore: cast_nullable_to_non_nullable
+                        as BigInt,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$AccountImplCopyWith<$Res> implements $AccountCopyWith<$Res> {
-  factory _$$AccountImplCopyWith(
-          _$AccountImpl value, $Res Function(_$AccountImpl) then) =
+  factory _$$AccountImplCopyWith(_$AccountImpl value, $Res Function(_$AccountImpl) then) =
       __$$AccountImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int lamports,
-      String owner,
-      AccountData? data,
-      bool executable,
-      @JsonKey(fromJson: bigIntFromJson) BigInt rentEpoch});
+  $Res call({
+    int lamports,
+    String owner,
+    AccountData? data,
+    bool executable,
+    @JsonKey(fromJson: bigIntFromJson) BigInt rentEpoch,
+  });
 }
 
 /// @nodoc
-class __$$AccountImplCopyWithImpl<$Res>
-    extends _$AccountCopyWithImpl<$Res, _$AccountImpl>
+class __$$AccountImplCopyWithImpl<$Res> extends _$AccountCopyWithImpl<$Res, _$AccountImpl>
     implements _$$AccountImplCopyWith<$Res> {
-  __$$AccountImplCopyWithImpl(
-      _$AccountImpl _value, $Res Function(_$AccountImpl) _then)
-      : super(_value, _then);
+  __$$AccountImplCopyWithImpl(_$AccountImpl _value, $Res Function(_$AccountImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of Account
   /// with the given fields replaced by the non-null parameter values.
@@ -142,43 +149,50 @@ class __$$AccountImplCopyWithImpl<$Res>
     Object? executable = null,
     Object? rentEpoch = null,
   }) {
-    return _then(_$AccountImpl(
-      lamports: null == lamports
-          ? _value.lamports
-          : lamports // ignore: cast_nullable_to_non_nullable
-              as int,
-      owner: null == owner
-          ? _value.owner
-          : owner // ignore: cast_nullable_to_non_nullable
-              as String,
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as AccountData?,
-      executable: null == executable
-          ? _value.executable
-          : executable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      rentEpoch: null == rentEpoch
-          ? _value.rentEpoch
-          : rentEpoch // ignore: cast_nullable_to_non_nullable
-              as BigInt,
-    ));
+    return _then(
+      _$AccountImpl(
+        lamports:
+            null == lamports
+                ? _value.lamports
+                : lamports // ignore: cast_nullable_to_non_nullable
+                    as int,
+        owner:
+            null == owner
+                ? _value.owner
+                : owner // ignore: cast_nullable_to_non_nullable
+                    as String,
+        data:
+            freezed == data
+                ? _value.data
+                : data // ignore: cast_nullable_to_non_nullable
+                    as AccountData?,
+        executable:
+            null == executable
+                ? _value.executable
+                : executable // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        rentEpoch:
+            null == rentEpoch
+                ? _value.rentEpoch
+                : rentEpoch // ignore: cast_nullable_to_non_nullable
+                    as BigInt,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$AccountImpl implements _Account {
-  const _$AccountImpl(
-      {required this.lamports,
-      required this.owner,
-      required this.data,
-      required this.executable,
-      @JsonKey(fromJson: bigIntFromJson) required this.rentEpoch});
+  const _$AccountImpl({
+    required this.lamports,
+    required this.owner,
+    required this.data,
+    required this.executable,
+    @JsonKey(fromJson: bigIntFromJson) required this.rentEpoch,
+  });
 
-  factory _$AccountImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AccountImplFromJson(json);
+  factory _$AccountImpl.fromJson(Map<String, dynamic> json) => _$$AccountImplFromJson(json);
 
   /// Number of lamports assigned to this account, as a u64
   @override
@@ -215,20 +229,16 @@ class _$AccountImpl implements _Account {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AccountImpl &&
-            (identical(other.lamports, lamports) ||
-                other.lamports == lamports) &&
+            (identical(other.lamports, lamports) || other.lamports == lamports) &&
             (identical(other.owner, owner) || other.owner == owner) &&
             (identical(other.data, data) || other.data == data) &&
-            (identical(other.executable, executable) ||
-                other.executable == executable) &&
-            (identical(other.rentEpoch, rentEpoch) ||
-                other.rentEpoch == rentEpoch));
+            (identical(other.executable, executable) || other.executable == executable) &&
+            (identical(other.rentEpoch, rentEpoch) || other.rentEpoch == rentEpoch));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, lamports, owner, data, executable, rentEpoch);
+  int get hashCode => Object.hash(runtimeType, lamports, owner, data, executable, rentEpoch);
 
   /// Create a copy of Account
   /// with the given fields replaced by the non-null parameter values.
@@ -240,20 +250,18 @@ class _$AccountImpl implements _Account {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AccountImplToJson(
-      this,
-    );
+    return _$$AccountImplToJson(this);
   }
 }
 
 abstract class _Account implements Account {
-  const factory _Account(
-          {required final int lamports,
-          required final String owner,
-          required final AccountData? data,
-          required final bool executable,
-          @JsonKey(fromJson: bigIntFromJson) required final BigInt rentEpoch}) =
-      _$AccountImpl;
+  const factory _Account({
+    required final int lamports,
+    required final String owner,
+    required final AccountData? data,
+    required final bool executable,
+    @JsonKey(fromJson: bigIntFromJson) required final BigInt rentEpoch,
+  }) = _$AccountImpl;
 
   factory _Account.fromJson(Map<String, dynamic> json) = _$AccountImpl.fromJson;
 
@@ -286,6 +294,5 @@ abstract class _Account implements Account {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AccountImplCopyWith<_$AccountImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$AccountImplCopyWith<_$AccountImpl> get copyWith => throw _privateConstructorUsedError;
 }

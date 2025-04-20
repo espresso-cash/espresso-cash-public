@@ -15,9 +15,7 @@ class ContextResult<T> {
 
 @freezed
 class Context with _$Context {
-  const factory Context({
-    @JsonKey(fromJson: bigIntFromJson) required BigInt slot,
-  }) = _Context;
+  const factory Context({@JsonKey(fromJson: bigIntFromJson) required BigInt slot}) = _Context;
 
   factory Context.fromJson(Map<String, dynamic> json) => _$ContextFromJson(json);
 }

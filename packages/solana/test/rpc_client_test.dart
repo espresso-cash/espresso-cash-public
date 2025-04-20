@@ -28,7 +28,7 @@ void main() {
             'owner': SystemProgram.programId,
             'executable': false,
             'rentEpoch': '0',
-          })
+          }),
         ),
         // Web max precise.
         (
@@ -43,7 +43,7 @@ void main() {
             'owner': SystemProgram.programId,
             'executable': false,
             'rentEpoch': '0x20000000000000',
-          })
+          }),
         ),
         // 64-bit native.
         (
@@ -58,7 +58,7 @@ void main() {
             'owner': SystemProgram.programId,
             'executable': false,
             'rentEpoch': '0x7FFFFFFFFFFFFFFF',
-          })
+          }),
         ),
       ];
       for (final pair in accounts) {
@@ -68,10 +68,7 @@ void main() {
 
     test('Context', () {
       final contexts = <(Context, Context)>[
-        (
-          Context.fromJson({'slot': 0}),
-          Context.fromJson({'slot': '0'}),
-        ),
+        (Context.fromJson({'slot': 0}), Context.fromJson({'slot': '0'})),
         // Web max precise.
         (
           Context.fromJson({'slot': 0x20000000000000}),
