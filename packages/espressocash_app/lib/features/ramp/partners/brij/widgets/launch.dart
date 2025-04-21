@@ -1,5 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:sealed_countries/sealed_countries.dart' as country;
 
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
@@ -38,8 +39,8 @@ extension BuildContextExt on BuildContext {
     const type = RampType.onRamp;
 
     const inputCurrency = Currency.usdc;
-    final receiveCurrency = _getReceiveCurrency(profile.country.code);
-    
+    final receiveCurrency = _fromCountryCode(profile.country.code);
+
     final rate = await _fetchRate(type, partner, receiveCurrency.symbol);
 
     Amount? amount;
@@ -125,7 +126,7 @@ extension BuildContextExt on BuildContext {
     const type = RampType.offRamp;
 
     const inputCurrency = Currency.usdc;
-    final receiveCurrency = _getReceiveCurrency(profile.country.code);
+    final receiveCurrency = _fromCountryCode(profile.country.code);
 
     final rate = await _fetchRate(type, partner, receiveCurrency.symbol);
 
@@ -310,5 +311,8 @@ extension BuildContextExt on BuildContext {
   }
 }
 
-Currency _getReceiveCurrency(String countryCode) =>
-    countryCode == 'NG' ? currencyFromString('NGN') : currencyFromString('EUR');
+FiatCurrency _fromCountryCode(String code) {
+  final currency = country.WorldCountry.fromCodeShort(code).currencies?.firstOrNull;
+
+  return currency.toFiatCurrency.copyWith(countryCode: code);
+}
