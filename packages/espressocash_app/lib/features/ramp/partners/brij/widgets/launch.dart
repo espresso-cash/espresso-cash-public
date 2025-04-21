@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
@@ -39,8 +38,8 @@ extension BuildContextExt on BuildContext {
     const type = RampType.onRamp;
 
     const inputCurrency = Currency.usdc;
-    final receiveCurrency = currencyFromString('EUR');
-
+    final receiveCurrency = _getReceiveCurrency(profile.country.code);
+    
     final rate = await _fetchRate(type, partner, receiveCurrency.symbol);
 
     Amount? amount;
@@ -126,7 +125,7 @@ extension BuildContextExt on BuildContext {
     const type = RampType.offRamp;
 
     const inputCurrency = Currency.usdc;
-    final receiveCurrency = currencyFromString('EUR');
+    final receiveCurrency = _getReceiveCurrency(profile.country.code);
 
     final rate = await _fetchRate(type, partner, receiveCurrency.symbol);
 
@@ -310,3 +309,6 @@ extension BuildContextExt on BuildContext {
     return showTermsAndPolicyDialog(this, termsUrl: termsUrl, privacyUrl: policyUrl);
   }
 }
+
+Currency _getReceiveCurrency(String countryCode) =>
+    countryCode == 'NG' ? currencyFromString('NGN') : currencyFromString('EUR');

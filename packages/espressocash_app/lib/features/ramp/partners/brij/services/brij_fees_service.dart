@@ -1,7 +1,6 @@
 import 'package:async/async.dart';
 import 'package:decimal/decimal.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart' as kyc;
 
 import '../../../../accounts/auth_scope.dart';
 import '../../../../currency/models/amount.dart';
@@ -10,13 +9,6 @@ import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../ramp_partner/models/ramp_type.dart' as ec;
 
 typedef BrijScalexFees = ({Amount receiveAmount, double rate, Amount totalFee});
-
-extension on ec.RampType {
-  kyc.RampType toKycType() => switch (this) {
-    ec.RampType.onRamp => kyc.RampType.onRamp,
-    ec.RampType.offRamp => kyc.RampType.offRamp,
-  };
-}
 
 @Singleton(scope: authScope)
 class BrijFeesService {
