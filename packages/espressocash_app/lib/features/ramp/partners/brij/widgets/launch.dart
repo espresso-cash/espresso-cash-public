@@ -64,7 +64,7 @@ extension BuildContextExt on BuildContext {
             amount: amount,
             type: type,
             partner: partner,
-            currency: receiveCurrency.symbol,
+            currency: receiveCurrency,
           ),
       calculateFee:
           (amount) => _calculateFees(
@@ -151,7 +151,7 @@ extension BuildContextExt on BuildContext {
             amount: amount,
             type: type,
             partner: partner,
-            currency: receiveCurrency.symbol,
+            currency: receiveCurrency,
           ),
       exchangeRate: '1 USDC = $rate ${receiveCurrency.symbol}',
       calculateFee:
@@ -243,17 +243,17 @@ extension BuildContextExt on BuildContext {
     required Amount amount,
     required RampType type,
     required RampPartner partner,
-    required String currency,
+    required Currency currency,
   }) async {
     final fees = await sl<BrijFeesService>().fetchFees(
       partnerPK: partner.partnerPK ?? '',
       walletPK: walletAuthPk,
-      fiatCurrency: currency,
+      fiatCurrency: currency.symbol,
       amount: amount,
       type: type,
     );
 
-    final receiveAmount = fees.receiveAmount;
+    final receiveAmount = Amount(value: fees.receiveAmount.value, currency: currency);
 
     return Either.right(receiveAmount);
   }
