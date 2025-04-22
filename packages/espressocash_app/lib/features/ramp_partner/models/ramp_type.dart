@@ -4,7 +4,7 @@ enum RampType { onRamp, offRamp }
 
 extension RampTypeExtension on RampType {
   kyc.RampType toKycType() => switch (this) {
-        RampType.onRamp => kyc.RampType.onRamp,
-        RampType.offRamp => kyc.RampType.offRamp,
-      };
+    RampType.onRamp => kyc.RampType.onRamp,
+    RampType.offRamp => kyc.RampType.offRamp,
+  };
 }
