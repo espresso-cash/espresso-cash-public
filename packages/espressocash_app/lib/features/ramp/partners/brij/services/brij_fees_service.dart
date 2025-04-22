@@ -8,19 +8,19 @@ import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../ramp_partner/models/ramp_type.dart' as ec;
 
-typedef BrijScalexFees = ({Amount receiveAmount, double rate, Amount totalFee});
+typedef BrijFees = ({Amount receiveAmount, double rate, Amount totalFee});
 
 @Singleton(scope: authScope)
 class BrijFeesService {
   BrijFeesService(this._kycService);
 
   final KycSharingService _kycService;
-  final _cache = AsyncCache<BrijScalexFees>(const Duration(seconds: 30));
+  final _cache = AsyncCache<BrijFees>(const Duration(seconds: 30));
 
   Amount? _lastAmount;
   ec.RampType? _lastType;
 
-  Future<BrijScalexFees> fetchFees({
+  Future<BrijFees> fetchFees({
     required Amount amount,
     required ec.RampType type,
     required String partnerPK,
@@ -64,7 +64,7 @@ class BrijFeesService {
     return quote.conversionRate;
   }
 
-  Future<BrijScalexFees> _fetchFeesFromApi({
+  Future<BrijFees> _fetchFeesFromApi({
     required Amount amount,
     required ec.RampType type,
     required String partnerPK,
