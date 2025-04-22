@@ -25,3 +25,5 @@
 [seed_vault_spec]: https://github.com/solana-mobile/seed-vault-sdk/blob/main/docs/integration_guide.md
 [solana_mobile_wallet_example]: packages/solana_mobile_wallet/example
 [solana_mobile_client_example]: packages/solana_mobile_client/example
+
+hallo man
