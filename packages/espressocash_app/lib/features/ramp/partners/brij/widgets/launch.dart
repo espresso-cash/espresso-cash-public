@@ -94,14 +94,14 @@ extension BuildContextExt on BuildContext {
                   )
                   .then((fees) => fees.receiveAmount),
             )
-            as CryptoAmount;
+            as FiatAmount;
 
     final orderId = await runWithLoader<String?>(
       this,
       () => sl<BrijOnRampOrderService>()
           .create(
-            receiveAmount: equivalentAmount,
-            submittedAmount: submittedAmount as FiatAmount,
+            receiveAmount: submittedAmount as CryptoAmount,
+            submittedAmount: equivalentAmount,
             partner: partner,
             country: profile.country.code,
           )
