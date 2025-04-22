@@ -55,7 +55,7 @@ enum RampPartner {
     title: 'Brij Network (DEMO)',
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
-    partnerPK: 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E',
+    partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
     feeWalletAddress: '5EY2wqRSXsnfU7YwBnW45HoTLGmZgFkfA1A69N8T7Vtx',
   ),
 
