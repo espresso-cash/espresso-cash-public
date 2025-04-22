@@ -86,18 +86,8 @@ class BrijFeesService {
       currency: currency,
     );
 
-    final platformFee =
-        quote.platformFee.fixedFee + quote.platformFee.percentageFee * amount.decimal.toDouble();
-    final walletFee =
-        quote.walletFee.fixedFee + quote.walletFee.percentageFee * amount.decimal.toDouble();
-    final partnerFee =
-        quote.partnerFee.fixedFee + quote.partnerFee.percentageFee * amount.decimal.toDouble();
-
     final totalFee = Amount.fromDecimal(
-      value:
-          Decimal.parse(platformFee.toString()) +
-          Decimal.parse(walletFee.toString()) +
-          Decimal.parse(partnerFee.toString()),
+      value: Decimal.parse(quote.totalFee.toString()),
       currency: Currency.usdc,
     );
 
