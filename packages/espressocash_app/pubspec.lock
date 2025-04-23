@@ -54,6 +54,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  app_links:
+    dependency: "direct main"
+    description:
+      name: app_links
+      sha256: "85ed8fc1d25a76475914fff28cc994653bd900bc2c26e4b57a49e097febb54ba"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.4.0"
+  app_links_linux:
+    dependency: transitive
+    description:
+      name: app_links_linux
+      sha256: f5f7173a78609f3dfd4c2ff2c95bd559ab43c80a87dc6a095921d96c05688c81
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
+  app_links_platform_interface:
+    dependency: transitive
+    description:
+      name: app_links_platform_interface
+      sha256: "05f5379577c513b534a29ddea68176a4d4802c46180ee8e2e966257158772a3f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
+  app_links_web:
+    dependency: transitive
+    description:
+      name: app_links_web
+      sha256: af060ed76183f9e2b87510a9480e56a5352b6c249778d07bd2c95fc35632a555
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   archive:
     dependency: transitive
     description:
@@ -760,14 +792,13 @@ packages:
     source: hosted
     version: "6.1.5"
   flutter_inappwebview_android:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: flutter_inappwebview_android
-      ref: d89b1d32638b49dfc58c4b7c84153be0c269d057
-      resolved-ref: d89b1d32638b49dfc58c4b7c84153be0c269d057
-      url: "https://github.com/holzgeist/flutter_inappwebview"
-    source: git
-    version: "1.0.13"
+      name: flutter_inappwebview_android
+      sha256: "62557c15a5c2db5d195cb3892aab74fcaec266d7b86d59a6f0027abd672cddba"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.3"
   flutter_inappwebview_internal_annotations:
     dependency: transitive
     description:
@@ -1004,6 +1035,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  gtk:
+    dependency: transitive
+    description:
+      name: gtk
+      sha256: e8ce9ca4b1df106e4d72dad201d345ea1a036cc12c360f1a7d5a758f78ffa42c
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   hashcodes:
     dependency: transitive
     description:
@@ -1341,10 +1380,10 @@ packages:
     dependency: "direct main"
     description:
       name: mixpanel_flutter
-      sha256: c1e35c54d8cfc1c50d35d2e8cc11416295efc45bb6dcaa88aec8f82219274833
+      sha256: "219614225c6afd1bbc52668c814146df38d2b86baa3ad998b972253d0ef56d97"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.3"
+    version: "2.4.0"
   mobile_scanner:
     dependency: "direct main"
     description:
@@ -1745,14 +1784,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.13.0"
-  share:
+  share_plus:
     dependency: "direct main"
     description:
-      name: share
-      sha256: "97e6403f564ed1051a01534c2fc919cb6e40ea55e60a18ec23cee6e0ce19f4be"
+      name: share_plus
+      sha256: b2961506569e28948d75ec346c28775bb111986bb69dc6a20754a457e3d97fa0
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.4"
+    version: "11.0.0"
+  share_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: share_plus_platform_interface
+      sha256: "1032d392bc5d2095a77447a805aa3f804d2ae6a4d5eef5e6ebb3bd94c1bc19ef"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.0"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -2124,30 +2171,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
-  uni_links:
-    dependency: "direct main"
-    description:
-      name: uni_links
-      sha256: "051098acfc9e26a9fde03b487bef5d3d228ca8f67693480c6f33fd4fbb8e2b6e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.5.1"
-  uni_links_platform_interface:
-    dependency: transitive
-    description:
-      name: uni_links_platform_interface
-      sha256: "929cf1a71b59e3b7c2d8a2605a9cf7e0b125b13bc858e55083d88c62722d4507"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
-  uni_links_web:
-    dependency: transitive
-    description:
-      name: uni_links_web
-      sha256: "7539db908e25f67de2438e33cc1020b30ab94e66720b5677ba6763b25f6394df"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
   universal_io:
     dependency: transitive
     description:
