@@ -116,6 +116,7 @@ class BrijOnRampOrderService implements Disposable {
         fiatCurrency: submittedAmount.currency.symbol,
         partnerPK: partnerAuthPk,
         cryptoWalletAddress: _ecWallet.publicKey.toString(),
+        walletPK: walletAuthPk,
       );
 
       final order = OnRampOrderRow(
