@@ -1,12 +1,13 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.149.0
+version: 1.150.0
 
 environment:
   sdk: ">=3.7.0 <4.0.0"
 
 dependencies:
+  app_links: ^6.4.0
   async: ^2.11.0
   barcode_widget: ^2.0.4
   bip39: ^1.0.6
@@ -55,10 +56,10 @@ dependencies:
   kyc_client_dart:
     git:
       url: https://github.com/espresso-cash/kyc_client_dart.git
-      ref: 0c375613aabe23520292d562822e11d42fab0383
+      ref: 8b17fe02e069a3258edef410a318f7585d93dae3
   logging: ^1.2.0
   meta: ^1.10.0
-  mixpanel_flutter: ^2.2.0
+  mixpanel_flutter: ^2.4.0
   mobile_scanner: ^6.0.0
   package_info_plus: ^8.0.0
   path: ^1.8.3
@@ -73,7 +74,7 @@ dependencies:
   sealed_countries: ^1.5.1
   sealed_currencies: ^1.5.1
   sentry_flutter: ^8.1.0
-  share: ^2.0.4
+  share_plus: ^11.0.0
   shared_preferences: ^2.2.2
   sliver_tools: ^0.2.12
   smooth_page_indicator: ^1.1.0
@@ -84,7 +85,6 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.18
   stellar_flutter_sdk: ^1.8.4
   storybook_flutter: ^0.14.0
-  uni_links: ^0.5.1
   url_launcher: ^6.2.2
   uuid: ^4.2.2
 
@@ -177,12 +177,6 @@ flutter_native_splash:
 
 dependency_overrides:
   decimal: ^3.0.2
-  # TODO: Recheck once flutter_inappwebview version >6.0.0 is released
-  flutter_inappwebview_android:
-    git:
-      url: https://github.com/holzgeist/flutter_inappwebview
-      path: flutter_inappwebview_android
-      ref: d89b1d32638b49dfc58c4b7c84153be0c269d057
   jupiter_aggregator:
     path: ../jupiter_aggregator/
   pinenacl: ^0.6.0

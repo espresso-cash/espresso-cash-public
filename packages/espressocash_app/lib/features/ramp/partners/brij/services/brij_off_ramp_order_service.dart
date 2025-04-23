@@ -187,6 +187,7 @@ class BrijOffRampOrderService implements Disposable {
         cryptoWalletAddress: _account.publicKey.toString(),
         bankAccount: bank.accountNumber,
         bankName: bank.bankCode,
+        walletPK: walletAuthPk,
       );
 
       final order = OffRampOrderRow(
