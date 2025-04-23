@@ -5,16 +5,16 @@ import 'package:injectable/injectable.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
-import '../../../../kyc_sharing/services/kyc_service.dart';
+import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../ramp_partner/models/ramp_type.dart' as ec;
 
 typedef BrijFees = ({Amount receiveAmount, double rate, Amount totalFee});
 
 @Singleton(scope: authScope)
 class BrijFeesService {
-  BrijFeesService(this._kycService);
+  BrijFeesService(this._kycRepository);
 
-  final KycSharingService _kycService;
+  final KycRepository _kycRepository;
   final _cache = AsyncCache<BrijFees>(const Duration(seconds: 30));
 
   Amount? _lastAmount;
@@ -53,7 +53,7 @@ class BrijFeesService {
   }) async {
     final referenceAmount = Amount.fromDecimal(value: Decimal.one, currency: Currency.usdc);
 
-    final quote = await _kycService.getQuote(
+    final quote = await _kycRepository.getQuote(
       partnerPK: partnerPK,
       walletPK: walletPK,
       fiatCurrency: fiatCurrency,
@@ -71,7 +71,7 @@ class BrijFeesService {
     required String walletPK,
     required String fiatCurrency,
   }) async {
-    final quote = await _kycService.getQuote(
+    final quote = await _kycRepository.getQuote(
       partnerPK: partnerPK,
       walletPK: walletPK,
       fiatCurrency: fiatCurrency,

@@ -11,6 +11,7 @@ import '../../../../../ui/markdown_text.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
+import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_validation_status.dart';
 import '../../../../kyc_sharing/services/kyc_service.dart';
 import '../../../../kyc_sharing/services/pending_kyc_service.dart';
