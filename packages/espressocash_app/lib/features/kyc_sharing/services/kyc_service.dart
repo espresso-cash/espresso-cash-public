@@ -284,4 +284,3 @@ class KycSharingService extends ValueNotifier<UserData?> {
   Future<KycRequirement> getKycRequirements({required String country}) =>
       _kycRepository.getKycRequirements(country: country);
 }
-
