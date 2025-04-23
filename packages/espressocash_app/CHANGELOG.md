@@ -1,3 +1,11 @@
+## 1.150.0
+
+ - **REFACTOR**: migrate to Flutter 3.29.0 (#1705).
+ - **FIX**: bank account data is not saved (#1704).
+ - **FEAT**: add wallet to orders (#1709).
+ - **FEAT**: brij quoting for orders (#1708).
+ - **FEAT**: add personal info to profile  (#1703).
+
 ## 1.149.0
 
  - **REFACTOR**: picker ui (#1693).
