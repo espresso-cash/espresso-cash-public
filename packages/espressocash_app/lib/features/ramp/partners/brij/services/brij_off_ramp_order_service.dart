@@ -60,7 +60,7 @@ class BrijOffRampOrderService implements Disposable {
             OffRampOrderStatus.refunded,
             OffRampOrderStatus.rejected,
           ]) &
-          tbl.partner.isInValues([RampPartner.brij, RampPartner.scalexBrij]),
+          tbl.partner.isInValues([RampPartner.brij]),
     );
 
     final orders = await query.get();
@@ -69,13 +69,11 @@ class BrijOffRampOrderService implements Disposable {
       switch (order.partner) {
         case RampPartner.kado:
         case RampPartner.coinflow:
-        case RampPartner.scalex:
         case RampPartner.guardarian:
         case RampPartner.rampNetwork:
         case RampPartner.moneygram:
           continue;
         case RampPartner.brij:
-        case RampPartner.scalexBrij:
           _subscribe(order.id);
       }
     }
@@ -186,6 +184,7 @@ class BrijOffRampOrderService implements Disposable {
         cryptoWalletAddress: _account.publicKey.toString(),
         bankAccount: bank.accountNumber,
         bankName: bank.bankCode,
+        walletPK: walletAuthPk,
       );
 
       final order = OffRampOrderRow(

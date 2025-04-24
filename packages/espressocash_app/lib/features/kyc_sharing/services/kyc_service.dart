@@ -283,20 +283,4 @@ class KycSharingService extends ValueNotifier<UserData?> {
 
   Future<KycRequirement> getKycRequirements({required String country}) =>
       _kycRepository.getKycRequirements(country: country);
-
-  Future<Quote> getQuote({
-    required String partnerPK,
-    required String walletPK,
-    required String fiatCurrency,
-    required double cryptoAmount,
-    required RampType rampType,
-  }) => _kycRepository.getQuote(
-    partnerPK: partnerPK,
-    walletPK: walletPK,
-    fiatCurrency: fiatCurrency,
-    cryptoAmount: cryptoAmount,
-    rampType: rampType,
-  );
 }
-
-const walletAuthPk = 'DA71MeXeEwuM2FzWj8Bki6XTBTYC9TUsXspzPoNy2yEQ';

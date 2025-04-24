@@ -29,7 +29,6 @@ import '../../transactions/services/tx_sender.dart';
 import '../models/ramp_watcher.dart';
 import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
 import '../partners/kado/services/kado_off_ramp_order_watcher.dart';
-import '../partners/scalex/services/scalex_off_ramp_order_watcher.dart';
 
 typedef OffRampOrder =
     ({
@@ -86,11 +85,9 @@ class OffRampOrderService implements Disposable {
       switch (order.partner) {
         case RampPartner.moneygram:
         case RampPartner.brij:
-        case RampPartner.scalexBrij:
           continue;
         case RampPartner.kado:
         case RampPartner.coinflow:
-        case RampPartner.scalex:
         case RampPartner.guardarian:
         case RampPartner.rampNetwork:
           _subscribe(order.id);
@@ -327,10 +324,8 @@ class OffRampOrderService implements Disposable {
 
     _watchers[orderId] = switch (order.partner) {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
-      RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
       RampPartner.brij ||
-      RampPartner.scalexBrij ||
       RampPartner.rampNetwork ||
       RampPartner.moneygram || // moneygram orders will not reach this point
       RampPartner.guardarian => throw ArgumentError('Not implemented'),
@@ -354,12 +349,10 @@ class OffRampOrderService implements Disposable {
               return const Stream.empty();
             case OffRampOrderStatus.creatingDepositTx:
               return Stream.fromFuture(
-                order.partner == RampPartner.scalex
-                    ? _createScalexTx(partnerOrderId: order.partnerOrderId)
-                    : _createTx(
-                      amount: _amount(order),
-                      receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
-                    ),
+                _createTx(
+                  amount: _amount(order),
+                  receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
+                ),
               ).onErrorReturn(
                 const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositError)),
               );
@@ -419,13 +412,6 @@ class OffRampOrderService implements Disposable {
       referenceAccount: null,
     );
     final response = await _client.createDirectPayment(dto);
-
-    return _signAndUpdateRow(encodedTx: response.transaction, slot: response.slot);
-  }
-
-  Future<OffRampOrderRowsCompanion> _createScalexTx({required String partnerOrderId}) async {
-    final dto = ScalexWithdrawRequestDto(orderId: partnerOrderId);
-    final response = await _client.createScalexWithdraw(dto);
 
     return _signAndUpdateRow(encodedTx: response.transaction, slot: response.slot);
   }

@@ -21,7 +21,6 @@ import '../partners/guardarian/widgets/launch.dart';
 import '../partners/kado/widgets/launch.dart';
 import '../partners/moneygram/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
-import '../partners/scalex/widgets/launch.dart';
 import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
 
@@ -186,10 +185,7 @@ extension RampBuildContextExt on BuildContext {
         launchKadoOnRamp(profile: profile, address: address);
       case RampPartner.guardarian:
         launchGuardarianOnRamp(profile: profile, address: address);
-      case RampPartner.scalex:
-        launchScalexOnRamp(profile: profile, address: address);
       case RampPartner.brij:
-      case RampPartner.scalexBrij:
         launchBrijOnRamp(partner: partner, profile: profile);
       case RampPartner.moneygram:
         launchMoneygramOnRamp(profile: profile);
@@ -210,12 +206,9 @@ extension RampBuildContextExt on BuildContext {
         launchKadoOffRamp(address: address, profile: profile);
       case RampPartner.coinflow:
         launchCoinflowOffRamp(address: address, profile: profile);
-      case RampPartner.scalex:
-        launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.moneygram:
         launchMoneygramOffRamp(profile: profile);
       case RampPartner.brij:
-      case RampPartner.scalexBrij:
         launchBrijOffRamp(partner: partner, profile: profile);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:

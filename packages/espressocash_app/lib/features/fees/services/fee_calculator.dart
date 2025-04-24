@@ -30,7 +30,6 @@ class FeeCalculator {
             return fees.escrowPayment;
           case FeeTypeWithdraw(:final amount, :final partner, :final address):
             final percentageFee = switch (partner) {
-              RampPartner.scalex || RampPartner.scalexBrij => fees.withdrawFeePercentage.scalex,
               RampPartner.coinflow => fees.withdrawFeePercentage.coinflow,
               RampPartner.guardarian => fees.withdrawFeePercentage.guardarian,
               RampPartner.rampNetwork => fees.withdrawFeePercentage.rampNetwork,
