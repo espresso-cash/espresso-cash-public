@@ -28,7 +28,7 @@ dependencies:
   ec_client_dart:
     git:
       url: https://github.com/espresso-cash/ec-client-dart
-      ref: 863cfe1b8931ee427d7b8c762a84afc7dfc91a06
+      ref: 680b39853feb868224c92e9a6dd5ede6ea22d3cd
   # espressocash_api: #TODO
   #   path: ../espressocash_api/
   ethereum_addresses: ^1.0.2

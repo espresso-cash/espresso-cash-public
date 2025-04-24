@@ -21,7 +21,6 @@ abstract class AuthModule {
 
   @LazySingleton(scope: authScope)
   Future<EspressoCashClient> ecClient(ECWallet wallet) => EspressoCashClient.create(
-    baseUrl: 'grpc-demo.espressocash.com', //TODO
     walletAddress: wallet.publicKey.toBase58(),
     sign: (data) async {
       final signature = await wallet.sign([Uint8List.fromList(data.toList())]);

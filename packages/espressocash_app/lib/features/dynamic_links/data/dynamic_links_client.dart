@@ -6,12 +6,7 @@ class DynamicLinkClient {
   const DynamicLinkClient();
 
   Future<Uri> unshortenLink(Uri shortLink) async {
-    //TODO
-    final client = await EspressoCashClient.create(
-      baseUrl: 'grpc-demo.espressocash.com',
-      walletAddress: '',
-      sign: (_) async => '',
-    );
+    final client = await EspressoCashClient.anonymous();
 
     final response = await client.expandLink(
       UnshortenLinkRequestDto(shortLink: shortLink.toString()),
