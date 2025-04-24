@@ -1,6 +1,6 @@
 typedef Bank = ({String code, String name});
 
-const List<Bank> scalexBanks = [
+const List<Bank> ngBanks = [
   (code: '110072', name: '78 FINANCE COMPANY'),
   (code: '110005', name: '3LINE CARD MANAGEMENT LIMITED'),
   (code: '120001', name: '9 PAYMENT SOLUTIONS BANK'),

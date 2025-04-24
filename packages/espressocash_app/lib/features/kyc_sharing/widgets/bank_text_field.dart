@@ -21,7 +21,7 @@ class BankTextField extends StatelessWidget {
         await CustomPickerScreen.push<Bank>(
           context: context,
           title: context.l10n.selectBank,
-          items: scalexBanks,
+          items: ngBanks,
           initial: initialBank,
           itemBuilder:
               (context, bank, {required bool selected}) => Row(
