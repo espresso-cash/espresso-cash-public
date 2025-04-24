@@ -1,13 +1,22 @@
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class DynamicLinkClient {
-  DynamicLinkClient();
+  const DynamicLinkClient();
 
-  final EspressoCashClient _ecClient = EspressoCashClient(sign: (data) async => null);
+  Future<Uri> unshortenLink(Uri shortLink) async {
+    //TODO
+    final client = await EspressoCashClient.create(
+      baseUrl: 'grpc-demo.espressocash.com',
+      walletAddress: '',
+      sign: (_) async => '',
+    );
 
-  Future<Uri> unshortenLink(Uri shortLink) => _ecClient
-      .unshortenLink(UnshortenLinkRequestDto(shortLink: shortLink.toString()))
-      .then((e) => Uri.parse(e.fullLink));
+    final response = await client.expandLink(
+      UnshortenLinkRequestDto(shortLink: shortLink.toString()),
+    );
+
+    return Uri.parse(response.fullLink);
+  }
 }

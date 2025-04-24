@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -12,7 +12,6 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../config.dart';
 import '../../../data/db/db.dart';
 import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
@@ -418,7 +417,6 @@ class OffRampOrderService implements Disposable {
       receiverAccount: receiver.toBase58(),
       amount: (await amount).value,
       referenceAccount: null,
-      cluster: apiCluster,
     );
     final response = await _client.createDirectPayment(dto);
 
@@ -426,7 +424,7 @@ class OffRampOrderService implements Disposable {
   }
 
   Future<OffRampOrderRowsCompanion> _createScalexTx({required String partnerOrderId}) async {
-    final dto = ScalexWithdrawRequestDto(orderId: partnerOrderId, cluster: apiCluster);
+    final dto = ScalexWithdrawRequestDto(orderId: partnerOrderId);
     final response = await _client.createScalexWithdraw(dto);
 
     return _signAndUpdateRow(encodedTx: response.transaction, slot: response.slot);

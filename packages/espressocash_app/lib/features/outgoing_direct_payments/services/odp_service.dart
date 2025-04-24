@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../config.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
@@ -87,7 +86,6 @@ class ODPService {
         receiverAccount: receiver.toBase58(),
         referenceAccount: reference?.toBase58(),
         amount: amount.value,
-        cluster: apiCluster,
       );
       final response = await _client.createDirectPayment(dto);
       final tx = await response

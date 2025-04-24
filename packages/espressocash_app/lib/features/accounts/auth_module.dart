@@ -1,7 +1,6 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 import 'auth_scope.dart';
@@ -21,13 +20,13 @@ abstract class AuthModule {
   ECWallet wallet(MyAccount account) => account.wallet;
 
   @LazySingleton(scope: authScope)
-  EspressoCashClient ecClient(ECWallet wallet) => EspressoCashClient(
-    sign:
-        (data) async => (
-          signature: await wallet
-              .sign([Uint8List.fromList(utf8.encode(data))]) //
-              .then((value) => value.first.toBase58()),
-          publicKey: wallet.publicKey.toBase58(),
-        ),
+  Future<EspressoCashClient> ecClient(ECWallet wallet) => EspressoCashClient.create(
+    baseUrl: 'grpc-demo.espressocash.com', //TODO
+    walletAddress: wallet.publicKey.toBase58(),
+    sign: (data) async {
+      final signature = await wallet.sign([Uint8List.fromList(data.toList())]);
+
+      return signature.first.toBase58();
+    },
   );
 }

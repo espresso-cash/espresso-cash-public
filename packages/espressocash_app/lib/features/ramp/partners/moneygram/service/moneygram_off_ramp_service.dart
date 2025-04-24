@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -641,13 +641,13 @@ class MoneygramOffRampOrderService implements Disposable {
 
     final amount = CryptoAmount(value: order.bridgeAmount ?? 0, cryptoCurrency: Currency.usdc);
 
-    final refundAmount = await _ecClient
-        .calculateMoneygramFee(
-          MoneygramFeeRequestDto(type: RampTypeDto.onRamp, amount: amount.decimal.toString()),
-        )
-        .then(
-          (e) => Amount.fromDecimal(value: Decimal.parse(e.totalAmount), currency: Currency.usdc),
-        );
+    // final refundAmount = await _ecClient
+    //     .calculateMoneygramFee(
+    //       MoneygramFeeRequestDto(type: RampTypeDto.onRamp, amount: amount.decimal.toString()),
+    //     )
+    //     .then(
+    //       (e) => Amount.fromDecimal(value: Decimal.parse(e.totalAmount), currency: Currency.usdc),
+    //     );
 
     final bridgeTx = await _ecClient
         .swapToSolana(
@@ -666,7 +666,7 @@ class MoneygramOffRampOrderService implements Disposable {
         : OffRampOrderRowsCompanion(
           stellarTxHash: Value(hash),
           status: const Value(OffRampOrderStatus.waitingForRefundBridge),
-          refundAmount: Value(refundAmount.value),
+          refundAmount: Value(refundAmount.value), //TODO
         );
   }
 

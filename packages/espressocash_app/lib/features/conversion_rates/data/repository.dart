@@ -4,7 +4,7 @@ import 'package:async/async.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart' hide map;
 import 'package:drift/drift.dart';
-import 'package:espressocash_api/espressocash_api.dart' hide JupiterPriceClient;
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';

@@ -1,7 +1,7 @@
 // ignore_for_file: avoid-wildcard-cases-with-enums
 
 import 'package:dio/dio.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
