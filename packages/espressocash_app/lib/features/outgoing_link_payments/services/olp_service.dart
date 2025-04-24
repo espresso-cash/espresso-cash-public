@@ -12,7 +12,6 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../config.dart';
 import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
@@ -150,7 +149,6 @@ class OLPService implements Disposable {
         senderAccount: account.address,
         escrowAccount: escrowAccount.address,
         amount: amount.value,
-        cluster: apiCluster,
       );
 
       final response = await _ecClient.createPaymentEc(dto);
@@ -176,7 +174,6 @@ class OLPService implements Disposable {
       final dto = CancelPaymentRequestDto(
         senderAccount: account.address,
         escrowAccount: escrow.address,
-        cluster: apiCluster,
       );
 
       final response = await _ecClient.cancelPaymentEc(dto);

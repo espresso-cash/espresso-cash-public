@@ -666,7 +666,8 @@ class MoneygramOffRampOrderService implements Disposable {
         : OffRampOrderRowsCompanion(
           stellarTxHash: Value(hash),
           status: const Value(OffRampOrderStatus.waitingForRefundBridge),
-          refundAmount: Value(refundAmount.value), //TODO
+          // refundAmount: Value(refundAmount.value), //TODO
+          refundAmount: Value(amount.value), //TOD
         );
   }
 

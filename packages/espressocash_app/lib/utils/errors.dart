@@ -47,9 +47,9 @@ extension DioErrorExt on DioException {
     if (data is! Map<String, dynamic>) return null;
 
     try {
-      final error = EspressoCashException.fromJson(data); //TODO errors
+      // final error = EspressoCashException.fromJson(data); //TODO errors
 
-      return error.error;
+      // return error.error;
     } on Object {
       return null;
     }
