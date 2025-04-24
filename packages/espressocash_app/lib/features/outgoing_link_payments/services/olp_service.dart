@@ -78,7 +78,7 @@ class OLPService implements Disposable {
 
             case OLPStatusTxFailure():
             case OLPStatusCancelTxFailure():
-            case OLPStatusTxConfirmed(): //TODO
+            case OLPStatusTxConfirmed():
               return null;
           }
         })
