@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:ec_client_dart/ec_client_dart.dart';
@@ -19,7 +20,7 @@ abstract class AuthModule {
   @Singleton(scope: authScope)
   ECWallet wallet(MyAccount account) => account.wallet;
 
-  @Singleton(scope: authScope)
+  @Singleton(scope: authScope, dispose: disposeEcClient)
   Future<EspressoCashClient> ecClient(ECWallet wallet) => EspressoCashClient.create(
     walletAddress: wallet.publicKey.toBase58(),
     sign: (data) async {
@@ -29,3 +30,5 @@ abstract class AuthModule {
     },
   );
 }
+
+FutureOr<void> disposeEcClient(EspressoCashClient client) => client.dispose();
