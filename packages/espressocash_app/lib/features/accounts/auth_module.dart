@@ -19,7 +19,7 @@ abstract class AuthModule {
   @Singleton(scope: authScope)
   ECWallet wallet(MyAccount account) => account.wallet;
 
-  @LazySingleton(scope: authScope)
+  @Singleton(scope: authScope)
   Future<EspressoCashClient> ecClient(ECWallet wallet) => EspressoCashClient.create(
     walletAddress: wallet.publicKey.toBase58(),
     sign: (data) async {
