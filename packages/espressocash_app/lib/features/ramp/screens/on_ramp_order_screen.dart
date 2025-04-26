@@ -306,11 +306,11 @@ class _Timeline extends StatelessWidget {
       subtitle: context.formatDate(created),
     );
 
-    final isScalexBrij = partner == RampPartner.scalexBrij;
+    final isBrij = partner == RampPartner.brij;
     final brijAmountArriving = CpTimelineItem(title: context.l10n.scalexBrijOnrampArriving);
 
     final amountReceived =
-        isScalexBrij
+        isBrij
             ? brijAmountArriving
             : CpTimelineItem(
               title: context.l10n.onRampDepositReceived,
