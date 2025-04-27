@@ -47,8 +47,6 @@ enum RampPartner {
     ],
   ),
 
-  scalex(title: 'Scalex', minimumAmount: r'$5', paymentMethods: [PaymentMethod.bank]),
-
   moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []),
 
   brij(
@@ -56,13 +54,6 @@ enum RampPartner {
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
     partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
-  ),
-
-  scalexBrij(
-    title: 'Scalex (via BRIJ)',
-    minimumAmount: r'$5',
-    paymentMethods: [PaymentMethod.bank],
-    partnerPK: '342yN5YEX6bgGaTCuprVquFXhpZ8twyPzBo5kMZWQpDQ',
   );
 
   const RampPartner({
@@ -92,9 +83,6 @@ extension RampPartnerAssets on RampPartner {
         return Assets.brands.coinflow;
       case RampPartner.guardarian:
         return Assets.brands.guardarian;
-      case RampPartner.scalex:
-      case RampPartner.scalexBrij:
-        return Assets.brands.scalex;
       case RampPartner.moneygram:
         return Assets.brands.moneygram;
       case RampPartner.brij:
