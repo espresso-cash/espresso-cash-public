@@ -153,19 +153,24 @@ class ILPService implements Disposable {
         try {
           final receiveAmount = await _getUsdcAmount(status.tx.id);
 
+          int? feeValue;
+          try {
+            if (status.tx.containsAta) {
+              feeValue = await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee);
+            }
+          } on Exception {
+            // ignore
+          }
+
           final fee =
-              status.tx.containsAta
-                  ? await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee)
+              feeValue != null
+                  ? CryptoAmount(value: feeValue, cryptoCurrency: Currency.usdc)
                   : null;
 
           _refreshBalance();
           _analytics.singleLinkReceived(amount: receiveAmount?.decimal);
 
-          return ILPStatus.success(
-            tx: status.tx,
-            receiveAmount: receiveAmount,
-            fee: fee?.let((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc)),
-          );
+          return ILPStatus.success(tx: status.tx, receiveAmount: receiveAmount, fee: fee);
         } on Object {
           return null;
         }

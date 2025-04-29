@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:dio/dio.dart';
 import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
@@ -212,8 +211,9 @@ class OLPService implements Disposable {
     } on Exception catch (error) {
       TxFailureReason reason = TxFailureReason.creatingFailure;
 
-      if (error is DioException &&
-          error.toEspressoCashError() == EspressoCashError.insufficientFunds) {
+      final ecError = error.toEspressoCashError();
+
+      if (ecError == EspressoCashError.insufficientFunds) {
         reason = TxFailureReason.insufficientFunds;
       }
 
