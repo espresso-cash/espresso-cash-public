@@ -126,7 +126,6 @@ flutter:
     - assets/tokens/
     - assets/partners/
     - assets/partners/moneygram/
-    - assets/partners/scalex/
     - assets/partners/coinflow/
     - assets/partners/coinflow/static/
     - assets/partners/coinflow/static/js/

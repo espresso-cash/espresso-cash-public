@@ -55,7 +55,7 @@ class _BankInfoItem extends StatelessWidget {
       decoration: const ShapeDecoration(color: CpColors.blackGreyColor, shape: StadiumBorder()),
       child: ListTile(
         title: Text(
-          '${bankInfo.bankName} - $countryName',
+          '${bankInfo.bankCode} - $countryName',
           style: const TextStyle(fontSize: 17, color: Colors.white, fontWeight: FontWeight.w700),
         ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.white),

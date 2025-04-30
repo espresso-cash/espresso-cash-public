@@ -380,11 +380,11 @@ class _Timeline extends StatelessWidget {
       title:
           isMoneygramOrder ? context.l10n.moneygramCashAvailable : context.l10n.offRampWithdrawSent,
     );
-    final isScalexBrij = order.partner == RampPartner.scalexBrij;
+    final isBrij = order.partner == RampPartner.brij;
     final brijAmountArriving = CpTimelineItem(title: context.l10n.scalexBrijOfframpArriving);
 
     final paymentSuccess =
-        isScalexBrij
+        isBrij
             ? brijAmountArriving
             : CpTimelineItem(
               title: context.l10n.offRampWithdrawReceived,

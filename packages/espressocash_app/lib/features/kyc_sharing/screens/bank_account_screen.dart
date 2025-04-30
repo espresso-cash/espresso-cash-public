@@ -86,7 +86,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
 
     _bankAccountNumberController.text = widget.initialBankInfo?.accountNumber ?? '';
 
-    final initialBank = scalexBanks.firstWhereOrNull(
+    final initialBank = ngBanks.firstWhereOrNull(
       (bank) => bank.code == widget.initialBankInfo?.bankCode,
     );
 

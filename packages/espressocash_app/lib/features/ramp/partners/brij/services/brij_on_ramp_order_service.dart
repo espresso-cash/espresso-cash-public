@@ -37,7 +37,7 @@ class BrijOnRampOrderService implements Disposable {
     final query = _db.select(_db.onRampOrderRows)..where(
       (tbl) =>
           tbl.status.isNotInValues([OnRampOrderStatus.completed, OnRampOrderStatus.failure]) &
-          tbl.partner.isInValues([RampPartner.brij, RampPartner.scalexBrij]),
+          tbl.partner.isInValues([RampPartner.brij]),
     );
 
     final orders = await query.get();
@@ -46,13 +46,11 @@ class BrijOnRampOrderService implements Disposable {
       switch (order.partner) {
         case RampPartner.kado:
         case RampPartner.coinflow:
-        case RampPartner.scalex:
         case RampPartner.guardarian:
         case RampPartner.rampNetwork:
         case RampPartner.moneygram:
           continue;
         case RampPartner.brij:
-        case RampPartner.scalexBrij:
           _subscribe(order.id);
       }
     }
