@@ -133,6 +133,8 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
   }
 
   Future<String> _initiateSwapToSolana(CryptoAmount amount) async {
+    await _ecClient.fundXlmRequest(FundXlmRequestDto(accountId: _stellarWallet.address));
+
     final bridgeTx = await _ecClient
         .swapToSolana(
           SwapToSolanaRequestDto(
