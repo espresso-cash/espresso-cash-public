@@ -115,6 +115,14 @@ class ILPService implements Disposable {
     }
 
     try {
+      final fee = await _ecClient
+          .getIncomingEscrowPaymentQuote(
+            IncomingEscrowPaymentQuoteRequestDto(receiverAccount: _wallet.address),
+          )
+          .then((it) => CryptoAmount(value: it.fee, cryptoCurrency: Currency.usdc));
+
+      print(fee); // TODOadd to state
+
       final tx = await _txSender.send(status.tx, minContextSlot: status.slot);
 
       final ILPStatus? newStatus = tx.map(
@@ -153,24 +161,11 @@ class ILPService implements Disposable {
         try {
           final receiveAmount = await _getUsdcAmount(status.tx.id);
 
-          int? feeValue;
-          try {
-            if (status.tx.containsAta) {
-              feeValue = await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee);
-            }
-          } on Exception {
-            // ignore
-          }
-
-          final fee =
-              feeValue != null
-                  ? CryptoAmount(value: feeValue, cryptoCurrency: Currency.usdc)
-                  : null;
-
           _refreshBalance();
           _analytics.singleLinkReceived(amount: receiveAmount?.decimal);
 
-          return ILPStatus.success(tx: status.tx, receiveAmount: receiveAmount, fee: fee);
+          //todo get from state
+          return ILPStatus.success(tx: status.tx, receiveAmount: receiveAmount, fee: null);
         } on Object {
           return null;
         }
