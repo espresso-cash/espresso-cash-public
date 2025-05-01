@@ -562,8 +562,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "38757547617029e51e07fba32c7c419b1d0c1133"
-      resolved-ref: "38757547617029e51e07fba32c7c419b1d0c1133"
+      ref: a519e0fae0ac269011d79941d01a99f1dbf8787f
+      resolved-ref: a519e0fae0ac269011d79941d01a99f1dbf8787f
       url: "https://github.com/espresso-cash/ec-client-dart"
     source: git
     version: "1.0.0"

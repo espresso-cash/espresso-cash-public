@@ -23,7 +23,8 @@ sealed class ILPStatus with _$ILPStatus {
   const factory ILPStatus.txCreated(SignedTx tx, {required BigInt slot}) = ILPStatusTxCreated;
 
   /// Tx is successfully sent.
-  const factory ILPStatus.txSent(SignedTx tx, {required BigInt slot}) = ILPStatusTxSent;
+  const factory ILPStatus.txSent(SignedTx tx, {required BigInt slot, required CryptoAmount? fee}) =
+      ILPStatusTxSent;
 
   /// Final state. Tx is successfully confirmed and payment is claimed.
   const factory ILPStatus.success({

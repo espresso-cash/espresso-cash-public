@@ -115,18 +115,14 @@ class ILPService implements Disposable {
     }
 
     try {
-      final fee = await _ecClient
-          .getIncomingEscrowPaymentQuote(
-            IncomingEscrowPaymentQuoteRequestDto(receiverAccount: _wallet.address),
-          )
-          .then((it) => CryptoAmount(value: it.fee, cryptoCurrency: Currency.usdc));
-
-      print(fee); // TODOadd to state
+      final fee = await _ecClient.getIncomingEscrowPaymentQuote().then(
+        (it) => CryptoAmount(value: it.fee, cryptoCurrency: Currency.usdc),
+      );
 
       final tx = await _txSender.send(status.tx, minContextSlot: status.slot);
 
       final ILPStatus? newStatus = tx.map(
-        sent: (_) => ILPStatus.txSent(status.tx, slot: status.slot),
+        sent: (_) => ILPStatus.txSent(status.tx, slot: status.slot, fee: fee),
         invalidBlockhash:
             (_) => const ILPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
         failure: (it) => ILPStatus.txFailure(reason: it.reason),
@@ -164,8 +160,7 @@ class ILPService implements Disposable {
           _refreshBalance();
           _analytics.singleLinkReceived(amount: receiveAmount?.decimal);
 
-          //todo get from state
-          return ILPStatus.success(tx: status.tx, receiveAmount: receiveAmount, fee: null);
+          return ILPStatus.success(tx: status.tx, receiveAmount: receiveAmount, fee: status.fee);
         } on Object {
           return null;
         }
@@ -230,10 +225,4 @@ class ILPService implements Disposable {
   Future<void> onDispose() async {
     await Future.wait(_subscriptions.values.map((it) => it.cancel()));
   }
-}
-
-extension on SignedTx {
-  bool get containsAta => decompileMessage().let(
-    (m) => m.instructions.any((ix) => ix.programId == AssociatedTokenAccountProgram.id),
-  );
 }

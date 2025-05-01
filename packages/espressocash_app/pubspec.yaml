@@ -29,7 +29,7 @@ dependencies:
   ec_client_dart:
     git:
       url: https://github.com/espresso-cash/ec-client-dart
-      ref: b82c457b4b32b200326c8df408e47d53447e307a
+      ref: a519e0fae0ac269011d79941d01a99f1dbf8787f
   ethereum_addresses: ^1.0.2
   face_camera: ^0.1.2
   fast_immutable_collections: ^10.2.2
