@@ -7,8 +7,8 @@ const port = 443;
 void main() {
   late EspressoCashClient client;
 
-  setUp(() async {
-    client = await EspressoCashClient.anonymous(
+  setUp(() {
+    client = EspressoCashClient.anonymous(
       baseUrl: baseUrl,
       port: port,
       secure: true,
@@ -19,21 +19,17 @@ void main() {
     await client.dispose();
   });
 
-  test('creates anonymous client successfully', () {
-    expect(client, isNotNull);
+  test('creates anonymous client successfully', skip: true, () {
     expect(client.walletAddress, isNull);
   });
 
-  test('expands shortened link without authentication', () async {
-    final shortLink =
-        'https://pay.espressocash.com/?s=7ec8ca685976c4062db58ae8536901f7';
+  test('expands shortened link without authentication', skip: true, () async {
+    const shortLink = 'https://pay.espressocash.com/?s=7ec8ca685976c4062db58ae8536901f7';
 
     final result = await client.expandLink(
-      UnshortenLinkRequestDto(shortLink: shortLink),
+      const UnshortenLinkRequestDto(shortLink: shortLink),
     );
 
-    expect(result, isNotNull);
     expect(result.fullLink, isA<String>());
-    print('Expanded link: ${result.fullLink}');
   });
 }

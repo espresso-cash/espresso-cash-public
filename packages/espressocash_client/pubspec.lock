@@ -369,14 +369,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.9.0"
-  lints:
-    dependency: "direct dev"
-    description:
-      name: lints
-      sha256: c35bb79562d980e9a453fc715854e1ed39e24e7d0297a880ef54e17f9874a9d7
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.1.1"
   logging:
     dependency: transitive
     description:
@@ -401,6 +393,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.16.0"
+  mews_pedantic:
+    dependency: "direct dev"
+    description:
+      name: mews_pedantic
+      sha256: afc6bf16a225c0d332005ed6419d3d6843adecb5cb0f8362060c5ec0a8c57a02
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.37.0"
   mime:
     dependency: transitive
     description:
@@ -698,4 +698,4 @@ packages:
     source: hosted
     version: "3.1.3"
 sdks:
-  dart: ">=3.6.0 <4.0.0"
+  dart: ">=3.7.0 <4.0.0"

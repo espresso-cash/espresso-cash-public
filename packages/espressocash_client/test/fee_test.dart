@@ -17,6 +17,7 @@ void main() {
       port: port,
       sign: (message) async {
         final signedMessage = await walletKeyPair.sign(message);
+
         return signedMessage.toBase58();
       },
       walletAddress: walletKeyPair.address,

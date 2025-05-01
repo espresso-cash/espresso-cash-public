@@ -20,6 +20,7 @@ void main() {
       port: port,
       sign: (message) async {
         final signedMessage = await senderKeyPair.sign(message);
+
         return signedMessage.toBase58();
       },
       walletAddress: senderKeyPair.address,
@@ -39,8 +40,6 @@ void main() {
     );
 
     final response = await client.createPaymentEc(request);
-
-    print(response.transaction);
 
     expect(response, isA<CreatePaymentResponseDto>());
     expect(response.transaction, isNotEmpty);

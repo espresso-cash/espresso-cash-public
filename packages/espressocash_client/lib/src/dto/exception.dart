@@ -13,19 +13,22 @@ class EspressoCashException implements Exception {
     final message = error.message?.toLowerCase() ?? '';
 
     if (message.contains('invalid escrow account')) {
-      return EspressoCashException(
-          error: EspressoCashError.invalidEscrowAccount);
+      return const EspressoCashException(
+        error: EspressoCashError.invalidEscrowAccount,
+      );
     } else if (message.contains('insufficient funds')) {
-      return EspressoCashException(error: EspressoCashError.insufficientFunds);
+      return const EspressoCashException(error: EspressoCashError.insufficientFunds);
     } else if (message.contains('ambassador already assigned')) {
-      return EspressoCashException(
-          error: EspressoCashError.ambassadorAlreadyAssigned);
+      return const EspressoCashException(
+        error: EspressoCashError.ambassadorAlreadyAssigned,
+      );
     } else if (message.contains('user is not ambassador')) {
-      return EspressoCashException(
-          error: EspressoCashError.userIsNotAmbassador);
+      return const EspressoCashException(
+        error: EspressoCashError.userIsNotAmbassador,
+      );
     }
 
-    return EspressoCashException(error: EspressoCashError.genericError);
+    return const EspressoCashException(error: EspressoCashError.genericError);
   }
 }
 

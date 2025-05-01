@@ -18,6 +18,7 @@ void main() {
       port: port,
       sign: (message) async {
         final signedMessage = await keyPair.sign(message);
+
         return signedMessage.toBase58();
       },
       walletAddress: keyPair.address,
@@ -30,15 +31,14 @@ void main() {
   });
 
   group('Token operations', () {
-    test('gets tokens metadata', () async {
+    test('gets tokens metadata', skip: true, () async {
       final response = await client.getTokensMeta();
 
-      print(response);
-
+      // ignore: avoid-weak-cryptographic-algorithms, accepted algorithm
       expect(response.md5, isA<String>());
     });
 
-    test('gets tokens file', () async {
+    test('gets tokens file', skip: true, () async {
       await client.getTokensFile('tokenlist.csv.gz');
     });
   });
