@@ -37,8 +37,7 @@ class MoneygramChallengeSignRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MoneygramChallengeSignRequest',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'signedTx')
     ..hasRequiredFields = false;
@@ -46,28 +45,24 @@ class MoneygramChallengeSignRequest extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  MoneygramChallengeSignRequest clone() =>
-      MoneygramChallengeSignRequest()..mergeFromMessage(this);
+  MoneygramChallengeSignRequest clone() => MoneygramChallengeSignRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  MoneygramChallengeSignRequest copyWith(
-          void Function(MoneygramChallengeSignRequest) updates) =>
-      super.copyWith(
-              (message) => updates(message as MoneygramChallengeSignRequest))
+  MoneygramChallengeSignRequest copyWith(void Function(MoneygramChallengeSignRequest) updates) =>
+      super.copyWith((message) => updates(message as MoneygramChallengeSignRequest))
           as MoneygramChallengeSignRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static MoneygramChallengeSignRequest create() =>
-      MoneygramChallengeSignRequest._();
+  static MoneygramChallengeSignRequest create() => MoneygramChallengeSignRequest._();
   MoneygramChallengeSignRequest createEmptyInstance() => create();
   static $pb.PbList<MoneygramChallengeSignRequest> createRepeated() =>
       $pb.PbList<MoneygramChallengeSignRequest>();
   @$core.pragma('dart2js:noInline')
-  static MoneygramChallengeSignRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MoneygramChallengeSignRequest>(create);
+  static MoneygramChallengeSignRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramChallengeSignRequest>(create);
   static MoneygramChallengeSignRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -103,8 +98,7 @@ class MoneygramChallengeSignResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MoneygramChallengeSignResponse',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'signedTx')
     ..hasRequiredFields = false;
@@ -117,17 +111,14 @@ class MoneygramChallengeSignResponse extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  MoneygramChallengeSignResponse copyWith(
-          void Function(MoneygramChallengeSignResponse) updates) =>
-      super.copyWith(
-              (message) => updates(message as MoneygramChallengeSignResponse))
+  MoneygramChallengeSignResponse copyWith(void Function(MoneygramChallengeSignResponse) updates) =>
+      super.copyWith((message) => updates(message as MoneygramChallengeSignResponse))
           as MoneygramChallengeSignResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static MoneygramChallengeSignResponse create() =>
-      MoneygramChallengeSignResponse._();
+  static MoneygramChallengeSignResponse create() => MoneygramChallengeSignResponse._();
   MoneygramChallengeSignResponse createEmptyInstance() => create();
   static $pb.PbList<MoneygramChallengeSignResponse> createRepeated() =>
       $pb.PbList<MoneygramChallengeSignResponse>();
@@ -175,10 +166,8 @@ class SwapToSolanaRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'SwapToSolanaRequest',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SwapToSolanaRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'stellarSenderAddress')
     ..aOS(2, _omitFieldNames ? '' : 'solanaReceiverAddress')
@@ -193,19 +182,17 @@ class SwapToSolanaRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   SwapToSolanaRequest copyWith(void Function(SwapToSolanaRequest) updates) =>
-      super.copyWith((message) => updates(message as SwapToSolanaRequest))
-          as SwapToSolanaRequest;
+      super.copyWith((message) => updates(message as SwapToSolanaRequest)) as SwapToSolanaRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static SwapToSolanaRequest create() => SwapToSolanaRequest._();
   SwapToSolanaRequest createEmptyInstance() => create();
-  static $pb.PbList<SwapToSolanaRequest> createRepeated() =>
-      $pb.PbList<SwapToSolanaRequest>();
+  static $pb.PbList<SwapToSolanaRequest> createRepeated() => $pb.PbList<SwapToSolanaRequest>();
   @$core.pragma('dart2js:noInline')
-  static SwapToSolanaRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<SwapToSolanaRequest>(create);
+  static SwapToSolanaRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SwapToSolanaRequest>(create);
   static SwapToSolanaRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -275,10 +262,8 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'SwapToStellarRequest',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SwapToStellarRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'solanaSenderAddress')
     ..aOS(2, _omitFieldNames ? '' : 'stellarReceiverAddress')
@@ -289,25 +274,22 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  SwapToStellarRequest clone() =>
-      SwapToStellarRequest()..mergeFromMessage(this);
+  SwapToStellarRequest clone() => SwapToStellarRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   SwapToStellarRequest copyWith(void Function(SwapToStellarRequest) updates) =>
-      super.copyWith((message) => updates(message as SwapToStellarRequest))
-          as SwapToStellarRequest;
+      super.copyWith((message) => updates(message as SwapToStellarRequest)) as SwapToStellarRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static SwapToStellarRequest create() => SwapToStellarRequest._();
   SwapToStellarRequest createEmptyInstance() => create();
-  static $pb.PbList<SwapToStellarRequest> createRepeated() =>
-      $pb.PbList<SwapToStellarRequest>();
+  static $pb.PbList<SwapToStellarRequest> createRepeated() => $pb.PbList<SwapToStellarRequest>();
   @$core.pragma('dart2js:noInline')
-  static SwapToStellarRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<SwapToStellarRequest>(create);
+  static SwapToStellarRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SwapToStellarRequest>(create);
   static SwapToStellarRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -379,8 +361,7 @@ class MoneygramSwapResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MoneygramSwapResponse',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'encodedTx')
     ..hasRequiredFields = false;
@@ -388,13 +369,11 @@ class MoneygramSwapResponse extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  MoneygramSwapResponse clone() =>
-      MoneygramSwapResponse()..mergeFromMessage(this);
+  MoneygramSwapResponse clone() => MoneygramSwapResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  MoneygramSwapResponse copyWith(
-          void Function(MoneygramSwapResponse) updates) =>
+  MoneygramSwapResponse copyWith(void Function(MoneygramSwapResponse) updates) =>
       super.copyWith((message) => updates(message as MoneygramSwapResponse))
           as MoneygramSwapResponse;
 
@@ -403,11 +382,10 @@ class MoneygramSwapResponse extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static MoneygramSwapResponse create() => MoneygramSwapResponse._();
   MoneygramSwapResponse createEmptyInstance() => create();
-  static $pb.PbList<MoneygramSwapResponse> createRepeated() =>
-      $pb.PbList<MoneygramSwapResponse>();
+  static $pb.PbList<MoneygramSwapResponse> createRepeated() => $pb.PbList<MoneygramSwapResponse>();
   @$core.pragma('dart2js:noInline')
-  static MoneygramSwapResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MoneygramSwapResponse>(create);
+  static MoneygramSwapResponse getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramSwapResponse>(create);
   static MoneygramSwapResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -445,10 +423,8 @@ class MoneygramFeeRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'MoneygramFeeRequest',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MoneygramFeeRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'amount')
     ..e<RampType>(2, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE,
@@ -465,19 +441,17 @@ class MoneygramFeeRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   MoneygramFeeRequest copyWith(void Function(MoneygramFeeRequest) updates) =>
-      super.copyWith((message) => updates(message as MoneygramFeeRequest))
-          as MoneygramFeeRequest;
+      super.copyWith((message) => updates(message as MoneygramFeeRequest)) as MoneygramFeeRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static MoneygramFeeRequest create() => MoneygramFeeRequest._();
   MoneygramFeeRequest createEmptyInstance() => create();
-  static $pb.PbList<MoneygramFeeRequest> createRepeated() =>
-      $pb.PbList<MoneygramFeeRequest>();
+  static $pb.PbList<MoneygramFeeRequest> createRepeated() => $pb.PbList<MoneygramFeeRequest>();
   @$core.pragma('dart2js:noInline')
-  static MoneygramFeeRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MoneygramFeeRequest>(create);
+  static MoneygramFeeRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramFeeRequest>(create);
   static MoneygramFeeRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -535,10 +509,8 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'MoneygramFeeResponse',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MoneygramFeeResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'bridgeFee')
     ..aOS(2, _omitFieldNames ? '' : 'moneygramFee')
@@ -549,25 +521,22 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  MoneygramFeeResponse clone() =>
-      MoneygramFeeResponse()..mergeFromMessage(this);
+  MoneygramFeeResponse clone() => MoneygramFeeResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   MoneygramFeeResponse copyWith(void Function(MoneygramFeeResponse) updates) =>
-      super.copyWith((message) => updates(message as MoneygramFeeResponse))
-          as MoneygramFeeResponse;
+      super.copyWith((message) => updates(message as MoneygramFeeResponse)) as MoneygramFeeResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static MoneygramFeeResponse create() => MoneygramFeeResponse._();
   MoneygramFeeResponse createEmptyInstance() => create();
-  static $pb.PbList<MoneygramFeeResponse> createRepeated() =>
-      $pb.PbList<MoneygramFeeResponse>();
+  static $pb.PbList<MoneygramFeeResponse> createRepeated() => $pb.PbList<MoneygramFeeResponse>();
   @$core.pragma('dart2js:noInline')
-  static MoneygramFeeResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MoneygramFeeResponse>(create);
+  static MoneygramFeeResponse getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramFeeResponse>(create);
   static MoneygramFeeResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -637,10 +606,8 @@ class FundXlmRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'FundXlmRequest',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'FundXlmRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'accountId')
     ..hasRequiredFields = false;
@@ -653,19 +620,17 @@ class FundXlmRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   FundXlmRequest copyWith(void Function(FundXlmRequest) updates) =>
-      super.copyWith((message) => updates(message as FundXlmRequest))
-          as FundXlmRequest;
+      super.copyWith((message) => updates(message as FundXlmRequest)) as FundXlmRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FundXlmRequest create() => FundXlmRequest._();
   FundXlmRequest createEmptyInstance() => create();
-  static $pb.PbList<FundXlmRequest> createRepeated() =>
-      $pb.PbList<FundXlmRequest>();
+  static $pb.PbList<FundXlmRequest> createRepeated() => $pb.PbList<FundXlmRequest>();
   @$core.pragma('dart2js:noInline')
-  static FundXlmRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<FundXlmRequest>(create);
+  static FundXlmRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FundXlmRequest>(create);
   static FundXlmRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -691,10 +656,8 @@ class FundXlmResponse extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'FundXlmResponse',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'FundXlmResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
@@ -706,22 +669,19 @@ class FundXlmResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   FundXlmResponse copyWith(void Function(FundXlmResponse) updates) =>
-      super.copyWith((message) => updates(message as FundXlmResponse))
-          as FundXlmResponse;
+      super.copyWith((message) => updates(message as FundXlmResponse)) as FundXlmResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FundXlmResponse create() => FundXlmResponse._();
   FundXlmResponse createEmptyInstance() => create();
-  static $pb.PbList<FundXlmResponse> createRepeated() =>
-      $pb.PbList<FundXlmResponse>();
+  static $pb.PbList<FundXlmResponse> createRepeated() => $pb.PbList<FundXlmResponse>();
   @$core.pragma('dart2js:noInline')
-  static FundXlmResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<FundXlmResponse>(create);
+  static FundXlmResponse getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FundXlmResponse>(create);
   static FundXlmResponse? _defaultInstance;
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

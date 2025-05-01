@@ -21,24 +21,21 @@ mixin _$AmbassadorReferralRequestDto {
   /// Create a copy of AmbassadorReferralRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AmbassadorReferralRequestDtoCopyWith<AmbassadorReferralRequestDto>
-      get copyWith => throw _privateConstructorUsedError;
+  $AmbassadorReferralRequestDtoCopyWith<AmbassadorReferralRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AmbassadorReferralRequestDtoCopyWith<$Res> {
   factory $AmbassadorReferralRequestDtoCopyWith(
-          AmbassadorReferralRequestDto value,
-          $Res Function(AmbassadorReferralRequestDto) then) =
-      _$AmbassadorReferralRequestDtoCopyWithImpl<$Res,
-          AmbassadorReferralRequestDto>;
+          AmbassadorReferralRequestDto value, $Res Function(AmbassadorReferralRequestDto) then) =
+      _$AmbassadorReferralRequestDtoCopyWithImpl<$Res, AmbassadorReferralRequestDto>;
   @useResult
   $Res call({String ambassadorAddress});
 }
 
 /// @nodoc
-class _$AmbassadorReferralRequestDtoCopyWithImpl<$Res,
-        $Val extends AmbassadorReferralRequestDto>
+class _$AmbassadorReferralRequestDtoCopyWithImpl<$Res, $Val extends AmbassadorReferralRequestDto>
     implements $AmbassadorReferralRequestDtoCopyWith<$Res> {
   _$AmbassadorReferralRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -66,8 +63,7 @@ class _$AmbassadorReferralRequestDtoCopyWithImpl<$Res,
 /// @nodoc
 abstract class _$$AmbassadorReferralRequestDtoImplCopyWith<$Res>
     implements $AmbassadorReferralRequestDtoCopyWith<$Res> {
-  factory _$$AmbassadorReferralRequestDtoImplCopyWith(
-          _$AmbassadorReferralRequestDtoImpl value,
+  factory _$$AmbassadorReferralRequestDtoImplCopyWith(_$AmbassadorReferralRequestDtoImpl value,
           $Res Function(_$AmbassadorReferralRequestDtoImpl) then) =
       __$$AmbassadorReferralRequestDtoImplCopyWithImpl<$Res>;
   @override
@@ -77,11 +73,9 @@ abstract class _$$AmbassadorReferralRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$AmbassadorReferralRequestDtoImplCopyWithImpl<$Res>
-    extends _$AmbassadorReferralRequestDtoCopyWithImpl<$Res,
-        _$AmbassadorReferralRequestDtoImpl>
+    extends _$AmbassadorReferralRequestDtoCopyWithImpl<$Res, _$AmbassadorReferralRequestDtoImpl>
     implements _$$AmbassadorReferralRequestDtoImplCopyWith<$Res> {
-  __$$AmbassadorReferralRequestDtoImplCopyWithImpl(
-      _$AmbassadorReferralRequestDtoImpl _value,
+  __$$AmbassadorReferralRequestDtoImplCopyWithImpl(_$AmbassadorReferralRequestDtoImpl _value,
       $Res Function(_$AmbassadorReferralRequestDtoImpl) _then)
       : super(_value, _then);
 
@@ -103,8 +97,7 @@ class __$$AmbassadorReferralRequestDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AmbassadorReferralRequestDtoImpl
-    implements _AmbassadorReferralRequestDto {
+class _$AmbassadorReferralRequestDtoImpl implements _AmbassadorReferralRequestDto {
   const _$AmbassadorReferralRequestDtoImpl({required this.ambassadorAddress});
 
   @override
@@ -132,16 +125,13 @@ class _$AmbassadorReferralRequestDtoImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$AmbassadorReferralRequestDtoImplCopyWith<
-          _$AmbassadorReferralRequestDtoImpl>
-      get copyWith => __$$AmbassadorReferralRequestDtoImplCopyWithImpl<
-          _$AmbassadorReferralRequestDtoImpl>(this, _$identity);
+  _$$AmbassadorReferralRequestDtoImplCopyWith<_$AmbassadorReferralRequestDtoImpl> get copyWith =>
+      __$$AmbassadorReferralRequestDtoImplCopyWithImpl<_$AmbassadorReferralRequestDtoImpl>(
+          this, _$identity);
 }
 
-abstract class _AmbassadorReferralRequestDto
-    implements AmbassadorReferralRequestDto {
-  const factory _AmbassadorReferralRequestDto(
-          {required final String ambassadorAddress}) =
+abstract class _AmbassadorReferralRequestDto implements AmbassadorReferralRequestDto {
+  const factory _AmbassadorReferralRequestDto({required final String ambassadorAddress}) =
       _$AmbassadorReferralRequestDtoImpl;
 
   @override
@@ -151,9 +141,8 @@ abstract class _AmbassadorReferralRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AmbassadorReferralRequestDtoImplCopyWith<
-          _$AmbassadorReferralRequestDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$AmbassadorReferralRequestDtoImplCopyWith<_$AmbassadorReferralRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -163,23 +152,21 @@ mixin _$AmbassadorStatsResponseDto {
   /// Create a copy of AmbassadorStatsResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AmbassadorStatsResponseDtoCopyWith<AmbassadorStatsResponseDto>
-      get copyWith => throw _privateConstructorUsedError;
+  $AmbassadorStatsResponseDtoCopyWith<AmbassadorStatsResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AmbassadorStatsResponseDtoCopyWith<$Res> {
-  factory $AmbassadorStatsResponseDtoCopyWith(AmbassadorStatsResponseDto value,
-          $Res Function(AmbassadorStatsResponseDto) then) =
-      _$AmbassadorStatsResponseDtoCopyWithImpl<$Res,
-          AmbassadorStatsResponseDto>;
+  factory $AmbassadorStatsResponseDtoCopyWith(
+          AmbassadorStatsResponseDto value, $Res Function(AmbassadorStatsResponseDto) then) =
+      _$AmbassadorStatsResponseDtoCopyWithImpl<$Res, AmbassadorStatsResponseDto>;
   @useResult
   $Res call({int referralCount});
 }
 
 /// @nodoc
-class _$AmbassadorStatsResponseDtoCopyWithImpl<$Res,
-        $Val extends AmbassadorStatsResponseDto>
+class _$AmbassadorStatsResponseDtoCopyWithImpl<$Res, $Val extends AmbassadorStatsResponseDto>
     implements $AmbassadorStatsResponseDtoCopyWith<$Res> {
   _$AmbassadorStatsResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -207,8 +194,7 @@ class _$AmbassadorStatsResponseDtoCopyWithImpl<$Res,
 /// @nodoc
 abstract class _$$AmbassadorStatsResponseDtoImplCopyWith<$Res>
     implements $AmbassadorStatsResponseDtoCopyWith<$Res> {
-  factory _$$AmbassadorStatsResponseDtoImplCopyWith(
-          _$AmbassadorStatsResponseDtoImpl value,
+  factory _$$AmbassadorStatsResponseDtoImplCopyWith(_$AmbassadorStatsResponseDtoImpl value,
           $Res Function(_$AmbassadorStatsResponseDtoImpl) then) =
       __$$AmbassadorStatsResponseDtoImplCopyWithImpl<$Res>;
   @override
@@ -218,11 +204,9 @@ abstract class _$$AmbassadorStatsResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$AmbassadorStatsResponseDtoImplCopyWithImpl<$Res>
-    extends _$AmbassadorStatsResponseDtoCopyWithImpl<$Res,
-        _$AmbassadorStatsResponseDtoImpl>
+    extends _$AmbassadorStatsResponseDtoCopyWithImpl<$Res, _$AmbassadorStatsResponseDtoImpl>
     implements _$$AmbassadorStatsResponseDtoImplCopyWith<$Res> {
-  __$$AmbassadorStatsResponseDtoImplCopyWithImpl(
-      _$AmbassadorStatsResponseDtoImpl _value,
+  __$$AmbassadorStatsResponseDtoImplCopyWithImpl(_$AmbassadorStatsResponseDtoImpl _value,
       $Res Function(_$AmbassadorStatsResponseDtoImpl) _then)
       : super(_value, _then);
 
@@ -272,15 +256,14 @@ class _$AmbassadorStatsResponseDtoImpl implements _AmbassadorStatsResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$AmbassadorStatsResponseDtoImplCopyWith<_$AmbassadorStatsResponseDtoImpl>
-      get copyWith => __$$AmbassadorStatsResponseDtoImplCopyWithImpl<
-          _$AmbassadorStatsResponseDtoImpl>(this, _$identity);
+  _$$AmbassadorStatsResponseDtoImplCopyWith<_$AmbassadorStatsResponseDtoImpl> get copyWith =>
+      __$$AmbassadorStatsResponseDtoImplCopyWithImpl<_$AmbassadorStatsResponseDtoImpl>(
+          this, _$identity);
 }
 
-abstract class _AmbassadorStatsResponseDto
-    implements AmbassadorStatsResponseDto {
-  const factory _AmbassadorStatsResponseDto(
-      {required final int referralCount}) = _$AmbassadorStatsResponseDtoImpl;
+abstract class _AmbassadorStatsResponseDto implements AmbassadorStatsResponseDto {
+  const factory _AmbassadorStatsResponseDto({required final int referralCount}) =
+      _$AmbassadorStatsResponseDtoImpl;
 
   @override
   int get referralCount;
@@ -289,8 +272,8 @@ abstract class _AmbassadorStatsResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AmbassadorStatsResponseDtoImplCopyWith<_$AmbassadorStatsResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$AmbassadorStatsResponseDtoImplCopyWith<_$AmbassadorStatsResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -301,17 +284,15 @@ mixin _$AmbassadorVerificationResponseDto {
   /// Create a copy of AmbassadorVerificationResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AmbassadorVerificationResponseDtoCopyWith<AmbassadorVerificationResponseDto>
-      get copyWith => throw _privateConstructorUsedError;
+  $AmbassadorVerificationResponseDtoCopyWith<AmbassadorVerificationResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AmbassadorVerificationResponseDtoCopyWith<$Res> {
-  factory $AmbassadorVerificationResponseDtoCopyWith(
-          AmbassadorVerificationResponseDto value,
+  factory $AmbassadorVerificationResponseDtoCopyWith(AmbassadorVerificationResponseDto value,
           $Res Function(AmbassadorVerificationResponseDto) then) =
-      _$AmbassadorVerificationResponseDtoCopyWithImpl<$Res,
-          AmbassadorVerificationResponseDto>;
+      _$AmbassadorVerificationResponseDtoCopyWithImpl<$Res, AmbassadorVerificationResponseDto>;
   @useResult
   $Res call({bool isAmbassador, bool isReferral});
 }
@@ -393,8 +374,7 @@ class __$$AmbassadorVerificationResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AmbassadorVerificationResponseDtoImpl
-    implements _AmbassadorVerificationResponseDto {
+class _$AmbassadorVerificationResponseDtoImpl implements _AmbassadorVerificationResponseDto {
   const _$AmbassadorVerificationResponseDtoImpl(
       {required this.isAmbassador, required this.isReferral});
 
@@ -413,10 +393,8 @@ class _$AmbassadorVerificationResponseDtoImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AmbassadorVerificationResponseDtoImpl &&
-            (identical(other.isAmbassador, isAmbassador) ||
-                other.isAmbassador == isAmbassador) &&
-            (identical(other.isReferral, isReferral) ||
-                other.isReferral == isReferral));
+            (identical(other.isAmbassador, isAmbassador) || other.isAmbassador == isAmbassador) &&
+            (identical(other.isReferral, isReferral) || other.isReferral == isReferral));
   }
 
   @override
@@ -427,17 +405,15 @@ class _$AmbassadorVerificationResponseDtoImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$AmbassadorVerificationResponseDtoImplCopyWith<
-          _$AmbassadorVerificationResponseDtoImpl>
+  _$$AmbassadorVerificationResponseDtoImplCopyWith<_$AmbassadorVerificationResponseDtoImpl>
       get copyWith => __$$AmbassadorVerificationResponseDtoImplCopyWithImpl<
           _$AmbassadorVerificationResponseDtoImpl>(this, _$identity);
 }
 
-abstract class _AmbassadorVerificationResponseDto
-    implements AmbassadorVerificationResponseDto {
+abstract class _AmbassadorVerificationResponseDto implements AmbassadorVerificationResponseDto {
   const factory _AmbassadorVerificationResponseDto(
-          {required final bool isAmbassador, required final bool isReferral}) =
-      _$AmbassadorVerificationResponseDtoImpl;
+      {required final bool isAmbassador,
+      required final bool isReferral}) = _$AmbassadorVerificationResponseDtoImpl;
 
   @override
   bool get isAmbassador;
@@ -448,7 +424,6 @@ abstract class _AmbassadorVerificationResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AmbassadorVerificationResponseDtoImplCopyWith<
-          _$AmbassadorVerificationResponseDtoImpl>
+  _$$AmbassadorVerificationResponseDtoImplCopyWith<_$AmbassadorVerificationResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -31,8 +31,8 @@ const GetRatesResponse$json = {
 };
 
 /// Descriptor for `GetRatesResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getRatesResponseDescriptor = $convert
-    .base64Decode('ChBHZXRSYXRlc1Jlc3BvbnNlEhIKBHVzZGMYASABKAJSBHVzZGM=');
+final $typed_data.Uint8List getRatesResponseDescriptor =
+    $convert.base64Decode('ChBHZXRSYXRlc1Jlc3BvbnNlEhIKBHVzZGMYASABKAJSBHVzZGM=');
 
 @$core.Deprecated('Use getFiatRatesRequestDescriptor instead')
 const GetFiatRatesRequest$json = {
@@ -44,9 +44,9 @@ const GetFiatRatesRequest$json = {
 };
 
 /// Descriptor for `GetFiatRatesRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getFiatRatesRequestDescriptor = $convert.base64Decode(
-    'ChNHZXRGaWF0UmF0ZXNSZXF1ZXN0EhIKBGJhc2UYASABKAlSBGJhc2USFgoGdGFyZ2V0GAIgAS'
-    'gJUgZ0YXJnZXQ=');
+final $typed_data.Uint8List getFiatRatesRequestDescriptor = $convert
+    .base64Decode('ChNHZXRGaWF0UmF0ZXNSZXF1ZXN0EhIKBGJhc2UYASABKAlSBGJhc2USFgoGdGFyZ2V0GAIgAS'
+        'gJUgZ0YXJnZXQ=');
 
 @$core.Deprecated('Use getFiatRatesResponseDescriptor instead')
 const GetFiatRatesResponse$json = {
@@ -57,5 +57,5 @@ const GetFiatRatesResponse$json = {
 };
 
 /// Descriptor for `GetFiatRatesResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getFiatRatesResponseDescriptor = $convert
-    .base64Decode('ChRHZXRGaWF0UmF0ZXNSZXNwb25zZRISCgRyYXRlGAEgASgCUgRyYXRl');
+final $typed_data.Uint8List getFiatRatesResponseDescriptor =
+    $convert.base64Decode('ChRHZXRGaWF0UmF0ZXNSZXNwb25zZRISCgRyYXRlGAEgASgCUgRyYXRl');

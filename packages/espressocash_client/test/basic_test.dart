@@ -55,8 +55,7 @@ void main() {
   });
 
   test('unshortens link', skip: true, () async {
-    const shortLink =
-        'https://pay.espressocash.com/?s=7ec8ca685976c4062db58ae8536901f7';
+    const shortLink = 'https://pay.espressocash.com/?s=7ec8ca685976c4062db58ae8536901f7';
 
     final result = await client.expandLink(
       const UnshortenLinkRequestDto(shortLink: shortLink),

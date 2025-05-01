@@ -39,10 +39,8 @@ class LoginRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'LoginRequest',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.users.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'LoginRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.users.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'walletAddress')
     ..aOS(2, _omitFieldNames ? '' : 'proofSignature')
@@ -57,19 +55,17 @@ class LoginRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   LoginRequest copyWith(void Function(LoginRequest) updates) =>
-      super.copyWith((message) => updates(message as LoginRequest))
-          as LoginRequest;
+      super.copyWith((message) => updates(message as LoginRequest)) as LoginRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static LoginRequest create() => LoginRequest._();
   LoginRequest createEmptyInstance() => create();
-  static $pb.PbList<LoginRequest> createRepeated() =>
-      $pb.PbList<LoginRequest>();
+  static $pb.PbList<LoginRequest> createRepeated() => $pb.PbList<LoginRequest>();
   @$core.pragma('dart2js:noInline')
-  static LoginRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<LoginRequest>(create);
+  static LoginRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginRequest>(create);
   static LoginRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -127,10 +123,8 @@ class LoginResponse extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'LoginResponse',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.users.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'LoginResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.users.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'token')
     ..hasRequiredFields = false;
@@ -143,19 +137,17 @@ class LoginResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   LoginResponse copyWith(void Function(LoginResponse) updates) =>
-      super.copyWith((message) => updates(message as LoginResponse))
-          as LoginResponse;
+      super.copyWith((message) => updates(message as LoginResponse)) as LoginResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static LoginResponse create() => LoginResponse._();
   LoginResponse createEmptyInstance() => create();
-  static $pb.PbList<LoginResponse> createRepeated() =>
-      $pb.PbList<LoginResponse>();
+  static $pb.PbList<LoginResponse> createRepeated() => $pb.PbList<LoginResponse>();
   @$core.pragma('dart2js:noInline')
-  static LoginResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<LoginResponse>(create);
+  static LoginResponse getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginResponse>(create);
   static LoginResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -191,8 +183,7 @@ class GetWalletProofMessageRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetWalletProofMessageRequest',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.users.v1'),
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.users.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'walletAddress')
     ..hasRequiredFields = false;
@@ -200,28 +191,24 @@ class GetWalletProofMessageRequest extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetWalletProofMessageRequest clone() =>
-      GetWalletProofMessageRequest()..mergeFromMessage(this);
+  GetWalletProofMessageRequest clone() => GetWalletProofMessageRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  GetWalletProofMessageRequest copyWith(
-          void Function(GetWalletProofMessageRequest) updates) =>
-      super.copyWith(
-              (message) => updates(message as GetWalletProofMessageRequest))
+  GetWalletProofMessageRequest copyWith(void Function(GetWalletProofMessageRequest) updates) =>
+      super.copyWith((message) => updates(message as GetWalletProofMessageRequest))
           as GetWalletProofMessageRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetWalletProofMessageRequest create() =>
-      GetWalletProofMessageRequest._();
+  static GetWalletProofMessageRequest create() => GetWalletProofMessageRequest._();
   GetWalletProofMessageRequest createEmptyInstance() => create();
   static $pb.PbList<GetWalletProofMessageRequest> createRepeated() =>
       $pb.PbList<GetWalletProofMessageRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetWalletProofMessageRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<GetWalletProofMessageRequest>(create);
+  static GetWalletProofMessageRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetWalletProofMessageRequest>(create);
   static GetWalletProofMessageRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -257,8 +244,7 @@ class GetWalletProofMessageResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetWalletProofMessageResponse',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.users.v1'),
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.users.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'message')
     ..hasRequiredFields = false;
@@ -266,28 +252,24 @@ class GetWalletProofMessageResponse extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetWalletProofMessageResponse clone() =>
-      GetWalletProofMessageResponse()..mergeFromMessage(this);
+  GetWalletProofMessageResponse clone() => GetWalletProofMessageResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  GetWalletProofMessageResponse copyWith(
-          void Function(GetWalletProofMessageResponse) updates) =>
-      super.copyWith(
-              (message) => updates(message as GetWalletProofMessageResponse))
+  GetWalletProofMessageResponse copyWith(void Function(GetWalletProofMessageResponse) updates) =>
+      super.copyWith((message) => updates(message as GetWalletProofMessageResponse))
           as GetWalletProofMessageResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetWalletProofMessageResponse create() =>
-      GetWalletProofMessageResponse._();
+  static GetWalletProofMessageResponse create() => GetWalletProofMessageResponse._();
   GetWalletProofMessageResponse createEmptyInstance() => create();
   static $pb.PbList<GetWalletProofMessageResponse> createRepeated() =>
       $pb.PbList<GetWalletProofMessageResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetWalletProofMessageResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<GetWalletProofMessageResponse>(create);
+  static GetWalletProofMessageResponse getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetWalletProofMessageResponse>(create);
   static GetWalletProofMessageResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -321,10 +303,8 @@ class UpdateCountryRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'UpdateCountryRequest',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.users.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateCountryRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.users.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'countryCode')
     ..hasRequiredFields = false;
@@ -332,25 +312,22 @@ class UpdateCountryRequest extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  UpdateCountryRequest clone() =>
-      UpdateCountryRequest()..mergeFromMessage(this);
+  UpdateCountryRequest clone() => UpdateCountryRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   UpdateCountryRequest copyWith(void Function(UpdateCountryRequest) updates) =>
-      super.copyWith((message) => updates(message as UpdateCountryRequest))
-          as UpdateCountryRequest;
+      super.copyWith((message) => updates(message as UpdateCountryRequest)) as UpdateCountryRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static UpdateCountryRequest create() => UpdateCountryRequest._();
   UpdateCountryRequest createEmptyInstance() => create();
-  static $pb.PbList<UpdateCountryRequest> createRepeated() =>
-      $pb.PbList<UpdateCountryRequest>();
+  static $pb.PbList<UpdateCountryRequest> createRepeated() => $pb.PbList<UpdateCountryRequest>();
   @$core.pragma('dart2js:noInline')
-  static UpdateCountryRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<UpdateCountryRequest>(create);
+  static UpdateCountryRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateCountryRequest>(create);
   static UpdateCountryRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -378,21 +355,18 @@ class UpdateCountryResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'UpdateCountryResponse',
-      package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'espressocash.api.users.v1'),
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.users.v1'),
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  UpdateCountryResponse clone() =>
-      UpdateCountryResponse()..mergeFromMessage(this);
+  UpdateCountryResponse clone() => UpdateCountryResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  UpdateCountryResponse copyWith(
-          void Function(UpdateCountryResponse) updates) =>
+  UpdateCountryResponse copyWith(void Function(UpdateCountryResponse) updates) =>
       super.copyWith((message) => updates(message as UpdateCountryResponse))
           as UpdateCountryResponse;
 
@@ -401,14 +375,12 @@ class UpdateCountryResponse extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static UpdateCountryResponse create() => UpdateCountryResponse._();
   UpdateCountryResponse createEmptyInstance() => create();
-  static $pb.PbList<UpdateCountryResponse> createRepeated() =>
-      $pb.PbList<UpdateCountryResponse>();
+  static $pb.PbList<UpdateCountryResponse> createRepeated() => $pb.PbList<UpdateCountryResponse>();
   @$core.pragma('dart2js:noInline')
-  static UpdateCountryResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<UpdateCountryResponse>(create);
+  static UpdateCountryResponse getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateCountryResponse>(create);
   static UpdateCountryResponse? _defaultInstance;
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

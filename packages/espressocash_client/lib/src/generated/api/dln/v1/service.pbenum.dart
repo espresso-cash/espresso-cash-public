@@ -23,17 +23,13 @@ class DlnOrderStatus extends $pb.ProtobufEnum {
   static const DlnOrderStatus DLN_ORDER_STATUS_SENT_UNLOCK =
       DlnOrderStatus._(3, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_SENT_UNLOCK');
   static const DlnOrderStatus DLN_ORDER_STATUS_ORDER_CANCELLED =
-      DlnOrderStatus._(
-          4, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_ORDER_CANCELLED');
+      DlnOrderStatus._(4, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_ORDER_CANCELLED');
   static const DlnOrderStatus DLN_ORDER_STATUS_SENT_ORDER_CANCEL =
-      DlnOrderStatus._(
-          5, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_SENT_ORDER_CANCEL');
+      DlnOrderStatus._(5, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_SENT_ORDER_CANCEL');
   static const DlnOrderStatus DLN_ORDER_STATUS_CLAIMED_UNLOCK =
-      DlnOrderStatus._(
-          6, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_CLAIMED_UNLOCK');
+      DlnOrderStatus._(6, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_CLAIMED_UNLOCK');
   static const DlnOrderStatus DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL =
-      DlnOrderStatus._(
-          7, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL');
+      DlnOrderStatus._(7, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL');
 
   static const $core.List<DlnOrderStatus> values = <DlnOrderStatus>[
     DLN_ORDER_STATUS_NONE,
@@ -46,8 +42,7 @@ class DlnOrderStatus extends $pb.ProtobufEnum {
     DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL,
   ];
 
-  static final $core.Map<$core.int, DlnOrderStatus> _byValue =
-      $pb.ProtobufEnum.initByValue(values);
+  static final $core.Map<$core.int, DlnOrderStatus> _byValue = $pb.ProtobufEnum.initByValue(values);
   static DlnOrderStatus? valueOf($core.int value) => _byValue[value];
 
   const DlnOrderStatus._($core.int v, $core.String n) : super(v, n);

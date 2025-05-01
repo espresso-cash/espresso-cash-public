@@ -31,8 +31,8 @@ const GetTokensMetaResponse$json = {
 };
 
 /// Descriptor for `GetTokensMetaResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getTokensMetaResponseDescriptor = $convert
-    .base64Decode('ChVHZXRUb2tlbnNNZXRhUmVzcG9uc2USEAoDbWQ1GAEgASgJUgNtZDU=');
+final $typed_data.Uint8List getTokensMetaResponseDescriptor =
+    $convert.base64Decode('ChVHZXRUb2tlbnNNZXRhUmVzcG9uc2USEAoDbWQ1GAEgASgJUgNtZDU=');
 
 @$core.Deprecated('Use getTokensFileRequestDescriptor instead')
 const GetTokensFileRequest$json = {
@@ -53,5 +53,4 @@ const GetTokensFileResponse$json = {
 
 /// Descriptor for `GetTokensFileResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getTokensFileResponseDescriptor =
-    $convert.base64Decode(
-        'ChVHZXRUb2tlbnNGaWxlUmVzcG9uc2USGAoHY29udGVudBgBIAEoDFIHY29udGVudA==');
+    $convert.base64Decode('ChVHZXRUb2tlbnNGaWxlUmVzcG9uc2USGAoHY29udGVudBgBIAEoDFIHY29udGVudA==');
