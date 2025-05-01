@@ -21,50 +21,58 @@ export 'service.pb.dart';
 
 @$pb.GrpcServiceName('espressocash.api.dln.v1.DlnService')
 class DlnServiceClient extends $grpc.Client {
-  static final _$getOutgoingQuote = $grpc.ClientMethod<$2.GetOutgoingQuoteRequest, $2.GetOutgoingQuoteResponse>(
-      '/espressocash.api.dln.v1.DlnService/GetOutgoingQuote',
-      ($2.GetOutgoingQuoteRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $2.GetOutgoingQuoteResponse.fromBuffer(value));
-  static final _$getIncomingQuote = $grpc.ClientMethod<$2.GetIncomingQuoteRequest, $2.GetIncomingQuoteResponse>(
-      '/espressocash.api.dln.v1.DlnService/GetIncomingQuote',
-      ($2.GetIncomingQuoteRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $2.GetIncomingQuoteResponse.fromBuffer(value));
+  static final _$getOutgoingQuote =
+      $grpc.ClientMethod<$2.GetOutgoingQuoteRequest, $2.GetOutgoingQuoteResponse>(
+          '/espressocash.api.dln.v1.DlnService/GetOutgoingQuote',
+          ($2.GetOutgoingQuoteRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $2.GetOutgoingQuoteResponse.fromBuffer(value));
+  static final _$getIncomingQuote =
+      $grpc.ClientMethod<$2.GetIncomingQuoteRequest, $2.GetIncomingQuoteResponse>(
+          '/espressocash.api.dln.v1.DlnService/GetIncomingQuote',
+          ($2.GetIncomingQuoteRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $2.GetIncomingQuoteResponse.fromBuffer(value));
   static final _$getOrderId = $grpc.ClientMethod<$2.GetOrderIdRequest, $2.GetOrderIdResponse>(
       '/espressocash.api.dln.v1.DlnService/GetOrderId',
       ($2.GetOrderIdRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $2.GetOrderIdResponse.fromBuffer(value));
-  static final _$getOrderStatus = $grpc.ClientMethod<$2.GetOrderStatusRequest, $2.GetOrderStatusResponse>(
-      '/espressocash.api.dln.v1.DlnService/GetOrderStatus',
-      ($2.GetOrderStatusRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $2.GetOrderStatusResponse.fromBuffer(value));
+  static final _$getOrderStatus =
+      $grpc.ClientMethod<$2.GetOrderStatusRequest, $2.GetOrderStatusResponse>(
+          '/espressocash.api.dln.v1.DlnService/GetOrderStatus',
+          ($2.GetOrderStatusRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $2.GetOrderStatusResponse.fromBuffer(value));
   static final _$getGasFees = $grpc.ClientMethod<$2.GetGasFeesRequest, $2.GetGasFeesResponse>(
       '/espressocash.api.dln.v1.DlnService/GetGasFees',
       ($2.GetGasFeesRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $2.GetGasFeesResponse.fromBuffer(value));
 
   DlnServiceClient($grpc.ClientChannel channel,
-      {$grpc.CallOptions? options,
-      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options,
-        interceptors: interceptors);
+      {$grpc.CallOptions? options, $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$2.GetOutgoingQuoteResponse> getOutgoingQuote($2.GetOutgoingQuoteRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$2.GetOutgoingQuoteResponse> getOutgoingQuote(
+      $2.GetOutgoingQuoteRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getOutgoingQuote, request, options: options);
   }
 
-  $grpc.ResponseFuture<$2.GetIncomingQuoteResponse> getIncomingQuote($2.GetIncomingQuoteRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$2.GetIncomingQuoteResponse> getIncomingQuote(
+      $2.GetIncomingQuoteRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getIncomingQuote, request, options: options);
   }
 
-  $grpc.ResponseFuture<$2.GetOrderIdResponse> getOrderId($2.GetOrderIdRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$2.GetOrderIdResponse> getOrderId($2.GetOrderIdRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getOrderId, request, options: options);
   }
 
-  $grpc.ResponseFuture<$2.GetOrderStatusResponse> getOrderStatus($2.GetOrderStatusRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$2.GetOrderStatusResponse> getOrderStatus($2.GetOrderStatusRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getOrderStatus, request, options: options);
   }
 
-  $grpc.ResponseFuture<$2.GetGasFeesResponse> getGasFees($2.GetGasFeesRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$2.GetGasFeesResponse> getGasFees($2.GetGasFeesRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getGasFees, request, options: options);
   }
 }
@@ -111,29 +119,39 @@ abstract class DlnServiceBase extends $grpc.Service {
         ($2.GetGasFeesResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$2.GetOutgoingQuoteResponse> getOutgoingQuote_Pre($grpc.ServiceCall call, $async.Future<$2.GetOutgoingQuoteRequest> request) async {
+  $async.Future<$2.GetOutgoingQuoteResponse> getOutgoingQuote_Pre(
+      $grpc.ServiceCall call, $async.Future<$2.GetOutgoingQuoteRequest> request) async {
     return getOutgoingQuote(call, await request);
   }
 
-  $async.Future<$2.GetIncomingQuoteResponse> getIncomingQuote_Pre($grpc.ServiceCall call, $async.Future<$2.GetIncomingQuoteRequest> request) async {
+  $async.Future<$2.GetIncomingQuoteResponse> getIncomingQuote_Pre(
+      $grpc.ServiceCall call, $async.Future<$2.GetIncomingQuoteRequest> request) async {
     return getIncomingQuote(call, await request);
   }
 
-  $async.Future<$2.GetOrderIdResponse> getOrderId_Pre($grpc.ServiceCall call, $async.Future<$2.GetOrderIdRequest> request) async {
+  $async.Future<$2.GetOrderIdResponse> getOrderId_Pre(
+      $grpc.ServiceCall call, $async.Future<$2.GetOrderIdRequest> request) async {
     return getOrderId(call, await request);
   }
 
-  $async.Future<$2.GetOrderStatusResponse> getOrderStatus_Pre($grpc.ServiceCall call, $async.Future<$2.GetOrderStatusRequest> request) async {
+  $async.Future<$2.GetOrderStatusResponse> getOrderStatus_Pre(
+      $grpc.ServiceCall call, $async.Future<$2.GetOrderStatusRequest> request) async {
     return getOrderStatus(call, await request);
   }
 
-  $async.Future<$2.GetGasFeesResponse> getGasFees_Pre($grpc.ServiceCall call, $async.Future<$2.GetGasFeesRequest> request) async {
+  $async.Future<$2.GetGasFeesResponse> getGasFees_Pre(
+      $grpc.ServiceCall call, $async.Future<$2.GetGasFeesRequest> request) async {
     return getGasFees(call, await request);
   }
 
-  $async.Future<$2.GetOutgoingQuoteResponse> getOutgoingQuote($grpc.ServiceCall call, $2.GetOutgoingQuoteRequest request);
-  $async.Future<$2.GetIncomingQuoteResponse> getIncomingQuote($grpc.ServiceCall call, $2.GetIncomingQuoteRequest request);
-  $async.Future<$2.GetOrderIdResponse> getOrderId($grpc.ServiceCall call, $2.GetOrderIdRequest request);
-  $async.Future<$2.GetOrderStatusResponse> getOrderStatus($grpc.ServiceCall call, $2.GetOrderStatusRequest request);
-  $async.Future<$2.GetGasFeesResponse> getGasFees($grpc.ServiceCall call, $2.GetGasFeesRequest request);
+  $async.Future<$2.GetOutgoingQuoteResponse> getOutgoingQuote(
+      $grpc.ServiceCall call, $2.GetOutgoingQuoteRequest request);
+  $async.Future<$2.GetIncomingQuoteResponse> getIncomingQuote(
+      $grpc.ServiceCall call, $2.GetIncomingQuoteRequest request);
+  $async.Future<$2.GetOrderIdResponse> getOrderId(
+      $grpc.ServiceCall call, $2.GetOrderIdRequest request);
+  $async.Future<$2.GetOrderStatusResponse> getOrderStatus(
+      $grpc.ServiceCall call, $2.GetOrderStatusRequest request);
+  $async.Future<$2.GetGasFeesResponse> getGasFees(
+      $grpc.ServiceCall call, $2.GetGasFeesRequest request);
 }

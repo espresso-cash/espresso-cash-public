@@ -27,16 +27,15 @@ mixin _$CryptoRateResponseDto {
 
 /// @nodoc
 abstract class $CryptoRateResponseDtoCopyWith<$Res> {
-  factory $CryptoRateResponseDtoCopyWith(CryptoRateResponseDto value,
-          $Res Function(CryptoRateResponseDto) then) =
+  factory $CryptoRateResponseDtoCopyWith(
+          CryptoRateResponseDto value, $Res Function(CryptoRateResponseDto) then) =
       _$CryptoRateResponseDtoCopyWithImpl<$Res, CryptoRateResponseDto>;
   @useResult
   $Res call({double usdc});
 }
 
 /// @nodoc
-class _$CryptoRateResponseDtoCopyWithImpl<$Res,
-        $Val extends CryptoRateResponseDto>
+class _$CryptoRateResponseDtoCopyWithImpl<$Res, $Val extends CryptoRateResponseDto>
     implements $CryptoRateResponseDtoCopyWith<$Res> {
   _$CryptoRateResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -65,8 +64,7 @@ class _$CryptoRateResponseDtoCopyWithImpl<$Res,
 abstract class _$$CryptoRateResponseDtoImplCopyWith<$Res>
     implements $CryptoRateResponseDtoCopyWith<$Res> {
   factory _$$CryptoRateResponseDtoImplCopyWith(
-          _$CryptoRateResponseDtoImpl value,
-          $Res Function(_$CryptoRateResponseDtoImpl) then) =
+          _$CryptoRateResponseDtoImpl value, $Res Function(_$CryptoRateResponseDtoImpl) then) =
       __$$CryptoRateResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -75,11 +73,10 @@ abstract class _$$CryptoRateResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$CryptoRateResponseDtoImplCopyWithImpl<$Res>
-    extends _$CryptoRateResponseDtoCopyWithImpl<$Res,
-        _$CryptoRateResponseDtoImpl>
+    extends _$CryptoRateResponseDtoCopyWithImpl<$Res, _$CryptoRateResponseDtoImpl>
     implements _$$CryptoRateResponseDtoImplCopyWith<$Res> {
-  __$$CryptoRateResponseDtoImplCopyWithImpl(_$CryptoRateResponseDtoImpl _value,
-      $Res Function(_$CryptoRateResponseDtoImpl) _then)
+  __$$CryptoRateResponseDtoImplCopyWithImpl(
+      _$CryptoRateResponseDtoImpl _value, $Res Function(_$CryptoRateResponseDtoImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of CryptoRateResponseDto
@@ -127,14 +124,12 @@ class _$CryptoRateResponseDtoImpl implements _CryptoRateResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CryptoRateResponseDtoImplCopyWith<_$CryptoRateResponseDtoImpl>
-      get copyWith => __$$CryptoRateResponseDtoImplCopyWithImpl<
-          _$CryptoRateResponseDtoImpl>(this, _$identity);
+  _$$CryptoRateResponseDtoImplCopyWith<_$CryptoRateResponseDtoImpl> get copyWith =>
+      __$$CryptoRateResponseDtoImplCopyWithImpl<_$CryptoRateResponseDtoImpl>(this, _$identity);
 }
 
 abstract class _CryptoRateResponseDto implements CryptoRateResponseDto {
-  const factory _CryptoRateResponseDto({required final double usdc}) =
-      _$CryptoRateResponseDtoImpl;
+  const factory _CryptoRateResponseDto({required final double usdc}) = _$CryptoRateResponseDtoImpl;
 
   @override
   double get usdc;
@@ -143,8 +138,8 @@ abstract class _CryptoRateResponseDto implements CryptoRateResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CryptoRateResponseDtoImplCopyWith<_$CryptoRateResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$CryptoRateResponseDtoImplCopyWith<_$CryptoRateResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -202,8 +197,8 @@ class _$FiatRateRequestDtoCopyWithImpl<$Res, $Val extends FiatRateRequestDto>
 /// @nodoc
 abstract class _$$FiatRateRequestDtoImplCopyWith<$Res>
     implements $FiatRateRequestDtoCopyWith<$Res> {
-  factory _$$FiatRateRequestDtoImplCopyWith(_$FiatRateRequestDtoImpl value,
-          $Res Function(_$FiatRateRequestDtoImpl) then) =
+  factory _$$FiatRateRequestDtoImplCopyWith(
+          _$FiatRateRequestDtoImpl value, $Res Function(_$FiatRateRequestDtoImpl) then) =
       __$$FiatRateRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -214,8 +209,8 @@ abstract class _$$FiatRateRequestDtoImplCopyWith<$Res>
 class __$$FiatRateRequestDtoImplCopyWithImpl<$Res>
     extends _$FiatRateRequestDtoCopyWithImpl<$Res, _$FiatRateRequestDtoImpl>
     implements _$$FiatRateRequestDtoImplCopyWith<$Res> {
-  __$$FiatRateRequestDtoImplCopyWithImpl(_$FiatRateRequestDtoImpl _value,
-      $Res Function(_$FiatRateRequestDtoImpl) _then)
+  __$$FiatRateRequestDtoImplCopyWithImpl(
+      _$FiatRateRequestDtoImpl _value, $Res Function(_$FiatRateRequestDtoImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of FiatRateRequestDto
@@ -272,14 +267,12 @@ class _$FiatRateRequestDtoImpl implements _FiatRateRequestDto {
   @override
   @pragma('vm:prefer-inline')
   _$$FiatRateRequestDtoImplCopyWith<_$FiatRateRequestDtoImpl> get copyWith =>
-      __$$FiatRateRequestDtoImplCopyWithImpl<_$FiatRateRequestDtoImpl>(
-          this, _$identity);
+      __$$FiatRateRequestDtoImplCopyWithImpl<_$FiatRateRequestDtoImpl>(this, _$identity);
 }
 
 abstract class _FiatRateRequestDto implements FiatRateRequestDto {
-  const factory _FiatRateRequestDto(
-      {required final String base,
-      required final String target}) = _$FiatRateRequestDtoImpl;
+  const factory _FiatRateRequestDto({required final String base, required final String target}) =
+      _$FiatRateRequestDtoImpl;
 
   @override
   String get base;
@@ -343,8 +336,8 @@ class _$FiatRateResponseDtoCopyWithImpl<$Res, $Val extends FiatRateResponseDto>
 /// @nodoc
 abstract class _$$FiatRateResponseDtoImplCopyWith<$Res>
     implements $FiatRateResponseDtoCopyWith<$Res> {
-  factory _$$FiatRateResponseDtoImplCopyWith(_$FiatRateResponseDtoImpl value,
-          $Res Function(_$FiatRateResponseDtoImpl) then) =
+  factory _$$FiatRateResponseDtoImplCopyWith(
+          _$FiatRateResponseDtoImpl value, $Res Function(_$FiatRateResponseDtoImpl) then) =
       __$$FiatRateResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -355,8 +348,8 @@ abstract class _$$FiatRateResponseDtoImplCopyWith<$Res>
 class __$$FiatRateResponseDtoImplCopyWithImpl<$Res>
     extends _$FiatRateResponseDtoCopyWithImpl<$Res, _$FiatRateResponseDtoImpl>
     implements _$$FiatRateResponseDtoImplCopyWith<$Res> {
-  __$$FiatRateResponseDtoImplCopyWithImpl(_$FiatRateResponseDtoImpl _value,
-      $Res Function(_$FiatRateResponseDtoImpl) _then)
+  __$$FiatRateResponseDtoImplCopyWithImpl(
+      _$FiatRateResponseDtoImpl _value, $Res Function(_$FiatRateResponseDtoImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of FiatRateResponseDto
@@ -405,13 +398,11 @@ class _$FiatRateResponseDtoImpl implements _FiatRateResponseDto {
   @override
   @pragma('vm:prefer-inline')
   _$$FiatRateResponseDtoImplCopyWith<_$FiatRateResponseDtoImpl> get copyWith =>
-      __$$FiatRateResponseDtoImplCopyWithImpl<_$FiatRateResponseDtoImpl>(
-          this, _$identity);
+      __$$FiatRateResponseDtoImplCopyWithImpl<_$FiatRateResponseDtoImpl>(this, _$identity);
 }
 
 abstract class _FiatRateResponseDto implements FiatRateResponseDto {
-  const factory _FiatRateResponseDto({required final double rate}) =
-      _$FiatRateResponseDtoImpl;
+  const factory _FiatRateResponseDto({required final double rate}) = _$FiatRateResponseDtoImpl;
 
   @override
   double get rate;

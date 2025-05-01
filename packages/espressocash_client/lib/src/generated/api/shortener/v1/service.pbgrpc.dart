@@ -31,16 +31,16 @@ class ShortenerServiceClient extends $grpc.Client {
       ($core.List<$core.int> value) => $3.ExpandLinkResponse.fromBuffer(value));
 
   ShortenerServiceClient($grpc.ClientChannel channel,
-      {$grpc.CallOptions? options,
-      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options,
-        interceptors: interceptors);
+      {$grpc.CallOptions? options, $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$3.ShortenLinkResponse> shortenLink($3.ShortenLinkRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$3.ShortenLinkResponse> shortenLink($3.ShortenLinkRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$shortenLink, request, options: options);
   }
 
-  $grpc.ResponseFuture<$3.ExpandLinkResponse> expandLink($3.ExpandLinkRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$3.ExpandLinkResponse> expandLink($3.ExpandLinkRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$expandLink, request, options: options);
   }
 }
@@ -66,14 +66,18 @@ abstract class ShortenerServiceBase extends $grpc.Service {
         ($3.ExpandLinkResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$3.ShortenLinkResponse> shortenLink_Pre($grpc.ServiceCall call, $async.Future<$3.ShortenLinkRequest> request) async {
+  $async.Future<$3.ShortenLinkResponse> shortenLink_Pre(
+      $grpc.ServiceCall call, $async.Future<$3.ShortenLinkRequest> request) async {
     return shortenLink(call, await request);
   }
 
-  $async.Future<$3.ExpandLinkResponse> expandLink_Pre($grpc.ServiceCall call, $async.Future<$3.ExpandLinkRequest> request) async {
+  $async.Future<$3.ExpandLinkResponse> expandLink_Pre(
+      $grpc.ServiceCall call, $async.Future<$3.ExpandLinkRequest> request) async {
     return expandLink(call, await request);
   }
 
-  $async.Future<$3.ShortenLinkResponse> shortenLink($grpc.ServiceCall call, $3.ShortenLinkRequest request);
-  $async.Future<$3.ExpandLinkResponse> expandLink($grpc.ServiceCall call, $3.ExpandLinkRequest request);
+  $async.Future<$3.ShortenLinkResponse> shortenLink(
+      $grpc.ServiceCall call, $3.ShortenLinkRequest request);
+  $async.Future<$3.ExpandLinkResponse> expandLink(
+      $grpc.ServiceCall call, $3.ExpandLinkRequest request);
 }

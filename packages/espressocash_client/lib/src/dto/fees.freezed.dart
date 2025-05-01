@@ -22,24 +22,21 @@ mixin _$DirectPaymentQuoteRequestDto {
   /// Create a copy of DirectPaymentQuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $DirectPaymentQuoteRequestDtoCopyWith<DirectPaymentQuoteRequestDto>
-      get copyWith => throw _privateConstructorUsedError;
+  $DirectPaymentQuoteRequestDtoCopyWith<DirectPaymentQuoteRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $DirectPaymentQuoteRequestDtoCopyWith<$Res> {
   factory $DirectPaymentQuoteRequestDtoCopyWith(
-          DirectPaymentQuoteRequestDto value,
-          $Res Function(DirectPaymentQuoteRequestDto) then) =
-      _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res,
-          DirectPaymentQuoteRequestDto>;
+          DirectPaymentQuoteRequestDto value, $Res Function(DirectPaymentQuoteRequestDto) then) =
+      _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res, DirectPaymentQuoteRequestDto>;
   @useResult
   $Res call({String receiverAccount, int amount});
 }
 
 /// @nodoc
-class _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res,
-        $Val extends DirectPaymentQuoteRequestDto>
+class _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res, $Val extends DirectPaymentQuoteRequestDto>
     implements $DirectPaymentQuoteRequestDtoCopyWith<$Res> {
   _$DirectPaymentQuoteRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -72,8 +69,7 @@ class _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res,
 /// @nodoc
 abstract class _$$DirectPaymentQuoteRequestDtoImplCopyWith<$Res>
     implements $DirectPaymentQuoteRequestDtoCopyWith<$Res> {
-  factory _$$DirectPaymentQuoteRequestDtoImplCopyWith(
-          _$DirectPaymentQuoteRequestDtoImpl value,
+  factory _$$DirectPaymentQuoteRequestDtoImplCopyWith(_$DirectPaymentQuoteRequestDtoImpl value,
           $Res Function(_$DirectPaymentQuoteRequestDtoImpl) then) =
       __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<$Res>;
   @override
@@ -83,11 +79,9 @@ abstract class _$$DirectPaymentQuoteRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<$Res>
-    extends _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res,
-        _$DirectPaymentQuoteRequestDtoImpl>
+    extends _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res, _$DirectPaymentQuoteRequestDtoImpl>
     implements _$$DirectPaymentQuoteRequestDtoImplCopyWith<$Res> {
-  __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl(
-      _$DirectPaymentQuoteRequestDtoImpl _value,
+  __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl(_$DirectPaymentQuoteRequestDtoImpl _value,
       $Res Function(_$DirectPaymentQuoteRequestDtoImpl) _then)
       : super(_value, _then);
 
@@ -114,10 +108,8 @@ class __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DirectPaymentQuoteRequestDtoImpl
-    implements _DirectPaymentQuoteRequestDto {
-  const _$DirectPaymentQuoteRequestDtoImpl(
-      {required this.receiverAccount, required this.amount});
+class _$DirectPaymentQuoteRequestDtoImpl implements _DirectPaymentQuoteRequestDto {
+  const _$DirectPaymentQuoteRequestDtoImpl({required this.receiverAccount, required this.amount});
 
   @override
   final String receiverAccount;
@@ -147,14 +139,12 @@ class _$DirectPaymentQuoteRequestDtoImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$DirectPaymentQuoteRequestDtoImplCopyWith<
-          _$DirectPaymentQuoteRequestDtoImpl>
-      get copyWith => __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<
-          _$DirectPaymentQuoteRequestDtoImpl>(this, _$identity);
+  _$$DirectPaymentQuoteRequestDtoImplCopyWith<_$DirectPaymentQuoteRequestDtoImpl> get copyWith =>
+      __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<_$DirectPaymentQuoteRequestDtoImpl>(
+          this, _$identity);
 }
 
-abstract class _DirectPaymentQuoteRequestDto
-    implements DirectPaymentQuoteRequestDto {
+abstract class _DirectPaymentQuoteRequestDto implements DirectPaymentQuoteRequestDto {
   const factory _DirectPaymentQuoteRequestDto(
       {required final String receiverAccount,
       required final int amount}) = _$DirectPaymentQuoteRequestDtoImpl;
@@ -168,9 +158,8 @@ abstract class _DirectPaymentQuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DirectPaymentQuoteRequestDtoImplCopyWith<
-          _$DirectPaymentQuoteRequestDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$DirectPaymentQuoteRequestDtoImplCopyWith<_$DirectPaymentQuoteRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -181,24 +170,21 @@ mixin _$DirectPaymentQuoteResponseDto {
   /// Create a copy of DirectPaymentQuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $DirectPaymentQuoteResponseDtoCopyWith<DirectPaymentQuoteResponseDto>
-      get copyWith => throw _privateConstructorUsedError;
+  $DirectPaymentQuoteResponseDtoCopyWith<DirectPaymentQuoteResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $DirectPaymentQuoteResponseDtoCopyWith<$Res> {
   factory $DirectPaymentQuoteResponseDtoCopyWith(
-          DirectPaymentQuoteResponseDto value,
-          $Res Function(DirectPaymentQuoteResponseDto) then) =
-      _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res,
-          DirectPaymentQuoteResponseDto>;
+          DirectPaymentQuoteResponseDto value, $Res Function(DirectPaymentQuoteResponseDto) then) =
+      _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res, DirectPaymentQuoteResponseDto>;
   @useResult
   $Res call({int fee, int totalAmount});
 }
 
 /// @nodoc
-class _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res,
-        $Val extends DirectPaymentQuoteResponseDto>
+class _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res, $Val extends DirectPaymentQuoteResponseDto>
     implements $DirectPaymentQuoteResponseDtoCopyWith<$Res> {
   _$DirectPaymentQuoteResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -231,8 +217,7 @@ class _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res,
 /// @nodoc
 abstract class _$$DirectPaymentQuoteResponseDtoImplCopyWith<$Res>
     implements $DirectPaymentQuoteResponseDtoCopyWith<$Res> {
-  factory _$$DirectPaymentQuoteResponseDtoImplCopyWith(
-          _$DirectPaymentQuoteResponseDtoImpl value,
+  factory _$$DirectPaymentQuoteResponseDtoImplCopyWith(_$DirectPaymentQuoteResponseDtoImpl value,
           $Res Function(_$DirectPaymentQuoteResponseDtoImpl) then) =
       __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl<$Res>;
   @override
@@ -242,11 +227,9 @@ abstract class _$$DirectPaymentQuoteResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl<$Res>
-    extends _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res,
-        _$DirectPaymentQuoteResponseDtoImpl>
+    extends _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res, _$DirectPaymentQuoteResponseDtoImpl>
     implements _$$DirectPaymentQuoteResponseDtoImplCopyWith<$Res> {
-  __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl(
-      _$DirectPaymentQuoteResponseDtoImpl _value,
+  __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl(_$DirectPaymentQuoteResponseDtoImpl _value,
       $Res Function(_$DirectPaymentQuoteResponseDtoImpl) _then)
       : super(_value, _then);
 
@@ -273,10 +256,8 @@ class __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DirectPaymentQuoteResponseDtoImpl
-    implements _DirectPaymentQuoteResponseDto {
-  const _$DirectPaymentQuoteResponseDtoImpl(
-      {required this.fee, required this.totalAmount});
+class _$DirectPaymentQuoteResponseDtoImpl implements _DirectPaymentQuoteResponseDto {
+  const _$DirectPaymentQuoteResponseDtoImpl({required this.fee, required this.totalAmount});
 
   @override
   final int fee;
@@ -294,8 +275,7 @@ class _$DirectPaymentQuoteResponseDtoImpl
         (other.runtimeType == runtimeType &&
             other is _$DirectPaymentQuoteResponseDtoImpl &&
             (identical(other.fee, fee) || other.fee == fee) &&
-            (identical(other.totalAmount, totalAmount) ||
-                other.totalAmount == totalAmount));
+            (identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount));
   }
 
   @override
@@ -306,14 +286,12 @@ class _$DirectPaymentQuoteResponseDtoImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$DirectPaymentQuoteResponseDtoImplCopyWith<
-          _$DirectPaymentQuoteResponseDtoImpl>
-      get copyWith => __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl<
-          _$DirectPaymentQuoteResponseDtoImpl>(this, _$identity);
+  _$$DirectPaymentQuoteResponseDtoImplCopyWith<_$DirectPaymentQuoteResponseDtoImpl> get copyWith =>
+      __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl<_$DirectPaymentQuoteResponseDtoImpl>(
+          this, _$identity);
 }
 
-abstract class _DirectPaymentQuoteResponseDto
-    implements DirectPaymentQuoteResponseDto {
+abstract class _DirectPaymentQuoteResponseDto implements DirectPaymentQuoteResponseDto {
   const factory _DirectPaymentQuoteResponseDto(
       {required final int fee,
       required final int totalAmount}) = _$DirectPaymentQuoteResponseDtoImpl;
@@ -327,9 +305,8 @@ abstract class _DirectPaymentQuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DirectPaymentQuoteResponseDtoImplCopyWith<
-          _$DirectPaymentQuoteResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$DirectPaymentQuoteResponseDtoImplCopyWith<_$DirectPaymentQuoteResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -339,24 +316,21 @@ mixin _$EscrowPaymentQuoteResponseDto {
   /// Create a copy of EscrowPaymentQuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $EscrowPaymentQuoteResponseDtoCopyWith<EscrowPaymentQuoteResponseDto>
-      get copyWith => throw _privateConstructorUsedError;
+  $EscrowPaymentQuoteResponseDtoCopyWith<EscrowPaymentQuoteResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $EscrowPaymentQuoteResponseDtoCopyWith<$Res> {
   factory $EscrowPaymentQuoteResponseDtoCopyWith(
-          EscrowPaymentQuoteResponseDto value,
-          $Res Function(EscrowPaymentQuoteResponseDto) then) =
-      _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res,
-          EscrowPaymentQuoteResponseDto>;
+          EscrowPaymentQuoteResponseDto value, $Res Function(EscrowPaymentQuoteResponseDto) then) =
+      _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res, EscrowPaymentQuoteResponseDto>;
   @useResult
   $Res call({int fee});
 }
 
 /// @nodoc
-class _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res,
-        $Val extends EscrowPaymentQuoteResponseDto>
+class _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res, $Val extends EscrowPaymentQuoteResponseDto>
     implements $EscrowPaymentQuoteResponseDtoCopyWith<$Res> {
   _$EscrowPaymentQuoteResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -384,8 +358,7 @@ class _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res,
 /// @nodoc
 abstract class _$$EscrowPaymentQuoteResponseDtoImplCopyWith<$Res>
     implements $EscrowPaymentQuoteResponseDtoCopyWith<$Res> {
-  factory _$$EscrowPaymentQuoteResponseDtoImplCopyWith(
-          _$EscrowPaymentQuoteResponseDtoImpl value,
+  factory _$$EscrowPaymentQuoteResponseDtoImplCopyWith(_$EscrowPaymentQuoteResponseDtoImpl value,
           $Res Function(_$EscrowPaymentQuoteResponseDtoImpl) then) =
       __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl<$Res>;
   @override
@@ -395,11 +368,9 @@ abstract class _$$EscrowPaymentQuoteResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl<$Res>
-    extends _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res,
-        _$EscrowPaymentQuoteResponseDtoImpl>
+    extends _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res, _$EscrowPaymentQuoteResponseDtoImpl>
     implements _$$EscrowPaymentQuoteResponseDtoImplCopyWith<$Res> {
-  __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl(
-      _$EscrowPaymentQuoteResponseDtoImpl _value,
+  __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl(_$EscrowPaymentQuoteResponseDtoImpl _value,
       $Res Function(_$EscrowPaymentQuoteResponseDtoImpl) _then)
       : super(_value, _then);
 
@@ -421,8 +392,7 @@ class __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$EscrowPaymentQuoteResponseDtoImpl
-    implements _EscrowPaymentQuoteResponseDto {
+class _$EscrowPaymentQuoteResponseDtoImpl implements _EscrowPaymentQuoteResponseDto {
   const _$EscrowPaymentQuoteResponseDtoImpl({required this.fee});
 
   @override
@@ -449,14 +419,12 @@ class _$EscrowPaymentQuoteResponseDtoImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$EscrowPaymentQuoteResponseDtoImplCopyWith<
-          _$EscrowPaymentQuoteResponseDtoImpl>
-      get copyWith => __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl<
-          _$EscrowPaymentQuoteResponseDtoImpl>(this, _$identity);
+  _$$EscrowPaymentQuoteResponseDtoImplCopyWith<_$EscrowPaymentQuoteResponseDtoImpl> get copyWith =>
+      __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl<_$EscrowPaymentQuoteResponseDtoImpl>(
+          this, _$identity);
 }
 
-abstract class _EscrowPaymentQuoteResponseDto
-    implements EscrowPaymentQuoteResponseDto {
+abstract class _EscrowPaymentQuoteResponseDto implements EscrowPaymentQuoteResponseDto {
   const factory _EscrowPaymentQuoteResponseDto({required final int fee}) =
       _$EscrowPaymentQuoteResponseDtoImpl;
 
@@ -467,7 +435,6 @@ abstract class _EscrowPaymentQuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$EscrowPaymentQuoteResponseDtoImplCopyWith<
-          _$EscrowPaymentQuoteResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$EscrowPaymentQuoteResponseDtoImplCopyWith<_$EscrowPaymentQuoteResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

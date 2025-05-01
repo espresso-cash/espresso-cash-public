@@ -14,11 +14,12 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class RampType extends $pb.ProtobufEnum {
-  static const RampType RAMP_TYPE_UNSPECIFIED = RampType._(0, _omitEnumNames ? '' : 'RAMP_TYPE_UNSPECIFIED');
+  static const RampType RAMP_TYPE_UNSPECIFIED =
+      RampType._(0, _omitEnumNames ? '' : 'RAMP_TYPE_UNSPECIFIED');
   static const RampType RAMP_TYPE_ON = RampType._(1, _omitEnumNames ? '' : 'RAMP_TYPE_ON');
   static const RampType RAMP_TYPE_OFF = RampType._(2, _omitEnumNames ? '' : 'RAMP_TYPE_OFF');
 
-  static const $core.List<RampType> values = <RampType> [
+  static const $core.List<RampType> values = <RampType>[
     RAMP_TYPE_UNSPECIFIED,
     RAMP_TYPE_ON,
     RAMP_TYPE_OFF,
@@ -29,6 +30,5 @@ class RampType extends $pb.ProtobufEnum {
 
   const RampType._($core.int v, $core.String n) : super(v, n);
 }
-
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

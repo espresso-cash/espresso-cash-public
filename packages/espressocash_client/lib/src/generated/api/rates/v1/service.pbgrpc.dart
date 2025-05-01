@@ -31,16 +31,16 @@ class RateServiceClient extends $grpc.Client {
       ($core.List<$core.int> value) => $0.GetFiatRatesResponse.fromBuffer(value));
 
   RateServiceClient($grpc.ClientChannel channel,
-      {$grpc.CallOptions? options,
-      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options,
-        interceptors: interceptors);
+      {$grpc.CallOptions? options, $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$0.GetRatesResponse> getRates($0.GetRatesRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.GetRatesResponse> getRates($0.GetRatesRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getRates, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetFiatRatesResponse> getFiatRates($0.GetFiatRatesRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.GetFiatRatesResponse> getFiatRates($0.GetFiatRatesRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getFiatRates, request, options: options);
   }
 }
@@ -66,14 +66,17 @@ abstract class RateServiceBase extends $grpc.Service {
         ($0.GetFiatRatesResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.GetRatesResponse> getRates_Pre($grpc.ServiceCall call, $async.Future<$0.GetRatesRequest> request) async {
+  $async.Future<$0.GetRatesResponse> getRates_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.GetRatesRequest> request) async {
     return getRates(call, await request);
   }
 
-  $async.Future<$0.GetFiatRatesResponse> getFiatRates_Pre($grpc.ServiceCall call, $async.Future<$0.GetFiatRatesRequest> request) async {
+  $async.Future<$0.GetFiatRatesResponse> getFiatRates_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.GetFiatRatesRequest> request) async {
     return getFiatRates(call, await request);
   }
 
   $async.Future<$0.GetRatesResponse> getRates($grpc.ServiceCall call, $0.GetRatesRequest request);
-  $async.Future<$0.GetFiatRatesResponse> getFiatRates($grpc.ServiceCall call, $0.GetFiatRatesRequest request);
+  $async.Future<$0.GetFiatRatesResponse> getFiatRates(
+      $grpc.ServiceCall call, $0.GetFiatRatesRequest request);
 }

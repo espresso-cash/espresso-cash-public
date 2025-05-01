@@ -11,8 +11,7 @@ class MoneygramChallengeSignRequestDto with _$MoneygramChallengeSignRequestDto {
 }
 
 @freezed
-class MoneygramChallengeSignResponseDto
-    with _$MoneygramChallengeSignResponseDto {
+class MoneygramChallengeSignResponseDto with _$MoneygramChallengeSignResponseDto {
   const factory MoneygramChallengeSignResponseDto({
     required String signedTx,
   }) = _MoneygramChallengeSignResponseDto;

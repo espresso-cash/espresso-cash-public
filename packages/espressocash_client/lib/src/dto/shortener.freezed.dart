@@ -27,16 +27,15 @@ mixin _$ShortenLinkRequestDto {
 
 /// @nodoc
 abstract class $ShortenLinkRequestDtoCopyWith<$Res> {
-  factory $ShortenLinkRequestDtoCopyWith(ShortenLinkRequestDto value,
-          $Res Function(ShortenLinkRequestDto) then) =
+  factory $ShortenLinkRequestDtoCopyWith(
+          ShortenLinkRequestDto value, $Res Function(ShortenLinkRequestDto) then) =
       _$ShortenLinkRequestDtoCopyWithImpl<$Res, ShortenLinkRequestDto>;
   @useResult
   $Res call({String fullLink});
 }
 
 /// @nodoc
-class _$ShortenLinkRequestDtoCopyWithImpl<$Res,
-        $Val extends ShortenLinkRequestDto>
+class _$ShortenLinkRequestDtoCopyWithImpl<$Res, $Val extends ShortenLinkRequestDto>
     implements $ShortenLinkRequestDtoCopyWith<$Res> {
   _$ShortenLinkRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -65,8 +64,7 @@ class _$ShortenLinkRequestDtoCopyWithImpl<$Res,
 abstract class _$$ShortenLinkRequestDtoImplCopyWith<$Res>
     implements $ShortenLinkRequestDtoCopyWith<$Res> {
   factory _$$ShortenLinkRequestDtoImplCopyWith(
-          _$ShortenLinkRequestDtoImpl value,
-          $Res Function(_$ShortenLinkRequestDtoImpl) then) =
+          _$ShortenLinkRequestDtoImpl value, $Res Function(_$ShortenLinkRequestDtoImpl) then) =
       __$$ShortenLinkRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -75,11 +73,10 @@ abstract class _$$ShortenLinkRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$ShortenLinkRequestDtoImplCopyWithImpl<$Res>
-    extends _$ShortenLinkRequestDtoCopyWithImpl<$Res,
-        _$ShortenLinkRequestDtoImpl>
+    extends _$ShortenLinkRequestDtoCopyWithImpl<$Res, _$ShortenLinkRequestDtoImpl>
     implements _$$ShortenLinkRequestDtoImplCopyWith<$Res> {
-  __$$ShortenLinkRequestDtoImplCopyWithImpl(_$ShortenLinkRequestDtoImpl _value,
-      $Res Function(_$ShortenLinkRequestDtoImpl) _then)
+  __$$ShortenLinkRequestDtoImplCopyWithImpl(
+      _$ShortenLinkRequestDtoImpl _value, $Res Function(_$ShortenLinkRequestDtoImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ShortenLinkRequestDto
@@ -116,8 +113,7 @@ class _$ShortenLinkRequestDtoImpl implements _ShortenLinkRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ShortenLinkRequestDtoImpl &&
-            (identical(other.fullLink, fullLink) ||
-                other.fullLink == fullLink));
+            (identical(other.fullLink, fullLink) || other.fullLink == fullLink));
   }
 
   @override
@@ -128,9 +124,8 @@ class _$ShortenLinkRequestDtoImpl implements _ShortenLinkRequestDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ShortenLinkRequestDtoImplCopyWith<_$ShortenLinkRequestDtoImpl>
-      get copyWith => __$$ShortenLinkRequestDtoImplCopyWithImpl<
-          _$ShortenLinkRequestDtoImpl>(this, _$identity);
+  _$$ShortenLinkRequestDtoImplCopyWith<_$ShortenLinkRequestDtoImpl> get copyWith =>
+      __$$ShortenLinkRequestDtoImplCopyWithImpl<_$ShortenLinkRequestDtoImpl>(this, _$identity);
 }
 
 abstract class _ShortenLinkRequestDto implements ShortenLinkRequestDto {
@@ -144,8 +139,8 @@ abstract class _ShortenLinkRequestDto implements ShortenLinkRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ShortenLinkRequestDtoImplCopyWith<_$ShortenLinkRequestDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$ShortenLinkRequestDtoImplCopyWith<_$ShortenLinkRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -161,16 +156,15 @@ mixin _$ShortenLinkResponseDto {
 
 /// @nodoc
 abstract class $ShortenLinkResponseDtoCopyWith<$Res> {
-  factory $ShortenLinkResponseDtoCopyWith(ShortenLinkResponseDto value,
-          $Res Function(ShortenLinkResponseDto) then) =
+  factory $ShortenLinkResponseDtoCopyWith(
+          ShortenLinkResponseDto value, $Res Function(ShortenLinkResponseDto) then) =
       _$ShortenLinkResponseDtoCopyWithImpl<$Res, ShortenLinkResponseDto>;
   @useResult
   $Res call({String shortLink});
 }
 
 /// @nodoc
-class _$ShortenLinkResponseDtoCopyWithImpl<$Res,
-        $Val extends ShortenLinkResponseDto>
+class _$ShortenLinkResponseDtoCopyWithImpl<$Res, $Val extends ShortenLinkResponseDto>
     implements $ShortenLinkResponseDtoCopyWith<$Res> {
   _$ShortenLinkResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -199,8 +193,7 @@ class _$ShortenLinkResponseDtoCopyWithImpl<$Res,
 abstract class _$$ShortenLinkResponseDtoImplCopyWith<$Res>
     implements $ShortenLinkResponseDtoCopyWith<$Res> {
   factory _$$ShortenLinkResponseDtoImplCopyWith(
-          _$ShortenLinkResponseDtoImpl value,
-          $Res Function(_$ShortenLinkResponseDtoImpl) then) =
+          _$ShortenLinkResponseDtoImpl value, $Res Function(_$ShortenLinkResponseDtoImpl) then) =
       __$$ShortenLinkResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -209,12 +202,10 @@ abstract class _$$ShortenLinkResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$ShortenLinkResponseDtoImplCopyWithImpl<$Res>
-    extends _$ShortenLinkResponseDtoCopyWithImpl<$Res,
-        _$ShortenLinkResponseDtoImpl>
+    extends _$ShortenLinkResponseDtoCopyWithImpl<$Res, _$ShortenLinkResponseDtoImpl>
     implements _$$ShortenLinkResponseDtoImplCopyWith<$Res> {
   __$$ShortenLinkResponseDtoImplCopyWithImpl(
-      _$ShortenLinkResponseDtoImpl _value,
-      $Res Function(_$ShortenLinkResponseDtoImpl) _then)
+      _$ShortenLinkResponseDtoImpl _value, $Res Function(_$ShortenLinkResponseDtoImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ShortenLinkResponseDto
@@ -251,8 +242,7 @@ class _$ShortenLinkResponseDtoImpl implements _ShortenLinkResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ShortenLinkResponseDtoImpl &&
-            (identical(other.shortLink, shortLink) ||
-                other.shortLink == shortLink));
+            (identical(other.shortLink, shortLink) || other.shortLink == shortLink));
   }
 
   @override
@@ -263,9 +253,8 @@ class _$ShortenLinkResponseDtoImpl implements _ShortenLinkResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ShortenLinkResponseDtoImplCopyWith<_$ShortenLinkResponseDtoImpl>
-      get copyWith => __$$ShortenLinkResponseDtoImplCopyWithImpl<
-          _$ShortenLinkResponseDtoImpl>(this, _$identity);
+  _$$ShortenLinkResponseDtoImplCopyWith<_$ShortenLinkResponseDtoImpl> get copyWith =>
+      __$$ShortenLinkResponseDtoImplCopyWithImpl<_$ShortenLinkResponseDtoImpl>(this, _$identity);
 }
 
 abstract class _ShortenLinkResponseDto implements ShortenLinkResponseDto {
@@ -279,8 +268,8 @@ abstract class _ShortenLinkResponseDto implements ShortenLinkResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ShortenLinkResponseDtoImplCopyWith<_$ShortenLinkResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$ShortenLinkResponseDtoImplCopyWith<_$ShortenLinkResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -296,16 +285,15 @@ mixin _$UnshortenLinkRequestDto {
 
 /// @nodoc
 abstract class $UnshortenLinkRequestDtoCopyWith<$Res> {
-  factory $UnshortenLinkRequestDtoCopyWith(UnshortenLinkRequestDto value,
-          $Res Function(UnshortenLinkRequestDto) then) =
+  factory $UnshortenLinkRequestDtoCopyWith(
+          UnshortenLinkRequestDto value, $Res Function(UnshortenLinkRequestDto) then) =
       _$UnshortenLinkRequestDtoCopyWithImpl<$Res, UnshortenLinkRequestDto>;
   @useResult
   $Res call({String shortLink});
 }
 
 /// @nodoc
-class _$UnshortenLinkRequestDtoCopyWithImpl<$Res,
-        $Val extends UnshortenLinkRequestDto>
+class _$UnshortenLinkRequestDtoCopyWithImpl<$Res, $Val extends UnshortenLinkRequestDto>
     implements $UnshortenLinkRequestDtoCopyWith<$Res> {
   _$UnshortenLinkRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -334,8 +322,7 @@ class _$UnshortenLinkRequestDtoCopyWithImpl<$Res,
 abstract class _$$UnshortenLinkRequestDtoImplCopyWith<$Res>
     implements $UnshortenLinkRequestDtoCopyWith<$Res> {
   factory _$$UnshortenLinkRequestDtoImplCopyWith(
-          _$UnshortenLinkRequestDtoImpl value,
-          $Res Function(_$UnshortenLinkRequestDtoImpl) then) =
+          _$UnshortenLinkRequestDtoImpl value, $Res Function(_$UnshortenLinkRequestDtoImpl) then) =
       __$$UnshortenLinkRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -344,12 +331,10 @@ abstract class _$$UnshortenLinkRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$UnshortenLinkRequestDtoImplCopyWithImpl<$Res>
-    extends _$UnshortenLinkRequestDtoCopyWithImpl<$Res,
-        _$UnshortenLinkRequestDtoImpl>
+    extends _$UnshortenLinkRequestDtoCopyWithImpl<$Res, _$UnshortenLinkRequestDtoImpl>
     implements _$$UnshortenLinkRequestDtoImplCopyWith<$Res> {
   __$$UnshortenLinkRequestDtoImplCopyWithImpl(
-      _$UnshortenLinkRequestDtoImpl _value,
-      $Res Function(_$UnshortenLinkRequestDtoImpl) _then)
+      _$UnshortenLinkRequestDtoImpl _value, $Res Function(_$UnshortenLinkRequestDtoImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of UnshortenLinkRequestDto
@@ -386,8 +371,7 @@ class _$UnshortenLinkRequestDtoImpl implements _UnshortenLinkRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UnshortenLinkRequestDtoImpl &&
-            (identical(other.shortLink, shortLink) ||
-                other.shortLink == shortLink));
+            (identical(other.shortLink, shortLink) || other.shortLink == shortLink));
   }
 
   @override
@@ -398,9 +382,8 @@ class _$UnshortenLinkRequestDtoImpl implements _UnshortenLinkRequestDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnshortenLinkRequestDtoImplCopyWith<_$UnshortenLinkRequestDtoImpl>
-      get copyWith => __$$UnshortenLinkRequestDtoImplCopyWithImpl<
-          _$UnshortenLinkRequestDtoImpl>(this, _$identity);
+  _$$UnshortenLinkRequestDtoImplCopyWith<_$UnshortenLinkRequestDtoImpl> get copyWith =>
+      __$$UnshortenLinkRequestDtoImplCopyWithImpl<_$UnshortenLinkRequestDtoImpl>(this, _$identity);
 }
 
 abstract class _UnshortenLinkRequestDto implements UnshortenLinkRequestDto {
@@ -414,8 +397,8 @@ abstract class _UnshortenLinkRequestDto implements UnshortenLinkRequestDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UnshortenLinkRequestDtoImplCopyWith<_$UnshortenLinkRequestDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$UnshortenLinkRequestDtoImplCopyWith<_$UnshortenLinkRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -431,16 +414,15 @@ mixin _$UnshortenLinkResponseDto {
 
 /// @nodoc
 abstract class $UnshortenLinkResponseDtoCopyWith<$Res> {
-  factory $UnshortenLinkResponseDtoCopyWith(UnshortenLinkResponseDto value,
-          $Res Function(UnshortenLinkResponseDto) then) =
+  factory $UnshortenLinkResponseDtoCopyWith(
+          UnshortenLinkResponseDto value, $Res Function(UnshortenLinkResponseDto) then) =
       _$UnshortenLinkResponseDtoCopyWithImpl<$Res, UnshortenLinkResponseDto>;
   @useResult
   $Res call({String fullLink});
 }
 
 /// @nodoc
-class _$UnshortenLinkResponseDtoCopyWithImpl<$Res,
-        $Val extends UnshortenLinkResponseDto>
+class _$UnshortenLinkResponseDtoCopyWithImpl<$Res, $Val extends UnshortenLinkResponseDto>
     implements $UnshortenLinkResponseDtoCopyWith<$Res> {
   _$UnshortenLinkResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -468,8 +450,7 @@ class _$UnshortenLinkResponseDtoCopyWithImpl<$Res,
 /// @nodoc
 abstract class _$$UnshortenLinkResponseDtoImplCopyWith<$Res>
     implements $UnshortenLinkResponseDtoCopyWith<$Res> {
-  factory _$$UnshortenLinkResponseDtoImplCopyWith(
-          _$UnshortenLinkResponseDtoImpl value,
+  factory _$$UnshortenLinkResponseDtoImplCopyWith(_$UnshortenLinkResponseDtoImpl value,
           $Res Function(_$UnshortenLinkResponseDtoImpl) then) =
       __$$UnshortenLinkResponseDtoImplCopyWithImpl<$Res>;
   @override
@@ -479,12 +460,10 @@ abstract class _$$UnshortenLinkResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$UnshortenLinkResponseDtoImplCopyWithImpl<$Res>
-    extends _$UnshortenLinkResponseDtoCopyWithImpl<$Res,
-        _$UnshortenLinkResponseDtoImpl>
+    extends _$UnshortenLinkResponseDtoCopyWithImpl<$Res, _$UnshortenLinkResponseDtoImpl>
     implements _$$UnshortenLinkResponseDtoImplCopyWith<$Res> {
   __$$UnshortenLinkResponseDtoImplCopyWithImpl(
-      _$UnshortenLinkResponseDtoImpl _value,
-      $Res Function(_$UnshortenLinkResponseDtoImpl) _then)
+      _$UnshortenLinkResponseDtoImpl _value, $Res Function(_$UnshortenLinkResponseDtoImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of UnshortenLinkResponseDto
@@ -521,8 +500,7 @@ class _$UnshortenLinkResponseDtoImpl implements _UnshortenLinkResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UnshortenLinkResponseDtoImpl &&
-            (identical(other.fullLink, fullLink) ||
-                other.fullLink == fullLink));
+            (identical(other.fullLink, fullLink) || other.fullLink == fullLink));
   }
 
   @override
@@ -533,9 +511,9 @@ class _$UnshortenLinkResponseDtoImpl implements _UnshortenLinkResponseDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnshortenLinkResponseDtoImplCopyWith<_$UnshortenLinkResponseDtoImpl>
-      get copyWith => __$$UnshortenLinkResponseDtoImplCopyWithImpl<
-          _$UnshortenLinkResponseDtoImpl>(this, _$identity);
+  _$$UnshortenLinkResponseDtoImplCopyWith<_$UnshortenLinkResponseDtoImpl> get copyWith =>
+      __$$UnshortenLinkResponseDtoImplCopyWithImpl<_$UnshortenLinkResponseDtoImpl>(
+          this, _$identity);
 }
 
 abstract class _UnshortenLinkResponseDto implements UnshortenLinkResponseDto {
@@ -549,6 +527,6 @@ abstract class _UnshortenLinkResponseDto implements UnshortenLinkResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UnshortenLinkResponseDtoImplCopyWith<_$UnshortenLinkResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$UnshortenLinkResponseDtoImplCopyWith<_$UnshortenLinkResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

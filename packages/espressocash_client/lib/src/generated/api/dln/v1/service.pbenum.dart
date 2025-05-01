@@ -14,16 +14,24 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class DlnOrderStatus extends $pb.ProtobufEnum {
-  static const DlnOrderStatus DLN_ORDER_STATUS_NONE = DlnOrderStatus._(0, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_NONE');
-  static const DlnOrderStatus DLN_ORDER_STATUS_CREATED = DlnOrderStatus._(1, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_CREATED');
-  static const DlnOrderStatus DLN_ORDER_STATUS_FULFILLED = DlnOrderStatus._(2, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_FULFILLED');
-  static const DlnOrderStatus DLN_ORDER_STATUS_SENT_UNLOCK = DlnOrderStatus._(3, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_SENT_UNLOCK');
-  static const DlnOrderStatus DLN_ORDER_STATUS_ORDER_CANCELLED = DlnOrderStatus._(4, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_ORDER_CANCELLED');
-  static const DlnOrderStatus DLN_ORDER_STATUS_SENT_ORDER_CANCEL = DlnOrderStatus._(5, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_SENT_ORDER_CANCEL');
-  static const DlnOrderStatus DLN_ORDER_STATUS_CLAIMED_UNLOCK = DlnOrderStatus._(6, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_CLAIMED_UNLOCK');
-  static const DlnOrderStatus DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL = DlnOrderStatus._(7, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL');
+  static const DlnOrderStatus DLN_ORDER_STATUS_NONE =
+      DlnOrderStatus._(0, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_NONE');
+  static const DlnOrderStatus DLN_ORDER_STATUS_CREATED =
+      DlnOrderStatus._(1, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_CREATED');
+  static const DlnOrderStatus DLN_ORDER_STATUS_FULFILLED =
+      DlnOrderStatus._(2, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_FULFILLED');
+  static const DlnOrderStatus DLN_ORDER_STATUS_SENT_UNLOCK =
+      DlnOrderStatus._(3, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_SENT_UNLOCK');
+  static const DlnOrderStatus DLN_ORDER_STATUS_ORDER_CANCELLED =
+      DlnOrderStatus._(4, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_ORDER_CANCELLED');
+  static const DlnOrderStatus DLN_ORDER_STATUS_SENT_ORDER_CANCEL =
+      DlnOrderStatus._(5, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_SENT_ORDER_CANCEL');
+  static const DlnOrderStatus DLN_ORDER_STATUS_CLAIMED_UNLOCK =
+      DlnOrderStatus._(6, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_CLAIMED_UNLOCK');
+  static const DlnOrderStatus DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL =
+      DlnOrderStatus._(7, _omitEnumNames ? '' : 'DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL');
 
-  static const $core.List<DlnOrderStatus> values = <DlnOrderStatus> [
+  static const $core.List<DlnOrderStatus> values = <DlnOrderStatus>[
     DLN_ORDER_STATUS_NONE,
     DLN_ORDER_STATUS_CREATED,
     DLN_ORDER_STATUS_FULFILLED,
@@ -39,6 +47,5 @@ class DlnOrderStatus extends $pb.ProtobufEnum {
 
   const DlnOrderStatus._($core.int v, $core.String n) : super(v, n);
 }
-
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');
