@@ -116,7 +116,7 @@ class ILPService implements Disposable {
 
     try {
       final fee = await _ecClient.getIncomingEscrowPaymentQuote().then(
-        (it) => CryptoAmount(value: it.fee, cryptoCurrency: Currency.usdc),
+        (it) => it.fee == 0 ? null : CryptoAmount(value: it.fee, cryptoCurrency: Currency.usdc),
       );
 
       final tx = await _txSender.send(status.tx, minContextSlot: status.slot);
