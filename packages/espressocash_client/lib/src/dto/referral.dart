@@ -4,16 +4,14 @@ part 'referral.freezed.dart';
 
 @freezed
 class AmbassadorReferralRequestDto with _$AmbassadorReferralRequestDto {
-  const factory AmbassadorReferralRequestDto({
-    required String ambassadorAddress,
-  }) = _AmbassadorReferralRequestDto;
+  const factory AmbassadorReferralRequestDto({required String ambassadorAddress}) =
+      _AmbassadorReferralRequestDto;
 }
 
 @freezed
 class AmbassadorStatsResponseDto with _$AmbassadorStatsResponseDto {
-  const factory AmbassadorStatsResponseDto({
-    required int referralCount,
-  }) = _AmbassadorStatsResponseDto;
+  const factory AmbassadorStatsResponseDto({required int referralCount}) =
+      _AmbassadorStatsResponseDto;
 }
 
 @freezed

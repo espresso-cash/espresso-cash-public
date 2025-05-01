@@ -12,7 +12,8 @@ part of 'rates.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$CryptoRateResponseDto {
@@ -28,8 +29,9 @@ mixin _$CryptoRateResponseDto {
 /// @nodoc
 abstract class $CryptoRateResponseDtoCopyWith<$Res> {
   factory $CryptoRateResponseDtoCopyWith(
-          CryptoRateResponseDto value, $Res Function(CryptoRateResponseDto) then) =
-      _$CryptoRateResponseDtoCopyWithImpl<$Res, CryptoRateResponseDto>;
+    CryptoRateResponseDto value,
+    $Res Function(CryptoRateResponseDto) then,
+  ) = _$CryptoRateResponseDtoCopyWithImpl<$Res, CryptoRateResponseDto>;
   @useResult
   $Res call({double usdc});
 }
@@ -48,15 +50,17 @@ class _$CryptoRateResponseDtoCopyWithImpl<$Res, $Val extends CryptoRateResponseD
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? usdc = null,
-  }) {
-    return _then(_value.copyWith(
-      usdc: null == usdc
-          ? _value.usdc
-          : usdc // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+  $Res call({Object? usdc = null}) {
+    return _then(
+      _value.copyWith(
+            usdc:
+                null == usdc
+                    ? _value.usdc
+                    : usdc // ignore: cast_nullable_to_non_nullable
+                        as double,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -64,8 +68,9 @@ class _$CryptoRateResponseDtoCopyWithImpl<$Res, $Val extends CryptoRateResponseD
 abstract class _$$CryptoRateResponseDtoImplCopyWith<$Res>
     implements $CryptoRateResponseDtoCopyWith<$Res> {
   factory _$$CryptoRateResponseDtoImplCopyWith(
-          _$CryptoRateResponseDtoImpl value, $Res Function(_$CryptoRateResponseDtoImpl) then) =
-      __$$CryptoRateResponseDtoImplCopyWithImpl<$Res>;
+    _$CryptoRateResponseDtoImpl value,
+    $Res Function(_$CryptoRateResponseDtoImpl) then,
+  ) = __$$CryptoRateResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double usdc});
@@ -76,22 +81,24 @@ class __$$CryptoRateResponseDtoImplCopyWithImpl<$Res>
     extends _$CryptoRateResponseDtoCopyWithImpl<$Res, _$CryptoRateResponseDtoImpl>
     implements _$$CryptoRateResponseDtoImplCopyWith<$Res> {
   __$$CryptoRateResponseDtoImplCopyWithImpl(
-      _$CryptoRateResponseDtoImpl _value, $Res Function(_$CryptoRateResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$CryptoRateResponseDtoImpl _value,
+    $Res Function(_$CryptoRateResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of CryptoRateResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? usdc = null,
-  }) {
-    return _then(_$CryptoRateResponseDtoImpl(
-      usdc: null == usdc
-          ? _value.usdc
-          : usdc // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
+  $Res call({Object? usdc = null}) {
+    return _then(
+      _$CryptoRateResponseDtoImpl(
+        usdc:
+            null == usdc
+                ? _value.usdc
+                : usdc // ignore: cast_nullable_to_non_nullable
+                    as double,
+      ),
+    );
   }
 }
 
@@ -157,8 +164,9 @@ mixin _$FiatRateRequestDto {
 /// @nodoc
 abstract class $FiatRateRequestDtoCopyWith<$Res> {
   factory $FiatRateRequestDtoCopyWith(
-          FiatRateRequestDto value, $Res Function(FiatRateRequestDto) then) =
-      _$FiatRateRequestDtoCopyWithImpl<$Res, FiatRateRequestDto>;
+    FiatRateRequestDto value,
+    $Res Function(FiatRateRequestDto) then,
+  ) = _$FiatRateRequestDtoCopyWithImpl<$Res, FiatRateRequestDto>;
   @useResult
   $Res call({String base, String target});
 }
@@ -177,20 +185,22 @@ class _$FiatRateRequestDtoCopyWithImpl<$Res, $Val extends FiatRateRequestDto>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? base = null,
-    Object? target = null,
-  }) {
-    return _then(_value.copyWith(
-      base: null == base
-          ? _value.base
-          : base // ignore: cast_nullable_to_non_nullable
-              as String,
-      target: null == target
-          ? _value.target
-          : target // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? base = null, Object? target = null}) {
+    return _then(
+      _value.copyWith(
+            base:
+                null == base
+                    ? _value.base
+                    : base // ignore: cast_nullable_to_non_nullable
+                        as String,
+            target:
+                null == target
+                    ? _value.target
+                    : target // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -198,8 +208,9 @@ class _$FiatRateRequestDtoCopyWithImpl<$Res, $Val extends FiatRateRequestDto>
 abstract class _$$FiatRateRequestDtoImplCopyWith<$Res>
     implements $FiatRateRequestDtoCopyWith<$Res> {
   factory _$$FiatRateRequestDtoImplCopyWith(
-          _$FiatRateRequestDtoImpl value, $Res Function(_$FiatRateRequestDtoImpl) then) =
-      __$$FiatRateRequestDtoImplCopyWithImpl<$Res>;
+    _$FiatRateRequestDtoImpl value,
+    $Res Function(_$FiatRateRequestDtoImpl) then,
+  ) = __$$FiatRateRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String base, String target});
@@ -210,27 +221,29 @@ class __$$FiatRateRequestDtoImplCopyWithImpl<$Res>
     extends _$FiatRateRequestDtoCopyWithImpl<$Res, _$FiatRateRequestDtoImpl>
     implements _$$FiatRateRequestDtoImplCopyWith<$Res> {
   __$$FiatRateRequestDtoImplCopyWithImpl(
-      _$FiatRateRequestDtoImpl _value, $Res Function(_$FiatRateRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$FiatRateRequestDtoImpl _value,
+    $Res Function(_$FiatRateRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of FiatRateRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? base = null,
-    Object? target = null,
-  }) {
-    return _then(_$FiatRateRequestDtoImpl(
-      base: null == base
-          ? _value.base
-          : base // ignore: cast_nullable_to_non_nullable
-              as String,
-      target: null == target
-          ? _value.target
-          : target // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? base = null, Object? target = null}) {
+    return _then(
+      _$FiatRateRequestDtoImpl(
+        base:
+            null == base
+                ? _value.base
+                : base // ignore: cast_nullable_to_non_nullable
+                    as String,
+        target:
+            null == target
+                ? _value.target
+                : target // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -301,8 +314,9 @@ mixin _$FiatRateResponseDto {
 /// @nodoc
 abstract class $FiatRateResponseDtoCopyWith<$Res> {
   factory $FiatRateResponseDtoCopyWith(
-          FiatRateResponseDto value, $Res Function(FiatRateResponseDto) then) =
-      _$FiatRateResponseDtoCopyWithImpl<$Res, FiatRateResponseDto>;
+    FiatRateResponseDto value,
+    $Res Function(FiatRateResponseDto) then,
+  ) = _$FiatRateResponseDtoCopyWithImpl<$Res, FiatRateResponseDto>;
   @useResult
   $Res call({double rate});
 }
@@ -321,15 +335,17 @@ class _$FiatRateResponseDtoCopyWithImpl<$Res, $Val extends FiatRateResponseDto>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? rate = null,
-  }) {
-    return _then(_value.copyWith(
-      rate: null == rate
-          ? _value.rate
-          : rate // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+  $Res call({Object? rate = null}) {
+    return _then(
+      _value.copyWith(
+            rate:
+                null == rate
+                    ? _value.rate
+                    : rate // ignore: cast_nullable_to_non_nullable
+                        as double,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -337,8 +353,9 @@ class _$FiatRateResponseDtoCopyWithImpl<$Res, $Val extends FiatRateResponseDto>
 abstract class _$$FiatRateResponseDtoImplCopyWith<$Res>
     implements $FiatRateResponseDtoCopyWith<$Res> {
   factory _$$FiatRateResponseDtoImplCopyWith(
-          _$FiatRateResponseDtoImpl value, $Res Function(_$FiatRateResponseDtoImpl) then) =
-      __$$FiatRateResponseDtoImplCopyWithImpl<$Res>;
+    _$FiatRateResponseDtoImpl value,
+    $Res Function(_$FiatRateResponseDtoImpl) then,
+  ) = __$$FiatRateResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double rate});
@@ -349,22 +366,24 @@ class __$$FiatRateResponseDtoImplCopyWithImpl<$Res>
     extends _$FiatRateResponseDtoCopyWithImpl<$Res, _$FiatRateResponseDtoImpl>
     implements _$$FiatRateResponseDtoImplCopyWith<$Res> {
   __$$FiatRateResponseDtoImplCopyWithImpl(
-      _$FiatRateResponseDtoImpl _value, $Res Function(_$FiatRateResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$FiatRateResponseDtoImpl _value,
+    $Res Function(_$FiatRateResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of FiatRateResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? rate = null,
-  }) {
-    return _then(_$FiatRateResponseDtoImpl(
-      rate: null == rate
-          ? _value.rate
-          : rate // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
+  $Res call({Object? rate = null}) {
+    return _then(
+      _$FiatRateResponseDtoImpl(
+        rate:
+            null == rate
+                ? _value.rate
+                : rate // ignore: cast_nullable_to_non_nullable
+                    as double,
+      ),
+    );
   }
 }
 

@@ -12,7 +12,8 @@ part of 'gas.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$GasFeeRequestDto {
@@ -46,23 +47,26 @@ class _$GasFeeRequestDtoCopyWithImpl<$Res, $Val extends GasFeeRequestDto>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? network = null,
-  }) {
-    return _then(_value.copyWith(
-      network: null == network
-          ? _value.network
-          : network // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? network = null}) {
+    return _then(
+      _value.copyWith(
+            network:
+                null == network
+                    ? _value.network
+                    : network // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$GasFeeRequestDtoImplCopyWith<$Res> implements $GasFeeRequestDtoCopyWith<$Res> {
   factory _$$GasFeeRequestDtoImplCopyWith(
-          _$GasFeeRequestDtoImpl value, $Res Function(_$GasFeeRequestDtoImpl) then) =
-      __$$GasFeeRequestDtoImplCopyWithImpl<$Res>;
+    _$GasFeeRequestDtoImpl value,
+    $Res Function(_$GasFeeRequestDtoImpl) then,
+  ) = __$$GasFeeRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String network});
@@ -73,22 +77,24 @@ class __$$GasFeeRequestDtoImplCopyWithImpl<$Res>
     extends _$GasFeeRequestDtoCopyWithImpl<$Res, _$GasFeeRequestDtoImpl>
     implements _$$GasFeeRequestDtoImplCopyWith<$Res> {
   __$$GasFeeRequestDtoImplCopyWithImpl(
-      _$GasFeeRequestDtoImpl _value, $Res Function(_$GasFeeRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$GasFeeRequestDtoImpl _value,
+    $Res Function(_$GasFeeRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of GasFeeRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? network = null,
-  }) {
-    return _then(_$GasFeeRequestDtoImpl(
-      network: null == network
-          ? _value.network
-          : network // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? network = null}) {
+    return _then(
+      _$GasFeeRequestDtoImpl(
+        network:
+            null == network
+                ? _value.network
+                : network // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -156,15 +162,17 @@ mixin _$GasFeeResponseDto {
 /// @nodoc
 abstract class $GasFeeResponseDtoCopyWith<$Res> {
   factory $GasFeeResponseDtoCopyWith(
-          GasFeeResponseDto value, $Res Function(GasFeeResponseDto) then) =
-      _$GasFeeResponseDtoCopyWithImpl<$Res, GasFeeResponseDto>;
+    GasFeeResponseDto value,
+    $Res Function(GasFeeResponseDto) then,
+  ) = _$GasFeeResponseDtoCopyWithImpl<$Res, GasFeeResponseDto>;
   @useResult
-  $Res call(
-      {GasFeeEstimate low,
-      GasFeeEstimate medium,
-      GasFeeEstimate high,
-      String estimatedBaseFee,
-      double networkCongestion});
+  $Res call({
+    GasFeeEstimate low,
+    GasFeeEstimate medium,
+    GasFeeEstimate high,
+    String estimatedBaseFee,
+    double networkCongestion,
+  });
 
   $GasFeeEstimateCopyWith<$Res> get low;
   $GasFeeEstimateCopyWith<$Res> get medium;
@@ -192,28 +200,36 @@ class _$GasFeeResponseDtoCopyWithImpl<$Res, $Val extends GasFeeResponseDto>
     Object? estimatedBaseFee = null,
     Object? networkCongestion = null,
   }) {
-    return _then(_value.copyWith(
-      low: null == low
-          ? _value.low
-          : low // ignore: cast_nullable_to_non_nullable
-              as GasFeeEstimate,
-      medium: null == medium
-          ? _value.medium
-          : medium // ignore: cast_nullable_to_non_nullable
-              as GasFeeEstimate,
-      high: null == high
-          ? _value.high
-          : high // ignore: cast_nullable_to_non_nullable
-              as GasFeeEstimate,
-      estimatedBaseFee: null == estimatedBaseFee
-          ? _value.estimatedBaseFee
-          : estimatedBaseFee // ignore: cast_nullable_to_non_nullable
-              as String,
-      networkCongestion: null == networkCongestion
-          ? _value.networkCongestion
-          : networkCongestion // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            low:
+                null == low
+                    ? _value.low
+                    : low // ignore: cast_nullable_to_non_nullable
+                        as GasFeeEstimate,
+            medium:
+                null == medium
+                    ? _value.medium
+                    : medium // ignore: cast_nullable_to_non_nullable
+                        as GasFeeEstimate,
+            high:
+                null == high
+                    ? _value.high
+                    : high // ignore: cast_nullable_to_non_nullable
+                        as GasFeeEstimate,
+            estimatedBaseFee:
+                null == estimatedBaseFee
+                    ? _value.estimatedBaseFee
+                    : estimatedBaseFee // ignore: cast_nullable_to_non_nullable
+                        as String,
+            networkCongestion:
+                null == networkCongestion
+                    ? _value.networkCongestion
+                    : networkCongestion // ignore: cast_nullable_to_non_nullable
+                        as double,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of GasFeeResponseDto
@@ -250,16 +266,18 @@ class _$GasFeeResponseDtoCopyWithImpl<$Res, $Val extends GasFeeResponseDto>
 /// @nodoc
 abstract class _$$GasFeeResponseDtoImplCopyWith<$Res> implements $GasFeeResponseDtoCopyWith<$Res> {
   factory _$$GasFeeResponseDtoImplCopyWith(
-          _$GasFeeResponseDtoImpl value, $Res Function(_$GasFeeResponseDtoImpl) then) =
-      __$$GasFeeResponseDtoImplCopyWithImpl<$Res>;
+    _$GasFeeResponseDtoImpl value,
+    $Res Function(_$GasFeeResponseDtoImpl) then,
+  ) = __$$GasFeeResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {GasFeeEstimate low,
-      GasFeeEstimate medium,
-      GasFeeEstimate high,
-      String estimatedBaseFee,
-      double networkCongestion});
+  $Res call({
+    GasFeeEstimate low,
+    GasFeeEstimate medium,
+    GasFeeEstimate high,
+    String estimatedBaseFee,
+    double networkCongestion,
+  });
 
   @override
   $GasFeeEstimateCopyWith<$Res> get low;
@@ -274,8 +292,9 @@ class __$$GasFeeResponseDtoImplCopyWithImpl<$Res>
     extends _$GasFeeResponseDtoCopyWithImpl<$Res, _$GasFeeResponseDtoImpl>
     implements _$$GasFeeResponseDtoImplCopyWith<$Res> {
   __$$GasFeeResponseDtoImplCopyWithImpl(
-      _$GasFeeResponseDtoImpl _value, $Res Function(_$GasFeeResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$GasFeeResponseDtoImpl _value,
+    $Res Function(_$GasFeeResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of GasFeeResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -288,40 +307,48 @@ class __$$GasFeeResponseDtoImplCopyWithImpl<$Res>
     Object? estimatedBaseFee = null,
     Object? networkCongestion = null,
   }) {
-    return _then(_$GasFeeResponseDtoImpl(
-      low: null == low
-          ? _value.low
-          : low // ignore: cast_nullable_to_non_nullable
-              as GasFeeEstimate,
-      medium: null == medium
-          ? _value.medium
-          : medium // ignore: cast_nullable_to_non_nullable
-              as GasFeeEstimate,
-      high: null == high
-          ? _value.high
-          : high // ignore: cast_nullable_to_non_nullable
-              as GasFeeEstimate,
-      estimatedBaseFee: null == estimatedBaseFee
-          ? _value.estimatedBaseFee
-          : estimatedBaseFee // ignore: cast_nullable_to_non_nullable
-              as String,
-      networkCongestion: null == networkCongestion
-          ? _value.networkCongestion
-          : networkCongestion // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
+    return _then(
+      _$GasFeeResponseDtoImpl(
+        low:
+            null == low
+                ? _value.low
+                : low // ignore: cast_nullable_to_non_nullable
+                    as GasFeeEstimate,
+        medium:
+            null == medium
+                ? _value.medium
+                : medium // ignore: cast_nullable_to_non_nullable
+                    as GasFeeEstimate,
+        high:
+            null == high
+                ? _value.high
+                : high // ignore: cast_nullable_to_non_nullable
+                    as GasFeeEstimate,
+        estimatedBaseFee:
+            null == estimatedBaseFee
+                ? _value.estimatedBaseFee
+                : estimatedBaseFee // ignore: cast_nullable_to_non_nullable
+                    as String,
+        networkCongestion:
+            null == networkCongestion
+                ? _value.networkCongestion
+                : networkCongestion // ignore: cast_nullable_to_non_nullable
+                    as double,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$GasFeeResponseDtoImpl implements _GasFeeResponseDto {
-  const _$GasFeeResponseDtoImpl(
-      {required this.low,
-      required this.medium,
-      required this.high,
-      required this.estimatedBaseFee,
-      required this.networkCongestion});
+  const _$GasFeeResponseDtoImpl({
+    required this.low,
+    required this.medium,
+    required this.high,
+    required this.estimatedBaseFee,
+    required this.networkCongestion,
+  });
 
   @override
   final GasFeeEstimate low;
@@ -367,12 +394,13 @@ class _$GasFeeResponseDtoImpl implements _GasFeeResponseDto {
 }
 
 abstract class _GasFeeResponseDto implements GasFeeResponseDto {
-  const factory _GasFeeResponseDto(
-      {required final GasFeeEstimate low,
-      required final GasFeeEstimate medium,
-      required final GasFeeEstimate high,
-      required final String estimatedBaseFee,
-      required final double networkCongestion}) = _$GasFeeResponseDtoImpl;
+  const factory _GasFeeResponseDto({
+    required final GasFeeEstimate low,
+    required final GasFeeEstimate medium,
+    required final GasFeeEstimate high,
+    required final String estimatedBaseFee,
+    required final double networkCongestion,
+  }) = _$GasFeeResponseDtoImpl;
 
   @override
   GasFeeEstimate get low;
@@ -411,11 +439,12 @@ abstract class $GasFeeEstimateCopyWith<$Res> {
   factory $GasFeeEstimateCopyWith(GasFeeEstimate value, $Res Function(GasFeeEstimate) then) =
       _$GasFeeEstimateCopyWithImpl<$Res, GasFeeEstimate>;
   @useResult
-  $Res call(
-      {String suggestedMaxPriorityFeePerGas,
-      String suggestedMaxFeePerGas,
-      int minWaitTimeEstimate,
-      int maxWaitTimeEstimate});
+  $Res call({
+    String suggestedMaxPriorityFeePerGas,
+    String suggestedMaxFeePerGas,
+    int minWaitTimeEstimate,
+    int maxWaitTimeEstimate,
+  });
 }
 
 /// @nodoc
@@ -438,39 +467,48 @@ class _$GasFeeEstimateCopyWithImpl<$Res, $Val extends GasFeeEstimate>
     Object? minWaitTimeEstimate = null,
     Object? maxWaitTimeEstimate = null,
   }) {
-    return _then(_value.copyWith(
-      suggestedMaxPriorityFeePerGas: null == suggestedMaxPriorityFeePerGas
-          ? _value.suggestedMaxPriorityFeePerGas
-          : suggestedMaxPriorityFeePerGas // ignore: cast_nullable_to_non_nullable
-              as String,
-      suggestedMaxFeePerGas: null == suggestedMaxFeePerGas
-          ? _value.suggestedMaxFeePerGas
-          : suggestedMaxFeePerGas // ignore: cast_nullable_to_non_nullable
-              as String,
-      minWaitTimeEstimate: null == minWaitTimeEstimate
-          ? _value.minWaitTimeEstimate
-          : minWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxWaitTimeEstimate: null == maxWaitTimeEstimate
-          ? _value.maxWaitTimeEstimate
-          : maxWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            suggestedMaxPriorityFeePerGas:
+                null == suggestedMaxPriorityFeePerGas
+                    ? _value.suggestedMaxPriorityFeePerGas
+                    : suggestedMaxPriorityFeePerGas // ignore: cast_nullable_to_non_nullable
+                        as String,
+            suggestedMaxFeePerGas:
+                null == suggestedMaxFeePerGas
+                    ? _value.suggestedMaxFeePerGas
+                    : suggestedMaxFeePerGas // ignore: cast_nullable_to_non_nullable
+                        as String,
+            minWaitTimeEstimate:
+                null == minWaitTimeEstimate
+                    ? _value.minWaitTimeEstimate
+                    : minWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
+                        as int,
+            maxWaitTimeEstimate:
+                null == maxWaitTimeEstimate
+                    ? _value.maxWaitTimeEstimate
+                    : maxWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$GasFeeEstimateImplCopyWith<$Res> implements $GasFeeEstimateCopyWith<$Res> {
   factory _$$GasFeeEstimateImplCopyWith(
-          _$GasFeeEstimateImpl value, $Res Function(_$GasFeeEstimateImpl) then) =
-      __$$GasFeeEstimateImplCopyWithImpl<$Res>;
+    _$GasFeeEstimateImpl value,
+    $Res Function(_$GasFeeEstimateImpl) then,
+  ) = __$$GasFeeEstimateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String suggestedMaxPriorityFeePerGas,
-      String suggestedMaxFeePerGas,
-      int minWaitTimeEstimate,
-      int maxWaitTimeEstimate});
+  $Res call({
+    String suggestedMaxPriorityFeePerGas,
+    String suggestedMaxFeePerGas,
+    int minWaitTimeEstimate,
+    int maxWaitTimeEstimate,
+  });
 }
 
 /// @nodoc
@@ -478,8 +516,9 @@ class __$$GasFeeEstimateImplCopyWithImpl<$Res>
     extends _$GasFeeEstimateCopyWithImpl<$Res, _$GasFeeEstimateImpl>
     implements _$$GasFeeEstimateImplCopyWith<$Res> {
   __$$GasFeeEstimateImplCopyWithImpl(
-      _$GasFeeEstimateImpl _value, $Res Function(_$GasFeeEstimateImpl) _then)
-      : super(_value, _then);
+    _$GasFeeEstimateImpl _value,
+    $Res Function(_$GasFeeEstimateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of GasFeeEstimate
   /// with the given fields replaced by the non-null parameter values.
@@ -491,35 +530,42 @@ class __$$GasFeeEstimateImplCopyWithImpl<$Res>
     Object? minWaitTimeEstimate = null,
     Object? maxWaitTimeEstimate = null,
   }) {
-    return _then(_$GasFeeEstimateImpl(
-      suggestedMaxPriorityFeePerGas: null == suggestedMaxPriorityFeePerGas
-          ? _value.suggestedMaxPriorityFeePerGas
-          : suggestedMaxPriorityFeePerGas // ignore: cast_nullable_to_non_nullable
-              as String,
-      suggestedMaxFeePerGas: null == suggestedMaxFeePerGas
-          ? _value.suggestedMaxFeePerGas
-          : suggestedMaxFeePerGas // ignore: cast_nullable_to_non_nullable
-              as String,
-      minWaitTimeEstimate: null == minWaitTimeEstimate
-          ? _value.minWaitTimeEstimate
-          : minWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxWaitTimeEstimate: null == maxWaitTimeEstimate
-          ? _value.maxWaitTimeEstimate
-          : maxWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      _$GasFeeEstimateImpl(
+        suggestedMaxPriorityFeePerGas:
+            null == suggestedMaxPriorityFeePerGas
+                ? _value.suggestedMaxPriorityFeePerGas
+                : suggestedMaxPriorityFeePerGas // ignore: cast_nullable_to_non_nullable
+                    as String,
+        suggestedMaxFeePerGas:
+            null == suggestedMaxFeePerGas
+                ? _value.suggestedMaxFeePerGas
+                : suggestedMaxFeePerGas // ignore: cast_nullable_to_non_nullable
+                    as String,
+        minWaitTimeEstimate:
+            null == minWaitTimeEstimate
+                ? _value.minWaitTimeEstimate
+                : minWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxWaitTimeEstimate:
+            null == maxWaitTimeEstimate
+                ? _value.maxWaitTimeEstimate
+                : maxWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$GasFeeEstimateImpl implements _GasFeeEstimate {
-  _$GasFeeEstimateImpl(
-      {required this.suggestedMaxPriorityFeePerGas,
-      required this.suggestedMaxFeePerGas,
-      required this.minWaitTimeEstimate,
-      required this.maxWaitTimeEstimate});
+  _$GasFeeEstimateImpl({
+    required this.suggestedMaxPriorityFeePerGas,
+    required this.suggestedMaxFeePerGas,
+    required this.minWaitTimeEstimate,
+    required this.maxWaitTimeEstimate,
+  });
 
   @override
   final String suggestedMaxPriorityFeePerGas;
@@ -551,8 +597,13 @@ class _$GasFeeEstimateImpl implements _GasFeeEstimate {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, suggestedMaxPriorityFeePerGas, suggestedMaxFeePerGas,
-      minWaitTimeEstimate, maxWaitTimeEstimate);
+  int get hashCode => Object.hash(
+    runtimeType,
+    suggestedMaxPriorityFeePerGas,
+    suggestedMaxFeePerGas,
+    minWaitTimeEstimate,
+    maxWaitTimeEstimate,
+  );
 
   /// Create a copy of GasFeeEstimate
   /// with the given fields replaced by the non-null parameter values.
@@ -564,11 +615,12 @@ class _$GasFeeEstimateImpl implements _GasFeeEstimate {
 }
 
 abstract class _GasFeeEstimate implements GasFeeEstimate {
-  factory _GasFeeEstimate(
-      {required final String suggestedMaxPriorityFeePerGas,
-      required final String suggestedMaxFeePerGas,
-      required final int minWaitTimeEstimate,
-      required final int maxWaitTimeEstimate}) = _$GasFeeEstimateImpl;
+  factory _GasFeeEstimate({
+    required final String suggestedMaxPriorityFeePerGas,
+    required final String suggestedMaxFeePerGas,
+    required final int minWaitTimeEstimate,
+    required final int maxWaitTimeEstimate,
+  }) = _$GasFeeEstimateImpl;
 
   @override
   String get suggestedMaxPriorityFeePerGas;

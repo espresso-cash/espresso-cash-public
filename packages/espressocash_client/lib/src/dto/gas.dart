@@ -4,9 +4,7 @@ part 'gas.freezed.dart';
 
 @freezed
 class GasFeeRequestDto with _$GasFeeRequestDto {
-  const factory GasFeeRequestDto({
-    required String network,
-  }) = _GasFeeRequestDto;
+  const factory GasFeeRequestDto({required String network}) = _GasFeeRequestDto;
 }
 
 @freezed

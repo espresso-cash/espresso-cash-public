@@ -12,7 +12,8 @@ part of 'moneygram.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$MoneygramChallengeSignRequestDto {
@@ -27,16 +28,19 @@ mixin _$MoneygramChallengeSignRequestDto {
 
 /// @nodoc
 abstract class $MoneygramChallengeSignRequestDtoCopyWith<$Res> {
-  factory $MoneygramChallengeSignRequestDtoCopyWith(MoneygramChallengeSignRequestDto value,
-          $Res Function(MoneygramChallengeSignRequestDto) then) =
-      _$MoneygramChallengeSignRequestDtoCopyWithImpl<$Res, MoneygramChallengeSignRequestDto>;
+  factory $MoneygramChallengeSignRequestDtoCopyWith(
+    MoneygramChallengeSignRequestDto value,
+    $Res Function(MoneygramChallengeSignRequestDto) then,
+  ) = _$MoneygramChallengeSignRequestDtoCopyWithImpl<$Res, MoneygramChallengeSignRequestDto>;
   @useResult
   $Res call({String signedTx});
 }
 
 /// @nodoc
-class _$MoneygramChallengeSignRequestDtoCopyWithImpl<$Res,
-        $Val extends MoneygramChallengeSignRequestDto>
+class _$MoneygramChallengeSignRequestDtoCopyWithImpl<
+  $Res,
+  $Val extends MoneygramChallengeSignRequestDto
+>
     implements $MoneygramChallengeSignRequestDtoCopyWith<$Res> {
   _$MoneygramChallengeSignRequestDtoCopyWithImpl(this._value, this._then);
 
@@ -49,15 +53,17 @@ class _$MoneygramChallengeSignRequestDtoCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signedTx = null,
-  }) {
-    return _then(_value.copyWith(
-      signedTx: null == signedTx
-          ? _value.signedTx
-          : signedTx // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? signedTx = null}) {
+    return _then(
+      _value.copyWith(
+            signedTx:
+                null == signedTx
+                    ? _value.signedTx
+                    : signedTx // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -65,9 +71,9 @@ class _$MoneygramChallengeSignRequestDtoCopyWithImpl<$Res,
 abstract class _$$MoneygramChallengeSignRequestDtoImplCopyWith<$Res>
     implements $MoneygramChallengeSignRequestDtoCopyWith<$Res> {
   factory _$$MoneygramChallengeSignRequestDtoImplCopyWith(
-          _$MoneygramChallengeSignRequestDtoImpl value,
-          $Res Function(_$MoneygramChallengeSignRequestDtoImpl) then) =
-      __$$MoneygramChallengeSignRequestDtoImplCopyWithImpl<$Res>;
+    _$MoneygramChallengeSignRequestDtoImpl value,
+    $Res Function(_$MoneygramChallengeSignRequestDtoImpl) then,
+  ) = __$$MoneygramChallengeSignRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String signedTx});
@@ -75,27 +81,28 @@ abstract class _$$MoneygramChallengeSignRequestDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$MoneygramChallengeSignRequestDtoImplCopyWithImpl<$Res>
-    extends _$MoneygramChallengeSignRequestDtoCopyWithImpl<$Res,
-        _$MoneygramChallengeSignRequestDtoImpl>
+    extends
+        _$MoneygramChallengeSignRequestDtoCopyWithImpl<$Res, _$MoneygramChallengeSignRequestDtoImpl>
     implements _$$MoneygramChallengeSignRequestDtoImplCopyWith<$Res> {
   __$$MoneygramChallengeSignRequestDtoImplCopyWithImpl(
-      _$MoneygramChallengeSignRequestDtoImpl _value,
-      $Res Function(_$MoneygramChallengeSignRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$MoneygramChallengeSignRequestDtoImpl _value,
+    $Res Function(_$MoneygramChallengeSignRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of MoneygramChallengeSignRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signedTx = null,
-  }) {
-    return _then(_$MoneygramChallengeSignRequestDtoImpl(
-      signedTx: null == signedTx
-          ? _value.signedTx
-          : signedTx // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? signedTx = null}) {
+    return _then(
+      _$MoneygramChallengeSignRequestDtoImpl(
+        signedTx:
+            null == signedTx
+                ? _value.signedTx
+                : signedTx // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -129,8 +136,11 @@ class _$MoneygramChallengeSignRequestDtoImpl implements _MoneygramChallengeSignR
   @override
   @pragma('vm:prefer-inline')
   _$$MoneygramChallengeSignRequestDtoImplCopyWith<_$MoneygramChallengeSignRequestDtoImpl>
-      get copyWith => __$$MoneygramChallengeSignRequestDtoImplCopyWithImpl<
-          _$MoneygramChallengeSignRequestDtoImpl>(this, _$identity);
+  get copyWith =>
+      __$$MoneygramChallengeSignRequestDtoImplCopyWithImpl<_$MoneygramChallengeSignRequestDtoImpl>(
+        this,
+        _$identity,
+      );
 }
 
 abstract class _MoneygramChallengeSignRequestDto implements MoneygramChallengeSignRequestDto {
@@ -145,7 +155,7 @@ abstract class _MoneygramChallengeSignRequestDto implements MoneygramChallengeSi
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MoneygramChallengeSignRequestDtoImplCopyWith<_$MoneygramChallengeSignRequestDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -161,16 +171,19 @@ mixin _$MoneygramChallengeSignResponseDto {
 
 /// @nodoc
 abstract class $MoneygramChallengeSignResponseDtoCopyWith<$Res> {
-  factory $MoneygramChallengeSignResponseDtoCopyWith(MoneygramChallengeSignResponseDto value,
-          $Res Function(MoneygramChallengeSignResponseDto) then) =
-      _$MoneygramChallengeSignResponseDtoCopyWithImpl<$Res, MoneygramChallengeSignResponseDto>;
+  factory $MoneygramChallengeSignResponseDtoCopyWith(
+    MoneygramChallengeSignResponseDto value,
+    $Res Function(MoneygramChallengeSignResponseDto) then,
+  ) = _$MoneygramChallengeSignResponseDtoCopyWithImpl<$Res, MoneygramChallengeSignResponseDto>;
   @useResult
   $Res call({String signedTx});
 }
 
 /// @nodoc
-class _$MoneygramChallengeSignResponseDtoCopyWithImpl<$Res,
-        $Val extends MoneygramChallengeSignResponseDto>
+class _$MoneygramChallengeSignResponseDtoCopyWithImpl<
+  $Res,
+  $Val extends MoneygramChallengeSignResponseDto
+>
     implements $MoneygramChallengeSignResponseDtoCopyWith<$Res> {
   _$MoneygramChallengeSignResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -183,15 +196,17 @@ class _$MoneygramChallengeSignResponseDtoCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signedTx = null,
-  }) {
-    return _then(_value.copyWith(
-      signedTx: null == signedTx
-          ? _value.signedTx
-          : signedTx // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? signedTx = null}) {
+    return _then(
+      _value.copyWith(
+            signedTx:
+                null == signedTx
+                    ? _value.signedTx
+                    : signedTx // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -199,9 +214,9 @@ class _$MoneygramChallengeSignResponseDtoCopyWithImpl<$Res,
 abstract class _$$MoneygramChallengeSignResponseDtoImplCopyWith<$Res>
     implements $MoneygramChallengeSignResponseDtoCopyWith<$Res> {
   factory _$$MoneygramChallengeSignResponseDtoImplCopyWith(
-          _$MoneygramChallengeSignResponseDtoImpl value,
-          $Res Function(_$MoneygramChallengeSignResponseDtoImpl) then) =
-      __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl<$Res>;
+    _$MoneygramChallengeSignResponseDtoImpl value,
+    $Res Function(_$MoneygramChallengeSignResponseDtoImpl) then,
+  ) = __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String signedTx});
@@ -209,27 +224,31 @@ abstract class _$$MoneygramChallengeSignResponseDtoImplCopyWith<$Res>
 
 /// @nodoc
 class __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl<$Res>
-    extends _$MoneygramChallengeSignResponseDtoCopyWithImpl<$Res,
-        _$MoneygramChallengeSignResponseDtoImpl>
+    extends
+        _$MoneygramChallengeSignResponseDtoCopyWithImpl<
+          $Res,
+          _$MoneygramChallengeSignResponseDtoImpl
+        >
     implements _$$MoneygramChallengeSignResponseDtoImplCopyWith<$Res> {
   __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl(
-      _$MoneygramChallengeSignResponseDtoImpl _value,
-      $Res Function(_$MoneygramChallengeSignResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$MoneygramChallengeSignResponseDtoImpl _value,
+    $Res Function(_$MoneygramChallengeSignResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of MoneygramChallengeSignResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? signedTx = null,
-  }) {
-    return _then(_$MoneygramChallengeSignResponseDtoImpl(
-      signedTx: null == signedTx
-          ? _value.signedTx
-          : signedTx // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? signedTx = null}) {
+    return _then(
+      _$MoneygramChallengeSignResponseDtoImpl(
+        signedTx:
+            null == signedTx
+                ? _value.signedTx
+                : signedTx // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -263,8 +282,9 @@ class _$MoneygramChallengeSignResponseDtoImpl implements _MoneygramChallengeSign
   @override
   @pragma('vm:prefer-inline')
   _$$MoneygramChallengeSignResponseDtoImplCopyWith<_$MoneygramChallengeSignResponseDtoImpl>
-      get copyWith => __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl<
-          _$MoneygramChallengeSignResponseDtoImpl>(this, _$identity);
+  get copyWith => __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl<
+    _$MoneygramChallengeSignResponseDtoImpl
+  >(this, _$identity);
 }
 
 abstract class _MoneygramChallengeSignResponseDto implements MoneygramChallengeSignResponseDto {
@@ -279,7 +299,7 @@ abstract class _MoneygramChallengeSignResponseDto implements MoneygramChallengeS
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MoneygramChallengeSignResponseDtoImplCopyWith<_$MoneygramChallengeSignResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -299,11 +319,16 @@ mixin _$SwapToStellarRequestDto {
 /// @nodoc
 abstract class $SwapToStellarRequestDtoCopyWith<$Res> {
   factory $SwapToStellarRequestDtoCopyWith(
-          SwapToStellarRequestDto value, $Res Function(SwapToStellarRequestDto) then) =
-      _$SwapToStellarRequestDtoCopyWithImpl<$Res, SwapToStellarRequestDto>;
+    SwapToStellarRequestDto value,
+    $Res Function(SwapToStellarRequestDto) then,
+  ) = _$SwapToStellarRequestDtoCopyWithImpl<$Res, SwapToStellarRequestDto>;
   @useResult
-  $Res call(
-      {String solanaSenderAddress, String stellarReceiverAddress, String amount, int? priorityFee});
+  $Res call({
+    String solanaSenderAddress,
+    String stellarReceiverAddress,
+    String amount,
+    int? priorityFee,
+  });
 }
 
 /// @nodoc
@@ -326,24 +351,31 @@ class _$SwapToStellarRequestDtoCopyWithImpl<$Res, $Val extends SwapToStellarRequ
     Object? amount = null,
     Object? priorityFee = freezed,
   }) {
-    return _then(_value.copyWith(
-      solanaSenderAddress: null == solanaSenderAddress
-          ? _value.solanaSenderAddress
-          : solanaSenderAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      stellarReceiverAddress: null == stellarReceiverAddress
-          ? _value.stellarReceiverAddress
-          : stellarReceiverAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      priorityFee: freezed == priorityFee
-          ? _value.priorityFee
-          : priorityFee // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            solanaSenderAddress:
+                null == solanaSenderAddress
+                    ? _value.solanaSenderAddress
+                    : solanaSenderAddress // ignore: cast_nullable_to_non_nullable
+                        as String,
+            stellarReceiverAddress:
+                null == stellarReceiverAddress
+                    ? _value.stellarReceiverAddress
+                    : stellarReceiverAddress // ignore: cast_nullable_to_non_nullable
+                        as String,
+            amount:
+                null == amount
+                    ? _value.amount
+                    : amount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            priorityFee:
+                freezed == priorityFee
+                    ? _value.priorityFee
+                    : priorityFee // ignore: cast_nullable_to_non_nullable
+                        as int?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -351,12 +383,17 @@ class _$SwapToStellarRequestDtoCopyWithImpl<$Res, $Val extends SwapToStellarRequ
 abstract class _$$SwapToStellarRequestDtoImplCopyWith<$Res>
     implements $SwapToStellarRequestDtoCopyWith<$Res> {
   factory _$$SwapToStellarRequestDtoImplCopyWith(
-          _$SwapToStellarRequestDtoImpl value, $Res Function(_$SwapToStellarRequestDtoImpl) then) =
-      __$$SwapToStellarRequestDtoImplCopyWithImpl<$Res>;
+    _$SwapToStellarRequestDtoImpl value,
+    $Res Function(_$SwapToStellarRequestDtoImpl) then,
+  ) = __$$SwapToStellarRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String solanaSenderAddress, String stellarReceiverAddress, String amount, int? priorityFee});
+  $Res call({
+    String solanaSenderAddress,
+    String stellarReceiverAddress,
+    String amount,
+    int? priorityFee,
+  });
 }
 
 /// @nodoc
@@ -364,8 +401,9 @@ class __$$SwapToStellarRequestDtoImplCopyWithImpl<$Res>
     extends _$SwapToStellarRequestDtoCopyWithImpl<$Res, _$SwapToStellarRequestDtoImpl>
     implements _$$SwapToStellarRequestDtoImplCopyWith<$Res> {
   __$$SwapToStellarRequestDtoImplCopyWithImpl(
-      _$SwapToStellarRequestDtoImpl _value, $Res Function(_$SwapToStellarRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$SwapToStellarRequestDtoImpl _value,
+    $Res Function(_$SwapToStellarRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SwapToStellarRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -377,35 +415,42 @@ class __$$SwapToStellarRequestDtoImplCopyWithImpl<$Res>
     Object? amount = null,
     Object? priorityFee = freezed,
   }) {
-    return _then(_$SwapToStellarRequestDtoImpl(
-      solanaSenderAddress: null == solanaSenderAddress
-          ? _value.solanaSenderAddress
-          : solanaSenderAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      stellarReceiverAddress: null == stellarReceiverAddress
-          ? _value.stellarReceiverAddress
-          : stellarReceiverAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      priorityFee: freezed == priorityFee
-          ? _value.priorityFee
-          : priorityFee // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
+    return _then(
+      _$SwapToStellarRequestDtoImpl(
+        solanaSenderAddress:
+            null == solanaSenderAddress
+                ? _value.solanaSenderAddress
+                : solanaSenderAddress // ignore: cast_nullable_to_non_nullable
+                    as String,
+        stellarReceiverAddress:
+            null == stellarReceiverAddress
+                ? _value.stellarReceiverAddress
+                : stellarReceiverAddress // ignore: cast_nullable_to_non_nullable
+                    as String,
+        amount:
+            null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        priorityFee:
+            freezed == priorityFee
+                ? _value.priorityFee
+                : priorityFee // ignore: cast_nullable_to_non_nullable
+                    as int?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$SwapToStellarRequestDtoImpl implements _SwapToStellarRequestDto {
-  const _$SwapToStellarRequestDtoImpl(
-      {required this.solanaSenderAddress,
-      required this.stellarReceiverAddress,
-      required this.amount,
-      this.priorityFee});
+  const _$SwapToStellarRequestDtoImpl({
+    required this.solanaSenderAddress,
+    required this.stellarReceiverAddress,
+    required this.amount,
+    this.priorityFee,
+  });
 
   @override
   final String solanaSenderAddress;
@@ -448,11 +493,12 @@ class _$SwapToStellarRequestDtoImpl implements _SwapToStellarRequestDto {
 }
 
 abstract class _SwapToStellarRequestDto implements SwapToStellarRequestDto {
-  const factory _SwapToStellarRequestDto(
-      {required final String solanaSenderAddress,
-      required final String stellarReceiverAddress,
-      required final String amount,
-      final int? priorityFee}) = _$SwapToStellarRequestDtoImpl;
+  const factory _SwapToStellarRequestDto({
+    required final String solanaSenderAddress,
+    required final String stellarReceiverAddress,
+    required final String amount,
+    final int? priorityFee,
+  }) = _$SwapToStellarRequestDtoImpl;
 
   @override
   String get solanaSenderAddress;
@@ -487,8 +533,9 @@ mixin _$SwapToSolanaRequestDto {
 /// @nodoc
 abstract class $SwapToSolanaRequestDtoCopyWith<$Res> {
   factory $SwapToSolanaRequestDtoCopyWith(
-          SwapToSolanaRequestDto value, $Res Function(SwapToSolanaRequestDto) then) =
-      _$SwapToSolanaRequestDtoCopyWithImpl<$Res, SwapToSolanaRequestDto>;
+    SwapToSolanaRequestDto value,
+    $Res Function(SwapToSolanaRequestDto) then,
+  ) = _$SwapToSolanaRequestDtoCopyWithImpl<$Res, SwapToSolanaRequestDto>;
   @useResult
   $Res call({String stellarSenderAddress, String solanaReceiverAddress, String amount});
 }
@@ -512,20 +559,26 @@ class _$SwapToSolanaRequestDtoCopyWithImpl<$Res, $Val extends SwapToSolanaReques
     Object? solanaReceiverAddress = null,
     Object? amount = null,
   }) {
-    return _then(_value.copyWith(
-      stellarSenderAddress: null == stellarSenderAddress
-          ? _value.stellarSenderAddress
-          : stellarSenderAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      solanaReceiverAddress: null == solanaReceiverAddress
-          ? _value.solanaReceiverAddress
-          : solanaReceiverAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            stellarSenderAddress:
+                null == stellarSenderAddress
+                    ? _value.stellarSenderAddress
+                    : stellarSenderAddress // ignore: cast_nullable_to_non_nullable
+                        as String,
+            solanaReceiverAddress:
+                null == solanaReceiverAddress
+                    ? _value.solanaReceiverAddress
+                    : solanaReceiverAddress // ignore: cast_nullable_to_non_nullable
+                        as String,
+            amount:
+                null == amount
+                    ? _value.amount
+                    : amount // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -533,8 +586,9 @@ class _$SwapToSolanaRequestDtoCopyWithImpl<$Res, $Val extends SwapToSolanaReques
 abstract class _$$SwapToSolanaRequestDtoImplCopyWith<$Res>
     implements $SwapToSolanaRequestDtoCopyWith<$Res> {
   factory _$$SwapToSolanaRequestDtoImplCopyWith(
-          _$SwapToSolanaRequestDtoImpl value, $Res Function(_$SwapToSolanaRequestDtoImpl) then) =
-      __$$SwapToSolanaRequestDtoImplCopyWithImpl<$Res>;
+    _$SwapToSolanaRequestDtoImpl value,
+    $Res Function(_$SwapToSolanaRequestDtoImpl) then,
+  ) = __$$SwapToSolanaRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String stellarSenderAddress, String solanaReceiverAddress, String amount});
@@ -545,8 +599,9 @@ class __$$SwapToSolanaRequestDtoImplCopyWithImpl<$Res>
     extends _$SwapToSolanaRequestDtoCopyWithImpl<$Res, _$SwapToSolanaRequestDtoImpl>
     implements _$$SwapToSolanaRequestDtoImplCopyWith<$Res> {
   __$$SwapToSolanaRequestDtoImplCopyWithImpl(
-      _$SwapToSolanaRequestDtoImpl _value, $Res Function(_$SwapToSolanaRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$SwapToSolanaRequestDtoImpl _value,
+    $Res Function(_$SwapToSolanaRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SwapToSolanaRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -557,30 +612,36 @@ class __$$SwapToSolanaRequestDtoImplCopyWithImpl<$Res>
     Object? solanaReceiverAddress = null,
     Object? amount = null,
   }) {
-    return _then(_$SwapToSolanaRequestDtoImpl(
-      stellarSenderAddress: null == stellarSenderAddress
-          ? _value.stellarSenderAddress
-          : stellarSenderAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      solanaReceiverAddress: null == solanaReceiverAddress
-          ? _value.solanaReceiverAddress
-          : solanaReceiverAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$SwapToSolanaRequestDtoImpl(
+        stellarSenderAddress:
+            null == stellarSenderAddress
+                ? _value.stellarSenderAddress
+                : stellarSenderAddress // ignore: cast_nullable_to_non_nullable
+                    as String,
+        solanaReceiverAddress:
+            null == solanaReceiverAddress
+                ? _value.solanaReceiverAddress
+                : solanaReceiverAddress // ignore: cast_nullable_to_non_nullable
+                    as String,
+        amount:
+            null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$SwapToSolanaRequestDtoImpl implements _SwapToSolanaRequestDto {
-  const _$SwapToSolanaRequestDtoImpl(
-      {required this.stellarSenderAddress,
-      required this.solanaReceiverAddress,
-      required this.amount});
+  const _$SwapToSolanaRequestDtoImpl({
+    required this.stellarSenderAddress,
+    required this.solanaReceiverAddress,
+    required this.amount,
+  });
 
   @override
   final String stellarSenderAddress;
@@ -619,10 +680,11 @@ class _$SwapToSolanaRequestDtoImpl implements _SwapToSolanaRequestDto {
 }
 
 abstract class _SwapToSolanaRequestDto implements SwapToSolanaRequestDto {
-  const factory _SwapToSolanaRequestDto(
-      {required final String stellarSenderAddress,
-      required final String solanaReceiverAddress,
-      required final String amount}) = _$SwapToSolanaRequestDtoImpl;
+  const factory _SwapToSolanaRequestDto({
+    required final String stellarSenderAddress,
+    required final String solanaReceiverAddress,
+    required final String amount,
+  }) = _$SwapToSolanaRequestDtoImpl;
 
   @override
   String get stellarSenderAddress;
@@ -653,8 +715,9 @@ mixin _$MoneygramSwapResponseDto {
 /// @nodoc
 abstract class $MoneygramSwapResponseDtoCopyWith<$Res> {
   factory $MoneygramSwapResponseDtoCopyWith(
-          MoneygramSwapResponseDto value, $Res Function(MoneygramSwapResponseDto) then) =
-      _$MoneygramSwapResponseDtoCopyWithImpl<$Res, MoneygramSwapResponseDto>;
+    MoneygramSwapResponseDto value,
+    $Res Function(MoneygramSwapResponseDto) then,
+  ) = _$MoneygramSwapResponseDtoCopyWithImpl<$Res, MoneygramSwapResponseDto>;
   @useResult
   $Res call({String encodedTx});
 }
@@ -673,24 +736,27 @@ class _$MoneygramSwapResponseDtoCopyWithImpl<$Res, $Val extends MoneygramSwapRes
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? encodedTx = null,
-  }) {
-    return _then(_value.copyWith(
-      encodedTx: null == encodedTx
-          ? _value.encodedTx
-          : encodedTx // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? encodedTx = null}) {
+    return _then(
+      _value.copyWith(
+            encodedTx:
+                null == encodedTx
+                    ? _value.encodedTx
+                    : encodedTx // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$MoneygramSwapResponseDtoImplCopyWith<$Res>
     implements $MoneygramSwapResponseDtoCopyWith<$Res> {
-  factory _$$MoneygramSwapResponseDtoImplCopyWith(_$MoneygramSwapResponseDtoImpl value,
-          $Res Function(_$MoneygramSwapResponseDtoImpl) then) =
-      __$$MoneygramSwapResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$MoneygramSwapResponseDtoImplCopyWith(
+    _$MoneygramSwapResponseDtoImpl value,
+    $Res Function(_$MoneygramSwapResponseDtoImpl) then,
+  ) = __$$MoneygramSwapResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String encodedTx});
@@ -701,22 +767,24 @@ class __$$MoneygramSwapResponseDtoImplCopyWithImpl<$Res>
     extends _$MoneygramSwapResponseDtoCopyWithImpl<$Res, _$MoneygramSwapResponseDtoImpl>
     implements _$$MoneygramSwapResponseDtoImplCopyWith<$Res> {
   __$$MoneygramSwapResponseDtoImplCopyWithImpl(
-      _$MoneygramSwapResponseDtoImpl _value, $Res Function(_$MoneygramSwapResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$MoneygramSwapResponseDtoImpl _value,
+    $Res Function(_$MoneygramSwapResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of MoneygramSwapResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? encodedTx = null,
-  }) {
-    return _then(_$MoneygramSwapResponseDtoImpl(
-      encodedTx: null == encodedTx
-          ? _value.encodedTx
-          : encodedTx // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? encodedTx = null}) {
+    return _then(
+      _$MoneygramSwapResponseDtoImpl(
+        encodedTx:
+            null == encodedTx
+                ? _value.encodedTx
+                : encodedTx // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -751,7 +819,9 @@ class _$MoneygramSwapResponseDtoImpl implements _MoneygramSwapResponseDto {
   @pragma('vm:prefer-inline')
   _$$MoneygramSwapResponseDtoImplCopyWith<_$MoneygramSwapResponseDtoImpl> get copyWith =>
       __$$MoneygramSwapResponseDtoImplCopyWithImpl<_$MoneygramSwapResponseDtoImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _MoneygramSwapResponseDto implements MoneygramSwapResponseDto {
@@ -784,8 +854,9 @@ mixin _$MoneygramFeeRequestDto {
 /// @nodoc
 abstract class $MoneygramFeeRequestDtoCopyWith<$Res> {
   factory $MoneygramFeeRequestDtoCopyWith(
-          MoneygramFeeRequestDto value, $Res Function(MoneygramFeeRequestDto) then) =
-      _$MoneygramFeeRequestDtoCopyWithImpl<$Res, MoneygramFeeRequestDto>;
+    MoneygramFeeRequestDto value,
+    $Res Function(MoneygramFeeRequestDto) then,
+  ) = _$MoneygramFeeRequestDtoCopyWithImpl<$Res, MoneygramFeeRequestDto>;
   @useResult
   $Res call({String amount, RampTypeDto type});
 }
@@ -804,20 +875,22 @@ class _$MoneygramFeeRequestDtoCopyWithImpl<$Res, $Val extends MoneygramFeeReques
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? amount = null,
-    Object? type = null,
-  }) {
-    return _then(_value.copyWith(
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as RampTypeDto,
-    ) as $Val);
+  $Res call({Object? amount = null, Object? type = null}) {
+    return _then(
+      _value.copyWith(
+            amount:
+                null == amount
+                    ? _value.amount
+                    : amount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            type:
+                null == type
+                    ? _value.type
+                    : type // ignore: cast_nullable_to_non_nullable
+                        as RampTypeDto,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -825,8 +898,9 @@ class _$MoneygramFeeRequestDtoCopyWithImpl<$Res, $Val extends MoneygramFeeReques
 abstract class _$$MoneygramFeeRequestDtoImplCopyWith<$Res>
     implements $MoneygramFeeRequestDtoCopyWith<$Res> {
   factory _$$MoneygramFeeRequestDtoImplCopyWith(
-          _$MoneygramFeeRequestDtoImpl value, $Res Function(_$MoneygramFeeRequestDtoImpl) then) =
-      __$$MoneygramFeeRequestDtoImplCopyWithImpl<$Res>;
+    _$MoneygramFeeRequestDtoImpl value,
+    $Res Function(_$MoneygramFeeRequestDtoImpl) then,
+  ) = __$$MoneygramFeeRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String amount, RampTypeDto type});
@@ -837,27 +911,29 @@ class __$$MoneygramFeeRequestDtoImplCopyWithImpl<$Res>
     extends _$MoneygramFeeRequestDtoCopyWithImpl<$Res, _$MoneygramFeeRequestDtoImpl>
     implements _$$MoneygramFeeRequestDtoImplCopyWith<$Res> {
   __$$MoneygramFeeRequestDtoImplCopyWithImpl(
-      _$MoneygramFeeRequestDtoImpl _value, $Res Function(_$MoneygramFeeRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$MoneygramFeeRequestDtoImpl _value,
+    $Res Function(_$MoneygramFeeRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of MoneygramFeeRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? amount = null,
-    Object? type = null,
-  }) {
-    return _then(_$MoneygramFeeRequestDtoImpl(
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as RampTypeDto,
-    ));
+  $Res call({Object? amount = null, Object? type = null}) {
+    return _then(
+      _$MoneygramFeeRequestDtoImpl(
+        amount:
+            null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        type:
+            null == type
+                ? _value.type
+                : type // ignore: cast_nullable_to_non_nullable
+                    as RampTypeDto,
+      ),
+    );
   }
 }
 
@@ -898,9 +974,10 @@ class _$MoneygramFeeRequestDtoImpl implements _MoneygramFeeRequestDto {
 }
 
 abstract class _MoneygramFeeRequestDto implements MoneygramFeeRequestDto {
-  const factory _MoneygramFeeRequestDto(
-      {required final String amount,
-      required final RampTypeDto type}) = _$MoneygramFeeRequestDtoImpl;
+  const factory _MoneygramFeeRequestDto({
+    required final String amount,
+    required final RampTypeDto type,
+  }) = _$MoneygramFeeRequestDtoImpl;
 
   @override
   String get amount;
@@ -932,8 +1009,9 @@ mixin _$MoneygramFeeResponseDto {
 /// @nodoc
 abstract class $MoneygramFeeResponseDtoCopyWith<$Res> {
   factory $MoneygramFeeResponseDtoCopyWith(
-          MoneygramFeeResponseDto value, $Res Function(MoneygramFeeResponseDto) then) =
-      _$MoneygramFeeResponseDtoCopyWithImpl<$Res, MoneygramFeeResponseDto>;
+    MoneygramFeeResponseDto value,
+    $Res Function(MoneygramFeeResponseDto) then,
+  ) = _$MoneygramFeeResponseDtoCopyWithImpl<$Res, MoneygramFeeResponseDto>;
   @useResult
   $Res call({String bridgeFee, String moneygramFee, String? gasFeeInUsdc, int? priorityFee});
 }
@@ -958,24 +1036,31 @@ class _$MoneygramFeeResponseDtoCopyWithImpl<$Res, $Val extends MoneygramFeeRespo
     Object? gasFeeInUsdc = freezed,
     Object? priorityFee = freezed,
   }) {
-    return _then(_value.copyWith(
-      bridgeFee: null == bridgeFee
-          ? _value.bridgeFee
-          : bridgeFee // ignore: cast_nullable_to_non_nullable
-              as String,
-      moneygramFee: null == moneygramFee
-          ? _value.moneygramFee
-          : moneygramFee // ignore: cast_nullable_to_non_nullable
-              as String,
-      gasFeeInUsdc: freezed == gasFeeInUsdc
-          ? _value.gasFeeInUsdc
-          : gasFeeInUsdc // ignore: cast_nullable_to_non_nullable
-              as String?,
-      priorityFee: freezed == priorityFee
-          ? _value.priorityFee
-          : priorityFee // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            bridgeFee:
+                null == bridgeFee
+                    ? _value.bridgeFee
+                    : bridgeFee // ignore: cast_nullable_to_non_nullable
+                        as String,
+            moneygramFee:
+                null == moneygramFee
+                    ? _value.moneygramFee
+                    : moneygramFee // ignore: cast_nullable_to_non_nullable
+                        as String,
+            gasFeeInUsdc:
+                freezed == gasFeeInUsdc
+                    ? _value.gasFeeInUsdc
+                    : gasFeeInUsdc // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            priorityFee:
+                freezed == priorityFee
+                    ? _value.priorityFee
+                    : priorityFee // ignore: cast_nullable_to_non_nullable
+                        as int?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -983,8 +1068,9 @@ class _$MoneygramFeeResponseDtoCopyWithImpl<$Res, $Val extends MoneygramFeeRespo
 abstract class _$$MoneygramFeeResponseDtoImplCopyWith<$Res>
     implements $MoneygramFeeResponseDtoCopyWith<$Res> {
   factory _$$MoneygramFeeResponseDtoImplCopyWith(
-          _$MoneygramFeeResponseDtoImpl value, $Res Function(_$MoneygramFeeResponseDtoImpl) then) =
-      __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>;
+    _$MoneygramFeeResponseDtoImpl value,
+    $Res Function(_$MoneygramFeeResponseDtoImpl) then,
+  ) = __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String bridgeFee, String moneygramFee, String? gasFeeInUsdc, int? priorityFee});
@@ -995,8 +1081,9 @@ class __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>
     extends _$MoneygramFeeResponseDtoCopyWithImpl<$Res, _$MoneygramFeeResponseDtoImpl>
     implements _$$MoneygramFeeResponseDtoImplCopyWith<$Res> {
   __$$MoneygramFeeResponseDtoImplCopyWithImpl(
-      _$MoneygramFeeResponseDtoImpl _value, $Res Function(_$MoneygramFeeResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$MoneygramFeeResponseDtoImpl _value,
+    $Res Function(_$MoneygramFeeResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of MoneygramFeeResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -1008,32 +1095,42 @@ class __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>
     Object? gasFeeInUsdc = freezed,
     Object? priorityFee = freezed,
   }) {
-    return _then(_$MoneygramFeeResponseDtoImpl(
-      bridgeFee: null == bridgeFee
-          ? _value.bridgeFee
-          : bridgeFee // ignore: cast_nullable_to_non_nullable
-              as String,
-      moneygramFee: null == moneygramFee
-          ? _value.moneygramFee
-          : moneygramFee // ignore: cast_nullable_to_non_nullable
-              as String,
-      gasFeeInUsdc: freezed == gasFeeInUsdc
-          ? _value.gasFeeInUsdc
-          : gasFeeInUsdc // ignore: cast_nullable_to_non_nullable
-              as String?,
-      priorityFee: freezed == priorityFee
-          ? _value.priorityFee
-          : priorityFee // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
+    return _then(
+      _$MoneygramFeeResponseDtoImpl(
+        bridgeFee:
+            null == bridgeFee
+                ? _value.bridgeFee
+                : bridgeFee // ignore: cast_nullable_to_non_nullable
+                    as String,
+        moneygramFee:
+            null == moneygramFee
+                ? _value.moneygramFee
+                : moneygramFee // ignore: cast_nullable_to_non_nullable
+                    as String,
+        gasFeeInUsdc:
+            freezed == gasFeeInUsdc
+                ? _value.gasFeeInUsdc
+                : gasFeeInUsdc // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        priorityFee:
+            freezed == priorityFee
+                ? _value.priorityFee
+                : priorityFee // ignore: cast_nullable_to_non_nullable
+                    as int?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$MoneygramFeeResponseDtoImpl implements _MoneygramFeeResponseDto {
-  const _$MoneygramFeeResponseDtoImpl(
-      {required this.bridgeFee, required this.moneygramFee, this.gasFeeInUsdc, this.priorityFee});
+  const _$MoneygramFeeResponseDtoImpl({
+    required this.bridgeFee,
+    required this.moneygramFee,
+    this.gasFeeInUsdc,
+    this.priorityFee,
+  });
 
   @override
   final String bridgeFee;
@@ -1073,11 +1170,12 @@ class _$MoneygramFeeResponseDtoImpl implements _MoneygramFeeResponseDto {
 }
 
 abstract class _MoneygramFeeResponseDto implements MoneygramFeeResponseDto {
-  const factory _MoneygramFeeResponseDto(
-      {required final String bridgeFee,
-      required final String moneygramFee,
-      final String? gasFeeInUsdc,
-      final int? priorityFee}) = _$MoneygramFeeResponseDtoImpl;
+  const factory _MoneygramFeeResponseDto({
+    required final String bridgeFee,
+    required final String moneygramFee,
+    final String? gasFeeInUsdc,
+    final int? priorityFee,
+  }) = _$MoneygramFeeResponseDtoImpl;
 
   @override
   String get bridgeFee;
@@ -1109,8 +1207,9 @@ mixin _$FundXlmRequestDto {
 /// @nodoc
 abstract class $FundXlmRequestDtoCopyWith<$Res> {
   factory $FundXlmRequestDtoCopyWith(
-          FundXlmRequestDto value, $Res Function(FundXlmRequestDto) then) =
-      _$FundXlmRequestDtoCopyWithImpl<$Res, FundXlmRequestDto>;
+    FundXlmRequestDto value,
+    $Res Function(FundXlmRequestDto) then,
+  ) = _$FundXlmRequestDtoCopyWithImpl<$Res, FundXlmRequestDto>;
   @useResult
   $Res call({String accountId});
 }
@@ -1129,23 +1228,26 @@ class _$FundXlmRequestDtoCopyWithImpl<$Res, $Val extends FundXlmRequestDto>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? accountId = null,
-  }) {
-    return _then(_value.copyWith(
-      accountId: null == accountId
-          ? _value.accountId
-          : accountId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? accountId = null}) {
+    return _then(
+      _value.copyWith(
+            accountId:
+                null == accountId
+                    ? _value.accountId
+                    : accountId // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$FundXlmRequestDtoImplCopyWith<$Res> implements $FundXlmRequestDtoCopyWith<$Res> {
   factory _$$FundXlmRequestDtoImplCopyWith(
-          _$FundXlmRequestDtoImpl value, $Res Function(_$FundXlmRequestDtoImpl) then) =
-      __$$FundXlmRequestDtoImplCopyWithImpl<$Res>;
+    _$FundXlmRequestDtoImpl value,
+    $Res Function(_$FundXlmRequestDtoImpl) then,
+  ) = __$$FundXlmRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String accountId});
@@ -1156,22 +1258,24 @@ class __$$FundXlmRequestDtoImplCopyWithImpl<$Res>
     extends _$FundXlmRequestDtoCopyWithImpl<$Res, _$FundXlmRequestDtoImpl>
     implements _$$FundXlmRequestDtoImplCopyWith<$Res> {
   __$$FundXlmRequestDtoImplCopyWithImpl(
-      _$FundXlmRequestDtoImpl _value, $Res Function(_$FundXlmRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$FundXlmRequestDtoImpl _value,
+    $Res Function(_$FundXlmRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of FundXlmRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? accountId = null,
-  }) {
-    return _then(_$FundXlmRequestDtoImpl(
-      accountId: null == accountId
-          ? _value.accountId
-          : accountId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? accountId = null}) {
+    return _then(
+      _$FundXlmRequestDtoImpl(
+        accountId:
+            null == accountId
+                ? _value.accountId
+                : accountId // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 

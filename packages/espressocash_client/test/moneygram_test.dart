@@ -35,9 +35,7 @@ void main() {
     const mockSignedTx =
         'AAAAAgAAAAD62jCX+vB7muIA+PNb6RsdTGhqibHb5OmXUObU41CTgwAAASwAAAAAAAAAAAAAAAEAAAAAaAXPYQAAAABoBdLlAAAAAAAAAAMAAAABAAAAAJgrKnfbk7sOrkFB8IEUpq/KLXIzXkoh7d6lIVL4yMUfAAAACgAAABpzdGVsbGFyLm1vbmV5Z3JhbS5jb20gYXV0aAAAAAAAAQAAAEBRQmdwQnI2MUJTUmxETmtNQU1BazZMWE4yZlVPbm9Xb3hXYlVvK1VKdTdvZmRWY3ByMERCYk5BV0pXclVLUkZFAAAAAQAAAAD62jCX+vB7muIA+PNb6RsdTGhqibHb5OmXUObU41CTgwAAAAoAAAAPd2ViX2F1dGhfZG9tYWluAAAAAAEAAAAVc3RlbGxhci5tb25leWdyYW0uY29tAAAAAAAAAQAAAABEeJtKKH/+u/cPE07wmM5VZvBY9bmdVjntawLTEvU9fgAAAAoAAAANY2xpZW50X2RvbWFpbgAAAAAAAAEAAAAQZXNwcmVzc29jYXNoLmNvbQAAAAAAAAAB41CTgwAAAECNLoqeuLTHNNErrsVXpMiODszX204F+0owqrrXzQTTYPy6AmcAA8tM/KiDb2aFUSTrmcZV5Cd2FFopv3fpIZUA';
 
-    const request = MoneygramChallengeSignRequestDto(
-      signedTx: mockSignedTx,
-    );
+    const request = MoneygramChallengeSignRequestDto(signedTx: mockSignedTx);
 
     final response = await client.signChallenge(request);
 
@@ -47,10 +45,7 @@ void main() {
   });
 
   test('calculates Moneygram fee successfully', skip: true, () async {
-    const request = MoneygramFeeRequestDto(
-      amount: '100.0',
-      type: RampTypeDto.offRamp,
-    );
+    const request = MoneygramFeeRequestDto(amount: '100.0', type: RampTypeDto.offRamp);
 
     final response = await client.calculateMoneygramFee(request);
 
@@ -93,9 +88,7 @@ void main() {
   });
 
   test('funds XLM account successfully', skip: true, () async {
-    const request = FundXlmRequestDto(
-      accountId: stellarAddress,
-    );
+    const request = FundXlmRequestDto(accountId: stellarAddress);
 
     await client.fundXlmRequest(request);
   });

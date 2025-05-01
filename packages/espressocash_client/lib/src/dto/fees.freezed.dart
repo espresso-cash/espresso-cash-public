@@ -12,7 +12,8 @@ part of 'fees.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$DirectPaymentQuoteRequestDto {
@@ -29,8 +30,9 @@ mixin _$DirectPaymentQuoteRequestDto {
 /// @nodoc
 abstract class $DirectPaymentQuoteRequestDtoCopyWith<$Res> {
   factory $DirectPaymentQuoteRequestDtoCopyWith(
-          DirectPaymentQuoteRequestDto value, $Res Function(DirectPaymentQuoteRequestDto) then) =
-      _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res, DirectPaymentQuoteRequestDto>;
+    DirectPaymentQuoteRequestDto value,
+    $Res Function(DirectPaymentQuoteRequestDto) then,
+  ) = _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res, DirectPaymentQuoteRequestDto>;
   @useResult
   $Res call({String receiverAccount, int amount});
 }
@@ -49,29 +51,32 @@ class _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res, $Val extends DirectPaymen
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? receiverAccount = null,
-    Object? amount = null,
-  }) {
-    return _then(_value.copyWith(
-      receiverAccount: null == receiverAccount
-          ? _value.receiverAccount
-          : receiverAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? receiverAccount = null, Object? amount = null}) {
+    return _then(
+      _value.copyWith(
+            receiverAccount:
+                null == receiverAccount
+                    ? _value.receiverAccount
+                    : receiverAccount // ignore: cast_nullable_to_non_nullable
+                        as String,
+            amount:
+                null == amount
+                    ? _value.amount
+                    : amount // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$DirectPaymentQuoteRequestDtoImplCopyWith<$Res>
     implements $DirectPaymentQuoteRequestDtoCopyWith<$Res> {
-  factory _$$DirectPaymentQuoteRequestDtoImplCopyWith(_$DirectPaymentQuoteRequestDtoImpl value,
-          $Res Function(_$DirectPaymentQuoteRequestDtoImpl) then) =
-      __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<$Res>;
+  factory _$$DirectPaymentQuoteRequestDtoImplCopyWith(
+    _$DirectPaymentQuoteRequestDtoImpl value,
+    $Res Function(_$DirectPaymentQuoteRequestDtoImpl) then,
+  ) = __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String receiverAccount, int amount});
@@ -81,28 +86,30 @@ abstract class _$$DirectPaymentQuoteRequestDtoImplCopyWith<$Res>
 class __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<$Res>
     extends _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res, _$DirectPaymentQuoteRequestDtoImpl>
     implements _$$DirectPaymentQuoteRequestDtoImplCopyWith<$Res> {
-  __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl(_$DirectPaymentQuoteRequestDtoImpl _value,
-      $Res Function(_$DirectPaymentQuoteRequestDtoImpl) _then)
-      : super(_value, _then);
+  __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl(
+    _$DirectPaymentQuoteRequestDtoImpl _value,
+    $Res Function(_$DirectPaymentQuoteRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of DirectPaymentQuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? receiverAccount = null,
-    Object? amount = null,
-  }) {
-    return _then(_$DirectPaymentQuoteRequestDtoImpl(
-      receiverAccount: null == receiverAccount
-          ? _value.receiverAccount
-          : receiverAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? receiverAccount = null, Object? amount = null}) {
+    return _then(
+      _$DirectPaymentQuoteRequestDtoImpl(
+        receiverAccount:
+            null == receiverAccount
+                ? _value.receiverAccount
+                : receiverAccount // ignore: cast_nullable_to_non_nullable
+                    as String,
+        amount:
+            null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
@@ -141,13 +148,16 @@ class _$DirectPaymentQuoteRequestDtoImpl implements _DirectPaymentQuoteRequestDt
   @pragma('vm:prefer-inline')
   _$$DirectPaymentQuoteRequestDtoImplCopyWith<_$DirectPaymentQuoteRequestDtoImpl> get copyWith =>
       __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<_$DirectPaymentQuoteRequestDtoImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _DirectPaymentQuoteRequestDto implements DirectPaymentQuoteRequestDto {
-  const factory _DirectPaymentQuoteRequestDto(
-      {required final String receiverAccount,
-      required final int amount}) = _$DirectPaymentQuoteRequestDtoImpl;
+  const factory _DirectPaymentQuoteRequestDto({
+    required final String receiverAccount,
+    required final int amount,
+  }) = _$DirectPaymentQuoteRequestDtoImpl;
 
   @override
   String get receiverAccount;
@@ -177,8 +187,9 @@ mixin _$DirectPaymentQuoteResponseDto {
 /// @nodoc
 abstract class $DirectPaymentQuoteResponseDtoCopyWith<$Res> {
   factory $DirectPaymentQuoteResponseDtoCopyWith(
-          DirectPaymentQuoteResponseDto value, $Res Function(DirectPaymentQuoteResponseDto) then) =
-      _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res, DirectPaymentQuoteResponseDto>;
+    DirectPaymentQuoteResponseDto value,
+    $Res Function(DirectPaymentQuoteResponseDto) then,
+  ) = _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res, DirectPaymentQuoteResponseDto>;
   @useResult
   $Res call({int fee, int totalAmount});
 }
@@ -197,29 +208,32 @@ class _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res, $Val extends DirectPayme
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? fee = null,
-    Object? totalAmount = null,
-  }) {
-    return _then(_value.copyWith(
-      fee: null == fee
-          ? _value.fee
-          : fee // ignore: cast_nullable_to_non_nullable
-              as int,
-      totalAmount: null == totalAmount
-          ? _value.totalAmount
-          : totalAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? fee = null, Object? totalAmount = null}) {
+    return _then(
+      _value.copyWith(
+            fee:
+                null == fee
+                    ? _value.fee
+                    : fee // ignore: cast_nullable_to_non_nullable
+                        as int,
+            totalAmount:
+                null == totalAmount
+                    ? _value.totalAmount
+                    : totalAmount // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$DirectPaymentQuoteResponseDtoImplCopyWith<$Res>
     implements $DirectPaymentQuoteResponseDtoCopyWith<$Res> {
-  factory _$$DirectPaymentQuoteResponseDtoImplCopyWith(_$DirectPaymentQuoteResponseDtoImpl value,
-          $Res Function(_$DirectPaymentQuoteResponseDtoImpl) then) =
-      __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$DirectPaymentQuoteResponseDtoImplCopyWith(
+    _$DirectPaymentQuoteResponseDtoImpl value,
+    $Res Function(_$DirectPaymentQuoteResponseDtoImpl) then,
+  ) = __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int fee, int totalAmount});
@@ -229,28 +243,30 @@ abstract class _$$DirectPaymentQuoteResponseDtoImplCopyWith<$Res>
 class __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl<$Res>
     extends _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res, _$DirectPaymentQuoteResponseDtoImpl>
     implements _$$DirectPaymentQuoteResponseDtoImplCopyWith<$Res> {
-  __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl(_$DirectPaymentQuoteResponseDtoImpl _value,
-      $Res Function(_$DirectPaymentQuoteResponseDtoImpl) _then)
-      : super(_value, _then);
+  __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl(
+    _$DirectPaymentQuoteResponseDtoImpl _value,
+    $Res Function(_$DirectPaymentQuoteResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of DirectPaymentQuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? fee = null,
-    Object? totalAmount = null,
-  }) {
-    return _then(_$DirectPaymentQuoteResponseDtoImpl(
-      fee: null == fee
-          ? _value.fee
-          : fee // ignore: cast_nullable_to_non_nullable
-              as int,
-      totalAmount: null == totalAmount
-          ? _value.totalAmount
-          : totalAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? fee = null, Object? totalAmount = null}) {
+    return _then(
+      _$DirectPaymentQuoteResponseDtoImpl(
+        fee:
+            null == fee
+                ? _value.fee
+                : fee // ignore: cast_nullable_to_non_nullable
+                    as int,
+        totalAmount:
+            null == totalAmount
+                ? _value.totalAmount
+                : totalAmount // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
@@ -288,13 +304,16 @@ class _$DirectPaymentQuoteResponseDtoImpl implements _DirectPaymentQuoteResponse
   @pragma('vm:prefer-inline')
   _$$DirectPaymentQuoteResponseDtoImplCopyWith<_$DirectPaymentQuoteResponseDtoImpl> get copyWith =>
       __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl<_$DirectPaymentQuoteResponseDtoImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _DirectPaymentQuoteResponseDto implements DirectPaymentQuoteResponseDto {
-  const factory _DirectPaymentQuoteResponseDto(
-      {required final int fee,
-      required final int totalAmount}) = _$DirectPaymentQuoteResponseDtoImpl;
+  const factory _DirectPaymentQuoteResponseDto({
+    required final int fee,
+    required final int totalAmount,
+  }) = _$DirectPaymentQuoteResponseDtoImpl;
 
   @override
   int get fee;
@@ -323,8 +342,9 @@ mixin _$EscrowPaymentQuoteResponseDto {
 /// @nodoc
 abstract class $EscrowPaymentQuoteResponseDtoCopyWith<$Res> {
   factory $EscrowPaymentQuoteResponseDtoCopyWith(
-          EscrowPaymentQuoteResponseDto value, $Res Function(EscrowPaymentQuoteResponseDto) then) =
-      _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res, EscrowPaymentQuoteResponseDto>;
+    EscrowPaymentQuoteResponseDto value,
+    $Res Function(EscrowPaymentQuoteResponseDto) then,
+  ) = _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res, EscrowPaymentQuoteResponseDto>;
   @useResult
   $Res call({int fee});
 }
@@ -343,24 +363,27 @@ class _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res, $Val extends EscrowPayme
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? fee = null,
-  }) {
-    return _then(_value.copyWith(
-      fee: null == fee
-          ? _value.fee
-          : fee // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? fee = null}) {
+    return _then(
+      _value.copyWith(
+            fee:
+                null == fee
+                    ? _value.fee
+                    : fee // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$EscrowPaymentQuoteResponseDtoImplCopyWith<$Res>
     implements $EscrowPaymentQuoteResponseDtoCopyWith<$Res> {
-  factory _$$EscrowPaymentQuoteResponseDtoImplCopyWith(_$EscrowPaymentQuoteResponseDtoImpl value,
-          $Res Function(_$EscrowPaymentQuoteResponseDtoImpl) then) =
-      __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$EscrowPaymentQuoteResponseDtoImplCopyWith(
+    _$EscrowPaymentQuoteResponseDtoImpl value,
+    $Res Function(_$EscrowPaymentQuoteResponseDtoImpl) then,
+  ) = __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int fee});
@@ -370,23 +393,25 @@ abstract class _$$EscrowPaymentQuoteResponseDtoImplCopyWith<$Res>
 class __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl<$Res>
     extends _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res, _$EscrowPaymentQuoteResponseDtoImpl>
     implements _$$EscrowPaymentQuoteResponseDtoImplCopyWith<$Res> {
-  __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl(_$EscrowPaymentQuoteResponseDtoImpl _value,
-      $Res Function(_$EscrowPaymentQuoteResponseDtoImpl) _then)
-      : super(_value, _then);
+  __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl(
+    _$EscrowPaymentQuoteResponseDtoImpl _value,
+    $Res Function(_$EscrowPaymentQuoteResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of EscrowPaymentQuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? fee = null,
-  }) {
-    return _then(_$EscrowPaymentQuoteResponseDtoImpl(
-      fee: null == fee
-          ? _value.fee
-          : fee // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? fee = null}) {
+    return _then(
+      _$EscrowPaymentQuoteResponseDtoImpl(
+        fee:
+            null == fee
+                ? _value.fee
+                : fee // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
@@ -421,7 +446,9 @@ class _$EscrowPaymentQuoteResponseDtoImpl implements _EscrowPaymentQuoteResponse
   @pragma('vm:prefer-inline')
   _$$EscrowPaymentQuoteResponseDtoImplCopyWith<_$EscrowPaymentQuoteResponseDtoImpl> get copyWith =>
       __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl<_$EscrowPaymentQuoteResponseDtoImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _EscrowPaymentQuoteResponseDto implements EscrowPaymentQuoteResponseDto {

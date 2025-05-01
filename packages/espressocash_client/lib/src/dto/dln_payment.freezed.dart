@@ -12,7 +12,8 @@ part of 'dln_payment.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$OutgoingQuoteRequestDto {
@@ -30,8 +31,9 @@ mixin _$OutgoingQuoteRequestDto {
 /// @nodoc
 abstract class $OutgoingQuoteRequestDtoCopyWith<$Res> {
   factory $OutgoingQuoteRequestDtoCopyWith(
-          OutgoingQuoteRequestDto value, $Res Function(OutgoingQuoteRequestDto) then) =
-      _$OutgoingQuoteRequestDtoCopyWithImpl<$Res, OutgoingQuoteRequestDto>;
+    OutgoingQuoteRequestDto value,
+    $Res Function(OutgoingQuoteRequestDto) then,
+  ) = _$OutgoingQuoteRequestDtoCopyWithImpl<$Res, OutgoingQuoteRequestDto>;
   @useResult
   $Res call({int amount, String receiverAddress, String receiverBlockchain});
 }
@@ -55,20 +57,26 @@ class _$OutgoingQuoteRequestDtoCopyWithImpl<$Res, $Val extends OutgoingQuoteRequ
     Object? receiverAddress = null,
     Object? receiverBlockchain = null,
   }) {
-    return _then(_value.copyWith(
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
-      receiverAddress: null == receiverAddress
-          ? _value.receiverAddress
-          : receiverAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      receiverBlockchain: null == receiverBlockchain
-          ? _value.receiverBlockchain
-          : receiverBlockchain // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            amount:
+                null == amount
+                    ? _value.amount
+                    : amount // ignore: cast_nullable_to_non_nullable
+                        as int,
+            receiverAddress:
+                null == receiverAddress
+                    ? _value.receiverAddress
+                    : receiverAddress // ignore: cast_nullable_to_non_nullable
+                        as String,
+            receiverBlockchain:
+                null == receiverBlockchain
+                    ? _value.receiverBlockchain
+                    : receiverBlockchain // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -76,8 +84,9 @@ class _$OutgoingQuoteRequestDtoCopyWithImpl<$Res, $Val extends OutgoingQuoteRequ
 abstract class _$$OutgoingQuoteRequestDtoImplCopyWith<$Res>
     implements $OutgoingQuoteRequestDtoCopyWith<$Res> {
   factory _$$OutgoingQuoteRequestDtoImplCopyWith(
-          _$OutgoingQuoteRequestDtoImpl value, $Res Function(_$OutgoingQuoteRequestDtoImpl) then) =
-      __$$OutgoingQuoteRequestDtoImplCopyWithImpl<$Res>;
+    _$OutgoingQuoteRequestDtoImpl value,
+    $Res Function(_$OutgoingQuoteRequestDtoImpl) then,
+  ) = __$$OutgoingQuoteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int amount, String receiverAddress, String receiverBlockchain});
@@ -88,8 +97,9 @@ class __$$OutgoingQuoteRequestDtoImplCopyWithImpl<$Res>
     extends _$OutgoingQuoteRequestDtoCopyWithImpl<$Res, _$OutgoingQuoteRequestDtoImpl>
     implements _$$OutgoingQuoteRequestDtoImplCopyWith<$Res> {
   __$$OutgoingQuoteRequestDtoImplCopyWithImpl(
-      _$OutgoingQuoteRequestDtoImpl _value, $Res Function(_$OutgoingQuoteRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$OutgoingQuoteRequestDtoImpl _value,
+    $Res Function(_$OutgoingQuoteRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of OutgoingQuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -100,28 +110,36 @@ class __$$OutgoingQuoteRequestDtoImplCopyWithImpl<$Res>
     Object? receiverAddress = null,
     Object? receiverBlockchain = null,
   }) {
-    return _then(_$OutgoingQuoteRequestDtoImpl(
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
-      receiverAddress: null == receiverAddress
-          ? _value.receiverAddress
-          : receiverAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      receiverBlockchain: null == receiverBlockchain
-          ? _value.receiverBlockchain
-          : receiverBlockchain // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$OutgoingQuoteRequestDtoImpl(
+        amount:
+            null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                    as int,
+        receiverAddress:
+            null == receiverAddress
+                ? _value.receiverAddress
+                : receiverAddress // ignore: cast_nullable_to_non_nullable
+                    as String,
+        receiverBlockchain:
+            null == receiverBlockchain
+                ? _value.receiverBlockchain
+                : receiverBlockchain // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$OutgoingQuoteRequestDtoImpl implements _OutgoingQuoteRequestDto {
-  const _$OutgoingQuoteRequestDtoImpl(
-      {required this.amount, required this.receiverAddress, required this.receiverBlockchain});
+  const _$OutgoingQuoteRequestDtoImpl({
+    required this.amount,
+    required this.receiverAddress,
+    required this.receiverBlockchain,
+  });
 
   @override
   final int amount;
@@ -160,10 +178,11 @@ class _$OutgoingQuoteRequestDtoImpl implements _OutgoingQuoteRequestDto {
 }
 
 abstract class _OutgoingQuoteRequestDto implements OutgoingQuoteRequestDto {
-  const factory _OutgoingQuoteRequestDto(
-      {required final int amount,
-      required final String receiverAddress,
-      required final String receiverBlockchain}) = _$OutgoingQuoteRequestDtoImpl;
+  const factory _OutgoingQuoteRequestDto({
+    required final int amount,
+    required final String receiverAddress,
+    required final String receiverBlockchain,
+  }) = _$OutgoingQuoteRequestDtoImpl;
 
   @override
   int get amount;
@@ -198,8 +217,9 @@ mixin _$OutgoingQuoteResponseDto {
 /// @nodoc
 abstract class $OutgoingQuoteResponseDtoCopyWith<$Res> {
   factory $OutgoingQuoteResponseDtoCopyWith(
-          OutgoingQuoteResponseDto value, $Res Function(OutgoingQuoteResponseDto) then) =
-      _$OutgoingQuoteResponseDtoCopyWithImpl<$Res, OutgoingQuoteResponseDto>;
+    OutgoingQuoteResponseDto value,
+    $Res Function(OutgoingQuoteResponseDto) then,
+  ) = _$OutgoingQuoteResponseDtoCopyWithImpl<$Res, OutgoingQuoteResponseDto>;
   @useResult
   $Res call({int inputAmount, int receiverAmount, String encodedTx, int feeInUsdc, BigInt slot});
 }
@@ -225,37 +245,46 @@ class _$OutgoingQuoteResponseDtoCopyWithImpl<$Res, $Val extends OutgoingQuoteRes
     Object? feeInUsdc = null,
     Object? slot = null,
   }) {
-    return _then(_value.copyWith(
-      inputAmount: null == inputAmount
-          ? _value.inputAmount
-          : inputAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      receiverAmount: null == receiverAmount
-          ? _value.receiverAmount
-          : receiverAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      encodedTx: null == encodedTx
-          ? _value.encodedTx
-          : encodedTx // ignore: cast_nullable_to_non_nullable
-              as String,
-      feeInUsdc: null == feeInUsdc
-          ? _value.feeInUsdc
-          : feeInUsdc // ignore: cast_nullable_to_non_nullable
-              as int,
-      slot: null == slot
-          ? _value.slot
-          : slot // ignore: cast_nullable_to_non_nullable
-              as BigInt,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            inputAmount:
+                null == inputAmount
+                    ? _value.inputAmount
+                    : inputAmount // ignore: cast_nullable_to_non_nullable
+                        as int,
+            receiverAmount:
+                null == receiverAmount
+                    ? _value.receiverAmount
+                    : receiverAmount // ignore: cast_nullable_to_non_nullable
+                        as int,
+            encodedTx:
+                null == encodedTx
+                    ? _value.encodedTx
+                    : encodedTx // ignore: cast_nullable_to_non_nullable
+                        as String,
+            feeInUsdc:
+                null == feeInUsdc
+                    ? _value.feeInUsdc
+                    : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                        as int,
+            slot:
+                null == slot
+                    ? _value.slot
+                    : slot // ignore: cast_nullable_to_non_nullable
+                        as BigInt,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$OutgoingQuoteResponseDtoImplCopyWith<$Res>
     implements $OutgoingQuoteResponseDtoCopyWith<$Res> {
-  factory _$$OutgoingQuoteResponseDtoImplCopyWith(_$OutgoingQuoteResponseDtoImpl value,
-          $Res Function(_$OutgoingQuoteResponseDtoImpl) then) =
-      __$$OutgoingQuoteResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$OutgoingQuoteResponseDtoImplCopyWith(
+    _$OutgoingQuoteResponseDtoImpl value,
+    $Res Function(_$OutgoingQuoteResponseDtoImpl) then,
+  ) = __$$OutgoingQuoteResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int inputAmount, int receiverAmount, String encodedTx, int feeInUsdc, BigInt slot});
@@ -266,8 +295,9 @@ class __$$OutgoingQuoteResponseDtoImplCopyWithImpl<$Res>
     extends _$OutgoingQuoteResponseDtoCopyWithImpl<$Res, _$OutgoingQuoteResponseDtoImpl>
     implements _$$OutgoingQuoteResponseDtoImplCopyWith<$Res> {
   __$$OutgoingQuoteResponseDtoImplCopyWithImpl(
-      _$OutgoingQuoteResponseDtoImpl _value, $Res Function(_$OutgoingQuoteResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$OutgoingQuoteResponseDtoImpl _value,
+    $Res Function(_$OutgoingQuoteResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of OutgoingQuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -280,40 +310,48 @@ class __$$OutgoingQuoteResponseDtoImplCopyWithImpl<$Res>
     Object? feeInUsdc = null,
     Object? slot = null,
   }) {
-    return _then(_$OutgoingQuoteResponseDtoImpl(
-      inputAmount: null == inputAmount
-          ? _value.inputAmount
-          : inputAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      receiverAmount: null == receiverAmount
-          ? _value.receiverAmount
-          : receiverAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      encodedTx: null == encodedTx
-          ? _value.encodedTx
-          : encodedTx // ignore: cast_nullable_to_non_nullable
-              as String,
-      feeInUsdc: null == feeInUsdc
-          ? _value.feeInUsdc
-          : feeInUsdc // ignore: cast_nullable_to_non_nullable
-              as int,
-      slot: null == slot
-          ? _value.slot
-          : slot // ignore: cast_nullable_to_non_nullable
-              as BigInt,
-    ));
+    return _then(
+      _$OutgoingQuoteResponseDtoImpl(
+        inputAmount:
+            null == inputAmount
+                ? _value.inputAmount
+                : inputAmount // ignore: cast_nullable_to_non_nullable
+                    as int,
+        receiverAmount:
+            null == receiverAmount
+                ? _value.receiverAmount
+                : receiverAmount // ignore: cast_nullable_to_non_nullable
+                    as int,
+        encodedTx:
+            null == encodedTx
+                ? _value.encodedTx
+                : encodedTx // ignore: cast_nullable_to_non_nullable
+                    as String,
+        feeInUsdc:
+            null == feeInUsdc
+                ? _value.feeInUsdc
+                : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                    as int,
+        slot:
+            null == slot
+                ? _value.slot
+                : slot // ignore: cast_nullable_to_non_nullable
+                    as BigInt,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$OutgoingQuoteResponseDtoImpl implements _OutgoingQuoteResponseDto {
-  const _$OutgoingQuoteResponseDtoImpl(
-      {required this.inputAmount,
-      required this.receiverAmount,
-      required this.encodedTx,
-      required this.feeInUsdc,
-      required this.slot});
+  const _$OutgoingQuoteResponseDtoImpl({
+    required this.inputAmount,
+    required this.receiverAmount,
+    required this.encodedTx,
+    required this.feeInUsdc,
+    required this.slot,
+  });
 
   @override
   final int inputAmount;
@@ -355,16 +393,19 @@ class _$OutgoingQuoteResponseDtoImpl implements _OutgoingQuoteResponseDto {
   @pragma('vm:prefer-inline')
   _$$OutgoingQuoteResponseDtoImplCopyWith<_$OutgoingQuoteResponseDtoImpl> get copyWith =>
       __$$OutgoingQuoteResponseDtoImplCopyWithImpl<_$OutgoingQuoteResponseDtoImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _OutgoingQuoteResponseDto implements OutgoingQuoteResponseDto {
-  const factory _OutgoingQuoteResponseDto(
-      {required final int inputAmount,
-      required final int receiverAmount,
-      required final String encodedTx,
-      required final int feeInUsdc,
-      required final BigInt slot}) = _$OutgoingQuoteResponseDtoImpl;
+  const factory _OutgoingQuoteResponseDto({
+    required final int inputAmount,
+    required final int receiverAmount,
+    required final String encodedTx,
+    required final int feeInUsdc,
+    required final BigInt slot,
+  }) = _$OutgoingQuoteResponseDtoImpl;
 
   @override
   int get inputAmount;
@@ -399,8 +440,9 @@ mixin _$OrderStatusDlnRequestDto {
 /// @nodoc
 abstract class $OrderStatusDlnRequestDtoCopyWith<$Res> {
   factory $OrderStatusDlnRequestDtoCopyWith(
-          OrderStatusDlnRequestDto value, $Res Function(OrderStatusDlnRequestDto) then) =
-      _$OrderStatusDlnRequestDtoCopyWithImpl<$Res, OrderStatusDlnRequestDto>;
+    OrderStatusDlnRequestDto value,
+    $Res Function(OrderStatusDlnRequestDto) then,
+  ) = _$OrderStatusDlnRequestDtoCopyWithImpl<$Res, OrderStatusDlnRequestDto>;
   @useResult
   $Res call({String orderId});
 }
@@ -419,24 +461,27 @@ class _$OrderStatusDlnRequestDtoCopyWithImpl<$Res, $Val extends OrderStatusDlnRe
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? orderId = null,
-  }) {
-    return _then(_value.copyWith(
-      orderId: null == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? orderId = null}) {
+    return _then(
+      _value.copyWith(
+            orderId:
+                null == orderId
+                    ? _value.orderId
+                    : orderId // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$OrderStatusDlnRequestDtoImplCopyWith<$Res>
     implements $OrderStatusDlnRequestDtoCopyWith<$Res> {
-  factory _$$OrderStatusDlnRequestDtoImplCopyWith(_$OrderStatusDlnRequestDtoImpl value,
-          $Res Function(_$OrderStatusDlnRequestDtoImpl) then) =
-      __$$OrderStatusDlnRequestDtoImplCopyWithImpl<$Res>;
+  factory _$$OrderStatusDlnRequestDtoImplCopyWith(
+    _$OrderStatusDlnRequestDtoImpl value,
+    $Res Function(_$OrderStatusDlnRequestDtoImpl) then,
+  ) = __$$OrderStatusDlnRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String orderId});
@@ -447,22 +492,24 @@ class __$$OrderStatusDlnRequestDtoImplCopyWithImpl<$Res>
     extends _$OrderStatusDlnRequestDtoCopyWithImpl<$Res, _$OrderStatusDlnRequestDtoImpl>
     implements _$$OrderStatusDlnRequestDtoImplCopyWith<$Res> {
   __$$OrderStatusDlnRequestDtoImplCopyWithImpl(
-      _$OrderStatusDlnRequestDtoImpl _value, $Res Function(_$OrderStatusDlnRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$OrderStatusDlnRequestDtoImpl _value,
+    $Res Function(_$OrderStatusDlnRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of OrderStatusDlnRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? orderId = null,
-  }) {
-    return _then(_$OrderStatusDlnRequestDtoImpl(
-      orderId: null == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? orderId = null}) {
+    return _then(
+      _$OrderStatusDlnRequestDtoImpl(
+        orderId:
+            null == orderId
+                ? _value.orderId
+                : orderId // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -497,7 +544,9 @@ class _$OrderStatusDlnRequestDtoImpl implements _OrderStatusDlnRequestDto {
   @pragma('vm:prefer-inline')
   _$$OrderStatusDlnRequestDtoImplCopyWith<_$OrderStatusDlnRequestDtoImpl> get copyWith =>
       __$$OrderStatusDlnRequestDtoImplCopyWithImpl<_$OrderStatusDlnRequestDtoImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _OrderStatusDlnRequestDto implements OrderStatusDlnRequestDto {
@@ -529,8 +578,9 @@ mixin _$OrderStatusDlnResponseDto {
 /// @nodoc
 abstract class $OrderStatusDlnResponseDtoCopyWith<$Res> {
   factory $OrderStatusDlnResponseDtoCopyWith(
-          OrderStatusDlnResponseDto value, $Res Function(OrderStatusDlnResponseDto) then) =
-      _$OrderStatusDlnResponseDtoCopyWithImpl<$Res, OrderStatusDlnResponseDto>;
+    OrderStatusDlnResponseDto value,
+    $Res Function(OrderStatusDlnResponseDto) then,
+  ) = _$OrderStatusDlnResponseDtoCopyWithImpl<$Res, OrderStatusDlnResponseDto>;
   @useResult
   $Res call({DlnOrderStatus status});
 }
@@ -549,24 +599,27 @@ class _$OrderStatusDlnResponseDtoCopyWithImpl<$Res, $Val extends OrderStatusDlnR
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? status = null,
-  }) {
-    return _then(_value.copyWith(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as DlnOrderStatus,
-    ) as $Val);
+  $Res call({Object? status = null}) {
+    return _then(
+      _value.copyWith(
+            status:
+                null == status
+                    ? _value.status
+                    : status // ignore: cast_nullable_to_non_nullable
+                        as DlnOrderStatus,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$OrderStatusDlnResponseDtoImplCopyWith<$Res>
     implements $OrderStatusDlnResponseDtoCopyWith<$Res> {
-  factory _$$OrderStatusDlnResponseDtoImplCopyWith(_$OrderStatusDlnResponseDtoImpl value,
-          $Res Function(_$OrderStatusDlnResponseDtoImpl) then) =
-      __$$OrderStatusDlnResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$OrderStatusDlnResponseDtoImplCopyWith(
+    _$OrderStatusDlnResponseDtoImpl value,
+    $Res Function(_$OrderStatusDlnResponseDtoImpl) then,
+  ) = __$$OrderStatusDlnResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({DlnOrderStatus status});
@@ -577,22 +630,24 @@ class __$$OrderStatusDlnResponseDtoImplCopyWithImpl<$Res>
     extends _$OrderStatusDlnResponseDtoCopyWithImpl<$Res, _$OrderStatusDlnResponseDtoImpl>
     implements _$$OrderStatusDlnResponseDtoImplCopyWith<$Res> {
   __$$OrderStatusDlnResponseDtoImplCopyWithImpl(
-      _$OrderStatusDlnResponseDtoImpl _value, $Res Function(_$OrderStatusDlnResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$OrderStatusDlnResponseDtoImpl _value,
+    $Res Function(_$OrderStatusDlnResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of OrderStatusDlnResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? status = null,
-  }) {
-    return _then(_$OrderStatusDlnResponseDtoImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as DlnOrderStatus,
-    ));
+  $Res call({Object? status = null}) {
+    return _then(
+      _$OrderStatusDlnResponseDtoImpl(
+        status:
+            null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                    as DlnOrderStatus,
+      ),
+    );
   }
 }
 
@@ -627,7 +682,9 @@ class _$OrderStatusDlnResponseDtoImpl implements _OrderStatusDlnResponseDto {
   @pragma('vm:prefer-inline')
   _$$OrderStatusDlnResponseDtoImplCopyWith<_$OrderStatusDlnResponseDtoImpl> get copyWith =>
       __$$OrderStatusDlnResponseDtoImplCopyWithImpl<_$OrderStatusDlnResponseDtoImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _OrderStatusDlnResponseDto implements OrderStatusDlnResponseDto {
@@ -659,8 +716,9 @@ mixin _$OrderIdDlnRequestDto {
 /// @nodoc
 abstract class $OrderIdDlnRequestDtoCopyWith<$Res> {
   factory $OrderIdDlnRequestDtoCopyWith(
-          OrderIdDlnRequestDto value, $Res Function(OrderIdDlnRequestDto) then) =
-      _$OrderIdDlnRequestDtoCopyWithImpl<$Res, OrderIdDlnRequestDto>;
+    OrderIdDlnRequestDto value,
+    $Res Function(OrderIdDlnRequestDto) then,
+  ) = _$OrderIdDlnRequestDtoCopyWithImpl<$Res, OrderIdDlnRequestDto>;
   @useResult
   $Res call({String txId});
 }
@@ -679,15 +737,17 @@ class _$OrderIdDlnRequestDtoCopyWithImpl<$Res, $Val extends OrderIdDlnRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? txId = null,
-  }) {
-    return _then(_value.copyWith(
-      txId: null == txId
-          ? _value.txId
-          : txId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? txId = null}) {
+    return _then(
+      _value.copyWith(
+            txId:
+                null == txId
+                    ? _value.txId
+                    : txId // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -695,8 +755,9 @@ class _$OrderIdDlnRequestDtoCopyWithImpl<$Res, $Val extends OrderIdDlnRequestDto
 abstract class _$$OrderIdDlnRequestDtoImplCopyWith<$Res>
     implements $OrderIdDlnRequestDtoCopyWith<$Res> {
   factory _$$OrderIdDlnRequestDtoImplCopyWith(
-          _$OrderIdDlnRequestDtoImpl value, $Res Function(_$OrderIdDlnRequestDtoImpl) then) =
-      __$$OrderIdDlnRequestDtoImplCopyWithImpl<$Res>;
+    _$OrderIdDlnRequestDtoImpl value,
+    $Res Function(_$OrderIdDlnRequestDtoImpl) then,
+  ) = __$$OrderIdDlnRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String txId});
@@ -707,22 +768,24 @@ class __$$OrderIdDlnRequestDtoImplCopyWithImpl<$Res>
     extends _$OrderIdDlnRequestDtoCopyWithImpl<$Res, _$OrderIdDlnRequestDtoImpl>
     implements _$$OrderIdDlnRequestDtoImplCopyWith<$Res> {
   __$$OrderIdDlnRequestDtoImplCopyWithImpl(
-      _$OrderIdDlnRequestDtoImpl _value, $Res Function(_$OrderIdDlnRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$OrderIdDlnRequestDtoImpl _value,
+    $Res Function(_$OrderIdDlnRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of OrderIdDlnRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? txId = null,
-  }) {
-    return _then(_$OrderIdDlnRequestDtoImpl(
-      txId: null == txId
-          ? _value.txId
-          : txId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? txId = null}) {
+    return _then(
+      _$OrderIdDlnRequestDtoImpl(
+        txId:
+            null == txId
+                ? _value.txId
+                : txId // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -787,8 +850,9 @@ mixin _$OrderIdDlnResponseDto {
 /// @nodoc
 abstract class $OrderIdDlnResponseDtoCopyWith<$Res> {
   factory $OrderIdDlnResponseDtoCopyWith(
-          OrderIdDlnResponseDto value, $Res Function(OrderIdDlnResponseDto) then) =
-      _$OrderIdDlnResponseDtoCopyWithImpl<$Res, OrderIdDlnResponseDto>;
+    OrderIdDlnResponseDto value,
+    $Res Function(OrderIdDlnResponseDto) then,
+  ) = _$OrderIdDlnResponseDtoCopyWithImpl<$Res, OrderIdDlnResponseDto>;
   @useResult
   $Res call({String? orderId});
 }
@@ -807,15 +871,17 @@ class _$OrderIdDlnResponseDtoCopyWithImpl<$Res, $Val extends OrderIdDlnResponseD
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? orderId = freezed,
-  }) {
-    return _then(_value.copyWith(
-      orderId: freezed == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+  $Res call({Object? orderId = freezed}) {
+    return _then(
+      _value.copyWith(
+            orderId:
+                freezed == orderId
+                    ? _value.orderId
+                    : orderId // ignore: cast_nullable_to_non_nullable
+                        as String?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -823,8 +889,9 @@ class _$OrderIdDlnResponseDtoCopyWithImpl<$Res, $Val extends OrderIdDlnResponseD
 abstract class _$$OrderIdDlnResponseDtoImplCopyWith<$Res>
     implements $OrderIdDlnResponseDtoCopyWith<$Res> {
   factory _$$OrderIdDlnResponseDtoImplCopyWith(
-          _$OrderIdDlnResponseDtoImpl value, $Res Function(_$OrderIdDlnResponseDtoImpl) then) =
-      __$$OrderIdDlnResponseDtoImplCopyWithImpl<$Res>;
+    _$OrderIdDlnResponseDtoImpl value,
+    $Res Function(_$OrderIdDlnResponseDtoImpl) then,
+  ) = __$$OrderIdDlnResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? orderId});
@@ -835,22 +902,24 @@ class __$$OrderIdDlnResponseDtoImplCopyWithImpl<$Res>
     extends _$OrderIdDlnResponseDtoCopyWithImpl<$Res, _$OrderIdDlnResponseDtoImpl>
     implements _$$OrderIdDlnResponseDtoImplCopyWith<$Res> {
   __$$OrderIdDlnResponseDtoImplCopyWithImpl(
-      _$OrderIdDlnResponseDtoImpl _value, $Res Function(_$OrderIdDlnResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$OrderIdDlnResponseDtoImpl _value,
+    $Res Function(_$OrderIdDlnResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of OrderIdDlnResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? orderId = freezed,
-  }) {
-    return _then(_$OrderIdDlnResponseDtoImpl(
-      orderId: freezed == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+  $Res call({Object? orderId = freezed}) {
+    return _then(
+      _$OrderIdDlnResponseDtoImpl(
+        orderId:
+            freezed == orderId
+                ? _value.orderId
+                : orderId // ignore: cast_nullable_to_non_nullable
+                    as String?,
+      ),
+    );
   }
 }
 
@@ -920,15 +989,17 @@ mixin _$IncomingQuoteRequestDto {
 /// @nodoc
 abstract class $IncomingQuoteRequestDtoCopyWith<$Res> {
   factory $IncomingQuoteRequestDtoCopyWith(
-          IncomingQuoteRequestDto value, $Res Function(IncomingQuoteRequestDto) then) =
-      _$IncomingQuoteRequestDtoCopyWithImpl<$Res, IncomingQuoteRequestDto>;
+    IncomingQuoteRequestDto value,
+    $Res Function(IncomingQuoteRequestDto) then,
+  ) = _$IncomingQuoteRequestDtoCopyWithImpl<$Res, IncomingQuoteRequestDto>;
   @useResult
-  $Res call(
-      {int amount,
-      String senderAddress,
-      String senderBlockchain,
-      String receiverAddress,
-      String? solanaReferenceAddress});
+  $Res call({
+    int amount,
+    String senderAddress,
+    String senderBlockchain,
+    String receiverAddress,
+    String? solanaReferenceAddress,
+  });
 }
 
 /// @nodoc
@@ -952,28 +1023,36 @@ class _$IncomingQuoteRequestDtoCopyWithImpl<$Res, $Val extends IncomingQuoteRequ
     Object? receiverAddress = null,
     Object? solanaReferenceAddress = freezed,
   }) {
-    return _then(_value.copyWith(
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
-      senderAddress: null == senderAddress
-          ? _value.senderAddress
-          : senderAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      senderBlockchain: null == senderBlockchain
-          ? _value.senderBlockchain
-          : senderBlockchain // ignore: cast_nullable_to_non_nullable
-              as String,
-      receiverAddress: null == receiverAddress
-          ? _value.receiverAddress
-          : receiverAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      solanaReferenceAddress: freezed == solanaReferenceAddress
-          ? _value.solanaReferenceAddress
-          : solanaReferenceAddress // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            amount:
+                null == amount
+                    ? _value.amount
+                    : amount // ignore: cast_nullable_to_non_nullable
+                        as int,
+            senderAddress:
+                null == senderAddress
+                    ? _value.senderAddress
+                    : senderAddress // ignore: cast_nullable_to_non_nullable
+                        as String,
+            senderBlockchain:
+                null == senderBlockchain
+                    ? _value.senderBlockchain
+                    : senderBlockchain // ignore: cast_nullable_to_non_nullable
+                        as String,
+            receiverAddress:
+                null == receiverAddress
+                    ? _value.receiverAddress
+                    : receiverAddress // ignore: cast_nullable_to_non_nullable
+                        as String,
+            solanaReferenceAddress:
+                freezed == solanaReferenceAddress
+                    ? _value.solanaReferenceAddress
+                    : solanaReferenceAddress // ignore: cast_nullable_to_non_nullable
+                        as String?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -981,16 +1060,18 @@ class _$IncomingQuoteRequestDtoCopyWithImpl<$Res, $Val extends IncomingQuoteRequ
 abstract class _$$IncomingQuoteRequestDtoImplCopyWith<$Res>
     implements $IncomingQuoteRequestDtoCopyWith<$Res> {
   factory _$$IncomingQuoteRequestDtoImplCopyWith(
-          _$IncomingQuoteRequestDtoImpl value, $Res Function(_$IncomingQuoteRequestDtoImpl) then) =
-      __$$IncomingQuoteRequestDtoImplCopyWithImpl<$Res>;
+    _$IncomingQuoteRequestDtoImpl value,
+    $Res Function(_$IncomingQuoteRequestDtoImpl) then,
+  ) = __$$IncomingQuoteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int amount,
-      String senderAddress,
-      String senderBlockchain,
-      String receiverAddress,
-      String? solanaReferenceAddress});
+  $Res call({
+    int amount,
+    String senderAddress,
+    String senderBlockchain,
+    String receiverAddress,
+    String? solanaReferenceAddress,
+  });
 }
 
 /// @nodoc
@@ -998,8 +1079,9 @@ class __$$IncomingQuoteRequestDtoImplCopyWithImpl<$Res>
     extends _$IncomingQuoteRequestDtoCopyWithImpl<$Res, _$IncomingQuoteRequestDtoImpl>
     implements _$$IncomingQuoteRequestDtoImplCopyWith<$Res> {
   __$$IncomingQuoteRequestDtoImplCopyWithImpl(
-      _$IncomingQuoteRequestDtoImpl _value, $Res Function(_$IncomingQuoteRequestDtoImpl) _then)
-      : super(_value, _then);
+    _$IncomingQuoteRequestDtoImpl _value,
+    $Res Function(_$IncomingQuoteRequestDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of IncomingQuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -1012,40 +1094,48 @@ class __$$IncomingQuoteRequestDtoImplCopyWithImpl<$Res>
     Object? receiverAddress = null,
     Object? solanaReferenceAddress = freezed,
   }) {
-    return _then(_$IncomingQuoteRequestDtoImpl(
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
-      senderAddress: null == senderAddress
-          ? _value.senderAddress
-          : senderAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      senderBlockchain: null == senderBlockchain
-          ? _value.senderBlockchain
-          : senderBlockchain // ignore: cast_nullable_to_non_nullable
-              as String,
-      receiverAddress: null == receiverAddress
-          ? _value.receiverAddress
-          : receiverAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      solanaReferenceAddress: freezed == solanaReferenceAddress
-          ? _value.solanaReferenceAddress
-          : solanaReferenceAddress // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$IncomingQuoteRequestDtoImpl(
+        amount:
+            null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                    as int,
+        senderAddress:
+            null == senderAddress
+                ? _value.senderAddress
+                : senderAddress // ignore: cast_nullable_to_non_nullable
+                    as String,
+        senderBlockchain:
+            null == senderBlockchain
+                ? _value.senderBlockchain
+                : senderBlockchain // ignore: cast_nullable_to_non_nullable
+                    as String,
+        receiverAddress:
+            null == receiverAddress
+                ? _value.receiverAddress
+                : receiverAddress // ignore: cast_nullable_to_non_nullable
+                    as String,
+        solanaReferenceAddress:
+            freezed == solanaReferenceAddress
+                ? _value.solanaReferenceAddress
+                : solanaReferenceAddress // ignore: cast_nullable_to_non_nullable
+                    as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$IncomingQuoteRequestDtoImpl implements _IncomingQuoteRequestDto {
-  const _$IncomingQuoteRequestDtoImpl(
-      {required this.amount,
-      required this.senderAddress,
-      required this.senderBlockchain,
-      required this.receiverAddress,
-      required this.solanaReferenceAddress});
+  const _$IncomingQuoteRequestDtoImpl({
+    required this.amount,
+    required this.senderAddress,
+    required this.senderBlockchain,
+    required this.receiverAddress,
+    required this.solanaReferenceAddress,
+  });
 
   @override
   final int amount;
@@ -1080,8 +1170,14 @@ class _$IncomingQuoteRequestDtoImpl implements _IncomingQuoteRequestDto {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, amount, senderAddress, senderBlockchain,
-      receiverAddress, solanaReferenceAddress);
+  int get hashCode => Object.hash(
+    runtimeType,
+    amount,
+    senderAddress,
+    senderBlockchain,
+    receiverAddress,
+    solanaReferenceAddress,
+  );
 
   /// Create a copy of IncomingQuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -1093,12 +1189,13 @@ class _$IncomingQuoteRequestDtoImpl implements _IncomingQuoteRequestDto {
 }
 
 abstract class _IncomingQuoteRequestDto implements IncomingQuoteRequestDto {
-  const factory _IncomingQuoteRequestDto(
-      {required final int amount,
-      required final String senderAddress,
-      required final String senderBlockchain,
-      required final String receiverAddress,
-      required final String? solanaReferenceAddress}) = _$IncomingQuoteRequestDtoImpl;
+  const factory _IncomingQuoteRequestDto({
+    required final int amount,
+    required final String senderAddress,
+    required final String senderBlockchain,
+    required final String receiverAddress,
+    required final String? solanaReferenceAddress,
+  }) = _$IncomingQuoteRequestDtoImpl;
 
   @override
   int get amount;
@@ -1137,11 +1234,17 @@ mixin _$IncomingQuoteResponseDto {
 /// @nodoc
 abstract class $IncomingQuoteResponseDtoCopyWith<$Res> {
   factory $IncomingQuoteResponseDtoCopyWith(
-          IncomingQuoteResponseDto value, $Res Function(IncomingQuoteResponseDto) then) =
-      _$IncomingQuoteResponseDtoCopyWithImpl<$Res, IncomingQuoteResponseDto>;
+    IncomingQuoteResponseDto value,
+    $Res Function(IncomingQuoteResponseDto) then,
+  ) = _$IncomingQuoteResponseDtoCopyWithImpl<$Res, IncomingQuoteResponseDto>;
   @useResult
-  $Res call(
-      {QuoteTx tx, QuoteUsdcInfo usdcInfo, int inputAmount, int receiverAmount, int feeInUsdc});
+  $Res call({
+    QuoteTx tx,
+    QuoteUsdcInfo usdcInfo,
+    int inputAmount,
+    int receiverAmount,
+    int feeInUsdc,
+  });
 
   $QuoteTxCopyWith<$Res> get tx;
   $QuoteUsdcInfoCopyWith<$Res> get usdcInfo;
@@ -1168,28 +1271,36 @@ class _$IncomingQuoteResponseDtoCopyWithImpl<$Res, $Val extends IncomingQuoteRes
     Object? receiverAmount = null,
     Object? feeInUsdc = null,
   }) {
-    return _then(_value.copyWith(
-      tx: null == tx
-          ? _value.tx
-          : tx // ignore: cast_nullable_to_non_nullable
-              as QuoteTx,
-      usdcInfo: null == usdcInfo
-          ? _value.usdcInfo
-          : usdcInfo // ignore: cast_nullable_to_non_nullable
-              as QuoteUsdcInfo,
-      inputAmount: null == inputAmount
-          ? _value.inputAmount
-          : inputAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      receiverAmount: null == receiverAmount
-          ? _value.receiverAmount
-          : receiverAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      feeInUsdc: null == feeInUsdc
-          ? _value.feeInUsdc
-          : feeInUsdc // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            tx:
+                null == tx
+                    ? _value.tx
+                    : tx // ignore: cast_nullable_to_non_nullable
+                        as QuoteTx,
+            usdcInfo:
+                null == usdcInfo
+                    ? _value.usdcInfo
+                    : usdcInfo // ignore: cast_nullable_to_non_nullable
+                        as QuoteUsdcInfo,
+            inputAmount:
+                null == inputAmount
+                    ? _value.inputAmount
+                    : inputAmount // ignore: cast_nullable_to_non_nullable
+                        as int,
+            receiverAmount:
+                null == receiverAmount
+                    ? _value.receiverAmount
+                    : receiverAmount // ignore: cast_nullable_to_non_nullable
+                        as int,
+            feeInUsdc:
+                null == feeInUsdc
+                    ? _value.feeInUsdc
+                    : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of IncomingQuoteResponseDto
@@ -1216,13 +1327,19 @@ class _$IncomingQuoteResponseDtoCopyWithImpl<$Res, $Val extends IncomingQuoteRes
 /// @nodoc
 abstract class _$$IncomingQuoteResponseDtoImplCopyWith<$Res>
     implements $IncomingQuoteResponseDtoCopyWith<$Res> {
-  factory _$$IncomingQuoteResponseDtoImplCopyWith(_$IncomingQuoteResponseDtoImpl value,
-          $Res Function(_$IncomingQuoteResponseDtoImpl) then) =
-      __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$IncomingQuoteResponseDtoImplCopyWith(
+    _$IncomingQuoteResponseDtoImpl value,
+    $Res Function(_$IncomingQuoteResponseDtoImpl) then,
+  ) = __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {QuoteTx tx, QuoteUsdcInfo usdcInfo, int inputAmount, int receiverAmount, int feeInUsdc});
+  $Res call({
+    QuoteTx tx,
+    QuoteUsdcInfo usdcInfo,
+    int inputAmount,
+    int receiverAmount,
+    int feeInUsdc,
+  });
 
   @override
   $QuoteTxCopyWith<$Res> get tx;
@@ -1235,8 +1352,9 @@ class __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>
     extends _$IncomingQuoteResponseDtoCopyWithImpl<$Res, _$IncomingQuoteResponseDtoImpl>
     implements _$$IncomingQuoteResponseDtoImplCopyWith<$Res> {
   __$$IncomingQuoteResponseDtoImplCopyWithImpl(
-      _$IncomingQuoteResponseDtoImpl _value, $Res Function(_$IncomingQuoteResponseDtoImpl) _then)
-      : super(_value, _then);
+    _$IncomingQuoteResponseDtoImpl _value,
+    $Res Function(_$IncomingQuoteResponseDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of IncomingQuoteResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -1249,40 +1367,48 @@ class __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>
     Object? receiverAmount = null,
     Object? feeInUsdc = null,
   }) {
-    return _then(_$IncomingQuoteResponseDtoImpl(
-      tx: null == tx
-          ? _value.tx
-          : tx // ignore: cast_nullable_to_non_nullable
-              as QuoteTx,
-      usdcInfo: null == usdcInfo
-          ? _value.usdcInfo
-          : usdcInfo // ignore: cast_nullable_to_non_nullable
-              as QuoteUsdcInfo,
-      inputAmount: null == inputAmount
-          ? _value.inputAmount
-          : inputAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      receiverAmount: null == receiverAmount
-          ? _value.receiverAmount
-          : receiverAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      feeInUsdc: null == feeInUsdc
-          ? _value.feeInUsdc
-          : feeInUsdc // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      _$IncomingQuoteResponseDtoImpl(
+        tx:
+            null == tx
+                ? _value.tx
+                : tx // ignore: cast_nullable_to_non_nullable
+                    as QuoteTx,
+        usdcInfo:
+            null == usdcInfo
+                ? _value.usdcInfo
+                : usdcInfo // ignore: cast_nullable_to_non_nullable
+                    as QuoteUsdcInfo,
+        inputAmount:
+            null == inputAmount
+                ? _value.inputAmount
+                : inputAmount // ignore: cast_nullable_to_non_nullable
+                    as int,
+        receiverAmount:
+            null == receiverAmount
+                ? _value.receiverAmount
+                : receiverAmount // ignore: cast_nullable_to_non_nullable
+                    as int,
+        feeInUsdc:
+            null == feeInUsdc
+                ? _value.feeInUsdc
+                : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
-  const _$IncomingQuoteResponseDtoImpl(
-      {required this.tx,
-      required this.usdcInfo,
-      required this.inputAmount,
-      required this.receiverAmount,
-      required this.feeInUsdc});
+  const _$IncomingQuoteResponseDtoImpl({
+    required this.tx,
+    required this.usdcInfo,
+    required this.inputAmount,
+    required this.receiverAmount,
+    required this.feeInUsdc,
+  });
 
   @override
   final QuoteTx tx;
@@ -1324,16 +1450,19 @@ class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
   @pragma('vm:prefer-inline')
   _$$IncomingQuoteResponseDtoImplCopyWith<_$IncomingQuoteResponseDtoImpl> get copyWith =>
       __$$IncomingQuoteResponseDtoImplCopyWithImpl<_$IncomingQuoteResponseDtoImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _IncomingQuoteResponseDto implements IncomingQuoteResponseDto {
-  const factory _IncomingQuoteResponseDto(
-      {required final QuoteTx tx,
-      required final QuoteUsdcInfo usdcInfo,
-      required final int inputAmount,
-      required final int receiverAmount,
-      required final int feeInUsdc}) = _$IncomingQuoteResponseDtoImpl;
+  const factory _IncomingQuoteResponseDto({
+    required final QuoteTx tx,
+    required final QuoteUsdcInfo usdcInfo,
+    required final int inputAmount,
+    required final int receiverAmount,
+    required final int feeInUsdc,
+  }) = _$IncomingQuoteResponseDtoImpl;
 
   @override
   QuoteTx get tx;
@@ -1387,25 +1516,27 @@ class _$QuoteTxCopyWithImpl<$Res, $Val extends QuoteTx> implements $QuoteTxCopyW
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? to = null,
-    Object? data = null,
-    Object? value = null,
-  }) {
-    return _then(_value.copyWith(
-      to: null == to
-          ? _value.to
-          : to // ignore: cast_nullable_to_non_nullable
-              as String,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as String,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? to = null, Object? data = null, Object? value = null}) {
+    return _then(
+      _value.copyWith(
+            to:
+                null == to
+                    ? _value.to
+                    : to // ignore: cast_nullable_to_non_nullable
+                        as String,
+            data:
+                null == data
+                    ? _value.data
+                    : data // ignore: cast_nullable_to_non_nullable
+                        as String,
+            value:
+                null == value
+                    ? _value.value
+                    : value // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -1422,31 +1553,32 @@ abstract class _$$QuoteTxImplCopyWith<$Res> implements $QuoteTxCopyWith<$Res> {
 class __$$QuoteTxImplCopyWithImpl<$Res> extends _$QuoteTxCopyWithImpl<$Res, _$QuoteTxImpl>
     implements _$$QuoteTxImplCopyWith<$Res> {
   __$$QuoteTxImplCopyWithImpl(_$QuoteTxImpl _value, $Res Function(_$QuoteTxImpl) _then)
-      : super(_value, _then);
+    : super(_value, _then);
 
   /// Create a copy of QuoteTx
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? to = null,
-    Object? data = null,
-    Object? value = null,
-  }) {
-    return _then(_$QuoteTxImpl(
-      to: null == to
-          ? _value.to
-          : to // ignore: cast_nullable_to_non_nullable
-              as String,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as String,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? to = null, Object? data = null, Object? value = null}) {
+    return _then(
+      _$QuoteTxImpl(
+        to:
+            null == to
+                ? _value.to
+                : to // ignore: cast_nullable_to_non_nullable
+                    as String,
+        data:
+            null == data
+                ? _value.data
+                : data // ignore: cast_nullable_to_non_nullable
+                    as String,
+        value:
+            null == value
+                ? _value.value
+                : value // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
@@ -1490,10 +1622,11 @@ class _$QuoteTxImpl implements _QuoteTx {
 }
 
 abstract class _QuoteTx implements QuoteTx {
-  const factory _QuoteTx(
-      {required final String to,
-      required final String data,
-      required final int value}) = _$QuoteTxImpl;
+  const factory _QuoteTx({
+    required final String to,
+    required final String data,
+    required final int value,
+  }) = _$QuoteTxImpl;
 
   @override
   String get to;
@@ -1542,28 +1675,31 @@ class _$QuoteUsdcInfoCopyWithImpl<$Res, $Val extends QuoteUsdcInfo>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? usdcAddress = null,
-    Object? approvalAmount = null,
-  }) {
-    return _then(_value.copyWith(
-      usdcAddress: null == usdcAddress
-          ? _value.usdcAddress
-          : usdcAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      approvalAmount: null == approvalAmount
-          ? _value.approvalAmount
-          : approvalAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? usdcAddress = null, Object? approvalAmount = null}) {
+    return _then(
+      _value.copyWith(
+            usdcAddress:
+                null == usdcAddress
+                    ? _value.usdcAddress
+                    : usdcAddress // ignore: cast_nullable_to_non_nullable
+                        as String,
+            approvalAmount:
+                null == approvalAmount
+                    ? _value.approvalAmount
+                    : approvalAmount // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$QuoteUsdcInfoImplCopyWith<$Res> implements $QuoteUsdcInfoCopyWith<$Res> {
   factory _$$QuoteUsdcInfoImplCopyWith(
-          _$QuoteUsdcInfoImpl value, $Res Function(_$QuoteUsdcInfoImpl) then) =
-      __$$QuoteUsdcInfoImplCopyWithImpl<$Res>;
+    _$QuoteUsdcInfoImpl value,
+    $Res Function(_$QuoteUsdcInfoImpl) then,
+  ) = __$$QuoteUsdcInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String usdcAddress, int approvalAmount});
@@ -1574,27 +1710,29 @@ class __$$QuoteUsdcInfoImplCopyWithImpl<$Res>
     extends _$QuoteUsdcInfoCopyWithImpl<$Res, _$QuoteUsdcInfoImpl>
     implements _$$QuoteUsdcInfoImplCopyWith<$Res> {
   __$$QuoteUsdcInfoImplCopyWithImpl(
-      _$QuoteUsdcInfoImpl _value, $Res Function(_$QuoteUsdcInfoImpl) _then)
-      : super(_value, _then);
+    _$QuoteUsdcInfoImpl _value,
+    $Res Function(_$QuoteUsdcInfoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of QuoteUsdcInfo
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? usdcAddress = null,
-    Object? approvalAmount = null,
-  }) {
-    return _then(_$QuoteUsdcInfoImpl(
-      usdcAddress: null == usdcAddress
-          ? _value.usdcAddress
-          : usdcAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      approvalAmount: null == approvalAmount
-          ? _value.approvalAmount
-          : approvalAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? usdcAddress = null, Object? approvalAmount = null}) {
+    return _then(
+      _$QuoteUsdcInfoImpl(
+        usdcAddress:
+            null == usdcAddress
+                ? _value.usdcAddress
+                : usdcAddress // ignore: cast_nullable_to_non_nullable
+                    as String,
+        approvalAmount:
+            null == approvalAmount
+                ? _value.approvalAmount
+                : approvalAmount // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 
@@ -1636,8 +1774,10 @@ class _$QuoteUsdcInfoImpl implements _QuoteUsdcInfo {
 }
 
 abstract class _QuoteUsdcInfo implements QuoteUsdcInfo {
-  const factory _QuoteUsdcInfo(
-      {required final String usdcAddress, required final int approvalAmount}) = _$QuoteUsdcInfoImpl;
+  const factory _QuoteUsdcInfo({
+    required final String usdcAddress,
+    required final int approvalAmount,
+  }) = _$QuoteUsdcInfoImpl;
 
   @override
   String get usdcAddress;

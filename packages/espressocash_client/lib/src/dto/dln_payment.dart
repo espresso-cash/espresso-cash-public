@@ -24,30 +24,23 @@ class OutgoingQuoteResponseDto with _$OutgoingQuoteResponseDto {
 
 @freezed
 class OrderStatusDlnRequestDto with _$OrderStatusDlnRequestDto {
-  const factory OrderStatusDlnRequestDto({
-    required String orderId,
-  }) = _OrderStatusDlnRequestDto;
+  const factory OrderStatusDlnRequestDto({required String orderId}) = _OrderStatusDlnRequestDto;
 }
 
 @freezed
 class OrderStatusDlnResponseDto with _$OrderStatusDlnResponseDto {
-  const factory OrderStatusDlnResponseDto({
-    required DlnOrderStatus status,
-  }) = _OrderStatusDlnResponseDto;
+  const factory OrderStatusDlnResponseDto({required DlnOrderStatus status}) =
+      _OrderStatusDlnResponseDto;
 }
 
 @freezed
 class OrderIdDlnRequestDto with _$OrderIdDlnRequestDto {
-  const factory OrderIdDlnRequestDto({
-    required String txId,
-  }) = _OrderIdDlnRequestDto;
+  const factory OrderIdDlnRequestDto({required String txId}) = _OrderIdDlnRequestDto;
 }
 
 @freezed
 class OrderIdDlnResponseDto with _$OrderIdDlnResponseDto {
-  const factory OrderIdDlnResponseDto({
-    required String? orderId,
-  }) = _OrderIdDlnResponseDto;
+  const factory OrderIdDlnResponseDto({required String? orderId}) = _OrderIdDlnResponseDto;
 }
 
 @freezed
@@ -74,19 +67,13 @@ class IncomingQuoteResponseDto with _$IncomingQuoteResponseDto {
 
 @freezed
 class QuoteTx with _$QuoteTx {
-  const factory QuoteTx({
-    required String to,
-    required String data,
-    required int value,
-  }) = _QuoteTx;
+  const factory QuoteTx({required String to, required String data, required int value}) = _QuoteTx;
 }
 
 @freezed
 class QuoteUsdcInfo with _$QuoteUsdcInfo {
-  const factory QuoteUsdcInfo({
-    required String usdcAddress,
-    required int approvalAmount,
-  }) = _QuoteUsdcInfo;
+  const factory QuoteUsdcInfo({required String usdcAddress, required int approvalAmount}) =
+      _QuoteUsdcInfo;
 }
 
 enum DlnOrderStatus {
@@ -97,5 +84,5 @@ enum DlnOrderStatus {
   orderCancelled,
   sentOrderCancel,
   claimedUnlock,
-  claimedOrderCancel
+  claimedOrderCancel,
 }

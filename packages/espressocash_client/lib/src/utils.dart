@@ -12,27 +12,27 @@ extension Int64Ext on $fixnum.Int64 {
 }
 
 GasFeeEstimate mapProtoToGasFeeEstimate(dln_proto.GasFeeEstimate estimate) => GasFeeEstimate(
-      suggestedMaxPriorityFeePerGas: estimate.suggestedMaxPriorityFeePerGas,
-      suggestedMaxFeePerGas: estimate.suggestedMaxFeePerGas,
-      minWaitTimeEstimate: estimate.minWaitTimeEstimate,
-      maxWaitTimeEstimate: estimate.maxWaitTimeEstimate,
-    );
+  suggestedMaxPriorityFeePerGas: estimate.suggestedMaxPriorityFeePerGas,
+  suggestedMaxFeePerGas: estimate.suggestedMaxFeePerGas,
+  minWaitTimeEstimate: estimate.minWaitTimeEstimate,
+  maxWaitTimeEstimate: estimate.maxWaitTimeEstimate,
+);
 
 DlnOrderStatus mapDlnOrderStatus(dln_proto.DlnOrderStatus status) => switch (status) {
-      dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_CREATED => DlnOrderStatus.created,
-      dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_FULFILLED => DlnOrderStatus.fulfilled,
-      dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_SENT_UNLOCK => DlnOrderStatus.sentUnlock,
-      dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_ORDER_CANCELLED => DlnOrderStatus.orderCancelled,
-      dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_SENT_ORDER_CANCEL => DlnOrderStatus.sentOrderCancel,
-      dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_CLAIMED_UNLOCK => DlnOrderStatus.claimedUnlock,
-      dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL =>
-        DlnOrderStatus.claimedOrderCancel,
-      dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_NONE || _ => DlnOrderStatus.none,
-    };
+  dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_CREATED => DlnOrderStatus.created,
+  dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_FULFILLED => DlnOrderStatus.fulfilled,
+  dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_SENT_UNLOCK => DlnOrderStatus.sentUnlock,
+  dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_ORDER_CANCELLED => DlnOrderStatus.orderCancelled,
+  dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_SENT_ORDER_CANCEL => DlnOrderStatus.sentOrderCancel,
+  dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_CLAIMED_UNLOCK => DlnOrderStatus.claimedUnlock,
+  dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL =>
+    DlnOrderStatus.claimedOrderCancel,
+  dln_proto.DlnOrderStatus.DLN_ORDER_STATUS_NONE || _ => DlnOrderStatus.none,
+};
 
 extension RampTypeDtoExt on RampTypeDto {
   RampType get toProto => switch (this) {
-        RampTypeDto.onRamp => RampType.RAMP_TYPE_ON,
-        RampTypeDto.offRamp => RampType.RAMP_TYPE_OFF,
-      };
+    RampTypeDto.onRamp => RampType.RAMP_TYPE_ON,
+    RampTypeDto.offRamp => RampType.RAMP_TYPE_OFF,
+  };
 }

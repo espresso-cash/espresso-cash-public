@@ -4,17 +4,13 @@ part 'rates.freezed.dart';
 
 @freezed
 class CryptoRateResponseDto with _$CryptoRateResponseDto {
-  const factory CryptoRateResponseDto({
-    required double usdc,
-  }) = _CryptoRateResponseDto;
+  const factory CryptoRateResponseDto({required double usdc}) = _CryptoRateResponseDto;
 }
 
 @freezed
 class FiatRateRequestDto with _$FiatRateRequestDto {
-  const factory FiatRateRequestDto({
-    required String base,
-    required String target,
-  }) = _FiatRateRequestDto;
+  const factory FiatRateRequestDto({required String base, required String target}) =
+      _FiatRateRequestDto;
 }
 
 @freezed

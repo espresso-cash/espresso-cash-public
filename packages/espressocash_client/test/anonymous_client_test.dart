@@ -8,11 +8,7 @@ void main() {
   late EspressoCashClient client;
 
   setUp(() {
-    client = EspressoCashClient.anonymous(
-      baseUrl: baseUrl,
-      port: port,
-      secure: true,
-    );
+    client = EspressoCashClient.anonymous(baseUrl: baseUrl, port: port, secure: true);
   });
 
   tearDown(() async {
@@ -26,9 +22,7 @@ void main() {
   test('expands shortened link without authentication', skip: true, () async {
     const shortLink = 'https://pay.espressocash.com/?s=7ec8ca685976c4062db58ae8536901f7';
 
-    final result = await client.expandLink(
-      const UnshortenLinkRequestDto(shortLink: shortLink),
-    );
+    final result = await client.expandLink(const UnshortenLinkRequestDto(shortLink: shortLink));
 
     expect(result.fullLink, isA<String>());
   });

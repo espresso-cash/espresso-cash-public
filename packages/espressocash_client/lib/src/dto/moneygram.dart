@@ -5,16 +5,14 @@ part 'moneygram.freezed.dart';
 
 @freezed
 class MoneygramChallengeSignRequestDto with _$MoneygramChallengeSignRequestDto {
-  const factory MoneygramChallengeSignRequestDto({
-    required String signedTx,
-  }) = _MoneygramChallengeSignRequestDto;
+  const factory MoneygramChallengeSignRequestDto({required String signedTx}) =
+      _MoneygramChallengeSignRequestDto;
 }
 
 @freezed
 class MoneygramChallengeSignResponseDto with _$MoneygramChallengeSignResponseDto {
-  const factory MoneygramChallengeSignResponseDto({
-    required String signedTx,
-  }) = _MoneygramChallengeSignResponseDto;
+  const factory MoneygramChallengeSignResponseDto({required String signedTx}) =
+      _MoneygramChallengeSignResponseDto;
 }
 
 @freezed
@@ -38,17 +36,13 @@ class SwapToSolanaRequestDto with _$SwapToSolanaRequestDto {
 
 @freezed
 class MoneygramSwapResponseDto with _$MoneygramSwapResponseDto {
-  const factory MoneygramSwapResponseDto({
-    required String encodedTx,
-  }) = _MoneygramSwapResponseDto;
+  const factory MoneygramSwapResponseDto({required String encodedTx}) = _MoneygramSwapResponseDto;
 }
 
 @freezed
 class MoneygramFeeRequestDto with _$MoneygramFeeRequestDto {
-  const factory MoneygramFeeRequestDto({
-    required String amount,
-    required RampTypeDto type,
-  }) = _MoneygramFeeRequestDto;
+  const factory MoneygramFeeRequestDto({required String amount, required RampTypeDto type}) =
+      _MoneygramFeeRequestDto;
 }
 
 @freezed
@@ -63,7 +57,5 @@ class MoneygramFeeResponseDto with _$MoneygramFeeResponseDto {
 
 @freezed
 class FundXlmRequestDto with _$FundXlmRequestDto {
-  const factory FundXlmRequestDto({
-    required String accountId,
-  }) = _FundXlmRequestDto;
+  const factory FundXlmRequestDto({required String accountId}) = _FundXlmRequestDto;
 }

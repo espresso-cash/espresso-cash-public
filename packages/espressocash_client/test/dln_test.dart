@@ -67,9 +67,7 @@ void main() {
     });
 
     test('gets gas fees', skip: true, () async {
-      const request = GasFeeRequestDto(
-        network: '1',
-      );
+      const request = GasFeeRequestDto(network: '1');
 
       final response = await client.getGasFees(request);
 
