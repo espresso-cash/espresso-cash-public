@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+package espressocash.api.dln.v1;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "espressocash.com/api/dln";
+
+service DlnService {
+  rpc GetOutgoingQuote(GetOutgoingQuoteRequest) returns (GetOutgoingQuoteResponse);
+  rpc GetIncomingQuote(GetIncomingQuoteRequest) returns (GetIncomingQuoteResponse) {
+    option (google.api.http) = {
+      post: "/v1/dln/incoming/quote"
+      body: "*"
+    };
+  };
+  rpc GetOrderId(GetOrderIdRequest) returns (GetOrderIdResponse);
+  rpc GetOrderStatus(GetOrderStatusRequest) returns (GetOrderStatusResponse);
+  rpc GetGasFees(GetGasFeesRequest) returns (GetGasFeesResponse) {
+    option (google.api.http) = {
+      post: "/v1/dln/incoming/gasFee"
+      body: "*"
+    };
+  }
+}
+
+message GetOutgoingQuoteRequest {
+  int64 amount = 1;
+  string receiver_address = 2;
+  string receiver_blockchain = 3;
+}
+
+message GetOutgoingQuoteResponse {
+  int64 input_amount = 1;
+  int64 receiver_amount = 2;
+  string encoded_tx = 3;
+  int64 fee_in_usdc = 4;
+  uint64 slot = 5;
+}
+
+message GetOrderStatusRequest {
+  string order_id = 1;
+}
+
+message GetOrderStatusResponse {
+  DlnOrderStatus status = 1;
+}
+
+message GetOrderIdRequest {
+  string tx_id = 1;
+}
+
+message GetOrderIdResponse {
+  optional string order_id = 1;
+}
+
+message GetIncomingQuoteRequest {
+  int64 amount = 1;
+  string sender_address = 2;
+  string sender_blockchain = 3;
+  string receiver_address = 4;
+  optional string solana_reference_address = 5;
+}
+
+message GetIncomingQuoteResponse {
+  QuoteTx tx = 1;
+  QuoteUsdcInfo usdc_info = 2;
+  int64 input_amount = 3;
+  int64 receiver_amount = 4;
+  int64 fee_in_usdc = 5;
+}
+
+message QuoteTx {
+  string to = 1;
+  string data = 2;
+  int64 value = 3;
+}
+
+message QuoteUsdcInfo {
+  string usdc_address = 1;
+  int64 approval_amount = 2;
+}
+
+message GetGasFeesRequest {
+  string network = 1;
+}
+
+message GetGasFeesResponse {
+  GasFeeEstimate low = 1;
+  GasFeeEstimate medium = 2;
+  GasFeeEstimate high = 3;
+  string estimated_base_fee = 4;
+  double network_congestion = 5;
+}
+
+message GasFeeEstimate {
+  string suggested_max_priority_fee_per_gas = 1;
+  string suggested_max_fee_per_gas = 2;
+  int32 min_wait_time_estimate = 3;
+  int32 max_wait_time_estimate = 4;
+}
+
+enum DlnOrderStatus {
+    DLN_ORDER_STATUS_NONE = 0;
+    DLN_ORDER_STATUS_CREATED = 1;
+    DLN_ORDER_STATUS_FULFILLED = 2;
+    DLN_ORDER_STATUS_SENT_UNLOCK = 3;
+    DLN_ORDER_STATUS_ORDER_CANCELLED = 4;
+    DLN_ORDER_STATUS_SENT_ORDER_CANCEL = 5;
+    DLN_ORDER_STATUS_CLAIMED_UNLOCK = 6;
+    DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL = 7;
+  }
+  

@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package espressocash.api.moneygram.v1;
+
+option go_package = "espressocash.com/api/moneygram";
+
+service MoneygramService {
+  rpc SignChallenge(MoneygramChallengeSignRequest) returns (MoneygramChallengeSignResponse);
+  rpc SwapToSolana(SwapToSolanaRequest) returns (MoneygramSwapResponse);
+  rpc SwapToStellar(SwapToStellarRequest) returns (MoneygramSwapResponse);
+  rpc CalculateFee(MoneygramFeeRequest) returns (MoneygramFeeResponse);
+  rpc FundXlm(FundXlmRequest) returns (FundXlmResponse);
+}
+
+message MoneygramChallengeSignRequest {
+  string signed_tx = 1;
+}
+
+message MoneygramChallengeSignResponse {
+  string signed_tx = 1;
+}
+
+message SwapToSolanaRequest {
+  string stellar_sender_address = 1;
+  string solana_receiver_address = 2;
+  string amount = 3;
+}
+
+message SwapToStellarRequest {
+  string solana_sender_address = 1;
+  string stellar_receiver_address = 2;
+  string amount = 3;
+  optional int32 priority_fee = 4;
+}
+
+message MoneygramSwapResponse {
+  string encoded_tx = 1;
+}
+
+enum RampType {
+  RAMP_TYPE_UNSPECIFIED = 0;
+  RAMP_TYPE_ON = 1;
+  RAMP_TYPE_OFF = 2;
+}
+
+message MoneygramFeeRequest {
+  string amount = 1;
+  RampType type = 2;
+}
+
+message MoneygramFeeResponse {
+  string bridge_fee = 1;
+  string moneygram_fee = 2;
+  optional string gas_fee_in_usdc = 3;
+  optional int32 priority_fee = 4;
+}
+
+message FundXlmRequest {
+  string account_id = 1;
+}
+
+message FundXlmResponse {} 
