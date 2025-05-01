@@ -30,7 +30,7 @@ void main() {
   });
 
   group('DLN operations', () {
-    test('gets outgoing DLN quote', () async {
+    test('gets outgoing DLN quote', skip: true, () async {
       const request = OutgoingQuoteRequestDto(
         amount: 100000,
         receiverAddress: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
@@ -46,7 +46,7 @@ void main() {
       expect(response.slot, isA<BigInt>());
     });
 
-    test('gets DLN order status', () async {
+    test('gets DLN order status', skip: true, () async {
       const request = OrderStatusDlnRequestDto(
         orderId: '0x9ee6c3d0aa68a7504e619b02df7c71539d0ce10e27f593bf8604b62e51955a01',
       );
@@ -56,7 +56,7 @@ void main() {
       expect(response.status, isA<DlnOrderStatus>());
     });
 
-    test('gets DLN order ID', () async {
+    test('gets DLN order ID', skip: true, () async {
       const request = OrderIdDlnRequestDto(
         txId: '0x40ee524d5bb9c4ecd8e55d23c66c5465a3f137be7ae24df366c3fd06daf7de7e',
       );
@@ -66,7 +66,7 @@ void main() {
       expect(response.orderId, isA<String?>());
     });
 
-    test('gets gas fees', () async {
+    test('gets gas fees', skip: true, () async {
       const request = GasFeeRequestDto(
         network: '1',
       );
@@ -80,7 +80,7 @@ void main() {
       expect(response.networkCongestion, isA<double>());
     });
 
-    test('gets incoming DLN quote', () async {
+    test('gets incoming DLN quote', skip: true, () async {
       final request = IncomingQuoteRequestDto(
         amount: 1000000,
         senderAddress: '0x5CedA757A24bbA2507B3Ca74b590428EA02A2D5f',

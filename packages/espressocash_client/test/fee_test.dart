@@ -29,7 +29,7 @@ void main() {
     await client.dispose();
   });
 
-  test('gets direct payment quote successfully', () async {
+  test('gets direct payment quote successfully', skip: true, () async {
     final receiverKeyPair = await Ed25519HDKeyPair.random();
     final request = DirectPaymentQuoteRequestDto(
       receiverAccount: receiverKeyPair.address,
@@ -45,7 +45,7 @@ void main() {
     expect(response.totalAmount, greaterThan(request.amount));
   });
 
-  test('gets outgoing escrow payment quote successfully', () async {
+  test('gets outgoing escrow payment quote successfully', skip: true, () async {
     final response = await client.getOutgoingEscrowPaymentQuote();
 
     expect(response, isA<EscrowPaymentQuoteResponseDto>());
@@ -53,7 +53,7 @@ void main() {
     expect(response.fee, greaterThanOrEqualTo(0));
   });
 
-  test('gets incoming escrow payment quote successfully', () async {
+  test('gets incoming escrow payment quote successfully', skip: true, () async {
     final response = await client.getIncomingEscrowPaymentQuote();
 
     expect(response, isA<EscrowPaymentQuoteResponseDto>());

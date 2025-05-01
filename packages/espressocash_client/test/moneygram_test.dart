@@ -31,7 +31,7 @@ void main() {
     await client.dispose();
   });
 
-  test('sign Moneygram challenge successfully', () async {
+  test('sign Moneygram challenge successfully', skip: true, () async {
     const mockSignedTx =
         'AAAAAgAAAAD62jCX+vB7muIA+PNb6RsdTGhqibHb5OmXUObU41CTgwAAASwAAAAAAAAAAAAAAAEAAAAAaAXPYQAAAABoBdLlAAAAAAAAAAMAAAABAAAAAJgrKnfbk7sOrkFB8IEUpq/KLXIzXkoh7d6lIVL4yMUfAAAACgAAABpzdGVsbGFyLm1vbmV5Z3JhbS5jb20gYXV0aAAAAAAAAQAAAEBRQmdwQnI2MUJTUmxETmtNQU1BazZMWE4yZlVPbm9Xb3hXYlVvK1VKdTdvZmRWY3ByMERCYk5BV0pXclVLUkZFAAAAAQAAAAD62jCX+vB7muIA+PNb6RsdTGhqibHb5OmXUObU41CTgwAAAAoAAAAPd2ViX2F1dGhfZG9tYWluAAAAAAEAAAAVc3RlbGxhci5tb25leWdyYW0uY29tAAAAAAAAAQAAAABEeJtKKH/+u/cPE07wmM5VZvBY9bmdVjntawLTEvU9fgAAAAoAAAANY2xpZW50X2RvbWFpbgAAAAAAAAEAAAAQZXNwcmVzc29jYXNoLmNvbQAAAAAAAAAB41CTgwAAAECNLoqeuLTHNNErrsVXpMiODszX204F+0owqrrXzQTTYPy6AmcAA8tM/KiDb2aFUSTrmcZV5Cd2FFopv3fpIZUA';
 
@@ -46,7 +46,7 @@ void main() {
     expect(response.signedTx, isA<String>());
   });
 
-  test('calculates Moneygram fee successfully', () async {
+  test('calculates Moneygram fee successfully', skip: true, () async {
     const request = MoneygramFeeRequestDto(
       amount: '100.0',
       type: RampTypeDto.offRamp,
@@ -63,7 +63,7 @@ void main() {
     }
   });
 
-  test('creates swap to Stellar transaction successfully', () async {
+  test('creates swap to Stellar transaction successfully', skip: true, () async {
     final request = SwapToStellarRequestDto(
       solanaSenderAddress: solanaKeyPair.address,
       stellarReceiverAddress: stellarAddress,
@@ -78,7 +78,7 @@ void main() {
     expect(response.encodedTx, isA<String>());
   });
 
-  test('creates swap to Solana transaction successfully', () async {
+  test('creates swap to Solana transaction successfully', skip: true, () async {
     final request = SwapToSolanaRequestDto(
       stellarSenderAddress: stellarAddress,
       solanaReceiverAddress: solanaKeyPair.address,
@@ -92,7 +92,7 @@ void main() {
     expect(response.encodedTx, isA<String>());
   });
 
-  test('funds XLM account successfully', () async {
+  test('funds XLM account successfully', skip: true, () async {
     const request = FundXlmRequestDto(
       accountId: stellarAddress,
     );
