@@ -17,14 +17,20 @@ import 'dart:typed_data' as $typed_data;
 const AddReferralRequest$json = {
   '1': 'AddReferralRequest',
   '2': [
-    {'1': 'ambassador_address', '3': 1, '4': 1, '5': 9, '10': 'ambassadorAddress'},
+    {
+      '1': 'ambassador_address',
+      '3': 1,
+      '4': 1,
+      '5': 9,
+      '10': 'ambassadorAddress'
+    },
   ],
 };
 
 /// Descriptor for `AddReferralRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List addReferralRequestDescriptor = $convert
-    .base64Decode('ChJBZGRSZWZlcnJhbFJlcXVlc3QSLQoSYW1iYXNzYWRvcl9hZGRyZXNzGAEgASgJUhFhbWJhc3'
-        'NhZG9yQWRkcmVzcw==');
+final $typed_data.Uint8List addReferralRequestDescriptor = $convert.base64Decode(
+    'ChJBZGRSZWZlcnJhbFJlcXVlc3QSLQoSYW1iYXNzYWRvcl9hZGRyZXNzGAEgASgJUhFhbWJhc3'
+    'NhZG9yQWRkcmVzcw==');
 
 @$core.Deprecated('Use addReferralResponseDescriptor instead')
 const AddReferralResponse$json = {
@@ -53,9 +59,9 @@ const GetStatsResponse$json = {
 };
 
 /// Descriptor for `GetStatsResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getStatsResponseDescriptor = $convert
-    .base64Decode('ChBHZXRTdGF0c1Jlc3BvbnNlEiUKDnJlZmVycmFsX2NvdW50GAEgASgFUg1yZWZlcnJhbENvdW'
-        '50');
+final $typed_data.Uint8List getStatsResponseDescriptor = $convert.base64Decode(
+    'ChBHZXRTdGF0c1Jlc3BvbnNlEiUKDnJlZmVycmFsX2NvdW50GAEgASgFUg1yZWZlcnJhbENvdW'
+    '50');
 
 @$core.Deprecated('Use verifyRequestDescriptor instead')
 const VerifyRequest$json = {
@@ -63,7 +69,8 @@ const VerifyRequest$json = {
 };
 
 /// Descriptor for `VerifyRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List verifyRequestDescriptor = $convert.base64Decode('Cg1WZXJpZnlSZXF1ZXN0');
+final $typed_data.Uint8List verifyRequestDescriptor =
+    $convert.base64Decode('Cg1WZXJpZnlSZXF1ZXN0');
 
 @$core.Deprecated('Use verifyResponseDescriptor instead')
 const VerifyResponse$json = {
@@ -75,6 +82,6 @@ const VerifyResponse$json = {
 };
 
 /// Descriptor for `VerifyResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List verifyResponseDescriptor = $convert
-    .base64Decode('Cg5WZXJpZnlSZXNwb25zZRIjCg1pc19hbWJhc3NhZG9yGAEgASgIUgxpc0FtYmFzc2Fkb3ISHw'
-        'oLaXNfcmVmZXJyYWwYAiABKAhSCmlzUmVmZXJyYWw=');
+final $typed_data.Uint8List verifyResponseDescriptor = $convert.base64Decode(
+    'Cg5WZXJpZnlSZXNwb25zZRIjCg1pc19hbWJhc3NhZG9yGAEgASgIUgxpc0FtYmFzc2Fkb3ISHw'
+    'oLaXNfcmVmZXJyYWwYAiABKAhSCmlzUmVmZXJyYWw=');

@@ -31,8 +31,10 @@ class AddReferralRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'AddReferralRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'AddReferralRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'ambassadorAddress')
     ..hasRequiredFields = false;
@@ -45,17 +47,19 @@ class AddReferralRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   AddReferralRequest copyWith(void Function(AddReferralRequest) updates) =>
-      super.copyWith((message) => updates(message as AddReferralRequest)) as AddReferralRequest;
+      super.copyWith((message) => updates(message as AddReferralRequest))
+          as AddReferralRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static AddReferralRequest create() => AddReferralRequest._();
   AddReferralRequest createEmptyInstance() => create();
-  static $pb.PbList<AddReferralRequest> createRepeated() => $pb.PbList<AddReferralRequest>();
+  static $pb.PbList<AddReferralRequest> createRepeated() =>
+      $pb.PbList<AddReferralRequest>();
   @$core.pragma('dart2js:noInline')
-  static AddReferralRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AddReferralRequest>(create);
+  static AddReferralRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<AddReferralRequest>(create);
   static AddReferralRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -81,8 +85,10 @@ class AddReferralResponse extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'AddReferralResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'AddReferralResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
@@ -94,17 +100,19 @@ class AddReferralResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   AddReferralResponse copyWith(void Function(AddReferralResponse) updates) =>
-      super.copyWith((message) => updates(message as AddReferralResponse)) as AddReferralResponse;
+      super.copyWith((message) => updates(message as AddReferralResponse))
+          as AddReferralResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static AddReferralResponse create() => AddReferralResponse._();
   AddReferralResponse createEmptyInstance() => create();
-  static $pb.PbList<AddReferralResponse> createRepeated() => $pb.PbList<AddReferralResponse>();
+  static $pb.PbList<AddReferralResponse> createRepeated() =>
+      $pb.PbList<AddReferralResponse>();
   @$core.pragma('dart2js:noInline')
-  static AddReferralResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AddReferralResponse>(create);
+  static AddReferralResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<AddReferralResponse>(create);
   static AddReferralResponse? _defaultInstance;
 }
 
@@ -118,8 +126,10 @@ class GetStatsRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStatsRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetStatsRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
@@ -131,17 +141,19 @@ class GetStatsRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetStatsRequest copyWith(void Function(GetStatsRequest) updates) =>
-      super.copyWith((message) => updates(message as GetStatsRequest)) as GetStatsRequest;
+      super.copyWith((message) => updates(message as GetStatsRequest))
+          as GetStatsRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetStatsRequest create() => GetStatsRequest._();
   GetStatsRequest createEmptyInstance() => create();
-  static $pb.PbList<GetStatsRequest> createRepeated() => $pb.PbList<GetStatsRequest>();
+  static $pb.PbList<GetStatsRequest> createRepeated() =>
+      $pb.PbList<GetStatsRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetStatsRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetStatsRequest>(create);
+  static GetStatsRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetStatsRequest>(create);
   static GetStatsRequest? _defaultInstance;
 }
 
@@ -163,10 +175,13 @@ class GetStatsResponse extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStatsResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetStatsResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'referralCount', $pb.PbFieldType.O3)
+    ..a<$core.int>(
+        1, _omitFieldNames ? '' : 'referralCount', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -177,17 +192,19 @@ class GetStatsResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetStatsResponse copyWith(void Function(GetStatsResponse) updates) =>
-      super.copyWith((message) => updates(message as GetStatsResponse)) as GetStatsResponse;
+      super.copyWith((message) => updates(message as GetStatsResponse))
+          as GetStatsResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetStatsResponse create() => GetStatsResponse._();
   GetStatsResponse createEmptyInstance() => create();
-  static $pb.PbList<GetStatsResponse> createRepeated() => $pb.PbList<GetStatsResponse>();
+  static $pb.PbList<GetStatsResponse> createRepeated() =>
+      $pb.PbList<GetStatsResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetStatsResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetStatsResponse>(create);
+  static GetStatsResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetStatsResponse>(create);
   static GetStatsResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -213,8 +230,10 @@ class VerifyRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'VerifyRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'VerifyRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
@@ -226,17 +245,19 @@ class VerifyRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   VerifyRequest copyWith(void Function(VerifyRequest) updates) =>
-      super.copyWith((message) => updates(message as VerifyRequest)) as VerifyRequest;
+      super.copyWith((message) => updates(message as VerifyRequest))
+          as VerifyRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static VerifyRequest create() => VerifyRequest._();
   VerifyRequest createEmptyInstance() => create();
-  static $pb.PbList<VerifyRequest> createRepeated() => $pb.PbList<VerifyRequest>();
+  static $pb.PbList<VerifyRequest> createRepeated() =>
+      $pb.PbList<VerifyRequest>();
   @$core.pragma('dart2js:noInline')
-  static VerifyRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VerifyRequest>(create);
+  static VerifyRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<VerifyRequest>(create);
   static VerifyRequest? _defaultInstance;
 }
 
@@ -262,8 +283,10 @@ class VerifyResponse extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'VerifyResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'VerifyResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.referrals.v1'),
       createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'isAmbassador')
     ..aOB(2, _omitFieldNames ? '' : 'isReferral')
@@ -277,17 +300,19 @@ class VerifyResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   VerifyResponse copyWith(void Function(VerifyResponse) updates) =>
-      super.copyWith((message) => updates(message as VerifyResponse)) as VerifyResponse;
+      super.copyWith((message) => updates(message as VerifyResponse))
+          as VerifyResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static VerifyResponse create() => VerifyResponse._();
   VerifyResponse createEmptyInstance() => create();
-  static $pb.PbList<VerifyResponse> createRepeated() => $pb.PbList<VerifyResponse>();
+  static $pb.PbList<VerifyResponse> createRepeated() =>
+      $pb.PbList<VerifyResponse>();
   @$core.pragma('dart2js:noInline')
-  static VerifyResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VerifyResponse>(create);
+  static VerifyResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<VerifyResponse>(create);
   static VerifyResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -316,4 +341,5 @@ class VerifyResponse extends $pb.GeneratedMessage {
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

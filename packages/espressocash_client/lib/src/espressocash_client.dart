@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ec_client_dart/ec_client_dart.dart';
-import 'package:ec_client_dart/src/generated/api/dln/v1/service.pbgrpc.dart' as dln_proto;
+import 'package:ec_client_dart/src/generated/api/dln/v1/service.pbgrpc.dart'
+    as dln_proto;
 import 'package:ec_client_dart/src/generated/api/moneygram/v1/service.pbgrpc.dart';
 import 'package:ec_client_dart/src/generated/api/payments/v1/service.pbgrpc.dart';
 import 'package:ec_client_dart/src/generated/api/rates/v1/service.pbgrpc.dart';
@@ -39,7 +40,9 @@ class EspressoCashClient {
     required bool secure,
   }) {
     final options = ChannelOptions(
-      credentials: secure ? const ChannelCredentials.secure() : const ChannelCredentials.insecure(),
+      credentials: secure
+          ? const ChannelCredentials.secure()
+          : const ChannelCredentials.insecure(),
       connectionTimeout: const Duration(seconds: 15),
       idleTimeout: const Duration(minutes: 5),
     );
@@ -108,10 +111,12 @@ class EspressoCashClient {
     _userServiceClient = UserServiceClient(_channel, options: options);
     _rateServiceClient = RateServiceClient(_channel, options: options);
     _paymentServiceClient = PaymentServiceClient(_channel, options: options);
-    _shortenerServiceClient = ShortenerServiceClient(_channel, options: options);
+    _shortenerServiceClient =
+        ShortenerServiceClient(_channel, options: options);
     _referralClient = ReferralServiceClient(_channel, options: options);
     _dlnServiceClient = dln_proto.DlnServiceClient(_channel, options: options);
-    _moneygramServiceClient = MoneygramServiceClient(_channel, options: options);
+    _moneygramServiceClient =
+        MoneygramServiceClient(_channel, options: options);
     _tokensServiceClient = TokensServiceClient(_channel, options: options);
   }
 
@@ -449,14 +454,16 @@ class EspressoCashClient {
 
   Future<EscrowPaymentQuoteResponseDto> getOutgoingEscrowPaymentQuote() async {
     final r = GetOutgoingEscrowPaymentQuoteRequest();
-    final response = await _paymentServiceClient.getOutgoingEscrowPaymentQuote(r);
+    final response =
+        await _paymentServiceClient.getOutgoingEscrowPaymentQuote(r);
 
     return EscrowPaymentQuoteResponseDto(fee: response.fee.toInt());
   }
 
   Future<EscrowPaymentQuoteResponseDto> getIncomingEscrowPaymentQuote() async {
     final r = GetIncomingEscrowPaymentQuoteRequest();
-    final response = await _paymentServiceClient.getIncomingEscrowPaymentQuote(r);
+    final response =
+        await _paymentServiceClient.getIncomingEscrowPaymentQuote(r);
 
     return EscrowPaymentQuoteResponseDto(fee: response.fee.toInt());
   }

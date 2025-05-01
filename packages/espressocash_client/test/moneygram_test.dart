@@ -9,7 +9,8 @@ void main() {
   late EspressoCashClient client;
   late Ed25519HDKeyPair solanaKeyPair;
 
-  const stellarAddress = 'GBBNXUPR3X7Z63FLLSHN3OV3TDSEGVZC2BVO6AMDPD5HFB5QIGXZVC6Z';
+  const stellarAddress =
+      'GBBNXUPR3X7Z63FLLSHN3OV3TDSEGVZC2BVO6AMDPD5HFB5QIGXZVC6Z';
 
   setUp(() async {
     solanaKeyPair = await Ed25519HDKeyPair.random();
@@ -63,7 +64,8 @@ void main() {
     }
   });
 
-  test('creates swap to Stellar transaction successfully', skip: true, () async {
+  test('creates swap to Stellar transaction successfully', skip: true,
+      () async {
     final request = SwapToStellarRequestDto(
       solanaSenderAddress: solanaKeyPair.address,
       stellarReceiverAddress: stellarAddress,

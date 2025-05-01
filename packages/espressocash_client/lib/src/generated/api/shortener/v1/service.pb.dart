@@ -31,8 +31,10 @@ class ShortenLinkRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ShortenLinkRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ShortenLinkRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'fullLink')
     ..hasRequiredFields = false;
@@ -45,17 +47,19 @@ class ShortenLinkRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   ShortenLinkRequest copyWith(void Function(ShortenLinkRequest) updates) =>
-      super.copyWith((message) => updates(message as ShortenLinkRequest)) as ShortenLinkRequest;
+      super.copyWith((message) => updates(message as ShortenLinkRequest))
+          as ShortenLinkRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ShortenLinkRequest create() => ShortenLinkRequest._();
   ShortenLinkRequest createEmptyInstance() => create();
-  static $pb.PbList<ShortenLinkRequest> createRepeated() => $pb.PbList<ShortenLinkRequest>();
+  static $pb.PbList<ShortenLinkRequest> createRepeated() =>
+      $pb.PbList<ShortenLinkRequest>();
   @$core.pragma('dart2js:noInline')
-  static ShortenLinkRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ShortenLinkRequest>(create);
+  static ShortenLinkRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ShortenLinkRequest>(create);
   static ShortenLinkRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -89,8 +93,10 @@ class ShortenLinkResponse extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ShortenLinkResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ShortenLinkResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'shortLink')
     ..hasRequiredFields = false;
@@ -103,17 +109,19 @@ class ShortenLinkResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   ShortenLinkResponse copyWith(void Function(ShortenLinkResponse) updates) =>
-      super.copyWith((message) => updates(message as ShortenLinkResponse)) as ShortenLinkResponse;
+      super.copyWith((message) => updates(message as ShortenLinkResponse))
+          as ShortenLinkResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ShortenLinkResponse create() => ShortenLinkResponse._();
   ShortenLinkResponse createEmptyInstance() => create();
-  static $pb.PbList<ShortenLinkResponse> createRepeated() => $pb.PbList<ShortenLinkResponse>();
+  static $pb.PbList<ShortenLinkResponse> createRepeated() =>
+      $pb.PbList<ShortenLinkResponse>();
   @$core.pragma('dart2js:noInline')
-  static ShortenLinkResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ShortenLinkResponse>(create);
+  static ShortenLinkResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ShortenLinkResponse>(create);
   static ShortenLinkResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -147,8 +155,10 @@ class ExpandLinkRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ExpandLinkRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ExpandLinkRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'shortLink')
     ..hasRequiredFields = false;
@@ -161,17 +171,19 @@ class ExpandLinkRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   ExpandLinkRequest copyWith(void Function(ExpandLinkRequest) updates) =>
-      super.copyWith((message) => updates(message as ExpandLinkRequest)) as ExpandLinkRequest;
+      super.copyWith((message) => updates(message as ExpandLinkRequest))
+          as ExpandLinkRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ExpandLinkRequest create() => ExpandLinkRequest._();
   ExpandLinkRequest createEmptyInstance() => create();
-  static $pb.PbList<ExpandLinkRequest> createRepeated() => $pb.PbList<ExpandLinkRequest>();
+  static $pb.PbList<ExpandLinkRequest> createRepeated() =>
+      $pb.PbList<ExpandLinkRequest>();
   @$core.pragma('dart2js:noInline')
-  static ExpandLinkRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExpandLinkRequest>(create);
+  static ExpandLinkRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ExpandLinkRequest>(create);
   static ExpandLinkRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -205,8 +217,10 @@ class ExpandLinkResponse extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ExpandLinkResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ExpandLinkResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'fullLink')
     ..hasRequiredFields = false;
@@ -219,17 +233,19 @@ class ExpandLinkResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   ExpandLinkResponse copyWith(void Function(ExpandLinkResponse) updates) =>
-      super.copyWith((message) => updates(message as ExpandLinkResponse)) as ExpandLinkResponse;
+      super.copyWith((message) => updates(message as ExpandLinkResponse))
+          as ExpandLinkResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ExpandLinkResponse create() => ExpandLinkResponse._();
   ExpandLinkResponse createEmptyInstance() => create();
-  static $pb.PbList<ExpandLinkResponse> createRepeated() => $pb.PbList<ExpandLinkResponse>();
+  static $pb.PbList<ExpandLinkResponse> createRepeated() =>
+      $pb.PbList<ExpandLinkResponse>();
   @$core.pragma('dart2js:noInline')
-  static ExpandLinkResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExpandLinkResponse>(create);
+  static ExpandLinkResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ExpandLinkResponse>(create);
   static ExpandLinkResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -246,4 +262,5 @@ class ExpandLinkResponse extends $pb.GeneratedMessage {
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

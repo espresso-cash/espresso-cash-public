@@ -46,7 +46,8 @@ class GetOutgoingQuoteRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetOutgoingQuoteRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'amount')
     ..aOS(2, _omitFieldNames ? '' : 'receiverAddress')
@@ -56,11 +57,13 @@ class GetOutgoingQuoteRequest extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetOutgoingQuoteRequest clone() => GetOutgoingQuoteRequest()..mergeFromMessage(this);
+  GetOutgoingQuoteRequest clone() =>
+      GetOutgoingQuoteRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  GetOutgoingQuoteRequest copyWith(void Function(GetOutgoingQuoteRequest) updates) =>
+  GetOutgoingQuoteRequest copyWith(
+          void Function(GetOutgoingQuoteRequest) updates) =>
       super.copyWith((message) => updates(message as GetOutgoingQuoteRequest))
           as GetOutgoingQuoteRequest;
 
@@ -72,8 +75,8 @@ class GetOutgoingQuoteRequest extends $pb.GeneratedMessage {
   static $pb.PbList<GetOutgoingQuoteRequest> createRepeated() =>
       $pb.PbList<GetOutgoingQuoteRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetOutgoingQuoteRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetOutgoingQuoteRequest>(create);
+  static GetOutgoingQuoteRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetOutgoingQuoteRequest>(create);
   static GetOutgoingQuoteRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -149,7 +152,8 @@ class GetOutgoingQuoteResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetOutgoingQuoteResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'inputAmount')
     ..aInt64(2, _omitFieldNames ? '' : 'receiverAmount')
@@ -162,11 +166,13 @@ class GetOutgoingQuoteResponse extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetOutgoingQuoteResponse clone() => GetOutgoingQuoteResponse()..mergeFromMessage(this);
+  GetOutgoingQuoteResponse clone() =>
+      GetOutgoingQuoteResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  GetOutgoingQuoteResponse copyWith(void Function(GetOutgoingQuoteResponse) updates) =>
+  GetOutgoingQuoteResponse copyWith(
+          void Function(GetOutgoingQuoteResponse) updates) =>
       super.copyWith((message) => updates(message as GetOutgoingQuoteResponse))
           as GetOutgoingQuoteResponse;
 
@@ -178,8 +184,8 @@ class GetOutgoingQuoteResponse extends $pb.GeneratedMessage {
   static $pb.PbList<GetOutgoingQuoteResponse> createRepeated() =>
       $pb.PbList<GetOutgoingQuoteResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetOutgoingQuoteResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetOutgoingQuoteResponse>(create);
+  static GetOutgoingQuoteResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetOutgoingQuoteResponse>(create);
   static GetOutgoingQuoteResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -263,7 +269,8 @@ class GetOrderStatusRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetOrderStatusRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'orderId')
     ..hasRequiredFields = false;
@@ -271,11 +278,13 @@ class GetOrderStatusRequest extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetOrderStatusRequest clone() => GetOrderStatusRequest()..mergeFromMessage(this);
+  GetOrderStatusRequest clone() =>
+      GetOrderStatusRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  GetOrderStatusRequest copyWith(void Function(GetOrderStatusRequest) updates) =>
+  GetOrderStatusRequest copyWith(
+          void Function(GetOrderStatusRequest) updates) =>
       super.copyWith((message) => updates(message as GetOrderStatusRequest))
           as GetOrderStatusRequest;
 
@@ -284,10 +293,11 @@ class GetOrderStatusRequest extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static GetOrderStatusRequest create() => GetOrderStatusRequest._();
   GetOrderStatusRequest createEmptyInstance() => create();
-  static $pb.PbList<GetOrderStatusRequest> createRepeated() => $pb.PbList<GetOrderStatusRequest>();
+  static $pb.PbList<GetOrderStatusRequest> createRepeated() =>
+      $pb.PbList<GetOrderStatusRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetOrderStatusRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetOrderStatusRequest>(create);
+  static GetOrderStatusRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetOrderStatusRequest>(create);
   static GetOrderStatusRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -323,7 +333,8 @@ class GetOrderStatusResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetOrderStatusResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..e<DlnOrderStatus>(1, _omitFieldNames ? '' : 'status', $pb.PbFieldType.OE,
         defaultOrMaker: DlnOrderStatus.DLN_ORDER_STATUS_NONE,
@@ -334,11 +345,13 @@ class GetOrderStatusResponse extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetOrderStatusResponse clone() => GetOrderStatusResponse()..mergeFromMessage(this);
+  GetOrderStatusResponse clone() =>
+      GetOrderStatusResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  GetOrderStatusResponse copyWith(void Function(GetOrderStatusResponse) updates) =>
+  GetOrderStatusResponse copyWith(
+          void Function(GetOrderStatusResponse) updates) =>
       super.copyWith((message) => updates(message as GetOrderStatusResponse))
           as GetOrderStatusResponse;
 
@@ -350,8 +363,8 @@ class GetOrderStatusResponse extends $pb.GeneratedMessage {
   static $pb.PbList<GetOrderStatusResponse> createRepeated() =>
       $pb.PbList<GetOrderStatusResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetOrderStatusResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetOrderStatusResponse>(create);
+  static GetOrderStatusResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetOrderStatusResponse>(create);
   static GetOrderStatusResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -385,8 +398,10 @@ class GetOrderIdRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetOrderIdRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetOrderIdRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'txId')
     ..hasRequiredFields = false;
@@ -399,17 +414,19 @@ class GetOrderIdRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetOrderIdRequest copyWith(void Function(GetOrderIdRequest) updates) =>
-      super.copyWith((message) => updates(message as GetOrderIdRequest)) as GetOrderIdRequest;
+      super.copyWith((message) => updates(message as GetOrderIdRequest))
+          as GetOrderIdRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetOrderIdRequest create() => GetOrderIdRequest._();
   GetOrderIdRequest createEmptyInstance() => create();
-  static $pb.PbList<GetOrderIdRequest> createRepeated() => $pb.PbList<GetOrderIdRequest>();
+  static $pb.PbList<GetOrderIdRequest> createRepeated() =>
+      $pb.PbList<GetOrderIdRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetOrderIdRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetOrderIdRequest>(create);
+  static GetOrderIdRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetOrderIdRequest>(create);
   static GetOrderIdRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -443,8 +460,10 @@ class GetOrderIdResponse extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetOrderIdResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetOrderIdResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'orderId')
     ..hasRequiredFields = false;
@@ -457,17 +476,19 @@ class GetOrderIdResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetOrderIdResponse copyWith(void Function(GetOrderIdResponse) updates) =>
-      super.copyWith((message) => updates(message as GetOrderIdResponse)) as GetOrderIdResponse;
+      super.copyWith((message) => updates(message as GetOrderIdResponse))
+          as GetOrderIdResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetOrderIdResponse create() => GetOrderIdResponse._();
   GetOrderIdResponse createEmptyInstance() => create();
-  static $pb.PbList<GetOrderIdResponse> createRepeated() => $pb.PbList<GetOrderIdResponse>();
+  static $pb.PbList<GetOrderIdResponse> createRepeated() =>
+      $pb.PbList<GetOrderIdResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetOrderIdResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetOrderIdResponse>(create);
+  static GetOrderIdResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetOrderIdResponse>(create);
   static GetOrderIdResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -519,7 +540,8 @@ class GetIncomingQuoteRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetIncomingQuoteRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'amount')
     ..aOS(2, _omitFieldNames ? '' : 'senderAddress')
@@ -531,11 +553,13 @@ class GetIncomingQuoteRequest extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetIncomingQuoteRequest clone() => GetIncomingQuoteRequest()..mergeFromMessage(this);
+  GetIncomingQuoteRequest clone() =>
+      GetIncomingQuoteRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  GetIncomingQuoteRequest copyWith(void Function(GetIncomingQuoteRequest) updates) =>
+  GetIncomingQuoteRequest copyWith(
+          void Function(GetIncomingQuoteRequest) updates) =>
       super.copyWith((message) => updates(message as GetIncomingQuoteRequest))
           as GetIncomingQuoteRequest;
 
@@ -547,8 +571,8 @@ class GetIncomingQuoteRequest extends $pb.GeneratedMessage {
   static $pb.PbList<GetIncomingQuoteRequest> createRepeated() =>
       $pb.PbList<GetIncomingQuoteRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetIncomingQuoteRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetIncomingQuoteRequest>(create);
+  static GetIncomingQuoteRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetIncomingQuoteRequest>(create);
   static GetIncomingQuoteRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -648,10 +672,12 @@ class GetIncomingQuoteResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetIncomingQuoteResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..aOM<QuoteTx>(1, _omitFieldNames ? '' : 'tx', subBuilder: QuoteTx.create)
-    ..aOM<QuoteUsdcInfo>(2, _omitFieldNames ? '' : 'usdcInfo', subBuilder: QuoteUsdcInfo.create)
+    ..aOM<QuoteUsdcInfo>(2, _omitFieldNames ? '' : 'usdcInfo',
+        subBuilder: QuoteUsdcInfo.create)
     ..aInt64(3, _omitFieldNames ? '' : 'inputAmount')
     ..aInt64(4, _omitFieldNames ? '' : 'receiverAmount')
     ..aInt64(5, _omitFieldNames ? '' : 'feeInUsdc')
@@ -660,11 +686,13 @@ class GetIncomingQuoteResponse extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetIncomingQuoteResponse clone() => GetIncomingQuoteResponse()..mergeFromMessage(this);
+  GetIncomingQuoteResponse clone() =>
+      GetIncomingQuoteResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  GetIncomingQuoteResponse copyWith(void Function(GetIncomingQuoteResponse) updates) =>
+  GetIncomingQuoteResponse copyWith(
+          void Function(GetIncomingQuoteResponse) updates) =>
       super.copyWith((message) => updates(message as GetIncomingQuoteResponse))
           as GetIncomingQuoteResponse;
 
@@ -676,8 +704,8 @@ class GetIncomingQuoteResponse extends $pb.GeneratedMessage {
   static $pb.PbList<GetIncomingQuoteResponse> createRepeated() =>
       $pb.PbList<GetIncomingQuoteResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetIncomingQuoteResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetIncomingQuoteResponse>(create);
+  static GetIncomingQuoteResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetIncomingQuoteResponse>(create);
   static GetIncomingQuoteResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -771,8 +799,10 @@ class QuoteTx extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'QuoteTx',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'QuoteTx',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'to')
     ..aOS(2, _omitFieldNames ? '' : 'data')
@@ -859,8 +889,10 @@ class QuoteUsdcInfo extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'QuoteUsdcInfo',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'QuoteUsdcInfo',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'usdcAddress')
     ..aInt64(2, _omitFieldNames ? '' : 'approvalAmount')
@@ -874,17 +906,19 @@ class QuoteUsdcInfo extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   QuoteUsdcInfo copyWith(void Function(QuoteUsdcInfo) updates) =>
-      super.copyWith((message) => updates(message as QuoteUsdcInfo)) as QuoteUsdcInfo;
+      super.copyWith((message) => updates(message as QuoteUsdcInfo))
+          as QuoteUsdcInfo;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static QuoteUsdcInfo create() => QuoteUsdcInfo._();
   QuoteUsdcInfo createEmptyInstance() => create();
-  static $pb.PbList<QuoteUsdcInfo> createRepeated() => $pb.PbList<QuoteUsdcInfo>();
+  static $pb.PbList<QuoteUsdcInfo> createRepeated() =>
+      $pb.PbList<QuoteUsdcInfo>();
   @$core.pragma('dart2js:noInline')
-  static QuoteUsdcInfo getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<QuoteUsdcInfo>(create);
+  static QuoteUsdcInfo getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<QuoteUsdcInfo>(create);
   static QuoteUsdcInfo? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -930,8 +964,10 @@ class GetGasFeesRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetGasFeesRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetGasFeesRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'network')
     ..hasRequiredFields = false;
@@ -944,17 +980,19 @@ class GetGasFeesRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetGasFeesRequest copyWith(void Function(GetGasFeesRequest) updates) =>
-      super.copyWith((message) => updates(message as GetGasFeesRequest)) as GetGasFeesRequest;
+      super.copyWith((message) => updates(message as GetGasFeesRequest))
+          as GetGasFeesRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetGasFeesRequest create() => GetGasFeesRequest._();
   GetGasFeesRequest createEmptyInstance() => create();
-  static $pb.PbList<GetGasFeesRequest> createRepeated() => $pb.PbList<GetGasFeesRequest>();
+  static $pb.PbList<GetGasFeesRequest> createRepeated() =>
+      $pb.PbList<GetGasFeesRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetGasFeesRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetGasFeesRequest>(create);
+  static GetGasFeesRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetGasFeesRequest>(create);
   static GetGasFeesRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1004,14 +1042,20 @@ class GetGasFeesResponse extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetGasFeesResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetGasFeesResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
-    ..aOM<GasFeeEstimate>(1, _omitFieldNames ? '' : 'low', subBuilder: GasFeeEstimate.create)
-    ..aOM<GasFeeEstimate>(2, _omitFieldNames ? '' : 'medium', subBuilder: GasFeeEstimate.create)
-    ..aOM<GasFeeEstimate>(3, _omitFieldNames ? '' : 'high', subBuilder: GasFeeEstimate.create)
+    ..aOM<GasFeeEstimate>(1, _omitFieldNames ? '' : 'low',
+        subBuilder: GasFeeEstimate.create)
+    ..aOM<GasFeeEstimate>(2, _omitFieldNames ? '' : 'medium',
+        subBuilder: GasFeeEstimate.create)
+    ..aOM<GasFeeEstimate>(3, _omitFieldNames ? '' : 'high',
+        subBuilder: GasFeeEstimate.create)
     ..aOS(4, _omitFieldNames ? '' : 'estimatedBaseFee')
-    ..a<$core.double>(5, _omitFieldNames ? '' : 'networkCongestion', $pb.PbFieldType.OD)
+    ..a<$core.double>(
+        5, _omitFieldNames ? '' : 'networkCongestion', $pb.PbFieldType.OD)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1022,17 +1066,19 @@ class GetGasFeesResponse extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetGasFeesResponse copyWith(void Function(GetGasFeesResponse) updates) =>
-      super.copyWith((message) => updates(message as GetGasFeesResponse)) as GetGasFeesResponse;
+      super.copyWith((message) => updates(message as GetGasFeesResponse))
+          as GetGasFeesResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetGasFeesResponse create() => GetGasFeesResponse._();
   GetGasFeesResponse createEmptyInstance() => create();
-  static $pb.PbList<GetGasFeesResponse> createRepeated() => $pb.PbList<GetGasFeesResponse>();
+  static $pb.PbList<GetGasFeesResponse> createRepeated() =>
+      $pb.PbList<GetGasFeesResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetGasFeesResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetGasFeesResponse>(create);
+  static GetGasFeesResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetGasFeesResponse>(create);
   static GetGasFeesResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1132,13 +1178,17 @@ class GasFeeEstimate extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GasFeeEstimate',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.dln.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GasFeeEstimate',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.dln.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'suggestedMaxPriorityFeePerGas')
     ..aOS(2, _omitFieldNames ? '' : 'suggestedMaxFeePerGas')
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'minWaitTimeEstimate', $pb.PbFieldType.O3)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'maxWaitTimeEstimate', $pb.PbFieldType.O3)
+    ..a<$core.int>(
+        3, _omitFieldNames ? '' : 'minWaitTimeEstimate', $pb.PbFieldType.O3)
+    ..a<$core.int>(
+        4, _omitFieldNames ? '' : 'maxWaitTimeEstimate', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1149,17 +1199,19 @@ class GasFeeEstimate extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GasFeeEstimate copyWith(void Function(GasFeeEstimate) updates) =>
-      super.copyWith((message) => updates(message as GasFeeEstimate)) as GasFeeEstimate;
+      super.copyWith((message) => updates(message as GasFeeEstimate))
+          as GasFeeEstimate;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GasFeeEstimate create() => GasFeeEstimate._();
   GasFeeEstimate createEmptyInstance() => create();
-  static $pb.PbList<GasFeeEstimate> createRepeated() => $pb.PbList<GasFeeEstimate>();
+  static $pb.PbList<GasFeeEstimate> createRepeated() =>
+      $pb.PbList<GasFeeEstimate>();
   @$core.pragma('dart2js:noInline')
-  static GasFeeEstimate getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GasFeeEstimate>(create);
+  static GasFeeEstimate getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GasFeeEstimate>(create);
   static GasFeeEstimate? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1212,4 +1264,5 @@ class GasFeeEstimate extends $pb.GeneratedMessage {
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

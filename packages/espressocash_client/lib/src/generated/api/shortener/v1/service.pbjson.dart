@@ -23,7 +23,8 @@ const ShortenLinkRequest$json = {
 
 /// Descriptor for `ShortenLinkRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List shortenLinkRequestDescriptor =
-    $convert.base64Decode('ChJTaG9ydGVuTGlua1JlcXVlc3QSGwoJZnVsbF9saW5rGAEgASgJUghmdWxsTGluaw==');
+    $convert.base64Decode(
+        'ChJTaG9ydGVuTGlua1JlcXVlc3QSGwoJZnVsbF9saW5rGAEgASgJUghmdWxsTGluaw==');
 
 @$core.Deprecated('Use shortenLinkResponseDescriptor instead')
 const ShortenLinkResponse$json = {
@@ -34,8 +35,8 @@ const ShortenLinkResponse$json = {
 };
 
 /// Descriptor for `ShortenLinkResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List shortenLinkResponseDescriptor = $convert
-    .base64Decode('ChNTaG9ydGVuTGlua1Jlc3BvbnNlEh0KCnNob3J0X2xpbmsYASABKAlSCXNob3J0TGluaw==');
+final $typed_data.Uint8List shortenLinkResponseDescriptor = $convert.base64Decode(
+    'ChNTaG9ydGVuTGlua1Jlc3BvbnNlEh0KCnNob3J0X2xpbmsYASABKAlSCXNob3J0TGluaw==');
 
 @$core.Deprecated('Use expandLinkRequestDescriptor instead')
 const ExpandLinkRequest$json = {
@@ -46,8 +47,8 @@ const ExpandLinkRequest$json = {
 };
 
 /// Descriptor for `ExpandLinkRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List expandLinkRequestDescriptor =
-    $convert.base64Decode('ChFFeHBhbmRMaW5rUmVxdWVzdBIdCgpzaG9ydF9saW5rGAEgASgJUglzaG9ydExpbms=');
+final $typed_data.Uint8List expandLinkRequestDescriptor = $convert.base64Decode(
+    'ChFFeHBhbmRMaW5rUmVxdWVzdBIdCgpzaG9ydF9saW5rGAEgASgJUglzaG9ydExpbms=');
 
 @$core.Deprecated('Use expandLinkResponseDescriptor instead')
 const ExpandLinkResponse$json = {
@@ -59,4 +60,5 @@ const ExpandLinkResponse$json = {
 
 /// Descriptor for `ExpandLinkResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List expandLinkResponseDescriptor =
-    $convert.base64Decode('ChJFeHBhbmRMaW5rUmVzcG9uc2USGwoJZnVsbF9saW5rGAEgASgJUghmdWxsTGluaw==');
+    $convert.base64Decode(
+        'ChJFeHBhbmRMaW5rUmVzcG9uc2USGwoJZnVsbF9saW5rGAEgASgJUghmdWxsTGluaw==');

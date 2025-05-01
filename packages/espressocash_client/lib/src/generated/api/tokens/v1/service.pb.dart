@@ -23,30 +23,35 @@ class GetTokensMetaRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTokensMetaRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.tokens.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetTokensMetaRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.tokens.v1'),
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetTokensMetaRequest clone() => GetTokensMetaRequest()..mergeFromMessage(this);
+  GetTokensMetaRequest clone() =>
+      GetTokensMetaRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetTokensMetaRequest copyWith(void Function(GetTokensMetaRequest) updates) =>
-      super.copyWith((message) => updates(message as GetTokensMetaRequest)) as GetTokensMetaRequest;
+      super.copyWith((message) => updates(message as GetTokensMetaRequest))
+          as GetTokensMetaRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetTokensMetaRequest create() => GetTokensMetaRequest._();
   GetTokensMetaRequest createEmptyInstance() => create();
-  static $pb.PbList<GetTokensMetaRequest> createRepeated() => $pb.PbList<GetTokensMetaRequest>();
+  static $pb.PbList<GetTokensMetaRequest> createRepeated() =>
+      $pb.PbList<GetTokensMetaRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetTokensMetaRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetTokensMetaRequest>(create);
+  static GetTokensMetaRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetTokensMetaRequest>(create);
   static GetTokensMetaRequest? _defaultInstance;
 }
 
@@ -70,7 +75,8 @@ class GetTokensMetaResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetTokensMetaResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.tokens.v1'),
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.tokens.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'md5')
     ..hasRequiredFields = false;
@@ -78,11 +84,13 @@ class GetTokensMetaResponse extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetTokensMetaResponse clone() => GetTokensMetaResponse()..mergeFromMessage(this);
+  GetTokensMetaResponse clone() =>
+      GetTokensMetaResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  GetTokensMetaResponse copyWith(void Function(GetTokensMetaResponse) updates) =>
+  GetTokensMetaResponse copyWith(
+          void Function(GetTokensMetaResponse) updates) =>
       super.copyWith((message) => updates(message as GetTokensMetaResponse))
           as GetTokensMetaResponse;
 
@@ -91,10 +99,11 @@ class GetTokensMetaResponse extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static GetTokensMetaResponse create() => GetTokensMetaResponse._();
   GetTokensMetaResponse createEmptyInstance() => create();
-  static $pb.PbList<GetTokensMetaResponse> createRepeated() => $pb.PbList<GetTokensMetaResponse>();
+  static $pb.PbList<GetTokensMetaResponse> createRepeated() =>
+      $pb.PbList<GetTokensMetaResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetTokensMetaResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetTokensMetaResponse>(create);
+  static GetTokensMetaResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetTokensMetaResponse>(create);
   static GetTokensMetaResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -120,30 +129,35 @@ class GetTokensFileRequest extends $pb.GeneratedMessage {
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTokensFileRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.tokens.v1'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GetTokensFileRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.tokens.v1'),
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetTokensFileRequest clone() => GetTokensFileRequest()..mergeFromMessage(this);
+  GetTokensFileRequest clone() =>
+      GetTokensFileRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GetTokensFileRequest copyWith(void Function(GetTokensFileRequest) updates) =>
-      super.copyWith((message) => updates(message as GetTokensFileRequest)) as GetTokensFileRequest;
+      super.copyWith((message) => updates(message as GetTokensFileRequest))
+          as GetTokensFileRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetTokensFileRequest create() => GetTokensFileRequest._();
   GetTokensFileRequest createEmptyInstance() => create();
-  static $pb.PbList<GetTokensFileRequest> createRepeated() => $pb.PbList<GetTokensFileRequest>();
+  static $pb.PbList<GetTokensFileRequest> createRepeated() =>
+      $pb.PbList<GetTokensFileRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetTokensFileRequest getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetTokensFileRequest>(create);
+  static GetTokensFileRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetTokensFileRequest>(create);
   static GetTokensFileRequest? _defaultInstance;
 }
 
@@ -167,19 +181,23 @@ class GetTokensFileResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetTokensFileResponse',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.tokens.v1'),
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.tokens.v1'),
       createEmptyInstance: create)
-    ..a<$core.List<$core.int>>(1, _omitFieldNames ? '' : 'content', $pb.PbFieldType.OY)
+    ..a<$core.List<$core.int>>(
+        1, _omitFieldNames ? '' : 'content', $pb.PbFieldType.OY)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GetTokensFileResponse clone() => GetTokensFileResponse()..mergeFromMessage(this);
+  GetTokensFileResponse clone() =>
+      GetTokensFileResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  GetTokensFileResponse copyWith(void Function(GetTokensFileResponse) updates) =>
+  GetTokensFileResponse copyWith(
+          void Function(GetTokensFileResponse) updates) =>
       super.copyWith((message) => updates(message as GetTokensFileResponse))
           as GetTokensFileResponse;
 
@@ -188,10 +206,11 @@ class GetTokensFileResponse extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static GetTokensFileResponse create() => GetTokensFileResponse._();
   GetTokensFileResponse createEmptyInstance() => create();
-  static $pb.PbList<GetTokensFileResponse> createRepeated() => $pb.PbList<GetTokensFileResponse>();
+  static $pb.PbList<GetTokensFileResponse> createRepeated() =>
+      $pb.PbList<GetTokensFileResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetTokensFileResponse getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetTokensFileResponse>(create);
+  static GetTokensFileResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetTokensFileResponse>(create);
   static GetTokensFileResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -208,4 +227,5 @@ class GetTokensFileResponse extends $pb.GeneratedMessage {
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

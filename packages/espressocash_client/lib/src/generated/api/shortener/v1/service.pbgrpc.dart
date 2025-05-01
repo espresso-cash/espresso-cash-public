@@ -21,25 +21,32 @@ export 'service.pb.dart';
 
 @$pb.GrpcServiceName('espressocash.api.shortener.v1.ShortenerService')
 class ShortenerServiceClient extends $grpc.Client {
-  static final _$shortenLink = $grpc.ClientMethod<$3.ShortenLinkRequest, $3.ShortenLinkResponse>(
-      '/espressocash.api.shortener.v1.ShortenerService/ShortenLink',
-      ($3.ShortenLinkRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $3.ShortenLinkResponse.fromBuffer(value));
-  static final _$expandLink = $grpc.ClientMethod<$3.ExpandLinkRequest, $3.ExpandLinkResponse>(
-      '/espressocash.api.shortener.v1.ShortenerService/ExpandLink',
-      ($3.ExpandLinkRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $3.ExpandLinkResponse.fromBuffer(value));
+  static final _$shortenLink =
+      $grpc.ClientMethod<$3.ShortenLinkRequest, $3.ShortenLinkResponse>(
+          '/espressocash.api.shortener.v1.ShortenerService/ShortenLink',
+          ($3.ShortenLinkRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $3.ShortenLinkResponse.fromBuffer(value));
+  static final _$expandLink =
+      $grpc.ClientMethod<$3.ExpandLinkRequest, $3.ExpandLinkResponse>(
+          '/espressocash.api.shortener.v1.ShortenerService/ExpandLink',
+          ($3.ExpandLinkRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $3.ExpandLinkResponse.fromBuffer(value));
 
   ShortenerServiceClient($grpc.ClientChannel channel,
-      {$grpc.CallOptions? options, $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      {$grpc.CallOptions? options,
+      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$3.ShortenLinkResponse> shortenLink($3.ShortenLinkRequest request,
+  $grpc.ResponseFuture<$3.ShortenLinkResponse> shortenLink(
+      $3.ShortenLinkRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$shortenLink, request, options: options);
   }
 
-  $grpc.ResponseFuture<$3.ExpandLinkResponse> expandLink($3.ExpandLinkRequest request,
+  $grpc.ResponseFuture<$3.ExpandLinkResponse> expandLink(
+      $3.ExpandLinkRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$expandLink, request, options: options);
   }
@@ -50,13 +57,15 @@ abstract class ShortenerServiceBase extends $grpc.Service {
   $core.String get $name => 'espressocash.api.shortener.v1.ShortenerService';
 
   ShortenerServiceBase() {
-    $addMethod($grpc.ServiceMethod<$3.ShortenLinkRequest, $3.ShortenLinkResponse>(
-        'ShortenLink',
-        shortenLink_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $3.ShortenLinkRequest.fromBuffer(value),
-        ($3.ShortenLinkResponse value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$3.ShortenLinkRequest, $3.ShortenLinkResponse>(
+            'ShortenLink',
+            shortenLink_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $3.ShortenLinkRequest.fromBuffer(value),
+            ($3.ShortenLinkResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$3.ExpandLinkRequest, $3.ExpandLinkResponse>(
         'ExpandLink',
         expandLink_Pre,
@@ -66,13 +75,13 @@ abstract class ShortenerServiceBase extends $grpc.Service {
         ($3.ExpandLinkResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$3.ShortenLinkResponse> shortenLink_Pre(
-      $grpc.ServiceCall call, $async.Future<$3.ShortenLinkRequest> request) async {
+  $async.Future<$3.ShortenLinkResponse> shortenLink_Pre($grpc.ServiceCall call,
+      $async.Future<$3.ShortenLinkRequest> request) async {
     return shortenLink(call, await request);
   }
 
-  $async.Future<$3.ExpandLinkResponse> expandLink_Pre(
-      $grpc.ServiceCall call, $async.Future<$3.ExpandLinkRequest> request) async {
+  $async.Future<$3.ExpandLinkResponse> expandLink_Pre($grpc.ServiceCall call,
+      $async.Future<$3.ExpandLinkRequest> request) async {
     return expandLink(call, await request);
   }
 

@@ -21,12 +21,14 @@ mixin _$GasFeeRequestDto {
   /// Create a copy of GasFeeRequestDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $GasFeeRequestDtoCopyWith<GasFeeRequestDto> get copyWith => throw _privateConstructorUsedError;
+  $GasFeeRequestDtoCopyWith<GasFeeRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $GasFeeRequestDtoCopyWith<$Res> {
-  factory $GasFeeRequestDtoCopyWith(GasFeeRequestDto value, $Res Function(GasFeeRequestDto) then) =
+  factory $GasFeeRequestDtoCopyWith(
+          GasFeeRequestDto value, $Res Function(GasFeeRequestDto) then) =
       _$GasFeeRequestDtoCopyWithImpl<$Res, GasFeeRequestDto>;
   @useResult
   $Res call({String network});
@@ -59,9 +61,10 @@ class _$GasFeeRequestDtoCopyWithImpl<$Res, $Val extends GasFeeRequestDto>
 }
 
 /// @nodoc
-abstract class _$$GasFeeRequestDtoImplCopyWith<$Res> implements $GasFeeRequestDtoCopyWith<$Res> {
-  factory _$$GasFeeRequestDtoImplCopyWith(
-          _$GasFeeRequestDtoImpl value, $Res Function(_$GasFeeRequestDtoImpl) then) =
+abstract class _$$GasFeeRequestDtoImplCopyWith<$Res>
+    implements $GasFeeRequestDtoCopyWith<$Res> {
+  factory _$$GasFeeRequestDtoImplCopyWith(_$GasFeeRequestDtoImpl value,
+          $Res Function(_$GasFeeRequestDtoImpl) then) =
       __$$GasFeeRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -72,8 +75,8 @@ abstract class _$$GasFeeRequestDtoImplCopyWith<$Res> implements $GasFeeRequestDt
 class __$$GasFeeRequestDtoImplCopyWithImpl<$Res>
     extends _$GasFeeRequestDtoCopyWithImpl<$Res, _$GasFeeRequestDtoImpl>
     implements _$$GasFeeRequestDtoImplCopyWith<$Res> {
-  __$$GasFeeRequestDtoImplCopyWithImpl(
-      _$GasFeeRequestDtoImpl _value, $Res Function(_$GasFeeRequestDtoImpl) _then)
+  __$$GasFeeRequestDtoImplCopyWithImpl(_$GasFeeRequestDtoImpl _value,
+      $Res Function(_$GasFeeRequestDtoImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of GasFeeRequestDto
@@ -122,11 +125,13 @@ class _$GasFeeRequestDtoImpl implements _GasFeeRequestDto {
   @override
   @pragma('vm:prefer-inline')
   _$$GasFeeRequestDtoImplCopyWith<_$GasFeeRequestDtoImpl> get copyWith =>
-      __$$GasFeeRequestDtoImplCopyWithImpl<_$GasFeeRequestDtoImpl>(this, _$identity);
+      __$$GasFeeRequestDtoImplCopyWithImpl<_$GasFeeRequestDtoImpl>(
+          this, _$identity);
 }
 
 abstract class _GasFeeRequestDto implements GasFeeRequestDto {
-  const factory _GasFeeRequestDto({required final String network}) = _$GasFeeRequestDtoImpl;
+  const factory _GasFeeRequestDto({required final String network}) =
+      _$GasFeeRequestDtoImpl;
 
   @override
   String get network;
@@ -150,7 +155,8 @@ mixin _$GasFeeResponseDto {
   /// Create a copy of GasFeeResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $GasFeeResponseDtoCopyWith<GasFeeResponseDto> get copyWith => throw _privateConstructorUsedError;
+  $GasFeeResponseDtoCopyWith<GasFeeResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -248,9 +254,10 @@ class _$GasFeeResponseDtoCopyWithImpl<$Res, $Val extends GasFeeResponseDto>
 }
 
 /// @nodoc
-abstract class _$$GasFeeResponseDtoImplCopyWith<$Res> implements $GasFeeResponseDtoCopyWith<$Res> {
-  factory _$$GasFeeResponseDtoImplCopyWith(
-          _$GasFeeResponseDtoImpl value, $Res Function(_$GasFeeResponseDtoImpl) then) =
+abstract class _$$GasFeeResponseDtoImplCopyWith<$Res>
+    implements $GasFeeResponseDtoCopyWith<$Res> {
+  factory _$$GasFeeResponseDtoImplCopyWith(_$GasFeeResponseDtoImpl value,
+          $Res Function(_$GasFeeResponseDtoImpl) then) =
       __$$GasFeeResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -273,8 +280,8 @@ abstract class _$$GasFeeResponseDtoImplCopyWith<$Res> implements $GasFeeResponse
 class __$$GasFeeResponseDtoImplCopyWithImpl<$Res>
     extends _$GasFeeResponseDtoCopyWithImpl<$Res, _$GasFeeResponseDtoImpl>
     implements _$$GasFeeResponseDtoImplCopyWith<$Res> {
-  __$$GasFeeResponseDtoImplCopyWithImpl(
-      _$GasFeeResponseDtoImpl _value, $Res Function(_$GasFeeResponseDtoImpl) _then)
+  __$$GasFeeResponseDtoImplCopyWithImpl(_$GasFeeResponseDtoImpl _value,
+      $Res Function(_$GasFeeResponseDtoImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of GasFeeResponseDto
@@ -354,8 +361,8 @@ class _$GasFeeResponseDtoImpl implements _GasFeeResponseDto {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, low, medium, high, estimatedBaseFee, networkCongestion);
+  int get hashCode => Object.hash(
+      runtimeType, low, medium, high, estimatedBaseFee, networkCongestion);
 
   /// Create a copy of GasFeeResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -363,7 +370,8 @@ class _$GasFeeResponseDtoImpl implements _GasFeeResponseDto {
   @override
   @pragma('vm:prefer-inline')
   _$$GasFeeResponseDtoImplCopyWith<_$GasFeeResponseDtoImpl> get copyWith =>
-      __$$GasFeeResponseDtoImplCopyWithImpl<_$GasFeeResponseDtoImpl>(this, _$identity);
+      __$$GasFeeResponseDtoImplCopyWithImpl<_$GasFeeResponseDtoImpl>(
+          this, _$identity);
 }
 
 abstract class _GasFeeResponseDto implements GasFeeResponseDto {
@@ -395,7 +403,8 @@ abstract class _GasFeeResponseDto implements GasFeeResponseDto {
 
 /// @nodoc
 mixin _$GasFeeEstimate {
-  String get suggestedMaxPriorityFeePerGas => throw _privateConstructorUsedError;
+  String get suggestedMaxPriorityFeePerGas =>
+      throw _privateConstructorUsedError;
   String get suggestedMaxFeePerGas => throw _privateConstructorUsedError;
   int get minWaitTimeEstimate => throw _privateConstructorUsedError;
   int get maxWaitTimeEstimate => throw _privateConstructorUsedError;
@@ -403,12 +412,14 @@ mixin _$GasFeeEstimate {
   /// Create a copy of GasFeeEstimate
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $GasFeeEstimateCopyWith<GasFeeEstimate> get copyWith => throw _privateConstructorUsedError;
+  $GasFeeEstimateCopyWith<GasFeeEstimate> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $GasFeeEstimateCopyWith<$Res> {
-  factory $GasFeeEstimateCopyWith(GasFeeEstimate value, $Res Function(GasFeeEstimate) then) =
+  factory $GasFeeEstimateCopyWith(
+          GasFeeEstimate value, $Res Function(GasFeeEstimate) then) =
       _$GasFeeEstimateCopyWithImpl<$Res, GasFeeEstimate>;
   @useResult
   $Res call(
@@ -460,9 +471,10 @@ class _$GasFeeEstimateCopyWithImpl<$Res, $Val extends GasFeeEstimate>
 }
 
 /// @nodoc
-abstract class _$$GasFeeEstimateImplCopyWith<$Res> implements $GasFeeEstimateCopyWith<$Res> {
-  factory _$$GasFeeEstimateImplCopyWith(
-          _$GasFeeEstimateImpl value, $Res Function(_$GasFeeEstimateImpl) then) =
+abstract class _$$GasFeeEstimateImplCopyWith<$Res>
+    implements $GasFeeEstimateCopyWith<$Res> {
+  factory _$$GasFeeEstimateImplCopyWith(_$GasFeeEstimateImpl value,
+          $Res Function(_$GasFeeEstimateImpl) then) =
       __$$GasFeeEstimateImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -540,8 +552,10 @@ class _$GasFeeEstimateImpl implements _GasFeeEstimate {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GasFeeEstimateImpl &&
-            (identical(other.suggestedMaxPriorityFeePerGas, suggestedMaxPriorityFeePerGas) ||
-                other.suggestedMaxPriorityFeePerGas == suggestedMaxPriorityFeePerGas) &&
+            (identical(other.suggestedMaxPriorityFeePerGas,
+                    suggestedMaxPriorityFeePerGas) ||
+                other.suggestedMaxPriorityFeePerGas ==
+                    suggestedMaxPriorityFeePerGas) &&
             (identical(other.suggestedMaxFeePerGas, suggestedMaxFeePerGas) ||
                 other.suggestedMaxFeePerGas == suggestedMaxFeePerGas) &&
             (identical(other.minWaitTimeEstimate, minWaitTimeEstimate) ||
@@ -551,8 +565,8 @@ class _$GasFeeEstimateImpl implements _GasFeeEstimate {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, suggestedMaxPriorityFeePerGas, suggestedMaxFeePerGas,
-      minWaitTimeEstimate, maxWaitTimeEstimate);
+  int get hashCode => Object.hash(runtimeType, suggestedMaxPriorityFeePerGas,
+      suggestedMaxFeePerGas, minWaitTimeEstimate, maxWaitTimeEstimate);
 
   /// Create a copy of GasFeeEstimate
   /// with the given fields replaced by the non-null parameter values.
@@ -560,7 +574,8 @@ class _$GasFeeEstimateImpl implements _GasFeeEstimate {
   @override
   @pragma('vm:prefer-inline')
   _$$GasFeeEstimateImplCopyWith<_$GasFeeEstimateImpl> get copyWith =>
-      __$$GasFeeEstimateImplCopyWithImpl<_$GasFeeEstimateImpl>(this, _$identity);
+      __$$GasFeeEstimateImplCopyWithImpl<_$GasFeeEstimateImpl>(
+          this, _$identity);
 }
 
 abstract class _GasFeeEstimate implements GasFeeEstimate {

@@ -21,17 +21,22 @@ export 'service.pb.dart';
 
 @$pb.GrpcServiceName('espressocash.api.rates.v1.RateService')
 class RateServiceClient extends $grpc.Client {
-  static final _$getRates = $grpc.ClientMethod<$0.GetRatesRequest, $0.GetRatesResponse>(
-      '/espressocash.api.rates.v1.RateService/GetRates',
-      ($0.GetRatesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetRatesResponse.fromBuffer(value));
-  static final _$getFiatRates = $grpc.ClientMethod<$0.GetFiatRatesRequest, $0.GetFiatRatesResponse>(
-      '/espressocash.api.rates.v1.RateService/GetFiatRates',
-      ($0.GetFiatRatesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetFiatRatesResponse.fromBuffer(value));
+  static final _$getRates =
+      $grpc.ClientMethod<$0.GetRatesRequest, $0.GetRatesResponse>(
+          '/espressocash.api.rates.v1.RateService/GetRates',
+          ($0.GetRatesRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.GetRatesResponse.fromBuffer(value));
+  static final _$getFiatRates =
+      $grpc.ClientMethod<$0.GetFiatRatesRequest, $0.GetFiatRatesResponse>(
+          '/espressocash.api.rates.v1.RateService/GetFiatRates',
+          ($0.GetFiatRatesRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.GetFiatRatesResponse.fromBuffer(value));
 
   RateServiceClient($grpc.ClientChannel channel,
-      {$grpc.CallOptions? options, $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      {$grpc.CallOptions? options,
+      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
   $grpc.ResponseFuture<$0.GetRatesResponse> getRates($0.GetRatesRequest request,
@@ -39,7 +44,8 @@ class RateServiceClient extends $grpc.Client {
     return $createUnaryCall(_$getRates, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetFiatRatesResponse> getFiatRates($0.GetFiatRatesRequest request,
+  $grpc.ResponseFuture<$0.GetFiatRatesResponse> getFiatRates(
+      $0.GetFiatRatesRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getFiatRates, request, options: options);
   }
@@ -57,13 +63,15 @@ abstract class RateServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetRatesRequest.fromBuffer(value),
         ($0.GetRatesResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetFiatRatesRequest, $0.GetFiatRatesResponse>(
-        'GetFiatRates',
-        getFiatRates_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.GetFiatRatesRequest.fromBuffer(value),
-        ($0.GetFiatRatesResponse value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$0.GetFiatRatesRequest, $0.GetFiatRatesResponse>(
+            'GetFiatRates',
+            getFiatRates_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $0.GetFiatRatesRequest.fromBuffer(value),
+            ($0.GetFiatRatesResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.GetRatesResponse> getRates_Pre(
@@ -72,11 +80,13 @@ abstract class RateServiceBase extends $grpc.Service {
   }
 
   $async.Future<$0.GetFiatRatesResponse> getFiatRates_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.GetFiatRatesRequest> request) async {
+      $grpc.ServiceCall call,
+      $async.Future<$0.GetFiatRatesRequest> request) async {
     return getFiatRates(call, await request);
   }
 
-  $async.Future<$0.GetRatesResponse> getRates($grpc.ServiceCall call, $0.GetRatesRequest request);
+  $async.Future<$0.GetRatesResponse> getRates(
+      $grpc.ServiceCall call, $0.GetRatesRequest request);
   $async.Future<$0.GetFiatRatesResponse> getFiatRates(
       $grpc.ServiceCall call, $0.GetFiatRatesRequest request);
 }

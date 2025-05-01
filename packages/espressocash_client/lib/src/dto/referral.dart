@@ -17,7 +17,8 @@ class AmbassadorStatsResponseDto with _$AmbassadorStatsResponseDto {
 }
 
 @freezed
-class AmbassadorVerificationResponseDto with _$AmbassadorVerificationResponseDto {
+class AmbassadorVerificationResponseDto
+    with _$AmbassadorVerificationResponseDto {
   const factory AmbassadorVerificationResponseDto({
     required bool isAmbassador,
     required bool isReferral,

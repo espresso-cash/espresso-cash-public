@@ -19,5 +19,6 @@ class FiatRateRequestDto with _$FiatRateRequestDto {
 
 @freezed
 class FiatRateResponseDto with _$FiatRateResponseDto {
-  const factory FiatRateResponseDto({required double rate}) = _FiatRateResponseDto;
+  const factory FiatRateResponseDto({required double rate}) =
+      _FiatRateResponseDto;
 }
