@@ -10,7 +10,7 @@ concurrency:
 
 env:
   FLUTTER_VERSION: "3.29.2"
-  DART_VERSION: "3.7.2"
+  DART_VERSION: "3.7.0"
   DCM_VERSION: "1.17.3"
 
 jobs:
