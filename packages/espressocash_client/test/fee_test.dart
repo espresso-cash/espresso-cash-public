@@ -22,6 +22,7 @@ void main() {
     final request = DirectPaymentQuoteRequestDto(
       receiverAccount: receiverKeyPair.address,
       amount: 100000,
+      mintAddress: 'So11111111111111111111111111111111111111112',
     );
 
     final response = await client.getDirectPaymentQuote(request);

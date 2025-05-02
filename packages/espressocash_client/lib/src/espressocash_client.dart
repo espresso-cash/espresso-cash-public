@@ -379,6 +379,7 @@ class EspressoCashClient {
     final r = GetDirectPaymentQuoteRequest(
       receiverAccount: request.receiverAccount,
       amount: request.amount.toInt64,
+      mint: request.mintAddress,
     );
     final response = await _paymentServiceClient.getDirectPaymentQuote(r);
 

@@ -245,6 +245,7 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
   factory GetDirectPaymentQuoteRequest({
     $core.String? receiverAccount,
     $fixnum.Int64? amount,
+    $core.String? mint,
   }) {
     final $result = create();
     if (receiverAccount != null) {
@@ -252,6 +253,9 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
     }
     if (amount != null) {
       $result.amount = amount;
+    }
+    if (mint != null) {
+      $result.mint = mint;
     }
     return $result;
   }
@@ -270,6 +274,7 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'receiverAccount')
     ..a<$fixnum.Int64>(2, _omitFieldNames ? '' : 'amount', $pb.PbFieldType.OU6,
         defaultOrMaker: $fixnum.Int64.ZERO)
+    ..aOS(3, _omitFieldNames ? '' : 'mint')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -318,6 +323,18 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
   $core.bool hasAmount() => $_has(1);
   @$pb.TagNumber(2)
   void clearAmount() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get mint => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set mint($core.String v) {
+    $_setString(2, v);
+  }
+
+  @$pb.TagNumber(3)
+  $core.bool hasMint() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearMint() => clearField(3);
 }
 
 class GetDirectPaymentQuoteResponse extends $pb.GeneratedMessage {
