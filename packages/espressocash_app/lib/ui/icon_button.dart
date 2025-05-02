@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'colors.dart';
 
-enum CpIconButtonVariant { dark, grey, light, black, transparent }
+enum CpIconButtonVariant { dark, grey, light, black, transparent, inverted }
 
 enum CpIconButtonSize { large, big, normal, small, micro }
 
@@ -27,6 +27,8 @@ class CpIconButton extends StatelessWidget {
         return CpColors.yellowColor;
       case CpIconButtonVariant.grey:
         return CpColors.greyIconBackgroundColor;
+      case CpIconButtonVariant.inverted:
+        return CpColors.deepGreyColor;
       case CpIconButtonVariant.light:
         return Colors.white;
       case CpIconButtonVariant.black:

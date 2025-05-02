@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
+import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../transactions/models/tx_results.dart';
@@ -20,12 +21,19 @@ import '../models/outgoing_direct_payment.dart';
 
 @Singleton(scope: authScope)
 class ODPService {
-  ODPService(this._client, this._repository, this._txSender, this._analyticsManager);
+  ODPService(
+    this._client,
+    this._repository,
+    this._txSender,
+    this._analyticsManager,
+    this._refreshBalance,
+  );
 
   final EspressoCashClient _client;
   final ODPRepository _repository;
   final TxSender _txSender;
   final AnalyticsManager _analyticsManager;
+  final RefreshBalance _refreshBalance;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -87,7 +95,7 @@ class ODPService {
         receiverAccount: receiver.toBase58(),
         referenceAccount: reference?.toBase58(),
         amount: amount.value,
-        mintAddress: Currency.usdc.token.address,
+        mintAddress: amount.token.address,
       );
       final response = await _client.createDirectPayment(dto);
       final tx = await response
@@ -158,7 +166,12 @@ class ODPService {
     );
 
     if (newStatus is ODPStatusSuccess) {
-      _analyticsManager.directPaymentSent(amount: payment.amount.decimal);
+      _analyticsManager.directPaymentSent(
+        symbol: payment.amount.token.symbol,
+        amount: payment.amount.decimal,
+      );
+
+      _refreshBalance();
     }
 
     return newStatus == null ? payment : payment.copyWith(status: newStatus);
