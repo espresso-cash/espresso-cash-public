@@ -1,14 +1,13 @@
 import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:test/test.dart';
 
-const baseUrl = 'grpc-demo.espressocash.com';
-const port = 443;
+import 'utils.dart';
 
 void main() {
   late EspressoCashClient client;
 
   setUp(() {
-    client = EspressoCashClient.anonymous(baseUrl: baseUrl, port: port, secure: true);
+    client = createAnonymousClient();
   });
 
   tearDown(() async {

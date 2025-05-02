@@ -3,8 +3,7 @@ import 'package:ec_client_dart/src/espressocash_client.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
-const baseUrl = 'grpc-demo.espressocash.com';
-const port = 443;
+import 'utils.dart';
 
 void main() {
   late EspressoCashClient client;
@@ -13,17 +12,7 @@ void main() {
   setUp(() async {
     keyPair = await Ed25519HDKeyPair.random();
 
-    client = await EspressoCashClient.create(
-      baseUrl: baseUrl,
-      port: port,
-      sign: (message) async {
-        final signedMessage = await keyPair.sign(message);
-
-        return signedMessage.toBase58();
-      },
-      walletAddress: keyPair.address,
-      secure: true,
-    );
+    client = await createClient(keyPair: keyPair);
   });
 
   tearDown(() async {
