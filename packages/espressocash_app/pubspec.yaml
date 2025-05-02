@@ -27,9 +27,7 @@ dependencies:
   dio_cache_interceptor_db_store: ^5.1.0
   drift: ^2.15.0
   ec_client_dart:
-    git:
-      url: https://github.com/espresso-cash/ec-client-dart
-      ref: a519e0fae0ac269011d79941d01a99f1dbf8787f
+    path: ../espressocash_client
   ethereum_addresses: ^1.0.2
   face_camera: ^0.1.2
   fast_immutable_collections: ^10.2.2

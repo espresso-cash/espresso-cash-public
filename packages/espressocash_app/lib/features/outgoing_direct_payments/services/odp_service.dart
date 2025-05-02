@@ -11,6 +11,7 @@ import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
@@ -86,6 +87,7 @@ class ODPService {
         receiverAccount: receiver.toBase58(),
         referenceAccount: reference?.toBase58(),
         amount: amount.value,
+        mintAddress: Currency.usdc.token.address,
       );
       final response = await _client.createDirectPayment(dto);
       final tx = await response

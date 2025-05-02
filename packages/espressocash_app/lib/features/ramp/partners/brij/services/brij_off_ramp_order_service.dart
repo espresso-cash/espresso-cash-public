@@ -299,6 +299,7 @@ class BrijOffRampOrderService implements Disposable {
       receiverAccount: receiver.toBase58(),
       amount: amount.value,
       referenceAccount: null,
+      mintAddress: Currency.usdc.token.address,
     );
     final response = await _ecClient.createDirectPayment(dto);
 
