@@ -1,0 +1,35 @@
+syntax = 'proto3';
+
+package espressocash.api.users.v1;
+
+option go_package = 'espressocash.com/api/users';
+
+service UserService {
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc GetWalletProofMessage(GetWalletProofMessageRequest) returns (GetWalletProofMessageResponse);
+  rpc UpdateCountry(UpdateCountryRequest) returns (UpdateCountryResponse);
+}
+
+message LoginRequest {
+  string wallet_address = 1;
+  string proof_signature = 2;
+  string proof_message = 3;
+}
+
+message LoginResponse {
+  string token = 1;
+}
+
+message GetWalletProofMessageRequest {
+  string wallet_address = 1;
+}
+
+message GetWalletProofMessageResponse {
+  string message = 1;
+}
+
+message UpdateCountryRequest {
+  string country_code = 1;
+}
+
+message UpdateCountryResponse {} 
