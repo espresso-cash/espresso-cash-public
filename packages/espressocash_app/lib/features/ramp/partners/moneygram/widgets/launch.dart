@@ -346,7 +346,7 @@ window.addEventListener("message", (event) => {
   }) {
     final symbol = to.symbol == Currency.usd.symbol ? '=' : '≈';
 
-    return '1 ${from.symbol} $symbol $rate ${to.symbol}';
+    return '1 ${from.symbol} $symbol ${rate.toStringAsFixed(2)} ${to.symbol}';
   }
 
   FiatCurrency _fromCountryCode(String code) {
