@@ -139,11 +139,12 @@ extension on OLPStatusDto {
     final escrow = row.privateKey?.let(base58decode).let(EscrowPrivateKey.new);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final resolvedAt = row.resolvedAt;
+    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
       case OLPStatusDto.txConfirmed:
       case OLPStatusDto.txCreated:
-        return OLPStatus.txCreated(tx!, escrow: escrow!);
+        return OLPStatus.txCreated(tx!, escrow: escrow!, slot: slot ?? BigInt.zero);
 
       case OLPStatusDto.txSent:
         final txId = row.txId;
@@ -151,7 +152,7 @@ extension on OLPStatusDto {
         return OLPStatus.txSent(
           tx ?? StubSignedTx(txId!),
           escrow: escrow!,
-          signature: row.txId ?? '',
+          slot: slot ?? BigInt.zero,
         );
       case OLPStatusDto.linkReady:
         final link = row.link?.let(Uri.parse);
@@ -164,14 +165,14 @@ extension on OLPStatusDto {
       case OLPStatusDto.txFailure:
         return OLPStatus.txFailure(reason: row.txFailureReason ?? TxFailureReason.unknown);
       case OLPStatusDto.cancelTxCreated:
-        return OLPStatus.cancelTxCreated(cancelTx!, escrow: escrow!);
+        return OLPStatus.cancelTxCreated(cancelTx!, escrow: escrow!, slot: slot ?? BigInt.zero);
       case OLPStatusDto.cancelTxFailure:
         return OLPStatus.cancelTxFailure(
           escrow: escrow!,
           reason: row.txFailureReason ?? TxFailureReason.unknown,
         );
       case OLPStatusDto.cancelTxSent:
-        return OLPStatus.cancelTxSent(cancelTx!, escrow: escrow!, signature: row.cancelTxId ?? '');
+        return OLPStatus.cancelTxSent(cancelTx!, escrow: escrow!, slot: slot ?? BigInt.zero);
     }
   }
 }
@@ -191,6 +192,7 @@ extension on OutgoingLinkPayment {
     txFailureReason: status.toTxFailureReason(),
     cancelTx: status.toCancelTx(),
     cancelTxId: status.toCancelTxId(),
+    slot: status.toSlot()?.toString(),
     generatedLinksAt: linksGeneratedAt,
     resolvedAt: status.toResolvedAt(),
   );
@@ -200,6 +202,7 @@ extension on OLPStatus {
   OLPStatusDto toDto() => this.map(
     txCreated: always(OLPStatusDto.txCreated),
     txSent: always(OLPStatusDto.txSent),
+    txConfirmed: always(OLPStatusDto.txConfirmed),
     linkReady: always(OLPStatusDto.linkReady),
     withdrawn: always(OLPStatusDto.withdrawn),
     txFailure: always(OLPStatusDto.txFailure),
@@ -211,19 +214,23 @@ extension on OLPStatus {
 
   String? toTx() => mapOrNull(txCreated: (it) => it.tx.encode(), txSent: (it) => it.tx.encode());
 
-  String? toTxId() => mapOrNull(txSent: (it) => it.signature);
+  String? toTxId() => mapOrNull(txCreated: (it) => it.tx.id, txSent: (it) => it.tx.id);
 
   String? toWithdrawTxId() => mapOrNull(withdrawn: (it) => it.txId);
 
   String? toCancelTx() =>
       mapOrNull(cancelTxCreated: (it) => it.tx.encode(), cancelTxSent: (it) => it.tx.encode());
 
-  String? toCancelTxId() =>
-      mapOrNull(cancelTxSent: (it) => it.signature, canceled: (it) => it.txId);
+  String? toCancelTxId() => mapOrNull(
+    cancelTxCreated: (it) => it.tx.id,
+    cancelTxSent: (it) => it.tx.id,
+    canceled: (it) => it.txId,
+  );
 
   Future<String?> toPrivateKey() => this.map(
     txCreated: (it) async => base58encode(it.escrow.bytes),
     txSent: (it) async => base58encode(it.escrow.bytes),
+    txConfirmed: (it) async => base58encode(it.escrow.bytes),
     linkReady: (it) async => base58encode(it.escrow.bytes),
     withdrawn: (it) async => null,
     canceled: (it) async => null,
@@ -240,4 +247,11 @@ extension on OLPStatus {
 
   DateTime? toResolvedAt() =>
       mapOrNull(withdrawn: (it) => it.timestamp, canceled: (it) => it.timestamp);
+
+  BigInt? toSlot() => mapOrNull(
+    txCreated: (it) => it.slot,
+    txSent: (it) => it.slot,
+    cancelTxCreated: (it) => it.slot,
+    cancelTxSent: (it) => it.slot,
+  );
 }
