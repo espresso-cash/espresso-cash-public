@@ -21,6 +21,7 @@ mixin _$CreateDirectPaymentRequestDto {
   String get receiverAccount => throw _privateConstructorUsedError;
   String? get referenceAccount => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
+  String get mintAddress => throw _privateConstructorUsedError;
 
   /// Create a copy of CreateDirectPaymentRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -36,7 +37,13 @@ abstract class $CreateDirectPaymentRequestDtoCopyWith<$Res> {
     $Res Function(CreateDirectPaymentRequestDto) then,
   ) = _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res, CreateDirectPaymentRequestDto>;
   @useResult
-  $Res call({String senderAccount, String receiverAccount, String? referenceAccount, int amount});
+  $Res call({
+    String senderAccount,
+    String receiverAccount,
+    String? referenceAccount,
+    int amount,
+    String mintAddress,
+  });
 }
 
 /// @nodoc
@@ -58,6 +65,7 @@ class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res, $Val extends CreateDirec
     Object? receiverAccount = null,
     Object? referenceAccount = freezed,
     Object? amount = null,
+    Object? mintAddress = null,
   }) {
     return _then(
       _value.copyWith(
@@ -81,6 +89,11 @@ class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res, $Val extends CreateDirec
                     ? _value.amount
                     : amount // ignore: cast_nullable_to_non_nullable
                         as int,
+            mintAddress:
+                null == mintAddress
+                    ? _value.mintAddress
+                    : mintAddress // ignore: cast_nullable_to_non_nullable
+                        as String,
           )
           as $Val,
     );
@@ -96,7 +109,13 @@ abstract class _$$CreateDirectPaymentRequestDtoImplCopyWith<$Res>
   ) = __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String senderAccount, String receiverAccount, String? referenceAccount, int amount});
+  $Res call({
+    String senderAccount,
+    String receiverAccount,
+    String? referenceAccount,
+    int amount,
+    String mintAddress,
+  });
 }
 
 /// @nodoc
@@ -117,6 +136,7 @@ class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
     Object? receiverAccount = null,
     Object? referenceAccount = freezed,
     Object? amount = null,
+    Object? mintAddress = null,
   }) {
     return _then(
       _$CreateDirectPaymentRequestDtoImpl(
@@ -140,6 +160,11 @@ class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
                 ? _value.amount
                 : amount // ignore: cast_nullable_to_non_nullable
                     as int,
+        mintAddress:
+            null == mintAddress
+                ? _value.mintAddress
+                : mintAddress // ignore: cast_nullable_to_non_nullable
+                    as String,
       ),
     );
   }
@@ -153,6 +178,7 @@ class _$CreateDirectPaymentRequestDtoImpl implements _CreateDirectPaymentRequest
     required this.receiverAccount,
     required this.referenceAccount,
     required this.amount,
+    required this.mintAddress,
   });
 
   @override
@@ -163,10 +189,12 @@ class _$CreateDirectPaymentRequestDtoImpl implements _CreateDirectPaymentRequest
   final String? referenceAccount;
   @override
   final int amount;
+  @override
+  final String mintAddress;
 
   @override
   String toString() {
-    return 'CreateDirectPaymentRequestDto(senderAccount: $senderAccount, receiverAccount: $receiverAccount, referenceAccount: $referenceAccount, amount: $amount)';
+    return 'CreateDirectPaymentRequestDto(senderAccount: $senderAccount, receiverAccount: $receiverAccount, referenceAccount: $referenceAccount, amount: $amount, mintAddress: $mintAddress)';
   }
 
   @override
@@ -180,12 +208,19 @@ class _$CreateDirectPaymentRequestDtoImpl implements _CreateDirectPaymentRequest
                 other.receiverAccount == receiverAccount) &&
             (identical(other.referenceAccount, referenceAccount) ||
                 other.referenceAccount == referenceAccount) &&
-            (identical(other.amount, amount) || other.amount == amount));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.mintAddress, mintAddress) || other.mintAddress == mintAddress));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, senderAccount, receiverAccount, referenceAccount, amount);
+  int get hashCode => Object.hash(
+    runtimeType,
+    senderAccount,
+    receiverAccount,
+    referenceAccount,
+    amount,
+    mintAddress,
+  );
 
   /// Create a copy of CreateDirectPaymentRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -205,6 +240,7 @@ abstract class _CreateDirectPaymentRequestDto implements CreateDirectPaymentRequ
     required final String receiverAccount,
     required final String? referenceAccount,
     required final int amount,
+    required final String mintAddress,
   }) = _$CreateDirectPaymentRequestDtoImpl;
 
   @override
@@ -215,6 +251,8 @@ abstract class _CreateDirectPaymentRequestDto implements CreateDirectPaymentRequ
   String? get referenceAccount;
   @override
   int get amount;
+  @override
+  String get mintAddress;
 
   /// Create a copy of CreateDirectPaymentRequestDto
   /// with the given fields replaced by the non-null parameter values.

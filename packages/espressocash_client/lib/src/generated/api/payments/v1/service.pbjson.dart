@@ -21,6 +21,7 @@ const CreateDirectPaymentRequest$json = {
     {'1': 'receiver_account', '3': 2, '4': 1, '5': 9, '10': 'receiverAccount'},
     {'1': 'reference_account', '3': 3, '4': 1, '5': 9, '10': 'referenceAccount'},
     {'1': 'amount', '3': 4, '4': 1, '5': 4, '10': 'amount'},
+    {'1': 'mint', '3': 5, '4': 1, '5': 9, '10': 'mint'},
   ],
 };
 
@@ -29,7 +30,7 @@ final $typed_data.Uint8List createDirectPaymentRequestDescriptor = $convert
     .base64Decode('ChpDcmVhdGVEaXJlY3RQYXltZW50UmVxdWVzdBIlCg5zZW5kZXJfYWNjb3VudBgBIAEoCVINc2'
         'VuZGVyQWNjb3VudBIpChByZWNlaXZlcl9hY2NvdW50GAIgASgJUg9yZWNlaXZlckFjY291bnQS'
         'KwoRcmVmZXJlbmNlX2FjY291bnQYAyABKAlSEHJlZmVyZW5jZUFjY291bnQSFgoGYW1vdW50GA'
-        'QgASgEUgZhbW91bnQ=');
+        'QgASgEUgZhbW91bnQSEgoEbWludBgFIAEoCVIEbWludA==');
 
 @$core.Deprecated('Use createDirectPaymentResponseDescriptor instead')
 const CreateDirectPaymentResponse$json = {

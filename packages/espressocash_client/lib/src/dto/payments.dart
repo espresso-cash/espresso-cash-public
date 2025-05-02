@@ -9,6 +9,7 @@ class CreateDirectPaymentRequestDto with _$CreateDirectPaymentRequestDto {
     required String receiverAccount,
     required String? referenceAccount,
     required int amount,
+    required String mintAddress,
   }) = _CreateDirectPaymentRequestDto;
 }
 

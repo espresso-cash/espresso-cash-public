@@ -19,6 +19,7 @@ message CreateDirectPaymentRequest {
   string receiver_account = 2;
   string reference_account = 3;
   uint64 amount = 4;
+  string mint = 5;
 }
 
 message CreateDirectPaymentResponse {
