@@ -1,0 +1,11 @@
+include: package:mews_pedantic/analysis_options.yaml
+
+formatter:
+   page_width: 100
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "lib/src/generated/**"
+

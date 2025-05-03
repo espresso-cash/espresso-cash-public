@@ -52,7 +52,7 @@ dependencies:
   http: ^1.1.2
   image_picker: ^1.1.1
   injectable: ^2.3.2
-  intercom_flutter: ^9.0.7
+  intercom_flutter: ^9.2.9
   intl: ^0.19.0
   json_annotation: ^4.8.1
   kyc_client_dart:
@@ -63,7 +63,7 @@ dependencies:
   meta: ^1.10.0
   mixpanel_flutter: ^2.4.0
   mobile_scanner: ^6.0.0
-  package_info_plus: ^8.0.0
+  package_info_plus: ^8.3.0
   path: ^1.8.3
   path_provider: ^2.1.1
   permission_handler: ^11.1.0

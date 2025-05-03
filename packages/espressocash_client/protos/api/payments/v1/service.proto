@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package espressocash.api.payments.v1;
+
+option go_package = "espressocash.com/api/payments";
+
+service PaymentService {
+  rpc CreateDirectPayment(CreateDirectPaymentRequest) returns (CreateDirectPaymentResponse);
+  rpc GetDirectPaymentQuote(GetDirectPaymentQuoteRequest) returns (GetDirectPaymentQuoteResponse);
+  rpc CreateEscrowPayment(CreateEscrowPaymentRequest) returns (CreateEscrowPaymentResponse);
+  rpc ReceiveEscrowPayment(ReceiveEscrowPaymentRequest) returns (ReceiveEscrowPaymentResponse);
+  rpc CancelEscrowPayment(CancelEscrowPaymentRequest) returns (CancelEscrowPaymentResponse);
+  rpc GetOutgoingEscrowPaymentQuote(GetOutgoingEscrowPaymentQuoteRequest) returns (GetOutgoingEscrowPaymentQuoteResponse);
+  rpc GetIncomingEscrowPaymentQuote(GetIncomingEscrowPaymentQuoteRequest) returns (GetIncomingEscrowPaymentQuoteResponse);
+}
+
+message CreateDirectPaymentRequest {
+  string sender_account = 1;
+  string receiver_account = 2;
+  string reference_account = 3;
+  uint64 amount = 4;
+  string mint = 5;
+}
+
+message CreateDirectPaymentResponse {
+  uint64 fee = 1;
+  string transaction = 2;
+  uint64 slot = 3;
+}
+
+message GetDirectPaymentQuoteRequest {
+  string receiver_account = 1;
+  uint64 amount = 2;
+  string mint = 3;
+}
+
+message GetDirectPaymentQuoteResponse {
+  uint64 fee = 1;
+  uint64 total_amount = 2;
+}
+
+message CreateEscrowPaymentRequest {
+  string sender_account = 1;
+  string escrow_account = 2;
+  uint64 amount = 3;
+}
+
+message CreateEscrowPaymentResponse {
+  string transaction = 1;
+  uint64 slot = 2;
+}
+
+
+message ReceiveEscrowPaymentRequest {
+  string receiver_account = 1;
+  string escrow_account = 2;
+}
+
+message ReceiveEscrowPaymentResponse {
+  string transaction = 1;
+  uint64 slot = 2;
+}
+
+message CancelEscrowPaymentRequest {
+  string sender_account = 1;
+  string escrow_account = 2;
+}
+
+message CancelEscrowPaymentResponse {
+  string transaction = 1;
+  uint64 slot = 2;
+}
+
+message GetIncomingEscrowPaymentQuoteRequest {}
+
+message GetIncomingEscrowPaymentQuoteResponse {
+  uint64 fee = 1;
+}
+
+message GetOutgoingEscrowPaymentQuoteRequest {}
+
+message GetOutgoingEscrowPaymentQuoteResponse {
+  uint64 fee = 1;
+}
