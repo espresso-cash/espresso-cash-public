@@ -13,14 +13,11 @@ class DirectPaymentQuoteRequestDto with _$DirectPaymentQuoteRequestDto {
 
 @freezed
 class DirectPaymentQuoteResponseDto with _$DirectPaymentQuoteResponseDto {
-  const factory DirectPaymentQuoteResponseDto({
-    required int fee,
-    required int totalAmount,
-  }) = _DirectPaymentQuoteResponseDto;
+  const factory DirectPaymentQuoteResponseDto({required int fee, required int totalAmount}) =
+      _DirectPaymentQuoteResponseDto;
 }
 
 @freezed
 class EscrowPaymentQuoteResponseDto with _$EscrowPaymentQuoteResponseDto {
-  const factory EscrowPaymentQuoteResponseDto({required int fee}) =
-      _EscrowPaymentQuoteResponseDto;
+  const factory EscrowPaymentQuoteResponseDto({required int fee}) = _EscrowPaymentQuoteResponseDto;
 }

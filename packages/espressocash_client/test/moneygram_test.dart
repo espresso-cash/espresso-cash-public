@@ -4,8 +4,7 @@ import 'package:test/test.dart';
 
 import 'utils.dart';
 
-const stellarAddress =
-    'GBBNXUPR3X7Z63FLLSHN3OV3TDSEGVZC2BVO6AMDPD5HFB5QIGXZVC6Z';
+const stellarAddress = 'GBBNXUPR3X7Z63FLLSHN3OV3TDSEGVZC2BVO6AMDPD5HFB5QIGXZVC6Z';
 
 void main() {
   late EspressoCashClient client;
@@ -34,10 +33,7 @@ void main() {
   });
 
   test('calculates Moneygram fee successfully', skip: true, () async {
-    const request = MoneygramFeeRequestDto(
-      amount: '100.0',
-      type: RampTypeDto.offRamp,
-    );
+    const request = MoneygramFeeRequestDto(amount: '100.0', type: RampTypeDto.offRamp);
 
     final response = await client.calculateMoneygramFee(request);
 
@@ -50,24 +46,20 @@ void main() {
     }
   });
 
-  test(
-    'creates swap to Stellar transaction successfully',
-    skip: true,
-    () async {
-      final request = SwapToStellarRequestDto(
-        solanaSenderAddress: solanaKeyPair.address,
-        stellarReceiverAddress: stellarAddress,
-        amount: '10.0',
-        priorityFee: 5000,
-      );
+  test('creates swap to Stellar transaction successfully', skip: true, () async {
+    final request = SwapToStellarRequestDto(
+      solanaSenderAddress: solanaKeyPair.address,
+      stellarReceiverAddress: stellarAddress,
+      amount: '10.0',
+      priorityFee: 5000,
+    );
 
-      final response = await client.swapToStellar(request);
+    final response = await client.swapToStellar(request);
 
-      expect(response, isA<MoneygramSwapResponseDto>());
-      expect(response.encodedTx, isNotEmpty);
-      expect(response.encodedTx, isA<String>());
-    },
-  );
+    expect(response, isA<MoneygramSwapResponseDto>());
+    expect(response.encodedTx, isNotEmpty);
+    expect(response.encodedTx, isA<String>());
+  });
 
   test('creates swap to Solana transaction successfully', skip: true, () async {
     final request = SwapToSolanaRequestDto(
