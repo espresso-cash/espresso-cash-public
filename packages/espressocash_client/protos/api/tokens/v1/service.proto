@@ -1,0 +1,22 @@
+syntax = 'proto3';
+
+package espressocash.api.tokens.v1;
+
+option go_package = 'espressocash.com/api/tokens';
+
+service TokensService {
+  rpc GetTokensMeta(GetTokensMetaRequest) returns (GetTokensMetaResponse);
+  rpc GetTokensFile(GetTokensFileRequest) returns (GetTokensFileResponse);
+}
+
+message GetTokensMetaRequest {}
+
+message GetTokensMetaResponse {
+  string md5 = 1;
+}
+
+message GetTokensFileRequest {}
+
+message GetTokensFileResponse {
+  bytes content = 1;
+}

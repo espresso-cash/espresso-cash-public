@@ -1,0 +1,25 @@
+syntax = 'proto3';
+
+package espressocash.api.rates.v1;
+
+option go_package = 'espressocash.com/api/rates';
+
+service RateService {
+  rpc GetRates(GetRatesRequest) returns (GetRatesResponse);
+  rpc GetFiatRates(GetFiatRatesRequest) returns (GetFiatRatesResponse);
+}
+
+message GetRatesRequest {}
+
+message GetRatesResponse {
+  float usdc = 1;
+}
+
+message GetFiatRatesRequest {
+  string base = 1;
+  string target = 2;
+}
+
+message GetFiatRatesResponse {
+  float rate = 1;
+}
