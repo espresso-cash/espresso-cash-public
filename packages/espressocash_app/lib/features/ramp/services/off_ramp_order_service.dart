@@ -410,6 +410,7 @@ class OffRampOrderService implements Disposable {
       receiverAccount: receiver.toBase58(),
       amount: (await amount).value,
       referenceAccount: null,
+      mintAddress: Currency.usdc.token.address,
     );
     final response = await _client.createDirectPayment(dto);
 

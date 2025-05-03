@@ -21,6 +21,7 @@ abstract class AuthModule {
   ECWallet wallet(MyAccount account) => account.wallet;
 
   @Singleton(scope: authScope, dispose: disposeEcClient)
+  @preResolve
   Future<EspressoCashClient> ecClient(ECWallet wallet) => EspressoCashClient.create(
     walletAddress: wallet.publicKey.toBase58(),
     sign: (data) async {

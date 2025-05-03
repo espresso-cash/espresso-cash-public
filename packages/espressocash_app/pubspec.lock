@@ -561,11 +561,9 @@ packages:
   ec_client_dart:
     dependency: "direct main"
     description:
-      path: "."
-      ref: a519e0fae0ac269011d79941d01a99f1dbf8787f
-      resolved-ref: a519e0fae0ac269011d79941d01a99f1dbf8787f
-      url: "https://github.com/espresso-cash/ec-client-dart"
-    source: git
+      path: "../espressocash_client"
+      relative: true
+    source: path
     version: "1.0.0"
   ed25519_edwards:
     dependency: transitive

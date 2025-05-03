@@ -35,21 +35,28 @@ void main() {
     const fullLink =
         'https://pay.espressocash.com/?t=espressopay&recipient=5ZQdTQvHEWkgYWP17JcERQ4VPuGnPb2LmW5BYzXWVSRg&amount=50&spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&reference=B3hEXqhQdQ7NH48nDmhBqt8n4W74wjTDE686prKoVJXm';
 
-    final result = await client.shortenLink(const ShortenLinkRequestDto(fullLink: fullLink));
+    final result = await client.shortenLink(
+      const ShortenLinkRequestDto(fullLink: fullLink),
+    );
 
     expect(result.shortLink, isA<String>());
   });
 
   test('unshortens link', skip: true, () async {
-    const shortLink = 'https://pay.espressocash.com/?s=7ec8ca685976c4062db58ae8536901f7';
+    const shortLink =
+        'https://pay.espressocash.com/?s=7ec8ca685976c4062db58ae8536901f7';
 
-    final result = await client.expandLink(const UnshortenLinkRequestDto(shortLink: shortLink));
+    final result = await client.expandLink(
+      const UnshortenLinkRequestDto(shortLink: shortLink),
+    );
 
     expect(result.fullLink, isA<String>());
   });
 
   test('fetches fiat rate', skip: true, () async {
-    final result = await client.fetchFiatRate(const FiatRateRequestDto(base: 'USD', target: 'EUR'));
+    final result = await client.fetchFiatRate(
+      const FiatRateRequestDto(base: 'USD', target: 'EUR'),
+    );
 
     expect(result.rate, isA<double>());
   });
