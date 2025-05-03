@@ -8,6 +8,7 @@ import '../../../../accounts/auth_scope.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../stellar/service/stellar_client.dart';
 
+@injectable
 @LazySingleton(scope: authScope)
 class MoneygramInterceptor extends Interceptor {
   const MoneygramInterceptor(this._db, this._stellarClient);

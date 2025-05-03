@@ -11,6 +11,7 @@ import 'moneygram_interceptor.dart';
 part 'moneygram_client.g.dart';
 
 @RestApi()
+@injectable
 @Injectable(scope: authScope)
 abstract class MoneygramApiClient {
   @factoryMethod
