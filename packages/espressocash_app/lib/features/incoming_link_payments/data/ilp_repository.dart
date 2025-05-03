@@ -82,12 +82,13 @@ extension on ILPStatusDto {
   ILPStatus toModel(ILPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
+    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
       case ILPStatusDto.txCreated:
-        return ILPStatus.txCreated(tx!);
+        return ILPStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
       case ILPStatusDto.txSent:
-        return ILPStatus.txSent(tx ?? StubSignedTx(txId!), signature: row.txId!);
+        return ILPStatus.txSent(tx ?? StubSignedTx(txId!), slot: slot ?? BigInt.zero);
       case ILPStatusDto.success:
         final feeAmount = row.feeAmount;
         final receiveAmount = row.receiveAmount;
@@ -117,6 +118,7 @@ extension on IncomingLinkPayment {
     status: status.toDto(),
     tx: status.toTx(),
     txId: status.toTxId(),
+    slot: status.toSlot()?.toString(),
     txFailureReason: status.toTxFailureReason(),
     feeAmount: switch (status) {
       ILPStatusSuccess(:final fee) => fee?.value,
@@ -139,7 +141,9 @@ extension on ILPStatus {
 
   String? toTx() => mapOrNull(txCreated: (it) => it.tx.encode(), txSent: (it) => it.tx.encode());
 
-  String? toTxId() => mapOrNull(txSent: (it) => it.signature, success: (it) => it.tx.id);
+  String? toTxId() => mapOrNull(success: (it) => it.tx.id);
 
   TxFailureReason? toTxFailureReason() => mapOrNull(txFailure: (it) => it.reason);
+
+  BigInt? toSlot() => mapOrNull(txCreated: (it) => it.slot, txSent: (it) => it.slot);
 }

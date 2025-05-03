@@ -6,10 +6,13 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../config.dart';
 import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
@@ -17,13 +20,10 @@ import '../../analytics/analytics_manager.dart';
 import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
 import '../../escrow/models/escrow_private_key.dart';
-import '../../escrow_payments/create_canceled_escrow.dart';
-import '../../escrow_payments/create_outgoing_escrow.dart';
-import '../../escrow_payments/escrow_exception.dart';
 import '../../link_payments/models/link_payment.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
-import '../../transactions/services/tx_confirm.dart';
+import '../../transactions/services/tx_sender.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
 
@@ -31,19 +31,15 @@ import '../models/outgoing_link_payment.dart';
 class OLPService implements Disposable {
   OLPService(
     this._repository,
-    this._createOutgoingEscrow,
-    this._createCanceledEscrow,
     this._ecClient,
-    this._txConfirm,
+    this._txSender,
     this._analyticsManager,
     this._refreshBalance,
   );
 
   final OLPRepository _repository;
-  final CreateOutgoingEscrow _createOutgoingEscrow;
-  final CreateCanceledEscrow _createCanceledEscrow;
   final EspressoCashClient _ecClient;
-  final TxConfirm _txConfirm;
+  final TxSender _txSender;
   final AnalyticsManager _analyticsManager;
   final RefreshBalance _refreshBalance;
 
@@ -61,7 +57,7 @@ class OLPService implements Disposable {
   void _subscribe(String id) {
     _subscriptions[id] = _repository
         .watch(id)
-        .asyncExpand<OutgoingLinkPayment>((payment) {
+        .asyncExpand<OutgoingLinkPayment?>((payment) {
           switch (payment.status) {
             case OLPStatusTxCreated():
               return _sendOutgoing(payment).asStream();
@@ -77,15 +73,17 @@ class OLPService implements Disposable {
 
             case OLPStatusCancelTxCreated():
               return _sendCanceled(payment).asStream();
-
             case OLPStatusCancelTxSent():
               return _processCanceled(payment).asStream();
 
             case OLPStatusTxFailure():
             case OLPStatusCancelTxFailure():
+            case OLPStatusTxConfirmed():
               return null;
           }
         })
+        .where((payment) => payment != null)
+        .cast<OutgoingLinkPayment>()
         .listen((payment) => payment.let(_repository.save));
   }
 
@@ -145,16 +143,24 @@ class OLPService implements Disposable {
 
   Future<OLPStatus> _createTx({required CryptoAmount amount, required ECWallet account}) async {
     try {
-      final (tx: rawTx, escrow: escrowAccount) = await _createOutgoingEscrow(
-        senderAccount: account.publicKey,
-        amount: amount.value,
-        commitment: Commitment.confirmed,
-      );
-
-      final tx = await rawTx.resign(account);
+      final escrowAccount = await Ed25519HDKeyPair.random();
       final privateKey = await EscrowPrivateKey.fromKeyPair(escrowAccount);
 
-      return OLPStatus.txCreated(tx, escrow: privateKey);
+      final dto = CreatePaymentRequestDto(
+        senderAccount: account.address,
+        escrowAccount: escrowAccount.address,
+        amount: amount.value,
+        cluster: apiCluster,
+      );
+
+      final response = await _ecClient.createPaymentEc(dto);
+
+      final tx = await response.transaction
+          .let(SignedTx.decode)
+          .let((it) => it.resign(account))
+          .letAsync((it) => it.resign(LocalWallet(escrowAccount)));
+
+      return OLPStatus.txCreated(tx, escrow: privateKey, slot: response.slot);
     } on Exception {
       return const OLPStatus.txFailure(reason: TxFailureReason.creatingFailure);
     }
@@ -167,39 +173,45 @@ class OLPService implements Disposable {
     final privateKey = await EscrowPrivateKey.fromKeyPair(escrow);
 
     try {
-      final transaction = await _createCanceledEscrow(
-        escrowAccount: escrow.publicKey,
-        senderAccount: account.publicKey,
-        commitment: Commitment.confirmed,
+      final dto = CancelPaymentRequestDto(
+        senderAccount: account.address,
+        escrowAccount: escrow.address,
+        cluster: apiCluster,
       );
-      final tx = await transaction.resign(account);
 
-      return OLPStatus.cancelTxCreated(tx, escrow: privateKey);
-    } on EscrowException {
-      return OLPStatus.cancelTxFailure(escrow: privateKey, reason: TxFailureReason.escrowFailure);
+      final response = await _ecClient.cancelPaymentEc(dto);
+      final transaction = response.transaction;
+      final slot = response.slot;
+      final tx = await transaction.let(SignedTx.decode).let((it) => it.resign(account));
+
+      return OLPStatus.cancelTxCreated(tx, escrow: privateKey, slot: slot);
     } on Exception {
       return OLPStatus.cancelTxFailure(escrow: privateKey, reason: TxFailureReason.creatingFailure);
     }
   }
 
-  Future<OutgoingLinkPayment> _sendOutgoing(OutgoingLinkPayment payment) async {
+  Future<OutgoingLinkPayment?> _sendOutgoing(OutgoingLinkPayment payment) async {
     final status = payment.status;
     if (status is! OLPStatusTxCreated) {
       return payment;
     }
 
-    final tx = status.tx;
-
     try {
-      final signature = await _ecClient
-          .submitDurableTx(SubmitDurableTxRequestDto(tx: tx.encode()))
-          .then((e) => e.signature);
+      final tx = await _txSender.send(status.tx, minContextSlot: status.slot);
 
-      _analyticsManager.singleLinkCreated(amount: payment.amount.decimal);
-
-      return payment.copyWith(
-        status: OLPStatus.txSent(tx, escrow: status.escrow, signature: signature),
+      final OLPStatus? newStatus = tx.map(
+        sent: (_) => OLPStatus.txSent(status.tx, escrow: status.escrow, slot: status.slot),
+        invalidBlockhash:
+            (_) => const OLPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
+        failure: (it) => OLPStatus.txFailure(reason: it.reason),
+        networkError: (_) => const OLPStatus.txFailure(reason: TxFailureReason.unknown),
       );
+
+      if (newStatus is OLPStatusTxSent) {
+        _analyticsManager.singleLinkCreated(amount: payment.amount.decimal);
+      }
+
+      return newStatus == null ? payment : payment.copyWith(status: newStatus);
     } on Exception catch (error) {
       TxFailureReason reason = TxFailureReason.creatingFailure;
 
@@ -212,13 +224,31 @@ class OLPService implements Disposable {
     }
   }
 
-  Future<OutgoingLinkPayment> _wait(OutgoingLinkPayment payment) async {
+  Future<OutgoingLinkPayment?> _wait(OutgoingLinkPayment payment) async {
     final status = payment.status;
     if (status is! OLPStatusTxSent) {
       return payment;
     }
 
-    await _txConfirm(txId: status.signature);
+    final tx = await _txSender.wait(
+      status.tx,
+      minContextSlot: status.slot,
+      txType: 'OutgoingLinkPayment',
+    );
+
+    final OLPStatus? newStatus = tx.map(
+      success: (_) => null,
+      failure: (it) => OLPStatus.txFailure(reason: it.reason),
+      networkError: (_) {
+        Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
+
+        return const OLPStatus.txFailure(reason: TxFailureReason.unknown);
+      },
+    );
+
+    if (newStatus != null) {
+      return payment.copyWith(status: newStatus);
+    }
 
     final token = payment.amount.token;
 
@@ -227,29 +257,34 @@ class OLPService implements Disposable {
 
     final link = LinkPayment(key: key, token: token.publicKey).toShareableLink();
 
-    final newStatus = OLPStatus.linkReady(link: link, escrow: status.escrow);
-
     _refreshBalance();
 
-    return payment.copyWith(status: newStatus);
+    return payment.copyWith(status: OLPStatus.linkReady(link: link, escrow: status.escrow));
   }
 
-  Future<OutgoingLinkPayment> _sendCanceled(OutgoingLinkPayment payment) async {
+  Future<OutgoingLinkPayment?> _sendCanceled(OutgoingLinkPayment payment) async {
     final status = payment.status;
     if (status is! OLPStatusCancelTxCreated) {
       return payment;
     }
 
-    final tx = status.tx;
-
     try {
-      final signature = await _ecClient
-          .submitDurableTx(SubmitDurableTxRequestDto(tx: tx.encode()))
-          .then((e) => e.signature);
+      final tx = await _txSender.send(status.tx, minContextSlot: status.slot);
 
-      return payment.copyWith(
-        status: OLPStatus.cancelTxSent(tx, escrow: status.escrow, signature: signature),
+      final OLPStatus? newStatus = tx.map(
+        sent: (_) => OLPStatus.cancelTxSent(status.tx, escrow: status.escrow, slot: status.slot),
+        invalidBlockhash:
+            (_) => OLPStatus.cancelTxFailure(
+              reason: TxFailureReason.invalidBlockhashSending,
+              escrow: status.escrow,
+            ),
+        failure: (it) => OLPStatus.cancelTxFailure(reason: it.reason, escrow: status.escrow),
+        networkError:
+            (_) =>
+                OLPStatus.cancelTxFailure(reason: TxFailureReason.unknown, escrow: status.escrow),
       );
+
+      return newStatus == null ? payment : payment.copyWith(status: newStatus);
     } on Exception {
       return payment.copyWith(
         status: OLPStatus.cancelTxFailure(
@@ -260,22 +295,35 @@ class OLPService implements Disposable {
     }
   }
 
-  Future<OutgoingLinkPayment> _processCanceled(OutgoingLinkPayment payment) async {
+  Future<OutgoingLinkPayment?> _processCanceled(OutgoingLinkPayment payment) async {
     final status = payment.status;
 
     if (status is! OLPStatusCancelTxSent) {
       return payment;
     }
 
-    await _txConfirm(txId: status.signature);
-
-    _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
-
-    _refreshBalance();
-
-    return payment.copyWith(
-      status: OLPStatus.canceled(txId: status.signature, timestamp: DateTime.now()),
+    final tx = await _txSender.wait(
+      status.tx,
+      minContextSlot: status.slot,
+      txType: 'OutgoingLinkPaymentCancelation',
     );
+
+    final OLPStatus? newStatus = tx.map(
+      success: (_) => OLPStatus.canceled(txId: status.tx.id, timestamp: DateTime.now()),
+      failure: (it) => OLPStatus.cancelTxFailure(reason: it.reason, escrow: status.escrow),
+      networkError: (_) {
+        Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
+
+        return OLPStatus.cancelTxFailure(reason: TxFailureReason.unknown, escrow: status.escrow);
+      },
+    );
+
+    if (newStatus is OLPStatusCanceled) {
+      _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
+      _refreshBalance();
+    }
+
+    return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
 
   @override

@@ -5,11 +5,13 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../config.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
@@ -17,12 +19,10 @@ import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../escrow/models/escrow_private_key.dart';
-import '../../escrow_payments/create_incoming_escrow.dart';
-import '../../escrow_payments/escrow_exception.dart';
 import '../../tokens/token.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
-import '../../transactions/services/tx_confirm.dart';
+import '../../transactions/services/tx_sender.dart';
 import '../data/ilp_repository.dart';
 import '../models/incoming_link_payment.dart';
 
@@ -30,20 +30,18 @@ import '../models/incoming_link_payment.dart';
 class ILPService implements Disposable {
   ILPService(
     this._repository,
-    this._createIncomingEscrow,
     this._ecClient,
     this._refreshBalance,
-    this._txConfirm,
+    this._txSender,
     this._solanaClient,
     this._wallet,
     this._analytics,
   );
 
   final ILPRepository _repository;
-  final CreateIncomingEscrow _createIncomingEscrow;
   final EspressoCashClient _ecClient;
   final RefreshBalance _refreshBalance;
-  final TxConfirm _txConfirm;
+  final TxSender _txSender;
   final SolanaClient _solanaClient;
   final ECWallet _wallet;
   final AnalyticsManager _analytics;
@@ -93,17 +91,20 @@ class ILPService implements Disposable {
 
   Future<ILPStatus> _createTx({required ECWallet account, required Ed25519HDKeyPair escrow}) async {
     try {
-      final transaction = await _createIncomingEscrow(
-        escrowAccount: escrow,
-        receiverAccount: account.publicKey,
-        commitment: Commitment.confirmed,
+      final dto = ReceivePaymentRequestDto(
+        receiverAccount: account.address,
+        escrowAccount: escrow.address,
+        cluster: apiCluster,
       );
 
-      final tx = await transaction.resign(account);
+      final response = await _ecClient.receivePaymentEc(dto);
 
-      return ILPStatus.txCreated(tx);
-    } on EscrowException {
-      return const ILPStatus.txFailure(reason: TxFailureReason.escrowFailure);
+      final tx = await response.transaction
+          .let(SignedTx.decode)
+          .let((it) => it.resign(LocalWallet(escrow)))
+          .letAsync((it) => it.resign(account));
+
+      return ILPStatus.txCreated(tx, slot: response.slot);
     } on Exception {
       return const ILPStatus.txFailure(reason: TxFailureReason.creatingFailure);
     }
@@ -115,14 +116,20 @@ class ILPService implements Disposable {
       return payment;
     }
 
-    final tx = status.tx;
-
     try {
-      final signature = await _ecClient
-          .submitDurableTx(SubmitDurableTxRequestDto(tx: tx.encode()))
-          .then((e) => e.signature);
+      final tx = await _txSender.send(status.tx, minContextSlot: status.slot);
 
-      return payment.copyWith(status: ILPStatus.txSent(tx, signature: signature));
+      final ILPStatus? newStatus = tx.map(
+        sent: (_) => ILPStatus.txSent(status.tx, slot: status.slot),
+        invalidBlockhash:
+            (_) => const ILPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
+        failure: (it) => ILPStatus.txFailure(reason: it.reason),
+        networkError: (_) {
+          Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
+        },
+      );
+
+      return newStatus == null ? null : payment.copyWith(status: newStatus);
     } on Exception {
       return payment.copyWith(
         status: const ILPStatus.txFailure(reason: TxFailureReason.creatingFailure),
@@ -137,31 +144,41 @@ class ILPService implements Disposable {
       return payment;
     }
 
-    await _txConfirm(txId: status.signature);
-
-    final receiveAmount = await _getUsdcAmount(status.signature);
-
-    int? fee;
-    try {
-      fee =
-          status.tx.containsAta
-              ? await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee)
-              : null;
-    } on Object {
-      fee = null;
-    }
-
-    _refreshBalance();
-
-    _analytics.singleLinkReceived(amount: receiveAmount?.decimal);
-
-    return payment.copyWith(
-      status: ILPStatus.success(
-        tx: status.tx,
-        receiveAmount: receiveAmount,
-        fee: fee?.let((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc)),
-      ),
+    final tx = await _txSender.wait(
+      status.tx,
+      minContextSlot: status.slot,
+      txType: 'IncomingLinkPayment',
     );
+
+    final newStatus = await tx.map(
+      success: (_) async {
+        try {
+          final receiveAmount = await _getUsdcAmount(status.tx.id);
+
+          final fee =
+              status.tx.containsAta
+                  ? await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee)
+                  : null;
+
+          _refreshBalance();
+          _analytics.singleLinkReceived(amount: receiveAmount?.decimal);
+
+          return ILPStatus.success(
+            tx: status.tx,
+            receiveAmount: receiveAmount,
+            fee: fee?.let((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc)),
+          );
+        } on Object {
+          return null;
+        }
+      },
+      failure: (_) async => const ILPStatus.txFailure(reason: TxFailureReason.escrowFailure),
+      networkError: (_) async {
+        await Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
+      },
+    );
+
+    return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
 
   Future<CryptoAmount?> _getUsdcAmount(String signature) async {
