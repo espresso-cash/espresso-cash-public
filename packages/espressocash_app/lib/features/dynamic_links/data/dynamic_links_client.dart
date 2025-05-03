@@ -6,7 +6,7 @@ class DynamicLinkClient {
   const DynamicLinkClient();
 
   Future<Uri> unshortenLink(Uri shortLink) async {
-    final client = await EspressoCashClient.anonymous();
+    final client = EspressoCashClient.anonymous();
 
     final response = await client.expandLink(
       UnshortenLinkRequestDto(shortLink: shortLink.toString()),
