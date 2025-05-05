@@ -19,10 +19,8 @@ abstract class StellarModule {
   }
 
   @injectable
-  @lazySingleton
   StellarSDK sdk() => stellarSdk;
 
   @injectable
-  @lazySingleton
   SorobanServer client() => SorobanServer(sorobanRpcUrl);
 }

@@ -5,7 +5,6 @@ import '../../accounts/auth_scope.dart';
 import '../constants.dart';
 import '../models/stellar_wallet.dart';
 
-@injectable
 @LazySingleton(scope: authScope)
 class StellarClient {
   const StellarClient(this._ecClient, this._stellarWallet, this._sdk, this._sorobanClient);
