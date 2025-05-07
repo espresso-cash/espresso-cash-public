@@ -56,8 +56,15 @@ class EspressoCashClient {
 
     _channel = ClientChannel(baseUrl, port: port ?? 443, options: options);
 
-    _userServiceClient = UserServiceClient(_channel);
-    _shortenerServiceClient = ShortenerServiceClient(_channel);
+    final callOptions = CallOptions();
+    _userServiceClient = UserServiceClient(_channel, options: callOptions);
+    _shortenerServiceClient = ShortenerServiceClient(_channel, options: callOptions);
+    _rateServiceClient = RateServiceClient(_channel, options: callOptions);
+    _paymentServiceClient = PaymentServiceClient(_channel, options: callOptions);
+    _referralClient = ReferralServiceClient(_channel, options: callOptions);
+    _dlnServiceClient = dln_proto.DlnServiceClient(_channel, options: callOptions);
+    _moneygramServiceClient = MoneygramServiceClient(_channel, options: callOptions);
+    _tokensServiceClient = TokensServiceClient(_channel, options: callOptions);
   }
 
   final String baseUrl;
@@ -67,13 +74,13 @@ class EspressoCashClient {
 
   late final ClientChannel _channel;
   late UserServiceClient _userServiceClient;
-  late final RateServiceClient _rateServiceClient;
-  late final PaymentServiceClient _paymentServiceClient;
+  late RateServiceClient _rateServiceClient;
+  late PaymentServiceClient _paymentServiceClient;
   late ShortenerServiceClient _shortenerServiceClient;
-  late final ReferralServiceClient _referralClient;
-  late final dln_proto.DlnServiceClient _dlnServiceClient;
-  late final MoneygramServiceClient _moneygramServiceClient;
-  late final TokensServiceClient _tokensServiceClient;
+  late ReferralServiceClient _referralClient;
+  late dln_proto.DlnServiceClient _dlnServiceClient;
+  late MoneygramServiceClient _moneygramServiceClient;
+  late TokensServiceClient _tokensServiceClient;
 
   void initWithToken(String token) {
     final callOptions = CallOptions(metadata: {'authorization': 'Bearer $token'});
