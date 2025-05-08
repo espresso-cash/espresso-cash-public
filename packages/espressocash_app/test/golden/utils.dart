@@ -16,11 +16,11 @@ void testGoldensWidget(
   Widget widget, {
   Func0<FutureOr<void>>? setUp,
   CustomPump? customPump,
-  bool? skip,
+  bool? isSkipped,
 }) {
   final snakeName = name.snakeCase;
 
-  testGoldens(name, skip: skip, (tester) async {
+  testGoldens(name, skip: isSkipped, (tester) async {
     await setUp?.call();
 
     final builder = DeviceBuilder()..addScenario(widget: Wrapper(child: widget), name: snakeName);

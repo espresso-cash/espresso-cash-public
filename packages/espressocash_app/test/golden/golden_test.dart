@@ -8,7 +8,7 @@ void main() {
   testGoldensWidget(
     'Get started screen',
     GetStartedScreen(onSignInPressed: () {}, onLocalPressed: () {}),
-    skip: true, // Need to resolve issues with screenutil
+    isSkipped: true, // Need to resolve issues with screenutil
   );
 
   testGoldensWidget('WalletFlowScreen', const Scaffold(body: WalletScreen()));

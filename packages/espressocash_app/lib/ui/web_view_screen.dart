@@ -10,14 +10,14 @@ import 'snackbar.dart';
 import 'theme.dart';
 
 extension LinkOpenerExt on BuildContext {
-  Future<void> openLink(String link, {bool openInApp = false}) async {
+  Future<void> openLink(String link, {bool shouldOpenInApp = false}) async {
     try {
       final url = Uri.parse(link);
 
-      if (openInApp) {
-        final launched = await launchUrl(url, mode: LaunchMode.externalNonBrowserApplication);
+      if (shouldOpenInApp) {
+        final didLaunch = await launchUrl(url, mode: LaunchMode.externalNonBrowserApplication);
 
-        if (launched) return;
+        if (didLaunch) return;
       }
 
       await WebViewScreen.push(this, url: url, title: null, onLoaded: null, theme: null);

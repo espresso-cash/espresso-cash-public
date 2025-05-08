@@ -43,8 +43,7 @@ void main() {
 
     test('should parse and load token rows from CSV chunk', () {
       const chunk =
-          'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
-          'So00000000000,101,SOL,Solana,18,https://example.com,,\n';
+          'address,chainId,symbol,name,decimals,logoURI,tags,extensions\nSo00000000000,101,SOL,Solana,18,https://example.com,,\n';
 
       const expectedToken = TokenRow(
         address: 'So00000000000',
@@ -155,8 +154,7 @@ void main() {
 
     test('should parse and load token rows from CSV chunk', () {
       const chunk =
-          'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
-          'So00000000000,101,SOL,Solana,18,https://example.com,,\n';
+          'address,chainId,symbol,name,decimals,logoURI,tags,extensions\nSo00000000000,101,SOL,Solana,18,https://example.com,,\n';
 
       const expectedToken = TokenRow(
         address: 'So00000000000',
@@ -212,8 +210,7 @@ class MemoryTokenRepository implements TokenRepository {
   @override
   Future<Either<Exception, String>> init() {
     const chunk =
-        'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
-        'So00000000000,101,SOL,Solana,18,https://example.com,,\n';
+        'address,chainId,symbol,name,decimals,logoURI,tags,extensions\nSo00000000000,101,SOL,Solana,18,https://example.com,,\n';
     final lines = chunk.split('\n');
     final List<TokenRow> rows =
         lines.skip(1).where((line) => line.trim().isNotEmpty).map((line) {

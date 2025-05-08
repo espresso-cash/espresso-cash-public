@@ -176,7 +176,12 @@ class _Timeline extends StatelessWidget {
 
     final items = [paymentInitiated, txCreated, paymentSuccess];
 
-    return CpTimeline(status: timelineStatus, items: items, active: activeItem, animated: animated);
+    return CpTimeline(
+      status: timelineStatus,
+      items: items,
+      active: activeItem,
+      isAnimated: animated,
+    );
   }
 }
 

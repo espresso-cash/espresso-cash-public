@@ -337,7 +337,7 @@ class _Timeline extends StatelessWidget {
       status: timelineStatus,
       items: items,
       active: isManualBankTransfer ? activeItem + 1 : activeItem,
-      animated: animated,
+      isAnimated: animated,
     );
   }
 }

@@ -6,7 +6,7 @@ class ShareSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Center(
     child: InkWell(
-      onTap: () => context.openLink(twitterUrl, openInApp: true),
+      onTap: () => context.openLink(twitterUrl, shouldOpenInApp: true),
       child: DecoratedBox(
         decoration: const ShapeDecoration(shape: CircleBorder(), color: CpColors.deepGreyColor),
         child: Padding(

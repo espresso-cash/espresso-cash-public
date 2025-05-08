@@ -427,7 +427,12 @@ class _Timeline extends StatelessWidget {
             ? refundingItems
             : normalItems;
 
-    return CpTimeline(status: timelineStatus, items: items, active: activeItem, animated: animated);
+    return CpTimeline(
+      status: timelineStatus,
+      items: items,
+      active: activeItem,
+      isAnimated: animated,
+    );
   }
 }
 

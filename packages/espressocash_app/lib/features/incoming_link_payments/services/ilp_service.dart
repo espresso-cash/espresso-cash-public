@@ -156,7 +156,7 @@ class ILPService implements Disposable {
           final receiveAmount = await _getUsdcAmount(status.tx.id);
 
           final fee =
-              status.tx.containsAta
+              status.tx.doesContainAta
                   ? await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee)
                   : null;
 
@@ -235,7 +235,7 @@ class ILPService implements Disposable {
 }
 
 extension on SignedTx {
-  bool get containsAta => decompileMessage().let(
+  bool get doesContainAta => decompileMessage().let(
     (m) => m.instructions.any((ix) => ix.programId == AssociatedTokenAccountProgram.id),
   );
 }

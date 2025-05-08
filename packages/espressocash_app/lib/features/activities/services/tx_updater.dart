@@ -91,7 +91,11 @@ class TxUpdater implements Disposable {
 
     final txs = await Future.wait(
       details.map((detail) async {
-        final tx = SignedTx.fromBytes((detail.transaction as RawTransaction).data);
+        final transaction = detail.transaction;
+        if (transaction is! RawTransaction) {
+          return null;
+        }
+        final tx = SignedTx.fromBytes(transaction.data);
 
         final tokenAccount = nonUsdcTokenAccounts.firstWhereOrNull(
           (acc) => tx.compiledMessage.accountKeys.contains(acc.account),

@@ -20,7 +20,7 @@ class AmountWithEquivalent extends StatelessWidget {
   const AmountWithEquivalent({
     super.key,
     required this.inputController,
-    required this.collapsed,
+    required this.isCollapsed,
     required this.token,
     this.shakeKey,
     this.error = '',
@@ -29,7 +29,7 @@ class AmountWithEquivalent extends StatelessWidget {
 
   final TextEditingController inputController;
   final Token token;
-  final bool collapsed;
+  final bool isCollapsed;
   final Key? shakeKey;
   final String error;
   final bool showUsdcInfo;
@@ -51,10 +51,10 @@ class AmountWithEquivalent extends StatelessWidget {
             key: shakeKey,
             child: _InputDisplay(
               input: value.text,
-              fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
+              fontSize: isCollapsed ? 57 : (context.isSmall ? 55 : 80),
             ),
           ),
-          if (!collapsed)
+          if (!isCollapsed)
             Container(
               height: showUsdcInfo ? (context.isSmall ? 90 : 105) : null,
               padding: EdgeInsets.only(top: context.isSmall ? 2 : 16),

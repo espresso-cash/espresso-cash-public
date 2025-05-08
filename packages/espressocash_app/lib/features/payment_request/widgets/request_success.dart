@@ -57,7 +57,7 @@ class _RequestSuccessState extends State<RequestSuccess> {
                     status: CpTimelineStatus.success,
                     items: [_requestCreated(context, snapshot), moneyReceived],
                     active: 1,
-                    animated: false,
+                    isAnimated: false,
                   ),
             ),
             const Spacer(),

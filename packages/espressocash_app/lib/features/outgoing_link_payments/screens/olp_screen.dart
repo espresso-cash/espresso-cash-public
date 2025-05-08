@@ -238,7 +238,7 @@ class _OLPScreenState extends State<OLPScreen> {
                 status: timelineStatus,
                 items: items,
                 active: activeItem,
-                animated: animated,
+                isAnimated: animated,
               ),
               const Spacer(flex: 4),
               ...actions,

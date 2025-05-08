@@ -89,7 +89,7 @@ class _ScreenState extends State<WalletMainScreen> {
               AmountWithEquivalent(
                 inputController: _amountController,
                 token: widget.token,
-                collapsed: false,
+                isCollapsed: false,
                 shakeKey: widget.shakeKey,
                 error: widget.error,
                 showUsdcInfo: true,
