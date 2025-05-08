@@ -18,6 +18,20 @@ const defaultBaseUrl = 'grpc.espressocash.com';
 typedef SignRequest = Future<String> Function(Iterable<int> data);
 
 class EspressoCashClient {
+  factory EspressoCashClient({
+    String? baseUrl,
+    int? port,
+    required SignRequest sign,
+    String? walletAddress,
+    bool secure = true,
+  }) => EspressoCashClient._(
+    baseUrl: baseUrl ?? defaultBaseUrl,
+    port: port,
+    sign: sign,
+    walletAddress: walletAddress,
+    secure: secure,
+  );
+
   factory EspressoCashClient.anonymous({String? baseUrl, int? port, bool secure = true}) =>
       EspressoCashClient._(
         baseUrl: baseUrl ?? defaultBaseUrl,
@@ -42,8 +56,15 @@ class EspressoCashClient {
 
     _channel = ClientChannel(baseUrl, port: port ?? 443, options: options);
 
-    _userServiceClient = UserServiceClient(_channel);
-    _shortenerServiceClient = ShortenerServiceClient(_channel);
+    final callOptions = CallOptions();
+    _userServiceClient = UserServiceClient(_channel, options: callOptions);
+    _shortenerServiceClient = ShortenerServiceClient(_channel, options: callOptions);
+    _rateServiceClient = RateServiceClient(_channel, options: callOptions);
+    _paymentServiceClient = PaymentServiceClient(_channel, options: callOptions);
+    _referralClient = ReferralServiceClient(_channel, options: callOptions);
+    _dlnServiceClient = dln_proto.DlnServiceClient(_channel, options: callOptions);
+    _moneygramServiceClient = MoneygramServiceClient(_channel, options: callOptions);
+    _tokensServiceClient = TokensServiceClient(_channel, options: callOptions);
   }
 
   final String baseUrl;
@@ -53,55 +74,50 @@ class EspressoCashClient {
 
   late final ClientChannel _channel;
   late UserServiceClient _userServiceClient;
-  late final RateServiceClient _rateServiceClient;
-  late final PaymentServiceClient _paymentServiceClient;
+  late RateServiceClient _rateServiceClient;
+  late PaymentServiceClient _paymentServiceClient;
   late ShortenerServiceClient _shortenerServiceClient;
-  late final ReferralServiceClient _referralClient;
-  late final dln_proto.DlnServiceClient _dlnServiceClient;
-  late final MoneygramServiceClient _moneygramServiceClient;
-  late final TokensServiceClient _tokensServiceClient;
-
-  static Future<EspressoCashClient> create({
-    String? baseUrl,
-    int? port,
-    required SignRequest sign,
-    String? walletAddress,
-    bool secure = true,
-  }) async {
-    final client = EspressoCashClient._(
-      baseUrl: baseUrl ?? defaultBaseUrl,
-      port: port,
-      sign: sign,
-      walletAddress: walletAddress,
-      secure: secure,
-    );
-    if (walletAddress != null && walletAddress.isNotEmpty) {
-      await client._init();
-    }
-
-    return client;
-  }
+  late ReferralServiceClient _referralClient;
+  late dln_proto.DlnServiceClient _dlnServiceClient;
+  late MoneygramServiceClient _moneygramServiceClient;
+  late TokensServiceClient _tokensServiceClient;
 
   Future<void> dispose() async {
     await _channel.shutdown();
   }
 
-  Future<void> _init() async {
+  Future<String> login({String? token}) async {
+    if (token != null) {
+      _initWithToken(token);
+
+      return token;
+    }
+
+    if (walletAddress == null || walletAddress?.isEmpty == true) {
+      throw Exception('Wallet address is required for login');
+    }
+
     final proofMessage = await _getWalletProofMessage();
     final signature = await sign(utf8.encode(proofMessage));
 
-    final token = await _login(proofSignature: signature, proofMessage: proofMessage);
+    final newToken = await _login(proofSignature: signature, proofMessage: proofMessage);
 
-    final options = CallOptions(metadata: {'authorization': 'Bearer $token'});
+    _initWithToken(newToken);
 
-    _userServiceClient = UserServiceClient(_channel, options: options);
-    _rateServiceClient = RateServiceClient(_channel, options: options);
-    _paymentServiceClient = PaymentServiceClient(_channel, options: options);
-    _shortenerServiceClient = ShortenerServiceClient(_channel, options: options);
-    _referralClient = ReferralServiceClient(_channel, options: options);
-    _dlnServiceClient = dln_proto.DlnServiceClient(_channel, options: options);
-    _moneygramServiceClient = MoneygramServiceClient(_channel, options: options);
-    _tokensServiceClient = TokensServiceClient(_channel, options: options);
+    return newToken;
+  }
+
+  void _initWithToken(String token) {
+    final callOptions = CallOptions(metadata: {'authorization': 'Bearer $token'});
+
+    _userServiceClient = UserServiceClient(_channel, options: callOptions);
+    _rateServiceClient = RateServiceClient(_channel, options: callOptions);
+    _paymentServiceClient = PaymentServiceClient(_channel, options: callOptions);
+    _shortenerServiceClient = ShortenerServiceClient(_channel, options: callOptions);
+    _referralClient = ReferralServiceClient(_channel, options: callOptions);
+    _dlnServiceClient = dln_proto.DlnServiceClient(_channel, options: callOptions);
+    _moneygramServiceClient = MoneygramServiceClient(_channel, options: callOptions);
+    _tokensServiceClient = TokensServiceClient(_channel, options: callOptions);
   }
 
   Future<String> _getWalletProofMessage() async {
@@ -137,7 +153,6 @@ class EspressoCashClient {
       receiverAccount: request.receiverAccount,
       referenceAccount: request.referenceAccount,
       amount: request.amount.toInt64,
-      mint: request.mintAddress,
     );
 
     final response = await _paymentServiceClient.createDirectPayment(r);
@@ -379,7 +394,6 @@ class EspressoCashClient {
     final r = GetDirectPaymentQuoteRequest(
       receiverAccount: request.receiverAccount,
       amount: request.amount.toInt64,
-      mint: request.mintAddress,
     );
     final response = await _paymentServiceClient.getDirectPaymentQuote(r);
 
