@@ -82,7 +82,32 @@ class EspressoCashClient {
   late MoneygramServiceClient _moneygramServiceClient;
   late TokensServiceClient _tokensServiceClient;
 
-  void initWithToken(String token) {
+  Future<void> dispose() async {
+    await _channel.shutdown();
+  }
+
+  Future<String> login({String? token}) async {
+    if (token != null) {
+      _initWithToken(token);
+
+      return token;
+    }
+
+    if (walletAddress == null || walletAddress?.isEmpty == true) {
+      throw Exception('Wallet address is required for login');
+    }
+
+    final proofMessage = await _getWalletProofMessage();
+    final signature = await sign(utf8.encode(proofMessage));
+
+    final newToken = await _login(proofSignature: signature, proofMessage: proofMessage);
+
+    _initWithToken(newToken);
+
+    return newToken;
+  }
+
+  void _initWithToken(String token) {
     final callOptions = CallOptions(metadata: {'authorization': 'Bearer $token'});
 
     _userServiceClient = UserServiceClient(_channel, options: callOptions);
@@ -93,25 +118,6 @@ class EspressoCashClient {
     _dlnServiceClient = dln_proto.DlnServiceClient(_channel, options: callOptions);
     _moneygramServiceClient = MoneygramServiceClient(_channel, options: callOptions);
     _tokensServiceClient = TokensServiceClient(_channel, options: callOptions);
-  }
-
-  Future<void> dispose() async {
-    await _channel.shutdown();
-  }
-
-  Future<String> login() async {
-    if (walletAddress == null || walletAddress?.isEmpty == true) {
-      throw Exception('Wallet address is required for login');
-    }
-
-    final proofMessage = await _getWalletProofMessage();
-    final signature = await sign(utf8.encode(proofMessage));
-
-    final token = await _login(proofSignature: signature, proofMessage: proofMessage);
-
-    initWithToken(token);
-
-    return token;
   }
 
   Future<String> _getWalletProofMessage() async {
