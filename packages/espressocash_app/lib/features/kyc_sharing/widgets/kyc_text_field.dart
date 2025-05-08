@@ -9,13 +9,13 @@ class KycTextField extends StatelessWidget {
     required this.controller,
     required this.inputType,
     required this.placeholder,
-    this.readOnly = false,
+    this.isReadOnly = false,
   });
 
   final TextEditingController controller;
   final TextInputType inputType;
   final String placeholder;
-  final bool readOnly;
+  final bool isReadOnly;
 
   @override
   Widget build(BuildContext context) => CpTextField(
@@ -29,6 +29,6 @@ class KycTextField extends StatelessWidget {
     placeholder: placeholder,
     placeholderColor: CpColors.greyColor,
     textColor: Colors.white,
-    readOnly: readOnly,
+    isReadOnly: isReadOnly,
   );
 }

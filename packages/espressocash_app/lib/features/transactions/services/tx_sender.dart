@@ -45,15 +45,13 @@ class TxSender {
       if (error.isInsufficientFunds || error.invalidTransferAccount || error.hasNoAccount) {
         return const TxSendResult.failure(reason: TxFailureReason.insufficientFunds);
       }
-      switch (error.transactionError) {
-        case TransactionError.alreadyProcessed:
-          return const TxSendResult.sent();
-        case TransactionError.blockhashNotFound:
-          return checkSubmittedTx(tx.id);
+
+      return switch (error.transactionError) {
+        TransactionError.alreadyProcessed => const TxSendResult.sent(),
+        TransactionError.blockhashNotFound => checkSubmittedTx(tx.id),
         // ignore: no_default_cases, not interested in other options
-        default:
-          return const TxSendResult.failure(reason: TxFailureReason.txError);
-      }
+        _ => const TxSendResult.failure(reason: TxFailureReason.txError),
+      };
     } on Exception {
       return const TxSendResult.networkError();
     }

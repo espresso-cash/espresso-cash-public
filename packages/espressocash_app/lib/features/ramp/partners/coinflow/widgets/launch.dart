@@ -63,7 +63,7 @@ extension BuildContextExt on BuildContext {
 
     final blank = Uri.parse('about:blank');
 
-    bool orderWasCreated = false;
+    bool wasOrderCreated = false;
     bool hasLoaded = false;
 
     Future<void> handleLoaded(InAppWebViewController controller) async {
@@ -88,7 +88,7 @@ extension BuildContextExt on BuildContext {
       controller.addJavaScriptHandler(
         handlerName: 'coinflow',
         callback: (args) async {
-          if (orderWasCreated) return null;
+          if (wasOrderCreated) return null;
 
           if (args.first is! String) return null;
 
@@ -123,7 +123,7 @@ extension BuildContextExt on BuildContext {
                 }
               });
 
-          orderWasCreated = true;
+          wasOrderCreated = true;
 
           return tx.id;
         },

@@ -81,8 +81,8 @@ extension BuildContextExt on BuildContext {
     if (submittedAmount == null) return;
 
     final submittedAmountInUsdc = CryptoAmount(
-      value: Currency.usdc.decimalToInt(submittedAmount.decimal),
-      cryptoCurrency: Currency.usdc,
+      value: inputCurrency.decimalToInt(submittedAmount.decimal),
+      cryptoCurrency: inputCurrency,
     );
 
     final fees = await runWithLoader<MoneygramFees>(
@@ -115,14 +115,12 @@ extension BuildContextExt on BuildContext {
           countryCode: profile.country.code,
           bridgeAmount: bridgeAmountInUsdc as CryptoAmount,
         )
-        .then((order) {
-          switch (order) {
-            case Left<Exception, String>():
-              return null;
-            case Right<Exception, String>(:final value):
-              return value;
-          }
-        });
+        .then(
+          (order) => switch (order) {
+            Left<Exception, String>() => null,
+            Right<Exception, String>(:final value) => value,
+          },
+        );
 
     if (id == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
@@ -130,15 +128,15 @@ extension BuildContextExt on BuildContext {
       return;
     }
 
-    bool orderWasCreated = false;
+    bool wasOrderCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
       await controller.evaluateJavascript(source: await loadMoneygramStyle());
 
       controller.addJavaScriptHandler(
         handlerName: 'moneygram',
         callback: (args) async {
-          if (orderWasCreated) return;
-          orderWasCreated = true;
+          if (wasOrderCreated) return;
+          wasOrderCreated = true;
 
           OnRampOrderScreen.pushReplacement(this, id: id);
           await sl<MoneygramOnRampOrderService>().updateMoneygramOrder(id: id);
@@ -161,7 +159,7 @@ window.addEventListener("message", (event) => {
       theme: const CpThemeData.light(),
     );
 
-    if (!orderWasCreated) {
+    if (!wasOrderCreated) {
       await sl<MoneygramOnRampOrderService>().updateMoneygramOrder(id: id);
     }
   }

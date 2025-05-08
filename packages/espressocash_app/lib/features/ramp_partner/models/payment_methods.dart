@@ -3,24 +3,14 @@ import '../../../gen/assets.gen.dart';
 enum PaymentMethod { visa, mastercard, applePay, googlePay, bank, sepa, pix, swift }
 
 extension PaymentMethodAssets on PaymentMethod {
-  SvgGenImage get logo {
-    switch (this) {
-      case PaymentMethod.visa:
-        return Assets.brands.visa;
-      case PaymentMethod.mastercard:
-        return Assets.brands.mastercard;
-      case PaymentMethod.applePay:
-        return Assets.brands.applePay;
-      case PaymentMethod.googlePay:
-        return Assets.brands.gpay;
-      case PaymentMethod.bank:
-        return Assets.brands.bank;
-      case PaymentMethod.sepa:
-        return Assets.brands.sepa;
-      case PaymentMethod.pix:
-        return Assets.brands.pix;
-      case PaymentMethod.swift:
-        return Assets.brands.swift;
-    }
-  }
+  SvgGenImage get logo => switch (this) {
+    PaymentMethod.visa => Assets.brands.visa,
+    PaymentMethod.mastercard => Assets.brands.mastercard,
+    PaymentMethod.applePay => Assets.brands.applePay,
+    PaymentMethod.googlePay => Assets.brands.gpay,
+    PaymentMethod.bank => Assets.brands.bank,
+    PaymentMethod.sepa => Assets.brands.sepa,
+    PaymentMethod.pix => Assets.brands.pix,
+    PaymentMethod.swift => Assets.brands.swift,
+  };
 }

@@ -54,7 +54,7 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
   @override
   Widget build(BuildContext context) => CpTextField(
     padding: const EdgeInsets.only(top: 18, bottom: 16, left: 8, right: 26),
-    autocorrect: false,
+    shouldAutocorrect: false,
     fontWeight: FontWeight.w500,
     fontSize: 16,
     controller: widget.controller,

@@ -19,7 +19,7 @@ class CpDobTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTextField(
     padding: const EdgeInsets.only(top: 18, bottom: 16, left: 26, right: 26),
-    readOnly: readonly,
+    isReadOnly: readonly,
     inputFormatters: [
       FilteringTextInputFormatter.allow(RegExp('[0-9-/]')),
       LengthLimitingTextInputFormatter(10),

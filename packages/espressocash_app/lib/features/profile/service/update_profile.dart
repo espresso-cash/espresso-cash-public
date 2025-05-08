@@ -12,14 +12,12 @@ import '../data/profile_repository.dart';
 class UpdateProfile {
   const UpdateProfile(
     this._client,
-    this._intercomService,
     this._profileRepository,
     this._pendingKycService,
     this._analyticsManager,
   );
 
   final EspressoCashClient _client;
-  final IntercomService _intercomService;
   final ProfileRepository _profileRepository;
   final PendingKycService _pendingKycService;
   final AnalyticsManager _analyticsManager;
@@ -35,7 +33,7 @@ class UpdateProfile {
       _analyticsManager.setProfileCountryCode(countryCode);
       final request = WalletCountryRequestDto(countryCode: countryCode);
       await _client.updateUserWalletCountry(request);
-      _intercomService.updateCountry(countryCode);
+      IntercomService.updateCountry(countryCode);
       _profileRepository.country = countryCode;
     }
 

@@ -34,9 +34,7 @@ extension BuildContextExt on BuildContext {
 
       final postResponse = await request.post(account: wallet.toBase58());
 
-      final isUsdcTransfer = postResponse.transaction
-          .let(SignedTx.decode)
-          .let(_checkIfUsdcTransfer);
+      final isUsdcTransfer = postResponse.transaction.let(SignedTx.decode).let(_isUsdcTransfer);
 
       if (!isUsdcTransfer) {
         showCpErrorSnackbar(this, message: 'Error. Can only transfer USDC');
@@ -114,7 +112,7 @@ extension BuildContextExt on BuildContext {
   );
 }
 
-bool _checkIfUsdcTransfer(SignedTx tx) => tx
+bool _isUsdcTransfer(SignedTx tx) => tx
     .decompileMessage()
     .instructions
     .firstWhereOrNull((e) => e.programId.toBase58() == TokenProgram.programId)

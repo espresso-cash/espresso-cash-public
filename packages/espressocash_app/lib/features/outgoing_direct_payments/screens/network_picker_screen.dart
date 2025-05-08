@@ -70,18 +70,18 @@ class _ContentState extends State<_Content> {
           itemExtent: _tileHeight,
           itemBuilder: (BuildContext context, int index) {
             final network = _networks[index];
-            final selected = network == _selectedNetwork;
+            final isSelected = network == _selectedNetwork;
 
             return DecoratedBox(
               decoration:
-                  selected
+                  isSelected
                       ? const ShapeDecoration(color: Color(0xff404040), shape: StadiumBorder())
                       : const BoxDecoration(),
               child: ListTile(
                 dense: true,
-                title: Text(network.displayName, style: TextStyle(fontSize: selected ? 19 : 17)),
+                title: Text(network.displayName, style: TextStyle(fontSize: isSelected ? 19 : 17)),
                 selectedColor: Colors.white,
-                shape: selected ? const StadiumBorder() : null,
+                shape: isSelected ? const StadiumBorder() : null,
                 onTap: () => widget.onSubmitted(network),
               ),
             );

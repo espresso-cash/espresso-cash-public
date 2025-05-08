@@ -31,12 +31,12 @@ class IntercomService implements Disposable {
     return instance;
   }
 
-  Future<void> displayMessenger() => Intercom.instance.displayMessenger();
+  static Future<void> displayMessenger() => Intercom.instance.displayMessenger();
 
-  void updateCountry(String? countryCode) =>
+  static void updateCountry(String? countryCode) =>
       Intercom.instance.updateUser(customAttributes: {'countryCode': countryCode});
 
-  void updateStellarAddress(String address) =>
+  static void updateStellarAddress(String address) =>
       Intercom.instance.updateUser(customAttributes: {'stellarAddress': address});
 
   @override

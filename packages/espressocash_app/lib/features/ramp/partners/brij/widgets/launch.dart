@@ -240,6 +240,7 @@ extension BuildContextExt on BuildContext {
           type: type,
         ),
       );
+
   Future<Either<Exception, Amount>> _calculateReceiveAmount({
     required Amount amount,
     required RampType type,

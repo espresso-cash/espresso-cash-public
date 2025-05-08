@@ -19,7 +19,7 @@ class DecoratedWindow extends StatelessWidget {
     this.hasLogo = false,
     this.isScrollable = true,
     this.backgroundStyle = BackgroundStyle.gradient,
-    this.markdownMessage = false,
+    this.isMarkdownMessage = false,
     this.bottomButton,
   });
 
@@ -31,7 +31,7 @@ class DecoratedWindow extends StatelessWidget {
   final bool hasLogo;
   final bool isScrollable;
   final BackgroundStyle backgroundStyle;
-  final bool markdownMessage;
+  final bool isMarkdownMessage;
   final Widget? bottomButton;
 
   @override
@@ -46,7 +46,7 @@ class DecoratedWindow extends StatelessWidget {
             hasLogo: hasLogo,
             title: title,
             message: message,
-            markdownMessage: markdownMessage,
+            isMarkdownMessage: isMarkdownMessage,
           ),
         ),
         Expanded(child: child),

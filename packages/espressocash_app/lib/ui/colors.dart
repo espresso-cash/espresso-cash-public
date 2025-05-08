@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class CpColors {
+abstract final class CpColors {
   const CpColors._();
 
   // Color style

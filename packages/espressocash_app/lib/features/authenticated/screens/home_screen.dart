@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   .mapIndexed(
                                     (i, p) => CpNavigationButton(
                                       icon: p.icon,
-                                      active: value == i,
+                                      isActive: value == i,
                                       onPressed: () {
                                         _navigationService.tabNotifier.value = i;
                                         _pageController.jumpToPage(i);
@@ -113,7 +113,7 @@ class LinkLoader extends StatelessWidget {
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: sl<DynamicLinksNotifier>(),
     builder: (context, _) {
-      final isLoading = sl<DynamicLinksNotifier>().loading;
+      final isLoading = sl<DynamicLinksNotifier>().isLoading;
 
       return CpLoader(isLoading: isLoading, child: child);
     },

@@ -21,7 +21,7 @@ class DangerSection extends StatelessWidget {
         textColor: CpColors.dangerButtonTextColor,
         backgroundColor: CpColors.dangerButtonBackground,
         showIcon: false,
-        centerText: true,
+        isCenterText: true,
       ),
     ],
     color: CpColors.dangerButtonBackground,

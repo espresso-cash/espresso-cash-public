@@ -30,16 +30,16 @@ extension BuildContextExt on BuildContext {
       return;
     }
 
-    bool orderWasCreated = false;
+    bool wasOrderCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
       await controller.evaluateJavascript(source: await loadMoneygramStyle());
 
       controller.addJavaScriptHandler(
         handlerName: 'moneygram',
         callback: (args) async {
-          if (orderWasCreated) return;
+          if (wasOrderCreated) return;
 
-          orderWasCreated = true;
+          wasOrderCreated = true;
 
           Navigator.pop(this);
           await sl<MoneygramOffRampOrderService>().updateMoneygramOrder(id: order.id);
@@ -62,7 +62,7 @@ window.addEventListener("message", (event) => {
       theme: const CpThemeData.light(),
     );
 
-    if (!orderWasCreated) {
+    if (!wasOrderCreated) {
       await sl<MoneygramOffRampOrderService>().updateMoneygramOrder(id: order.id);
     }
   }

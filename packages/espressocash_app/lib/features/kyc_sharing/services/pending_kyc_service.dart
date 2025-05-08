@@ -65,6 +65,7 @@ class PendingKycService {
   void dispose() {
     _controller.close();
     _sharedPreferences.remove(_kycStartedKey);
+    _kycService.dispose();
   }
 }
 

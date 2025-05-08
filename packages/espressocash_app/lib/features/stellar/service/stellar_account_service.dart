@@ -8,11 +8,10 @@ import '../models/stellar_wallet.dart';
 
 @Singleton(scope: authScope)
 class StellarAccountService {
-  const StellarAccountService(this._stellarWallet, this._analyticsManager, this._intercomService);
+  const StellarAccountService(this._stellarWallet, this._analyticsManager);
 
   final StellarWallet _stellarWallet;
   final AnalyticsManager _analyticsManager;
-  final IntercomService _intercomService;
 
   @postConstruct
   void init() {
@@ -20,11 +19,11 @@ class StellarAccountService {
 
     Sentry.configureScope((scope) => scope.setContexts('stellarWalletAddress', address));
     _analyticsManager.setStellarAddress(address);
-    _intercomService.updateStellarAddress(address);
+    IntercomService.updateStellarAddress(address);
   }
 
   @disposeMethod
-  void dispose() {
+  static void dispose() {
     Sentry.configureScope((scope) => scope.removeContexts('stellarWalletAddress'));
   }
 }

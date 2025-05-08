@@ -9,7 +9,7 @@ final cpAppBar = Story(
       (context) => Scaffold(
         appBar: CpAppBar(
           title: Text(context.knobs.text(label: 'Title', initial: 'App bar')),
-          automaticallyImplyLeading: true,
+          isAutomaticallyImplyLeading: true,
           leading: context.knobs.options(
             label: 'Leading',
             initial: _leading,

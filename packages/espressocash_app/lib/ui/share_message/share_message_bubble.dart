@@ -25,7 +25,7 @@ class _ShareMessageBubbleState extends State<ShareMessageBubble> {
   Widget build(BuildContext context) => SizedBox(
     width: double.infinity,
     child: CpRoundedRectangle(
-      scrollable: true,
+      isScrollable: true,
       backgroundColor: widget.backgroundColor,
       margin: const EdgeInsets.symmetric(vertical: 24),
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),

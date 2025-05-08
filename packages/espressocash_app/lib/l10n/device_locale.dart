@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
-class DeviceLocale {
+abstract final class DeviceLocale {
   static Locale localeOf(BuildContext context) {
     final installedIntlLocale = Localizations.localeOf(context);
 

@@ -279,7 +279,7 @@ class _ContactUsButton extends StatelessWidget {
     size: CpButtonSize.big,
     width: double.infinity,
     text: context.l10n.contactUs,
-    onPressed: () => sl<IntercomService>().displayMessenger(),
+    onPressed: IntercomService.displayMessenger,
   );
 }
 
@@ -346,11 +346,11 @@ class _Timeline extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMoneygramOrder = order.partner == RampPartner.moneygram;
     final CpTimelineStatus timelineStatus = order.status.toTimelineStatus();
-    final animatedForMoneygram =
+    final isAnimatedForMoneygram =
         (order.status != OffRampOrderStatus.ready &&
             order.status != OffRampOrderStatus.waitingForPartner) ||
         !isMoneygramOrder;
-    final animated = timelineStatus == CpTimelineStatus.inProgress && animatedForMoneygram;
+    final isAnimated = timelineStatus == CpTimelineStatus.inProgress && isAnimatedForMoneygram;
 
     final int activeItem =
         isMoneygramOrder ? order.status.toActiveItemForMoneygram() : order.status.toActiveItem();
@@ -431,7 +431,7 @@ class _Timeline extends StatelessWidget {
       status: timelineStatus,
       items: items,
       active: activeItem,
-      isAnimated: animated,
+      isAnimated: isAnimated,
     );
   }
 }

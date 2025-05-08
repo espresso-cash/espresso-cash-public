@@ -44,18 +44,12 @@ class CpStatusWidget extends StatelessWidget {
 }
 
 extension on CpStatusType {
-  Color get backgroundColor {
-    switch (this) {
-      case CpStatusType.success:
-        return CpColors.successBackgroundColor;
-      case CpStatusType.info:
-        return Colors.black;
-      case CpStatusType.error:
-        return CpColors.errorBackgroundColor;
-      case CpStatusType.neutral:
-        return CpColors.neutralBackgroundColor;
-    }
-  }
+  Color get backgroundColor => switch (this) {
+    CpStatusType.success => CpColors.successBackgroundColor,
+    CpStatusType.info => Colors.black,
+    CpStatusType.error => CpColors.errorBackgroundColor,
+    CpStatusType.neutral => CpColors.neutralBackgroundColor,
+  };
 }
 
 const _titleStyle = TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.w800);

@@ -12,7 +12,7 @@ class ProfileButton extends StatelessWidget {
     this.iconColor,
     this.backgroundColor,
     this.showIcon = true,
-    this.centerText = false,
+    this.isCenterText = false,
   });
 
   final String label;
@@ -22,7 +22,7 @@ class ProfileButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? iconColor;
   final bool showIcon;
-  final bool centerText;
+  final bool isCenterText;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class ProfileButton extends StatelessWidget {
       onTap: onPressed,
       title: Text(
         label,
-        textAlign: centerText ? TextAlign.center : TextAlign.start,
+        textAlign: isCenterText ? TextAlign.center : TextAlign.start,
         style: TextStyle(color: textColor, fontSize: 17, fontWeight: FontWeight.bold),
       ),
       subtitle:

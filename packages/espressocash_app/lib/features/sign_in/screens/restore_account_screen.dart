@@ -18,7 +18,7 @@ class RestoreAccountScreen extends StatefulWidget {
 
 class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
   late final TextEditingController _controller;
-  bool _mnemonicIsValid = false;
+  bool _isValidMnemonic = false;
 
   void _restoreAccount() => widget.onSubmit(_controller.text.trim());
 
@@ -27,10 +27,10 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
     super.initState();
     _controller = TextEditingController();
     _controller.addListener(() {
-      final isValid = validateMnemonic(_controller.text.trim());
+      final isValid = isValidMnemonic(_controller.text.trim());
 
-      if (isValid != _mnemonicIsValid) {
-        setState(() => _mnemonicIsValid = isValid);
+      if (isValid != _isValidMnemonic) {
+        setState(() => _isValidMnemonic = isValid);
       }
     });
   }
@@ -47,7 +47,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
       body: OnboardingScreen(
         footer: OnboardingFooterButton(
           text: context.l10n.next,
-          onPressed: _mnemonicIsValid ? _restoreAccount : null,
+          onPressed: _isValidMnemonic ? _restoreAccount : null,
         ),
         children: [
           const CpAppBar(),

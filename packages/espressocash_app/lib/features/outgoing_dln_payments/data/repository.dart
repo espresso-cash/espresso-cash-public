@@ -89,22 +89,31 @@ extension on ODLNPaymentStatusDto {
     final tx = row.tx?.let(SignedTx.decode);
     final slot = row.slot?.let(BigInt.tryParse);
 
-    switch (this) {
-      case ODLNPaymentStatusDto.txCreated:
-        return OutgoingDlnPaymentStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
-      case ODLNPaymentStatusDto.txSent:
-        return OutgoingDlnPaymentStatus.txSent(tx!, slot: slot ?? BigInt.zero);
-      case ODLNPaymentStatusDto.success:
-        return OutgoingDlnPaymentStatus.success(tx!, orderId: row.orderId ?? '');
-      case ODLNPaymentStatusDto.txFailure:
-        return OutgoingDlnPaymentStatus.txFailure(
-          reason: row.txFailureReason ?? TxFailureReason.unknown,
-        );
-      case ODLNPaymentStatusDto.fulfilled:
-        return OutgoingDlnPaymentStatus.fulfilled(tx!, orderId: row.orderId ?? '');
-      case ODLNPaymentStatusDto.unfulfilled:
-        return OutgoingDlnPaymentStatus.unfulfilled(tx!, orderId: row.orderId ?? '');
-    }
+    return switch (this) {
+      ODLNPaymentStatusDto.txCreated => OutgoingDlnPaymentStatus.txCreated(
+        tx!,
+        slot: slot ?? BigInt.zero,
+      ),
+      ODLNPaymentStatusDto.txSent => OutgoingDlnPaymentStatus.txSent(
+        tx!,
+        slot: slot ?? BigInt.zero,
+      ),
+      ODLNPaymentStatusDto.success => OutgoingDlnPaymentStatus.success(
+        tx!,
+        orderId: row.orderId ?? '',
+      ),
+      ODLNPaymentStatusDto.txFailure => OutgoingDlnPaymentStatus.txFailure(
+        reason: row.txFailureReason ?? TxFailureReason.unknown,
+      ),
+      ODLNPaymentStatusDto.fulfilled => OutgoingDlnPaymentStatus.fulfilled(
+        tx!,
+        orderId: row.orderId ?? '',
+      ),
+      ODLNPaymentStatusDto.unfulfilled => OutgoingDlnPaymentStatus.unfulfilled(
+        tx!,
+        orderId: row.orderId ?? '',
+      ),
+    };
   }
 }
 

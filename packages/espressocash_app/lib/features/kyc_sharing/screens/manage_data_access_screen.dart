@@ -51,7 +51,7 @@ class _Content extends StatelessWidget {
               textColor: CpColors.dangerButtonTextColor,
               backgroundColor: CpColors.dangerButtonBackground,
               showIcon: false,
-              centerText: true,
+              isCenterText: true,
             ),
           ),
         ),

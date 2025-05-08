@@ -103,11 +103,10 @@ class _State extends State<WalletScreen> {
 
     final minimumAmount = _minimumAmount.format(context.locale);
     setState(() {
-      switch (operation) {
-        case WalletOperation.request:
-          _errorMessage = context.l10n.minimumAmountToRequest(minimumAmount);
-        case WalletOperation.pay:
-          _errorMessage = context.l10n.minimumAmountToSend(minimumAmount);
+      if (operation case WalletOperation.request) {
+        _errorMessage = context.l10n.minimumAmountToRequest(minimumAmount);
+      } else if (operation case WalletOperation.pay) {
+        _errorMessage = context.l10n.minimumAmountToSend(minimumAmount);
       }
     });
   }

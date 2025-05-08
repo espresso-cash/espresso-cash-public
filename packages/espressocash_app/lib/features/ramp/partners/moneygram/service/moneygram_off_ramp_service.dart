@@ -177,40 +177,38 @@ class MoneygramOffRampOrderService implements Disposable {
     required int priorityFee,
     required CryptoAmount gasFee,
   }) => tryEitherAsync((_) async {
-    {
-      final order = OffRampOrderRow(
-        id: const Uuid().v4(),
-        partnerOrderId: '',
-        amount: submittedAmount.value,
-        token: Token.usdc.address,
-        receiveAmount: receiveAmount.value,
-        fiatSymbol: receiveAmount.fiatCurrency.symbol,
-        created: DateTime.now(),
-        humanStatus: '',
-        machineStatus: '',
-        partner: RampPartner.moneygram,
-        status: OffRampOrderStatus.preProcessing,
-        transaction: '',
-        depositAddress: '',
-        slot: BigInt.zero,
-        bridgeAmount: null,
-        priorityFee: priorityFee,
-        gasFee: gasFee.value,
-      );
+    final order = OffRampOrderRow(
+      id: const Uuid().v4(),
+      partnerOrderId: '',
+      amount: submittedAmount.value,
+      token: Token.usdc.address,
+      receiveAmount: receiveAmount.value,
+      fiatSymbol: receiveAmount.fiatCurrency.symbol,
+      created: DateTime.now(),
+      humanStatus: '',
+      machineStatus: '',
+      partner: RampPartner.moneygram,
+      status: OffRampOrderStatus.preProcessing,
+      transaction: '',
+      depositAddress: '',
+      slot: BigInt.zero,
+      bridgeAmount: null,
+      priorityFee: priorityFee,
+      gasFee: gasFee.value,
+    );
 
-      await _db.into(_db.offRampOrderRows).insert(order);
-      _subscribe(order.id);
+    await _db.into(_db.offRampOrderRows).insert(order);
+    _subscribe(order.id);
 
-      _analytics.rampInitiated(
-        partnerName: RampPartner.moneygram.name,
-        rampType: RampType.offRamp.name,
-        amount: submittedAmount.value.toString(),
-        countryCode: countryCode,
-        id: order.id,
-      );
+    _analytics.rampInitiated(
+      partnerName: RampPartner.moneygram.name,
+      rampType: RampType.offRamp.name,
+      amount: submittedAmount.value.toString(),
+      countryCode: countryCode,
+      id: order.id,
+    );
 
-      return order.id;
-    }
+    return order.id;
   });
 
   AsyncResult<void> updateMoneygramOrder({required String id}) => tryEitherAsync((_) async {
@@ -613,13 +611,13 @@ class MoneygramOffRampOrderService implements Disposable {
     final amount = CryptoAmount(value: order.bridgeAmount ?? 0, cryptoCurrency: Currency.usdc);
 
     try {
-      final transactionSucceed = await _stellarClient.sendUsdc(
+      final didTransactionSucceed = await _stellarClient.sendUsdc(
         destinationAddress: order.withdrawAnchorAccount ?? '',
         memo: order.withdrawMemo ?? '',
         amount: amount.decimal.toString(),
       );
 
-      return transactionSucceed
+      return didTransactionSucceed
           ? const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.waitingForPartner))
           : null;
     } on Exception catch (error, stackTrace) {

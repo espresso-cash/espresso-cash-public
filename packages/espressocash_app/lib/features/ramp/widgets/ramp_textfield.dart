@@ -68,7 +68,7 @@ class RampTextField extends StatelessWidget {
               fontSize: 34.sp,
               fontWeight: FontWeight.w700,
               prefix: Padding(padding: const EdgeInsets.only(left: 16), child: logo),
-              readOnly: true,
+              isReadOnly: true,
               suffix: Padding(padding: EdgeInsets.only(right: 24.w), child: symbol),
             ),
         ],

@@ -51,7 +51,7 @@ class KycSharingService extends ValueNotifier<UserData?> {
   }
 
   Future<void> _fetchEmailAndPhoneStatuses() async {
-    final user = await _kycRepository.fetchUser(includeValues: false);
+    final user = await _kycRepository.fetchUser(shouldIncludeValues: false);
 
     final emailStatus = user?.email?.status;
     final phoneStatus = user?.phone?.status;

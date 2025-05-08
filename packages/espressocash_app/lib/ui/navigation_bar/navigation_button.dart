@@ -7,13 +7,13 @@ class CpNavigationButton extends StatelessWidget {
   const CpNavigationButton({
     super.key,
     required this.icon,
-    required this.active,
+    required this.isActive,
     required this.onPressed,
     this.badge,
   });
 
   final SvgGenImage icon;
-  final bool active;
+  final bool isActive;
   final VoidCallback onPressed;
   final int? badge;
 
@@ -33,7 +33,7 @@ class CpNavigationButton extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8),
-                    child: icon.svg(color: active ? CpColors.yellowColor : Colors.white),
+                    child: icon.svg(color: isActive ? CpColors.yellowColor : Colors.white),
                   ),
                   if (badge != null && badge > 0)
                     Positioned(

@@ -108,7 +108,7 @@ class _ManualDepositContent extends StatelessWidget {
         shape: const Border(),
       ),
       body: CpContentPadding(
-        bottom: false,
+        isBottom: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -58,7 +58,6 @@ class OnRampOrderService implements Disposable {
       switch (order.partner) {
         case RampPartner.moneygram:
         case RampPartner.brij:
-          continue;
         case RampPartner.kado:
         case RampPartner.coinflow:
         case RampPartner.guardarian:
@@ -80,42 +79,40 @@ class OnRampOrderService implements Disposable {
     FiatAmount? transferAmount,
     required String countryCode,
   }) => tryEitherAsync((_) async {
-    {
-      final order = OnRampOrderRow(
-        id: const Uuid().v4(),
-        partnerOrderId: orderId,
-        amount: submittedAmount.value,
-        token: Token.usdc.address,
-        humanStatus: '',
-        machineStatus: '',
-        isCompleted: false,
-        created: DateTime.now(),
-        txHash: '',
-        partner: partner,
-        receiveAmount: receiveAmount?.value,
-        status: status,
-        bankAccount: bankAccount,
-        bankName: bankName,
-        bankTransferExpiry: transferExpiryDate,
-        bankTransferAmount: transferAmount?.value,
-        fiatSymbol: transferAmount?.currency.symbol,
-        authToken: null,
-        moreInfoUrl: null,
-      );
+    final order = OnRampOrderRow(
+      id: const Uuid().v4(),
+      partnerOrderId: orderId,
+      amount: submittedAmount.value,
+      token: Token.usdc.address,
+      humanStatus: '',
+      machineStatus: '',
+      isCompleted: false,
+      created: DateTime.now(),
+      txHash: '',
+      partner: partner,
+      receiveAmount: receiveAmount?.value,
+      status: status,
+      bankAccount: bankAccount,
+      bankName: bankName,
+      bankTransferExpiry: transferExpiryDate,
+      bankTransferAmount: transferAmount?.value,
+      fiatSymbol: transferAmount?.currency.symbol,
+      authToken: null,
+      moreInfoUrl: null,
+    );
 
-      await _db.into(_db.onRampOrderRows).insert(order);
-      _subscribe(order.id);
+    await _db.into(_db.onRampOrderRows).insert(order);
+    _subscribe(order.id);
 
-      _analytics.rampInitiated(
-        partnerName: partner.name,
-        rampType: RampType.onRamp.name,
-        amount: submittedAmount.value.toString(),
-        countryCode: countryCode,
-        id: order.id,
-      );
+    _analytics.rampInitiated(
+      partnerName: partner.name,
+      rampType: RampType.onRamp.name,
+      amount: submittedAmount.value.toString(),
+      countryCode: countryCode,
+      id: order.id,
+    );
 
-      return order.id;
-    }
+    return order.id;
   });
 
   AsyncResult<String> createForManualTransfer({
@@ -194,18 +191,14 @@ class OnRampOrderService implements Disposable {
       final Token? token = await _tokenRepository.getToken(row.token);
 
       final feeAmount = row.feeAmount?.let(
-        (it) =>
-            Amount(value: it, currency: currencyFromString(row.fiatSymbol ?? 'USD')) as FiatAmount,
+        (it) => Amount(value: it, currency: currencyFromString(fiatSymbol ?? 'USD')) as FiatAmount,
       );
 
       final isFiat = row.partner == RampPartner.brij;
 
       final submittedAmount =
           isFiat
-              ? FiatAmount(
-                value: row.amount,
-                fiatCurrency: currencyFromString(row.fiatSymbol ?? 'USD'),
-              )
+              ? FiatAmount(value: row.amount, fiatCurrency: currencyFromString(fiatSymbol ?? 'USD'))
               : CryptoAmount(
                 value: row.amount,
                 cryptoCurrency: CryptoCurrency(token: token ?? Token.unk),

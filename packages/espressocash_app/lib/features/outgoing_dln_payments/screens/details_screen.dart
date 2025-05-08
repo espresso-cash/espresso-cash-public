@@ -161,7 +161,7 @@ class _Timeline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CpTimelineStatus timelineStatus = status.toTimelineStatus();
-    final animated = timelineStatus == CpTimelineStatus.inProgress;
+    final isAnimated = timelineStatus == CpTimelineStatus.inProgress;
     final int activeItem = status.toActiveItem();
 
     final paymentInitiated = CpTimelineItem(
@@ -180,7 +180,7 @@ class _Timeline extends StatelessWidget {
       status: timelineStatus,
       items: items,
       active: activeItem,
-      isAnimated: animated,
+      isAnimated: isAnimated,
     );
   }
 }
@@ -222,7 +222,7 @@ class _ContactUsButton extends StatelessWidget {
     size: CpButtonSize.big,
     width: double.infinity,
     text: context.l10n.contactUs,
-    onPressed: () => sl<IntercomService>().displayMessenger(),
+    onPressed: IntercomService.displayMessenger,
   );
 }
 

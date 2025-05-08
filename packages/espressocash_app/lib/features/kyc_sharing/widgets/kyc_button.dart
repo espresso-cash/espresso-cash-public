@@ -15,7 +15,7 @@ class KycButton extends StatelessWidget {
     this.backgroundColor,
     this.icon = Icons.chevron_right,
     this.showIcon = true,
-    this.centerText = false,
+    this.isCenterText = false,
     this.status,
   });
 
@@ -27,7 +27,7 @@ class KycButton extends StatelessWidget {
   final Color? iconColor;
   final IconData? icon;
   final bool showIcon;
-  final bool centerText;
+  final bool isCenterText;
   final KycValidationStatus? status;
 
   @override
@@ -40,7 +40,7 @@ class KycButton extends StatelessWidget {
       onTap: onPressed,
       title: Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: centerText ? MainAxisAlignment.center : MainAxisAlignment.start,
+        mainAxisAlignment: isCenterText ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
           Flexible(
             child: Text(

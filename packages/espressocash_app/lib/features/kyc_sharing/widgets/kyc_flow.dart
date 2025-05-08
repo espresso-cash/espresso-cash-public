@@ -55,25 +55,25 @@ extension KycFlowExtension on BuildContext {
 
     final kycStatus = await sl<PendingKycService>().fetchKycStatus(country: countryCode);
 
-    final kycProcessed = kycStatus.isApprovedOrPending;
+    final isKycProcessed = kycStatus.isApprovedOrPending;
 
-    if (!kycProcessed) {
-      final success = await KycDescriptionScreen.push(this);
+    if (!isKycProcessed) {
+      final isSuccess = await KycDescriptionScreen.push(this);
 
       sl<PendingKycService>().create();
 
-      if (!success) return false;
+      if (!isSuccess) return false;
     }
 
-    final emailValidated = user.emailStatus == KycValidationStatus.approved;
+    final isEmailValidated = user.emailStatus == KycValidationStatus.approved;
 
-    if (!emailValidated) {
+    if (!isEmailValidated) {
       if (!await _runFlow(emailSteps)) return false;
     }
 
-    final phoneValidated = user.phoneStatus == KycValidationStatus.approved;
+    final isPhoneValidated = user.phoneStatus == KycValidationStatus.approved;
 
-    if (!phoneValidated) {
+    if (!isPhoneValidated) {
       if (!await _runFlow(phoneSteps)) return false;
     }
 
@@ -95,7 +95,7 @@ extension KycFlowExtension on BuildContext {
       }
     }
 
-    if (!kycProcessed) {
+    if (!isKycProcessed) {
       if (!await _runFlow(kycSteps)) return false;
     }
 
@@ -139,8 +139,8 @@ extension KycFlowExtension on BuildContext {
   }
 
   Future<bool> _navigateToScreen(KycStepFunction pushFunction) async {
-    final success = await pushFunction(this);
+    final isSuccess = await pushFunction(this);
 
-    return success ?? false;
+    return isSuccess ?? false;
   }
 }

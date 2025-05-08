@@ -45,7 +45,7 @@ class StatusScreen extends StatelessWidget {
           title: title != null ? Text(title, style: _titleStyle) : null,
           leading:
               onBackButtonPressed != null ? CpBackButton(onPressed: onBackButtonPressed) : null,
-          automaticallyImplyLeading: onBackButtonPressed != null,
+          isAutomaticallyImplyLeading: onBackButtonPressed != null,
         ),
         body: Stack(
           children: [
@@ -56,7 +56,7 @@ class StatusScreen extends StatelessWidget {
                 children: [
                   if (statusContent case final statusContent?)
                     CpContentPadding(
-                      bottom: false,
+                      isBottom: false,
                       child: CpStatusWidget(
                         statusType: statusType,
                         title: statusTitle,

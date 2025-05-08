@@ -9,7 +9,7 @@ class CpAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.leading,
     this.nextButton,
     this.scrolledUnderColor,
-    this.automaticallyImplyLeading = true,
+    this.isAutomaticallyImplyLeading = true,
   });
 
   final Widget? title;
@@ -17,7 +17,7 @@ class CpAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget? nextButton;
   final Color backgroundColor = Colors.transparent;
   final Color? scrolledUnderColor;
-  final bool automaticallyImplyLeading;
+  final bool isAutomaticallyImplyLeading;
 
   @override
   State<CpAppBar> createState() => _CpAppBarState();
@@ -28,7 +28,7 @@ class CpAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _CpAppBarState extends State<CpAppBar> {
   ScrollNotificationObserverState? _scrollNotificationObserver;
-  bool _scrolledUnder = false;
+  bool _isScrolledUnder = false;
 
   @override
   void didChangeDependencies() {
@@ -50,14 +50,14 @@ class _CpAppBarState extends State<CpAppBar> {
   void _handleScrollNotification(ScrollNotification notification) {
     if (notification is! ScrollUpdateNotification) return;
 
-    final bool oldScrolledUnder = _scrolledUnder;
+    final bool isOldScrolledUnder = _isScrolledUnder;
     final ScrollMetrics metrics = notification.metrics;
     switch (metrics.axisDirection) {
       case AxisDirection.up:
         // Scroll view is reversed
-        _scrolledUnder = metrics.extentAfter > 0;
+        _isScrolledUnder = metrics.extentAfter > 0;
       case AxisDirection.down:
-        _scrolledUnder = metrics.extentBefore > 0;
+        _isScrolledUnder = metrics.extentBefore > 0;
       case AxisDirection.right:
       case AxisDirection.left:
         // Scrolled under is only supported in the vertical axis, and should
@@ -66,7 +66,7 @@ class _CpAppBarState extends State<CpAppBar> {
         break;
     }
 
-    if (_scrolledUnder != oldScrolledUnder) {
+    if (_isScrolledUnder != isOldScrolledUnder) {
       setState(() {
         // React to a change in MaterialState.scrolledUnder
       });
@@ -79,7 +79,7 @@ class _CpAppBarState extends State<CpAppBar> {
 
     return AppBar(
       title: widget.title,
-      automaticallyImplyLeading: widget.automaticallyImplyLeading,
+      automaticallyImplyLeading: widget.isAutomaticallyImplyLeading,
       backgroundColor:
           scrolledUnderColor == null
               ? widget.backgroundColor
@@ -108,7 +108,7 @@ class _CpAppBarState extends State<CpAppBar> {
       elevation: 0,
       shape: const Border(),
       scrolledUnderElevation: scrolledUnderColor == null ? 0 : 4,
-      forceMaterialTransparency: scrolledUnderColor != null && !_scrolledUnder,
+      forceMaterialTransparency: scrolledUnderColor != null && !_isScrolledUnder,
     );
   }
 }

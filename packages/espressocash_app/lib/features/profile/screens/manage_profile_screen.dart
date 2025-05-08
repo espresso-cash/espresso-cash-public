@@ -65,7 +65,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
   }
 
   void _handleSubmitted() => runWithLoader(context, () async {
-    final photo = await _photo?.let(sl<FileManager>().copyToAppDir);
+    final photo = await _photo?.let(FileManager.copyToAppDir);
 
     await sl<UpdateProfile>()
         .call(

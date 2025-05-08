@@ -76,14 +76,14 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
       final requiredFields = widget.requirement.requirements.parseRequiredFields(selectedDocType);
 
       for (final field in requiredFields) {
-        if (_needsTextController(field)) {
+        if (_doesNeedTextController(field)) {
           _controllers[field] = TextEditingController();
         }
       }
     }
   }
 
-  bool _needsTextController(DocumentField field) => field == DocumentField.idNumber;
+  bool _doesNeedTextController(DocumentField field) => field == DocumentField.idNumber;
 
   @override
   void dispose() {
@@ -94,7 +94,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
   }
 
   Future<void> _handleSubmitted() async {
-    final success = await runWithLoader<bool>(context, () async {
+    final isSuccess = await runWithLoader<bool>(context, () async {
       try {
         if (_selectedCountry == null || _selectedDocumentType == null) {
           throw Exception('Missing required information');
@@ -123,7 +123,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
     });
 
     if (!mounted) return;
-    if (success) Navigator.pop(context, true);
+    if (isSuccess) Navigator.pop(context, true);
   }
 
   void _updateDocumentField(DocumentField field, dynamic value) {
@@ -151,38 +151,35 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
     final isRequired =
         isInRequiredList && _documentFieldsRelationship == RequirementRelationship.and;
 
-    switch (field) {
-      case DocumentField.idNumber:
-        return _IdNumberField(
-          controller: _controllers[field]!,
-          currentValue: _documentFields[field] as String? ?? '',
-          onChanged: (value) => _updateDocumentField(field, value),
-        );
-      case DocumentField.photoFront:
-        return _PhotoUploadField(
-          label: context.l10n.photoFront,
-          isRequired: isRequired,
-          onTap: () async {
-            final photo = await _pickPhoto();
-            if (photo != null) {
-              _updateDocumentField(field, photo);
-            }
-          },
-          currentValue: _documentFields[field] as File?,
-        );
-      case DocumentField.photoBack:
-        return _PhotoUploadField(
-          label: context.l10n.photoBack,
-          isRequired: isRequired,
-          onTap: () async {
-            final photo = await _pickPhoto();
-            if (photo != null) {
-              _updateDocumentField(field, photo);
-            }
-          },
-          currentValue: _documentFields[field] as File?,
-        );
-    }
+    return switch (field) {
+      DocumentField.idNumber => _IdNumberField(
+        controller: _controllers[field]!,
+        currentValue: _documentFields[field] as String? ?? '',
+        onChanged: (value) => _updateDocumentField(field, value),
+      ),
+      DocumentField.photoFront => _PhotoUploadField(
+        label: context.l10n.photoFront,
+        isRequired: isRequired,
+        onTap: () async {
+          final photo = await _pickPhoto();
+          if (photo != null) {
+            _updateDocumentField(field, photo);
+          }
+        },
+        currentValue: _documentFields[field] as File?,
+      ),
+      DocumentField.photoBack => _PhotoUploadField(
+        label: context.l10n.photoBack,
+        isRequired: isRequired,
+        onTap: () async {
+          final photo = await _pickPhoto();
+          if (photo != null) {
+            _updateDocumentField(field, photo);
+          }
+        },
+        currentValue: _documentFields[field] as File?,
+      ),
+    };
   }
 
   List<DocumentField> get _requiredFields {
@@ -200,12 +197,10 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
     final requiredFields = _requiredFields;
     if (requiredFields.isEmpty) return true;
 
-    switch (_documentFieldsRelationship) {
-      case RequirementRelationship.and:
-        return requiredFields.every(_isFieldValid);
-      case RequirementRelationship.or:
-        return requiredFields.any(_isFieldValid);
-    }
+    return switch (_documentFieldsRelationship) {
+      RequirementRelationship.and => requiredFields.every(_isFieldValid),
+      RequirementRelationship.or => requiredFields.any(_isFieldValid),
+    };
   }
 
   bool _isFieldValid(DocumentField field) {

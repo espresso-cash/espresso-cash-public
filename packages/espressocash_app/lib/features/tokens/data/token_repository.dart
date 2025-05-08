@@ -31,7 +31,7 @@ class TokenRepository {
     final rootToken = ServicesBinding.rootIsolateToken;
 
     final assetFile = await rootBundle.load('assets/tokens/tokens.csv.gz');
-    final file = await _fileManager.loadFromAppDir('tokens.csv.gz');
+    final file = await FileManager.loadFromAppDir('tokens.csv.gz');
     final sink = file.openWrite()..add(assetFile.buffer.asUint8List());
     await sink.flush();
     await sink.close();
@@ -50,7 +50,7 @@ class TokenRepository {
 
     if (rootToken == null) return;
 
-    final file = await _fileManager.loadFromAppDir('tokens.csv.gz');
+    final file = await FileManager.loadFromAppDir('tokens.csv.gz');
 
     await ecClient.getTokensFile(file.path);
 

@@ -2,7 +2,6 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../data/quiz_repository.dart';
 import '../models/quiz.dart';
@@ -41,7 +40,7 @@ class _QuizScreenState extends State<QuizScreen> with SingleTickerProviderStateM
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    _questions = sl<QuizRepository>().getQuestions(context.l10n);
+    _questions = QuizRepository.getQuestions(context.l10n);
   }
 
   @override

@@ -23,8 +23,8 @@ class DynamicLinksNotifier extends ChangeNotifier {
 
   Uri? get link => _link;
 
-  bool get loading => _loading;
-  bool _loading = false;
+  bool get isLoading => _isLoading;
+  bool _isLoading = false;
 
   void processLink(Func1<Uri, bool> onLink) {
     final link = _link;
@@ -55,7 +55,7 @@ class DynamicLinksNotifier extends ChangeNotifier {
       return;
     }
 
-    _loading = true;
+    _isLoading = true;
     notifyListeners();
 
     try {
@@ -64,7 +64,7 @@ class DynamicLinksNotifier extends ChangeNotifier {
         _link = fullLink;
       }
     } finally {
-      _loading = false;
+      _isLoading = false;
       notifyListeners();
     }
   }

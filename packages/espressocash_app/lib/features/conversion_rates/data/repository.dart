@@ -138,6 +138,7 @@ class ConversionRatesRepository {
   @disposeMethod
   void dispose() {
     _cacheSubscription?.cancel();
+    _db.close();
   }
 }
 

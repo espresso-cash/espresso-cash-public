@@ -220,7 +220,7 @@ class _OLPScreenState extends State<OLPScreen> {
           ) ??
           normalItems;
 
-      final animated =
+      final isAnimated =
           timelineStatus == CpTimelineStatus.inProgress &&
           payment.status.maybeMap(orElse: T, linkReady: F);
 
@@ -238,7 +238,7 @@ class _OLPScreenState extends State<OLPScreen> {
                 status: timelineStatus,
                 items: items,
                 active: activeItem,
-                isAnimated: animated,
+                isAnimated: isAnimated,
               ),
               const Spacer(flex: 4),
               ...actions,

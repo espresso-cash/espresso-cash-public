@@ -46,13 +46,13 @@ class _GridPhraseState extends State<GridPhrase> {
         spacing: spacing,
         children:
             _options.mapIndexed((int position, String word) {
-              final bool selected = _data.containsKey(position);
+              final bool isSelected = _data.containsKey(position);
 
               return CpButton(
                 width: itemWidth,
                 size: CpButtonSize.micro,
                 onPressed: () => _handlePressed(position, word),
-                variant: selected ? CpButtonVariant.dark : CpButtonVariant.black,
+                variant: isSelected ? CpButtonVariant.dark : CpButtonVariant.black,
                 text: word,
               );
             }).toList(),

@@ -133,7 +133,7 @@ class KycStatusScreen extends StatelessWidget {
               onPressed: () {
                 switch (status) {
                   case KycValidationStatus.rejected:
-                    sl<IntercomService>().displayMessenger();
+                    IntercomService.displayMessenger();
                   case KycValidationStatus.pending:
                     sl<HomeNavigationService>().openActivitiesTab(context);
                   case KycValidationStatus.approved:

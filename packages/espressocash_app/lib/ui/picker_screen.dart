@@ -176,7 +176,7 @@ class _ContentState<T> extends State<_Content<T>> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: CpTextField(
             controller: _searchController,
-            autocorrect: false,
+            shouldAutocorrect: false,
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             fontSize: 16,
             border: CpTextFieldBorder.stadium,
@@ -208,11 +208,11 @@ class _ContentState<T> extends State<_Content<T>> {
               itemExtent: _tileHeight,
               itemBuilder: (BuildContext context, int index) {
                 final item = filteredItems[index];
-                final selected = item == _selectedItem;
+                final isSelected = item == _selectedItem;
 
                 return DecoratedBox(
                   decoration:
-                      selected
+                      isSelected
                           ? const ShapeDecoration(
                             color: CpColors.blackTextFieldBackgroundColor,
                             shape: StadiumBorder(),
@@ -220,9 +220,9 @@ class _ContentState<T> extends State<_Content<T>> {
                           : const BoxDecoration(),
                   child: ListTile(
                     dense: true,
-                    title: widget.itemBuilder(context, item, selected: selected),
+                    title: widget.itemBuilder(context, item, selected: isSelected),
                     selectedColor: Colors.white,
-                    shape: selected ? const StadiumBorder() : null,
+                    shape: isSelected ? const StadiumBorder() : null,
                     onTap: () async {
                       await widget.onTap?.let((onTap) => onTap(item, context));
 

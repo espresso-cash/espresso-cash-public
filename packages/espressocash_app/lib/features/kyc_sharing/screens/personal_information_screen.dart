@@ -137,14 +137,14 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
         controller: _firstNameController,
         inputType: TextInputType.name,
         placeholder: context.l10n.firstName,
-        readOnly: _readOnly,
+        isReadOnly: _readOnly,
       ),
       const SizedBox(height: 10),
       KycTextField(
         controller: _lastNameController,
         inputType: TextInputType.name,
         placeholder: context.l10n.lastName,
-        readOnly: _readOnly,
+        isReadOnly: _readOnly,
       ),
       const SizedBox(height: 10),
       CpDobTextField(

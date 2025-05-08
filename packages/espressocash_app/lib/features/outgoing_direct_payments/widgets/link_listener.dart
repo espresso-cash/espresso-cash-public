@@ -55,7 +55,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> with DynamicLinkHandl
         .maybeFlatMap((it) => Amount.fromDecimal(value: it, currency: crypto))
         .maybeFlatMap((it) => it as CryptoAmount)
         .maybeFlatMap((it) => it.toFiatAmount(fiat, ratesRepository: rates))
-        .ifNull(() => const FiatAmount(value: 0, fiatCurrency: Currency.usd));
+        .ifNull(() => const FiatAmount(value: 0, fiatCurrency: fiat));
 
     final formatted =
         amount.value == 0 ? '' : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);

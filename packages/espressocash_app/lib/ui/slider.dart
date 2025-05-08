@@ -85,13 +85,13 @@ class _CpSliderState extends State<CpSlider> with SingleTickerProviderStateMixin
         builder: (context, constraints) {
           final maxWidth = min(_maxBarWidth, constraints.maxWidth);
           final maxSlideWidth = maxWidth - _minBarWidth;
-          final enabled = widget.onSlideCompleted != null;
+          final isEnabled = widget.onSlideCompleted != null;
 
           return SizedBox(
             width: maxWidth,
             child: Stack(
               children: [
-                _Background(text: widget.text, enabled: enabled),
+                _Background(text: widget.text, isEnabled: isEnabled),
                 AnimatedBuilder(
                   animation: _positionNotifier,
                   builder:
@@ -101,7 +101,7 @@ class _CpSliderState extends State<CpSlider> with SingleTickerProviderStateMixin
                         child: child!,
                       ),
                   child: AbsorbPointer(
-                    absorbing: !enabled,
+                    absorbing: !isEnabled,
                     child: GestureDetector(
                       onHorizontalDragUpdate: (details) {
                         final value = _positionNotifier.value + details.delta.dx;
@@ -114,7 +114,7 @@ class _CpSliderState extends State<CpSlider> with SingleTickerProviderStateMixin
                         _positionNotifier.value = value;
                       },
                       onHorizontalDragEnd: (_) => _resetPosition(),
-                      child: _SlideBar(enabled: enabled),
+                      child: _SlideBar(isEnabled: isEnabled),
                     ),
                   ),
                 ),
@@ -128,10 +128,10 @@ class _CpSliderState extends State<CpSlider> with SingleTickerProviderStateMixin
 }
 
 class _Background extends StatelessWidget {
-  const _Background({required this.text, required this.enabled});
+  const _Background({required this.text, required this.isEnabled});
 
   final String text;
-  final bool enabled;
+  final bool isEnabled;
 
   @override
   Widget build(BuildContext context) => ColoredBox(
@@ -146,7 +146,7 @@ class _Background extends StatelessWidget {
             fontSize: 17,
             letterSpacing: 0.13,
             fontWeight: FontWeight.w500,
-            color: enabled ? Colors.white : CpColors.sliderDisabledColor,
+            color: isEnabled ? Colors.white : CpColors.sliderDisabledColor,
           ),
         ),
       ),
@@ -155,9 +155,9 @@ class _Background extends StatelessWidget {
 }
 
 class _SlideBar extends StatefulWidget {
-  const _SlideBar({required this.enabled});
+  const _SlideBar({required this.isEnabled});
 
-  final bool enabled;
+  final bool isEnabled;
 
   @override
   State<_SlideBar> createState() => _SlideBarState();
@@ -181,7 +181,7 @@ class _SlideBarState extends State<_SlideBar> {
     _updateEnabled();
   }
 
-  void _updateEnabled() => _enabledInput?.value = widget.enabled;
+  void _updateEnabled() => _enabledInput?.value = widget.isEnabled;
 
   @override
   Widget build(BuildContext context) => SizedBox(

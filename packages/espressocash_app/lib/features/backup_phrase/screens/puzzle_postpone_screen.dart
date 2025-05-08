@@ -22,7 +22,7 @@ class PuzzlePostponeScreen extends StatefulWidget {
 }
 
 class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
-  bool _checked = false;
+  bool _isChecked = false;
   Duration _duration = const Duration(days: 1);
 
   List<DropdownMenuItem<Duration?>> get _dropdownItems => [
@@ -31,18 +31,12 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
     DropdownMenuItem(value: const Duration(days: 30), child: Text(context.l10n.oneMonth)),
   ];
 
-  String get _getTextDuration {
-    switch (_duration.inDays) {
-      case 1:
-        return context.l10n.tomorrow.toUpperCase();
-      case 7:
-        return context.l10n.oneWeek.toUpperCase();
-      case 30:
-        return context.l10n.oneMonth.toUpperCase();
-      default:
-        return '';
-    }
-  }
+  String get _textDuration => switch (_duration.inDays) {
+    1 => context.l10n.tomorrow.toUpperCase(),
+    7 => context.l10n.oneWeek.toUpperCase(),
+    30 => context.l10n.oneMonth.toUpperCase(),
+    _ => '',
+  };
 
   void _handleOkPressed(BuildContext context) {
     sl<PuzzleReminderBloc>().add(PuzzleReminderEvent.postponed(postponedBy: _duration));
@@ -64,10 +58,10 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
             padding: const EdgeInsets.all(32),
             content: _Checkbox(
               title: context.l10n.iUnderstandIfLoseMySecret,
-              value: _checked,
+              value: _isChecked,
               onChanged: (bool? value) {
                 setState(() {
-                  _checked = value ?? false;
+                  _isChecked = value ?? false;
                 });
               },
             ),
@@ -107,7 +101,7 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
                             .map(
                               (e) => Center(
                                 child: Text(
-                                  context.l10n.setReminder(_getTextDuration),
+                                  context.l10n.setReminder(_textDuration),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -121,7 +115,7 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
             text: context.l10n.ok,
             size: CpButtonSize.big,
             minWidth: 300,
-            onPressed: _checked ? () => _handleOkPressed(context) : null,
+            onPressed: _isChecked ? () => _handleOkPressed(context) : null,
           ),
         ],
       ),

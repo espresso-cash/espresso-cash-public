@@ -5,10 +5,10 @@ import '../../../l10n/gen/app_localizations.dart';
 import '../models/quiz.dart';
 
 @injectable
-class QuizRepository {
+abstract final class QuizRepository {
   const QuizRepository();
 
-  IList<QuizQuestion> getQuestions(AppLocalizations l10n) =>
+  static IList<QuizQuestion> getQuestions(AppLocalizations l10n) =>
       [
         QuizQuestion(
           question: l10n.quizFirstQuestion,

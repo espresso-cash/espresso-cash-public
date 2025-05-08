@@ -86,7 +86,6 @@ class OffRampOrderService implements Disposable {
       switch (order.partner) {
         case RampPartner.moneygram:
         case RampPartner.brij:
-          continue;
         case RampPartner.kado:
         case RampPartner.coinflow:
         case RampPartner.guardarian:
@@ -255,43 +254,41 @@ class OffRampOrderService implements Disposable {
     CryptoAmount? fee,
     required String countryCode,
   }) => tryEitherAsync((_) async {
-    {
-      final order = OffRampOrderRow(
-        id: const Uuid().v4(),
-        amount: amount.value,
-        token: amount.token.address,
-        created: DateTime.now(),
-        humanStatus: '',
-        machineStatus: '',
-        partnerOrderId: partnerOrderId,
-        transaction: transaction?.$1.encode() ?? '',
-        slot: transaction?.$2 ?? BigInt.zero,
-        status:
-            transaction == null
-                ? OffRampOrderStatus.depositTxRequired
-                : OffRampOrderStatus.depositTxReady,
-        depositAddress: depositAddress,
-        partner: partner,
-        receiveAmount: receiveAmount?.value,
-        fiatSymbol: receiveAmount?.currency.symbol,
-        feeAmount: fee?.value,
-        feeToken: fee?.token.address,
-      );
+    final order = OffRampOrderRow(
+      id: const Uuid().v4(),
+      amount: amount.value,
+      token: amount.token.address,
+      created: DateTime.now(),
+      humanStatus: '',
+      machineStatus: '',
+      partnerOrderId: partnerOrderId,
+      transaction: transaction?.$1.encode() ?? '',
+      slot: transaction?.$2 ?? BigInt.zero,
+      status:
+          transaction == null
+              ? OffRampOrderStatus.depositTxRequired
+              : OffRampOrderStatus.depositTxReady,
+      depositAddress: depositAddress,
+      partner: partner,
+      receiveAmount: receiveAmount?.value,
+      fiatSymbol: receiveAmount?.currency.symbol,
+      feeAmount: fee?.value,
+      feeToken: fee?.token.address,
+    );
 
-      await _db.into(_db.offRampOrderRows).insert(order);
-      _subscribe(order.id);
-      await _watch(order.id);
+    await _db.into(_db.offRampOrderRows).insert(order);
+    _subscribe(order.id);
+    await _watch(order.id);
 
-      _analytics.rampInitiated(
-        partnerName: partner.name,
-        rampType: RampType.offRamp.name,
-        amount: amount.value.toString(),
-        countryCode: countryCode,
-        id: order.id,
-      );
+    _analytics.rampInitiated(
+      partnerName: partner.name,
+      rampType: RampType.offRamp.name,
+      amount: amount.value.toString(),
+      countryCode: countryCode,
+      id: order.id,
+    );
 
-      return order.id;
-    }
+    return order.id;
   });
 
   @useResult
@@ -303,19 +300,17 @@ class OffRampOrderService implements Disposable {
     FiatAmount? receiveAmount,
     required String countryCode,
   }) => tryEitherAsync((bind) async {
-    {
-      final signed = await tx.let((it) => it.resign(_account));
+    final signed = await tx.let((it) => it.resign(_account));
 
-      return create(
-        partnerOrderId: signed.id,
-        amount: amount,
-        partner: partner,
-        depositAddress: '',
-        receiveAmount: receiveAmount,
-        transaction: (signed, slot),
-        countryCode: countryCode,
-      ).letAsync(bind);
-    }
+    return create(
+      partnerOrderId: signed.id,
+      amount: amount,
+      partner: partner,
+      depositAddress: '',
+      receiveAmount: receiveAmount,
+      transaction: (signed, slot),
+      countryCode: countryCode,
+    ).letAsync(bind);
   });
 
   Future<void> _watch(String orderId) async {
@@ -456,21 +451,21 @@ class OffRampOrderService implements Disposable {
     }
 
     final confirmed = await _sender.wait(tx.$1, minContextSlot: tx.$2, txType: 'OffRamp');
-    switch (confirmed) {
-      case TxWaitSuccess():
-        return const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.waitingForPartner));
-      case TxWaitFailure(:final reason):
-        return OffRampOrderRowsCompanion(
-          status:
-              reason == TxFailureReason.insufficientFunds
-                  ? const Value(OffRampOrderStatus.insufficientFunds)
-                  : const Value(OffRampOrderStatus.depositTxConfirmError),
-          transaction: const Value(''),
-          slot: Value(BigInt.zero),
-        );
-      case TxWaitNetworkError():
-        return _depositError;
-    }
+
+    return switch (confirmed) {
+      TxWaitSuccess() => const OffRampOrderRowsCompanion(
+        status: Value(OffRampOrderStatus.waitingForPartner),
+      ),
+      TxWaitFailure(:final reason) => OffRampOrderRowsCompanion(
+        status:
+            reason == TxFailureReason.insufficientFunds
+                ? const Value(OffRampOrderStatus.insufficientFunds)
+                : const Value(OffRampOrderStatus.depositTxConfirmError),
+        transaction: const Value(''),
+        slot: Value(BigInt.zero),
+      ),
+      TxWaitNetworkError() => _depositError,
+    };
   }
 
   static final _cancelled = OffRampOrderRowsCompanion(

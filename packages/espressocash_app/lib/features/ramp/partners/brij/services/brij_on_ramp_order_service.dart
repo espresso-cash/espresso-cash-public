@@ -49,7 +49,6 @@ class BrijOnRampOrderService implements Disposable {
         case RampPartner.guardarian:
         case RampPartner.rampNetwork:
         case RampPartner.moneygram:
-          continue;
         case RampPartner.brij:
           _subscribe(order.id);
       }
@@ -103,54 +102,52 @@ class BrijOnRampOrderService implements Disposable {
     required RampPartner partner,
     required String country,
   }) => tryEitherAsync((_) async {
-    {
-      final partnerAuthPk = partner.partnerPK ?? '';
-      await _kycRepository.grantPartnerAccess(partnerAuthPk);
+    final partnerAuthPk = partner.partnerPK ?? '';
+    await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
-      final orderId = await _kycRepository.createOnRampOrder(
-        cryptoAmount: receiveAmount.decimal.toDouble(),
-        cryptoCurrency: receiveAmount.cryptoCurrency.token.symbol,
-        fiatAmount: submittedAmount.decimal.toDouble(),
-        fiatCurrency: submittedAmount.currency.symbol,
-        partnerPK: partnerAuthPk,
-        cryptoWalletAddress: _ecWallet.publicKey.toString(),
-        walletPK: walletAuthPk,
-      );
+    final orderId = await _kycRepository.createOnRampOrder(
+      cryptoAmount: receiveAmount.decimal.toDouble(),
+      cryptoCurrency: receiveAmount.cryptoCurrency.token.symbol,
+      fiatAmount: submittedAmount.decimal.toDouble(),
+      fiatCurrency: submittedAmount.currency.symbol,
+      partnerPK: partnerAuthPk,
+      cryptoWalletAddress: _ecWallet.publicKey.toString(),
+      walletPK: walletAuthPk,
+    );
 
-      final order = OnRampOrderRow(
-        id: const Uuid().v4(),
-        partnerOrderId: orderId,
-        amount: submittedAmount.value,
-        token: Token.usdc.address,
-        humanStatus: '',
-        machineStatus: '',
-        isCompleted: false,
-        created: DateTime.now(),
-        txHash: '',
-        partner: partner,
-        receiveAmount: receiveAmount.value,
-        status: OnRampOrderStatus.waitingPartnerReview,
-        bankAccount: null,
-        bankName: null,
-        bankTransferAmount: submittedAmount.value,
-        fiatSymbol: submittedAmount.currency.symbol,
-        authToken: null,
-        moreInfoUrl: null,
-      );
+    final order = OnRampOrderRow(
+      id: const Uuid().v4(),
+      partnerOrderId: orderId,
+      amount: submittedAmount.value,
+      token: Token.usdc.address,
+      humanStatus: '',
+      machineStatus: '',
+      isCompleted: false,
+      created: DateTime.now(),
+      txHash: '',
+      partner: partner,
+      receiveAmount: receiveAmount.value,
+      status: OnRampOrderStatus.waitingPartnerReview,
+      bankAccount: null,
+      bankName: null,
+      bankTransferAmount: submittedAmount.value,
+      fiatSymbol: submittedAmount.currency.symbol,
+      authToken: null,
+      moreInfoUrl: null,
+    );
 
-      await _db.into(_db.onRampOrderRows).insertOnConflictUpdate(order);
-      _subscribe(order.id);
+    await _db.into(_db.onRampOrderRows).insertOnConflictUpdate(order);
+    _subscribe(order.id);
 
-      _analytics.rampInitiated(
-        partnerName: partner.name,
-        rampType: RampType.onRamp.name,
-        amount: submittedAmount.value.toString(),
-        countryCode: country,
-        id: order.id,
-      );
+    _analytics.rampInitiated(
+      partnerName: partner.name,
+      rampType: RampType.onRamp.name,
+      amount: submittedAmount.value.toString(),
+      countryCode: country,
+      id: order.id,
+    );
 
-      return order.id;
-    }
+    return order.id;
   });
 
   // Either approve or reject

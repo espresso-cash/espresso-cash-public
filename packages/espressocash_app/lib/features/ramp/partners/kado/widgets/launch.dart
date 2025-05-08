@@ -68,12 +68,12 @@ extension BuildContextExt on BuildContext {
       },
     );
 
-    bool orderWasCreated = false;
+    bool wasOrderCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
       controller.addJavaScriptHandler(
         handlerName: 'kado',
         callback: (args) {
-          if (orderWasCreated) return;
+          if (wasOrderCreated) return;
 
           if (args.firstOrNull case <String, dynamic>{
             'type': 'RAMP_ORDER_ID',
@@ -94,7 +94,7 @@ extension BuildContextExt on BuildContext {
                       OnRampOrderScreen.pushReplacement(this, id: value);
                   }
                 });
-            orderWasCreated = true;
+            wasOrderCreated = true;
           }
         },
       );
@@ -153,12 +153,12 @@ window.addEventListener("message", (event) => {
       },
     );
 
-    bool orderWasCreated = false;
+    bool wasOrderCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
       controller.addJavaScriptHandler(
         handlerName: 'kado',
         callback: (args) async {
-          if (orderWasCreated) return;
+          if (wasOrderCreated) return;
 
           if (args.firstOrNull case <String, dynamic>{
             'type': 'RAMP_ORDER_ID',
@@ -185,7 +185,7 @@ window.addEventListener("message", (event) => {
                       OffRampOrderScreen.pushReplacement(this, id: value);
                   }
                 });
-            orderWasCreated = true;
+            wasOrderCreated = true;
           }
         },
       );

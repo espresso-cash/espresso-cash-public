@@ -5,17 +5,17 @@ import '../../../ui/chip.dart';
 import '../../../ui/colors.dart';
 
 class ErrorChip extends StatelessWidget {
-  const ErrorChip({super.key, required this.text, required this.visible, required this.margin});
+  const ErrorChip({super.key, required this.text, required this.isVisible, required this.margin});
 
   final String text;
-  final bool visible;
+  final bool isVisible;
   final EdgeInsets margin;
 
   @override
   Widget build(BuildContext context) =>
-      visible
-          ? Container(
-            margin: margin,
+      isVisible
+          ? Padding(
+            padding: margin,
             child: SizedBox(
               height: 55.h,
               child: CpChip(

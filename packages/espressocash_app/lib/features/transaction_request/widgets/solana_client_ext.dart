@@ -53,6 +53,7 @@ extension on AccountData {
       final data = this;
       if (data is! BinaryAccountData) return null;
 
+      // ignore: avoid-commented-out-code, reference comment
       // Token Account Layout (see https://github.com/solana-labs/solana-program-library/blob/48fbb5b7c49ea35848442bba470b89331dea2b2b/token/js/src/state/account.ts#L59):
       //
       // export const AccountLayout = struct<RawAccount>([

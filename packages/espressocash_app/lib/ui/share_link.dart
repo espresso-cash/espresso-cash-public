@@ -26,7 +26,7 @@ class ShareCodeWidget extends StatelessWidget {
     padding: const EdgeInsets.all(24),
     child: CpRoundedRectangle(
       backgroundColor: CpColors.blackGreyColor,
-      scrollable: false,
+      isScrollable: false,
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 35),
       child: Column(
         mainAxisSize: MainAxisSize.min,

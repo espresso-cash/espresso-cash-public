@@ -254,7 +254,7 @@ class _MinimumAmountNotice extends StatefulWidget {
 
 class _MinimumAmountNoticeState extends State<_MinimumAmountNotice> with DebounceMixin {
   final _shakeKey = GlobalKey<ShakeState>();
-  bool _visible = false;
+  bool _isVisible = false;
 
   @override
   void didUpdateWidget(covariant _MinimumAmountNotice oldWidget) {
@@ -267,14 +267,14 @@ class _MinimumAmountNoticeState extends State<_MinimumAmountNotice> with Debounc
 
   void _updateVisibility() {
     if (widget.amount.decimal >= widget.minAmount) {
-      _visible = false;
+      _isVisible = false;
     }
   }
 
   // ignore: prefer-widget-private-members, used for controlling state
   void showNotice() {
     setState(() {
-      _visible = true;
+      _isVisible = true;
       _shakeKey.currentState?.shake();
     });
   }
@@ -294,7 +294,7 @@ class _MinimumAmountNoticeState extends State<_MinimumAmountNotice> with Debounc
 
     return Shake(
       key: _shakeKey,
-      child: ErrorChip(text: message, visible: _visible, margin: EdgeInsets.only(top: 32.h)),
+      child: ErrorChip(text: message, isVisible: _isVisible, margin: EdgeInsets.only(top: 32.h)),
     );
   }
 }

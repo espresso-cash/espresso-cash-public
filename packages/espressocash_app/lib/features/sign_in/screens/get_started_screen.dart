@@ -52,7 +52,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                     backgroundColor: CpColors.lightSandColor,
                     body: Stack(
                       children: [
-                        Align(
+                        Center(
                           child: Assets.images.dollarBg.image(
                             fit: BoxFit.fitHeight,
                             height: double.infinity,
@@ -161,7 +161,7 @@ class _Body extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children:
-                sl<DynamicLinksNotifier>().link.let(_parseUri)
+                sl<DynamicLinksNotifier>().link.let(_isValidLinkUri)
                     ? [
                       Text(
                         context.l10n.onboardingWithPaymentTitle.toUpperCase(),
@@ -194,7 +194,7 @@ class _Body extends StatelessWidget {
 const keyCreateWalletButton = Key('createWalletButton');
 const keyUseExistingWalletButton = Key('useExistingWalletButton');
 
-bool _parseUri(Uri? link) {
+bool _isValidLinkUri(Uri? link) {
   if (link == null) return false;
 
   return LinkPayment.tryParse(link) != null;

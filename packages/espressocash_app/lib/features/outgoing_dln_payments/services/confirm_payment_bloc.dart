@@ -126,7 +126,7 @@ sealed class ConfirmPaymentEvent with _$ConfirmPaymentEvent {
 }
 
 @freezed
-class ConfirmPaymentState with _$ConfirmPaymentState {
+sealed class ConfirmPaymentState with _$ConfirmPaymentState {
   factory ConfirmPaymentState({
     DlnPayment? payment,
     PaymentQuote? quote,

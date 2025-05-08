@@ -13,9 +13,9 @@ final cpNavigationBar = Story(
         extendBody: true,
         bottomNavigationBar: CPNavigationBar(
           items: [
-            CpNavigationButton(icon: Assets.icons.home, active: true, onPressed: () {}),
-            CpNavigationButton(icon: Assets.icons.wallet, active: false, onPressed: () {}),
-            CpNavigationButton(icon: Assets.icons.notifications, active: false, onPressed: () {}),
+            CpNavigationButton(icon: Assets.icons.home, isActive: true, onPressed: () {}),
+            CpNavigationButton(icon: Assets.icons.wallet, isActive: false, onPressed: () {}),
+            CpNavigationButton(icon: Assets.icons.notifications, isActive: false, onPressed: () {}),
           ],
         ),
       ),

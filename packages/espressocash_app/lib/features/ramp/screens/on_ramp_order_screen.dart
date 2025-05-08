@@ -221,7 +221,7 @@ class _ContactUsButton extends StatelessWidget {
     size: CpButtonSize.big,
     width: double.infinity,
     text: context.l10n.contactUs,
-    onPressed: () => sl<IntercomService>().displayMessenger(),
+    onPressed: IntercomService.displayMessenger,
   );
 }
 
@@ -297,7 +297,7 @@ class _Timeline extends StatelessWidget {
     final manualDeposit = this.manualDeposit;
     final isManualBankTransfer = manualDeposit != null;
     final CpTimelineStatus timelineStatus = status.toTimelineStatus();
-    final animated = timelineStatus == CpTimelineStatus.inProgress;
+    final isAnimated = timelineStatus == CpTimelineStatus.inProgress;
     final int activeItem = status.toActiveItem();
 
     final depositInitiated = CpTimelineItem(
@@ -337,7 +337,7 @@ class _Timeline extends StatelessWidget {
       status: timelineStatus,
       items: items,
       active: isManualBankTransfer ? activeItem + 1 : activeItem,
-      isAnimated: animated,
+      isAnimated: isAnimated,
     );
   }
 }

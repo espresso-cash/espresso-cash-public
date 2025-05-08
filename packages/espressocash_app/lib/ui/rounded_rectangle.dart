@@ -10,14 +10,14 @@ class CpRoundedRectangle extends StatefulWidget {
     this.backgroundColor,
     this.margin,
     this.padding,
-    this.scrollable = false,
+    this.isScrollable = false,
   });
 
   final Widget child;
   final Color? backgroundColor;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
-  final bool scrollable;
+  final bool isScrollable;
 
   @override
   State<CpRoundedRectangle> createState() => _CpRoundedRectangleState();
@@ -45,7 +45,7 @@ class _CpRoundedRectangleState extends State<CpRoundedRectangle> {
       ),
     ),
     child:
-        widget.scrollable
+        widget.isScrollable
             ? RawScrollbar(
               thumbVisibility: true,
               thickness: 8,

@@ -14,7 +14,7 @@ import '../../profile/service/update_profile.dart';
 import '../data/onboarding_repository.dart';
 import 'view_recovery_phrase_screen.dart';
 
-class OnboardingFlowScreen {
+abstract final class OnboardingFlowScreen {
   static Future<void> open(BuildContext context, {NavigatorState? navigator}) async {
     final hasConfirmedPassphrase = sl<OnboardingRepository>().hasConfirmedPassphrase;
 

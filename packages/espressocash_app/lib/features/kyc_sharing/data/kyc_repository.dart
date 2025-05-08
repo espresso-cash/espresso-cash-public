@@ -52,15 +52,15 @@ class KycRepository extends ChangeNotifier {
     },
   );
 
-  Future<UserData> _getUserData({required bool includeValues}) => _kycUserClient.getUserData(
+  Future<UserData> _getUserData({required bool shouldIncludeValues}) => _kycUserClient.getUserData(
     userPK: _kycUserClient.authPublicKey,
     secretKey: _kycUserClient.rawSecretKey,
-    includeValues: includeValues,
+    includeValues: shouldIncludeValues,
   );
 
-  Future<UserData?> fetchUser({bool includeValues = true}) async {
+  Future<UserData?> fetchUser({bool shouldIncludeValues = true}) async {
     try {
-      return await _initWrapper(() => _getUserData(includeValues: includeValues));
+      return await _initWrapper(() => _getUserData(shouldIncludeValues: shouldIncludeValues));
     } on Exception catch (exception) {
       reportError(exception);
 

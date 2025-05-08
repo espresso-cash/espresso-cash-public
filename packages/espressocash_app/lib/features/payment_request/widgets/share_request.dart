@@ -51,10 +51,10 @@ class _ShareRequestPaymentState extends State<ShareRequestPayment> {
             child: Column(
               children: [
                 CpContentPadding(
-                  bottom: false,
+                  isBottom: false,
                   child: CpRoundedRectangle(
                     backgroundColor: CpColors.blackGreyColor,
-                    scrollable: false,
+                    isScrollable: false,
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
                     child: Center(
                       child: Text(

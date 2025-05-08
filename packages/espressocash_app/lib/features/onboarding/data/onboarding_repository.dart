@@ -49,6 +49,7 @@ class OnboardingRepository extends ChangeNotifier {
   void dispose() {
     _profileRepository.removeListener(_handleProfileUpdated);
     _storage.remove(_passphraseConfirmedKey);
+    _profileRepository.dispose();
     super.dispose();
   }
 }

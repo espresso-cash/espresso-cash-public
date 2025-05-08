@@ -97,7 +97,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                   isFirst: isFirst,
                   isLast: isLast,
                   child: _Animation(
-                    center: true,
+                    isCenter: true,
                     controller: _controller,
                     transformer: indicatorTransformer,
                     child: Container(
@@ -123,7 +123,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                   _ConnectorBackground(
                     backgroundColor: widget.status.backgroundColor,
                     child: _Animation(
-                      center: false,
+                      isCenter: false,
                       controller: _controller,
                       transformer: connectorTransformer,
                       child: Container(
@@ -255,13 +255,13 @@ class _Animation extends StatelessWidget {
   const _Animation({
     required this.transformer,
     required this.controller,
-    required this.center,
+    required this.isCenter,
     required this.child,
   });
 
   final AnimationController controller;
   final _AnimationTransformer? transformer;
-  final bool center;
+  final bool isCenter;
   final Widget child;
 
   @override
@@ -276,7 +276,7 @@ class _Animation extends StatelessWidget {
             animation: controller,
             builder:
                 (context, child) => Positioned(
-                  bottom: center ? 0 : null,
+                  bottom: isCenter ? 0 : null,
                   top: controller.value.let(_sinoidalTransformer).let(transformer),
                   // ignore: avoid-non-null-assertion, child is mandatory for parent
                   child: child!,
@@ -291,18 +291,12 @@ class _Animation extends StatelessWidget {
 }
 
 extension on CpTimelineStatus {
-  Color get backgroundColor {
-    switch (this) {
-      case CpTimelineStatus.success:
-        return CpColors.successBackgroundColor;
-      case CpTimelineStatus.inProgress:
-        return CpColors.infoBackgroundColor;
-      case CpTimelineStatus.failure:
-        return CpColors.errorBackgroundColor;
-      case CpTimelineStatus.neutral:
-        return CpColors.neutralBackgroundColor;
-    }
-  }
+  Color get backgroundColor => switch (this) {
+    CpTimelineStatus.success => CpColors.successBackgroundColor,
+    CpTimelineStatus.inProgress => CpColors.infoBackgroundColor,
+    CpTimelineStatus.failure => CpColors.errorBackgroundColor,
+    CpTimelineStatus.neutral => CpColors.neutralBackgroundColor,
+  };
 
   Widget get icon {
     switch (this) {

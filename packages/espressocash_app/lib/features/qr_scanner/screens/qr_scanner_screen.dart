@@ -33,8 +33,8 @@ class _Content extends StatefulWidget {
 }
 
 class _ContentState extends State<_Content> with CompositeSubscriptionController {
-  bool _flashEnabled = false;
-  bool _cameraEnabled = false;
+  bool _isFlashEnabled = false;
+  bool _isCameraEnabled = false;
 
   @override
   void initState() {
@@ -44,8 +44,8 @@ class _ContentState extends State<_Content> with CompositeSubscriptionController
 
     _qrViewController.barcodes.listen(_handleDetected).addTo(subscriptions);
     _qrViewController.addListener(() {
-      if (mounted && _cameraEnabled != _qrViewController.value.isRunning) {
-        setState(() => _cameraEnabled = _qrViewController.value.isRunning);
+      if (mounted && _isCameraEnabled != _qrViewController.value.isRunning) {
+        setState(() => _isCameraEnabled = _qrViewController.value.isRunning);
       }
     });
   }
@@ -66,7 +66,7 @@ class _ContentState extends State<_Content> with CompositeSubscriptionController
     await _qrViewController.toggleTorch();
     if (!mounted) return;
 
-    setState(() => _flashEnabled = !_flashEnabled);
+    setState(() => _isFlashEnabled = !_isFlashEnabled);
   }
 
   void _handleBlocChanged(BuildContext context, QrScannerState state) {
@@ -106,17 +106,18 @@ class _ContentState extends State<_Content> with CompositeSubscriptionController
       child: Scaffold(
         body: Stack(
           children: [
-            if (_cameraEnabled)
+            if (_isCameraEnabled)
               QrScannerBackground(child: MobileScanner(key: _qrKey, controller: _qrViewController)),
-            if (_cameraEnabled)
+            if (_isCameraEnabled)
               Align(
                 alignment: const Alignment(0, -0.7),
                 child: GestureDetector(
                   onTap: _handleFlashToggled,
-                  child: _flashEnabled ? Assets.images.flashOn.svg() : Assets.images.flashOff.svg(),
+                  child:
+                      _isFlashEnabled ? Assets.images.flashOn.svg() : Assets.images.flashOff.svg(),
                 ),
               ),
-            if (!_cameraEnabled)
+            if (!_isCameraEnabled)
               const Align(alignment: Alignment(0, -0.3), child: _PermissionText()),
             Align(
               alignment: Alignment.topRight,

@@ -9,13 +9,13 @@ class DecoratedWindowHeader extends StatelessWidget {
     this.title,
     this.message,
     this.hasLogo = true,
-    this.markdownMessage = false,
+    this.isMarkdownMessage = false,
   });
 
   final String? title;
   final String? message;
   final bool hasLogo;
-  final bool markdownMessage;
+  final bool isMarkdownMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class DecoratedWindowHeader extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 16),
             child:
-                markdownMessage
+                isMarkdownMessage
                     ? Markdown(
                       data: message,
                       shrinkWrap: true,
