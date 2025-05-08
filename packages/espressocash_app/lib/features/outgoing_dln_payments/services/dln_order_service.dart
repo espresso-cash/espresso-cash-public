@@ -20,7 +20,15 @@ import '../models/payment_quote.dart';
 
 @Singleton(scope: authScope)
 class OutgoingDlnPaymentService implements Disposable {
-  OutgoingDlnPaymentService(this._account, this._client, this._sender, this._repository);
+  OutgoingDlnPaymentService({
+    required ECWallet account,
+    required EspressoCashClient client,
+    required TxSender sender,
+    required OutgoingDlnPaymentRepository repository,
+  }) : _account = account,
+       _client = client,
+       _sender = sender,
+       _repository = repository;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   final Map<String, StreamSubscription<void>> _watchers = {};

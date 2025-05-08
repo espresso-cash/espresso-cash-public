@@ -64,23 +64,29 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
     super.dispose();
   }
 
-  void _handleSubmitted() => runWithLoader(context, () async {
-    final photo = await _photo?.let(FileManager.copyToAppDir);
+  void _handleSubmitted() => runWithLoader(
+    context,
+    () async {
+      final photo = await _photo?.let(FileManager.copyToAppDir);
 
-    await sl<UpdateProfile>()
-        .call(
-          firstName: _firstNameController.text,
-          lastName: _lastNameController.text,
-          // ignore: avoid-non-null-assertion, should not be null
-          countryCode: _country!.code,
-          photoPath: photo?.path,
-          email: _emailController.text,
-        )
-        .foldAsync((e) => throw e, ignore);
+      await sl<UpdateProfile>()
+          .call(
+            firstName: _firstNameController.text,
+            lastName: _lastNameController.text,
+            // ignore: avoid-non-null-assertion, should not be null
+            countryCode: _country!.code,
+            photoPath: photo?.path,
+            email: _emailController.text,
+          )
+          .foldAsync((e) => throw e, ignore);
 
-    if (!mounted) return;
-    Navigator.of(context).pop();
-  }, onError: (error) => showErrorDialog(context, context.l10n.lblProfileUpdateFailed, error));
+      if (!mounted) return;
+      Navigator.of(context).pop();
+    },
+    onError:
+        (error) =>
+            showErrorDialog(context: context, title: context.l10n.lblProfileUpdateFailed, e: error),
+  );
 
   bool get _isValid =>
       _firstNameController.text.isNotEmpty &&

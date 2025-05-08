@@ -31,14 +31,19 @@ import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
 class BrijOffRampOrderService implements Disposable {
-  BrijOffRampOrderService(
-    this._db,
-    this._kycRepository,
-    this._analytics,
-    this._ecClient,
-    this._sender,
-    this._account,
-  );
+  BrijOffRampOrderService({
+    required MyDatabase db,
+    required KycRepository kycRepository,
+    required AnalyticsManager analytics,
+    required EspressoCashClient ecClient,
+    required TxSender sender,
+    required ECWallet account,
+  }) : _db = db,
+       _kycRepository = kycRepository,
+       _analytics = analytics,
+       _ecClient = ecClient,
+       _sender = sender,
+       _account = account;
 
   final ECWallet _account;
   final MyDatabase _db;

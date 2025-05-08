@@ -20,7 +20,15 @@ import '../models/outgoing_direct_payment.dart';
 
 @Singleton(scope: authScope)
 class ODPService {
-  ODPService(this._client, this._repository, this._txSender, this._analyticsManager);
+  ODPService({
+    required EspressoCashClient client,
+    required ODPRepository repository,
+    required TxSender txSender,
+    required AnalyticsManager analyticsManager,
+  }) : _client = client,
+       _repository = repository,
+       _txSender = txSender,
+       _analyticsManager = analyticsManager;
 
   final EspressoCashClient _client;
   final ODPRepository _repository;

@@ -16,7 +16,13 @@ import '../data/kado_api_client.dart';
 
 @injectable
 class KadoOnRampOrderWatcher implements RampWatcher {
-  KadoOnRampOrderWatcher(this._db, this._client, this._analytics);
+  KadoOnRampOrderWatcher({
+    required MyDatabase db,
+    required KadoApiClient client,
+    required AnalyticsManager analytics,
+  }) : _db = db,
+       _client = client,
+       _analytics = analytics;
 
   final MyDatabase _db;
   final KadoApiClient _client;

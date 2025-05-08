@@ -66,8 +66,12 @@ Future<void> main() async {
     cryptoCurrency: CryptoCurrency(token: Token.usdc),
   );
 
-  ODPService createService() =>
-      ODPService(client, repository, sender, const StubAnalyticsManager());
+  ODPService createService() => ODPService(
+    client: client,
+    repository: repository,
+    txSender: sender,
+    analyticsManager: const StubAnalyticsManager(),
+  );
 
   Future<String> createODP(ODPService service) async {
     final payment = await service.create(

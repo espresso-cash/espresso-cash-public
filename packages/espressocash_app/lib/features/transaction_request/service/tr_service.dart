@@ -21,7 +21,10 @@ import '../models/transaction_request.dart';
 
 @Singleton(scope: authScope)
 class TRService {
-  TRService(this._account, this._db, this._txSender);
+  TRService({required ECWallet account, required MyDatabase db, required TxSender txSender})
+    : _account = account,
+      _db = db,
+      _txSender = txSender;
 
   final ECWallet _account;
   final MyDatabase _db;

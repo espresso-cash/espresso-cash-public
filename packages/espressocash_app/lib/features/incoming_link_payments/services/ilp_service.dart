@@ -28,15 +28,21 @@ import '../models/incoming_link_payment.dart';
 
 @Singleton(scope: authScope)
 class ILPService implements Disposable {
-  ILPService(
-    this._repository,
-    this._ecClient,
-    this._refreshBalance,
-    this._txSender,
-    this._solanaClient,
-    this._wallet,
-    this._analytics,
-  );
+  ILPService({
+    required ILPRepository repository,
+    required EspressoCashClient ecClient,
+    required RefreshBalance refreshBalance,
+    required TxSender txSender,
+    required SolanaClient solanaClient,
+    required ECWallet wallet,
+    required AnalyticsManager analytics,
+  }) : _repository = repository,
+       _ecClient = ecClient,
+       _refreshBalance = refreshBalance,
+       _txSender = txSender,
+       _solanaClient = solanaClient,
+       _wallet = wallet,
+       _analytics = analytics;
 
   final ILPRepository _repository;
   final EspressoCashClient _ecClient;

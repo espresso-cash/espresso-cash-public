@@ -6,7 +6,11 @@ import 'button.dart';
 import 'colors.dart';
 import 'theme.dart';
 
-void showErrorDialog(BuildContext context, String title, Exception e) => showDialog<void>(
+void showErrorDialog({
+  required BuildContext context,
+  required String title,
+  required Exception e,
+}) => showDialog<void>(
   context: context,
   builder:
       (context) => Theme(

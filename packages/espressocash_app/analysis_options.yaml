@@ -54,6 +54,12 @@ dart_code_metrics:
       exclude:
         - test/**
     prefer-correct-handler-name: false
+    prefer-boolean-prefixes:
+        ignore-fields: false
+        ignore-methods: true
+        ignored-names:
+          - e
+          - i
 
   rules-exclude:
     - "**/*.gr.dart"

@@ -13,11 +13,13 @@ typedef CryptoFiatAmount = (CryptoAmount, FiatAmount?);
 
 @injectable
 class TokenFiatBalanceService {
-  const TokenFiatBalanceService(
-    this._conversionRatesRepository,
-    this._balancesRepository,
-    this._analyticsManager,
-  );
+  const TokenFiatBalanceService({
+    required ConversionRatesRepository conversionRatesRepository,
+    required TokenBalancesRepository balancesRepository,
+    required AnalyticsManager analyticsManager,
+  }) : _conversionRatesRepository = conversionRatesRepository,
+       _balancesRepository = balancesRepository,
+       _analyticsManager = analyticsManager;
 
   final ConversionRatesRepository _conversionRatesRepository;
   final TokenBalancesRepository _balancesRepository;

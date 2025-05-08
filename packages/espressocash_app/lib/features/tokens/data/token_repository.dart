@@ -17,10 +17,9 @@ import 'extensions.dart';
 
 @Singleton()
 class TokenRepository {
-  const TokenRepository(this._db, this._fileManager, this._tokensMetaStorage);
+  const TokenRepository(this._db, this._tokensMetaStorage);
 
   final MyDatabase _db;
-  final FileManager _fileManager;
   final TokensMetaStorage _tokensMetaStorage;
 
   @PostConstruct(preResolve: true)

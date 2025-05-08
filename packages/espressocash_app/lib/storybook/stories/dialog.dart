@@ -12,7 +12,12 @@ final cpDialog = Story(
           children: [
             ElevatedButton(
               child: const Text('Show Error Dialog'),
-              onPressed: () => showErrorDialog(context, 'Error', Exception('Something went wrong')),
+              onPressed:
+                  () => showErrorDialog(
+                    context: context,
+                    title: 'Error',
+                    e: Exception('Something went wrong'),
+                  ),
             ),
             ElevatedButton(
               child: const Text('Show Confirmation Dialog'),

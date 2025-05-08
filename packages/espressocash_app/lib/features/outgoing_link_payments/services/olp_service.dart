@@ -29,13 +29,17 @@ import '../models/outgoing_link_payment.dart';
 
 @Singleton(scope: authScope)
 class OLPService implements Disposable {
-  OLPService(
-    this._repository,
-    this._ecClient,
-    this._txSender,
-    this._analyticsManager,
-    this._refreshBalance,
-  );
+  OLPService({
+    required OLPRepository repository,
+    required EspressoCashClient ecClient,
+    required TxSender txSender,
+    required AnalyticsManager analyticsManager,
+    required RefreshBalance refreshBalance,
+  }) : _repository = repository,
+       _ecClient = ecClient,
+       _txSender = txSender,
+       _analyticsManager = analyticsManager,
+       _refreshBalance = refreshBalance;
 
   final OLPRepository _repository;
   final EspressoCashClient _ecClient;

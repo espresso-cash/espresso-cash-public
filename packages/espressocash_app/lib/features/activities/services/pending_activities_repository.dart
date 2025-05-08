@@ -17,13 +17,17 @@ import '../models/activity.dart';
 
 @injectable
 class PendingActivitiesRepository {
-  const PendingActivitiesRepository(
-    this._db,
-    this._onRampOrderService,
-    this._offRampOrderService,
-    this._trService,
-    this._pendingKycService,
-  );
+  const PendingActivitiesRepository({
+    required MyDatabase db,
+    required OnRampOrderService onRampOrderService,
+    required OffRampOrderService offRampOrderService,
+    required TRService trService,
+    required PendingKycService pendingKycService,
+  }) : _db = db,
+       _onRampOrderService = onRampOrderService,
+       _offRampOrderService = offRampOrderService,
+       _trService = trService,
+       _pendingKycService = pendingKycService;
 
   final MyDatabase _db;
   final OnRampOrderService _onRampOrderService;

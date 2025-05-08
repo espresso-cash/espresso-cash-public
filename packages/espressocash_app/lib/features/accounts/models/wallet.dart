@@ -5,7 +5,10 @@ import 'package:solana/solana.dart';
 import 'ec_wallet.dart';
 
 Future<LocalWallet> createLocalWallet({required String mnemonic}) async {
-  final wallet = await compute(_createKeyPair, KeyPairParams(mnemonic, 0, 0));
+  final wallet = await compute(
+    _createKeyPair,
+    KeyPairParams(mnemonic: mnemonic, account: 0, change: 0),
+  );
 
   return LocalWallet(wallet);
 }
@@ -15,7 +18,7 @@ Future<Ed25519HDKeyPair> _createKeyPair(KeyPairParams params) =>
 
 @immutable
 class KeyPairParams {
-  const KeyPairParams(this.mnemonic, this.account, this.change);
+  const KeyPairParams({required this.mnemonic, required this.account, required this.change});
 
   final String mnemonic;
   final int account;

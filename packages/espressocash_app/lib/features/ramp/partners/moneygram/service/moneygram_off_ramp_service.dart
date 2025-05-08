@@ -39,20 +39,31 @@ import '../data/moneygram_client.dart';
 
 @Singleton(scope: authScope)
 class MoneygramOffRampOrderService implements Disposable {
-  MoneygramOffRampOrderService(
-    this._ecWallet,
-    this._ecClient,
-    this._sender,
-    this._db,
-    this._stellarWallet,
-    this._stellarClient,
-    this._moneygramClient,
-    this._allbridgeApiClient,
-    this._solanaClient,
-    this._txConfirm,
-    this._refreshBalance,
-    this._analytics,
-  );
+  MoneygramOffRampOrderService({
+    required ECWallet ecWallet,
+    required EspressoCashClient ecClient,
+    required TxSender sender,
+    required MyDatabase db,
+    required StellarWallet stellarWallet,
+    required StellarClient stellarClient,
+    required MoneygramApiClient moneygramClient,
+    required AllbridgeApiClient allbridgeApiClient,
+    required SolanaClient solanaClient,
+    required TxConfirm txConfirm,
+    required RefreshBalance refreshBalance,
+    required AnalyticsManager analytics,
+  }) : _ecWallet = ecWallet,
+       _ecClient = ecClient,
+       _sender = sender,
+       _db = db,
+       _stellarWallet = stellarWallet,
+       _stellarClient = stellarClient,
+       _moneygramClient = moneygramClient,
+       _allbridgeApiClient = allbridgeApiClient,
+       _solanaClient = solanaClient,
+       _txConfirm = txConfirm,
+       _refreshBalance = refreshBalance,
+       _analytics = analytics;
 
   final MyDatabase _db;
   final TxSender _sender;

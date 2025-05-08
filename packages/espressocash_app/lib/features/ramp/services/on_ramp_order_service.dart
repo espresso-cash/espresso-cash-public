@@ -39,7 +39,13 @@ typedef AdditionalDetails = ({FiatAmount? fee, String? referenceNumber, String? 
 
 @Singleton(scope: authScope)
 class OnRampOrderService implements Disposable {
-  OnRampOrderService(this._db, this._tokenRepository, this._analytics);
+  OnRampOrderService({
+    required MyDatabase db,
+    required TokenRepository tokenRepository,
+    required AnalyticsManager analytics,
+  }) : _db = db,
+       _tokenRepository = tokenRepository,
+       _analytics = analytics;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 

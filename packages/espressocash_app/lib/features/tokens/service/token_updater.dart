@@ -5,20 +5,19 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../data/file_manager.dart';
 import '../../accounts/auth_scope.dart';
 import '../data/token_repository.dart';
 
 @Singleton(scope: authScope)
 class TokenUpdater {
-  const TokenUpdater(
-    this.fileManager,
-    this._ecClient,
-    this._tokenRepository,
-    this._tokensMetaStorage,
-  );
+  const TokenUpdater({
+    required EspressoCashClient ecClient,
+    required TokenRepository tokenRepository,
+    required TokensMetaStorage tokensMetaStorage,
+  }) : _ecClient = ecClient,
+       _tokenRepository = tokenRepository,
+       _tokensMetaStorage = tokensMetaStorage;
 
-  final FileManager fileManager;
   final EspressoCashClient _ecClient;
   final TokenRepository _tokenRepository;
   final TokensMetaStorage _tokensMetaStorage;

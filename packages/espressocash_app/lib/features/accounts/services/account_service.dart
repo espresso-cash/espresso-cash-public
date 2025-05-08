@@ -13,7 +13,13 @@ import '../models/mnemonic.dart';
 
 @Singleton()
 class AccountService extends ChangeNotifier implements ValueListenable<MyAccount?> {
-  AccountService(this._repository, this._analyticsManager, this._storage);
+  AccountService({
+    required AccountRepository repository,
+    required AnalyticsManager analyticsManager,
+    required FlutterSecureStorage storage,
+  }) : _repository = repository,
+       _analyticsManager = analyticsManager,
+       _storage = storage;
 
   final AccountRepository _repository;
   final AnalyticsManager _analyticsManager;

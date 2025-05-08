@@ -18,8 +18,15 @@ import '../models/outgoing_link_payment.dart';
 
 @Singleton(scope: authScope)
 class TxReadyWatcher implements Disposable {
-  TxReadyWatcher(this._client, this._repository, this._refreshBalance, {required MyAccount account})
-    : _userPublicKey = account.publicKey;
+  TxReadyWatcher({
+    required SolanaClient client,
+    required OLPRepository repository,
+    required RefreshBalance refreshBalance,
+    required MyAccount account,
+  }) : _client = client,
+       _repository = repository,
+       _refreshBalance = refreshBalance,
+       _userPublicKey = account.publicKey;
 
   final SolanaClient _client;
   final OLPRepository _repository;

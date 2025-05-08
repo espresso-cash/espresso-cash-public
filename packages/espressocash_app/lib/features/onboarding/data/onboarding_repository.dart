@@ -8,7 +8,13 @@ import '../../profile/data/profile_repository.dart';
 
 @Singleton(scope: authScope)
 class OnboardingRepository extends ChangeNotifier {
-  OnboardingRepository(this._storage, this._profileRepository, this._account) {
+  OnboardingRepository({
+    required SharedPreferences storage,
+    required ProfileRepository profileRepository,
+    required MyAccount account,
+  }) : _storage = storage,
+       _profileRepository = profileRepository,
+       _account = account {
     _profileRepository.addListener(_handleProfileUpdated);
   }
 

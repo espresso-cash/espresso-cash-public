@@ -10,12 +10,15 @@ import '../data/profile_repository.dart';
 
 @injectable
 class UpdateProfile {
-  const UpdateProfile(
-    this._client,
-    this._profileRepository,
-    this._pendingKycService,
-    this._analyticsManager,
-  );
+  const UpdateProfile({
+    required EspressoCashClient client,
+    required ProfileRepository profileRepository,
+    required PendingKycService pendingKycService,
+    required AnalyticsManager analyticsManager,
+  }) : _client = client,
+       _profileRepository = profileRepository,
+       _pendingKycService = pendingKycService,
+       _analyticsManager = analyticsManager;
 
   final EspressoCashClient _client;
   final ProfileRepository _profileRepository;

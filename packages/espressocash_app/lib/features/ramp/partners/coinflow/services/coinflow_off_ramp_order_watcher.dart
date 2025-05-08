@@ -18,7 +18,15 @@ import '../data/coinflow_api_client.dart';
 
 @injectable
 class CoinflowOffRampOrderWatcher implements RampWatcher {
-  CoinflowOffRampOrderWatcher(this._db, this._client, this._account, this._analytics);
+  CoinflowOffRampOrderWatcher({
+    required MyDatabase db,
+    required CoinflowClient client,
+    required ECWallet account,
+    required AnalyticsManager analytics,
+  }) : _db = db,
+       _client = client,
+       _account = account,
+       _analytics = analytics;
 
   final MyDatabase _db;
   final CoinflowClient _client;

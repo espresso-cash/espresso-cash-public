@@ -27,12 +27,16 @@ typedef BalancesState = ProcessingState;
 
 @Singleton(scope: authScope)
 class BalancesBloc extends Bloc<BalancesEvent, BalancesState> with DisposableBloc {
-  BalancesBloc(
-    this._solanaClient,
-    this._tokenRepository,
-    this._tokensBalanceRepository,
-    this._analyticsManager,
-  ) : super(const ProcessingStateNone()) {
+  BalancesBloc({
+    required SolanaClient solanaClient,
+    required TokenRepository tokenRepository,
+    required TokenBalancesRepository tokensBalanceRepository,
+    required AnalyticsManager analyticsManager,
+  }) : _solanaClient = solanaClient,
+       _tokenRepository = tokenRepository,
+       _tokensBalanceRepository = tokensBalanceRepository,
+       _analyticsManager = analyticsManager,
+       super(const ProcessingStateNone()) {
     on<BalancesEventRequested>(_handleRequested, transformer: droppable());
   }
 
@@ -59,9 +63,9 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> with DisposableBlo
                   (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
                     account:
                         (a) => _MainTokenAccount.create(
-                          programAccount.pubkey,
-                          a.info,
-                          _tokenRepository,
+                          pubKey: programAccount.pubkey,
+                          info: a.info,
+                          tokenRepository: _tokenRepository,
                         ),
                     orElse: () async => null,
                   ),
@@ -105,11 +109,11 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> with DisposableBlo
 class _MainTokenAccount {
   const _MainTokenAccount._(this.pubKey, this.info, this.token);
 
-  static Future<_MainTokenAccount?> create(
-    String pubKey,
-    SplTokenAccountDataInfo info,
-    TokenRepository tokenRepository,
-  ) async {
+  static Future<_MainTokenAccount?> create({
+    required String pubKey,
+    required SplTokenAccountDataInfo info,
+    required TokenRepository tokenRepository,
+  }) async {
     final expectedPubKey = await findAssociatedTokenAddress(
       owner: Ed25519HDPublicKey.fromBase58(info.owner),
       mint: Ed25519HDPublicKey.fromBase58(info.mint),

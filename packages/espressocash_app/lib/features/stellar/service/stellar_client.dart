@@ -7,7 +7,15 @@ import '../models/stellar_wallet.dart';
 
 @LazySingleton(scope: authScope)
 class StellarClient {
-  const StellarClient(this._ecClient, this._stellarWallet, this._sdk, this._sorobanClient);
+  const StellarClient({
+    required EspressoCashClient ecClient,
+    required StellarWallet stellarWallet,
+    required StellarSDK sdk,
+    required SorobanServer sorobanClient,
+  }) : _ecClient = ecClient,
+       _stellarWallet = stellarWallet,
+       _sdk = sdk,
+       _sorobanClient = sorobanClient;
 
   final StellarSDK _sdk;
   final SorobanServer _sorobanClient;

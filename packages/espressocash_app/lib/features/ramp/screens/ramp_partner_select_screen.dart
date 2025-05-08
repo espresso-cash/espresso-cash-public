@@ -64,15 +64,21 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
     }
   }
 
-  void _handleCountryChange(Country country) => runWithLoader(context, () async {
-    await sl<UpdateProfile>().call(countryCode: country.code).foldAsync((e) => throw e, ignore);
+  void _handleCountryChange(Country country) => runWithLoader(
+    context,
+    () async {
+      await sl<UpdateProfile>().call(countryCode: country.code).foldAsync((e) => throw e, ignore);
 
-    if (!mounted) return;
+      if (!mounted) return;
 
-    setState(() {
-      _country = country;
-    });
-  }, onError: (error) => showErrorDialog(context, context.l10n.lblProfileUpdateFailed, error));
+      setState(() {
+        _country = country;
+      });
+    },
+    onError:
+        (error) =>
+            showErrorDialog(context: context, title: context.l10n.lblProfileUpdateFailed, e: error),
+  );
 
   @override
   Widget build(BuildContext context) => CpTheme.black(

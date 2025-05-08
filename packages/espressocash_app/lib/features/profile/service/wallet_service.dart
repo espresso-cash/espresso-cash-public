@@ -8,12 +8,15 @@ import '../data/profile_repository.dart';
 
 @Singleton(scope: authScope)
 class WalletService {
-  const WalletService(
-    this._sharedPreferences,
-    this._profileRepository,
-    this._ecClient,
-    this._analyticsManager,
-  );
+  const WalletService({
+    required SharedPreferences sharedPreferences,
+    required ProfileRepository profileRepository,
+    required EspressoCashClient ecClient,
+    required AnalyticsManager analyticsManager,
+  }) : _sharedPreferences = sharedPreferences,
+       _profileRepository = profileRepository,
+       _ecClient = ecClient,
+       _analyticsManager = analyticsManager;
 
   final EspressoCashClient _ecClient;
   final SharedPreferences _sharedPreferences;

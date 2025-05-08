@@ -55,7 +55,7 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
         (context, state) => switch (state.processingState) {
           FlowFailure(:final error) => error.when(
             seedVaultActionCanceled: ignore,
-            generic: (e) => showErrorDialog(context, 'Error', e),
+            generic: (e) => showErrorDialog(context: context, title: 'Error', e: e),
           ),
           FlowSuccess(:final result) => runWithLoader(
             context,

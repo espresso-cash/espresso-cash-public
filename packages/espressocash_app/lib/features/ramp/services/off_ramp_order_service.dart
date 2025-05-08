@@ -54,14 +54,19 @@ typedef OffRampOrder =
 
 @Singleton(scope: authScope)
 class OffRampOrderService implements Disposable {
-  OffRampOrderService(
-    this._account,
-    this._client,
-    this._sender,
-    this._db,
-    this._tokenRepository,
-    this._analytics,
-  );
+  OffRampOrderService({
+    required ECWallet account,
+    required EspressoCashClient client,
+    required TxSender sender,
+    required MyDatabase db,
+    required TokenRepository tokenRepository,
+    required AnalyticsManager analytics,
+  }) : _account = account,
+       _client = client,
+       _sender = sender,
+       _db = db,
+       _tokenRepository = tokenRepository,
+       _analytics = analytics;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   final Map<String, RampWatcher?> _watchers = {};

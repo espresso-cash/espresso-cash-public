@@ -23,17 +23,26 @@ import '../models/recovery_state.dart';
 
 @Singleton(scope: authScope)
 class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
-  StellarRecoveryService(
-    this._ecWallet,
-    this._stellarWallet,
-    this._stellarClient,
-    this._ecClient,
-    this._account,
-    this._storage,
-    this._allbridgeApiClient,
-    this._txConfirm,
-    this._refreshBalance,
-  ) : super(const StellarRecoveryState.none()) {
+  StellarRecoveryService({
+    required ECWallet ecWallet,
+    required StellarWallet stellarWallet,
+    required StellarClient stellarClient,
+    required EspressoCashClient ecClient,
+    required MyAccount account,
+    required SharedPreferences storage,
+    required AllbridgeApiClient allbridgeApiClient,
+    required TxConfirm txConfirm,
+    required RefreshBalance refreshBalance,
+  }) : _ecWallet = ecWallet,
+       _stellarWallet = stellarWallet,
+       _stellarClient = stellarClient,
+       _ecClient = ecClient,
+       _account = account,
+       _storage = storage,
+       _allbridgeApiClient = allbridgeApiClient,
+       _txConfirm = txConfirm,
+       _refreshBalance = refreshBalance,
+       super(const StellarRecoveryState.none()) {
     addListener(_updateStorage);
   }
 

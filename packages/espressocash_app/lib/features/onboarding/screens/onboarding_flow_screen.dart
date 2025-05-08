@@ -56,9 +56,14 @@ Future<void> _openCountryPicker({
   );
 }
 
-Future<void> _updateCountry(Country country, BuildContext context) =>
-    runWithLoader(context, () async {
-      await sl<UpdateProfile>().call(countryCode: country.code).foldAsync((e) => throw e, ignore);
+Future<void> _updateCountry(Country country, BuildContext context) => runWithLoader(
+  context,
+  () async {
+    await sl<UpdateProfile>().call(countryCode: country.code).foldAsync((e) => throw e, ignore);
 
-      if (!context.mounted) return;
-    }, onError: (error) => showErrorDialog(context, context.l10n.lblProfileUpdateFailed, error));
+    if (!context.mounted) return;
+  },
+  onError:
+      (error) =>
+          showErrorDialog(context: context, title: context.l10n.lblProfileUpdateFailed, e: error),
+);

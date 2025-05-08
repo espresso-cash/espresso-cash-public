@@ -22,7 +22,15 @@ import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
 class BrijOnRampOrderService implements Disposable {
-  BrijOnRampOrderService(this._db, this._kycRepository, this._ecWallet, this._analytics);
+  BrijOnRampOrderService({
+    required MyDatabase db,
+    required KycRepository kycRepository,
+    required ECWallet ecWallet,
+    required AnalyticsManager analytics,
+  }) : _db = db,
+       _kycRepository = kycRepository,
+       _ecWallet = ecWallet,
+       _analytics = analytics;
 
   final MyDatabase _db;
   final KycRepository _kycRepository;

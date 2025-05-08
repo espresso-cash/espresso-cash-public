@@ -21,13 +21,17 @@ import '../models/payment_request.dart';
 
 @Singleton(scope: authScope)
 class PaymentRequestService implements Disposable {
-  PaymentRequestService(
-    this._repository,
-    this._solanaClient,
-    this._analyticsManager,
-    this._refreshBalance,
-    this._ecClient,
-  );
+  PaymentRequestService({
+    required PaymentRequestRepository repository,
+    required SolanaClient solanaClient,
+    required AnalyticsManager analyticsManager,
+    required RefreshBalance refreshBalance,
+    required EspressoCashClient ecClient,
+  }) : _repository = repository,
+       _solanaClient = solanaClient,
+       _analyticsManager = analyticsManager,
+       _refreshBalance = refreshBalance,
+       _ecClient = ecClient;
 
   final PaymentRequestRepository _repository;
   final SolanaClient _solanaClient;

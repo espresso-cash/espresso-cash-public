@@ -22,7 +22,13 @@ typedef TransactionUpdateResult = ({List<TxCommon> txs, bool hasGap});
 
 @Singleton(scope: authScope)
 class TxUpdater implements Disposable {
-  TxUpdater(this._client, this._wallet, this._repo);
+  TxUpdater({
+    required SolanaClient client,
+    required ECWallet wallet,
+    required TransactionRepository repo,
+  }) : _client = client,
+       _wallet = wallet,
+       _repo = repo;
 
   final SolanaClient _client;
   final ECWallet _wallet;
