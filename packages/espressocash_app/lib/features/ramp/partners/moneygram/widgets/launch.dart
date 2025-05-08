@@ -294,7 +294,7 @@ window.addEventListener("message", (event) => {
     return Either.right(
       receiveAmount.currency != currency
           ? receiveAmount.convert(rate: rate, to: currency)
-          : fees.receiveAmount,
+          : receiveAmount,
     );
   }
 

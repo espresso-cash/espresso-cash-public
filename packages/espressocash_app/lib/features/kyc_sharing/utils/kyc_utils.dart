@@ -12,8 +12,8 @@ extension UserDataExtensions on UserData {
   DateTime? get dob => birthDate?.value;
   String? get citizenshipCode => citizenship?.value.nullIfEmpty;
 
-  String? get getEmail => email?.value.nullIfEmpty;
-  String? get getPhone => phone?.value.nullIfEmpty;
+  String? get emailOrNull => email?.value.nullIfEmpty;
+  String? get phoneOrNull => phone?.value.nullIfEmpty;
 
   Uint8List? get photo => selfie?.value.let(Uint8List.fromList);
 

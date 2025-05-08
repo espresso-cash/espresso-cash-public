@@ -9,17 +9,17 @@ class CpDobTextField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.placeholder,
-    this.readonly = false,
+    this.isReadonly = false,
   });
 
   final TextEditingController controller;
   final String placeholder;
-  final bool readonly;
+  final bool isReadonly;
 
   @override
   Widget build(BuildContext context) => CpTextField(
     padding: const EdgeInsets.only(top: 18, bottom: 16, left: 26, right: 26),
-    isReadOnly: readonly,
+    isReadOnly: isReadonly,
     inputFormatters: [
       FilteringTextInputFormatter.allow(RegExp('[0-9-/]')),
       LengthLimitingTextInputFormatter(10),

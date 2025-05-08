@@ -60,6 +60,7 @@ dart_code_metrics:
         ignored-names:
           - e
           - i
+          - value
 
   rules-exclude:
     - "**/*.gr.dart"

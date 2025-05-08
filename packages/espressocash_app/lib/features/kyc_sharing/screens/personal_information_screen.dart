@@ -150,7 +150,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
       CpDobTextField(
         controller: _dobController,
         placeholder: context.l10n.dateOfBirth,
-        readonly: _readOnly,
+        isReadonly: _readOnly,
       ),
       const SizedBox(height: 10),
       CountryPicker(

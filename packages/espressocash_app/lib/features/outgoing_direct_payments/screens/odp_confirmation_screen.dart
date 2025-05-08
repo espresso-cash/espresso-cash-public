@@ -103,9 +103,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
                 content: BorderedRowChip(
                   backgroundColor: Colors.black,
                   child: Text(
-                    '${substring(address, 0, 4)}'
-                    '\u2026'
-                    '${substring(address, address.length - 4)}',
+                    '${substring(address, 0, 4)}\u2026${substring(address, address.length - 4)}',
                   ),
                 ),
                 dividerColor: CpColors.darkDividerColor,

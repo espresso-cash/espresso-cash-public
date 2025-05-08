@@ -62,7 +62,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
     title: context.l10n.emailVerification.toUpperCase(),
     children: [
       Text(
-        context.l10n.checkEmailText(sl<KycSharingService>().value?.getEmail ?? ''),
+        context.l10n.checkEmailText(sl<KycSharingService>().value?.emailOrNull ?? ''),
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 16, height: 21 / 16, letterSpacing: .19),
       ),

@@ -49,7 +49,7 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
     showModalBottomSheet<void>(
       context: context,
       builder:
-          (BuildContext bc) => ColoredBox(
+          (BuildContext context) => ColoredBox(
             color: Colors.white,
             child: SafeArea(
               child: Column(
