@@ -53,7 +53,6 @@ class KycRepository extends ChangeNotifier {
   );
 
   Future<UserData> _getUserData({required bool includeValues}) => _kycUserClient.getUserData(
-    userPK: _kycUserClient.authPublicKey,
     secretKey: _kycUserClient.rawSecretKey,
     includeValues: includeValues,
   );
