@@ -49,7 +49,7 @@ class TxSender {
       return switch (error.transactionError) {
         TransactionError.alreadyProcessed => const TxSendResult.sent(),
         TransactionError.blockhashNotFound => checkSubmittedTx(tx.id),
-        // ignore: no_default_cases, not interested in other options
+        // ignore: avoid-wildcard-cases-with-enums, not interested in other options,
         _ => const TxSendResult.failure(reason: TxFailureReason.txError),
       };
     } on Exception {

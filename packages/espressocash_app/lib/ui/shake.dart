@@ -18,10 +18,11 @@ class ShakeState extends State<Shake> with SingleTickerProviderStateMixin {
   );
 
   // ignore: prefer-widget-private-members, used for controlling the animation
-  void shake() =>
-      _controller
-        ..reset()
-        ..forward();
+  void shake() {
+    _controller
+      ..reset()
+      ..forward();
+  }
 
   @override
   void dispose() {

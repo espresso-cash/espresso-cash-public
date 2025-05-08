@@ -50,7 +50,7 @@ class TxUpdater implements Disposable {
       final allTxs = [...usdcTxs.txs, ...nonUsdcTxs.txs];
 
       if (allTxs.isNotEmpty) {
-        await _repo.saveAll(allTxs, clear: usdcTxs.hasGap || nonUsdcTxs.hasGap);
+        await _repo.saveAll(allTxs, shouldClear: usdcTxs.hasGap || nonUsdcTxs.hasGap);
       }
     } on Exception catch (exception) {
       reportError(exception);

@@ -81,14 +81,14 @@ extension BuildContextExt on BuildContext {
 
     if (response == null) return;
 
-    final confirmationResult = await TRConfirmationScreen.push(
+    final isConfirmed = await TRConfirmationScreen.push(
       this,
       request: response.info,
       amount: response.amount,
       message: response.message,
     );
 
-    if (confirmationResult == true) {
+    if (isConfirmed == true) {
       final id = await _createTR(
         tx: response.tx,
         amount: response.amount,
