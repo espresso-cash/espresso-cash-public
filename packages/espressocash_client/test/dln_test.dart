@@ -10,7 +10,8 @@ void main() {
 
   setUp(() async {
     keyPair = await Ed25519HDKeyPair.random();
-    client = await createClient(keyPair: keyPair, local: true);
+    client = await createClient(keyPair: keyPair, local: false);
+    await client.login();
   });
 
   tearDown(() async {

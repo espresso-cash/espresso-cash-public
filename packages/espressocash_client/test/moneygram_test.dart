@@ -13,6 +13,7 @@ void main() {
   setUp(() async {
     solanaKeyPair = await Ed25519HDKeyPair.random();
     client = await createClient(keyPair: solanaKeyPair);
+    await client.login();
   });
 
   tearDown(() async {
