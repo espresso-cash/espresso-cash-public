@@ -49,7 +49,11 @@ class Metadata {
       throw HttpException(response.statusCode, response.body);
     }
 
-    return OffChainMetadata.fromJson(json.decode(response.body) as Map<String, dynamic>);
+    if (json.decode(response.body) case final Map<String, dynamic> json) {
+      return OffChainMetadata.fromJson(json);
+    }
+
+    return null;
   }
 
   final String name;
