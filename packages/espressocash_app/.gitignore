@@ -133,3 +133,5 @@ test/generated/
 prod.json
 
 lib/l10n/gen/
+
+.cxx

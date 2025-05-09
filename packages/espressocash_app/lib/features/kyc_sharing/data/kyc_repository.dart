@@ -53,7 +53,6 @@ class KycRepository extends ChangeNotifier {
   );
 
   Future<UserData> _getUserData({required bool includeValues}) => _kycUserClient.getUserData(
-    userPK: _kycUserClient.authPublicKey,
     secretKey: _kycUserClient.rawSecretKey,
     includeValues: includeValues,
   );
@@ -115,6 +114,7 @@ class KycRepository extends ChangeNotifier {
     required String fiatCurrency,
     required String partnerPK,
     required String cryptoWalletAddress,
+    required String walletPK,
   }) => _initWrapper(
     () => _kycUserClient.createOnRampOrder(
       partnerPK: partnerPK,
@@ -123,6 +123,7 @@ class KycRepository extends ChangeNotifier {
       fiatAmount: fiatAmount,
       fiatCurrency: fiatCurrency,
       cryptoWalletAddress: cryptoWalletAddress,
+      walletPK: walletPK,
     ),
   );
 
@@ -135,6 +136,7 @@ class KycRepository extends ChangeNotifier {
     required String partnerPK,
     required String bankName,
     required String bankAccount,
+    required String walletPK,
   }) => _initWrapper(
     () => _kycUserClient.createOffRampOrder(
       partnerPK: partnerPK,
@@ -145,6 +147,7 @@ class KycRepository extends ChangeNotifier {
       fiatCurrency: fiatCurrency,
       bankName: bankName,
       bankAccount: bankAccount,
+      walletPK: walletPK,
     ),
   );
 
@@ -170,4 +173,22 @@ class KycRepository extends ChangeNotifier {
 
   Future<KycRequirement> getKycRequirements({required String country}) =>
       _initWrapper(() => _kycUserClient.getKycRequirements(country: country));
+
+  Future<Quote> getQuote({
+    required String partnerPK,
+    required String walletPK,
+    required String fiatCurrency,
+    required double cryptoAmount,
+    required RampType rampType,
+  }) => _initWrapper(
+    () => _kycUserClient.getQuote(
+      fiatCurrency: fiatCurrency,
+      cryptoAmount: cryptoAmount,
+      partnerPK: partnerPK,
+      walletPK: walletPK,
+      rampType: rampType,
+    ),
+  );
 }
+
+const walletAuthPk = '3GEEuaKKs6wrmi8Z8GEafmEC524Tx6wvFHfCp36tTQut';

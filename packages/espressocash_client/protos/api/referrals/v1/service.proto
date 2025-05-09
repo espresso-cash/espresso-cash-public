@@ -1,0 +1,30 @@
+syntax = 'proto3';
+
+package espressocash.api.referrals.v1;
+
+option go_package = 'espressocash.com/api/referrals';
+
+service ReferralService {
+  rpc AddReferral(AddReferralRequest) returns (AddReferralResponse);
+  rpc GetStats(GetStatsRequest) returns (GetStatsResponse);
+  rpc Verify(VerifyRequest) returns (VerifyResponse);
+}
+
+message AddReferralRequest {
+  string ambassador_address = 1;
+}
+
+message AddReferralResponse {}
+
+message GetStatsRequest {}
+
+message GetStatsResponse {
+  int32 referral_count = 1;
+}
+
+message VerifyRequest {}
+
+message VerifyResponse {
+  bool is_ambassador = 1;
+  bool is_referral = 2;
+}

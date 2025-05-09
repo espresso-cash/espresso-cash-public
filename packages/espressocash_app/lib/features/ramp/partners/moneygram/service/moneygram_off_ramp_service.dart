@@ -385,8 +385,7 @@ class MoneygramOffRampOrderService implements Disposable {
       final status = send.maybeMap(
         failure:
             (reason) => switch (reason.reason) {
-              TxFailureReason.insufficientFunds ||
-              TxFailureReason.txError => OffRampOrderStatus.insufficientFunds,
+              TxFailureReason.insufficientFunds => OffRampOrderStatus.insufficientFunds,
               // ignore: avoid-wildcard-cases-with-enums, check if needed
               _ => OffRampOrderStatus.depositError,
             },
