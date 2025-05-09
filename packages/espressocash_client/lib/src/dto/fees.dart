@@ -7,6 +7,7 @@ class DirectPaymentQuoteRequestDto with _$DirectPaymentQuoteRequestDto {
   const factory DirectPaymentQuoteRequestDto({
     required String receiverAccount,
     required int amount,
+    required String mintAddress,
   }) = _DirectPaymentQuoteRequestDto;
 }
 

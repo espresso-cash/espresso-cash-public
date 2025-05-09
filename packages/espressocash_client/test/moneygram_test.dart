@@ -2,29 +2,18 @@ import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
-const baseUrl = 'localhost';
-const port = 8080;
+import 'utils.dart';
+
+const stellarAddress = 'GBBNXUPR3X7Z63FLLSHN3OV3TDSEGVZC2BVO6AMDPD5HFB5QIGXZVC6Z';
 
 void main() {
   late EspressoCashClient client;
   late Ed25519HDKeyPair solanaKeyPair;
 
-  const stellarAddress = 'GBBNXUPR3X7Z63FLLSHN3OV3TDSEGVZC2BVO6AMDPD5HFB5QIGXZVC6Z';
-
   setUp(() async {
     solanaKeyPair = await Ed25519HDKeyPair.random();
-
-    client = await EspressoCashClient.create(
-      baseUrl: baseUrl,
-      port: port,
-      sign: (message) async {
-        final signedMessage = await solanaKeyPair.sign(message);
-
-        return signedMessage.toBase58();
-      },
-      walletAddress: solanaKeyPair.address,
-      secure: false,
-    );
+    client = await createClient(keyPair: solanaKeyPair);
+    await client.login();
   });
 
   tearDown(() async {

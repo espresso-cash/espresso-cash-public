@@ -53,13 +53,15 @@ const GetDirectPaymentQuoteRequest$json = {
   '2': [
     {'1': 'receiver_account', '3': 1, '4': 1, '5': 9, '10': 'receiverAccount'},
     {'1': 'amount', '3': 2, '4': 1, '5': 4, '10': 'amount'},
+    {'1': 'mint', '3': 3, '4': 1, '5': 9, '10': 'mint'},
   ],
 };
 
 /// Descriptor for `GetDirectPaymentQuoteRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getDirectPaymentQuoteRequestDescriptor = $convert
     .base64Decode('ChxHZXREaXJlY3RQYXltZW50UXVvdGVSZXF1ZXN0EikKEHJlY2VpdmVyX2FjY291bnQYASABKA'
-        'lSD3JlY2VpdmVyQWNjb3VudBIWCgZhbW91bnQYAiABKARSBmFtb3VudA==');
+        'lSD3JlY2VpdmVyQWNjb3VudBIWCgZhbW91bnQYAiABKARSBmFtb3VudBISCgRtaW50GAMgASgJ'
+        'UgRtaW50');
 
 @$core.Deprecated('Use getDirectPaymentQuoteResponseDescriptor instead')
 const GetDirectPaymentQuoteResponse$json = {

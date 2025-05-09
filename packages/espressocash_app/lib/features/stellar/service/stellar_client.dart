@@ -9,10 +9,10 @@ import '../models/stellar_wallet.dart';
 class StellarClient {
   const StellarClient(this._ecClient, this._stellarWallet, this._sdk, this._sorobanClient);
 
+  final EspressoCashClient _ecClient;
+  final StellarWallet _stellarWallet;
   final StellarSDK _sdk;
   final SorobanServer _sorobanClient;
-  final StellarWallet _stellarWallet;
-  final EspressoCashClient _ecClient;
 
   Future<String> fetchToken() {
     final wallet = _stellarWallet.keyPair;

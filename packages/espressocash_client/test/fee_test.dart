@@ -2,8 +2,7 @@ import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
-const baseUrl = 'localhost';
-const port = 8080;
+import 'utils.dart';
 
 void main() {
   late EspressoCashClient client;
@@ -11,18 +10,8 @@ void main() {
 
   setUp(() async {
     walletKeyPair = await Ed25519HDKeyPair.random();
-
-    client = await EspressoCashClient.create(
-      baseUrl: baseUrl,
-      port: port,
-      sign: (message) async {
-        final signedMessage = await walletKeyPair.sign(message);
-
-        return signedMessage.toBase58();
-      },
-      walletAddress: walletKeyPair.address,
-      secure: false,
-    );
+    client = await createClient(keyPair: walletKeyPair);
+    await client.login();
   });
 
   tearDown(() async {
@@ -34,6 +23,7 @@ void main() {
     final request = DirectPaymentQuoteRequestDto(
       receiverAccount: receiverKeyPair.address,
       amount: 100000,
+      mintAddress: 'So11111111111111111111111111111111111111112',
     );
 
     final response = await client.getDirectPaymentQuote(request);

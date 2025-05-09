@@ -24,7 +24,11 @@ class FeeCalculator {
 
   Future<int> _getDirectPaymentFee(Ed25519HDPublicKey address) => _ecClient
       .getDirectPaymentQuote(
-        DirectPaymentQuoteRequestDto(receiverAccount: address.toBase58(), amount: 0),
+        DirectPaymentQuoteRequestDto(
+          receiverAccount: address.toBase58(),
+          amount: 0,
+          mintAddress: Currency.usdc.token.address,
+        ),
       )
       .then((quote) => quote.fee);
 

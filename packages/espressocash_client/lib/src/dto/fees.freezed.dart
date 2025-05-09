@@ -19,6 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DirectPaymentQuoteRequestDto {
   String get receiverAccount => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
+  String get mintAddress => throw _privateConstructorUsedError;
 
   /// Create a copy of DirectPaymentQuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +35,7 @@ abstract class $DirectPaymentQuoteRequestDtoCopyWith<$Res> {
     $Res Function(DirectPaymentQuoteRequestDto) then,
   ) = _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res, DirectPaymentQuoteRequestDto>;
   @useResult
-  $Res call({String receiverAccount, int amount});
+  $Res call({String receiverAccount, int amount, String mintAddress});
 }
 
 /// @nodoc
@@ -51,7 +52,7 @@ class _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res, $Val extends DirectPaymen
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? receiverAccount = null, Object? amount = null}) {
+  $Res call({Object? receiverAccount = null, Object? amount = null, Object? mintAddress = null}) {
     return _then(
       _value.copyWith(
             receiverAccount:
@@ -64,6 +65,11 @@ class _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res, $Val extends DirectPaymen
                     ? _value.amount
                     : amount // ignore: cast_nullable_to_non_nullable
                         as int,
+            mintAddress:
+                null == mintAddress
+                    ? _value.mintAddress
+                    : mintAddress // ignore: cast_nullable_to_non_nullable
+                        as String,
           )
           as $Val,
     );
@@ -79,7 +85,7 @@ abstract class _$$DirectPaymentQuoteRequestDtoImplCopyWith<$Res>
   ) = __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String receiverAccount, int amount});
+  $Res call({String receiverAccount, int amount, String mintAddress});
 }
 
 /// @nodoc
@@ -95,7 +101,7 @@ class __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? receiverAccount = null, Object? amount = null}) {
+  $Res call({Object? receiverAccount = null, Object? amount = null, Object? mintAddress = null}) {
     return _then(
       _$DirectPaymentQuoteRequestDtoImpl(
         receiverAccount:
@@ -108,6 +114,11 @@ class __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<$Res>
                 ? _value.amount
                 : amount // ignore: cast_nullable_to_non_nullable
                     as int,
+        mintAddress:
+            null == mintAddress
+                ? _value.mintAddress
+                : mintAddress // ignore: cast_nullable_to_non_nullable
+                    as String,
       ),
     );
   }
@@ -116,16 +127,22 @@ class __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DirectPaymentQuoteRequestDtoImpl implements _DirectPaymentQuoteRequestDto {
-  const _$DirectPaymentQuoteRequestDtoImpl({required this.receiverAccount, required this.amount});
+  const _$DirectPaymentQuoteRequestDtoImpl({
+    required this.receiverAccount,
+    required this.amount,
+    required this.mintAddress,
+  });
 
   @override
   final String receiverAccount;
   @override
   final int amount;
+  @override
+  final String mintAddress;
 
   @override
   String toString() {
-    return 'DirectPaymentQuoteRequestDto(receiverAccount: $receiverAccount, amount: $amount)';
+    return 'DirectPaymentQuoteRequestDto(receiverAccount: $receiverAccount, amount: $amount, mintAddress: $mintAddress)';
   }
 
   @override
@@ -135,11 +152,12 @@ class _$DirectPaymentQuoteRequestDtoImpl implements _DirectPaymentQuoteRequestDt
             other is _$DirectPaymentQuoteRequestDtoImpl &&
             (identical(other.receiverAccount, receiverAccount) ||
                 other.receiverAccount == receiverAccount) &&
-            (identical(other.amount, amount) || other.amount == amount));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.mintAddress, mintAddress) || other.mintAddress == mintAddress));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, receiverAccount, amount);
+  int get hashCode => Object.hash(runtimeType, receiverAccount, amount, mintAddress);
 
   /// Create a copy of DirectPaymentQuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -157,12 +175,15 @@ abstract class _DirectPaymentQuoteRequestDto implements DirectPaymentQuoteReques
   const factory _DirectPaymentQuoteRequestDto({
     required final String receiverAccount,
     required final int amount,
+    required final String mintAddress,
   }) = _$DirectPaymentQuoteRequestDtoImpl;
 
   @override
   String get receiverAccount;
   @override
   int get amount;
+  @override
+  String get mintAddress;
 
   /// Create a copy of DirectPaymentQuoteRequestDto
   /// with the given fields replaced by the non-null parameter values.

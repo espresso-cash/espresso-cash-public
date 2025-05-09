@@ -2,8 +2,7 @@ import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
-const baseUrl = 'grpc-demo.espressocash.com';
-const port = 443;
+import 'utils.dart';
 
 void main() {
   late EspressoCashClient client;
@@ -11,18 +10,9 @@ void main() {
 
   setUp(() async {
     keyPair = await Ed25519HDKeyPair.random();
+    client = await createClient(local: false, keyPair: keyPair);
 
-    client = await EspressoCashClient.create(
-      baseUrl: baseUrl,
-      port: port,
-      sign: (message) async {
-        final signedMessage = await keyPair.sign(message);
-
-        return signedMessage.toBase58();
-      },
-      walletAddress: keyPair.address,
-      secure: true,
-    );
+    await client.login();
   });
 
   tearDown(() async {
@@ -58,5 +48,11 @@ void main() {
     final result = await client.expandLink(const UnshortenLinkRequestDto(shortLink: shortLink));
 
     expect(result.fullLink, isA<String>());
+  });
+
+  test('fetches fiat rate', skip: true, () async {
+    final result = await client.fetchFiatRate(const FiatRateRequestDto(base: 'USD', target: 'EUR'));
+
+    expect(result.rate, isA<double>());
   });
 }

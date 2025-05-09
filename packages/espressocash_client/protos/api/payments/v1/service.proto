@@ -31,6 +31,7 @@ message CreateDirectPaymentResponse {
 message GetDirectPaymentQuoteRequest {
   string receiver_account = 1;
   uint64 amount = 2;
+  string mint = 3;
 }
 
 message GetDirectPaymentQuoteResponse {

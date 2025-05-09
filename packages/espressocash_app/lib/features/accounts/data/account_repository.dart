@@ -16,6 +16,10 @@ class AccountRepository {
 
   Future<String> loadMnemonic() => _storage.read(key: mnemonicKey).letAsync((it) => it ?? '');
 
+  Future<void> saveAuthToken(String token) => _storage.write(key: authTokenKey, value: token);
+
+  Future<String?> loadAuthToken() => _storage.read(key: authTokenKey);
+
   Future<void> saveAccountSource(AccountSource source) =>
       source.when(local: (it) => _storage.write(key: mnemonicKey, value: it.phrase));
 
