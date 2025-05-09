@@ -1265,5 +1265,9 @@
     "personalInformationTitle": "Personal Information",
     "@personalInformationTitle": {},
     "countryOfCitizenship": "Country of Citizenship",
-    "@countryOfCitizenship": {}
+    "@countryOfCitizenship": {},
+    "deleteAllData": "Delete All Data",
+    "@deleteAllData": {},
+    "networkPartners": "Network Partners",
+    "@networkPartners": {}
 }

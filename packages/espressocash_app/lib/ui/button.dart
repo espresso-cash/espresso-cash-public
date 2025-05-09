@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'colors.dart';
 
-enum CpButtonVariant { secondary, dark, light, inverted, black, muted, grey }
+enum CpButtonVariant { secondary, dark, light, inverted, black, muted, grey, danger }
 
 enum CpButtonSize { normal, big, small, micro, wide }
 
@@ -49,6 +49,8 @@ class CpButton extends StatelessWidget {
         return CpColors.blackGreyColor;
       case CpButtonVariant.muted:
         return const Color(0xff97875A);
+      case CpButtonVariant.danger:
+        return CpColors.dangerButtonBackground;
     }
   }
 
@@ -64,6 +66,8 @@ class CpButton extends StatelessWidget {
         return CpColors.primaryTextColor;
       case CpButtonVariant.grey:
         return Colors.white;
+      case CpButtonVariant.danger:
+        return CpColors.dangerButtonTextColor;
     }
   }
 

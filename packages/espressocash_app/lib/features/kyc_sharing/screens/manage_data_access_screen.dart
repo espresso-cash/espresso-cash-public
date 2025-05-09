@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
+import '../../../ui/bottom_button.dart';
+import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
-import '../widgets/kyc_button.dart';
 
 class ManageDataAccessScreen extends StatelessWidget {
   const ManageDataAccessScreen({super.key});
@@ -16,7 +18,7 @@ class ManageDataAccessScreen extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.dark(
     child: Scaffold(
       backgroundColor: CpColors.blackGreyColor,
-      appBar: CpAppBar(title: Text('Manage Data Access'.toUpperCase())),
+      appBar: CpAppBar(title: Text(context.l10n.manageDataAccess.toUpperCase())),
       body: const _Content(),
     ),
   );
@@ -38,22 +40,14 @@ class _Content extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text('Network partners'.toUpperCase()),
+          child: Text(context.l10n.networkPartners.toUpperCase()),
         ),
         const Spacer(),
-        ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(30)),
-          child: Material(
-            color: CpColors.blackGreyColor,
-            child: KycButton(
-              label: 'Delete All Data',
-              onPressed: () {},
-              textColor: CpColors.dangerButtonTextColor,
-              backgroundColor: CpColors.dangerButtonBackground,
-              showIcon: false,
-              centerText: true,
-            ),
-          ),
+        CpBottomButton(
+          horizontalPadding: 0,
+          text: context.l10n.deleteAllData,
+          onPressed: () {},
+          variant: CpButtonVariant.danger,
         ),
       ],
     ),
