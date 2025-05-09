@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
+import '../data/kyc_repository.dart';
 
 class ManageDataAccessScreen extends StatelessWidget {
   const ManageDataAccessScreen({super.key});
@@ -23,6 +26,15 @@ class ManageDataAccessScreen extends StatelessWidget {
     ),
   );
 }
+
+void _handleOnDeleteAllDataPress(BuildContext context) => showConfirmationDialog(
+  context,
+  title: 'Confirm Delete',
+  titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),
+  message: 'Are you sure you want to delete all your kyc infomation and revoke access to all partners?',
+  messageStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.white),
+  onConfirm: () => sl<KycRepository>().deleteAllUserData(),
+);
 
 class _Content extends StatelessWidget {
   const _Content();
@@ -46,7 +58,7 @@ class _Content extends StatelessWidget {
         CpBottomButton(
           horizontalPadding: 0,
           text: context.l10n.deleteAllData,
-          onPressed: () {},
+          onPressed: () => _handleOnDeleteAllDataPress(context),
           variant: CpButtonVariant.danger,
         ),
       ],
