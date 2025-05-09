@@ -44,7 +44,12 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     SignInExistingLocalWalletRequested event,
     Emitter<SignInState> emit,
   ) {
-    emit(state.copyWith(source: event.phrase.let(Mnemonic.typed).let(AccountSource.local)));
+    emit(
+      state.copyWith(
+        source: event.phrase.let(Mnemonic.typed).let(AccountSource.local),
+        processingState: const Flow.processing(),
+      ),
+    );
   }
 
   Future<void> _onSubmitted(SignInSubmitted _, Emitter<SignInState> emit) async {
