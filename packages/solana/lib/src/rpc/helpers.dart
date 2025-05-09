@@ -45,12 +45,8 @@ dynamic unwrapAndGetResult(dynamic raw) {
 }
 
 @internal
-BigInt bigIntFromJson(Object value) {
-  if (value is num) {
-    return BigInt.from(value);
-  }
-  if (value is String) {
-    return BigInt.parse(value);
-  }
-  return BigInt.parse('$value');
-}
+BigInt bigIntFromJson(Object value) => switch (value) {
+    num() => BigInt.from(value),
+    String() => BigInt.parse(value),
+    _ => BigInt.parse('$value'),
+  };
