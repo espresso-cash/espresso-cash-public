@@ -49,47 +49,45 @@ class AmountWithEquivalent extends StatelessWidget {
 
       final state = (isZero, hasError, showUsdcInfo);
 
-          return Column(
-            children: [
-              Shake(
-                key: shakeKey,
-                child: _InputDisplay(
-                  input: value.text,
-                  fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
-                  token: token,
+      return Column(
+        children: [
+          Shake(
+            key: shakeKey,
+            child: _InputDisplay(
+              input: value.text,
+              fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
+              token: token,
+            ),
+          ),
+          if (!collapsed)
+            Container(
+              height: showUsdcInfo ? (context.isSmall ? 90 : 105) : null,
+              padding: EdgeInsets.only(top: context.isSmall ? 2 : 16),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 100),
+                // TODO(KB): Check if needed
+                // ignore: avoid-single-child-column-or-row
+                child: Column(
+                  children: [
+                    switch (state) {
+                      (_, true, _) => _DisplayChip(
+                        key: ValueKey(error),
+                        value: error,
+                        shouldDisplay: true,
+                        backgroundColor: CpColors.alertRedColor,
+                      ),
+                      (true, false, true) => const _InfoChip(),
+                      _ => _EquivalentDisplay(
+                        input: value.text,
+                        token: token,
+                        backgroundColor: backgroundColor,
+                      ),
+                    },
+                  ],
                 ),
               ),
-              if (!collapsed)
-                Container(
-                  height: showUsdcInfo ? (context.isSmall ? 90 : 105) : null,
-                  padding: EdgeInsets.only(top: context.isSmall ? 2 : 16),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 100),
-                    // TODO(KB): Check if needed
-                    // ignore: avoid-single-child-column-or-row
-                    child: Column(
-                      children: [
-                        switch (state) {
-                          (_, true, _) => _DisplayChip(
-                              key: ValueKey(error),
-                              value: error,
-                              shouldDisplay: true,
-                              backgroundColor: CpColors.alertRedColor,
-                            ),
-                          (true, false, true) => const _InfoChip(),
-                          _ => _EquivalentDisplay(
-                              input: value.text,
-                              token: token,
-                              backgroundColor: backgroundColor,
-                            ),
-                        },
-                      ],
-                    ),
-                  ),
-                ),
-            ],
-          );
-        },
+            ),
+        ],
       );
     },
   );
@@ -118,26 +116,20 @@ class _EquivalentDisplay extends StatelessWidget {
     final String formattedAmount;
     if (shouldDisplay) {
       formattedAmount = Amount.fromDecimal(
-        value: value,
-        currency:
-            token == Token.usdc ? Currency.usd : CryptoCurrency(token: token),
-      )
+            value: value,
+            currency: token == Token.usdc ? Currency.usd : CryptoCurrency(token: token),
+          )
           .let(
             (it) => switch (it) {
-              final FiatAmount fiat =>
-                fiat.toTokenAmount(token)?.round(Currency.usd.decimals),
+              final FiatAmount fiat => fiat.toTokenAmount(token)?.round(Currency.usd.decimals),
               final CryptoAmount crypto => crypto.toFiatAmount(
-                  defaultFiatCurrency,
-                  ratesRepository: sl<ConversionRatesRepository>(),
-                ),
+                defaultFiatCurrency,
+                ratesRepository: sl<ConversionRatesRepository>(),
+              ),
             },
           )
           .maybeFlatMap(
-            (it) => it.format(
-              locale,
-              roundInteger: true,
-              skipSymbol: token == Token.usdc,
-            ),
+            (it) => it.format(locale, roundInteger: true, skipSymbol: token == Token.usdc),
           )
           .ifNull(() => '0');
     } else {
@@ -212,12 +204,8 @@ class _Chip extends StatelessWidget {
   );
 }
 
-class _InputDisplay extends StatelessWidget {const _InputDisplay({required this.input, required this.fontSize});const _InputDisplay({
-    required this.input,
-    required this.fontSize,
-    required this.token,
-  });
-  
+class _InputDisplay extends StatelessWidget {
+  const _InputDisplay({required this.input, required this.fontSize, required this.token});
 
   final String input;
   final double fontSize;
@@ -227,8 +215,7 @@ class _InputDisplay extends StatelessWidget {const _InputDisplay({required this.
   Widget build(BuildContext context) {
     final sign = Currency.usd.sign;
     final amount = input.formatted(context);
-    final formatted =
-        token == Token.usdc ? '$sign$amount' : '$amount ${token.symbol}';
+    final formatted = token == Token.usdc ? '$sign$amount' : '$amount ${token.symbol}';
 
     return SizedBox(
       height: 94,
