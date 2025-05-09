@@ -278,6 +278,9 @@ class KycSharingService extends ValueNotifier<UserData?> {
           .fetchPartnerInfo(partnerPk)
           .then((partner) => (termsUrl: partner.termsUrl, policyUrl: partner.privacyUrl));
 
+  Future<List<PartnerModel>> fetchGrantedAccessPartners() =>
+      _kycRepository.fetchGrantedAccessPartners();
+
   Future<KycValidationStatus> getKycStatus({required String country}) =>
       _kycRepository.fetchKycStatus(country: country);
 
