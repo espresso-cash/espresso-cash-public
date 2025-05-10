@@ -72,13 +72,13 @@ class ConversionRatesRepository {
       }),
     );
 
-    final Map<String, TokenPricesMapDto> conversionRates = {};
+    final Map<String, TokenPricesMapDto?> conversionRates = {};
     for (final element in results) {
       conversionRates.addAll(element.data);
     }
 
     if (conversionRates.containsKey(Token.wrappedSol.address)) {
-      conversionRates[Token.sol.address] = conversionRates[Token.wrappedSol.address]!;
+      conversionRates[Token.sol.address] = conversionRates[Token.wrappedSol.address];
     }
 
     final usdcRateQuery = _db.select(_db.conversionRatesRows)..where(
@@ -94,7 +94,7 @@ class ConversionRatesRepository {
       for (final entry in conversionRates.entries) {
         final matchingTokens = tokens.where((t) => t.address == entry.key);
 
-        final rate = Decimal.parse(entry.value.price ?? '0') * usdcRate;
+        final rate = Decimal.parse(entry.value?.price ?? '0') * usdcRate;
 
         for (final token in matchingTokens) {
           await _db
