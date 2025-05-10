@@ -37,7 +37,9 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
   }
 
   void _handleSignInPressed() => Navigator.of(context).push(
-    MaterialPageRoute<void>(builder: (context) => RestoreAccountScreen(onSubmit: _handleRestore)),
+    MaterialPageRoute<void>(
+      builder: (context) => RestoreAccountScreen(onSubmit: _handleRestore, bloc: _bloc),
+    ),
   );
 
   void _handleCreateLocalPressed() => _bloc.add(const SignInEvent.newLocalWalletRequested());

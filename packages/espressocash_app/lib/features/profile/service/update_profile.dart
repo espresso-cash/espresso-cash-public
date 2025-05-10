@@ -1,5 +1,5 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../utils/errors.dart';
@@ -33,8 +33,7 @@ class UpdateProfile {
   }) => tryEitherAsync((_) async {
     if (countryCode != null && _profileRepository.country != countryCode) {
       _analyticsManager.setProfileCountryCode(countryCode);
-      final request = WalletCountryRequestDto(countryCode: countryCode);
-      await _client.updateUserWalletCountry(request);
+      await _client.updateUserWalletCountry(countryCode);
       _intercomService.updateCountry(countryCode);
       _profileRepository.country = countryCode;
     }

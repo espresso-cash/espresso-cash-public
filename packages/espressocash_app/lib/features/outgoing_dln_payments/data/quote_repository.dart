@@ -1,4 +1,4 @@
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 
 import 'package:injectable/injectable.dart';
 
@@ -19,8 +19,8 @@ class QuoteRepository {
     required String receiverAddress,
     required Blockchain receiverBlockchain,
   }) async {
-    final quote = await _client.getDlnQuote(
-      PaymentQuoteRequestDto(
+    final quote = await _client.getOutgoingDlnQuote(
+      OutgoingQuoteRequestDto(
         amount: amount.value,
         receiverAddress: receiverAddress,
         receiverBlockchain: receiverBlockchain.name,

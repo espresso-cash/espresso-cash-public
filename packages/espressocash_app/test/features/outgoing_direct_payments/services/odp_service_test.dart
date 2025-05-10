@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:espressocash_app/features/accounts/models/ec_wallet.dart';
 import 'package:espressocash_app/features/currency/models/amount.dart';
 import 'package:espressocash_app/features/currency/models/currency.dart';

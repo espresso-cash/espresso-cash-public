@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -11,7 +11,6 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../config.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
@@ -94,7 +93,6 @@ class ILPService implements Disposable {
       final dto = ReceivePaymentRequestDto(
         receiverAccount: account.address,
         escrowAccount: escrow.address,
-        cluster: apiCluster,
       );
 
       final response = await _ecClient.receivePaymentEc(dto);
@@ -117,10 +115,14 @@ class ILPService implements Disposable {
     }
 
     try {
+      final fee = await _ecClient.getIncomingEscrowPaymentQuote().then(
+        (it) => it.fee == 0 ? null : CryptoAmount(value: it.fee, cryptoCurrency: Currency.usdc),
+      );
+
       final tx = await _txSender.send(status.tx, minContextSlot: status.slot);
 
       final ILPStatus? newStatus = tx.map(
-        sent: (_) => ILPStatus.txSent(status.tx, slot: status.slot),
+        sent: (_) => ILPStatus.txSent(status.tx, slot: status.slot, fee: fee),
         invalidBlockhash:
             (_) => const ILPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
         failure: (it) => ILPStatus.txFailure(reason: it.reason),
@@ -155,19 +157,10 @@ class ILPService implements Disposable {
         try {
           final receiveAmount = await _getUsdcAmount(status.tx.id);
 
-          final fee =
-              status.tx.containsAta
-                  ? await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee)
-                  : null;
-
           _refreshBalance();
           _analytics.singleLinkReceived(amount: receiveAmount?.decimal);
 
-          return ILPStatus.success(
-            tx: status.tx,
-            receiveAmount: receiveAmount,
-            fee: fee?.let((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc)),
-          );
+          return ILPStatus.success(tx: status.tx, receiveAmount: receiveAmount, fee: status.fee);
         } on Object {
           return null;
         }
@@ -232,10 +225,4 @@ class ILPService implements Disposable {
   Future<void> onDispose() async {
     await Future.wait(_subscriptions.values.map((it) => it.cancel()));
   }
-}
-
-extension on SignedTx {
-  bool get containsAta => decompileMessage().let(
-    (m) => m.instructions.any((ix) => ix.programId == AssociatedTokenAccountProgram.id),
-  );
 }
