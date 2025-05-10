@@ -11,6 +11,7 @@ void main() {
   setUp(() async {
     walletKeyPair = await Ed25519HDKeyPair.random();
     client = await createClient(keyPair: walletKeyPair);
+    await client.login();
   });
 
   tearDown(() async {

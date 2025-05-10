@@ -13,6 +13,7 @@ void main() {
     keyPair = await Ed25519HDKeyPair.random();
 
     client = await createClient(keyPair: keyPair);
+    await client.login();
   });
 
   tearDown(() async {
