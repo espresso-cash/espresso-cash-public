@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.solana.solana_mobile_client_example">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
    <application
         android:label="solana_mobile_client_example"
         android:name="${applicationName}"

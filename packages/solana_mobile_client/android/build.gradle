@@ -26,6 +26,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 31
+    namespace "com.solana_mobile_client_example"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
