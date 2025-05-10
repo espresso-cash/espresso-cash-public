@@ -60,4 +60,36 @@ void main() {
           ),
     );
   });
+
+  test('gracefully fetch external JSON', () async {
+    // 6GpMXZmS7bBHBc9TrVRFUaerSQXYJPkpq31aET3UWd4R
+    const metadataUSDC = Metadata(
+      name: 'USC Coin',
+      symbol: 'USDC',
+      uri: '',
+      updateAuthority: '2wmVCSfPxGPjrnMMn7rchp4uaeoTqN39mXFC2zhPdri9',
+      mint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+    );
+    expect(await metadataUSDC.getExternalJson(), equals(null));
+
+    // JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN
+    const metadataJUP = Metadata(
+      name: 'Jupiter',
+      symbol: 'JUP',
+      uri: 'https://static.jup.ag/jup/metadata.json',
+      updateAuthority: '61aq585V8cR2sZBeawJFt2NPqmN7zDi1sws4KLs5xHXV',
+      mint: 'JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN',
+    );
+    expect(await metadataJUP.getExternalJson(), isA<OffChainMetadata>());
+
+    const metadataMock = Metadata(
+      name: 'Mock',
+      symbol: 'MOCK',
+      uri: 'https://httpbun.com/payload',
+      // An empty plain text payload.
+      updateAuthority: '',
+      mint: '',
+    );
+    await expectLater(() => metadataMock.getExternalJson(), throwsA(isA<FormatException>()));
+  });
 }

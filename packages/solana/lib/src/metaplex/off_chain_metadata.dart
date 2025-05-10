@@ -23,8 +23,9 @@ class OffChainMetadata {
   final String description;
   final String symbol;
   final String image;
-  final Properties properties;
+  @JsonKey(defaultValue: <Attribute>[])
   final List<Attribute> attributes;
+  final Properties? properties;
   final Collection? collection;
 
   Map<String, dynamic> toJson() => _$OffChainMetadataToJson(this);
