@@ -1,3 +1,14 @@
+## 1.151.0
+
+ - **FIX**: token price response (#1728).
+ - **FIX**: moneygram status mapping (#1716).
+ - **FIX**: bank overview page (#1713).
+ - **FEAT**: migrate to new backend client (#1715).
+ - **FEAT**: update brij client (#1726).
+ - **FEAT**: remove durable nonce on escrow payments (#1711).
+ - **FEAT**: update brij client version (#1718).
+ - **FEAT**: remove scalex codes and assets (#1712).
+
 ## 1.150.0
 
  - **REFACTOR**: migrate to Flutter 3.29.0 (#1705).
