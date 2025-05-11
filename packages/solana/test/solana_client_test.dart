@@ -1,4 +1,4 @@
-// ignore_for_file: avoid-unnecessary-late
+// ignore_for_file: avoid-unnecessary-late, avoid-type-casts
 
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
@@ -106,7 +106,7 @@ void main() {
 
   test('Get a token balance', () async {
     final wallet = await Ed25519HDKeyPair.random();
-    expect(
+    await expectLater(
       solanaClient.hasAssociatedTokenAccount(
         mint: token.address,
         owner: wallet.publicKey,
@@ -152,7 +152,7 @@ void main() {
 
   test('Fails SPL transfer if recipient has no associated token account', () async {
     final wallet = await Ed25519HDKeyPair.random();
-    expect(
+    await expectLater(
       solanaClient.transferSplToken(
         destination: wallet.publicKey,
         amount: 100,

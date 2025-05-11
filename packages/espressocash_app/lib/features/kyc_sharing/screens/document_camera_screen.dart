@@ -148,9 +148,8 @@ class _DocumentCameraScreenState extends State<DocumentCameraScreen> {
                           border: Border.all(color: CpColors.yellowColor, width: 3),
                         ),
                       ),
-                      SizedBox(
-                        width: 60,
-                        height: 60,
+                      SizedBox.square(
+                        dimension: 60,
                         child: CpButton(
                           text: '',
                           onPressed: _isTakingPicture ? null : _takePicture,

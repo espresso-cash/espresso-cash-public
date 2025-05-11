@@ -148,14 +148,10 @@ class _Connector extends StatelessWidget {
 }
 
 extension on CpInfoListVariant {
-  Color get backgroundColor {
-    switch (this) {
-      case CpInfoListVariant.yellow:
-        return CpColors.infoBackgroundColor;
-      case CpInfoListVariant.light:
-        return CpColors.lightButtonBackgroundColor;
-    }
-  }
+  Color get backgroundColor => switch (this) {
+    CpInfoListVariant.yellow => CpColors.infoBackgroundColor,
+    CpInfoListVariant.light => CpColors.lightButtonBackgroundColor,
+  };
 }
 
 const _defaultIcon = CpInfoIcon(height: 16, iconColor: Colors.black);

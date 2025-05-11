@@ -22,7 +22,7 @@ class ViewRecoveryPhraseScreen extends StatefulWidget {
     required VoidCallback onConfirmed,
   }) => (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<void>(
     PageRouteBuilder(
-      pageBuilder: (context, _, __) => ViewRecoveryPhraseScreen(onConfirmed: onConfirmed),
+      pageBuilder: (context, _, _) => ViewRecoveryPhraseScreen(onConfirmed: onConfirmed),
       transitionDuration: Duration.zero,
     ),
     F,

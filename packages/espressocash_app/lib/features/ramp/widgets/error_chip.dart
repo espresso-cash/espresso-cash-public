@@ -14,8 +14,8 @@ class ErrorChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       visible
-          ? Container(
-            margin: margin,
+          ? Padding(
+            padding: margin,
             child: SizedBox(
               height: 55.h,
               child: CpChip(

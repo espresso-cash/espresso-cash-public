@@ -708,16 +708,10 @@ class TokenInstruction extends Instruction {
 }
 
 extension on AuthorityType {
-  int get value {
-    switch (this) {
-      case AuthorityType.mintTokens:
-        return 0;
-      case AuthorityType.freezeAccount:
-        return 1;
-      case AuthorityType.accountOwner:
-        return 2;
-      case AuthorityType.closeAccount:
-        return 3;
-    }
-  }
+  int get value => switch (this) {
+    AuthorityType.mintTokens => 0,
+    AuthorityType.freezeAccount => 1,
+    AuthorityType.accountOwner => 2,
+    AuthorityType.closeAccount => 3,
+  };
 }

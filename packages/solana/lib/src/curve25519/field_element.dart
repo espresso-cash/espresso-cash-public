@@ -9,8 +9,7 @@ class FieldElement {
   FieldElement(this._t) {
     if (_t.length != 10) {
       throw FormatException(
-        'cannot create a `FieldElement\' '
-        'from a byte array of length ${_t.length}, it MUST be 10',
+        'cannot create a `FieldElement` from a byte array of length ${_t.length}, it MUST be 10',
       );
     }
   }

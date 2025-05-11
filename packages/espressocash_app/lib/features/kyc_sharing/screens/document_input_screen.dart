@@ -101,7 +101,9 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
         }
 
         final idNumber = _controllers[DocumentField.idNumber]?.text;
+        // ignore: avoid-type-casts, controlled type
         final frontImage = _documentFields[DocumentField.photoFront] as File?;
+        // ignore: avoid-type-casts, controlled type
         final backImage = _documentFields[DocumentField.photoBack] as File?;
 
         await sl<KycSharingService>().updateDocumentInfo(
@@ -151,38 +153,38 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
     final isRequired =
         isInRequiredList && _documentFieldsRelationship == RequirementRelationship.and;
 
-    switch (field) {
-      case DocumentField.idNumber:
-        return _IdNumberField(
-          controller: _controllers[field]!,
-          currentValue: _documentFields[field] as String? ?? '',
-          onChanged: (value) => _updateDocumentField(field, value),
-        );
-      case DocumentField.photoFront:
-        return _PhotoUploadField(
-          label: context.l10n.photoFront,
-          isRequired: isRequired,
-          onTap: () async {
-            final photo = await _pickPhoto();
-            if (photo != null) {
-              _updateDocumentField(field, photo);
-            }
-          },
-          currentValue: _documentFields[field] as File?,
-        );
-      case DocumentField.photoBack:
-        return _PhotoUploadField(
-          label: context.l10n.photoBack,
-          isRequired: isRequired,
-          onTap: () async {
-            final photo = await _pickPhoto();
-            if (photo != null) {
-              _updateDocumentField(field, photo);
-            }
-          },
-          currentValue: _documentFields[field] as File?,
-        );
-    }
+    return switch (field) {
+      DocumentField.idNumber => _IdNumberField(
+        controller: _controllers[field]!,
+        // ignore: avoid-type-casts, controlled type
+        currentValue: _documentFields[field] as String? ?? '',
+        onChanged: (value) => _updateDocumentField(field, value),
+      ),
+      DocumentField.photoFront => _PhotoUploadField(
+        label: context.l10n.photoFront,
+        isRequired: isRequired,
+        onTap: () async {
+          final photo = await _pickPhoto();
+          if (photo != null) {
+            _updateDocumentField(field, photo);
+          }
+        },
+        // ignore: avoid-type-casts, controlled type
+        currentValue: _documentFields[field] as File?,
+      ),
+      DocumentField.photoBack => _PhotoUploadField(
+        label: context.l10n.photoBack,
+        isRequired: isRequired,
+        onTap: () async {
+          final photo = await _pickPhoto();
+          if (photo != null) {
+            _updateDocumentField(field, photo);
+          }
+        },
+        // ignore: avoid-type-casts, controlled type
+        currentValue: _documentFields[field] as File?,
+      ),
+    };
   }
 
   List<DocumentField> get _requiredFields {
@@ -200,12 +202,10 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
     final requiredFields = _requiredFields;
     if (requiredFields.isEmpty) return true;
 
-    switch (_documentFieldsRelationship) {
-      case RequirementRelationship.and:
-        return requiredFields.every(_isFieldValid);
-      case RequirementRelationship.or:
-        return requiredFields.any(_isFieldValid);
-    }
+    return switch (_documentFieldsRelationship) {
+      RequirementRelationship.and => requiredFields.every(_isFieldValid),
+      RequirementRelationship.or => requiredFields.any(_isFieldValid),
+    };
   }
 
   bool _isFieldValid(DocumentField field) {

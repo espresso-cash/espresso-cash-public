@@ -39,4 +39,4 @@ abstract class AuthModule {
   }
 }
 
-FutureOr<void> disposeEcClient(EspressoCashClient client) => client.dispose();
+Future<void> disposeEcClient(EspressoCashClient client) => client.dispose();

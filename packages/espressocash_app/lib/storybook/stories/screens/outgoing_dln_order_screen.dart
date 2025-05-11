@@ -16,7 +16,7 @@ final outgoingDlnScreenStory = Story(
       (context) => OutgoingDlnOrderScreenContent(
         order: OutgoingDlnPayment(
           id: dummyOrderId,
-          amount: const CryptoAmount(value: 10000000, cryptoCurrency: Currency.usdc),
+          amount: const CryptoAmount(value: 10_000_000, cryptoCurrency: Currency.usdc),
           created: DateTime.now(),
           status: context.knobs.options(
             label: 'Status',
@@ -31,7 +31,7 @@ final outgoingDlnScreenStory = Story(
                 ].map((e) => Option(label: e.name, value: e)).toList(),
           ),
           payment: const DlnPayment(
-            inputAmount: CryptoAmount(value: 10000000, cryptoCurrency: Currency.usdc),
+            inputAmount: CryptoAmount(value: 10_000_000, cryptoCurrency: Currency.usdc),
             receiverAddress: 'receiverAddress',
             receiverBlockchain: Blockchain.arbitrum,
           ),

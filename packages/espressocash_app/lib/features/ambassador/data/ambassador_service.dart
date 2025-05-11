@@ -12,6 +12,7 @@ typedef AmbassadorStatus = ({bool isAmbassador, bool isReferral});
 class AmbassadorService extends ValueNotifier<AmbassadorStatus> {
   AmbassadorService(this._ecClient, this._storage) : super(_defaultAmbassadorStatus);
 
+  // ignore: dispose-class-fields, false positive
   final EspressoCashClient _ecClient;
   final SharedPreferences _storage;
 

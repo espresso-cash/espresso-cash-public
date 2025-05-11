@@ -24,7 +24,7 @@ class PhoneStatusScreen extends StatelessWidget {
   Widget build(BuildContext context) => UserDataListener(
     builder: (context, userData) {
       final status = userData.phoneStatus;
-      final phone = userData.getPhone ?? '-';
+      final phone = userData.phoneValue ?? '-';
 
       return KycPage(
         icon: status.kycIcon,
@@ -44,6 +44,7 @@ class PhoneStatusScreen extends StatelessWidget {
             ),
           },
           const SizedBox(height: 16),
+          // ignore: avoid-flexible-outside-flex, inside column
           Expanded(child: _UpdatePhoneContent(status: status)),
         ],
       );

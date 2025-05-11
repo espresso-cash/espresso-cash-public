@@ -26,6 +26,7 @@ class ODPRepository implements Disposable {
   const ODPRepository(this._db);
 
   final MyDatabase _db;
+
   Future<IList<String>> getNonCompletedPaymentIds() async {
     final query = _db.select(_db.oDPRows)..where(
       (p) => p.status.isNotInValues([

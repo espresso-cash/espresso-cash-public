@@ -71,23 +71,35 @@ class Scenario {
 
 abstract class ScenarioCallbacks {
   const ScenarioCallbacks();
+
   // Scenario state callbacks
   void onScenarioReady(Scenario scenario);
+
   void onScenarioServingClients();
+
   void onScenarioServingComplete();
+
   void onScenarioComplete();
+
   void onScenarioError();
+
   void onScenarioTeardownComplete();
+
   void onLowPowerAndNoConnection();
 
   // Request callbacks
   Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request);
+
   Future<bool> onReauthorizeRequest(ReauthorizeRequest request);
+
   Future<SignedPayloadResult?> onSignTransactionsRequest(SignTransactionsRequest request);
+
   Future<SignedPayloadResult?> onSignMessagesRequest(SignMessagesRequest request);
+
   Future<SignaturesResult?> onSignAndSendTransactionsRequest(
     SignAndSendTransactionsRequest request,
   );
+
   Future<void> onDeauthorizeEvent(DeauthorizeEvent event);
 }
 

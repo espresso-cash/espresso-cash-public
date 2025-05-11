@@ -79,6 +79,7 @@ abstract class _JsonRpcResponse {
       throw const FormatException('invalid jsonrpc-2.0 response');
     }
     if (data['error'] != null) {
+      // ignore: avoid-type-casts, controlled type
       throw JsonRpcException.fromJson(data['error'] as Map<String, dynamic>);
     }
     if (!data.containsKey('result')) {

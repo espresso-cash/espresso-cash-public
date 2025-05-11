@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'deauthorize.freezed.dart';
 
 @freezed
-class DeauthorizeEvent with _$DeauthorizeEvent {
+sealed class DeauthorizeEvent with _$DeauthorizeEvent {
   const factory DeauthorizeEvent({
     required String? identityName,
     required Uri? identityUri,

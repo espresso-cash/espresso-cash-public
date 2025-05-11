@@ -1,4 +1,4 @@
-// ignore_for_file: cast_nullable_to_non_nullable
+// ignore_for_file: cast_nullable_to_non_nullable, avoid-future-ignore, avoid-type-casts
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -216,7 +216,7 @@ class ClientBloc extends Cubit<ClientState> {
 }
 
 @freezed
-class ClientState with _$ClientState {
+sealed class ClientState with _$ClientState {
   const factory ClientState({
     GetCapabilitiesResult? capabilities,
     AuthorizationResult? authorizationResult,

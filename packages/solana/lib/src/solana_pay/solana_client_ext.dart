@@ -218,6 +218,7 @@ extension SolanaClientSolanaPay on SolanaClient {
 
     final Decimal preAmount, postAmount;
     if (splToken == null) {
+      // ignore: avoid-type-casts, controlled type
       final accountIndex = (response.transaction as ParsedTransaction).message.accountKeys
           .indexWhere((a) => a.pubkey == recipient.toBase58());
       if (accountIndex == -1) {
@@ -232,6 +233,7 @@ extension SolanaClientSolanaPay on SolanaClient {
         mint: splToken,
         tokenProgramType: tokenProgramType,
       );
+      // ignore: avoid-type-casts, controlled type
       final accountIndex = (response.transaction as ParsedTransaction).message.accountKeys
           .indexWhere((a) => a.pubkey == recipientATA.toBase58());
       if (accountIndex == -1) {
@@ -254,6 +256,7 @@ extension SolanaClientSolanaPay on SolanaClient {
     }
 
     if (reference != null) {
+      // ignore: avoid-type-casts, controlled type
       final keys = (response.transaction as ParsedTransaction).message.accountKeys.map(
         (e) => e.pubkey,
       );

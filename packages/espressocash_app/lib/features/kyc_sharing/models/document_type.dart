@@ -2,6 +2,7 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 enum DocumentType {
   voterId('Voter ID', 'VOTER_ID'),
+  // ignore: avoid-duplicate-constant-values, intentional duplication
   ninV2('NIN_V2', 'NIN_V2'),
   passport('Passport', 'PASSPORT'),
   idCard('Id Card', 'ID_CARD');

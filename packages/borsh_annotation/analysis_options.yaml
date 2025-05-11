@@ -6,3 +6,4 @@ formatter:
 dart_code_metrics:
   rules:
     avoid-passing-self-as-argument: false
+    prefer-static-method: false

@@ -43,7 +43,7 @@ extension SolanaClientExt on SolanaClient {
           mint: mint.publicKey,
         ),
         TokenInstruction.mintTo(
-          amount: 10000000,
+          amount: 10_000_000,
           mint: mint.publicKey,
           destination: tokenOwnerAddress,
           authority: mintAuthority.publicKey,

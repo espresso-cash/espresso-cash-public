@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-adjacent-strings
+
 import 'package:dfunc/src/either/either.dart';
 import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:espressocash_app/data/db/db.dart';

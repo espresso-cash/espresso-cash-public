@@ -165,7 +165,8 @@ class ILPService implements Disposable {
           return null;
         }
       },
-      failure: (_) async => const ILPStatus.txFailure(reason: TxFailureReason.escrowFailure),
+      failure:
+          (_) => Future.value(const ILPStatus.txFailure(reason: TxFailureReason.escrowFailure)),
       networkError: (_) async {
         await Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
       },
@@ -189,6 +190,7 @@ class ILPService implements Disposable {
         mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
       );
 
+      // ignore: avoid-type-casts, controlled type
       final rawTx = details.transaction as RawTransaction;
       final tx = SignedTx.fromBytes(rawTx.data);
 
