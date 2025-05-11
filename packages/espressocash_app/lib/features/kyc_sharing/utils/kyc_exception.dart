@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-type-casts
+
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

@@ -143,37 +143,35 @@ class MoneygramOnRampOrderService implements Disposable {
     required String countryCode,
     required CryptoAmount bridgeAmount,
   }) => tryEitherAsync((_) async {
-    {
-      final order = OnRampOrderRow(
-        id: const Uuid().v4(),
-        partnerOrderId: orderId,
-        amount: submittedAmount.value,
-        fiatSymbol: submittedAmount.currency.symbol,
-        receiveAmount: receiveAmount.value,
-        token: Token.usdc.address,
-        created: DateTime.now(),
-        isCompleted: false,
-        humanStatus: '',
-        machineStatus: '',
-        txHash: '',
-        partner: RampPartner.moneygram,
-        status: OnRampOrderStatus.pending,
-        authToken: authToken,
-        bridgeAmount: bridgeAmount.value,
-      );
+    final order = OnRampOrderRow(
+      id: const Uuid().v4(),
+      partnerOrderId: orderId,
+      amount: submittedAmount.value,
+      fiatSymbol: submittedAmount.currency.symbol,
+      receiveAmount: receiveAmount.value,
+      token: Token.usdc.address,
+      created: DateTime.now(),
+      isCompleted: false,
+      humanStatus: '',
+      machineStatus: '',
+      txHash: '',
+      partner: RampPartner.moneygram,
+      status: OnRampOrderStatus.pending,
+      authToken: authToken,
+      bridgeAmount: bridgeAmount.value,
+    );
 
-      await _db.into(_db.onRampOrderRows).insert(order);
+    await _db.into(_db.onRampOrderRows).insert(order);
 
-      _analytics.rampInitiated(
-        partnerName: RampPartner.moneygram.name,
-        rampType: RampType.onRamp.name,
-        amount: submittedAmount.value.toString(),
-        countryCode: countryCode,
-        id: order.id,
-      );
+    _analytics.rampInitiated(
+      partnerName: RampPartner.moneygram.name,
+      rampType: RampType.onRamp.name,
+      amount: submittedAmount.value.toString(),
+      countryCode: countryCode,
+      id: order.id,
+    );
 
-      return order.id;
-    }
+    return order.id;
   });
 
   AsyncResult<void> updateMoneygramOrder({required String id}) => tryEitherAsync((_) async {
@@ -208,6 +206,7 @@ class MoneygramOnRampOrderService implements Disposable {
     }
 
     final transferAmount =
+        // ignore: avoid-type-casts, controlled type
         Amount.fromDecimal(
               value: Decimal.parse(transaction.amountIn ?? '0'),
               currency: currencyFromString(transaction.amountInAsset ?? 'USD'),
@@ -215,6 +214,7 @@ class MoneygramOnRampOrderService implements Disposable {
             as FiatAmount;
 
     final feeAmount =
+        // ignore: avoid-type-casts, controlled type
         Amount.fromDecimal(
               value: Decimal.parse(transaction.amountFee ?? '0'),
               currency: currencyFromString(transaction.amountFeeAsset ?? 'USD'),

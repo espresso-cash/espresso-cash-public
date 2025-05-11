@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-duplicate-constant-values
+
 import 'package:decimal/decimal.dart';
 import '../../../gen/assets.gen.dart';
 import 'payment_methods.dart';
@@ -73,20 +75,12 @@ enum RampPartner {
 }
 
 extension RampPartnerAssets on RampPartner {
-  AssetGenImage get logo {
-    switch (this) {
-      case RampPartner.kado:
-        return Assets.brands.kado;
-      case RampPartner.rampNetwork:
-        return Assets.brands.ramp;
-      case RampPartner.coinflow:
-        return Assets.brands.coinflow;
-      case RampPartner.guardarian:
-        return Assets.brands.guardarian;
-      case RampPartner.moneygram:
-        return Assets.brands.moneygram;
-      case RampPartner.brij:
-        return Assets.brands.brij;
-    }
-  }
+  AssetGenImage get logo => switch (this) {
+    RampPartner.kado => Assets.brands.kado,
+    RampPartner.rampNetwork => Assets.brands.ramp,
+    RampPartner.coinflow => Assets.brands.coinflow,
+    RampPartner.guardarian => Assets.brands.guardarian,
+    RampPartner.moneygram => Assets.brands.moneygram,
+    RampPartner.brij => Assets.brands.brij,
+  };
 }

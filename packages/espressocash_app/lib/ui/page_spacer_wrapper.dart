@@ -85,21 +85,13 @@ class SolidPadding extends StatelessWidget {
 }
 
 extension on FadeGradientDirection {
-  Alignment get begin {
-    switch (this) {
-      case FadeGradientDirection.topDown:
-        return Alignment.topCenter;
-      case FadeGradientDirection.bottomUp:
-        return Alignment.bottomCenter;
-    }
-  }
+  Alignment get begin => switch (this) {
+    FadeGradientDirection.topDown => Alignment.topCenter,
+    FadeGradientDirection.bottomUp => Alignment.bottomCenter,
+  };
 
-  Alignment get end {
-    switch (this) {
-      case FadeGradientDirection.topDown:
-        return Alignment.bottomCenter;
-      case FadeGradientDirection.bottomUp:
-        return Alignment.topCenter;
-    }
-  }
+  Alignment get end => switch (this) {
+    FadeGradientDirection.topDown => Alignment.bottomCenter,
+    FadeGradientDirection.bottomUp => Alignment.topCenter,
+  };
 }

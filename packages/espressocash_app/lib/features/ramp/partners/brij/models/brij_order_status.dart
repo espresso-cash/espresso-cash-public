@@ -11,12 +11,12 @@ enum BrijOrderStatus {
   final String value;
 
   static BrijOrderStatus fromString(String status) {
-    for (final BrijOrderStatus brijStatus in BrijOrderStatus.values) {
+    for (final BrijOrderStatus brijStatus in values) {
       if (brijStatus.value == status) {
         return brijStatus;
       }
     }
 
-    return BrijOrderStatus.unknown;
+    return unknown;
   }
 }

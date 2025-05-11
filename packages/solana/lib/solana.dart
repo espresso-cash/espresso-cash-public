@@ -25,5 +25,5 @@ typedef TransactionId = String;
 
 typedef Wallet = Ed25519HDKeyPair;
 
-const int lamportsPerSol = 1000000000;
+const int lamportsPerSol = 1_000_000_000;
 const int solDecimalPlaces = 9;

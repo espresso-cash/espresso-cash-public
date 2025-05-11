@@ -8,4 +8,4 @@ environment:
   sdk: ^3.7.0
 
 dev_dependencies:
-  mews_pedantic: ^0.36.0
+  mews_pedantic: ^0.38.0

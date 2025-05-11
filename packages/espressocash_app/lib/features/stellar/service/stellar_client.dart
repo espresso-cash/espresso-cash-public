@@ -116,6 +116,7 @@ class StellarClient {
     final wallet = _stellarWallet.keyPair;
 
     final transaction =
+        // ignore: avoid-type-casts, controlled type
         AbstractTransaction.fromEnvelopeXdrString(xdr) as Transaction..sign(wallet, stellarNetwork);
 
     final response = await _sorobanClient.sendTransaction(transaction);

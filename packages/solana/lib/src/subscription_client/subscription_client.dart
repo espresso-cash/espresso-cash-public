@@ -192,6 +192,7 @@ class SubscriptionClient {
 
             if (singleShot) subscriptionId = null;
 
+            // ignore: avoid-type-casts, controlled type
             controller.add(message.value as T);
           }
         },
@@ -216,6 +217,7 @@ class SubscriptionClient {
 
   SubscriptionMessage _parse(dynamic event) {
     if (event is String) {
+      // ignore: avoid-type-casts, controlled type
       final parsed = json.decode(event) as Map<String, dynamic>;
 
       return SubscriptionMessage.fromJson(parsed);

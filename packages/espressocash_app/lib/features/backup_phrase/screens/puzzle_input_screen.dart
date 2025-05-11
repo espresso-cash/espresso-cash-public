@@ -43,7 +43,7 @@ class _PuzzleInputScreenState extends State<PuzzleInputScreen> {
               height: 200,
               child: OnboardingPadding(
                 child: GridPhrase(
-                  correctPhrase: widget.correctPhrase,
+                  correctPhrase: correctPhrase,
                   callback: (phrase) => setState(() => _currentPhrase = phrase),
                 ),
               ),

@@ -15,19 +15,18 @@ class MessageAccountKeys {
     final accountKeysFromLookups = this.accountKeysFromLookups;
 
     if (accountKeysFromLookups != null) {
-      keySegments
-        ..add(accountKeysFromLookups.writable)
-        ..add(accountKeysFromLookups.readonly);
+      keySegments.addAll([accountKeysFromLookups.writable, accountKeysFromLookups.readonly]);
     }
 
     return keySegments;
   }
 
   Ed25519HDPublicKey? operator [](int index) {
+    int i = index;
     for (final keySegment in keySegments()) {
-      if (index < keySegment.length) return keySegment[index];
+      if (i < keySegment.length) return keySegment[i];
 
-      index -= keySegment.length;
+      i -= keySegment.length;
     }
   }
 

@@ -34,7 +34,7 @@ Future<void> main() async {
   await Future.wait(
     tokenPubKeys.map(
       (Ed25519HDKeyPair token) async =>
-          solanaClient.airdropSplTokens(accountKey.publicKey, token, amount: 100000),
+          solanaClient.airdropSplTokens(accountKey.publicKey, token, amount: 100_000),
     ),
   );
 

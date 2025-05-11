@@ -40,6 +40,7 @@ class OutgoingDlnPaymentService implements Disposable {
   }
 
   Future<String> create(PaymentQuote quote) async {
+    // ignore: avoid-type-casts, controlled type
     final totalAmount = (quote.payment.inputAmount + quote.fee) as CryptoAmount;
 
     final status = await _createTx(quote: quote);

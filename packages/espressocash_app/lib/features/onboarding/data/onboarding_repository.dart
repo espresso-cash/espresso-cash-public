@@ -13,6 +13,7 @@ class OnboardingRepository extends ChangeNotifier {
   }
 
   final SharedPreferences _storage;
+  // ignore: dispose-class-fields, false positive
   final ProfileRepository _profileRepository;
   final MyAccount _account;
 

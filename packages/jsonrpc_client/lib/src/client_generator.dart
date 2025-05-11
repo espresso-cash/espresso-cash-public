@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, drop deprecated usages until we raise SDK constraint lower-bound.
+// ignore_for_file: deprecated_member_use, avoid-type-casts
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';

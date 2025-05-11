@@ -189,6 +189,7 @@ class ILPService implements Disposable {
         mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
       );
 
+      // ignore: avoid-type-casts, controlled type
       final rawTx = details.transaction as RawTransaction;
       final tx = SignedTx.fromBytes(rawTx.data);
 

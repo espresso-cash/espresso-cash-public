@@ -76,7 +76,8 @@ class BinaryReader {
 BigInt _decodeBigInt(Iterable<int> bytes, {required bool isSigned}) {
   final list = bytes.toList();
 
-  final negative = isSigned ? list.isNotEmpty && list.last & _negativeFlag == _negativeFlag : false;
+  final isNegative =
+      isSigned ? list.isNotEmpty && list.last & _negativeFlag == _negativeFlag : false;
 
   BigInt result;
 
@@ -84,6 +85,7 @@ BigInt _decodeBigInt(Iterable<int> bytes, {required bool isSigned}) {
     result = BigInt.from(list.first);
   } else {
     result = BigInt.zero;
+    // ignore: prefer-for-in, more readable
     for (int i = 0; i < list.length; i++) {
       final item = list[i];
       result |= BigInt.from(item) << (8 * i);
@@ -91,7 +93,7 @@ BigInt _decodeBigInt(Iterable<int> bytes, {required bool isSigned}) {
   }
 
   return result != BigInt.zero
-      ? negative
+      ? isNegative
           ? result.toSigned(result.bitLength)
           : result
       : BigInt.zero;

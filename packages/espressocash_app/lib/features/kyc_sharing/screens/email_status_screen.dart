@@ -23,7 +23,7 @@ class EmailStatusScreen extends StatelessWidget {
   Widget build(BuildContext context) => UserDataListener(
     builder: (context, userData) {
       final status = userData.emailStatus;
-      final email = userData.getEmail ?? '-';
+      final email = userData.emailValue ?? '-';
 
       return KycPage(
         icon: status.kycIcon,
@@ -43,6 +43,7 @@ class EmailStatusScreen extends StatelessWidget {
             ),
           },
           const SizedBox(height: 16),
+          // ignore: avoid-flexible-outside-flex, inside column
           Expanded(child: _UpdateEmailContent(status: status)),
         ],
       );

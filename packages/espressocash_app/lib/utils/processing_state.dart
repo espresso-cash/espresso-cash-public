@@ -15,7 +15,8 @@ sealed class ProcessingState<E extends Exception> with _$ProcessingState<E> {
   bool get isProcessing => this is ProcessingStateProcessing;
 }
 
-abstract class StateWithProcessingState {
+@immutable
+sealed class StateWithProcessingState {
   const StateWithProcessingState();
 
   ProcessingState get processingState;

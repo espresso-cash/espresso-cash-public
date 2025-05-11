@@ -62,5 +62,5 @@ void main() {
 }
 
 /// Pre-calculated for `TokenProgram.neededAccountSpace = 165`.
-const int _tokenProgramRent = 2039280;
+const int _tokenProgramRent = 2_039_280;
 const _lamportsPerSignature = 5000;

@@ -27,7 +27,7 @@ class PickImageContainer extends StatelessWidget {
             fit: BoxFit.cover,
             image:
                 image == null
-                    // ignore: avoid-unnecessary-type-casts, needed here
+                    // ignore: avoid-unnecessary-type-casts, avoid-type-casts, needed here
                     ? Svg(Assets.images.imagePickerIcon.path) as ImageProvider<Object>
                     : FileImage(image),
           ),

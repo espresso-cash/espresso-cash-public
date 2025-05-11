@@ -134,10 +134,7 @@ class _BenefitItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
     children: [
-      Container(
-        padding: const EdgeInsets.all(4),
-        child: Assets.icons.successBullet.svg(height: 28),
-      ),
+      Padding(padding: const EdgeInsets.all(4), child: Assets.icons.successBullet.svg(height: 28)),
       const SizedBox(width: 12),
       Expanded(
         child: Text(

@@ -111,6 +111,7 @@ class _EquivalentDisplay extends StatelessWidget {
     final String formattedAmount;
     if (shouldDisplay) {
       formattedAmount = Amount.fromDecimal(value: value, currency: Currency.usd)
+          // ignore: avoid-type-casts, controlled type
           .let((it) => it as FiatAmount)
           .let((it) => it.toTokenAmount(token)?.round(Currency.usd.decimals))
           .maybeFlatMap((it) => it.format(locale, roundInteger: true, skipSymbol: true))

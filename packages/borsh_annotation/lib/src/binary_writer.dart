@@ -4,8 +4,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 class BinaryWriter {
-  BinaryWriter();
-
   ByteData buf = ByteData(_initialLength);
   int length = 0;
 

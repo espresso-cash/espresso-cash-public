@@ -56,6 +56,7 @@ extension BuildContextExt on BuildContext {
       partner: partner,
       onSubmitted: (Amount? value) {
         Navigator.pop(this);
+        // ignore: avoid-type-casts, controlled type
         amount = value as CryptoAmount?;
       },
       minAmount: partner.minimumAmountInDecimal,
@@ -81,8 +82,8 @@ extension BuildContextExt on BuildContext {
     if (submittedAmount == null) return;
 
     final submittedAmountInUsdc = CryptoAmount(
-      value: Currency.usdc.decimalToInt(submittedAmount.decimal),
-      cryptoCurrency: Currency.usdc,
+      value: inputCurrency.decimalToInt(submittedAmount.decimal),
+      cryptoCurrency: inputCurrency,
     );
 
     final fees = await runWithLoader<MoneygramFees>(
@@ -90,6 +91,7 @@ extension BuildContextExt on BuildContext {
       () => sl<MoneygramFeesService>().fetchFees(amount: submittedAmount, type: type),
     );
 
+    // ignore: avoid-type-casts, controlled type
     final depositAmount = fees.receiveAmount.convert(rate: rate, to: receiveCurrency) as FiatAmount;
 
     final bridgeAmountInUsdc = submittedAmountInUsdc + fees.bridgeFee;
@@ -113,16 +115,15 @@ extension BuildContextExt on BuildContext {
           authToken: token,
           receiveAmount: submittedAmount,
           countryCode: profile.country.code,
+          // ignore: avoid-type-casts, controlled type
           bridgeAmount: bridgeAmountInUsdc as CryptoAmount,
         )
-        .then((order) {
-          switch (order) {
-            case Left<Exception, String>():
-              return null;
-            case Right<Exception, String>(:final value):
-              return value;
-          }
-        });
+        .then(
+          (order) => switch (order) {
+            Left<Exception, String>() => null,
+            Right<Exception, String>(:final value) => value,
+          },
+        );
 
     if (id == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
@@ -237,9 +238,11 @@ window.addEventListener("message", (event) => {
     await sl<MoneygramOffRampOrderService>()
         .createMoneygramOrder(
           submittedAmount: submittedAmount,
+          // ignore: avoid-type-casts, controlled type
           receiveAmount: receiveAmount as FiatAmount,
           countryCode: profile.country.code,
           priorityFee: priorityFee,
+          // ignore: avoid-type-casts, controlled type
           gasFee: fees.gasFeeInUsdc as CryptoAmount,
         )
         .then((order) {
@@ -296,7 +299,7 @@ window.addEventListener("message", (event) => {
     return Either.right(
       receiveAmount.currency != currency
           ? receiveAmount.convert(rate: rate, to: currency)
-          : fees.receiveAmount,
+          : receiveAmount,
     );
   }
 

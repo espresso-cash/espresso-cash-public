@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-type-casts
+
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';

@@ -77,7 +77,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 }
 
 @freezed
-class SignInState with _$SignInState {
+sealed class SignInState with _$SignInState {
   const factory SignInState({
     @Default(AccountSource.local(Mnemonic.empty())) AccountSource source,
     required Flow<SignInException, MyAccount> processingState,
@@ -85,7 +85,7 @@ class SignInState with _$SignInState {
 }
 
 @freezed
-class SignInEvent with _$SignInEvent {
+sealed class SignInEvent with _$SignInEvent {
   const factory SignInEvent.newLocalWalletRequested() = SignInNewLocalWalletRequested;
 
   const factory SignInEvent.existingLocalWalletRequested(String phrase) =

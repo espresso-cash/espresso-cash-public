@@ -291,18 +291,12 @@ class _Animation extends StatelessWidget {
 }
 
 extension on CpTimelineStatus {
-  Color get backgroundColor {
-    switch (this) {
-      case CpTimelineStatus.success:
-        return CpColors.successBackgroundColor;
-      case CpTimelineStatus.inProgress:
-        return CpColors.infoBackgroundColor;
-      case CpTimelineStatus.failure:
-        return CpColors.errorBackgroundColor;
-      case CpTimelineStatus.neutral:
-        return CpColors.neutralBackgroundColor;
-    }
-  }
+  Color get backgroundColor => switch (this) {
+    CpTimelineStatus.success => CpColors.successBackgroundColor,
+    CpTimelineStatus.inProgress => CpColors.infoBackgroundColor,
+    CpTimelineStatus.failure => CpColors.errorBackgroundColor,
+    CpTimelineStatus.neutral => CpColors.neutralBackgroundColor,
+  };
 
   Widget get icon {
     switch (this) {

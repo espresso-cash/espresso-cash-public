@@ -60,6 +60,7 @@ class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState>
 
     return content == null
         ? const PuzzleReminderData.unset()
+        // ignore: avoid-type-casts, controlled here
         : PuzzleReminderData.fromJson(json.decode(content) as Map<String, dynamic>);
   }
 

@@ -31,6 +31,7 @@ extension BuildContextExt on BuildContext {
       partner: RampPartner.kado,
       onSubmitted: (Amount? value) {
         Navigator.pop(this);
+        // ignore: avoid-type-casts, controlled type
         amount = value as FiatAmount?;
       },
       minAmount: Decimal.fromInt(10),

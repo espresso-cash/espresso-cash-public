@@ -140,6 +140,7 @@ extension RpcClientExt on RpcClient {
       if (data is! List) return [];
 
       return data
+          // ignore: avoid-type-casts, controlled type
           .map((dynamic s) => TransactionSignatureInformation.fromJson(s as Map<String, dynamic>))
           .toList();
     }).toList();
@@ -177,6 +178,7 @@ extension RpcClientExt on RpcClient {
 
     return transactions
         .where((t) => t != null)
+        // ignore: avoid-type-casts, controlled type
         .map((dynamic t) => TransactionDetails.fromJson(t as Map<String, dynamic>))
         .toList(growable: false);
   }
@@ -193,6 +195,7 @@ extension RpcClientExt on RpcClient {
       throw const FormatException('Account data is null');
     }
 
+    // ignore: avoid-type-casts, controlled type
     final input = ByteArray((data as BinaryAccountData).data);
     final decode = AddressLookupTableAccount.deserialize(input);
 

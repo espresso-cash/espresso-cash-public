@@ -7,7 +7,7 @@ export 'instruction.dart';
 export 'nonce_account.dart';
 export 'solana_client_ext.dart';
 
-abstract class SystemProgram {
+abstract final class SystemProgram {
   static const programId = '11111111111111111111111111111111';
 
   static final Ed25519HDPublicKey id = Ed25519HDPublicKey.fromBase58(programId);

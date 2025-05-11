@@ -15,6 +15,7 @@ import '../../tokens/token.dart';
 class TokenBalancesRepository {
   const TokenBalancesRepository(this._db, this._tokenRepository);
 
+  // ignore: dispose-class-fields, false positive
   final MyDatabase _db;
   final TokenRepository _tokenRepository;
 

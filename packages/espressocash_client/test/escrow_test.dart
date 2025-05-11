@@ -24,7 +24,7 @@ void main() {
     final request = CreatePaymentRequestDto(
       senderAccount: senderKeyPair.address,
       escrowAccount: escrowKeyPair.address,
-      amount: 100000,
+      amount: 100_000,
     );
 
     final response = await client.createPaymentEc(request);
