@@ -7,11 +7,6 @@ updates:
       interval: "monthly"
 
   - package-ecosystem: "pub"
-    directory: "/packages/espressocash_backend/"
-    schedule:
-      interval: "monthly"
-
-  - package-ecosystem: "pub"
     directory: "/packages/solana/"
     schedule:
       interval: "monthly"
