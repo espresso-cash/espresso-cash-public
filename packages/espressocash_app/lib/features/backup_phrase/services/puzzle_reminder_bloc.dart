@@ -72,17 +72,17 @@ class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState>
   /// show the message right away.
   ///
   /// If it was previously set, the check the `remindAt` value and schedule
-  Future<void> _onCheckRequested(
+  void _onCheckRequested(
     PuzzleReminderEventCheckRequested event,
     Emitter<PuzzleReminderState> emit,
-  ) async {
-    await event.accessMode.when(
+  ) {
+    event.accessMode.when(
       // Don't set a reminder if user logged in (they already know the seed)
-      seedInputted: () async => add(const PuzzleReminderEvent.solved()),
+      seedInputted: () => add(const PuzzleReminderEvent.solved()),
       // Postpone the reminder by 1 day if user created account now
-      created: () async => add(const PuzzleReminderEvent.postponed(postponedBy: Duration(days: 1))),
+      created: () => add(const PuzzleReminderEvent.postponed(postponedBy: Duration(days: 1))),
       // Check for reminder if user account was loaded from storage
-      loaded: () async {
+      loaded: () {
         final data = _readSharedPreferences();
 
         if (data.shouldRemindNow) {

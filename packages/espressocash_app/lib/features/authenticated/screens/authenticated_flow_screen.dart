@@ -15,7 +15,7 @@ class AuthenticatedFlowScreen extends StatefulWidget {
   static void open(BuildContext context, {NavigatorState? navigator}) =>
       (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<void>(
         PageRouteBuilder(
-          pageBuilder: (context, _, __) => const AuthenticatedFlowScreen(),
+          pageBuilder: (context, _, _) => const AuthenticatedFlowScreen(),
           transitionDuration: Duration.zero,
         ),
         F,

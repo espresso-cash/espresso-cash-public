@@ -209,7 +209,7 @@ extension BuildContextExt on BuildContext {
   Future<bool> _validateKyc(ProfileData profile) async {
     final kycService = sl<KycSharingService>();
 
-    await runWithLoader(this, () async => kycService.initialized);
+    await runWithLoader(this, () => kycService.initialized);
 
     final user = kycService.value;
 

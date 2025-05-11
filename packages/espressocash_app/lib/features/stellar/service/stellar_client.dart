@@ -27,7 +27,7 @@ class StellarClient {
       [wallet],
       clientDomain: clientDomain,
       clientDomainSigningDelegate:
-          (transactionXdr) async => _ecClient
+          (transactionXdr) => _ecClient
               .signChallenge(MoneygramChallengeSignRequestDto(signedTx: transactionXdr))
               .then((e) => e.signedTx),
     );

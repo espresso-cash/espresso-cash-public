@@ -18,7 +18,7 @@ extension BuildContextExt on BuildContext {
   Future<void> openMoneygramWithdrawUrl(OffRampOrder order) async {
     final withdrawUrl = await runWithLoader<String?>(
       this,
-      () async => sl<MoneygramOffRampOrderService>().getWithdrawUrl(
+      () => sl<MoneygramOffRampOrderService>().getWithdrawUrl(
         order: order,
         languageCode: locale.languageCode,
       ),

@@ -491,7 +491,7 @@ void main() {
         encoding: Encoding.base58,
       );
 
-      expectLater(future, throwsA(isA<JsonRpcException>()));
+      await expectLater(future, throwsA(isA<JsonRpcException>()));
     });
 
     test('Call to getBlockProduction() succeeds', () async {

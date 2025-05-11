@@ -94,7 +94,7 @@ class TxReadyWatcher implements Disposable {
                   .toIList(),
         );
 
-    Stream<void> retryWhen(void _, void __) async* {
+    Stream<void> retryWhen(void _, void _) async* {
       await Future<void>.delayed(backoff);
       if (backoff < const Duration(seconds: 30)) backoff *= 2;
 

@@ -26,7 +26,7 @@ Future<bool> showTermsAndPolicyDialog(
           a: _markdownStyle.copyWith(color: CpColors.yellowColor, fontWeight: FontWeight.w700),
           p: _markdownStyle,
         ),
-        onTapLink: (_, href, __) {
+        onTapLink: (_, href, _) {
           final url = switch (href) {
             'partner-terms' => termsUrl,
             'data-sharing-agreement' => privacyUrl,

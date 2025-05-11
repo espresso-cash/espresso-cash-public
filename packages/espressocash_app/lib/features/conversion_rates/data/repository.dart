@@ -67,7 +67,7 @@ class ConversionRatesRepository {
     final addresses = await Stream.fromIterable(tokens.addresses).bufferCount(_maxIds).toList();
 
     final results = await Future.wait(
-      addresses.map((ids) async {
+      addresses.map((ids) {
         final request = TokenRateRequestDto(ids: ids.lock);
 
         return _jupiterClient.getPrice(request);

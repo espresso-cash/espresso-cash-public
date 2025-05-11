@@ -17,7 +17,7 @@ class SignInFlowScreen extends StatefulWidget {
   static void open(BuildContext context, {NavigatorState? navigator}) =>
       (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<void>(
         PageRouteBuilder(
-          pageBuilder: (context, _, __) => const SignInFlowScreen(),
+          pageBuilder: (context, _, _) => const SignInFlowScreen(),
           transitionDuration: Duration.zero,
         ),
         F,

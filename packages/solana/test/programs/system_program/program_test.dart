@@ -141,7 +141,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    expectLater(future, throwsA(isA<JsonRpcException>()));
+    await expectLater(future, throwsA(isA<JsonRpcException>()));
   });
 
   test('Advance nonce account', () async {

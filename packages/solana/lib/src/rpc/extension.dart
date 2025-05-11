@@ -205,7 +205,7 @@ extension RpcClientExt on RpcClient {
   Future<List<AddressLookupTableAccount>> getAddressLookUpTableAccounts(
     List<MessageAddressTableLookup> addressTableLookups,
   ) => Future.wait(
-    addressTableLookups.map((lookup) async => getAddressLookupTable(lookup.accountKey)).toList(),
+    addressTableLookups.map((lookup) => getAddressLookupTable(lookup.accountKey)).toList(),
   );
 
   Future<Message> getMessageFromEncodedTx(String encodedTx) {
