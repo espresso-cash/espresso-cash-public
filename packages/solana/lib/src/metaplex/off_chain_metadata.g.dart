@@ -11,11 +11,15 @@ OffChainMetadata _$OffChainMetadataFromJson(Map<String, dynamic> json) => OffCha
   description: json['description'] as String,
   symbol: json['symbol'] as String,
   image: json['image'] as String,
-  properties: Properties.fromJson(json['properties'] as Map<String, dynamic>),
+  properties:
+      json['properties'] == null
+          ? null
+          : Properties.fromJson(json['properties'] as Map<String, dynamic>),
   attributes:
-      (json['attributes'] as List<dynamic>)
-          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      (json['attributes'] as List<dynamic>?)
+          ?.map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
   collection:
       json['collection'] == null
           ? null
@@ -27,7 +31,7 @@ Map<String, dynamic> _$OffChainMetadataToJson(OffChainMetadata instance) => <Str
   'description': instance.description,
   'symbol': instance.symbol,
   'image': instance.image,
-  'properties': instance.properties.toJson(),
   'attributes': instance.attributes.map((e) => e.toJson()).toList(),
+  'properties': instance.properties?.toJson(),
   'collection': instance.collection?.toJson(),
 };
