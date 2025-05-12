@@ -13,7 +13,7 @@ import '../../../ui/theme.dart';
 import '../data/kyc_repository.dart';
 import '../services/partner_access_service.dart';
 
-class ManageDataAccessScreen extends StatelessWidget {
+class ManageDataAccessScreen extends StatefulWidget {
   const ManageDataAccessScreen({super.key});
 
   static void push(BuildContext context) => Navigator.of(
@@ -21,27 +21,42 @@ class ManageDataAccessScreen extends StatelessWidget {
   ).push<void>(MaterialPageRoute(builder: (_) => const ManageDataAccessScreen()));
 
   @override
+  State<ManageDataAccessScreen> createState() => _ManageDataAccessScreenState();
+}
+
+class _ManageDataAccessScreenState extends State<ManageDataAccessScreen> {
+  // ignore: dispose-fields, false positive
+  final _partnerAccessService = sl<PartnerAccessService>();
+
+  @override
+  void initState() {
+    super.initState();
+    _partnerAccessService.fetchPartners();
+  }
+
+  @override
   Widget build(BuildContext context) => CpTheme.dark(
     child: Scaffold(
       backgroundColor: CpColors.blackGreyColor,
       appBar: CpAppBar(title: Text(context.l10n.manageDataAccess.toUpperCase())),
-      body: ChangeNotifierProvider<PartnerAccessService>.value(
-        value: sl<PartnerAccessService>()..fetchPartners(),
-        child: const _Content(),
+      body: ListenableBuilder(
+        listenable: _partnerAccessService,
+        builder: (context, _) => _Content(service: _partnerAccessService),
       ),
     ),
   );
 }
 
 class _Content extends StatelessWidget {
-  const _Content();
+  const _Content({required this.service});
+
+  final PartnerAccessService service;
 
   void _handleOnDeleteAllDataPress(BuildContext context) => showConfirmationDialog(
     context,
-    title: 'Confirm Delete',
+    title: context.l10n.confirmDeleteAllDataTitle,
     titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),
-    message:
-        'Are you sure you want to delete all your kyc infomation and revoke access to all partners?',
+    message: context.l10n.confirmDeleteAllDataText,
     messageStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.white),
     onConfirm: () {
       sl<KycRepository>().deleteAllUserData();
@@ -51,72 +66,68 @@ class _Content extends StatelessWidget {
 
   void _handleRevokeAccess(BuildContext context, String partnerPk) => showConfirmationDialog(
     context,
-    title: 'Confirm Revoke',
+    title: context.l10n.confirmRevokeAccessTitle,
     titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),
-    message: 'Are you sure you want to revoke access to this partner?',
-    onConfirm: () => context.read<PartnerAccessService>().revokePartner(partnerPk),
+    message: context.l10n.confirmRevokeAccessText,
+    onConfirm: () => service.revokePartner(partnerPk),
   );
 
   @override
-  Widget build(BuildContext context) {
-    final provider = context.watch<PartnerAccessService>();
+  Widget build(BuildContext context) => Padding(
+    padding: EdgeInsets.only(
+      top: 40,
+      left: 40,
+      right: 40,
+      bottom: MediaQuery.paddingOf(context).bottom,
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text(context.l10n.networkPartners.toUpperCase()),
+        ),
+        const SizedBox(height: 20),
+        Expanded(
+          child: () {
+            if (service.loading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (service.error != null) {
+              return Center(
+                child: Text(
+                  context.l10n.errorLoadingPartners,
+                  style: const TextStyle(color: CpColors.alertRedColor),
+                ),
+              );
+            }
+            final partners = service.partners ?? [];
 
-    return Padding(
-      padding: EdgeInsets.only(
-        top: 40,
-        left: 40,
-        right: 40,
-        bottom: MediaQuery.paddingOf(context).bottom,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(context.l10n.networkPartners.toUpperCase()),
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: () {
-              if (provider.loading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (provider.error != null) {
-                return const Center(
-                  child: Text(
-                    'Error loading partners',
-                    style: TextStyle(color: CpColors.alertRedColor),
-                  ),
+            return partners.isEmpty
+                ? Center(child: Text(context.l10n.noPartnersWithAccess))
+                : ListView.builder(
+                  itemCount: partners.length,
+                  itemBuilder: (context, index) {
+                    final partner = partners[index];
+
+                    return _PartnerListItem(
+                      partner: partner,
+                      onRevokeAccess: () => _handleRevokeAccess(context, partner.publicKey),
+                    );
+                  },
                 );
-              }
-              final partners = provider.partners ?? [];
-
-              return partners.isEmpty
-                  ? const Center(child: Text('No partners with access'))
-                  : ListView.builder(
-                    itemCount: partners.length,
-                    itemBuilder: (context, index) {
-                      final partner = partners[index];
-
-                      return _PartnerListItem(
-                        partner: partner,
-                        onRevokeAccess: () => _handleRevokeAccess(context, partner.publicKey),
-                      );
-                    },
-                  );
-            }(),
-          ),
-          const SizedBox(height: 20),
-          CpBottomButton(
-            horizontalPadding: 0,
-            text: context.l10n.deleteAllData,
-            onPressed: () => _handleOnDeleteAllDataPress(context),
-            variant: CpButtonVariant.danger,
-          ),
-        ],
-      ),
-    );
-  }
+          }(),
+        ),
+        const SizedBox(height: 20),
+        CpBottomButton(
+          horizontalPadding: 0,
+          text: context.l10n.deleteAllData,
+          onPressed: () => _handleOnDeleteAllDataPress(context),
+          variant: CpButtonVariant.danger,
+        ),
+      ],
+    ),
+  );
 }
 
 class _PartnerListItem extends StatelessWidget {
@@ -138,7 +149,6 @@ class _PartnerListItem extends StatelessWidget {
         ),
         IconButton(
           icon: const Icon(Icons.close, color: Colors.white, size: 24),
-          tooltip: 'Revoke Access',
           onPressed: onRevokeAccess,
         ),
       ],

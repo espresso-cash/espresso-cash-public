@@ -1269,5 +1269,17 @@
     "deleteAllData": "Delete All Data",
     "@deleteAllData": {},
     "networkPartners": "Network Partners",
-    "@networkPartners": {}
+    "@networkPartners": {},
+    "confirmDeleteAllDataText": "Are you sure you want to delete all your kyc infomation and revoke access to all partners?",
+    "@confirmDeleteAllDataText": {},
+    "confirmRevokeAccessText": "Are you sure you want to revoke access to this partner?",
+    "@confirmRevokeAccessText": {},
+    "confirmDeleteAllDataTitle": "Confirm Delete",
+    "@confirmDeleteAllDataTitle": {},
+    "confirmRevokeAccessTitle": "Confirm Revoke",
+    "@confirmRevokeAccessTitle": {},
+    "noPartnersWithAccess": "No partners with granted access",
+    "@noPartnersWithAccess": {},
+    "errorLoadingPartners": "Error loading partners",
+    "@errorLoadingPartners": {}
 }
