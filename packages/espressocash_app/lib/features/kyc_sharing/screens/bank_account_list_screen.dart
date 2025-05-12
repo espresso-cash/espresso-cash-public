@@ -6,7 +6,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
 import '../../country_picker/models/country.dart';
-import '../services/kyc_service.dart';
+import '../services/kyc_data_service.dart';
 import '../widgets/kyc_page.dart';
 import 'bank_account_screen.dart';
 
@@ -19,7 +19,7 @@ class BankAccountListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
-    valueListenable: sl<KycSharingService>(),
+    valueListenable: sl<KycDataService>(),
     builder: (context, user, _) {
       final bankInfos = user?.bankInfos ?? [];
 

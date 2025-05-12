@@ -16,8 +16,8 @@ import '../models/requirement_extensions.dart';
 import '../utils/kyc_exception.dart';
 
 @Singleton(scope: authScope)
-class KycSharingService extends ValueNotifier<UserData?> {
-  KycSharingService(this._kycRepository, this._featureFlagsManager) : super(null);
+class KycDataService extends ValueNotifier<UserData?> {
+  KycDataService(this._kycRepository, this._featureFlagsManager) : super(null);
 
   final KycRepository _kycRepository;
   final FeatureFlagsManager _featureFlagsManager;
@@ -268,8 +268,6 @@ class KycSharingService extends ValueNotifier<UserData?> {
       await _fetchEmailAndPhoneStatuses();
     }
   }
-
-  Future<bool> hasGrantedAccess(String partnerPk) => _kycRepository.hasGrantedAccess(partnerPk);
 
   Future<({String termsUrl, String policyUrl})> fetchPartnerTermsAndPolicy(String partnerPk) =>
       _kycRepository

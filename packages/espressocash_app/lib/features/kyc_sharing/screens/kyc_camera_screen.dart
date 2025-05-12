@@ -11,7 +11,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
-import '../services/kyc_service.dart';
+import '../services/kyc_data_service.dart';
 
 class KycCameraScreen extends StatefulWidget {
   const KycCameraScreen({super.key});
@@ -32,7 +32,7 @@ class _KycCameraScreenState extends State<KycCameraScreen> {
   Future<void> _handleSubmitted() async {
     final success = await runWithLoader<bool>(context, () async {
       try {
-        final service = sl<KycSharingService>();
+        final service = sl<KycDataService>();
         await service.updateSelfiePhoto(photoSelfie: _capturedImage);
 
         return true;

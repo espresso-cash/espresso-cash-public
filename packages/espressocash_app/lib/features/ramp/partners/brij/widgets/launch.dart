@@ -13,7 +13,8 @@ import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
 import '../../../../kyc_sharing/models/kyc_validation_status.dart';
-import '../../../../kyc_sharing/services/kyc_service.dart';
+import '../../../../kyc_sharing/services/kyc_access_service.dart';
+import '../../../../kyc_sharing/services/kyc_data_service.dart';
 import '../../../../kyc_sharing/services/pending_kyc_service.dart';
 import '../../../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
@@ -207,7 +208,7 @@ extension BuildContextExt on BuildContext {
   }
 
   Future<bool> _validateKyc(ProfileData profile) async {
-    final kycService = sl<KycSharingService>();
+    final kycService = sl<KycDataService>();
 
     await runWithLoader(this, () => kycService.initialized);
 
@@ -304,11 +305,11 @@ extension BuildContextExt on BuildContext {
 
     if (partnerPK == null) return false;
 
-    final hasGrantedAccess = await sl<KycSharingService>().hasGrantedAccess(partnerPK);
+    final hasGrantedAccess = await sl<KycAccessService>().hasGrantedAccess(partnerPK);
 
     if (hasGrantedAccess) return true;
 
-    final (:termsUrl, :policyUrl) = await sl<KycSharingService>().fetchPartnerTermsAndPolicy(
+    final (:termsUrl, :policyUrl) = await sl<KycDataService>().fetchPartnerTermsAndPolicy(
       partnerPK,
     );
 

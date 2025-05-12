@@ -15,7 +15,7 @@ import '../models/document_type.dart';
 import '../models/requirement_extensions.dart';
 import '../screens/document_camera_screen.dart';
 import '../screens/document_info_screen.dart';
-import '../services/kyc_service.dart';
+import '../services/kyc_data_service.dart';
 import '../widgets/document_picker.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
@@ -106,7 +106,7 @@ class _DocumentInputScreenState extends State<DocumentInputScreen> {
         // ignore: avoid-type-casts, controlled type
         final backImage = _documentFields[DocumentField.photoBack] as File?;
 
-        await sl<KycSharingService>().updateDocumentInfo(
+        await sl<KycDataService>().updateDocumentInfo(
           idType: _selectedDocumentType,
           idNumber: idNumber,
           countryCode: _selectedCountry?.code,

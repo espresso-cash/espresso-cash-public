@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../models/kyc_validation_status.dart';
-import 'kyc_service.dart';
+import 'kyc_data_service.dart';
 
 @Singleton(scope: authScope)
 class PendingKycService {
@@ -14,7 +14,7 @@ class PendingKycService {
 
   final SharedPreferences _sharedPreferences;
   // ignore: dispose-class-fields, false positive
-  final KycSharingService _kycService;
+  final KycDataService _kycService;
 
   final _controller = BehaviorSubject<DateTime?>();
   Stream<DateTime?> get pendingKycStream => _controller.stream;

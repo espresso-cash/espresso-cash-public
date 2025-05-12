@@ -11,7 +11,7 @@ import '../../../ui/snackbar.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../models/bank.dart';
-import '../services/kyc_service.dart';
+import '../services/kyc_data_service.dart';
 import '../widgets/bank_text_field.dart';
 import '../widgets/kyc_header.dart';
 import '../widgets/kyc_page.dart';
@@ -55,7 +55,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
   Future<void> _handleSubmitted() async {
     final success = await runWithLoader<bool>(context, () async {
       try {
-        await sl<KycSharingService>().updateBankInfo(
+        await sl<KycDataService>().updateBankInfo(
           id: widget.initialBankInfo?.id,
           bankAccountNumber: _bankAccountNumberController.text,
           bankCode: _selectedBank?.code ?? _bankCodeController.text.trim(),

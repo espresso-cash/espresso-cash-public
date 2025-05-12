@@ -18,7 +18,7 @@ import '../screens/personal_information_screen.dart';
 import '../screens/phone_confirmation_screen.dart';
 import '../screens/phone_status_screen.dart';
 import '../screens/phone_verification_screen.dart';
-import '../services/kyc_service.dart';
+import '../services/kyc_data_service.dart';
 import '../services/pending_kyc_service.dart';
 import '../utils/kyc_utils.dart';
 
@@ -45,7 +45,7 @@ List<KycStepFunction> documentSteps({required KycRequirement requirement}) => [
 
 extension KycFlowExtension on BuildContext {
   Future<bool> openKycFlow({required String countryCode}) async {
-    final user = sl<KycSharingService>().value;
+    final user = sl<KycDataService>().value;
 
     if (user == null) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
@@ -83,7 +83,7 @@ extension KycFlowExtension on BuildContext {
       if (!await _navigateToScreen(BankAccountScreen.push)) return false;
     }
 
-    final requirement = await sl<KycSharingService>().getKycRequirements(country: countryCode);
+    final requirement = await sl<KycDataService>().getKycRequirements(country: countryCode);
 
     final supportedCountries = requirement.requirements.parseCountryCodes();
 
@@ -100,7 +100,7 @@ extension KycFlowExtension on BuildContext {
     }
 
     if (kycStatus == KycValidationStatus.unverified) {
-      await sl<KycSharingService>().startKycVerification(country: countryCode);
+      await sl<KycDataService>().startKycVerification(country: countryCode);
     }
 
     if (kycStatus != KycValidationStatus.approved) {
@@ -115,7 +115,7 @@ extension KycFlowExtension on BuildContext {
   }
 
   Future<bool> openEmailFlow() {
-    final user = sl<KycSharingService>().value;
+    final user = sl<KycDataService>().value;
 
     return user?.emailStatus == KycValidationStatus.unverified
         ? _runFlow(emailSteps)
@@ -123,7 +123,7 @@ extension KycFlowExtension on BuildContext {
   }
 
   Future<bool> openPhoneFlow() {
-    final user = sl<KycSharingService>().value;
+    final user = sl<KycDataService>().value;
 
     return user?.phoneStatus == KycValidationStatus.unverified
         ? _runFlow(phoneSteps)

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -9,9 +8,11 @@ import '../../../ui/bottom_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
+import '../../../ui/loader.dart';
+import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
 import '../data/kyc_repository.dart';
-import '../services/partner_access_service.dart';
+import '../services/kyc_access_service.dart';
 
 class ManageDataAccessScreen extends StatefulWidget {
   const ManageDataAccessScreen({super.key});
@@ -26,12 +27,12 @@ class ManageDataAccessScreen extends StatefulWidget {
 
 class _ManageDataAccessScreenState extends State<ManageDataAccessScreen> {
   // ignore: dispose-fields, false positive
-  final _partnerAccessService = sl<PartnerAccessService>();
+  final _kycAccessService = sl<KycAccessService>();
 
   @override
   void initState() {
     super.initState();
-    _partnerAccessService.fetchPartners();
+    _kycAccessService.fetchPartners();
   }
 
   @override
@@ -40,8 +41,8 @@ class _ManageDataAccessScreenState extends State<ManageDataAccessScreen> {
       backgroundColor: CpColors.blackGreyColor,
       appBar: CpAppBar(title: Text(context.l10n.manageDataAccess.toUpperCase())),
       body: ListenableBuilder(
-        listenable: _partnerAccessService,
-        builder: (context, _) => _Content(service: _partnerAccessService),
+        listenable: _kycAccessService,
+        builder: (context, _) => _Content(service: _kycAccessService),
       ),
     ),
   );
@@ -50,7 +51,7 @@ class _ManageDataAccessScreenState extends State<ManageDataAccessScreen> {
 class _Content extends StatelessWidget {
   const _Content({required this.service});
 
-  final PartnerAccessService service;
+  final KycAccessService service;
 
   void _handleOnDeleteAllDataPress(BuildContext context) => showConfirmationDialog(
     context,
@@ -58,9 +59,17 @@ class _Content extends StatelessWidget {
     titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),
     message: context.l10n.confirmDeleteAllDataText,
     messageStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.white),
-    onConfirm: () {
-      sl<KycRepository>().deleteAllUserData();
-      Navigator.of(context).pop();
+    onConfirm: () async {
+      await runWithLoader<void>(context, () async {
+        try {
+          await sl<KycRepository>().deleteAllUserData();
+          if (!context.mounted) return;
+          Navigator.of(context).pop();
+        } on Exception {
+          if (!context.mounted) return;
+          showCpErrorSnackbar(context, message: context.l10n.tryAgainLater);
+        }
+      });
     },
   );
 
@@ -69,7 +78,16 @@ class _Content extends StatelessWidget {
     title: context.l10n.confirmRevokeAccessTitle,
     titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),
     message: context.l10n.confirmRevokeAccessText,
-    onConfirm: () => service.revokePartner(partnerPk),
+    onConfirm: () async {
+      await runWithLoader<void>(context, () async {
+        try {
+          await service.revokePartnerAccess(partnerPk);
+        } on Exception {
+          if (!context.mounted) return;
+          showCpErrorSnackbar(context, message: context.l10n.tryAgainLater);
+        }
+      });
+    },
   );
 
   @override
@@ -85,7 +103,10 @@ class _Content extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(context.l10n.networkPartners.toUpperCase()),
+          child: Text(
+            context.l10n.networkPartners.toUpperCase(),
+            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+          ),
         ),
         const SizedBox(height: 20),
         Expanded(
@@ -93,14 +114,7 @@ class _Content extends StatelessWidget {
             if (service.loading) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (service.error != null) {
-              return Center(
-                child: Text(
-                  context.l10n.errorLoadingPartners,
-                  style: const TextStyle(color: CpColors.alertRedColor),
-                ),
-              );
-            }
+
             final partners = service.partners ?? [];
 
             return partners.isEmpty
@@ -138,13 +152,13 @@ class _PartnerListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8),
+    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
     child: Row(
       children: [
         Expanded(
           child: Text(
             partner.name,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18),
+            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
           ),
         ),
         IconButton(

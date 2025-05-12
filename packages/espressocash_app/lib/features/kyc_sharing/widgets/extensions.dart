@@ -4,14 +4,14 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
-import '../services/kyc_service.dart';
+import '../services/kyc_data_service.dart';
 import '../utils/kyc_exception.dart';
 
 extension KycBuildContext on BuildContext {
   Future<bool> sendEmailVerification(BuildContext context, {required String email}) =>
       runWithLoader<bool>(context, () async {
         try {
-          await sl<KycSharingService>().initEmailVerification(email: email);
+          await sl<KycDataService>().initEmailVerification(email: email);
 
           return true;
         } on KycException catch (error) {
@@ -36,7 +36,7 @@ extension KycBuildContext on BuildContext {
   Future<bool> sendPhoneVerification(BuildContext context, {required String phone}) =>
       runWithLoader<bool>(context, () async {
         try {
-          await sl<KycSharingService>().initPhoneVerification(phone: phone);
+          await sl<KycDataService>().initPhoneVerification(phone: phone);
 
           return true;
         } on KycException catch (error) {
