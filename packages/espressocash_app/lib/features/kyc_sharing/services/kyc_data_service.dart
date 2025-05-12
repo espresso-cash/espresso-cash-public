@@ -269,6 +269,17 @@ class KycDataService extends ValueNotifier<UserData?> {
     }
   }
 
+  Future<void> deleteAllUserData() async {
+    try {
+      await _kycRepository.deleteAllUserData();
+    } on Exception catch (exception) {
+      throw exception.toKycException();
+    } finally {
+      await _fetchUserData();
+      notifyListeners();
+    }
+  }
+
   Future<({String termsUrl, String policyUrl})> fetchPartnerTermsAndPolicy(String partnerPk) =>
       _kycRepository
           .fetchPartnerInfo(partnerPk)

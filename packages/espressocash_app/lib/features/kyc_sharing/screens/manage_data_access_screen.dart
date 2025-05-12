@@ -11,8 +11,8 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
-import '../data/kyc_repository.dart';
 import '../services/kyc_access_service.dart';
+import '../services/kyc_data_service.dart';
 
 class ManageDataAccessScreen extends StatefulWidget {
   const ManageDataAccessScreen({super.key});
@@ -62,7 +62,7 @@ class _Content extends StatelessWidget {
     onConfirm: () async {
       await runWithLoader<void>(context, () async {
         try {
-          await sl<KycRepository>().deleteAllUserData();
+          await sl<KycDataService>().deleteAllUserData();
           if (!context.mounted) return;
           Navigator.of(context).pop();
         } on Exception {
