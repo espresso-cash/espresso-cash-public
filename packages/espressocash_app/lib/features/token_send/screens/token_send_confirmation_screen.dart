@@ -30,16 +30,16 @@ class TokenSendConfirmationScreen extends StatefulWidget {
     required String initialAmount,
     required Ed25519HDPublicKey recipient,
     required Token token,
-  }) =>
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => TokenSendConfirmationScreen(
+  }) => Navigator.of(context).push(
+    MaterialPageRoute(
+      builder:
+          (context) => TokenSendConfirmationScreen(
             initialAmount: initialAmount,
             recipient: recipient,
             token: token,
           ),
-        ),
-      );
+    ),
+  );
 
   final String initialAmount;
   final Ed25519HDPublicKey recipient;
@@ -86,31 +86,29 @@ class _ScreenState extends State<TokenSendConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: CpColors.deepGreyColor,
-        body: Stack(
-          children: [
-            SafeArea(
-              minimum: const EdgeInsets.only(bottom: 40),
-              child: NestedScrollView(
-                headerSliverBuilder: (context, _) => [
+    backgroundColor: CpColors.deepGreyColor,
+    body: Stack(
+      children: [
+        SafeArea(
+          minimum: const EdgeInsets.only(bottom: 40),
+          child: NestedScrollView(
+            headerSliverBuilder:
+                (context, _) => [
                   TokenAppBar(
                     token: widget.token,
                     color: CpColors.deepGreyColor,
                     displayText: false,
                   ),
                 ],
-                physics: const NeverScrollableScrollPhysics(),
-                body: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(31),
-                    topRight: Radius.circular(31),
-                  ),
-                  child: LayoutBuilder(
-                    builder: (
-                      BuildContext context,
-                      BoxConstraints viewportConstraints,
-                    ) =>
-                        DecoratedBox(
+            physics: const NeverScrollableScrollPhysics(),
+            body: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(31),
+                topRight: Radius.circular(31),
+              ),
+              child: LayoutBuilder(
+                builder:
+                    (BuildContext context, BoxConstraints viewportConstraints) => DecoratedBox(
                       decoration: const BoxDecoration(),
                       child: IntrinsicHeight(
                         child: Column(
@@ -137,102 +135,78 @@ class _ScreenState extends State<TokenSendConfirmationScreen> {
                                       const SizedBox(height: 72),
                                       FutureBuilder(
                                         future: _feeAmount,
-                                        builder: (context, fee) => _InfoTable(
-                                          walletAddress: widget.recipient
-                                              .toString()
-                                              .shortened,
-                                          fees: context.feeStatus(fee),
-                                        ),
+                                        builder:
+                                            (context, fee) => _InfoTable(
+                                              walletAddress: widget.recipient.toString().shortened,
+                                              fees: context.feeStatus(fee),
+                                            ),
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
                             ),
-                            CpBottomButton(
-                              text: context.l10n.send,
-                              onPressed: _handleSubmitted,
-                            ),
+                            CpBottomButton(text: context.l10n.send, onPressed: _handleSubmitted),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                ),
               ),
             ),
-          ],
+          ),
         ),
-      );
+      ],
+    ),
+  );
 }
 
 class _InfoTable extends StatelessWidget {
-  const _InfoTable({
-    required this.walletAddress,
-    required this.fees,
-  });
+  const _InfoTable({required this.walletAddress, required this.fees});
 
   final String walletAddress;
   final String fees;
 
   @override
   Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 22),
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 28),
-        decoration: const ShapeDecoration(
-          color: CpColors.blackGreyColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(28)),
-          ),
-        ),
-        child: Column(
-          children: [
-            _InfoItem(
-              label: context.l10n.walletAddress,
-              value: walletAddress,
-            ),
-            const SizedBox(height: 6),
-            _InfoItem(
-              label: context.l10n.fees,
-              value: fees,
-            ),
-          ],
-        ),
-      );
+    margin: const EdgeInsets.symmetric(horizontal: 22),
+    padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 28),
+    decoration: const ShapeDecoration(
+      color: CpColors.blackGreyColor,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(28))),
+    ),
+    child: Column(
+      children: [
+        _InfoItem(label: context.l10n.walletAddress, value: walletAddress),
+        const SizedBox(height: 6),
+        _InfoItem(label: context.l10n.fees, value: fees),
+      ],
+    ),
+  );
 }
 
 class _InfoItem extends StatelessWidget {
-  const _InfoItem({
-    required this.label,
-    required this.value,
-  });
+  const _InfoItem({required this.label, required this.value});
   final String label;
   final String value;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff999999),
-              ),
-            ),
-          ],
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: Color(0xff999999),
+          ),
         ),
-      );
+      ],
+    ),
+  );
 }
 
 extension on String {
@@ -253,9 +227,6 @@ extension on BuildContext {
 
     return !fee.hasData || data == null
         ? 'Unable to fetch fee'
-        : data.format(
-            DeviceLocale.localeOf(this),
-            skipSymbol: false,
-          );
+        : data.format(DeviceLocale.localeOf(this), skipSymbol: false);
   }
 }

@@ -30,12 +30,9 @@ import 'token_send_confirmation_screen.dart';
 class TokenSendInputScreen extends StatefulWidget {
   const TokenSendInputScreen({super.key, required this.token});
 
-  static void push(BuildContext context, {required Token token}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (context) => TokenSendInputScreen(token: token),
-        ),
-      );
+  static void push(BuildContext context, {required Token token}) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (context) => TokenSendInputScreen(token: token)));
 
   final Token token;
 
@@ -53,7 +50,8 @@ class _TokenSendInputScreenState extends State<TokenSendInputScreen> {
   void initState() {
     super.initState();
 
-    _rate = sl<ConversionRatesRepository>().readRate(
+    _rate =
+        sl<ConversionRatesRepository>().readRate(
           CryptoCurrency(token: widget.token),
           to: defaultFiatCurrency,
         ) ??
@@ -90,16 +88,12 @@ class _TokenSendInputScreenState extends State<TokenSendInputScreen> {
 
     if (confirmedAmount == null) return;
 
-    final cryptoAmount = Amount.fromDecimal(
-      value: confirmedAmount,
-      currency: Currency.crypto(token: widget.token),
-    ) as CryptoAmount;
+    final cryptoAmount =
+        Amount.fromDecimal(value: confirmedAmount, currency: Currency.crypto(token: widget.token))
+            as CryptoAmount;
 
     if (!mounted) return;
-    final id = await context.createTokenSend(
-      amount: cryptoAmount,
-      receiver: recipient,
-    );
+    final id = await context.createTokenSend(amount: cryptoAmount, receiver: recipient);
 
     if (!mounted) return;
     ODPDetailsScreen.open(context, id: id);
@@ -108,130 +102,109 @@ class _TokenSendInputScreenState extends State<TokenSendInputScreen> {
   bool _validateQuantity() {
     if (_quantityController.text.isEmpty) return false;
 
-    final amount = _quantityController.text
-        .toDecimalOrZero(DeviceLocale.localeOf(context));
+    final amount = _quantityController.text.toDecimalOrZero(DeviceLocale.localeOf(context));
 
     return amount.toDouble() > 0;
   }
 
   bool get _isValid =>
-      Blockchain.solana.validateAddress(_recipientController.text) &&
-      _validateQuantity();
+      Blockchain.solana.validateAddress(_recipientController.text) && _validateQuantity();
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<CryptoFiatAmount>(
-        create: () => (
+    create:
+        () => (
           sl<TokenFiatBalanceService>().readInvestmentBalance(widget.token),
           (
             Amount.zero(currency: Currency.usdc) as CryptoAmount,
-            Amount.zero(currency: Currency.usd) as FiatAmount
-          )
+            Amount.zero(currency: Currency.usd) as FiatAmount,
+          ),
         ),
-        builder: (context, value) {
-          final crypto = value.$1;
+    builder: (context, value) {
+      final crypto = value.$1;
 
-          return Scaffold(
-            appBar: CpAppBar(
-              title: Text(
-                context.l10n.send.toUpperCase(),
-              ),
-            ),
-            backgroundColor: CpColors.deepGreyColor,
-            body: SafeArea(
-              top: false,
-              minimum: const EdgeInsets.only(bottom: 40),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 23),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 30),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 25.0),
-                      child: Text(
-                        context.l10n.quantity,
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    TokenQuantityInput(
-                      quantityController: _quantityController,
-                      crypto: crypto,
-                      symbol: widget.token.symbol,
-                      rate: _rate,
-                    ),
-                    const SizedBox(height: 32),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 25.0),
-                      child: Text(
-                        context.l10n.recipient,
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    _WalletTextField(
-                      controller: _recipientController,
-                      onQrScan: _handleOnQrScan,
-                    ),
-                    const Spacer(),
-                    ListenableBuilder(
-                      listenable: Listenable.merge(
-                        [_quantityController, _recipientController],
-                      ),
-                      builder: (context, child) => CpBottomButton(
+      return Scaffold(
+        appBar: CpAppBar(title: Text(context.l10n.send.toUpperCase())),
+        backgroundColor: CpColors.deepGreyColor,
+        body: SafeArea(
+          top: false,
+          minimum: const EdgeInsets.only(bottom: 40),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 23),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.only(left: 25.0),
+                  child: Text(
+                    context.l10n.quantity,
+                    style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TokenQuantityInput(
+                  quantityController: _quantityController,
+                  crypto: crypto,
+                  symbol: widget.token.symbol,
+                  rate: _rate,
+                ),
+                const SizedBox(height: 32),
+                Padding(
+                  padding: const EdgeInsets.only(left: 25.0),
+                  child: Text(
+                    context.l10n.recipient,
+                    style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                _WalletTextField(controller: _recipientController, onQrScan: _handleOnQrScan),
+                const Spacer(),
+                ListenableBuilder(
+                  listenable: Listenable.merge([_quantityController, _recipientController]),
+                  builder:
+                      (context, child) => CpBottomButton(
                         horizontalPadding: 16,
                         text: context.l10n.next,
                         onPressed: _isValid ? _handlePressed : null,
                       ),
-                    ),
-                  ],
                 ),
-              ),
+              ],
             ),
-          );
-        },
+          ),
+        ),
       );
+    },
+  );
 }
 
 class _WalletTextField extends StatelessWidget {
-  const _WalletTextField({
-    required this.controller,
-    required this.onQrScan,
-  });
+  const _WalletTextField({required this.controller, required this.onQrScan});
 
   final TextEditingController controller;
   final VoidCallback onQrScan;
 
   @override
   Widget build(BuildContext context) => CpTextField(
-        padding: const EdgeInsets.symmetric(
-          vertical: 16,
-          horizontal: 24,
-        ),
-        height: 72,
-        controller: controller,
-        inputType: TextInputType.text,
-        textInputAction: TextInputAction.next,
-        textCapitalization: TextCapitalization.none,
-        backgroundColor: CpColors.blackGreyColor,
-        placeholder: context.l10n.enterWalletAddress,
-        placeholderColor: CpColors.secondaryTextColor,
-        textColor: Colors.white,
-        fontSize: 16,
-        multiLine: true,
-        suffix: Padding(
-          padding: const EdgeInsets.only(right: 24),
-          child: CpIconButton(
-            onPressed: onQrScan,
-            variant: CpIconButtonVariant.inverted,
-            icon: Assets.icons.qrScanner.svg(color: Colors.white),
-          ),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+    height: 72,
+    controller: controller,
+    inputType: TextInputType.text,
+    textInputAction: TextInputAction.next,
+    textCapitalization: TextCapitalization.none,
+    backgroundColor: CpColors.blackGreyColor,
+    placeholder: context.l10n.enterWalletAddress,
+    placeholderColor: CpColors.secondaryTextColor,
+    textColor: Colors.white,
+    fontSize: 16,
+    multiLine: true,
+    suffix: Padding(
+      padding: const EdgeInsets.only(right: 24),
+      child: CpIconButton(
+        onPressed: onQrScan,
+        variant: CpIconButtonVariant.inverted,
+        icon: Assets.icons.qrScanner.svg(color: Colors.white),
+      ),
+    ),
+  );
 }

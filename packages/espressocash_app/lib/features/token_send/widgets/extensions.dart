@@ -11,15 +11,14 @@ extension BuildContextExt on BuildContext {
   Future<String> createTokenSend({
     required CryptoAmount amount,
     required Ed25519HDPublicKey receiver,
-  }) =>
-      runWithLoader(this, () async {
-        final payment = await sl<ODPService>().create(
-          account: sl<MyAccount>().wallet,
-          amount: amount,
-          receiver: receiver,
-          reference: null,
-        );
+  }) => runWithLoader(this, () async {
+    final payment = await sl<ODPService>().create(
+      account: sl<MyAccount>().wallet,
+      amount: amount,
+      receiver: receiver,
+      reference: null,
+    );
 
-        return payment.id;
-      });
+    return payment.id;
+  });
 }

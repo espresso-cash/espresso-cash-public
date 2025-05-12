@@ -8,10 +8,8 @@ part 'fee_type.freezed.dart';
 
 @Freezed(when: FreezedWhenOptions.none, map: FreezedMapOptions.none, copyWith: false)
 sealed class FeeType with _$FeeType {
-  const factory FeeType.direct(
-    Ed25519HDPublicKey address, {
-    @Default(Token.usdc) Token token,
-  }) = FeeTypeDirect;
+  const factory FeeType.direct(Ed25519HDPublicKey address, {@Default(Token.usdc) Token token}) =
+      FeeTypeDirect;
   const factory FeeType.link() = FeeTypeLink;
   const factory FeeType.withdraw({
     required int amount,
