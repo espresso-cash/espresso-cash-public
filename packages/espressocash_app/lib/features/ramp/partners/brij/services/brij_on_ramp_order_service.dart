@@ -14,6 +14,7 @@ import '../../../../accounts/models/ec_wallet.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
+import '../../../../kyc_sharing/services/kyc_access_service.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../tokens/token.dart';
@@ -22,10 +23,17 @@ import '../models/brij_order_status.dart';
 
 @Singleton(scope: authScope)
 class BrijOnRampOrderService implements Disposable {
-  BrijOnRampOrderService(this._db, this._kycRepository, this._ecWallet, this._analytics);
+  BrijOnRampOrderService(
+    this._db,
+    this._kycRepository,
+    this._kycAccessService,
+    this._ecWallet,
+    this._analytics,
+  );
 
   final MyDatabase _db;
   final KycRepository _kycRepository;
+  final KycAccessService _kycAccessService;
   final ECWallet _ecWallet;
   final AnalyticsManager _analytics;
 
@@ -105,7 +113,7 @@ class BrijOnRampOrderService implements Disposable {
     required String country,
   }) => tryEitherAsync((_) async {
     final partnerAuthPk = partner.partnerPK ?? '';
-    await _kycRepository.grantPartnerAccess(partnerAuthPk);
+    await _kycAccessService.grantPartnerAccess(partnerAuthPk);
 
     final orderId = await _kycRepository.createOnRampOrder(
       cryptoAmount: receiveAmount.decimal.toDouble(),

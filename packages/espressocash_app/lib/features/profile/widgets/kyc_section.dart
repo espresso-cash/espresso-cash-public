@@ -5,8 +5,9 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
 import '../../kyc_sharing/screens/bank_account_list_screen.dart';
+import '../../kyc_sharing/screens/manage_data_access_screen.dart';
 import '../../kyc_sharing/screens/personal_information_screen.dart';
-import '../../kyc_sharing/services/kyc_service.dart';
+import '../../kyc_sharing/services/kyc_data_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_button.dart';
 import '../../kyc_sharing/widgets/kyc_flow.dart';
@@ -23,12 +24,12 @@ class _KycSectionState extends State<KycSection> {
   @override
   void initState() {
     super.initState();
-    sl<KycSharingService>().initialized;
+    sl<KycDataService>().initialized;
   }
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
-    valueListenable: sl<KycSharingService>(),
+    valueListenable: sl<KycDataService>(),
     builder: (context, user, _) => user == null ? const SizedBox.shrink() : _KycInfo(user: user),
   );
 }
@@ -66,12 +67,10 @@ class _KycInfo extends StatelessWidget {
         onPressed: context.openPhoneFlow,
         status: user.phoneStatus,
       ),
-      // TODO(dev): hidden for now, still in development
-      // if (!user.kycStatus.isUnspecified)
-      //   KycButton(
-      //     label: context.l10n.manageDataAccess,
-      //     onPressed: () => ManageDataAccessScreen.push(context),
-      //   ),
+      KycButton(
+        label: context.l10n.manageDataAccess,
+        onPressed: () => ManageDataAccessScreen.push(context),
+      ),
     ],
   );
 }
