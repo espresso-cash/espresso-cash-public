@@ -15,7 +15,7 @@ final onRampOrderScreenStory = Story(
         order: (
           id: 'ORDER_ID',
           created: DateTime.now(),
-          submittedAmount: const CryptoAmount(value: 10000000, cryptoCurrency: Currency.usdc),
+          submittedAmount: const CryptoAmount(value: 10_000_000, cryptoCurrency: Currency.usdc),
           receiveAmount: null,
           partner: context.knobs.options(
             label: 'Partner',
@@ -32,6 +32,7 @@ final onRampOrderScreenStory = Story(
             bankAccount: 'BANK_ACCOUNT_12345',
             bankName: 'BANK_NAME',
             transferAmount:
+                // ignore: avoid-type-casts, controlled type
                 Amount.fromDecimal(value: Decimal.parse('100000'), currency: Currency.ngn)
                     as FiatAmount,
             transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
@@ -39,6 +40,7 @@ final onRampOrderScreenStory = Story(
           authToken: null,
           additionalDetails: (
             fee:
+                // ignore: avoid-type-casts, controlled type
                 Amount.fromDecimal(value: Decimal.parse('10'), currency: Currency.usd)
                     as FiatAmount,
             moreInfoUrl: 'https://moreinfo.com',

@@ -31,6 +31,7 @@ class PublicKeyResponseDto {
 @HostApi()
 abstract class WalletApiHost {
   const WalletApiHost();
+
   @async
   int authorizeSeed(int purpose);
 
@@ -101,5 +102,6 @@ abstract class WalletApiHost {
 @FlutterApi()
 abstract class SeedVaultFlutterApi {
   const SeedVaultFlutterApi();
+
   void onChangeNotified(List<String?> uris, int flags);
 }

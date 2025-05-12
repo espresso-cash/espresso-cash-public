@@ -26,7 +26,7 @@ void main() {
       fromKey,
       account,
     ], commitment: Commitment.confirmed);
-    expect(
+    await expectLater(
       subscriptionClient.waitForSignatureStatus(signature, status: ConfirmationStatus.confirmed),
       completes,
     );
@@ -68,7 +68,7 @@ void main() {
       lamports: lamports + stakeAmount,
     );
 
-    expect(
+    await expectLater(
       rpcClient.signAndSendTransaction(Message(instructions: instructions), [
         fromKey,
         stakeKey,
@@ -89,7 +89,7 @@ void main() {
       authorize: StakeAuthorize.staker(newStaker.publicKey),
     );
 
-    expect(
+    await expectLater(
       rpcClient.signAndSendTransaction(Message.only(instruction), [
         fromKey,
         staker,
@@ -110,7 +110,7 @@ void main() {
       authorize: StakeAuthorize.withdrawer(newWithdrawer.publicKey),
     );
 
-    expect(
+    await expectLater(
       rpcClient.signAndSendTransaction(Message.only(instruction), [
         fromKey,
         withdrawer,
@@ -151,7 +151,7 @@ void main() {
       authority: staker.publicKey,
     );
 
-    expect(
+    await expectLater(
       rpcClient.signAndSendTransaction(Message.only(splitInstruction), [
         fromKey,
         staker,
@@ -172,7 +172,7 @@ void main() {
       recipient: fromKey.publicKey,
     );
 
-    expect(
+    await expectLater(
       rpcClient.signAndSendTransaction(Message.only(instruction), [
         fromKey,
         withdrawer,
@@ -194,7 +194,7 @@ void main() {
       destinationStake: account1.publicKey,
     );
 
-    expect(
+    await expectLater(
       rpcClient.signAndSendTransaction(Message.only(instruction), [
         fromKey,
         staker,

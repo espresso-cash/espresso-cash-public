@@ -26,7 +26,7 @@ class Account {
   final String owner;
 
   /// Data associated with the account, either as encoded binary
-  /// data or JSON format {<program>: <state>}, depending on
+  /// data or JSON format {program: state}, depending on
   /// encoding parameter
   final AccountData? data;
 

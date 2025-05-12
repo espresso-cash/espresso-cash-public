@@ -15,6 +15,7 @@ import '../../tokens/token.dart';
 class TokenBalancesRepository {
   const TokenBalancesRepository(this._db, this._tokenRepository);
 
+  // ignore: dispose-class-fields, false positive
   final MyDatabase _db;
   final TokenRepository _tokenRepository;
 
@@ -33,7 +34,7 @@ class TokenBalancesRepository {
 
     return query.get().then(
       (rows) => Future.wait(
-        rows.map((row) async => _tokenRepository.getToken(row.token)),
+        rows.map((row) => _tokenRepository.getToken(row.token)),
       ).then((tokens) => tokens.whereNotNull().toISet()),
     );
   }
@@ -47,8 +48,8 @@ class TokenBalancesRepository {
         );
 
     return query.watch().asyncMap(
-      (rows) async => Future.wait(
-        rows.map((row) async => _tokenRepository.getToken(row.token)),
+      (rows) => Future.wait(
+        rows.map((row) => _tokenRepository.getToken(row.token)),
       ).then((tokens) => tokens.whereNotNull().toISet()),
     );
   }
@@ -62,9 +63,9 @@ class TokenBalancesRepository {
         );
 
     return query.watch().asyncMap(
-      (rows) async => Future.wait(
+      (rows) => Future.wait(
         rows.map(
-          (row) async => _tokenRepository
+          (row) => _tokenRepository
               .getToken(row.token)
               .letAsync(
                 (token) => token?.let(

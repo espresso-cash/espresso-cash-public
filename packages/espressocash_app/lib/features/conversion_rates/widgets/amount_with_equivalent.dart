@@ -115,22 +115,11 @@ class _EquivalentDisplay extends StatelessWidget {
 
     final String formattedAmount;
     if (shouldDisplay) {
-      formattedAmount = Amount.fromDecimal(
-            value: value,
-            currency: token == Token.usdc ? Currency.usd : CryptoCurrency(token: token),
-          )
-          .let(
-            (it) => switch (it) {
-              final FiatAmount fiat => fiat.toTokenAmount(token)?.round(Currency.usd.decimals),
-              final CryptoAmount crypto => crypto.toFiatAmount(
-                defaultFiatCurrency,
-                ratesRepository: sl<ConversionRatesRepository>(),
-              ),
-            },
-          )
-          .maybeFlatMap(
-            (it) => it.format(locale, roundInteger: true, skipSymbol: token == Token.usdc),
-          )
+      formattedAmount = Amount.fromDecimal(value: value, currency: Currency.usd)
+          // ignore: avoid-type-casts, controlled type
+          .let((it) => it as FiatAmount)
+          .let((it) => it.toTokenAmount(token)?.round(Currency.usd.decimals))
+          .maybeFlatMap((it) => it.format(locale, roundInteger: true, skipSymbol: true))
           .ifNull(() => '0');
     } else {
       formattedAmount = '0';

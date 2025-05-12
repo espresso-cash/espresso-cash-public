@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-type-casts
+
 import 'package:solana/src/rpc/dto/parsed_account_key.dart';
 import 'package:solana/src/rpc/dto/raw_account_key.dart';
 

@@ -72,7 +72,7 @@ void main() {
       space: TokenProgram.neededAccountSpace,
     );
 
-    expect(
+    await expectLater(
       sendMessage(Message(instructions: instructions), [mintAuthority, tokensHolder]),
       completes,
     );
@@ -83,10 +83,10 @@ void main() {
       mint: mint.publicKey,
       destination: tokensHolder.publicKey,
       authority: mintAuthority.publicKey,
-      amount: 10000000000,
+      amount: 10_000_000_000,
     );
 
-    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
+    expectLater(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Mint To Checked', () {
@@ -94,11 +94,11 @@ void main() {
       mint: mint.publicKey,
       destination: tokensHolder.publicKey,
       authority: mintAuthority.publicKey,
-      amount: 10000000000,
+      amount: 10_000_000_000,
       decimals: 5,
     );
 
-    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
+    expectLater(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Transfer', () {
@@ -106,10 +106,10 @@ void main() {
       source: tokensHolder.publicKey,
       destination: tokensHolder.publicKey,
       owner: mintAuthority.publicKey,
-      amount: 100000,
+      amount: 100_000,
     );
 
-    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
+    expectLater(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Transfer Checked', () {
@@ -117,23 +117,23 @@ void main() {
       source: tokensHolder.publicKey,
       destination: tokensHolder.publicKey,
       owner: mintAuthority.publicKey,
-      amount: 100000,
+      amount: 100_000,
       decimals: 5,
       mint: mint.publicKey,
     );
 
-    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
+    expectLater(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Approve', () {
     final instruction = TokenInstruction.approve(
-      amount: 1000000,
+      amount: 1_000_000,
       source: tokensHolder.publicKey,
       delegate: randomRecipient.publicKey,
       sourceOwner: mintAuthority.publicKey,
     );
 
-    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
+    expectLater(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Revoke', () {
@@ -142,12 +142,12 @@ void main() {
       sourceOwner: mintAuthority.publicKey,
     );
 
-    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
+    expectLater(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Approve Checked', () {
     final instruction = TokenInstruction.approveChecked(
-      amount: 1000000,
+      amount: 1_000_000,
       decimals: 5,
       source: tokensHolder.publicKey,
       delegate: randomRecipient.publicKey,
@@ -155,30 +155,30 @@ void main() {
       mint: mint.publicKey,
     );
 
-    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
+    expectLater(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Burn', () {
     final instruction = TokenInstruction.burn(
-      amount: 100000,
+      amount: 100_000,
       accountToBurnFrom: tokensHolder.publicKey,
       mint: mint.publicKey,
       owner: mintAuthority.publicKey,
     );
 
-    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
+    expectLater(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Burn Checked', () {
     final instruction = TokenInstruction.burnChecked(
-      amount: 100000,
+      amount: 100_000,
       accountToBurnFrom: tokensHolder.publicKey,
       mint: mint.publicKey,
       owner: mintAuthority.publicKey,
       decimals: 5,
     );
 
-    expect(sendMessage(Message.only(instruction), [mintAuthority]), completes);
+    expectLater(sendMessage(Message.only(instruction), [mintAuthority]), completes);
   });
 
   test('Freeze Account', () {
@@ -188,7 +188,10 @@ void main() {
       freezeAuthority: freezeAuthority.publicKey,
     );
 
-    expect(sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]), completes);
+    expectLater(
+      sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]),
+      completes,
+    );
   });
 
   test('Thaw Account', () {
@@ -198,7 +201,10 @@ void main() {
       freezeAuthority: freezeAuthority.publicKey,
     );
 
-    expect(sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]), completes);
+    expectLater(
+      sendMessage(Message.only(instruction), [mintAuthority, freezeAuthority]),
+      completes,
+    );
   });
 
   test('Set Authority', () async {

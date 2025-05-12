@@ -65,7 +65,7 @@ Future<void> main() async {
   );
 
   const testAmount = CryptoAmount(
-    value: 100000000,
+    value: 100_000_000,
     cryptoCurrency: CryptoCurrency(token: Token.usdc),
   );
 

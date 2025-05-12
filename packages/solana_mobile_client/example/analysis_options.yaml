@@ -2,3 +2,8 @@ include: package:mews_pedantic/analysis_options.yaml
 
 formatter:
    page_width: 100
+
+dart_code_metrics:
+   rules:
+      prefer-static-method: false
+      prefer-boolean-prefixes: false

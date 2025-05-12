@@ -15,5 +15,5 @@ dependencies:
   source_gen: ">=1.4.0 <3.0.0"
 
 dev_dependencies:
-  mews_pedantic: ^0.36.0
+  mews_pedantic: ^0.38.0
   test: ^1.16.0

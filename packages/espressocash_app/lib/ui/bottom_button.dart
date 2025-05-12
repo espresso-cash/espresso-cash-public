@@ -18,7 +18,7 @@ class CpBottomButton extends StatelessWidget {
   final double horizontalPadding;
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => Padding(
     padding: EdgeInsets.only(bottom: 24.h, left: horizontalPadding.w, right: horizontalPadding.w),
     child: CpButton(
       key: keyBottomButton,

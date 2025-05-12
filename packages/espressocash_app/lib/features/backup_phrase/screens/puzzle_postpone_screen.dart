@@ -31,18 +31,12 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
     DropdownMenuItem(value: const Duration(days: 30), child: Text(context.l10n.oneMonth)),
   ];
 
-  String get _getTextDuration {
-    switch (_duration.inDays) {
-      case 1:
-        return context.l10n.tomorrow.toUpperCase();
-      case 7:
-        return context.l10n.oneWeek.toUpperCase();
-      case 30:
-        return context.l10n.oneMonth.toUpperCase();
-      default:
-        return '';
-    }
-  }
+  String get _textDuration => switch (_duration.inDays) {
+    1 => context.l10n.tomorrow.toUpperCase(),
+    7 => context.l10n.oneWeek.toUpperCase(),
+    30 => context.l10n.oneMonth.toUpperCase(),
+    _ => '',
+  };
 
   void _handleOkPressed(BuildContext context) {
     sl<PuzzleReminderBloc>().add(PuzzleReminderEvent.postponed(postponedBy: _duration));
@@ -107,7 +101,7 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
                             .map(
                               (e) => Center(
                                 child: Text(
-                                  context.l10n.setReminder(_getTextDuration),
+                                  context.l10n.setReminder(_textDuration),
                                   textAlign: TextAlign.center,
                                 ),
                               ),

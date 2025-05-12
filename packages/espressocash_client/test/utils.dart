@@ -17,6 +17,7 @@ Future<EspressoCashClient> createClient({bool local = false, Ed25519HDKeyPair? k
     },
     walletAddress: kp.address,
     secure: !local,
+    onTokenUpdated: (_) async {},
   );
 }
 

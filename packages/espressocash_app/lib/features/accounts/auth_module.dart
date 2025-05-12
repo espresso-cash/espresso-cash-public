@@ -5,6 +5,7 @@ import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 import 'auth_scope.dart';
+import 'data/account_repository.dart';
 import 'models/account.dart';
 import 'models/ec_wallet.dart';
 import 'services/account_service.dart';
@@ -21,14 +22,21 @@ abstract class AuthModule {
   ECWallet wallet(MyAccount account) => account.wallet;
 
   @Singleton(scope: authScope, dispose: disposeEcClient)
-  EspressoCashClient ecClient(ECWallet wallet) => EspressoCashClient(
-    walletAddress: wallet.publicKey.toBase58(),
-    sign: (data) async {
-      final signature = await wallet.sign([Uint8List.fromList(data.toList())]);
+  @preResolve
+  Future<EspressoCashClient> ecClient(ECWallet wallet, AccountRepository repo) async {
+    final token = await repo.loadAuthToken();
 
-      return signature.first.toBase58();
-    },
-  );
+    return EspressoCashClient(
+      walletAddress: wallet.publicKey.toBase58(),
+      sign: (data) async {
+        final signature = await wallet.sign([Uint8List.fromList(data.toList())]);
+
+        return signature.first.toBase58();
+      },
+      onTokenUpdated: (t) => repo.saveAuthToken(t),
+      token: token,
+    );
+  }
 }
 
-FutureOr<void> disposeEcClient(EspressoCashClient client) => client.dispose();
+Future<void> disposeEcClient(EspressoCashClient client) => client.dispose();

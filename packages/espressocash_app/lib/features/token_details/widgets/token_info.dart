@@ -19,7 +19,7 @@ class TokenInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final token = Provider.of<Token>(context);
+    final token = context.watch<Token>();
 
     final rate =
         sl<ConversionRatesRepository>().readRate(

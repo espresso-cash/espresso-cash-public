@@ -21,37 +21,21 @@ class CpIconButton extends StatelessWidget {
   final CpIconButtonVariant variant;
   final CpIconButtonSize size;
 
-  Color get _backgroundColor {
-    switch (variant) {
-      case CpIconButtonVariant.dark:
-        return CpColors.yellowColor;
-      case CpIconButtonVariant.grey:
-        return CpColors.greyIconBackgroundColor;
-      case CpIconButtonVariant.inverted:
-        return CpColors.deepGreyColor;
-      case CpIconButtonVariant.light:
-        return Colors.white;
-      case CpIconButtonVariant.black:
-        return CpColors.blackGreyColor;
-      case CpIconButtonVariant.transparent:
-        return Colors.transparent;
-    }
-  }
+  Color get _backgroundColor => switch (variant) {
+    CpIconButtonVariant.dark => CpColors.yellowColor,
+    CpIconButtonVariant.grey => CpColors.greyIconBackgroundColor,
+    CpIconButtonVariant.light => Colors.white,
+    CpIconButtonVariant.black => CpColors.blackGreyColor,
+    CpIconButtonVariant.transparent => Colors.transparent,
+  };
 
-  double get _size {
-    switch (size) {
-      case CpIconButtonSize.large:
-        return 72;
-      case CpIconButtonSize.big:
-        return 40;
-      case CpIconButtonSize.normal:
-        return 34;
-      case CpIconButtonSize.small:
-        return 28;
-      case CpIconButtonSize.micro:
-        return 22;
-    }
-  }
+  double get _size => switch (size) {
+    CpIconButtonSize.large => 72,
+    CpIconButtonSize.big => 40,
+    CpIconButtonSize.normal => 34,
+    CpIconButtonSize.small => 28,
+    CpIconButtonSize.micro => 22,
+  };
 
   @override
   Widget build(BuildContext context) => Container(

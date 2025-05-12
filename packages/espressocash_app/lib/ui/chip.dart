@@ -27,12 +27,8 @@ class CpChip extends StatelessWidget {
 }
 
 extension on CpChipPadding {
-  EdgeInsets get value {
-    switch (this) {
-      case CpChipPadding.small:
-        return const EdgeInsets.symmetric(horizontal: 20, vertical: 4);
-      case CpChipPadding.normal:
-        return const EdgeInsets.symmetric(horizontal: 44, vertical: 8);
-    }
-  }
+  EdgeInsets get value => switch (this) {
+    CpChipPadding.small => const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+    CpChipPadding.normal => const EdgeInsets.symmetric(horizontal: 44, vertical: 8),
+  };
 }

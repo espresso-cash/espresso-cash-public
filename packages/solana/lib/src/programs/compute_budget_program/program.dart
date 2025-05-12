@@ -3,7 +3,7 @@ import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
 export 'instruction.dart';
 
-abstract class ComputeBudgetProgram {
+abstract final class ComputeBudgetProgram {
   static const programId = 'ComputeBudget111111111111111111111111111111';
 
   static final Ed25519HDPublicKey id = Ed25519HDPublicKey.fromBase58(programId);

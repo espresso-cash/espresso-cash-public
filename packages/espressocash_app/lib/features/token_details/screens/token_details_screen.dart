@@ -129,7 +129,9 @@ class _TokenHeader extends StatelessWidget {
           () => (
             sl<TokenFiatBalanceService>().readInvestmentBalance(token),
             (
+              // ignore: avoid-type-casts, controlled type
               Amount.zero(currency: Currency.usdc) as CryptoAmount,
+              // ignore: avoid-type-casts, controlled type
               Amount.zero(currency: Currency.usd) as FiatAmount,
             ),
           ),

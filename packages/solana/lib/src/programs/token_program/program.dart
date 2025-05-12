@@ -9,7 +9,7 @@ export 'solana_client_ext.dart';
 export 'token_program_type.dart';
 
 /// Construct token programs conveniently
-abstract class TokenProgram {
+abstract final class TokenProgram {
   static const programId = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
 
   static final Ed25519HDPublicKey id = Ed25519HDPublicKey.fromBase58(programId);
@@ -70,7 +70,7 @@ abstract class TokenProgram {
   static const neededAccountSpace = 165;
 }
 
-abstract class Token2022Program {
+abstract final class Token2022Program {
   static const programId = 'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb';
 
   static final Ed25519HDPublicKey id = Ed25519HDPublicKey.fromBase58(programId);

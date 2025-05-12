@@ -26,7 +26,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    expect(future, completes);
+    await expectLater(future, completes);
   });
 
   test('Assign', () async {
@@ -42,7 +42,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    expect(future, completes);
+    await expectLater(future, completes);
   });
 
   test('Transfer', () async {
@@ -60,7 +60,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    expect(future, completes);
+    await expectLater(future, completes);
   });
 
   test('Create account with seed', () async {
@@ -88,7 +88,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    expect(future, completes);
+    await expectLater(future, completes);
   });
 
   test('Create nonce account', () async {
@@ -118,7 +118,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    expect(future, completes);
+    await expectLater(future, completes);
   });
 
   test('Create nonce account fails for insufficient lamports', () async {
@@ -141,7 +141,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    expect(future, throwsA(isA<JsonRpcException>()));
+    await expectLater(future, throwsA(isA<JsonRpcException>()));
   });
 
   test('Advance nonce account', () async {
@@ -153,7 +153,7 @@ void main() {
       nonceAuthority: fromKey.publicKey,
     );
 
-    expect(
+    await expectLater(
       client.sendAndConfirmTransaction(
         message: Message.only(instruction),
         signers: [fromKey],
@@ -192,7 +192,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    expect(future, completes);
+    await expectLater(future, completes);
   });
 
   test('Assign with seed', () async {
@@ -216,7 +216,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    expect(future, completes);
+    await expectLater(future, completes);
   });
 
   test('Allocate', () async {
@@ -228,7 +228,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    expect(future, completes);
+    await expectLater(future, completes);
   });
 
   test('Allocate with seed', () async {
@@ -251,7 +251,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    expect(future, completes);
+    await expectLater(future, completes);
   });
 
   test('Withdraw nonce account', () async {
@@ -268,7 +268,7 @@ void main() {
           await client.rpcClient.getMinimumBalanceForRentExemption(SystemProgram.nonceAccountSize),
     );
 
-    expect(
+    await expectLater(
       client.sendAndConfirmTransaction(
         message: Message.only(instruction),
         signers: [fromKey],
@@ -289,7 +289,7 @@ void main() {
       newAuthority: newAuthority.publicKey,
     );
 
-    expect(
+    await expectLater(
       client.sendAndConfirmTransaction(
         message: Message.only(instruction),
         signers: [fromKey],

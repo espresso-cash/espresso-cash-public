@@ -67,6 +67,7 @@ class PortfolioTile extends StatelessWidget {
                 builder:
                     (context, balance) =>
                         balance != null
+                            // ignore: avoid-flexible-outside-flex, inside ValueStreamBuilder
                             ? Flexible(
                               child: FittedBox(
                                 child: Text(

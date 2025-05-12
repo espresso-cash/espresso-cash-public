@@ -64,28 +64,31 @@ class ByteArray extends Iterable<int> {
 }
 
 ByteArray _encodeBigInt(BigInt number, int s) {
-  if (number == BigInt.zero) {
+  BigInt n = number;
+
+  if (n == BigInt.zero) {
     return ByteArray(List.filled(s, 0));
   }
 
   final result = Uint8List(s);
   for (int i = 0; i < s; i++) {
-    result[i] = (number & _byteMask).toInt();
-    number = number >> 8;
+    result[i] = (n & _byteMask).toInt();
+    n = n >> 8;
   }
 
   return ByteArray(result);
 }
 
 ByteArray _encodeBigIntAsUnsigned(BigInt number, int s) {
-  if (number == BigInt.zero) {
+  BigInt n = number;
+  if (n == BigInt.zero) {
     return ByteArray(List.filled(s, 0));
   }
 
   final result = Uint8List(s);
   for (int i = 0; i < s; i++) {
-    result[i] = (number & _byteMask).toInt();
-    number = number >> 8;
+    result[i] = (n & _byteMask).toInt();
+    n = n >> 8;
   }
 
   return ByteArray(result);

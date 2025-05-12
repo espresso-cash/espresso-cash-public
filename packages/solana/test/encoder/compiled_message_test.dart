@@ -118,7 +118,7 @@ Future<void> main() async {
       final addressLookupTableAccounts = [await createTestAddressLookUpTable(keys)];
 
       final compiledMessage = message.compileV0(
-        recentBlockhash: base58encode(List.filled(32, 0)),
+        recentBlockhash: stubBlockhash,
         feePayer: payer,
         addressLookupTableAccounts: addressLookupTableAccounts,
       );

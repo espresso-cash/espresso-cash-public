@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-referencing-subclasses
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:solana/solana.dart';

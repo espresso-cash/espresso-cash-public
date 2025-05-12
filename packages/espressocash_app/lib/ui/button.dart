@@ -33,24 +33,15 @@ class CpButton extends StatelessWidget {
   final Widget? trailing;
   final Widget? leading;
 
-  Color get _backgroundColor {
-    switch (variant) {
-      case CpButtonVariant.dark:
-        return CpColors.yellowColor;
-      case CpButtonVariant.inverted:
-        return CpColors.deepGreyColor;
-      case CpButtonVariant.light:
-        return CpColors.lightButtonBackgroundColor;
-      case CpButtonVariant.secondary:
-        return CpColors.lightGreyBackground;
-      case CpButtonVariant.black:
-        return Colors.black;
-      case CpButtonVariant.grey:
-        return CpColors.blackGreyColor;
-      case CpButtonVariant.muted:
-        return const Color(0xff97875A);
-    }
-  }
+  Color get _backgroundColor => switch (variant) {
+    CpButtonVariant.dark => CpColors.yellowColor,
+    CpButtonVariant.inverted => CpColors.deepGreyColor,
+    CpButtonVariant.light => CpColors.lightButtonBackgroundColor,
+    CpButtonVariant.secondary => CpColors.lightGreyBackground,
+    CpButtonVariant.black => Colors.black,
+    CpButtonVariant.grey => CpColors.blackGreyColor,
+    CpButtonVariant.muted => const Color(0xff97875A),
+  };
 
   Color get _foregroundColor {
     switch (variant) {
@@ -140,29 +131,18 @@ class CpButton extends StatelessWidget {
 const _disabledOpacity = 0.25;
 
 extension on CpButtonAlignment {
-  Alignment get alignment {
-    switch (this) {
-      case CpButtonAlignment.left:
-        return Alignment.centerLeft;
-      case CpButtonAlignment.center:
-        return Alignment.center;
-    }
-  }
+  Alignment get alignment => switch (this) {
+    CpButtonAlignment.left => Alignment.centerLeft,
+    CpButtonAlignment.center => Alignment.center,
+  };
 }
 
 extension CpButtonSizeExt on CpButtonSize {
-  double get height {
-    switch (this) {
-      case CpButtonSize.normal:
-        return 51.h;
-      case CpButtonSize.big:
-        return 64.h;
-      case CpButtonSize.wide:
-        return 44.h;
-      case CpButtonSize.small:
-        return 40.h;
-      case CpButtonSize.micro:
-        return 31.h;
-    }
-  }
+  double get height => switch (this) {
+    CpButtonSize.normal => 51.h,
+    CpButtonSize.big => 64.h,
+    CpButtonSize.wide => 44.h,
+    CpButtonSize.small => 40.h,
+    CpButtonSize.micro => 31.h,
+  };
 }

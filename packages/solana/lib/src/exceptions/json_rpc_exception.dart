@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'json_rpc_exception.g.dart';
 
-abstract class JsonRpcErrorCode {
+abstract final class JsonRpcErrorCode {
   static const blockCleanedUp = -32001;
   static const sendTransactionPreflightFailure = -32002;
   static const transactionSignatureVerificationFailure = -32003;

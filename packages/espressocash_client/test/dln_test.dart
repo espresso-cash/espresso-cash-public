@@ -21,7 +21,7 @@ void main() {
   group('DLN operations', () {
     test('gets outgoing DLN quote', skip: true, () async {
       const request = OutgoingQuoteRequestDto(
-        amount: 100000,
+        amount: 100_000,
         receiverAddress: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
         receiverBlockchain: 'ethereum',
       );
@@ -69,7 +69,7 @@ void main() {
 
     test('gets incoming DLN quote', skip: true, () async {
       final request = IncomingQuoteRequestDto(
-        amount: 1000000,
+        amount: 1_000_000,
         senderAddress: '0x5CedA757A24bbA2507B3Ca74b590428EA02A2D5f',
         senderBlockchain: 'polygon',
         receiverAddress: 'CwLjY6mQxcCYnq7hgArJkCSxDb58yjZkWCiEYn385Aoa',

@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:async/async.dart';
 import 'package:ec_client_dart/ec_client_dart.dart';
-import 'package:ec_client_dart/src/generated/api/dln/v1/service.pbgrpc.dart' as dln_proto;
+import 'package:ec_client_dart/src/generated/api/dln/v1/service.pbgrpc.dart'
+    as dln_proto;
 import 'package:ec_client_dart/src/generated/api/moneygram/v1/service.pbgrpc.dart';
 import 'package:ec_client_dart/src/generated/api/payments/v1/service.pbgrpc.dart';
 import 'package:ec_client_dart/src/generated/api/rates/v1/service.pbgrpc.dart';
@@ -16,6 +18,7 @@ import 'package:grpc/grpc.dart';
 const defaultBaseUrl = 'grpc.espressocash.com';
 
 typedef SignRequest = Future<String> Function(Iterable<int> data);
+typedef TokenUpdated = Future<void> Function(String token);
 
 class EspressoCashClient {
   factory EspressoCashClient({
@@ -24,32 +27,51 @@ class EspressoCashClient {
     required SignRequest sign,
     String? walletAddress,
     bool secure = true,
+    required TokenUpdated onTokenUpdated,
+    String? token,
+  }) {
+    final client = EspressoCashClient._(
+      baseUrl: baseUrl ?? defaultBaseUrl,
+      port: port,
+      sign: sign,
+      walletAddress: walletAddress,
+      secure: secure,
+      onTokenUpdated: onTokenUpdated,
+    );
+
+    if (token != null) {
+      client._initWithToken(token);
+    }
+
+    return client;
+  }
+
+  factory EspressoCashClient.anonymous({
+    String? baseUrl,
+    int? port,
+    bool secure = true,
   }) => EspressoCashClient._(
     baseUrl: baseUrl ?? defaultBaseUrl,
     port: port,
-    sign: sign,
-    walletAddress: walletAddress,
+    sign: (_) async => '',
+    walletAddress: null,
     secure: secure,
+    onTokenUpdated: (_) async {},
   );
-
-  factory EspressoCashClient.anonymous({String? baseUrl, int? port, bool secure = true}) =>
-      EspressoCashClient._(
-        baseUrl: baseUrl ?? defaultBaseUrl,
-        port: port,
-        sign: (_) async => '',
-        walletAddress: null,
-        secure: secure,
-      );
 
   EspressoCashClient._({
     required this.baseUrl,
     required this.port,
     required this.sign,
     required this.walletAddress,
+    required this.onTokenUpdated,
     required bool secure,
   }) {
     final options = ChannelOptions(
-      credentials: secure ? const ChannelCredentials.secure() : const ChannelCredentials.insecure(),
+      credentials:
+          secure
+              ? const ChannelCredentials.secure()
+              : const ChannelCredentials.insecure(),
       connectionTimeout: const Duration(seconds: 15),
       idleTimeout: const Duration(minutes: 5),
     );
@@ -58,12 +80,24 @@ class EspressoCashClient {
 
     final callOptions = CallOptions();
     _userServiceClient = UserServiceClient(_channel, options: callOptions);
-    _shortenerServiceClient = ShortenerServiceClient(_channel, options: callOptions);
+    _shortenerServiceClient = ShortenerServiceClient(
+      _channel,
+      options: callOptions,
+    );
     _rateServiceClient = RateServiceClient(_channel, options: callOptions);
-    _paymentServiceClient = PaymentServiceClient(_channel, options: callOptions);
+    _paymentServiceClient = PaymentServiceClient(
+      _channel,
+      options: callOptions,
+    );
     _referralClient = ReferralServiceClient(_channel, options: callOptions);
-    _dlnServiceClient = dln_proto.DlnServiceClient(_channel, options: callOptions);
-    _moneygramServiceClient = MoneygramServiceClient(_channel, options: callOptions);
+    _dlnServiceClient = dln_proto.DlnServiceClient(
+      _channel,
+      options: callOptions,
+    );
+    _moneygramServiceClient = MoneygramServiceClient(
+      _channel,
+      options: callOptions,
+    );
     _tokensServiceClient = TokensServiceClient(_channel, options: callOptions);
   }
 
@@ -71,6 +105,7 @@ class EspressoCashClient {
   final int? port;
   final SignRequest sign;
   final String? walletAddress;
+  final TokenUpdated onTokenUpdated;
 
   late final ClientChannel _channel;
   late UserServiceClient _userServiceClient;
@@ -82,17 +117,13 @@ class EspressoCashClient {
   late MoneygramServiceClient _moneygramServiceClient;
   late TokensServiceClient _tokensServiceClient;
 
+  final _authCache = AsyncCache<void>.ephemeral();
+
   Future<void> dispose() async {
     await _channel.shutdown();
   }
 
-  Future<String> login({String? token}) async {
-    if (token != null) {
-      _initWithToken(token);
-
-      return token;
-    }
-
+  Future<void> login() async {
     if (walletAddress == null || walletAddress?.isEmpty == true) {
       throw Exception('Wallet address is required for login');
     }
@@ -100,24 +131,53 @@ class EspressoCashClient {
     final proofMessage = await _getWalletProofMessage();
     final signature = await sign(utf8.encode(proofMessage));
 
-    final newToken = await _login(proofSignature: signature, proofMessage: proofMessage);
+    final newToken = await _login(
+      proofSignature: signature,
+      proofMessage: proofMessage,
+    );
 
     _initWithToken(newToken);
-
-    return newToken;
   }
 
   void _initWithToken(String token) {
-    final callOptions = CallOptions(metadata: {'authorization': 'Bearer $token'});
+    final callOptions = CallOptions(
+      metadata: {'authorization': 'Bearer $token'},
+    );
 
     _userServiceClient = UserServiceClient(_channel, options: callOptions);
     _rateServiceClient = RateServiceClient(_channel, options: callOptions);
-    _paymentServiceClient = PaymentServiceClient(_channel, options: callOptions);
-    _shortenerServiceClient = ShortenerServiceClient(_channel, options: callOptions);
+    _paymentServiceClient = PaymentServiceClient(
+      _channel,
+      options: callOptions,
+    );
+    _shortenerServiceClient = ShortenerServiceClient(
+      _channel,
+      options: callOptions,
+    );
     _referralClient = ReferralServiceClient(_channel, options: callOptions);
-    _dlnServiceClient = dln_proto.DlnServiceClient(_channel, options: callOptions);
-    _moneygramServiceClient = MoneygramServiceClient(_channel, options: callOptions);
+    _dlnServiceClient = dln_proto.DlnServiceClient(
+      _channel,
+      options: callOptions,
+    );
+    _moneygramServiceClient = MoneygramServiceClient(
+      _channel,
+      options: callOptions,
+    );
     _tokensServiceClient = TokensServiceClient(_channel, options: callOptions);
+  }
+
+  Future<T> _withReauth<T>(Future<T> Function() f) async {
+    try {
+      return await f();
+    } on GrpcError catch (error) {
+      if (error.code != StatusCode.unauthenticated) {
+        rethrow;
+      }
+
+      await _authCache.fetch(login);
+
+      return f();
+    }
   }
 
   Future<String> _getWalletProofMessage() async {
@@ -127,27 +187,31 @@ class EspressoCashClient {
     return response.message;
   }
 
-  Future<String> _login({required String proofSignature, required String proofMessage}) async {
+  Future<String> _login({
+    required String proofSignature,
+    required String proofMessage,
+  }) async {
     final request = LoginRequest(
       walletAddress: walletAddress,
       proofSignature: proofSignature,
       proofMessage: proofMessage,
     );
     final response = await _userServiceClient.login(request);
+    await onTokenUpdated(response.token);
 
     return response.token;
   }
 
-  Future<CryptoRateResponseDto> getRates() async {
+  Future<CryptoRateResponseDto> getRates() => _withReauth(() async {
     final request = GetRatesRequest();
     final response = await _rateServiceClient.getRates(request);
 
     return CryptoRateResponseDto(usdc: response.usdc);
-  }
+  });
 
   Future<CreateDirectPaymentResponseDto> createDirectPayment(
     CreateDirectPaymentRequestDto request,
-  ) async {
+  ) => _withReauth(() async {
     final r = CreateDirectPaymentRequest(
       senderAccount: request.senderAccount,
       receiverAccount: request.receiverAccount,
@@ -162,46 +226,58 @@ class EspressoCashClient {
       transaction: response.transaction,
       slot: response.slot.toBigInt,
     );
-  }
+  });
 
-  Future<ShortenLinkResponseDto> shortenLink(ShortenLinkRequestDto request) async {
-    final r = ShortenLinkRequest(fullLink: request.fullLink);
-    final response = await _shortenerServiceClient.shortenLink(r);
+  Future<ShortenLinkResponseDto> shortenLink(ShortenLinkRequestDto request) =>
+      _withReauth(() async {
+        final r = ShortenLinkRequest(fullLink: request.fullLink);
+        final response = await _shortenerServiceClient.shortenLink(r);
 
-    return ShortenLinkResponseDto(shortLink: response.shortLink);
-  }
+        return ShortenLinkResponseDto(shortLink: response.shortLink);
+      });
 
-  Future<UnshortenLinkResponseDto> expandLink(UnshortenLinkRequestDto request) async {
+  Future<UnshortenLinkResponseDto> expandLink(
+    UnshortenLinkRequestDto request,
+  ) => _withReauth(() async {
     final r = ExpandLinkRequest(shortLink: request.shortLink);
     final response = await _shortenerServiceClient.expandLink(r);
 
     return UnshortenLinkResponseDto(fullLink: response.fullLink);
-  }
+  });
 
-  Future<void> addReferral(AmbassadorReferralRequestDto request) async {
-    final grpcRequest = AddReferralRequest(ambassadorAddress: request.ambassadorAddress);
+  Future<void> addReferral(AmbassadorReferralRequestDto request) =>
+      _withReauth(() async {
+        final grpcRequest = AddReferralRequest(
+          ambassadorAddress: request.ambassadorAddress,
+        );
 
-    await _referralClient.addReferral(grpcRequest);
-  }
+        await _referralClient.addReferral(grpcRequest);
+      });
 
-  Future<AmbassadorStatsResponseDto> getReferralStats() async {
-    final grpcRequest = GetStatsRequest();
-    final grpcResponse = await _referralClient.getStats(grpcRequest);
+  Future<AmbassadorStatsResponseDto> getReferralStats() =>
+      _withReauth(() async {
+        final grpcRequest = GetStatsRequest();
+        final grpcResponse = await _referralClient.getStats(grpcRequest);
 
-    return AmbassadorStatsResponseDto(referralCount: grpcResponse.referralCount);
-  }
+        return AmbassadorStatsResponseDto(
+          referralCount: grpcResponse.referralCount,
+        );
+      });
 
-  Future<AmbassadorVerificationResponseDto> verifyReferralStatus() async {
-    final grpcRequest = VerifyRequest();
-    final grpcResponse = await _referralClient.verify(grpcRequest);
+  Future<AmbassadorVerificationResponseDto> verifyReferralStatus() =>
+      _withReauth(() async {
+        final grpcRequest = VerifyRequest();
+        final grpcResponse = await _referralClient.verify(grpcRequest);
 
-    return AmbassadorVerificationResponseDto(
-      isAmbassador: grpcResponse.isAmbassador,
-      isReferral: grpcResponse.isReferral,
-    );
-  }
+        return AmbassadorVerificationResponseDto(
+          isAmbassador: grpcResponse.isAmbassador,
+          isReferral: grpcResponse.isReferral,
+        );
+      });
 
-  Future<CreatePaymentResponseDto> createPaymentEc(CreatePaymentRequestDto request) async {
+  Future<CreatePaymentResponseDto> createPaymentEc(
+    CreatePaymentRequestDto request,
+  ) => _withReauth(() async {
     final r = CreateEscrowPaymentRequest(
       senderAccount: request.senderAccount,
       escrowAccount: request.escrowAccount,
@@ -214,9 +290,11 @@ class EspressoCashClient {
       transaction: response.transaction,
       slot: response.slot.toBigInt,
     );
-  }
+  });
 
-  Future<ReceivePaymentResponseDto> receivePaymentEc(ReceivePaymentRequestDto request) async {
+  Future<ReceivePaymentResponseDto> receivePaymentEc(
+    ReceivePaymentRequestDto request,
+  ) => _withReauth(() async {
     final r = ReceiveEscrowPaymentRequest(
       receiverAccount: request.receiverAccount,
       escrowAccount: request.escrowAccount,
@@ -227,9 +305,11 @@ class EspressoCashClient {
       transaction: response.transaction,
       slot: response.slot.toBigInt,
     );
-  }
+  });
 
-  Future<CancelPaymentResponseDto> cancelPaymentEc(CancelPaymentRequestDto request) async {
+  Future<CancelPaymentResponseDto> cancelPaymentEc(
+    CancelPaymentRequestDto request,
+  ) => _withReauth(() async {
     final r = CancelEscrowPaymentRequest(
       senderAccount: request.senderAccount,
       escrowAccount: request.escrowAccount,
@@ -240,14 +320,17 @@ class EspressoCashClient {
       transaction: response.transaction,
       slot: response.slot.toBigInt,
     );
-  }
+  });
 
-  Future<void> updateUserWalletCountry(String countryCode) async {
-    final r = UpdateCountryRequest(countryCode: countryCode);
-    await _userServiceClient.updateCountry(r);
-  }
+  Future<void> updateUserWalletCountry(String countryCode) =>
+      _withReauth(() async {
+        final r = UpdateCountryRequest(countryCode: countryCode);
+        await _userServiceClient.updateCountry(r);
+      });
 
-  Future<OutgoingQuoteResponseDto> getOutgoingDlnQuote(OutgoingQuoteRequestDto request) async {
+  Future<OutgoingQuoteResponseDto> getOutgoingDlnQuote(
+    OutgoingQuoteRequestDto request,
+  ) => _withReauth(() async {
     final r = dln_proto.GetOutgoingQuoteRequest(
       amount: request.amount.toInt64,
       receiverAddress: request.receiverAddress,
@@ -263,9 +346,11 @@ class EspressoCashClient {
       feeInUsdc: response.feeInUsdc.toInt(),
       slot: response.slot.toBigInt,
     );
-  }
+  });
 
-  Future<IncomingQuoteResponseDto> getIncomingDlnQuote(IncomingQuoteRequestDto request) async {
+  Future<IncomingQuoteResponseDto> getIncomingDlnQuote(
+    IncomingQuoteRequestDto request,
+  ) => _withReauth(() async {
     final r = dln_proto.GetIncomingQuoteRequest(
       amount: request.amount.toInt64,
       senderAddress: request.senderAddress,
@@ -277,7 +362,11 @@ class EspressoCashClient {
     final response = await _dlnServiceClient.getIncomingQuote(r);
 
     return IncomingQuoteResponseDto(
-      tx: QuoteTx(to: response.tx.to, data: response.tx.data, value: response.tx.value.toInt()),
+      tx: QuoteTx(
+        to: response.tx.to,
+        data: response.tx.data,
+        value: response.tx.value.toInt(),
+      ),
       usdcInfo: QuoteUsdcInfo(
         usdcAddress: response.usdcInfo.usdcAddress,
         approvalAmount: response.usdcInfo.approvalAmount.toInt(),
@@ -286,45 +375,55 @@ class EspressoCashClient {
       receiverAmount: response.receiverAmount.toInt(),
       feeInUsdc: response.feeInUsdc.toInt(),
     );
-  }
+  });
 
-  Future<OrderIdDlnResponseDto> getDlnOrderId(OrderIdDlnRequestDto request) async {
-    final r = dln_proto.GetOrderIdRequest(txId: request.txId);
-    final response = await _dlnServiceClient.getOrderId(r);
+  Future<OrderIdDlnResponseDto> getDlnOrderId(OrderIdDlnRequestDto request) =>
+      _withReauth(() async {
+        final r = dln_proto.GetOrderIdRequest(txId: request.txId);
+        final response = await _dlnServiceClient.getOrderId(r);
 
-    return OrderIdDlnResponseDto(orderId: response.hasOrderId() ? response.orderId : null);
-  }
+        return OrderIdDlnResponseDto(
+          orderId: response.hasOrderId() ? response.orderId : null,
+        );
+      });
 
-  Future<OrderStatusDlnResponseDto> getDlnOrderStatus(OrderStatusDlnRequestDto request) async {
+  Future<OrderStatusDlnResponseDto> getDlnOrderStatus(
+    OrderStatusDlnRequestDto request,
+  ) => _withReauth(() async {
     final r = dln_proto.GetOrderStatusRequest(orderId: request.orderId);
     final response = await _dlnServiceClient.getOrderStatus(r);
 
-    return OrderStatusDlnResponseDto(status: mapDlnOrderStatus(response.status));
-  }
-
-  Future<GasFeeResponseDto> getGasFees(GasFeeRequestDto request) async {
-    final r = dln_proto.GetGasFeesRequest(network: request.network);
-    final response = await _dlnServiceClient.getGasFees(r);
-
-    return GasFeeResponseDto(
-      low: mapProtoToGasFeeEstimate(response.low),
-      medium: mapProtoToGasFeeEstimate(response.medium),
-      high: mapProtoToGasFeeEstimate(response.high),
-      estimatedBaseFee: response.estimatedBaseFee,
-      networkCongestion: response.networkCongestion,
+    return OrderStatusDlnResponseDto(
+      status: mapDlnOrderStatus(response.status),
     );
-  }
+  });
+
+  Future<GasFeeResponseDto> getGasFees(GasFeeRequestDto request) =>
+      _withReauth(() async {
+        final r = dln_proto.GetGasFeesRequest(network: request.network);
+        final response = await _dlnServiceClient.getGasFees(r);
+
+        return GasFeeResponseDto(
+          low: mapProtoToGasFeeEstimate(response.low),
+          medium: mapProtoToGasFeeEstimate(response.medium),
+          high: mapProtoToGasFeeEstimate(response.high),
+          estimatedBaseFee: response.estimatedBaseFee,
+          networkCongestion: response.networkCongestion,
+        );
+      });
 
   Future<MoneygramChallengeSignResponseDto> signChallenge(
     MoneygramChallengeSignRequestDto request,
-  ) async {
+  ) => _withReauth(() async {
     final r = MoneygramChallengeSignRequest(signedTx: request.signedTx);
     final response = await _moneygramServiceClient.signChallenge(r);
 
     return MoneygramChallengeSignResponseDto(signedTx: response.signedTx);
-  }
+  });
 
-  Future<MoneygramSwapResponseDto> swapToSolana(SwapToSolanaRequestDto request) async {
+  Future<MoneygramSwapResponseDto> swapToSolana(
+    SwapToSolanaRequestDto request,
+  ) => _withReauth(() async {
     final r = SwapToSolanaRequest(
       amount: request.amount,
       solanaReceiverAddress: request.solanaReceiverAddress,
@@ -333,9 +432,11 @@ class EspressoCashClient {
     final response = await _moneygramServiceClient.swapToSolana(r);
 
     return MoneygramSwapResponseDto(encodedTx: response.encodedTx);
-  }
+  });
 
-  Future<MoneygramSwapResponseDto> swapToStellar(SwapToStellarRequestDto request) async {
+  Future<MoneygramSwapResponseDto> swapToStellar(
+    SwapToStellarRequestDto request,
+  ) => _withReauth(() async {
     final r = SwapToStellarRequest(
       amount: request.amount,
       priorityFee: request.priorityFee,
@@ -345,10 +446,15 @@ class EspressoCashClient {
     final response = await _moneygramServiceClient.swapToStellar(r);
 
     return MoneygramSwapResponseDto(encodedTx: response.encodedTx);
-  }
+  });
 
-  Future<MoneygramFeeResponseDto> calculateMoneygramFee(MoneygramFeeRequestDto request) async {
-    final r = MoneygramFeeRequest(amount: request.amount, type: request.type.toProto);
+  Future<MoneygramFeeResponseDto> calculateMoneygramFee(
+    MoneygramFeeRequestDto request,
+  ) => _withReauth(() async {
+    final r = MoneygramFeeRequest(
+      amount: request.amount,
+      type: request.type.toProto,
+    );
     final response = await _moneygramServiceClient.calculateFee(r);
 
     return MoneygramFeeResponseDto(
@@ -357,40 +463,45 @@ class EspressoCashClient {
       gasFeeInUsdc: response.gasFeeInUsdc,
       priorityFee: response.priorityFee,
     );
-  }
+  });
 
-  Future<void> fundXlmRequest(FundXlmRequestDto request) async {
-    final r = FundXlmRequest(accountId: request.accountId);
+  Future<void> fundXlmRequest(FundXlmRequestDto request) =>
+      _withReauth(() async {
+        final r = FundXlmRequest(accountId: request.accountId);
 
-    await _moneygramServiceClient.fundXlm(r);
-  }
+        await _moneygramServiceClient.fundXlm(r);
+      });
 
-  Future<GetTokensMetaResponseDto> getTokensMeta() async {
+  Future<GetTokensMetaResponseDto> getTokensMeta() => _withReauth(() async {
     final request = GetTokensMetaRequest();
     final response = await _tokensServiceClient.getTokensMeta(request);
 
     // ignore: avoid-weak-cryptographic-algorithms, accepted algorithm
     return GetTokensMetaResponseDto(md5: response.md5);
-  }
+  });
 
-  Future<void> getTokensFile(String savePath) async {
+  Future<void> getTokensFile(String savePath) => _withReauth(() async {
     final request = GetTokensFileRequest();
     final response = await _tokensServiceClient.getTokensFile(request);
 
     final file = File(savePath);
     await file.writeAsBytes(response.content);
-  }
+  });
 
-  Future<FiatRateResponseDto> fetchFiatRate(FiatRateRequestDto request) async {
-    final r = GetFiatRatesRequest(base: request.base, target: request.target);
-    final response = await _rateServiceClient.getFiatRates(r);
+  Future<FiatRateResponseDto> fetchFiatRate(FiatRateRequestDto request) =>
+      _withReauth(() async {
+        final r = GetFiatRatesRequest(
+          base: request.base,
+          target: request.target,
+        );
+        final response = await _rateServiceClient.getFiatRates(r);
 
-    return FiatRateResponseDto(rate: response.rate);
-  }
+        return FiatRateResponseDto(rate: response.rate);
+      });
 
   Future<DirectPaymentQuoteResponseDto> getDirectPaymentQuote(
     DirectPaymentQuoteRequestDto request,
-  ) async {
+  ) => _withReauth(() async {
     final r = GetDirectPaymentQuoteRequest(
       receiverAccount: request.receiverAccount,
       amount: request.amount.toInt64,
@@ -401,19 +512,23 @@ class EspressoCashClient {
       fee: response.fee.toInt(),
       totalAmount: response.totalAmount.toInt(),
     );
-  }
+  });
 
-  Future<EscrowPaymentQuoteResponseDto> getOutgoingEscrowPaymentQuote() async {
-    final r = GetOutgoingEscrowPaymentQuoteRequest();
-    final response = await _paymentServiceClient.getOutgoingEscrowPaymentQuote(r);
+  Future<EscrowPaymentQuoteResponseDto> getOutgoingEscrowPaymentQuote() =>
+      _withReauth(() async {
+        final r = GetOutgoingEscrowPaymentQuoteRequest();
+        final response = await _paymentServiceClient
+            .getOutgoingEscrowPaymentQuote(r);
 
-    return EscrowPaymentQuoteResponseDto(fee: response.fee.toInt());
-  }
+        return EscrowPaymentQuoteResponseDto(fee: response.fee.toInt());
+      });
 
-  Future<EscrowPaymentQuoteResponseDto> getIncomingEscrowPaymentQuote() async {
-    final r = GetIncomingEscrowPaymentQuoteRequest();
-    final response = await _paymentServiceClient.getIncomingEscrowPaymentQuote(r);
+  Future<EscrowPaymentQuoteResponseDto> getIncomingEscrowPaymentQuote() =>
+      _withReauth(() async {
+        final r = GetIncomingEscrowPaymentQuoteRequest();
+        final response = await _paymentServiceClient
+            .getIncomingEscrowPaymentQuote(r);
 
-    return EscrowPaymentQuoteResponseDto(fee: response.fee.toInt());
-  }
+        return EscrowPaymentQuoteResponseDto(fee: response.fee.toInt());
+      });
 }

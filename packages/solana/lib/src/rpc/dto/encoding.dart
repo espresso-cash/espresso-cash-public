@@ -17,16 +17,10 @@ enum Encoding {
 }
 
 extension EncodingValue on Encoding {
-  String get value {
-    switch (this) {
-      case Encoding.jsonParsed:
-        return 'jsonParsed';
-      case Encoding.base64:
-        return 'base64';
-      case Encoding.base58:
-        return 'base58';
-      case Encoding.json:
-        return 'json';
-    }
-  }
+  String get value => switch (this) {
+    Encoding.jsonParsed => 'jsonParsed',
+    Encoding.base64 => 'base64',
+    Encoding.base58 => 'base58',
+    Encoding.json => 'json',
+  };
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-type-casts
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'header.g.dart';

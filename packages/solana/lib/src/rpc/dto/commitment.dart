@@ -20,14 +20,9 @@ enum Commitment {
 }
 
 extension CommitmentValue on Commitment {
-  String get value {
-    switch (this) {
-      case Commitment.processed:
-        return 'processed';
-      case Commitment.confirmed:
-        return 'confirmed';
-      case Commitment.finalized:
-        return 'finalized';
-    }
-  }
+  String get value => switch (this) {
+    Commitment.processed => 'processed',
+    Commitment.confirmed => 'confirmed',
+    Commitment.finalized => 'finalized',
+  };
 }
