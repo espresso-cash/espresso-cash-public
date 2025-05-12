@@ -41,6 +41,7 @@ class CpButton extends StatelessWidget {
     CpButtonVariant.black => Colors.black,
     CpButtonVariant.grey => CpColors.blackGreyColor,
     CpButtonVariant.muted => const Color(0xff97875A),
+    CpButtonVariant.danger => CpColors.dangerButtonBackground,
   };
 
   Color get _foregroundColor {
