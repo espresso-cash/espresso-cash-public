@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
-import '../../../di.dart';
 import '../data/kyc_repository.dart';
 import '../utils/kyc_exception.dart';
-import 'kyc_data_service.dart';
 
 @injectable
 class KycAccessService extends ChangeNotifier {
@@ -23,7 +21,7 @@ class KycAccessService extends ChangeNotifier {
     _loading = true;
     notifyListeners();
     try {
-      _partners = await sl<KycDataService>().fetchGrantedAccessPartners();
+      _partners = await _kycRepository.fetchGrantedAccessPartners();
     } on Exception catch (exception) {
       throw exception.toKycException();
     } finally {
