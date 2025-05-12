@@ -12,7 +12,6 @@ import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
-import '../../currency/models/currency.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';

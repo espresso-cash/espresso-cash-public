@@ -1,3 +1,4 @@
+// ignore_for_file: avoid-type-casts
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';

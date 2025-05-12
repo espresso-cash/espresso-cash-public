@@ -27,6 +27,7 @@ class CpIconButton extends StatelessWidget {
     CpIconButtonVariant.light => Colors.white,
     CpIconButtonVariant.black => CpColors.blackGreyColor,
     CpIconButtonVariant.transparent => Colors.transparent,
+    CpIconButtonVariant.inverted => CpColors.deepGreyColor,
   };
 
   double get _size => switch (size) {
