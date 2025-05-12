@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +42,7 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
   final StellarWallet _stellarWallet;
 
   final StellarClient _stellarClient;
+  // ignore: dispose-class-fields, false positive
   final EspressoCashClient _ecClient;
   final AllbridgeApiClient _allbridgeApiClient;
 
@@ -98,6 +99,7 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
 
     final total = Decimal.parse(usdcBalance.toString()) - Decimal.parse(fee);
 
+    // ignore: avoid-type-casts, controlled type
     final amount = Amount.fromDecimal(value: total, currency: Currency.usdc) as CryptoAmount;
 
     value = StellarRecoveryState.pending(amount: amount);
@@ -117,6 +119,7 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
       }
 
       final walletAmount =
+          // ignore: avoid-type-casts, controlled type
           Amount.fromDecimal(value: Decimal.parse(usdcBalance.toString()), currency: Currency.usdc)
               as CryptoAmount;
 

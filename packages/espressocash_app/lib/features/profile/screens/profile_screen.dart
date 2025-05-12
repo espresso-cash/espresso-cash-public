@@ -158,7 +158,7 @@ class _QrCodeWidget extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.zero,
                   child: Text(
-                    address.toBase58(),
+                    qrData,
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),

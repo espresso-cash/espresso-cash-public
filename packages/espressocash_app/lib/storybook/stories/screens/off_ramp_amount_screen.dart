@@ -27,7 +27,7 @@ final offRampAmountScreenStory = Story(
           options: RampType.values.toOptions(),
         ),
         calculateEquivalent:
-            (amount) async => Future.delayed(
+            (amount) => Future.delayed(
               Duration.zero,
               () => Either.right(
                 FiatAmount(

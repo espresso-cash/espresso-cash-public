@@ -57,13 +57,13 @@ class _KycInfo extends StatelessWidget {
       ),
       KycButton(
         label: context.l10n.emailAddress,
-        description: user.getEmail,
+        description: user.emailValue,
         onPressed: context.openEmailFlow,
         status: user.emailStatus,
       ),
       KycButton(
         label: context.l10n.phoneNumber,
-        description: user.getPhone,
+        description: user.phoneValue,
         onPressed: context.openPhoneFlow,
         status: user.phoneStatus,
       ),

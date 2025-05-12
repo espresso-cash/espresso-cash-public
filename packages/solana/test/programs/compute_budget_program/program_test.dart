@@ -41,7 +41,7 @@ void main() {
     );
 
     const unitPriceMicroLamports = 1000;
-    const computeUnitLimit = 200000;
+    const computeUnitLimit = 200_000;
 
     message = message.copyWith(
       instructions: [
@@ -57,7 +57,7 @@ void main() {
       commitment: commitment,
     );
 
-    const micro = 1000000;
+    const micro = 1_000_000;
     expect(
       feeWithComputeUnitPrice! - feeWithoutComputeUnitPrice!,
       (computeUnitLimit * unitPriceMicroLamports) ~/ micro,

@@ -1,4 +1,4 @@
-// ignore_for_file: cast_nullable_to_non_nullable, avoid-unnecessary-late
+// ignore_for_file: cast_nullable_to_non_nullable, avoid-unnecessary-late, avoid-type-casts
 
 import 'dart:async';
 
@@ -17,7 +17,7 @@ void main() {
     test('throws exception with method name on timeout', () {
       final client = RpcClient(devnetRpcUrl, timeout: Duration.zero);
 
-      expect(
+      expectLater(
         client.getTransactionCount(),
         throwsA(
           isA<RpcTimeoutException>().having(
@@ -48,7 +48,7 @@ void main() {
         ),
       ];
 
-      expect(
+      expectLater(
         client.getMultipleTransactions(transactions),
         throwsA(
           isA<RpcTimeoutException>().having(
@@ -71,7 +71,7 @@ void main() {
     int currentBalance = 0;
 
     setUpAll(() async {
-      destination = await Ed25519HDKeyPair.fromMnemonic(generateMnemonic()); // generateMnemonic());
+      destination = await Ed25519HDKeyPair.fromMnemonic(generateMnemonic());
       source = await Ed25519HDKeyPair.fromMnemonic(generateMnemonic(), account: 1);
 
       currentBalance = await _createTokenAccount(client, source);
@@ -491,8 +491,7 @@ void main() {
         encoding: Encoding.base58,
       );
 
-      // It throws because some accounts are too large for base58
-      expect(future, throwsA(isA<JsonRpcException>()));
+      await expectLater(future, throwsA(isA<JsonRpcException>()));
     });
 
     test('Call to getBlockProduction() succeeds', () async {
@@ -722,7 +721,7 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      expect(future, throwsA(isA<JsonRpcException>()));
+      await expectLater(future, throwsA(isA<JsonRpcException>()));
     });
 
     test('Call to getAccountInfo() succeeds with base64 encoding', () async {
@@ -749,7 +748,7 @@ Future<int> _createTokenAccount(SolanaClient client, Ed25519HDKeyPair source) as
 
   final token = await _createToken(
     decimals: 2,
-    supply: 100000000000000,
+    supply: 100_000_000_000_000,
     transferSomeToAddress: source.publicKey,
     transferSomeToAmount: 1000,
   );

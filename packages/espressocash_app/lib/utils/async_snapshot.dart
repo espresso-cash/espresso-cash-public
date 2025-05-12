@@ -16,6 +16,7 @@ extension AsyncSnapshotExt<T> on AsyncSnapshot<T> {
       // ignore: avoid-non-null-assertion, checked for hasError
       return AsyncSnapshotResult.error(error!);
     } else if (hasData) {
+      // ignore: avoid-type-casts, controlled type
       return AsyncSnapshotResult.data(data as T);
     }
 

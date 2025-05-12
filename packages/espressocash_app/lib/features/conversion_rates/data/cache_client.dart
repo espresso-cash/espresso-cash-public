@@ -43,6 +43,7 @@ class CacheInterceptor extends Interceptor {
     // ignore: avoid-non-null-assertion, we know its not null
     final store = this.options.store!;
 
+    // ignore: avoid-type-casts, controlled type
     final maxAge = options.extra[maxAgeOption] as Duration? ?? Duration.zero;
 
     final key = this.options.keyBuilder(options);

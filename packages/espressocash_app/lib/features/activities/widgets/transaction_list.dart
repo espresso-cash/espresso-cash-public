@@ -62,6 +62,7 @@ class _TransactionListState extends State<TransactionList> {
                           ),
                           childCount: data.length,
                           findChildIndexCallback: (Key key) {
+                            // ignore: avoid-type-casts, local value
                             final ValueKey<String> valueKey = key as ValueKey<String>;
                             final String keyValue = valueKey.value;
                             final index = data.indexOf(keyValue);

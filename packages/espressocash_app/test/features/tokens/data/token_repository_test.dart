@@ -1,5 +1,7 @@
+// ignore_for_file: avoid-adjacent-strings
+
 import 'package:dfunc/src/either/either.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:espressocash_app/data/db/db.dart';
 import 'package:espressocash_app/features/tokens/data/extensions.dart';
 import 'package:espressocash_app/features/tokens/data/token_repository.dart';

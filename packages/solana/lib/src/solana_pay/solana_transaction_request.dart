@@ -52,7 +52,7 @@ class SolanaTransactionRequest with _$SolanaTransactionRequest {
     final pathname =
         link.query.isNotEmpty
             ? Uri.encodeComponent(link.toString().replaceFirst('/?', '?'))
-            : link.toString().replaceFirst(RegExp(r'\/$'), '');
+            : link.toString().replaceFirst(RegExp(r'/$'), '');
 
     final queryParameters = <String, dynamic>{
       if (label != null) 'label': label,
@@ -76,6 +76,7 @@ class SolanaTransactionRequest with _$SolanaTransactionRequest {
       throw HttpException(response.statusCode, response.body);
     }
 
+    // ignore: avoid-type-casts, controlled type
     return TransactionRequestInfo.fromJson(json.decode(response.body) as Map<String, dynamic>);
   }
 
@@ -90,6 +91,7 @@ class SolanaTransactionRequest with _$SolanaTransactionRequest {
       throw HttpException(response.statusCode, response.body);
     }
 
+    // ignore: avoid-type-casts, controlled type
     return TransactionRequestResponse.fromJson(json.decode(response.body) as Map<String, dynamic>);
   }
 }

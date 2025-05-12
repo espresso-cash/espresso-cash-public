@@ -5,6 +5,7 @@ import 'package:wallet_example/bl/utils.dart';
 
 class SignatureVerifier {
   const SignatureVerifier();
+
   Future<String> verify({
     required AuthToken authToken,
     required List<SigningRequest> signingRequests,

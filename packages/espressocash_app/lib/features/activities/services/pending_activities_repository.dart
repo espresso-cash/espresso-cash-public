@@ -46,13 +46,9 @@ class PendingActivitiesRepository {
 
     final oprStream = opr.watch().map((rows) => rows.map((r) => r.toActivity()));
 
-    final odpStream = odp.watch().asyncMap(
-      (rows) async => Future.wait(rows.map((r) => r.toActivity())),
-    );
+    final odpStream = odp.watch().asyncMap((rows) => Future.wait(rows.map((r) => r.toActivity())));
 
-    final olpStream = olp.watch().asyncMap(
-      (rows) async => Future.wait(rows.map((r) => r.toActivity())),
-    );
+    final olpStream = olp.watch().asyncMap((rows) => Future.wait(rows.map((r) => r.toActivity())));
 
     final outgoingDlnStream = outgoingDlnPayment.watch().map(
       (rows) => rows.map((r) => r.toActivity()),

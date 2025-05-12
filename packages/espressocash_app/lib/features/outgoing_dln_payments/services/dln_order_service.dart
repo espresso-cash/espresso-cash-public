@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -40,6 +40,7 @@ class OutgoingDlnPaymentService implements Disposable {
   }
 
   Future<String> create(PaymentQuote quote) async {
+    // ignore: avoid-type-casts, controlled type
     final totalAmount = (quote.payment.inputAmount + quote.fee) as CryptoAmount;
 
     final status = await _createTx(quote: quote);
@@ -161,27 +162,27 @@ class OutgoingDlnPaymentService implements Disposable {
     String? orderId = status.orderId;
     if (orderId == null || orderId.isEmpty) {
       orderId = await _client
-          .fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
+          .getDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
           .then((e) => e.orderId);
     }
 
-    if (orderId == null) {
-      return order;
-    }
-
-    final orderStatus = await _client.fetchDlnStatus(OrderStatusDlnRequestDto(orderId: orderId));
+    final orderStatus = await _client.getDlnOrderStatus(
+      OrderStatusDlnRequestDto(orderId: orderId ?? ''),
+    );
     final isFulfilled = orderStatus.status == DlnOrderStatus.fulfilled;
 
     if (isFulfilled) {
       return order.copyWith(
-        status: OutgoingDlnPaymentStatus.fulfilled(status.tx, orderId: orderId),
+        status: OutgoingDlnPaymentStatus.fulfilled(status.tx, orderId: orderId ?? ''),
       );
     }
 
     final isStale = DateTime.now().difference(order.created) > _orderExpiration;
 
     return isStale
-        ? order.copyWith(status: OutgoingDlnPaymentStatus.unfulfilled(status.tx, orderId: orderId))
+        ? order.copyWith(
+          status: OutgoingDlnPaymentStatus.unfulfilled(status.tx, orderId: orderId ?? ''),
+        )
         : order.copyWith(status: status.copyWith(orderId: orderId));
   }
 

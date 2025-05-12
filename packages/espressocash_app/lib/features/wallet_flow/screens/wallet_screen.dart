@@ -18,6 +18,7 @@ import 'pay_screen.dart';
 
 const _cryptoCurrency = Currency.usdc;
 final _minimumAmount =
+    // ignore: avoid-type-casts, controlled type
     Amount.fromDecimal(value: Decimal.parse('0.50'), currency: Currency.usd) as FiatAmount;
 
 class WalletScreen extends StatefulWidget {
@@ -103,12 +104,10 @@ class _State extends State<WalletScreen> {
 
     final minimumAmount = _minimumAmount.format(context.locale);
     setState(() {
-      switch (operation) {
-        case WalletOperation.request:
-          _errorMessage = context.l10n.minimumAmountToRequest(minimumAmount);
-        case WalletOperation.pay:
-          _errorMessage = context.l10n.minimumAmountToSend(minimumAmount);
-      }
+      _errorMessage = switch (operation) {
+        WalletOperation.request => context.l10n.minimumAmountToRequest(minimumAmount),
+        WalletOperation.pay => context.l10n.minimumAmountToSend(minimumAmount),
+      };
     });
   }
 

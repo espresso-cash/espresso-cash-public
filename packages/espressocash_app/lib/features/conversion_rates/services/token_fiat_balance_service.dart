@@ -38,6 +38,7 @@ class TokenFiatBalanceService {
       balance,
       conversionRate,
       (cryptoAmount, rate) =>
+          // ignore: avoid-type-casts, controlled type
           rate == null ? null : cryptoAmount.convert(rate: rate, to: fiatCurrency) as FiatAmount,
     ).distinct();
   }
@@ -53,6 +54,7 @@ class TokenFiatBalanceService {
             if (next == null) return total;
             if (total == null) return next;
 
+            // ignore: avoid-type-casts, controlled type
             return total + next as FiatAmount;
           }),
         ),

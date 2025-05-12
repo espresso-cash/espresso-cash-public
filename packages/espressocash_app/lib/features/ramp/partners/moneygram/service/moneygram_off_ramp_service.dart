@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -177,40 +177,38 @@ class MoneygramOffRampOrderService implements Disposable {
     required int priorityFee,
     required CryptoAmount gasFee,
   }) => tryEitherAsync((_) async {
-    {
-      final order = OffRampOrderRow(
-        id: const Uuid().v4(),
-        partnerOrderId: '',
-        amount: submittedAmount.value,
-        token: Token.usdc.address,
-        receiveAmount: receiveAmount.value,
-        fiatSymbol: receiveAmount.fiatCurrency.symbol,
-        created: DateTime.now(),
-        humanStatus: '',
-        machineStatus: '',
-        partner: RampPartner.moneygram,
-        status: OffRampOrderStatus.preProcessing,
-        transaction: '',
-        depositAddress: '',
-        slot: BigInt.zero,
-        bridgeAmount: null,
-        priorityFee: priorityFee,
-        gasFee: gasFee.value,
-      );
+    final order = OffRampOrderRow(
+      id: const Uuid().v4(),
+      partnerOrderId: '',
+      amount: submittedAmount.value,
+      token: Token.usdc.address,
+      receiveAmount: receiveAmount.value,
+      fiatSymbol: receiveAmount.fiatCurrency.symbol,
+      created: DateTime.now(),
+      humanStatus: '',
+      machineStatus: '',
+      partner: RampPartner.moneygram,
+      status: OffRampOrderStatus.preProcessing,
+      transaction: '',
+      depositAddress: '',
+      slot: BigInt.zero,
+      bridgeAmount: null,
+      priorityFee: priorityFee,
+      gasFee: gasFee.value,
+    );
 
-      await _db.into(_db.offRampOrderRows).insert(order);
-      _subscribe(order.id);
+    await _db.into(_db.offRampOrderRows).insert(order);
+    _subscribe(order.id);
 
-      _analytics.rampInitiated(
-        partnerName: RampPartner.moneygram.name,
-        rampType: RampType.offRamp.name,
-        amount: submittedAmount.value.toString(),
-        countryCode: countryCode,
-        id: order.id,
-      );
+    _analytics.rampInitiated(
+      partnerName: RampPartner.moneygram.name,
+      rampType: RampType.offRamp.name,
+      amount: submittedAmount.value.toString(),
+      countryCode: countryCode,
+      id: order.id,
+    );
 
-      return order.id;
-    }
+    return order.id;
   });
 
   AsyncResult<void> updateMoneygramOrder({required String id}) => tryEitherAsync((_) async {
@@ -471,6 +469,7 @@ class MoneygramOffRampOrderService implements Disposable {
     );
 
     final receiveAmount =
+        // ignore: avoid-type-casts, controlled type
         Amount.fromDecimal(
               value: Decimal.parse(transaction.amountOut ?? '0'),
               currency: currencyFromString(transaction.amountOutAsset ?? 'USD'),
@@ -478,6 +477,7 @@ class MoneygramOffRampOrderService implements Disposable {
             as FiatAmount;
 
     final fee =
+        // ignore: avoid-type-casts, controlled type
         Amount.fromDecimal(
               value: Decimal.parse(transaction.amountFee ?? '0'),
               currency: Currency.usdc,
@@ -640,14 +640,6 @@ class MoneygramOffRampOrderService implements Disposable {
 
     final amount = CryptoAmount(value: order.bridgeAmount ?? 0, cryptoCurrency: Currency.usdc);
 
-    final refundAmount = await _ecClient
-        .calculateMoneygramFee(
-          MoneygramFeeRequestDto(type: RampTypeDto.onRamp, amount: amount.decimal.toString()),
-        )
-        .then(
-          (e) => Amount.fromDecimal(value: Decimal.parse(e.totalAmount), currency: Currency.usdc),
-        );
-
     final bridgeTx = await _ecClient
         .swapToSolana(
           SwapToSolanaRequestDto(
@@ -665,7 +657,7 @@ class MoneygramOffRampOrderService implements Disposable {
         : OffRampOrderRowsCompanion(
           stellarTxHash: Value(hash),
           status: const Value(OffRampOrderStatus.waitingForRefundBridge),
-          refundAmount: Value(refundAmount.value),
+          refundAmount: Value(amount.value),
         );
   }
 

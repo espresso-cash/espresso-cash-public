@@ -1,4 +1,4 @@
-abstract class Sysvar {
+abstract final class Sysvar {
   const Sysvar._();
 
   static const clock = 'SysvarC1ock11111111111111111111111111111111';

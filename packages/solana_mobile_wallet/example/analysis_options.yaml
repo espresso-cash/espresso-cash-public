@@ -6,3 +6,4 @@ formatter:
 dart_code_metrics:
   rules:
     avoid-missing-interpolation: false
+    prefer-boolean-prefixes: false

@@ -34,6 +34,7 @@ class TxReadyWatcher implements Disposable {
     _repoSubscription = _repository.watchReady().distinct().listen((payments) async {
       for (final payment in payments) {
         Future<void> onSuccess(TransactionDetails txDetails) async {
+          // ignore: avoid-type-casts, controlled type
           final tx = txDetails.transaction as ParsedTransaction;
           final txId = tx.id;
 
@@ -93,7 +94,7 @@ class TxReadyWatcher implements Disposable {
                   .toIList(),
         );
 
-    Stream<void> retryWhen(void _, void __) async* {
+    Stream<void> retryWhen(void _, void _) async* {
       await Future<void>.delayed(backoff);
       if (backoff < const Duration(seconds: 30)) backoff *= 2;
 

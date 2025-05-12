@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-adjacent-strings
+
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/curve25519/compressed_edwards_y.dart';

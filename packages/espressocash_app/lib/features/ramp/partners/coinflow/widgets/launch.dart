@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-type-casts
+
 import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';

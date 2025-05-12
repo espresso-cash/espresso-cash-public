@@ -6,3 +6,9 @@ formatter:
 analyzer:
   exclude:
     - "lib/src/api.dart"
+
+dart_code_metrics:
+  rules:
+    prefer-boolean-prefixes: false
+    prefer-static-method: false
+    prefer-named-parameters: false

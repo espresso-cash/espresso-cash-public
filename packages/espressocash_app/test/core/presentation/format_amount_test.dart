@@ -18,7 +18,7 @@ void main() {
       isStablecoin: false,
     );
 
-    final amount = Amount.fromToken(value: 44450000000, token: msiToken);
+    final amount = Amount.fromToken(value: 44_450_000_000, token: msiToken);
     expect(amount.format(const Locale('en')), '44,450.00 MSI');
   });
 }

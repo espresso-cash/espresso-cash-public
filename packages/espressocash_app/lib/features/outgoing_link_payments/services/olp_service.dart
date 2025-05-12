@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:dio/dio.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -12,7 +11,6 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../config.dart';
 import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
@@ -150,7 +148,6 @@ class OLPService implements Disposable {
         senderAccount: account.address,
         escrowAccount: escrowAccount.address,
         amount: amount.value,
-        cluster: apiCluster,
       );
 
       final response = await _ecClient.createPaymentEc(dto);
@@ -176,7 +173,6 @@ class OLPService implements Disposable {
       final dto = CancelPaymentRequestDto(
         senderAccount: account.address,
         escrowAccount: escrow.address,
-        cluster: apiCluster,
       );
 
       final response = await _ecClient.cancelPaymentEc(dto);
@@ -215,8 +211,9 @@ class OLPService implements Disposable {
     } on Exception catch (error) {
       TxFailureReason reason = TxFailureReason.creatingFailure;
 
-      if (error is DioException &&
-          error.toEspressoCashError() == EspressoCashError.insufficientFunds) {
+      final ecError = error.toEspressoCashError();
+
+      if (ecError == EspressoCashError.insufficientFunds) {
         reason = TxFailureReason.insufficientFunds;
       }
 

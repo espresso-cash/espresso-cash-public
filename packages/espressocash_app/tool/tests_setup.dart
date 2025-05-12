@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, test code
 
 import 'package:solana/solana.dart';
 
@@ -33,8 +33,8 @@ Future<void> main() async {
 
   await Future.wait(
     tokenPubKeys.map(
-      (Ed25519HDKeyPair token) async =>
-          solanaClient.airdropSplTokens(accountKey.publicKey, token, amount: 100000),
+      (Ed25519HDKeyPair token) =>
+          solanaClient.airdropSplTokens(accountKey.publicKey, token, amount: 100_000),
     ),
   );
 

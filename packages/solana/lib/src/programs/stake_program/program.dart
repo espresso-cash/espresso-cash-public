@@ -6,7 +6,7 @@ import 'package:solana/src/encoder/byte_array.dart';
 export 'instruction.dart';
 export 'state.dart';
 
-abstract class StakeProgram {
+abstract final class StakeProgram {
   static const programId = 'Stake11111111111111111111111111111111111111';
 
   static final Ed25519HDPublicKey id = Ed25519HDPublicKey.fromBase58(programId);

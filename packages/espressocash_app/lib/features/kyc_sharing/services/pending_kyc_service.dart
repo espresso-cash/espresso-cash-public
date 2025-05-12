@@ -13,6 +13,7 @@ class PendingKycService {
   PendingKycService(this._sharedPreferences, this._kycService);
 
   final SharedPreferences _sharedPreferences;
+  // ignore: dispose-class-fields, false positive
   final KycSharingService _kycService;
 
   final _controller = BehaviorSubject<DateTime?>();

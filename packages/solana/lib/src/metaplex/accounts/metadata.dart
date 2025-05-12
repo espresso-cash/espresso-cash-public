@@ -40,6 +40,7 @@ class Metadata {
       throw HttpException(response.statusCode, response.body);
     }
 
+    // ignore: avoid-type-casts, controlled type
     return OffChainMetadata.fromJson(json.decode(response.body) as Map<String, dynamic>);
   }
 

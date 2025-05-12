@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-adjacent-strings
+
 import 'package:decimal/decimal.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/rpc/dto/dto.dart';

@@ -38,7 +38,7 @@ class CustomPickerScreen<T> extends StatelessWidget {
   }) => (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<T>(
     PageRouteBuilder(
       pageBuilder:
-          (context, _, __) => CustomPickerScreen<T>(
+          (context, _, _) => CustomPickerScreen<T>(
             title: title,
             items: items,
             itemBuilder: itemBuilder,

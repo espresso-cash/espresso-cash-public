@@ -7,7 +7,7 @@ const localUrl = 'localhost';
 Future<EspressoCashClient> createClient({bool local = false, Ed25519HDKeyPair? keyPair}) async {
   final kp = keyPair ?? await Ed25519HDKeyPair.random();
 
-  return EspressoCashClient.create(
+  return EspressoCashClient(
     baseUrl: local ? localUrl : demoUrl,
     port: local ? 8080 : 443,
     sign: (message) async {
@@ -17,6 +17,7 @@ Future<EspressoCashClient> createClient({bool local = false, Ed25519HDKeyPair? k
     },
     walletAddress: kp.address,
     secure: !local,
+    onTokenUpdated: (_) async {},
   );
 }
 

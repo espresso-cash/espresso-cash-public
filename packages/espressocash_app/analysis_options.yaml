@@ -25,6 +25,7 @@ analyzer:
     
 dart_code_metrics:
   rules:
+    avoid-nested-assignments: false
     avoid-passing-self-as-argument: false
     prefer-overriding-parent-equality: false # too many false positives, temporarily disabled
     avoid-unnecessary-collections: false # too many false positives, temporarily disabled
@@ -53,7 +54,12 @@ dart_code_metrics:
     avoid-nullable-interpolation:
       exclude:
         - test/**
+    avoid-returning-cascades: false
+    prefer-abstract-final-static-class: false
+    prefer-boolean-prefixes: false
     prefer-correct-handler-name: false
+    prefer-named-parameters: false
+    prefer-static-method: false
 
   rules-exclude:
     - "**/*.gr.dart"

@@ -238,8 +238,7 @@ void main() {
 
     test('Fails to transfer tokens if the recipient has no associated token account', () async {
       final recipient = await Ed25519HDKeyPair.random();
-      // Send to the newly created account
-      expect(
+      await expectLater(
         solanaClient.transferSplToken(
           owner: owner,
           destination: recipient.publicKey,
@@ -253,8 +252,7 @@ void main() {
 
     test('Fails to transfer tokens if the sender has no associated token account', () async {
       final sender = await Ed25519HDKeyPair.random();
-      // Send to the newly created account
-      expect(
+      await expectLater(
         solanaClient.transferSplToken(
           owner: sender,
           destination: owner.publicKey,
@@ -308,4 +306,4 @@ void main() {
   });
 }
 
-const _totalSupply = 1000000000000;
+const _totalSupply = 1_000_000_000_000;

@@ -24,6 +24,7 @@ class _ValueStreamBuilderState<T> extends State<ValueStreamBuilder<T>> {
   Widget build(BuildContext context) => StreamBuilder<T>(
     stream: _stream.$1,
     initialData: _stream.$2,
+    // ignore: avoid-type-casts, controlled type
     builder: (context, snapshot) => widget.builder(context, snapshot.data as T),
   );
 }

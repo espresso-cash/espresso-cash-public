@@ -77,7 +77,7 @@ extension BuildContextExt on BuildContext {
         tx: tx,
         message: postResponse.message,
       );
-    }).onError((__, _) {
+    }).onError((_, _) {
       showCpErrorSnackbar(this, message: l10n.tryAgainLater);
     });
 
@@ -110,7 +110,7 @@ extension BuildContextExt on BuildContext {
     required String label,
   }) => runWithLoader(
     this,
-    () async => sl<TRService>().create(tx: tx, amount: amount, slot: slot, label: label),
+    () => sl<TRService>().create(tx: tx, amount: amount, slot: slot, label: label),
   );
 }
 

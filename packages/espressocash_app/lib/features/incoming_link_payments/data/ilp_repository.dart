@@ -88,7 +88,13 @@ extension on ILPStatusDto {
       case ILPStatusDto.txCreated:
         return ILPStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
       case ILPStatusDto.txSent:
-        return ILPStatus.txSent(tx ?? StubSignedTx(txId!), slot: slot ?? BigInt.zero);
+        final feeAmount = row.feeAmount;
+        final fee =
+            feeAmount != null
+                ? CryptoAmount(value: feeAmount, cryptoCurrency: Currency.usdc)
+                : null;
+
+        return ILPStatus.txSent(tx ?? StubSignedTx(txId!), slot: slot ?? BigInt.zero, fee: fee);
       case ILPStatusDto.success:
         final feeAmount = row.feeAmount;
         final receiveAmount = row.receiveAmount;
@@ -121,7 +127,7 @@ extension on IncomingLinkPayment {
     slot: status.toSlot()?.toString(),
     txFailureReason: status.toTxFailureReason(),
     feeAmount: switch (status) {
-      ILPStatusSuccess(:final fee) => fee?.value,
+      ILPStatusTxSent(:final fee) || ILPStatusSuccess(:final fee) => fee?.value,
       _ => null,
     },
     receiveAmount: switch (status) {
