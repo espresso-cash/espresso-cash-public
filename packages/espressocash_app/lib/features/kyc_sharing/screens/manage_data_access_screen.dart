@@ -16,22 +16,19 @@ import '../services/partner_access_service.dart';
 class ManageDataAccessScreen extends StatelessWidget {
   const ManageDataAccessScreen({super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
-    MaterialPageRoute(
-      builder:
-          (_) => ChangeNotifierProvider<PartnerAccessService>.value(
-            value: sl<PartnerAccessService>()..loadPartners(),
-            child: const ManageDataAccessScreen(),
-          ),
-    ),
-  );
+  static void push(BuildContext context) => Navigator.of(
+    context,
+  ).push<void>(MaterialPageRoute(builder: (_) => const ManageDataAccessScreen()));
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
     child: Scaffold(
       backgroundColor: CpColors.blackGreyColor,
       appBar: CpAppBar(title: Text(context.l10n.manageDataAccess.toUpperCase())),
-      body: const _Content(),
+      body: ChangeNotifierProvider<PartnerAccessService>.value(
+        value: sl<PartnerAccessService>()..fetchPartners(),
+        child: const _Content(),
+      ),
     ),
   );
 }
@@ -46,7 +43,10 @@ class _Content extends StatelessWidget {
     message:
         'Are you sure you want to delete all your kyc infomation and revoke access to all partners?',
     messageStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.white),
-    onConfirm: () => sl<KycRepository>().deleteAllUserData(),
+    onConfirm: () {
+      sl<KycRepository>().deleteAllUserData();
+      Navigator.of(context).pop();
+    },
   );
 
   void _handleRevokeAccess(BuildContext context, String partnerPk) => showConfirmationDialog(

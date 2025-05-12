@@ -5,6 +5,7 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 import '../../../di.dart';
 import '../data/kyc_repository.dart';
 import '../services/kyc_service.dart';
+import '../utils/kyc_exception.dart';
 
 @injectable
 class PartnerAccessService extends ChangeNotifier {
@@ -20,22 +21,22 @@ class PartnerAccessService extends ChangeNotifier {
   bool get loading => _loading;
   String? get error => _error;
 
-  Future<void> loadPartners() async {
+  Future<void> fetchPartners() async {
     _loading = true;
     _error = null;
     notifyListeners();
     try {
       _partners = await sl<KycSharingService>().fetchGrantedAccessPartners();
-    } catch (e) {
-      _error = e.toString();
+    } on KycException catch (error) {
+      _error = error.toString();
     }
     _loading = false;
     notifyListeners();
   }
 
   Future<void> revokePartner(String partnerPk) async {
-    await sl<KycRepository>().revokePartnerAccess(partnerPk);
-    _partners?.removeWhere((p) => p.publicKey == partnerPk);
+    await _kycRepository.revokePartnerAccess(partnerPk);
+    await fetchPartners();
     notifyListeners();
   }
 }
