@@ -25,6 +25,8 @@ class KycRepository extends ChangeNotifier {
           ? const AppConfig.demo()
           : const AppConfig.production();
 
+  String get validatorAuthPk => _config.verifierAuthPk;
+
   Future<void> _init() =>
       _clientInitialization ??= Future(() async {
         try {

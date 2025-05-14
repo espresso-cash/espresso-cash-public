@@ -1,6 +1,10 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_app/features/kyc_sharing/data/kyc_repository.dart';
+import 'package:espressocash_app/features/kyc_sharing/services/kyc_access_service.dart';
+import 'package:espressocash_app/features/kyc_sharing/services/kyc_data_service.dart';
+import 'package:espressocash_app/features/kyc_sharing/widgets/terms_notice.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
@@ -111,6 +115,20 @@ class CashOutButton extends StatelessWidget {
 }
 
 extension RampBuildContextExt on BuildContext {
+  Future<bool> ensureBrijAccessGranted() async {
+    final partnerPK = sl<KycRepository>().validatorAuthPk;
+
+    final hasGrantedAccess = await sl<KycAccessService>().hasGrantedAccess(partnerPK);
+
+    if (hasGrantedAccess) return true;
+
+    final (:termsUrl, :policyUrl) = await sl<KycDataService>().fetchPartnerTermsAndPolicy(
+      partnerPK,
+    );
+
+    return showTermsAndPolicyDialog(this, termsUrl: termsUrl, privacyUrl: policyUrl);
+  }
+
   Future<ProfileData?> ensureProfileData(RampType rampType) async {
     void handleSubmitted() {
       Navigator.pop(this);
