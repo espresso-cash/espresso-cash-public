@@ -9,6 +9,7 @@ import 'package:ec_client_dart/src/generated/api/payments/v1/service.pbgrpc.dart
 import 'package:ec_client_dart/src/generated/api/rates/v1/service.pbgrpc.dart';
 import 'package:ec_client_dart/src/generated/api/referrals/v1/service.pbgrpc.dart';
 import 'package:ec_client_dart/src/generated/api/shortener/v1/service.pbgrpc.dart';
+import 'package:ec_client_dart/src/generated/api/swap/v1/service.pbgrpc.dart';
 import 'package:ec_client_dart/src/generated/api/tokens/v1/service.pbgrpc.dart';
 import 'package:ec_client_dart/src/generated/api/users/v1/service.pbgrpc.dart';
 import 'package:ec_client_dart/src/utils.dart';
@@ -80,6 +81,7 @@ class EspressoCashClient {
     _dlnServiceClient = dln_proto.DlnServiceClient(_channel, options: callOptions);
     _moneygramServiceClient = MoneygramServiceClient(_channel, options: callOptions);
     _tokensServiceClient = TokensServiceClient(_channel, options: callOptions);
+    _swapServiceClient = SwapServiceClient(_channel, options: callOptions);
   }
 
   final String baseUrl;
@@ -97,6 +99,7 @@ class EspressoCashClient {
   late dln_proto.DlnServiceClient _dlnServiceClient;
   late MoneygramServiceClient _moneygramServiceClient;
   late TokensServiceClient _tokensServiceClient;
+  late SwapServiceClient _swapServiceClient;
 
   final _authCache = AsyncCache<void>.ephemeral();
 
@@ -128,6 +131,7 @@ class EspressoCashClient {
     _dlnServiceClient = dln_proto.DlnServiceClient(_channel, options: callOptions);
     _moneygramServiceClient = MoneygramServiceClient(_channel, options: callOptions);
     _tokensServiceClient = TokensServiceClient(_channel, options: callOptions);
+    _swapServiceClient = SwapServiceClient(_channel, options: callOptions);
   }
 
   Future<T> _withReauth<T>(Future<T> Function() f) async {
@@ -452,5 +456,37 @@ class EspressoCashClient {
     final response = await _paymentServiceClient.getIncomingEscrowPaymentQuote(r);
 
     return EscrowPaymentQuoteResponseDto(fee: response.fee.toInt());
+  });
+
+  Future<SwapRouteResponseDto> swap(SwapRouteRequestDto request) => _withReauth(() async {
+    final match = switch (request.match) {
+      SwapMatchDto.inAmount => SwapMatch.SWAP_MATCH_IN_AMOUNT,
+      SwapMatchDto.outAmount => SwapMatch.SWAP_MATCH_OUT_AMOUNT,
+    };
+
+    final slippage = switch (request.slippage) {
+      SwapSlippageDto.zpOne => SwapSlippage.SWAP_SLIPPAGE_ZP_ONE,
+      SwapSlippageDto.zpFive => SwapSlippage.SWAP_SLIPPAGE_ZP_FIVE,
+      SwapSlippageDto.onePercent => SwapSlippage.SWAP_SLIPPAGE_ONE_PERCENT,
+    };
+
+    final r = SwapRouteRequest(
+      inputToken: request.inputToken,
+      outputToken: request.outputToken,
+      amount: request.amount,
+      match: match,
+      slippage: slippage,
+    );
+
+    final response = await _swapServiceClient.swap(r);
+
+    return SwapRouteResponseDto(
+      inAmount: response.inAmount,
+      outAmount: response.outAmount,
+      amount: response.amount,
+      encodedTx: response.encodedTx,
+      feeInUsdc: response.feeInUsdc,
+      slot: response.slot.toBigInt,
+    );
   });
 }
