@@ -202,25 +202,15 @@ class _$SwapRouteRequestDtoImpl implements _SwapRouteRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SwapRouteRequestDtoImpl &&
-            (identical(other.inputToken, inputToken) ||
-                other.inputToken == inputToken) &&
-            (identical(other.outputToken, outputToken) ||
-                other.outputToken == outputToken) &&
+            (identical(other.inputToken, inputToken) || other.inputToken == inputToken) &&
+            (identical(other.outputToken, outputToken) || other.outputToken == outputToken) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.match, match) || other.match == match) &&
-            (identical(other.slippage, slippage) ||
-                other.slippage == slippage));
+            (identical(other.slippage, slippage) || other.slippage == slippage));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    inputToken,
-    outputToken,
-    amount,
-    match,
-    slippage,
-  );
+  int get hashCode => Object.hash(runtimeType, inputToken, outputToken, amount, match, slippage);
 
   /// Create a copy of SwapRouteRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -228,10 +218,7 @@ class _$SwapRouteRequestDtoImpl implements _SwapRouteRequestDto {
   @override
   @pragma('vm:prefer-inline')
   _$$SwapRouteRequestDtoImplCopyWith<_$SwapRouteRequestDtoImpl> get copyWith =>
-      __$$SwapRouteRequestDtoImplCopyWithImpl<_$SwapRouteRequestDtoImpl>(
-        this,
-        _$identity,
-      );
+      __$$SwapRouteRequestDtoImplCopyWithImpl<_$SwapRouteRequestDtoImpl>(this, _$identity);
 }
 
 abstract class _SwapRouteRequestDto implements SwapRouteRequestDto {
@@ -296,10 +283,7 @@ abstract class $SwapRouteResponseDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SwapRouteResponseDtoCopyWithImpl<
-  $Res,
-  $Val extends SwapRouteResponseDto
->
+class _$SwapRouteResponseDtoCopyWithImpl<$Res, $Val extends SwapRouteResponseDto>
     implements $SwapRouteResponseDtoCopyWith<$Res> {
   _$SwapRouteResponseDtoCopyWithImpl(this._value, this._then);
 
@@ -470,40 +454,25 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SwapRouteResponseDtoImpl &&
-            (identical(other.inAmount, inAmount) ||
-                other.inAmount == inAmount) &&
-            (identical(other.outAmount, outAmount) ||
-                other.outAmount == outAmount) &&
+            (identical(other.inAmount, inAmount) || other.inAmount == inAmount) &&
+            (identical(other.outAmount, outAmount) || other.outAmount == outAmount) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.encodedTx, encodedTx) ||
-                other.encodedTx == encodedTx) &&
-            (identical(other.feeInUsdc, feeInUsdc) ||
-                other.feeInUsdc == feeInUsdc) &&
+            (identical(other.encodedTx, encodedTx) || other.encodedTx == encodedTx) &&
+            (identical(other.feeInUsdc, feeInUsdc) || other.feeInUsdc == feeInUsdc) &&
             (identical(other.slot, slot) || other.slot == slot));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    inAmount,
-    outAmount,
-    amount,
-    encodedTx,
-    feeInUsdc,
-    slot,
-  );
+  int get hashCode =>
+      Object.hash(runtimeType, inAmount, outAmount, amount, encodedTx, feeInUsdc, slot);
 
   /// Create a copy of SwapRouteResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$SwapRouteResponseDtoImplCopyWith<_$SwapRouteResponseDtoImpl>
-  get copyWith =>
-      __$$SwapRouteResponseDtoImplCopyWithImpl<_$SwapRouteResponseDtoImpl>(
-        this,
-        _$identity,
-      );
+  _$$SwapRouteResponseDtoImplCopyWith<_$SwapRouteResponseDtoImpl> get copyWith =>
+      __$$SwapRouteResponseDtoImplCopyWithImpl<_$SwapRouteResponseDtoImpl>(this, _$identity);
 }
 
 abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
@@ -533,6 +502,6 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SwapRouteResponseDtoImplCopyWith<_$SwapRouteResponseDtoImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$SwapRouteResponseDtoImplCopyWith<_$SwapRouteResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
