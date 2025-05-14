@@ -1,10 +1,6 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_app/features/kyc_sharing/data/kyc_repository.dart';
-import 'package:espressocash_app/features/kyc_sharing/services/kyc_access_service.dart';
-import 'package:espressocash_app/features/kyc_sharing/services/kyc_data_service.dart';
-import 'package:espressocash_app/features/kyc_sharing/widgets/terms_notice.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
@@ -15,6 +11,11 @@ import '../../../ui/icon_button.dart';
 import '../../accounts/models/account.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../country_picker/models/country.dart';
+import '../../kyc_sharing/data/kyc_repository.dart';
+import '../../kyc_sharing/services/kyc_access_service.dart';
+import '../../kyc_sharing/services/kyc_data_service.dart';
+import '../../kyc_sharing/widgets/kyc_flow.dart';
+import '../../kyc_sharing/widgets/terms_notice.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../ramp_partner/models/ramp_type.dart';
@@ -25,7 +26,6 @@ import '../partners/guardarian/widgets/launch.dart';
 import '../partners/kado/widgets/launch.dart';
 import '../partners/moneygram/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
-import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
 
 class PayOrRequestButton extends StatelessWidget {
@@ -69,9 +69,13 @@ class AddCashButton extends StatelessWidget {
         variant: CpIconButtonVariant.dark,
         size: CpIconButtonSize.large,
         onPressed: () async {
-          final hasProfile = await context.ensureProfileData(RampType.onRamp) != null;
+          final hasGrantedAccess = await context.ensureBrijAccessGranted();
+          if (!context.mounted) return;
 
-          if (context.mounted && hasProfile) {
+          final hasProfile = await context.ensureProfileData() != null;
+          if (!context.mounted) return;
+
+          if (hasGrantedAccess && hasProfile) {
             context.launchOnRampFlow();
           }
         },
@@ -98,9 +102,13 @@ class CashOutButton extends StatelessWidget {
         variant: CpIconButtonVariant.dark,
         size: CpIconButtonSize.large,
         onPressed: () async {
-          final hasProfile = await context.ensureProfileData(RampType.offRamp) != null;
+          final hasGrantedAccess = await context.ensureBrijAccessGranted();
+          if (!context.mounted) return;
 
-          if (context.mounted && hasProfile) {
+          final hasProfile = await context.ensureProfileData() != null;
+          if (!context.mounted) return;
+
+          if (hasGrantedAccess && hasProfile) {
             context.launchOffRampFlow();
           }
         },
@@ -129,31 +137,26 @@ extension RampBuildContextExt on BuildContext {
     return showTermsAndPolicyDialog(this, termsUrl: termsUrl, privacyUrl: policyUrl);
   }
 
-  Future<ProfileData?> ensureProfileData(RampType rampType) async {
-    void handleSubmitted() {
-      Navigator.pop(this);
-    }
-
+  Future<ProfileData?> ensureProfileData() async {
     final repository = sl<ProfileRepository>();
     Country? country = repository.country?.let(Country.findByCode);
-    String email = repository.email;
+    String email = sl<KycDataService>().value?.email?.value ?? '';
 
     if (country != null && email.isNotEmpty) {
       return (country: country, email: email);
     }
 
-    await RampOnboardingScreen.push(this, onConfirmed: handleSubmitted, rampType: rampType);
+    await openEmailFlow();
 
     country = repository.country?.let(Country.findByCode);
-    email = repository.email;
+    email = sl<KycDataService>().value?.email?.value ?? '';
 
     return country != null && email.isNotEmpty ? (country: country, email: email) : null;
   }
 
   ProfileData getProfileData() {
-    final repository = sl<ProfileRepository>();
-    final Country? country = repository.country?.let(Country.findByCode);
-    final String email = repository.email;
+    final Country? country = sl<ProfileRepository>().country?.let(Country.findByCode);
+    final String email = sl<KycDataService>().value?.email?.value ?? '';
 
     if (country == null || email.isEmpty) {
       throw Exception('Profile data not available.');

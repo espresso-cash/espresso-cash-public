@@ -31,7 +31,7 @@ class _CoinflowLinkListenerState extends State<CoinflowLinkListener> with Dynami
   }
 
   Future<void> _handleCoinflowDeepLink() async {
-    final profile = await context.ensureProfileData(RampType.offRamp);
+    final profile = await context.ensureProfileData();
 
     if (mounted && profile != null) {
       await context.launchCoinflowOffRamp(
