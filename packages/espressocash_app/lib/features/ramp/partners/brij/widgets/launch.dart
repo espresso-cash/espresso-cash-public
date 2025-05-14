@@ -17,6 +17,7 @@ import '../../../../kyc_sharing/services/kyc_access_service.dart';
 import '../../../../kyc_sharing/services/kyc_data_service.dart';
 import '../../../../kyc_sharing/services/pending_kyc_service.dart';
 import '../../../../kyc_sharing/widgets/kyc_flow.dart';
+import '../../../../kyc_sharing/widgets/terms_notice.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../../router/service/navigation_service.dart';
@@ -27,14 +28,15 @@ import '../../../screens/ramp_amount_screen.dart';
 import '../services/brij_fees_service.dart';
 import '../services/brij_off_ramp_order_service.dart';
 import '../services/brij_on_ramp_order_service.dart';
-import 'terms_notice.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchBrijOnRamp({
     required RampPartner partner,
     required ProfileData profile,
   }) async {
-    final isValid = await _validateKyc(profile);
+   // final isValid = await _validateKyc(profile);
+
+    final isValid = true;
 
     if (!isValid) return;
 

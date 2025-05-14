@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../l10n/l10n.dart';
-import '../../../../../ui/button.dart';
-import '../../../../../ui/colors.dart';
-import '../../../../../ui/dialogs.dart';
-import '../../../../../ui/web_view_screen.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/web_view_screen.dart';
 
 Future<bool> showTermsAndPolicyDialog(
   BuildContext context, {
