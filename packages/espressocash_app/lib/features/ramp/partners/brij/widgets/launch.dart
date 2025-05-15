@@ -34,9 +34,7 @@ extension BuildContextExt on BuildContext {
     required RampPartner partner,
     required ProfileData profile,
   }) async {
-   // final isValid = await _validateKyc(profile);
-
-    final isValid = true;
+    final isValid = await _validateKyc(profile);
 
     if (!isValid) return;
 
@@ -53,7 +51,7 @@ extension BuildContextExt on BuildContext {
       this,
       partner: partner,
       onSubmitted: (Amount? value) async {
-        final hasConfirmed = await _ensureAccessGranted(partner);
+        final hasConfirmed = await _ensurePartnerAccessGranted(partner);
 
         if (!hasConfirmed) return;
 
@@ -142,7 +140,7 @@ extension BuildContextExt on BuildContext {
       this,
       partner: partner,
       onSubmitted: (value) async {
-        final hasConfirmed = await _ensureAccessGranted(partner);
+        final hasConfirmed = await _ensurePartnerAccessGranted(partner);
 
         if (!hasConfirmed) return;
 
@@ -302,7 +300,7 @@ extension BuildContextExt on BuildContext {
     );
   }
 
-  Future<bool> _ensureAccessGranted(RampPartner partner) async {
+  Future<bool> _ensurePartnerAccessGranted(RampPartner partner) async {
     final partnerPK = partner.partnerPK;
 
     if (partnerPK == null) return false;
@@ -315,7 +313,12 @@ extension BuildContextExt on BuildContext {
       partnerPK,
     );
 
-    return showTermsAndPolicyDialog(this, termsUrl: termsUrl, privacyUrl: policyUrl);
+    return showTermsAndPolicyDialog(
+      this,
+      termsUrl: termsUrl,
+      privacyUrl: policyUrl,
+      partnerPk: partnerPK,
+    );
   }
 }
 

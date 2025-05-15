@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/web_view_screen.dart';
+import '../services/kyc_access_service.dart';
 
 Future<bool> showTermsAndPolicyDialog(
   BuildContext context, {
   required String termsUrl,
   required String privacyUrl,
+  required String partnerPk,
 }) async =>
     await showCustomDialog<bool?>(
       context,
@@ -53,7 +56,13 @@ Future<bool> showTermsAndPolicyDialog(
             child: CpButton(
               text: context.l10n.iAgree_btn,
               width: 150,
-              onPressed: () => Navigator.pop(context, true),
+              onPressed: () async {
+                await sl<KycAccessService>().grantPartnerAccess(partnerPk);
+
+                if (context.mounted) {
+                  Navigator.pop(context, true);
+                }
+              },
             ),
           ),
         ],
