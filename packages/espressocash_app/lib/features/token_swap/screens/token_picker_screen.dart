@@ -211,7 +211,7 @@ class _ContentState extends State<_Content> {
                   ),
                 )
                 : ValueStreamBuilder<IList<CryptoFiatAmount>>(
-                  create: () => (_balanceService.watchInvestmentBalances(), const IListConst([])),
+                  create: () => (_balanceService.watchAllBalances(), const IListConst([])),
                   builder:
                       (context, balances) => ListView.separated(
                         controller: _scrollController,
