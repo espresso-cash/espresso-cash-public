@@ -162,7 +162,6 @@ extension RampBuildContextExt on BuildContext {
       return null;
     }
 
-    // Handle email validation
     final emailValidated = user.emailStatus == KycValidationStatus.approved;
     if (!emailValidated) {
       await openEmailFlow();

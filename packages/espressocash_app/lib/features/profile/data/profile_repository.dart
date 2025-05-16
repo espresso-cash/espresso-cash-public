@@ -56,5 +56,3 @@ class ProfileRepository extends ChangeNotifier {
 const firstNameKey = 'name';
 const lastNameKey = 'lastName';
 const countryKey = 'country';
-
-
