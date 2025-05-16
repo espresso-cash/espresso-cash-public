@@ -7,6 +7,8 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/loader.dart';
+import '../../../utils/flow.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../conversion_rates/widgets/extensions.dart';
@@ -15,10 +17,11 @@ import '../../currency/models/currency.dart';
 import '../../tokens/widgets/token_icon.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
+import '../service/quote_service.dart';
 import '../widgets/extensions.dart';
 import 'swap_details_screen.dart';
 
-class TokenSwapReviewScreen extends StatelessWidget {
+class TokenSwapReviewScreen extends StatefulWidget {
   const TokenSwapReviewScreen({super.key, required this.route});
 
   static Future<bool?> push(BuildContext context, {required SwapRoute route}) => Navigator.of(
@@ -28,73 +31,101 @@ class TokenSwapReviewScreen extends StatelessWidget {
   final SwapRoute route;
 
   @override
-  Widget build(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
+  State<TokenSwapReviewScreen> createState() => _TokenSwapReviewScreenState();
+}
 
-    final input = route.seed.input;
-    final output = route.seed.output;
+class _TokenSwapReviewScreenState extends State<TokenSwapReviewScreen> {
+  late SwapRoute _currentRoute;
 
-    final provider = route.providerLabel;
-    final slippage = route.seed.slippage.toPercent();
-    final feesInUsdc = route.fee.format(locale, roundInteger: true);
-    final priceImpact = double.parse(route.priceImpact).floor().toString();
-    final platformFeePercent = route.platformFeePercent;
-
-    final ratio = (output.decimal / input.decimal).toDouble().toStringAsFixed(2);
-
-    final bestPrice =
-        '1 ${input.cryptoCurrency.token.symbol} = $ratio ${output.cryptoCurrency.token.symbol}';
-
-    return Scaffold(
-      backgroundColor: CpColors.deepGreyColor,
-      appBar: CpAppBar(title: Text(context.l10n.reviewSwap.toUpperCase())),
-      body: Stack(
-        children: [
-          SafeArea(
-            minimum: EdgeInsets.only(bottom: 40.h),
-            child: LayoutBuilder(
-              builder:
-                  (BuildContext context, BoxConstraints viewportConstraints) => Column(
-                    children: [
-                      SizedBox(height: 24.h),
-                      _TokensInfo(payAmount: input, receiveAmount: output),
-                      SizedBox(height: 36.h),
-                      _SwapInfo(
-                        provider: provider,
-                        bestPrice: bestPrice,
-                        fees: feesInUsdc,
-                        slippage: '$slippage%',
-                        priceImpact: '$priceImpact%',
-                      ),
-                      SizedBox(height: 16.h),
-                      Text(
-                        context.l10n.espressoCashFee(platformFeePercent),
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          color: CpColors.greyColor,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const Spacer(),
-                      CpBottomButton(
-                        text: context.l10n.swap,
-                        onPressed: () async {
-                          final id = await context.createSwap(route);
-
-                          if (!context.mounted) return;
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                          SwapDetailsScreen.push(context, id: id);
-                        },
-                      ),
-                    ],
-                  ),
-            ),
-          ),
-        ],
-      ),
-    );
+  @override
+  void initState() {
+    super.initState();
+    _currentRoute = widget.route;
   }
+
+  @override
+  Widget build(BuildContext context) => ListenableBuilder(
+    listenable: sl<QuoteService>(),
+    builder: (context, _) {
+      final locale = DeviceLocale.localeOf(context);
+      final quoteState = sl<QuoteService>().value;
+      final isLoading = quoteState.isProcessing;
+
+      if (quoteState case FlowSuccess(:final result)) {
+        _currentRoute = result;
+      }
+
+      final input = _currentRoute.seed.input;
+      final output = _currentRoute.seed.output;
+
+      final provider = _currentRoute.providerLabel;
+      final slippage = _currentRoute.seed.slippage.toPercent();
+      final feesInUsdc = _currentRoute.fee.format(locale, roundInteger: true);
+      final priceImpact = double.parse(_currentRoute.priceImpact).floor().toString();
+      final platformFeePercent = _currentRoute.platformFeePercent;
+
+      final ratio = (output.decimal / input.decimal).toDouble().toStringAsFixed(2);
+
+      final bestPrice =
+          '1 ${input.cryptoCurrency.token.symbol} = $ratio ${output.cryptoCurrency.token.symbol}';
+
+      return Scaffold(
+        backgroundColor: CpColors.deepGreyColor,
+        appBar: CpAppBar(
+          title: Text(context.l10n.reviewSwap.toUpperCase()),
+          nextButton: isLoading ? const LoadingIndicator() : null,
+        ),
+        body: Stack(
+          children: [
+            SafeArea(
+              minimum: EdgeInsets.only(bottom: 40.h),
+              child: LayoutBuilder(
+                builder:
+                    (BuildContext context, BoxConstraints viewportConstraints) => Column(
+                      children: [
+                        SizedBox(height: 24.h),
+                        _TokensInfo(payAmount: input, receiveAmount: output),
+                        SizedBox(height: 36.h),
+                        _SwapInfo(
+                          provider: provider,
+                          bestPrice: bestPrice,
+                          fees: feesInUsdc,
+                          slippage: '$slippage%',
+                          priceImpact: '$priceImpact%',
+                        ),
+                        SizedBox(height: 16.h),
+                        Text(
+                          context.l10n.espressoCashFee(platformFeePercent),
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            color: CpColors.greyColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const Spacer(),
+                        CpBottomButton(
+                          text: context.l10n.swap,
+                          onPressed:
+                              isLoading
+                                  ? null
+                                  : () async {
+                                    final id = await context.createSwap(_currentRoute);
+
+                                    if (!context.mounted) return;
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                    SwapDetailsScreen.push(context, id: id);
+                                  },
+                        ),
+                      ],
+                    ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
 
 class _TokensInfo extends StatelessWidget {
