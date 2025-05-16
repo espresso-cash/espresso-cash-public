@@ -18,7 +18,6 @@ import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../kyc_sharing/data/kyc_repository.dart';
-import '../../../../kyc_sharing/services/kyc_access_service.dart';
 import '../../../../kyc_sharing/utils/kyc_utils.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
@@ -34,7 +33,6 @@ class BrijOffRampOrderService implements Disposable {
   BrijOffRampOrderService(
     this._db,
     this._kycRepository,
-    this._kycAccessService,
     this._analytics,
     this._ecClient,
     this._sender,
@@ -44,7 +42,6 @@ class BrijOffRampOrderService implements Disposable {
   final ECWallet _account;
   final MyDatabase _db;
   final KycRepository _kycRepository;
-  final KycAccessService _kycAccessService;
   final AnalyticsManager _analytics;
 
   final EspressoCashClient _ecClient;
@@ -168,7 +165,6 @@ class BrijOffRampOrderService implements Disposable {
     required String country,
   }) => tryEitherAsync((_) async {
     final partnerAuthPk = partner.partnerPK ?? '';
-    await _kycAccessService.grantPartnerAccess(partnerAuthPk);
 
     final user = await _kycRepository.fetchUser();
 
