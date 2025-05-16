@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_app/features/kyc_sharing/models/kyc_validation_status.dart';
-import 'package:espressocash_app/ui/snackbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
@@ -10,10 +8,12 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
+import '../../../ui/snackbar.dart';
 import '../../accounts/models/account.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../country_picker/models/country.dart';
 import '../../kyc_sharing/data/kyc_repository.dart';
+import '../../kyc_sharing/models/kyc_validation_status.dart';
 import '../../kyc_sharing/services/kyc_access_service.dart';
 import '../../kyc_sharing/services/kyc_data_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
