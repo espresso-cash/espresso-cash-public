@@ -1,7 +1,10 @@
+// ignore_for_file: dispose-fields
+
+import 'dart:math' as math;
+
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
-import '../../../data/db/db.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -10,6 +13,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
+import '../../balances/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -20,15 +24,32 @@ import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 
 class TokenPickerScreen extends StatelessWidget {
-  const TokenPickerScreen({super.key, this.initial, required this.title});
+  const TokenPickerScreen({
+    super.key,
+    this.initial,
+    required this.title,
+    this.showOnlyUserTokens = false,
+  });
 
-  static Future<Token?> push(BuildContext context, {Token? initial, required String title}) =>
-      Navigator.of(context).push<Token?>(
-        MaterialPageRoute(builder: (context) => TokenPickerScreen(initial: initial, title: title)),
-      );
+  static Future<Token?> push(
+    BuildContext context, {
+    Token? initial,
+    required String title,
+    bool showOnlyUserTokens = false,
+  }) => Navigator.of(context).push<Token?>(
+    MaterialPageRoute(
+      builder:
+          (context) => TokenPickerScreen(
+            initial: initial,
+            title: title,
+            showOnlyUserTokens: showOnlyUserTokens,
+          ),
+    ),
+  );
 
   final Token? initial;
   final String title;
+  final bool showOnlyUserTokens;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -45,23 +66,25 @@ class TokenPickerScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: _Content(initial: initial),
+      body: _Content(initial: initial, showOnlyUserTokens: showOnlyUserTokens),
     ),
   );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({this.initial});
+  const _Content({this.initial, this.showOnlyUserTokens = false});
 
   final Token? initial;
+  final bool showOnlyUserTokens;
 
   @override
   State<_Content> createState() => _ContentState();
 }
 
 class _ContentState extends State<_Content> {
-  late final Future<List<TokenRow>> _tokensFuture;
+  late final Future<List<Token>> _tokensFuture;
   final _balanceService = sl<TokenFiatBalanceService>();
+  final _tokenBalancesRepository = sl<TokenBalancesRepository>();
 
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
@@ -73,26 +96,63 @@ class _ContentState extends State<_Content> {
   void initState() {
     super.initState();
     _selectedToken = widget.initial;
-    _tokensFuture = sl<TokenRepository>().getAll();
 
-    _tokensFuture.then((tokens) {
-      if (_selectedToken != null && mounted) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          final index = tokens.indexWhere((t) => t.toModel().address == _selectedToken?.address);
-          if (index == -1 || !mounted) return;
+    if (widget.showOnlyUserTokens) {
+      _tokensFuture = _fetchUserTokens();
+    } else {
+      _tokensFuture = _fetchAllTokens();
+    }
 
-          const itemHeight = _tileHeight + _tilePadding;
-          final centerOffset = ((context.size?.height ?? 0) - itemHeight) / 2.5;
-          final offset = index * itemHeight - centerOffset;
-
-          _scrollController.jumpTo(offset);
-        });
-      }
-    });
+    if (_selectedToken != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollToSelectedToken();
+      });
+    }
 
     _searchController.addListener(() {
       setState(() => _searchText = _searchController.text);
     });
+  }
+
+  void _scrollToSelectedToken() {
+    if (_selectedToken == null || !mounted) return;
+
+    _tokensFuture.then((tokens) {
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (!mounted) return;
+
+        final index = tokens.indexWhere((t) => t.address == _selectedToken?.address);
+        if (index == -1) return;
+
+        const itemHeight = _tileHeight + _tilePadding;
+
+        final viewportHeight = MediaQuery.sizeOf(context).height;
+        final visibleItemsCount = (viewportHeight / itemHeight).floor();
+
+        final targetPosition = (visibleItemsCount / 3).floor();
+
+        final offset = math.max(0, (index - targetPosition) * itemHeight);
+
+        _scrollController.animateTo(
+          offset.toDouble(),
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
+        );
+      });
+    });
+  }
+
+  Future<List<Token>> _fetchUserTokens() async {
+    final userTokens = await _tokenBalancesRepository.readUserTokens();
+
+    return userTokens.toList();
+  }
+
+  Future<List<Token>> _fetchAllTokens() async {
+    final tokenRepository = sl<TokenRepository>();
+    final tokenRows = await tokenRepository.getAll();
+
+    return tokenRows.map((row) => row.toModel()).toList();
   }
 
   @override
@@ -123,7 +183,7 @@ class _ContentState extends State<_Content> {
         ),
       ),
       Expanded(
-        child: FutureBuilder<List<TokenRow>>(
+        child: FutureBuilder<List<Token>>(
           future: _tokensFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -167,15 +227,15 @@ class _ContentState extends State<_Content> {
                         separatorBuilder: (context, index) => const SizedBox(height: _tilePadding),
                         itemBuilder: (BuildContext context, int index) {
                           final token = filteredTokens[index];
-                          final selected = token.toModel().address == _selectedToken?.address;
+                          final selected = token.address == _selectedToken?.address;
 
                           final balance = balances.firstWhere(
-                            (b) => b.$1.token.address == token.toModel().address,
+                            (b) => b.$1.token.address == token.address,
                             orElse:
                                 () => (
                                   CryptoAmount(
                                     value: 0,
-                                    cryptoCurrency: CryptoCurrency(token: token.toModel()),
+                                    cryptoCurrency: CryptoCurrency(token: token),
                                   ),
                                   null,
                                 ),

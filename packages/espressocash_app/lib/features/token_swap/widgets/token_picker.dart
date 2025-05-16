@@ -13,12 +13,14 @@ class TokenPicker extends StatelessWidget {
     required this.title,
     required this.onSubmitted,
     this.isExpanded = false,
+    this.showOnlyUserTokens = false,
   });
 
   final Token token;
   final String title;
   final ValueSetter<Token> onSubmitted;
   final bool isExpanded;
+  final bool showOnlyUserTokens;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
@@ -26,7 +28,12 @@ class TokenPicker extends StatelessWidget {
     child: ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       onTap: () async {
-        final Token? updated = await TokenPickerScreen.push(context, initial: token, title: title);
+        final Token? updated = await TokenPickerScreen.push(
+          context,
+          initial: token,
+          title: title,
+          showOnlyUserTokens: showOnlyUserTokens,
+        );
 
         if (context.mounted && updated != null) {
           onSubmitted(updated);

@@ -281,6 +281,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                               },
                               token: _inputToken,
                               isExpanded: !_isExpanded,
+                              showOnlyUserTokens: true,
                             ),
                           ),
                         ],
