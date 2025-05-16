@@ -1,5 +1,3 @@
-// ignore_for_file: dispose-fields
-
 import 'dart:math' as math;
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -84,7 +82,6 @@ class _Content extends StatefulWidget {
 class _ContentState extends State<_Content> {
   late final Future<List<Token>> _tokensFuture;
   final _balanceService = sl<TokenFiatBalanceService>();
-  final _tokenBalancesRepository = sl<TokenBalancesRepository>();
 
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
@@ -143,7 +140,8 @@ class _ContentState extends State<_Content> {
   }
 
   Future<List<Token>> _fetchUserTokens() async {
-    final userTokens = await _tokenBalancesRepository.readUserTokens();
+    final tokenBalancesRepository = sl<TokenBalancesRepository>();
+    final userTokens = await tokenBalancesRepository.readUserTokens();
 
     return userTokens.toList();
   }

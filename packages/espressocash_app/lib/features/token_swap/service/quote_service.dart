@@ -27,6 +27,7 @@ class QuoteService extends ValueNotifier<QuoteState> {
 
   Timer? _refreshTimer;
   Timer? _debounceTimer;
+  SwapSeed? _currentSeed;
 
   DateTime? _expiresAt;
 
@@ -52,35 +53,54 @@ class QuoteService extends ValueNotifier<QuoteState> {
 
   Future<void> _handleInputChanged(SwapSeed input) async {
     _refreshTimer?.cancel();
+    _refreshTimer = null;
 
     if (input.input.decimal == Decimal.zero) {
       value = const Flow.initial();
+      _currentSeed = null;
 
       return;
     }
 
+    _currentSeed = input;
     await _fetchQuote(input);
 
-    _refreshTimer = Timer.periodic(_quoteValidityDuration, (_) {
-      _fetchQuote(input);
-    });
+    if (_currentSeed == input) {
+      _refreshTimer = Timer.periodic(_quoteValidityDuration, (_) {
+        if (_currentSeed == input && !value.isProcessing) {
+          _fetchQuote(input);
+        }
+      });
+    }
   }
 
   Future<void> _fetchQuote(SwapSeed input) async {
-    value = const Flow.processing();
-    try {
-      final route = await _repository.findRoute(seed: input);
-      _expiresAt = DateTime.now().add(_quoteValidityDuration);
-      value = Flow.success(route);
-    } on Exception catch (error) {
-      value = Flow.failure(error);
+    if (value.isProcessing) {
+      return;
     }
-    notifyListeners();
+
+    value = const Flow.processing();
+
+    try {
+      if (_currentSeed == input) {
+        final route = await _repository.findRoute(seed: input);
+        _expiresAt = DateTime.now().add(_quoteValidityDuration);
+        value = Flow.success(route);
+      }
+    } on Exception catch (error) {
+      if (_currentSeed == input) {
+        value = Flow.failure(error);
+      }
+    } finally {
+      notifyListeners();
+    }
   }
 
   void clear() {
     _refreshTimer?.cancel();
+    _refreshTimer = null;
     _debounceTimer?.cancel();
+    _currentSeed = null;
     value = const Flow.initial();
   }
 
@@ -91,5 +111,6 @@ class QuoteService extends ValueNotifier<QuoteState> {
 
     _refreshTimer?.cancel();
     _debounceTimer?.cancel();
+    _currentSeed = null;
   }
 }
