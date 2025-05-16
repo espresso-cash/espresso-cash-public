@@ -8,6 +8,7 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
+import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../accounts/models/account.dart';
 import '../../analytics/analytics_manager.dart';
@@ -126,23 +127,25 @@ class CashOutButton extends StatelessWidget {
 }
 
 extension RampBuildContextExt on BuildContext {
-  Future<bool> ensureBrijAccessGranted() async {
+  Future<bool> ensureBrijAccessGranted() {
     final partnerPK = sl<KycRepository>().validatorAuthPk;
 
-    final hasGrantedAccess = await sl<KycAccessService>().hasGrantedAccess(partnerPK);
+    return runWithLoader<bool>(this, () async {
+      final hasGrantedAccess = await sl<KycAccessService>().hasGrantedAccess(partnerPK);
 
-    if (hasGrantedAccess) return true;
+      if (hasGrantedAccess) return true;
 
-    final (:termsUrl, :policyUrl) = await sl<KycDataService>().fetchPartnerTermsAndPolicy(
-      partnerPK,
-    );
+      final (:termsUrl, :policyUrl) = await sl<KycDataService>().fetchPartnerTermsAndPolicy(
+        partnerPK,
+      );
 
-    return showTermsAndPolicyDialog(
-      this,
-      termsUrl: termsUrl,
-      privacyUrl: policyUrl,
-      partnerPk: partnerPK,
-    );
+      return showTermsAndPolicyDialog(
+        this,
+        termsUrl: termsUrl,
+        privacyUrl: policyUrl,
+        partnerPk: partnerPK,
+      );
+    });
   }
 
   Future<ProfileData?> ensureProfileData() async {
