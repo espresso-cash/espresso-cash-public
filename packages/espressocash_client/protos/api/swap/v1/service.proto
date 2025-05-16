@@ -1,0 +1,43 @@
+syntax = 'proto3';
+
+package espressocash.api.swap.v1;
+
+option go_package = 'espressocash.com/api/swap';
+
+service SwapService {
+  rpc Swap(SwapRouteRequest) returns (SwapRouteResponse);
+}
+
+enum SwapMatch {
+  SWAP_MATCH_UNSPECIFIED = 0;
+  SWAP_MATCH_IN_AMOUNT = 1;
+  SWAP_MATCH_OUT_AMOUNT = 2;
+}
+
+enum SwapSlippage {
+  SWAP_SLIPPAGE_UNSPECIFIED = 0;
+  SWAP_SLIPPAGE_ZP_ONE = 1;
+  SWAP_SLIPPAGE_ZP_FIVE = 2;
+  SWAP_SLIPPAGE_ONE_PERCENT = 3;
+}
+
+message SwapRouteRequest {
+  string input_token = 1;
+  string output_token = 2;
+  string amount = 3;
+  SwapMatch match = 4;
+  SwapSlippage slippage = 5;
+}
+
+message SwapRouteResponse {
+  string in_amount = 1;
+  string out_amount = 2;
+  string amount = 3;
+  string encoded_tx = 4;
+  int32 fee_in_usdc = 5;
+  int64 slot = 6;
+  int32 slippage_bps = 7;
+  int32 platform_fee_bps = 8;
+  string price_impact = 9;
+  string provider_label = 10;
+}
