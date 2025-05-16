@@ -26,5 +26,9 @@ class SwapRouteResponseDto with _$SwapRouteResponseDto {
     required String encodedTx,
     required int feeInUsdc,
     required BigInt slot,
+    required int slippageBps,
+    required int platformFeeBps,
+    required String priceImpact,
+    required String providerLabel,
   }) = _SwapRouteResponseDto;
 }

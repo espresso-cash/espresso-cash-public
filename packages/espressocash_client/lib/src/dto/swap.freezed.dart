@@ -257,6 +257,10 @@ mixin _$SwapRouteResponseDto {
   String get encodedTx => throw _privateConstructorUsedError;
   int get feeInUsdc => throw _privateConstructorUsedError;
   BigInt get slot => throw _privateConstructorUsedError;
+  int get slippageBps => throw _privateConstructorUsedError;
+  int get platformFeeBps => throw _privateConstructorUsedError;
+  String get priceImpact => throw _privateConstructorUsedError;
+  String get providerLabel => throw _privateConstructorUsedError;
 
   /// Create a copy of SwapRouteResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -279,6 +283,10 @@ abstract class $SwapRouteResponseDtoCopyWith<$Res> {
     String encodedTx,
     int feeInUsdc,
     BigInt slot,
+    int slippageBps,
+    int platformFeeBps,
+    String priceImpact,
+    String providerLabel,
   });
 }
 
@@ -303,6 +311,10 @@ class _$SwapRouteResponseDtoCopyWithImpl<$Res, $Val extends SwapRouteResponseDto
     Object? encodedTx = null,
     Object? feeInUsdc = null,
     Object? slot = null,
+    Object? slippageBps = null,
+    Object? platformFeeBps = null,
+    Object? priceImpact = null,
+    Object? providerLabel = null,
   }) {
     return _then(
       _value.copyWith(
@@ -336,6 +348,26 @@ class _$SwapRouteResponseDtoCopyWithImpl<$Res, $Val extends SwapRouteResponseDto
                     ? _value.slot
                     : slot // ignore: cast_nullable_to_non_nullable
                         as BigInt,
+            slippageBps:
+                null == slippageBps
+                    ? _value.slippageBps
+                    : slippageBps // ignore: cast_nullable_to_non_nullable
+                        as int,
+            platformFeeBps:
+                null == platformFeeBps
+                    ? _value.platformFeeBps
+                    : platformFeeBps // ignore: cast_nullable_to_non_nullable
+                        as int,
+            priceImpact:
+                null == priceImpact
+                    ? _value.priceImpact
+                    : priceImpact // ignore: cast_nullable_to_non_nullable
+                        as String,
+            providerLabel:
+                null == providerLabel
+                    ? _value.providerLabel
+                    : providerLabel // ignore: cast_nullable_to_non_nullable
+                        as String,
           )
           as $Val,
     );
@@ -358,6 +390,10 @@ abstract class _$$SwapRouteResponseDtoImplCopyWith<$Res>
     String encodedTx,
     int feeInUsdc,
     BigInt slot,
+    int slippageBps,
+    int platformFeeBps,
+    String priceImpact,
+    String providerLabel,
   });
 }
 
@@ -381,6 +417,10 @@ class __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>
     Object? encodedTx = null,
     Object? feeInUsdc = null,
     Object? slot = null,
+    Object? slippageBps = null,
+    Object? platformFeeBps = null,
+    Object? priceImpact = null,
+    Object? providerLabel = null,
   }) {
     return _then(
       _$SwapRouteResponseDtoImpl(
@@ -414,6 +454,26 @@ class __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>
                 ? _value.slot
                 : slot // ignore: cast_nullable_to_non_nullable
                     as BigInt,
+        slippageBps:
+            null == slippageBps
+                ? _value.slippageBps
+                : slippageBps // ignore: cast_nullable_to_non_nullable
+                    as int,
+        platformFeeBps:
+            null == platformFeeBps
+                ? _value.platformFeeBps
+                : platformFeeBps // ignore: cast_nullable_to_non_nullable
+                    as int,
+        priceImpact:
+            null == priceImpact
+                ? _value.priceImpact
+                : priceImpact // ignore: cast_nullable_to_non_nullable
+                    as String,
+        providerLabel:
+            null == providerLabel
+                ? _value.providerLabel
+                : providerLabel // ignore: cast_nullable_to_non_nullable
+                    as String,
       ),
     );
   }
@@ -429,6 +489,10 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
     required this.encodedTx,
     required this.feeInUsdc,
     required this.slot,
+    required this.slippageBps,
+    required this.platformFeeBps,
+    required this.priceImpact,
+    required this.providerLabel,
   });
 
   @override
@@ -443,10 +507,18 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
   final int feeInUsdc;
   @override
   final BigInt slot;
+  @override
+  final int slippageBps;
+  @override
+  final int platformFeeBps;
+  @override
+  final String priceImpact;
+  @override
+  final String providerLabel;
 
   @override
   String toString() {
-    return 'SwapRouteResponseDto(inAmount: $inAmount, outAmount: $outAmount, amount: $amount, encodedTx: $encodedTx, feeInUsdc: $feeInUsdc, slot: $slot)';
+    return 'SwapRouteResponseDto(inAmount: $inAmount, outAmount: $outAmount, amount: $amount, encodedTx: $encodedTx, feeInUsdc: $feeInUsdc, slot: $slot, slippageBps: $slippageBps, platformFeeBps: $platformFeeBps, priceImpact: $priceImpact, providerLabel: $providerLabel)';
   }
 
   @override
@@ -459,12 +531,29 @@ class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.encodedTx, encodedTx) || other.encodedTx == encodedTx) &&
             (identical(other.feeInUsdc, feeInUsdc) || other.feeInUsdc == feeInUsdc) &&
-            (identical(other.slot, slot) || other.slot == slot));
+            (identical(other.slot, slot) || other.slot == slot) &&
+            (identical(other.slippageBps, slippageBps) || other.slippageBps == slippageBps) &&
+            (identical(other.platformFeeBps, platformFeeBps) ||
+                other.platformFeeBps == platformFeeBps) &&
+            (identical(other.priceImpact, priceImpact) || other.priceImpact == priceImpact) &&
+            (identical(other.providerLabel, providerLabel) ||
+                other.providerLabel == providerLabel));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, inAmount, outAmount, amount, encodedTx, feeInUsdc, slot);
+  int get hashCode => Object.hash(
+    runtimeType,
+    inAmount,
+    outAmount,
+    amount,
+    encodedTx,
+    feeInUsdc,
+    slot,
+    slippageBps,
+    platformFeeBps,
+    priceImpact,
+    providerLabel,
+  );
 
   /// Create a copy of SwapRouteResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -483,6 +572,10 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
     required final String encodedTx,
     required final int feeInUsdc,
     required final BigInt slot,
+    required final int slippageBps,
+    required final int platformFeeBps,
+    required final String priceImpact,
+    required final String providerLabel,
   }) = _$SwapRouteResponseDtoImpl;
 
   @override
@@ -497,6 +590,14 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
   int get feeInUsdc;
   @override
   BigInt get slot;
+  @override
+  int get slippageBps;
+  @override
+  int get platformFeeBps;
+  @override
+  String get priceImpact;
+  @override
+  String get providerLabel;
 
   /// Create a copy of SwapRouteResponseDto
   /// with the given fields replaced by the non-null parameter values.

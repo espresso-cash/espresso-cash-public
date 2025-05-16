@@ -158,6 +158,10 @@ class SwapRouteResponse extends $pb.GeneratedMessage {
     $core.String? encodedTx,
     $core.int? feeInUsdc,
     $fixnum.Int64? slot,
+    $core.int? slippageBps,
+    $core.int? platformFeeBps,
+    $core.String? priceImpact,
+    $core.String? providerLabel,
   }) {
     final $result = create();
     if (inAmount != null) {
@@ -178,6 +182,18 @@ class SwapRouteResponse extends $pb.GeneratedMessage {
     if (slot != null) {
       $result.slot = slot;
     }
+    if (slippageBps != null) {
+      $result.slippageBps = slippageBps;
+    }
+    if (platformFeeBps != null) {
+      $result.platformFeeBps = platformFeeBps;
+    }
+    if (priceImpact != null) {
+      $result.priceImpact = priceImpact;
+    }
+    if (providerLabel != null) {
+      $result.providerLabel = providerLabel;
+    }
     return $result;
   }
   SwapRouteResponse._() : super();
@@ -197,6 +213,10 @@ class SwapRouteResponse extends $pb.GeneratedMessage {
     ..aOS(4, _omitFieldNames ? '' : 'encodedTx')
     ..a<$core.int>(5, _omitFieldNames ? '' : 'feeInUsdc', $pb.PbFieldType.O3)
     ..aInt64(6, _omitFieldNames ? '' : 'slot')
+    ..a<$core.int>(7, _omitFieldNames ? '' : 'slippageBps', $pb.PbFieldType.O3)
+    ..a<$core.int>(8, _omitFieldNames ? '' : 'platformFeeBps', $pb.PbFieldType.O3)
+    ..aOS(9, _omitFieldNames ? '' : 'priceImpact')
+    ..aOS(10, _omitFieldNames ? '' : 'providerLabel')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -291,6 +311,54 @@ class SwapRouteResponse extends $pb.GeneratedMessage {
   $core.bool hasSlot() => $_has(5);
   @$pb.TagNumber(6)
   void clearSlot() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.int get slippageBps => $_getIZ(6);
+  @$pb.TagNumber(7)
+  set slippageBps($core.int v) {
+    $_setSignedInt32(6, v);
+  }
+
+  @$pb.TagNumber(7)
+  $core.bool hasSlippageBps() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearSlippageBps() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.int get platformFeeBps => $_getIZ(7);
+  @$pb.TagNumber(8)
+  set platformFeeBps($core.int v) {
+    $_setSignedInt32(7, v);
+  }
+
+  @$pb.TagNumber(8)
+  $core.bool hasPlatformFeeBps() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearPlatformFeeBps() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.String get priceImpact => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set priceImpact($core.String v) {
+    $_setString(8, v);
+  }
+
+  @$pb.TagNumber(9)
+  $core.bool hasPriceImpact() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearPriceImpact() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.String get providerLabel => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set providerLabel($core.String v) {
+    $_setString(9, v);
+  }
+
+  @$pb.TagNumber(10)
+  $core.bool hasProviderLabel() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearProviderLabel() => clearField(10);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');

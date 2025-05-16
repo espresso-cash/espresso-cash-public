@@ -89,6 +89,10 @@ const SwapRouteResponse$json = {
     {'1': 'encoded_tx', '3': 4, '4': 1, '5': 9, '10': 'encodedTx'},
     {'1': 'fee_in_usdc', '3': 5, '4': 1, '5': 5, '10': 'feeInUsdc'},
     {'1': 'slot', '3': 6, '4': 1, '5': 3, '10': 'slot'},
+    {'1': 'slippage_bps', '3': 7, '4': 1, '5': 5, '10': 'slippageBps'},
+    {'1': 'platform_fee_bps', '3': 8, '4': 1, '5': 5, '10': 'platformFeeBps'},
+    {'1': 'price_impact', '3': 9, '4': 1, '5': 9, '10': 'priceImpact'},
+    {'1': 'provider_label', '3': 10, '4': 1, '5': 9, '10': 'providerLabel'},
   ],
 };
 
@@ -97,4 +101,7 @@ final $typed_data.Uint8List swapRouteResponseDescriptor = $convert
     .base64Decode('ChFTd2FwUm91dGVSZXNwb25zZRIbCglpbl9hbW91bnQYASABKAlSCGluQW1vdW50Eh0KCm91dF'
         '9hbW91bnQYAiABKAlSCW91dEFtb3VudBIWCgZhbW91bnQYAyABKAlSBmFtb3VudBIdCgplbmNv'
         'ZGVkX3R4GAQgASgJUgllbmNvZGVkVHgSHgoLZmVlX2luX3VzZGMYBSABKAVSCWZlZUluVXNkYx'
-        'ISCgRzbG90GAYgASgDUgRzbG90');
+        'ISCgRzbG90GAYgASgDUgRzbG90EiEKDHNsaXBwYWdlX2JwcxgHIAEoBVILc2xpcHBhZ2VCcHMS'
+        'KAoQcGxhdGZvcm1fZmVlX2JwcxgIIAEoBVIOcGxhdGZvcm1GZWVCcHMSIQoMcHJpY2VfaW1wYW'
+        'N0GAkgASgJUgtwcmljZUltcGFjdBIlCg5wcm92aWRlcl9sYWJlbBgKIAEoCVINcHJvdmlkZXJM'
+        'YWJlbA==');

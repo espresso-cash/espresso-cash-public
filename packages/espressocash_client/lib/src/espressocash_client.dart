@@ -487,6 +487,10 @@ class EspressoCashClient {
       encodedTx: response.encodedTx,
       feeInUsdc: response.feeInUsdc,
       slot: response.slot.toBigInt,
+      slippageBps: response.slippageBps,
+      platformFeeBps: response.platformFeeBps,
+      priceImpact: response.priceImpact,
+      providerLabel: response.providerLabel,
     );
   });
 }

@@ -36,4 +36,8 @@ message SwapRouteResponse {
   string encoded_tx = 4;
   int32 fee_in_usdc = 5;
   int64 slot = 6;
+  int32 slippage_bps = 7;
+  int32 platform_fee_bps = 8;
+  string price_impact = 9;
+  string provider_label = 10;
 }

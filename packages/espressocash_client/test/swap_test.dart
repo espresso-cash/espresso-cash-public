@@ -35,5 +35,9 @@ void main() {
     expect(response.encodedTx, isA<String>());
     expect(response.feeInUsdc, isA<int>());
     expect(response.slot, isA<BigInt>());
+    expect(response.slippageBps, isA<int>());
+    expect(response.platformFeeBps, isA<int>());
+    expect(response.priceImpact, isA<String>());
+    expect(response.providerLabel, isA<String>());
   });
 }
