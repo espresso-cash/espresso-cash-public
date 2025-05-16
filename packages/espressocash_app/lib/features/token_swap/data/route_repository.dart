@@ -1,13 +1,14 @@
 import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
 
-@injectable
+@Singleton(scope: authScope)
 class RouteRepository {
   const RouteRepository(this._client);
 
