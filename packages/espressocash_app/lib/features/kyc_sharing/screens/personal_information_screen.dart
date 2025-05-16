@@ -10,7 +10,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
-import '../services/kyc_service.dart';
+import '../services/kyc_data_service.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/kyc_page.dart';
 import '../widgets/kyc_text_field.dart';
@@ -68,7 +68,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   }
 
   void _initializeUserData() {
-    final user = sl<KycSharingService>().value;
+    final user = sl<KycDataService>().value;
     final dob = user?.dob;
     _citizenship = Country.findByCode(user?.citizenshipCode ?? '');
     _firstNameController.text = user?.firstName ?? '';
@@ -88,7 +88,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
           throw Exception();
         }
 
-        await sl<KycSharingService>().updatePersonalInfo(
+        await sl<KycDataService>().updatePersonalInfo(
           firstName: _firstNameController.text,
           lastName: _lastNameController.text,
           dob: dob,

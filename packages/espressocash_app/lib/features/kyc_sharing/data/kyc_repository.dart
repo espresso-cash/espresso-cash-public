@@ -25,6 +25,8 @@ class KycRepository extends ChangeNotifier {
           ? const AppConfig.demo()
           : const AppConfig.production();
 
+  String get validatorAuthPk => _config.verifierAuthPk;
+
   Future<void> _init() =>
       _clientInitialization ??= Future(() async {
         try {
@@ -90,6 +92,8 @@ class KycRepository extends ChangeNotifier {
       ),
     );
   }
+
+  Future<void> deleteAllUserData() => _initWrapper(() => _kycUserClient.removeAllUserData());
 
   Future<void> initEmailVerification({required String emailId}) =>
       _initWrapper(() => _kycUserClient.initEmailValidation(dataId: emailId));
@@ -157,6 +161,9 @@ class KycRepository extends ChangeNotifier {
   Future<void> grantPartnerAccess(String partnerPk) =>
       _initWrapper(() => _kycUserClient.grantPartnerAccess(partnerPk));
 
+  Future<void> revokePartnerAccess(String partnerPk) =>
+      _initWrapper(() => _kycUserClient.revokePartnerAccess(partnerPk));
+
   Future<void> grantValidatorAccess() =>
       _initWrapper(() => _kycUserClient.grantPartnerAccess(_config.verifierAuthPk));
 
@@ -165,6 +172,9 @@ class KycRepository extends ChangeNotifier {
 
   Future<PartnerModel> fetchPartnerInfo(String partnerPk) =>
       _initWrapper(() => _kycUserClient.getPartnerInfo(partnerPK: partnerPk));
+
+  Future<List<PartnerModel>> fetchGrantedAccessPartners() =>
+      _initWrapper(() => _kycUserClient.getGrantedAccessPartners());
 
   Future<KycValidationStatus> fetchKycStatus({required String country}) => _initWrapper(
     () =>

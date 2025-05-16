@@ -10,7 +10,6 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../activities/services/tx_updater.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
-import '../../ramp_partner/models/ramp_type.dart';
 import 'balance_amount.dart';
 import 'home_app_bar.dart';
 import 'refresh_balance_wrapper.dart';
@@ -115,9 +114,13 @@ class _NoticeContent extends StatelessWidget {
         CpButton(
           text: context.l10n.ramp_btnAddCash,
           onPressed: () async {
-            final hasProfile = await context.ensureProfileData(RampType.onRamp) != null;
+            final hasGrantedAccess = await context.ensureBrijAccessGranted();
+            if (!context.mounted || !hasGrantedAccess) return;
 
-            if (context.mounted && hasProfile) {
+            final hasProfile = await context.ensureProfileData() != null;
+            if (!context.mounted) return;
+
+            if (hasGrantedAccess && hasProfile) {
               context.launchOnRampFlow();
             }
           },

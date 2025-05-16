@@ -31,17 +31,6 @@ class ProfileRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? get photoPath => _sharedPreferences.getString(photoKey);
-
-  set photoPath(String? value) {
-    if (value == null) {
-      _sharedPreferences.remove(photoKey);
-    } else {
-      _sharedPreferences.setString(photoKey, value);
-    }
-    notifyListeners();
-  }
-
   String? get country => _sharedPreferences.getString(countryKey);
 
   set country(String? value) {
@@ -53,28 +42,17 @@ class ProfileRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  String get email => _sharedPreferences.getString(emailKey) ?? '';
-
-  set email(String value) {
-    _sharedPreferences.setString(emailKey, value);
-    notifyListeners();
-  }
-
   @override
   @disposeMethod
   void dispose() {
     _sharedPreferences
       ..remove(firstNameKey)
       ..remove(lastNameKey)
-      ..remove(photoKey)
-      ..remove(countryKey)
-      ..remove(emailKey);
+      ..remove(countryKey);
     super.dispose();
   }
 }
 
 const firstNameKey = 'name';
 const lastNameKey = 'lastName';
-const photoKey = 'photo';
 const countryKey = 'country';
-const emailKey = 'email';

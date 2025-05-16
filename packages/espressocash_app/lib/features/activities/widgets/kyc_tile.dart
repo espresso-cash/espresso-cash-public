@@ -7,7 +7,7 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../kyc_sharing/models/kyc_validation_status.dart';
 import '../../kyc_sharing/screens/kyc_status_screen.dart';
-import '../../kyc_sharing/services/kyc_service.dart';
+import '../../kyc_sharing/services/kyc_data_service.dart';
 import '../../kyc_sharing/utils/kyc_utils.dart';
 import '../../kyc_sharing/widgets/kyc_flow.dart';
 import '../../kyc_sharing/widgets/kyc_listener.dart';
@@ -22,7 +22,7 @@ class KycTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
-    valueListenable: sl<KycSharingService>(),
+    valueListenable: sl<KycDataService>(),
     builder: (context, user, _) {
       const empty = SizedBox.shrink();
 

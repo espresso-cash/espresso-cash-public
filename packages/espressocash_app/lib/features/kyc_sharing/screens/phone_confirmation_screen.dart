@@ -5,7 +5,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
-import '../services/kyc_service.dart';
+import '../services/kyc_data_service.dart';
 import '../utils/kyc_exception.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/kyc_page.dart';
@@ -36,7 +36,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
   Future<void> _handleConfirm() async {
     final success = await runWithLoader<bool>(context, () async {
       try {
-        await sl<KycSharingService>().verifyPhone(code: _controller.text);
+        await sl<KycDataService>().verifyPhone(code: _controller.text);
 
         return true;
       } on KycException catch (error) {
@@ -62,7 +62,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
     title: context.l10n.phoneVerification.toUpperCase(),
     children: [
       Text(
-        context.l10n.checkSmsText(sl<KycSharingService>().value?.phoneValue ?? ''),
+        context.l10n.checkSmsText(sl<KycDataService>().value?.phoneValue ?? ''),
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 16, height: 21 / 16, letterSpacing: .19),
       ),

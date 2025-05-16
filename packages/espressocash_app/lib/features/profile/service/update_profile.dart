@@ -24,33 +24,22 @@ class UpdateProfile {
   final PendingKycService _pendingKycService;
   final AnalyticsManager _analyticsManager;
 
-  AsyncResult<void> call({
-    String? firstName,
-    String? lastName,
-    String? countryCode,
-    String? email,
-    String? photoPath,
-  }) => tryEitherAsync((_) async {
-    if (countryCode != null && _profileRepository.country != countryCode) {
-      _analyticsManager.setProfileCountryCode(countryCode);
-      await _client.updateUserWalletCountry(countryCode);
-      _intercomService.updateCountry(countryCode);
-      _profileRepository.country = countryCode;
-    }
+  AsyncResult<void> call({String? firstName, String? lastName, String? countryCode}) =>
+      tryEitherAsync((_) async {
+        if (countryCode != null && _profileRepository.country != countryCode) {
+          _analyticsManager.setProfileCountryCode(countryCode);
+          await _client.updateUserWalletCountry(countryCode);
+          _intercomService.updateCountry(countryCode);
+          _profileRepository.country = countryCode;
+        }
 
-    _pendingKycService.remove();
+        _pendingKycService.remove();
 
-    if (firstName != null) {
-      _profileRepository.firstName = firstName;
-    }
-    if (lastName != null) {
-      _profileRepository.lastName = lastName;
-    }
-    if (photoPath != null) {
-      _profileRepository.photoPath = photoPath;
-    }
-    if (email != null) {
-      _profileRepository.email = email;
-    }
-  }).doOnLeftAsync(reportError);
+        if (firstName != null) {
+          _profileRepository.firstName = firstName;
+        }
+        if (lastName != null) {
+          _profileRepository.lastName = lastName;
+        }
+      }).doOnLeftAsync(reportError);
 }
