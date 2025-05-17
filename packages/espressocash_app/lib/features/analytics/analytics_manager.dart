@@ -50,8 +50,10 @@ class AnalyticsManager {
     properties: amount != null ? {'amount': amount.toDouble()} : {},
   );
 
-  void directPaymentSent({required Decimal amount}) =>
-      _analytics.track('directPaymentSent', properties: {'amount': amount.toDouble()});
+  void directPaymentSent({required String symbol, required Decimal amount}) => _analytics.track(
+    'directPaymentSent',
+    properties: {'token': symbol, 'amount': amount.toDouble()},
+  );
 
   void paymentRequestLinkCreated({required Decimal amount}) =>
       _analytics.track('paymentRequestLinkCreated', properties: {'amount': amount.toDouble()});

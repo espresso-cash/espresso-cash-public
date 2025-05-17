@@ -16,8 +16,9 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
+import '../../token_send/screens/token_send_input_screen.dart';
+import '../../token_send/widgets/token_app_bar.dart';
 import '../../tokens/token.dart';
-import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
 
 class TokenDetailsScreen extends StatelessWidget {
@@ -79,7 +80,7 @@ class _TokenDetailsBody extends StatelessWidget {
                       const SizedBox(height: 4),
                       const _TokenHeader(),
                       const SizedBox(height: 24),
-                      if (token.isUsdcToken) const _RampButtons(),
+                      if (token.isUsdcToken) const _RampButtons() else _ActionButtons(token: token),
                       const SizedBox(height: 24),
                       Expanded(
                         child: DecoratedBox(
@@ -196,19 +197,32 @@ class _RampButtons extends StatelessWidget {
   );
 }
 
-// ignore: unused_element, won't be available in first release
-class _SwapButton extends StatelessWidget {
-  const _SwapButton();
+class _ActionButtons extends StatelessWidget {
+  const _ActionButtons({required this.token});
+
+  final Token token;
 
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 40),
+    // ignore:  avoid-single-child-column-or-row, won't be available in first release,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        CpButton(text: 'Swap', minWidth: 106, size: CpButtonSize.big, onPressed: () {}),
-        const SizedBox(width: 14),
-        CpButton(text: 'Send', minWidth: 106, size: CpButtonSize.big, onPressed: () {}),
+        // TODO(dev): add swap button
+        // CpButton(
+        //   text: 'Swap',
+        //   minWidth: 106,
+        //   size: CpButtonSize.big,
+        //   onPressed: () {},
+        // ),
+        // const SizedBox(width: 14),
+        CpButton(
+          text: context.l10n.send,
+          minWidth: 106,
+          size: CpButtonSize.big,
+          onPressed: () => TokenSendInputScreen.push(context, token: token),
+        ),
       ],
     ),
   );

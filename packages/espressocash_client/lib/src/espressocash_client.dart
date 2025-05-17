@@ -178,6 +178,7 @@ class EspressoCashClient {
       receiverAccount: request.receiverAccount,
       referenceAccount: request.referenceAccount,
       amount: request.amount.toInt64,
+      mint: request.mintAddress,
     );
 
     final response = await _paymentServiceClient.createDirectPayment(r);
