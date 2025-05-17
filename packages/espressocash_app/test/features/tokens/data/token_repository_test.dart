@@ -252,6 +252,9 @@ class MemoryTokenRepository implements TokenRepository {
   }
 
   @override
+  Future<List<TokenRow>> getAll() async => data.value.values.toList();
+
+  @override
   Future<void> update(EspressoCashClient ecClient) {
     throw UnimplementedError();
   }

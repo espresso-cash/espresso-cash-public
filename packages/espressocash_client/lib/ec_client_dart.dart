@@ -8,5 +8,6 @@ export 'src/dto/ramp.dart';
 export 'src/dto/rates.dart';
 export 'src/dto/referral.dart';
 export 'src/dto/shortener.dart';
+export 'src/dto/swap.dart';
 export 'src/dto/tokens.dart';
 export 'src/espressocash_client.dart';
