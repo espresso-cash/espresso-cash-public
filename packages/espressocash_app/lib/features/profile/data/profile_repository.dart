@@ -13,21 +13,10 @@ class ProfileRepository extends ChangeNotifier {
 
   bool get hasAllRequiredFields => country != null;
 
-  String get fullName => [firstName, lastName].where((it) => it.isNotEmpty).join(' ');
+  String get name => _sharedPreferences.getString(nameKey) ?? '';
 
-  String get initials => (substring(firstName, 0, 1) + substring(lastName, 0, 1)).toUpperCase();
-
-  String get firstName => _sharedPreferences.getString(firstNameKey) ?? '';
-
-  set firstName(String value) {
-    _sharedPreferences.setString(firstNameKey, value);
-    notifyListeners();
-  }
-
-  String get lastName => _sharedPreferences.getString(lastNameKey) ?? '';
-
-  set lastName(String value) {
-    _sharedPreferences.setString(lastNameKey, value);
+  set name(String value) {
+    _sharedPreferences.setString(nameKey, value);
     notifyListeners();
   }
 
@@ -46,13 +35,11 @@ class ProfileRepository extends ChangeNotifier {
   @disposeMethod
   void dispose() {
     _sharedPreferences
-      ..remove(firstNameKey)
-      ..remove(lastNameKey)
+      ..remove(nameKey)
       ..remove(countryKey);
     super.dispose();
   }
 }
 
-const firstNameKey = 'name';
-const lastNameKey = 'lastName';
+const nameKey = 'name';
 const countryKey = 'country';
