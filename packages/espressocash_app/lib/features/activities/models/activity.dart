@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../outgoing_direct_payments/models/outgoing_direct_payment.dart';
 import '../../outgoing_dln_payments/models/outgoing_payment.dart';
 import '../../outgoing_link_payments/models/outgoing_link_payment.dart';
+import '../../token_swap/models/swap.dart';
 import '../../transaction_request/models/transaction_request.dart';
 
 part 'activity.freezed.dart';
@@ -41,4 +42,7 @@ class Activity with _$Activity {
   }) = TransactionRequestActivity;
 
   const factory Activity.kyc({required DateTime created}) = KycActivity;
+
+  const factory Activity.swap({required String id, required DateTime created, required Swap data}) =
+      SwapActivity;
 }
