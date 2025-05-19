@@ -29,8 +29,9 @@ final sender = MockTxSender();
 final client = MockEspressoCashClient();
 final refreshBalance = MockRefreshBalance();
 final analyticsManager = MockAnalyticsManager();
+final solanaClient = MockSolanaClient();
 
-@GenerateMocks([TxSender, EspressoCashClient, RefreshBalance, AnalyticsManager])
+@GenerateMocks([TxSender, EspressoCashClient, RefreshBalance, AnalyticsManager, SolanaClient])
 Future<void> main() async {
   final account = LocalWallet(await Ed25519HDKeyPair.random());
   final receiver = await Ed25519HDKeyPair.random();
@@ -70,7 +71,7 @@ Future<void> main() async {
   );
 
   ODPService createService() =>
-      ODPService(client, repository, sender, analyticsManager, refreshBalance);
+      ODPService(client, repository, sender, analyticsManager, refreshBalance, solanaClient);
 
   Future<String> createODP(ODPService service) async {
     final payment = await service.create(

@@ -26,6 +26,7 @@ class ODPService {
     this._txSender,
     this._analyticsManager,
     this._refreshBalance,
+    this._solanaClient,
   );
 
   final EspressoCashClient _client;
@@ -33,6 +34,7 @@ class ODPService {
   final TxSender _txSender;
   final AnalyticsManager _analyticsManager;
   final RefreshBalance _refreshBalance;
+  final SolanaClient _solanaClient;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -53,12 +55,20 @@ class ODPService {
   }) async {
     final id = const Uuid().v4();
 
-    final status = await _createTx(
-      account: account,
-      receiver: receiver,
-      amount: amount,
-      reference: reference,
-    );
+    final status =
+        amount.token.isSolana
+            ? await _createSolTx(
+              account: account,
+              receiver: receiver,
+              amount: amount,
+              reference: reference,
+            )
+            : await _createTokenTx(
+              account: account,
+              receiver: receiver,
+              amount: amount,
+              reference: reference,
+            );
 
     final payment = OutgoingDirectPayment(
       id: id,
@@ -82,7 +92,50 @@ class ODPService {
     await _repository.delete(paymentId);
   }
 
-  Future<ODPStatus> _createTx({
+  Future<ODPStatus> _createSolTx({
+    required CryptoAmount amount,
+    required ECWallet account,
+    required Ed25519HDPublicKey receiver,
+    required Ed25519HDPublicKey? reference,
+  }) async {
+    try {
+      final latestBlockhash = await _solanaClient.rpcClient.getLatestBlockhash(
+        commitment: Commitment.confirmed,
+      );
+
+      final transferInstruction = SystemInstruction.transfer(
+        fundingAccount: account.publicKey,
+        recipientAccount: receiver,
+        lamports: amount.value,
+      );
+
+      final message = Message(
+        instructions: [
+          transferInstruction,
+          if (reference != null)
+            MemoInstruction(memo: reference.toBase58(), signers: [account.publicKey]),
+        ],
+      );
+
+      final compiled = message.compile(
+        recentBlockhash: latestBlockhash.value.blockhash,
+        feePayer: account.publicKey,
+      );
+
+      final signedTx = SignedTx(
+        compiledMessage: compiled,
+        signatures: [Signature(List.filled(64, 0), publicKey: account.publicKey)],
+      );
+
+      final tx = await signedTx.resign(account);
+
+      return ODPStatus.txCreated(tx, slot: BigInt.from(latestBlockhash.context.slot.toInt()));
+    } on Exception {
+      return const ODPStatus.txFailure(reason: TxFailureReason.creatingFailure);
+    }
+  }
+
+  Future<ODPStatus> _createTokenTx({
     required CryptoAmount amount,
     required ECWallet account,
     required Ed25519HDPublicKey receiver,
