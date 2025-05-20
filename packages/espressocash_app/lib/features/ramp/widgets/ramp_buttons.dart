@@ -130,6 +130,10 @@ class CashOutButton extends StatelessWidget {
 
 extension RampBuildContextExt on BuildContext {
   Future<bool> ensureBrijAccessGranted() {
+    if (!sl<FeatureFlagsManager>().isBrijEnabled()) {
+      return Future.value(true);
+    }
+
     final partnerPK = sl<KycRepository>().validatorAuthPk;
 
     return runWithLoader<bool>(this, () async {
