@@ -13,6 +13,7 @@ import '../../../ui/snackbar.dart';
 import '../../accounts/models/account.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../country_picker/models/country.dart';
+import '../../feature_flags/data/feature_flags_manager.dart';
 import '../../kyc_sharing/data/kyc_repository.dart';
 import '../../kyc_sharing/models/kyc_validation_status.dart';
 import '../../kyc_sharing/services/kyc_access_service.dart';
@@ -30,6 +31,7 @@ import '../partners/guardarian/widgets/launch.dart';
 import '../partners/kado/widgets/launch.dart';
 import '../partners/moneygram/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
+import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
 
 class PayOrRequestButton extends StatelessWidget {
@@ -76,7 +78,7 @@ class AddCashButton extends StatelessWidget {
           final hasGrantedAccess = await context.ensureBrijAccessGranted();
           if (!context.mounted || !hasGrantedAccess) return;
 
-          final hasProfile = await context.ensureProfileData() != null;
+          final hasProfile = await context.ensureProfileData(RampType.onRamp) != null;
           if (!context.mounted) return;
 
           if (hasGrantedAccess && hasProfile) {
@@ -109,7 +111,7 @@ class CashOutButton extends StatelessWidget {
           final hasGrantedAccess = await context.ensureBrijAccessGranted();
           if (!context.mounted || !hasGrantedAccess) return;
 
-          final hasProfile = await context.ensureProfileData() != null;
+          final hasProfile = await context.ensureProfileData(RampType.offRamp) != null;
           if (!context.mounted) return;
 
           if (hasGrantedAccess && hasProfile) {
@@ -148,7 +150,17 @@ extension RampBuildContextExt on BuildContext {
     });
   }
 
-  Future<ProfileData?> ensureProfileData() async {
+  Future<ProfileData?> ensureProfileData(RampType rampType) =>
+      sl<FeatureFlagsManager>().isBrijEnabled()
+          ? _ensureProfileDataNewFlow()
+          : _ensureProfileDataDeprecatedFlow(rampType);
+
+  ProfileData getProfileData() =>
+      sl<FeatureFlagsManager>().isBrijEnabled()
+          ? _getProfileDataNewFlow()
+          : _getProfileDataDeprecatedFlow();
+
+  Future<ProfileData?> _ensureProfileDataNewFlow() async {
     final repository = sl<ProfileRepository>();
     final user = sl<KycDataService>().value;
 
@@ -175,9 +187,43 @@ extension RampBuildContextExt on BuildContext {
     return email.isEmpty ? null : (country: country, email: email);
   }
 
-  ProfileData getProfileData() {
-    final Country? country = sl<ProfileRepository>().country?.let(Country.findByCode);
+  ProfileData _getProfileDataNewFlow() {
+    final repository = sl<ProfileRepository>();
+    final Country? country = repository.country?.let(Country.findByCode);
     final String email = sl<KycDataService>().value?.email?.value ?? '';
+
+    if (country == null || email.isEmpty) {
+      throw Exception('Profile data not available.');
+    }
+
+    return (country: country, email: email);
+  }
+
+  Future<ProfileData?> _ensureProfileDataDeprecatedFlow(RampType rampType) async {
+    void handleSubmitted() {
+      Navigator.pop(this);
+    }
+
+    final repository = sl<ProfileRepository>();
+    Country? country = repository.country?.let(Country.findByCode);
+    String email = repository.email;
+
+    if (country != null && email.isNotEmpty) {
+      return (country: country, email: email);
+    }
+
+    await RampOnboardingScreen.push(this, onConfirmed: handleSubmitted, rampType: rampType);
+
+    country = repository.country?.let(Country.findByCode);
+    email = repository.email;
+
+    return country != null && email.isNotEmpty ? (country: country, email: email) : null;
+  }
+
+  ProfileData _getProfileDataDeprecatedFlow() {
+    final repository = sl<ProfileRepository>();
+    final Country? country = repository.country?.let(Country.findByCode);
+    final String email = repository.email;
 
     if (country == null || email.isEmpty) {
       throw Exception('Profile data not available.');
