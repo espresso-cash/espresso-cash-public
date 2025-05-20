@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 
@@ -10,6 +13,7 @@ import '../../../ui/clipboard.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';
+import '../data/profile_repository.dart';
 import '../widgets/ambassador_section.dart';
 import '../widgets/help_section.dart';
 import '../widgets/kyc_section.dart';
@@ -48,11 +52,17 @@ class ProfileScreen extends StatelessWidget {
                       width: MediaQuery.sizeOf(context).width,
                       child: Stack(
                         children: [
-                          const Center(
-                            child: CpUserAvatar(
-                              radius: _imageSize / 2,
-                              image: null,
-                              userName: 'MW',
+                          Center(
+                            child: ListenableBuilder(
+                              listenable: sl<ProfileRepository>(),
+                              builder:
+                                  (context, child) => CpUserAvatar(
+                                    radius: _imageSize / 2,
+                                    image: sl<ProfileRepository>().photoPath?.let(
+                                      (it) => FileImage(File(it)),
+                                    ),
+                                    userName: sl<ProfileRepository>().initials.ifEmpty(() => 'MW'),
+                                  ),
                             ),
                           ),
                           Positioned(
@@ -69,11 +79,21 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
-                      child: Text('My Wallet', style: Theme.of(context).textTheme.displaySmall),
+                      child: ListenableBuilder(
+                        listenable: sl<ProfileRepository>(),
+                        builder:
+                            (context, child) => Text(
+                              sl<ProfileRepository>().fullName.ifEmpty(() => 'My Wallet'),
+                              style: Theme.of(context).textTheme.displaySmall,
+                            ),
+                      ),
                     ),
                     const SizedBox(height: 24),
-                    _QrCodeWidget(address: sl<MyAccount>().publicKey),
-
+                    ListenableBuilder(
+                      listenable: sl<ProfileRepository>(),
+                      builder:
+                          (context, child) => _QrCodeWidget(address: sl<MyAccount>().publicKey),
+                    ),
                     const SizedBox(height: 12),
                   ],
                 ),
@@ -82,6 +102,7 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 child: Column(
                   children: [
+                    const EditProfileSection(),
                     if (sl<FeatureFlagsManager>().isBrijEnabled()) ...[const KycSection()],
                     const AmbassadorSection(),
                     const SecuritySection(),

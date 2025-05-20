@@ -24,7 +24,13 @@ class UpdateProfile {
   final PendingKycService _pendingKycService;
   final AnalyticsManager _analyticsManager;
 
-  AsyncResult<void> call({String? name, String? countryCode}) => tryEitherAsync((_) async {
+  AsyncResult<void> call({
+    String? firstName,
+    String? lastName,
+    String? countryCode,
+    String? email,
+    String? photoPath,
+  }) => tryEitherAsync((_) async {
     if (countryCode != null && _profileRepository.country != countryCode) {
       _analyticsManager.setProfileCountryCode(countryCode);
       await _client.updateUserWalletCountry(countryCode);
@@ -34,8 +40,17 @@ class UpdateProfile {
 
     _pendingKycService.remove();
 
-    if (name != null) {
-      _profileRepository.name = name;
+    if (firstName != null) {
+      _profileRepository.firstName = firstName;
+    }
+    if (lastName != null) {
+      _profileRepository.lastName = lastName;
+    }
+    if (photoPath != null) {
+      _profileRepository.photoPath = photoPath;
+    }
+    if (email != null) {
+      _profileRepository.email = email;
     }
   }).doOnLeftAsync(reportError);
 }

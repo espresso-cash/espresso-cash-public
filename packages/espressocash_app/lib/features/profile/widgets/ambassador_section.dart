@@ -31,7 +31,7 @@ class AmbassadorSection extends StatelessWidget {
                   description: l10n.ambassador_userOnboardingDescription,
                   onPressed: () {
                     final wallet = sl<ECWallet>().publicKey;
-                    final name = sl<ProfileRepository>().name;
+                    final name = sl<ProfileRepository>().fullName;
 
                     ShareAmbassadorLinkScreen.push(context, name: name, address: wallet);
                   },

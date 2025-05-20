@@ -12,7 +12,7 @@ extension PaymentRequestExt on BuildContext {
   Future<String> createPayRequest({required CryptoAmount tokenAmount}) =>
       runWithLoader(this, () async {
         final recipient = sl<MyAccount>().wallet.publicKey;
-        final name = sl<ProfileRepository>().name.let((e) => e.isEmpty ? null : e);
+        final name = sl<ProfileRepository>().firstName.let((e) => e.isEmpty ? null : e);
 
         final payment = await sl<PaymentRequestService>().create(
           recipient: recipient,

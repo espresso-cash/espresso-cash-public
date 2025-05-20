@@ -1,3 +1,5 @@
+import 'package:espressocash_app/ui/bottom_button.dart';
+import 'package:espressocash_app/ui/button.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,14 +11,15 @@ import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/dialogs.dart';
 import '../../../di.dart';
-import '../../../ui/bottom_button.dart';
-import '../../../ui/button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/web_view_screen.dart';
 import '../../accounts/services/account_service.dart';
+import '../screens/manage_profile_screen.dart';
+import 'profile_button.dart';
 
 part 'danger_section.dart';
+part 'edit_profile_section.dart';
 part 'share_section.dart';
 part 'version_section.dart';
 

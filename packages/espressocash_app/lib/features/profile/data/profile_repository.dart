@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,10 +13,32 @@ class ProfileRepository extends ChangeNotifier {
 
   bool get hasAllRequiredFields => country != null;
 
-  String get name => _sharedPreferences.getString(nameKey) ?? '';
+  String get fullName => [firstName, lastName].where((it) => it.isNotEmpty).join(' ');
 
-  set name(String value) {
-    _sharedPreferences.setString(nameKey, value);
+  String get initials => (substring(firstName, 0, 1) + substring(lastName, 0, 1)).toUpperCase();
+
+  String get firstName => _sharedPreferences.getString(firstNameKey) ?? '';
+
+  set firstName(String value) {
+    _sharedPreferences.setString(firstNameKey, value);
+    notifyListeners();
+  }
+
+  String get lastName => _sharedPreferences.getString(lastNameKey) ?? '';
+
+  set lastName(String value) {
+    _sharedPreferences.setString(lastNameKey, value);
+    notifyListeners();
+  }
+
+  String? get photoPath => _sharedPreferences.getString(photoKey);
+
+  set photoPath(String? value) {
+    if (value == null) {
+      _sharedPreferences.remove(photoKey);
+    } else {
+      _sharedPreferences.setString(photoKey, value);
+    }
     notifyListeners();
   }
 
@@ -30,15 +53,28 @@ class ProfileRepository extends ChangeNotifier {
     notifyListeners();
   }
 
+  String get email => _sharedPreferences.getString(emailKey) ?? '';
+
+  set email(String value) {
+    _sharedPreferences.setString(emailKey, value);
+    notifyListeners();
+  }
+
   @override
   @disposeMethod
   void dispose() {
     _sharedPreferences
-      ..remove(nameKey)
-      ..remove(countryKey);
+      ..remove(firstNameKey)
+      ..remove(lastNameKey)
+      ..remove(photoKey)
+      ..remove(countryKey)
+      ..remove(emailKey);
     super.dispose();
   }
 }
 
-const nameKey = 'name';
+const firstNameKey = 'name';
+const lastNameKey = 'lastName';
+const photoKey = 'photo';
 const countryKey = 'country';
+const emailKey = 'email';
