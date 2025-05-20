@@ -102,8 +102,10 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 child: Column(
                   children: [
-                    const EditProfileSection(),
-                    if (sl<FeatureFlagsManager>().isBrijEnabled()) ...[const KycSection()],
+                    if (sl<FeatureFlagsManager>().isBrijEnabled()) ...[
+                      const KycSection(),
+                    ] else
+                      const EditProfileSection(),
                     const AmbassadorSection(),
                     const SecuritySection(),
                     const HelpSection(),
