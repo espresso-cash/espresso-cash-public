@@ -33,26 +33,32 @@ class UserServiceClient extends $grpc.Client {
       '/espressocash.api.users.v1.UserService/Login',
       ($7.LoginRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $7.LoginResponse.fromBuffer(value));
-  static final _$getWalletProofMessage = $grpc.ClientMethod<$7.GetWalletProofMessageRequest, $7.GetWalletProofMessageResponse>(
-      '/espressocash.api.users.v1.UserService/GetWalletProofMessage',
-      ($7.GetWalletProofMessageRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $7.GetWalletProofMessageResponse.fromBuffer(value));
-  static final _$updateCountry = $grpc.ClientMethod<$7.UpdateCountryRequest, $7.UpdateCountryResponse>(
-      '/espressocash.api.users.v1.UserService/UpdateCountry',
-      ($7.UpdateCountryRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $7.UpdateCountryResponse.fromBuffer(value));
+  static final _$getWalletProofMessage =
+      $grpc.ClientMethod<$7.GetWalletProofMessageRequest, $7.GetWalletProofMessageResponse>(
+          '/espressocash.api.users.v1.UserService/GetWalletProofMessage',
+          ($7.GetWalletProofMessageRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $7.GetWalletProofMessageResponse.fromBuffer(value));
+  static final _$updateCountry =
+      $grpc.ClientMethod<$7.UpdateCountryRequest, $7.UpdateCountryResponse>(
+          '/espressocash.api.users.v1.UserService/UpdateCountry',
+          ($7.UpdateCountryRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $7.UpdateCountryResponse.fromBuffer(value));
 
   UserServiceClient(super.channel, {super.options, super.interceptors});
 
-  $grpc.ResponseFuture<$7.LoginResponse> login($7.LoginRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$7.LoginResponse> login($7.LoginRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$login, request, options: options);
   }
 
-  $grpc.ResponseFuture<$7.GetWalletProofMessageResponse> getWalletProofMessage($7.GetWalletProofMessageRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$7.GetWalletProofMessageResponse> getWalletProofMessage(
+      $7.GetWalletProofMessageRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getWalletProofMessage, request, options: options);
   }
 
-  $grpc.ResponseFuture<$7.UpdateCountryResponse> updateCountry($7.UpdateCountryRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$7.UpdateCountryResponse> updateCountry($7.UpdateCountryRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$updateCountry, request, options: options);
   }
 }
@@ -69,13 +75,14 @@ abstract class UserServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $7.LoginRequest.fromBuffer(value),
         ($7.LoginResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$7.GetWalletProofMessageRequest, $7.GetWalletProofMessageResponse>(
-        'GetWalletProofMessage',
-        getWalletProofMessage_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $7.GetWalletProofMessageRequest.fromBuffer(value),
-        ($7.GetWalletProofMessageResponse value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$7.GetWalletProofMessageRequest, $7.GetWalletProofMessageResponse>(
+            'GetWalletProofMessage',
+            getWalletProofMessage_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) => $7.GetWalletProofMessageRequest.fromBuffer(value),
+            ($7.GetWalletProofMessageResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$7.UpdateCountryRequest, $7.UpdateCountryResponse>(
         'UpdateCountry',
         updateCountry_Pre,
@@ -85,19 +92,24 @@ abstract class UserServiceBase extends $grpc.Service {
         ($7.UpdateCountryResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$7.LoginResponse> login_Pre($grpc.ServiceCall $call, $async.Future<$7.LoginRequest> $request) async {
+  $async.Future<$7.LoginResponse> login_Pre(
+      $grpc.ServiceCall $call, $async.Future<$7.LoginRequest> $request) async {
     return login($call, await $request);
   }
 
-  $async.Future<$7.GetWalletProofMessageResponse> getWalletProofMessage_Pre($grpc.ServiceCall $call, $async.Future<$7.GetWalletProofMessageRequest> $request) async {
+  $async.Future<$7.GetWalletProofMessageResponse> getWalletProofMessage_Pre(
+      $grpc.ServiceCall $call, $async.Future<$7.GetWalletProofMessageRequest> $request) async {
     return getWalletProofMessage($call, await $request);
   }
 
-  $async.Future<$7.UpdateCountryResponse> updateCountry_Pre($grpc.ServiceCall $call, $async.Future<$7.UpdateCountryRequest> $request) async {
+  $async.Future<$7.UpdateCountryResponse> updateCountry_Pre(
+      $grpc.ServiceCall $call, $async.Future<$7.UpdateCountryRequest> $request) async {
     return updateCountry($call, await $request);
   }
 
   $async.Future<$7.LoginResponse> login($grpc.ServiceCall call, $7.LoginRequest request);
-  $async.Future<$7.GetWalletProofMessageResponse> getWalletProofMessage($grpc.ServiceCall call, $7.GetWalletProofMessageRequest request);
-  $async.Future<$7.UpdateCountryResponse> updateCountry($grpc.ServiceCall call, $7.UpdateCountryRequest request);
+  $async.Future<$7.GetWalletProofMessageResponse> getWalletProofMessage(
+      $grpc.ServiceCall call, $7.GetWalletProofMessageRequest request);
+  $async.Future<$7.UpdateCountryResponse> updateCountry(
+      $grpc.ServiceCall call, $7.UpdateCountryRequest request);
 }

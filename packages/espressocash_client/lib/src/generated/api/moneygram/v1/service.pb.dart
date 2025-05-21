@@ -30,33 +30,46 @@ class MoneygramChallengeSignRequest extends $pb.GeneratedMessage {
     return $result;
   }
   MoneygramChallengeSignRequest._() : super();
-  factory MoneygramChallengeSignRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory MoneygramChallengeSignRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory MoneygramChallengeSignRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory MoneygramChallengeSignRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MoneygramChallengeSignRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'MoneygramChallengeSignRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'signedTx')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramChallengeSignRequest clone() => MoneygramChallengeSignRequest()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MoneygramChallengeSignRequest copyWith(void Function(MoneygramChallengeSignRequest) updates) => super.copyWith((message) => updates(message as MoneygramChallengeSignRequest)) as MoneygramChallengeSignRequest;
+  MoneygramChallengeSignRequest copyWith(void Function(MoneygramChallengeSignRequest) updates) =>
+      super.copyWith((message) => updates(message as MoneygramChallengeSignRequest))
+          as MoneygramChallengeSignRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static MoneygramChallengeSignRequest create() => MoneygramChallengeSignRequest._();
   MoneygramChallengeSignRequest createEmptyInstance() => create();
-  static $pb.PbList<MoneygramChallengeSignRequest> createRepeated() => $pb.PbList<MoneygramChallengeSignRequest>();
+  static $pb.PbList<MoneygramChallengeSignRequest> createRepeated() =>
+      $pb.PbList<MoneygramChallengeSignRequest>();
   @$core.pragma('dart2js:noInline')
-  static MoneygramChallengeSignRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramChallengeSignRequest>(create);
+  static MoneygramChallengeSignRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramChallengeSignRequest>(create);
   static MoneygramChallengeSignRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get signedTx => $_getSZ(0);
   @$pb.TagNumber(1)
-  set signedTx($core.String v) { $_setString(0, v); }
+  set signedTx($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasSignedTx() => $_has(0);
   @$pb.TagNumber(1)
@@ -74,33 +87,47 @@ class MoneygramChallengeSignResponse extends $pb.GeneratedMessage {
     return $result;
   }
   MoneygramChallengeSignResponse._() : super();
-  factory MoneygramChallengeSignResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory MoneygramChallengeSignResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory MoneygramChallengeSignResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory MoneygramChallengeSignResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MoneygramChallengeSignResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'MoneygramChallengeSignResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'signedTx')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MoneygramChallengeSignResponse clone() => MoneygramChallengeSignResponse()..mergeFromMessage(this);
+  MoneygramChallengeSignResponse clone() =>
+      MoneygramChallengeSignResponse()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MoneygramChallengeSignResponse copyWith(void Function(MoneygramChallengeSignResponse) updates) => super.copyWith((message) => updates(message as MoneygramChallengeSignResponse)) as MoneygramChallengeSignResponse;
+  MoneygramChallengeSignResponse copyWith(void Function(MoneygramChallengeSignResponse) updates) =>
+      super.copyWith((message) => updates(message as MoneygramChallengeSignResponse))
+          as MoneygramChallengeSignResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static MoneygramChallengeSignResponse create() => MoneygramChallengeSignResponse._();
   MoneygramChallengeSignResponse createEmptyInstance() => create();
-  static $pb.PbList<MoneygramChallengeSignResponse> createRepeated() => $pb.PbList<MoneygramChallengeSignResponse>();
+  static $pb.PbList<MoneygramChallengeSignResponse> createRepeated() =>
+      $pb.PbList<MoneygramChallengeSignResponse>();
   @$core.pragma('dart2js:noInline')
-  static MoneygramChallengeSignResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramChallengeSignResponse>(create);
+  static MoneygramChallengeSignResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<MoneygramChallengeSignResponse>(create);
   static MoneygramChallengeSignResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get signedTx => $_getSZ(0);
   @$pb.TagNumber(1)
-  set signedTx($core.String v) { $_setString(0, v); }
+  set signedTx($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasSignedTx() => $_has(0);
   @$pb.TagNumber(1)
@@ -126,20 +153,26 @@ class SwapToSolanaRequest extends $pb.GeneratedMessage {
     return $result;
   }
   SwapToSolanaRequest._() : super();
-  factory SwapToSolanaRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SwapToSolanaRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory SwapToSolanaRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SwapToSolanaRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SwapToSolanaRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SwapToSolanaRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'stellarSenderAddress')
     ..aOS(2, _omitFieldNames ? '' : 'solanaReceiverAddress')
     ..aOS(3, _omitFieldNames ? '' : 'amount')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SwapToSolanaRequest clone() => SwapToSolanaRequest()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  SwapToSolanaRequest copyWith(void Function(SwapToSolanaRequest) updates) => super.copyWith((message) => updates(message as SwapToSolanaRequest)) as SwapToSolanaRequest;
+  SwapToSolanaRequest copyWith(void Function(SwapToSolanaRequest) updates) =>
+      super.copyWith((message) => updates(message as SwapToSolanaRequest)) as SwapToSolanaRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -148,13 +181,17 @@ class SwapToSolanaRequest extends $pb.GeneratedMessage {
   SwapToSolanaRequest createEmptyInstance() => create();
   static $pb.PbList<SwapToSolanaRequest> createRepeated() => $pb.PbList<SwapToSolanaRequest>();
   @$core.pragma('dart2js:noInline')
-  static SwapToSolanaRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SwapToSolanaRequest>(create);
+  static SwapToSolanaRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SwapToSolanaRequest>(create);
   static SwapToSolanaRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get stellarSenderAddress => $_getSZ(0);
   @$pb.TagNumber(1)
-  set stellarSenderAddress($core.String v) { $_setString(0, v); }
+  set stellarSenderAddress($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasStellarSenderAddress() => $_has(0);
   @$pb.TagNumber(1)
@@ -163,7 +200,10 @@ class SwapToSolanaRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get solanaReceiverAddress => $_getSZ(1);
   @$pb.TagNumber(2)
-  set solanaReceiverAddress($core.String v) { $_setString(1, v); }
+  set solanaReceiverAddress($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasSolanaReceiverAddress() => $_has(1);
   @$pb.TagNumber(2)
@@ -172,7 +212,10 @@ class SwapToSolanaRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get amount => $_getSZ(2);
   @$pb.TagNumber(3)
-  set amount($core.String v) { $_setString(2, v); }
+  set amount($core.String v) {
+    $_setString(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasAmount() => $_has(2);
   @$pb.TagNumber(3)
@@ -202,21 +245,27 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
     return $result;
   }
   SwapToStellarRequest._() : super();
-  factory SwapToStellarRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SwapToStellarRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory SwapToStellarRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SwapToStellarRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SwapToStellarRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SwapToStellarRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'solanaSenderAddress')
     ..aOS(2, _omitFieldNames ? '' : 'stellarReceiverAddress')
     ..aOS(3, _omitFieldNames ? '' : 'amount')
     ..a<$core.int>(4, _omitFieldNames ? '' : 'priorityFee', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SwapToStellarRequest clone() => SwapToStellarRequest()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  SwapToStellarRequest copyWith(void Function(SwapToStellarRequest) updates) => super.copyWith((message) => updates(message as SwapToStellarRequest)) as SwapToStellarRequest;
+  SwapToStellarRequest copyWith(void Function(SwapToStellarRequest) updates) =>
+      super.copyWith((message) => updates(message as SwapToStellarRequest)) as SwapToStellarRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -225,13 +274,17 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
   SwapToStellarRequest createEmptyInstance() => create();
   static $pb.PbList<SwapToStellarRequest> createRepeated() => $pb.PbList<SwapToStellarRequest>();
   @$core.pragma('dart2js:noInline')
-  static SwapToStellarRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SwapToStellarRequest>(create);
+  static SwapToStellarRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SwapToStellarRequest>(create);
   static SwapToStellarRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get solanaSenderAddress => $_getSZ(0);
   @$pb.TagNumber(1)
-  set solanaSenderAddress($core.String v) { $_setString(0, v); }
+  set solanaSenderAddress($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasSolanaSenderAddress() => $_has(0);
   @$pb.TagNumber(1)
@@ -240,7 +293,10 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get stellarReceiverAddress => $_getSZ(1);
   @$pb.TagNumber(2)
-  set stellarReceiverAddress($core.String v) { $_setString(1, v); }
+  set stellarReceiverAddress($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasStellarReceiverAddress() => $_has(1);
   @$pb.TagNumber(2)
@@ -249,7 +305,10 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get amount => $_getSZ(2);
   @$pb.TagNumber(3)
-  set amount($core.String v) { $_setString(2, v); }
+  set amount($core.String v) {
+    $_setString(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasAmount() => $_has(2);
   @$pb.TagNumber(3)
@@ -258,7 +317,10 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.int get priorityFee => $_getIZ(3);
   @$pb.TagNumber(4)
-  set priorityFee($core.int v) { $_setSignedInt32(3, v); }
+  set priorityFee($core.int v) {
+    $_setSignedInt32(3, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasPriorityFee() => $_has(3);
   @$pb.TagNumber(4)
@@ -276,18 +338,26 @@ class MoneygramSwapResponse extends $pb.GeneratedMessage {
     return $result;
   }
   MoneygramSwapResponse._() : super();
-  factory MoneygramSwapResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory MoneygramSwapResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory MoneygramSwapResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory MoneygramSwapResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MoneygramSwapResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'MoneygramSwapResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'encodedTx')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramSwapResponse clone() => MoneygramSwapResponse()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MoneygramSwapResponse copyWith(void Function(MoneygramSwapResponse) updates) => super.copyWith((message) => updates(message as MoneygramSwapResponse)) as MoneygramSwapResponse;
+  MoneygramSwapResponse copyWith(void Function(MoneygramSwapResponse) updates) =>
+      super.copyWith((message) => updates(message as MoneygramSwapResponse))
+          as MoneygramSwapResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -296,13 +366,17 @@ class MoneygramSwapResponse extends $pb.GeneratedMessage {
   MoneygramSwapResponse createEmptyInstance() => create();
   static $pb.PbList<MoneygramSwapResponse> createRepeated() => $pb.PbList<MoneygramSwapResponse>();
   @$core.pragma('dart2js:noInline')
-  static MoneygramSwapResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramSwapResponse>(create);
+  static MoneygramSwapResponse getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramSwapResponse>(create);
   static MoneygramSwapResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get encodedTx => $_getSZ(0);
   @$pb.TagNumber(1)
-  set encodedTx($core.String v) { $_setString(0, v); }
+  set encodedTx($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasEncodedTx() => $_has(0);
   @$pb.TagNumber(1)
@@ -324,19 +398,28 @@ class MoneygramFeeRequest extends $pb.GeneratedMessage {
     return $result;
   }
   MoneygramFeeRequest._() : super();
-  factory MoneygramFeeRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory MoneygramFeeRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory MoneygramFeeRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory MoneygramFeeRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MoneygramFeeRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MoneygramFeeRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'amount')
-    ..e<RampType>(2, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE, defaultOrMaker: RampType.RAMP_TYPE_UNSPECIFIED, valueOf: RampType.valueOf, enumValues: RampType.values)
-    ..hasRequiredFields = false
-  ;
+    ..e<RampType>(2, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE,
+        defaultOrMaker: RampType.RAMP_TYPE_UNSPECIFIED,
+        valueOf: RampType.valueOf,
+        enumValues: RampType.values)
+    ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramFeeRequest clone() => MoneygramFeeRequest()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MoneygramFeeRequest copyWith(void Function(MoneygramFeeRequest) updates) => super.copyWith((message) => updates(message as MoneygramFeeRequest)) as MoneygramFeeRequest;
+  MoneygramFeeRequest copyWith(void Function(MoneygramFeeRequest) updates) =>
+      super.copyWith((message) => updates(message as MoneygramFeeRequest)) as MoneygramFeeRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -345,13 +428,17 @@ class MoneygramFeeRequest extends $pb.GeneratedMessage {
   MoneygramFeeRequest createEmptyInstance() => create();
   static $pb.PbList<MoneygramFeeRequest> createRepeated() => $pb.PbList<MoneygramFeeRequest>();
   @$core.pragma('dart2js:noInline')
-  static MoneygramFeeRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramFeeRequest>(create);
+  static MoneygramFeeRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramFeeRequest>(create);
   static MoneygramFeeRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get amount => $_getSZ(0);
   @$pb.TagNumber(1)
-  set amount($core.String v) { $_setString(0, v); }
+  set amount($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasAmount() => $_has(0);
   @$pb.TagNumber(1)
@@ -360,7 +447,10 @@ class MoneygramFeeRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   RampType get type => $_getN(1);
   @$pb.TagNumber(2)
-  set type(RampType v) { $_setField(2, v); }
+  set type(RampType v) {
+    $_setField(2, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasType() => $_has(1);
   @$pb.TagNumber(2)
@@ -390,21 +480,27 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
     return $result;
   }
   MoneygramFeeResponse._() : super();
-  factory MoneygramFeeResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory MoneygramFeeResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory MoneygramFeeResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory MoneygramFeeResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MoneygramFeeResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MoneygramFeeResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'bridgeFee')
     ..aOS(2, _omitFieldNames ? '' : 'moneygramFee')
     ..aOS(3, _omitFieldNames ? '' : 'gasFeeInUsdc')
     ..a<$core.int>(4, _omitFieldNames ? '' : 'priorityFee', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramFeeResponse clone() => MoneygramFeeResponse()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MoneygramFeeResponse copyWith(void Function(MoneygramFeeResponse) updates) => super.copyWith((message) => updates(message as MoneygramFeeResponse)) as MoneygramFeeResponse;
+  MoneygramFeeResponse copyWith(void Function(MoneygramFeeResponse) updates) =>
+      super.copyWith((message) => updates(message as MoneygramFeeResponse)) as MoneygramFeeResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -413,13 +509,17 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
   MoneygramFeeResponse createEmptyInstance() => create();
   static $pb.PbList<MoneygramFeeResponse> createRepeated() => $pb.PbList<MoneygramFeeResponse>();
   @$core.pragma('dart2js:noInline')
-  static MoneygramFeeResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramFeeResponse>(create);
+  static MoneygramFeeResponse getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoneygramFeeResponse>(create);
   static MoneygramFeeResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get bridgeFee => $_getSZ(0);
   @$pb.TagNumber(1)
-  set bridgeFee($core.String v) { $_setString(0, v); }
+  set bridgeFee($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasBridgeFee() => $_has(0);
   @$pb.TagNumber(1)
@@ -428,7 +528,10 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get moneygramFee => $_getSZ(1);
   @$pb.TagNumber(2)
-  set moneygramFee($core.String v) { $_setString(1, v); }
+  set moneygramFee($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasMoneygramFee() => $_has(1);
   @$pb.TagNumber(2)
@@ -437,7 +540,10 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get gasFeeInUsdc => $_getSZ(2);
   @$pb.TagNumber(3)
-  set gasFeeInUsdc($core.String v) { $_setString(2, v); }
+  set gasFeeInUsdc($core.String v) {
+    $_setString(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasGasFeeInUsdc() => $_has(2);
   @$pb.TagNumber(3)
@@ -446,7 +552,10 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.int get priorityFee => $_getIZ(3);
   @$pb.TagNumber(4)
-  set priorityFee($core.int v) { $_setSignedInt32(3, v); }
+  set priorityFee($core.int v) {
+    $_setSignedInt32(3, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasPriorityFee() => $_has(3);
   @$pb.TagNumber(4)
@@ -464,18 +573,24 @@ class FundXlmRequest extends $pb.GeneratedMessage {
     return $result;
   }
   FundXlmRequest._() : super();
-  factory FundXlmRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory FundXlmRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory FundXlmRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory FundXlmRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'FundXlmRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'FundXlmRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'accountId')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FundXlmRequest clone() => FundXlmRequest()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FundXlmRequest copyWith(void Function(FundXlmRequest) updates) => super.copyWith((message) => updates(message as FundXlmRequest)) as FundXlmRequest;
+  FundXlmRequest copyWith(void Function(FundXlmRequest) updates) =>
+      super.copyWith((message) => updates(message as FundXlmRequest)) as FundXlmRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -484,13 +599,17 @@ class FundXlmRequest extends $pb.GeneratedMessage {
   FundXlmRequest createEmptyInstance() => create();
   static $pb.PbList<FundXlmRequest> createRepeated() => $pb.PbList<FundXlmRequest>();
   @$core.pragma('dart2js:noInline')
-  static FundXlmRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FundXlmRequest>(create);
+  static FundXlmRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FundXlmRequest>(create);
   static FundXlmRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get accountId => $_getSZ(0);
   @$pb.TagNumber(1)
-  set accountId($core.String v) { $_setString(0, v); }
+  set accountId($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasAccountId() => $_has(0);
   @$pb.TagNumber(1)
@@ -500,17 +619,23 @@ class FundXlmRequest extends $pb.GeneratedMessage {
 class FundXlmResponse extends $pb.GeneratedMessage {
   factory FundXlmResponse() => create();
   FundXlmResponse._() : super();
-  factory FundXlmResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory FundXlmResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory FundXlmResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory FundXlmResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'FundXlmResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'), createEmptyInstance: create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'FundXlmResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.moneygram.v1'),
+      createEmptyInstance: create)
+    ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FundXlmResponse clone() => FundXlmResponse()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FundXlmResponse copyWith(void Function(FundXlmResponse) updates) => super.copyWith((message) => updates(message as FundXlmResponse)) as FundXlmResponse;
+  FundXlmResponse copyWith(void Function(FundXlmResponse) updates) =>
+      super.copyWith((message) => updates(message as FundXlmResponse)) as FundXlmResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -519,10 +644,10 @@ class FundXlmResponse extends $pb.GeneratedMessage {
   FundXlmResponse createEmptyInstance() => create();
   static $pb.PbList<FundXlmResponse> createRepeated() => $pb.PbList<FundXlmResponse>();
   @$core.pragma('dart2js:noInline')
-  static FundXlmResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FundXlmResponse>(create);
+  static FundXlmResponse getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FundXlmResponse>(create);
   static FundXlmResponse? _defaultInstance;
 }
-
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
 const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
