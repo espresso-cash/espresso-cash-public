@@ -165,7 +165,6 @@ class BrijOffRampOrderService implements Disposable {
     required String country,
   }) => tryEitherAsync((_) async {
     final partnerAuthPk = partner.partnerPK ?? '';
-    await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
     final user = await _kycRepository.fetchUser();
 

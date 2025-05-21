@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/moneygram/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -25,10 +25,11 @@ class RampType extends $pb.ProtobufEnum {
     RAMP_TYPE_OFF,
   ];
 
-  static final $core.Map<$core.int, RampType> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static RampType? valueOf($core.int value) => _byValue[value];
+  static final $core.List<RampType?> _byValue = $pb.ProtobufEnum.$_initByValueList(values, 2);
+  static RampType? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const RampType._($core.int v, $core.String n) : super(v, n);
+  const RampType._(super.v, super.n);
 }
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

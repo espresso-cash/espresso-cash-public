@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/shortener/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -12,6 +12,8 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class ShortenLinkRequest extends $pb.GeneratedMessage {
   factory ShortenLinkRequest({
@@ -37,13 +39,9 @@ class ShortenLinkRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'fullLink')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ShortenLinkRequest clone() => ShortenLinkRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ShortenLinkRequest copyWith(void Function(ShortenLinkRequest) updates) =>
       super.copyWith((message) => updates(message as ShortenLinkRequest)) as ShortenLinkRequest;
 
@@ -68,7 +66,7 @@ class ShortenLinkRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasFullLink() => $_has(0);
   @$pb.TagNumber(1)
-  void clearFullLink() => clearField(1);
+  void clearFullLink() => $_clearField(1);
 }
 
 class ShortenLinkResponse extends $pb.GeneratedMessage {
@@ -95,13 +93,9 @@ class ShortenLinkResponse extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'shortLink')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ShortenLinkResponse clone() => ShortenLinkResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ShortenLinkResponse copyWith(void Function(ShortenLinkResponse) updates) =>
       super.copyWith((message) => updates(message as ShortenLinkResponse)) as ShortenLinkResponse;
 
@@ -126,7 +120,7 @@ class ShortenLinkResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasShortLink() => $_has(0);
   @$pb.TagNumber(1)
-  void clearShortLink() => clearField(1);
+  void clearShortLink() => $_clearField(1);
 }
 
 class ExpandLinkRequest extends $pb.GeneratedMessage {
@@ -153,13 +147,9 @@ class ExpandLinkRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'shortLink')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ExpandLinkRequest clone() => ExpandLinkRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ExpandLinkRequest copyWith(void Function(ExpandLinkRequest) updates) =>
       super.copyWith((message) => updates(message as ExpandLinkRequest)) as ExpandLinkRequest;
 
@@ -184,7 +174,7 @@ class ExpandLinkRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasShortLink() => $_has(0);
   @$pb.TagNumber(1)
-  void clearShortLink() => clearField(1);
+  void clearShortLink() => $_clearField(1);
 }
 
 class ExpandLinkResponse extends $pb.GeneratedMessage {
@@ -211,13 +201,9 @@ class ExpandLinkResponse extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'fullLink')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ExpandLinkResponse clone() => ExpandLinkResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ExpandLinkResponse copyWith(void Function(ExpandLinkResponse) updates) =>
       super.copyWith((message) => updates(message as ExpandLinkResponse)) as ExpandLinkResponse;
 
@@ -242,7 +228,7 @@ class ExpandLinkResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasFullLink() => $_has(0);
   @$pb.TagNumber(1)
-  void clearFullLink() => clearField(1);
+  void clearFullLink() => $_clearField(1);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');

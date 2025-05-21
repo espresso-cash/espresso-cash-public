@@ -8,9 +8,19 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
+import '../../../ui/loader.dart';
+import '../../../ui/snackbar.dart';
 import '../../accounts/models/account.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../country_picker/models/country.dart';
+import '../../feature_flags/data/feature_flags_manager.dart';
+import '../../kyc_sharing/data/kyc_repository.dart';
+import '../../kyc_sharing/models/kyc_validation_status.dart';
+import '../../kyc_sharing/services/kyc_access_service.dart';
+import '../../kyc_sharing/services/kyc_data_service.dart';
+import '../../kyc_sharing/utils/kyc_utils.dart';
+import '../../kyc_sharing/widgets/kyc_flow.dart';
+import '../../kyc_sharing/widgets/terms_notice.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../ramp_partner/models/ramp_type.dart';
@@ -65,9 +75,13 @@ class AddCashButton extends StatelessWidget {
         variant: CpIconButtonVariant.dark,
         size: CpIconButtonSize.large,
         onPressed: () async {
-          final hasProfile = await context.ensureProfileData(RampType.onRamp) != null;
+          final hasGrantedAccess = await context.ensureBrijAccessGranted();
+          if (!context.mounted || !hasGrantedAccess) return;
 
-          if (context.mounted && hasProfile) {
+          final hasProfile = await context.ensureProfileData(RampType.onRamp) != null;
+          if (!context.mounted) return;
+
+          if (hasGrantedAccess && hasProfile) {
             context.launchOnRampFlow();
           }
         },
@@ -94,9 +108,13 @@ class CashOutButton extends StatelessWidget {
         variant: CpIconButtonVariant.dark,
         size: CpIconButtonSize.large,
         onPressed: () async {
-          final hasProfile = await context.ensureProfileData(RampType.offRamp) != null;
+          final hasGrantedAccess = await context.ensureBrijAccessGranted();
+          if (!context.mounted || !hasGrantedAccess) return;
 
-          if (context.mounted && hasProfile) {
+          final hasProfile = await context.ensureProfileData(RampType.offRamp) != null;
+          if (!context.mounted) return;
+
+          if (hasGrantedAccess && hasProfile) {
             context.launchOffRampFlow();
           }
         },
@@ -111,7 +129,81 @@ class CashOutButton extends StatelessWidget {
 }
 
 extension RampBuildContextExt on BuildContext {
-  Future<ProfileData?> ensureProfileData(RampType rampType) async {
+  Future<bool> ensureBrijAccessGranted() {
+    if (!sl<FeatureFlagsManager>().isBrijEnabled()) {
+      return Future.value(true);
+    }
+
+    final partnerPK = sl<KycRepository>().validatorAuthPk;
+
+    return runWithLoader<bool>(this, () async {
+      final hasGrantedAccess = await sl<KycAccessService>().hasGrantedAccess(partnerPK);
+
+      if (hasGrantedAccess) return true;
+
+      final (:termsUrl, :policyUrl) = await sl<KycDataService>().fetchPartnerTermsAndPolicy(
+        partnerPK,
+      );
+
+      return showTermsAndPolicyDialog(
+        this,
+        termsUrl: termsUrl,
+        privacyUrl: policyUrl,
+        partnerPk: partnerPK,
+      );
+    });
+  }
+
+  Future<ProfileData?> ensureProfileData(RampType rampType) =>
+      sl<FeatureFlagsManager>().isBrijEnabled()
+          ? _ensureProfileDataNewFlow()
+          : _ensureProfileDataDeprecatedFlow(rampType);
+
+  ProfileData getProfileData() =>
+      sl<FeatureFlagsManager>().isBrijEnabled()
+          ? _getProfileDataNewFlow()
+          : _getProfileDataDeprecatedFlow();
+
+  Future<ProfileData?> _ensureProfileDataNewFlow() async {
+    final repository = sl<ProfileRepository>();
+    final user = sl<KycDataService>().value;
+
+    if (user == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return null;
+    }
+
+    final country = repository.country?.let(Country.findByCode);
+    if (country == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return null;
+    }
+
+    final emailValidated = user.emailStatus == KycValidationStatus.approved;
+    if (!emailValidated) {
+      await openEmailFlow();
+    }
+
+    final email = user.email?.value ?? '';
+
+    return email.isEmpty ? null : (country: country, email: email);
+  }
+
+  ProfileData _getProfileDataNewFlow() {
+    final repository = sl<ProfileRepository>();
+    final Country? country = repository.country?.let(Country.findByCode);
+    final String email = sl<KycDataService>().value?.email?.value ?? '';
+
+    if (country == null || email.isEmpty) {
+      throw Exception('Profile data not available.');
+    }
+
+    return (country: country, email: email);
+  }
+
+  Future<ProfileData?> _ensureProfileDataDeprecatedFlow(RampType rampType) async {
     void handleSubmitted() {
       Navigator.pop(this);
     }
@@ -132,7 +224,7 @@ extension RampBuildContextExt on BuildContext {
     return country != null && email.isNotEmpty ? (country: country, email: email) : null;
   }
 
-  ProfileData getProfileData() {
+  ProfileData _getProfileDataDeprecatedFlow() {
     final repository = sl<ProfileRepository>();
     final Country? country = repository.country?.let(Country.findByCode);
     final String email = repository.email;

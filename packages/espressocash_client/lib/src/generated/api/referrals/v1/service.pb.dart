@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/referrals/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -12,6 +12,8 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class AddReferralRequest extends $pb.GeneratedMessage {
   factory AddReferralRequest({
@@ -37,13 +39,9 @@ class AddReferralRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'ambassadorAddress')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   AddReferralRequest clone() => AddReferralRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   AddReferralRequest copyWith(void Function(AddReferralRequest) updates) =>
       super.copyWith((message) => updates(message as AddReferralRequest)) as AddReferralRequest;
 
@@ -68,7 +66,7 @@ class AddReferralRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasAmbassadorAddress() => $_has(0);
   @$pb.TagNumber(1)
-  void clearAmbassadorAddress() => clearField(1);
+  void clearAmbassadorAddress() => $_clearField(1);
 }
 
 class AddReferralResponse extends $pb.GeneratedMessage {
@@ -86,13 +84,9 @@ class AddReferralResponse extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   AddReferralResponse clone() => AddReferralResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   AddReferralResponse copyWith(void Function(AddReferralResponse) updates) =>
       super.copyWith((message) => updates(message as AddReferralResponse)) as AddReferralResponse;
 
@@ -123,13 +117,9 @@ class GetStatsRequest extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetStatsRequest clone() => GetStatsRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetStatsRequest copyWith(void Function(GetStatsRequest) updates) =>
       super.copyWith((message) => updates(message as GetStatsRequest)) as GetStatsRequest;
 
@@ -169,13 +159,9 @@ class GetStatsResponse extends $pb.GeneratedMessage {
     ..a<$core.int>(1, _omitFieldNames ? '' : 'referralCount', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetStatsResponse clone() => GetStatsResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetStatsResponse copyWith(void Function(GetStatsResponse) updates) =>
       super.copyWith((message) => updates(message as GetStatsResponse)) as GetStatsResponse;
 
@@ -200,7 +186,7 @@ class GetStatsResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasReferralCount() => $_has(0);
   @$pb.TagNumber(1)
-  void clearReferralCount() => clearField(1);
+  void clearReferralCount() => $_clearField(1);
 }
 
 class VerifyRequest extends $pb.GeneratedMessage {
@@ -218,13 +204,9 @@ class VerifyRequest extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   VerifyRequest clone() => VerifyRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   VerifyRequest copyWith(void Function(VerifyRequest) updates) =>
       super.copyWith((message) => updates(message as VerifyRequest)) as VerifyRequest;
 
@@ -269,13 +251,9 @@ class VerifyResponse extends $pb.GeneratedMessage {
     ..aOB(2, _omitFieldNames ? '' : 'isReferral')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   VerifyResponse clone() => VerifyResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   VerifyResponse copyWith(void Function(VerifyResponse) updates) =>
       super.copyWith((message) => updates(message as VerifyResponse)) as VerifyResponse;
 
@@ -300,7 +278,7 @@ class VerifyResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasIsAmbassador() => $_has(0);
   @$pb.TagNumber(1)
-  void clearIsAmbassador() => clearField(1);
+  void clearIsAmbassador() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.bool get isReferral => $_getBF(1);
@@ -312,7 +290,7 @@ class VerifyResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasIsReferral() => $_has(1);
   @$pb.TagNumber(2)
-  void clearIsReferral() => clearField(2);
+  void clearIsReferral() => $_clearField(2);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');

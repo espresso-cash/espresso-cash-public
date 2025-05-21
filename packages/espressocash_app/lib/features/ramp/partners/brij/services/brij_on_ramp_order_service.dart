@@ -105,7 +105,6 @@ class BrijOnRampOrderService implements Disposable {
     required String country,
   }) => tryEitherAsync((_) async {
     final partnerAuthPk = partner.partnerPK ?? '';
-    await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
     final orderId = await _kycRepository.createOnRampOrder(
       cryptoAmount: receiveAmount.decimal.toDouble(),
