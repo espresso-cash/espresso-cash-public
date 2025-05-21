@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/tokens/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -19,8 +19,8 @@ const GetTokensMetaRequest$json = {
 };
 
 /// Descriptor for `GetTokensMetaRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getTokensMetaRequestDescriptor =
-    $convert.base64Decode('ChRHZXRUb2tlbnNNZXRhUmVxdWVzdA==');
+final $typed_data.Uint8List getTokensMetaRequestDescriptor = $convert.base64Decode(
+    'ChRHZXRUb2tlbnNNZXRhUmVxdWVzdA==');
 
 @$core.Deprecated('Use getTokensMetaResponseDescriptor instead')
 const GetTokensMetaResponse$json = {
@@ -31,8 +31,8 @@ const GetTokensMetaResponse$json = {
 };
 
 /// Descriptor for `GetTokensMetaResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getTokensMetaResponseDescriptor =
-    $convert.base64Decode('ChVHZXRUb2tlbnNNZXRhUmVzcG9uc2USEAoDbWQ1GAEgASgJUgNtZDU=');
+final $typed_data.Uint8List getTokensMetaResponseDescriptor = $convert.base64Decode(
+    'ChVHZXRUb2tlbnNNZXRhUmVzcG9uc2USEAoDbWQ1GAEgASgJUgNtZDU=');
 
 @$core.Deprecated('Use getTokensFileRequestDescriptor instead')
 const GetTokensFileRequest$json = {
@@ -40,8 +40,8 @@ const GetTokensFileRequest$json = {
 };
 
 /// Descriptor for `GetTokensFileRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getTokensFileRequestDescriptor =
-    $convert.base64Decode('ChRHZXRUb2tlbnNGaWxlUmVxdWVzdA==');
+final $typed_data.Uint8List getTokensFileRequestDescriptor = $convert.base64Decode(
+    'ChRHZXRUb2tlbnNGaWxlUmVxdWVzdA==');
 
 @$core.Deprecated('Use getTokensFileResponseDescriptor instead')
 const GetTokensFileResponse$json = {
@@ -52,5 +52,6 @@ const GetTokensFileResponse$json = {
 };
 
 /// Descriptor for `GetTokensFileResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getTokensFileResponseDescriptor =
-    $convert.base64Decode('ChVHZXRUb2tlbnNGaWxlUmVzcG9uc2USGAoHY29udGVudBgBIAEoDFIHY29udGVudA==');
+final $typed_data.Uint8List getTokensFileResponseDescriptor = $convert.base64Decode(
+    'ChVHZXRUb2tlbnNGaWxlUmVzcG9uc2USGAoHY29udGVudBgBIAEoDFIHY29udGVudA==');
+
