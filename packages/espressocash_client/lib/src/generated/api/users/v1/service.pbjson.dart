@@ -24,10 +24,10 @@ const LoginRequest$json = {
 };
 
 /// Descriptor for `LoginRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List loginRequestDescriptor = $convert.base64Decode(
-    'CgxMb2dpblJlcXVlc3QSJQoOd2FsbGV0X2FkZHJlc3MYASABKAlSDXdhbGxldEFkZHJlc3MSJw'
-    'oPcHJvb2Zfc2lnbmF0dXJlGAIgASgJUg5wcm9vZlNpZ25hdHVyZRIjCg1wcm9vZl9tZXNzYWdl'
-    'GAMgASgJUgxwcm9vZk1lc3NhZ2U=');
+final $typed_data.Uint8List loginRequestDescriptor = $convert
+    .base64Decode('CgxMb2dpblJlcXVlc3QSJQoOd2FsbGV0X2FkZHJlc3MYASABKAlSDXdhbGxldEFkZHJlc3MSJw'
+        'oPcHJvb2Zfc2lnbmF0dXJlGAIgASgJUg5wcm9vZlNpZ25hdHVyZRIjCg1wcm9vZl9tZXNzYWdl'
+        'GAMgASgJUgxwcm9vZk1lc3NhZ2U=');
 
 @$core.Deprecated('Use loginResponseDescriptor instead')
 const LoginResponse$json = {
@@ -38,8 +38,8 @@ const LoginResponse$json = {
 };
 
 /// Descriptor for `LoginResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List loginResponseDescriptor = $convert.base64Decode(
-    'Cg1Mb2dpblJlc3BvbnNlEhQKBXRva2VuGAEgASgJUgV0b2tlbg==');
+final $typed_data.Uint8List loginResponseDescriptor =
+    $convert.base64Decode('Cg1Mb2dpblJlc3BvbnNlEhQKBXRva2VuGAEgASgJUgV0b2tlbg==');
 
 @$core.Deprecated('Use getWalletProofMessageRequestDescriptor instead')
 const GetWalletProofMessageRequest$json = {
@@ -50,9 +50,9 @@ const GetWalletProofMessageRequest$json = {
 };
 
 /// Descriptor for `GetWalletProofMessageRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getWalletProofMessageRequestDescriptor = $convert.base64Decode(
-    'ChxHZXRXYWxsZXRQcm9vZk1lc3NhZ2VSZXF1ZXN0EiUKDndhbGxldF9hZGRyZXNzGAEgASgJUg'
-    '13YWxsZXRBZGRyZXNz');
+final $typed_data.Uint8List getWalletProofMessageRequestDescriptor = $convert
+    .base64Decode('ChxHZXRXYWxsZXRQcm9vZk1lc3NhZ2VSZXF1ZXN0EiUKDndhbGxldF9hZGRyZXNzGAEgASgJUg'
+        '13YWxsZXRBZGRyZXNz');
 
 @$core.Deprecated('Use getWalletProofMessageResponseDescriptor instead')
 const GetWalletProofMessageResponse$json = {
@@ -63,9 +63,9 @@ const GetWalletProofMessageResponse$json = {
 };
 
 /// Descriptor for `GetWalletProofMessageResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getWalletProofMessageResponseDescriptor = $convert.base64Decode(
-    'Ch1HZXRXYWxsZXRQcm9vZk1lc3NhZ2VSZXNwb25zZRIYCgdtZXNzYWdlGAEgASgJUgdtZXNzYW'
-    'dl');
+final $typed_data.Uint8List getWalletProofMessageResponseDescriptor = $convert
+    .base64Decode('Ch1HZXRXYWxsZXRQcm9vZk1lc3NhZ2VSZXNwb25zZRIYCgdtZXNzYWdlGAEgASgJUgdtZXNzYW'
+        'dl');
 
 @$core.Deprecated('Use updateCountryRequestDescriptor instead')
 const UpdateCountryRequest$json = {
@@ -76,9 +76,9 @@ const UpdateCountryRequest$json = {
 };
 
 /// Descriptor for `UpdateCountryRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List updateCountryRequestDescriptor = $convert.base64Decode(
-    'ChRVcGRhdGVDb3VudHJ5UmVxdWVzdBIhCgxjb3VudHJ5X2NvZGUYASABKAlSC2NvdW50cnlDb2'
-    'Rl');
+final $typed_data.Uint8List updateCountryRequestDescriptor = $convert
+    .base64Decode('ChRVcGRhdGVDb3VudHJ5UmVxdWVzdBIhCgxjb3VudHJ5X2NvZGUYASABKAlSC2NvdW50cnlDb2'
+        'Rl');
 
 @$core.Deprecated('Use updateCountryResponseDescriptor instead')
 const UpdateCountryResponse$json = {
@@ -86,6 +86,5 @@ const UpdateCountryResponse$json = {
 };
 
 /// Descriptor for `UpdateCountryResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List updateCountryResponseDescriptor = $convert.base64Decode(
-    'ChVVcGRhdGVDb3VudHJ5UmVzcG9uc2U=');
-
+final $typed_data.Uint8List updateCountryResponseDescriptor =
+    $convert.base64Decode('ChVVcGRhdGVDb3VudHJ5UmVzcG9uc2U=');

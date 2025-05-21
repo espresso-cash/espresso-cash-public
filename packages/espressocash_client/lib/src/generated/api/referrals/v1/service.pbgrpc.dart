@@ -44,15 +44,18 @@ class ReferralServiceClient extends $grpc.Client {
 
   ReferralServiceClient(super.channel, {super.options, super.interceptors});
 
-  $grpc.ResponseFuture<$4.AddReferralResponse> addReferral($4.AddReferralRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$4.AddReferralResponse> addReferral($4.AddReferralRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$addReferral, request, options: options);
   }
 
-  $grpc.ResponseFuture<$4.GetStatsResponse> getStats($4.GetStatsRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$4.GetStatsResponse> getStats($4.GetStatsRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getStats, request, options: options);
   }
 
-  $grpc.ResponseFuture<$4.VerifyResponse> verify($4.VerifyRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$4.VerifyResponse> verify($4.VerifyRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$verify, request, options: options);
   }
 }
@@ -85,19 +88,23 @@ abstract class ReferralServiceBase extends $grpc.Service {
         ($4.VerifyResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$4.AddReferralResponse> addReferral_Pre($grpc.ServiceCall $call, $async.Future<$4.AddReferralRequest> $request) async {
+  $async.Future<$4.AddReferralResponse> addReferral_Pre(
+      $grpc.ServiceCall $call, $async.Future<$4.AddReferralRequest> $request) async {
     return addReferral($call, await $request);
   }
 
-  $async.Future<$4.GetStatsResponse> getStats_Pre($grpc.ServiceCall $call, $async.Future<$4.GetStatsRequest> $request) async {
+  $async.Future<$4.GetStatsResponse> getStats_Pre(
+      $grpc.ServiceCall $call, $async.Future<$4.GetStatsRequest> $request) async {
     return getStats($call, await $request);
   }
 
-  $async.Future<$4.VerifyResponse> verify_Pre($grpc.ServiceCall $call, $async.Future<$4.VerifyRequest> $request) async {
+  $async.Future<$4.VerifyResponse> verify_Pre(
+      $grpc.ServiceCall $call, $async.Future<$4.VerifyRequest> $request) async {
     return verify($call, await $request);
   }
 
-  $async.Future<$4.AddReferralResponse> addReferral($grpc.ServiceCall call, $4.AddReferralRequest request);
+  $async.Future<$4.AddReferralResponse> addReferral(
+      $grpc.ServiceCall call, $4.AddReferralRequest request);
   $async.Future<$4.GetStatsResponse> getStats($grpc.ServiceCall call, $4.GetStatsRequest request);
   $async.Future<$4.VerifyResponse> verify($grpc.ServiceCall call, $4.VerifyRequest request);
 }
