@@ -29,22 +29,26 @@ class TokensServiceClient extends $grpc.Client {
     '',
   ];
 
-  static final _$getTokensMeta = $grpc.ClientMethod<$6.GetTokensMetaRequest, $6.GetTokensMetaResponse>(
-      '/espressocash.api.tokens.v1.TokensService/GetTokensMeta',
-      ($6.GetTokensMetaRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $6.GetTokensMetaResponse.fromBuffer(value));
-  static final _$getTokensFile = $grpc.ClientMethod<$6.GetTokensFileRequest, $6.GetTokensFileResponse>(
-      '/espressocash.api.tokens.v1.TokensService/GetTokensFile',
-      ($6.GetTokensFileRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $6.GetTokensFileResponse.fromBuffer(value));
+  static final _$getTokensMeta =
+      $grpc.ClientMethod<$6.GetTokensMetaRequest, $6.GetTokensMetaResponse>(
+          '/espressocash.api.tokens.v1.TokensService/GetTokensMeta',
+          ($6.GetTokensMetaRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $6.GetTokensMetaResponse.fromBuffer(value));
+  static final _$getTokensFile =
+      $grpc.ClientMethod<$6.GetTokensFileRequest, $6.GetTokensFileResponse>(
+          '/espressocash.api.tokens.v1.TokensService/GetTokensFile',
+          ($6.GetTokensFileRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $6.GetTokensFileResponse.fromBuffer(value));
 
   TokensServiceClient(super.channel, {super.options, super.interceptors});
 
-  $grpc.ResponseFuture<$6.GetTokensMetaResponse> getTokensMeta($6.GetTokensMetaRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$6.GetTokensMetaResponse> getTokensMeta($6.GetTokensMetaRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getTokensMeta, request, options: options);
   }
 
-  $grpc.ResponseFuture<$6.GetTokensFileResponse> getTokensFile($6.GetTokensFileRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$6.GetTokensFileResponse> getTokensFile($6.GetTokensFileRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getTokensFile, request, options: options);
   }
 }
@@ -70,14 +74,18 @@ abstract class TokensServiceBase extends $grpc.Service {
         ($6.GetTokensFileResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$6.GetTokensMetaResponse> getTokensMeta_Pre($grpc.ServiceCall $call, $async.Future<$6.GetTokensMetaRequest> $request) async {
+  $async.Future<$6.GetTokensMetaResponse> getTokensMeta_Pre(
+      $grpc.ServiceCall $call, $async.Future<$6.GetTokensMetaRequest> $request) async {
     return getTokensMeta($call, await $request);
   }
 
-  $async.Future<$6.GetTokensFileResponse> getTokensFile_Pre($grpc.ServiceCall $call, $async.Future<$6.GetTokensFileRequest> $request) async {
+  $async.Future<$6.GetTokensFileResponse> getTokensFile_Pre(
+      $grpc.ServiceCall $call, $async.Future<$6.GetTokensFileRequest> $request) async {
     return getTokensFile($call, await $request);
   }
 
-  $async.Future<$6.GetTokensMetaResponse> getTokensMeta($grpc.ServiceCall call, $6.GetTokensMetaRequest request);
-  $async.Future<$6.GetTokensFileResponse> getTokensFile($grpc.ServiceCall call, $6.GetTokensFileRequest request);
+  $async.Future<$6.GetTokensMetaResponse> getTokensMeta(
+      $grpc.ServiceCall call, $6.GetTokensMetaRequest request);
+  $async.Future<$6.GetTokensFileResponse> getTokensFile(
+      $grpc.ServiceCall call, $6.GetTokensFileRequest request);
 }

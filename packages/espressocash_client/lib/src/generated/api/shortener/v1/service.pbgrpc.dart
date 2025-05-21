@@ -40,11 +40,13 @@ class ShortenerServiceClient extends $grpc.Client {
 
   ShortenerServiceClient(super.channel, {super.options, super.interceptors});
 
-  $grpc.ResponseFuture<$5.ShortenLinkResponse> shortenLink($5.ShortenLinkRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$5.ShortenLinkResponse> shortenLink($5.ShortenLinkRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$shortenLink, request, options: options);
   }
 
-  $grpc.ResponseFuture<$5.ExpandLinkResponse> expandLink($5.ExpandLinkRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$5.ExpandLinkResponse> expandLink($5.ExpandLinkRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$expandLink, request, options: options);
   }
 }
@@ -70,14 +72,18 @@ abstract class ShortenerServiceBase extends $grpc.Service {
         ($5.ExpandLinkResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$5.ShortenLinkResponse> shortenLink_Pre($grpc.ServiceCall $call, $async.Future<$5.ShortenLinkRequest> $request) async {
+  $async.Future<$5.ShortenLinkResponse> shortenLink_Pre(
+      $grpc.ServiceCall $call, $async.Future<$5.ShortenLinkRequest> $request) async {
     return shortenLink($call, await $request);
   }
 
-  $async.Future<$5.ExpandLinkResponse> expandLink_Pre($grpc.ServiceCall $call, $async.Future<$5.ExpandLinkRequest> $request) async {
+  $async.Future<$5.ExpandLinkResponse> expandLink_Pre(
+      $grpc.ServiceCall $call, $async.Future<$5.ExpandLinkRequest> $request) async {
     return expandLink($call, await $request);
   }
 
-  $async.Future<$5.ShortenLinkResponse> shortenLink($grpc.ServiceCall call, $5.ShortenLinkRequest request);
-  $async.Future<$5.ExpandLinkResponse> expandLink($grpc.ServiceCall call, $5.ExpandLinkRequest request);
+  $async.Future<$5.ShortenLinkResponse> shortenLink(
+      $grpc.ServiceCall call, $5.ShortenLinkRequest request);
+  $async.Future<$5.ExpandLinkResponse> expandLink(
+      $grpc.ServiceCall call, $5.ExpandLinkRequest request);
 }
