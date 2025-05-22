@@ -190,6 +190,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.2"
+  brij_protos_dart:
+    dependency: transitive
+    description:
+      path: brij_protos_dart
+      ref: "v0.12.0"
+      resolved-ref: afebd1eae6886bf5f4daec8f0e70393ab261ee17
+      url: "https://github.com/espresso-cash/protos.git"
+    source: git
+    version: "1.0.0"
   bs58:
     dependency: transitive
     description:
@@ -390,6 +399,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  connectrpc:
+    dependency: transitive
+    description:
+      name: connectrpc
+      sha256: b0511b158b6b02fd132eea8bbaba2252e8d31ef26057f2335417a22b4d68f5cb
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   convert:
     dependency: transitive
     description:
@@ -1315,11 +1332,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "5f27fdc64ce48a2d88d5c5917628a6bd86a91dcd"
-      resolved-ref: "5f27fdc64ce48a2d88d5c5917628a6bd86a91dcd"
+      ref: "2ef90f13f7625a8c7ae8d83e227a193084657332"
+      resolved-ref: "2ef90f13f7625a8c7ae8d83e227a193084657332"
       url: "https://github.com/espresso-cash/kyc_client_dart.git"
     source: git
-    version: "1.0.4"
+    version: "1.0.5"
   leak_tracker:
     dependency: transitive
     description:
@@ -1676,10 +1693,10 @@ packages:
     dependency: transitive
     description:
       name: protobuf
-      sha256: "68645b24e0716782e58948f8467fd42a880f255096a821f9e7d0ec625b00c84d"
+      sha256: "579fe5557eae58e3adca2e999e38f02441d8aa908703854a9e0a0f47fa857731"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "4.1.0"
   provider:
     dependency: "direct main"
     description:
@@ -1748,10 +1765,10 @@ packages:
     dependency: "direct dev"
     description:
       name: retrofit_generator
-      sha256: "8dfc406cdfa171f33cbd21bf5bd8b6763548cc217de19cdeaa07a76727fac4ca"
+      sha256: "65d28d3a7b4db485f1c73fee8ee32f552ef23ee4ecb68ba491f39d80b73bdcbf"
       url: "https://pub.dev"
     source: hosted
-    version: "8.2.1"
+    version: "9.2.0"
   rive:
     dependency: "direct main"
     description:
@@ -2187,14 +2204,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.16.0"
-  tuple:
-    dependency: transitive
-    description:
-      name: tuple
-      sha256: a97ce2013f240b2f3807bcbaf218765b6f301c3eff91092bcfa23a039e7dd151
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2"
   typed_data:
     dependency: transitive
     description:
@@ -2412,5 +2421,5 @@ packages:
     source: hosted
     version: "3.1.3"
 sdks:
-  dart: ">=3.7.0 <4.0.0"
+  dart: ">=3.7.2 <4.0.0"
   flutter: ">=3.27.0"

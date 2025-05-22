@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/moneygram/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -14,6 +14,8 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'service.pbenum.dart';
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 export 'service.pbenum.dart';
 
@@ -42,13 +44,9 @@ class MoneygramChallengeSignRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'signedTx')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramChallengeSignRequest clone() => MoneygramChallengeSignRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramChallengeSignRequest copyWith(void Function(MoneygramChallengeSignRequest) updates) =>
       super.copyWith((message) => updates(message as MoneygramChallengeSignRequest))
           as MoneygramChallengeSignRequest;
@@ -75,7 +73,7 @@ class MoneygramChallengeSignRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasSignedTx() => $_has(0);
   @$pb.TagNumber(1)
-  void clearSignedTx() => clearField(1);
+  void clearSignedTx() => $_clearField(1);
 }
 
 class MoneygramChallengeSignResponse extends $pb.GeneratedMessage {
@@ -103,14 +101,10 @@ class MoneygramChallengeSignResponse extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'signedTx')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramChallengeSignResponse clone() =>
       MoneygramChallengeSignResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramChallengeSignResponse copyWith(void Function(MoneygramChallengeSignResponse) updates) =>
       super.copyWith((message) => updates(message as MoneygramChallengeSignResponse))
           as MoneygramChallengeSignResponse;
@@ -137,7 +131,7 @@ class MoneygramChallengeSignResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasSignedTx() => $_has(0);
   @$pb.TagNumber(1)
-  void clearSignedTx() => clearField(1);
+  void clearSignedTx() => $_clearField(1);
 }
 
 class SwapToSolanaRequest extends $pb.GeneratedMessage {
@@ -174,13 +168,9 @@ class SwapToSolanaRequest extends $pb.GeneratedMessage {
     ..aOS(3, _omitFieldNames ? '' : 'amount')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SwapToSolanaRequest clone() => SwapToSolanaRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SwapToSolanaRequest copyWith(void Function(SwapToSolanaRequest) updates) =>
       super.copyWith((message) => updates(message as SwapToSolanaRequest)) as SwapToSolanaRequest;
 
@@ -205,7 +195,7 @@ class SwapToSolanaRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasStellarSenderAddress() => $_has(0);
   @$pb.TagNumber(1)
-  void clearStellarSenderAddress() => clearField(1);
+  void clearStellarSenderAddress() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get solanaReceiverAddress => $_getSZ(1);
@@ -217,7 +207,7 @@ class SwapToSolanaRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasSolanaReceiverAddress() => $_has(1);
   @$pb.TagNumber(2)
-  void clearSolanaReceiverAddress() => clearField(2);
+  void clearSolanaReceiverAddress() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get amount => $_getSZ(2);
@@ -229,7 +219,7 @@ class SwapToSolanaRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasAmount() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAmount() => clearField(3);
+  void clearAmount() => $_clearField(3);
 }
 
 class SwapToStellarRequest extends $pb.GeneratedMessage {
@@ -271,13 +261,9 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
     ..a<$core.int>(4, _omitFieldNames ? '' : 'priorityFee', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SwapToStellarRequest clone() => SwapToStellarRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SwapToStellarRequest copyWith(void Function(SwapToStellarRequest) updates) =>
       super.copyWith((message) => updates(message as SwapToStellarRequest)) as SwapToStellarRequest;
 
@@ -302,7 +288,7 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasSolanaSenderAddress() => $_has(0);
   @$pb.TagNumber(1)
-  void clearSolanaSenderAddress() => clearField(1);
+  void clearSolanaSenderAddress() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get stellarReceiverAddress => $_getSZ(1);
@@ -314,7 +300,7 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasStellarReceiverAddress() => $_has(1);
   @$pb.TagNumber(2)
-  void clearStellarReceiverAddress() => clearField(2);
+  void clearStellarReceiverAddress() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get amount => $_getSZ(2);
@@ -326,7 +312,7 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasAmount() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAmount() => clearField(3);
+  void clearAmount() => $_clearField(3);
 
   @$pb.TagNumber(4)
   $core.int get priorityFee => $_getIZ(3);
@@ -338,7 +324,7 @@ class SwapToStellarRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasPriorityFee() => $_has(3);
   @$pb.TagNumber(4)
-  void clearPriorityFee() => clearField(4);
+  void clearPriorityFee() => $_clearField(4);
 }
 
 class MoneygramSwapResponse extends $pb.GeneratedMessage {
@@ -366,13 +352,9 @@ class MoneygramSwapResponse extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'encodedTx')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramSwapResponse clone() => MoneygramSwapResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramSwapResponse copyWith(void Function(MoneygramSwapResponse) updates) =>
       super.copyWith((message) => updates(message as MoneygramSwapResponse))
           as MoneygramSwapResponse;
@@ -398,7 +380,7 @@ class MoneygramSwapResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasEncodedTx() => $_has(0);
   @$pb.TagNumber(1)
-  void clearEncodedTx() => clearField(1);
+  void clearEncodedTx() => $_clearField(1);
 }
 
 class MoneygramFeeRequest extends $pb.GeneratedMessage {
@@ -433,13 +415,9 @@ class MoneygramFeeRequest extends $pb.GeneratedMessage {
         enumValues: RampType.values)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramFeeRequest clone() => MoneygramFeeRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramFeeRequest copyWith(void Function(MoneygramFeeRequest) updates) =>
       super.copyWith((message) => updates(message as MoneygramFeeRequest)) as MoneygramFeeRequest;
 
@@ -464,19 +442,19 @@ class MoneygramFeeRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasAmount() => $_has(0);
   @$pb.TagNumber(1)
-  void clearAmount() => clearField(1);
+  void clearAmount() => $_clearField(1);
 
   @$pb.TagNumber(2)
   RampType get type => $_getN(1);
   @$pb.TagNumber(2)
   set type(RampType v) {
-    setField(2, v);
+    $_setField(2, v);
   }
 
   @$pb.TagNumber(2)
   $core.bool hasType() => $_has(1);
   @$pb.TagNumber(2)
-  void clearType() => clearField(2);
+  void clearType() => $_clearField(2);
 }
 
 class MoneygramFeeResponse extends $pb.GeneratedMessage {
@@ -518,13 +496,9 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
     ..a<$core.int>(4, _omitFieldNames ? '' : 'priorityFee', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramFeeResponse clone() => MoneygramFeeResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MoneygramFeeResponse copyWith(void Function(MoneygramFeeResponse) updates) =>
       super.copyWith((message) => updates(message as MoneygramFeeResponse)) as MoneygramFeeResponse;
 
@@ -549,7 +523,7 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasBridgeFee() => $_has(0);
   @$pb.TagNumber(1)
-  void clearBridgeFee() => clearField(1);
+  void clearBridgeFee() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get moneygramFee => $_getSZ(1);
@@ -561,7 +535,7 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasMoneygramFee() => $_has(1);
   @$pb.TagNumber(2)
-  void clearMoneygramFee() => clearField(2);
+  void clearMoneygramFee() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get gasFeeInUsdc => $_getSZ(2);
@@ -573,7 +547,7 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasGasFeeInUsdc() => $_has(2);
   @$pb.TagNumber(3)
-  void clearGasFeeInUsdc() => clearField(3);
+  void clearGasFeeInUsdc() => $_clearField(3);
 
   @$pb.TagNumber(4)
   $core.int get priorityFee => $_getIZ(3);
@@ -585,7 +559,7 @@ class MoneygramFeeResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasPriorityFee() => $_has(3);
   @$pb.TagNumber(4)
-  void clearPriorityFee() => clearField(4);
+  void clearPriorityFee() => $_clearField(4);
 }
 
 class FundXlmRequest extends $pb.GeneratedMessage {
@@ -612,13 +586,9 @@ class FundXlmRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'accountId')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FundXlmRequest clone() => FundXlmRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FundXlmRequest copyWith(void Function(FundXlmRequest) updates) =>
       super.copyWith((message) => updates(message as FundXlmRequest)) as FundXlmRequest;
 
@@ -643,7 +613,7 @@ class FundXlmRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasAccountId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearAccountId() => clearField(1);
+  void clearAccountId() => $_clearField(1);
 }
 
 class FundXlmResponse extends $pb.GeneratedMessage {
@@ -661,13 +631,9 @@ class FundXlmResponse extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FundXlmResponse clone() => FundXlmResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FundXlmResponse copyWith(void Function(FundXlmResponse) updates) =>
       super.copyWith((message) => updates(message as FundXlmResponse)) as FundXlmResponse;
 

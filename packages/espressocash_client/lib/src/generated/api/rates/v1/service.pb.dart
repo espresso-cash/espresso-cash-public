@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/rates/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -12,6 +12,8 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class GetRatesRequest extends $pb.GeneratedMessage {
   factory GetRatesRequest() => create();
@@ -28,13 +30,9 @@ class GetRatesRequest extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetRatesRequest clone() => GetRatesRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetRatesRequest copyWith(void Function(GetRatesRequest) updates) =>
       super.copyWith((message) => updates(message as GetRatesRequest)) as GetRatesRequest;
 
@@ -74,13 +72,9 @@ class GetRatesResponse extends $pb.GeneratedMessage {
     ..a<$core.double>(1, _omitFieldNames ? '' : 'usdc', $pb.PbFieldType.OF)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetRatesResponse clone() => GetRatesResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetRatesResponse copyWith(void Function(GetRatesResponse) updates) =>
       super.copyWith((message) => updates(message as GetRatesResponse)) as GetRatesResponse;
 
@@ -105,7 +99,7 @@ class GetRatesResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasUsdc() => $_has(0);
   @$pb.TagNumber(1)
-  void clearUsdc() => clearField(1);
+  void clearUsdc() => $_clearField(1);
 }
 
 class GetFiatRatesRequest extends $pb.GeneratedMessage {
@@ -137,13 +131,9 @@ class GetFiatRatesRequest extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'target')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetFiatRatesRequest clone() => GetFiatRatesRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetFiatRatesRequest copyWith(void Function(GetFiatRatesRequest) updates) =>
       super.copyWith((message) => updates(message as GetFiatRatesRequest)) as GetFiatRatesRequest;
 
@@ -168,7 +158,7 @@ class GetFiatRatesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasBase() => $_has(0);
   @$pb.TagNumber(1)
-  void clearBase() => clearField(1);
+  void clearBase() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get target => $_getSZ(1);
@@ -180,7 +170,7 @@ class GetFiatRatesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasTarget() => $_has(1);
   @$pb.TagNumber(2)
-  void clearTarget() => clearField(2);
+  void clearTarget() => $_clearField(2);
 }
 
 class GetFiatRatesResponse extends $pb.GeneratedMessage {
@@ -207,13 +197,9 @@ class GetFiatRatesResponse extends $pb.GeneratedMessage {
     ..a<$core.double>(1, _omitFieldNames ? '' : 'rate', $pb.PbFieldType.OF)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetFiatRatesResponse clone() => GetFiatRatesResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetFiatRatesResponse copyWith(void Function(GetFiatRatesResponse) updates) =>
       super.copyWith((message) => updates(message as GetFiatRatesResponse)) as GetFiatRatesResponse;
 
@@ -238,7 +224,7 @@ class GetFiatRatesResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasRate() => $_has(0);
   @$pb.TagNumber(1)
-  void clearRate() => clearField(1);
+  void clearRate() => $_clearField(1);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');

@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/payments/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -13,6 +13,8 @@ import 'dart:core' as $core;
 
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
   factory CreateDirectPaymentRequest({
@@ -60,13 +62,9 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
     ..aOS(5, _omitFieldNames ? '' : 'mint')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateDirectPaymentRequest clone() => CreateDirectPaymentRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateDirectPaymentRequest copyWith(void Function(CreateDirectPaymentRequest) updates) =>
       super.copyWith((message) => updates(message as CreateDirectPaymentRequest))
           as CreateDirectPaymentRequest;
@@ -93,7 +91,7 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasSenderAccount() => $_has(0);
   @$pb.TagNumber(1)
-  void clearSenderAccount() => clearField(1);
+  void clearSenderAccount() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get receiverAccount => $_getSZ(1);
@@ -105,7 +103,7 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasReceiverAccount() => $_has(1);
   @$pb.TagNumber(2)
-  void clearReceiverAccount() => clearField(2);
+  void clearReceiverAccount() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get referenceAccount => $_getSZ(2);
@@ -117,7 +115,7 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasReferenceAccount() => $_has(2);
   @$pb.TagNumber(3)
-  void clearReferenceAccount() => clearField(3);
+  void clearReferenceAccount() => $_clearField(3);
 
   @$pb.TagNumber(4)
   $fixnum.Int64 get amount => $_getI64(3);
@@ -129,7 +127,7 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasAmount() => $_has(3);
   @$pb.TagNumber(4)
-  void clearAmount() => clearField(4);
+  void clearAmount() => $_clearField(4);
 
   @$pb.TagNumber(5)
   $core.String get mint => $_getSZ(4);
@@ -141,7 +139,7 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool hasMint() => $_has(4);
   @$pb.TagNumber(5)
-  void clearMint() => clearField(5);
+  void clearMint() => $_clearField(5);
 }
 
 class CreateDirectPaymentResponse extends $pb.GeneratedMessage {
@@ -181,13 +179,9 @@ class CreateDirectPaymentResponse extends $pb.GeneratedMessage {
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateDirectPaymentResponse clone() => CreateDirectPaymentResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateDirectPaymentResponse copyWith(void Function(CreateDirectPaymentResponse) updates) =>
       super.copyWith((message) => updates(message as CreateDirectPaymentResponse))
           as CreateDirectPaymentResponse;
@@ -214,7 +208,7 @@ class CreateDirectPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasFee() => $_has(0);
   @$pb.TagNumber(1)
-  void clearFee() => clearField(1);
+  void clearFee() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get transaction => $_getSZ(1);
@@ -226,7 +220,7 @@ class CreateDirectPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasTransaction() => $_has(1);
   @$pb.TagNumber(2)
-  void clearTransaction() => clearField(2);
+  void clearTransaction() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $fixnum.Int64 get slot => $_getI64(2);
@@ -238,7 +232,7 @@ class CreateDirectPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasSlot() => $_has(2);
   @$pb.TagNumber(3)
-  void clearSlot() => clearField(3);
+  void clearSlot() => $_clearField(3);
 }
 
 class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
@@ -277,13 +271,9 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
     ..aOS(3, _omitFieldNames ? '' : 'mint')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetDirectPaymentQuoteRequest clone() => GetDirectPaymentQuoteRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetDirectPaymentQuoteRequest copyWith(void Function(GetDirectPaymentQuoteRequest) updates) =>
       super.copyWith((message) => updates(message as GetDirectPaymentQuoteRequest))
           as GetDirectPaymentQuoteRequest;
@@ -310,7 +300,7 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasReceiverAccount() => $_has(0);
   @$pb.TagNumber(1)
-  void clearReceiverAccount() => clearField(1);
+  void clearReceiverAccount() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $fixnum.Int64 get amount => $_getI64(1);
@@ -322,7 +312,7 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasAmount() => $_has(1);
   @$pb.TagNumber(2)
-  void clearAmount() => clearField(2);
+  void clearAmount() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get mint => $_getSZ(2);
@@ -334,7 +324,7 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasMint() => $_has(2);
   @$pb.TagNumber(3)
-  void clearMint() => clearField(3);
+  void clearMint() => $_clearField(3);
 }
 
 class GetDirectPaymentQuoteResponse extends $pb.GeneratedMessage {
@@ -369,13 +359,9 @@ class GetDirectPaymentQuoteResponse extends $pb.GeneratedMessage {
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetDirectPaymentQuoteResponse clone() => GetDirectPaymentQuoteResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetDirectPaymentQuoteResponse copyWith(void Function(GetDirectPaymentQuoteResponse) updates) =>
       super.copyWith((message) => updates(message as GetDirectPaymentQuoteResponse))
           as GetDirectPaymentQuoteResponse;
@@ -402,7 +388,7 @@ class GetDirectPaymentQuoteResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasFee() => $_has(0);
   @$pb.TagNumber(1)
-  void clearFee() => clearField(1);
+  void clearFee() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $fixnum.Int64 get totalAmount => $_getI64(1);
@@ -414,7 +400,7 @@ class GetDirectPaymentQuoteResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasTotalAmount() => $_has(1);
   @$pb.TagNumber(2)
-  void clearTotalAmount() => clearField(2);
+  void clearTotalAmount() => $_clearField(2);
 }
 
 class CreateEscrowPaymentRequest extends $pb.GeneratedMessage {
@@ -453,13 +439,9 @@ class CreateEscrowPaymentRequest extends $pb.GeneratedMessage {
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateEscrowPaymentRequest clone() => CreateEscrowPaymentRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateEscrowPaymentRequest copyWith(void Function(CreateEscrowPaymentRequest) updates) =>
       super.copyWith((message) => updates(message as CreateEscrowPaymentRequest))
           as CreateEscrowPaymentRequest;
@@ -486,7 +468,7 @@ class CreateEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasSenderAccount() => $_has(0);
   @$pb.TagNumber(1)
-  void clearSenderAccount() => clearField(1);
+  void clearSenderAccount() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get escrowAccount => $_getSZ(1);
@@ -498,7 +480,7 @@ class CreateEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasEscrowAccount() => $_has(1);
   @$pb.TagNumber(2)
-  void clearEscrowAccount() => clearField(2);
+  void clearEscrowAccount() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $fixnum.Int64 get amount => $_getI64(2);
@@ -510,7 +492,7 @@ class CreateEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasAmount() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAmount() => clearField(3);
+  void clearAmount() => $_clearField(3);
 }
 
 class CreateEscrowPaymentResponse extends $pb.GeneratedMessage {
@@ -544,13 +526,9 @@ class CreateEscrowPaymentResponse extends $pb.GeneratedMessage {
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateEscrowPaymentResponse clone() => CreateEscrowPaymentResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateEscrowPaymentResponse copyWith(void Function(CreateEscrowPaymentResponse) updates) =>
       super.copyWith((message) => updates(message as CreateEscrowPaymentResponse))
           as CreateEscrowPaymentResponse;
@@ -577,7 +555,7 @@ class CreateEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasTransaction() => $_has(0);
   @$pb.TagNumber(1)
-  void clearTransaction() => clearField(1);
+  void clearTransaction() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $fixnum.Int64 get slot => $_getI64(1);
@@ -589,7 +567,7 @@ class CreateEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasSlot() => $_has(1);
   @$pb.TagNumber(2)
-  void clearSlot() => clearField(2);
+  void clearSlot() => $_clearField(2);
 }
 
 class ReceiveEscrowPaymentRequest extends $pb.GeneratedMessage {
@@ -622,13 +600,9 @@ class ReceiveEscrowPaymentRequest extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'escrowAccount')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ReceiveEscrowPaymentRequest clone() => ReceiveEscrowPaymentRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ReceiveEscrowPaymentRequest copyWith(void Function(ReceiveEscrowPaymentRequest) updates) =>
       super.copyWith((message) => updates(message as ReceiveEscrowPaymentRequest))
           as ReceiveEscrowPaymentRequest;
@@ -655,7 +629,7 @@ class ReceiveEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasReceiverAccount() => $_has(0);
   @$pb.TagNumber(1)
-  void clearReceiverAccount() => clearField(1);
+  void clearReceiverAccount() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get escrowAccount => $_getSZ(1);
@@ -667,7 +641,7 @@ class ReceiveEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasEscrowAccount() => $_has(1);
   @$pb.TagNumber(2)
-  void clearEscrowAccount() => clearField(2);
+  void clearEscrowAccount() => $_clearField(2);
 }
 
 class ReceiveEscrowPaymentResponse extends $pb.GeneratedMessage {
@@ -701,13 +675,9 @@ class ReceiveEscrowPaymentResponse extends $pb.GeneratedMessage {
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ReceiveEscrowPaymentResponse clone() => ReceiveEscrowPaymentResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ReceiveEscrowPaymentResponse copyWith(void Function(ReceiveEscrowPaymentResponse) updates) =>
       super.copyWith((message) => updates(message as ReceiveEscrowPaymentResponse))
           as ReceiveEscrowPaymentResponse;
@@ -734,7 +704,7 @@ class ReceiveEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasTransaction() => $_has(0);
   @$pb.TagNumber(1)
-  void clearTransaction() => clearField(1);
+  void clearTransaction() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $fixnum.Int64 get slot => $_getI64(1);
@@ -746,7 +716,7 @@ class ReceiveEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasSlot() => $_has(1);
   @$pb.TagNumber(2)
-  void clearSlot() => clearField(2);
+  void clearSlot() => $_clearField(2);
 }
 
 class CancelEscrowPaymentRequest extends $pb.GeneratedMessage {
@@ -779,13 +749,9 @@ class CancelEscrowPaymentRequest extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'escrowAccount')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CancelEscrowPaymentRequest clone() => CancelEscrowPaymentRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CancelEscrowPaymentRequest copyWith(void Function(CancelEscrowPaymentRequest) updates) =>
       super.copyWith((message) => updates(message as CancelEscrowPaymentRequest))
           as CancelEscrowPaymentRequest;
@@ -812,7 +778,7 @@ class CancelEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasSenderAccount() => $_has(0);
   @$pb.TagNumber(1)
-  void clearSenderAccount() => clearField(1);
+  void clearSenderAccount() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get escrowAccount => $_getSZ(1);
@@ -824,7 +790,7 @@ class CancelEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasEscrowAccount() => $_has(1);
   @$pb.TagNumber(2)
-  void clearEscrowAccount() => clearField(2);
+  void clearEscrowAccount() => $_clearField(2);
 }
 
 class CancelEscrowPaymentResponse extends $pb.GeneratedMessage {
@@ -858,13 +824,9 @@ class CancelEscrowPaymentResponse extends $pb.GeneratedMessage {
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CancelEscrowPaymentResponse clone() => CancelEscrowPaymentResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CancelEscrowPaymentResponse copyWith(void Function(CancelEscrowPaymentResponse) updates) =>
       super.copyWith((message) => updates(message as CancelEscrowPaymentResponse))
           as CancelEscrowPaymentResponse;
@@ -891,7 +853,7 @@ class CancelEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasTransaction() => $_has(0);
   @$pb.TagNumber(1)
-  void clearTransaction() => clearField(1);
+  void clearTransaction() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $fixnum.Int64 get slot => $_getI64(1);
@@ -903,7 +865,7 @@ class CancelEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasSlot() => $_has(1);
   @$pb.TagNumber(2)
-  void clearSlot() => clearField(2);
+  void clearSlot() => $_clearField(2);
 }
 
 class GetIncomingEscrowPaymentQuoteRequest extends $pb.GeneratedMessage {
@@ -922,14 +884,10 @@ class GetIncomingEscrowPaymentQuoteRequest extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetIncomingEscrowPaymentQuoteRequest clone() =>
       GetIncomingEscrowPaymentQuoteRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetIncomingEscrowPaymentQuoteRequest copyWith(
           void Function(GetIncomingEscrowPaymentQuoteRequest) updates) =>
       super.copyWith((message) => updates(message as GetIncomingEscrowPaymentQuoteRequest))
@@ -974,14 +932,10 @@ class GetIncomingEscrowPaymentQuoteResponse extends $pb.GeneratedMessage {
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetIncomingEscrowPaymentQuoteResponse clone() =>
       GetIncomingEscrowPaymentQuoteResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetIncomingEscrowPaymentQuoteResponse copyWith(
           void Function(GetIncomingEscrowPaymentQuoteResponse) updates) =>
       super.copyWith((message) => updates(message as GetIncomingEscrowPaymentQuoteResponse))
@@ -1010,7 +964,7 @@ class GetIncomingEscrowPaymentQuoteResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasFee() => $_has(0);
   @$pb.TagNumber(1)
-  void clearFee() => clearField(1);
+  void clearFee() => $_clearField(1);
 }
 
 class GetOutgoingEscrowPaymentQuoteRequest extends $pb.GeneratedMessage {
@@ -1029,14 +983,10 @@ class GetOutgoingEscrowPaymentQuoteRequest extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetOutgoingEscrowPaymentQuoteRequest clone() =>
       GetOutgoingEscrowPaymentQuoteRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetOutgoingEscrowPaymentQuoteRequest copyWith(
           void Function(GetOutgoingEscrowPaymentQuoteRequest) updates) =>
       super.copyWith((message) => updates(message as GetOutgoingEscrowPaymentQuoteRequest))
@@ -1081,14 +1031,10 @@ class GetOutgoingEscrowPaymentQuoteResponse extends $pb.GeneratedMessage {
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetOutgoingEscrowPaymentQuoteResponse clone() =>
       GetOutgoingEscrowPaymentQuoteResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetOutgoingEscrowPaymentQuoteResponse copyWith(
           void Function(GetOutgoingEscrowPaymentQuoteResponse) updates) =>
       super.copyWith((message) => updates(message as GetOutgoingEscrowPaymentQuoteResponse))
@@ -1117,7 +1063,7 @@ class GetOutgoingEscrowPaymentQuoteResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasFee() => $_has(0);
   @$pb.TagNumber(1)
-  void clearFee() => clearField(1);
+  void clearFee() => $_clearField(1);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');

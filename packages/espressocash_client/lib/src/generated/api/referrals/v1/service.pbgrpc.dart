@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/referrals/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -21,6 +21,14 @@ export 'service.pb.dart';
 
 @$pb.GrpcServiceName('espressocash.api.referrals.v1.ReferralService')
 class ReferralServiceClient extends $grpc.Client {
+  /// The hostname for this service.
+  static const $core.String defaultHost = '';
+
+  /// OAuth scopes needed for the client.
+  static const $core.List<$core.String> oauthScopes = [
+    '',
+  ];
+
   static final _$addReferral = $grpc.ClientMethod<$4.AddReferralRequest, $4.AddReferralResponse>(
       '/espressocash.api.referrals.v1.ReferralService/AddReferral',
       ($4.AddReferralRequest value) => value.writeToBuffer(),
@@ -34,9 +42,7 @@ class ReferralServiceClient extends $grpc.Client {
       ($4.VerifyRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $4.VerifyResponse.fromBuffer(value));
 
-  ReferralServiceClient($grpc.ClientChannel channel,
-      {$grpc.CallOptions? options, $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options, interceptors: interceptors);
+  ReferralServiceClient(super.channel, {super.options, super.interceptors});
 
   $grpc.ResponseFuture<$4.AddReferralResponse> addReferral($4.AddReferralRequest request,
       {$grpc.CallOptions? options}) {
@@ -83,18 +89,18 @@ abstract class ReferralServiceBase extends $grpc.Service {
   }
 
   $async.Future<$4.AddReferralResponse> addReferral_Pre(
-      $grpc.ServiceCall call, $async.Future<$4.AddReferralRequest> request) async {
-    return addReferral(call, await request);
+      $grpc.ServiceCall $call, $async.Future<$4.AddReferralRequest> $request) async {
+    return addReferral($call, await $request);
   }
 
   $async.Future<$4.GetStatsResponse> getStats_Pre(
-      $grpc.ServiceCall call, $async.Future<$4.GetStatsRequest> request) async {
-    return getStats(call, await request);
+      $grpc.ServiceCall $call, $async.Future<$4.GetStatsRequest> $request) async {
+    return getStats($call, await $request);
   }
 
   $async.Future<$4.VerifyResponse> verify_Pre(
-      $grpc.ServiceCall call, $async.Future<$4.VerifyRequest> request) async {
-    return verify(call, await request);
+      $grpc.ServiceCall $call, $async.Future<$4.VerifyRequest> $request) async {
+    return verify($call, await $request);
   }
 
   $async.Future<$4.AddReferralResponse> addReferral(
