@@ -11,6 +11,7 @@ void main() {
   setUp(() async {
     walletKeyPair = await Ed25519HDKeyPair.random();
     client = await createClient(keyPair: walletKeyPair);
+    await client.login();
   });
 
   tearDown(() async {
@@ -21,7 +22,7 @@ void main() {
     final receiverKeyPair = await Ed25519HDKeyPair.random();
     final request = DirectPaymentQuoteRequestDto(
       receiverAccount: receiverKeyPair.address,
-      amount: 100000,
+      amount: 100_000,
       mintAddress: 'So11111111111111111111111111111111111111112',
     );
 

@@ -52,7 +52,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                     backgroundColor: CpColors.lightSandColor,
                     body: Stack(
                       children: [
-                        Align(
+                        Center(
                           child: Assets.images.dollarBg.image(
                             fit: BoxFit.fitHeight,
                             height: double.infinity,

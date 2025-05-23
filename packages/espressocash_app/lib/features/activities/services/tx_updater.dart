@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-type-casts
+
 import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';

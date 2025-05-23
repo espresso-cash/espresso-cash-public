@@ -33,7 +33,8 @@ abstract class RpcClient {
   ///
   /// [encoding]
   ///
-  /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
+  /// [dataSlice] Limit the returned account data using the provided offset: `usize` and length:
+  /// `usize` fields; only available for "base58""base64" or "base64+zstd" encodings.
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
   Future<AccountResult> getAccountInfo(
@@ -295,7 +296,8 @@ abstract class RpcClient {
   ///
   /// [encoding]
   ///
-  /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
+  /// [dataSlice] Limit the returned account data using the provided offset: `usize` and length:
+  /// `usize` fields; only available for "base58", "base64" or "base64+zstd" encodings.
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   Future<MultipleAccountsResult> getMultipleAccounts(
@@ -317,7 +319,7 @@ abstract class RpcClient {
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [dataSlice] Limit the returned account data using the provided offset:
-  /// <usize> and length: <usize> fields; only available for "base58""base64" or
+  /// `usize` and length: `usize` fields; only available for "base58", "base64" or
   /// "base64+zstd" encodings.
   ///
   /// Filter results using various [filters]; account must meet all filter
@@ -451,7 +453,8 @@ abstract class RpcClient {
   ///
   /// [encoding]
   ///
-  /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
+  /// [dataSlice] Limit the returned account data using the provided offset: `usize` and length:
+  /// `usize` fields; only available for "base58", "base64" or "base64+zstd" encodings.
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   Future<ProgramAccountsResult> getTokenAccountsByDelegate(
@@ -476,7 +479,8 @@ abstract class RpcClient {
   ///
   /// [encoding]
   ///
-  /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
+  /// [dataSlice] Limit the returned account data using the provided offset: `usize` and length:
+  /// `usize` fields; only available for "base58", "base64" or "base64+zstd" encodings.
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
   Future<ProgramAccountsResult> getTokenAccountsByOwner(

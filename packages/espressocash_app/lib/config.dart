@@ -1,13 +1,9 @@
-import 'package:espressocash_api/espressocash_api.dart';
-
 // If 'PROD' is provided with the value "true" to the dart
 // defines, then we mostly use the default values.
 
 const isProd = bool.fromEnvironment('PROD');
 
 const currentChainId = isProd ? _mainNetChainId : _devNetChainId;
-
-const apiCluster = isProd ? Cluster.mainnet : Cluster.devnet;
 
 // Environment dependent constants
 
@@ -40,7 +36,7 @@ const privacyUrl = 'https://espressocash.com/docs/legal/privacy';
 /// since it's not expected to grow.
 ///
 /// It's pre-calculated for `TokenProgram.neededAccountSpace = 165`.
-const int tokenProgramRent = 2039280;
+const int tokenProgramRent = 2_039_280;
 
 const Duration waitForSignatureDefaultTimeout = Duration(seconds: 90);
 const Duration pingDefaultInterval = Duration(seconds: 1);

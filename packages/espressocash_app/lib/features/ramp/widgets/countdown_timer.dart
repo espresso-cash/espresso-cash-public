@@ -75,9 +75,8 @@ class _CountdownTimerState extends State<CountdownTimer> {
     child: Stack(
       alignment: Alignment.center,
       children: <Widget>[
-        SizedBox(
-          width: 50,
-          height: 50,
+        SizedBox.square(
+          dimension: 50,
           child: CircularProgressIndicator(
             value: 1 - _percent,
             backgroundColor: CpColors.yellowColor,

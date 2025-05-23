@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/users/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -12,6 +12,8 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class LoginRequest extends $pb.GeneratedMessage {
   factory LoginRequest({
@@ -47,13 +49,9 @@ class LoginRequest extends $pb.GeneratedMessage {
     ..aOS(3, _omitFieldNames ? '' : 'proofMessage')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   LoginRequest clone() => LoginRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   LoginRequest copyWith(void Function(LoginRequest) updates) =>
       super.copyWith((message) => updates(message as LoginRequest)) as LoginRequest;
 
@@ -78,7 +76,7 @@ class LoginRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasWalletAddress() => $_has(0);
   @$pb.TagNumber(1)
-  void clearWalletAddress() => clearField(1);
+  void clearWalletAddress() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get proofSignature => $_getSZ(1);
@@ -90,7 +88,7 @@ class LoginRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasProofSignature() => $_has(1);
   @$pb.TagNumber(2)
-  void clearProofSignature() => clearField(2);
+  void clearProofSignature() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get proofMessage => $_getSZ(2);
@@ -102,7 +100,7 @@ class LoginRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasProofMessage() => $_has(2);
   @$pb.TagNumber(3)
-  void clearProofMessage() => clearField(3);
+  void clearProofMessage() => $_clearField(3);
 }
 
 class LoginResponse extends $pb.GeneratedMessage {
@@ -129,13 +127,9 @@ class LoginResponse extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'token')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   LoginResponse clone() => LoginResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   LoginResponse copyWith(void Function(LoginResponse) updates) =>
       super.copyWith((message) => updates(message as LoginResponse)) as LoginResponse;
 
@@ -160,7 +154,7 @@ class LoginResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasToken() => $_has(0);
   @$pb.TagNumber(1)
-  void clearToken() => clearField(1);
+  void clearToken() => $_clearField(1);
 }
 
 class GetWalletProofMessageRequest extends $pb.GeneratedMessage {
@@ -188,13 +182,9 @@ class GetWalletProofMessageRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'walletAddress')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetWalletProofMessageRequest clone() => GetWalletProofMessageRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetWalletProofMessageRequest copyWith(void Function(GetWalletProofMessageRequest) updates) =>
       super.copyWith((message) => updates(message as GetWalletProofMessageRequest))
           as GetWalletProofMessageRequest;
@@ -221,7 +211,7 @@ class GetWalletProofMessageRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasWalletAddress() => $_has(0);
   @$pb.TagNumber(1)
-  void clearWalletAddress() => clearField(1);
+  void clearWalletAddress() => $_clearField(1);
 }
 
 class GetWalletProofMessageResponse extends $pb.GeneratedMessage {
@@ -249,13 +239,9 @@ class GetWalletProofMessageResponse extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'message')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetWalletProofMessageResponse clone() => GetWalletProofMessageResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetWalletProofMessageResponse copyWith(void Function(GetWalletProofMessageResponse) updates) =>
       super.copyWith((message) => updates(message as GetWalletProofMessageResponse))
           as GetWalletProofMessageResponse;
@@ -282,7 +268,7 @@ class GetWalletProofMessageResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasMessage() => $_has(0);
   @$pb.TagNumber(1)
-  void clearMessage() => clearField(1);
+  void clearMessage() => $_clearField(1);
 }
 
 class UpdateCountryRequest extends $pb.GeneratedMessage {
@@ -309,13 +295,9 @@ class UpdateCountryRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'countryCode')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   UpdateCountryRequest clone() => UpdateCountryRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   UpdateCountryRequest copyWith(void Function(UpdateCountryRequest) updates) =>
       super.copyWith((message) => updates(message as UpdateCountryRequest)) as UpdateCountryRequest;
 
@@ -340,7 +322,7 @@ class UpdateCountryRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasCountryCode() => $_has(0);
   @$pb.TagNumber(1)
-  void clearCountryCode() => clearField(1);
+  void clearCountryCode() => $_clearField(1);
 }
 
 class UpdateCountryResponse extends $pb.GeneratedMessage {
@@ -359,13 +341,9 @@ class UpdateCountryResponse extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   UpdateCountryResponse clone() => UpdateCountryResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   UpdateCountryResponse copyWith(void Function(UpdateCountryResponse) updates) =>
       super.copyWith((message) => updates(message as UpdateCountryResponse))
           as UpdateCountryResponse;

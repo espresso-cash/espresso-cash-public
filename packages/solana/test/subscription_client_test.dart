@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-future-ignore
+
 import 'dart:async';
 
 import 'package:solana/dto.dart';

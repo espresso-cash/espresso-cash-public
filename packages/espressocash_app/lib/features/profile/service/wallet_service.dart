@@ -1,4 +1,4 @@
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,8 +36,7 @@ class WalletService {
 
   Future<void> _postCountry(String? countryCode) async {
     if (countryCode != null) {
-      final request = WalletCountryRequestDto(countryCode: countryCode);
-      await _ecClient.updateUserWalletCountry(request);
+      await _ecClient.updateUserWalletCountry(countryCode);
     }
     await _sharedPreferences.setBool(_countrySyncedKey, true);
   }

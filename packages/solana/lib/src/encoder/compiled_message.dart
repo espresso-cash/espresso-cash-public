@@ -1,3 +1,5 @@
+// ignore_for_file: use-existing-variable
+
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/base58.dart';
@@ -14,14 +16,10 @@ part 'compiled_message.freezed.dart';
 
 @freezed
 class CompiledMessage with _$CompiledMessage {
-  factory CompiledMessage(ByteArray data) {
-    switch (TransactionVersion.fromByteArray(data)) {
-      case TransactionVersion.legacy:
-        return _decompileLegacy(data);
-      case TransactionVersion.v0:
-        return _decodeV0(data);
-    }
-  }
+  factory CompiledMessage(ByteArray data) => switch (TransactionVersion.fromByteArray(data)) {
+    TransactionVersion.legacy => _decompileLegacy(data),
+    TransactionVersion.v0 => _decodeV0(data),
+  };
 
   const factory CompiledMessage.legacy({
     required MessageHeader header,

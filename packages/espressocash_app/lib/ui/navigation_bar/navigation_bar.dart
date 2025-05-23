@@ -7,6 +7,7 @@ class CPNavigationBar extends StatelessWidget {
   const CPNavigationBar({super.key, required this.items});
 
   final List<CpNavigationButton> items;
+
   @override
   Widget build(BuildContext context) => Container(
     // prevents from clicking below the navigation bar

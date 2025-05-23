@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_positional_boolean_parameters
+// ignore_for_file: avoid_positional_boolean_parameters, more readable
 
 import 'package:pigeon/pigeon.dart';
 
@@ -294,12 +294,19 @@ class AuthIssuerConfigDto {
 @FlutterApi()
 abstract class ApiFlutter {
   const ApiFlutter();
+
   void onScenarioReady(int id);
+
   void onScenarioServingClients(int id);
+
   void onScenarioServingComplete(int id);
+
   void onScenarioComplete(int id);
+
   void onScenarioError(int id);
+
   void onScenarioTeardownComplete(int id);
+
   void onLowPowerAndNoConnection(int id);
 
   @async
@@ -326,7 +333,9 @@ abstract class ApiFlutter {
 @HostApi()
 abstract class ApiHost {
   const ApiHost();
+
   void start(int id);
+
   void close(int id);
 
   @async

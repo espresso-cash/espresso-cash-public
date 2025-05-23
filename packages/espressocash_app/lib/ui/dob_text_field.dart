@@ -80,7 +80,7 @@ class _DateInputFormatter extends TextInputFormatter {
 
     if ((currentLength == 3 && previousLength == 4) ||
         (currentLength == 6 && previousLength == 7)) {
-      return _updateText(currentText.substring(0, currentText.length - 1));
+      return _updateText(currentText.substring(0, currentLength - 1));
     }
 
     if (currentLength == 3 && previousLength == 2) {

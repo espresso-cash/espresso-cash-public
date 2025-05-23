@@ -83,6 +83,7 @@ extension BuildContextExt on BuildContext {
     if (submittedAmount == null) return;
 
     final equivalentAmount =
+        // ignore: avoid-type-casts, controlled type
         await runWithLoader<Amount>(
               this,
               () => sl<BrijFeesService>()
@@ -101,6 +102,7 @@ extension BuildContextExt on BuildContext {
       this,
       () => sl<BrijOnRampOrderService>()
           .create(
+            // ignore: avoid-type-casts, controlled type
             receiveAmount: submittedAmount as CryptoAmount,
             submittedAmount: equivalentAmount,
             partner: partner,
@@ -170,6 +172,7 @@ extension BuildContextExt on BuildContext {
     if (submittedAmount is! CryptoAmount) return;
 
     final equivalentAmount =
+        // ignore: avoid-type-casts, controlled type
         await runWithLoader<Amount>(
               this,
               () => sl<BrijFeesService>()
@@ -206,7 +209,7 @@ extension BuildContextExt on BuildContext {
   Future<bool> _validateKyc(ProfileData profile) async {
     final kycService = sl<KycSharingService>();
 
-    await runWithLoader(this, () async => kycService.initialized);
+    await runWithLoader(this, () => kycService.initialized);
 
     final user = kycService.value;
 
@@ -233,13 +236,14 @@ extension BuildContextExt on BuildContext {
   Future<double> _fetchRate(RampType type, RampPartner partner, String currency) =>
       runWithLoader<double>(
         this,
-        () async => sl<BrijFeesService>().fetchRate(
+        () => sl<BrijFeesService>().fetchRate(
           partnerPK: partner.partnerPK ?? '',
           walletPK: walletAuthPk,
           fiatCurrency: currency,
           type: type,
         ),
       );
+
   Future<Either<Exception, Amount>> _calculateReceiveAmount({
     required Amount amount,
     required RampType type,

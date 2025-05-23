@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -10,7 +10,6 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../../config.dart';
 import '../../../../../data/db/db.dart';
 import '../../../../../utils/errors.dart';
 import '../../../../accounts/auth_scope.dart';
@@ -73,6 +72,7 @@ class BrijOffRampOrderService implements Disposable {
         case RampPartner.guardarian:
         case RampPartner.rampNetwork:
         case RampPartner.moneygram:
+          // ignore: avoid-unnecessary-continue, needed here
           continue;
         case RampPartner.brij:
           _subscribe(order.id);
@@ -164,61 +164,59 @@ class BrijOffRampOrderService implements Disposable {
     required RampPartner partner,
     required String country,
   }) => tryEitherAsync((_) async {
-    {
-      final partnerAuthPk = partner.partnerPK ?? '';
-      await _kycRepository.grantPartnerAccess(partnerAuthPk);
+    final partnerAuthPk = partner.partnerPK ?? '';
+    await _kycRepository.grantPartnerAccess(partnerAuthPk);
 
-      final user = await _kycRepository.fetchUser();
+    final user = await _kycRepository.fetchUser();
 
-      final bank = user?.getBankByCountry(country);
+    final bank = user?.getBankByCountry(country);
 
-      if (bank == null) {
-        throw Exception('Invalid user data: User not found or missing bank information');
-      }
-
-      final orderId = await _kycRepository.createOffRampOrder(
-        cryptoAmount: submittedAmount.decimal.toDouble(),
-        cryptoCurrency: submittedAmount.cryptoCurrency.token.symbol,
-        fiatAmount: receiveAmount.decimal.toDouble(),
-        fiatCurrency: receiveAmount.currency.symbol,
-        partnerPK: partnerAuthPk,
-        cryptoWalletAddress: _account.publicKey.toString(),
-        bankAccount: bank.accountNumber,
-        bankName: bank.bankCode,
-        walletPK: walletAuthPk,
-      );
-
-      final order = OffRampOrderRow(
-        id: const Uuid().v4(),
-        partnerOrderId: orderId,
-        amount: submittedAmount.value,
-        token: Token.usdc.address,
-        receiveAmount: receiveAmount.value,
-        fiatSymbol: receiveAmount.fiatCurrency.symbol,
-        created: DateTime.now(),
-        humanStatus: '',
-        machineStatus: '',
-        partner: partner,
-        status: OffRampOrderStatus.waitingPartnerReview,
-        transaction: '',
-        depositAddress: '',
-        slot: BigInt.zero,
-        bridgeAmount: null,
-      );
-
-      await _db.into(_db.offRampOrderRows).insertOnConflictUpdate(order);
-      _subscribe(order.id);
-
-      _analytics.rampInitiated(
-        partnerName: partner.name,
-        rampType: RampType.offRamp.name,
-        amount: submittedAmount.value.toString(),
-        countryCode: country,
-        id: order.id,
-      );
-
-      return order.id;
+    if (bank == null) {
+      throw Exception('Invalid user data: User not found or missing bank information');
     }
+
+    final orderId = await _kycRepository.createOffRampOrder(
+      cryptoAmount: submittedAmount.decimal.toDouble(),
+      cryptoCurrency: submittedAmount.cryptoCurrency.token.symbol,
+      fiatAmount: receiveAmount.decimal.toDouble(),
+      fiatCurrency: receiveAmount.currency.symbol,
+      partnerPK: partnerAuthPk,
+      cryptoWalletAddress: _account.publicKey.toString(),
+      bankAccount: bank.accountNumber,
+      bankName: bank.bankCode,
+      walletPK: walletAuthPk,
+    );
+
+    final order = OffRampOrderRow(
+      id: const Uuid().v4(),
+      partnerOrderId: orderId,
+      amount: submittedAmount.value,
+      token: Token.usdc.address,
+      receiveAmount: receiveAmount.value,
+      fiatSymbol: receiveAmount.fiatCurrency.symbol,
+      created: DateTime.now(),
+      humanStatus: '',
+      machineStatus: '',
+      partner: partner,
+      status: OffRampOrderStatus.waitingPartnerReview,
+      transaction: '',
+      depositAddress: '',
+      slot: BigInt.zero,
+      bridgeAmount: null,
+    );
+
+    await _db.into(_db.offRampOrderRows).insertOnConflictUpdate(order);
+    _subscribe(order.id);
+
+    _analytics.rampInitiated(
+      partnerName: partner.name,
+      rampType: RampType.offRamp.name,
+      amount: submittedAmount.value.toString(),
+      countryCode: country,
+      id: order.id,
+    );
+
+    return order.id;
   });
 
   void _waitingPartnerReviewWatcher(OffRampOrderRow order) {
@@ -300,7 +298,7 @@ class BrijOffRampOrderService implements Disposable {
       receiverAccount: receiver.toBase58(),
       amount: amount.value,
       referenceAccount: null,
-      cluster: apiCluster,
+      mintAddress: Currency.usdc.token.address,
     );
     final response = await _ecClient.createDirectPayment(dto);
 
@@ -340,21 +338,20 @@ class BrijOffRampOrderService implements Disposable {
 
     final confirmed = await _sender.wait(tx.$1, minContextSlot: tx.$2, txType: 'OffRamp');
 
-    switch (confirmed) {
-      case TxWaitSuccess():
-        return const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.waitingForPartner));
-      case TxWaitFailure(:final reason):
-        return OffRampOrderRowsCompanion(
-          status:
-              reason == TxFailureReason.insufficientFunds
-                  ? const Value(OffRampOrderStatus.insufficientFunds)
-                  : const Value(OffRampOrderStatus.depositTxConfirmError),
-          transaction: const Value(''),
-          slot: Value(BigInt.zero),
-        );
-      case TxWaitNetworkError():
-        return _depositError;
-    }
+    return switch (confirmed) {
+      TxWaitSuccess() => const OffRampOrderRowsCompanion(
+        status: Value(OffRampOrderStatus.waitingForPartner),
+      ),
+      TxWaitFailure(:final reason) => OffRampOrderRowsCompanion(
+        status:
+            reason == TxFailureReason.insufficientFunds
+                ? const Value(OffRampOrderStatus.insufficientFunds)
+                : const Value(OffRampOrderStatus.depositTxConfirmError),
+        transaction: const Value(''),
+        slot: Value(BigInt.zero),
+      ),
+      TxWaitNetworkError() => _depositError,
+    };
   }
 
   void _removeWatcher(String id) {

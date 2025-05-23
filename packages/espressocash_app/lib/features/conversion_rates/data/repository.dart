@@ -4,7 +4,7 @@ import 'package:async/async.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart' hide map;
 import 'package:drift/drift.dart';
-import 'package:espressocash_api/espressocash_api.dart' hide JupiterPriceClient;
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -26,8 +26,10 @@ class ConversionRatesRepository {
        _ecClient = ecClient,
        _jupiterClient = jupiterClient;
 
+  // ignore: dispose-class-fields, false positive
   final MyDatabase _db;
   final JupiterPriceClient _jupiterClient;
+  // ignore: dispose-class-fields, false positive
   final EspressoCashClient _ecClient;
   final AsyncCache<void> _cache = AsyncCache(const Duration(minutes: 1));
 
@@ -65,20 +67,20 @@ class ConversionRatesRepository {
     final addresses = await Stream.fromIterable(tokens.addresses).bufferCount(_maxIds).toList();
 
     final results = await Future.wait(
-      addresses.map((ids) async {
+      addresses.map((ids) {
         final request = TokenRateRequestDto(ids: ids.lock);
 
         return _jupiterClient.getPrice(request);
       }),
     );
 
-    final Map<String, TokenPricesMapDto> conversionRates = {};
+    final Map<String, TokenPricesMapDto?> conversionRates = {};
     for (final element in results) {
       conversionRates.addAll(element.data);
     }
 
     if (conversionRates.containsKey(Token.wrappedSol.address)) {
-      conversionRates[Token.sol.address] = conversionRates[Token.wrappedSol.address]!;
+      conversionRates[Token.sol.address] = conversionRates[Token.wrappedSol.address];
     }
 
     final usdcRateQuery = _db.select(_db.conversionRatesRows)..where(
@@ -94,7 +96,7 @@ class ConversionRatesRepository {
       for (final entry in conversionRates.entries) {
         final matchingTokens = tokens.where((t) => t.address == entry.key);
 
-        final rate = Decimal.parse(entry.value.price ?? '0') * usdcRate;
+        final rate = Decimal.parse(entry.value?.price ?? '0') * usdcRate;
 
         for (final token in matchingTokens) {
           await _db

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-commented-out-code
+
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';

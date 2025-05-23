@@ -1,4 +1,4 @@
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart';
 import '../../accounts/auth_scope.dart';
@@ -9,10 +9,10 @@ import '../models/stellar_wallet.dart';
 class StellarClient {
   const StellarClient(this._ecClient, this._stellarWallet, this._sdk, this._sorobanClient);
 
+  final EspressoCashClient _ecClient;
+  final StellarWallet _stellarWallet;
   final StellarSDK _sdk;
   final SorobanServer _sorobanClient;
-  final StellarWallet _stellarWallet;
-  final EspressoCashClient _ecClient;
 
   Future<String> fetchToken() {
     final wallet = _stellarWallet.keyPair;
@@ -27,7 +27,7 @@ class StellarClient {
       [wallet],
       clientDomain: clientDomain,
       clientDomainSigningDelegate:
-          (transactionXdr) async => _ecClient
+          (transactionXdr) => _ecClient
               .signChallenge(MoneygramChallengeSignRequestDto(signedTx: transactionXdr))
               .then((e) => e.signedTx),
     );
@@ -116,6 +116,7 @@ class StellarClient {
     final wallet = _stellarWallet.keyPair;
 
     final transaction =
+        // ignore: avoid-type-casts, controlled type
         AbstractTransaction.fromEnvelopeXdrString(xdr) as Transaction..sign(wallet, stellarNetwork);
 
     final response = await _sorobanClient.sendTransaction(transaction);

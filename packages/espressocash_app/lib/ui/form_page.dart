@@ -38,7 +38,7 @@ class FormPage extends StatelessWidget {
         extendBodyBehindAppBar: true,
         body: Stack(
           children: [
-            Align(child: backgroundImage?.image(fit: BoxFit.fitHeight, height: double.infinity)),
+            Center(child: backgroundImage?.image(fit: BoxFit.fitHeight, height: double.infinity)),
             LayoutBuilder(
               builder:
                   (context, constraints) => SingleChildScrollView(

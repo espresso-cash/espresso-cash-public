@@ -62,7 +62,7 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
     title: context.l10n.phoneVerification.toUpperCase(),
     children: [
       Text(
-        context.l10n.checkSmsText(sl<KycSharingService>().value?.getPhone ?? ''),
+        context.l10n.checkSmsText(sl<KycSharingService>().value?.phoneValue ?? ''),
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 16, height: 21 / 16, letterSpacing: .19),
       ),

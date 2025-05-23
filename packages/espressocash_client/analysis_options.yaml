@@ -9,3 +9,7 @@ analyzer:
     - "**/*.freezed.dart"
     - "lib/src/generated/**"
 
+
+dart_code_metrics:
+  rules:
+    prefer-boolean-prefixes: false

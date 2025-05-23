@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/dln/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -42,10 +42,11 @@ class DlnOrderStatus extends $pb.ProtobufEnum {
     DLN_ORDER_STATUS_CLAIMED_ORDER_CANCEL,
   ];
 
-  static final $core.Map<$core.int, DlnOrderStatus> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static DlnOrderStatus? valueOf($core.int value) => _byValue[value];
+  static final $core.List<DlnOrderStatus?> _byValue = $pb.ProtobufEnum.$_initByValueList(values, 7);
+  static DlnOrderStatus? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const DlnOrderStatus._($core.int v, $core.String n) : super(v, n);
+  const DlnOrderStatus._(super.v, super.n);
 }
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

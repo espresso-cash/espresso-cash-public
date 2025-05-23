@@ -75,14 +75,12 @@ class CompiledKeys {
       numReadonlyUnsignedAccounts: readonlyNonSigners.length,
     );
 
-    {
-      assert(writableSigners.isNotEmpty, 'Expected at least one writable signer key');
-      final payerAddress = writableSigners.first.key;
-      assert(
-        payerAddress == payer.toBase58(),
-        'Expected first writable signer key to be the fee payer',
-      );
-    }
+    assert(writableSigners.isNotEmpty, 'Expected at least one writable signer key');
+    final payerAddress = writableSigners.first.key;
+    assert(
+      payerAddress == payer.toBase58(),
+      'Expected first writable signer key to be the fee payer',
+    );
 
     final staticAccountKeys = [
       ...writableSigners.map((entry) => Ed25519HDPublicKey.fromBase58(entry.key)),

@@ -12,7 +12,8 @@ void main() {
   setUp(() async {
     senderKeyPair = await Ed25519HDKeyPair.random();
     escrowKeyPair = await Ed25519HDKeyPair.random();
-    client = await createClient(keyPair: senderKeyPair);
+    client = await createClient(keyPair: senderKeyPair, local: false);
+    await client.login();
   });
 
   tearDown(() async {
@@ -23,7 +24,7 @@ void main() {
     final request = CreatePaymentRequestDto(
       senderAccount: senderKeyPair.address,
       escrowAccount: escrowKeyPair.address,
-      amount: 100000,
+      amount: 100_000,
     );
 
     final response = await client.createPaymentEc(request);

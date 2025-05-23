@@ -1,10 +1,11 @@
-import 'dart:convert';
+import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 import 'auth_scope.dart';
+import 'data/account_repository.dart';
 import 'models/account.dart';
 import 'models/ec_wallet.dart';
 import 'services/account_service.dart';
@@ -20,14 +21,22 @@ abstract class AuthModule {
   @Singleton(scope: authScope)
   ECWallet wallet(MyAccount account) => account.wallet;
 
-  @LazySingleton(scope: authScope)
-  EspressoCashClient ecClient(ECWallet wallet) => EspressoCashClient(
-    sign:
-        (data) async => (
-          signature: await wallet
-              .sign([Uint8List.fromList(utf8.encode(data))]) //
-              .then((value) => value.first.toBase58()),
-          publicKey: wallet.publicKey.toBase58(),
-        ),
-  );
+  @Singleton(scope: authScope, dispose: disposeEcClient)
+  @preResolve
+  Future<EspressoCashClient> ecClient(ECWallet wallet, AccountRepository repo) async {
+    final token = await repo.loadAuthToken();
+
+    return EspressoCashClient(
+      walletAddress: wallet.publicKey.toBase58(),
+      sign: (data) async {
+        final signature = await wallet.sign([Uint8List.fromList(data.toList())]);
+
+        return signature.first.toBase58();
+      },
+      onTokenUpdated: (t) => repo.saveAuthToken(t),
+      token: token,
+    );
+  }
 }
+
+Future<void> disposeEcClient(EspressoCashClient client) => client.dispose();

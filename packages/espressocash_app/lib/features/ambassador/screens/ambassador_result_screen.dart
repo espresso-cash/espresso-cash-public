@@ -76,7 +76,7 @@ class _SuccessContent extends StatelessWidget {
       IntrinsicHeight(
         child: Stack(
           children: [
-            Align(child: Assets.icons.confetti.svg(width: 315)),
+            Center(child: Assets.icons.confetti.svg(width: 315)),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(

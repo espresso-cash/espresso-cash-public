@@ -1,4 +1,4 @@
-// ignore_for_file: cast_nullable_to_non_nullable, avoid-unnecessary-late
+// ignore_for_file: cast_nullable_to_non_nullable, avoid-unnecessary-late, avoid-type-casts
 
 import 'dart:async';
 
@@ -13,11 +13,84 @@ import 'config.dart';
 const int _transferredAmount = lamportsPerSol;
 
 void main() {
+  group('Instance equality', () {
+    test('Account', () {
+      final accounts = <(Account, Account)>[
+        (
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': 0,
+          }),
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': '0',
+          }),
+        ),
+        // Web max precise.
+        (
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': 0x20000000000000,
+          }),
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': '0x20000000000000',
+          }),
+        ),
+        // 64-bit native.
+        (
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': 0x7FFFFFFFFFFFFFFF,
+          }),
+          Account.fromJson({
+            'lamports': 0,
+            'owner': SystemProgram.programId,
+            'executable': false,
+            'rentEpoch': '0x7FFFFFFFFFFFFFFF',
+          }),
+        ),
+      ];
+      for (final pair in accounts) {
+        expect(pair.$1 == pair.$2, true);
+      }
+    });
+
+    test('Context', () {
+      final contexts = <(Context, Context)>[
+        (Context.fromJson({'slot': 0}), Context.fromJson({'slot': '0'})),
+        // Web max precise.
+        (
+          Context.fromJson({'slot': 0x20000000000000}),
+          Context.fromJson({'slot': '0x20000000000000'}),
+        ),
+        // 64-bit native.
+        (
+          Context.fromJson({'slot': 0x7FFFFFFFFFFFFFFF}),
+          Context.fromJson({'slot': '0x7FFFFFFFFFFFFFFF'}),
+        ),
+      ];
+      for (final pair in contexts) {
+        expect(pair.$1 == pair.$2, true);
+      }
+    });
+  });
+
   group('Timeout exceptions', () {
     test('throws exception with method name on timeout', () {
       final client = RpcClient(devnetRpcUrl, timeout: Duration.zero);
 
-      expect(
+      expectLater(
         client.getTransactionCount(),
         throwsA(
           isA<RpcTimeoutException>().having(
@@ -48,7 +121,7 @@ void main() {
         ),
       ];
 
-      expect(
+      expectLater(
         client.getMultipleTransactions(transactions),
         throwsA(
           isA<RpcTimeoutException>().having(
@@ -71,7 +144,7 @@ void main() {
     int currentBalance = 0;
 
     setUpAll(() async {
-      destination = await Ed25519HDKeyPair.fromMnemonic(generateMnemonic()); // generateMnemonic());
+      destination = await Ed25519HDKeyPair.fromMnemonic(generateMnemonic());
       source = await Ed25519HDKeyPair.fromMnemonic(generateMnemonic(), account: 1);
 
       currentBalance = await _createTokenAccount(client, source);
@@ -491,8 +564,7 @@ void main() {
         encoding: Encoding.base58,
       );
 
-      // It throws because some accounts are too large for base58
-      expect(future, throwsA(isA<JsonRpcException>()));
+      await expectLater(future, throwsA(isA<JsonRpcException>()));
     });
 
     test('Call to getBlockProduction() succeeds', () async {
@@ -722,7 +794,7 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      expect(future, throwsA(isA<JsonRpcException>()));
+      await expectLater(future, throwsA(isA<JsonRpcException>()));
     });
 
     test('Call to getAccountInfo() succeeds with base64 encoding', () async {
@@ -749,7 +821,7 @@ Future<int> _createTokenAccount(SolanaClient client, Ed25519HDKeyPair source) as
 
   final token = await _createToken(
     decimals: 2,
-    supply: 100000000000000,
+    supply: 100_000_000_000_000,
     transferSomeToAddress: source.publicKey,
     transferSomeToAmount: 1000,
   );

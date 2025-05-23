@@ -33,6 +33,7 @@ class PayOrRequestButton extends StatelessWidget {
 
   final CpButtonSize size;
   final VoidCallback voidCallback;
+
   @override
   Widget build(BuildContext context) => Column(
     children: [

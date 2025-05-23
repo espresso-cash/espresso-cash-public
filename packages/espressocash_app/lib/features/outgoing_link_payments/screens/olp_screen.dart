@@ -56,6 +56,7 @@ class _OLPScreenState extends State<OLPScreen> {
         .where((payment) => payment.status is OLPStatusLinkReady)
         .listen((payment) {
           if (mounted) {
+            // ignore: avoid-type-casts, controlled type
             final status = payment.status as OLPStatusLinkReady;
             ShareLinkScreen.push(context, amount: payment.amount, status: status);
           }

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -194,7 +194,7 @@ class PaymentRequestService implements Disposable {
   }
 
   Future<Uri> unshortenLink(String shortLink) => _ecClient
-      .unshortenLink(UnshortenLinkRequestDto(shortLink: shortLink))
+      .expandLink(UnshortenLinkRequestDto(shortLink: shortLink))
       .then((e) => Uri.parse(e.fullLink));
 
   @override

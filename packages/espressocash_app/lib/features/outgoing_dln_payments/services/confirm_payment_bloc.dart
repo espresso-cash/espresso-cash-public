@@ -40,6 +40,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   }
 
   final QuoteRepository _quoteRepository;
+  // ignore: dispose-class-fields, false positive
   final TokenBalancesRepository _balancesRepository;
 
   Timer? _timer;
@@ -126,7 +127,7 @@ sealed class ConfirmPaymentEvent with _$ConfirmPaymentEvent {
 }
 
 @freezed
-class ConfirmPaymentState with _$ConfirmPaymentState {
+sealed class ConfirmPaymentState with _$ConfirmPaymentState {
   factory ConfirmPaymentState({
     DlnPayment? payment,
     PaymentQuote? quote,
@@ -152,6 +153,7 @@ extension ConfirmPaymentExt on ConfirmPaymentState {
       return Either.left(
         CreateOrderException.insufficientBalance(
           balance: usdcBalance,
+          // ignore: avoid-type-casts, controlled type
           amount: totalAmount as CryptoAmount,
         ),
       );

@@ -12,7 +12,7 @@ import 'package:wallet_example/bl/utils.dart';
 part 'bloc.freezed.dart';
 
 @freezed
-class SeedVaultState with _$SeedVaultState {
+sealed class SeedVaultState with _$SeedVaultState {
   const factory SeedVaultState.none() = _None;
 
   const factory SeedVaultState.error(String err) = _Error;

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 extension ExceptionX on Exception {
@@ -40,16 +40,12 @@ void logMessage({
   );
 }
 
-extension DioErrorExt on DioException {
+extension DioErrorExt on Exception {
   EspressoCashError? toEspressoCashError() {
-    final data = response?.data;
-
-    if (data is! Map<String, dynamic>) return null;
-
     try {
-      final error = EspressoCashException.fromJson(data);
+      final error = EspressoCashException.tryParse(this);
 
-      return error.error;
+      return error?.error;
     } on Object {
       return null;
     }

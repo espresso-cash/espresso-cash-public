@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.150.0
+version: 1.151.0
 
 environment:
   sdk: ">=3.7.0 <4.0.0"
@@ -26,8 +26,8 @@ dependencies:
   dio_cache_interceptor: ^3.4.2
   dio_cache_interceptor_db_store: ^5.1.0
   drift: ^2.15.0
-  espressocash_api:
-    path: ../espressocash_api/
+  ec_client_dart:
+    path: ../espressocash_client
   ethereum_addresses: ^1.0.2
   face_camera: ^0.1.2
   fast_immutable_collections: ^10.2.2
@@ -56,7 +56,7 @@ dependencies:
   kyc_client_dart:
     git:
       url: https://github.com/espresso-cash/kyc_client_dart.git
-      ref: 5f27fdc64ce48a2d88d5c5917628a6bd86a91dcd
+      ref: 2ef90f13f7625a8c7ae8d83e227a193084657332
   logging: ^1.2.0
   meta: ^1.10.0
   mixpanel_flutter: ^2.4.0
@@ -65,7 +65,7 @@ dependencies:
   path: ^1.8.3
   path_provider: ^2.1.1
   permission_handler: ^11.1.0
-  provider: ^6.1.1
+  provider: ^6.1.5
   ramp_flutter: ^3.0.0
   recase: ^4.1.0
   retrofit: ^4.0.3
@@ -73,7 +73,7 @@ dependencies:
   rxdart: ^0.27.7
   sealed_countries: ^1.5.1
   sealed_currencies: ^1.5.1
-  sentry_flutter: ^8.1.0
+  sentry_flutter: ^8.14.2
   share_plus: ^11.0.0
   shared_preferences: ^2.2.2
   sliver_tools: ^0.2.12
@@ -105,9 +105,9 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.7.1
-  mews_pedantic: ^0.36.0
+  mews_pedantic: ^0.38.0
   mockito: ^5.4.4
-  retrofit_generator: ^8.0.6
+  retrofit_generator: ^9.2.0
 
 flutter_gen:
   integrations:

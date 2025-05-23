@@ -81,16 +81,10 @@ const _inAmountStyle = TextStyle(
 const _subtitleStyle = TextStyle(fontSize: 14, color: Colors.white, letterSpacing: .19);
 
 extension on CpActivityTileStatus {
-  String text(BuildContext context) {
-    switch (this) {
-      case CpActivityTileStatus.inProgress:
-        return context.l10n.activities_lblInProgress;
-      case CpActivityTileStatus.success:
-        return context.l10n.activities_lblSuccess;
-      case CpActivityTileStatus.failure:
-        return context.l10n.activities_lblFailure;
-      case CpActivityTileStatus.canceled:
-        return context.l10n.activities_lblCanceled;
-    }
-  }
+  String text(BuildContext context) => switch (this) {
+    CpActivityTileStatus.inProgress => context.l10n.activities_lblInProgress,
+    CpActivityTileStatus.success => context.l10n.activities_lblSuccess,
+    CpActivityTileStatus.failure => context.l10n.activities_lblFailure,
+    CpActivityTileStatus.canceled => context.l10n.activities_lblCanceled,
+  };
 }

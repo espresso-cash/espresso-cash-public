@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_positional_boolean_parameters
+// ignore_for_file: avoid_positional_boolean_parameters, more readable
 
 import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/account_meta.dart';

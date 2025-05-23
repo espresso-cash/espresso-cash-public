@@ -20,7 +20,7 @@ extension FormatAmountWithFiatExt on CryptoAmount {
 
     if (conversionRate == null) return formattedAmount;
 
-    final converted = convert(rate: conversionRate, to: Currency.usd);
+    final converted = convert(rate: conversionRate, to: fiat);
 
     return '${converted.format(locale)} ($formattedAmount)';
   }

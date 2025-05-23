@@ -6,14 +6,15 @@ environment:
   sdk: ^3.7.0
 
 dependencies:
+  async: ^2.12.0
   fixnum: ^1.1.1
   freezed_annotation: ^2.0.1
   grpc: ^4.0.3
-  protobuf: ^3.1.0
+  protobuf: ^4.1.0
 
 dev_dependencies:
   build_runner: ^2.1.10
   freezed: ^2.0.2
-  mews_pedantic: ^0.37.0
+  mews_pedantic: ^0.38.0
   solana: ^0.31.2+1
   test: ^1.24.0

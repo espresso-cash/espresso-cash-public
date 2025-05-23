@@ -140,9 +140,8 @@ class _CameraView extends StatelessWidget {
                 border: Border.all(color: CpColors.yellowColor, width: 3),
               ),
             ),
-            SizedBox(
-              width: 60,
-              height: 60,
+            SizedBox.square(
+              dimension: 60,
               child: CpButton(text: '', onPressed: _controller.captureImage),
             ),
           ],

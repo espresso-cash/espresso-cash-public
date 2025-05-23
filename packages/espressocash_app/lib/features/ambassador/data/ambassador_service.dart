@@ -1,4 +1,4 @@
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +12,7 @@ typedef AmbassadorStatus = ({bool isAmbassador, bool isReferral});
 class AmbassadorService extends ValueNotifier<AmbassadorStatus> {
   AmbassadorService(this._ecClient, this._storage) : super(_defaultAmbassadorStatus);
 
+  // ignore: dispose-class-fields, false positive
   final EspressoCashClient _ecClient;
   final SharedPreferences _storage;
 
@@ -27,7 +28,7 @@ class AmbassadorService extends ValueNotifier<AmbassadorStatus> {
 
   Future<void> _fetchStatus() async {
     try {
-      final status = await _ecClient.verifyAmbassador().then(
+      final status = await _ecClient.verifyReferralStatus().then(
         (e) => (isAmbassador: e.isAmbassador, isReferral: e.isReferral),
       );
       _update(status);
@@ -45,9 +46,7 @@ class AmbassadorService extends ValueNotifier<AmbassadorStatus> {
   }
 
   Future<void> addReferral(String ambassadorAddress) async {
-    await _ecClient.addAmbassadorReferral(
-      AmbassadorReferralRequestDto(ambassadorAddress: ambassadorAddress),
-    );
+    await _ecClient.addReferral(AmbassadorReferralRequestDto(ambassadorAddress: ambassadorAddress));
 
     _update((isAmbassador: value.isAmbassador, isReferral: true));
   }

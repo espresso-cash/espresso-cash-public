@@ -21,3 +21,5 @@ dart_code_metrics:
     move-variable-outside-iteration: false
     prefer-overriding-parent-equality: false # too many false positives, temporarily disabled
     avoid-unnecessary-collections: false # too many false positives, temporarily disabled
+    prefer-boolean-prefixes: false
+    prefer-named-parameters: false

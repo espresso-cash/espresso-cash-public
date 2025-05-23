@@ -44,7 +44,12 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     SignInExistingLocalWalletRequested event,
     Emitter<SignInState> emit,
   ) {
-    emit(state.copyWith(source: event.phrase.let(Mnemonic.typed).let(AccountSource.local)));
+    emit(
+      state.copyWith(
+        source: event.phrase.let(Mnemonic.typed).let(AccountSource.local),
+        processingState: const Flow.processing(),
+      ),
+    );
   }
 
   Future<void> _onSubmitted(SignInSubmitted _, Emitter<SignInState> emit) async {
@@ -72,7 +77,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 }
 
 @freezed
-class SignInState with _$SignInState {
+sealed class SignInState with _$SignInState {
   const factory SignInState({
     @Default(AccountSource.local(Mnemonic.empty())) AccountSource source,
     required Flow<SignInException, MyAccount> processingState,
@@ -80,7 +85,7 @@ class SignInState with _$SignInState {
 }
 
 @freezed
-class SignInEvent with _$SignInEvent {
+sealed class SignInEvent with _$SignInEvent {
   const factory SignInEvent.newLocalWalletRequested() = SignInNewLocalWalletRequested;
 
   const factory SignInEvent.existingLocalWalletRequested(String phrase) =

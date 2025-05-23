@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-type-casts
+
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
