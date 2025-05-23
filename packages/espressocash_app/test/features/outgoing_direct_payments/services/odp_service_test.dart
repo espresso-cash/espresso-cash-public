@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:dfunc/dfunc.dart';
 import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:espressocash_app/features/accounts/models/ec_wallet.dart';
+import 'package:espressocash_app/features/analytics/analytics_manager.dart';
+import 'package:espressocash_app/features/balances/services/refresh_balance.dart';
 import 'package:espressocash_app/features/currency/models/amount.dart';
 import 'package:espressocash_app/features/currency/models/currency.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/data/repository.dart';
@@ -21,13 +23,15 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../../stub_analytics_manager.dart';
 import 'odp_service_test.mocks.dart';
 
 final sender = MockTxSender();
 final client = MockEspressoCashClient();
+final refreshBalance = MockRefreshBalance();
+final analyticsManager = MockAnalyticsManager();
+final solanaClient = MockSolanaClient();
 
-@GenerateMocks([TxSender, EspressoCashClient])
+@GenerateMocks([TxSender, EspressoCashClient, RefreshBalance, AnalyticsManager, SolanaClient])
 Future<void> main() async {
   final account = LocalWallet(await Ed25519HDKeyPair.random());
   final receiver = await Ed25519HDKeyPair.random();
@@ -67,7 +71,7 @@ Future<void> main() async {
   );
 
   ODPService createService() =>
-      ODPService(client, repository, sender, const StubAnalyticsManager());
+      ODPService(client, repository, sender, analyticsManager, refreshBalance, solanaClient);
 
   Future<String> createODP(ODPService service) async {
     final payment = await service.create(
