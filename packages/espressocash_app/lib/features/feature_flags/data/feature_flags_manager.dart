@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
@@ -33,11 +32,9 @@ class FeatureFlagsManager implements Disposable {
   bool isMoneygramAccessEnabled() => _remoteConfig.getBool(FeatureFlag.moneygram.name);
 
   bool isBrijEnabled() =>
-      kDebugMode ||
-      _remoteConfig.getBool(FeatureFlag.brij.name) ||
-      _ambassadorService.value.isAmbassador;
+      _remoteConfig.getBool(FeatureFlag.brij.name) || _ambassadorService.value.isAmbassador;
 
-  bool isBrijDemoEnabled() => kDebugMode || _remoteConfig.getBool(FeatureFlag.brijDemo.name);
+  bool isBrijDemoEnabled() => _remoteConfig.getBool(FeatureFlag.brijDemo.name);
 
   @override
   void onDispose() {
