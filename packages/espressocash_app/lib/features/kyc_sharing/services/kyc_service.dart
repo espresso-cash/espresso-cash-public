@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:brij_client/brij_client.dart';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../feature_flags/data/feature_flags_manager.dart';

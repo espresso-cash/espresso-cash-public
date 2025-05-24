@@ -1,4 +1,4 @@
-import 'package:kyc_client_dart/kyc_client_dart.dart';
+import 'package:brij_client/brij_client.dart';
 
 enum DocumentType {
   voterId('Voter ID', 'VOTER_ID'),

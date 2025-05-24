@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
+import 'package:brij_client/brij_client.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart' hide Order;
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
