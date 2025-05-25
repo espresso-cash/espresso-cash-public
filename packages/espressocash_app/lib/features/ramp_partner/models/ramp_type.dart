@@ -1,4 +1,4 @@
-import 'package:kyc_client_dart/kyc_client_dart.dart' as kyc;
+import 'package:brij_client/brij_client.dart' as kyc;
 
 enum RampType { onRamp, offRamp }
 

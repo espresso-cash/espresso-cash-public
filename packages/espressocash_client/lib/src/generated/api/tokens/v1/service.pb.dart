@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/tokens/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -12,6 +12,8 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class GetTokensMetaRequest extends $pb.GeneratedMessage {
   factory GetTokensMetaRequest() => create();
@@ -28,13 +30,9 @@ class GetTokensMetaRequest extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetTokensMetaRequest clone() => GetTokensMetaRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetTokensMetaRequest copyWith(void Function(GetTokensMetaRequest) updates) =>
       super.copyWith((message) => updates(message as GetTokensMetaRequest)) as GetTokensMetaRequest;
 
@@ -75,13 +73,9 @@ class GetTokensMetaResponse extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'md5')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetTokensMetaResponse clone() => GetTokensMetaResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetTokensMetaResponse copyWith(void Function(GetTokensMetaResponse) updates) =>
       super.copyWith((message) => updates(message as GetTokensMetaResponse))
           as GetTokensMetaResponse;
@@ -107,7 +101,7 @@ class GetTokensMetaResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasMd5() => $_has(0);
   @$pb.TagNumber(1)
-  void clearMd5() => clearField(1);
+  void clearMd5() => $_clearField(1);
 }
 
 class GetTokensFileRequest extends $pb.GeneratedMessage {
@@ -125,13 +119,9 @@ class GetTokensFileRequest extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetTokensFileRequest clone() => GetTokensFileRequest()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetTokensFileRequest copyWith(void Function(GetTokensFileRequest) updates) =>
       super.copyWith((message) => updates(message as GetTokensFileRequest)) as GetTokensFileRequest;
 
@@ -172,13 +162,9 @@ class GetTokensFileResponse extends $pb.GeneratedMessage {
     ..a<$core.List<$core.int>>(1, _omitFieldNames ? '' : 'content', $pb.PbFieldType.OY)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetTokensFileResponse clone() => GetTokensFileResponse()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetTokensFileResponse copyWith(void Function(GetTokensFileResponse) updates) =>
       super.copyWith((message) => updates(message as GetTokensFileResponse))
           as GetTokensFileResponse;
@@ -204,7 +190,7 @@ class GetTokensFileResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasContent() => $_has(0);
   @$pb.TagNumber(1)
-  void clearContent() => clearField(1);
+  void clearContent() => $_clearField(1);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
