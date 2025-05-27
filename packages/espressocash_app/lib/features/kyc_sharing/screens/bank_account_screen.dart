@@ -56,7 +56,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
     final success = await runWithLoader<bool>(context, () async {
       try {
         await sl<KycSharingService>().updateBankInfo(
-          id: widget.initialBankInfo?.id,
+          hash: widget.initialBankInfo?.hash,
           bankAccountNumber: _bankAccountNumberController.text,
           bankCode: _selectedBank?.code ?? _bankCodeController.text.trim(),
           bankName: _selectedBank?.name ?? '',
