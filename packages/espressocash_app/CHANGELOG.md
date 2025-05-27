@@ -1,3 +1,9 @@
+## 1.152.0
+
+ - **REFACTOR**: update brij_client to 1.0.7 (#1744).
+ - **REFACTOR**: upgrade linter (#1737).
+ - **FEAT**: update dependencies (#1743).
+
 ## 1.151.0
 
  - **FIX**: token price response (#1728).

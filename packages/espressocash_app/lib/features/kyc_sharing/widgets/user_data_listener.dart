@@ -1,5 +1,5 @@
+import 'package:brij_client/brij_client.dart';
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../services/kyc_data_service.dart';
