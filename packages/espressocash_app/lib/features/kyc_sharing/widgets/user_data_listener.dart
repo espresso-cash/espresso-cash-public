@@ -2,7 +2,7 @@ import 'package:brij_client/brij_client.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
-import '../services/kyc_service.dart';
+import '../services/kyc_data_service.dart';
 
 typedef UserDataBuilder = Widget Function(BuildContext context, UserData userData);
 
@@ -13,7 +13,7 @@ class UserDataListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<UserData?>(
-    valueListenable: sl<KycSharingService>(),
+    valueListenable: sl<KycDataService>(),
     builder:
         (context, userData, _) =>
             userData == null
