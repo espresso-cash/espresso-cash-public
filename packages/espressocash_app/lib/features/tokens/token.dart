@@ -47,7 +47,7 @@ class Token {
 
   static const wrappedSol = Token.wrappedSolana();
 
-  bool get isSolana => this is _SolanaToken;
+  bool get isSolana => address == const _SolanaToken().address;
 
   Ed25519HDPublicKey get publicKey => Ed25519HDPublicKey.fromBase58(address);
 
