@@ -1,3 +1,7 @@
+## 1.152.1
+
+ - **REFACTOR**: update brij client (#1745).
+
 ## 1.152.0
 
  - **REFACTOR**: update brij_client to 1.0.7 (#1744).

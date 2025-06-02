@@ -194,20 +194,20 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v1.0.7"
-      resolved-ref: b314ed43fbbd8cfe9d0fb55089fbfcf723a25f23
+      ref: "v1.0.9"
+      resolved-ref: "097e946d3aca7f153e505bceeab9fcf00661e52e"
       url: "https://github.com/espresso-cash/kyc_client_dart.git"
     source: git
-    version: "1.0.7"
+    version: "1.0.9"
   brij_protos_dart:
     dependency: transitive
     description:
       path: brij_protos_dart
-      ref: "v0.13.0"
-      resolved-ref: ec57002e6b31d9ad2cd4723ece7ad639fdaf37bf
+      ref: "v0.15.0"
+      resolved-ref: "1638b057a75157ff937ed1b830527967a72e99d9"
       url: "https://github.com/espresso-cash/protos.git"
     source: git
-    version: "0.13.0"
+    version: "0.15.0"
   bs58:
     dependency: transitive
     description:
