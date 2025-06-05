@@ -1,4 +1,3 @@
-// ignore_for_file: avoid-type-casts
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
@@ -90,6 +89,7 @@ class _TokenSendInputScreenState extends State<TokenSendInputScreen> {
     if (confirmedAmount == null) return;
 
     final cryptoAmount =
+        // ignore: avoid-type-casts, controlled cast
         Amount.fromDecimal(value: confirmedAmount, currency: Currency.crypto(token: widget.token))
             as CryptoAmount;
 
@@ -117,8 +117,8 @@ class _TokenSendInputScreenState extends State<TokenSendInputScreen> {
         () => (
           sl<TokenFiatBalanceService>().readInvestmentBalance(widget.token),
           (
-            Amount.zero(currency: Currency.usdc) as CryptoAmount,
-            Amount.zero(currency: Currency.usd) as FiatAmount,
+            const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
+            const FiatAmount(value: 0, fiatCurrency: Currency.usd),
           ),
         ),
     builder: (context, value) {
