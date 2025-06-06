@@ -2,6 +2,7 @@ import 'package:ec_client_dart/ec_client_dart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 
+import '../../../config.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
@@ -13,22 +14,23 @@ class FeeCalculator {
 
   final EspressoCashClient _ecClient;
 
-  Future<CryptoAmount> call(FeeType type) {
-    final fee = switch (type) {
-      FeeTypeDirect(:final address, :final token) => _getDirectPaymentFee(
-        address: address,
-        token: token,
-      ),
-      FeeTypeLink() => _getLinkPaymentFee(),
-      FeeTypeWithdraw(:final address) => _getWithdrawFee(address),
-    };
+  Future<CryptoAmount> call(FeeType type) => switch (type) {
+    FeeTypeDirect(:final address, :final token) => _getDirectPaymentFee(
+      address: address,
+      token: token,
+    ),
+    FeeTypeLink() => _getLinkPaymentFee(),
+    FeeTypeWithdraw(:final address) => _getWithdrawFee(address),
+  };
 
-    return fee.then((value) => CryptoAmount(value: value, cryptoCurrency: Currency.usdc));
-  }
-
-  Future<int> _getDirectPaymentFee({required Ed25519HDPublicKey address, required Token token}) =>
+  Future<CryptoAmount> _getDirectPaymentFee({
+    required Ed25519HDPublicKey address,
+    required Token token,
+  }) =>
       token.isSolana
-          ? Future.value(0)
+          ? Future.value(
+            const CryptoAmount(value: 1 * lamportsPerSignature, cryptoCurrency: Currency.sol),
+          )
           : _ecClient
               .getDirectPaymentQuote(
                 DirectPaymentQuoteRequestDto(
@@ -37,11 +39,14 @@ class FeeCalculator {
                   mintAddress: token.address,
                 ),
               )
-              .then((quote) => quote.fee);
+              .then((quote) => CryptoAmount(value: quote.fee, cryptoCurrency: Currency.usdc));
 
-  Future<int> _getLinkPaymentFee() =>
-      _ecClient.getOutgoingEscrowPaymentQuote().then((quote) => quote.fee);
+  Future<CryptoAmount> _getLinkPaymentFee() => _ecClient.getOutgoingEscrowPaymentQuote().then(
+    (quote) => CryptoAmount(value: quote.fee, cryptoCurrency: Currency.usdc),
+  );
 
-  Future<int> _getWithdrawFee(Ed25519HDPublicKey? address) =>
-      address == null ? Future.value(0) : _getDirectPaymentFee(address: address, token: Token.usdc);
+  Future<CryptoAmount> _getWithdrawFee(Ed25519HDPublicKey? address) =>
+      address == null
+          ? Future.value(const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc))
+          : _getDirectPaymentFee(address: address, token: Token.usdc);
 }
