@@ -1,6 +1,7 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../di.dart';
 import '../../../l10n/decimal_separator.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -13,6 +14,7 @@ import '../../../ui/usdc_info.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
+import '../data/repository.dart';
 import '../services/amount_ext.dart';
 import 'extensions.dart';
 
@@ -25,6 +27,7 @@ class AmountWithEquivalent extends StatelessWidget {
     this.shakeKey,
     this.error = '',
     this.showUsdcInfo = false,
+    this.backgroundColor = Colors.black,
   });
 
   final TextEditingController inputController;
@@ -33,6 +36,7 @@ class AmountWithEquivalent extends StatelessWidget {
   final Key? shakeKey;
   final String error;
   final bool showUsdcInfo;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<TextEditingValue>(
@@ -52,6 +56,7 @@ class AmountWithEquivalent extends StatelessWidget {
             child: _InputDisplay(
               input: value.text,
               fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
+              token: token,
             ),
           ),
           if (!collapsed)
@@ -75,7 +80,7 @@ class AmountWithEquivalent extends StatelessWidget {
                       _ => _EquivalentDisplay(
                         input: value.text,
                         token: token,
-                        backgroundColor: Colors.black,
+                        backgroundColor: backgroundColor,
                       ),
                     },
                   ],
@@ -110,11 +115,22 @@ class _EquivalentDisplay extends StatelessWidget {
 
     final String formattedAmount;
     if (shouldDisplay) {
-      formattedAmount = Amount.fromDecimal(value: value, currency: Currency.usd)
-          // ignore: avoid-type-casts, controlled type
-          .let((it) => it as FiatAmount)
-          .let((it) => it.toTokenAmount(token)?.round(Currency.usd.decimals))
-          .maybeFlatMap((it) => it.format(locale, roundInteger: true, skipSymbol: true))
+      formattedAmount = Amount.fromDecimal(
+            value: value,
+            currency: token == Token.usdc ? Currency.usd : CryptoCurrency(token: token),
+          )
+          .let(
+            (it) => switch (it) {
+              final FiatAmount fiat => fiat.toTokenAmount(token)?.round(Currency.usd.decimals),
+              final CryptoAmount crypto => crypto.toFiatAmount(
+                defaultFiatCurrency,
+                ratesRepository: sl<ConversionRatesRepository>(),
+              ),
+            },
+          )
+          .maybeFlatMap(
+            (it) => it.format(locale, roundInteger: true, skipSymbol: token == Token.usdc),
+          )
           .ifNull(() => '0');
     } else {
       formattedAmount = '0';
@@ -127,14 +143,15 @@ class _EquivalentDisplay extends StatelessWidget {
             text: context.l10n.tokenEquivalent(formattedAmount).toUpperCase(),
             style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
           ),
-          TextSpan(
-            text: ' ${token.symbol.toUpperCase()}',
-            style: const TextStyle(
-              color: CpColors.yellowColor,
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
+          if (token == Token.usdc)
+            TextSpan(
+              text: ' ${Token.usdc.symbol.toUpperCase()}',
+              style: const TextStyle(
+                color: CpColors.yellowColor,
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
         ],
       ),
       textAlign: TextAlign.center,
@@ -188,16 +205,17 @@ class _Chip extends StatelessWidget {
 }
 
 class _InputDisplay extends StatelessWidget {
-  const _InputDisplay({required this.input, required this.fontSize});
+  const _InputDisplay({required this.input, required this.fontSize, required this.token});
 
   final String input;
   final double fontSize;
+  final Token token;
 
   @override
   Widget build(BuildContext context) {
     final sign = Currency.usd.sign;
     final amount = input.formatted(context);
-    final formatted = '$sign$amount';
+    final formatted = token == Token.usdc ? '$sign$amount' : '$amount ${token.symbol}';
 
     return SizedBox(
       height: 94,
