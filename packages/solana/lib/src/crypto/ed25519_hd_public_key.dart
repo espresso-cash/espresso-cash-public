@@ -90,6 +90,7 @@ class Ed25519HDPublicKey implements PublicKey {
   static bool isValidFromBase58(String data) {
     try {
       final bytes = base58decode(data);
+
       return bytes.length == _maxSeedLength;
     } on FormatException {
       return false;
