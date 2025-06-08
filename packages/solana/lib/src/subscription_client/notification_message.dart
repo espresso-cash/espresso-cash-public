@@ -7,10 +7,11 @@ import 'package:solana/src/subscription_client/notification_params.dart';
 import 'package:solana/src/subscription_client/optional_error.dart';
 
 part 'notification_message.freezed.dart';
+
 part 'notification_message.g.dart';
 
 @Freezed(unionKey: 'method', fallbackUnion: 'unsupported')
-class NotificationMessage with _$NotificationMessage implements SubscriptionMessage {
+sealed class NotificationMessage with _$NotificationMessage implements SubscriptionMessage {
   const NotificationMessage._();
 
   const factory NotificationMessage.unsupported() = _UnsupportedNotification;
@@ -38,21 +39,21 @@ class NotificationMessage with _$NotificationMessage implements SubscriptionMess
 
   /// Each of these objects has a `value` field and we want to
   /// use it to send it to the caller
-  dynamic get value => when<dynamic>(
-    accountNotification: (params) => params.result.value,
-    logsNotification: (params) => params.result.value,
-    programNotification: (params) => params.result.value,
-    signatureNotification: (params) => params.result.value,
-    slotNotification: (params) => params.result.value,
-    unsupported: () => null,
-  );
+  dynamic get value => switch (this) {
+    final AccountNotification n => n.params.result.value,
+    final LogsNotification n => n.params.result.value,
+    final ProgramNotification n => n.params.result.value,
+    final SignatureNotification n => n.params.result.value,
+    final SlotNotification n => n.params.result.value,
+    _UnsupportedNotification() => null,
+  };
 
-  int get subscription => when(
-    accountNotification: (params) => params.subscription,
-    logsNotification: (params) => params.subscription,
-    programNotification: (params) => params.subscription,
-    signatureNotification: (params) => params.subscription,
-    slotNotification: (params) => params.subscription,
-    unsupported: () => -1,
-  );
+  int get subscription => switch (this) {
+    final AccountNotification n => n.params.subscription,
+    final LogsNotification n => n.params.subscription,
+    final ProgramNotification n => n.params.subscription,
+    final SignatureNotification n => n.params.subscription,
+    final SlotNotification n => n.params.subscription,
+    _UnsupportedNotification() => -1,
+  };
 }

@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'sign_transactions.freezed.dart';
 
 @freezed
-class SignPayloadsRequest with _$SignPayloadsRequest {
+sealed class SignPayloadsRequest with _$SignPayloadsRequest {
   const factory SignPayloadsRequest.transactions({
     required String? identityName,
     required Uri? identityUri,
@@ -26,19 +26,24 @@ class SignPayloadsRequest with _$SignPayloadsRequest {
 }
 
 @freezed
-class SignedPayloadResult with _$SignedPayloadResult {
+sealed class SignedPayloadResult with _$SignedPayloadResult {
   const factory SignedPayloadResult({required List<Uint8List> signedPayloads}) =
-      _SignedPayloadResult;
+      SignedPayloadResultSigned;
 
-  const factory SignedPayloadResult.requestDeclined() = _RequestDeclined;
+  const factory SignedPayloadResult.requestDeclined() = SignedPayloadResultRequestDeclined;
 
-  const factory SignedPayloadResult.invalidPayloads({required List<bool> valid}) = _InvalidPayloads;
+  const factory SignedPayloadResult.invalidPayloads({required List<bool> valid}) =
+      SignedPayloadResultInvalidPayloads;
 
-  const factory SignedPayloadResult.tooManyPayloads() = _TooManyPayloads;
+  const factory SignedPayloadResult.tooManyPayloads() = SignedPayloadResultTooManyPayloads;
 
-  const factory SignedPayloadResult.authorizationNotValid() = _AuthorizationNotValid;
+  const factory SignedPayloadResult.authorizationNotValid() =
+      SignedPayloadResultAuthorizationNotValid;
 
   const SignedPayloadResult._();
 
-  int get numResults => maybeWhen((signedPayloads) => signedPayloads.length, orElse: () => 0);
+  int get numResults => switch (this) {
+    final SignedPayloadResultSigned it => it.signedPayloads.length,
+    _ => 0,
+  };
 }

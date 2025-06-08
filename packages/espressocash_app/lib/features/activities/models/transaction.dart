@@ -9,7 +9,7 @@ part 'transaction.freezed.dart';
 enum TxCommonStatus { success, failure }
 
 @freezed
-class Transaction with _$Transaction {
+sealed class Transaction with _$Transaction {
   const factory Transaction.common(
     SignedTx tx, {
     required TxCommonStatus status,

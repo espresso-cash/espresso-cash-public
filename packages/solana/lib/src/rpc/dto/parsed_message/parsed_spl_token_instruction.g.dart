@@ -6,32 +6,32 @@ part of 'parsed_spl_token_instruction.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ParsedSplTokenTransferInstructionImpl _$$ParsedSplTokenTransferInstructionImplFromJson(
+ParsedSplTokenTransferInstruction _$ParsedSplTokenTransferInstructionFromJson(
   Map<String, dynamic> json,
-) => _$ParsedSplTokenTransferInstructionImpl(
+) => ParsedSplTokenTransferInstruction(
   info: SplTokenTransferInfo.fromJson(json['info'] as Map<String, dynamic>),
   type: json['type'] as String,
 );
 
-Map<String, dynamic> _$$ParsedSplTokenTransferInstructionImplToJson(
-  _$ParsedSplTokenTransferInstructionImpl instance,
+Map<String, dynamic> _$ParsedSplTokenTransferInstructionToJson(
+  ParsedSplTokenTransferInstruction instance,
 ) => <String, dynamic>{'info': instance.info.toJson(), 'type': instance.type};
 
-_$ParsedSplTokenTransferCheckedInstructionImpl
-_$$ParsedSplTokenTransferCheckedInstructionImplFromJson(Map<String, dynamic> json) =>
-    _$ParsedSplTokenTransferCheckedInstructionImpl(
-      info: SplTokenTransferCheckedInfo.fromJson(json['info'] as Map<String, dynamic>),
-      type: json['type'] as String,
-    );
-
-Map<String, dynamic> _$$ParsedSplTokenTransferCheckedInstructionImplToJson(
-  _$ParsedSplTokenTransferCheckedInstructionImpl instance,
-) => <String, dynamic>{'info': instance.info.toJson(), 'type': instance.type};
-
-_$ParsedSplTokenGenericInstructionImpl _$$ParsedSplTokenGenericInstructionImplFromJson(
+ParsedSplTokenTransferCheckedInstruction _$ParsedSplTokenTransferCheckedInstructionFromJson(
   Map<String, dynamic> json,
-) => _$ParsedSplTokenGenericInstructionImpl(info: json['info'], type: json['type'] as String);
+) => ParsedSplTokenTransferCheckedInstruction(
+  info: SplTokenTransferCheckedInfo.fromJson(json['info'] as Map<String, dynamic>),
+  type: json['type'] as String,
+);
 
-Map<String, dynamic> _$$ParsedSplTokenGenericInstructionImplToJson(
-  _$ParsedSplTokenGenericInstructionImpl instance,
+Map<String, dynamic> _$ParsedSplTokenTransferCheckedInstructionToJson(
+  ParsedSplTokenTransferCheckedInstruction instance,
+) => <String, dynamic>{'info': instance.info.toJson(), 'type': instance.type};
+
+ParsedSplTokenGenericInstruction _$ParsedSplTokenGenericInstructionFromJson(
+  Map<String, dynamic> json,
+) => ParsedSplTokenGenericInstruction(info: json['info'], type: json['type'] as String);
+
+Map<String, dynamic> _$ParsedSplTokenGenericInstructionToJson(
+  ParsedSplTokenGenericInstruction instance,
 ) => <String, dynamic>{'info': instance.info, 'type': instance.type};

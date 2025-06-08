@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'dln_payment.freezed.dart';
 
 @freezed
-class OutgoingQuoteRequestDto with _$OutgoingQuoteRequestDto {
+sealed class OutgoingQuoteRequestDto with _$OutgoingQuoteRequestDto {
   const factory OutgoingQuoteRequestDto({
     required int amount,
     required String receiverAddress,
@@ -12,7 +12,7 @@ class OutgoingQuoteRequestDto with _$OutgoingQuoteRequestDto {
 }
 
 @freezed
-class OutgoingQuoteResponseDto with _$OutgoingQuoteResponseDto {
+sealed class OutgoingQuoteResponseDto with _$OutgoingQuoteResponseDto {
   const factory OutgoingQuoteResponseDto({
     required int inputAmount,
     required int receiverAmount,
@@ -23,28 +23,28 @@ class OutgoingQuoteResponseDto with _$OutgoingQuoteResponseDto {
 }
 
 @freezed
-class OrderStatusDlnRequestDto with _$OrderStatusDlnRequestDto {
+sealed class OrderStatusDlnRequestDto with _$OrderStatusDlnRequestDto {
   const factory OrderStatusDlnRequestDto({required String orderId}) = _OrderStatusDlnRequestDto;
 }
 
 @freezed
-class OrderStatusDlnResponseDto with _$OrderStatusDlnResponseDto {
+sealed class OrderStatusDlnResponseDto with _$OrderStatusDlnResponseDto {
   const factory OrderStatusDlnResponseDto({required DlnOrderStatus status}) =
       _OrderStatusDlnResponseDto;
 }
 
 @freezed
-class OrderIdDlnRequestDto with _$OrderIdDlnRequestDto {
+sealed class OrderIdDlnRequestDto with _$OrderIdDlnRequestDto {
   const factory OrderIdDlnRequestDto({required String txId}) = _OrderIdDlnRequestDto;
 }
 
 @freezed
-class OrderIdDlnResponseDto with _$OrderIdDlnResponseDto {
+sealed class OrderIdDlnResponseDto with _$OrderIdDlnResponseDto {
   const factory OrderIdDlnResponseDto({required String? orderId}) = _OrderIdDlnResponseDto;
 }
 
 @freezed
-class IncomingQuoteRequestDto with _$IncomingQuoteRequestDto {
+sealed class IncomingQuoteRequestDto with _$IncomingQuoteRequestDto {
   const factory IncomingQuoteRequestDto({
     required int amount,
     required String senderAddress,
@@ -55,7 +55,7 @@ class IncomingQuoteRequestDto with _$IncomingQuoteRequestDto {
 }
 
 @freezed
-class IncomingQuoteResponseDto with _$IncomingQuoteResponseDto {
+sealed class IncomingQuoteResponseDto with _$IncomingQuoteResponseDto {
   const factory IncomingQuoteResponseDto({
     required QuoteTx tx,
     required QuoteUsdcInfo usdcInfo,
@@ -66,12 +66,12 @@ class IncomingQuoteResponseDto with _$IncomingQuoteResponseDto {
 }
 
 @freezed
-class QuoteTx with _$QuoteTx {
+sealed class QuoteTx with _$QuoteTx {
   const factory QuoteTx({required String to, required String data, required int value}) = _QuoteTx;
 }
 
 @freezed
-class QuoteUsdcInfo with _$QuoteUsdcInfo {
+sealed class QuoteUsdcInfo with _$QuoteUsdcInfo {
   const factory QuoteUsdcInfo({required String usdcAddress, required int approvalAmount}) =
       _QuoteUsdcInfo;
 }

@@ -53,22 +53,23 @@ class _ContentState extends State<_Content> {
               loading: always(const Center(child: CircularProgressIndicator())),
               result: always(const Center(child: CircularProgressIndicator())),
               requested: (request) {
-                final content = request.when(
+                final Widget content = request.when(
                   authorizeDapp: (it) => _AuthorizeRequestWidget(request: it),
                   signPayloads: (it) => _SignPayloadsWidget(request: it),
                   signTransactionsForSending: (it) => _SignAndSendPayloadsWidget(request: it),
                 );
 
-                final acceptLabel = request.when(
+                final String acceptLabel = request.when(
                   authorizeDapp: always(context.l10n.mobileWalletAcceptAuthorization),
                   signTransactionsForSending: always(
                     context.l10n.mobileWalletAcceptSignAndSendPayloads,
                   ),
                   signPayloads:
-                      (it) => it.map(
-                        messages: always(context.l10n.mobileWalletAcceptSignMessages),
-                        transactions: always(context.l10n.mobileWalletAcceptSignTransactions),
-                      ),
+                      (it) => switch (it) {
+                        SignMessagesRequest() => context.l10n.mobileWalletAcceptSignMessages,
+                        SignTransactionsRequest() =>
+                          context.l10n.mobileWalletAcceptSignTransactions,
+                      },
                 );
 
                 return SafeArea(
@@ -151,28 +152,21 @@ class _SignPayloadsWidget extends StatelessWidget {
     children: [
       _DAppIcon(identityUri: request.identityUri, iconUri: request.iconRelativeUri),
       const SizedBox(height: 16),
-      Text(
-        request.map(
-          transactions: always(context.l10n.mobileWalletSignTransactions),
-          messages: always(context.l10n.mobileWalletSignMessages),
-        ),
-        style: _titleStyle,
-      ),
+      Text(switch (request) {
+        SignTransactionsRequest() => context.l10n.mobileWalletSignTransactions,
+        SignMessagesRequest() => context.l10n.mobileWalletSignMessages,
+      }, style: _titleStyle),
       const SizedBox(height: 8),
-      Text(
-        request.map(
-          transactions:
-              (it) => context.l10n.mobileWalletSignTransactionsRequest(
-                it.identityName ?? '',
-                it.payloads.length,
-              ),
-          messages:
-              (it) => context.l10n.mobileWalletSignMessagesRequest(
-                it.identityName ?? '',
-                it.payloads.length,
-              ),
+      Text(switch (request) {
+        final SignTransactionsRequest it => context.l10n.mobileWalletSignTransactionsRequest(
+          it.identityName ?? '',
+          it.payloads.length,
         ),
-      ),
+        final SignMessagesRequest it => context.l10n.mobileWalletSignMessagesRequest(
+          it.identityName ?? '',
+          it.payloads.length,
+        ),
+      }),
     ],
   );
 }

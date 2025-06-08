@@ -11,99 +11,65 @@ part of 'wallet_config.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$MobileWalletAdapterConfig {
-  bool get supportsSignAndSendTransactions => throw _privateConstructorUsedError;
-  int get maxTransactionsPerSigningRequest => throw _privateConstructorUsedError;
-  int get maxMessagesPerSigningRequest => throw _privateConstructorUsedError;
-  List<Object> get supportedTransactionVersions => throw _privateConstructorUsedError;
-  Duration get noConnectionWarningTimeout => throw _privateConstructorUsedError;
+  bool get supportsSignAndSendTransactions;
+  int get maxTransactionsPerSigningRequest;
+  int get maxMessagesPerSigningRequest;
+  List<Object> get supportedTransactionVersions;
+  Duration get noConnectionWarningTimeout;
 
-  @JsonKey(ignore: true)
-  $MobileWalletAdapterConfigCopyWith<MobileWalletAdapterConfig> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MobileWalletAdapterConfigCopyWith<$Res> {
-  factory $MobileWalletAdapterConfigCopyWith(
-    MobileWalletAdapterConfig value,
-    $Res Function(MobileWalletAdapterConfig) then,
-  ) = _$MobileWalletAdapterConfigCopyWithImpl<$Res, MobileWalletAdapterConfig>;
-  @useResult
-  $Res call({
-    bool supportsSignAndSendTransactions,
-    int maxTransactionsPerSigningRequest,
-    int maxMessagesPerSigningRequest,
-    List<Object> supportedTransactionVersions,
-    Duration noConnectionWarningTimeout,
-  });
-}
-
-/// @nodoc
-class _$MobileWalletAdapterConfigCopyWithImpl<$Res, $Val extends MobileWalletAdapterConfig>
-    implements $MobileWalletAdapterConfigCopyWith<$Res> {
-  _$MobileWalletAdapterConfigCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of MobileWalletAdapterConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $MobileWalletAdapterConfigCopyWith<MobileWalletAdapterConfig> get copyWith =>
+      _$MobileWalletAdapterConfigCopyWithImpl<MobileWalletAdapterConfig>(
+        this as MobileWalletAdapterConfig,
+        _$identity,
+      );
+
   @override
-  $Res call({
-    Object? supportsSignAndSendTransactions = null,
-    Object? maxTransactionsPerSigningRequest = null,
-    Object? maxMessagesPerSigningRequest = null,
-    Object? supportedTransactionVersions = null,
-    Object? noConnectionWarningTimeout = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            supportsSignAndSendTransactions:
-                null == supportsSignAndSendTransactions
-                    ? _value.supportsSignAndSendTransactions
-                    : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            maxTransactionsPerSigningRequest:
-                null == maxTransactionsPerSigningRequest
-                    ? _value.maxTransactionsPerSigningRequest
-                    : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
-                        as int,
-            maxMessagesPerSigningRequest:
-                null == maxMessagesPerSigningRequest
-                    ? _value.maxMessagesPerSigningRequest
-                    : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
-                        as int,
-            supportedTransactionVersions:
-                null == supportedTransactionVersions
-                    ? _value.supportedTransactionVersions
-                    : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
-                        as List<Object>,
-            noConnectionWarningTimeout:
-                null == noConnectionWarningTimeout
-                    ? _value.noConnectionWarningTimeout
-                    : noConnectionWarningTimeout // ignore: cast_nullable_to_non_nullable
-                        as Duration,
-          )
-          as $Val,
-    );
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is MobileWalletAdapterConfig &&
+            (identical(other.supportsSignAndSendTransactions, supportsSignAndSendTransactions) ||
+                other.supportsSignAndSendTransactions == supportsSignAndSendTransactions) &&
+            (identical(other.maxTransactionsPerSigningRequest, maxTransactionsPerSigningRequest) ||
+                other.maxTransactionsPerSigningRequest == maxTransactionsPerSigningRequest) &&
+            (identical(other.maxMessagesPerSigningRequest, maxMessagesPerSigningRequest) ||
+                other.maxMessagesPerSigningRequest == maxMessagesPerSigningRequest) &&
+            const DeepCollectionEquality().equals(
+              other.supportedTransactionVersions,
+              supportedTransactionVersions,
+            ) &&
+            (identical(other.noConnectionWarningTimeout, noConnectionWarningTimeout) ||
+                other.noConnectionWarningTimeout == noConnectionWarningTimeout));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    supportsSignAndSendTransactions,
+    maxTransactionsPerSigningRequest,
+    maxMessagesPerSigningRequest,
+    const DeepCollectionEquality().hash(supportedTransactionVersions),
+    noConnectionWarningTimeout,
+  );
+
+  @override
+  String toString() {
+    return 'MobileWalletAdapterConfig(supportsSignAndSendTransactions: $supportsSignAndSendTransactions, maxTransactionsPerSigningRequest: $maxTransactionsPerSigningRequest, maxMessagesPerSigningRequest: $maxMessagesPerSigningRequest, supportedTransactionVersions: $supportedTransactionVersions, noConnectionWarningTimeout: $noConnectionWarningTimeout)';
   }
 }
 
 /// @nodoc
-abstract class _$$MobileWalletAdapterConfigImplCopyWith<$Res>
-    implements $MobileWalletAdapterConfigCopyWith<$Res> {
-  factory _$$MobileWalletAdapterConfigImplCopyWith(
-    _$MobileWalletAdapterConfigImpl value,
-    $Res Function(_$MobileWalletAdapterConfigImpl) then,
-  ) = __$$MobileWalletAdapterConfigImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $MobileWalletAdapterConfigCopyWith<$Res> {
+  factory $MobileWalletAdapterConfigCopyWith(
+    MobileWalletAdapterConfig value,
+    $Res Function(MobileWalletAdapterConfig) _then,
+  ) = _$MobileWalletAdapterConfigCopyWithImpl;
   @useResult
   $Res call({
     bool supportsSignAndSendTransactions,
@@ -115,14 +81,15 @@ abstract class _$$MobileWalletAdapterConfigImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$MobileWalletAdapterConfigImplCopyWithImpl<$Res>
-    extends _$MobileWalletAdapterConfigCopyWithImpl<$Res, _$MobileWalletAdapterConfigImpl>
-    implements _$$MobileWalletAdapterConfigImplCopyWith<$Res> {
-  __$$MobileWalletAdapterConfigImplCopyWithImpl(
-    _$MobileWalletAdapterConfigImpl _value,
-    $Res Function(_$MobileWalletAdapterConfigImpl) _then,
-  ) : super(_value, _then);
+class _$MobileWalletAdapterConfigCopyWithImpl<$Res>
+    implements $MobileWalletAdapterConfigCopyWith<$Res> {
+  _$MobileWalletAdapterConfigCopyWithImpl(this._self, this._then);
 
+  final MobileWalletAdapterConfig _self;
+  final $Res Function(MobileWalletAdapterConfig) _then;
+
+  /// Create a copy of MobileWalletAdapterConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -133,30 +100,30 @@ class __$$MobileWalletAdapterConfigImplCopyWithImpl<$Res>
     Object? noConnectionWarningTimeout = null,
   }) {
     return _then(
-      _$MobileWalletAdapterConfigImpl(
+      _self.copyWith(
         supportsSignAndSendTransactions:
             null == supportsSignAndSendTransactions
-                ? _value.supportsSignAndSendTransactions
+                ? _self.supportsSignAndSendTransactions
                 : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
                     as bool,
         maxTransactionsPerSigningRequest:
             null == maxTransactionsPerSigningRequest
-                ? _value.maxTransactionsPerSigningRequest
+                ? _self.maxTransactionsPerSigningRequest
                 : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
                     as int,
         maxMessagesPerSigningRequest:
             null == maxMessagesPerSigningRequest
-                ? _value.maxMessagesPerSigningRequest
+                ? _self.maxMessagesPerSigningRequest
                 : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
                     as int,
         supportedTransactionVersions:
             null == supportedTransactionVersions
-                ? _value._supportedTransactionVersions
+                ? _self.supportedTransactionVersions
                 : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
                     as List<Object>,
         noConnectionWarningTimeout:
             null == noConnectionWarningTimeout
-                ? _value.noConnectionWarningTimeout
+                ? _self.noConnectionWarningTimeout
                 : noConnectionWarningTimeout // ignore: cast_nullable_to_non_nullable
                     as Duration,
       ),
@@ -166,8 +133,8 @@ class __$$MobileWalletAdapterConfigImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MobileWalletAdapterConfigImpl implements _MobileWalletAdapterConfig {
-  const _$MobileWalletAdapterConfigImpl({
+class _MobileWalletAdapterConfig implements MobileWalletAdapterConfig {
+  const _MobileWalletAdapterConfig({
     required this.supportsSignAndSendTransactions,
     required this.maxTransactionsPerSigningRequest,
     required this.maxMessagesPerSigningRequest,
@@ -194,16 +161,19 @@ class _$MobileWalletAdapterConfigImpl implements _MobileWalletAdapterConfig {
   @JsonKey()
   final Duration noConnectionWarningTimeout;
 
+  /// Create a copy of MobileWalletAdapterConfig
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'MobileWalletAdapterConfig(supportsSignAndSendTransactions: $supportsSignAndSendTransactions, maxTransactionsPerSigningRequest: $maxTransactionsPerSigningRequest, maxMessagesPerSigningRequest: $maxMessagesPerSigningRequest, supportedTransactionVersions: $supportedTransactionVersions, noConnectionWarningTimeout: $noConnectionWarningTimeout)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$MobileWalletAdapterConfigCopyWith<_MobileWalletAdapterConfig> get copyWith =>
+      __$MobileWalletAdapterConfigCopyWithImpl<_MobileWalletAdapterConfig>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MobileWalletAdapterConfigImpl &&
+            other is _MobileWalletAdapterConfig &&
             (identical(other.supportsSignAndSendTransactions, supportsSignAndSendTransactions) ||
                 other.supportsSignAndSendTransactions == supportsSignAndSendTransactions) &&
             (identical(other.maxTransactionsPerSigningRequest, maxTransactionsPerSigningRequest) ||
@@ -228,37 +198,77 @@ class _$MobileWalletAdapterConfigImpl implements _MobileWalletAdapterConfig {
     noConnectionWarningTimeout,
   );
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$MobileWalletAdapterConfigImplCopyWith<_$MobileWalletAdapterConfigImpl> get copyWith =>
-      __$$MobileWalletAdapterConfigImplCopyWithImpl<_$MobileWalletAdapterConfigImpl>(
-        this,
-        _$identity,
-      );
+  String toString() {
+    return 'MobileWalletAdapterConfig(supportsSignAndSendTransactions: $supportsSignAndSendTransactions, maxTransactionsPerSigningRequest: $maxTransactionsPerSigningRequest, maxMessagesPerSigningRequest: $maxMessagesPerSigningRequest, supportedTransactionVersions: $supportedTransactionVersions, noConnectionWarningTimeout: $noConnectionWarningTimeout)';
+  }
 }
 
-abstract class _MobileWalletAdapterConfig implements MobileWalletAdapterConfig {
-  const factory _MobileWalletAdapterConfig({
-    required final bool supportsSignAndSendTransactions,
-    required final int maxTransactionsPerSigningRequest,
-    required final int maxMessagesPerSigningRequest,
-    required final List<Object> supportedTransactionVersions,
-    final Duration noConnectionWarningTimeout,
-  }) = _$MobileWalletAdapterConfigImpl;
+/// @nodoc
+abstract mixin class _$MobileWalletAdapterConfigCopyWith<$Res>
+    implements $MobileWalletAdapterConfigCopyWith<$Res> {
+  factory _$MobileWalletAdapterConfigCopyWith(
+    _MobileWalletAdapterConfig value,
+    $Res Function(_MobileWalletAdapterConfig) _then,
+  ) = __$MobileWalletAdapterConfigCopyWithImpl;
+  @override
+  @useResult
+  $Res call({
+    bool supportsSignAndSendTransactions,
+    int maxTransactionsPerSigningRequest,
+    int maxMessagesPerSigningRequest,
+    List<Object> supportedTransactionVersions,
+    Duration noConnectionWarningTimeout,
+  });
+}
 
+/// @nodoc
+class __$MobileWalletAdapterConfigCopyWithImpl<$Res>
+    implements _$MobileWalletAdapterConfigCopyWith<$Res> {
+  __$MobileWalletAdapterConfigCopyWithImpl(this._self, this._then);
+
+  final _MobileWalletAdapterConfig _self;
+  final $Res Function(_MobileWalletAdapterConfig) _then;
+
+  /// Create a copy of MobileWalletAdapterConfig
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  bool get supportsSignAndSendTransactions;
-  @override
-  int get maxTransactionsPerSigningRequest;
-  @override
-  int get maxMessagesPerSigningRequest;
-  @override
-  List<Object> get supportedTransactionVersions;
-  @override
-  Duration get noConnectionWarningTimeout;
-  @override
-  @JsonKey(ignore: true)
-  _$$MobileWalletAdapterConfigImplCopyWith<_$MobileWalletAdapterConfigImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? supportsSignAndSendTransactions = null,
+    Object? maxTransactionsPerSigningRequest = null,
+    Object? maxMessagesPerSigningRequest = null,
+    Object? supportedTransactionVersions = null,
+    Object? noConnectionWarningTimeout = null,
+  }) {
+    return _then(
+      _MobileWalletAdapterConfig(
+        supportsSignAndSendTransactions:
+            null == supportsSignAndSendTransactions
+                ? _self.supportsSignAndSendTransactions
+                : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        maxTransactionsPerSigningRequest:
+            null == maxTransactionsPerSigningRequest
+                ? _self.maxTransactionsPerSigningRequest
+                : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxMessagesPerSigningRequest:
+            null == maxMessagesPerSigningRequest
+                ? _self.maxMessagesPerSigningRequest
+                : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                    as int,
+        supportedTransactionVersions:
+            null == supportedTransactionVersions
+                ? _self._supportedTransactionVersions
+                : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
+                    as List<Object>,
+        noConnectionWarningTimeout:
+            null == noConnectionWarningTimeout
+                ? _self.noConnectionWarningTimeout
+                : noConnectionWarningTimeout // ignore: cast_nullable_to_non_nullable
+                    as Duration,
+      ),
+    );
+  }
 }

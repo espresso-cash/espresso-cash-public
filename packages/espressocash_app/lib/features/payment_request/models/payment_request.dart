@@ -11,7 +11,7 @@ part 'payment_request.freezed.dart';
 enum PaymentRequestState { initial, completed, error }
 
 @freezed
-class PaymentRequest with _$PaymentRequest {
+sealed class PaymentRequest with _$PaymentRequest {
   const factory PaymentRequest({
     required String id,
     required DateTime created,

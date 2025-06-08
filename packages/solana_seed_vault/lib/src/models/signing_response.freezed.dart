@@ -11,91 +11,81 @@ part of 'signing_response.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
-mixin _$SigningResponse {
-  List<Uint8List> get signatures => throw _privateConstructorUsedError;
-  List<Uri> get resolvedDerivationPaths => throw _privateConstructorUsedError;
+mixin _$SigningResponse implements DiagnosticableTreeMixin {
+  List<Uint8List> get signatures;
+  List<Uri> get resolvedDerivationPaths;
 
-  @JsonKey(ignore: true)
-  $SigningResponseCopyWith<SigningResponse> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SigningResponseCopyWith<$Res> {
-  factory $SigningResponseCopyWith(SigningResponse value, $Res Function(SigningResponse) then) =
-      _$SigningResponseCopyWithImpl<$Res, SigningResponse>;
-  @useResult
-  $Res call({List<Uint8List> signatures, List<Uri> resolvedDerivationPaths});
-}
-
-/// @nodoc
-class _$SigningResponseCopyWithImpl<$Res, $Val extends SigningResponse>
-    implements $SigningResponseCopyWith<$Res> {
-  _$SigningResponseCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of SigningResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $SigningResponseCopyWith<SigningResponse> get copyWith =>
+      _$SigningResponseCopyWithImpl<SigningResponse>(this as SigningResponse, _$identity);
+
   @override
-  $Res call({Object? signatures = null, Object? resolvedDerivationPaths = null}) {
-    return _then(
-      _value.copyWith(
-            signatures:
-                null == signatures
-                    ? _value.signatures
-                    : signatures // ignore: cast_nullable_to_non_nullable
-                        as List<Uint8List>,
-            resolvedDerivationPaths:
-                null == resolvedDerivationPaths
-                    ? _value.resolvedDerivationPaths
-                    : resolvedDerivationPaths // ignore: cast_nullable_to_non_nullable
-                        as List<Uri>,
-          )
-          as $Val,
-    );
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'SigningResponse'))
+      ..add(DiagnosticsProperty('signatures', signatures))
+      ..add(DiagnosticsProperty('resolvedDerivationPaths', resolvedDerivationPaths));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SigningResponse &&
+            const DeepCollectionEquality().equals(other.signatures, signatures) &&
+            const DeepCollectionEquality().equals(
+              other.resolvedDerivationPaths,
+              resolvedDerivationPaths,
+            ));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(signatures),
+    const DeepCollectionEquality().hash(resolvedDerivationPaths),
+  );
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'SigningResponse(signatures: $signatures, resolvedDerivationPaths: $resolvedDerivationPaths)';
   }
 }
 
 /// @nodoc
-abstract class _$$SigningResponseImplCopyWith<$Res> implements $SigningResponseCopyWith<$Res> {
-  factory _$$SigningResponseImplCopyWith(
-    _$SigningResponseImpl value,
-    $Res Function(_$SigningResponseImpl) then,
-  ) = __$$SigningResponseImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $SigningResponseCopyWith<$Res> {
+  factory $SigningResponseCopyWith(SigningResponse value, $Res Function(SigningResponse) _then) =
+      _$SigningResponseCopyWithImpl;
   @useResult
   $Res call({List<Uint8List> signatures, List<Uri> resolvedDerivationPaths});
 }
 
 /// @nodoc
-class __$$SigningResponseImplCopyWithImpl<$Res>
-    extends _$SigningResponseCopyWithImpl<$Res, _$SigningResponseImpl>
-    implements _$$SigningResponseImplCopyWith<$Res> {
-  __$$SigningResponseImplCopyWithImpl(
-    _$SigningResponseImpl _value,
-    $Res Function(_$SigningResponseImpl) _then,
-  ) : super(_value, _then);
+class _$SigningResponseCopyWithImpl<$Res> implements $SigningResponseCopyWith<$Res> {
+  _$SigningResponseCopyWithImpl(this._self, this._then);
 
+  final SigningResponse _self;
+  final $Res Function(SigningResponse) _then;
+
+  /// Create a copy of SigningResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({Object? signatures = null, Object? resolvedDerivationPaths = null}) {
     return _then(
-      _$SigningResponseImpl(
+      _self.copyWith(
         signatures:
             null == signatures
-                ? _value._signatures
+                ? _self.signatures
                 : signatures // ignore: cast_nullable_to_non_nullable
                     as List<Uint8List>,
         resolvedDerivationPaths:
             null == resolvedDerivationPaths
-                ? _value._resolvedDerivationPaths
+                ? _self.resolvedDerivationPaths
                 : resolvedDerivationPaths // ignore: cast_nullable_to_non_nullable
                     as List<Uri>,
       ),
@@ -105,8 +95,8 @@ class __$$SigningResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SigningResponseImpl with DiagnosticableTreeMixin implements _SigningResponse {
-  const _$SigningResponseImpl({
+class _SigningResponse with DiagnosticableTreeMixin implements SigningResponse {
+  const _SigningResponse({
     required final List<Uint8List> signatures,
     required final List<Uri> resolvedDerivationPaths,
   }) : _signatures = signatures,
@@ -128,14 +118,16 @@ class _$SigningResponseImpl with DiagnosticableTreeMixin implements _SigningResp
     return EqualUnmodifiableListView(_resolvedDerivationPaths);
   }
 
+  /// Create a copy of SigningResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SigningResponse(signatures: $signatures, resolvedDerivationPaths: $resolvedDerivationPaths)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SigningResponseCopyWith<_SigningResponse> get copyWith =>
+      __$SigningResponseCopyWithImpl<_SigningResponse>(this, _$identity);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'SigningResponse'))
       ..add(DiagnosticsProperty('signatures', signatures))
@@ -146,7 +138,7 @@ class _$SigningResponseImpl with DiagnosticableTreeMixin implements _SigningResp
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SigningResponseImpl &&
+            other is _SigningResponse &&
             const DeepCollectionEquality().equals(other._signatures, _signatures) &&
             const DeepCollectionEquality().equals(
               other._resolvedDerivationPaths,
@@ -161,25 +153,46 @@ class _$SigningResponseImpl with DiagnosticableTreeMixin implements _SigningResp
     const DeepCollectionEquality().hash(_resolvedDerivationPaths),
   );
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SigningResponseImplCopyWith<_$SigningResponseImpl> get copyWith =>
-      __$$SigningResponseImplCopyWithImpl<_$SigningResponseImpl>(this, _$identity);
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'SigningResponse(signatures: $signatures, resolvedDerivationPaths: $resolvedDerivationPaths)';
+  }
 }
 
-abstract class _SigningResponse implements SigningResponse {
-  const factory _SigningResponse({
-    required final List<Uint8List> signatures,
-    required final List<Uri> resolvedDerivationPaths,
-  }) = _$SigningResponseImpl;
+/// @nodoc
+abstract mixin class _$SigningResponseCopyWith<$Res> implements $SigningResponseCopyWith<$Res> {
+  factory _$SigningResponseCopyWith(_SigningResponse value, $Res Function(_SigningResponse) _then) =
+      __$SigningResponseCopyWithImpl;
+  @override
+  @useResult
+  $Res call({List<Uint8List> signatures, List<Uri> resolvedDerivationPaths});
+}
 
+/// @nodoc
+class __$SigningResponseCopyWithImpl<$Res> implements _$SigningResponseCopyWith<$Res> {
+  __$SigningResponseCopyWithImpl(this._self, this._then);
+
+  final _SigningResponse _self;
+  final $Res Function(_SigningResponse) _then;
+
+  /// Create a copy of SigningResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  List<Uint8List> get signatures;
-  @override
-  List<Uri> get resolvedDerivationPaths;
-  @override
-  @JsonKey(ignore: true)
-  _$$SigningResponseImplCopyWith<_$SigningResponseImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({Object? signatures = null, Object? resolvedDerivationPaths = null}) {
+    return _then(
+      _SigningResponse(
+        signatures:
+            null == signatures
+                ? _self._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+        resolvedDerivationPaths:
+            null == resolvedDerivationPaths
+                ? _self._resolvedDerivationPaths
+                : resolvedDerivationPaths // ignore: cast_nullable_to_non_nullable
+                    as List<Uri>,
+      ),
+    );
+  }
 }

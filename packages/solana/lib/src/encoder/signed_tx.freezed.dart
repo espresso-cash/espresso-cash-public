@@ -11,25 +11,41 @@ part of 'signed_tx.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$SignedTx {
-  List<Signature> get signatures => throw _privateConstructorUsedError;
-  CompiledMessage get compiledMessage => throw _privateConstructorUsedError;
+  List<Signature> get signatures;
+  CompiledMessage get compiledMessage;
 
   /// Create a copy of SignedTx
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SignedTxCopyWith<SignedTx> get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $SignedTxCopyWith<SignedTx> get copyWith =>
+      _$SignedTxCopyWithImpl<SignedTx>(this as SignedTx, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SignedTx &&
+            const DeepCollectionEquality().equals(other.signatures, signatures) &&
+            (identical(other.compiledMessage, compiledMessage) ||
+                other.compiledMessage == compiledMessage));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(signatures), compiledMessage);
+
+  @override
+  String toString() {
+    return 'SignedTx(signatures: $signatures, compiledMessage: $compiledMessage)';
+  }
 }
 
 /// @nodoc
-abstract class $SignedTxCopyWith<$Res> {
-  factory $SignedTxCopyWith(SignedTx value, $Res Function(SignedTx) then) =
-      _$SignedTxCopyWithImpl<$Res, SignedTx>;
+abstract mixin class $SignedTxCopyWith<$Res> {
+  factory $SignedTxCopyWith(SignedTx value, $Res Function(SignedTx) _then) = _$SignedTxCopyWithImpl;
   @useResult
   $Res call({List<Signature> signatures, CompiledMessage compiledMessage});
 
@@ -37,13 +53,11 @@ abstract class $SignedTxCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SignedTxCopyWithImpl<$Res, $Val extends SignedTx> implements $SignedTxCopyWith<$Res> {
-  _$SignedTxCopyWithImpl(this._value, this._then);
+class _$SignedTxCopyWithImpl<$Res> implements $SignedTxCopyWith<$Res> {
+  _$SignedTxCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final SignedTx _self;
+  final $Res Function(SignedTx) _then;
 
   /// Create a copy of SignedTx
   /// with the given fields replaced by the non-null parameter values.
@@ -51,19 +65,18 @@ class _$SignedTxCopyWithImpl<$Res, $Val extends SignedTx> implements $SignedTxCo
   @override
   $Res call({Object? signatures = null, Object? compiledMessage = null}) {
     return _then(
-      _value.copyWith(
-            signatures:
-                null == signatures
-                    ? _value.signatures
-                    : signatures // ignore: cast_nullable_to_non_nullable
-                        as List<Signature>,
-            compiledMessage:
-                null == compiledMessage
-                    ? _value.compiledMessage
-                    : compiledMessage // ignore: cast_nullable_to_non_nullable
-                        as CompiledMessage,
-          )
-          as $Val,
+      _self.copyWith(
+        signatures:
+            null == signatures
+                ? _self.signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Signature>,
+        compiledMessage:
+            null == compiledMessage
+                ? _self.compiledMessage
+                : compiledMessage // ignore: cast_nullable_to_non_nullable
+                    as CompiledMessage,
+      ),
     );
   }
 
@@ -72,56 +85,16 @@ class _$SignedTxCopyWithImpl<$Res, $Val extends SignedTx> implements $SignedTxCo
   @override
   @pragma('vm:prefer-inline')
   $CompiledMessageCopyWith<$Res> get compiledMessage {
-    return $CompiledMessageCopyWith<$Res>(_value.compiledMessage, (value) {
-      return _then(_value.copyWith(compiledMessage: value) as $Val);
+    return $CompiledMessageCopyWith<$Res>(_self.compiledMessage, (value) {
+      return _then(_self.copyWith(compiledMessage: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$SignedTxImplCopyWith<$Res> implements $SignedTxCopyWith<$Res> {
-  factory _$$SignedTxImplCopyWith(_$SignedTxImpl value, $Res Function(_$SignedTxImpl) then) =
-      __$$SignedTxImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({List<Signature> signatures, CompiledMessage compiledMessage});
 
-  @override
-  $CompiledMessageCopyWith<$Res> get compiledMessage;
-}
-
-/// @nodoc
-class __$$SignedTxImplCopyWithImpl<$Res> extends _$SignedTxCopyWithImpl<$Res, _$SignedTxImpl>
-    implements _$$SignedTxImplCopyWith<$Res> {
-  __$$SignedTxImplCopyWithImpl(_$SignedTxImpl _value, $Res Function(_$SignedTxImpl) _then)
-    : super(_value, _then);
-
-  /// Create a copy of SignedTx
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? signatures = null, Object? compiledMessage = null}) {
-    return _then(
-      _$SignedTxImpl(
-        signatures:
-            null == signatures
-                ? _value._signatures
-                : signatures // ignore: cast_nullable_to_non_nullable
-                    as List<Signature>,
-        compiledMessage:
-            null == compiledMessage
-                ? _value.compiledMessage
-                : compiledMessage // ignore: cast_nullable_to_non_nullable
-                    as CompiledMessage,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$SignedTxImpl extends _SignedTx {
-  const _$SignedTxImpl({
+class _SignedTx extends SignedTx {
+  const _SignedTx({
     final List<Signature> signatures = const <Signature>[],
     required this.compiledMessage,
   }) : _signatures = signatures,
@@ -139,16 +112,19 @@ class _$SignedTxImpl extends _SignedTx {
   @override
   final CompiledMessage compiledMessage;
 
+  /// Create a copy of SignedTx
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'SignedTx(signatures: $signatures, compiledMessage: $compiledMessage)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SignedTxCopyWith<_SignedTx> get copyWith =>
+      __$SignedTxCopyWithImpl<_SignedTx>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SignedTxImpl &&
+            other is _SignedTx &&
             const DeepCollectionEquality().equals(other._signatures, _signatures) &&
             (identical(other.compiledMessage, compiledMessage) ||
                 other.compiledMessage == compiledMessage));
@@ -158,30 +134,59 @@ class _$SignedTxImpl extends _SignedTx {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_signatures), compiledMessage);
 
-  /// Create a copy of SignedTx
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SignedTxImplCopyWith<_$SignedTxImpl> get copyWith =>
-      __$$SignedTxImplCopyWithImpl<_$SignedTxImpl>(this, _$identity);
+  String toString() {
+    return 'SignedTx(signatures: $signatures, compiledMessage: $compiledMessage)';
+  }
 }
 
-abstract class _SignedTx extends SignedTx {
-  const factory _SignedTx({
-    final List<Signature> signatures,
-    required final CompiledMessage compiledMessage,
-  }) = _$SignedTxImpl;
-  const _SignedTx._() : super._();
+/// @nodoc
+abstract mixin class _$SignedTxCopyWith<$Res> implements $SignedTxCopyWith<$Res> {
+  factory _$SignedTxCopyWith(_SignedTx value, $Res Function(_SignedTx) _then) =
+      __$SignedTxCopyWithImpl;
+  @override
+  @useResult
+  $Res call({List<Signature> signatures, CompiledMessage compiledMessage});
 
   @override
-  List<Signature> get signatures;
-  @override
-  CompiledMessage get compiledMessage;
+  $CompiledMessageCopyWith<$Res> get compiledMessage;
+}
+
+/// @nodoc
+class __$SignedTxCopyWithImpl<$Res> implements _$SignedTxCopyWith<$Res> {
+  __$SignedTxCopyWithImpl(this._self, this._then);
+
+  final _SignedTx _self;
+  final $Res Function(_SignedTx) _then;
 
   /// Create a copy of SignedTx
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SignedTxImplCopyWith<_$SignedTxImpl> get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({Object? signatures = null, Object? compiledMessage = null}) {
+    return _then(
+      _SignedTx(
+        signatures:
+            null == signatures
+                ? _self._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Signature>,
+        compiledMessage:
+            null == compiledMessage
+                ? _self.compiledMessage
+                : compiledMessage // ignore: cast_nullable_to_non_nullable
+                    as CompiledMessage,
+      ),
+    );
+  }
+
+  /// Create a copy of SignedTx
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CompiledMessageCopyWith<$Res> get compiledMessage {
+    return $CompiledMessageCopyWith<$Res>(_self.compiledMessage, (value) {
+      return _then(_self.copyWith(compiledMessage: value));
+    });
+  }
 }

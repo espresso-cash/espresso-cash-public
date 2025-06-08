@@ -5,7 +5,7 @@ part 'mint.freezed.dart';
 
 /// Information about a mint.
 @freezed
-class Mint with _$Mint {
+sealed class Mint with _$Mint {
   const factory Mint({
     /// Address of the mint
     required Ed25519HDPublicKey address,

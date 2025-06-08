@@ -3,12 +3,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'gas.freezed.dart';
 
 @freezed
-class GasFeeRequestDto with _$GasFeeRequestDto {
+sealed class GasFeeRequestDto with _$GasFeeRequestDto {
   const factory GasFeeRequestDto({required String network}) = _GasFeeRequestDto;
 }
 
 @freezed
-class GasFeeResponseDto with _$GasFeeResponseDto {
+sealed class GasFeeResponseDto with _$GasFeeResponseDto {
   const factory GasFeeResponseDto({
     required GasFeeEstimate low,
     required GasFeeEstimate medium,
@@ -19,7 +19,7 @@ class GasFeeResponseDto with _$GasFeeResponseDto {
 }
 
 @freezed
-class GasFeeEstimate with _$GasFeeEstimate {
+sealed class GasFeeEstimate with _$GasFeeEstimate {
   factory GasFeeEstimate({
     required String suggestedMaxPriorityFeePerGas,
     required String suggestedMaxFeePerGas,

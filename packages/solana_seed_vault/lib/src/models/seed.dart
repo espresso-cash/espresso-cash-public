@@ -7,7 +7,7 @@ part 'seed.freezed.dart';
 enum Purpose { signSolanaTransaction }
 
 @freezed
-class Seed with _$Seed {
+sealed class Seed with _$Seed {
   const factory Seed({
     required AuthToken authToken,
     required String name,

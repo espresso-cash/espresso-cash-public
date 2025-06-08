@@ -27,16 +27,17 @@ extension MetaInnerInstructionExt on TransactionDetails {
 }
 
 extension on ParsedInstruction {
-  String? getDestination() => mapOrNull<String?>(
-    system:
-        (it) => it.parsed.mapOrNull(
-          transfer: (t) => t.info.destination,
-          transferChecked: (t) => t.info.destination,
-        ),
-    splToken:
-        (it) => it.parsed.mapOrNull(
-          transfer: (t) => t.info.destination,
-          transferChecked: (t) => t.info.destination,
-        ),
-  );
+  String? getDestination() => switch (this) {
+    ParsedInstructionSystem(:final parsed) => switch (parsed) {
+      ParsedSystemTransferInstruction(:final info) => info.destination,
+      ParsedSystemTransferCheckedInstruction(:final info) => info.destination,
+      _ => null,
+    },
+    ParsedInstructionSplToken(:final parsed) => switch (parsed) {
+      ParsedSystemTransferInstruction(:final info) => info.destination,
+      ParsedSystemTransferCheckedInstruction(:final info) => info.destination,
+      _ => null,
+    },
+    _ => null,
+  };
 }

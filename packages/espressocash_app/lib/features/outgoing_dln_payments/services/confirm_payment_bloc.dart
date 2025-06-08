@@ -168,7 +168,7 @@ extension ConfirmPaymentExt on ConfirmPaymentState {
 }
 
 @freezed
-class CreateOrderException with _$CreateOrderException implements Exception {
+sealed class CreateOrderException with _$CreateOrderException implements Exception {
   const factory CreateOrderException.other(Exception e) = OtherException;
 
   const factory CreateOrderException.quoteNotFound() = QuoteNotFound;

@@ -1,5 +1,14 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          explicit_to_json: true
+
 global_options:
   freezed:
+    options:
+      format: true
     runs_before:
       - json_serializable
   json_serializable:

@@ -95,7 +95,7 @@ sealed class SignInEvent with _$SignInEvent {
 }
 
 @freezed
-class SignInException with _$SignInException implements Exception {
+sealed class SignInException with _$SignInException implements Exception {
   const factory SignInException.seedVaultActionCanceled() = _ActionCanceled;
   const factory SignInException.generic(Exception e) = _Generic;
 }

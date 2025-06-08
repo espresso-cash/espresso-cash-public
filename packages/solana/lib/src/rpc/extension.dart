@@ -211,15 +211,12 @@ extension RpcClientExt on RpcClient {
   Future<Message> getMessageFromEncodedTx(String encodedTx) {
     final tx = SignedTx.decode(encodedTx);
 
-    return tx.compiledMessage.map(
-      legacy: (_) async => tx.decompileMessage(),
-      v0: (compiledMessage) async {
-        final addressTableLookups = compiledMessage.addressTableLookups;
-
+    return switch (tx.compiledMessage) {
+      CompiledMessageLegacy() => Future.value(tx.decompileMessage()),
+      CompiledMessageV0(:final addressTableLookups) => Future<Message>(() async {
         final lookUpTables = await getAddressLookUpTableAccounts(addressTableLookups);
-
         return tx.decompileMessage(addressLookupTableAccounts: lookUpTables);
-      },
-    );
+      }),
+    };
   }
 }

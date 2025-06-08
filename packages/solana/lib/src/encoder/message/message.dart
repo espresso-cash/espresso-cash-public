@@ -13,7 +13,7 @@ part 'message.freezed.dart';
 ///
 /// [1]: https://docs.solana.com/developing/programming-model/transactions#message-format
 @freezed
-class Message with _$Message {
+sealed class Message with _$Message {
   /// Construct a message to send with a transaction to execute the provided
   /// [instructions].
   const factory Message({required List<Instruction> instructions}) = _Message;
@@ -25,10 +25,10 @@ class Message with _$Message {
   factory Message.decompile(
     CompiledMessage compiledMessage, {
     List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
-  }) => compiledMessage.map(
-    legacy: decompileLegacy,
-    v0: (compiledMessage) => decompileV0(compiledMessage, addressLookupTableAccounts),
-  );
+  }) => switch (compiledMessage) {
+    CompiledMessageLegacy() => decompileLegacy(compiledMessage),
+    CompiledMessageV0() => decompileV0(compiledMessage, addressLookupTableAccounts),
+  };
 
   /// Compiles a message into the array of bytes that would be interpreted by
   /// solana. The [recentBlockhash] is passed here as this is the final step

@@ -5,7 +5,7 @@ import 'package:solana/src/encoder/compact_array.dart';
 part 'compiled_instruction.freezed.dart';
 
 @freezed
-class CompiledInstruction with _$CompiledInstruction {
+sealed class CompiledInstruction with _$CompiledInstruction {
   const factory CompiledInstruction({
     required int programIdIndex,
     required List<int> accountKeyIndexes,

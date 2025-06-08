@@ -139,7 +139,7 @@ class MobileWalletAdapterClient {
 }
 
 @freezed
-class GetCapabilitiesResult with _$GetCapabilitiesResult {
+sealed class GetCapabilitiesResult with _$GetCapabilitiesResult {
   const factory GetCapabilitiesResult({
     required bool supportsCloneAuthorization,
     required bool supportsSignAndSendTransactions,
@@ -149,7 +149,7 @@ class GetCapabilitiesResult with _$GetCapabilitiesResult {
 }
 
 @freezed
-class AuthorizationResult with _$AuthorizationResult {
+sealed class AuthorizationResult with _$AuthorizationResult {
   const factory AuthorizationResult({
     required String authToken,
     required Uint8List publicKey,
@@ -159,18 +159,18 @@ class AuthorizationResult with _$AuthorizationResult {
 }
 
 @freezed
-class SignPayloadsResult with _$SignPayloadsResult {
+sealed class SignPayloadsResult with _$SignPayloadsResult {
   const factory SignPayloadsResult({required List<Uint8List> signedPayloads}) = _SignPayloadsResult;
 }
 
 @freezed
-class SignAndSendTransactionsResult with _$SignAndSendTransactionsResult {
+sealed class SignAndSendTransactionsResult with _$SignAndSendTransactionsResult {
   const factory SignAndSendTransactionsResult({required List<Uint8List> signatures}) =
       _SignAndSendTransactionsResult;
 }
 
 @freezed
-class SignedMessage with _$SignedMessage {
+sealed class SignedMessage with _$SignedMessage {
   const factory SignedMessage({
     required Uint8List message,
     required List<Uint8List> addresses,
@@ -179,7 +179,7 @@ class SignedMessage with _$SignedMessage {
 }
 
 @freezed
-class SignMessagesResult with _$SignMessagesResult {
+sealed class SignMessagesResult with _$SignMessagesResult {
   const factory SignMessagesResult({required List<SignedMessage> signedMessages}) =
       _SignMessagesResult;
 }

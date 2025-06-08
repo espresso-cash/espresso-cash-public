@@ -15,7 +15,7 @@ import 'package:solana/src/encoder/transaction_version.dart';
 part 'compiled_message.freezed.dart';
 
 @freezed
-class CompiledMessage with _$CompiledMessage {
+sealed class CompiledMessage with _$CompiledMessage {
   factory CompiledMessage(ByteArray data) => switch (TransactionVersion.fromByteArray(data)) {
     TransactionVersion.legacy => _decompileLegacy(data),
     TransactionVersion.v0 => _decodeV0(data),
@@ -38,32 +38,30 @@ class CompiledMessage with _$CompiledMessage {
 
   const CompiledMessage._();
 
-  ByteArray toByteArray() => map(
-    legacy:
-        (data) => ByteArray.merge([
-          data.header.toByteArray(),
-          CompactArray.fromIterable(data.accountKeys.map((e) => e.toByteArray())).toByteArray(),
-          ByteArray.fromBase58(data.recentBlockhash),
-          CompactArray.fromIterable(data.instructions.map((e) => e.toByteArray())).toByteArray(),
-        ]),
-    v0:
-        (data) => ByteArray.merge([
-          ByteArray.u8(1 << 7),
-          data.header.toByteArray(),
-          CompactArray.fromIterable(data.accountKeys.map((e) => e.toByteArray())).toByteArray(),
-          ByteArray.fromBase58(data.recentBlockhash),
-          CompactArray.fromIterable(data.instructions.map((e) => e.toByteArray())).toByteArray(),
-          CompactArray.fromIterable(
-            data.addressTableLookups.map(
-              (e) => ByteArray.merge([
-                e.accountKey.toByteArray(),
-                CompactArray(ByteArray(e.writableIndexes)).toByteArray(),
-                CompactArray(ByteArray(e.readonlyIndexes)).toByteArray(),
-              ]),
-            ),
-          ).toByteArray(),
-        ]),
-  );
+  ByteArray toByteArray() => switch (this) {
+    final CompiledMessageLegacy data => ByteArray.merge([
+      data.header.toByteArray(),
+      CompactArray.fromIterable(data.accountKeys.map((e) => e.toByteArray())).toByteArray(),
+      ByteArray.fromBase58(data.recentBlockhash),
+      CompactArray.fromIterable(data.instructions.map((e) => e.toByteArray())).toByteArray(),
+    ]),
+    final CompiledMessageV0 data => ByteArray.merge([
+      ByteArray.u8(1 << 7),
+      data.header.toByteArray(),
+      CompactArray.fromIterable(data.accountKeys.map((e) => e.toByteArray())).toByteArray(),
+      ByteArray.fromBase58(data.recentBlockhash),
+      CompactArray.fromIterable(data.instructions.map((e) => e.toByteArray())).toByteArray(),
+      CompactArray.fromIterable(
+        data.addressTableLookups.map(
+          (e) => ByteArray.merge([
+            e.accountKey.toByteArray(),
+            CompactArray(ByteArray(e.writableIndexes)).toByteArray(),
+            CompactArray(ByteArray(e.readonlyIndexes)).toByteArray(),
+          ]),
+        ),
+      ).toByteArray(),
+    ]),
+  };
 
   int get requiredSignatureCount =>
       version == TransactionVersion.legacy ? toByteArray().first : toByteArray().elementAt(1);

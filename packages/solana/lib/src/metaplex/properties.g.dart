@@ -6,14 +6,13 @@ part of 'properties.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$UnknownImpl _$$UnknownImplFromJson(Map<String, dynamic> json) =>
-    _$UnknownImpl($type: json['category'] as String?);
+Unknown _$UnknownFromJson(Map<String, dynamic> json) => Unknown($type: json['category'] as String?);
 
-Map<String, dynamic> _$$UnknownImplToJson(_$UnknownImpl instance) => <String, dynamic>{
+Map<String, dynamic> _$UnknownToJson(Unknown instance) => <String, dynamic>{
   'category': instance.$type,
 };
 
-_$VideoImpl _$$VideoImplFromJson(Map<String, dynamic> json) => _$VideoImpl(
+Video _$VideoFromJson(Map<String, dynamic> json) => Video(
   files:
       (json['files'] as List<dynamic>)
           .map((e) => File.fromJson(e as Map<String, dynamic>))
@@ -21,12 +20,12 @@ _$VideoImpl _$$VideoImplFromJson(Map<String, dynamic> json) => _$VideoImpl(
   $type: json['category'] as String?,
 );
 
-Map<String, dynamic> _$$VideoImplToJson(_$VideoImpl instance) => <String, dynamic>{
+Map<String, dynamic> _$VideoToJson(Video instance) => <String, dynamic>{
   'files': instance.files.map((e) => e.toJson()).toList(),
   'category': instance.$type,
 };
 
-_$ImageImpl _$$ImageImplFromJson(Map<String, dynamic> json) => _$ImageImpl(
+Image _$ImageFromJson(Map<String, dynamic> json) => Image(
   files:
       (json['files'] as List<dynamic>)
           .map((e) => File.fromJson(e as Map<String, dynamic>))
@@ -34,12 +33,12 @@ _$ImageImpl _$$ImageImplFromJson(Map<String, dynamic> json) => _$ImageImpl(
   $type: json['category'] as String?,
 );
 
-Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) => <String, dynamic>{
+Map<String, dynamic> _$ImageToJson(Image instance) => <String, dynamic>{
   'files': instance.files.map((e) => e.toJson()).toList(),
   'category': instance.$type,
 };
 
-_$Model3DImpl _$$Model3DImplFromJson(Map<String, dynamic> json) => _$Model3DImpl(
+Model3D _$Model3DFromJson(Map<String, dynamic> json) => Model3D(
   files:
       (json['files'] as List<dynamic>)
           .map((e) => File.fromJson(e as Map<String, dynamic>))
@@ -47,12 +46,12 @@ _$Model3DImpl _$$Model3DImplFromJson(Map<String, dynamic> json) => _$Model3DImpl
   $type: json['category'] as String?,
 );
 
-Map<String, dynamic> _$$Model3DImplToJson(_$Model3DImpl instance) => <String, dynamic>{
+Map<String, dynamic> _$Model3DToJson(Model3D instance) => <String, dynamic>{
   'files': instance.files.map((e) => e.toJson()).toList(),
   'category': instance.$type,
 };
 
-_$AudioImpl _$$AudioImplFromJson(Map<String, dynamic> json) => _$AudioImpl(
+Audio _$AudioFromJson(Map<String, dynamic> json) => Audio(
   files:
       (json['files'] as List<dynamic>)
           .map((e) => File.fromJson(e as Map<String, dynamic>))
@@ -60,12 +59,12 @@ _$AudioImpl _$$AudioImplFromJson(Map<String, dynamic> json) => _$AudioImpl(
   $type: json['category'] as String?,
 );
 
-Map<String, dynamic> _$$AudioImplToJson(_$AudioImpl instance) => <String, dynamic>{
+Map<String, dynamic> _$AudioToJson(Audio instance) => <String, dynamic>{
   'files': instance.files.map((e) => e.toJson()).toList(),
   'category': instance.$type,
 };
 
-_$HtmlImpl _$$HtmlImplFromJson(Map<String, dynamic> json) => _$HtmlImpl(
+Html _$HtmlFromJson(Map<String, dynamic> json) => Html(
   files:
       (json['files'] as List<dynamic>)
           .map((e) => File.fromJson(e as Map<String, dynamic>))
@@ -73,7 +72,7 @@ _$HtmlImpl _$$HtmlImplFromJson(Map<String, dynamic> json) => _$HtmlImpl(
   $type: json['category'] as String?,
 );
 
-Map<String, dynamic> _$$HtmlImplToJson(_$HtmlImpl instance) => <String, dynamic>{
+Map<String, dynamic> _$HtmlToJson(Html instance) => <String, dynamic>{
   'files': instance.files.map((e) => e.toJson()).toList(),
   'category': instance.$type,
 };

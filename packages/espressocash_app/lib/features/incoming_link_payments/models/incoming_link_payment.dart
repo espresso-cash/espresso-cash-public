@@ -8,7 +8,7 @@ import '../../transactions/models/tx_results.dart';
 part 'incoming_link_payment.freezed.dart';
 
 @freezed
-class IncomingLinkPayment with _$IncomingLinkPayment {
+sealed class IncomingLinkPayment with _$IncomingLinkPayment {
   const factory IncomingLinkPayment({
     required String id,
     required DateTime created,

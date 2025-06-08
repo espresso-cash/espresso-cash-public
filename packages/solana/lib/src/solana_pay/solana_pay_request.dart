@@ -7,7 +7,7 @@ import 'package:solana/src/solana_pay/exceptions.dart';
 part 'solana_pay_request.freezed.dart';
 
 @freezed
-class SolanaPayRequest with _$SolanaPayRequest {
+sealed class SolanaPayRequest with _$SolanaPayRequest {
   const factory SolanaPayRequest({
     required Ed25519HDPublicKey recipient,
     Decimal? amount,

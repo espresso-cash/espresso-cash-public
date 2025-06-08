@@ -11,143 +11,21 @@ part of 'public_key_response.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
-mixin _$PublicKeyResponse {
-  Uint8List? get publicKey => throw _privateConstructorUsedError;
-  String? get publicKeyEncoded => throw _privateConstructorUsedError;
-  Uri get resolvedDerivationPath => throw _privateConstructorUsedError;
+mixin _$PublicKeyResponse implements DiagnosticableTreeMixin {
+  Uint8List? get publicKey;
+  String? get publicKeyEncoded;
+  Uri get resolvedDerivationPath;
 
-  @JsonKey(ignore: true)
-  $PublicKeyResponseCopyWith<PublicKeyResponse> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $PublicKeyResponseCopyWith<$Res> {
-  factory $PublicKeyResponseCopyWith(
-    PublicKeyResponse value,
-    $Res Function(PublicKeyResponse) then,
-  ) = _$PublicKeyResponseCopyWithImpl<$Res, PublicKeyResponse>;
-  @useResult
-  $Res call({Uint8List? publicKey, String? publicKeyEncoded, Uri resolvedDerivationPath});
-}
-
-/// @nodoc
-class _$PublicKeyResponseCopyWithImpl<$Res, $Val extends PublicKeyResponse>
-    implements $PublicKeyResponseCopyWith<$Res> {
-  _$PublicKeyResponseCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of PublicKeyResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? publicKey = freezed,
-    Object? publicKeyEncoded = freezed,
-    Object? resolvedDerivationPath = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            publicKey:
-                freezed == publicKey
-                    ? _value.publicKey
-                    : publicKey // ignore: cast_nullable_to_non_nullable
-                        as Uint8List?,
-            publicKeyEncoded:
-                freezed == publicKeyEncoded
-                    ? _value.publicKeyEncoded
-                    : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
-                        as String?,
-            resolvedDerivationPath:
-                null == resolvedDerivationPath
-                    ? _value.resolvedDerivationPath
-                    : resolvedDerivationPath // ignore: cast_nullable_to_non_nullable
-                        as Uri,
-          )
-          as $Val,
-    );
-  }
-}
-
-/// @nodoc
-abstract class _$$PublicKeyResponseImplCopyWith<$Res> implements $PublicKeyResponseCopyWith<$Res> {
-  factory _$$PublicKeyResponseImplCopyWith(
-    _$PublicKeyResponseImpl value,
-    $Res Function(_$PublicKeyResponseImpl) then,
-  ) = __$$PublicKeyResponseImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Uint8List? publicKey, String? publicKeyEncoded, Uri resolvedDerivationPath});
-}
-
-/// @nodoc
-class __$$PublicKeyResponseImplCopyWithImpl<$Res>
-    extends _$PublicKeyResponseCopyWithImpl<$Res, _$PublicKeyResponseImpl>
-    implements _$$PublicKeyResponseImplCopyWith<$Res> {
-  __$$PublicKeyResponseImplCopyWithImpl(
-    _$PublicKeyResponseImpl _value,
-    $Res Function(_$PublicKeyResponseImpl) _then,
-  ) : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? publicKey = freezed,
-    Object? publicKeyEncoded = freezed,
-    Object? resolvedDerivationPath = null,
-  }) {
-    return _then(
-      _$PublicKeyResponseImpl(
-        publicKey:
-            freezed == publicKey
-                ? _value.publicKey
-                : publicKey // ignore: cast_nullable_to_non_nullable
-                    as Uint8List?,
-        publicKeyEncoded:
-            freezed == publicKeyEncoded
-                ? _value.publicKeyEncoded
-                : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
-                    as String?,
-        resolvedDerivationPath:
-            null == resolvedDerivationPath
-                ? _value.resolvedDerivationPath
-                : resolvedDerivationPath // ignore: cast_nullable_to_non_nullable
-                    as Uri,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$PublicKeyResponseImpl with DiagnosticableTreeMixin implements _PublicKeyResponse {
-  const _$PublicKeyResponseImpl({
-    required this.publicKey,
-    required this.publicKeyEncoded,
-    required this.resolvedDerivationPath,
-  });
-
-  @override
-  final Uint8List? publicKey;
-  @override
-  final String? publicKeyEncoded;
-  @override
-  final Uri resolvedDerivationPath;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PublicKeyResponse(publicKey: $publicKey, publicKeyEncoded: $publicKeyEncoded, resolvedDerivationPath: $resolvedDerivationPath)';
-  }
+  $PublicKeyResponseCopyWith<PublicKeyResponse> get copyWith =>
+      _$PublicKeyResponseCopyWithImpl<PublicKeyResponse>(this as PublicKeyResponse, _$identity);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'PublicKeyResponse'))
       ..add(DiagnosticsProperty('publicKey', publicKey))
@@ -159,7 +37,7 @@ class _$PublicKeyResponseImpl with DiagnosticableTreeMixin implements _PublicKey
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PublicKeyResponseImpl &&
+            other is PublicKeyResponse &&
             const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
             (identical(other.publicKeyEncoded, publicKeyEncoded) ||
                 other.publicKeyEncoded == publicKeyEncoded) &&
@@ -175,28 +53,164 @@ class _$PublicKeyResponseImpl with DiagnosticableTreeMixin implements _PublicKey
     resolvedDerivationPath,
   );
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$PublicKeyResponseImplCopyWith<_$PublicKeyResponseImpl> get copyWith =>
-      __$$PublicKeyResponseImplCopyWithImpl<_$PublicKeyResponseImpl>(this, _$identity);
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'PublicKeyResponse(publicKey: $publicKey, publicKeyEncoded: $publicKeyEncoded, resolvedDerivationPath: $resolvedDerivationPath)';
+  }
 }
 
-abstract class _PublicKeyResponse implements PublicKeyResponse {
-  const factory _PublicKeyResponse({
-    required final Uint8List? publicKey,
-    required final String? publicKeyEncoded,
-    required final Uri resolvedDerivationPath,
-  }) = _$PublicKeyResponseImpl;
+/// @nodoc
+abstract mixin class $PublicKeyResponseCopyWith<$Res> {
+  factory $PublicKeyResponseCopyWith(
+    PublicKeyResponse value,
+    $Res Function(PublicKeyResponse) _then,
+  ) = _$PublicKeyResponseCopyWithImpl;
+  @useResult
+  $Res call({Uint8List? publicKey, String? publicKeyEncoded, Uri resolvedDerivationPath});
+}
+
+/// @nodoc
+class _$PublicKeyResponseCopyWithImpl<$Res> implements $PublicKeyResponseCopyWith<$Res> {
+  _$PublicKeyResponseCopyWithImpl(this._self, this._then);
+
+  final PublicKeyResponse _self;
+  final $Res Function(PublicKeyResponse) _then;
+
+  /// Create a copy of PublicKeyResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? publicKey = freezed,
+    Object? publicKeyEncoded = freezed,
+    Object? resolvedDerivationPath = null,
+  }) {
+    return _then(
+      _self.copyWith(
+        publicKey:
+            freezed == publicKey
+                ? _self.publicKey
+                : publicKey // ignore: cast_nullable_to_non_nullable
+                    as Uint8List?,
+        publicKeyEncoded:
+            freezed == publicKeyEncoded
+                ? _self.publicKeyEncoded
+                : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        resolvedDerivationPath:
+            null == resolvedDerivationPath
+                ? _self.resolvedDerivationPath
+                : resolvedDerivationPath // ignore: cast_nullable_to_non_nullable
+                    as Uri,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _PublicKeyResponse with DiagnosticableTreeMixin implements PublicKeyResponse {
+  const _PublicKeyResponse({
+    required this.publicKey,
+    required this.publicKeyEncoded,
+    required this.resolvedDerivationPath,
+  });
 
   @override
-  Uint8List? get publicKey;
+  final Uint8List? publicKey;
   @override
-  String? get publicKeyEncoded;
+  final String? publicKeyEncoded;
   @override
-  Uri get resolvedDerivationPath;
+  final Uri resolvedDerivationPath;
+
+  /// Create a copy of PublicKeyResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$PublicKeyResponseImplCopyWith<_$PublicKeyResponseImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$PublicKeyResponseCopyWith<_PublicKeyResponse> get copyWith =>
+      __$PublicKeyResponseCopyWithImpl<_PublicKeyResponse>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'PublicKeyResponse'))
+      ..add(DiagnosticsProperty('publicKey', publicKey))
+      ..add(DiagnosticsProperty('publicKeyEncoded', publicKeyEncoded))
+      ..add(DiagnosticsProperty('resolvedDerivationPath', resolvedDerivationPath));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _PublicKeyResponse &&
+            const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
+            (identical(other.publicKeyEncoded, publicKeyEncoded) ||
+                other.publicKeyEncoded == publicKeyEncoded) &&
+            (identical(other.resolvedDerivationPath, resolvedDerivationPath) ||
+                other.resolvedDerivationPath == resolvedDerivationPath));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(publicKey),
+    publicKeyEncoded,
+    resolvedDerivationPath,
+  );
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'PublicKeyResponse(publicKey: $publicKey, publicKeyEncoded: $publicKeyEncoded, resolvedDerivationPath: $resolvedDerivationPath)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$PublicKeyResponseCopyWith<$Res> implements $PublicKeyResponseCopyWith<$Res> {
+  factory _$PublicKeyResponseCopyWith(
+    _PublicKeyResponse value,
+    $Res Function(_PublicKeyResponse) _then,
+  ) = __$PublicKeyResponseCopyWithImpl;
+  @override
+  @useResult
+  $Res call({Uint8List? publicKey, String? publicKeyEncoded, Uri resolvedDerivationPath});
+}
+
+/// @nodoc
+class __$PublicKeyResponseCopyWithImpl<$Res> implements _$PublicKeyResponseCopyWith<$Res> {
+  __$PublicKeyResponseCopyWithImpl(this._self, this._then);
+
+  final _PublicKeyResponse _self;
+  final $Res Function(_PublicKeyResponse) _then;
+
+  /// Create a copy of PublicKeyResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? publicKey = freezed,
+    Object? publicKeyEncoded = freezed,
+    Object? resolvedDerivationPath = null,
+  }) {
+    return _then(
+      _PublicKeyResponse(
+        publicKey:
+            freezed == publicKey
+                ? _self.publicKey
+                : publicKey // ignore: cast_nullable_to_non_nullable
+                    as Uint8List?,
+        publicKeyEncoded:
+            freezed == publicKeyEncoded
+                ? _self.publicKeyEncoded
+                : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        resolvedDerivationPath:
+            null == resolvedDerivationPath
+                ? _self.resolvedDerivationPath
+                : resolvedDerivationPath // ignore: cast_nullable_to_non_nullable
+                    as Uri,
+      ),
+    );
+  }
 }

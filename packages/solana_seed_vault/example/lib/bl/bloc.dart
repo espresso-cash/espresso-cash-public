@@ -13,11 +13,11 @@ part 'bloc.freezed.dart';
 
 @freezed
 sealed class SeedVaultState with _$SeedVaultState {
-  const factory SeedVaultState.none() = _None;
+  const factory SeedVaultState.none() = SeedVaultStateNone;
 
-  const factory SeedVaultState.error(String err) = _Error;
+  const factory SeedVaultState.error(String err) = SeedVaultStateError;
 
-  const factory SeedVaultState.unauthorized() = _Unauthorized;
+  const factory SeedVaultState.unauthorized() = SeedVaultStateUnauthorized;
 
   const factory SeedVaultState.loaded({
     required List<Seed> seeds,
@@ -25,7 +25,7 @@ sealed class SeedVaultState with _$SeedVaultState {
     required bool hasUnauthorizedSeeds,
     required Uri? firstRequestedPublicKey,
     required Uri? lastRequestedPublicKey,
-  }) = _Loaded;
+  }) = SeedVaultStateLoaded;
 }
 
 // ignore: avoid-cubits, just an example
@@ -281,14 +281,20 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     );
   }
 
-  int get _maxSigningRequests =>
-      state.maybeMap(orElse: always(0), loaded: (it) => it.limits.maxSigningRequests);
+  int get _maxSigningRequests => switch (state) {
+    final SeedVaultStateLoaded it => it.limits.maxSigningRequests,
+    _ => 0,
+  };
 
-  int get _maxRequestedSignatures =>
-      state.maybeMap(orElse: always(0), loaded: (it) => it.limits.maxRequestedSignatures);
+  int get _maxRequestedSignatures => switch (state) {
+    final SeedVaultStateLoaded it => it.limits.maxRequestedSignatures,
+    _ => 0,
+  };
 
-  int get _maxRequestedPublicKeys =>
-      state.maybeMap(orElse: always(0), loaded: (it) => it.limits.maxRequestedPublicKeys);
+  int get _maxRequestedPublicKeys => switch (state) {
+    final SeedVaultStateLoaded it => it.limits.maxRequestedPublicKeys,
+    _ => 0,
+  };
 }
 
 const _firstRequestedPublicKeyIndex = 1000;

@@ -8,7 +8,7 @@ import '../../transactions/models/tx_results.dart';
 part 'outgoing_link_payment.freezed.dart';
 
 @freezed
-class OutgoingLinkPayment with _$OutgoingLinkPayment {
+sealed class OutgoingLinkPayment with _$OutgoingLinkPayment {
   const factory OutgoingLinkPayment({
     required String id,
     required CryptoAmount amount,
@@ -21,7 +21,7 @@ class OutgoingLinkPayment with _$OutgoingLinkPayment {
 }
 
 @freezed
-class OLPStatus with _$OLPStatus {
+sealed class OLPStatus with _$OLPStatus {
   /// Tx created, but not sent yet. At this stage, it's safe to cancel/recreate
   /// it.
   const factory OLPStatus.txCreated(

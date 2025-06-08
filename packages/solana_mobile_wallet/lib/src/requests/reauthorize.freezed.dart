@@ -11,191 +11,26 @@ part of 'reauthorize.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$ReauthorizeRequest {
-  String? get identityName => throw _privateConstructorUsedError;
-  Uri? get identityUri => throw _privateConstructorUsedError;
-  Uri? get iconRelativeUri => throw _privateConstructorUsedError;
-  String get cluster => throw _privateConstructorUsedError;
-  Uint8List get authorizationScope => throw _privateConstructorUsedError;
+  String? get identityName;
+  Uri? get identityUri;
+  Uri? get iconRelativeUri;
+  String get cluster;
+  Uint8List get authorizationScope;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ReauthorizeRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $ReauthorizeRequestCopyWith<ReauthorizeRequest> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ReauthorizeRequestCopyWith<$Res> {
-  factory $ReauthorizeRequestCopyWith(
-    ReauthorizeRequest value,
-    $Res Function(ReauthorizeRequest) then,
-  ) = _$ReauthorizeRequestCopyWithImpl<$Res, ReauthorizeRequest>;
-  @useResult
-  $Res call({
-    String? identityName,
-    Uri? identityUri,
-    Uri? iconRelativeUri,
-    String cluster,
-    Uint8List authorizationScope,
-  });
-}
-
-/// @nodoc
-class _$ReauthorizeRequestCopyWithImpl<$Res, $Val extends ReauthorizeRequest>
-    implements $ReauthorizeRequestCopyWith<$Res> {
-  _$ReauthorizeRequestCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? identityName = freezed,
-    Object? identityUri = freezed,
-    Object? iconRelativeUri = freezed,
-    Object? cluster = null,
-    Object? authorizationScope = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            identityName:
-                freezed == identityName
-                    ? _value.identityName
-                    : identityName // ignore: cast_nullable_to_non_nullable
-                        as String?,
-            identityUri:
-                freezed == identityUri
-                    ? _value.identityUri
-                    : identityUri // ignore: cast_nullable_to_non_nullable
-                        as Uri?,
-            iconRelativeUri:
-                freezed == iconRelativeUri
-                    ? _value.iconRelativeUri
-                    : iconRelativeUri // ignore: cast_nullable_to_non_nullable
-                        as Uri?,
-            cluster:
-                null == cluster
-                    ? _value.cluster
-                    : cluster // ignore: cast_nullable_to_non_nullable
-                        as String,
-            authorizationScope:
-                null == authorizationScope
-                    ? _value.authorizationScope
-                    : authorizationScope // ignore: cast_nullable_to_non_nullable
-                        as Uint8List,
-          )
-          as $Val,
-    );
-  }
-}
-
-/// @nodoc
-abstract class _$$ReauthorizeRequestImplCopyWith<$Res>
-    implements $ReauthorizeRequestCopyWith<$Res> {
-  factory _$$ReauthorizeRequestImplCopyWith(
-    _$ReauthorizeRequestImpl value,
-    $Res Function(_$ReauthorizeRequestImpl) then,
-  ) = __$$ReauthorizeRequestImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    String? identityName,
-    Uri? identityUri,
-    Uri? iconRelativeUri,
-    String cluster,
-    Uint8List authorizationScope,
-  });
-}
-
-/// @nodoc
-class __$$ReauthorizeRequestImplCopyWithImpl<$Res>
-    extends _$ReauthorizeRequestCopyWithImpl<$Res, _$ReauthorizeRequestImpl>
-    implements _$$ReauthorizeRequestImplCopyWith<$Res> {
-  __$$ReauthorizeRequestImplCopyWithImpl(
-    _$ReauthorizeRequestImpl _value,
-    $Res Function(_$ReauthorizeRequestImpl) _then,
-  ) : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? identityName = freezed,
-    Object? identityUri = freezed,
-    Object? iconRelativeUri = freezed,
-    Object? cluster = null,
-    Object? authorizationScope = null,
-  }) {
-    return _then(
-      _$ReauthorizeRequestImpl(
-        identityName:
-            freezed == identityName
-                ? _value.identityName
-                : identityName // ignore: cast_nullable_to_non_nullable
-                    as String?,
-        identityUri:
-            freezed == identityUri
-                ? _value.identityUri
-                : identityUri // ignore: cast_nullable_to_non_nullable
-                    as Uri?,
-        iconRelativeUri:
-            freezed == iconRelativeUri
-                ? _value.iconRelativeUri
-                : iconRelativeUri // ignore: cast_nullable_to_non_nullable
-                    as Uri?,
-        cluster:
-            null == cluster
-                ? _value.cluster
-                : cluster // ignore: cast_nullable_to_non_nullable
-                    as String,
-        authorizationScope:
-            null == authorizationScope
-                ? _value.authorizationScope
-                : authorizationScope // ignore: cast_nullable_to_non_nullable
-                    as Uint8List,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$ReauthorizeRequestImpl implements _ReauthorizeRequest {
-  const _$ReauthorizeRequestImpl({
-    required this.identityName,
-    required this.identityUri,
-    required this.iconRelativeUri,
-    required this.cluster,
-    required this.authorizationScope,
-  });
-
-  @override
-  final String? identityName;
-  @override
-  final Uri? identityUri;
-  @override
-  final Uri? iconRelativeUri;
-  @override
-  final String cluster;
-  @override
-  final Uint8List authorizationScope;
-
-  @override
-  String toString() {
-    return 'ReauthorizeRequest(identityName: $identityName, identityUri: $identityUri, iconRelativeUri: $iconRelativeUri, cluster: $cluster, authorizationScope: $authorizationScope)';
-  }
+      _$ReauthorizeRequestCopyWithImpl<ReauthorizeRequest>(this as ReauthorizeRequest, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ReauthorizeRequestImpl &&
+            other is ReauthorizeRequest &&
             (identical(other.identityName, identityName) || other.identityName == identityName) &&
             (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
             (identical(other.iconRelativeUri, iconRelativeUri) ||
@@ -214,34 +49,201 @@ class _$ReauthorizeRequestImpl implements _ReauthorizeRequest {
     const DeepCollectionEquality().hash(authorizationScope),
   );
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$ReauthorizeRequestImplCopyWith<_$ReauthorizeRequestImpl> get copyWith =>
-      __$$ReauthorizeRequestImplCopyWithImpl<_$ReauthorizeRequestImpl>(this, _$identity);
+  String toString() {
+    return 'ReauthorizeRequest(identityName: $identityName, identityUri: $identityUri, iconRelativeUri: $iconRelativeUri, cluster: $cluster, authorizationScope: $authorizationScope)';
+  }
 }
 
-abstract class _ReauthorizeRequest implements ReauthorizeRequest {
-  const factory _ReauthorizeRequest({
-    required final String? identityName,
-    required final Uri? identityUri,
-    required final Uri? iconRelativeUri,
-    required final String cluster,
-    required final Uint8List authorizationScope,
-  }) = _$ReauthorizeRequestImpl;
+/// @nodoc
+abstract mixin class $ReauthorizeRequestCopyWith<$Res> {
+  factory $ReauthorizeRequestCopyWith(
+    ReauthorizeRequest value,
+    $Res Function(ReauthorizeRequest) _then,
+  ) = _$ReauthorizeRequestCopyWithImpl;
+  @useResult
+  $Res call({
+    String? identityName,
+    Uri? identityUri,
+    Uri? iconRelativeUri,
+    String cluster,
+    Uint8List authorizationScope,
+  });
+}
+
+/// @nodoc
+class _$ReauthorizeRequestCopyWithImpl<$Res> implements $ReauthorizeRequestCopyWith<$Res> {
+  _$ReauthorizeRequestCopyWithImpl(this._self, this._then);
+
+  final ReauthorizeRequest _self;
+  final $Res Function(ReauthorizeRequest) _then;
+
+  /// Create a copy of ReauthorizeRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? identityName = freezed,
+    Object? identityUri = freezed,
+    Object? iconRelativeUri = freezed,
+    Object? cluster = null,
+    Object? authorizationScope = null,
+  }) {
+    return _then(
+      _self.copyWith(
+        identityName:
+            freezed == identityName
+                ? _self.identityName
+                : identityName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        identityUri:
+            freezed == identityUri
+                ? _self.identityUri
+                : identityUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        iconRelativeUri:
+            freezed == iconRelativeUri
+                ? _self.iconRelativeUri
+                : iconRelativeUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        cluster:
+            null == cluster
+                ? _self.cluster
+                : cluster // ignore: cast_nullable_to_non_nullable
+                    as String,
+        authorizationScope:
+            null == authorizationScope
+                ? _self.authorizationScope
+                : authorizationScope // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _ReauthorizeRequest implements ReauthorizeRequest {
+  const _ReauthorizeRequest({
+    required this.identityName,
+    required this.identityUri,
+    required this.iconRelativeUri,
+    required this.cluster,
+    required this.authorizationScope,
+  });
 
   @override
-  String? get identityName;
+  final String? identityName;
   @override
-  Uri? get identityUri;
+  final Uri? identityUri;
   @override
-  Uri? get iconRelativeUri;
+  final Uri? iconRelativeUri;
   @override
-  String get cluster;
+  final String cluster;
   @override
-  Uint8List get authorizationScope;
+  final Uint8List authorizationScope;
+
+  /// Create a copy of ReauthorizeRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$ReauthorizeRequestImplCopyWith<_$ReauthorizeRequestImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ReauthorizeRequestCopyWith<_ReauthorizeRequest> get copyWith =>
+      __$ReauthorizeRequestCopyWithImpl<_ReauthorizeRequest>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ReauthorizeRequest &&
+            (identical(other.identityName, identityName) || other.identityName == identityName) &&
+            (identical(other.identityUri, identityUri) || other.identityUri == identityUri) &&
+            (identical(other.iconRelativeUri, iconRelativeUri) ||
+                other.iconRelativeUri == iconRelativeUri) &&
+            (identical(other.cluster, cluster) || other.cluster == cluster) &&
+            const DeepCollectionEquality().equals(other.authorizationScope, authorizationScope));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    identityName,
+    identityUri,
+    iconRelativeUri,
+    cluster,
+    const DeepCollectionEquality().hash(authorizationScope),
+  );
+
+  @override
+  String toString() {
+    return 'ReauthorizeRequest(identityName: $identityName, identityUri: $identityUri, iconRelativeUri: $iconRelativeUri, cluster: $cluster, authorizationScope: $authorizationScope)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ReauthorizeRequestCopyWith<$Res>
+    implements $ReauthorizeRequestCopyWith<$Res> {
+  factory _$ReauthorizeRequestCopyWith(
+    _ReauthorizeRequest value,
+    $Res Function(_ReauthorizeRequest) _then,
+  ) = __$ReauthorizeRequestCopyWithImpl;
+  @override
+  @useResult
+  $Res call({
+    String? identityName,
+    Uri? identityUri,
+    Uri? iconRelativeUri,
+    String cluster,
+    Uint8List authorizationScope,
+  });
+}
+
+/// @nodoc
+class __$ReauthorizeRequestCopyWithImpl<$Res> implements _$ReauthorizeRequestCopyWith<$Res> {
+  __$ReauthorizeRequestCopyWithImpl(this._self, this._then);
+
+  final _ReauthorizeRequest _self;
+  final $Res Function(_ReauthorizeRequest) _then;
+
+  /// Create a copy of ReauthorizeRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? identityName = freezed,
+    Object? identityUri = freezed,
+    Object? iconRelativeUri = freezed,
+    Object? cluster = null,
+    Object? authorizationScope = null,
+  }) {
+    return _then(
+      _ReauthorizeRequest(
+        identityName:
+            freezed == identityName
+                ? _self.identityName
+                : identityName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        identityUri:
+            freezed == identityUri
+                ? _self.identityUri
+                : identityUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        iconRelativeUri:
+            freezed == iconRelativeUri
+                ? _self.iconRelativeUri
+                : iconRelativeUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        cluster:
+            null == cluster
+                ? _self.cluster
+                : cluster // ignore: cast_nullable_to_non_nullable
+                    as String,
+        authorizationScope:
+            null == authorizationScope
+                ? _self.authorizationScope
+                : authorizationScope // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+      ),
+    );
+  }
 }

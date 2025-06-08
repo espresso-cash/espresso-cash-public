@@ -11,95 +11,57 @@ part of 'auth_issuer_config.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$AuthIssuerConfig {
-  String get name => throw _privateConstructorUsedError;
-  int get maxOutstandingTokensPerIdentity => throw _privateConstructorUsedError;
-  Duration get authorizationValidity => throw _privateConstructorUsedError;
-  Duration get reauthorizationValidity => throw _privateConstructorUsedError;
-  Duration get reauthorizationNopDuration => throw _privateConstructorUsedError;
+  String get name;
+  int get maxOutstandingTokensPerIdentity;
+  Duration get authorizationValidity;
+  Duration get reauthorizationValidity;
+  Duration get reauthorizationNopDuration;
 
-  @JsonKey(ignore: true)
-  $AuthIssuerConfigCopyWith<AuthIssuerConfig> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AuthIssuerConfigCopyWith<$Res> {
-  factory $AuthIssuerConfigCopyWith(AuthIssuerConfig value, $Res Function(AuthIssuerConfig) then) =
-      _$AuthIssuerConfigCopyWithImpl<$Res, AuthIssuerConfig>;
-  @useResult
-  $Res call({
-    String name,
-    int maxOutstandingTokensPerIdentity,
-    Duration authorizationValidity,
-    Duration reauthorizationValidity,
-    Duration reauthorizationNopDuration,
-  });
-}
-
-/// @nodoc
-class _$AuthIssuerConfigCopyWithImpl<$Res, $Val extends AuthIssuerConfig>
-    implements $AuthIssuerConfigCopyWith<$Res> {
-  _$AuthIssuerConfigCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of AuthIssuerConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $AuthIssuerConfigCopyWith<AuthIssuerConfig> get copyWith =>
+      _$AuthIssuerConfigCopyWithImpl<AuthIssuerConfig>(this as AuthIssuerConfig, _$identity);
+
   @override
-  $Res call({
-    Object? name = null,
-    Object? maxOutstandingTokensPerIdentity = null,
-    Object? authorizationValidity = null,
-    Object? reauthorizationValidity = null,
-    Object? reauthorizationNopDuration = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            name:
-                null == name
-                    ? _value.name
-                    : name // ignore: cast_nullable_to_non_nullable
-                        as String,
-            maxOutstandingTokensPerIdentity:
-                null == maxOutstandingTokensPerIdentity
-                    ? _value.maxOutstandingTokensPerIdentity
-                    : maxOutstandingTokensPerIdentity // ignore: cast_nullable_to_non_nullable
-                        as int,
-            authorizationValidity:
-                null == authorizationValidity
-                    ? _value.authorizationValidity
-                    : authorizationValidity // ignore: cast_nullable_to_non_nullable
-                        as Duration,
-            reauthorizationValidity:
-                null == reauthorizationValidity
-                    ? _value.reauthorizationValidity
-                    : reauthorizationValidity // ignore: cast_nullable_to_non_nullable
-                        as Duration,
-            reauthorizationNopDuration:
-                null == reauthorizationNopDuration
-                    ? _value.reauthorizationNopDuration
-                    : reauthorizationNopDuration // ignore: cast_nullable_to_non_nullable
-                        as Duration,
-          )
-          as $Val,
-    );
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AuthIssuerConfig &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.maxOutstandingTokensPerIdentity, maxOutstandingTokensPerIdentity) ||
+                other.maxOutstandingTokensPerIdentity == maxOutstandingTokensPerIdentity) &&
+            (identical(other.authorizationValidity, authorizationValidity) ||
+                other.authorizationValidity == authorizationValidity) &&
+            (identical(other.reauthorizationValidity, reauthorizationValidity) ||
+                other.reauthorizationValidity == reauthorizationValidity) &&
+            (identical(other.reauthorizationNopDuration, reauthorizationNopDuration) ||
+                other.reauthorizationNopDuration == reauthorizationNopDuration));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    name,
+    maxOutstandingTokensPerIdentity,
+    authorizationValidity,
+    reauthorizationValidity,
+    reauthorizationNopDuration,
+  );
+
+  @override
+  String toString() {
+    return 'AuthIssuerConfig(name: $name, maxOutstandingTokensPerIdentity: $maxOutstandingTokensPerIdentity, authorizationValidity: $authorizationValidity, reauthorizationValidity: $reauthorizationValidity, reauthorizationNopDuration: $reauthorizationNopDuration)';
   }
 }
 
 /// @nodoc
-abstract class _$$AuthIssuerConfigImplCopyWith<$Res> implements $AuthIssuerConfigCopyWith<$Res> {
-  factory _$$AuthIssuerConfigImplCopyWith(
-    _$AuthIssuerConfigImpl value,
-    $Res Function(_$AuthIssuerConfigImpl) then,
-  ) = __$$AuthIssuerConfigImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $AuthIssuerConfigCopyWith<$Res> {
+  factory $AuthIssuerConfigCopyWith(AuthIssuerConfig value, $Res Function(AuthIssuerConfig) _then) =
+      _$AuthIssuerConfigCopyWithImpl;
   @useResult
   $Res call({
     String name,
@@ -111,14 +73,14 @@ abstract class _$$AuthIssuerConfigImplCopyWith<$Res> implements $AuthIssuerConfi
 }
 
 /// @nodoc
-class __$$AuthIssuerConfigImplCopyWithImpl<$Res>
-    extends _$AuthIssuerConfigCopyWithImpl<$Res, _$AuthIssuerConfigImpl>
-    implements _$$AuthIssuerConfigImplCopyWith<$Res> {
-  __$$AuthIssuerConfigImplCopyWithImpl(
-    _$AuthIssuerConfigImpl _value,
-    $Res Function(_$AuthIssuerConfigImpl) _then,
-  ) : super(_value, _then);
+class _$AuthIssuerConfigCopyWithImpl<$Res> implements $AuthIssuerConfigCopyWith<$Res> {
+  _$AuthIssuerConfigCopyWithImpl(this._self, this._then);
 
+  final AuthIssuerConfig _self;
+  final $Res Function(AuthIssuerConfig) _then;
+
+  /// Create a copy of AuthIssuerConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -129,30 +91,30 @@ class __$$AuthIssuerConfigImplCopyWithImpl<$Res>
     Object? reauthorizationNopDuration = null,
   }) {
     return _then(
-      _$AuthIssuerConfigImpl(
+      _self.copyWith(
         name:
             null == name
-                ? _value.name
+                ? _self.name
                 : name // ignore: cast_nullable_to_non_nullable
                     as String,
         maxOutstandingTokensPerIdentity:
             null == maxOutstandingTokensPerIdentity
-                ? _value.maxOutstandingTokensPerIdentity
+                ? _self.maxOutstandingTokensPerIdentity
                 : maxOutstandingTokensPerIdentity // ignore: cast_nullable_to_non_nullable
                     as int,
         authorizationValidity:
             null == authorizationValidity
-                ? _value.authorizationValidity
+                ? _self.authorizationValidity
                 : authorizationValidity // ignore: cast_nullable_to_non_nullable
                     as Duration,
         reauthorizationValidity:
             null == reauthorizationValidity
-                ? _value.reauthorizationValidity
+                ? _self.reauthorizationValidity
                 : reauthorizationValidity // ignore: cast_nullable_to_non_nullable
                     as Duration,
         reauthorizationNopDuration:
             null == reauthorizationNopDuration
-                ? _value.reauthorizationNopDuration
+                ? _self.reauthorizationNopDuration
                 : reauthorizationNopDuration // ignore: cast_nullable_to_non_nullable
                     as Duration,
       ),
@@ -162,8 +124,8 @@ class __$$AuthIssuerConfigImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AuthIssuerConfigImpl implements _AuthIssuerConfig {
-  const _$AuthIssuerConfigImpl({
+class _AuthIssuerConfig implements AuthIssuerConfig {
+  const _AuthIssuerConfig({
     required this.name,
     this.maxOutstandingTokensPerIdentity = 50,
     this.authorizationValidity = const Duration(hours: 1),
@@ -186,16 +148,19 @@ class _$AuthIssuerConfigImpl implements _AuthIssuerConfig {
   @JsonKey()
   final Duration reauthorizationNopDuration;
 
+  /// Create a copy of AuthIssuerConfig
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'AuthIssuerConfig(name: $name, maxOutstandingTokensPerIdentity: $maxOutstandingTokensPerIdentity, authorizationValidity: $authorizationValidity, reauthorizationValidity: $reauthorizationValidity, reauthorizationNopDuration: $reauthorizationNopDuration)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$AuthIssuerConfigCopyWith<_AuthIssuerConfig> get copyWith =>
+      __$AuthIssuerConfigCopyWithImpl<_AuthIssuerConfig>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AuthIssuerConfigImpl &&
+            other is _AuthIssuerConfig &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.maxOutstandingTokensPerIdentity, maxOutstandingTokensPerIdentity) ||
                 other.maxOutstandingTokensPerIdentity == maxOutstandingTokensPerIdentity) &&
@@ -217,34 +182,75 @@ class _$AuthIssuerConfigImpl implements _AuthIssuerConfig {
     reauthorizationNopDuration,
   );
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$AuthIssuerConfigImplCopyWith<_$AuthIssuerConfigImpl> get copyWith =>
-      __$$AuthIssuerConfigImplCopyWithImpl<_$AuthIssuerConfigImpl>(this, _$identity);
+  String toString() {
+    return 'AuthIssuerConfig(name: $name, maxOutstandingTokensPerIdentity: $maxOutstandingTokensPerIdentity, authorizationValidity: $authorizationValidity, reauthorizationValidity: $reauthorizationValidity, reauthorizationNopDuration: $reauthorizationNopDuration)';
+  }
 }
 
-abstract class _AuthIssuerConfig implements AuthIssuerConfig {
-  const factory _AuthIssuerConfig({
-    required final String name,
-    final int maxOutstandingTokensPerIdentity,
-    final Duration authorizationValidity,
-    final Duration reauthorizationValidity,
-    final Duration reauthorizationNopDuration,
-  }) = _$AuthIssuerConfigImpl;
+/// @nodoc
+abstract mixin class _$AuthIssuerConfigCopyWith<$Res> implements $AuthIssuerConfigCopyWith<$Res> {
+  factory _$AuthIssuerConfigCopyWith(
+    _AuthIssuerConfig value,
+    $Res Function(_AuthIssuerConfig) _then,
+  ) = __$AuthIssuerConfigCopyWithImpl;
+  @override
+  @useResult
+  $Res call({
+    String name,
+    int maxOutstandingTokensPerIdentity,
+    Duration authorizationValidity,
+    Duration reauthorizationValidity,
+    Duration reauthorizationNopDuration,
+  });
+}
 
+/// @nodoc
+class __$AuthIssuerConfigCopyWithImpl<$Res> implements _$AuthIssuerConfigCopyWith<$Res> {
+  __$AuthIssuerConfigCopyWithImpl(this._self, this._then);
+
+  final _AuthIssuerConfig _self;
+  final $Res Function(_AuthIssuerConfig) _then;
+
+  /// Create a copy of AuthIssuerConfig
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String get name;
-  @override
-  int get maxOutstandingTokensPerIdentity;
-  @override
-  Duration get authorizationValidity;
-  @override
-  Duration get reauthorizationValidity;
-  @override
-  Duration get reauthorizationNopDuration;
-  @override
-  @JsonKey(ignore: true)
-  _$$AuthIssuerConfigImplCopyWith<_$AuthIssuerConfigImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? name = null,
+    Object? maxOutstandingTokensPerIdentity = null,
+    Object? authorizationValidity = null,
+    Object? reauthorizationValidity = null,
+    Object? reauthorizationNopDuration = null,
+  }) {
+    return _then(
+      _AuthIssuerConfig(
+        name:
+            null == name
+                ? _self.name
+                : name // ignore: cast_nullable_to_non_nullable
+                    as String,
+        maxOutstandingTokensPerIdentity:
+            null == maxOutstandingTokensPerIdentity
+                ? _self.maxOutstandingTokensPerIdentity
+                : maxOutstandingTokensPerIdentity // ignore: cast_nullable_to_non_nullable
+                    as int,
+        authorizationValidity:
+            null == authorizationValidity
+                ? _self.authorizationValidity
+                : authorizationValidity // ignore: cast_nullable_to_non_nullable
+                    as Duration,
+        reauthorizationValidity:
+            null == reauthorizationValidity
+                ? _self.reauthorizationValidity
+                : reauthorizationValidity // ignore: cast_nullable_to_non_nullable
+                    as Duration,
+        reauthorizationNopDuration:
+            null == reauthorizationNopDuration
+                ? _self.reauthorizationNopDuration
+                : reauthorizationNopDuration // ignore: cast_nullable_to_non_nullable
+                    as Duration,
+      ),
+    );
+  }
 }

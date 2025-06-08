@@ -6,7 +6,7 @@ import '../../currency/models/amount.dart';
 part 'dln_payment.freezed.dart';
 
 @freezed
-class DlnPayment with _$DlnPayment {
+sealed class DlnPayment with _$DlnPayment {
   const factory DlnPayment({
     required CryptoAmount inputAmount,
     required String receiverAddress,

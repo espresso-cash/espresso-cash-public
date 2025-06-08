@@ -8,7 +8,7 @@ import 'dln_payment.dart';
 part 'outgoing_payment.freezed.dart';
 
 @freezed
-class OutgoingDlnPayment with _$OutgoingDlnPayment {
+sealed class OutgoingDlnPayment with _$OutgoingDlnPayment {
   const factory OutgoingDlnPayment({
     required String id,
     required CryptoAmount amount,

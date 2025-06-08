@@ -11,81 +11,54 @@ part of 'loaded_addresses.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$LoadedAddresses {
-  List<Ed25519HDPublicKey> get writable => throw _privateConstructorUsedError;
-  List<Ed25519HDPublicKey> get readonly => throw _privateConstructorUsedError;
+  List<Ed25519HDPublicKey> get writable;
+  List<Ed25519HDPublicKey> get readonly;
 
   /// Create a copy of LoadedAddresses
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $LoadedAddressesCopyWith<LoadedAddresses> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $LoadedAddressesCopyWith<$Res> {
-  factory $LoadedAddressesCopyWith(LoadedAddresses value, $Res Function(LoadedAddresses) then) =
-      _$LoadedAddressesCopyWithImpl<$Res, LoadedAddresses>;
-  @useResult
-  $Res call({List<Ed25519HDPublicKey> writable, List<Ed25519HDPublicKey> readonly});
-}
-
-/// @nodoc
-class _$LoadedAddressesCopyWithImpl<$Res, $Val extends LoadedAddresses>
-    implements $LoadedAddressesCopyWith<$Res> {
-  _$LoadedAddressesCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of LoadedAddresses
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $LoadedAddressesCopyWith<LoadedAddresses> get copyWith =>
+      _$LoadedAddressesCopyWithImpl<LoadedAddresses>(this as LoadedAddresses, _$identity);
+
   @override
-  $Res call({Object? writable = null, Object? readonly = null}) {
-    return _then(
-      _value.copyWith(
-            writable:
-                null == writable
-                    ? _value.writable
-                    : writable // ignore: cast_nullable_to_non_nullable
-                        as List<Ed25519HDPublicKey>,
-            readonly:
-                null == readonly
-                    ? _value.readonly
-                    : readonly // ignore: cast_nullable_to_non_nullable
-                        as List<Ed25519HDPublicKey>,
-          )
-          as $Val,
-    );
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is LoadedAddresses &&
+            const DeepCollectionEquality().equals(other.writable, writable) &&
+            const DeepCollectionEquality().equals(other.readonly, readonly));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(writable),
+    const DeepCollectionEquality().hash(readonly),
+  );
+
+  @override
+  String toString() {
+    return 'LoadedAddresses(writable: $writable, readonly: $readonly)';
   }
 }
 
 /// @nodoc
-abstract class _$$LoadedAddressesImplCopyWith<$Res> implements $LoadedAddressesCopyWith<$Res> {
-  factory _$$LoadedAddressesImplCopyWith(
-    _$LoadedAddressesImpl value,
-    $Res Function(_$LoadedAddressesImpl) then,
-  ) = __$$LoadedAddressesImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $LoadedAddressesCopyWith<$Res> {
+  factory $LoadedAddressesCopyWith(LoadedAddresses value, $Res Function(LoadedAddresses) _then) =
+      _$LoadedAddressesCopyWithImpl;
   @useResult
   $Res call({List<Ed25519HDPublicKey> writable, List<Ed25519HDPublicKey> readonly});
 }
 
 /// @nodoc
-class __$$LoadedAddressesImplCopyWithImpl<$Res>
-    extends _$LoadedAddressesCopyWithImpl<$Res, _$LoadedAddressesImpl>
-    implements _$$LoadedAddressesImplCopyWith<$Res> {
-  __$$LoadedAddressesImplCopyWithImpl(
-    _$LoadedAddressesImpl _value,
-    $Res Function(_$LoadedAddressesImpl) _then,
-  ) : super(_value, _then);
+class _$LoadedAddressesCopyWithImpl<$Res> implements $LoadedAddressesCopyWith<$Res> {
+  _$LoadedAddressesCopyWithImpl(this._self, this._then);
+
+  final LoadedAddresses _self;
+  final $Res Function(LoadedAddresses) _then;
 
   /// Create a copy of LoadedAddresses
   /// with the given fields replaced by the non-null parameter values.
@@ -93,15 +66,15 @@ class __$$LoadedAddressesImplCopyWithImpl<$Res>
   @override
   $Res call({Object? writable = null, Object? readonly = null}) {
     return _then(
-      _$LoadedAddressesImpl(
+      _self.copyWith(
         writable:
             null == writable
-                ? _value._writable
+                ? _self.writable
                 : writable // ignore: cast_nullable_to_non_nullable
                     as List<Ed25519HDPublicKey>,
         readonly:
             null == readonly
-                ? _value._readonly
+                ? _self.readonly
                 : readonly // ignore: cast_nullable_to_non_nullable
                     as List<Ed25519HDPublicKey>,
       ),
@@ -111,8 +84,8 @@ class __$$LoadedAddressesImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadedAddressesImpl implements _LoadedAddresses {
-  const _$LoadedAddressesImpl({
+class _LoadedAddresses implements LoadedAddresses {
+  const _LoadedAddresses({
     required final List<Ed25519HDPublicKey> writable,
     required final List<Ed25519HDPublicKey> readonly,
   }) : _writable = writable,
@@ -134,16 +107,19 @@ class _$LoadedAddressesImpl implements _LoadedAddresses {
     return EqualUnmodifiableListView(_readonly);
   }
 
+  /// Create a copy of LoadedAddresses
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'LoadedAddresses(writable: $writable, readonly: $readonly)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedAddressesCopyWith<_LoadedAddresses> get copyWith =>
+      __$LoadedAddressesCopyWithImpl<_LoadedAddresses>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoadedAddressesImpl &&
+            other is _LoadedAddresses &&
             const DeepCollectionEquality().equals(other._writable, _writable) &&
             const DeepCollectionEquality().equals(other._readonly, _readonly));
   }
@@ -155,30 +131,46 @@ class _$LoadedAddressesImpl implements _LoadedAddresses {
     const DeepCollectionEquality().hash(_readonly),
   );
 
-  /// Create a copy of LoadedAddresses
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$LoadedAddressesImplCopyWith<_$LoadedAddressesImpl> get copyWith =>
-      __$$LoadedAddressesImplCopyWithImpl<_$LoadedAddressesImpl>(this, _$identity);
+  String toString() {
+    return 'LoadedAddresses(writable: $writable, readonly: $readonly)';
+  }
 }
 
-abstract class _LoadedAddresses implements LoadedAddresses {
-  const factory _LoadedAddresses({
-    required final List<Ed25519HDPublicKey> writable,
-    required final List<Ed25519HDPublicKey> readonly,
-  }) = _$LoadedAddressesImpl;
+/// @nodoc
+abstract mixin class _$LoadedAddressesCopyWith<$Res> implements $LoadedAddressesCopyWith<$Res> {
+  factory _$LoadedAddressesCopyWith(_LoadedAddresses value, $Res Function(_LoadedAddresses) _then) =
+      __$LoadedAddressesCopyWithImpl;
+  @override
+  @useResult
+  $Res call({List<Ed25519HDPublicKey> writable, List<Ed25519HDPublicKey> readonly});
+}
 
-  @override
-  List<Ed25519HDPublicKey> get writable;
-  @override
-  List<Ed25519HDPublicKey> get readonly;
+/// @nodoc
+class __$LoadedAddressesCopyWithImpl<$Res> implements _$LoadedAddressesCopyWith<$Res> {
+  __$LoadedAddressesCopyWithImpl(this._self, this._then);
+
+  final _LoadedAddresses _self;
+  final $Res Function(_LoadedAddresses) _then;
 
   /// Create a copy of LoadedAddresses
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedAddressesImplCopyWith<_$LoadedAddressesImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({Object? writable = null, Object? readonly = null}) {
+    return _then(
+      _LoadedAddresses(
+        writable:
+            null == writable
+                ? _self._writable
+                : writable // ignore: cast_nullable_to_non_nullable
+                    as List<Ed25519HDPublicKey>,
+        readonly:
+            null == readonly
+                ? _self._readonly
+                : readonly // ignore: cast_nullable_to_non_nullable
+                    as List<Ed25519HDPublicKey>,
+      ),
+    );
+  }
 }

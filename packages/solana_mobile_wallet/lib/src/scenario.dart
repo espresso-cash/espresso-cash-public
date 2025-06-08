@@ -191,22 +191,25 @@ class Api implements ApiFlutter {
 
     final result = await _scenarios[id]?.callbacks.onSignTransactionsRequest(r);
 
-    return result?.when(
-      (value) => SignedPayloadsResultDto(payloads: value),
-      requestDeclined:
-          () => SignedPayloadsResultDto(error: MobileWalletAdapterServerException.requestDeclined),
-      invalidPayloads:
-          (valid) => SignedPayloadsResultDto(
-            error: MobileWalletAdapterServerException.invalidPayloads,
-            validPayloads: valid,
-          ),
-      tooManyPayloads:
-          () => SignedPayloadsResultDto(error: MobileWalletAdapterServerException.tooManyPayloads),
-      authorizationNotValid:
-          () => SignedPayloadsResultDto(
-            error: MobileWalletAdapterServerException.authorizationNotValid,
-          ),
-    );
+    return switch (result) {
+      null => null,
+      SignedPayloadResultSigned(:final signedPayloads) => SignedPayloadsResultDto(
+        payloads: signedPayloads,
+      ),
+      SignedPayloadResultRequestDeclined() => SignedPayloadsResultDto(
+        error: MobileWalletAdapterServerException.requestDeclined,
+      ),
+      SignedPayloadResultInvalidPayloads(:final valid) => SignedPayloadsResultDto(
+        error: MobileWalletAdapterServerException.invalidPayloads,
+        validPayloads: valid,
+      ),
+      SignedPayloadResultTooManyPayloads() => SignedPayloadsResultDto(
+        error: MobileWalletAdapterServerException.tooManyPayloads,
+      ),
+      SignedPayloadResultAuthorizationNotValid() => SignedPayloadsResultDto(
+        error: MobileWalletAdapterServerException.authorizationNotValid,
+      ),
+    };
   }
 
   @override
@@ -222,22 +225,25 @@ class Api implements ApiFlutter {
 
     final result = await _scenarios[id]?.callbacks.onSignMessagesRequest(r);
 
-    return result?.when(
-      (value) => SignedPayloadsResultDto(payloads: value),
-      requestDeclined:
-          () => SignedPayloadsResultDto(error: MobileWalletAdapterServerException.requestDeclined),
-      invalidPayloads:
-          (valid) => SignedPayloadsResultDto(
-            error: MobileWalletAdapterServerException.invalidPayloads,
-            validPayloads: valid,
-          ),
-      tooManyPayloads:
-          () => SignedPayloadsResultDto(error: MobileWalletAdapterServerException.tooManyPayloads),
-      authorizationNotValid:
-          () => SignedPayloadsResultDto(
-            error: MobileWalletAdapterServerException.authorizationNotValid,
-          ),
-    );
+    return switch (result) {
+      null => null,
+      SignedPayloadResultSigned(:final signedPayloads) => SignedPayloadsResultDto(
+        payloads: signedPayloads,
+      ),
+      SignedPayloadResultRequestDeclined() => SignedPayloadsResultDto(
+        error: MobileWalletAdapterServerException.requestDeclined,
+      ),
+      SignedPayloadResultInvalidPayloads(:final valid) => SignedPayloadsResultDto(
+        error: MobileWalletAdapterServerException.invalidPayloads,
+        validPayloads: valid,
+      ),
+      SignedPayloadResultTooManyPayloads() => SignedPayloadsResultDto(
+        error: MobileWalletAdapterServerException.tooManyPayloads,
+      ),
+      SignedPayloadResultAuthorizationNotValid() => SignedPayloadsResultDto(
+        error: MobileWalletAdapterServerException.authorizationNotValid,
+      ),
+    };
   }
 
   @override
@@ -257,26 +263,27 @@ class Api implements ApiFlutter {
 
     final result = await _scenarios[id]?.callbacks.onSignAndSendTransactionsRequest(r);
 
-    return result?.when(
-      (value) => SignaturesResultDto(signatures: value),
-      requestDeclined:
-          () => SignaturesResultDto(error: MobileWalletAdapterServerException.requestDeclined),
-      invalidPayloads:
-          (valid) => SignaturesResultDto(
-            error: MobileWalletAdapterServerException.invalidPayloads,
-            validSignatures: valid,
-          ),
-      tooManyPayloads:
-          () => SignaturesResultDto(error: MobileWalletAdapterServerException.tooManyPayloads),
-      authorizationNotValid:
-          () =>
-              SignaturesResultDto(error: MobileWalletAdapterServerException.authorizationNotValid),
-      notSubmitted:
-          (signatures) => SignaturesResultDto(
-            error: MobileWalletAdapterServerException.notSubmitted,
-            signatures: signatures,
-          ),
-    );
+    return switch (result) {
+      null => null,
+      SignaturesResultSigned(:final signatures) => SignaturesResultDto(signatures: signatures),
+      SignaturesResultRequestDeclined() => SignaturesResultDto(
+        error: MobileWalletAdapterServerException.requestDeclined,
+      ),
+      SignaturesResultInvalidPayloads(:final valid) => SignaturesResultDto(
+        error: MobileWalletAdapterServerException.invalidPayloads,
+        validSignatures: valid,
+      ),
+      SignaturesResultTooManyPayloads() => SignaturesResultDto(
+        error: MobileWalletAdapterServerException.tooManyPayloads,
+      ),
+      SignaturesResultAuthorizationNotValid() => SignaturesResultDto(
+        error: MobileWalletAdapterServerException.authorizationNotValid,
+      ),
+      SignaturesResultNotSubmitted(:final signatures) => SignaturesResultDto(
+        error: MobileWalletAdapterServerException.notSubmitted,
+        signatures: signatures,
+      ),
+    };
   }
 
   @override

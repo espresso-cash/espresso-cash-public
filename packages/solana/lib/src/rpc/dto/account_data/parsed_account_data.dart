@@ -5,7 +5,7 @@ part 'parsed_account_data.freezed.dart';
 part 'parsed_account_data.g.dart';
 
 @Freezed(unionKey: 'program', fallbackUnion: 'unsupported')
-class ParsedAccountData with _$ParsedAccountData implements AccountData {
+sealed class ParsedAccountData with _$ParsedAccountData implements AccountData {
   @FreezedUnionValue('spl-token')
   const factory ParsedAccountData.splToken(SplTokenProgramAccountData parsed) =
       ParsedSplTokenProgramAccountData;

@@ -1,0 +1,4 @@
+global_options:
+  freezed:
+    options:
+      format: true

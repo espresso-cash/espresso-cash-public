@@ -7,7 +7,7 @@ part 'message_header.freezed.dart';
 ///
 /// [message header format]: https://docs.solana.com/developing/programming-model/transactions#message-header-format
 @freezed
-class MessageHeader with _$MessageHeader {
+sealed class MessageHeader with _$MessageHeader {
   const factory MessageHeader({
     required int numRequiredSignatures,
     required int numReadonlySignedAccounts,

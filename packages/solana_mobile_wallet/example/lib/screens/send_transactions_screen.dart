@@ -5,7 +5,7 @@ import 'package:solana_mobile_wallet_example/mobile_wallet/bloc.dart';
 class SendTransactionsScreen extends StatelessWidget {
   const SendTransactionsScreen({super.key, required this.request});
 
-  final SendTransactions request;
+  final RemoteRequestSendTransactions request;
 
   @override
   Widget build(BuildContext context) => Padding(

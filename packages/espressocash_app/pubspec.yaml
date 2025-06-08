@@ -49,7 +49,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   flutter_svg: ^2.0.9
   flutter_svg_provider: ^1.0.7
-  freezed_annotation: ^2.4.1
+  freezed_annotation: any # transitive
   get_it: ^7.6.4
   http: ^1.1.2
   image_picker: ^1.1.1
@@ -99,7 +99,7 @@ dev_dependencies:
   flutter_native_splash: ^2.3.7
   flutter_test:
     sdk: flutter
-  freezed: ^2.4.6
+  freezed: any # transitive
   golden_toolkit: ^0.15.0
   injectable_generator: ^2.4.1
   integration_test:

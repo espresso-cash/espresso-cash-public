@@ -37,20 +37,24 @@ class MyApp extends StatelessWidget {
     home: Scaffold(
       appBar: AppBar(title: const Text('Plugin example app')),
       body: BlocConsumer<MobileWalletBloc, MobileWalletState>(
-        listener: (context, state) => state.whenOrNull(sessionTerminated: SystemNavigator.pop),
+        listener: (context, state) {
+          if (state is MobileWalletStateSessionTerminated) {
+            SystemNavigator.pop();
+          }
+        },
         builder:
-            (context, state) => state.when(
-              none: () => const Center(child: Text('Running...')),
-              sessionTerminated: () => const Center(child: Text('Running...')),
-              remote:
-                  (r) => r.map(
-                    authorizeDapp: (r) => AuthScreen(request: r.request),
-                    signPayloads: (r) => SignPayloadsScreen(request: r.request),
-                    signTransactionsForSending:
-                        (r) => SignTransactionsForSendingScreen(request: r.request),
-                    sendTransactions: (r) => SendTransactionsScreen(request: r),
-                  ),
-            ),
+            (context, state) => switch (state) {
+              MobileWalletStateNone() => const Center(child: Text('Running...')),
+              MobileWalletStateSessionTerminated() => const Center(child: Text('Running...')),
+              MobileWalletStateRemote(request: final r) => switch (r) {
+                RemoteRequestAuthorizeDapp() => AuthScreen(request: r.request),
+                RemoteRequestSignPayloads() => SignPayloadsScreen(request: r.request),
+                RemoteRequestSignTransactionsForSending() => SignTransactionsForSendingScreen(
+                  request: r.request,
+                ),
+                RemoteRequestSendTransactions() => SendTransactionsScreen(request: r),
+              },
+            },
       ),
     ),
   );

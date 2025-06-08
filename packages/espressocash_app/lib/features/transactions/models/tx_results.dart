@@ -1,3 +1,6 @@
+// TODO(KB): Remove after StubSignedTx has been removed.
+// ignore_for_file: avoid_implementing_value_types, unnecessary_overrides
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
@@ -6,6 +9,7 @@ part 'tx_results.freezed.dart';
 
 // TODO(KB): should be removed after full migration to waiting status with
 // SignedTx
+@immutable
 class StubSignedTx implements SignedTx {
   const StubSignedTx(this.id);
 
@@ -39,6 +43,14 @@ class StubSignedTx implements SignedTx {
 
   @override
   List<Signature> get signatures => throw UnimplementedError();
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other.runtimeType == runtimeType && other is StubSignedTx && other.id == id);
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 @freezed
