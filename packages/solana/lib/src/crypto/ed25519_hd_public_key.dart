@@ -6,11 +6,6 @@ import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/helpers.dart';
 
-final _magicWord = 'ProgramDerivedAddress'.codeUnits;
-const _maxBumpSeed = 255;
-const _maxSeeds = 16;
-const _maxSeedLength = 32;
-
 @immutable
 class Ed25519HDPublicKey implements PublicKey {
   const Ed25519HDPublicKey(this.bytes);
@@ -119,10 +114,14 @@ class Ed25519HDPublicKey implements PublicKey {
       other is Ed25519HDPublicKey && const ListEquality<int>().equals(bytes, other.bytes);
 }
 
+final _sha256 = Sha256();
+final _magicWord = 'ProgramDerivedAddress'.codeUnits;
+const _maxBumpSeed = 255;
+const _maxSeeds = 16;
+const _maxSeedLength = 32;
+
 Iterable<int> _flatten(Iterable<int> concatenated, Iterable<int> current) =>
     concatenated.followedBy(current).toList();
-
-final _sha256 = Sha256();
 
 Future<List<int>> _computeHash(List<int> source) async {
   final hash = await _sha256.hash(source);
