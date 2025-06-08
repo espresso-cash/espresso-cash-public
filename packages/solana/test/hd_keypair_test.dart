@@ -58,6 +58,15 @@ void main() {
     });
   });
 
+  test('Can determine valid public key from base58', () {
+    for (final key in _withSeedKeyDerivationData.keys) {
+      expect(Ed25519HDPublicKey.isValidFromBase58(key), true);
+    }
+    expect(Ed25519HDPublicKey.isValidFromBase58('11111111111111111111111111111111'), true);
+    expect(Ed25519HDPublicKey.isValidFromBase58('111111111111111111111111111111111'), false);
+    expect(Ed25519HDPublicKey.isValidFromBase58('malformed'), false);
+  });
+
   test('Can copy a key pair data if bytes are not destroyed', () async {
     final randomKeyPair = await Ed25519HDKeyPair.random();
     final simpleKeyPairData = await randomKeyPair.extract();

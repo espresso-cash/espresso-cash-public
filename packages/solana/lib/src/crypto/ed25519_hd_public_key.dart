@@ -6,18 +6,29 @@ import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/helpers.dart';
 
+final _magicWord = 'ProgramDerivedAddress'.codeUnits;
+const _maxBumpSeed = 255;
+const _maxSeeds = 16;
+const _maxSeedLength = 32;
+
 @immutable
 class Ed25519HDPublicKey implements PublicKey {
   const Ed25519HDPublicKey(this.bytes);
 
   factory Ed25519HDPublicKey.fromBase58(String data) {
     final bytes = base58decode(data);
-    if (bytes.length != 32) {
-      throw ArgumentError.value(data, 'data', 'Expected 32 bytes, got ${bytes.length}');
+    if (bytes.length != _maxSeedLength) {
+      throw ArgumentError.value(
+        data,
+        'data',
+        'Expected $_maxSeedLength bytes, got ${bytes.length}',
+      );
     }
 
     return Ed25519HDPublicKey(bytes);
   }
+
+  final List<int> bytes;
 
   static Future<Ed25519HDPublicKey> createWithSeed({
     required Ed25519HDPublicKey fromPublicKey,
@@ -80,7 +91,15 @@ class Ed25519HDPublicKey implements PublicKey {
     throw const FormatException('cannot find program address with these seeds');
   }
 
-  final List<int> bytes;
+  /// Determine if the given [data] is a valid ed25519 point encoded to base58.
+  static bool isValidFromBase58(String data) {
+    try {
+      final bytes = base58decode(data);
+      return bytes.length == _maxSeedLength;
+    } on FormatException {
+      return false;
+    }
+  }
 
   String toBase58() => base58encode(bytes);
 
@@ -100,14 +119,10 @@ class Ed25519HDPublicKey implements PublicKey {
       other is Ed25519HDPublicKey && const ListEquality<int>().equals(bytes, other.bytes);
 }
 
-final _sha256 = Sha256();
-final _magicWord = 'ProgramDerivedAddress'.codeUnits;
-const _maxBumpSeed = 255;
-const _maxSeeds = 16;
-const _maxSeedLength = 32;
-
 Iterable<int> _flatten(Iterable<int> concatenated, Iterable<int> current) =>
     concatenated.followedBy(current).toList();
+
+final _sha256 = Sha256();
 
 Future<List<int>> _computeHash(List<int> source) async {
   final hash = await _sha256.hash(source);
