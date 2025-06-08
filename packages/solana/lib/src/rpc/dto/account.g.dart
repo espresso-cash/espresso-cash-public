@@ -31,7 +31,7 @@ Map<String, dynamic> _$MultipleAccountsResultToJson(MultipleAccountsResult insta
       'value': instance.value.map((e) => e?.toJson()).toList(),
     };
 
-_$AccountImpl _$$AccountImplFromJson(Map<String, dynamic> json) => _$AccountImpl(
+_Account _$AccountFromJson(Map<String, dynamic> json) => _Account(
   lamports: (json['lamports'] as num).toInt(),
   owner: json['owner'] as String,
   data: json['data'] == null ? null : AccountData.fromJson(json['data']),
@@ -39,7 +39,7 @@ _$AccountImpl _$$AccountImplFromJson(Map<String, dynamic> json) => _$AccountImpl
   rentEpoch: bigIntFromJson(json['rentEpoch'] as Object),
 );
 
-Map<String, dynamic> _$$AccountImplToJson(_$AccountImpl instance) => <String, dynamic>{
+Map<String, dynamic> _$AccountToJson(_Account instance) => <String, dynamic>{
   'lamports': instance.lamports,
   'owner': instance.owner,
   'data': instance.data?.toJson(),

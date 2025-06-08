@@ -293,10 +293,10 @@ extension SolanaClientSolanaPay on SolanaClient {
     CompiledMessage compiledMessage = tx.compiledMessage;
 
     if (signatures.isEmpty || (signatures.length == 1 && signatures.first.publicKey == signer)) {
-      final addressTableLookups = compiledMessage.map(
-        legacy: (_) => <MessageAddressTableLookup>[],
-        v0: (v0) => v0.addressTableLookups,
-      );
+      final addressTableLookups = switch (tx.compiledMessage) {
+        CompiledMessageLegacy() => <MessageAddressTableLookup>[],
+        final CompiledMessageV0 v0 => v0.addressTableLookups,
+      };
 
       final lookUpTables = await rpcClient.getAddressLookUpTableAccounts(addressTableLookups);
 

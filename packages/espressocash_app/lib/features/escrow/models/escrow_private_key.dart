@@ -4,7 +4,7 @@ import 'package:solana/solana.dart';
 part 'escrow_private_key.freezed.dart';
 
 @freezed
-class EscrowPrivateKey with _$EscrowPrivateKey {
+sealed class EscrowPrivateKey with _$EscrowPrivateKey {
   factory EscrowPrivateKey(List<int> bytes) = _EscrowPrivateKey;
 
   EscrowPrivateKey._();

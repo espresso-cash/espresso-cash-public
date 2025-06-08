@@ -77,23 +77,23 @@ extension CursorToModelExt on CursorData {
 }
 
 extension on AccountFilter {
-  String? toColumn() => when(
-    () => null,
-    byId: (_) => WalletContractV1.accountsAccountId,
-    byName: (_) => WalletContractV1.accountsAccountName,
-    byDerivationPath: (_) => WalletContractV1.accountsBip32DerivationPath,
-    byPublicKeyEncoded: (_) => WalletContractV1.accountsPublicKeyEncoded,
-    byIsUserWallet: (_) => WalletContractV1.accountsAccountIsUserWallet,
-    byIsValid: (_) => WalletContractV1.accountsAccountIsValid,
-  );
+  String? toColumn() => switch (this) {
+    AccountFilterNone() => null,
+    AccountFilterId() => WalletContractV1.accountsAccountId,
+    AccountFilterName() => WalletContractV1.accountsAccountName,
+    AccountFilterDerivationPath() => WalletContractV1.accountsBip32DerivationPath,
+    AccountFilterPublicKeyEncoded() => WalletContractV1.accountsPublicKeyEncoded,
+    AccountFilterIsUserWallet() => WalletContractV1.accountsAccountIsUserWallet,
+    AccountFilterIsValid() => WalletContractV1.accountsAccountIsValid,
+  };
 
-  dynamic toValue() => when(
-    () => null,
-    byId: (it) => it,
-    byName: (it) => it,
-    byDerivationPath: (it) => it.toString(),
-    byPublicKeyEncoded: (it) => it,
-    byIsUserWallet: (it) => it ? '1' : '0',
-    byIsValid: (it) => it ? '1' : '0',
-  );
+  dynamic toValue() => switch (this) {
+    AccountFilterNone() => null,
+    AccountFilterId(:final id) => id,
+    AccountFilterName(:final name) => name,
+    AccountFilterDerivationPath(:final derivationPath) => derivationPath.toString(),
+    AccountFilterPublicKeyEncoded(:final publicKeyEncoded) => publicKeyEncoded,
+    AccountFilterIsUserWallet(:final isUserWallet) => isUserWallet ? '1' : '0',
+    AccountFilterIsValid(:final isValid) => isValid ? '1' : '0',
+  };
 }

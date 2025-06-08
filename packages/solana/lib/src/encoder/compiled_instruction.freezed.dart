@@ -11,95 +11,63 @@ part of 'compiled_instruction.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$CompiledInstruction {
-  int get programIdIndex => throw _privateConstructorUsedError;
-  List<int> get accountKeyIndexes => throw _privateConstructorUsedError;
-  ByteArray get data => throw _privateConstructorUsedError;
+  int get programIdIndex;
+  List<int> get accountKeyIndexes;
+  ByteArray get data;
 
   /// Create a copy of CompiledInstruction
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CompiledInstructionCopyWith<CompiledInstruction> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $CompiledInstructionCopyWith<$Res> {
-  factory $CompiledInstructionCopyWith(
-    CompiledInstruction value,
-    $Res Function(CompiledInstruction) then,
-  ) = _$CompiledInstructionCopyWithImpl<$Res, CompiledInstruction>;
-  @useResult
-  $Res call({int programIdIndex, List<int> accountKeyIndexes, ByteArray data});
-}
-
-/// @nodoc
-class _$CompiledInstructionCopyWithImpl<$Res, $Val extends CompiledInstruction>
-    implements $CompiledInstructionCopyWith<$Res> {
-  _$CompiledInstructionCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of CompiledInstruction
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $CompiledInstructionCopyWith<CompiledInstruction> get copyWith =>
+      _$CompiledInstructionCopyWithImpl<CompiledInstruction>(
+        this as CompiledInstruction,
+        _$identity,
+      );
+
   @override
-  $Res call({
-    Object? programIdIndex = null,
-    Object? accountKeyIndexes = null,
-    Object? data = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            programIdIndex:
-                null == programIdIndex
-                    ? _value.programIdIndex
-                    : programIdIndex // ignore: cast_nullable_to_non_nullable
-                        as int,
-            accountKeyIndexes:
-                null == accountKeyIndexes
-                    ? _value.accountKeyIndexes
-                    : accountKeyIndexes // ignore: cast_nullable_to_non_nullable
-                        as List<int>,
-            data:
-                null == data
-                    ? _value.data
-                    : data // ignore: cast_nullable_to_non_nullable
-                        as ByteArray,
-          )
-          as $Val,
-    );
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CompiledInstruction &&
+            (identical(other.programIdIndex, programIdIndex) ||
+                other.programIdIndex == programIdIndex) &&
+            const DeepCollectionEquality().equals(other.accountKeyIndexes, accountKeyIndexes) &&
+            const DeepCollectionEquality().equals(other.data, data));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    programIdIndex,
+    const DeepCollectionEquality().hash(accountKeyIndexes),
+    const DeepCollectionEquality().hash(data),
+  );
+
+  @override
+  String toString() {
+    return 'CompiledInstruction(programIdIndex: $programIdIndex, accountKeyIndexes: $accountKeyIndexes, data: $data)';
   }
 }
 
 /// @nodoc
-abstract class _$$CompiledInstructionImplCopyWith<$Res>
-    implements $CompiledInstructionCopyWith<$Res> {
-  factory _$$CompiledInstructionImplCopyWith(
-    _$CompiledInstructionImpl value,
-    $Res Function(_$CompiledInstructionImpl) then,
-  ) = __$$CompiledInstructionImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $CompiledInstructionCopyWith<$Res> {
+  factory $CompiledInstructionCopyWith(
+    CompiledInstruction value,
+    $Res Function(CompiledInstruction) _then,
+  ) = _$CompiledInstructionCopyWithImpl;
   @useResult
   $Res call({int programIdIndex, List<int> accountKeyIndexes, ByteArray data});
 }
 
 /// @nodoc
-class __$$CompiledInstructionImplCopyWithImpl<$Res>
-    extends _$CompiledInstructionCopyWithImpl<$Res, _$CompiledInstructionImpl>
-    implements _$$CompiledInstructionImplCopyWith<$Res> {
-  __$$CompiledInstructionImplCopyWithImpl(
-    _$CompiledInstructionImpl _value,
-    $Res Function(_$CompiledInstructionImpl) _then,
-  ) : super(_value, _then);
+class _$CompiledInstructionCopyWithImpl<$Res> implements $CompiledInstructionCopyWith<$Res> {
+  _$CompiledInstructionCopyWithImpl(this._self, this._then);
+
+  final CompiledInstruction _self;
+  final $Res Function(CompiledInstruction) _then;
 
   /// Create a copy of CompiledInstruction
   /// with the given fields replaced by the non-null parameter values.
@@ -111,20 +79,20 @@ class __$$CompiledInstructionImplCopyWithImpl<$Res>
     Object? data = null,
   }) {
     return _then(
-      _$CompiledInstructionImpl(
+      _self.copyWith(
         programIdIndex:
             null == programIdIndex
-                ? _value.programIdIndex
+                ? _self.programIdIndex
                 : programIdIndex // ignore: cast_nullable_to_non_nullable
                     as int,
         accountKeyIndexes:
             null == accountKeyIndexes
-                ? _value._accountKeyIndexes
+                ? _self.accountKeyIndexes
                 : accountKeyIndexes // ignore: cast_nullable_to_non_nullable
                     as List<int>,
         data:
             null == data
-                ? _value.data
+                ? _self.data
                 : data // ignore: cast_nullable_to_non_nullable
                     as ByteArray,
       ),
@@ -134,8 +102,8 @@ class __$$CompiledInstructionImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CompiledInstructionImpl extends _CompiledInstruction {
-  const _$CompiledInstructionImpl({
+class _CompiledInstruction extends CompiledInstruction {
+  const _CompiledInstruction({
     required this.programIdIndex,
     required final List<int> accountKeyIndexes,
     required this.data,
@@ -155,16 +123,19 @@ class _$CompiledInstructionImpl extends _CompiledInstruction {
   @override
   final ByteArray data;
 
+  /// Create a copy of CompiledInstruction
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'CompiledInstruction(programIdIndex: $programIdIndex, accountKeyIndexes: $accountKeyIndexes, data: $data)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$CompiledInstructionCopyWith<_CompiledInstruction> get copyWith =>
+      __$CompiledInstructionCopyWithImpl<_CompiledInstruction>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CompiledInstructionImpl &&
+            other is _CompiledInstruction &&
             (identical(other.programIdIndex, programIdIndex) ||
                 other.programIdIndex == programIdIndex) &&
             const DeepCollectionEquality().equals(other._accountKeyIndexes, _accountKeyIndexes) &&
@@ -179,34 +150,58 @@ class _$CompiledInstructionImpl extends _CompiledInstruction {
     const DeepCollectionEquality().hash(data),
   );
 
-  /// Create a copy of CompiledInstruction
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$CompiledInstructionImplCopyWith<_$CompiledInstructionImpl> get copyWith =>
-      __$$CompiledInstructionImplCopyWithImpl<_$CompiledInstructionImpl>(this, _$identity);
+  String toString() {
+    return 'CompiledInstruction(programIdIndex: $programIdIndex, accountKeyIndexes: $accountKeyIndexes, data: $data)';
+  }
 }
 
-abstract class _CompiledInstruction extends CompiledInstruction {
-  const factory _CompiledInstruction({
-    required final int programIdIndex,
-    required final List<int> accountKeyIndexes,
-    required final ByteArray data,
-  }) = _$CompiledInstructionImpl;
-  const _CompiledInstruction._() : super._();
+/// @nodoc
+abstract mixin class _$CompiledInstructionCopyWith<$Res>
+    implements $CompiledInstructionCopyWith<$Res> {
+  factory _$CompiledInstructionCopyWith(
+    _CompiledInstruction value,
+    $Res Function(_CompiledInstruction) _then,
+  ) = __$CompiledInstructionCopyWithImpl;
+  @override
+  @useResult
+  $Res call({int programIdIndex, List<int> accountKeyIndexes, ByteArray data});
+}
 
-  @override
-  int get programIdIndex;
-  @override
-  List<int> get accountKeyIndexes;
-  @override
-  ByteArray get data;
+/// @nodoc
+class __$CompiledInstructionCopyWithImpl<$Res> implements _$CompiledInstructionCopyWith<$Res> {
+  __$CompiledInstructionCopyWithImpl(this._self, this._then);
+
+  final _CompiledInstruction _self;
+  final $Res Function(_CompiledInstruction) _then;
 
   /// Create a copy of CompiledInstruction
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CompiledInstructionImplCopyWith<_$CompiledInstructionImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? programIdIndex = null,
+    Object? accountKeyIndexes = null,
+    Object? data = null,
+  }) {
+    return _then(
+      _CompiledInstruction(
+        programIdIndex:
+            null == programIdIndex
+                ? _self.programIdIndex
+                : programIdIndex // ignore: cast_nullable_to_non_nullable
+                    as int,
+        accountKeyIndexes:
+            null == accountKeyIndexes
+                ? _self._accountKeyIndexes
+                : accountKeyIndexes // ignore: cast_nullable_to_non_nullable
+                    as List<int>,
+        data:
+            null == data
+                ? _self.data
+                : data // ignore: cast_nullable_to_non_nullable
+                    as ByteArray,
+      ),
+    );
+  }
 }

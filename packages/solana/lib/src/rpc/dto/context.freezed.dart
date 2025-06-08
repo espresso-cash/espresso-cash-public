@@ -11,77 +11,52 @@ part of 'context.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
-Context _$ContextFromJson(Map<String, dynamic> json) {
-  return _Context.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Context {
   @JsonKey(fromJson: bigIntFromJson)
-  BigInt get slot => throw _privateConstructorUsedError;
-
-  /// Serializes this Context to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  BigInt get slot;
 
   /// Create a copy of Context
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ContextCopyWith<Context> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ContextCopyWith<$Res> {
-  factory $ContextCopyWith(Context value, $Res Function(Context) then) =
-      _$ContextCopyWithImpl<$Res, Context>;
-  @useResult
-  $Res call({@JsonKey(fromJson: bigIntFromJson) BigInt slot});
-}
-
-/// @nodoc
-class _$ContextCopyWithImpl<$Res, $Val extends Context> implements $ContextCopyWith<$Res> {
-  _$ContextCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Context
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $ContextCopyWith<Context> get copyWith =>
+      _$ContextCopyWithImpl<Context>(this as Context, _$identity);
+
+  /// Serializes this Context to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({Object? slot = null}) {
-    return _then(
-      _value.copyWith(
-            slot:
-                null == slot
-                    ? _value.slot
-                    : slot // ignore: cast_nullable_to_non_nullable
-                        as BigInt,
-          )
-          as $Val,
-    );
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Context &&
+            (identical(other.slot, slot) || other.slot == slot));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, slot);
+
+  @override
+  String toString() {
+    return 'Context(slot: $slot)';
   }
 }
 
 /// @nodoc
-abstract class _$$ContextImplCopyWith<$Res> implements $ContextCopyWith<$Res> {
-  factory _$$ContextImplCopyWith(_$ContextImpl value, $Res Function(_$ContextImpl) then) =
-      __$$ContextImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $ContextCopyWith<$Res> {
+  factory $ContextCopyWith(Context value, $Res Function(Context) _then) = _$ContextCopyWithImpl;
   @useResult
   $Res call({@JsonKey(fromJson: bigIntFromJson) BigInt slot});
 }
 
 /// @nodoc
-class __$$ContextImplCopyWithImpl<$Res> extends _$ContextCopyWithImpl<$Res, _$ContextImpl>
-    implements _$$ContextImplCopyWith<$Res> {
-  __$$ContextImplCopyWithImpl(_$ContextImpl _value, $Res Function(_$ContextImpl) _then)
-    : super(_value, _then);
+class _$ContextCopyWithImpl<$Res> implements $ContextCopyWith<$Res> {
+  _$ContextCopyWithImpl(this._self, this._then);
+
+  final Context _self;
+  final $Res Function(Context) _then;
 
   /// Create a copy of Context
   /// with the given fields replaced by the non-null parameter values.
@@ -89,10 +64,10 @@ class __$$ContextImplCopyWithImpl<$Res> extends _$ContextCopyWithImpl<$Res, _$Co
   @override
   $Res call({Object? slot = null}) {
     return _then(
-      _$ContextImpl(
+      _self.copyWith(
         slot:
             null == slot
-                ? _value.slot
+                ? _self.slot
                 : slot // ignore: cast_nullable_to_non_nullable
                     as BigInt,
       ),
@@ -102,25 +77,31 @@ class __$$ContextImplCopyWithImpl<$Res> extends _$ContextCopyWithImpl<$Res, _$Co
 
 /// @nodoc
 @JsonSerializable()
-class _$ContextImpl implements _Context {
-  const _$ContextImpl({@JsonKey(fromJson: bigIntFromJson) required this.slot});
-
-  factory _$ContextImpl.fromJson(Map<String, dynamic> json) => _$$ContextImplFromJson(json);
+class _Context implements Context {
+  const _Context({@JsonKey(fromJson: bigIntFromJson) required this.slot});
+  factory _Context.fromJson(Map<String, dynamic> json) => _$ContextFromJson(json);
 
   @override
   @JsonKey(fromJson: bigIntFromJson)
   final BigInt slot;
 
+  /// Create a copy of Context
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Context(slot: $slot)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ContextCopyWith<_Context> get copyWith => __$ContextCopyWithImpl<_Context>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ContextToJson(this);
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ContextImpl &&
+            other is _Context &&
             (identical(other.slot, slot) || other.slot == slot));
   }
 
@@ -128,33 +109,40 @@ class _$ContextImpl implements _Context {
   @override
   int get hashCode => Object.hash(runtimeType, slot);
 
-  /// Create a copy of Context
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$ContextImplCopyWith<_$ContextImpl> get copyWith =>
-      __$$ContextImplCopyWithImpl<_$ContextImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ContextImplToJson(this);
+  String toString() {
+    return 'Context(slot: $slot)';
   }
 }
 
-abstract class _Context implements Context {
-  const factory _Context({@JsonKey(fromJson: bigIntFromJson) required final BigInt slot}) =
-      _$ContextImpl;
-
-  factory _Context.fromJson(Map<String, dynamic> json) = _$ContextImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$ContextCopyWith<$Res> implements $ContextCopyWith<$Res> {
+  factory _$ContextCopyWith(_Context value, $Res Function(_Context) _then) = __$ContextCopyWithImpl;
   @override
-  @JsonKey(fromJson: bigIntFromJson)
-  BigInt get slot;
+  @useResult
+  $Res call({@JsonKey(fromJson: bigIntFromJson) BigInt slot});
+}
+
+/// @nodoc
+class __$ContextCopyWithImpl<$Res> implements _$ContextCopyWith<$Res> {
+  __$ContextCopyWithImpl(this._self, this._then);
+
+  final _Context _self;
+  final $Res Function(_Context) _then;
 
   /// Create a copy of Context
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ContextImplCopyWith<_$ContextImpl> get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({Object? slot = null}) {
+    return _then(
+      _Context(
+        slot:
+            null == slot
+                ? _self.slot
+                : slot // ignore: cast_nullable_to_non_nullable
+                    as BigInt,
+      ),
+    );
+  }
 }

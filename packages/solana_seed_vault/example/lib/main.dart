@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_example/bl/bloc.dart';
@@ -48,14 +47,15 @@ class _MyAppState extends State<MyApp> {
               actions: [IconButton(onPressed: _bloc.refreshUI, icon: const Icon(Icons.refresh))],
             ),
             body: Center(
-              child: state.map(
-                none: always(const CircularProgressIndicator()),
-                loaded: always(const SeedVaultContent()),
-                error: (state) => Text(state.err),
-                unauthorized: always(
-                  ElevatedButton(onPressed: _bloc.init, child: const Text('Request permission')),
+              child: switch (state) {
+                SeedVaultStateNone() => const CircularProgressIndicator(),
+                SeedVaultStateLoaded() => const SeedVaultContent(),
+                final SeedVaultStateError state => Text(state.err),
+                SeedVaultStateUnauthorized() => ElevatedButton(
+                  onPressed: _bloc.init,
+                  child: const Text('Request permission'),
                 ),
-              ),
+              },
             ),
           ),
     ),
