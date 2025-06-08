@@ -84,6 +84,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState> implements ScenarioCallb
     final transactions = await Future.wait(switch (request) {
       SignTransactionsRequest() => payloads.map((e) async {
         final tx = SignedTx.fromBytes(e);
+
         return SignedTx(
           compiledMessage: tx.compiledMessage,
           signatures: [await _keyPair.sign(tx.compiledMessage.toByteArray())],

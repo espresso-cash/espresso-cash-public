@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         },
         builder:
             (context, state) => switch (state) {
-              MobileWalletStateNone() => const Center(child: Text('Running...')),
+              MobileWalletStateNone() ||
               MobileWalletStateSessionTerminated() => const Center(child: Text('Running...')),
               MobileWalletStateRemote(request: final r) => switch (r) {
                 RemoteRequestAuthorizeDapp() => AuthScreen(request: r.request),

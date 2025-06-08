@@ -215,6 +215,7 @@ extension RpcClientExt on RpcClient {
       CompiledMessageLegacy() => Future.value(tx.decompileMessage()),
       CompiledMessageV0(:final addressTableLookups) => Future<Message>(() async {
         final lookUpTables = await getAddressLookUpTableAccounts(addressTableLookups);
+
         return tx.decompileMessage(addressLookupTableAccounts: lookUpTables);
       }),
     };

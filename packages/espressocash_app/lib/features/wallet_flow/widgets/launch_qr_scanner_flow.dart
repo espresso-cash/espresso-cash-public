@@ -35,91 +35,92 @@ extension BuildContextExt on BuildContext {
     if (request == null) return;
     if (!mounted) return;
 
-    if (request is QrScannerLinkPayment) {
-      final escrow = await walletFromKey(encodedKey: request.payment.key);
-      if (!mounted) return;
-
-      final id = await createILP(escrow: escrow);
-
-      if (!mounted) return;
-      IncomingLinkPaymentScreen.push(this, id: id);
-    } else if (request is QrScannerAmbassadorRequest) {
-      showAmbassadorConfirmation(ambassador: request.referral);
-
-      if (!mounted) return;
-    } else if (request is QrScannerSolanaPayTransactionRequest) {
-      final transaction = request.request;
-
-      await processSolanaTransactionRequest(transaction);
-    } else {
-      final recipient = request.recipient;
-      if (recipient == null) return;
-
-      final name = request.mapOrNull(solanaPay: (r) => r.request.label);
-      final requestAmount = await request.whenOrNull(
-        solanaPay: (r) => r.cryptoAmount(sl<TokenRepository>().getToken),
-      );
-
-      if (!mounted) return;
-
-      final isEnabled = requestAmount == null || requestAmount.value == 0;
-      defaultFiatAmount =
-          defaultFiatAmount ?? const FiatAmount(value: 0, fiatCurrency: Currency.usd);
-      final FiatAmount initialAmount =
-          requestAmount?.toFiatAmount(
-            Currency.usd,
-            ratesRepository: sl<ConversionRatesRepository>(),
-          ) ??
-          defaultFiatAmount;
-      final formatted =
-          initialAmount.value == 0
-              ? ''
-              : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
-
-      if (request is QrScannerSolanaPayRequest) {
-        final isPaid = await isSolanaPayRequestPaid(request: request.request);
+    switch (request) {
+      case QrScannerLinkPayment():
+        final escrow = await walletFromKey(encodedKey: request.payment.key);
         if (!mounted) return;
 
-        if (isPaid) {
-          showCpSnackbar(this, message: l10n.paymentRequestPaidMessage);
+        final id = await createILP(escrow: escrow);
 
-          return;
-        }
-      }
+        if (!mounted) return;
+        IncomingLinkPaymentScreen.push(this, id: id);
+      case QrScannerAmbassadorRequest():
+        showAmbassadorConfirmation(ambassador: request.referral);
 
-      final fiatDecimal = await ODPConfirmationScreen.push(
-        this,
-        initialAmount: formatted,
-        recipient: recipient,
-        label: name,
-        token: cryptoCurrency.token,
-        isEnabled: isEnabled,
-      );
-      if (!mounted) return;
+        if (!mounted) return;
+      case QrScannerSolanaPayTransactionRequest():
+        final transaction = request.request;
 
-      if (fiatDecimal != null) {
-        final CryptoAmount cryptoAmount;
+        await processSolanaTransactionRequest(transaction);
+      default:
+        final recipient = request.recipient;
+        if (recipient == null) return;
 
-        if (isEnabled) {
-          final finalAmount = defaultFiatAmount.copyWithDecimal(fiatDecimal);
-          onFiatAmountChanged?.call(finalAmount);
-
-          cryptoAmount =
-              finalAmount.toTokenAmount(cryptoCurrency.token) ??
-              CryptoAmount(value: 0, cryptoCurrency: cryptoCurrency);
-        } else {
-          cryptoAmount = requestAmount;
-        }
-
-        final id = await createODP(
-          amountInUsdc: cryptoAmount.decimal,
-          receiver: recipient,
-          reference: request.reference,
+        final name = request.mapOrNull(solanaPay: (r) => r.request.label);
+        final requestAmount = await request.whenOrNull(
+          solanaPay: (r) => r.cryptoAmount(sl<TokenRepository>().getToken),
         );
 
         if (!mounted) return;
-        ODPDetailsScreen.open(this, id: id);
-      }
+
+        final isEnabled = requestAmount == null || requestAmount.value == 0;
+        defaultFiatAmount =
+            defaultFiatAmount ?? const FiatAmount(value: 0, fiatCurrency: Currency.usd);
+        final FiatAmount initialAmount =
+            requestAmount?.toFiatAmount(
+              Currency.usd,
+              ratesRepository: sl<ConversionRatesRepository>(),
+            ) ??
+            defaultFiatAmount;
+        final formatted =
+            initialAmount.value == 0
+                ? ''
+                : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
+
+        if (request is QrScannerSolanaPayRequest) {
+          final isPaid = await isSolanaPayRequestPaid(request: request.request);
+          if (!mounted) return;
+
+          if (isPaid) {
+            showCpSnackbar(this, message: l10n.paymentRequestPaidMessage);
+
+            return;
+          }
+        }
+
+        final fiatDecimal = await ODPConfirmationScreen.push(
+          this,
+          initialAmount: formatted,
+          recipient: recipient,
+          label: name,
+          token: cryptoCurrency.token,
+          isEnabled: isEnabled,
+        );
+        if (!mounted) return;
+
+        if (fiatDecimal != null) {
+          final CryptoAmount cryptoAmount;
+
+          if (isEnabled) {
+            final finalAmount = defaultFiatAmount.copyWithDecimal(fiatDecimal);
+            onFiatAmountChanged?.call(finalAmount);
+
+            cryptoAmount =
+                finalAmount.toTokenAmount(cryptoCurrency.token) ??
+                CryptoAmount(value: 0, cryptoCurrency: cryptoCurrency);
+          } else {
+            cryptoAmount = requestAmount;
+          }
+
+          final id = await createODP(
+            amountInUsdc: cryptoAmount.decimal,
+            receiver: recipient,
+            reference: request.reference,
+          );
+
+          if (!mounted) return;
+          ODPDetailsScreen.open(this, id: id);
+        }
     }
   }
 }

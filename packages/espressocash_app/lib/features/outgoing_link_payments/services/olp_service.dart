@@ -113,22 +113,17 @@ class OLPService implements Disposable {
     final status = payment.status;
 
     final OLPStatus newStatus;
-    if (status is OLPStatusTxFailure) {
-      newStatus = OLPStatus.canceled(txId: null, timestamp: DateTime.now());
-    } else {
-      final escrow = status.mapOrNull(
-        linkReady: (it) => it.escrow,
-        cancelTxFailure: (it) => it.escrow,
-      );
-
-      if (escrow == null) {
+    switch (status) {
+      case OLPStatusTxFailure():
+        newStatus = OLPStatus.canceled(txId: null, timestamp: DateTime.now());
+      case OLPStatusLinkReady(:final escrow):
+      case OLPStatusCancelTxFailure(:final escrow):
+        newStatus = await _createCancelTx(
+          escrow: await Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: escrow.bytes),
+          account: account,
+        );
+      default:
         return payment;
-      }
-
-      newStatus = await _createCancelTx(
-        escrow: await Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: escrow.bytes),
-        account: account,
-      );
     }
 
     final newPayment = payment.copyWith(status: newStatus);

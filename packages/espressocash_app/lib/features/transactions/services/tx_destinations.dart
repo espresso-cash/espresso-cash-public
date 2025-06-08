@@ -29,13 +29,13 @@ extension MetaInnerInstructionExt on TransactionDetails {
 extension on ParsedInstruction {
   String? getDestination() => switch (this) {
     ParsedInstructionSystem(:final parsed) => switch (parsed) {
-      ParsedSystemTransferInstruction(:final info) => info.destination,
+      ParsedSystemTransferInstruction(:final info) ||
       ParsedSystemTransferCheckedInstruction(:final info) => info.destination,
       _ => null,
     },
     ParsedInstructionSplToken(:final parsed) => switch (parsed) {
-      ParsedSystemTransferInstruction(:final info) => info.destination,
-      ParsedSystemTransferCheckedInstruction(:final info) => info.destination,
+      ParsedSplTokenTransferInstruction(:final info) => info.destination,
+      ParsedSplTokenTransferCheckedInstruction(info: final checkedInfo) => checkedInfo.destination,
       _ => null,
     },
     _ => null,
