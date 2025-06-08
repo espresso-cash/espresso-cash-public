@@ -1,3 +1,6 @@
+// Still depend on the generator.
+// ignore_for_file: deprecated_member_use
+
 import 'package:analyzer/dart/element/element.dart';
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:build/build.dart';
