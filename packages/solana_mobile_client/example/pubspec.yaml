@@ -1,6 +1,6 @@
 name: solana_mobile_client_example
 description: Demonstrates how to use the solana_mobile_client plugin.
-publish_to: "none"
+publish_to: 'none'
 
 environment:
   sdk: ^3.7.0

@@ -1,12 +1,12 @@
 name: wallet_example
 description: Demonstrates how to use the solana_seed_vault plugin for wallets
 
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
   sdk: ^3.7.0
-  flutter: ">=3.10.0"
+  flutter: '>=3.10.0'
 
 dependencies:
   bloc: ^8.1.0
