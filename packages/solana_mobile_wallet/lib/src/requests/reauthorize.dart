@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'reauthorize.freezed.dart';
 
 @freezed
-sealed class ReauthorizeRequest with _$ReauthorizeRequest {
+abstract class ReauthorizeRequest with _$ReauthorizeRequest {
   const factory ReauthorizeRequest({
     required String? identityName,
     required Uri? identityUri,

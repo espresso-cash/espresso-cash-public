@@ -5,7 +5,7 @@ part 'properties.freezed.dart';
 part 'properties.g.dart';
 
 @Freezed(unionKey: 'category', fallbackUnion: 'unknown')
-sealed class Properties with _$Properties {
+abstract class Properties with _$Properties {
   const factory Properties.unknown() = Unknown;
 
   const factory Properties.video({required List<File> files}) = Video;

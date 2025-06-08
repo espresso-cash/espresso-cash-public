@@ -4,19 +4,19 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'moneygram.freezed.dart';
 
 @freezed
-sealed class MoneygramChallengeSignRequestDto with _$MoneygramChallengeSignRequestDto {
+abstract class MoneygramChallengeSignRequestDto with _$MoneygramChallengeSignRequestDto {
   const factory MoneygramChallengeSignRequestDto({required String signedTx}) =
       _MoneygramChallengeSignRequestDto;
 }
 
 @freezed
-sealed class MoneygramChallengeSignResponseDto with _$MoneygramChallengeSignResponseDto {
+abstract class MoneygramChallengeSignResponseDto with _$MoneygramChallengeSignResponseDto {
   const factory MoneygramChallengeSignResponseDto({required String signedTx}) =
       _MoneygramChallengeSignResponseDto;
 }
 
 @freezed
-sealed class SwapToStellarRequestDto with _$SwapToStellarRequestDto {
+abstract class SwapToStellarRequestDto with _$SwapToStellarRequestDto {
   const factory SwapToStellarRequestDto({
     required String solanaSenderAddress,
     required String stellarReceiverAddress,
@@ -26,7 +26,7 @@ sealed class SwapToStellarRequestDto with _$SwapToStellarRequestDto {
 }
 
 @freezed
-sealed class SwapToSolanaRequestDto with _$SwapToSolanaRequestDto {
+abstract class SwapToSolanaRequestDto with _$SwapToSolanaRequestDto {
   const factory SwapToSolanaRequestDto({
     required String stellarSenderAddress,
     required String solanaReceiverAddress,
@@ -35,18 +35,18 @@ sealed class SwapToSolanaRequestDto with _$SwapToSolanaRequestDto {
 }
 
 @freezed
-sealed class MoneygramSwapResponseDto with _$MoneygramSwapResponseDto {
+abstract class MoneygramSwapResponseDto with _$MoneygramSwapResponseDto {
   const factory MoneygramSwapResponseDto({required String encodedTx}) = _MoneygramSwapResponseDto;
 }
 
 @freezed
-sealed class MoneygramFeeRequestDto with _$MoneygramFeeRequestDto {
+abstract class MoneygramFeeRequestDto with _$MoneygramFeeRequestDto {
   const factory MoneygramFeeRequestDto({required String amount, required RampTypeDto type}) =
       _MoneygramFeeRequestDto;
 }
 
 @freezed
-sealed class MoneygramFeeResponseDto with _$MoneygramFeeResponseDto {
+abstract class MoneygramFeeResponseDto with _$MoneygramFeeResponseDto {
   const factory MoneygramFeeResponseDto({
     required String bridgeFee,
     required String moneygramFee,
@@ -56,6 +56,6 @@ sealed class MoneygramFeeResponseDto with _$MoneygramFeeResponseDto {
 }
 
 @freezed
-sealed class FundXlmRequestDto with _$FundXlmRequestDto {
+abstract class FundXlmRequestDto with _$FundXlmRequestDto {
   const factory FundXlmRequestDto({required String accountId}) = _FundXlmRequestDto;
 }

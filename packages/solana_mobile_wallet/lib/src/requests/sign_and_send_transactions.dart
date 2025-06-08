@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'sign_and_send_transactions.freezed.dart';
 
 @freezed
-sealed class SignAndSendTransactionsRequest with _$SignAndSendTransactionsRequest {
+abstract class SignAndSendTransactionsRequest with _$SignAndSendTransactionsRequest {
   const factory SignAndSendTransactionsRequest({
     required String? identityName,
     required Uri? identityUri,

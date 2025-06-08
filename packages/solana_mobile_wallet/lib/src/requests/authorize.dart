@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'authorize.freezed.dart';
 
 @freezed
-sealed class AuthorizeRequest with _$AuthorizeRequest {
+abstract class AuthorizeRequest with _$AuthorizeRequest {
   const factory AuthorizeRequest({
     required String? identityName,
     required Uri? identityUri,
@@ -14,7 +14,7 @@ sealed class AuthorizeRequest with _$AuthorizeRequest {
 }
 
 @freezed
-sealed class AuthorizeResult with _$AuthorizeResult {
+abstract class AuthorizeResult with _$AuthorizeResult {
   const factory AuthorizeResult({
     required Uint8List publicKey,
     String? accountLabel,

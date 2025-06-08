@@ -1,7 +1,7 @@
 part of 'address_lookup_table.dart';
 
 @freezed
-sealed class AddressLookupTableState with _$AddressLookupTableState {
+abstract class AddressLookupTableState with _$AddressLookupTableState {
   const factory AddressLookupTableState({
     required BigInt deactivationSlot,
     required int lastExtendedSlot,

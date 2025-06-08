@@ -4,7 +4,7 @@ part 'transaction_request.freezed.dart';
 part 'transaction_request.g.dart';
 
 @freezed
-sealed class TransactionRequestInfo with _$TransactionRequestInfo {
+abstract class TransactionRequestInfo with _$TransactionRequestInfo {
   const factory TransactionRequestInfo({required String label, required String icon}) =
       _TransactionRequestInfo;
 
@@ -13,7 +13,7 @@ sealed class TransactionRequestInfo with _$TransactionRequestInfo {
 }
 
 @freezed
-sealed class TransactionRequestResponse with _$TransactionRequestResponse {
+abstract class TransactionRequestResponse with _$TransactionRequestResponse {
   const factory TransactionRequestResponse({
     required String transaction,
     String? message,

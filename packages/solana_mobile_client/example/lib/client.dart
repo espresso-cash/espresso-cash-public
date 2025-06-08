@@ -216,7 +216,7 @@ class ClientBloc extends Cubit<ClientState> {
 }
 
 @freezed
-sealed class ClientState with _$ClientState {
+abstract class ClientState with _$ClientState {
   const factory ClientState({
     GetCapabilitiesResult? capabilities,
     AuthorizationResult? authorizationResult,

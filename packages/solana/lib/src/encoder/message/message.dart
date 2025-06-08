@@ -13,7 +13,7 @@ part 'message.freezed.dart';
 ///
 /// [1]: https://docs.solana.com/developing/programming-model/transactions#message-format
 @freezed
-sealed class Message with _$Message {
+abstract class Message with _$Message {
   /// Construct a message to send with a transaction to execute the provided
   /// [instructions].
   const factory Message({required List<Instruction> instructions}) = _Message;

@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'payments.freezed.dart';
 
 @freezed
-sealed class CreateDirectPaymentRequestDto with _$CreateDirectPaymentRequestDto {
+abstract class CreateDirectPaymentRequestDto with _$CreateDirectPaymentRequestDto {
   const factory CreateDirectPaymentRequestDto({
     required String senderAccount,
     required String receiverAccount,
@@ -14,7 +14,7 @@ sealed class CreateDirectPaymentRequestDto with _$CreateDirectPaymentRequestDto 
 }
 
 @freezed
-sealed class CreateDirectPaymentResponseDto with _$CreateDirectPaymentResponseDto {
+abstract class CreateDirectPaymentResponseDto with _$CreateDirectPaymentResponseDto {
   const factory CreateDirectPaymentResponseDto({
     required int fee,
     required String transaction,
@@ -23,7 +23,7 @@ sealed class CreateDirectPaymentResponseDto with _$CreateDirectPaymentResponseDt
 }
 
 @freezed
-sealed class CreatePaymentRequestDto with _$CreatePaymentRequestDto {
+abstract class CreatePaymentRequestDto with _$CreatePaymentRequestDto {
   const factory CreatePaymentRequestDto({
     required String senderAccount,
     required String escrowAccount,
@@ -32,13 +32,13 @@ sealed class CreatePaymentRequestDto with _$CreatePaymentRequestDto {
 }
 
 @freezed
-sealed class CreatePaymentResponseDto with _$CreatePaymentResponseDto {
+abstract class CreatePaymentResponseDto with _$CreatePaymentResponseDto {
   const factory CreatePaymentResponseDto({required String transaction, required BigInt slot}) =
       _CreatePaymentResponseDto;
 }
 
 @freezed
-sealed class ReceivePaymentRequestDto with _$ReceivePaymentRequestDto {
+abstract class ReceivePaymentRequestDto with _$ReceivePaymentRequestDto {
   const factory ReceivePaymentRequestDto({
     required String receiverAccount,
     required String escrowAccount,
@@ -46,13 +46,13 @@ sealed class ReceivePaymentRequestDto with _$ReceivePaymentRequestDto {
 }
 
 @freezed
-sealed class ReceivePaymentResponseDto with _$ReceivePaymentResponseDto {
+abstract class ReceivePaymentResponseDto with _$ReceivePaymentResponseDto {
   const factory ReceivePaymentResponseDto({required String transaction, required BigInt slot}) =
       _ReceivePaymentResponseDto;
 }
 
 @freezed
-sealed class CancelPaymentRequestDto with _$CancelPaymentRequestDto {
+abstract class CancelPaymentRequestDto with _$CancelPaymentRequestDto {
   const factory CancelPaymentRequestDto({
     required String senderAccount,
     required String escrowAccount,
@@ -60,7 +60,7 @@ sealed class CancelPaymentRequestDto with _$CancelPaymentRequestDto {
 }
 
 @freezed
-sealed class CancelPaymentResponseDto with _$CancelPaymentResponseDto {
+abstract class CancelPaymentResponseDto with _$CancelPaymentResponseDto {
   const factory CancelPaymentResponseDto({required String transaction, required BigInt slot}) =
       _CancelPaymentResponseDto;
 }

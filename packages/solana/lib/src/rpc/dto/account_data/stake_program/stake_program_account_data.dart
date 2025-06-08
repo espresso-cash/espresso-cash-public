@@ -6,7 +6,7 @@ part 'stake_program_account_data.freezed.dart';
 part 'stake_program_account_data.g.dart';
 
 @Freezed(unionKey: 'type', fallbackUnion: 'unknown')
-sealed class StakeProgramAccountData with _$StakeProgramAccountData {
+abstract class StakeProgramAccountData with _$StakeProgramAccountData {
   const factory StakeProgramAccountData.delegated({required StakeDelegatedAccountInfo info}) =
       StakeProgramDelegatedAccountData;
 

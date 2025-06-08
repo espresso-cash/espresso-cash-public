@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'auth_issuer_config.freezed.dart';
 
 @freezed
-sealed class AuthIssuerConfig with _$AuthIssuerConfig {
+abstract class AuthIssuerConfig with _$AuthIssuerConfig {
   const factory AuthIssuerConfig({
     required String name,
     @Default(50) int maxOutstandingTokensPerIdentity,

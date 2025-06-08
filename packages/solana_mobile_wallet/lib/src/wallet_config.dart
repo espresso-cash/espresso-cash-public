@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'wallet_config.freezed.dart';
 
 @freezed
-sealed class MobileWalletAdapterConfig with _$MobileWalletAdapterConfig {
+abstract class MobileWalletAdapterConfig with _$MobileWalletAdapterConfig {
   const factory MobileWalletAdapterConfig({
     required bool supportsSignAndSendTransactions,
     required int maxTransactionsPerSigningRequest,

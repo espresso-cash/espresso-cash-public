@@ -6,7 +6,7 @@ part 'token_program_account_data.freezed.dart';
 part 'token_program_account_data.g.dart';
 
 @Freezed(unionKey: 'type', fallbackUnion: 'unknown')
-sealed class SplTokenProgramAccountData with _$SplTokenProgramAccountData {
+abstract class SplTokenProgramAccountData with _$SplTokenProgramAccountData {
   const factory SplTokenProgramAccountData.account({
     required SplTokenAccountDataInfo info,
     required String type,

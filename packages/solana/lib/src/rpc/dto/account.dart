@@ -9,7 +9,7 @@ part 'account.g.dart';
 
 /// An account
 @freezed
-sealed class Account with _$Account {
+abstract class Account with _$Account {
   const factory Account({
     /// Number of lamports assigned to this account, as a u64
     required int lamports,
