@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: api/moneygram/v1/service.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -15,62 +15,68 @@ import 'dart:core' as $core;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'service.pb.dart' as $7;
+import 'service.pb.dart' as $1;
 
 export 'service.pb.dart';
 
 @$pb.GrpcServiceName('espressocash.api.moneygram.v1.MoneygramService')
 class MoneygramServiceClient extends $grpc.Client {
+  /// The hostname for this service.
+  static const $core.String defaultHost = '';
+
+  /// OAuth scopes needed for the client.
+  static const $core.List<$core.String> oauthScopes = [
+    '',
+  ];
+
   static final _$signChallenge =
-      $grpc.ClientMethod<$7.MoneygramChallengeSignRequest, $7.MoneygramChallengeSignResponse>(
+      $grpc.ClientMethod<$1.MoneygramChallengeSignRequest, $1.MoneygramChallengeSignResponse>(
           '/espressocash.api.moneygram.v1.MoneygramService/SignChallenge',
-          ($7.MoneygramChallengeSignRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) => $7.MoneygramChallengeSignResponse.fromBuffer(value));
+          ($1.MoneygramChallengeSignRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.MoneygramChallengeSignResponse.fromBuffer(value));
   static final _$swapToSolana =
-      $grpc.ClientMethod<$7.SwapToSolanaRequest, $7.MoneygramSwapResponse>(
+      $grpc.ClientMethod<$1.SwapToSolanaRequest, $1.MoneygramSwapResponse>(
           '/espressocash.api.moneygram.v1.MoneygramService/SwapToSolana',
-          ($7.SwapToSolanaRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) => $7.MoneygramSwapResponse.fromBuffer(value));
+          ($1.SwapToSolanaRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.MoneygramSwapResponse.fromBuffer(value));
   static final _$swapToStellar =
-      $grpc.ClientMethod<$7.SwapToStellarRequest, $7.MoneygramSwapResponse>(
+      $grpc.ClientMethod<$1.SwapToStellarRequest, $1.MoneygramSwapResponse>(
           '/espressocash.api.moneygram.v1.MoneygramService/SwapToStellar',
-          ($7.SwapToStellarRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) => $7.MoneygramSwapResponse.fromBuffer(value));
-  static final _$calculateFee = $grpc.ClientMethod<$7.MoneygramFeeRequest, $7.MoneygramFeeResponse>(
+          ($1.SwapToStellarRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.MoneygramSwapResponse.fromBuffer(value));
+  static final _$calculateFee = $grpc.ClientMethod<$1.MoneygramFeeRequest, $1.MoneygramFeeResponse>(
       '/espressocash.api.moneygram.v1.MoneygramService/CalculateFee',
-      ($7.MoneygramFeeRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $7.MoneygramFeeResponse.fromBuffer(value));
-  static final _$fundXlm = $grpc.ClientMethod<$7.FundXlmRequest, $7.FundXlmResponse>(
+      ($1.MoneygramFeeRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.MoneygramFeeResponse.fromBuffer(value));
+  static final _$fundXlm = $grpc.ClientMethod<$1.FundXlmRequest, $1.FundXlmResponse>(
       '/espressocash.api.moneygram.v1.MoneygramService/FundXlm',
-      ($7.FundXlmRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $7.FundXlmResponse.fromBuffer(value));
+      ($1.FundXlmRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.FundXlmResponse.fromBuffer(value));
 
-  MoneygramServiceClient($grpc.ClientChannel channel,
-      {$grpc.CallOptions? options, $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options, interceptors: interceptors);
+  MoneygramServiceClient(super.channel, {super.options, super.interceptors});
 
-  $grpc.ResponseFuture<$7.MoneygramChallengeSignResponse> signChallenge(
-      $7.MoneygramChallengeSignRequest request,
+  $grpc.ResponseFuture<$1.MoneygramChallengeSignResponse> signChallenge(
+      $1.MoneygramChallengeSignRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$signChallenge, request, options: options);
   }
 
-  $grpc.ResponseFuture<$7.MoneygramSwapResponse> swapToSolana($7.SwapToSolanaRequest request,
+  $grpc.ResponseFuture<$1.MoneygramSwapResponse> swapToSolana($1.SwapToSolanaRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$swapToSolana, request, options: options);
   }
 
-  $grpc.ResponseFuture<$7.MoneygramSwapResponse> swapToStellar($7.SwapToStellarRequest request,
+  $grpc.ResponseFuture<$1.MoneygramSwapResponse> swapToStellar($1.SwapToStellarRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$swapToStellar, request, options: options);
   }
 
-  $grpc.ResponseFuture<$7.MoneygramFeeResponse> calculateFee($7.MoneygramFeeRequest request,
+  $grpc.ResponseFuture<$1.MoneygramFeeResponse> calculateFee($1.MoneygramFeeRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$calculateFee, request, options: options);
   }
 
-  $grpc.ResponseFuture<$7.FundXlmResponse> fundXlm($7.FundXlmRequest request,
+  $grpc.ResponseFuture<$1.FundXlmResponse> fundXlm($1.FundXlmRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$fundXlm, request, options: options);
   }
@@ -82,75 +88,75 @@ abstract class MoneygramServiceBase extends $grpc.Service {
 
   MoneygramServiceBase() {
     $addMethod(
-        $grpc.ServiceMethod<$7.MoneygramChallengeSignRequest, $7.MoneygramChallengeSignResponse>(
+        $grpc.ServiceMethod<$1.MoneygramChallengeSignRequest, $1.MoneygramChallengeSignResponse>(
             'SignChallenge',
             signChallenge_Pre,
             false,
             false,
-            ($core.List<$core.int> value) => $7.MoneygramChallengeSignRequest.fromBuffer(value),
-            ($7.MoneygramChallengeSignResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$7.SwapToSolanaRequest, $7.MoneygramSwapResponse>(
+            ($core.List<$core.int> value) => $1.MoneygramChallengeSignRequest.fromBuffer(value),
+            ($1.MoneygramChallengeSignResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.SwapToSolanaRequest, $1.MoneygramSwapResponse>(
         'SwapToSolana',
         swapToSolana_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $7.SwapToSolanaRequest.fromBuffer(value),
-        ($7.MoneygramSwapResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$7.SwapToStellarRequest, $7.MoneygramSwapResponse>(
+        ($core.List<$core.int> value) => $1.SwapToSolanaRequest.fromBuffer(value),
+        ($1.MoneygramSwapResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.SwapToStellarRequest, $1.MoneygramSwapResponse>(
         'SwapToStellar',
         swapToStellar_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $7.SwapToStellarRequest.fromBuffer(value),
-        ($7.MoneygramSwapResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$7.MoneygramFeeRequest, $7.MoneygramFeeResponse>(
+        ($core.List<$core.int> value) => $1.SwapToStellarRequest.fromBuffer(value),
+        ($1.MoneygramSwapResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.MoneygramFeeRequest, $1.MoneygramFeeResponse>(
         'CalculateFee',
         calculateFee_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $7.MoneygramFeeRequest.fromBuffer(value),
-        ($7.MoneygramFeeResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$7.FundXlmRequest, $7.FundXlmResponse>(
+        ($core.List<$core.int> value) => $1.MoneygramFeeRequest.fromBuffer(value),
+        ($1.MoneygramFeeResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.FundXlmRequest, $1.FundXlmResponse>(
         'FundXlm',
         fundXlm_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $7.FundXlmRequest.fromBuffer(value),
-        ($7.FundXlmResponse value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $1.FundXlmRequest.fromBuffer(value),
+        ($1.FundXlmResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$7.MoneygramChallengeSignResponse> signChallenge_Pre(
-      $grpc.ServiceCall call, $async.Future<$7.MoneygramChallengeSignRequest> request) async {
-    return signChallenge(call, await request);
+  $async.Future<$1.MoneygramChallengeSignResponse> signChallenge_Pre(
+      $grpc.ServiceCall $call, $async.Future<$1.MoneygramChallengeSignRequest> $request) async {
+    return signChallenge($call, await $request);
   }
 
-  $async.Future<$7.MoneygramSwapResponse> swapToSolana_Pre(
-      $grpc.ServiceCall call, $async.Future<$7.SwapToSolanaRequest> request) async {
-    return swapToSolana(call, await request);
+  $async.Future<$1.MoneygramSwapResponse> swapToSolana_Pre(
+      $grpc.ServiceCall $call, $async.Future<$1.SwapToSolanaRequest> $request) async {
+    return swapToSolana($call, await $request);
   }
 
-  $async.Future<$7.MoneygramSwapResponse> swapToStellar_Pre(
-      $grpc.ServiceCall call, $async.Future<$7.SwapToStellarRequest> request) async {
-    return swapToStellar(call, await request);
+  $async.Future<$1.MoneygramSwapResponse> swapToStellar_Pre(
+      $grpc.ServiceCall $call, $async.Future<$1.SwapToStellarRequest> $request) async {
+    return swapToStellar($call, await $request);
   }
 
-  $async.Future<$7.MoneygramFeeResponse> calculateFee_Pre(
-      $grpc.ServiceCall call, $async.Future<$7.MoneygramFeeRequest> request) async {
-    return calculateFee(call, await request);
+  $async.Future<$1.MoneygramFeeResponse> calculateFee_Pre(
+      $grpc.ServiceCall $call, $async.Future<$1.MoneygramFeeRequest> $request) async {
+    return calculateFee($call, await $request);
   }
 
-  $async.Future<$7.FundXlmResponse> fundXlm_Pre(
-      $grpc.ServiceCall call, $async.Future<$7.FundXlmRequest> request) async {
-    return fundXlm(call, await request);
+  $async.Future<$1.FundXlmResponse> fundXlm_Pre(
+      $grpc.ServiceCall $call, $async.Future<$1.FundXlmRequest> $request) async {
+    return fundXlm($call, await $request);
   }
 
-  $async.Future<$7.MoneygramChallengeSignResponse> signChallenge(
-      $grpc.ServiceCall call, $7.MoneygramChallengeSignRequest request);
-  $async.Future<$7.MoneygramSwapResponse> swapToSolana(
-      $grpc.ServiceCall call, $7.SwapToSolanaRequest request);
-  $async.Future<$7.MoneygramSwapResponse> swapToStellar(
-      $grpc.ServiceCall call, $7.SwapToStellarRequest request);
-  $async.Future<$7.MoneygramFeeResponse> calculateFee(
-      $grpc.ServiceCall call, $7.MoneygramFeeRequest request);
-  $async.Future<$7.FundXlmResponse> fundXlm($grpc.ServiceCall call, $7.FundXlmRequest request);
+  $async.Future<$1.MoneygramChallengeSignResponse> signChallenge(
+      $grpc.ServiceCall call, $1.MoneygramChallengeSignRequest request);
+  $async.Future<$1.MoneygramSwapResponse> swapToSolana(
+      $grpc.ServiceCall call, $1.SwapToSolanaRequest request);
+  $async.Future<$1.MoneygramSwapResponse> swapToStellar(
+      $grpc.ServiceCall call, $1.SwapToStellarRequest request);
+  $async.Future<$1.MoneygramFeeResponse> calculateFee(
+      $grpc.ServiceCall call, $1.MoneygramFeeRequest request);
+  $async.Future<$1.FundXlmResponse> fundXlm($grpc.ServiceCall call, $1.FundXlmRequest request);
 }

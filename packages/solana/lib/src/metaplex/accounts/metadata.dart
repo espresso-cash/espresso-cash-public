@@ -34,14 +34,26 @@ class Metadata {
     );
   }
 
-  Future<OffChainMetadata> getExternalJson() async {
-    final response = await http.get(Uri.parse(uri));
+  Future<OffChainMetadata?> getExternalJson() async {
+    final url = this.uri.trim();
+    if (url.isEmpty) {
+      return null;
+    }
+    final uri = Uri.tryParse(url);
+    if (uri == null) {
+      return null;
+    }
+
+    final response = await http.get(uri);
     if (response.statusCode != 200) {
       throw HttpException(response.statusCode, response.body);
     }
 
-    // ignore: avoid-type-casts, controlled type
-    return OffChainMetadata.fromJson(json.decode(response.body) as Map<String, dynamic>);
+    if (json.decode(response.body) case final Map<String, dynamic> json) {
+      return OffChainMetadata.fromJson(json);
+    }
+
+    return null;
   }
 
   final String name;

@@ -58,6 +58,10 @@ linked_*.ds
 unlinked.ds
 unlinked_spec.ds
 
+# Flutter ephemeral
+**/Flutter/ephemeral/
+**/flutter/ephemeral/
+
 # Android related
 **/android/.gradle
 **/android/captures/

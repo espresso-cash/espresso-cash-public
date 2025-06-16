@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
+import 'package:brij_client/brij_client.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart' hide Order;
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
@@ -91,18 +91,18 @@ class KycRepository extends ChangeNotifier {
     );
   }
 
-  Future<void> initEmailVerification({required String emailId}) =>
-      _initWrapper(() => _kycUserClient.initEmailValidation(dataId: emailId));
+  Future<void> initEmailVerification({required String dataHash}) =>
+      _initWrapper(() => _kycUserClient.initEmailValidation(dataHash: dataHash));
 
-  Future<void> verifyEmail({required String code, required String dataId}) async {
-    await _initWrapper(() => _kycUserClient.validateEmail(code: code, dataId: dataId));
+  Future<void> verifyEmail({required String code, required String dataHash}) async {
+    await _initWrapper(() => _kycUserClient.validateEmail(code: code, dataHash: dataHash));
   }
 
-  Future<void> initPhoneVerification({required String phoneId}) =>
-      _initWrapper(() => _kycUserClient.initPhoneValidation(dataId: phoneId));
+  Future<void> initPhoneVerification({required String dataHash}) =>
+      _initWrapper(() => _kycUserClient.initPhoneValidation(dataHash: dataHash));
 
   Future<void> verifyPhone({required String code, required String dataId}) =>
-      _initWrapper(() => _kycUserClient.validatePhone(code: code, dataId: dataId));
+      _initWrapper(() => _kycUserClient.validatePhone(code: code, dataHash: dataId));
 
   Future<void> startKycVerification({required String country, required List<String> dataHashes}) =>
       _initWrapper(() => _kycUserClient.startKycRequest(country: country, dataHashes: dataHashes));
@@ -167,9 +167,8 @@ class KycRepository extends ChangeNotifier {
       _initWrapper(() => _kycUserClient.getPartnerInfo(partnerPK: partnerPk));
 
   Future<KycValidationStatus> fetchKycStatus({required String country}) => _initWrapper(
-    () =>
-        _kycUserClient.getKycStatusDetails(userPK: _kycUserClient.authPublicKey, country: country),
-  ).then((value) => value.status.toKycValidationStatus());
+    () => _kycUserClient.getKycStatus(userPK: _kycUserClient.authPublicKey, country: country),
+  ).then((value) => value.toKycValidationStatus());
 
   Future<KycRequirement> getKycRequirements({required String country}) =>
       _initWrapper(() => _kycUserClient.getKycRequirements(country: country));

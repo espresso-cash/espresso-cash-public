@@ -1,4 +1,4 @@
-import 'package:kyc_client_dart/kyc_client_dart.dart' hide IdTypeExtension;
+import 'package:brij_client/brij_client.dart' hide IdTypeExtension;
 
 import '../models/document_type.dart';
 

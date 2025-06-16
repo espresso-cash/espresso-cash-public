@@ -10,8 +10,8 @@ import 'package:uuid/uuid.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
+import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
-import '../../currency/models/currency.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
@@ -20,12 +20,21 @@ import '../models/outgoing_direct_payment.dart';
 
 @Singleton(scope: authScope)
 class ODPService {
-  ODPService(this._client, this._repository, this._txSender, this._analyticsManager);
+  ODPService(
+    this._client,
+    this._repository,
+    this._txSender,
+    this._analyticsManager,
+    this._refreshBalance,
+    this._solanaClient,
+  );
 
   final EspressoCashClient _client;
   final ODPRepository _repository;
   final TxSender _txSender;
   final AnalyticsManager _analyticsManager;
+  final RefreshBalance _refreshBalance;
+  final SolanaClient _solanaClient;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -46,12 +55,20 @@ class ODPService {
   }) async {
     final id = const Uuid().v4();
 
-    final status = await _createTx(
-      account: account,
-      receiver: receiver,
-      amount: amount,
-      reference: reference,
-    );
+    final status =
+        amount.token.isSolana
+            ? await _createSolTx(
+              account: account,
+              receiver: receiver,
+              amount: amount,
+              reference: reference,
+            )
+            : await _createTokenTx(
+              account: account,
+              receiver: receiver,
+              amount: amount,
+              reference: reference,
+            );
 
     final payment = OutgoingDirectPayment(
       id: id,
@@ -75,7 +92,50 @@ class ODPService {
     await _repository.delete(paymentId);
   }
 
-  Future<ODPStatus> _createTx({
+  Future<ODPStatus> _createSolTx({
+    required CryptoAmount amount,
+    required ECWallet account,
+    required Ed25519HDPublicKey receiver,
+    required Ed25519HDPublicKey? reference,
+  }) async {
+    try {
+      final latestBlockhash = await _solanaClient.rpcClient.getLatestBlockhash(
+        commitment: Commitment.confirmed,
+      );
+
+      final transferInstruction = SystemInstruction.transfer(
+        fundingAccount: account.publicKey,
+        recipientAccount: receiver,
+        lamports: amount.value,
+      );
+
+      final message = Message(
+        instructions: [
+          transferInstruction,
+          if (reference != null)
+            MemoInstruction(memo: reference.toBase58(), signers: [account.publicKey]),
+        ],
+      );
+
+      final compiled = message.compile(
+        recentBlockhash: latestBlockhash.value.blockhash,
+        feePayer: account.publicKey,
+      );
+
+      final signedTx = SignedTx(
+        compiledMessage: compiled,
+        signatures: [Signature(List.filled(64, 0), publicKey: account.publicKey)],
+      );
+
+      final tx = await signedTx.resign(account);
+
+      return ODPStatus.txCreated(tx, slot: BigInt.from(latestBlockhash.context.slot.toInt()));
+    } on Exception {
+      return const ODPStatus.txFailure(reason: TxFailureReason.creatingFailure);
+    }
+  }
+
+  Future<ODPStatus> _createTokenTx({
     required CryptoAmount amount,
     required ECWallet account,
     required Ed25519HDPublicKey receiver,
@@ -87,7 +147,7 @@ class ODPService {
         receiverAccount: receiver.toBase58(),
         referenceAccount: reference?.toBase58(),
         amount: amount.value,
-        mintAddress: Currency.usdc.token.address,
+        mintAddress: amount.token.address,
       );
       final response = await _client.createDirectPayment(dto);
       final tx = await response
@@ -158,7 +218,12 @@ class ODPService {
     );
 
     if (newStatus is ODPStatusSuccess) {
-      _analyticsManager.directPaymentSent(amount: payment.amount.decimal);
+      _analyticsManager.directPaymentSent(
+        symbol: payment.amount.token.symbol,
+        amount: payment.amount.decimal,
+      );
+
+      _refreshBalance();
     }
 
     return newStatus == null ? payment : payment.copyWith(status: newStatus);
