@@ -159,7 +159,7 @@ class _TokenHeader extends StatelessWidget {
               const SizedBox(height: 24),
               FittedBox(
                 child: Text(
-                  context.formatWithMinAmount(crypto),
+                  crypto.format(context.locale),
                   maxLines: 1,
                   style: const TextStyle(fontSize: 59, fontWeight: FontWeight.w700),
                 ),
