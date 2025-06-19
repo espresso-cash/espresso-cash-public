@@ -133,7 +133,10 @@ class _ScreenState extends State<ODPConfirmationScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              FeeLabel(keyText: '${context.l10n.fee}: ', type: FeeType.direct(widget.recipient)),
+              FeeLabel(
+                keyText: '${context.l10n.fee}: ',
+                type: FeeType.direct(widget.recipient, token: widget.token),
+              ),
               const SizedBox(height: 21),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),

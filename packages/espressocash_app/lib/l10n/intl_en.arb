@@ -82,6 +82,8 @@
     "@faq": {},
     "fee": "Fee",
     "@fee": {},
+    "fees": "Fees",
+    "@fees": {},
     "feesCalculating": "calculating...",
     "@feesCalculating": {},
     "feesFailed": "failed to load",
@@ -1266,14 +1268,6 @@
     "@personalInformationTitle": {},
     "countryOfCitizenship": "Country of Citizenship",
     "@countryOfCitizenship": {},
-    "fees": "Fees",
-    "@fees": {},
-    "quantity": "Quantity",
-    "@quantity": {},
-    "recipient": "Recipient",
-    "@recipient": {},
-    "enterWalletAddress": "Enter a wallet address",
-    "@enterWalletAddress": {},
     "swap": "Swap",
     "@swap": {},
     "reviewSwap": "Review Swap",
@@ -1302,7 +1296,7 @@
     "@clear": {},
     "max": "Max",
     "@max": {},
-    
+
     "swapSuccess": "Successfully swapped {from} to {to}",
     "@swapSuccess": {
       "placeholders": {

@@ -1,3 +1,17 @@
+## 1.153.0
+
+ - **FEAT**: add token send (#1738).
+
+## 1.152.1
+
+ - **REFACTOR**: update brij client (#1745).
+
+## 1.152.0
+
+ - **REFACTOR**: update brij_client to 1.0.7 (#1744).
+ - **REFACTOR**: upgrade linter (#1737).
+ - **FEAT**: update dependencies (#1743).
+
 ## 1.151.0
 
  - **FIX**: token price response (#1728).

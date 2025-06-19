@@ -1,3 +1,20 @@
+## 0.1.2
+
+ - **REFACTOR**: upgrade linter (#1737).
+ - **REFACTOR**: migrate to Flutter 3.29.0 (#1705).
+ - **REFACTOR**: migrate to Flutter 3.24.3 (#1574).
+ - **REFACTOR**: use dcm 1.17.0 (#1441).
+ - **REFACTOR**: update linter (#1392).
+ - **REFACTOR**: update lint rules (#1320).
+ - **REFACTOR**: use DCM 1.14.0 (#1282).
+ - **REFACTOR**: update linter (#1223).
+ - **REFACTOR**: migrate to Flutter 3.16.2 (#1157).
+ - **REFACTOR**: update lint rules (#1102).
+ - **FIX**: Modernize Android configuration and improve documentation for solana_mobile_client (#1731).
+ - **FEAT**: Update SDK constraints and upgrade deps (#1683).
+ - **FEAT**: update web_socket_channel dependency (#1659).
+ - **FEAT**: Added mainnet to solana_client example (#1532).
+
 ## 0.1.1+1
 
  - **REFACTOR**: update lint rules (#1091).

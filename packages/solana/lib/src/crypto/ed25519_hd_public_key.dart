@@ -12,12 +12,18 @@ class Ed25519HDPublicKey implements PublicKey {
 
   factory Ed25519HDPublicKey.fromBase58(String data) {
     final bytes = base58decode(data);
-    if (bytes.length != 32) {
-      throw ArgumentError.value(data, 'data', 'Expected 32 bytes, got ${bytes.length}');
+    if (bytes.length != _maxSeedLength) {
+      throw ArgumentError.value(
+        data,
+        'data',
+        'Expected $_maxSeedLength bytes, got ${bytes.length}',
+      );
     }
 
     return Ed25519HDPublicKey(bytes);
   }
+
+  final List<int> bytes;
 
   static Future<Ed25519HDPublicKey> createWithSeed({
     required Ed25519HDPublicKey fromPublicKey,
@@ -80,7 +86,16 @@ class Ed25519HDPublicKey implements PublicKey {
     throw const FormatException('cannot find program address with these seeds');
   }
 
-  final List<int> bytes;
+  /// Determine if the given [data] is a valid ed25519 point encoded to base58.
+  static bool isValidFromBase58(String data) {
+    try {
+      final bytes = base58decode(data);
+
+      return bytes.length == _maxSeedLength;
+    } on FormatException {
+      return false;
+    }
+  }
 
   String toBase58() => base58encode(bytes);
 
