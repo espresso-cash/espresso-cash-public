@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../../../ui/number_formatter.dart';
 import '../../../ui/text_field.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -91,8 +90,7 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
     ],
   );
 
-  Decimal get _parsedAmount =>
-      widget._quantityController.text.toDecimalOrZero(DeviceLocale.localeOf(context));
+  Decimal get _parsedAmount => widget._quantityController.text.toDecimalOrZero();
 
   bool get _isMax => _parsedAmount == widget.crypto.decimal;
 
@@ -110,4 +108,16 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
                 DeviceLocale.localeOf(context),
                 skipSymbol: true,
               );
+}
+
+extension on String {
+  Decimal toDecimalOrZero() {
+    try {
+      final normalizedInput = replaceAll(',', '.');
+
+      return Decimal.tryParse(normalizedInput) ?? Decimal.zero;
+    } on FormatException catch (_) {
+      return Decimal.zero;
+    }
+  }
 }
