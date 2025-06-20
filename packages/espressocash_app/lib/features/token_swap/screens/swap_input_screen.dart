@@ -507,18 +507,21 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
     final value = Decimal.tryParse(widget.controller.text);
     final isValueValid = widget.controller.text.isNotEmpty && value != null;
 
-    setState(() {
-      _isMax =
-          isValueValid && widget.crypto.decimal > Decimal.zero && value == widget.crypto.decimal;
+    scheduleMicrotask(() {
+      if (!mounted) return;
+      setState(() {
+        _isMax =
+            isValueValid && widget.crypto.decimal > Decimal.zero && value == widget.crypto.decimal;
 
-      if (isValueValid) {
-        _textHeight = 0.9;
-        _showEquivalent = true;
-      } else {
-        _textHeight = 1.2;
-        _showEquivalent = false;
-        _isMax = false;
-      }
+        if (isValueValid) {
+          _textHeight = 0.9;
+          _showEquivalent = true;
+        } else {
+          _textHeight = 1.2;
+          _showEquivalent = false;
+          _isMax = false;
+        }
+      });
     });
   }
 

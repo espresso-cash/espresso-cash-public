@@ -117,30 +117,23 @@ extension on SwapStatusDto {
     final tx = row.tx?.let(SignedTx.decode);
     final slot = row.slot?.let(BigInt.tryParse);
 
-    switch (this) {
-      case SwapStatusDto.txCreated:
-        return SwapStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
-      case SwapStatusDto.txSent:
-        return SwapStatus.txSent(tx!, slot: slot ?? BigInt.zero);
-      case SwapStatusDto.success:
-        return SwapStatus.success(tx!);
-      case SwapStatusDto.txFailure:
-        return SwapStatus.txFailure(reason: row.txFailureReason ?? TxFailureReason.unknown);
-    }
+    return switch (this) {
+      SwapStatusDto.txCreated => SwapStatus.txCreated(tx!, slot: slot ?? BigInt.zero),
+      SwapStatusDto.txSent => SwapStatus.txSent(tx!, slot: slot ?? BigInt.zero),
+      SwapStatusDto.success => SwapStatus.success(tx!),
+      SwapStatusDto.txFailure => SwapStatus.txFailure(
+        reason: row.txFailureReason ?? TxFailureReason.unknown,
+      ),
+    };
   }
 }
 
 extension on SlippageDto {
-  Slippage toModel() {
-    switch (this) {
-      case SlippageDto.zpOne:
-        return Slippage.zpOne;
-      case SlippageDto.zpFive:
-        return Slippage.zpFive;
-      case SlippageDto.onePercent:
-        return Slippage.onePercent;
-    }
-  }
+  Slippage toModel() => switch (this) {
+    SlippageDto.zpOne => Slippage.zpOne,
+    SlippageDto.zpFive => Slippage.zpFive,
+    SlippageDto.onePercent => Slippage.onePercent,
+  };
 }
 
 extension on Swap {
@@ -189,14 +182,9 @@ extension on SwapStatus {
 }
 
 extension on Slippage {
-  SlippageDto toDto() {
-    switch (this) {
-      case Slippage.zpOne:
-        return SlippageDto.zpOne;
-      case Slippage.zpFive:
-        return SlippageDto.zpFive;
-      case Slippage.onePercent:
-        return SlippageDto.onePercent;
-    }
-  }
+  SlippageDto toDto() => switch (this) {
+    Slippage.zpOne => SlippageDto.zpOne,
+    Slippage.zpFive => SlippageDto.zpFive,
+    Slippage.onePercent => SlippageDto.onePercent,
+  };
 }
