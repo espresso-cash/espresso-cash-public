@@ -18,6 +18,7 @@ import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../token_send/screens/token_send_input_screen.dart';
 import '../../token_send/widgets/token_app_bar.dart';
+import '../../token_swap/screens/swap_input_screen.dart';
 import '../../tokens/token.dart';
 import '../widgets/token_info.dart';
 
@@ -205,18 +206,16 @@ class _ActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 40),
-    // ignore:  avoid-single-child-column-or-row, won't be available in first release,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // TODO(dev): add swap button
-        // CpButton(
-        //   text: 'Swap',
-        //   minWidth: 106,
-        //   size: CpButtonSize.big,
-        //   onPressed: () {},
-        // ),
-        // const SizedBox(width: 14),
+        CpButton(
+          text: context.l10n.swap,
+          minWidth: 106,
+          size: CpButtonSize.big,
+          onPressed: () => TokenSwapInputScreen.push(context, initialToken: token),
+        ),
+        const SizedBox(width: 14),
         CpButton(
           text: context.l10n.send,
           minWidth: 106,

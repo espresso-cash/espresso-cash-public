@@ -96,6 +96,14 @@ abstract class MoneygramServiceBase extends $grpc.Service {
             false,
             ($core.List<$core.int> value) => $1.MoneygramChallengeSignRequest.fromBuffer(value),
             ($1.MoneygramChallengeSignResponse value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$1.MoneygramChallengeSignRequest, $1.MoneygramChallengeSignResponse>(
+            'SignChallenge',
+            signChallenge_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) => $1.MoneygramChallengeSignRequest.fromBuffer(value),
+            ($1.MoneygramChallengeSignResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.SwapToSolanaRequest, $1.MoneygramSwapResponse>(
         'SwapToSolana',
         swapToSolana_Pre,
