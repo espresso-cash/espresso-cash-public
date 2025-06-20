@@ -1268,6 +1268,12 @@
     "@personalInformationTitle": {},
     "countryOfCitizenship": "Country of Citizenship",
     "@countryOfCitizenship": {},
+    "quantity": "Quantity",
+    "@quantity": {},
+    "recipient": "Recipient",
+    "@recipient": {},
+    "enterWalletAddress": "Enter a wallet address",
+    "@enterWalletAddress": {},
     "swap": "Swap",
     "@swap": {},
     "reviewSwap": "Review Swap",
@@ -1296,7 +1302,6 @@
     "@clear": {},
     "max": "Max",
     "@max": {},
-
     "swapSuccess": "Successfully swapped {from} to {to}",
     "@swapSuccess": {
       "placeholders": {
