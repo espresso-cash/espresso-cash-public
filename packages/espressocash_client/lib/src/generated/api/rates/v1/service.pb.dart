@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -17,13 +18,15 @@ export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class GetRatesRequest extends $pb.GeneratedMessage {
   factory GetRatesRequest() => create();
-  GetRatesRequest._() : super();
-  factory GetRatesRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetRatesRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetRatesRequest._();
+
+  factory GetRatesRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetRatesRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRatesRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.rates.v1'),
@@ -36,10 +39,12 @@ class GetRatesRequest extends $pb.GeneratedMessage {
   GetRatesRequest copyWith(void Function(GetRatesRequest) updates) =>
       super.copyWith((message) => updates(message as GetRatesRequest)) as GetRatesRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetRatesRequest create() => GetRatesRequest._();
+  @$core.override
   GetRatesRequest createEmptyInstance() => create();
   static $pb.PbList<GetRatesRequest> createRepeated() => $pb.PbList<GetRatesRequest>();
   @$core.pragma('dart2js:noInline')
@@ -52,19 +57,19 @@ class GetRatesResponse extends $pb.GeneratedMessage {
   factory GetRatesResponse({
     $core.double? usdc,
   }) {
-    final $result = create();
-    if (usdc != null) {
-      $result.usdc = usdc;
-    }
-    return $result;
+    final result = create();
+    if (usdc != null) result.usdc = usdc;
+    return result;
   }
-  GetRatesResponse._() : super();
-  factory GetRatesResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetRatesResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetRatesResponse._();
+
+  factory GetRatesResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetRatesResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRatesResponse',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.rates.v1'),
@@ -78,10 +83,12 @@ class GetRatesResponse extends $pb.GeneratedMessage {
   GetRatesResponse copyWith(void Function(GetRatesResponse) updates) =>
       super.copyWith((message) => updates(message as GetRatesResponse)) as GetRatesResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetRatesResponse create() => GetRatesResponse._();
+  @$core.override
   GetRatesResponse createEmptyInstance() => create();
   static $pb.PbList<GetRatesResponse> createRepeated() => $pb.PbList<GetRatesResponse>();
   @$core.pragma('dart2js:noInline')
@@ -92,10 +99,7 @@ class GetRatesResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.double get usdc => $_getN(0);
   @$pb.TagNumber(1)
-  set usdc($core.double v) {
-    $_setFloat(0, v);
-  }
-
+  set usdc($core.double value) => $_setFloat(0, value);
   @$pb.TagNumber(1)
   $core.bool hasUsdc() => $_has(0);
   @$pb.TagNumber(1)
@@ -107,22 +111,20 @@ class GetFiatRatesRequest extends $pb.GeneratedMessage {
     $core.String? base,
     $core.String? target,
   }) {
-    final $result = create();
-    if (base != null) {
-      $result.base = base;
-    }
-    if (target != null) {
-      $result.target = target;
-    }
-    return $result;
+    final result = create();
+    if (base != null) result.base = base;
+    if (target != null) result.target = target;
+    return result;
   }
-  GetFiatRatesRequest._() : super();
-  factory GetFiatRatesRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetFiatRatesRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetFiatRatesRequest._();
+
+  factory GetFiatRatesRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetFiatRatesRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetFiatRatesRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.rates.v1'),
@@ -137,10 +139,12 @@ class GetFiatRatesRequest extends $pb.GeneratedMessage {
   GetFiatRatesRequest copyWith(void Function(GetFiatRatesRequest) updates) =>
       super.copyWith((message) => updates(message as GetFiatRatesRequest)) as GetFiatRatesRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetFiatRatesRequest create() => GetFiatRatesRequest._();
+  @$core.override
   GetFiatRatesRequest createEmptyInstance() => create();
   static $pb.PbList<GetFiatRatesRequest> createRepeated() => $pb.PbList<GetFiatRatesRequest>();
   @$core.pragma('dart2js:noInline')
@@ -151,10 +155,7 @@ class GetFiatRatesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get base => $_getSZ(0);
   @$pb.TagNumber(1)
-  set base($core.String v) {
-    $_setString(0, v);
-  }
-
+  set base($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasBase() => $_has(0);
   @$pb.TagNumber(1)
@@ -163,10 +164,7 @@ class GetFiatRatesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get target => $_getSZ(1);
   @$pb.TagNumber(2)
-  set target($core.String v) {
-    $_setString(1, v);
-  }
-
+  set target($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasTarget() => $_has(1);
   @$pb.TagNumber(2)
@@ -177,19 +175,19 @@ class GetFiatRatesResponse extends $pb.GeneratedMessage {
   factory GetFiatRatesResponse({
     $core.double? rate,
   }) {
-    final $result = create();
-    if (rate != null) {
-      $result.rate = rate;
-    }
-    return $result;
+    final result = create();
+    if (rate != null) result.rate = rate;
+    return result;
   }
-  GetFiatRatesResponse._() : super();
-  factory GetFiatRatesResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetFiatRatesResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetFiatRatesResponse._();
+
+  factory GetFiatRatesResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetFiatRatesResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetFiatRatesResponse',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.rates.v1'),
@@ -203,10 +201,12 @@ class GetFiatRatesResponse extends $pb.GeneratedMessage {
   GetFiatRatesResponse copyWith(void Function(GetFiatRatesResponse) updates) =>
       super.copyWith((message) => updates(message as GetFiatRatesResponse)) as GetFiatRatesResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetFiatRatesResponse create() => GetFiatRatesResponse._();
+  @$core.override
   GetFiatRatesResponse createEmptyInstance() => create();
   static $pb.PbList<GetFiatRatesResponse> createRepeated() => $pb.PbList<GetFiatRatesResponse>();
   @$core.pragma('dart2js:noInline')
@@ -217,15 +217,12 @@ class GetFiatRatesResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.double get rate => $_getN(0);
   @$pb.TagNumber(1)
-  set rate($core.double v) {
-    $_setFloat(0, v);
-  }
-
+  set rate($core.double value) => $_setFloat(0, value);
   @$pb.TagNumber(1)
   $core.bool hasRate() => $_has(0);
   @$pb.TagNumber(1)
   void clearRate() => $_clearField(1);
 }
 
-const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

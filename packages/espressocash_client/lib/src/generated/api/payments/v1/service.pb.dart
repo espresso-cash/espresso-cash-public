@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -24,31 +25,23 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
     $fixnum.Int64? amount,
     $core.String? mint,
   }) {
-    final $result = create();
-    if (senderAccount != null) {
-      $result.senderAccount = senderAccount;
-    }
-    if (receiverAccount != null) {
-      $result.receiverAccount = receiverAccount;
-    }
-    if (referenceAccount != null) {
-      $result.referenceAccount = referenceAccount;
-    }
-    if (amount != null) {
-      $result.amount = amount;
-    }
-    if (mint != null) {
-      $result.mint = mint;
-    }
-    return $result;
+    final result = create();
+    if (senderAccount != null) result.senderAccount = senderAccount;
+    if (receiverAccount != null) result.receiverAccount = receiverAccount;
+    if (referenceAccount != null) result.referenceAccount = referenceAccount;
+    if (amount != null) result.amount = amount;
+    if (mint != null) result.mint = mint;
+    return result;
   }
-  CreateDirectPaymentRequest._() : super();
-  factory CreateDirectPaymentRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CreateDirectPaymentRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  CreateDirectPaymentRequest._();
+
+  factory CreateDirectPaymentRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory CreateDirectPaymentRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CreateDirectPaymentRequest',
@@ -69,10 +62,12 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as CreateDirectPaymentRequest))
           as CreateDirectPaymentRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static CreateDirectPaymentRequest create() => CreateDirectPaymentRequest._();
+  @$core.override
   CreateDirectPaymentRequest createEmptyInstance() => create();
   static $pb.PbList<CreateDirectPaymentRequest> createRepeated() =>
       $pb.PbList<CreateDirectPaymentRequest>();
@@ -84,10 +79,7 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get senderAccount => $_getSZ(0);
   @$pb.TagNumber(1)
-  set senderAccount($core.String v) {
-    $_setString(0, v);
-  }
-
+  set senderAccount($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasSenderAccount() => $_has(0);
   @$pb.TagNumber(1)
@@ -96,10 +88,7 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get receiverAccount => $_getSZ(1);
   @$pb.TagNumber(2)
-  set receiverAccount($core.String v) {
-    $_setString(1, v);
-  }
-
+  set receiverAccount($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasReceiverAccount() => $_has(1);
   @$pb.TagNumber(2)
@@ -108,10 +97,7 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get referenceAccount => $_getSZ(2);
   @$pb.TagNumber(3)
-  set referenceAccount($core.String v) {
-    $_setString(2, v);
-  }
-
+  set referenceAccount($core.String value) => $_setString(2, value);
   @$pb.TagNumber(3)
   $core.bool hasReferenceAccount() => $_has(2);
   @$pb.TagNumber(3)
@@ -120,10 +106,7 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $fixnum.Int64 get amount => $_getI64(3);
   @$pb.TagNumber(4)
-  set amount($fixnum.Int64 v) {
-    $_setInt64(3, v);
-  }
-
+  set amount($fixnum.Int64 value) => $_setInt64(3, value);
   @$pb.TagNumber(4)
   $core.bool hasAmount() => $_has(3);
   @$pb.TagNumber(4)
@@ -132,10 +115,7 @@ class CreateDirectPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.String get mint => $_getSZ(4);
   @$pb.TagNumber(5)
-  set mint($core.String v) {
-    $_setString(4, v);
-  }
-
+  set mint($core.String value) => $_setString(4, value);
   @$pb.TagNumber(5)
   $core.bool hasMint() => $_has(4);
   @$pb.TagNumber(5)
@@ -148,25 +128,21 @@ class CreateDirectPaymentResponse extends $pb.GeneratedMessage {
     $core.String? transaction,
     $fixnum.Int64? slot,
   }) {
-    final $result = create();
-    if (fee != null) {
-      $result.fee = fee;
-    }
-    if (transaction != null) {
-      $result.transaction = transaction;
-    }
-    if (slot != null) {
-      $result.slot = slot;
-    }
-    return $result;
+    final result = create();
+    if (fee != null) result.fee = fee;
+    if (transaction != null) result.transaction = transaction;
+    if (slot != null) result.slot = slot;
+    return result;
   }
-  CreateDirectPaymentResponse._() : super();
-  factory CreateDirectPaymentResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CreateDirectPaymentResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  CreateDirectPaymentResponse._();
+
+  factory CreateDirectPaymentResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory CreateDirectPaymentResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CreateDirectPaymentResponse',
@@ -186,10 +162,12 @@ class CreateDirectPaymentResponse extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as CreateDirectPaymentResponse))
           as CreateDirectPaymentResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static CreateDirectPaymentResponse create() => CreateDirectPaymentResponse._();
+  @$core.override
   CreateDirectPaymentResponse createEmptyInstance() => create();
   static $pb.PbList<CreateDirectPaymentResponse> createRepeated() =>
       $pb.PbList<CreateDirectPaymentResponse>();
@@ -201,10 +179,7 @@ class CreateDirectPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $fixnum.Int64 get fee => $_getI64(0);
   @$pb.TagNumber(1)
-  set fee($fixnum.Int64 v) {
-    $_setInt64(0, v);
-  }
-
+  set fee($fixnum.Int64 value) => $_setInt64(0, value);
   @$pb.TagNumber(1)
   $core.bool hasFee() => $_has(0);
   @$pb.TagNumber(1)
@@ -213,10 +188,7 @@ class CreateDirectPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get transaction => $_getSZ(1);
   @$pb.TagNumber(2)
-  set transaction($core.String v) {
-    $_setString(1, v);
-  }
-
+  set transaction($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasTransaction() => $_has(1);
   @$pb.TagNumber(2)
@@ -225,10 +197,7 @@ class CreateDirectPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $fixnum.Int64 get slot => $_getI64(2);
   @$pb.TagNumber(3)
-  set slot($fixnum.Int64 v) {
-    $_setInt64(2, v);
-  }
-
+  set slot($fixnum.Int64 value) => $_setInt64(2, value);
   @$pb.TagNumber(3)
   $core.bool hasSlot() => $_has(2);
   @$pb.TagNumber(3)
@@ -241,25 +210,21 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
     $fixnum.Int64? amount,
     $core.String? mint,
   }) {
-    final $result = create();
-    if (receiverAccount != null) {
-      $result.receiverAccount = receiverAccount;
-    }
-    if (amount != null) {
-      $result.amount = amount;
-    }
-    if (mint != null) {
-      $result.mint = mint;
-    }
-    return $result;
+    final result = create();
+    if (receiverAccount != null) result.receiverAccount = receiverAccount;
+    if (amount != null) result.amount = amount;
+    if (mint != null) result.mint = mint;
+    return result;
   }
-  GetDirectPaymentQuoteRequest._() : super();
-  factory GetDirectPaymentQuoteRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetDirectPaymentQuoteRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetDirectPaymentQuoteRequest._();
+
+  factory GetDirectPaymentQuoteRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetDirectPaymentQuoteRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetDirectPaymentQuoteRequest',
@@ -278,10 +243,12 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as GetDirectPaymentQuoteRequest))
           as GetDirectPaymentQuoteRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetDirectPaymentQuoteRequest create() => GetDirectPaymentQuoteRequest._();
+  @$core.override
   GetDirectPaymentQuoteRequest createEmptyInstance() => create();
   static $pb.PbList<GetDirectPaymentQuoteRequest> createRepeated() =>
       $pb.PbList<GetDirectPaymentQuoteRequest>();
@@ -293,10 +260,7 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get receiverAccount => $_getSZ(0);
   @$pb.TagNumber(1)
-  set receiverAccount($core.String v) {
-    $_setString(0, v);
-  }
-
+  set receiverAccount($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasReceiverAccount() => $_has(0);
   @$pb.TagNumber(1)
@@ -305,10 +269,7 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $fixnum.Int64 get amount => $_getI64(1);
   @$pb.TagNumber(2)
-  set amount($fixnum.Int64 v) {
-    $_setInt64(1, v);
-  }
-
+  set amount($fixnum.Int64 value) => $_setInt64(1, value);
   @$pb.TagNumber(2)
   $core.bool hasAmount() => $_has(1);
   @$pb.TagNumber(2)
@@ -317,10 +278,7 @@ class GetDirectPaymentQuoteRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get mint => $_getSZ(2);
   @$pb.TagNumber(3)
-  set mint($core.String v) {
-    $_setString(2, v);
-  }
-
+  set mint($core.String value) => $_setString(2, value);
   @$pb.TagNumber(3)
   $core.bool hasMint() => $_has(2);
   @$pb.TagNumber(3)
@@ -332,22 +290,20 @@ class GetDirectPaymentQuoteResponse extends $pb.GeneratedMessage {
     $fixnum.Int64? fee,
     $fixnum.Int64? totalAmount,
   }) {
-    final $result = create();
-    if (fee != null) {
-      $result.fee = fee;
-    }
-    if (totalAmount != null) {
-      $result.totalAmount = totalAmount;
-    }
-    return $result;
+    final result = create();
+    if (fee != null) result.fee = fee;
+    if (totalAmount != null) result.totalAmount = totalAmount;
+    return result;
   }
-  GetDirectPaymentQuoteResponse._() : super();
-  factory GetDirectPaymentQuoteResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetDirectPaymentQuoteResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetDirectPaymentQuoteResponse._();
+
+  factory GetDirectPaymentQuoteResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetDirectPaymentQuoteResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetDirectPaymentQuoteResponse',
@@ -366,10 +322,12 @@ class GetDirectPaymentQuoteResponse extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as GetDirectPaymentQuoteResponse))
           as GetDirectPaymentQuoteResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetDirectPaymentQuoteResponse create() => GetDirectPaymentQuoteResponse._();
+  @$core.override
   GetDirectPaymentQuoteResponse createEmptyInstance() => create();
   static $pb.PbList<GetDirectPaymentQuoteResponse> createRepeated() =>
       $pb.PbList<GetDirectPaymentQuoteResponse>();
@@ -381,10 +339,7 @@ class GetDirectPaymentQuoteResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $fixnum.Int64 get fee => $_getI64(0);
   @$pb.TagNumber(1)
-  set fee($fixnum.Int64 v) {
-    $_setInt64(0, v);
-  }
-
+  set fee($fixnum.Int64 value) => $_setInt64(0, value);
   @$pb.TagNumber(1)
   $core.bool hasFee() => $_has(0);
   @$pb.TagNumber(1)
@@ -393,10 +348,7 @@ class GetDirectPaymentQuoteResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $fixnum.Int64 get totalAmount => $_getI64(1);
   @$pb.TagNumber(2)
-  set totalAmount($fixnum.Int64 v) {
-    $_setInt64(1, v);
-  }
-
+  set totalAmount($fixnum.Int64 value) => $_setInt64(1, value);
   @$pb.TagNumber(2)
   $core.bool hasTotalAmount() => $_has(1);
   @$pb.TagNumber(2)
@@ -409,25 +361,21 @@ class CreateEscrowPaymentRequest extends $pb.GeneratedMessage {
     $core.String? escrowAccount,
     $fixnum.Int64? amount,
   }) {
-    final $result = create();
-    if (senderAccount != null) {
-      $result.senderAccount = senderAccount;
-    }
-    if (escrowAccount != null) {
-      $result.escrowAccount = escrowAccount;
-    }
-    if (amount != null) {
-      $result.amount = amount;
-    }
-    return $result;
+    final result = create();
+    if (senderAccount != null) result.senderAccount = senderAccount;
+    if (escrowAccount != null) result.escrowAccount = escrowAccount;
+    if (amount != null) result.amount = amount;
+    return result;
   }
-  CreateEscrowPaymentRequest._() : super();
-  factory CreateEscrowPaymentRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CreateEscrowPaymentRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  CreateEscrowPaymentRequest._();
+
+  factory CreateEscrowPaymentRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory CreateEscrowPaymentRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CreateEscrowPaymentRequest',
@@ -446,10 +394,12 @@ class CreateEscrowPaymentRequest extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as CreateEscrowPaymentRequest))
           as CreateEscrowPaymentRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static CreateEscrowPaymentRequest create() => CreateEscrowPaymentRequest._();
+  @$core.override
   CreateEscrowPaymentRequest createEmptyInstance() => create();
   static $pb.PbList<CreateEscrowPaymentRequest> createRepeated() =>
       $pb.PbList<CreateEscrowPaymentRequest>();
@@ -461,10 +411,7 @@ class CreateEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get senderAccount => $_getSZ(0);
   @$pb.TagNumber(1)
-  set senderAccount($core.String v) {
-    $_setString(0, v);
-  }
-
+  set senderAccount($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasSenderAccount() => $_has(0);
   @$pb.TagNumber(1)
@@ -473,10 +420,7 @@ class CreateEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get escrowAccount => $_getSZ(1);
   @$pb.TagNumber(2)
-  set escrowAccount($core.String v) {
-    $_setString(1, v);
-  }
-
+  set escrowAccount($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasEscrowAccount() => $_has(1);
   @$pb.TagNumber(2)
@@ -485,10 +429,7 @@ class CreateEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $fixnum.Int64 get amount => $_getI64(2);
   @$pb.TagNumber(3)
-  set amount($fixnum.Int64 v) {
-    $_setInt64(2, v);
-  }
-
+  set amount($fixnum.Int64 value) => $_setInt64(2, value);
   @$pb.TagNumber(3)
   $core.bool hasAmount() => $_has(2);
   @$pb.TagNumber(3)
@@ -500,22 +441,20 @@ class CreateEscrowPaymentResponse extends $pb.GeneratedMessage {
     $core.String? transaction,
     $fixnum.Int64? slot,
   }) {
-    final $result = create();
-    if (transaction != null) {
-      $result.transaction = transaction;
-    }
-    if (slot != null) {
-      $result.slot = slot;
-    }
-    return $result;
+    final result = create();
+    if (transaction != null) result.transaction = transaction;
+    if (slot != null) result.slot = slot;
+    return result;
   }
-  CreateEscrowPaymentResponse._() : super();
-  factory CreateEscrowPaymentResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CreateEscrowPaymentResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  CreateEscrowPaymentResponse._();
+
+  factory CreateEscrowPaymentResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory CreateEscrowPaymentResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CreateEscrowPaymentResponse',
@@ -533,10 +472,12 @@ class CreateEscrowPaymentResponse extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as CreateEscrowPaymentResponse))
           as CreateEscrowPaymentResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static CreateEscrowPaymentResponse create() => CreateEscrowPaymentResponse._();
+  @$core.override
   CreateEscrowPaymentResponse createEmptyInstance() => create();
   static $pb.PbList<CreateEscrowPaymentResponse> createRepeated() =>
       $pb.PbList<CreateEscrowPaymentResponse>();
@@ -548,10 +489,7 @@ class CreateEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get transaction => $_getSZ(0);
   @$pb.TagNumber(1)
-  set transaction($core.String v) {
-    $_setString(0, v);
-  }
-
+  set transaction($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasTransaction() => $_has(0);
   @$pb.TagNumber(1)
@@ -560,10 +498,7 @@ class CreateEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $fixnum.Int64 get slot => $_getI64(1);
   @$pb.TagNumber(2)
-  set slot($fixnum.Int64 v) {
-    $_setInt64(1, v);
-  }
-
+  set slot($fixnum.Int64 value) => $_setInt64(1, value);
   @$pb.TagNumber(2)
   $core.bool hasSlot() => $_has(1);
   @$pb.TagNumber(2)
@@ -575,22 +510,20 @@ class ReceiveEscrowPaymentRequest extends $pb.GeneratedMessage {
     $core.String? receiverAccount,
     $core.String? escrowAccount,
   }) {
-    final $result = create();
-    if (receiverAccount != null) {
-      $result.receiverAccount = receiverAccount;
-    }
-    if (escrowAccount != null) {
-      $result.escrowAccount = escrowAccount;
-    }
-    return $result;
+    final result = create();
+    if (receiverAccount != null) result.receiverAccount = receiverAccount;
+    if (escrowAccount != null) result.escrowAccount = escrowAccount;
+    return result;
   }
-  ReceiveEscrowPaymentRequest._() : super();
-  factory ReceiveEscrowPaymentRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ReceiveEscrowPaymentRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  ReceiveEscrowPaymentRequest._();
+
+  factory ReceiveEscrowPaymentRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory ReceiveEscrowPaymentRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ReceiveEscrowPaymentRequest',
@@ -607,10 +540,12 @@ class ReceiveEscrowPaymentRequest extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ReceiveEscrowPaymentRequest))
           as ReceiveEscrowPaymentRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ReceiveEscrowPaymentRequest create() => ReceiveEscrowPaymentRequest._();
+  @$core.override
   ReceiveEscrowPaymentRequest createEmptyInstance() => create();
   static $pb.PbList<ReceiveEscrowPaymentRequest> createRepeated() =>
       $pb.PbList<ReceiveEscrowPaymentRequest>();
@@ -622,10 +557,7 @@ class ReceiveEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get receiverAccount => $_getSZ(0);
   @$pb.TagNumber(1)
-  set receiverAccount($core.String v) {
-    $_setString(0, v);
-  }
-
+  set receiverAccount($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasReceiverAccount() => $_has(0);
   @$pb.TagNumber(1)
@@ -634,10 +566,7 @@ class ReceiveEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get escrowAccount => $_getSZ(1);
   @$pb.TagNumber(2)
-  set escrowAccount($core.String v) {
-    $_setString(1, v);
-  }
-
+  set escrowAccount($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasEscrowAccount() => $_has(1);
   @$pb.TagNumber(2)
@@ -649,22 +578,20 @@ class ReceiveEscrowPaymentResponse extends $pb.GeneratedMessage {
     $core.String? transaction,
     $fixnum.Int64? slot,
   }) {
-    final $result = create();
-    if (transaction != null) {
-      $result.transaction = transaction;
-    }
-    if (slot != null) {
-      $result.slot = slot;
-    }
-    return $result;
+    final result = create();
+    if (transaction != null) result.transaction = transaction;
+    if (slot != null) result.slot = slot;
+    return result;
   }
-  ReceiveEscrowPaymentResponse._() : super();
-  factory ReceiveEscrowPaymentResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ReceiveEscrowPaymentResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  ReceiveEscrowPaymentResponse._();
+
+  factory ReceiveEscrowPaymentResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory ReceiveEscrowPaymentResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ReceiveEscrowPaymentResponse',
@@ -682,10 +609,12 @@ class ReceiveEscrowPaymentResponse extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ReceiveEscrowPaymentResponse))
           as ReceiveEscrowPaymentResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ReceiveEscrowPaymentResponse create() => ReceiveEscrowPaymentResponse._();
+  @$core.override
   ReceiveEscrowPaymentResponse createEmptyInstance() => create();
   static $pb.PbList<ReceiveEscrowPaymentResponse> createRepeated() =>
       $pb.PbList<ReceiveEscrowPaymentResponse>();
@@ -697,10 +626,7 @@ class ReceiveEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get transaction => $_getSZ(0);
   @$pb.TagNumber(1)
-  set transaction($core.String v) {
-    $_setString(0, v);
-  }
-
+  set transaction($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasTransaction() => $_has(0);
   @$pb.TagNumber(1)
@@ -709,10 +635,7 @@ class ReceiveEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $fixnum.Int64 get slot => $_getI64(1);
   @$pb.TagNumber(2)
-  set slot($fixnum.Int64 v) {
-    $_setInt64(1, v);
-  }
-
+  set slot($fixnum.Int64 value) => $_setInt64(1, value);
   @$pb.TagNumber(2)
   $core.bool hasSlot() => $_has(1);
   @$pb.TagNumber(2)
@@ -724,22 +647,20 @@ class CancelEscrowPaymentRequest extends $pb.GeneratedMessage {
     $core.String? senderAccount,
     $core.String? escrowAccount,
   }) {
-    final $result = create();
-    if (senderAccount != null) {
-      $result.senderAccount = senderAccount;
-    }
-    if (escrowAccount != null) {
-      $result.escrowAccount = escrowAccount;
-    }
-    return $result;
+    final result = create();
+    if (senderAccount != null) result.senderAccount = senderAccount;
+    if (escrowAccount != null) result.escrowAccount = escrowAccount;
+    return result;
   }
-  CancelEscrowPaymentRequest._() : super();
-  factory CancelEscrowPaymentRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CancelEscrowPaymentRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  CancelEscrowPaymentRequest._();
+
+  factory CancelEscrowPaymentRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory CancelEscrowPaymentRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CancelEscrowPaymentRequest',
@@ -756,10 +677,12 @@ class CancelEscrowPaymentRequest extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as CancelEscrowPaymentRequest))
           as CancelEscrowPaymentRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static CancelEscrowPaymentRequest create() => CancelEscrowPaymentRequest._();
+  @$core.override
   CancelEscrowPaymentRequest createEmptyInstance() => create();
   static $pb.PbList<CancelEscrowPaymentRequest> createRepeated() =>
       $pb.PbList<CancelEscrowPaymentRequest>();
@@ -771,10 +694,7 @@ class CancelEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get senderAccount => $_getSZ(0);
   @$pb.TagNumber(1)
-  set senderAccount($core.String v) {
-    $_setString(0, v);
-  }
-
+  set senderAccount($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasSenderAccount() => $_has(0);
   @$pb.TagNumber(1)
@@ -783,10 +703,7 @@ class CancelEscrowPaymentRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get escrowAccount => $_getSZ(1);
   @$pb.TagNumber(2)
-  set escrowAccount($core.String v) {
-    $_setString(1, v);
-  }
-
+  set escrowAccount($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasEscrowAccount() => $_has(1);
   @$pb.TagNumber(2)
@@ -798,22 +715,20 @@ class CancelEscrowPaymentResponse extends $pb.GeneratedMessage {
     $core.String? transaction,
     $fixnum.Int64? slot,
   }) {
-    final $result = create();
-    if (transaction != null) {
-      $result.transaction = transaction;
-    }
-    if (slot != null) {
-      $result.slot = slot;
-    }
-    return $result;
+    final result = create();
+    if (transaction != null) result.transaction = transaction;
+    if (slot != null) result.slot = slot;
+    return result;
   }
-  CancelEscrowPaymentResponse._() : super();
-  factory CancelEscrowPaymentResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CancelEscrowPaymentResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  CancelEscrowPaymentResponse._();
+
+  factory CancelEscrowPaymentResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory CancelEscrowPaymentResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CancelEscrowPaymentResponse',
@@ -831,10 +746,12 @@ class CancelEscrowPaymentResponse extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as CancelEscrowPaymentResponse))
           as CancelEscrowPaymentResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static CancelEscrowPaymentResponse create() => CancelEscrowPaymentResponse._();
+  @$core.override
   CancelEscrowPaymentResponse createEmptyInstance() => create();
   static $pb.PbList<CancelEscrowPaymentResponse> createRepeated() =>
       $pb.PbList<CancelEscrowPaymentResponse>();
@@ -846,10 +763,7 @@ class CancelEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get transaction => $_getSZ(0);
   @$pb.TagNumber(1)
-  set transaction($core.String v) {
-    $_setString(0, v);
-  }
-
+  set transaction($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasTransaction() => $_has(0);
   @$pb.TagNumber(1)
@@ -858,10 +772,7 @@ class CancelEscrowPaymentResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $fixnum.Int64 get slot => $_getI64(1);
   @$pb.TagNumber(2)
-  set slot($fixnum.Int64 v) {
-    $_setInt64(1, v);
-  }
-
+  set slot($fixnum.Int64 value) => $_setInt64(1, value);
   @$pb.TagNumber(2)
   $core.bool hasSlot() => $_has(1);
   @$pb.TagNumber(2)
@@ -870,13 +781,15 @@ class CancelEscrowPaymentResponse extends $pb.GeneratedMessage {
 
 class GetIncomingEscrowPaymentQuoteRequest extends $pb.GeneratedMessage {
   factory GetIncomingEscrowPaymentQuoteRequest() => create();
-  GetIncomingEscrowPaymentQuoteRequest._() : super();
-  factory GetIncomingEscrowPaymentQuoteRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetIncomingEscrowPaymentQuoteRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetIncomingEscrowPaymentQuoteRequest._();
+
+  factory GetIncomingEscrowPaymentQuoteRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetIncomingEscrowPaymentQuoteRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetIncomingEscrowPaymentQuoteRequest',
@@ -893,10 +806,12 @@ class GetIncomingEscrowPaymentQuoteRequest extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as GetIncomingEscrowPaymentQuoteRequest))
           as GetIncomingEscrowPaymentQuoteRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetIncomingEscrowPaymentQuoteRequest create() => GetIncomingEscrowPaymentQuoteRequest._();
+  @$core.override
   GetIncomingEscrowPaymentQuoteRequest createEmptyInstance() => create();
   static $pb.PbList<GetIncomingEscrowPaymentQuoteRequest> createRepeated() =>
       $pb.PbList<GetIncomingEscrowPaymentQuoteRequest>();
@@ -910,19 +825,19 @@ class GetIncomingEscrowPaymentQuoteResponse extends $pb.GeneratedMessage {
   factory GetIncomingEscrowPaymentQuoteResponse({
     $fixnum.Int64? fee,
   }) {
-    final $result = create();
-    if (fee != null) {
-      $result.fee = fee;
-    }
-    return $result;
+    final result = create();
+    if (fee != null) result.fee = fee;
+    return result;
   }
-  GetIncomingEscrowPaymentQuoteResponse._() : super();
-  factory GetIncomingEscrowPaymentQuoteResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetIncomingEscrowPaymentQuoteResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetIncomingEscrowPaymentQuoteResponse._();
+
+  factory GetIncomingEscrowPaymentQuoteResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetIncomingEscrowPaymentQuoteResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetIncomingEscrowPaymentQuoteResponse',
@@ -941,11 +856,13 @@ class GetIncomingEscrowPaymentQuoteResponse extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as GetIncomingEscrowPaymentQuoteResponse))
           as GetIncomingEscrowPaymentQuoteResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetIncomingEscrowPaymentQuoteResponse create() =>
       GetIncomingEscrowPaymentQuoteResponse._();
+  @$core.override
   GetIncomingEscrowPaymentQuoteResponse createEmptyInstance() => create();
   static $pb.PbList<GetIncomingEscrowPaymentQuoteResponse> createRepeated() =>
       $pb.PbList<GetIncomingEscrowPaymentQuoteResponse>();
@@ -957,10 +874,7 @@ class GetIncomingEscrowPaymentQuoteResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $fixnum.Int64 get fee => $_getI64(0);
   @$pb.TagNumber(1)
-  set fee($fixnum.Int64 v) {
-    $_setInt64(0, v);
-  }
-
+  set fee($fixnum.Int64 value) => $_setInt64(0, value);
   @$pb.TagNumber(1)
   $core.bool hasFee() => $_has(0);
   @$pb.TagNumber(1)
@@ -969,13 +883,15 @@ class GetIncomingEscrowPaymentQuoteResponse extends $pb.GeneratedMessage {
 
 class GetOutgoingEscrowPaymentQuoteRequest extends $pb.GeneratedMessage {
   factory GetOutgoingEscrowPaymentQuoteRequest() => create();
-  GetOutgoingEscrowPaymentQuoteRequest._() : super();
-  factory GetOutgoingEscrowPaymentQuoteRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetOutgoingEscrowPaymentQuoteRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetOutgoingEscrowPaymentQuoteRequest._();
+
+  factory GetOutgoingEscrowPaymentQuoteRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetOutgoingEscrowPaymentQuoteRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetOutgoingEscrowPaymentQuoteRequest',
@@ -992,10 +908,12 @@ class GetOutgoingEscrowPaymentQuoteRequest extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as GetOutgoingEscrowPaymentQuoteRequest))
           as GetOutgoingEscrowPaymentQuoteRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetOutgoingEscrowPaymentQuoteRequest create() => GetOutgoingEscrowPaymentQuoteRequest._();
+  @$core.override
   GetOutgoingEscrowPaymentQuoteRequest createEmptyInstance() => create();
   static $pb.PbList<GetOutgoingEscrowPaymentQuoteRequest> createRepeated() =>
       $pb.PbList<GetOutgoingEscrowPaymentQuoteRequest>();
@@ -1009,19 +927,19 @@ class GetOutgoingEscrowPaymentQuoteResponse extends $pb.GeneratedMessage {
   factory GetOutgoingEscrowPaymentQuoteResponse({
     $fixnum.Int64? fee,
   }) {
-    final $result = create();
-    if (fee != null) {
-      $result.fee = fee;
-    }
-    return $result;
+    final result = create();
+    if (fee != null) result.fee = fee;
+    return result;
   }
-  GetOutgoingEscrowPaymentQuoteResponse._() : super();
-  factory GetOutgoingEscrowPaymentQuoteResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetOutgoingEscrowPaymentQuoteResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetOutgoingEscrowPaymentQuoteResponse._();
+
+  factory GetOutgoingEscrowPaymentQuoteResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetOutgoingEscrowPaymentQuoteResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetOutgoingEscrowPaymentQuoteResponse',
@@ -1040,11 +958,13 @@ class GetOutgoingEscrowPaymentQuoteResponse extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as GetOutgoingEscrowPaymentQuoteResponse))
           as GetOutgoingEscrowPaymentQuoteResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetOutgoingEscrowPaymentQuoteResponse create() =>
       GetOutgoingEscrowPaymentQuoteResponse._();
+  @$core.override
   GetOutgoingEscrowPaymentQuoteResponse createEmptyInstance() => create();
   static $pb.PbList<GetOutgoingEscrowPaymentQuoteResponse> createRepeated() =>
       $pb.PbList<GetOutgoingEscrowPaymentQuoteResponse>();
@@ -1056,15 +976,12 @@ class GetOutgoingEscrowPaymentQuoteResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $fixnum.Int64 get fee => $_getI64(0);
   @$pb.TagNumber(1)
-  set fee($fixnum.Int64 v) {
-    $_setInt64(0, v);
-  }
-
+  set fee($fixnum.Int64 value) => $_setInt64(0, value);
   @$pb.TagNumber(1)
   $core.bool hasFee() => $_has(0);
   @$pb.TagNumber(1)
   void clearFee() => $_clearField(1);
 }
 
-const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
