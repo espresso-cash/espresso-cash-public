@@ -113,7 +113,7 @@ class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState>
 const _spKey = 'puzzleReminder';
 
 @Freezed(fallbackUnion: 'unset')
-class PuzzleReminderData with _$PuzzleReminderData {
+sealed class PuzzleReminderData with _$PuzzleReminderData {
   const PuzzleReminderData._();
 
   const factory PuzzleReminderData.unset() = _PuzzleReminderDataUnset;

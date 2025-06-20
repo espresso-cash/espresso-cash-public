@@ -1,4 +1,4 @@
-// ignore: match-lib-folder-structure, false positive
+// ignore: false positive
 import 'package:drift_dev/api/migrations.dart';
 import 'package:espressocash_app/data/db/db.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -5,7 +5,7 @@ import 'remote_request.dart';
 part 'notification.freezed.dart';
 
 @freezed
-class MobileWalletNotification with _$MobileWalletNotification {
+sealed class MobileWalletNotification with _$MobileWalletNotification {
   const factory MobileWalletNotification.initialized() = _Initialized;
 
   const factory MobileWalletNotification.sessionTerminated() = _SessionTerminated;

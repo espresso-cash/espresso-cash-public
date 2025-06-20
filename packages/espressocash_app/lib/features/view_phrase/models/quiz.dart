@@ -6,7 +6,7 @@ part 'quiz.freezed.dart';
 typedef Explanation = ({String title, String description});
 
 @freezed
-class QuizQuestion with _$QuizQuestion {
+sealed class QuizQuestion with _$QuizQuestion {
   const factory QuizQuestion({
     required String question,
     required IList<String> options,

@@ -17,7 +17,9 @@ import '../../transactions/services/tx_sender.dart';
 import '../models/remote_request.dart';
 
 part 'bloc.freezed.dart';
+
 part 'event.dart';
+
 part 'state.dart';
 
 @injectable
@@ -77,18 +79,16 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
     authorizationScope: request.authorizationScope,
     payloads: request.payloads,
   ).fold((err) async => err.toSignedPayloadResult(), (payloads) async {
-    final signedPayloads = await request.map(
-      transactions:
-          (it) => it.payloads
-              .map(SignedTx.fromBytes)
-              .resignAll(_account.wallet)
-              .letAsync((it) => it.map((it) => it.toByteArray().toList())),
-      messages:
-          (it) async => zip2(
-            it.payloads,
-            await _account.wallet.sign(it.payloads),
-          ).map((it) => it.$1 + it.$2.bytes),
-    );
+    final Iterable<List<int>> signedPayloads = await switch (request) {
+      SignTransactionsRequest() => request.payloads
+          .map(SignedTx.fromBytes)
+          .resignAll(_account.wallet)
+          .letAsync((it) => it.map((it) => it.toByteArray().toList())),
+      SignMessagesRequest() => zip2(
+        request.payloads,
+        await _account.wallet.sign(request.payloads),
+      ).map((it) => it.$1 + it.$2.bytes),
+    };
 
     return SignedPayloadResult(signedPayloads: signedPayloads.map(Uint8List.fromList).toList());
   });
@@ -140,7 +140,7 @@ Either<_ValidationError, List<Uint8List>> _validatePayloads({
 }
 
 @freezed
-class _ValidationError with _$ValidationError {
+sealed class _ValidationError with _$ValidationError {
   const factory _ValidationError.invalidPayloads(List<bool> valids) = _InvalidPayload;
 
   const factory _ValidationError.tooManyPayloads() = _TooManyPayloads;

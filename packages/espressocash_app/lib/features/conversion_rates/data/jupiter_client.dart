@@ -21,7 +21,7 @@ abstract class JupiterPriceClient {
 }
 
 @freezed
-class PriceResponseDto with _$PriceResponseDto {
+sealed class PriceResponseDto with _$PriceResponseDto {
   const factory PriceResponseDto({required Map<String, TokenPricesMapDto?> data}) =
       _PriceResponseDto;
 
@@ -29,7 +29,7 @@ class PriceResponseDto with _$PriceResponseDto {
 }
 
 @freezed
-class TokenPricesMapDto with _$TokenPricesMapDto {
+sealed class TokenPricesMapDto with _$TokenPricesMapDto {
   const factory TokenPricesMapDto({required String? price}) = _TokenPricesMapDto;
 
   const TokenPricesMapDto._();
@@ -39,7 +39,7 @@ class TokenPricesMapDto with _$TokenPricesMapDto {
 }
 
 @freezed
-class TokenRateRequestDto with _$TokenRateRequestDto {
+sealed class TokenRateRequestDto with _$TokenRateRequestDto {
   const factory TokenRateRequestDto({required IList<String> ids}) = _TokenRateRequestDto;
 
   factory TokenRateRequestDto.fromJson(Map<String, dynamic> json) =>

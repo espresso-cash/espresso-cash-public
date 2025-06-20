@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'public_key_response.freezed.dart';
 
 @freezed
-class PublicKeyResponse with _$PublicKeyResponse {
+sealed class PublicKeyResponse with _$PublicKeyResponse {
   const factory PublicKeyResponse({
     required Uint8List? publicKey,
     required String? publicKeyEncoded,

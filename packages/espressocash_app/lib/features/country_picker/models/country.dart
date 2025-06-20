@@ -6,7 +6,7 @@ part 'country.freezed.dart';
 part 'country.g.dart';
 
 @freezed
-class Country with _$Country {
+sealed class Country with _$Country {
   const factory Country({required String name, required String code, required String dialCode}) =
       _Country;
 

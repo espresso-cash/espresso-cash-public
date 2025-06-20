@@ -11,79 +11,53 @@ part of 'rates.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$CryptoRateResponseDto {
-  double get usdc => throw _privateConstructorUsedError;
+  double get usdc;
 
   /// Create a copy of CryptoRateResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CryptoRateResponseDtoCopyWith<CryptoRateResponseDto> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $CryptoRateResponseDtoCopyWith<$Res> {
-  factory $CryptoRateResponseDtoCopyWith(
-    CryptoRateResponseDto value,
-    $Res Function(CryptoRateResponseDto) then,
-  ) = _$CryptoRateResponseDtoCopyWithImpl<$Res, CryptoRateResponseDto>;
-  @useResult
-  $Res call({double usdc});
-}
-
-/// @nodoc
-class _$CryptoRateResponseDtoCopyWithImpl<$Res, $Val extends CryptoRateResponseDto>
-    implements $CryptoRateResponseDtoCopyWith<$Res> {
-  _$CryptoRateResponseDtoCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of CryptoRateResponseDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $CryptoRateResponseDtoCopyWith<CryptoRateResponseDto> get copyWith =>
+      _$CryptoRateResponseDtoCopyWithImpl<CryptoRateResponseDto>(
+        this as CryptoRateResponseDto,
+        _$identity,
+      );
+
   @override
-  $Res call({Object? usdc = null}) {
-    return _then(
-      _value.copyWith(
-            usdc:
-                null == usdc
-                    ? _value.usdc
-                    : usdc // ignore: cast_nullable_to_non_nullable
-                        as double,
-          )
-          as $Val,
-    );
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CryptoRateResponseDto &&
+            (identical(other.usdc, usdc) || other.usdc == usdc));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, usdc);
+
+  @override
+  String toString() {
+    return 'CryptoRateResponseDto(usdc: $usdc)';
   }
 }
 
 /// @nodoc
-abstract class _$$CryptoRateResponseDtoImplCopyWith<$Res>
-    implements $CryptoRateResponseDtoCopyWith<$Res> {
-  factory _$$CryptoRateResponseDtoImplCopyWith(
-    _$CryptoRateResponseDtoImpl value,
-    $Res Function(_$CryptoRateResponseDtoImpl) then,
-  ) = __$$CryptoRateResponseDtoImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $CryptoRateResponseDtoCopyWith<$Res> {
+  factory $CryptoRateResponseDtoCopyWith(
+    CryptoRateResponseDto value,
+    $Res Function(CryptoRateResponseDto) _then,
+  ) = _$CryptoRateResponseDtoCopyWithImpl;
   @useResult
   $Res call({double usdc});
 }
 
 /// @nodoc
-class __$$CryptoRateResponseDtoImplCopyWithImpl<$Res>
-    extends _$CryptoRateResponseDtoCopyWithImpl<$Res, _$CryptoRateResponseDtoImpl>
-    implements _$$CryptoRateResponseDtoImplCopyWith<$Res> {
-  __$$CryptoRateResponseDtoImplCopyWithImpl(
-    _$CryptoRateResponseDtoImpl _value,
-    $Res Function(_$CryptoRateResponseDtoImpl) _then,
-  ) : super(_value, _then);
+class _$CryptoRateResponseDtoCopyWithImpl<$Res> implements $CryptoRateResponseDtoCopyWith<$Res> {
+  _$CryptoRateResponseDtoCopyWithImpl(this._self, this._then);
+
+  final CryptoRateResponseDto _self;
+  final $Res Function(CryptoRateResponseDto) _then;
 
   /// Create a copy of CryptoRateResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -91,10 +65,10 @@ class __$$CryptoRateResponseDtoImplCopyWithImpl<$Res>
   @override
   $Res call({Object? usdc = null}) {
     return _then(
-      _$CryptoRateResponseDtoImpl(
+      _self.copyWith(
         usdc:
             null == usdc
-                ? _value.usdc
+                ? _self.usdc
                 : usdc // ignore: cast_nullable_to_non_nullable
                     as double,
       ),
@@ -104,126 +78,119 @@ class __$$CryptoRateResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CryptoRateResponseDtoImpl implements _CryptoRateResponseDto {
-  const _$CryptoRateResponseDtoImpl({required this.usdc});
+class _CryptoRateResponseDto implements CryptoRateResponseDto {
+  const _CryptoRateResponseDto({required this.usdc});
 
   @override
   final double usdc;
 
+  /// Create a copy of CryptoRateResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'CryptoRateResponseDto(usdc: $usdc)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$CryptoRateResponseDtoCopyWith<_CryptoRateResponseDto> get copyWith =>
+      __$CryptoRateResponseDtoCopyWithImpl<_CryptoRateResponseDto>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CryptoRateResponseDtoImpl &&
+            other is _CryptoRateResponseDto &&
             (identical(other.usdc, usdc) || other.usdc == usdc));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, usdc);
 
-  /// Create a copy of CryptoRateResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$CryptoRateResponseDtoImplCopyWith<_$CryptoRateResponseDtoImpl> get copyWith =>
-      __$$CryptoRateResponseDtoImplCopyWithImpl<_$CryptoRateResponseDtoImpl>(this, _$identity);
-}
-
-abstract class _CryptoRateResponseDto implements CryptoRateResponseDto {
-  const factory _CryptoRateResponseDto({required final double usdc}) = _$CryptoRateResponseDtoImpl;
-
-  @override
-  double get usdc;
-
-  /// Create a copy of CryptoRateResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CryptoRateResponseDtoImplCopyWith<_$CryptoRateResponseDtoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  String toString() {
+    return 'CryptoRateResponseDto(usdc: $usdc)';
+  }
 }
 
 /// @nodoc
-mixin _$FiatRateRequestDto {
-  String get base => throw _privateConstructorUsedError;
-  String get target => throw _privateConstructorUsedError;
-
-  /// Create a copy of FiatRateRequestDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $FiatRateRequestDtoCopyWith<FiatRateRequestDto> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FiatRateRequestDtoCopyWith<$Res> {
-  factory $FiatRateRequestDtoCopyWith(
-    FiatRateRequestDto value,
-    $Res Function(FiatRateRequestDto) then,
-  ) = _$FiatRateRequestDtoCopyWithImpl<$Res, FiatRateRequestDto>;
+abstract mixin class _$CryptoRateResponseDtoCopyWith<$Res>
+    implements $CryptoRateResponseDtoCopyWith<$Res> {
+  factory _$CryptoRateResponseDtoCopyWith(
+    _CryptoRateResponseDto value,
+    $Res Function(_CryptoRateResponseDto) _then,
+  ) = __$CryptoRateResponseDtoCopyWithImpl;
+  @override
   @useResult
-  $Res call({String base, String target});
+  $Res call({double usdc});
 }
 
 /// @nodoc
-class _$FiatRateRequestDtoCopyWithImpl<$Res, $Val extends FiatRateRequestDto>
-    implements $FiatRateRequestDtoCopyWith<$Res> {
-  _$FiatRateRequestDtoCopyWithImpl(this._value, this._then);
+class __$CryptoRateResponseDtoCopyWithImpl<$Res> implements _$CryptoRateResponseDtoCopyWith<$Res> {
+  __$CryptoRateResponseDtoCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final _CryptoRateResponseDto _self;
+  final $Res Function(_CryptoRateResponseDto) _then;
 
-  /// Create a copy of FiatRateRequestDto
+  /// Create a copy of CryptoRateResponseDto
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? base = null, Object? target = null}) {
+  @pragma('vm:prefer-inline')
+  $Res call({Object? usdc = null}) {
     return _then(
-      _value.copyWith(
-            base:
-                null == base
-                    ? _value.base
-                    : base // ignore: cast_nullable_to_non_nullable
-                        as String,
-            target:
-                null == target
-                    ? _value.target
-                    : target // ignore: cast_nullable_to_non_nullable
-                        as String,
-          )
-          as $Val,
+      _CryptoRateResponseDto(
+        usdc:
+            null == usdc
+                ? _self.usdc
+                : usdc // ignore: cast_nullable_to_non_nullable
+                    as double,
+      ),
     );
   }
 }
 
 /// @nodoc
-abstract class _$$FiatRateRequestDtoImplCopyWith<$Res>
-    implements $FiatRateRequestDtoCopyWith<$Res> {
-  factory _$$FiatRateRequestDtoImplCopyWith(
-    _$FiatRateRequestDtoImpl value,
-    $Res Function(_$FiatRateRequestDtoImpl) then,
-  ) = __$$FiatRateRequestDtoImplCopyWithImpl<$Res>;
+mixin _$FiatRateRequestDto {
+  String get base;
+  String get target;
+
+  /// Create a copy of FiatRateRequestDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FiatRateRequestDtoCopyWith<FiatRateRequestDto> get copyWith =>
+      _$FiatRateRequestDtoCopyWithImpl<FiatRateRequestDto>(this as FiatRateRequestDto, _$identity);
+
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FiatRateRequestDto &&
+            (identical(other.base, base) || other.base == base) &&
+            (identical(other.target, target) || other.target == target));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, base, target);
+
+  @override
+  String toString() {
+    return 'FiatRateRequestDto(base: $base, target: $target)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $FiatRateRequestDtoCopyWith<$Res> {
+  factory $FiatRateRequestDtoCopyWith(
+    FiatRateRequestDto value,
+    $Res Function(FiatRateRequestDto) _then,
+  ) = _$FiatRateRequestDtoCopyWithImpl;
   @useResult
   $Res call({String base, String target});
 }
 
 /// @nodoc
-class __$$FiatRateRequestDtoImplCopyWithImpl<$Res>
-    extends _$FiatRateRequestDtoCopyWithImpl<$Res, _$FiatRateRequestDtoImpl>
-    implements _$$FiatRateRequestDtoImplCopyWith<$Res> {
-  __$$FiatRateRequestDtoImplCopyWithImpl(
-    _$FiatRateRequestDtoImpl _value,
-    $Res Function(_$FiatRateRequestDtoImpl) _then,
-  ) : super(_value, _then);
+class _$FiatRateRequestDtoCopyWithImpl<$Res> implements $FiatRateRequestDtoCopyWith<$Res> {
+  _$FiatRateRequestDtoCopyWithImpl(this._self, this._then);
+
+  final FiatRateRequestDto _self;
+  final $Res Function(FiatRateRequestDto) _then;
 
   /// Create a copy of FiatRateRequestDto
   /// with the given fields replaced by the non-null parameter values.
@@ -231,15 +198,15 @@ class __$$FiatRateRequestDtoImplCopyWithImpl<$Res>
   @override
   $Res call({Object? base = null, Object? target = null}) {
     return _then(
-      _$FiatRateRequestDtoImpl(
+      _self.copyWith(
         base:
             null == base
-                ? _value.base
+                ? _self.base
                 : base // ignore: cast_nullable_to_non_nullable
                     as String,
         target:
             null == target
-                ? _value.target
+                ? _self.target
                 : target // ignore: cast_nullable_to_non_nullable
                     as String,
       ),
@@ -249,24 +216,27 @@ class __$$FiatRateRequestDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FiatRateRequestDtoImpl implements _FiatRateRequestDto {
-  const _$FiatRateRequestDtoImpl({required this.base, required this.target});
+class _FiatRateRequestDto implements FiatRateRequestDto {
+  const _FiatRateRequestDto({required this.base, required this.target});
 
   @override
   final String base;
   @override
   final String target;
 
+  /// Create a copy of FiatRateRequestDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'FiatRateRequestDto(base: $base, target: $target)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FiatRateRequestDtoCopyWith<_FiatRateRequestDto> get copyWith =>
+      __$FiatRateRequestDtoCopyWithImpl<_FiatRateRequestDto>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FiatRateRequestDtoImpl &&
+            other is _FiatRateRequestDto &&
             (identical(other.base, base) || other.base == base) &&
             (identical(other.target, target) || other.target == target));
   }
@@ -274,101 +244,100 @@ class _$FiatRateRequestDtoImpl implements _FiatRateRequestDto {
   @override
   int get hashCode => Object.hash(runtimeType, base, target);
 
-  /// Create a copy of FiatRateRequestDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$FiatRateRequestDtoImplCopyWith<_$FiatRateRequestDtoImpl> get copyWith =>
-      __$$FiatRateRequestDtoImplCopyWithImpl<_$FiatRateRequestDtoImpl>(this, _$identity);
-}
-
-abstract class _FiatRateRequestDto implements FiatRateRequestDto {
-  const factory _FiatRateRequestDto({required final String base, required final String target}) =
-      _$FiatRateRequestDtoImpl;
-
-  @override
-  String get base;
-  @override
-  String get target;
-
-  /// Create a copy of FiatRateRequestDto
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FiatRateRequestDtoImplCopyWith<_$FiatRateRequestDtoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  String toString() {
+    return 'FiatRateRequestDto(base: $base, target: $target)';
+  }
 }
 
 /// @nodoc
-mixin _$FiatRateResponseDto {
-  double get rate => throw _privateConstructorUsedError;
-
-  /// Create a copy of FiatRateResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $FiatRateResponseDtoCopyWith<FiatRateResponseDto> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FiatRateResponseDtoCopyWith<$Res> {
-  factory $FiatRateResponseDtoCopyWith(
-    FiatRateResponseDto value,
-    $Res Function(FiatRateResponseDto) then,
-  ) = _$FiatRateResponseDtoCopyWithImpl<$Res, FiatRateResponseDto>;
+abstract mixin class _$FiatRateRequestDtoCopyWith<$Res>
+    implements $FiatRateRequestDtoCopyWith<$Res> {
+  factory _$FiatRateRequestDtoCopyWith(
+    _FiatRateRequestDto value,
+    $Res Function(_FiatRateRequestDto) _then,
+  ) = __$FiatRateRequestDtoCopyWithImpl;
+  @override
   @useResult
-  $Res call({double rate});
+  $Res call({String base, String target});
 }
 
 /// @nodoc
-class _$FiatRateResponseDtoCopyWithImpl<$Res, $Val extends FiatRateResponseDto>
-    implements $FiatRateResponseDtoCopyWith<$Res> {
-  _$FiatRateResponseDtoCopyWithImpl(this._value, this._then);
+class __$FiatRateRequestDtoCopyWithImpl<$Res> implements _$FiatRateRequestDtoCopyWith<$Res> {
+  __$FiatRateRequestDtoCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final _FiatRateRequestDto _self;
+  final $Res Function(_FiatRateRequestDto) _then;
 
-  /// Create a copy of FiatRateResponseDto
+  /// Create a copy of FiatRateRequestDto
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? rate = null}) {
+  @pragma('vm:prefer-inline')
+  $Res call({Object? base = null, Object? target = null}) {
     return _then(
-      _value.copyWith(
-            rate:
-                null == rate
-                    ? _value.rate
-                    : rate // ignore: cast_nullable_to_non_nullable
-                        as double,
-          )
-          as $Val,
+      _FiatRateRequestDto(
+        base:
+            null == base
+                ? _self.base
+                : base // ignore: cast_nullable_to_non_nullable
+                    as String,
+        target:
+            null == target
+                ? _self.target
+                : target // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
     );
   }
 }
 
 /// @nodoc
-abstract class _$$FiatRateResponseDtoImplCopyWith<$Res>
-    implements $FiatRateResponseDtoCopyWith<$Res> {
-  factory _$$FiatRateResponseDtoImplCopyWith(
-    _$FiatRateResponseDtoImpl value,
-    $Res Function(_$FiatRateResponseDtoImpl) then,
-  ) = __$$FiatRateResponseDtoImplCopyWithImpl<$Res>;
+mixin _$FiatRateResponseDto {
+  double get rate;
+
+  /// Create a copy of FiatRateResponseDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FiatRateResponseDtoCopyWith<FiatRateResponseDto> get copyWith =>
+      _$FiatRateResponseDtoCopyWithImpl<FiatRateResponseDto>(
+        this as FiatRateResponseDto,
+        _$identity,
+      );
+
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FiatRateResponseDto &&
+            (identical(other.rate, rate) || other.rate == rate));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, rate);
+
+  @override
+  String toString() {
+    return 'FiatRateResponseDto(rate: $rate)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $FiatRateResponseDtoCopyWith<$Res> {
+  factory $FiatRateResponseDtoCopyWith(
+    FiatRateResponseDto value,
+    $Res Function(FiatRateResponseDto) _then,
+  ) = _$FiatRateResponseDtoCopyWithImpl;
   @useResult
   $Res call({double rate});
 }
 
 /// @nodoc
-class __$$FiatRateResponseDtoImplCopyWithImpl<$Res>
-    extends _$FiatRateResponseDtoCopyWithImpl<$Res, _$FiatRateResponseDtoImpl>
-    implements _$$FiatRateResponseDtoImplCopyWith<$Res> {
-  __$$FiatRateResponseDtoImplCopyWithImpl(
-    _$FiatRateResponseDtoImpl _value,
-    $Res Function(_$FiatRateResponseDtoImpl) _then,
-  ) : super(_value, _then);
+class _$FiatRateResponseDtoCopyWithImpl<$Res> implements $FiatRateResponseDtoCopyWith<$Res> {
+  _$FiatRateResponseDtoCopyWithImpl(this._self, this._then);
+
+  final FiatRateResponseDto _self;
+  final $Res Function(FiatRateResponseDto) _then;
 
   /// Create a copy of FiatRateResponseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -376,10 +345,10 @@ class __$$FiatRateResponseDtoImplCopyWithImpl<$Res>
   @override
   $Res call({Object? rate = null}) {
     return _then(
-      _$FiatRateResponseDtoImpl(
+      _self.copyWith(
         rate:
             null == rate
-                ? _value.rate
+                ? _self.rate
                 : rate // ignore: cast_nullable_to_non_nullable
                     as double,
       ),
@@ -389,47 +358,69 @@ class __$$FiatRateResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FiatRateResponseDtoImpl implements _FiatRateResponseDto {
-  const _$FiatRateResponseDtoImpl({required this.rate});
+class _FiatRateResponseDto implements FiatRateResponseDto {
+  const _FiatRateResponseDto({required this.rate});
 
   @override
   final double rate;
 
+  /// Create a copy of FiatRateResponseDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'FiatRateResponseDto(rate: $rate)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FiatRateResponseDtoCopyWith<_FiatRateResponseDto> get copyWith =>
+      __$FiatRateResponseDtoCopyWithImpl<_FiatRateResponseDto>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FiatRateResponseDtoImpl &&
+            other is _FiatRateResponseDto &&
             (identical(other.rate, rate) || other.rate == rate));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, rate);
 
-  /// Create a copy of FiatRateResponseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$FiatRateResponseDtoImplCopyWith<_$FiatRateResponseDtoImpl> get copyWith =>
-      __$$FiatRateResponseDtoImplCopyWithImpl<_$FiatRateResponseDtoImpl>(this, _$identity);
+  String toString() {
+    return 'FiatRateResponseDto(rate: $rate)';
+  }
 }
 
-abstract class _FiatRateResponseDto implements FiatRateResponseDto {
-  const factory _FiatRateResponseDto({required final double rate}) = _$FiatRateResponseDtoImpl;
-
+/// @nodoc
+abstract mixin class _$FiatRateResponseDtoCopyWith<$Res>
+    implements $FiatRateResponseDtoCopyWith<$Res> {
+  factory _$FiatRateResponseDtoCopyWith(
+    _FiatRateResponseDto value,
+    $Res Function(_FiatRateResponseDto) _then,
+  ) = __$FiatRateResponseDtoCopyWithImpl;
   @override
-  double get rate;
+  @useResult
+  $Res call({double rate});
+}
+
+/// @nodoc
+class __$FiatRateResponseDtoCopyWithImpl<$Res> implements _$FiatRateResponseDtoCopyWith<$Res> {
+  __$FiatRateResponseDtoCopyWithImpl(this._self, this._then);
+
+  final _FiatRateResponseDto _self;
+  final $Res Function(_FiatRateResponseDto) _then;
 
   /// Create a copy of FiatRateResponseDto
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FiatRateResponseDtoImplCopyWith<_$FiatRateResponseDtoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({Object? rate = null}) {
+    return _then(
+      _FiatRateResponseDto(
+        rate:
+            null == rate
+                ? _self.rate
+                : rate // ignore: cast_nullable_to_non_nullable
+                    as double,
+      ),
+    );
+  }
 }
