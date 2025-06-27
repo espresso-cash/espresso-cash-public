@@ -28,9 +28,7 @@ class FeeCalculator {
     required Token token,
   }) =>
       token.isSolana
-          ? Future.value(
-            const CryptoAmount(value: 1 * lamportsPerSignature, cryptoCurrency: Currency.sol),
-          )
+          ? Future.value(solTransferFee)
           : _ecClient
               .getDirectPaymentQuote(
                 DirectPaymentQuoteRequestDto(
@@ -50,3 +48,5 @@ class FeeCalculator {
           ? Future.value(const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc))
           : _getDirectPaymentFee(address: address, token: Token.usdc);
 }
+
+const solTransferFee = CryptoAmount(value: 1 * lamportsPerSignature, cryptoCurrency: Currency.sol);
