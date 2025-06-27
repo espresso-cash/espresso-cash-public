@@ -93,18 +93,18 @@ class KycRepository extends ChangeNotifier {
 
   Future<void> deleteAllUserData() => _initWrapper(() => _kycUserClient.removeAllUserData());
 
-  Future<void> initEmailVerification({required String emailId}) =>
-      _initWrapper(() => _kycUserClient.initEmailValidation(dataId: emailId));
+  Future<void> initEmailVerification({required String dataHash}) =>
+      _initWrapper(() => _kycUserClient.initEmailValidation(dataHash: dataHash));
 
-  Future<void> verifyEmail({required String code, required String dataId}) async {
-    await _initWrapper(() => _kycUserClient.validateEmail(code: code, dataId: dataId));
+  Future<void> verifyEmail({required String code, required String dataHash}) async {
+    await _initWrapper(() => _kycUserClient.validateEmail(code: code, dataHash: dataHash));
   }
 
-  Future<void> initPhoneVerification({required String phoneId}) =>
-      _initWrapper(() => _kycUserClient.initPhoneValidation(dataId: phoneId));
+  Future<void> initPhoneVerification({required String dataHash}) =>
+      _initWrapper(() => _kycUserClient.initPhoneValidation(dataHash: dataHash));
 
   Future<void> verifyPhone({required String code, required String dataId}) =>
-      _initWrapper(() => _kycUserClient.validatePhone(code: code, dataId: dataId));
+      _initWrapper(() => _kycUserClient.validatePhone(code: code, dataHash: dataId));
 
   Future<void> startKycVerification({required String country, required List<String> dataHashes}) =>
       _initWrapper(() => _kycUserClient.startKycRequest(country: country, dataHashes: dataHashes));
@@ -136,8 +136,7 @@ class KycRepository extends ChangeNotifier {
     required String fiatCurrency,
     required String cryptoWalletAddress,
     required String partnerPK,
-    required String bankName,
-    required String bankAccount,
+    required String bankDataHash,
     required String walletPK,
   }) => _initWrapper(
     () => _kycUserClient.createOffRampOrder(
@@ -147,8 +146,7 @@ class KycRepository extends ChangeNotifier {
       cryptoWalletAddress: cryptoWalletAddress,
       fiatAmount: fiatAmount,
       fiatCurrency: fiatCurrency,
-      bankName: bankName,
-      bankAccount: bankAccount,
+      bankDataHash: bankDataHash,
       walletPK: walletPK,
     ),
   );
@@ -175,9 +173,8 @@ class KycRepository extends ChangeNotifier {
       _initWrapper(() => _kycUserClient.getGrantedAccessPartners());
 
   Future<KycValidationStatus> fetchKycStatus({required String country}) => _initWrapper(
-    () =>
-        _kycUserClient.getKycStatusDetails(userPK: _kycUserClient.authPublicKey, country: country),
-  ).then((value) => value.status.toKycValidationStatus());
+    () => _kycUserClient.getKycStatus(userPK: _kycUserClient.authPublicKey, country: country),
+  ).then((value) => value.toKycValidationStatus());
 
   Future<KycRequirement> getKycRequirements({required String country}) =>
       _initWrapper(() => _kycUserClient.getKycRequirements(country: country));

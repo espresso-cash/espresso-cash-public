@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -19,19 +20,19 @@ class ShortenLinkRequest extends $pb.GeneratedMessage {
   factory ShortenLinkRequest({
     $core.String? fullLink,
   }) {
-    final $result = create();
-    if (fullLink != null) {
-      $result.fullLink = fullLink;
-    }
-    return $result;
+    final result = create();
+    if (fullLink != null) result.fullLink = fullLink;
+    return result;
   }
-  ShortenLinkRequest._() : super();
-  factory ShortenLinkRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ShortenLinkRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  ShortenLinkRequest._();
+
+  factory ShortenLinkRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory ShortenLinkRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ShortenLinkRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
@@ -45,10 +46,12 @@ class ShortenLinkRequest extends $pb.GeneratedMessage {
   ShortenLinkRequest copyWith(void Function(ShortenLinkRequest) updates) =>
       super.copyWith((message) => updates(message as ShortenLinkRequest)) as ShortenLinkRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ShortenLinkRequest create() => ShortenLinkRequest._();
+  @$core.override
   ShortenLinkRequest createEmptyInstance() => create();
   static $pb.PbList<ShortenLinkRequest> createRepeated() => $pb.PbList<ShortenLinkRequest>();
   @$core.pragma('dart2js:noInline')
@@ -59,10 +62,7 @@ class ShortenLinkRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get fullLink => $_getSZ(0);
   @$pb.TagNumber(1)
-  set fullLink($core.String v) {
-    $_setString(0, v);
-  }
-
+  set fullLink($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasFullLink() => $_has(0);
   @$pb.TagNumber(1)
@@ -73,19 +73,19 @@ class ShortenLinkResponse extends $pb.GeneratedMessage {
   factory ShortenLinkResponse({
     $core.String? shortLink,
   }) {
-    final $result = create();
-    if (shortLink != null) {
-      $result.shortLink = shortLink;
-    }
-    return $result;
+    final result = create();
+    if (shortLink != null) result.shortLink = shortLink;
+    return result;
   }
-  ShortenLinkResponse._() : super();
-  factory ShortenLinkResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ShortenLinkResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  ShortenLinkResponse._();
+
+  factory ShortenLinkResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory ShortenLinkResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ShortenLinkResponse',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
@@ -99,10 +99,12 @@ class ShortenLinkResponse extends $pb.GeneratedMessage {
   ShortenLinkResponse copyWith(void Function(ShortenLinkResponse) updates) =>
       super.copyWith((message) => updates(message as ShortenLinkResponse)) as ShortenLinkResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ShortenLinkResponse create() => ShortenLinkResponse._();
+  @$core.override
   ShortenLinkResponse createEmptyInstance() => create();
   static $pb.PbList<ShortenLinkResponse> createRepeated() => $pb.PbList<ShortenLinkResponse>();
   @$core.pragma('dart2js:noInline')
@@ -113,10 +115,7 @@ class ShortenLinkResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get shortLink => $_getSZ(0);
   @$pb.TagNumber(1)
-  set shortLink($core.String v) {
-    $_setString(0, v);
-  }
-
+  set shortLink($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasShortLink() => $_has(0);
   @$pb.TagNumber(1)
@@ -127,19 +126,19 @@ class ExpandLinkRequest extends $pb.GeneratedMessage {
   factory ExpandLinkRequest({
     $core.String? shortLink,
   }) {
-    final $result = create();
-    if (shortLink != null) {
-      $result.shortLink = shortLink;
-    }
-    return $result;
+    final result = create();
+    if (shortLink != null) result.shortLink = shortLink;
+    return result;
   }
-  ExpandLinkRequest._() : super();
-  factory ExpandLinkRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ExpandLinkRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  ExpandLinkRequest._();
+
+  factory ExpandLinkRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory ExpandLinkRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ExpandLinkRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
@@ -153,10 +152,12 @@ class ExpandLinkRequest extends $pb.GeneratedMessage {
   ExpandLinkRequest copyWith(void Function(ExpandLinkRequest) updates) =>
       super.copyWith((message) => updates(message as ExpandLinkRequest)) as ExpandLinkRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ExpandLinkRequest create() => ExpandLinkRequest._();
+  @$core.override
   ExpandLinkRequest createEmptyInstance() => create();
   static $pb.PbList<ExpandLinkRequest> createRepeated() => $pb.PbList<ExpandLinkRequest>();
   @$core.pragma('dart2js:noInline')
@@ -167,10 +168,7 @@ class ExpandLinkRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get shortLink => $_getSZ(0);
   @$pb.TagNumber(1)
-  set shortLink($core.String v) {
-    $_setString(0, v);
-  }
-
+  set shortLink($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasShortLink() => $_has(0);
   @$pb.TagNumber(1)
@@ -181,19 +179,19 @@ class ExpandLinkResponse extends $pb.GeneratedMessage {
   factory ExpandLinkResponse({
     $core.String? fullLink,
   }) {
-    final $result = create();
-    if (fullLink != null) {
-      $result.fullLink = fullLink;
-    }
-    return $result;
+    final result = create();
+    if (fullLink != null) result.fullLink = fullLink;
+    return result;
   }
-  ExpandLinkResponse._() : super();
-  factory ExpandLinkResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ExpandLinkResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  ExpandLinkResponse._();
+
+  factory ExpandLinkResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory ExpandLinkResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ExpandLinkResponse',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.shortener.v1'),
@@ -207,10 +205,12 @@ class ExpandLinkResponse extends $pb.GeneratedMessage {
   ExpandLinkResponse copyWith(void Function(ExpandLinkResponse) updates) =>
       super.copyWith((message) => updates(message as ExpandLinkResponse)) as ExpandLinkResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ExpandLinkResponse create() => ExpandLinkResponse._();
+  @$core.override
   ExpandLinkResponse createEmptyInstance() => create();
   static $pb.PbList<ExpandLinkResponse> createRepeated() => $pb.PbList<ExpandLinkResponse>();
   @$core.pragma('dart2js:noInline')
@@ -221,15 +221,12 @@ class ExpandLinkResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get fullLink => $_getSZ(0);
   @$pb.TagNumber(1)
-  set fullLink($core.String v) {
-    $_setString(0, v);
-  }
-
+  set fullLink($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasFullLink() => $_has(0);
   @$pb.TagNumber(1)
   void clearFullLink() => $_clearField(1);
 }
 
-const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

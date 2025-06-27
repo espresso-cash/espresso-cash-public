@@ -174,7 +174,9 @@ class BrijOffRampOrderService implements Disposable {
 
     final bank = user?.getBankByCountry(country);
 
-    if (bank == null) {
+    final bankHash = bank?.hash;
+
+    if (bankHash == null) {
       throw Exception('Invalid user data: User not found or missing bank information');
     }
 
@@ -185,8 +187,7 @@ class BrijOffRampOrderService implements Disposable {
       fiatCurrency: receiveAmount.currency.symbol,
       partnerPK: partnerAuthPk,
       cryptoWalletAddress: _account.publicKey.toString(),
-      bankAccount: bank.accountNumber,
-      bankName: bank.bankCode,
+      bankDataHash: bankHash,
       walletPK: walletAuthPk,
     );
 

@@ -70,9 +70,9 @@ class KycDataService extends ValueNotifier<UserData?> {
     await _kycRepository.grantValidatorAccess();
 
     await _kycRepository.updateUserData(
-      name: Name(firstName: firstName ?? '', lastName: lastName ?? '', id: value?.name?.id ?? ''),
-      birthDate: dob?.let((e) => BirthDate(value: e, id: value?.birthDate?.id ?? '')),
-      citizenship: Citizenship(value: citizenshipCode ?? '', id: value?.citizenship?.id ?? ''),
+      name: Name(firstName: firstName ?? '', lastName: lastName ?? '', hash: value?.name?.hash),
+      birthDate: dob?.let((e) => BirthDate(value: e, hash: value?.birthDate?.hash)),
+      citizenship: Citizenship(value: citizenshipCode ?? '', hash: value?.citizenship?.hash),
     );
 
     await _fetchUserData();
@@ -94,7 +94,6 @@ class KycDataService extends ValueNotifier<UserData?> {
         number: idNumber ?? '',
         countryCode: countryCode ?? '',
         expirationDate: expirationDate,
-        id: '',
         frontImage: frontImage != null ? await frontImage.readAsBytes() : null,
         backImage: backImage != null ? await backImage.readAsBytes() : null,
       ),
@@ -104,7 +103,7 @@ class KycDataService extends ValueNotifier<UserData?> {
   }
 
   Future<void> updateBankInfo({
-    String? id,
+    String? hash,
     required String bankAccountNumber,
     required String bankCode,
     required String countryCode,
@@ -113,7 +112,7 @@ class KycDataService extends ValueNotifier<UserData?> {
     final userBankAccounts = value?.bankInfos;
 
     final existingAccount = userBankAccounts?.firstWhereOrNull(
-      (account) => account.countryCode == countryCode && account.id != id,
+      (account) => account.countryCode == countryCode && account.hash != hash,
     );
 
     if (existingAccount != null) {
@@ -126,7 +125,7 @@ class KycDataService extends ValueNotifier<UserData?> {
         bankCode: bankCode,
         bankName: bankName ?? '',
         countryCode: countryCode,
-        id: id ?? '',
+        hash: hash,
       ),
     );
 
@@ -216,7 +215,7 @@ class KycDataService extends ValueNotifier<UserData?> {
     await _kycRepository.updateUserData(
       selfie:
           photoSelfie != null
-              ? Selfie(value: await photoSelfie.readAsBytes(), id: value?.selfie?.id ?? '')
+              ? Selfie(value: await photoSelfie.readAsBytes(), hash: value?.selfie?.hash)
               : null,
     );
 
@@ -227,11 +226,11 @@ class KycDataService extends ValueNotifier<UserData?> {
     try {
       await _kycRepository.grantValidatorAccess();
 
-      await _kycRepository.updateUserData(email: Email(value: email, id: value?.email?.id ?? ''));
+      await _kycRepository.updateUserData(email: Email(value: email, hash: value?.email?.hash));
 
       await _fetchUserData();
 
-      await _kycRepository.initEmailVerification(emailId: value?.email?.id ?? '');
+      await _kycRepository.initEmailVerification(dataHash: value?.email?.hash ?? '');
     } on Exception catch (exception) {
       throw exception.toKycException();
     }
@@ -239,7 +238,7 @@ class KycDataService extends ValueNotifier<UserData?> {
 
   Future<void> verifyEmail({required String code}) async {
     try {
-      await _kycRepository.verifyEmail(code: code, dataId: value?.email?.id ?? '');
+      await _kycRepository.verifyEmail(code: code, dataHash: value?.email?.hash ?? '');
     } on Exception catch (exception) {
       throw exception.toKycException();
     } finally {
@@ -249,11 +248,11 @@ class KycDataService extends ValueNotifier<UserData?> {
 
   Future<void> initPhoneVerification({required String phone}) async {
     try {
-      await _kycRepository.updateUserData(phone: Phone(value: phone, id: value?.phone?.id ?? ''));
+      await _kycRepository.updateUserData(phone: Phone(value: phone, hash: value?.phone?.hash));
 
       await _fetchUserData();
 
-      await _kycRepository.initPhoneVerification(phoneId: value?.phone?.id ?? '');
+      await _kycRepository.initPhoneVerification(dataHash: value?.phone?.hash ?? '');
     } on Exception catch (exception) {
       throw exception.toKycException();
     }
@@ -261,7 +260,7 @@ class KycDataService extends ValueNotifier<UserData?> {
 
   Future<void> verifyPhone({required String code}) async {
     try {
-      await _kycRepository.verifyPhone(code: code, dataId: value?.phone?.id ?? '');
+      await _kycRepository.verifyPhone(code: code, dataId: value?.phone?.hash ?? '');
     } on Exception catch (exception) {
       throw exception.toKycException();
     } finally {
