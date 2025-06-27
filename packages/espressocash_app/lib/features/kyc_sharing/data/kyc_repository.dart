@@ -91,6 +91,8 @@ class KycRepository extends ChangeNotifier {
     );
   }
 
+  Future<void> deleteAllUserData() => _initWrapper(() => _kycUserClient.removeAllUserData());
+
   Future<void> initEmailVerification({required String dataHash}) =>
       _initWrapper(() => _kycUserClient.initEmailValidation(dataHash: dataHash));
 
@@ -134,8 +136,7 @@ class KycRepository extends ChangeNotifier {
     required String fiatCurrency,
     required String cryptoWalletAddress,
     required String partnerPK,
-    required String bankName,
-    required String bankAccount,
+    required String bankDataHash,
     required String walletPK,
   }) => _initWrapper(
     () => _kycUserClient.createOffRampOrder(
@@ -145,8 +146,7 @@ class KycRepository extends ChangeNotifier {
       cryptoWalletAddress: cryptoWalletAddress,
       fiatAmount: fiatAmount,
       fiatCurrency: fiatCurrency,
-      bankName: bankName,
-      bankAccount: bankAccount,
+      bankDataHash: bankDataHash,
       walletPK: walletPK,
     ),
   );
@@ -157,6 +157,9 @@ class KycRepository extends ChangeNotifier {
   Future<void> grantPartnerAccess(String partnerPk) =>
       _initWrapper(() => _kycUserClient.grantPartnerAccess(partnerPk));
 
+  Future<void> revokePartnerAccess(String partnerPk) =>
+      _initWrapper(() => _kycUserClient.revokePartnerAccess(partnerPk));
+
   Future<void> grantValidatorAccess() =>
       _initWrapper(() => _kycUserClient.grantPartnerAccess(_config.verifierAuthPk));
 
@@ -165,6 +168,9 @@ class KycRepository extends ChangeNotifier {
 
   Future<PartnerModel> fetchPartnerInfo(String partnerPk) =>
       _initWrapper(() => _kycUserClient.getPartnerInfo(partnerPK: partnerPk));
+
+  Future<List<PartnerModel>> fetchGrantedAccessPartners() =>
+      _initWrapper(() => _kycUserClient.getGrantedAccessPartners());
 
   Future<KycValidationStatus> fetchKycStatus({required String country}) => _initWrapper(
     () => _kycUserClient.getKycStatus(userPK: _kycUserClient.authPublicKey, country: country),

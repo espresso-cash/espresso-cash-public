@@ -5,7 +5,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
-import '../services/kyc_service.dart';
+import '../services/kyc_data_service.dart';
 import '../utils/kyc_exception.dart';
 import '../utils/kyc_utils.dart';
 import '../widgets/kyc_page.dart';
@@ -30,7 +30,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
   Future<void> _handleConfirm() async {
     final success = await runWithLoader<bool>(context, () async {
       try {
-        await sl<KycSharingService>().verifyEmail(code: _controller.text);
+        await sl<KycDataService>().verifyEmail(code: _controller.text);
 
         return true;
       } on KycException catch (error) {
@@ -62,7 +62,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
     title: context.l10n.emailVerification.toUpperCase(),
     children: [
       Text(
-        context.l10n.checkEmailText(sl<KycSharingService>().value?.emailValue ?? ''),
+        context.l10n.checkEmailText(sl<KycDataService>().value?.emailValue ?? ''),
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 16, height: 21 / 16, letterSpacing: .19),
       ),
