@@ -7,6 +7,8 @@ import '../../../ui/colors.dart';
 import '../../../ui/text_field.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
+import '../../fees/services/fee_calculator.dart';
 
 class TokenQuantityInput extends StatefulWidget {
   const TokenQuantityInput({
@@ -103,11 +105,17 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
   VoidCallback get _callback =>
       _isMax
           ? widget._quantityController.clear
-          : () =>
-              widget._quantityController.text = widget.crypto.format(
-                DeviceLocale.localeOf(context),
-                skipSymbol: true,
-              );
+          : () {
+            final amount =
+                widget.crypto.cryptoCurrency == Currency.sol
+                    ? widget.crypto - solTransferFee
+                    : widget.crypto;
+
+            widget._quantityController.text = amount.format(
+              DeviceLocale.localeOf(context),
+              skipSymbol: true,
+            );
+          };
 }
 
 extension on String {
