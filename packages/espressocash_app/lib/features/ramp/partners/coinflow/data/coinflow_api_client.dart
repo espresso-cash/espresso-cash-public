@@ -28,7 +28,7 @@ abstract class CoinflowClient {
 }
 
 @freezed
-class WithdrawHistoryResponseDto with _$WithdrawHistoryResponseDto {
+sealed class WithdrawHistoryResponseDto with _$WithdrawHistoryResponseDto {
   const factory WithdrawHistoryResponseDto({
     @Default([]) List<WithdrawHistoryResponseDataDto> withdraws,
   }) = _WithdrawHistoryResponseDto;
@@ -38,7 +38,7 @@ class WithdrawHistoryResponseDto with _$WithdrawHistoryResponseDto {
 }
 
 @freezed
-class WithdrawHistoryResponseDataDto with _$WithdrawHistoryResponseDataDto {
+sealed class WithdrawHistoryResponseDataDto with _$WithdrawHistoryResponseDataDto {
   const factory WithdrawHistoryResponseDataDto({
     required String transaction,
     @JsonKey(unknownEnumValue: CoinflowOrderStatus.unknown) required CoinflowOrderStatus status,
@@ -50,14 +50,14 @@ class WithdrawHistoryResponseDataDto with _$WithdrawHistoryResponseDataDto {
 }
 
 @freezed
-class WithdrawerResponseDto with _$WithdrawerResponseDto {
+sealed class WithdrawerResponseDto with _$WithdrawerResponseDto {
   const factory WithdrawerResponseDto({required WithdrawerDto withdrawer}) = _WithdrawerResponseDto;
   factory WithdrawerResponseDto.fromJson(Map<String, dynamic> data) =>
       _$WithdrawerResponseDtoFromJson(data);
 }
 
 @freezed
-class WithdrawerDto with _$WithdrawerDto {
+sealed class WithdrawerDto with _$WithdrawerDto {
   const factory WithdrawerDto({
     required String currency,
     String? email,

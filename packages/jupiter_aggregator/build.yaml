@@ -8,6 +8,8 @@ targets:
 
 global_options:
   freezed:
+    options:
+      format: true
     runs_before:
       - json_serializable
   json_serializable:

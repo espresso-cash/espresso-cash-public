@@ -11,88 +11,61 @@ part of 'seed.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$Seed {
-  int get authToken => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  Purpose get purpose => throw _privateConstructorUsedError;
-  List<Account> get accounts => throw _privateConstructorUsedError;
+  AuthToken get authToken;
+  String get name;
+  Purpose get purpose;
+  List<Account> get accounts;
 
-  @JsonKey(ignore: true)
-  $SeedCopyWith<Seed> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SeedCopyWith<$Res> {
-  factory $SeedCopyWith(Seed value, $Res Function(Seed) then) = _$SeedCopyWithImpl<$Res, Seed>;
-  @useResult
-  $Res call({int authToken, String name, Purpose purpose, List<Account> accounts});
-}
-
-/// @nodoc
-class _$SeedCopyWithImpl<$Res, $Val extends Seed> implements $SeedCopyWith<$Res> {
-  _$SeedCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of Seed
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $SeedCopyWith<Seed> get copyWith => _$SeedCopyWithImpl<Seed>(this as Seed, _$identity);
+
   @override
-  $Res call({
-    Object? authToken = null,
-    Object? name = null,
-    Object? purpose = null,
-    Object? accounts = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            authToken:
-                null == authToken
-                    ? _value.authToken
-                    : authToken // ignore: cast_nullable_to_non_nullable
-                        as int,
-            name:
-                null == name
-                    ? _value.name
-                    : name // ignore: cast_nullable_to_non_nullable
-                        as String,
-            purpose:
-                null == purpose
-                    ? _value.purpose
-                    : purpose // ignore: cast_nullable_to_non_nullable
-                        as Purpose,
-            accounts:
-                null == accounts
-                    ? _value.accounts
-                    : accounts // ignore: cast_nullable_to_non_nullable
-                        as List<Account>,
-          )
-          as $Val,
-    );
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Seed &&
+            (identical(other.authToken, authToken) || other.authToken == authToken) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.purpose, purpose) || other.purpose == purpose) &&
+            const DeepCollectionEquality().equals(other.accounts, accounts));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    authToken,
+    name,
+    purpose,
+    const DeepCollectionEquality().hash(accounts),
+  );
+
+  @override
+  String toString() {
+    return 'Seed(authToken: $authToken, name: $name, purpose: $purpose, accounts: $accounts)';
   }
 }
 
 /// @nodoc
-abstract class _$$SeedImplCopyWith<$Res> implements $SeedCopyWith<$Res> {
-  factory _$$SeedImplCopyWith(_$SeedImpl value, $Res Function(_$SeedImpl) then) =
-      __$$SeedImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $SeedCopyWith<$Res> {
+  factory $SeedCopyWith(Seed value, $Res Function(Seed) _then) = _$SeedCopyWithImpl;
   @useResult
-  $Res call({int authToken, String name, Purpose purpose, List<Account> accounts});
+  $Res call({AuthToken authToken, String name, Purpose purpose, List<Account> accounts});
 }
 
 /// @nodoc
-class __$$SeedImplCopyWithImpl<$Res> extends _$SeedCopyWithImpl<$Res, _$SeedImpl>
-    implements _$$SeedImplCopyWith<$Res> {
-  __$$SeedImplCopyWithImpl(_$SeedImpl _value, $Res Function(_$SeedImpl) _then)
-    : super(_value, _then);
+class _$SeedCopyWithImpl<$Res> implements $SeedCopyWith<$Res> {
+  _$SeedCopyWithImpl(this._self, this._then);
 
+  final Seed _self;
+  final $Res Function(Seed) _then;
+
+  /// Create a copy of Seed
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -102,25 +75,25 @@ class __$$SeedImplCopyWithImpl<$Res> extends _$SeedCopyWithImpl<$Res, _$SeedImpl
     Object? accounts = null,
   }) {
     return _then(
-      _$SeedImpl(
+      _self.copyWith(
         authToken:
             null == authToken
-                ? _value.authToken
+                ? _self.authToken
                 : authToken // ignore: cast_nullable_to_non_nullable
-                    as int,
+                    as AuthToken,
         name:
             null == name
-                ? _value.name
+                ? _self.name
                 : name // ignore: cast_nullable_to_non_nullable
                     as String,
         purpose:
             null == purpose
-                ? _value.purpose
+                ? _self.purpose
                 : purpose // ignore: cast_nullable_to_non_nullable
                     as Purpose,
         accounts:
             null == accounts
-                ? _value._accounts
+                ? _self.accounts
                 : accounts // ignore: cast_nullable_to_non_nullable
                     as List<Account>,
       ),
@@ -130,8 +103,8 @@ class __$$SeedImplCopyWithImpl<$Res> extends _$SeedCopyWithImpl<$Res, _$SeedImpl
 
 /// @nodoc
 
-class _$SeedImpl implements _Seed {
-  const _$SeedImpl({
+class _Seed implements Seed {
+  const _Seed({
     required this.authToken,
     required this.name,
     required this.purpose,
@@ -139,7 +112,7 @@ class _$SeedImpl implements _Seed {
   }) : _accounts = accounts;
 
   @override
-  final int authToken;
+  final AuthToken authToken;
   @override
   final String name;
   @override
@@ -152,16 +125,18 @@ class _$SeedImpl implements _Seed {
     return EqualUnmodifiableListView(_accounts);
   }
 
+  /// Create a copy of Seed
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Seed(authToken: $authToken, name: $name, purpose: $purpose, accounts: $accounts)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SeedCopyWith<_Seed> get copyWith => __$SeedCopyWithImpl<_Seed>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SeedImpl &&
+            other is _Seed &&
             (identical(other.authToken, authToken) || other.authToken == authToken) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.purpose, purpose) || other.purpose == purpose) &&
@@ -177,30 +152,60 @@ class _$SeedImpl implements _Seed {
     const DeepCollectionEquality().hash(_accounts),
   );
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SeedImplCopyWith<_$SeedImpl> get copyWith =>
-      __$$SeedImplCopyWithImpl<_$SeedImpl>(this, _$identity);
+  String toString() {
+    return 'Seed(authToken: $authToken, name: $name, purpose: $purpose, accounts: $accounts)';
+  }
 }
 
-abstract class _Seed implements Seed {
-  const factory _Seed({
-    required final int authToken,
-    required final String name,
-    required final Purpose purpose,
-    required final List<Account> accounts,
-  }) = _$SeedImpl;
+/// @nodoc
+abstract mixin class _$SeedCopyWith<$Res> implements $SeedCopyWith<$Res> {
+  factory _$SeedCopyWith(_Seed value, $Res Function(_Seed) _then) = __$SeedCopyWithImpl;
+  @override
+  @useResult
+  $Res call({AuthToken authToken, String name, Purpose purpose, List<Account> accounts});
+}
 
+/// @nodoc
+class __$SeedCopyWithImpl<$Res> implements _$SeedCopyWith<$Res> {
+  __$SeedCopyWithImpl(this._self, this._then);
+
+  final _Seed _self;
+  final $Res Function(_Seed) _then;
+
+  /// Create a copy of Seed
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  int get authToken;
-  @override
-  String get name;
-  @override
-  Purpose get purpose;
-  @override
-  List<Account> get accounts;
-  @override
-  @JsonKey(ignore: true)
-  _$$SeedImplCopyWith<_$SeedImpl> get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? authToken = null,
+    Object? name = null,
+    Object? purpose = null,
+    Object? accounts = null,
+  }) {
+    return _then(
+      _Seed(
+        authToken:
+            null == authToken
+                ? _self.authToken
+                : authToken // ignore: cast_nullable_to_non_nullable
+                    as AuthToken,
+        name:
+            null == name
+                ? _self.name
+                : name // ignore: cast_nullable_to_non_nullable
+                    as String,
+        purpose:
+            null == purpose
+                ? _self.purpose
+                : purpose // ignore: cast_nullable_to_non_nullable
+                    as Purpose,
+        accounts:
+            null == accounts
+                ? _self._accounts
+                : accounts // ignore: cast_nullable_to_non_nullable
+                    as List<Account>,
+      ),
+    );
+  }
 }

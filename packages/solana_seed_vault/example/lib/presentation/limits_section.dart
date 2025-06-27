@@ -15,9 +15,10 @@ class LimitsSection extends StatefulWidget {
 
 class _LimitsSectionState extends State<LimitsSection> {
   AuthToken? _validate() {
-    final seed = context.read<SeedVaultBloc>().state.mapOrNull(
-      loaded: (state) => state.seeds.firstOrNull,
-    );
+    final seed = switch (context.read<SeedVaultBloc>().state) {
+      final SeedVaultStateLoaded state => state.seeds.firstOrNull,
+      _ => null,
+    };
 
     if (seed == null) {
       showErrorSnackBar(context, 'Need authorized seed to exceed limits');
@@ -53,29 +54,28 @@ class _LimitsSectionState extends State<LimitsSection> {
   @override
   Widget build(BuildContext context) => BlocBuilder<SeedVaultBloc, SeedVaultState>(
     builder:
-        (context, state) => state.maybeMap(
-          orElse: () => const SizedBox.shrink(),
-          loaded:
-              (state) => ExpansionTile(
-                initiallyExpanded: false,
-                title: const Text('Implementation Limits', style: _style),
-                children: [
-                  _LimitTile(
-                    title: 'maxRequestedPublicKeys=${state.limits.maxRequestedPublicKeys}',
-                    onExceeded: _handleMaxRequestedPublicKeysExceeded,
-                  ),
-                  _LimitTile(
-                    title: 'maxSigningRequests=${state.limits.maxSigningRequests}',
-                    onExceeded: _handleMaxSigningRequestsExceeded,
-                  ),
-                  _LimitTile(
-                    title: 'maxRequestedSignatures=${state.limits.maxRequestedSignatures}',
-                    onExceeded: _handleMaxRequestedSignaturesExceeded,
-                  ),
-                  _LimitTile(title: 'maxBip32PathDepth=${state.limits.maxBip32PathDepth}'),
-                ],
+        (context, state) => switch (state) {
+          SeedVaultStateLoaded() => ExpansionTile(
+            initiallyExpanded: false,
+            title: const Text('Implementation Limits', style: _style),
+            children: [
+              _LimitTile(
+                title: 'maxRequestedPublicKeys=${state.limits.maxRequestedPublicKeys}',
+                onExceeded: _handleMaxRequestedPublicKeysExceeded,
               ),
-        ),
+              _LimitTile(
+                title: 'maxSigningRequests=${state.limits.maxSigningRequests}',
+                onExceeded: _handleMaxSigningRequestsExceeded,
+              ),
+              _LimitTile(
+                title: 'maxRequestedSignatures=${state.limits.maxRequestedSignatures}',
+                onExceeded: _handleMaxRequestedSignaturesExceeded,
+              ),
+              _LimitTile(title: 'maxBip32PathDepth=${state.limits.maxBip32PathDepth}'),
+            ],
+          ),
+          _ => const SizedBox.shrink(),
+        },
   );
 }
 

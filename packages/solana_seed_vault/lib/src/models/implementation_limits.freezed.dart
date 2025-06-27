@@ -11,173 +11,28 @@ part of 'implementation_limits.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$ImplementationLimits {
-  int get maxBip32PathDepth => throw _privateConstructorUsedError;
-  int get maxSigningRequests => throw _privateConstructorUsedError;
-  int get maxRequestedSignatures => throw _privateConstructorUsedError;
-  int get maxRequestedPublicKeys => throw _privateConstructorUsedError;
+  int get maxBip32PathDepth;
+  int get maxSigningRequests;
+  int get maxRequestedSignatures;
+  int get maxRequestedPublicKeys;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImplementationLimits
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $ImplementationLimitsCopyWith<ImplementationLimits> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ImplementationLimitsCopyWith<$Res> {
-  factory $ImplementationLimitsCopyWith(
-    ImplementationLimits value,
-    $Res Function(ImplementationLimits) then,
-  ) = _$ImplementationLimitsCopyWithImpl<$Res, ImplementationLimits>;
-  @useResult
-  $Res call({
-    int maxBip32PathDepth,
-    int maxSigningRequests,
-    int maxRequestedSignatures,
-    int maxRequestedPublicKeys,
-  });
-}
-
-/// @nodoc
-class _$ImplementationLimitsCopyWithImpl<$Res, $Val extends ImplementationLimits>
-    implements $ImplementationLimitsCopyWith<$Res> {
-  _$ImplementationLimitsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? maxBip32PathDepth = null,
-    Object? maxSigningRequests = null,
-    Object? maxRequestedSignatures = null,
-    Object? maxRequestedPublicKeys = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            maxBip32PathDepth:
-                null == maxBip32PathDepth
-                    ? _value.maxBip32PathDepth
-                    : maxBip32PathDepth // ignore: cast_nullable_to_non_nullable
-                        as int,
-            maxSigningRequests:
-                null == maxSigningRequests
-                    ? _value.maxSigningRequests
-                    : maxSigningRequests // ignore: cast_nullable_to_non_nullable
-                        as int,
-            maxRequestedSignatures:
-                null == maxRequestedSignatures
-                    ? _value.maxRequestedSignatures
-                    : maxRequestedSignatures // ignore: cast_nullable_to_non_nullable
-                        as int,
-            maxRequestedPublicKeys:
-                null == maxRequestedPublicKeys
-                    ? _value.maxRequestedPublicKeys
-                    : maxRequestedPublicKeys // ignore: cast_nullable_to_non_nullable
-                        as int,
-          )
-          as $Val,
-    );
-  }
-}
-
-/// @nodoc
-abstract class _$$ImplementationLimitsImplCopyWith<$Res>
-    implements $ImplementationLimitsCopyWith<$Res> {
-  factory _$$ImplementationLimitsImplCopyWith(
-    _$ImplementationLimitsImpl value,
-    $Res Function(_$ImplementationLimitsImpl) then,
-  ) = __$$ImplementationLimitsImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    int maxBip32PathDepth,
-    int maxSigningRequests,
-    int maxRequestedSignatures,
-    int maxRequestedPublicKeys,
-  });
-}
-
-/// @nodoc
-class __$$ImplementationLimitsImplCopyWithImpl<$Res>
-    extends _$ImplementationLimitsCopyWithImpl<$Res, _$ImplementationLimitsImpl>
-    implements _$$ImplementationLimitsImplCopyWith<$Res> {
-  __$$ImplementationLimitsImplCopyWithImpl(
-    _$ImplementationLimitsImpl _value,
-    $Res Function(_$ImplementationLimitsImpl) _then,
-  ) : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? maxBip32PathDepth = null,
-    Object? maxSigningRequests = null,
-    Object? maxRequestedSignatures = null,
-    Object? maxRequestedPublicKeys = null,
-  }) {
-    return _then(
-      _$ImplementationLimitsImpl(
-        maxBip32PathDepth:
-            null == maxBip32PathDepth
-                ? _value.maxBip32PathDepth
-                : maxBip32PathDepth // ignore: cast_nullable_to_non_nullable
-                    as int,
-        maxSigningRequests:
-            null == maxSigningRequests
-                ? _value.maxSigningRequests
-                : maxSigningRequests // ignore: cast_nullable_to_non_nullable
-                    as int,
-        maxRequestedSignatures:
-            null == maxRequestedSignatures
-                ? _value.maxRequestedSignatures
-                : maxRequestedSignatures // ignore: cast_nullable_to_non_nullable
-                    as int,
-        maxRequestedPublicKeys:
-            null == maxRequestedPublicKeys
-                ? _value.maxRequestedPublicKeys
-                : maxRequestedPublicKeys // ignore: cast_nullable_to_non_nullable
-                    as int,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$ImplementationLimitsImpl implements _ImplementationLimits {
-  const _$ImplementationLimitsImpl({
-    required this.maxBip32PathDepth,
-    required this.maxSigningRequests,
-    required this.maxRequestedSignatures,
-    required this.maxRequestedPublicKeys,
-  });
-
-  @override
-  final int maxBip32PathDepth;
-  @override
-  final int maxSigningRequests;
-  @override
-  final int maxRequestedSignatures;
-  @override
-  final int maxRequestedPublicKeys;
-
-  @override
-  String toString() {
-    return 'ImplementationLimits(maxBip32PathDepth: $maxBip32PathDepth, maxSigningRequests: $maxSigningRequests, maxRequestedSignatures: $maxRequestedSignatures, maxRequestedPublicKeys: $maxRequestedPublicKeys)';
-  }
+      _$ImplementationLimitsCopyWithImpl<ImplementationLimits>(
+        this as ImplementationLimits,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ImplementationLimitsImpl &&
+            other is ImplementationLimits &&
             (identical(other.maxBip32PathDepth, maxBip32PathDepth) ||
                 other.maxBip32PathDepth == maxBip32PathDepth) &&
             (identical(other.maxSigningRequests, maxSigningRequests) ||
@@ -197,31 +52,185 @@ class _$ImplementationLimitsImpl implements _ImplementationLimits {
     maxRequestedPublicKeys,
   );
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$ImplementationLimitsImplCopyWith<_$ImplementationLimitsImpl> get copyWith =>
-      __$$ImplementationLimitsImplCopyWithImpl<_$ImplementationLimitsImpl>(this, _$identity);
+  String toString() {
+    return 'ImplementationLimits(maxBip32PathDepth: $maxBip32PathDepth, maxSigningRequests: $maxSigningRequests, maxRequestedSignatures: $maxRequestedSignatures, maxRequestedPublicKeys: $maxRequestedPublicKeys)';
+  }
 }
 
-abstract class _ImplementationLimits implements ImplementationLimits {
-  const factory _ImplementationLimits({
-    required final int maxBip32PathDepth,
-    required final int maxSigningRequests,
-    required final int maxRequestedSignatures,
-    required final int maxRequestedPublicKeys,
-  }) = _$ImplementationLimitsImpl;
+/// @nodoc
+abstract mixin class $ImplementationLimitsCopyWith<$Res> {
+  factory $ImplementationLimitsCopyWith(
+    ImplementationLimits value,
+    $Res Function(ImplementationLimits) _then,
+  ) = _$ImplementationLimitsCopyWithImpl;
+  @useResult
+  $Res call({
+    int maxBip32PathDepth,
+    int maxSigningRequests,
+    int maxRequestedSignatures,
+    int maxRequestedPublicKeys,
+  });
+}
+
+/// @nodoc
+class _$ImplementationLimitsCopyWithImpl<$Res> implements $ImplementationLimitsCopyWith<$Res> {
+  _$ImplementationLimitsCopyWithImpl(this._self, this._then);
+
+  final ImplementationLimits _self;
+  final $Res Function(ImplementationLimits) _then;
+
+  /// Create a copy of ImplementationLimits
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxBip32PathDepth = null,
+    Object? maxSigningRequests = null,
+    Object? maxRequestedSignatures = null,
+    Object? maxRequestedPublicKeys = null,
+  }) {
+    return _then(
+      _self.copyWith(
+        maxBip32PathDepth:
+            null == maxBip32PathDepth
+                ? _self.maxBip32PathDepth
+                : maxBip32PathDepth // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxSigningRequests:
+            null == maxSigningRequests
+                ? _self.maxSigningRequests
+                : maxSigningRequests // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxRequestedSignatures:
+            null == maxRequestedSignatures
+                ? _self.maxRequestedSignatures
+                : maxRequestedSignatures // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxRequestedPublicKeys:
+            null == maxRequestedPublicKeys
+                ? _self.maxRequestedPublicKeys
+                : maxRequestedPublicKeys // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _ImplementationLimits implements ImplementationLimits {
+  const _ImplementationLimits({
+    required this.maxBip32PathDepth,
+    required this.maxSigningRequests,
+    required this.maxRequestedSignatures,
+    required this.maxRequestedPublicKeys,
+  });
 
   @override
-  int get maxBip32PathDepth;
+  final int maxBip32PathDepth;
   @override
-  int get maxSigningRequests;
+  final int maxSigningRequests;
   @override
-  int get maxRequestedSignatures;
+  final int maxRequestedSignatures;
   @override
-  int get maxRequestedPublicKeys;
+  final int maxRequestedPublicKeys;
+
+  /// Create a copy of ImplementationLimits
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$ImplementationLimitsImplCopyWith<_$ImplementationLimitsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ImplementationLimitsCopyWith<_ImplementationLimits> get copyWith =>
+      __$ImplementationLimitsCopyWithImpl<_ImplementationLimits>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ImplementationLimits &&
+            (identical(other.maxBip32PathDepth, maxBip32PathDepth) ||
+                other.maxBip32PathDepth == maxBip32PathDepth) &&
+            (identical(other.maxSigningRequests, maxSigningRequests) ||
+                other.maxSigningRequests == maxSigningRequests) &&
+            (identical(other.maxRequestedSignatures, maxRequestedSignatures) ||
+                other.maxRequestedSignatures == maxRequestedSignatures) &&
+            (identical(other.maxRequestedPublicKeys, maxRequestedPublicKeys) ||
+                other.maxRequestedPublicKeys == maxRequestedPublicKeys));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    maxBip32PathDepth,
+    maxSigningRequests,
+    maxRequestedSignatures,
+    maxRequestedPublicKeys,
+  );
+
+  @override
+  String toString() {
+    return 'ImplementationLimits(maxBip32PathDepth: $maxBip32PathDepth, maxSigningRequests: $maxSigningRequests, maxRequestedSignatures: $maxRequestedSignatures, maxRequestedPublicKeys: $maxRequestedPublicKeys)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ImplementationLimitsCopyWith<$Res>
+    implements $ImplementationLimitsCopyWith<$Res> {
+  factory _$ImplementationLimitsCopyWith(
+    _ImplementationLimits value,
+    $Res Function(_ImplementationLimits) _then,
+  ) = __$ImplementationLimitsCopyWithImpl;
+  @override
+  @useResult
+  $Res call({
+    int maxBip32PathDepth,
+    int maxSigningRequests,
+    int maxRequestedSignatures,
+    int maxRequestedPublicKeys,
+  });
+}
+
+/// @nodoc
+class __$ImplementationLimitsCopyWithImpl<$Res> implements _$ImplementationLimitsCopyWith<$Res> {
+  __$ImplementationLimitsCopyWithImpl(this._self, this._then);
+
+  final _ImplementationLimits _self;
+  final $Res Function(_ImplementationLimits) _then;
+
+  /// Create a copy of ImplementationLimits
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? maxBip32PathDepth = null,
+    Object? maxSigningRequests = null,
+    Object? maxRequestedSignatures = null,
+    Object? maxRequestedPublicKeys = null,
+  }) {
+    return _then(
+      _ImplementationLimits(
+        maxBip32PathDepth:
+            null == maxBip32PathDepth
+                ? _self.maxBip32PathDepth
+                : maxBip32PathDepth // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxSigningRequests:
+            null == maxSigningRequests
+                ? _self.maxSigningRequests
+                : maxSigningRequests // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxRequestedSignatures:
+            null == maxRequestedSignatures
+                ? _self.maxRequestedSignatures
+                : maxRequestedSignatures // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxRequestedPublicKeys:
+            null == maxRequestedPublicKeys
+                ? _self.maxRequestedPublicKeys
+                : maxRequestedPublicKeys // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
+  }
 }

@@ -6,7 +6,7 @@ import 'ec_wallet.dart';
 part 'account.freezed.dart';
 
 @freezed
-class MyAccount with _$MyAccount {
+sealed class MyAccount with _$MyAccount {
   const factory MyAccount({required ECWallet wallet, required AccessMode accessMode}) = _MyAccount;
 
   const MyAccount._();
@@ -17,7 +17,7 @@ class MyAccount with _$MyAccount {
 }
 
 @freezed
-class AccessMode with _$AccessMode {
+sealed class AccessMode with _$AccessMode {
   const factory AccessMode.loaded() = _Loaded;
   const factory AccessMode.seedInputted() = _SeedInputted;
   const factory AccessMode.created() = _AccountCreated;

@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'mnemonic.freezed.dart';
 
 @freezed
-class Mnemonic with _$Mnemonic {
+sealed class Mnemonic with _$Mnemonic {
   const factory Mnemonic.empty() = _MnemonicEmpty;
 
   const factory Mnemonic.typed(String phrase) = _MnemonicTyped;
@@ -17,6 +17,6 @@ extension MnemonicExt on Mnemonic {
 }
 
 @freezed
-class AccountSource with _$AccountSource {
+sealed class AccountSource with _$AccountSource {
   const factory AccountSource.local(Mnemonic mnemonic) = AccountSourceLocal;
 }

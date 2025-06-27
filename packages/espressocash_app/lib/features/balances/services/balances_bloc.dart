@@ -23,6 +23,7 @@ import '../data/repository.dart';
 part 'balances_bloc.freezed.dart';
 
 final _logger = Logger('BalancesBloc');
+
 typedef BalancesState = ProcessingState;
 
 @Singleton(scope: authScope)
@@ -54,19 +55,17 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> with DisposableBlo
           final data = account.data;
 
           if (data is ParsedAccountData) {
-            return data.maybeWhen<Future<_MainTokenAccount?>>(
-              splToken:
-                  (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
-                    account:
-                        (a) => _MainTokenAccount.create(
-                          programAccount.pubkey,
-                          a.info,
-                          _tokenRepository,
-                        ),
-                    orElse: () async => null,
-                  ),
-              orElse: () async => null,
-            );
+            return switch (data) {
+              ParsedSplTokenProgramAccountData(:final parsed) => switch (parsed) {
+                TokenAccountData(:final info) => _MainTokenAccount.create(
+                  programAccount.pubkey,
+                  info,
+                  _tokenRepository,
+                ),
+                _ => Future.value(null),
+              },
+              _ => Future.value(null),
+            };
           }
         }),
       ).then(compact);

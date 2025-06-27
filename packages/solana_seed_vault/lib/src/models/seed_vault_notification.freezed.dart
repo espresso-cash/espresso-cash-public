@@ -11,95 +11,71 @@ part of 'seed_vault_notification.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$SeedVaultNotification {
-  List<Uri> get uris => throw _privateConstructorUsedError;
-  int get flags => throw _privateConstructorUsedError;
+  List<Uri> get uris;
+  int get flags;
 
-  @JsonKey(ignore: true)
-  $SeedVaultNotificationCopyWith<SeedVaultNotification> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SeedVaultNotificationCopyWith<$Res> {
-  factory $SeedVaultNotificationCopyWith(
-    SeedVaultNotification value,
-    $Res Function(SeedVaultNotification) then,
-  ) = _$SeedVaultNotificationCopyWithImpl<$Res, SeedVaultNotification>;
-  @useResult
-  $Res call({List<Uri> uris, int flags});
-}
-
-/// @nodoc
-class _$SeedVaultNotificationCopyWithImpl<$Res, $Val extends SeedVaultNotification>
-    implements $SeedVaultNotificationCopyWith<$Res> {
-  _$SeedVaultNotificationCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of SeedVaultNotification
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $SeedVaultNotificationCopyWith<SeedVaultNotification> get copyWith =>
+      _$SeedVaultNotificationCopyWithImpl<SeedVaultNotification>(
+        this as SeedVaultNotification,
+        _$identity,
+      );
+
   @override
-  $Res call({Object? uris = null, Object? flags = null}) {
-    return _then(
-      _value.copyWith(
-            uris:
-                null == uris
-                    ? _value.uris
-                    : uris // ignore: cast_nullable_to_non_nullable
-                        as List<Uri>,
-            flags:
-                null == flags
-                    ? _value.flags
-                    : flags // ignore: cast_nullable_to_non_nullable
-                        as int,
-          )
-          as $Val,
-    );
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SeedVaultNotification &&
+            const DeepCollectionEquality().equals(other.uris, uris) &&
+            (identical(other.flags, flags) || other.flags == flags));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(uris), flags);
+
+  @override
+  String toString() {
+    return 'SeedVaultNotification(uris: $uris, flags: $flags)';
   }
 }
 
 /// @nodoc
-abstract class _$$SeedVaultNotificationImplCopyWith<$Res>
-    implements $SeedVaultNotificationCopyWith<$Res> {
-  factory _$$SeedVaultNotificationImplCopyWith(
-    _$SeedVaultNotificationImpl value,
-    $Res Function(_$SeedVaultNotificationImpl) then,
-  ) = __$$SeedVaultNotificationImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $SeedVaultNotificationCopyWith<$Res> {
+  factory $SeedVaultNotificationCopyWith(
+    SeedVaultNotification value,
+    $Res Function(SeedVaultNotification) _then,
+  ) = _$SeedVaultNotificationCopyWithImpl;
   @useResult
   $Res call({List<Uri> uris, int flags});
 }
 
 /// @nodoc
-class __$$SeedVaultNotificationImplCopyWithImpl<$Res>
-    extends _$SeedVaultNotificationCopyWithImpl<$Res, _$SeedVaultNotificationImpl>
-    implements _$$SeedVaultNotificationImplCopyWith<$Res> {
-  __$$SeedVaultNotificationImplCopyWithImpl(
-    _$SeedVaultNotificationImpl _value,
-    $Res Function(_$SeedVaultNotificationImpl) _then,
-  ) : super(_value, _then);
+class _$SeedVaultNotificationCopyWithImpl<$Res> implements $SeedVaultNotificationCopyWith<$Res> {
+  _$SeedVaultNotificationCopyWithImpl(this._self, this._then);
 
+  final SeedVaultNotification _self;
+  final $Res Function(SeedVaultNotification) _then;
+
+  /// Create a copy of SeedVaultNotification
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({Object? uris = null, Object? flags = null}) {
     return _then(
-      _$SeedVaultNotificationImpl(
+      _self.copyWith(
         uris:
             null == uris
-                ? _value._uris
+                ? _self.uris
                 : uris // ignore: cast_nullable_to_non_nullable
                     as List<Uri>,
         flags:
             null == flags
-                ? _value.flags
+                ? _self.flags
                 : flags // ignore: cast_nullable_to_non_nullable
                     as int,
       ),
@@ -109,9 +85,8 @@ class __$$SeedVaultNotificationImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SeedVaultNotificationImpl implements _SeedVaultNotification {
-  const _$SeedVaultNotificationImpl({required final List<Uri> uris, required this.flags})
-    : _uris = uris;
+class _SeedVaultNotification implements SeedVaultNotification {
+  const _SeedVaultNotification({required final List<Uri> uris, required this.flags}) : _uris = uris;
 
   final List<Uri> _uris;
   @override
@@ -124,16 +99,19 @@ class _$SeedVaultNotificationImpl implements _SeedVaultNotification {
   @override
   final int flags;
 
+  /// Create a copy of SeedVaultNotification
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'SeedVaultNotification(uris: $uris, flags: $flags)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SeedVaultNotificationCopyWith<_SeedVaultNotification> get copyWith =>
+      __$SeedVaultNotificationCopyWithImpl<_SeedVaultNotification>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SeedVaultNotificationImpl &&
+            other is _SeedVaultNotification &&
             const DeepCollectionEquality().equals(other._uris, _uris) &&
             (identical(other.flags, flags) || other.flags == flags));
   }
@@ -141,23 +119,49 @@ class _$SeedVaultNotificationImpl implements _SeedVaultNotification {
   @override
   int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_uris), flags);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SeedVaultNotificationImplCopyWith<_$SeedVaultNotificationImpl> get copyWith =>
-      __$$SeedVaultNotificationImplCopyWithImpl<_$SeedVaultNotificationImpl>(this, _$identity);
+  String toString() {
+    return 'SeedVaultNotification(uris: $uris, flags: $flags)';
+  }
 }
 
-abstract class _SeedVaultNotification implements SeedVaultNotification {
-  const factory _SeedVaultNotification({required final List<Uri> uris, required final int flags}) =
-      _$SeedVaultNotificationImpl;
+/// @nodoc
+abstract mixin class _$SeedVaultNotificationCopyWith<$Res>
+    implements $SeedVaultNotificationCopyWith<$Res> {
+  factory _$SeedVaultNotificationCopyWith(
+    _SeedVaultNotification value,
+    $Res Function(_SeedVaultNotification) _then,
+  ) = __$SeedVaultNotificationCopyWithImpl;
+  @override
+  @useResult
+  $Res call({List<Uri> uris, int flags});
+}
 
+/// @nodoc
+class __$SeedVaultNotificationCopyWithImpl<$Res> implements _$SeedVaultNotificationCopyWith<$Res> {
+  __$SeedVaultNotificationCopyWithImpl(this._self, this._then);
+
+  final _SeedVaultNotification _self;
+  final $Res Function(_SeedVaultNotification) _then;
+
+  /// Create a copy of SeedVaultNotification
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  List<Uri> get uris;
-  @override
-  int get flags;
-  @override
-  @JsonKey(ignore: true)
-  _$$SeedVaultNotificationImplCopyWith<_$SeedVaultNotificationImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({Object? uris = null, Object? flags = null}) {
+    return _then(
+      _SeedVaultNotification(
+        uris:
+            null == uris
+                ? _self._uris
+                : uris // ignore: cast_nullable_to_non_nullable
+                    as List<Uri>,
+        flags:
+            null == flags
+                ? _self.flags
+                : flags // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
+  }
 }

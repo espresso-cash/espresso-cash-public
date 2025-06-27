@@ -12,7 +12,7 @@ import 'qr_address_data.dart';
 part 'qr_scanner_request.freezed.dart';
 
 @freezed
-class QrScannerRequest with _$QrScannerRequest {
+sealed class QrScannerRequest with _$QrScannerRequest {
   const factory QrScannerRequest.solanaPay(SolanaPayRequest request) = QrScannerSolanaPayRequest;
 
   const factory QrScannerRequest.transactionRequest(SolanaTransactionRequest request) =

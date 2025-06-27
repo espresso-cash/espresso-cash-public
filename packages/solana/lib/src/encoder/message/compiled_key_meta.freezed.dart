@@ -11,87 +11,52 @@ part of 'compiled_key_meta.dart';
 
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$CompiledKeyMeta {
-  bool get isSigner => throw _privateConstructorUsedError;
-  bool get isWritable => throw _privateConstructorUsedError;
-  bool get isInvoked => throw _privateConstructorUsedError;
+  bool get isSigner;
+  bool get isWritable;
+  bool get isInvoked;
 
   /// Create a copy of CompiledKeyMeta
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CompiledKeyMetaCopyWith<CompiledKeyMeta> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $CompiledKeyMetaCopyWith<$Res> {
-  factory $CompiledKeyMetaCopyWith(CompiledKeyMeta value, $Res Function(CompiledKeyMeta) then) =
-      _$CompiledKeyMetaCopyWithImpl<$Res, CompiledKeyMeta>;
-  @useResult
-  $Res call({bool isSigner, bool isWritable, bool isInvoked});
-}
-
-/// @nodoc
-class _$CompiledKeyMetaCopyWithImpl<$Res, $Val extends CompiledKeyMeta>
-    implements $CompiledKeyMetaCopyWith<$Res> {
-  _$CompiledKeyMetaCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of CompiledKeyMeta
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $CompiledKeyMetaCopyWith<CompiledKeyMeta> get copyWith =>
+      _$CompiledKeyMetaCopyWithImpl<CompiledKeyMeta>(this as CompiledKeyMeta, _$identity);
+
   @override
-  $Res call({Object? isSigner = null, Object? isWritable = null, Object? isInvoked = null}) {
-    return _then(
-      _value.copyWith(
-            isSigner:
-                null == isSigner
-                    ? _value.isSigner
-                    : isSigner // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            isWritable:
-                null == isWritable
-                    ? _value.isWritable
-                    : isWritable // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            isInvoked:
-                null == isInvoked
-                    ? _value.isInvoked
-                    : isInvoked // ignore: cast_nullable_to_non_nullable
-                        as bool,
-          )
-          as $Val,
-    );
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CompiledKeyMeta &&
+            (identical(other.isSigner, isSigner) || other.isSigner == isSigner) &&
+            (identical(other.isWritable, isWritable) || other.isWritable == isWritable) &&
+            (identical(other.isInvoked, isInvoked) || other.isInvoked == isInvoked));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isSigner, isWritable, isInvoked);
+
+  @override
+  String toString() {
+    return 'CompiledKeyMeta(isSigner: $isSigner, isWritable: $isWritable, isInvoked: $isInvoked)';
   }
 }
 
 /// @nodoc
-abstract class _$$CompiledKeyMetaImplCopyWith<$Res> implements $CompiledKeyMetaCopyWith<$Res> {
-  factory _$$CompiledKeyMetaImplCopyWith(
-    _$CompiledKeyMetaImpl value,
-    $Res Function(_$CompiledKeyMetaImpl) then,
-  ) = __$$CompiledKeyMetaImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $CompiledKeyMetaCopyWith<$Res> {
+  factory $CompiledKeyMetaCopyWith(CompiledKeyMeta value, $Res Function(CompiledKeyMeta) _then) =
+      _$CompiledKeyMetaCopyWithImpl;
   @useResult
   $Res call({bool isSigner, bool isWritable, bool isInvoked});
 }
 
 /// @nodoc
-class __$$CompiledKeyMetaImplCopyWithImpl<$Res>
-    extends _$CompiledKeyMetaCopyWithImpl<$Res, _$CompiledKeyMetaImpl>
-    implements _$$CompiledKeyMetaImplCopyWith<$Res> {
-  __$$CompiledKeyMetaImplCopyWithImpl(
-    _$CompiledKeyMetaImpl _value,
-    $Res Function(_$CompiledKeyMetaImpl) _then,
-  ) : super(_value, _then);
+class _$CompiledKeyMetaCopyWithImpl<$Res> implements $CompiledKeyMetaCopyWith<$Res> {
+  _$CompiledKeyMetaCopyWithImpl(this._self, this._then);
+
+  final CompiledKeyMeta _self;
+  final $Res Function(CompiledKeyMeta) _then;
 
   /// Create a copy of CompiledKeyMeta
   /// with the given fields replaced by the non-null parameter values.
@@ -99,20 +64,20 @@ class __$$CompiledKeyMetaImplCopyWithImpl<$Res>
   @override
   $Res call({Object? isSigner = null, Object? isWritable = null, Object? isInvoked = null}) {
     return _then(
-      _$CompiledKeyMetaImpl(
+      _self.copyWith(
         isSigner:
             null == isSigner
-                ? _value.isSigner
+                ? _self.isSigner
                 : isSigner // ignore: cast_nullable_to_non_nullable
                     as bool,
         isWritable:
             null == isWritable
-                ? _value.isWritable
+                ? _self.isWritable
                 : isWritable // ignore: cast_nullable_to_non_nullable
                     as bool,
         isInvoked:
             null == isInvoked
-                ? _value.isInvoked
+                ? _self.isInvoked
                 : isInvoked // ignore: cast_nullable_to_non_nullable
                     as bool,
       ),
@@ -122,8 +87,8 @@ class __$$CompiledKeyMetaImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CompiledKeyMetaImpl implements _CompiledKeyMeta {
-  const _$CompiledKeyMetaImpl({
+class _CompiledKeyMeta implements CompiledKeyMeta {
+  const _CompiledKeyMeta({
     required this.isSigner,
     required this.isWritable,
     required this.isInvoked,
@@ -136,16 +101,19 @@ class _$CompiledKeyMetaImpl implements _CompiledKeyMeta {
   @override
   final bool isInvoked;
 
+  /// Create a copy of CompiledKeyMeta
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'CompiledKeyMeta(isSigner: $isSigner, isWritable: $isWritable, isInvoked: $isInvoked)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$CompiledKeyMetaCopyWith<_CompiledKeyMeta> get copyWith =>
+      __$CompiledKeyMetaCopyWithImpl<_CompiledKeyMeta>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CompiledKeyMetaImpl &&
+            other is _CompiledKeyMeta &&
             (identical(other.isSigner, isSigner) || other.isSigner == isSigner) &&
             (identical(other.isWritable, isWritable) || other.isWritable == isWritable) &&
             (identical(other.isInvoked, isInvoked) || other.isInvoked == isInvoked));
@@ -154,33 +122,51 @@ class _$CompiledKeyMetaImpl implements _CompiledKeyMeta {
   @override
   int get hashCode => Object.hash(runtimeType, isSigner, isWritable, isInvoked);
 
-  /// Create a copy of CompiledKeyMeta
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$CompiledKeyMetaImplCopyWith<_$CompiledKeyMetaImpl> get copyWith =>
-      __$$CompiledKeyMetaImplCopyWithImpl<_$CompiledKeyMetaImpl>(this, _$identity);
+  String toString() {
+    return 'CompiledKeyMeta(isSigner: $isSigner, isWritable: $isWritable, isInvoked: $isInvoked)';
+  }
 }
 
-abstract class _CompiledKeyMeta implements CompiledKeyMeta {
-  const factory _CompiledKeyMeta({
-    required final bool isSigner,
-    required final bool isWritable,
-    required final bool isInvoked,
-  }) = _$CompiledKeyMetaImpl;
+/// @nodoc
+abstract mixin class _$CompiledKeyMetaCopyWith<$Res> implements $CompiledKeyMetaCopyWith<$Res> {
+  factory _$CompiledKeyMetaCopyWith(_CompiledKeyMeta value, $Res Function(_CompiledKeyMeta) _then) =
+      __$CompiledKeyMetaCopyWithImpl;
+  @override
+  @useResult
+  $Res call({bool isSigner, bool isWritable, bool isInvoked});
+}
 
-  @override
-  bool get isSigner;
-  @override
-  bool get isWritable;
-  @override
-  bool get isInvoked;
+/// @nodoc
+class __$CompiledKeyMetaCopyWithImpl<$Res> implements _$CompiledKeyMetaCopyWith<$Res> {
+  __$CompiledKeyMetaCopyWithImpl(this._self, this._then);
+
+  final _CompiledKeyMeta _self;
+  final $Res Function(_CompiledKeyMeta) _then;
 
   /// Create a copy of CompiledKeyMeta
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CompiledKeyMetaImplCopyWith<_$CompiledKeyMetaImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({Object? isSigner = null, Object? isWritable = null, Object? isInvoked = null}) {
+    return _then(
+      _CompiledKeyMeta(
+        isSigner:
+            null == isSigner
+                ? _self.isSigner
+                : isSigner // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        isWritable:
+            null == isWritable
+                ? _self.isWritable
+                : isWritable // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        isInvoked:
+            null == isInvoked
+                ? _self.isInvoked
+                : isInvoked // ignore: cast_nullable_to_non_nullable
+                    as bool,
+      ),
+    );
+  }
 }
