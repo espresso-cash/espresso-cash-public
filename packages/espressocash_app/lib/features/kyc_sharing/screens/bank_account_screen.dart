@@ -1,6 +1,6 @@
+import 'package:brij_client/brij_client.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -56,7 +56,7 @@ class _BankAccountScreenState extends State<BankAccountScreen> {
     final success = await runWithLoader<bool>(context, () async {
       try {
         await sl<KycDataService>().updateBankInfo(
-          id: widget.initialBankInfo?.id,
+          hash: widget.initialBankInfo?.hash,
           bankAccountNumber: _bankAccountNumberController.text,
           bankCode: _selectedBank?.code ?? _bankCodeController.text.trim(),
           bankName: _selectedBank?.name ?? '',

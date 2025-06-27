@@ -1,6 +1,6 @@
+import 'package:brij_client/brij_client.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../data/kyc_repository.dart';
 import '../utils/kyc_exception.dart';

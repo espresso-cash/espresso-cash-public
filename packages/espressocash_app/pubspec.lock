@@ -190,15 +190,24 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.2"
+  brij_client:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "v1.0.10"
+      resolved-ref: "75ce9f6d476f08d15ca189a16ae07886171478ea"
+      url: "https://github.com/espresso-cash/kyc_client_dart.git"
+    source: git
+    version: "1.0.10"
   brij_protos_dart:
     dependency: transitive
     description:
       path: brij_protos_dart
-      ref: "v0.12.0"
-      resolved-ref: afebd1eae6886bf5f4daec8f0e70393ab261ee17
+      ref: "v0.19.0"
+      resolved-ref: d3d2ee9d751dc4422a3bf6b5d117bd3bdb0c99c2
       url: "https://github.com/espresso-cash/protos.git"
     source: git
-    version: "1.0.0"
+    version: "0.19.0"
   bs58:
     dependency: transitive
     description:
@@ -491,10 +500,10 @@ packages:
     dependency: "direct main"
     description:
       name: decimal
-      sha256: "4140a688f9e443e2f4de3a1162387bf25e1ac6d51e24c9da263f245210f41440"
+      sha256: fc706a5618b81e5b367b01dd62621def37abc096f2b46a9bd9068b64c1fa36d0
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.2"
+    version: "3.2.4"
   device_frame:
     dependency: transitive
     description:
@@ -1328,15 +1337,6 @@ packages:
       relative: true
     source: path
     version: "0.0.5"
-  kyc_client_dart:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: babfc268412beb545fb536d792f9fa30abcb29e1
-      resolved-ref: babfc268412beb545fb536d792f9fa30abcb29e1
-      url: "https://github.com/espresso-cash/kyc_client_dart.git"
-    source: git
-    version: "1.0.5"
   leak_tracker:
     dependency: transitive
     description:

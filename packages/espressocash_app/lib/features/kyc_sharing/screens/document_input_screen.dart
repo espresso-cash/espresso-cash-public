@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:brij_client/brij_client.dart' hide IdTypeExtension;
 import 'package:flutter/material.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart' hide IdTypeExtension;
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';

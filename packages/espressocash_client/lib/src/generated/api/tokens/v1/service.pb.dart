@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -17,13 +18,15 @@ export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class GetTokensMetaRequest extends $pb.GeneratedMessage {
   factory GetTokensMetaRequest() => create();
-  GetTokensMetaRequest._() : super();
-  factory GetTokensMetaRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetTokensMetaRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetTokensMetaRequest._();
+
+  factory GetTokensMetaRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetTokensMetaRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTokensMetaRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.tokens.v1'),
@@ -36,10 +39,12 @@ class GetTokensMetaRequest extends $pb.GeneratedMessage {
   GetTokensMetaRequest copyWith(void Function(GetTokensMetaRequest) updates) =>
       super.copyWith((message) => updates(message as GetTokensMetaRequest)) as GetTokensMetaRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetTokensMetaRequest create() => GetTokensMetaRequest._();
+  @$core.override
   GetTokensMetaRequest createEmptyInstance() => create();
   static $pb.PbList<GetTokensMetaRequest> createRepeated() => $pb.PbList<GetTokensMetaRequest>();
   @$core.pragma('dart2js:noInline')
@@ -52,19 +57,19 @@ class GetTokensMetaResponse extends $pb.GeneratedMessage {
   factory GetTokensMetaResponse({
     $core.String? md5,
   }) {
-    final $result = create();
-    if (md5 != null) {
-      $result.md5 = md5;
-    }
-    return $result;
+    final result = create();
+    if (md5 != null) result.md5 = md5;
+    return result;
   }
-  GetTokensMetaResponse._() : super();
-  factory GetTokensMetaResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetTokensMetaResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetTokensMetaResponse._();
+
+  factory GetTokensMetaResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetTokensMetaResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetTokensMetaResponse',
@@ -80,10 +85,12 @@ class GetTokensMetaResponse extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as GetTokensMetaResponse))
           as GetTokensMetaResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetTokensMetaResponse create() => GetTokensMetaResponse._();
+  @$core.override
   GetTokensMetaResponse createEmptyInstance() => create();
   static $pb.PbList<GetTokensMetaResponse> createRepeated() => $pb.PbList<GetTokensMetaResponse>();
   @$core.pragma('dart2js:noInline')
@@ -94,10 +101,7 @@ class GetTokensMetaResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get md5 => $_getSZ(0);
   @$pb.TagNumber(1)
-  set md5($core.String v) {
-    $_setString(0, v);
-  }
-
+  set md5($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasMd5() => $_has(0);
   @$pb.TagNumber(1)
@@ -106,13 +110,15 @@ class GetTokensMetaResponse extends $pb.GeneratedMessage {
 
 class GetTokensFileRequest extends $pb.GeneratedMessage {
   factory GetTokensFileRequest() => create();
-  GetTokensFileRequest._() : super();
-  factory GetTokensFileRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetTokensFileRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetTokensFileRequest._();
+
+  factory GetTokensFileRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetTokensFileRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTokensFileRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'espressocash.api.tokens.v1'),
@@ -125,10 +131,12 @@ class GetTokensFileRequest extends $pb.GeneratedMessage {
   GetTokensFileRequest copyWith(void Function(GetTokensFileRequest) updates) =>
       super.copyWith((message) => updates(message as GetTokensFileRequest)) as GetTokensFileRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetTokensFileRequest create() => GetTokensFileRequest._();
+  @$core.override
   GetTokensFileRequest createEmptyInstance() => create();
   static $pb.PbList<GetTokensFileRequest> createRepeated() => $pb.PbList<GetTokensFileRequest>();
   @$core.pragma('dart2js:noInline')
@@ -141,19 +149,19 @@ class GetTokensFileResponse extends $pb.GeneratedMessage {
   factory GetTokensFileResponse({
     $core.List<$core.int>? content,
   }) {
-    final $result = create();
-    if (content != null) {
-      $result.content = content;
-    }
-    return $result;
+    final result = create();
+    if (content != null) result.content = content;
+    return result;
   }
-  GetTokensFileResponse._() : super();
-  factory GetTokensFileResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GetTokensFileResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GetTokensFileResponse._();
+
+  factory GetTokensFileResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GetTokensFileResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GetTokensFileResponse',
@@ -169,10 +177,12 @@ class GetTokensFileResponse extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as GetTokensFileResponse))
           as GetTokensFileResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GetTokensFileResponse create() => GetTokensFileResponse._();
+  @$core.override
   GetTokensFileResponse createEmptyInstance() => create();
   static $pb.PbList<GetTokensFileResponse> createRepeated() => $pb.PbList<GetTokensFileResponse>();
   @$core.pragma('dart2js:noInline')
@@ -183,15 +193,12 @@ class GetTokensFileResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.List<$core.int> get content => $_getN(0);
   @$pb.TagNumber(1)
-  set content($core.List<$core.int> v) {
-    $_setBytes(0, v);
-  }
-
+  set content($core.List<$core.int> value) => $_setBytes(0, value);
   @$pb.TagNumber(1)
   $core.bool hasContent() => $_has(0);
   @$pb.TagNumber(1)
   void clearContent() => $_clearField(1);
 }
 
-const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

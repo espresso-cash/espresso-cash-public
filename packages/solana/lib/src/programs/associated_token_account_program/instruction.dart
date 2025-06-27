@@ -30,25 +30,72 @@ class AssociatedTokenAccountInstruction extends Instruction {
     required Ed25519HDPublicKey mint,
     Ed25519HDPublicKey? tokenProgramId,
   }) => AssociatedTokenAccountInstruction._(
-    accounts: [
-      AccountMeta.writeable(pubKey: funder, isSigner: true),
-      AccountMeta.writeable(pubKey: address, isSigner: false),
-      AccountMeta.readonly(pubKey: owner, isSigner: false),
-      AccountMeta.readonly(pubKey: mint, isSigner: false),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
-        isSigner: false,
-      ),
-      AccountMeta.readonly(
-        pubKey: Ed25519HDPublicKey.fromBase58(
-          tokenProgramId?.toBase58() ?? TokenProgram.id.toBase58(),
-        ),
-        isSigner: false,
-      ),
-      AccountMeta.readonly(pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent), isSigner: false),
-    ],
+    funder: funder,
+    address: address,
+    owner: owner,
+    mint: mint,
+    tokenProgramId: tokenProgramId,
+    data: const ByteArray.empty(),
   );
 
-  AssociatedTokenAccountInstruction._({required super.accounts})
-    : super(programId: AssociatedTokenAccountProgram.id, data: const ByteArray.empty());
+  /// Create an instruction for the [associated token account][1] program.
+  ///
+  /// The account will be associated to [mint] and have the associated token
+  /// account [address].
+  ///
+  /// It will be owned by [owner] and funded by [funder].
+  ///
+  /// The [address] can be derived using `SplToken.computeAssociatedAddress`. It
+  /// is required here just to match the spl token program closely in terms of
+  /// its API.
+  ///
+  /// If the [address] does not match the derived address, this method will
+  /// fail.
+  ///
+  /// [1]: https://spl.solana.com/associated-token-account
+  factory AssociatedTokenAccountInstruction.createAccountIdempotent({
+    required Ed25519HDPublicKey funder,
+    required Ed25519HDPublicKey address,
+    required Ed25519HDPublicKey owner,
+    required Ed25519HDPublicKey mint,
+    Ed25519HDPublicKey? tokenProgramId,
+  }) => AssociatedTokenAccountInstruction._(
+    funder: funder,
+    address: address,
+    owner: owner,
+    mint: mint,
+    tokenProgramId: tokenProgramId,
+    data: ByteArray.i8(1),
+  );
+
+  AssociatedTokenAccountInstruction._({
+    required Ed25519HDPublicKey funder,
+    required Ed25519HDPublicKey address,
+    required Ed25519HDPublicKey owner,
+    required Ed25519HDPublicKey mint,
+    Ed25519HDPublicKey? tokenProgramId,
+    required super.data,
+  }) : super(
+         programId: AssociatedTokenAccountProgram.id,
+         accounts: [
+           AccountMeta.writeable(pubKey: funder, isSigner: true),
+           AccountMeta.writeable(pubKey: address, isSigner: false),
+           AccountMeta.readonly(pubKey: owner, isSigner: false),
+           AccountMeta.readonly(pubKey: mint, isSigner: false),
+           AccountMeta.readonly(
+             pubKey: Ed25519HDPublicKey.fromBase58(SystemProgram.programId),
+             isSigner: false,
+           ),
+           AccountMeta.readonly(
+             pubKey: Ed25519HDPublicKey.fromBase58(
+               tokenProgramId?.toBase58() ?? TokenProgram.id.toBase58(),
+             ),
+             isSigner: false,
+           ),
+           AccountMeta.readonly(
+             pubKey: Ed25519HDPublicKey.fromBase58(Sysvar.rent),
+             isSigner: false,
+           ),
+         ],
+       );
 }

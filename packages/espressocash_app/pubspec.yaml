@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.151.0
+version: 1.153.0
 
 environment:
   sdk: ">=3.7.0 <4.0.0"
@@ -13,6 +13,10 @@ dependencies:
   bip39: ^1.0.6
   bloc_concurrency: ^0.2.3
   borsh_annotation: ^0.3.2
+  brij_client:
+    git:
+      url: https://github.com/espresso-cash/kyc_client_dart.git
+      ref: v1.0.10
   cached_network_image: ^3.3.1
   camera: ^0.11.1
   collection: # Implied by integration_test.
@@ -53,10 +57,6 @@ dependencies:
   intercom_flutter: ^9.2.9
   intl: ^0.19.0
   json_annotation: ^4.8.1
-  kyc_client_dart:
-    git:
-      url: https://github.com/espresso-cash/kyc_client_dart.git
-      ref: babfc268412beb545fb536d792f9fa30abcb29e1
   logging: ^1.2.0
   meta: ^1.10.0
   mixpanel_flutter: ^2.4.0
