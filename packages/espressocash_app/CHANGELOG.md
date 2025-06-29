@@ -1,3 +1,10 @@
+## 1.154.0
+
+ - **FIX**: send max sol (#1754).
+ - **FIX**: send token separator input (#1751).
+ - **FIX**: remove round token amount (#1752).
+ - **FEAT**: add token swap (#1742).
+
 ## 1.153.0
 
  - **FEAT**: add token send (#1738).
