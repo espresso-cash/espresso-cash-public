@@ -32,14 +32,13 @@ import '../widgets/token_picker.dart';
 import 'swap_review_screen.dart';
 
 class TokenSwapInputScreen extends StatefulWidget {
-  const TokenSwapInputScreen({super.key, required this.initialToken});
+  const TokenSwapInputScreen({super.key, this.initialToken});
 
-  static void push(BuildContext context, {required Token initialToken}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(builder: (context) => TokenSwapInputScreen(initialToken: initialToken)),
-      );
+  static void push(BuildContext context, {Token? initialToken}) => Navigator.of(context).push<void>(
+    MaterialPageRoute(builder: (context) => TokenSwapInputScreen(initialToken: initialToken)),
+  );
 
-  final Token initialToken;
+  final Token? initialToken;
 
   @override
   State<TokenSwapInputScreen> createState() => _TokenSwapInputScreenState();
@@ -63,7 +62,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   @override
   void initState() {
     super.initState();
-    _inputToken = widget.initialToken;
+    _inputToken = widget.initialToken ?? Token.sol;
     _outputToken = Token.usdc;
 
     _updateRate(_inputToken, _outputToken);
