@@ -109,6 +109,18 @@ class TokenRepository {
     }
     return result;
   }
+
+  Future<List<Token>> fetchBySymbols(List<String> symbols) async {
+    if (symbols.isEmpty) return [];
+
+    final tokens =
+        await (_db.select(_db.tokenRows)
+          ..where((t) => t.symbol.lower().isIn(symbols.map((s) => s.toLowerCase())))).get();
+
+    final symbolToToken = {for (final token in tokens) token.symbol.toLowerCase(): token.toModel()};
+
+    return symbols.map((symbol) => symbolToToken[symbol.toLowerCase()]).whereType<Token>().toList();
+  }
 }
 
 Future<Either<Exception, String>> _initializeFromAssets(IsolateParams args) =>

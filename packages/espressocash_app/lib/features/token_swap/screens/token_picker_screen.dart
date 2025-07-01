@@ -30,6 +30,19 @@ class TokenPickerScreen extends StatelessWidget {
     this.showOnlyUserTokens = false,
   });
 
+  static const popularTokenList = [
+    'USDT', // Tether
+    'SOL', // Solana
+    'USDC', // USD Coin
+    'WBTC', // Wrapped Bitcoin
+    'LINK', // Chainlink
+    'USDS', // USDS
+    'USDE', // Ethena USDe
+    'CBBTC', // Coinbase Wrapped BTC
+    'BUIDL', // BlackRock USD Institutional Digital Liquidity Fund
+    'JITOSOL', // Jito Staked SOL
+  ];
+
   static Future<Token?> push(
     BuildContext context, {
     Token? initial,
@@ -92,8 +105,6 @@ class _ContentState extends State<_Content> with DebounceMixin {
   String _searchText = '';
   List<Token>? _searchResults;
 
-  static final _popularTokens = [Token.sol, Token.usdc];
-
   @override
   void initState() {
     super.initState();
@@ -102,7 +113,7 @@ class _ContentState extends State<_Content> with DebounceMixin {
     if (widget.showOnlyUserTokens) {
       _tokensFuture = _fetchUserTokens();
     } else {
-      _tokensFuture = Future.value(_popularTokens);
+      _tokensFuture = _tokenRepository.fetchBySymbols(TokenPickerScreen.popularTokenList);
     }
 
     if (_selectedToken != null) {
