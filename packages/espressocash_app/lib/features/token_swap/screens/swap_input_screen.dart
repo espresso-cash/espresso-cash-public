@@ -210,7 +210,10 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
       return CpTheme.dark(
         child: Scaffold(
-          appBar: CpAppBar(title: Text(context.l10n.swap), nextButton: const _LoadingIndicator()),
+          appBar: CpAppBar(
+            title: Text(context.l10n.swap.toUpperCase()),
+            nextButton: const _LoadingIndicator(),
+          ),
           backgroundColor: CpColors.deepGreyColor,
           body: SafeArea(
             top: false,
