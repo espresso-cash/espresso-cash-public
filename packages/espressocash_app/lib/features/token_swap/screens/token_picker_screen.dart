@@ -168,6 +168,26 @@ class _ContentState extends State<_Content> with DebounceMixin {
     return userTokens.toList();
   }
 
+  List<Token> _filterTokens(List<Token> tokens) {
+    if (widget.showOnlyUserTokens) {
+      return tokens.where((token) {
+        final query = _searchText.toLowerCase();
+        final name = token.name.toLowerCase();
+        final symbol = token.symbol.toLowerCase();
+
+        if (query.isEmpty) return true;
+
+        if (symbol == query || symbol.startsWith(query) || name.startsWith(query)) {
+          return true;
+        }
+
+        return symbol.contains(query) || name.contains(query);
+      }).toList();
+    } else {
+      return _searchResults ?? tokens;
+    }
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -213,14 +233,7 @@ class _ContentState extends State<_Content> with DebounceMixin {
             }
 
             final tokens = snapshot.data ?? [];
-            final displayTokens =
-                widget.showOnlyUserTokens
-                    ? tokens
-                        .where(
-                          (token) => token.name.toLowerCase().contains(_searchText.toLowerCase()),
-                        )
-                        .toList()
-                    : _searchResults ?? tokens;
+            final displayTokens = _filterTokens(tokens);
 
             return displayTokens.isEmpty
                 ? Center(
