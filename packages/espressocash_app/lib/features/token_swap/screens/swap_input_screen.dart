@@ -220,7 +220,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20.h),
+                SizedBox(height: 14.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 23.w),
                   child: Column(
@@ -291,20 +291,31 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 32.h),
-                Stack(
+                SizedBox(height: 28.h),
+                Row(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 5.h),
-                      child: const Divider(thickness: 1, color: CpColors.darkDividerColor),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.h),
+                        child: const Divider(thickness: 1, color: CpColors.darkDividerColor),
+                      ),
                     ),
                     Container(
-                      alignment: Alignment.topCenter,
-                      color: CpColors.deepGreyColor,
-                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      margin: EdgeInsets.symmetric(horizontal: 12.w),
+                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                      decoration: BoxDecoration(
+                        color: CpColors.deepGreyColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: GestureDetector(
                         onTap: _handleSwitchTokens,
-                        child: Assets.icons.swap.svg(height: 26.h, width: 18.w),
+                        child: Assets.icons.swap.svg(height: 28.h, width: 18.w),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.h),
+                        child: const Divider(thickness: 1, color: CpColors.darkDividerColor),
                       ),
                     ),
                   ],
@@ -444,7 +455,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                     );
                   },
                 ),
-                SizedBox(height: 24.h),
+                SizedBox(height: 14.h),
               ],
             ),
           ),
