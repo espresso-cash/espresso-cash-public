@@ -10,6 +10,9 @@ import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../balances/services/refresh_balance.dart';
+import '../../conversion_rates/data/repository.dart';
+import '../../conversion_rates/services/amount_ext.dart';
+import '../../currency/models/currency.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
@@ -19,12 +22,19 @@ import '../models/swap_route.dart';
 
 @Singleton(scope: authScope)
 class TokenSwapService {
-  TokenSwapService(this._repository, this._txSender, this._analyticsManager, this._refreshBalance);
+  TokenSwapService(
+    this._repository,
+    this._txSender,
+    this._analyticsManager,
+    this._refreshBalance,
+    this._conversionRatesRepository,
+  );
 
   final SwapRepository _repository;
   final TxSender _txSender;
   final AnalyticsManager _analyticsManager;
   final RefreshBalance _refreshBalance;
+  final ConversionRatesRepository _conversionRatesRepository;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -129,10 +139,23 @@ class TokenSwapService {
     if (newStatus is SwapStatusSuccess) {
       final data = swap.data;
 
+      final inputFiatAmount = data.input.toFiatAmount(
+        Currency.usd,
+        ratesRepository: _conversionRatesRepository,
+      );
+
+      final outputFiatAmount = data.output.toFiatAmount(
+        Currency.usd,
+        ratesRepository: _conversionRatesRepository,
+      );
+
       _analyticsManager.swapTransactionCreated(
         from: data.input.cryptoCurrency.symbol,
         to: data.output.cryptoCurrency.symbol,
-        amount: data.input.value,
+        fromAmount: data.input.value,
+        toAmount: data.output.value,
+        fromUsdcAmount: inputFiatAmount?.decimal,
+        toUsdcAmount: outputFiatAmount?.decimal,
       );
 
       _refreshBalance();
