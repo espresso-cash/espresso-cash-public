@@ -15,6 +15,7 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/scaling_text.dart';
+import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../../utils/flow.dart';
@@ -24,6 +25,7 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
+import '../models/quote_exception.dart';
 import '../models/swap_seed.dart';
 import '../service/quote_service.dart';
 import '../widgets/token_picker.dart';
@@ -86,8 +88,17 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
           skipSymbol: true,
         );
 
-      case FlowFailure():
+      case FlowFailure(:final error):
         _outputAmountController.text = '';
+
+        showCpErrorSnackbar(
+          context,
+          message: switch (error) {
+            QuoteRouteNotFoundException() => context.l10n.swap_noRouteFound,
+            QuoteRateLimitExceededException() => context.l10n.swap_rateLimitExceeded,
+            QuoteGenericException() => context.l10n.swap_genericError,
+          },
+        );
 
       default:
         break;

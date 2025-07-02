@@ -1314,5 +1314,11 @@
     "swap_lblCancelConfirmationSubtitle": "Are you sure you want to cancel this swap?",
     "@swap_lblCancelConfirmationSubtitle": {},
     "errorLoadingTokens": "Error loading tokens",
-    "@errorLoadingTokens": {}
+    "@errorLoadingTokens": {},
+    "swap_noRouteFound": "No route found for this swap",
+    "@swap_noRouteFound": {},
+    "swap_rateLimitExceeded": "Rate limit exceeded, please try again later",
+    "@swap_rateLimitExceeded": {},
+    "swap_genericError": "Failed to get quote. Please try again later",
+    "@swap_genericError": {}
 }
