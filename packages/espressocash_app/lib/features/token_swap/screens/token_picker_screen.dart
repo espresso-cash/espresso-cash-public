@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +98,6 @@ class _ContentState extends State<_Content> with DebounceMixin {
   final _tokenRepository = sl<TokenRepository>();
 
   final TextEditingController _searchController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
 
   Token? _selectedToken;
   String _searchText = '';
@@ -114,12 +112,6 @@ class _ContentState extends State<_Content> with DebounceMixin {
       _tokensFuture = _fetchUserTokens();
     } else {
       _tokensFuture = _tokenRepository.fetchBySymbols(TokenPickerScreen.popularTokenList);
-    }
-
-    if (_selectedToken != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _scrollToSelectedToken();
-      });
     }
 
     _searchController.addListener(_onSearchChanged);
@@ -144,34 +136,6 @@ class _ContentState extends State<_Content> with DebounceMixin {
     }
   }
 
-  void _scrollToSelectedToken() {
-    if (_selectedToken == null || !mounted) return;
-
-    _tokensFuture.then((tokens) {
-      Future.delayed(const Duration(milliseconds: 100), () {
-        if (!mounted) return;
-
-        final index = tokens.indexWhere((t) => t.address == _selectedToken?.address);
-        if (index == -1) return;
-
-        const itemHeight = _tileHeight + _tilePadding;
-
-        final viewportHeight = MediaQuery.sizeOf(context).height;
-        final visibleItemsCount = (viewportHeight / itemHeight).floor();
-
-        final targetPosition = (visibleItemsCount / 3).floor();
-
-        final offset = math.max(0, (index - targetPosition) * itemHeight);
-
-        _scrollController.animateTo(
-          offset.toDouble(),
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOutCubic,
-        );
-      });
-    });
-  }
-
   Future<List<Token>> _fetchUserTokens() async {
     final tokenBalancesRepository = sl<TokenBalancesRepository>();
     final userTokens = await tokenBalancesRepository.readUserTokens();
@@ -180,8 +144,18 @@ class _ContentState extends State<_Content> with DebounceMixin {
   }
 
   List<Token> _filterTokens(List<Token> tokens) {
+    final filteredTokens = [...tokens];
+
+    if (_selectedToken != null) {
+      final initialIndex = filteredTokens.indexWhere((t) => t.address == _selectedToken?.address);
+      if (initialIndex != -1) {
+        final initialToken = filteredTokens.removeAt(initialIndex);
+        filteredTokens.insert(0, initialToken);
+      }
+    }
+
     if (widget.showOnlyUserTokens) {
-      return tokens.where((token) {
+      return filteredTokens.where((token) {
         final query = _searchText.toLowerCase();
         final name = token.name.toLowerCase();
         final symbol = token.symbol.toLowerCase();
@@ -195,14 +169,13 @@ class _ContentState extends State<_Content> with DebounceMixin {
         return symbol.contains(query) || name.contains(query);
       }).toList();
     } else {
-      return _searchResults ?? tokens;
+      return _searchResults ?? filteredTokens;
     }
   }
 
   @override
   void dispose() {
     _searchController.dispose();
-    _scrollController.dispose();
     super.dispose();
   }
 
@@ -257,7 +230,6 @@ class _ContentState extends State<_Content> with DebounceMixin {
                   create: () => (_balanceService.watchAllBalances(), const IListConst([])),
                   builder:
                       (context, balances) => ListView.separated(
-                        controller: _scrollController,
                         padding: EdgeInsets.only(
                           left: 20,
                           right: 20,

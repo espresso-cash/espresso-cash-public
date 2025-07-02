@@ -191,6 +191,27 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     if (mounted) setState(() {});
   }
 
+  void _handleReviewSwap() {
+    final quoteService = sl<QuoteService>();
+    final quoteState = quoteService.value;
+    final expiresAt = quoteService.expiresAt;
+
+    if (!quoteState.isSuccess || expiresAt == null || DateTime.now().isAfter(expiresAt)) {
+      if (_inputAmountController.text.isNotEmpty) _updateQuote();
+
+      return;
+    }
+
+    final route = switch (quoteState) {
+      FlowSuccess(:final result) => result,
+      _ => null,
+    };
+
+    if (route == null) return;
+
+    TokenSwapReviewScreen.push(context, route: route);
+  }
+
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<CryptoFiatAmount>(
     key: ValueKey(_inputToken),
@@ -427,31 +448,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
                     return CpBottomButton(
                       text: context.l10n.reviewSwap,
-                      onPressed:
-                          state.isSuccess
-                              ? () {
-                                final quoteService = sl<QuoteService>();
-                                final quoteState = quoteService.value;
-                                final expiresAt = quoteService.expiresAt;
-
-                                if (!quoteState.isSuccess ||
-                                    expiresAt == null ||
-                                    DateTime.now().isAfter(expiresAt)) {
-                                  if (_inputAmountController.text.isNotEmpty) _updateQuote();
-
-                                  return;
-                                }
-
-                                final route = switch (quoteState) {
-                                  FlowSuccess(:final result) => result,
-                                  _ => null,
-                                };
-
-                                if (route == null) return;
-
-                                TokenSwapReviewScreen.push(context, route: route);
-                              }
-                              : null,
+                      onPressed: state.isSuccess ? _handleReviewSwap : null,
                     );
                   },
                 ),
