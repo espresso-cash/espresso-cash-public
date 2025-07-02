@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-type-casts
-
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
@@ -47,6 +45,7 @@ class TokenSwapInputScreen extends StatefulWidget {
 class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   final _inputAmountController = TextEditingController();
   final _outputAmountController = TextEditingController();
+  late final _quoteService = sl<QuoteService>();
 
   late Token _inputToken;
   late Token _outputToken;
@@ -67,7 +66,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
     _updateRate(_inputToken, _outputToken);
 
-    sl<QuoteService>().addListener(_handleQuoteUpdate);
+    _quoteService.addListener(_handleQuoteUpdate);
 
     _inputAmountController.addListener(_handleAmountChanged);
   }
@@ -75,7 +74,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   void _handleQuoteUpdate() {
     if (!mounted) return;
 
-    final quoteState = sl<QuoteService>().value;
+    final quoteState = _quoteService.value;
 
     switch (quoteState) {
       case FlowSuccess(:final result):
@@ -104,7 +103,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
         Amount.fromDecimal(value: amount, currency: CryptoCurrency(token: _inputToken))
             as CryptoAmount;
 
-    sl<QuoteService>().updateInput(
+    _quoteService.updateInput(
       inputAmount: inputAmount,
       outputToken: _outputToken,
       slippage: Slippage.zpFive,
@@ -113,7 +112,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
   @override
   void dispose() {
-    sl<QuoteService>()
+    _quoteService
       ..removeListener(_handleQuoteUpdate)
       ..clear();
 
@@ -135,7 +134,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
         _isExpanded = false;
       });
       _outputAmountController.text = '';
-      sl<QuoteService>().clear();
+      _quoteService.clear();
 
       return;
     }
@@ -168,7 +167,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
     await _updateRate(_inputToken, _outputToken);
 
-    sl<QuoteService>().clear();
+    _quoteService.clear();
   }
 
   Future<void> _updateRate(Token inputToken, Token outputToken) async {
@@ -192,9 +191,8 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   }
 
   void _handleReviewSwap() {
-    final quoteService = sl<QuoteService>();
-    final quoteState = quoteService.value;
-    final expiresAt = quoteService.expiresAt;
+    final quoteState = _quoteService.value;
+    final expiresAt = _quoteService.expiresAt;
 
     if (!quoteState.isSuccess || expiresAt == null || DateTime.now().isAfter(expiresAt)) {
       if (_inputAmountController.text.isNotEmpty) _updateQuote();
@@ -233,7 +231,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
         child: Scaffold(
           appBar: CpAppBar(
             title: Text(context.l10n.swap.toUpperCase()),
-            nextButton: const _LoadingIndicator(),
+            nextButton: _LoadingIndicator(quoteService: _quoteService),
           ),
           backgroundColor: CpColors.deepGreyColor,
           body: SafeArea(
@@ -300,7 +298,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
                                 await _updateRate(_inputToken, _outputToken);
 
-                                sl<QuoteService>().clear();
+                                _quoteService.clear();
                               },
                               token: _inputToken,
                               isExpanded: !_isExpanded,
@@ -357,9 +355,9 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                             ),
                             SizedBox(width: 8.w),
                             ListenableBuilder(
-                              listenable: sl<QuoteService>(),
+                              listenable: _quoteService,
                               builder: (context, _) {
-                                final state = sl<QuoteService>().value;
+                                final state = _quoteService.value;
                                 if (state case FlowFailure()) {
                                   return Text(
                                     'Failed to get quote',
@@ -424,7 +422,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
                                 await _updateRate(_inputToken, _outputToken);
 
-                                sl<QuoteService>().clear();
+                                _quoteService.clear();
                               },
                               isExpanded: !_isExpanded,
                             ),
@@ -442,9 +440,9 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                 ),
                 SizedBox(height: 16.h),
                 ListenableBuilder(
-                  listenable: sl<QuoteService>(),
+                  listenable: _quoteService,
                   builder: (context, _) {
-                    final state = sl<QuoteService>().value;
+                    final state = _quoteService.value;
 
                     return CpBottomButton(
                       text: context.l10n.reviewSwap,
@@ -604,16 +602,16 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
 }
 
 class _LoadingIndicator extends StatelessWidget {
-  const _LoadingIndicator();
+  const _LoadingIndicator({required this.quoteService});
+
+  final QuoteService quoteService;
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-    listenable: sl<QuoteService>(),
+    listenable: quoteService,
     builder:
         (context, _) =>
-            sl<QuoteService>().value.isProcessing
-                ? const LoadingIndicator()
-                : const SizedBox.shrink(),
+            quoteService.value.isProcessing ? const LoadingIndicator() : const SizedBox.shrink(),
   );
 }
 

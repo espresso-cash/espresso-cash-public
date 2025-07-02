@@ -345,7 +345,6 @@ extension FiatAmountExtension on BuildContext {
   }
 }
 
-const _tileHeight = 64.0;
 const _tilePadding = 8.0;
 const _iconSize = 36.0;
 

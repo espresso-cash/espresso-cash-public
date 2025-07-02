@@ -36,6 +36,7 @@ class TokenSwapReviewScreen extends StatefulWidget {
 
 class _TokenSwapReviewScreenState extends State<TokenSwapReviewScreen> {
   late SwapRoute _currentRoute;
+  late final _quoteService = sl<QuoteService>();
 
   @override
   void initState() {
@@ -53,10 +54,10 @@ class _TokenSwapReviewScreenState extends State<TokenSwapReviewScreen> {
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-    listenable: sl<QuoteService>(),
+    listenable: _quoteService,
     builder: (context, _) {
       final locale = DeviceLocale.localeOf(context);
-      final quoteState = sl<QuoteService>().value;
+      final quoteState = _quoteService.value;
       final isLoading = quoteState.isProcessing;
 
       if (quoteState case FlowSuccess(:final result)) {
