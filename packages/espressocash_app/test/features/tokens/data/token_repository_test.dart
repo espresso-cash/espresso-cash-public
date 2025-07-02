@@ -212,6 +212,32 @@ class MemoryTokenRepository implements TokenRepository {
   Future<Token?> getToken(String address) async => data.value[address]?.toModel();
 
   @override
+  Future<List<Token>> search(String query) async {
+    if (query.isEmpty) return [];
+
+    final searchQuery = query.toLowerCase();
+    return data.value.values
+        .where(
+          (token) =>
+              token.symbol.toLowerCase().contains(searchQuery) ||
+              token.name.toLowerCase().contains(searchQuery),
+        )
+        .map((t) => t.toModel())
+        .toList();
+  }
+
+  @override
+  Future<List<Token>> fetchBySymbols(List<String> symbols) async {
+    if (symbols.isEmpty) return [];
+
+    final lowerSymbols = symbols.map((s) => s.toLowerCase()).toSet();
+    return data.value.values
+        .where((token) => lowerSymbols.contains(token.symbol.toLowerCase()))
+        .map((t) => t.toModel())
+        .toList();
+  }
+
+  @override
   Future<Either<Exception, String>> init() {
     const chunk =
         'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
@@ -250,9 +276,6 @@ class MemoryTokenRepository implements TokenRepository {
 
     return 1;
   }
-
-  @override
-  Future<List<TokenRow>> getAll() async => data.value.values.toList();
 
   @override
   Future<void> update(EspressoCashClient ecClient) {
