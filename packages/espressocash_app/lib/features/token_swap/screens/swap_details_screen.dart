@@ -57,7 +57,6 @@ class _SwapDetailsScreenState extends State<SwapDetailsScreen> {
     builder: (context, snapshot) {
       final swap = snapshot.data;
 
-      //TODO fix pop, its broken when on home tabs
       return swap == null
           ? TransferProgress(onBack: () => Navigator.pop(context))
           : swap.status.map(
