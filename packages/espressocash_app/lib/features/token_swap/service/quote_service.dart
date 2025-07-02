@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-type-casts
+
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
@@ -100,11 +102,9 @@ class QuoteService extends ValueNotifier<QuoteState> {
       return const QuoteException.routeNotFound();
     }
 
-    if (errorStr.contains('rate limit') || errorStr.contains('too many requests')) {
-      return const QuoteException.rateLimitExceeded();
-    }
-
-    return const QuoteException.generic();
+    return errorStr.contains('rate limit') || errorStr.contains('too many requests')
+        ? const QuoteException.rateLimitExceeded()
+        : const QuoteException.generic();
   }
 
   void clear() {

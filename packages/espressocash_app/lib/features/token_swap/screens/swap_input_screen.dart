@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-type-casts, dispose-fields
+
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
@@ -131,6 +133,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
       ..removeListener(_handleAmountChanged)
       ..dispose();
     _outputAmountController.dispose();
+
     super.dispose();
   }
 
@@ -333,9 +336,9 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 12.w),
                       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: CpColors.deepGreyColor,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       child: GestureDetector(
                         onTap: _handleSwitchTokens,

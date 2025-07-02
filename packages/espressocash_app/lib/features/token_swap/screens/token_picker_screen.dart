@@ -124,14 +124,18 @@ class _ContentState extends State<_Content> with DebounceMixin {
     if (!widget.showOnlyUserTokens) {
       if (query.isEmpty) {
         setState(() => _searchResults = null);
+
         return;
       }
 
       debounce(() async {
+        if (!mounted || query != _searchController.text) return;
+
         final results = await _tokenRepository.search(query);
-        if (mounted && query == _searchController.text) {
-          setState(() => _searchResults = results);
-        }
+
+        if (!mounted) return;
+
+        setState(() => _searchResults = results);
       });
     }
   }
@@ -154,23 +158,19 @@ class _ContentState extends State<_Content> with DebounceMixin {
       }
     }
 
-    if (widget.showOnlyUserTokens) {
-      return filteredTokens.where((token) {
-        final query = _searchText.toLowerCase();
-        final name = token.name.toLowerCase();
-        final symbol = token.symbol.toLowerCase();
+    return widget.showOnlyUserTokens
+        ? filteredTokens.where((token) {
+          final query = _searchText.toLowerCase();
+          final name = token.name.toLowerCase();
+          final symbol = token.symbol.toLowerCase();
 
-        if (query.isEmpty) return true;
+          if (query.isEmpty) return true;
 
-        if (symbol == query || symbol.startsWith(query) || name.startsWith(query)) {
-          return true;
-        }
-
-        return symbol.contains(query) || name.contains(query);
-      }).toList();
-    } else {
-      return _searchResults ?? filteredTokens;
-    }
+          return symbol == query || symbol.startsWith(query) || name.startsWith(query)
+              ? true
+              : symbol.contains(query) || name.contains(query);
+        }).toList()
+        : (_searchResults ?? filteredTokens);
   }
 
   @override

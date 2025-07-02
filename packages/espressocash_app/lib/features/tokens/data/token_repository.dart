@@ -93,6 +93,7 @@ class TokenRepository {
         final model = token.toModel();
         result.add(model);
       }
+
       return result;
     }
 
@@ -107,6 +108,7 @@ class TokenRepository {
       final model = token.toModel();
       result.add(model);
     }
+
     return result;
   }
 
