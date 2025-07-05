@@ -12,10 +12,11 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../data/route_repository.dart';
+import '../models/quote_exception.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
 
-typedef QuoteState = Flow<Exception, SwapRoute>;
+typedef QuoteState = Flow<QuoteException, SwapRoute>;
 
 @Singleton(scope: authScope)
 class QuoteService extends ValueNotifier<QuoteState> {
@@ -89,11 +90,21 @@ class QuoteService extends ValueNotifier<QuoteState> {
       }
     } on Exception catch (error) {
       if (_currentSeed == input) {
-        value = Flow.failure(error);
+        final quoteError = _mapError(error);
+        value = Flow.failure(quoteError);
       }
-    } finally {
-      notifyListeners();
     }
+  }
+
+  QuoteException _mapError(Exception error) {
+    final errorStr = error.toString().toLowerCase();
+    if (errorStr.contains('no_routes_found') || errorStr.contains('could_not_find_any_route')) {
+      return const QuoteException.routeNotFound();
+    }
+
+    return errorStr.contains('rate limit') || errorStr.contains('too many requests')
+        ? const QuoteException.rateLimitExceeded()
+        : const QuoteException.generic();
   }
 
   void clear() {

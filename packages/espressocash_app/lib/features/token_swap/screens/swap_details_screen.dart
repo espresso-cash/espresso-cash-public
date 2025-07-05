@@ -22,6 +22,10 @@ class SwapDetailsScreen extends StatefulWidget {
     context,
   ).push<void>(MaterialPageRoute(builder: (context) => SwapDetailsScreen(id: id)));
 
+  static void replace(BuildContext context, {required String id}) => Navigator.of(
+    context,
+  ).pushReplacement<void, void>(MaterialPageRoute(builder: (context) => SwapDetailsScreen(id: id)));
+
   final String id;
 
   @override

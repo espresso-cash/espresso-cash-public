@@ -17,6 +17,7 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/scaling_text.dart';
+import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../../utils/flow.dart';
@@ -26,20 +27,20 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
+import '../models/quote_exception.dart';
 import '../models/swap_seed.dart';
 import '../service/quote_service.dart';
 import '../widgets/token_picker.dart';
 import 'swap_review_screen.dart';
 
 class TokenSwapInputScreen extends StatefulWidget {
-  const TokenSwapInputScreen({super.key, required this.initialToken});
+  const TokenSwapInputScreen({super.key, this.initialToken});
 
-  static void push(BuildContext context, {required Token initialToken}) =>
-      Navigator.of(context).push<void>(
-        MaterialPageRoute(builder: (context) => TokenSwapInputScreen(initialToken: initialToken)),
-      );
+  static void push(BuildContext context, {Token? initialToken}) => Navigator.of(context).push<void>(
+    MaterialPageRoute(builder: (context) => TokenSwapInputScreen(initialToken: initialToken)),
+  );
 
-  final Token initialToken;
+  final Token? initialToken;
 
   @override
   State<TokenSwapInputScreen> createState() => _TokenSwapInputScreenState();
@@ -48,6 +49,8 @@ class TokenSwapInputScreen extends StatefulWidget {
 class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   final _inputAmountController = TextEditingController();
   final _outputAmountController = TextEditingController();
+  // ignore: dispose-fields, injected singleton
+  late final _quoteService = sl<QuoteService>();
 
   late Token _inputToken;
   late Token _outputToken;
@@ -63,12 +66,12 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   @override
   void initState() {
     super.initState();
-    _inputToken = widget.initialToken;
+    _inputToken = widget.initialToken ?? Token.sol;
     _outputToken = Token.usdc;
 
     _updateRate(_inputToken, _outputToken);
 
-    sl<QuoteService>().addListener(_handleQuoteUpdate);
+    _quoteService.addListener(_handleQuoteUpdate);
 
     _inputAmountController.addListener(_handleAmountChanged);
   }
@@ -76,7 +79,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   void _handleQuoteUpdate() {
     if (!mounted) return;
 
-    final quoteState = sl<QuoteService>().value;
+    final quoteState = _quoteService.value;
 
     switch (quoteState) {
       case FlowSuccess(:final result):
@@ -88,8 +91,17 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
           skipSymbol: true,
         );
 
-      case FlowFailure():
+      case FlowFailure(:final error):
         _outputAmountController.text = '';
+
+        showCpErrorSnackbar(
+          context,
+          message: switch (error) {
+            QuoteRouteNotFoundException() => context.l10n.swap_noRouteFound,
+            QuoteRateLimitExceededException() => context.l10n.swap_rateLimitExceeded,
+            QuoteGenericException() => context.l10n.swap_genericError,
+          },
+        );
 
       default:
         break;
@@ -105,7 +117,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
         Amount.fromDecimal(value: amount, currency: CryptoCurrency(token: _inputToken))
             as CryptoAmount;
 
-    sl<QuoteService>().updateInput(
+    _quoteService.updateInput(
       inputAmount: inputAmount,
       outputToken: _outputToken,
       slippage: Slippage.zpFive,
@@ -114,7 +126,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
   @override
   void dispose() {
-    sl<QuoteService>()
+    _quoteService
       ..removeListener(_handleQuoteUpdate)
       ..clear();
 
@@ -122,6 +134,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
       ..removeListener(_handleAmountChanged)
       ..dispose();
     _outputAmountController.dispose();
+
     super.dispose();
   }
 
@@ -136,7 +149,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
         _isExpanded = false;
       });
       _outputAmountController.text = '';
-      sl<QuoteService>().clear();
+      _quoteService.clear();
 
       return;
     }
@@ -169,7 +182,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
     await _updateRate(_inputToken, _outputToken);
 
-    sl<QuoteService>().clear();
+    _quoteService.clear();
   }
 
   Future<void> _updateRate(Token inputToken, Token outputToken) async {
@@ -192,6 +205,26 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     if (mounted) setState(() {});
   }
 
+  void _handleReviewSwap() {
+    final quoteState = _quoteService.value;
+    final expiresAt = _quoteService.expiresAt;
+
+    if (!quoteState.isSuccess || expiresAt == null || DateTime.now().isAfter(expiresAt)) {
+      if (_inputAmountController.text.isNotEmpty) _updateQuote();
+
+      return;
+    }
+
+    final route = switch (quoteState) {
+      FlowSuccess(:final result) => result,
+      _ => null,
+    };
+
+    if (route == null) return;
+
+    TokenSwapReviewScreen.push(context, route: route);
+  }
+
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<CryptoFiatAmount>(
     key: ValueKey(_inputToken),
@@ -211,14 +244,17 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
       return CpTheme.dark(
         child: Scaffold(
-          appBar: CpAppBar(title: Text(context.l10n.swap), nextButton: const _LoadingIndicator()),
+          appBar: CpAppBar(
+            title: Text(context.l10n.swap.toUpperCase()),
+            nextButton: _LoadingIndicator(quoteService: _quoteService),
+          ),
           backgroundColor: CpColors.deepGreyColor,
           body: SafeArea(
             top: false,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20.h),
+                SizedBox(height: 14.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 23.w),
                   child: Column(
@@ -277,7 +313,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
                                 await _updateRate(_inputToken, _outputToken);
 
-                                sl<QuoteService>().clear();
+                                _quoteService.clear();
                               },
                               token: _inputToken,
                               isExpanded: !_isExpanded,
@@ -289,20 +325,31 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 32.h),
-                Stack(
+                SizedBox(height: 28.h),
+                Row(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 5.h),
-                      child: const Divider(thickness: 1, color: CpColors.darkDividerColor),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.h),
+                        child: const Divider(thickness: 1, color: CpColors.darkDividerColor),
+                      ),
                     ),
                     Container(
-                      alignment: Alignment.topCenter,
-                      color: CpColors.deepGreyColor,
-                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      margin: EdgeInsets.symmetric(horizontal: 12.w),
+                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                      decoration: const BoxDecoration(
+                        color: CpColors.deepGreyColor,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
                       child: GestureDetector(
                         onTap: _handleSwitchTokens,
-                        child: Assets.icons.swap.svg(height: 26.h, width: 18.w),
+                        child: Assets.icons.swap.svg(height: 28.h, width: 18.w),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.h),
+                        child: const Divider(thickness: 1, color: CpColors.darkDividerColor),
                       ),
                     ),
                   ],
@@ -323,9 +370,9 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                             ),
                             SizedBox(width: 8.w),
                             ListenableBuilder(
-                              listenable: sl<QuoteService>(),
+                              listenable: _quoteService,
                               builder: (context, _) {
-                                final state = sl<QuoteService>().value;
+                                final state = _quoteService.value;
                                 if (state case FlowFailure()) {
                                   return Text(
                                     'Failed to get quote',
@@ -390,7 +437,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
 
                                 await _updateRate(_inputToken, _outputToken);
 
-                                sl<QuoteService>().clear();
+                                _quoteService.clear();
                               },
                               isExpanded: !_isExpanded,
                             ),
@@ -408,41 +455,17 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                 ),
                 SizedBox(height: 16.h),
                 ListenableBuilder(
-                  listenable: sl<QuoteService>(),
+                  listenable: _quoteService,
                   builder: (context, _) {
-                    final state = sl<QuoteService>().value;
+                    final state = _quoteService.value;
 
                     return CpBottomButton(
                       text: context.l10n.reviewSwap,
-                      onPressed:
-                          state.isSuccess
-                              ? () {
-                                final quoteService = sl<QuoteService>();
-                                final quoteState = quoteService.value;
-                                final expiresAt = quoteService.expiresAt;
-
-                                if (!quoteState.isSuccess ||
-                                    expiresAt == null ||
-                                    DateTime.now().isAfter(expiresAt)) {
-                                  if (_inputAmountController.text.isNotEmpty) _updateQuote();
-
-                                  return;
-                                }
-
-                                final route = switch (quoteState) {
-                                  FlowSuccess(:final result) => result,
-                                  _ => null,
-                                };
-
-                                if (route == null) return;
-
-                                TokenSwapReviewScreen.push(context, route: route);
-                              }
-                              : null,
+                      onPressed: state.isSuccess ? _handleReviewSwap : null,
                     );
                   },
                 ),
-                SizedBox(height: 24.h),
+                SizedBox(height: 14.h),
               ],
             ),
           ),
@@ -594,16 +617,16 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
 }
 
 class _LoadingIndicator extends StatelessWidget {
-  const _LoadingIndicator();
+  const _LoadingIndicator({required this.quoteService});
+
+  final QuoteService quoteService;
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-    listenable: sl<QuoteService>(),
+    listenable: quoteService,
     builder:
         (context, _) =>
-            sl<QuoteService>().value.isProcessing
-                ? const LoadingIndicator()
-                : const SizedBox.shrink(),
+            quoteService.value.isProcessing ? const LoadingIndicator() : const SizedBox.shrink(),
   );
 }
 

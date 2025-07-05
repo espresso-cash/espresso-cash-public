@@ -8,11 +8,24 @@ class AnalyticsManager {
 
   final Mixpanel _analytics;
 
-  void swapTransactionCreated({required String from, required String to, required int amount}) =>
-      _analytics.track(
-        'swapTransactionCreated',
-        properties: {'from': from, 'to': to, 'amount': amount},
-      );
+  void swapTransactionCreated({
+    required String from,
+    required String to,
+    required int fromAmount,
+    Decimal? fromUsdcAmount,
+    required int toAmount,
+    Decimal? toUsdcAmount,
+  }) => _analytics.track(
+    'swapTransactionCreated',
+    properties: {
+      'from': from,
+      'to': to,
+      'fromAmount': fromAmount,
+      'toAmount': toAmount,
+      if (fromUsdcAmount != null) 'fromUsdcAmount': fromUsdcAmount.toDouble(),
+      if (toUsdcAmount != null) 'toUsdcAmount': toUsdcAmount.toDouble(),
+    },
+  );
 
   void setWalletAddress(String? address) {
     if (address == null) {

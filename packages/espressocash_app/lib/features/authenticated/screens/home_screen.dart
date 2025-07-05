@@ -16,6 +16,7 @@ import '../../outgoing_direct_payments/widgets/link_listener.dart';
 import '../../ramp/partners/coinflow/widgets/coinflow_link_listener.dart';
 import '../../router/models/activities_tab.dart';
 import '../../router/service/navigation_service.dart';
+import '../../token_swap/screens/swap_input_screen.dart';
 import '../../transaction_request/widgets/tr_link_listener.dart';
 import '../../wallet_flow/screens/wallet_screen.dart';
 import 'main_screen.dart';
@@ -134,6 +135,7 @@ final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
         ),
   ),
   (icon: Assets.icons.wallet, builder: (context) => const WalletScreen()),
+  (icon: Assets.icons.swap, builder: (context) => const TokenSwapInputScreen()),
   (
     icon: Assets.icons.notifications,
     builder:

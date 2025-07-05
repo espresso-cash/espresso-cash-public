@@ -1,4 +1,4 @@
-import 'dart:math' as math;
+import 'dart:async';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../../tokens/data/extensions.dart';
+import '../../ramp/widgets/debounce_mixin.dart';
 import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
@@ -28,6 +28,19 @@ class TokenPickerScreen extends StatelessWidget {
     required this.title,
     this.showOnlyUserTokens = false,
   });
+
+  static const popularTokenList = [
+    'USDT', // Tether
+    'SOL', // Solana
+    'USDC', // USD Coin
+    'WBTC', // Wrapped Bitcoin
+    'LINK', // Chainlink
+    'USDS', // USDS
+    'USDE', // Ethena USDe
+    'CBBTC', // Coinbase Wrapped BTC
+    'BUIDL', // BlackRock USD Institutional Digital Liquidity Fund
+    'JITOSOL', // Jito Staked SOL
+  ];
 
   static Future<Token?> push(
     BuildContext context, {
@@ -79,15 +92,16 @@ class _Content extends StatefulWidget {
   State<_Content> createState() => _ContentState();
 }
 
-class _ContentState extends State<_Content> {
+class _ContentState extends State<_Content> with DebounceMixin {
   late final Future<List<Token>> _tokensFuture;
   final _balanceService = sl<TokenFiatBalanceService>();
+  final _tokenRepository = sl<TokenRepository>();
 
   final TextEditingController _searchController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
 
   Token? _selectedToken;
   String _searchText = '';
+  List<Token>? _searchResults;
 
   @override
   void initState() {
@@ -97,46 +111,33 @@ class _ContentState extends State<_Content> {
     if (widget.showOnlyUserTokens) {
       _tokensFuture = _fetchUserTokens();
     } else {
-      _tokensFuture = _fetchAllTokens();
+      _tokensFuture = _tokenRepository.fetchBySymbols(TokenPickerScreen.popularTokenList);
     }
 
-    if (_selectedToken != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _scrollToSelectedToken();
-      });
-    }
-
-    _searchController.addListener(() {
-      setState(() => _searchText = _searchController.text);
-    });
+    _searchController.addListener(_onSearchChanged);
   }
 
-  void _scrollToSelectedToken() {
-    if (_selectedToken == null || !mounted) return;
+  void _onSearchChanged() {
+    final query = _searchController.text;
+    setState(() => _searchText = query);
 
-    _tokensFuture.then((tokens) {
-      Future.delayed(const Duration(milliseconds: 100), () {
+    if (!widget.showOnlyUserTokens) {
+      if (query.isEmpty) {
+        setState(() => _searchResults = null);
+
+        return;
+      }
+
+      debounce(() async {
+        if (!mounted || query != _searchController.text) return;
+
+        final results = await _tokenRepository.search(query);
+
         if (!mounted) return;
 
-        final index = tokens.indexWhere((t) => t.address == _selectedToken?.address);
-        if (index == -1) return;
-
-        const itemHeight = _tileHeight + _tilePadding;
-
-        final viewportHeight = MediaQuery.sizeOf(context).height;
-        final visibleItemsCount = (viewportHeight / itemHeight).floor();
-
-        final targetPosition = (visibleItemsCount / 3).floor();
-
-        final offset = math.max(0, (index - targetPosition) * itemHeight);
-
-        _scrollController.animateTo(
-          offset.toDouble(),
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOutCubic,
-        );
+        setState(() => _searchResults = results);
       });
-    });
+    }
   }
 
   Future<List<Token>> _fetchUserTokens() async {
@@ -146,17 +147,35 @@ class _ContentState extends State<_Content> {
     return userTokens.toList();
   }
 
-  Future<List<Token>> _fetchAllTokens() async {
-    final tokenRepository = sl<TokenRepository>();
-    final tokenRows = await tokenRepository.getAll();
+  List<Token> _filterTokens(List<Token> tokens) {
+    final filteredTokens = [...tokens];
 
-    return tokenRows.map((row) => row.toModel()).toList();
+    if (_selectedToken != null) {
+      final initialIndex = filteredTokens.indexWhere((t) => t.address == _selectedToken?.address);
+      if (initialIndex != -1) {
+        final initialToken = filteredTokens.removeAt(initialIndex);
+        filteredTokens.insert(0, initialToken);
+      }
+    }
+
+    return widget.showOnlyUserTokens
+        ? filteredTokens.where((token) {
+          final query = _searchText.toLowerCase();
+          final name = token.name.toLowerCase();
+          final symbol = token.symbol.toLowerCase();
+
+          if (query.isEmpty) return true;
+
+          return symbol == query || symbol.startsWith(query) || name.startsWith(query)
+              ? true
+              : symbol.contains(query) || name.contains(query);
+        }).toList()
+        : (_searchResults ?? filteredTokens);
   }
 
   @override
   void dispose() {
     _searchController.dispose();
-    _scrollController.dispose();
     super.dispose();
   }
 
@@ -198,12 +217,9 @@ class _ContentState extends State<_Content> {
             }
 
             final tokens = snapshot.data ?? [];
-            final filteredTokens =
-                tokens
-                    .where((token) => token.name.toLowerCase().contains(_searchText.toLowerCase()))
-                    .toList();
+            final displayTokens = _filterTokens(tokens);
 
-            return filteredTokens.isEmpty
+            return displayTokens.isEmpty
                 ? Center(
                   child: Text(
                     context.l10n.noResultsFound,
@@ -214,17 +230,16 @@ class _ContentState extends State<_Content> {
                   create: () => (_balanceService.watchAllBalances(), const IListConst([])),
                   builder:
                       (context, balances) => ListView.separated(
-                        controller: _scrollController,
                         padding: EdgeInsets.only(
                           left: 20,
                           right: 20,
                           top: 20,
                           bottom: MediaQuery.paddingOf(context).bottom,
                         ),
-                        itemCount: filteredTokens.length,
+                        itemCount: displayTokens.length,
                         separatorBuilder: (context, index) => const SizedBox(height: _tilePadding),
                         itemBuilder: (BuildContext context, int index) {
-                          final token = filteredTokens[index];
+                          final token = displayTokens[index];
                           final selected = token.address == _selectedToken?.address;
 
                           final balance = balances.firstWhere(
@@ -330,7 +345,6 @@ extension FiatAmountExtension on BuildContext {
   }
 }
 
-const _tileHeight = 64.0;
 const _tilePadding = 8.0;
 const _iconSize = 36.0;
 

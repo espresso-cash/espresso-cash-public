@@ -36,6 +36,8 @@ class TokenSwapReviewScreen extends StatefulWidget {
 
 class _TokenSwapReviewScreenState extends State<TokenSwapReviewScreen> {
   late SwapRoute _currentRoute;
+  // ignore: dispose-fields, injected singleton
+  late final _quoteService = sl<QuoteService>();
 
   @override
   void initState() {
@@ -43,12 +45,20 @@ class _TokenSwapReviewScreenState extends State<TokenSwapReviewScreen> {
     _currentRoute = widget.route;
   }
 
+  Future<void> _handleConfirmSwap() async {
+    final id = await context.createSwap(_currentRoute);
+
+    if (!mounted) return;
+
+    SwapDetailsScreen.replace(context, id: id);
+  }
+
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-    listenable: sl<QuoteService>(),
+    listenable: _quoteService,
     builder: (context, _) {
       final locale = DeviceLocale.localeOf(context);
-      final quoteState = sl<QuoteService>().value;
+      final quoteState = _quoteService.value;
       final isLoading = quoteState.isProcessing;
 
       if (quoteState case FlowSuccess(:final result)) {
@@ -105,17 +115,7 @@ class _TokenSwapReviewScreenState extends State<TokenSwapReviewScreen> {
                         const Spacer(),
                         CpBottomButton(
                           text: context.l10n.swap,
-                          onPressed:
-                              isLoading
-                                  ? null
-                                  : () async {
-                                    final id = await context.createSwap(_currentRoute);
-
-                                    if (!context.mounted) return;
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                    SwapDetailsScreen.push(context, id: id);
-                                  },
+                          onPressed: isLoading ? null : _handleConfirmSwap,
                         ),
                       ],
                     ),

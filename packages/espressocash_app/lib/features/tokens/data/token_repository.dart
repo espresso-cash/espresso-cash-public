@@ -70,10 +70,58 @@ class TokenRepository {
     return query.getSingleOrNull().letAsync((token) => token?.toModel());
   }
 
-  Future<List<TokenRow>> getAll() {
-    final query = _db.select(_db.tokenRows);
+  Future<List<Token>> search(String query) async {
+    if (query.isEmpty) {
+      return [];
+    }
 
-    return query.get();
+    final searchQuery = query.toLowerCase();
+    final startsWithPattern = '$searchQuery%';
+    final containsPattern = '%$searchQuery%';
+
+    final primaryMatches =
+        await (_db.select(_db.tokenRows)..where(
+          (token) =>
+              token.symbol.lower().equals(searchQuery) |
+              token.symbol.lower().like(startsWithPattern) |
+              token.name.lower().like(startsWithPattern),
+        )).get();
+
+    if (primaryMatches.isNotEmpty) {
+      final result = <Token>[];
+      for (final token in primaryMatches) {
+        final model = token.toModel();
+        result.add(model);
+      }
+
+      return result;
+    }
+
+    final secondaryMatches =
+        await (_db.select(_db.tokenRows)..where(
+          (token) =>
+              token.symbol.lower().like(containsPattern) | token.name.lower().like(containsPattern),
+        )).get();
+
+    final result = <Token>[];
+    for (final token in secondaryMatches) {
+      final model = token.toModel();
+      result.add(model);
+    }
+
+    return result;
+  }
+
+  Future<List<Token>> fetchBySymbols(List<String> symbols) async {
+    if (symbols.isEmpty) return [];
+
+    final tokens =
+        await (_db.select(_db.tokenRows)
+          ..where((t) => t.symbol.lower().isIn(symbols.map((s) => s.toLowerCase())))).get();
+
+    final symbolToToken = {for (final token in tokens) token.symbol.toLowerCase(): token.toModel()};
+
+    return symbols.map((symbol) => symbolToToken[symbol.toLowerCase()]).whereType<Token>().toList();
   }
 }
 
