@@ -1,4 +1,4 @@
-// ignore_for_file: avoid-type-casts, dispose-fields
+// ignore_for_file: avoid-type-casts
 
 import 'dart:async';
 
@@ -49,6 +49,7 @@ class TokenSwapInputScreen extends StatefulWidget {
 class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   final _inputAmountController = TextEditingController();
   final _outputAmountController = TextEditingController();
+  // ignore: dispose-fields, injected singleton
   late final _quoteService = sl<QuoteService>();
 
   late Token _inputToken;

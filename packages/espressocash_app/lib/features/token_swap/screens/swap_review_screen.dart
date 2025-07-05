@@ -1,5 +1,3 @@
-// ignore_for_file: dispose-fields
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -38,6 +36,7 @@ class TokenSwapReviewScreen extends StatefulWidget {
 
 class _TokenSwapReviewScreenState extends State<TokenSwapReviewScreen> {
   late SwapRoute _currentRoute;
+  // ignore: dispose-fields, injected singleton
   late final _quoteService = sl<QuoteService>();
 
   @override
