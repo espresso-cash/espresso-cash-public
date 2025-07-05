@@ -1,3 +1,8 @@
+## 1.155.0
+
+ - **FIX**: update jupiter price api (#1755).
+ - **FEAT**: token swap updates (#1756).
+
 ## 1.154.0
 
  - **FIX**: send max sol (#1754).
