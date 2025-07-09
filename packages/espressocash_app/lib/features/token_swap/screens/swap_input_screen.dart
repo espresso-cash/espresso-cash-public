@@ -85,11 +85,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
       case FlowSuccess(:final result):
         final output = result.seed.output;
 
-        _outputAmountController.text = output.format(
-          context.locale,
-          maxDecimals: 2,
-          skipSymbol: true,
-        );
+        _outputAmountController.text = output.format(context.locale, skipSymbol: true);
 
       case FlowFailure(:final error):
         _outputAmountController.text = '';
