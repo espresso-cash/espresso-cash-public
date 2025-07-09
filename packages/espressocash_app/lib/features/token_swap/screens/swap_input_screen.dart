@@ -16,6 +16,7 @@ import '../../../ui/bottom_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
+import '../../../ui/number_formatter.dart';
 import '../../../ui/scaling_text.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
@@ -105,9 +106,9 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   }
 
   void _updateQuote() {
-    final amount = Decimal.tryParse(_inputAmountController.text);
+    final amount = _inputAmountController.text.toDecimalOrZero(DeviceLocale.localeOf(context));
 
-    if (amount == null) return;
+    if (amount == Decimal.zero) return;
 
     final inputAmount =
         Amount.fromDecimal(value: amount, currency: CryptoCurrency(token: _inputToken))
