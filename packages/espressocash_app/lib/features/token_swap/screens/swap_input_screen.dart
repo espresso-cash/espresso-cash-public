@@ -603,8 +603,12 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
           bottom: 9,
           child: Text(
             r'≈ $' +
-                ((Decimal.tryParse(widget.controller.text) ?? Decimal.zero) *
-                        widget.fiatRate.decimal)
+                Amount.fromDecimal(
+                      value: widget.controller.text.toDecimalOrZero(widget.locale),
+                      currency: widget.crypto.currency,
+                    )
+                    .convert(rate: widget.fiatRate.decimal, to: Currency.usd)
+                    .decimal
                     .toStringAsFixed(2),
             style: TextStyle(fontSize: 12.sp, color: Colors.grey),
           ),
