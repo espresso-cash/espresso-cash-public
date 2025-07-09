@@ -550,9 +550,7 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
       if (_isMax) {
         widget.controller.clear();
       } else {
-        widget.controller.text = widget.crypto.decimal.toStringAsFixed(
-          widget.crypto.currency.decimals,
-        );
+        widget.controller.text = widget.crypto.format(context.locale, skipSymbol: true);
       }
     } else {
       widget.controller.clear();
