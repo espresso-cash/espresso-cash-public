@@ -276,6 +276,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                               controller: _inputAmountController,
                               crypto: cryptoForMaxButton,
                               fiatRate: fiatRateInput,
+                              locale: context.locale,
                               showMaxButton: true,
                             ),
                           ),
@@ -401,6 +402,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                                   Amount.zero(currency: CryptoCurrency(token: _outputToken))
                                       as CryptoAmount,
                               fiatRate: fiatRateOutput,
+                              locale: context.locale,
                               showMaxButton: false,
                             ),
                           ),
@@ -477,12 +479,14 @@ class _TokenAmountInput extends StatefulWidget {
     required this.controller,
     required this.crypto,
     required this.fiatRate,
+    required this.locale,
     this.showMaxButton = false,
   });
 
   final TextEditingController controller;
   final CryptoAmount crypto;
   final Amount fiatRate;
+  final Locale locale;
   final bool showMaxButton;
 
   @override
@@ -498,7 +502,6 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
   void initState() {
     super.initState();
     widget.controller.addListener(_quantityListener);
-
     _quantityListener();
   }
 
@@ -524,8 +527,8 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
   void _quantityListener() {
     if (!mounted) return;
 
-    final value = Decimal.tryParse(widget.controller.text);
-    final isValueValid = widget.controller.text.isNotEmpty && value != null;
+    final value = widget.controller.text.toDecimalOrZero(widget.locale);
+    final isValueValid = widget.controller.text.isNotEmpty;
 
     scheduleMicrotask(() {
       if (!mounted) return;
@@ -550,7 +553,7 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
       if (_isMax) {
         widget.controller.clear();
       } else {
-        widget.controller.text = widget.crypto.format(context.locale, skipSymbol: true);
+        widget.controller.text = widget.crypto.format(widget.locale, skipSymbol: true);
       }
     } else {
       widget.controller.clear();
