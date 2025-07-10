@@ -216,6 +216,7 @@ class MemoryTokenRepository implements TokenRepository {
     if (query.isEmpty) return [];
 
     final searchQuery = query.toLowerCase();
+
     return data.value.values
         .where(
           (token) =>
@@ -231,6 +232,7 @@ class MemoryTokenRepository implements TokenRepository {
     if (symbols.isEmpty) return [];
 
     final lowerSymbols = symbols.map((s) => s.toLowerCase()).toSet();
+
     return data.value.values
         .where((token) => lowerSymbols.contains(token.symbol.toLowerCase()))
         .map((t) => t.toModel())

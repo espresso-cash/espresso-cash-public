@@ -40,11 +40,11 @@ class TokenPicker extends StatelessWidget {
         }
       },
       leading: TokenIcon(token: token, size: 42.w),
-      title: Text(
-        isExpanded ? (token.symbol) : '',
-        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18.sp, overflow: TextOverflow.fade),
-        maxLines: 2,
-        textAlign: TextAlign.center,
+      title: FittedBox(
+        child: Text(
+          isExpanded ? (token.symbol) : '',
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18.sp),
+        ),
       ),
       titleAlignment: ListTileTitleAlignment.threeLine,
       trailing: const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white),

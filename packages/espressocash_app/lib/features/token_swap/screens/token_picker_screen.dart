@@ -33,13 +33,12 @@ class TokenPickerScreen extends StatelessWidget {
     'USDT', // Tether
     'SOL', // Solana
     'USDC', // USD Coin
-    'WBTC', // Wrapped Bitcoin
-    'LINK', // Chainlink
-    'USDS', // USDS
-    'USDE', // Ethena USDe
-    'CBBTC', // Coinbase Wrapped BTC
-    'BUIDL', // BlackRock USD Institutional Digital Liquidity Fund
     'JITOSOL', // Jito Staked SOL
+    'USDS', // USDS
+    'CBBTC', // Coinbase Wrapped BTC
+    'BONK', // Bonk
+    'JUP', // Jupiter
+    'RAY', // Raydium
   ];
 
   static Future<Token?> push(

@@ -121,7 +121,13 @@ class TokenRepository {
 
     final symbolToToken = {for (final token in tokens) token.symbol.toLowerCase(): token.toModel()};
 
-    return symbols.map((symbol) => symbolToToken[symbol.toLowerCase()]).whereType<Token>().toList();
+    return symbols
+        .map(
+          (symbol) =>
+              symbol.toLowerCase() == 'sol' ? Token.sol : symbolToToken[symbol.toLowerCase()],
+        )
+        .whereType<Token>()
+        .toList();
   }
 }
 

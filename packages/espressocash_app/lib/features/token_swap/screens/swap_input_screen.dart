@@ -16,6 +16,7 @@ import '../../../ui/bottom_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
+import '../../../ui/number_formatter.dart';
 import '../../../ui/scaling_text.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
@@ -85,11 +86,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
       case FlowSuccess(:final result):
         final output = result.seed.output;
 
-        _outputAmountController.text = output.format(
-          context.locale,
-          maxDecimals: 2,
-          skipSymbol: true,
-        );
+        _outputAmountController.text = output.format(context.locale, skipSymbol: true);
 
       case FlowFailure(:final error):
         _outputAmountController.text = '';
@@ -109,9 +106,9 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   }
 
   void _updateQuote() {
-    final amount = Decimal.tryParse(_inputAmountController.text);
+    final amount = _inputAmountController.text.toDecimalOrZero(DeviceLocale.localeOf(context));
 
-    if (amount == null) return;
+    if (amount == Decimal.zero) return;
 
     final inputAmount =
         Amount.fromDecimal(value: amount, currency: CryptoCurrency(token: _inputToken))
@@ -279,6 +276,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                               controller: _inputAmountController,
                               crypto: cryptoForMaxButton,
                               fiatRate: fiatRateInput,
+                              locale: context.locale,
                               showMaxButton: true,
                             ),
                           ),
@@ -404,6 +402,7 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
                                   Amount.zero(currency: CryptoCurrency(token: _outputToken))
                                       as CryptoAmount,
                               fiatRate: fiatRateOutput,
+                              locale: context.locale,
                               showMaxButton: false,
                             ),
                           ),
@@ -480,12 +479,14 @@ class _TokenAmountInput extends StatefulWidget {
     required this.controller,
     required this.crypto,
     required this.fiatRate,
+    required this.locale,
     this.showMaxButton = false,
   });
 
   final TextEditingController controller;
   final CryptoAmount crypto;
   final Amount fiatRate;
+  final Locale locale;
   final bool showMaxButton;
 
   @override
@@ -501,7 +502,6 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
   void initState() {
     super.initState();
     widget.controller.addListener(_quantityListener);
-
     _quantityListener();
   }
 
@@ -527,8 +527,8 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
   void _quantityListener() {
     if (!mounted) return;
 
-    final value = Decimal.tryParse(widget.controller.text);
-    final isValueValid = widget.controller.text.isNotEmpty && value != null;
+    final value = widget.controller.text.toDecimalOrZero(widget.locale);
+    final isValueValid = widget.controller.text.isNotEmpty;
 
     scheduleMicrotask(() {
       if (!mounted) return;
@@ -553,9 +553,7 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
       if (_isMax) {
         widget.controller.clear();
       } else {
-        widget.controller.text = widget.crypto.decimal.toStringAsFixed(
-          widget.crypto.currency.decimals,
-        );
+        widget.controller.text = widget.crypto.format(widget.locale, skipSymbol: true);
       }
     } else {
       widget.controller.clear();
@@ -605,8 +603,12 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
           bottom: 9,
           child: Text(
             r'≈ $' +
-                ((Decimal.tryParse(widget.controller.text) ?? Decimal.zero) *
-                        widget.fiatRate.decimal)
+                Amount.fromDecimal(
+                      value: widget.controller.text.toDecimalOrZero(widget.locale),
+                      currency: widget.crypto.currency,
+                    )
+                    .convert(rate: widget.fiatRate.decimal, to: Currency.usd)
+                    .decimal
                     .toStringAsFixed(2),
             style: TextStyle(fontSize: 12.sp, color: Colors.grey),
           ),
