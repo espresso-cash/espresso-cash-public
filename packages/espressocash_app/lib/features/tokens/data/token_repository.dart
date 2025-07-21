@@ -123,6 +123,18 @@ class TokenRepository {
 
     return symbols.map((symbol) => symbolToToken[symbol.toLowerCase()]).whereType<Token>().toList();
   }
+
+  Future<List<Token>> fetchByAddresses(List<String> addresses) async {
+    if (addresses.isEmpty) return [];
+
+    final tokens =
+        await (_db.select(_db.tokenRows)
+          ..where((t) => t.address.isIn(addresses))).get();
+
+    final addressToToken = {for (final token in tokens) token.address: token.toModel()};
+
+    return addresses.map((address) => addressToToken[address]).whereType<Token>().toList();
+  }
 }
 
 Future<Either<Exception, String>> _initializeFromAssets(IsolateParams args) =>

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
+import '../../../config.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -28,19 +29,6 @@ class TokenPickerScreen extends StatelessWidget {
     required this.title,
     this.showOnlyUserTokens = false,
   });
-
-  static const popularTokenList = [
-    'USDT', // Tether
-    'SOL', // Solana
-    'USDC', // USD Coin
-    'WBTC', // Wrapped Bitcoin
-    'LINK', // Chainlink
-    'USDS', // USDS
-    'USDE', // Ethena USDe
-    'CBBTC', // Coinbase Wrapped BTC
-    'BUIDL', // BlackRock USD Institutional Digital Liquidity Fund
-    'JITOSOL', // Jito Staked SOL
-  ];
 
   static Future<Token?> push(
     BuildContext context, {
@@ -111,7 +99,7 @@ class _ContentState extends State<_Content> with DebounceMixin {
     if (widget.showOnlyUserTokens) {
       _tokensFuture = _fetchUserTokens();
     } else {
-      _tokensFuture = _tokenRepository.fetchBySymbols(TokenPickerScreen.popularTokenList);
+      _tokensFuture = _tokenRepository.fetchByAddresses(popularTokensList);
     }
 
     _searchController.addListener(_onSearchChanged);
