@@ -80,7 +80,52 @@ make dump_schema VERSION=63
 make flutter_generate_test_schemas
 ```
 
-## Architecture
+## Backend Architecture
+
+The Espresso Cash backend is a separate Go-based service (`ec-backend-go`) that provides gRPC/Connect APIs for the mobile wallet.
+
+### Technology Stack
+- **Language**: Go
+- **Protocol**: gRPC with Connect framework (HTTP/2)
+- **Database**: PostgreSQL
+- **Monitoring**: New Relic
+- **Container**: Docker (Alpine Linux)
+- **Code Generation**: Protocol Buffers (protobuf) with buf
+
+### API Services
+The backend exposes these gRPC services:
+- **UserService**: Authentication and user management
+- **PaymentService**: Direct payments and escrow transactions
+- **RateService**: Exchange rates for tokens and fiat
+- **ReferralService**: Ambassador/referral program
+- **ShortenerService**: URL shortening for payment links
+- **MoneygramService**: MoneyGram integration for fiat on/off ramps
+- **DlnService**: Cross-chain payment integration
+- **TokensService**: Token management
+- **SwapService**: Token swapping functionality
+- **ManageService**: Administrative functions
+
+### External Integrations
+- **Solana**: Main blockchain RPC
+- **Jupiter**: DEX aggregator for swaps
+- **Helius**: Enhanced Solana RPC
+- **Infura**: Ethereum/EVM support
+- **Stellar**: Cross-chain payments
+- **MoneyGram**: Fiat on/off ramps
+- **DLN/Allbridge**: Cross-chain bridges
+- **CoinGecko/Frankfurter**: Price data
+
+### Authentication
+- JWT-based authentication with wallet signature verification
+- Users authenticate by signing messages with their wallet
+- Auth interceptor for protected endpoints
+
+### Backend-Client Communication
+- **espressocash_client** package contains generated protobuf clients
+- gRPC/Connect protocol over HTTP/2
+- JWT tokens after wallet signature verification
+
+## Mobile App Architecture
 
 ### Dependency Injection
 - Uses GetIt and Injectable for dependency injection
