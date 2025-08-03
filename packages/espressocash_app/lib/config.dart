@@ -86,18 +86,9 @@ const popularTokensMainnet = [
   'So11111111111111111111111111111111111111111', // SOL (native)
   'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB', // USDT
   'HzwqbKZw8HxMN6bF2yFZNrht3c2iXXzpKcFu7uBEDKtr', // EURC
-  'CXLBjMMcwkc17GfJtBos6rQCo1ypeH6eDbB82Kby4MRm', // PYUSD
   'J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn', // JitoSOL
-  'bSo13r4TkiE4KumL71LsHTPpL2euBYLFx6h9HP3piy1', // bSOL
-  'mSoLzYCxHdYgdzU16g5QSh3i5K3z3KZK7ytfqcJm7So', // mSOL
   'JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN', // JUP
   'DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263', // Bonk
 ];
 
-const popularTokensDevnet = [
-  '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU', // USDC (devnet)
-  'So11111111111111111111111111111111111111111', // SOL (native)
-  '7dHbWXmci3dT8UFYWYZweBLXgycu7Y3iL6trKn1Y7ARj', // stSOL (devnet)
-];
-
-const popularTokensList = isProd ? popularTokensMainnet : popularTokensDevnet;
+const popularTokensList = popularTokensMainnet;
