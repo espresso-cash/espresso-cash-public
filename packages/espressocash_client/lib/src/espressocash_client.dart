@@ -149,6 +149,7 @@ class EspressoCashClient {
 
   Future<String> _login({required String proofSignature, required String proofMessage}) async {
     final request = users_proto.LoginRequest(
+      signerAddress: walletAddress,
       walletAddress: walletAddress,
       proofSignature: proofSignature,
       proofMessage: proofMessage,
