@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:async/async.dart';
 import 'package:connectrpc/connect.dart' as connect;
@@ -32,6 +33,12 @@ import 'package:ec_client_dart/src/proto/gen/espressocash/api/tokens/v1/service.
 import 'package:ec_client_dart/src/proto/gen/espressocash/api/users/v1/service.connect.client.dart';
 import 'package:ec_client_dart/src/proto/gen/espressocash/api/users/v1/service.pb.dart'
     as users_proto;
+import 'package:ec_client_dart/src/proto/gen/espressocash/api/swig/v1/service.connect.client.dart';
+import 'package:ec_client_dart/src/proto/gen/espressocash/api/swig/v1/service.pb.dart' as swig_proto;
+import 'package:ec_client_dart/src/proto/gen/espressocash/api/transactionlink/v1/service.connect.client.dart';
+import 'package:ec_client_dart/src/proto/gen/espressocash/api/transactionlink/v1/service.pb.dart' as transactionlink_proto;
+import 'package:ec_client_dart/src/proto/gen/espressocash/manage/v1/service.connect.client.dart';
+import 'package:ec_client_dart/src/proto/gen/espressocash/manage/v1/service.pb.dart' as manage_proto;
 import 'package:ec_client_dart/src/utils.dart';
 
 const defaultBaseUrl = 'https://grpc.espressocash.com';
@@ -93,6 +100,9 @@ class EspressoCashClient {
   late MoneygramServiceClient _moneygramServiceClient;
   late TokensServiceClient _tokensServiceClient;
   late SwapServiceClient _swapServiceClient;
+  late SWIGServiceClient _swigServiceClient;
+  late TransactionLinkServiceClient _transactionLinkServiceClient;
+  late ManageServiceClient _manageServiceClient;
 
   final _authCache = AsyncCache<void>.ephemeral();
 
@@ -106,6 +116,9 @@ class EspressoCashClient {
     _moneygramServiceClient = MoneygramServiceClient(_transport);
     _tokensServiceClient = TokensServiceClient(_transport);
     _swapServiceClient = SwapServiceClient(_transport);
+    _swigServiceClient = SWIGServiceClient(_transport);
+    _transactionLinkServiceClient = TransactionLinkServiceClient(_transport);
+    _manageServiceClient = ManageServiceClient(_transport);
   }
 
   Future<void> login() async {
@@ -153,6 +166,7 @@ class EspressoCashClient {
       walletAddress: walletAddress,
       proofSignature: proofSignature,
       proofMessage: proofMessage,
+      typeOfSigner: 'ed25519', // Default signer type for Solana wallets
     );
     final response = await _userServiceClient.login(request);
     await onTokenUpdated(response.token);
@@ -492,4 +506,231 @@ class EspressoCashClient {
       providerLabel: response.providerLabel,
     );
   });
+
+  // SWIG Service Methods (Anonymous methods)
+  Future<CreateWalletResponseDto> createWallet(CreateWalletRequestDto request) async {
+    final r = swig_proto.CreateWalletRequest(
+      ownerAddress: request.ownerAddress,
+      platform: request.platform,
+    );
+
+    final response = await _swigServiceClient.createWallet(r);
+
+    return CreateWalletResponseDto(
+      unsignedTransaction: response.unsignedTransaction,
+      swigWalletAddress: response.swigWalletAddress,
+    );
+  }
+
+  Future<GetWalletAuthoritiesResponseDto> getWalletAuthorities(GetWalletAuthoritiesRequestDto request) async {
+    final r = swig_proto.GetWalletAuthoritiesRequest(
+      swigWalletAddress: request.swigWalletAddress,
+    );
+
+    final response = await _swigServiceClient.getWalletAuthorities(r);
+
+    return GetWalletAuthoritiesResponseDto(
+      authorities: response.authorities.map((a) => SWIGAuthorityDto(
+        roleId: a.roleId,
+        authorityType: a.authorityType.name,
+        permissions: a.permissions.map((p) => PermissionActionDto(
+          permissionType: p.permissionType,
+          permissionData: String.fromCharCodes(p.permissionData),
+        )).toList(),
+      )).toList(),
+    );
+  }
+
+  Future<PrepareAddAuthorityResponseDto> prepareAddAuthority(PrepareAddAuthorityRequestDto request) async {
+    // Convert base64 authority data to bytes
+    final authorityData = utf8.encode(request.newAuthority.data);
+    
+    final r = swig_proto.PrepareAddAuthorityRequest(
+      swigWalletAddress: request.swigWalletAddress,
+      signingRoleId: request.signingRoleId,
+      newAuthority: swig_proto.AuthorityInfo(
+        data: authorityData,
+        type: swig_proto.AuthorityType.valueOf(
+          request.newAuthority.type == 'AUTHORITY_TYPE_ED25519' ? 1 :
+          request.newAuthority.type == 'AUTHORITY_TYPE_SECP256K1' ? 3 : 5
+        )!,
+      ),
+      permissionActions: request.permissionActions.map((p) => 
+        swig_proto.PermissionAction(
+          permissionType: p.permissionType,
+          permissionData: utf8.encode(p.permissionData),
+        )
+      ).toList(),
+    );
+
+    final response = await _swigServiceClient.prepareAddAuthority(r);
+
+    return PrepareAddAuthorityResponseDto(
+      unsignedTransaction: String.fromCharCodes(response.unsignedTransaction),
+      messageHash: String.fromCharCodes(response.messageHash),
+      slot: response.slot.toInt(),
+      expectedCounter: response.expectedCounter,
+    );
+  }
+
+  Future<SubmitAddAuthorityResponseDto> submitAddAuthority(SubmitAddAuthorityRequestDto request) async {
+    // Convert base64 authority data to bytes
+    final authorityData = utf8.encode(request.newAuthority.data);
+    
+    final r = swig_proto.SubmitAddAuthorityRequest(
+      signingResult: swig_proto.SigningResult(
+        signature: utf8.encode(request.signingResult.signature),
+        prefix: utf8.encode(request.signingResult.prefix),
+        message: utf8.encode(request.signingResult.message),
+      ),
+      swigWalletAddress: request.swigWalletAddress,
+      signingRoleId: request.signingRoleId,
+      newAuthority: swig_proto.AuthorityInfo(
+        data: authorityData,
+        type: swig_proto.AuthorityType.valueOf(
+          request.newAuthority.type == 'AUTHORITY_TYPE_ED25519' ? 1 :
+          request.newAuthority.type == 'AUTHORITY_TYPE_SECP256K1' ? 3 : 5
+        )!,
+      ),
+      permissionActions: request.permissionActions.map((p) => 
+        swig_proto.PermissionAction(
+          permissionType: p.permissionType,
+          permissionData: utf8.encode(p.permissionData),
+        )
+      ).toList(),
+      slot: request.slot.toInt64,
+      expectedCounter: request.expectedCounter,
+      authenticatorData: request.authenticatorData != null ? utf8.encode(request.authenticatorData!) : null,
+      clientDataJson: request.clientDataJson,
+    );
+
+    final response = await _swigServiceClient.submitAddAuthority(r);
+
+    return SubmitAddAuthorityResponseDto(
+      transactionSignature: response.transactionSignature,
+      roleId: response.roleId,
+      newAuthorityRoleId: response.hasRoleId() ? response.roleId : null,
+    );
+  }
+
+  Future<PrepareSignV1ResponseDto> prepareSignV1(PrepareSignV1RequestDto request) async {
+    final r = swig_proto.PrepareSignV1Request(
+      swigWalletAddress: request.swigWalletAddress,
+      signingRoleId: request.signingRoleId,
+      wrappedInstruction: utf8.encode(request.wrappedInstruction),
+    );
+
+    final response = await _swigServiceClient.prepareSignV1(r);
+
+    return PrepareSignV1ResponseDto(
+      unsignedTransaction: Uint8List.fromList(response.unsignedTransaction),
+      messageHash: String.fromCharCodes(response.messageHash),
+      authorityType: response.authorityType,
+      slot: response.slot.toInt(),
+      expectedCounter: response.expectedCounter,
+    );
+  }
+
+  Future<SubmitSignV1ResponseDto> submitSignV1(SubmitSignV1RequestDto request) async {
+    final r = swig_proto.SubmitSignV1Request(
+      signingResult: swig_proto.SigningResult(
+        signature: utf8.encode(request.signingResult.signature),
+        prefix: utf8.encode(request.signingResult.prefix),
+        message: utf8.encode(request.signingResult.message),
+      ),
+      swigWalletAddress: request.swigWalletAddress,
+      signingRoleId: request.signingRoleId,
+      wrappedInstruction: utf8.encode(request.wrappedInstruction),
+      slot: request.slot.toInt64,
+      expectedCounter: request.expectedCounter,
+      unsignedTransaction: utf8.encode(request.unsignedTransaction),
+      authenticatorData: request.authenticatorData != null ? utf8.encode(request.authenticatorData!) : null,
+      clientDataJson: request.clientDataJson,
+    );
+
+    final response = await _swigServiceClient.submitSignV1(r);
+
+    return SubmitSignV1ResponseDto(
+      transactionSignature: response.transactionSignature,
+      feesPaidBy: response.hasFeesPaidBy() ? response.feesPaidBy : null,
+      actualFee: response.hasActualFee() ? response.actualFee.toInt() : null,
+    );
+  }
+
+  // TransactionLink Service Methods (Anonymous methods)
+  Future<GetOnboardingLinkResponseDto> getOnboardingLink(GetOnboardingLinkRequestDto request) async {
+    // Note: Proto only supports platform and metadata - simplified mapping
+    final metadataMap = <String, String>{
+      if (request.returnUrl.isNotEmpty) 'returnUrl': request.returnUrl,
+      if (request.walletAddress != null) 'walletAddress': request.walletAddress!,
+    };
+    
+    final r = transactionlink_proto.GetOnboardingLinkRequest(
+      platform: request.platform,
+      // Converting map entries to iterable
+      metadata: metadataMap.entries,
+    );
+
+    final response = await _transactionLinkServiceClient.getOnboardingLink(r);
+
+    return GetOnboardingLinkResponseDto(
+      onboardingUrl: response.onboardingUrl,
+    );
+  }
+
+  Future<CreateTransactionLinkResponseDto> createTransactionLink(CreateTransactionLinkRequestDto request) async {
+    // Note: Simplified mapping - proto structure is different
+    final r = transactionlink_proto.CreateTransactionLinkRequest(
+      transactionType: request.paymentParams != null ? 'payment' : 'swap',
+      userWallet: request.signerPublicKey, // Using signerPublicKey as userWallet
+      platform: 'web', // Default platform
+      useSwig: false, // Default to false
+      payment: request.paymentParams != null ? transactionlink_proto.PaymentParams(
+        recipient: request.paymentParams!.receiverAddress,
+        amount: request.paymentParams!.amount.toString(),
+        token: request.paymentParams!.tokenMint,
+        memo: request.paymentParams!.reference ?? '',
+      ) : null,
+      swap: request.swapParams != null ? transactionlink_proto.SwapParams(
+        inputToken: request.swapParams!.inputMint,
+        outputToken: request.swapParams!.outputMint,
+        amount: request.swapParams!.amount.toString(),
+        slippageBps: request.swapParams!.slippageBps.toString(), // Convert to string
+      ) : null,
+    );
+
+    final response = await _transactionLinkServiceClient.createTransactionLink(r);
+
+    return CreateTransactionLinkResponseDto(
+      transactionUrl: response.signingUrl, // Using signingUrl as transactionUrl
+      transactionId: response.trackingToken, // Using trackingToken as transactionId
+    );
+  }
+
+  Future<GetTransactionStatusResponseDto> getTransactionStatus(GetTransactionStatusRequestDto request) async {
+    final r = transactionlink_proto.GetTransactionStatusRequest(
+      trackingToken: request.transactionId, // Using transactionId as trackingToken
+    );
+
+    final response = await _transactionLinkServiceClient.getTransactionStatus(r);
+
+    return GetTransactionStatusResponseDto(
+      status: response.status.name, // Converting enum to string
+      transactionSignature: response.signature,
+      failureReason: response.error,
+    );
+  }
+
+  // Manage Service Methods (Anonymous method)  
+  Future<GetPlatformAccountInfoResponseDto> getPlatformAccountInfo() async {
+    final r = manage_proto.GetPlatformAccountInfoRequest();
+    final response = await _manageServiceClient.getPlatformAccountInfo(r);
+
+    return GetPlatformAccountInfoResponseDto(
+      accountId: '', // Not in proto response
+      publicKey: response.publicKey,
+      balance: response.balance.toInt(),
+      tokenAccounts: {}, // Not in proto response
+    );
+  }
 }
