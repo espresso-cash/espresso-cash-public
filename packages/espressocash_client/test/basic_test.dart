@@ -15,8 +15,8 @@ void main() {
     await client.login();
   });
 
-  tearDown(() async {
-    await client.dispose();
+  tearDown(() {
+    
   });
 
   test('creates client successfully', skip: true, () {

@@ -14,8 +14,8 @@ void main() {
     await client.login();
   });
 
-  tearDown(() async {
-    await client.dispose();
+  tearDown(() {
+    
   });
 
   group('DLN operations', () {

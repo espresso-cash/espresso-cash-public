@@ -16,8 +16,8 @@ void main() {
     await client.login();
   });
 
-  tearDown(() async {
-    await client.dispose();
+  tearDown(() {
+    // ConnectRPC Transport doesn't need explicit disposal
   });
 
   group('Token operations', () {

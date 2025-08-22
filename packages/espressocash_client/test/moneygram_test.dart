@@ -16,8 +16,8 @@ void main() {
     await client.login();
   });
 
-  tearDown(() async {
-    await client.dispose();
+  tearDown(() {
+    
   });
 
   test('sign Moneygram challenge successfully', skip: true, () async {

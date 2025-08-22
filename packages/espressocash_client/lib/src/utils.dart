@@ -1,6 +1,6 @@
 import 'package:ec_client_dart/ec_client_dart.dart';
-import 'package:ec_client_dart/src/generated/api/dln/v1/service.pbgrpc.dart' as dln_proto;
-import 'package:ec_client_dart/src/generated/api/moneygram/v1/service.pbgrpc.dart';
+import 'package:ec_client_dart/src/proto/gen/espressocash/api/dln/v1/service.pb.dart' as dln_proto;
+import 'package:ec_client_dart/src/proto/gen/espressocash/api/moneygram/v1/service.pb.dart' as moneygram_proto;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 
 extension IntExt on int {
@@ -31,8 +31,8 @@ DlnOrderStatus mapDlnOrderStatus(dln_proto.DlnOrderStatus status) => switch (sta
 };
 
 extension RampTypeDtoExt on RampTypeDto {
-  RampType get toProto => switch (this) {
-    RampTypeDto.onRamp => RampType.RAMP_TYPE_ON,
-    RampTypeDto.offRamp => RampType.RAMP_TYPE_OFF,
+  moneygram_proto.RampType get toProto => switch (this) {
+    RampTypeDto.onRamp => moneygram_proto.RampType.RAMP_TYPE_ON,
+    RampTypeDto.offRamp => moneygram_proto.RampType.RAMP_TYPE_OFF,
   };
 }

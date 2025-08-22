@@ -10,8 +10,8 @@ void main() {
     client = createAnonymousClient();
   });
 
-  tearDown(() async {
-    await client.dispose();
+  tearDown(() {
+    // ConnectRPC Transport doesn't need explicit disposal
   });
 
   test('creates anonymous client successfully', skip: true, () {

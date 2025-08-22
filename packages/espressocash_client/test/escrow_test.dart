@@ -16,8 +16,8 @@ void main() {
     await client.login();
   });
 
-  tearDown(() async {
-    await client.dispose();
+  tearDown(() {
+    
   });
 
   test('creates escrow payment successfully', skip: true, () async {
