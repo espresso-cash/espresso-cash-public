@@ -34,11 +34,14 @@ import 'package:ec_client_dart/src/proto/gen/espressocash/api/users/v1/service.c
 import 'package:ec_client_dart/src/proto/gen/espressocash/api/users/v1/service.pb.dart'
     as users_proto;
 import 'package:ec_client_dart/src/proto/gen/espressocash/api/swig/v1/service.connect.client.dart';
-import 'package:ec_client_dart/src/proto/gen/espressocash/api/swig/v1/service.pb.dart' as swig_proto;
+import 'package:ec_client_dart/src/proto/gen/espressocash/api/swig/v1/service.pb.dart'
+    as swig_proto;
 import 'package:ec_client_dart/src/proto/gen/espressocash/api/transactionlink/v1/service.connect.client.dart';
-import 'package:ec_client_dart/src/proto/gen/espressocash/api/transactionlink/v1/service.pb.dart' as transactionlink_proto;
+import 'package:ec_client_dart/src/proto/gen/espressocash/api/transactionlink/v1/service.pb.dart'
+    as transactionlink_proto;
 import 'package:ec_client_dart/src/proto/gen/espressocash/manage/v1/service.connect.client.dart';
-import 'package:ec_client_dart/src/proto/gen/espressocash/manage/v1/service.pb.dart' as manage_proto;
+import 'package:ec_client_dart/src/proto/gen/espressocash/manage/v1/service.pb.dart'
+    as manage_proto;
 import 'package:ec_client_dart/src/utils.dart';
 
 const defaultBaseUrl = 'https://grpc.espressocash.com';
@@ -522,45 +525,63 @@ class EspressoCashClient {
     );
   }
 
-  Future<GetWalletAuthoritiesResponseDto> getWalletAuthorities(GetWalletAuthoritiesRequestDto request) async {
-    final r = swig_proto.GetWalletAuthoritiesRequest(
-      swigWalletAddress: request.swigWalletAddress,
-    );
+  Future<GetWalletAuthoritiesResponseDto> getWalletAuthorities(
+    GetWalletAuthoritiesRequestDto request,
+  ) async {
+    final r = swig_proto.GetWalletAuthoritiesRequest(swigWalletAddress: request.swigWalletAddress);
 
     final response = await _swigServiceClient.getWalletAuthorities(r);
 
     return GetWalletAuthoritiesResponseDto(
-      authorities: response.authorities.map((a) => SWIGAuthorityDto(
-        roleId: a.roleId,
-        authorityType: a.authorityType.name,
-        permissions: a.permissions.map((p) => PermissionActionDto(
-          permissionType: p.permissionType,
-          permissionData: String.fromCharCodes(p.permissionData),
-        )).toList(),
-      )).toList(),
+      authorities:
+          response.authorities
+              .map(
+                (a) => SWIGAuthorityDto(
+                  roleId: a.roleId,
+                  authorityType: a.authorityType.name,
+                  permissions:
+                      a.permissions
+                          .map(
+                            (p) => PermissionActionDto(
+                              permissionType: p.permissionType,
+                              permissionData: String.fromCharCodes(p.permissionData),
+                            ),
+                          )
+                          .toList(),
+                ),
+              )
+              .toList(),
     );
   }
 
-  Future<PrepareAddAuthorityResponseDto> prepareAddAuthority(PrepareAddAuthorityRequestDto request) async {
+  Future<PrepareAddAuthorityResponseDto> prepareAddAuthority(
+    PrepareAddAuthorityRequestDto request,
+  ) async {
     // Convert base64 authority data to bytes
     final authorityData = utf8.encode(request.newAuthority.data);
-    
+
     final r = swig_proto.PrepareAddAuthorityRequest(
       swigWalletAddress: request.swigWalletAddress,
       signingRoleId: request.signingRoleId,
       newAuthority: swig_proto.AuthorityInfo(
         data: authorityData,
         type: swig_proto.AuthorityType.valueOf(
-          request.newAuthority.type == 'AUTHORITY_TYPE_ED25519' ? 1 :
-          request.newAuthority.type == 'AUTHORITY_TYPE_SECP256K1' ? 3 : 5
-        )!,
+          request.newAuthority.type == 'AUTHORITY_TYPE_ED25519'
+              ? 1
+              : request.newAuthority.type == 'AUTHORITY_TYPE_SECP256K1'
+              ? 3
+              : 5,
+        ),
       ),
-      permissionActions: request.permissionActions.map((p) => 
-        swig_proto.PermissionAction(
-          permissionType: p.permissionType,
-          permissionData: utf8.encode(p.permissionData),
-        )
-      ).toList(),
+      permissionActions:
+          request.permissionActions
+              .map(
+                (p) => swig_proto.PermissionAction(
+                  permissionType: p.permissionType,
+                  permissionData: utf8.encode(p.permissionData),
+                ),
+              )
+              .toList(),
     );
 
     final response = await _swigServiceClient.prepareAddAuthority(r);
@@ -573,10 +594,12 @@ class EspressoCashClient {
     );
   }
 
-  Future<SubmitAddAuthorityResponseDto> submitAddAuthority(SubmitAddAuthorityRequestDto request) async {
+  Future<SubmitAddAuthorityResponseDto> submitAddAuthority(
+    SubmitAddAuthorityRequestDto request,
+  ) async {
     // Convert base64 authority data to bytes
     final authorityData = utf8.encode(request.newAuthority.data);
-    
+
     final r = swig_proto.SubmitAddAuthorityRequest(
       signingResult: swig_proto.SigningResult(
         signature: utf8.encode(request.signingResult.signature),
@@ -588,19 +611,26 @@ class EspressoCashClient {
       newAuthority: swig_proto.AuthorityInfo(
         data: authorityData,
         type: swig_proto.AuthorityType.valueOf(
-          request.newAuthority.type == 'AUTHORITY_TYPE_ED25519' ? 1 :
-          request.newAuthority.type == 'AUTHORITY_TYPE_SECP256K1' ? 3 : 5
-        )!,
+          request.newAuthority.type == 'AUTHORITY_TYPE_ED25519'
+              ? 1
+              : request.newAuthority.type == 'AUTHORITY_TYPE_SECP256K1'
+              ? 3
+              : 5,
+        ),
       ),
-      permissionActions: request.permissionActions.map((p) => 
-        swig_proto.PermissionAction(
-          permissionType: p.permissionType,
-          permissionData: utf8.encode(p.permissionData),
-        )
-      ).toList(),
+      permissionActions:
+          request.permissionActions
+              .map(
+                (p) => swig_proto.PermissionAction(
+                  permissionType: p.permissionType,
+                  permissionData: utf8.encode(p.permissionData),
+                ),
+              )
+              .toList(),
       slot: request.slot.toInt64,
       expectedCounter: request.expectedCounter,
-      authenticatorData: request.authenticatorData != null ? utf8.encode(request.authenticatorData!) : null,
+      authenticatorData:
+          request.authenticatorData != null ? utf8.encode(request.authenticatorData!) : null,
       clientDataJson: request.clientDataJson,
     );
 
@@ -644,7 +674,8 @@ class EspressoCashClient {
       slot: request.slot.toInt64,
       expectedCounter: request.expectedCounter,
       unsignedTransaction: utf8.encode(request.unsignedTransaction),
-      authenticatorData: request.authenticatorData != null ? utf8.encode(request.authenticatorData!) : null,
+      authenticatorData:
+          request.authenticatorData != null ? utf8.encode(request.authenticatorData!) : null,
       clientDataJson: request.clientDataJson,
     );
 
@@ -658,13 +689,15 @@ class EspressoCashClient {
   }
 
   // TransactionLink Service Methods (Anonymous methods)
-  Future<GetOnboardingLinkResponseDto> getOnboardingLink(GetOnboardingLinkRequestDto request) async {
+  Future<GetOnboardingLinkResponseDto> getOnboardingLink(
+    GetOnboardingLinkRequestDto request,
+  ) async {
     // Note: Proto only supports platform and metadata - simplified mapping
     final metadataMap = <String, String>{
       if (request.returnUrl.isNotEmpty) 'returnUrl': request.returnUrl,
       if (request.walletAddress != null) 'walletAddress': request.walletAddress!,
     };
-    
+
     final r = transactionlink_proto.GetOnboardingLinkRequest(
       platform: request.platform,
       // Converting map entries to iterable
@@ -673,30 +706,36 @@ class EspressoCashClient {
 
     final response = await _transactionLinkServiceClient.getOnboardingLink(r);
 
-    return GetOnboardingLinkResponseDto(
-      onboardingUrl: response.onboardingUrl,
-    );
+    return GetOnboardingLinkResponseDto(onboardingUrl: response.onboardingUrl);
   }
 
-  Future<CreateTransactionLinkResponseDto> createTransactionLink(CreateTransactionLinkRequestDto request) async {
+  Future<CreateTransactionLinkResponseDto> createTransactionLink(
+    CreateTransactionLinkRequestDto request,
+  ) async {
     // Note: Simplified mapping - proto structure is different
     final r = transactionlink_proto.CreateTransactionLinkRequest(
       transactionType: request.paymentParams != null ? 'payment' : 'swap',
       userWallet: request.signerPublicKey, // Using signerPublicKey as userWallet
       platform: 'web', // Default platform
       useSwig: false, // Default to false
-      payment: request.paymentParams != null ? transactionlink_proto.PaymentParams(
-        recipient: request.paymentParams!.receiverAddress,
-        amount: request.paymentParams!.amount.toString(),
-        token: request.paymentParams!.tokenMint,
-        memo: request.paymentParams!.reference ?? '',
-      ) : null,
-      swap: request.swapParams != null ? transactionlink_proto.SwapParams(
-        inputToken: request.swapParams!.inputMint,
-        outputToken: request.swapParams!.outputMint,
-        amount: request.swapParams!.amount.toString(),
-        slippageBps: request.swapParams!.slippageBps.toString(), // Convert to string
-      ) : null,
+      payment:
+          request.paymentParams != null
+              ? transactionlink_proto.PaymentParams(
+                recipient: request.paymentParams!.receiverAddress,
+                amount: request.paymentParams!.amount.toString(),
+                token: request.paymentParams!.tokenMint,
+                memo: request.paymentParams!.reference ?? '',
+              )
+              : null,
+      swap:
+          request.swapParams != null
+              ? transactionlink_proto.SwapParams(
+                inputToken: request.swapParams!.inputMint,
+                outputToken: request.swapParams!.outputMint,
+                amount: request.swapParams!.amount.toString(),
+                slippageBps: request.swapParams!.slippageBps.toString(), // Convert to string
+              )
+              : null,
     );
 
     final response = await _transactionLinkServiceClient.createTransactionLink(r);
@@ -707,7 +746,9 @@ class EspressoCashClient {
     );
   }
 
-  Future<GetTransactionStatusResponseDto> getTransactionStatus(GetTransactionStatusRequestDto request) async {
+  Future<GetTransactionStatusResponseDto> getTransactionStatus(
+    GetTransactionStatusRequestDto request,
+  ) async {
     final r = transactionlink_proto.GetTransactionStatusRequest(
       trackingToken: request.transactionId, // Using transactionId as trackingToken
     );
@@ -721,7 +762,7 @@ class EspressoCashClient {
     );
   }
 
-  // Manage Service Methods (Anonymous method)  
+  // Manage Service Methods (Anonymous method)
   Future<GetPlatformAccountInfoResponseDto> getPlatformAccountInfo() async {
     final r = manage_proto.GetPlatformAccountInfoRequest();
     final response = await _manageServiceClient.getPlatformAccountInfo(r);
