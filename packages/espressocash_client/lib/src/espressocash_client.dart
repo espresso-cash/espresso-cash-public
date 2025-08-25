@@ -544,7 +544,7 @@ class EspressoCashClient {
                           .map(
                             (p) => PermissionActionDto(
                               permissionType: p.permissionType,
-                              permissionData: String.fromCharCodes(p.permissionData),
+                              permissionData: base64Encode(p.permissionData),
                             ),
                           )
                           .toList(),
@@ -557,8 +557,8 @@ class EspressoCashClient {
   Future<PrepareAddAuthorityResponseDto> prepareAddAuthority(
     PrepareAddAuthorityRequestDto request,
   ) async {
-    // Convert base64 authority data to bytes
-    final authorityData = utf8.encode(request.newAuthority.data);
+    // Decode base64 authority data to bytes
+    final authorityData = base64Decode(request.newAuthority.data);
 
     final r = swig_proto.PrepareAddAuthorityRequest(
       swigWalletAddress: request.swigWalletAddress,
@@ -578,7 +578,7 @@ class EspressoCashClient {
               .map(
                 (p) => swig_proto.PermissionAction(
                   permissionType: p.permissionType,
-                  permissionData: utf8.encode(p.permissionData),
+                  permissionData: base64Decode(p.permissionData),
                 ),
               )
               .toList(),
@@ -587,8 +587,8 @@ class EspressoCashClient {
     final response = await _swigServiceClient.prepareAddAuthority(r);
 
     return PrepareAddAuthorityResponseDto(
-      unsignedTransaction: String.fromCharCodes(response.unsignedTransaction),
-      messageHash: String.fromCharCodes(response.messageHash),
+      unsignedTransaction: base64Encode(response.unsignedTransaction),
+      messageHash: base64Encode(response.messageHash),
       slot: response.slot.toInt(),
       expectedCounter: response.expectedCounter,
     );
@@ -597,14 +597,14 @@ class EspressoCashClient {
   Future<SubmitAddAuthorityResponseDto> submitAddAuthority(
     SubmitAddAuthorityRequestDto request,
   ) async {
-    // Convert base64 authority data to bytes
-    final authorityData = utf8.encode(request.newAuthority.data);
+    // Decode base64 authority data to bytes
+    final authorityData = base64Decode(request.newAuthority.data);
 
     final r = swig_proto.SubmitAddAuthorityRequest(
       signingResult: swig_proto.SigningResult(
-        signature: utf8.encode(request.signingResult.signature),
-        prefix: utf8.encode(request.signingResult.prefix),
-        message: utf8.encode(request.signingResult.message),
+        signature: base64Decode(request.signingResult.signature),
+        prefix: base64Decode(request.signingResult.prefix),
+        message: base64Decode(request.signingResult.message),
       ),
       swigWalletAddress: request.swigWalletAddress,
       signingRoleId: request.signingRoleId,
@@ -623,14 +623,14 @@ class EspressoCashClient {
               .map(
                 (p) => swig_proto.PermissionAction(
                   permissionType: p.permissionType,
-                  permissionData: utf8.encode(p.permissionData),
+                  permissionData: base64Decode(p.permissionData),
                 ),
               )
               .toList(),
       slot: request.slot.toInt64,
       expectedCounter: request.expectedCounter,
       authenticatorData:
-          request.authenticatorData != null ? utf8.encode(request.authenticatorData!) : null,
+          request.authenticatorData != null ? base64Decode(request.authenticatorData!) : null,
       clientDataJson: request.clientDataJson,
     );
 
@@ -647,14 +647,14 @@ class EspressoCashClient {
     final r = swig_proto.PrepareSignV1Request(
       swigWalletAddress: request.swigWalletAddress,
       signingRoleId: request.signingRoleId,
-      wrappedInstruction: utf8.encode(request.wrappedInstruction),
+      wrappedInstruction: base64Decode(request.wrappedInstruction),
     );
 
     final response = await _swigServiceClient.prepareSignV1(r);
 
     return PrepareSignV1ResponseDto(
       unsignedTransaction: Uint8List.fromList(response.unsignedTransaction),
-      messageHash: String.fromCharCodes(response.messageHash),
+      messageHash: base64Encode(response.messageHash),
       authorityType: response.authorityType,
       slot: response.slot.toInt(),
       expectedCounter: response.expectedCounter,
@@ -664,18 +664,18 @@ class EspressoCashClient {
   Future<SubmitSignV1ResponseDto> submitSignV1(SubmitSignV1RequestDto request) async {
     final r = swig_proto.SubmitSignV1Request(
       signingResult: swig_proto.SigningResult(
-        signature: utf8.encode(request.signingResult.signature),
-        prefix: utf8.encode(request.signingResult.prefix),
-        message: utf8.encode(request.signingResult.message),
+        signature: base64Decode(request.signingResult.signature),
+        prefix: base64Decode(request.signingResult.prefix),
+        message: base64Decode(request.signingResult.message),
       ),
       swigWalletAddress: request.swigWalletAddress,
       signingRoleId: request.signingRoleId,
-      wrappedInstruction: utf8.encode(request.wrappedInstruction),
+      wrappedInstruction: base64Decode(request.wrappedInstruction),
       slot: request.slot.toInt64,
       expectedCounter: request.expectedCounter,
-      unsignedTransaction: utf8.encode(request.unsignedTransaction),
+      unsignedTransaction: base64Decode(request.unsignedTransaction),
       authenticatorData:
-          request.authenticatorData != null ? utf8.encode(request.authenticatorData!) : null,
+          request.authenticatorData != null ? base64Decode(request.authenticatorData!) : null,
       clientDataJson: request.clientDataJson,
     );
 
