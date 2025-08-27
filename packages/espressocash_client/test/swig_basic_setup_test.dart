@@ -186,6 +186,35 @@ void main() {
     print('✅ Ready for authority management and transactions!');
     print('=' * 60);
 
+    // Step 7: Get and display wallet authorities
+    print('\n📝 Step 7: Get SWIG Wallet Authorities');
+    final authoritiesRequest = GetWalletAuthoritiesRequestDto(
+      swigWalletAddress: swigWalletAddress,
+    );
+    
+    final authoritiesResponse = await client.getWalletAuthorities(authoritiesRequest);
+    print('✅ Retrieved wallet authorities');
+    print('   Total authorities: ${authoritiesResponse.authorities.length}');
+    print('');
+    
+    for (int i = 0; i < authoritiesResponse.authorities.length; i++) {
+      final authority = authoritiesResponse.authorities[i];
+      print('   🔑 Authority ${i + 1}:');
+      print('      Role ID: ${authority.roleId}');
+      print('      Type: ${authority.authorityType}');
+      print('      Permissions: ${authority.permissions.length} permission(s)');
+      
+      for (int j = 0; j < authority.permissions.length; j++) {
+        final permission = authority.permissions[j];
+        print('         • Permission ${j + 1}: Type ${permission.permissionType}');
+        final dataPreview = permission.permissionData.length > 32 
+            ? '${permission.permissionData.substring(0, 32)}...' 
+            : permission.permissionData;
+        print('           Data: $dataPreview');
+      }
+      print('');
+    }
+
     // Verify the addresses are valid
     expect(ownerKeyPair.address, isA<String>());
     expect(ownerKeyPair.address, hasLength(44)); // Base58 Solana address length
@@ -199,6 +228,18 @@ void main() {
     // Verify both wallets have positive balances
     expect(finalOwnerBalance, greaterThan(0));
     expect(finalSwigBalance, greaterThan(0));
+
+    // Verify authorities response
+    expect(authoritiesResponse.authorities, isA<List<SWIGAuthorityDto>>());
+    expect(authoritiesResponse.authorities, isNotEmpty);
+    expect(authoritiesResponse.authorities.length, greaterThan(0));
+    
+    // Verify the first authority is properly configured
+    final firstAuthority = authoritiesResponse.authorities.first;
+    expect(firstAuthority.roleId, isA<int>());
+    expect(firstAuthority.authorityType, isA<String>());
+    expect(firstAuthority.authorityType, isNotEmpty);
+    expect(firstAuthority.permissions, isA<List<PermissionActionDto>>());
 
     print('\n✅ All validations passed!');
     print('🚀 SWIG wallet setup completed successfully with real blockchain interactions!');

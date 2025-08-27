@@ -647,7 +647,7 @@ class EspressoCashClient {
     final r = swig_proto.PrepareSignV1Request(
       swigWalletAddress: request.swigWalletAddress,
       signingRoleId: request.signingRoleId,
-      wrappedInstruction: base64Decode(request.wrappedInstruction),
+      wrappedInstructions: request.wrappedInstructions.map(base64Decode),
     );
 
     final response = await _swigServiceClient.prepareSignV1(r);
@@ -670,7 +670,7 @@ class EspressoCashClient {
       ),
       swigWalletAddress: request.swigWalletAddress,
       signingRoleId: request.signingRoleId,
-      wrappedInstruction: base64Decode(request.wrappedInstruction),
+      wrappedInstructions: request.wrappedInstructions.map(base64Decode),
       slot: request.slot.toInt64,
       expectedCounter: request.expectedCounter,
       unsignedTransaction: base64Decode(request.unsignedTransaction),

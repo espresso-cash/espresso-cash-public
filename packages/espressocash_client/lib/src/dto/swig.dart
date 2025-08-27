@@ -128,12 +128,12 @@ class PrepareSignV1RequestDto {
   const PrepareSignV1RequestDto({
     required this.swigWalletAddress,
     required this.signingRoleId,
-    required this.wrappedInstruction,
+    required this.wrappedInstructions,
   });
 
   final String swigWalletAddress;
   final int signingRoleId;
-  final String wrappedInstruction; // Base64 encoded JSON
+  final List<String> wrappedInstructions; // Base64 encoded JSONs
 }
 
 class PrepareSignV1ResponseDto {
@@ -158,7 +158,7 @@ class SubmitSignV1RequestDto {
     required this.signingResult,
     required this.swigWalletAddress,
     required this.signingRoleId,
-    required this.wrappedInstruction,
+    required this.wrappedInstructions,
     required this.slot,
     required this.expectedCounter,
     required this.unsignedTransaction,
@@ -169,7 +169,7 @@ class SubmitSignV1RequestDto {
   final SigningResultDto signingResult;
   final String swigWalletAddress;
   final int signingRoleId;
-  final String wrappedInstruction;
+  final List<String> wrappedInstructions;
   final int slot;
   final int expectedCounter;
   final String unsignedTransaction;
