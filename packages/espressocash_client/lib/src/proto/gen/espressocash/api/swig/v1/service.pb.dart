@@ -1302,13 +1302,13 @@ class PrepareSignV1Request extends $pb.GeneratedMessage {
   factory PrepareSignV1Request({
     $core.String? swigWalletAddress,
     $core.int? signingRoleId,
-    $core.List<$core.int>? wrappedInstruction,
+    $core.Iterable<$core.List<$core.int>>? wrappedInstructions,
   }) {
     final result = create();
     if (swigWalletAddress != null) result.swigWalletAddress = swigWalletAddress;
     if (signingRoleId != null) result.signingRoleId = signingRoleId;
-    if (wrappedInstruction != null)
-      result.wrappedInstruction = wrappedInstruction;
+    if (wrappedInstructions != null)
+      result.wrappedInstructions.addAll(wrappedInstructions);
     return result;
   }
 
@@ -1329,8 +1329,8 @@ class PrepareSignV1Request extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'swigWalletAddress')
     ..a<$core.int>(
         2, _omitFieldNames ? '' : 'signingRoleId', $pb.PbFieldType.OU3)
-    ..a<$core.List<$core.int>>(
-        3, _omitFieldNames ? '' : 'wrappedInstruction', $pb.PbFieldType.OY)
+    ..p<$core.List<$core.int>>(
+        3, _omitFieldNames ? '' : 'wrappedInstructions', $pb.PbFieldType.PY)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -1375,15 +1375,9 @@ class PrepareSignV1Request extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearSigningRoleId() => $_clearField(2);
 
-  /// Instruction to be wrapped (serialized GenericInstruction)
+  /// Instructions to be wrapped (serialized GenericInstructions)
   @$pb.TagNumber(3)
-  $core.List<$core.int> get wrappedInstruction => $_getN(2);
-  @$pb.TagNumber(3)
-  set wrappedInstruction($core.List<$core.int> value) => $_setBytes(2, value);
-  @$pb.TagNumber(3)
-  $core.bool hasWrappedInstruction() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearWrappedInstruction() => $_clearField(3);
+  $pb.PbList<$core.List<$core.int>> get wrappedInstructions => $_getList(2);
 }
 
 /// Response with prepared SignV1 transaction
@@ -1525,7 +1519,7 @@ class SubmitSignV1Request extends $pb.GeneratedMessage {
     SigningResult? signingResult,
     $core.String? swigWalletAddress,
     $core.int? signingRoleId,
-    $core.List<$core.int>? wrappedInstruction,
+    $core.Iterable<$core.List<$core.int>>? wrappedInstructions,
     $fixnum.Int64? slot,
     $core.int? expectedCounter,
     $core.List<$core.int>? unsignedTransaction,
@@ -1536,8 +1530,8 @@ class SubmitSignV1Request extends $pb.GeneratedMessage {
     if (signingResult != null) result.signingResult = signingResult;
     if (swigWalletAddress != null) result.swigWalletAddress = swigWalletAddress;
     if (signingRoleId != null) result.signingRoleId = signingRoleId;
-    if (wrappedInstruction != null)
-      result.wrappedInstruction = wrappedInstruction;
+    if (wrappedInstructions != null)
+      result.wrappedInstructions.addAll(wrappedInstructions);
     if (slot != null) result.slot = slot;
     if (expectedCounter != null) result.expectedCounter = expectedCounter;
     if (unsignedTransaction != null)
@@ -1566,8 +1560,8 @@ class SubmitSignV1Request extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'swigWalletAddress')
     ..a<$core.int>(
         3, _omitFieldNames ? '' : 'signingRoleId', $pb.PbFieldType.OU3)
-    ..a<$core.List<$core.int>>(
-        4, _omitFieldNames ? '' : 'wrappedInstruction', $pb.PbFieldType.OY)
+    ..p<$core.List<$core.int>>(
+        4, _omitFieldNames ? '' : 'wrappedInstructions', $pb.PbFieldType.PY)
     ..a<$fixnum.Int64>(5, _omitFieldNames ? '' : 'slot', $pb.PbFieldType.OU6,
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..a<$core.int>(
@@ -1632,15 +1626,9 @@ class SubmitSignV1Request extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   void clearSigningRoleId() => $_clearField(3);
 
-  /// Instruction that was wrapped (for reconstruction)
+  /// Instructions that were wrapped (for reconstruction)
   @$pb.TagNumber(4)
-  $core.List<$core.int> get wrappedInstruction => $_getN(3);
-  @$pb.TagNumber(4)
-  set wrappedInstruction($core.List<$core.int> value) => $_setBytes(3, value);
-  @$pb.TagNumber(4)
-  $core.bool hasWrappedInstruction() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearWrappedInstruction() => $_clearField(4);
+  $pb.PbList<$core.List<$core.int>> get wrappedInstructions => $_getList(3);
 
   /// Slot used for signing (required for Secp256k1/Secp256r1)
   @$pb.TagNumber(5)

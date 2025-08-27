@@ -457,11 +457,11 @@ const PrepareSignV1Request$json = {
     },
     {'1': 'signing_role_id', '3': 2, '4': 1, '5': 13, '10': 'signingRoleId'},
     {
-      '1': 'wrapped_instruction',
+      '1': 'wrapped_instructions',
       '3': 3,
-      '4': 1,
+      '4': 3,
       '5': 12,
-      '10': 'wrappedInstruction'
+      '10': 'wrappedInstructions'
     },
   ],
 };
@@ -470,7 +470,7 @@ const PrepareSignV1Request$json = {
 final $typed_data.Uint8List prepareSignV1RequestDescriptor = $convert.base64Decode(
     'ChRQcmVwYXJlU2lnblYxUmVxdWVzdBIuChNzd2lnX3dhbGxldF9hZGRyZXNzGAEgASgJUhFzd2'
     'lnV2FsbGV0QWRkcmVzcxImCg9zaWduaW5nX3JvbGVfaWQYAiABKA1SDXNpZ25pbmdSb2xlSWQS'
-    'LwoTd3JhcHBlZF9pbnN0cnVjdGlvbhgDIAEoDFISd3JhcHBlZEluc3RydWN0aW9u');
+    'MQoUd3JhcHBlZF9pbnN0cnVjdGlvbnMYAyADKAxSE3dyYXBwZWRJbnN0cnVjdGlvbnM=');
 
 @$core.Deprecated('Use prepareSignV1ResponseDescriptor instead')
 const PrepareSignV1Response$json = {
@@ -520,11 +520,11 @@ const SubmitSignV1Request$json = {
     },
     {'1': 'signing_role_id', '3': 3, '4': 1, '5': 13, '10': 'signingRoleId'},
     {
-      '1': 'wrapped_instruction',
+      '1': 'wrapped_instructions',
       '3': 4,
-      '4': 1,
+      '4': 3,
       '5': 12,
-      '10': 'wrappedInstruction'
+      '10': 'wrappedInstructions'
     },
     {'1': 'slot', '3': 5, '4': 1, '5': 4, '10': 'slot'},
     {'1': 'expected_counter', '3': 6, '4': 1, '5': 13, '10': 'expectedCounter'},
@@ -565,12 +565,12 @@ final $typed_data.Uint8List submitSignV1RequestDescriptor = $convert.base64Decod
     'ChNTdWJtaXRTaWduVjFSZXF1ZXN0Ek4KDnNpZ25pbmdfcmVzdWx0GAEgASgLMicuZXNwcmVzc2'
     '9jYXNoLmFwaS5zd2lnLnYxLlNpZ25pbmdSZXN1bHRSDXNpZ25pbmdSZXN1bHQSLgoTc3dpZ193'
     'YWxsZXRfYWRkcmVzcxgCIAEoCVIRc3dpZ1dhbGxldEFkZHJlc3MSJgoPc2lnbmluZ19yb2xlX2'
-    'lkGAMgASgNUg1zaWduaW5nUm9sZUlkEi8KE3dyYXBwZWRfaW5zdHJ1Y3Rpb24YBCABKAxSEndy'
-    'YXBwZWRJbnN0cnVjdGlvbhISCgRzbG90GAUgASgEUgRzbG90EikKEGV4cGVjdGVkX2NvdW50ZX'
-    'IYBiABKA1SD2V4cGVjdGVkQ291bnRlchIxChR1bnNpZ25lZF90cmFuc2FjdGlvbhgHIAEoDFIT'
-    'dW5zaWduZWRUcmFuc2FjdGlvbhIyChJhdXRoZW50aWNhdG9yX2RhdGEYCCABKAxIAFIRYXV0aG'
-    'VudGljYXRvckRhdGGIAQESLQoQY2xpZW50X2RhdGFfanNvbhgJIAEoCUgBUg5jbGllbnREYXRh'
-    'SnNvbogBAUIVChNfYXV0aGVudGljYXRvcl9kYXRhQhMKEV9jbGllbnRfZGF0YV9qc29u');
+    'lkGAMgASgNUg1zaWduaW5nUm9sZUlkEjEKFHdyYXBwZWRfaW5zdHJ1Y3Rpb25zGAQgAygMUhN3'
+    'cmFwcGVkSW5zdHJ1Y3Rpb25zEhIKBHNsb3QYBSABKARSBHNsb3QSKQoQZXhwZWN0ZWRfY291bn'
+    'RlchgGIAEoDVIPZXhwZWN0ZWRDb3VudGVyEjEKFHVuc2lnbmVkX3RyYW5zYWN0aW9uGAcgASgM'
+    'UhN1bnNpZ25lZFRyYW5zYWN0aW9uEjIKEmF1dGhlbnRpY2F0b3JfZGF0YRgIIAEoDEgAUhFhdX'
+    'RoZW50aWNhdG9yRGF0YYgBARItChBjbGllbnRfZGF0YV9qc29uGAkgASgJSAFSDmNsaWVudERh'
+    'dGFKc29uiAEBQhUKE19hdXRoZW50aWNhdG9yX2RhdGFCEwoRX2NsaWVudF9kYXRhX2pzb24=');
 
 @$core.Deprecated('Use submitSignV1ResponseDescriptor instead')
 const SubmitSignV1Response$json = {
