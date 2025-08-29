@@ -233,3 +233,26 @@ class SWIGAuthorityDto {
   final String authorityType;
   final List<PermissionActionDto> permissions;
 }
+
+// SubmitCreateWallet
+class SubmitCreateWalletRequestDto {
+  const SubmitCreateWalletRequestDto({
+    required this.ownerAddress,
+  });
+
+  final String ownerAddress;
+}
+
+class SubmitCreateWalletResponseDto {
+  const SubmitCreateWalletResponseDto({
+    required this.swigWalletAddress,
+    required this.transactionSignature,
+    required this.feesPaidBy,
+    required this.actualFee,
+  });
+
+  final String swigWalletAddress;
+  final String transactionSignature;
+  final String feesPaidBy;
+  final int actualFee;
+}

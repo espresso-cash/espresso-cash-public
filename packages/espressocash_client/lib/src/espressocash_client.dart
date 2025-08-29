@@ -525,6 +525,21 @@ class EspressoCashClient {
     );
   }
 
+  Future<SubmitCreateWalletResponseDto> submitCreateWallet(SubmitCreateWalletRequestDto request) async {
+    final r = swig_proto.SubmitCreateWalletRequest(
+      ownerAddress: request.ownerAddress,
+    );
+
+    final response = await _swigServiceClient.submitCreateWallet(r);
+
+    return SubmitCreateWalletResponseDto(
+      swigWalletAddress: response.swigWalletAddress,
+      transactionSignature: response.transactionSignature,
+      feesPaidBy: response.feesPaidBy,
+      actualFee: response.actualFee.toInt(),
+    );
+  }
+
   Future<GetWalletAuthoritiesResponseDto> getWalletAuthorities(
     GetWalletAuthoritiesRequestDto request,
   ) async {
