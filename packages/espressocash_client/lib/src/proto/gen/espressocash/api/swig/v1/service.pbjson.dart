@@ -112,6 +112,50 @@ final $typed_data.Uint8List createWalletResponseDescriptor = $convert.base64Deco
     '5zaWduZWRUcmFuc2FjdGlvbhIuChNzd2lnX3dhbGxldF9hZGRyZXNzGAIgASgJUhFzd2lnV2Fs'
     'bGV0QWRkcmVzcw==');
 
+@$core.Deprecated('Use submitCreateWalletRequestDescriptor instead')
+const SubmitCreateWalletRequest$json = {
+  '1': 'SubmitCreateWalletRequest',
+  '2': [
+    {'1': 'owner_address', '3': 1, '4': 1, '5': 9, '10': 'ownerAddress'},
+  ],
+};
+
+/// Descriptor for `SubmitCreateWalletRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List submitCreateWalletRequestDescriptor =
+    $convert.base64Decode(
+        'ChlTdWJtaXRDcmVhdGVXYWxsZXRSZXF1ZXN0EiMKDW93bmVyX2FkZHJlc3MYASABKAlSDG93bm'
+        'VyQWRkcmVzcw==');
+
+@$core.Deprecated('Use submitCreateWalletResponseDescriptor instead')
+const SubmitCreateWalletResponse$json = {
+  '1': 'SubmitCreateWalletResponse',
+  '2': [
+    {
+      '1': 'swig_wallet_address',
+      '3': 1,
+      '4': 1,
+      '5': 9,
+      '10': 'swigWalletAddress'
+    },
+    {
+      '1': 'transaction_signature',
+      '3': 2,
+      '4': 1,
+      '5': 9,
+      '10': 'transactionSignature'
+    },
+    {'1': 'fees_paid_by', '3': 3, '4': 1, '5': 9, '10': 'feesPaidBy'},
+    {'1': 'actual_fee', '3': 4, '4': 1, '5': 4, '10': 'actualFee'},
+  ],
+};
+
+/// Descriptor for `SubmitCreateWalletResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List submitCreateWalletResponseDescriptor = $convert.base64Decode(
+    'ChpTdWJtaXRDcmVhdGVXYWxsZXRSZXNwb25zZRIuChNzd2lnX3dhbGxldF9hZGRyZXNzGAEgAS'
+    'gJUhFzd2lnV2FsbGV0QWRkcmVzcxIzChV0cmFuc2FjdGlvbl9zaWduYXR1cmUYAiABKAlSFHRy'
+    'YW5zYWN0aW9uU2lnbmF0dXJlEiAKDGZlZXNfcGFpZF9ieRgDIAEoCVIKZmVlc1BhaWRCeRIdCg'
+    'phY3R1YWxfZmVlGAQgASgEUglhY3R1YWxGZWU=');
+
 @$core.Deprecated('Use signingResultDescriptor instead')
 const SigningResult$json = {
   '1': 'SigningResult',
@@ -603,6 +647,11 @@ const $core.Map<$core.String, $core.dynamic> SWIGServiceBase$json = {
       '3': '.espressocash.api.swig.v1.CreateWalletResponse'
     },
     {
+      '1': 'SubmitCreateWallet',
+      '2': '.espressocash.api.swig.v1.SubmitCreateWalletRequest',
+      '3': '.espressocash.api.swig.v1.SubmitCreateWalletResponse'
+    },
+    {
       '1': 'PrepareAddAuthority',
       '2': '.espressocash.api.swig.v1.PrepareAddAuthorityRequest',
       '3': '.espressocash.api.swig.v1.PrepareAddAuthorityResponse'
@@ -635,6 +684,10 @@ const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>>
     SWIGServiceBase$messageJson = {
   '.espressocash.api.swig.v1.CreateWalletRequest': CreateWalletRequest$json,
   '.espressocash.api.swig.v1.CreateWalletResponse': CreateWalletResponse$json,
+  '.espressocash.api.swig.v1.SubmitCreateWalletRequest':
+      SubmitCreateWalletRequest$json,
+  '.espressocash.api.swig.v1.SubmitCreateWalletResponse':
+      SubmitCreateWalletResponse$json,
   '.espressocash.api.swig.v1.PrepareAddAuthorityRequest':
       PrepareAddAuthorityRequest$json,
   '.espressocash.api.swig.v1.AuthorityInfo': AuthorityInfo$json,
@@ -662,15 +715,17 @@ const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>>
 final $typed_data.Uint8List sWIGServiceDescriptor = $convert.base64Decode(
     'CgtTV0lHU2VydmljZRJtCgxDcmVhdGVXYWxsZXQSLS5lc3ByZXNzb2Nhc2guYXBpLnN3aWcudj'
     'EuQ3JlYXRlV2FsbGV0UmVxdWVzdBouLmVzcHJlc3NvY2FzaC5hcGkuc3dpZy52MS5DcmVhdGVX'
-    'YWxsZXRSZXNwb25zZRKCAQoTUHJlcGFyZUFkZEF1dGhvcml0eRI0LmVzcHJlc3NvY2FzaC5hcG'
-    'kuc3dpZy52MS5QcmVwYXJlQWRkQXV0aG9yaXR5UmVxdWVzdBo1LmVzcHJlc3NvY2FzaC5hcGku'
-    'c3dpZy52MS5QcmVwYXJlQWRkQXV0aG9yaXR5UmVzcG9uc2USfwoSU3VibWl0QWRkQXV0aG9yaX'
-    'R5EjMuZXNwcmVzc29jYXNoLmFwaS5zd2lnLnYxLlN1Ym1pdEFkZEF1dGhvcml0eVJlcXVlc3Qa'
-    'NC5lc3ByZXNzb2Nhc2guYXBpLnN3aWcudjEuU3VibWl0QWRkQXV0aG9yaXR5UmVzcG9uc2UShQ'
-    'EKFEdldFdhbGxldEF1dGhvcml0aWVzEjUuZXNwcmVzc29jYXNoLmFwaS5zd2lnLnYxLkdldFdh'
-    'bGxldEF1dGhvcml0aWVzUmVxdWVzdBo2LmVzcHJlc3NvY2FzaC5hcGkuc3dpZy52MS5HZXRXYW'
-    'xsZXRBdXRob3JpdGllc1Jlc3BvbnNlEnAKDVByZXBhcmVTaWduVjESLi5lc3ByZXNzb2Nhc2gu'
-    'YXBpLnN3aWcudjEuUHJlcGFyZVNpZ25WMVJlcXVlc3QaLy5lc3ByZXNzb2Nhc2guYXBpLnN3aW'
-    'cudjEuUHJlcGFyZVNpZ25WMVJlc3BvbnNlEm0KDFN1Ym1pdFNpZ25WMRItLmVzcHJlc3NvY2Fz'
-    'aC5hcGkuc3dpZy52MS5TdWJtaXRTaWduVjFSZXF1ZXN0Gi4uZXNwcmVzc29jYXNoLmFwaS5zd2'
-    'lnLnYxLlN1Ym1pdFNpZ25WMVJlc3BvbnNl');
+    'YWxsZXRSZXNwb25zZRJ/ChJTdWJtaXRDcmVhdGVXYWxsZXQSMy5lc3ByZXNzb2Nhc2guYXBpLn'
+    'N3aWcudjEuU3VibWl0Q3JlYXRlV2FsbGV0UmVxdWVzdBo0LmVzcHJlc3NvY2FzaC5hcGkuc3dp'
+    'Zy52MS5TdWJtaXRDcmVhdGVXYWxsZXRSZXNwb25zZRKCAQoTUHJlcGFyZUFkZEF1dGhvcml0eR'
+    'I0LmVzcHJlc3NvY2FzaC5hcGkuc3dpZy52MS5QcmVwYXJlQWRkQXV0aG9yaXR5UmVxdWVzdBo1'
+    'LmVzcHJlc3NvY2FzaC5hcGkuc3dpZy52MS5QcmVwYXJlQWRkQXV0aG9yaXR5UmVzcG9uc2USfw'
+    'oSU3VibWl0QWRkQXV0aG9yaXR5EjMuZXNwcmVzc29jYXNoLmFwaS5zd2lnLnYxLlN1Ym1pdEFk'
+    'ZEF1dGhvcml0eVJlcXVlc3QaNC5lc3ByZXNzb2Nhc2guYXBpLnN3aWcudjEuU3VibWl0QWRkQX'
+    'V0aG9yaXR5UmVzcG9uc2UShQEKFEdldFdhbGxldEF1dGhvcml0aWVzEjUuZXNwcmVzc29jYXNo'
+    'LmFwaS5zd2lnLnYxLkdldFdhbGxldEF1dGhvcml0aWVzUmVxdWVzdBo2LmVzcHJlc3NvY2FzaC'
+    '5hcGkuc3dpZy52MS5HZXRXYWxsZXRBdXRob3JpdGllc1Jlc3BvbnNlEnAKDVByZXBhcmVTaWdu'
+    'VjESLi5lc3ByZXNzb2Nhc2guYXBpLnN3aWcudjEuUHJlcGFyZVNpZ25WMVJlcXVlc3QaLy5lc3'
+    'ByZXNzb2Nhc2guYXBpLnN3aWcudjEuUHJlcGFyZVNpZ25WMVJlc3BvbnNlEm0KDFN1Ym1pdFNp'
+    'Z25WMRItLmVzcHJlc3NvY2FzaC5hcGkuc3dpZy52MS5TdWJtaXRTaWduVjFSZXF1ZXN0Gi4uZX'
+    'NwcmVzc29jYXNoLmFwaS5zd2lnLnYxLlN1Ym1pdFNpZ25WMVJlc3BvbnNl');

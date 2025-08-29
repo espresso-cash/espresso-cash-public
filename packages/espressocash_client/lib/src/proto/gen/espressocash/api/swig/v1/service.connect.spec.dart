@@ -19,6 +19,14 @@ abstract final class SWIGService {
     espressocashapiswigv1service.CreateWalletResponse.new,
   );
 
+  /// Creates a SWIG wallet with platform fee payment
+  static const submitCreateWallet = connect.Spec(
+    '/$name/SubmitCreateWallet',
+    connect.StreamType.unary,
+    espressocashapiswigv1service.SubmitCreateWalletRequest.new,
+    espressocashapiswigv1service.SubmitCreateWalletResponse.new,
+  );
+
   /// Prepares an AddAuthority operation (returns unsigned transaction)
   static const prepareAddAuthority = connect.Spec(
     '/$name/PrepareAddAuthority',

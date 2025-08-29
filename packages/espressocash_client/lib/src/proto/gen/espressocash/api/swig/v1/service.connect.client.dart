@@ -27,6 +27,24 @@ extension type SWIGServiceClient (connect.Transport _transport) {
     );
   }
 
+  /// Creates a SWIG wallet with platform fee payment
+  Future<espressocashapiswigv1service.SubmitCreateWalletResponse> submitCreateWallet(
+    espressocashapiswigv1service.SubmitCreateWalletRequest input, {
+    connect.Headers? headers,
+    connect.AbortSignal? signal,
+    Function(connect.Headers)? onHeader,
+    Function(connect.Headers)? onTrailer,
+  }) {
+    return connect.Client(_transport).unary(
+      specs.SWIGService.submitCreateWallet,
+      input,
+      signal: signal,
+      headers: headers,
+      onHeader: onHeader,
+      onTrailer: onTrailer,
+    );
+  }
+
   /// Prepares an AddAuthority operation (returns unsigned transaction)
   Future<espressocashapiswigv1service.PrepareAddAuthorityResponse> prepareAddAuthority(
     espressocashapiswigv1service.PrepareAddAuthorityRequest input, {

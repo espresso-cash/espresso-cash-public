@@ -196,6 +196,171 @@ class CreateWalletResponse extends $pb.GeneratedMessage {
   void clearSwigWalletAddress() => $_clearField(2);
 }
 
+/// Request to create a SWIG wallet with platform fee payment
+class SubmitCreateWalletRequest extends $pb.GeneratedMessage {
+  factory SubmitCreateWalletRequest({
+    $core.String? ownerAddress,
+  }) {
+    final result = create();
+    if (ownerAddress != null) result.ownerAddress = ownerAddress;
+    return result;
+  }
+
+  SubmitCreateWalletRequest._();
+
+  factory SubmitCreateWalletRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory SubmitCreateWalletRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SubmitCreateWalletRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.swig.v1'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'ownerAddress')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  SubmitCreateWalletRequest clone() =>
+      SubmitCreateWalletRequest()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  SubmitCreateWalletRequest copyWith(
+          void Function(SubmitCreateWalletRequest) updates) =>
+      super.copyWith((message) => updates(message as SubmitCreateWalletRequest))
+          as SubmitCreateWalletRequest;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SubmitCreateWalletRequest create() => SubmitCreateWalletRequest._();
+  @$core.override
+  SubmitCreateWalletRequest createEmptyInstance() => create();
+  static $pb.PbList<SubmitCreateWalletRequest> createRepeated() =>
+      $pb.PbList<SubmitCreateWalletRequest>();
+  @$core.pragma('dart2js:noInline')
+  static SubmitCreateWalletRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SubmitCreateWalletRequest>(create);
+  static SubmitCreateWalletRequest? _defaultInstance;
+
+  /// Owner's wallet address
+  @$pb.TagNumber(1)
+  $core.String get ownerAddress => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set ownerAddress($core.String value) => $_setString(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasOwnerAddress() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearOwnerAddress() => $_clearField(1);
+}
+
+/// Response with SWIG wallet creation details (platform pays fees)
+class SubmitCreateWalletResponse extends $pb.GeneratedMessage {
+  factory SubmitCreateWalletResponse({
+    $core.String? swigWalletAddress,
+    $core.String? transactionSignature,
+    $core.String? feesPaidBy,
+    $fixnum.Int64? actualFee,
+  }) {
+    final result = create();
+    if (swigWalletAddress != null) result.swigWalletAddress = swigWalletAddress;
+    if (transactionSignature != null)
+      result.transactionSignature = transactionSignature;
+    if (feesPaidBy != null) result.feesPaidBy = feesPaidBy;
+    if (actualFee != null) result.actualFee = actualFee;
+    return result;
+  }
+
+  SubmitCreateWalletResponse._();
+
+  factory SubmitCreateWalletResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory SubmitCreateWalletResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SubmitCreateWalletResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.swig.v1'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'swigWalletAddress')
+    ..aOS(2, _omitFieldNames ? '' : 'transactionSignature')
+    ..aOS(3, _omitFieldNames ? '' : 'feesPaidBy')
+    ..a<$fixnum.Int64>(
+        4, _omitFieldNames ? '' : 'actualFee', $pb.PbFieldType.OU6,
+        defaultOrMaker: $fixnum.Int64.ZERO)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  SubmitCreateWalletResponse clone() =>
+      SubmitCreateWalletResponse()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  SubmitCreateWalletResponse copyWith(
+          void Function(SubmitCreateWalletResponse) updates) =>
+      super.copyWith(
+              (message) => updates(message as SubmitCreateWalletResponse))
+          as SubmitCreateWalletResponse;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SubmitCreateWalletResponse create() => SubmitCreateWalletResponse._();
+  @$core.override
+  SubmitCreateWalletResponse createEmptyInstance() => create();
+  static $pb.PbList<SubmitCreateWalletResponse> createRepeated() =>
+      $pb.PbList<SubmitCreateWalletResponse>();
+  @$core.pragma('dart2js:noInline')
+  static SubmitCreateWalletResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SubmitCreateWalletResponse>(create);
+  static SubmitCreateWalletResponse? _defaultInstance;
+
+  /// SWIG wallet address (derived)
+  @$pb.TagNumber(1)
+  $core.String get swigWalletAddress => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set swigWalletAddress($core.String value) => $_setString(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasSwigWalletAddress() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSwigWalletAddress() => $_clearField(1);
+
+  /// Final transaction signature
+  @$pb.TagNumber(2)
+  $core.String get transactionSignature => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set transactionSignature($core.String value) => $_setString(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasTransactionSignature() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTransactionSignature() => $_clearField(2);
+
+  /// Account that paid fees (platform)
+  @$pb.TagNumber(3)
+  $core.String get feesPaidBy => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set feesPaidBy($core.String value) => $_setString(2, value);
+  @$pb.TagNumber(3)
+  $core.bool hasFeesPaidBy() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearFeesPaidBy() => $_clearField(3);
+
+  /// Actual fee paid
+  @$pb.TagNumber(4)
+  $fixnum.Int64 get actualFee => $_getI64(3);
+  @$pb.TagNumber(4)
+  set actualFee($fixnum.Int64 value) => $_setInt64(3, value);
+  @$pb.TagNumber(4)
+  $core.bool hasActualFee() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearActualFee() => $_clearField(4);
+}
+
 /// SigningResult matches swig-ts SigningResult interface exactly
 class SigningResult extends $pb.GeneratedMessage {
   factory SigningResult({
@@ -1780,6 +1945,12 @@ class SWIGServiceApi {
           $pb.ClientContext? ctx, CreateWalletRequest request) =>
       _client.invoke<CreateWalletResponse>(
           ctx, 'SWIGService', 'CreateWallet', request, CreateWalletResponse());
+
+  /// Creates a SWIG wallet with platform fee payment
+  $async.Future<SubmitCreateWalletResponse> submitCreateWallet(
+          $pb.ClientContext? ctx, SubmitCreateWalletRequest request) =>
+      _client.invoke<SubmitCreateWalletResponse>(ctx, 'SWIGService',
+          'SubmitCreateWallet', request, SubmitCreateWalletResponse());
 
   /// Prepares an AddAuthority operation (returns unsigned transaction)
   $async.Future<PrepareAddAuthorityResponse> prepareAddAuthority(

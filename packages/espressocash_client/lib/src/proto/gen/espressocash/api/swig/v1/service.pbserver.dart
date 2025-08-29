@@ -23,6 +23,8 @@ export 'service.pb.dart';
 abstract class SWIGServiceBase extends $pb.GeneratedService {
   $async.Future<$0.CreateWalletResponse> createWallet(
       $pb.ServerContext ctx, $0.CreateWalletRequest request);
+  $async.Future<$0.SubmitCreateWalletResponse> submitCreateWallet(
+      $pb.ServerContext ctx, $0.SubmitCreateWalletRequest request);
   $async.Future<$0.PrepareAddAuthorityResponse> prepareAddAuthority(
       $pb.ServerContext ctx, $0.PrepareAddAuthorityRequest request);
   $async.Future<$0.SubmitAddAuthorityResponse> submitAddAuthority(
@@ -38,6 +40,8 @@ abstract class SWIGServiceBase extends $pb.GeneratedService {
     switch (methodName) {
       case 'CreateWallet':
         return $0.CreateWalletRequest();
+      case 'SubmitCreateWallet':
+        return $0.SubmitCreateWalletRequest();
       case 'PrepareAddAuthority':
         return $0.PrepareAddAuthorityRequest();
       case 'SubmitAddAuthority':
@@ -58,6 +62,8 @@ abstract class SWIGServiceBase extends $pb.GeneratedService {
     switch (methodName) {
       case 'CreateWallet':
         return createWallet(ctx, request as $0.CreateWalletRequest);
+      case 'SubmitCreateWallet':
+        return submitCreateWallet(ctx, request as $0.SubmitCreateWalletRequest);
       case 'PrepareAddAuthority':
         return prepareAddAuthority(
             ctx, request as $0.PrepareAddAuthorityRequest);
