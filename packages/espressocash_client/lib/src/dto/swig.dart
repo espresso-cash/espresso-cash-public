@@ -238,9 +238,11 @@ class SWIGAuthorityDto {
 class SubmitCreateWalletRequestDto {
   const SubmitCreateWalletRequestDto({
     required this.ownerAddress,
+    this.mintAddress,
   });
 
   final String ownerAddress;
+  final String? mintAddress;
 }
 
 class SubmitCreateWalletResponseDto {
@@ -252,6 +254,29 @@ class SubmitCreateWalletResponseDto {
   });
 
   final String swigWalletAddress;
+  final String transactionSignature;
+  final String feesPaidBy;
+  final int actualFee;
+}
+
+// SubmitCreateATA
+class SubmitCreateATARequestDto {
+  const SubmitCreateATARequestDto({
+    required this.mintAddress,
+    required this.walletAddress,
+  });
+
+  final String mintAddress;
+  final String walletAddress;
+}
+
+class SubmitCreateATAResponseDto {
+  const SubmitCreateATAResponseDto({
+    required this.transactionSignature,
+    required this.feesPaidBy,
+    required this.actualFee,
+  });
+
   final String transactionSignature;
   final String feesPaidBy;
   final int actualFee;

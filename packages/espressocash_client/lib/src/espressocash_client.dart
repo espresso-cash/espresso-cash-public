@@ -525,15 +525,33 @@ class EspressoCashClient {
     );
   }
 
-  Future<SubmitCreateWalletResponseDto> submitCreateWallet(SubmitCreateWalletRequestDto request) async {
+  Future<SubmitCreateWalletResponseDto> submitCreateWallet(
+    SubmitCreateWalletRequestDto request,
+  ) async {
     final r = swig_proto.SubmitCreateWalletRequest(
       ownerAddress: request.ownerAddress,
+      mintAddress: request.mintAddress,
     );
 
     final response = await _swigServiceClient.submitCreateWallet(r);
 
     return SubmitCreateWalletResponseDto(
       swigWalletAddress: response.swigWalletAddress,
+      transactionSignature: response.transactionSignature,
+      feesPaidBy: response.feesPaidBy,
+      actualFee: response.actualFee.toInt(),
+    );
+  }
+
+  Future<SubmitCreateATAResponseDto> submitCreateATA(SubmitCreateATARequestDto request) async {
+    final r = swig_proto.SubmitCreateATARequest(
+      mintAddress: request.mintAddress,
+      walletAddress: request.walletAddress,
+    );
+
+    final response = await _swigServiceClient.submitCreateATA(r);
+
+    return SubmitCreateATAResponseDto(
       transactionSignature: response.transactionSignature,
       feesPaidBy: response.feesPaidBy,
       actualFee: response.actualFee.toInt(),
