@@ -200,9 +200,11 @@ class CreateWalletResponse extends $pb.GeneratedMessage {
 class SubmitCreateWalletRequest extends $pb.GeneratedMessage {
   factory SubmitCreateWalletRequest({
     $core.String? ownerAddress,
+    $core.String? mintAddress,
   }) {
     final result = create();
     if (ownerAddress != null) result.ownerAddress = ownerAddress;
+    if (mintAddress != null) result.mintAddress = mintAddress;
     return result;
   }
 
@@ -221,6 +223,7 @@ class SubmitCreateWalletRequest extends $pb.GeneratedMessage {
           _omitMessageNames ? '' : 'espressocash.api.swig.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'ownerAddress')
+    ..aOS(2, _omitFieldNames ? '' : 'mintAddress')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -255,6 +258,16 @@ class SubmitCreateWalletRequest extends $pb.GeneratedMessage {
   $core.bool hasOwnerAddress() => $_has(0);
   @$pb.TagNumber(1)
   void clearOwnerAddress() => $_clearField(1);
+
+  /// Optional mint address for associated token account creation
+  @$pb.TagNumber(2)
+  $core.String get mintAddress => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set mintAddress($core.String value) => $_setString(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasMintAddress() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearMintAddress() => $_clearField(2);
 }
 
 /// Response with SWIG wallet creation details (platform pays fees)
@@ -1934,6 +1947,170 @@ class SubmitSignV1Response extends $pb.GeneratedMessage {
   void clearActualFee() => $_clearField(3);
 }
 
+/// Request to create an Associated Token Account (ATA)
+class SubmitCreateATARequest extends $pb.GeneratedMessage {
+  factory SubmitCreateATARequest({
+    $core.String? mintAddress,
+    $core.String? walletAddress,
+  }) {
+    final result = create();
+    if (mintAddress != null) result.mintAddress = mintAddress;
+    if (walletAddress != null) result.walletAddress = walletAddress;
+    return result;
+  }
+
+  SubmitCreateATARequest._();
+
+  factory SubmitCreateATARequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory SubmitCreateATARequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SubmitCreateATARequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.swig.v1'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'mintAddress')
+    ..aOS(2, _omitFieldNames ? '' : 'walletAddress')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  SubmitCreateATARequest clone() =>
+      SubmitCreateATARequest()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  SubmitCreateATARequest copyWith(
+          void Function(SubmitCreateATARequest) updates) =>
+      super.copyWith((message) => updates(message as SubmitCreateATARequest))
+          as SubmitCreateATARequest;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SubmitCreateATARequest create() => SubmitCreateATARequest._();
+  @$core.override
+  SubmitCreateATARequest createEmptyInstance() => create();
+  static $pb.PbList<SubmitCreateATARequest> createRepeated() =>
+      $pb.PbList<SubmitCreateATARequest>();
+  @$core.pragma('dart2js:noInline')
+  static SubmitCreateATARequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SubmitCreateATARequest>(create);
+  static SubmitCreateATARequest? _defaultInstance;
+
+  /// Token mint address
+  @$pb.TagNumber(1)
+  $core.String get mintAddress => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set mintAddress($core.String value) => $_setString(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasMintAddress() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMintAddress() => $_clearField(1);
+
+  /// Wallet address that will own the ATA
+  @$pb.TagNumber(2)
+  $core.String get walletAddress => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set walletAddress($core.String value) => $_setString(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasWalletAddress() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearWalletAddress() => $_clearField(2);
+}
+
+/// Response with ATA creation details
+class SubmitCreateATAResponse extends $pb.GeneratedMessage {
+  factory SubmitCreateATAResponse({
+    $core.String? transactionSignature,
+    $core.String? feesPaidBy,
+    $fixnum.Int64? actualFee,
+  }) {
+    final result = create();
+    if (transactionSignature != null)
+      result.transactionSignature = transactionSignature;
+    if (feesPaidBy != null) result.feesPaidBy = feesPaidBy;
+    if (actualFee != null) result.actualFee = actualFee;
+    return result;
+  }
+
+  SubmitCreateATAResponse._();
+
+  factory SubmitCreateATAResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory SubmitCreateATAResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SubmitCreateATAResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'espressocash.api.swig.v1'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'transactionSignature')
+    ..aOS(2, _omitFieldNames ? '' : 'feesPaidBy')
+    ..a<$fixnum.Int64>(
+        3, _omitFieldNames ? '' : 'actualFee', $pb.PbFieldType.OU6,
+        defaultOrMaker: $fixnum.Int64.ZERO)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  SubmitCreateATAResponse clone() =>
+      SubmitCreateATAResponse()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  SubmitCreateATAResponse copyWith(
+          void Function(SubmitCreateATAResponse) updates) =>
+      super.copyWith((message) => updates(message as SubmitCreateATAResponse))
+          as SubmitCreateATAResponse;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SubmitCreateATAResponse create() => SubmitCreateATAResponse._();
+  @$core.override
+  SubmitCreateATAResponse createEmptyInstance() => create();
+  static $pb.PbList<SubmitCreateATAResponse> createRepeated() =>
+      $pb.PbList<SubmitCreateATAResponse>();
+  @$core.pragma('dart2js:noInline')
+  static SubmitCreateATAResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SubmitCreateATAResponse>(create);
+  static SubmitCreateATAResponse? _defaultInstance;
+
+  /// Final transaction signature
+  @$pb.TagNumber(1)
+  $core.String get transactionSignature => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set transactionSignature($core.String value) => $_setString(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasTransactionSignature() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearTransactionSignature() => $_clearField(1);
+
+  /// Account that paid fees (platform)
+  @$pb.TagNumber(2)
+  $core.String get feesPaidBy => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set feesPaidBy($core.String value) => $_setString(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasFeesPaidBy() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearFeesPaidBy() => $_clearField(2);
+
+  /// Actual fee paid
+  @$pb.TagNumber(3)
+  $fixnum.Int64 get actualFee => $_getI64(2);
+  @$pb.TagNumber(3)
+  set actualFee($fixnum.Int64 value) => $_setInt64(2, value);
+  @$pb.TagNumber(3)
+  $core.bool hasActualFee() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearActualFee() => $_clearField(3);
+}
+
 /// SWIGService manages SWIG smart wallet operations
 class SWIGServiceApi {
   final $pb.RpcClient _client;
@@ -1963,6 +2140,12 @@ class SWIGServiceApi {
           $pb.ClientContext? ctx, SubmitAddAuthorityRequest request) =>
       _client.invoke<SubmitAddAuthorityResponse>(ctx, 'SWIGService',
           'SubmitAddAuthority', request, SubmitAddAuthorityResponse());
+
+  /// Creates an Associated Token Account (ATA) with platform fee payment
+  $async.Future<SubmitCreateATAResponse> submitCreateATA(
+          $pb.ClientContext? ctx, SubmitCreateATARequest request) =>
+      _client.invoke<SubmitCreateATAResponse>(ctx, 'SWIGService',
+          'SubmitCreateATA', request, SubmitCreateATAResponse());
 
   /// Gets list of authorities and roles for a SWIG wallet
   $async.Future<GetWalletAuthoritiesResponse> getWalletAuthorities(

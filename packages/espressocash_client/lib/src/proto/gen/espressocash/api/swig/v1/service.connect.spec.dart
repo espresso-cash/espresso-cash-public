@@ -43,6 +43,14 @@ abstract final class SWIGService {
     espressocashapiswigv1service.SubmitAddAuthorityResponse.new,
   );
 
+  /// Creates an Associated Token Account (ATA) with platform fee payment
+  static const submitCreateATA = connect.Spec(
+    '/$name/SubmitCreateATA',
+    connect.StreamType.unary,
+    espressocashapiswigv1service.SubmitCreateATARequest.new,
+    espressocashapiswigv1service.SubmitCreateATAResponse.new,
+  );
+
   /// Gets list of authorities and roles for a SWIG wallet
   static const getWalletAuthorities = connect.Spec(
     '/$name/GetWalletAuthorities',

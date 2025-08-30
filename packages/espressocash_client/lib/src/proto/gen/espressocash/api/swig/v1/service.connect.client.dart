@@ -81,6 +81,24 @@ extension type SWIGServiceClient (connect.Transport _transport) {
     );
   }
 
+  /// Creates an Associated Token Account (ATA) with platform fee payment
+  Future<espressocashapiswigv1service.SubmitCreateATAResponse> submitCreateATA(
+    espressocashapiswigv1service.SubmitCreateATARequest input, {
+    connect.Headers? headers,
+    connect.AbortSignal? signal,
+    Function(connect.Headers)? onHeader,
+    Function(connect.Headers)? onTrailer,
+  }) {
+    return connect.Client(_transport).unary(
+      specs.SWIGService.submitCreateATA,
+      input,
+      signal: signal,
+      headers: headers,
+      onHeader: onHeader,
+      onTrailer: onTrailer,
+    );
+  }
+
   /// Gets list of authorities and roles for a SWIG wallet
   Future<espressocashapiswigv1service.GetWalletAuthoritiesResponse> getWalletAuthorities(
     espressocashapiswigv1service.GetWalletAuthoritiesRequest input, {

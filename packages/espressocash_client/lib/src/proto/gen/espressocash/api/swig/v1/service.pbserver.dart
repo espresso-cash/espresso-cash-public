@@ -29,6 +29,8 @@ abstract class SWIGServiceBase extends $pb.GeneratedService {
       $pb.ServerContext ctx, $0.PrepareAddAuthorityRequest request);
   $async.Future<$0.SubmitAddAuthorityResponse> submitAddAuthority(
       $pb.ServerContext ctx, $0.SubmitAddAuthorityRequest request);
+  $async.Future<$0.SubmitCreateATAResponse> submitCreateATA(
+      $pb.ServerContext ctx, $0.SubmitCreateATARequest request);
   $async.Future<$0.GetWalletAuthoritiesResponse> getWalletAuthorities(
       $pb.ServerContext ctx, $0.GetWalletAuthoritiesRequest request);
   $async.Future<$0.PrepareSignV1Response> prepareSignV1(
@@ -46,6 +48,8 @@ abstract class SWIGServiceBase extends $pb.GeneratedService {
         return $0.PrepareAddAuthorityRequest();
       case 'SubmitAddAuthority':
         return $0.SubmitAddAuthorityRequest();
+      case 'SubmitCreateATA':
+        return $0.SubmitCreateATARequest();
       case 'GetWalletAuthorities':
         return $0.GetWalletAuthoritiesRequest();
       case 'PrepareSignV1':
@@ -69,6 +73,8 @@ abstract class SWIGServiceBase extends $pb.GeneratedService {
             ctx, request as $0.PrepareAddAuthorityRequest);
       case 'SubmitAddAuthority':
         return submitAddAuthority(ctx, request as $0.SubmitAddAuthorityRequest);
+      case 'SubmitCreateATA':
+        return submitCreateATA(ctx, request as $0.SubmitCreateATARequest);
       case 'GetWalletAuthorities':
         return getWalletAuthorities(
             ctx, request as $0.GetWalletAuthoritiesRequest);

@@ -117,14 +117,26 @@ const SubmitCreateWalletRequest$json = {
   '1': 'SubmitCreateWalletRequest',
   '2': [
     {'1': 'owner_address', '3': 1, '4': 1, '5': 9, '10': 'ownerAddress'},
+    {
+      '1': 'mint_address',
+      '3': 2,
+      '4': 1,
+      '5': 9,
+      '9': 0,
+      '10': 'mintAddress',
+      '17': true
+    },
+  ],
+  '8': [
+    {'1': '_mint_address'},
   ],
 };
 
 /// Descriptor for `SubmitCreateWalletRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List submitCreateWalletRequestDescriptor =
-    $convert.base64Decode(
-        'ChlTdWJtaXRDcmVhdGVXYWxsZXRSZXF1ZXN0EiMKDW93bmVyX2FkZHJlc3MYASABKAlSDG93bm'
-        'VyQWRkcmVzcw==');
+final $typed_data.Uint8List submitCreateWalletRequestDescriptor = $convert.base64Decode(
+    'ChlTdWJtaXRDcmVhdGVXYWxsZXRSZXF1ZXN0EiMKDW93bmVyX2FkZHJlc3MYASABKAlSDG93bm'
+    'VyQWRkcmVzcxImCgxtaW50X2FkZHJlc3MYAiABKAlIAFILbWludEFkZHJlc3OIAQFCDwoNX21p'
+    'bnRfYWRkcmVzcw==');
 
 @$core.Deprecated('Use submitCreateWalletResponseDescriptor instead')
 const SubmitCreateWalletResponse$json = {
@@ -638,6 +650,43 @@ final $typed_data.Uint8List submitSignV1ResponseDescriptor = $convert.base64Deco
     'RyYW5zYWN0aW9uU2lnbmF0dXJlEiAKDGZlZXNfcGFpZF9ieRgCIAEoCVIKZmVlc1BhaWRCeRId'
     'CgphY3R1YWxfZmVlGAMgASgEUglhY3R1YWxGZWU=');
 
+@$core.Deprecated('Use submitCreateATARequestDescriptor instead')
+const SubmitCreateATARequest$json = {
+  '1': 'SubmitCreateATARequest',
+  '2': [
+    {'1': 'mint_address', '3': 1, '4': 1, '5': 9, '10': 'mintAddress'},
+    {'1': 'wallet_address', '3': 2, '4': 1, '5': 9, '10': 'walletAddress'},
+  ],
+};
+
+/// Descriptor for `SubmitCreateATARequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List submitCreateATARequestDescriptor =
+    $convert.base64Decode(
+        'ChZTdWJtaXRDcmVhdGVBVEFSZXF1ZXN0EiEKDG1pbnRfYWRkcmVzcxgBIAEoCVILbWludEFkZH'
+        'Jlc3MSJQoOd2FsbGV0X2FkZHJlc3MYAiABKAlSDXdhbGxldEFkZHJlc3M=');
+
+@$core.Deprecated('Use submitCreateATAResponseDescriptor instead')
+const SubmitCreateATAResponse$json = {
+  '1': 'SubmitCreateATAResponse',
+  '2': [
+    {
+      '1': 'transaction_signature',
+      '3': 1,
+      '4': 1,
+      '5': 9,
+      '10': 'transactionSignature'
+    },
+    {'1': 'fees_paid_by', '3': 2, '4': 1, '5': 9, '10': 'feesPaidBy'},
+    {'1': 'actual_fee', '3': 3, '4': 1, '5': 4, '10': 'actualFee'},
+  ],
+};
+
+/// Descriptor for `SubmitCreateATAResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List submitCreateATAResponseDescriptor = $convert.base64Decode(
+    'ChdTdWJtaXRDcmVhdGVBVEFSZXNwb25zZRIzChV0cmFuc2FjdGlvbl9zaWduYXR1cmUYASABKA'
+    'lSFHRyYW5zYWN0aW9uU2lnbmF0dXJlEiAKDGZlZXNfcGFpZF9ieRgCIAEoCVIKZmVlc1BhaWRC'
+    'eRIdCgphY3R1YWxfZmVlGAMgASgEUglhY3R1YWxGZWU=');
+
 const $core.Map<$core.String, $core.dynamic> SWIGServiceBase$json = {
   '1': 'SWIGService',
   '2': [
@@ -660,6 +709,11 @@ const $core.Map<$core.String, $core.dynamic> SWIGServiceBase$json = {
       '1': 'SubmitAddAuthority',
       '2': '.espressocash.api.swig.v1.SubmitAddAuthorityRequest',
       '3': '.espressocash.api.swig.v1.SubmitAddAuthorityResponse'
+    },
+    {
+      '1': 'SubmitCreateATA',
+      '2': '.espressocash.api.swig.v1.SubmitCreateATARequest',
+      '3': '.espressocash.api.swig.v1.SubmitCreateATAResponse'
     },
     {
       '1': 'GetWalletAuthorities',
@@ -699,6 +753,10 @@ const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>>
   '.espressocash.api.swig.v1.SigningResult': SigningResult$json,
   '.espressocash.api.swig.v1.SubmitAddAuthorityResponse':
       SubmitAddAuthorityResponse$json,
+  '.espressocash.api.swig.v1.SubmitCreateATARequest':
+      SubmitCreateATARequest$json,
+  '.espressocash.api.swig.v1.SubmitCreateATAResponse':
+      SubmitCreateATAResponse$json,
   '.espressocash.api.swig.v1.GetWalletAuthoritiesRequest':
       GetWalletAuthoritiesRequest$json,
   '.espressocash.api.swig.v1.GetWalletAuthoritiesResponse':
@@ -722,10 +780,12 @@ final $typed_data.Uint8List sWIGServiceDescriptor = $convert.base64Decode(
     'LmVzcHJlc3NvY2FzaC5hcGkuc3dpZy52MS5QcmVwYXJlQWRkQXV0aG9yaXR5UmVzcG9uc2USfw'
     'oSU3VibWl0QWRkQXV0aG9yaXR5EjMuZXNwcmVzc29jYXNoLmFwaS5zd2lnLnYxLlN1Ym1pdEFk'
     'ZEF1dGhvcml0eVJlcXVlc3QaNC5lc3ByZXNzb2Nhc2guYXBpLnN3aWcudjEuU3VibWl0QWRkQX'
-    'V0aG9yaXR5UmVzcG9uc2UShQEKFEdldFdhbGxldEF1dGhvcml0aWVzEjUuZXNwcmVzc29jYXNo'
-    'LmFwaS5zd2lnLnYxLkdldFdhbGxldEF1dGhvcml0aWVzUmVxdWVzdBo2LmVzcHJlc3NvY2FzaC'
-    '5hcGkuc3dpZy52MS5HZXRXYWxsZXRBdXRob3JpdGllc1Jlc3BvbnNlEnAKDVByZXBhcmVTaWdu'
-    'VjESLi5lc3ByZXNzb2Nhc2guYXBpLnN3aWcudjEuUHJlcGFyZVNpZ25WMVJlcXVlc3QaLy5lc3'
-    'ByZXNzb2Nhc2guYXBpLnN3aWcudjEuUHJlcGFyZVNpZ25WMVJlc3BvbnNlEm0KDFN1Ym1pdFNp'
-    'Z25WMRItLmVzcHJlc3NvY2FzaC5hcGkuc3dpZy52MS5TdWJtaXRTaWduVjFSZXF1ZXN0Gi4uZX'
-    'NwcmVzc29jYXNoLmFwaS5zd2lnLnYxLlN1Ym1pdFNpZ25WMVJlc3BvbnNl');
+    'V0aG9yaXR5UmVzcG9uc2USdgoPU3VibWl0Q3JlYXRlQVRBEjAuZXNwcmVzc29jYXNoLmFwaS5z'
+    'd2lnLnYxLlN1Ym1pdENyZWF0ZUFUQVJlcXVlc3QaMS5lc3ByZXNzb2Nhc2guYXBpLnN3aWcudj'
+    'EuU3VibWl0Q3JlYXRlQVRBUmVzcG9uc2UShQEKFEdldFdhbGxldEF1dGhvcml0aWVzEjUuZXNw'
+    'cmVzc29jYXNoLmFwaS5zd2lnLnYxLkdldFdhbGxldEF1dGhvcml0aWVzUmVxdWVzdBo2LmVzcH'
+    'Jlc3NvY2FzaC5hcGkuc3dpZy52MS5HZXRXYWxsZXRBdXRob3JpdGllc1Jlc3BvbnNlEnAKDVBy'
+    'ZXBhcmVTaWduVjESLi5lc3ByZXNzb2Nhc2guYXBpLnN3aWcudjEuUHJlcGFyZVNpZ25WMVJlcX'
+    'Vlc3QaLy5lc3ByZXNzb2Nhc2guYXBpLnN3aWcudjEuUHJlcGFyZVNpZ25WMVJlc3BvbnNlEm0K'
+    'DFN1Ym1pdFNpZ25WMRItLmVzcHJlc3NvY2FzaC5hcGkuc3dpZy52MS5TdWJtaXRTaWduVjFSZX'
+    'F1ZXN0Gi4uZXNwcmVzc29jYXNoLmFwaS5zd2lnLnYxLlN1Ym1pdFNpZ25WMVJlc3BvbnNl');
