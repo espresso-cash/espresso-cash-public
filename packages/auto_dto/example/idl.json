@@ -1,0 +1,29 @@
+
+{
+  "version": "0.1.0",
+  "name": "my_project",
+  "instructions": [],
+  "accounts": [
+    {
+      "name": "MyDto",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "myString",
+            "type": "string"
+          },
+          {
+            "name": "myInt",
+            "type": "u64"
+          },
+          {
+            "name": "myBool",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": []
+}
