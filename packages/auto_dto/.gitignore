@@ -5,3 +5,7 @@
 # Avoid committing pubspec.lock for library packages; see
 # https://dart.dev/guides/libraries/private-files#pubspeclock.
 pubspec.lock
+
+# Generated example DTOs
+example/idl_dto.dart
+example/idl_dto.g.dart

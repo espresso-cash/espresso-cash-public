@@ -37,8 +37,6 @@ class DtoGenerator {
       buffer.writeln('');
       buffer.writeln('  factory ${dto.name}.fromBorsh(Uint8List data) =>');
       buffer.writeln('      _\$${dto.name}FromBorsh(data);');
-      buffer.writeln('');
-      buffer.writeln('  Uint8List toBorsh() => _\$${dto.name}ToBorsh(this);');
       buffer.writeln('}');
       buffer.writeln('');
     }

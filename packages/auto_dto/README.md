@@ -4,10 +4,10 @@ A Dart package for automatically generating Data Transfer Objects (DTOs) from `i
 
 ## Features
 
-*   **IDL Parsing**: Parses `idl.json` files to extract account structures.
-*   **Code Generation**: Automatically generates Dart classes for each account defined in the IDL.
+*   **IDL Parsing**: Parses `idl.json` files to extract account structures and instruction arguments. It robustly handles cases where 'accounts' or 'instructions' sections might be missing.
+*   **Code Generation**: Automatically generates Dart classes for each account and instruction argument defined in the IDL.
 *   **Borsh Serialization**: The generated DTOs are annotated with `@BorshSerializable` and come with `fromBorsh` and `toBorsh` methods.
-*   **Type Mapping**: Maps IDL data types to corresponding Dart types and Borsh annotations.
+*   **Type Mapping**: Maps IDL data types to corresponding Dart types and Borsh annotations for basic types including `string`, `bool`, `u8`, `u16`, `u32`, `u64`, and `publicKey`.
 *   **Command-Line Interface**: Provides a simple CLI to trigger the DTO generation process.
 
 ## Usage
@@ -24,56 +24,34 @@ A Dart package for automatically generating Data Transfer Objects (DTOs) from `i
       build_runner: <version>
       borsh: <version>
     ```
-    *Replace `<version>` with the appropriate package versions.*
+    *Replace `<version>` with the appropriate package versions. If using `auto_dto` as a local path dependency in a monorepo, your `dev_dependencies` entry might look like this:
+    ```yaml
+    dev_dependencies:
+      auto_dto:
+        path: ../auto_dto # Adjust path as necessary
+    ```*
 
-2.  **Provide an `idl.json` file.**
-    For example, create a file named `idl.json`:
-    ```json
-    {
-      "version": "0.1.0",
-      "name": "my_project",
-      "instructions": [],
-      "accounts": [
-        {
-          "name": "MyDto",
-          "type": {
-            "kind": "struct",
-            "fields": [
-              {
-                "name": "myString",
-                "type": "string"
-              },
-              {
-                "name": "myInt",
-                "type": "u64"
-              },
-              {
-                "name": "myBool",
-                "type": "bool"
-              }
-            ]
-          }
-        }
-      ],
-      "errors": []
-    }
-    ```
+2.  **Run `flutter pub get` (or `dart pub get` for pure Dart projects):**
+    After modifying `pubspec.yaml`, run this command in your project's root directory to fetch the new dependencies.
 
-3.  **Run the code generator.**
-    Execute the command-line tool, providing the path to your `idl.json` file. The generated files will be placed in `lib/src/generated/`.
+3.  **Provide an `idl.json` file.**
+    For example, create a file named `idl.json` in your project (e.g., `lib/idl/idl.json`).
+
+4.  **Run the code generator.**
+    Execute the command-line tool from your project's root directory, providing the path to your `idl.json` file. The generated files will be placed in `lib/src/generated/`.
 
     ```bash
-    dart run auto_dto idl.json
+    dart run auto_dto lib/idl/idl.json # Adjust path to idl.json as necessary
     ```
 
-4.  **Generate serialization code.**
+5.  **Generate serialization code.**
     Use `build_runner` to generate the necessary `.g.dart` files for Borsh serialization.
 
     ```bash
     dart run build_runner build
     ```
 
-5.  **Use the generated DTOs.**
+6.  **Use the generated DTOs.**
     You can now import and use the generated DTOs in your project.
 
     ```dart
@@ -95,7 +73,7 @@ The current capabilities of the @auto_dto package do not fully address the GitHu
    * Basic DTO generation: The package can parse a simple idl.json and generate Dart classes with @BorshSerializable() annotations, fromBorsh(),
      and toBorsh() methods.
    * Basic type mapping: It correctly maps string to String (@BString()), bool to bool (@BBool()), u8, u16, u32 to int (@BU8(), @BU16(), @BU32()),
-      and u64 to BigInt (@BU64()).
+      u64 to BigInt (@BU64()), and publicKey to Ed25519HDPublicKey (@BPublicKey()).
 
   What is NOT currently supported (and is required by the issue):
 

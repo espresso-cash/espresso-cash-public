@@ -12,7 +12,7 @@ class IdlParser {
     final dtos = <DtoInfo>[];
 
     // Parse accounts
-    final accounts = json['accounts'] as List<dynamic>;
+    final accounts = json['accounts'] as List<dynamic>? ?? [];
     for (final account in accounts) {
       final accountMap = account as Map<String, dynamic>;
       final name = accountMap['name'] as String;
@@ -35,7 +35,7 @@ class IdlParser {
     }
 
     // Parse instructions
-    final instructions = json['instructions'] as List<dynamic>;
+    final instructions = json['instructions'] as List<dynamic>? ?? [];
     for (final instruction in instructions) {
       final instructionMap = instruction as Map<String, dynamic>;
       final instructionName = instructionMap['name'] as String;
@@ -52,10 +52,19 @@ class IdlParser {
           .toList();
 
       // DTO name for instruction arguments, e.g., CreatePlayerProfileArgs
-      final dtoName = '${instructionName[0].toUpperCase()}${instructionName.substring(1)}Args';
+      final camelCaseInstructionName = _toCamelCase(instructionName);
+      final dtoName = '${camelCaseInstructionName}Dto';
       dtos.add(DtoInfo(name: dtoName, fields: fields));
     }
 
     return dtos;
+  }
+
+  String _toCamelCase(String snakeCase) {
+    if (snakeCase.isEmpty) {
+      return '';
+    }
+    final parts = snakeCase.split('_');
+    return parts.map((part) => part.isEmpty ? '' : '${part[0].toUpperCase()}${part.substring(1)}').join();
   }
 }
