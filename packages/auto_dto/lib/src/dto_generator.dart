@@ -8,6 +8,7 @@ class DtoGenerator {
     buffer.writeln("import 'dart:typed_data';");
     buffer.writeln("import 'package:borsh_annotation/borsh_annotation.dart';");
     buffer.writeln("import 'package:solana/solana.dart';");
+    buffer.writeln("import 'package:solana/src/borsh_ext.dart';");
     // If you emit public keys later, also add:
     // buffer.writeln("import 'package:solana/solana.dart';");
     buffer.writeln('');
