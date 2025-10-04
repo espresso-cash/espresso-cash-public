@@ -54,7 +54,7 @@ class DtoGenerator {
       case 'u16':    return '@BU16()';
       case 'u32':    return '@BU32()';
       case 'u64':    return '@BU64()';
-      // Add: bytes/vec<u8> => @BVecU8(), option<T> => @BOption(), vec<T> => @BVec(), fixed array => @BFixedArray(length: N), publicKey => @BPublicKey()
+      case 'publicKey': return '@BPublicKey()';
       default:       return null;
     }
   }
@@ -69,12 +69,12 @@ class DtoGenerator {
       case 'u32':    return 'int';    
       case 'u64':
       case 'u128':   return 'BigInt';
-      // bytes/vec<u8> => 'Uint8List'; publicKey => 'Ed25519HDPublicKey'
+      case 'publicKey': return 'Ed25519HDPublicKey';
       default:       return null;
     }
   }
 
-  // If you still need snake_case for per-file generation
+  // If you need snake_case for per-file generation
   String toSnakeCase(String name) {
     final exp = RegExp(r'(?<=[a-z0-9])[A-Z]');
     return name.replaceAllMapped(exp, (m) => '_${m.group(0)}').toLowerCase();

@@ -9,9 +9,10 @@ class IdlParser {
     final content = await file.readAsString();
     final json = jsonDecode(content) as Map<String, dynamic>;
 
-    final accounts = json['accounts'] as List<dynamic>;
     final dtos = <DtoInfo>[];
 
+    // Parse accounts
+    final accounts = json['accounts'] as List<dynamic>;
     for (final account in accounts) {
       final accountMap = account as Map<String, dynamic>;
       final name = accountMap['name'] as String;
@@ -31,6 +32,28 @@ class IdlParser {
 
         dtos.add(DtoInfo(name: name, fields: fields));
       }
+    }
+
+    // Parse instructions
+    final instructions = json['instructions'] as List<dynamic>;
+    for (final instruction in instructions) {
+      final instructionMap = instruction as Map<String, dynamic>;
+      final instructionName = instructionMap['name'] as String;
+      final args = instructionMap['args'] as List<dynamic>;
+
+      final fields = args
+          .map((arg) {
+            final argMap = arg as Map<String, dynamic>;
+            return FieldInfo(
+              name: argMap['name'] as String,
+              type: argMap['type'] as String,
+            );
+          })
+          .toList();
+
+      // DTO name for instruction arguments, e.g., CreatePlayerProfileArgs
+      final dtoName = '${instructionName[0].toUpperCase()}${instructionName.substring(1)}Args';
+      dtos.add(DtoInfo(name: dtoName, fields: fields));
     }
 
     return dtos;
