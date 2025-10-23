@@ -64,6 +64,7 @@ class OnRampOrderService implements Disposable {
         case RampPartner.coinflow:
         case RampPartner.guardarian:
         case RampPartner.rampNetwork:
+        case RampPartner.brijRedirect:
           _subscribe(order.id);
       }
     }

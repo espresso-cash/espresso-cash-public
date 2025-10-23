@@ -72,6 +72,7 @@ class BrijOffRampOrderService implements Disposable {
         case RampPartner.guardarian:
         case RampPartner.rampNetwork:
         case RampPartner.moneygram:
+        case RampPartner.brijRedirect:
           // ignore: avoid-unnecessary-continue, needed here
           continue;
         case RampPartner.brij:

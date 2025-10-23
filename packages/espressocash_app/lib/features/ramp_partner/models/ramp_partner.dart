@@ -56,6 +56,19 @@ enum RampPartner {
     minimumAmount: r'$5',
     paymentMethods: [PaymentMethod.bank],
     partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
+  ),
+
+  brijRedirect(
+    title: 'Brij Network',
+    minimumAmount: r'$5',
+    paymentMethods: [
+      PaymentMethod.visa,
+      PaymentMethod.mastercard,
+      PaymentMethod.applePay,
+      PaymentMethod.googlePay,
+      PaymentMethod.sepa,
+      PaymentMethod.swift,
+    ],
   );
 
   const RampPartner({
@@ -81,6 +94,6 @@ extension RampPartnerAssets on RampPartner {
     RampPartner.coinflow => Assets.brands.coinflow,
     RampPartner.guardarian => Assets.brands.guardarian,
     RampPartner.moneygram => Assets.brands.moneygram,
-    RampPartner.brij => Assets.brands.brij,
+    RampPartner.brij || RampPartner.brijRedirect => Assets.brands.brij,
   };
 }

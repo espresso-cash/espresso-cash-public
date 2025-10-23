@@ -32,6 +32,8 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
     partners.add(RampPartner.guardarian);
   }
 
+  partners.add(RampPartner.brijRedirect);
+
   return IList(partners);
 }
 
@@ -56,6 +58,8 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
   if (isBrijPartnerEnabled && _brijCountries.contains(countryCode)) {
     partners.add(RampPartner.brij);
   }
+
+  partners.add(RampPartner.brijRedirect);
 
   return IList(partners);
 }
