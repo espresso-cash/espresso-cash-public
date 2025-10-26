@@ -1,3 +1,7 @@
+## 0.3.3
+
+- Bump dependencies
+
 ## 0.3.2
 
  - **REFACTOR**: update borsh generator for compatibility with updated dependencies and enhance readability.

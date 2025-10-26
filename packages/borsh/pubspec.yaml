@@ -1,5 +1,5 @@
 name: borsh
-version: 0.3.2
+version: 0.3.3
 repository: https://github.com/espresso-cash/espresso-cash-public
 description: >-
   Implementation of the borsh serialization scheme
