@@ -49,27 +49,17 @@ enum RampPartner {
     ],
   ),
 
-  moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []),
-
-  brij(
-    title: 'Brij Network (DEMO)',
-    minimumAmount: r'$5',
-    paymentMethods: [PaymentMethod.bank],
-    partnerPK: '9YmsP8PoWfNaTwBjLRy8R5Yr9Ukcu2hvVvzea8mRpnKp',
-  );
+  moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []);
 
   const RampPartner({
     required this.title,
     required this.minimumAmount,
     required this.paymentMethods,
-    this.partnerPK,
   });
 
   final String title;
   final String minimumAmount;
   final List<PaymentMethod> paymentMethods;
-
-  final String? partnerPK;
 
   Decimal get minimumAmountInDecimal => Decimal.parse(minimumAmount.substring(1));
 }
@@ -81,6 +71,5 @@ extension RampPartnerAssets on RampPartner {
     RampPartner.coinflow => Assets.brands.coinflow,
     RampPartner.guardarian => Assets.brands.guardarian,
     RampPartner.moneygram => Assets.brands.moneygram,
-    RampPartner.brij => Assets.brands.brij,
   };
 }

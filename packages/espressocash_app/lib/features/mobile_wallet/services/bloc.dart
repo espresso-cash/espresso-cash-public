@@ -12,6 +12,7 @@ import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
 import '../../../config.dart';
 import '../../accounts/models/account.dart';
+import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../models/remote_request.dart';
@@ -73,25 +74,24 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
     scope: _buildScope(),
   );
 
-  Future<SignedPayloadResult> _onSignPayloads(SignPayloadsRequest request) => _validatePayloads(
-    authorizationScope: request.authorizationScope,
-    payloads: request.payloads,
-  ).fold((err) async => err.toSignedPayloadResult(), (payloads) async {
-    final signedPayloads = await request.map(
-      transactions:
-          (it) => it.payloads
+  Future<SignedPayloadResult> _onSignPayloads(SignPayloadsRequest request) =>
+      _validatePayloads(
+        authorizationScope: request.authorizationScope,
+        payloads: request.payloads,
+      ).fold((err) async => err.toSignedPayloadResult(), (payloads) async {
+        final signedPayloads = await request.map(
+          transactions: (it) => it.payloads
               .map(SignedTx.fromBytes)
               .resignAll(_account.wallet)
               .letAsync((it) => it.map((it) => it.toByteArray().toList())),
-      messages:
-          (it) async => zip2(
+          messages: (it) async => zip2(
             it.payloads,
             await _account.wallet.sign(it.payloads),
           ).map((it) => it.$1 + it.$2.bytes),
-    );
+        );
 
-    return SignedPayloadResult(signedPayloads: signedPayloads.map(Uint8List.fromList).toList());
-  });
+        return SignedPayloadResult(signedPayloads: signedPayloads.map(Uint8List.fromList).toList());
+      });
 
   Future<SignaturesResult> _signTransactionsForSending(SignAndSendTransactionsRequest request) =>
       _validatePayloads(
@@ -106,16 +106,23 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
           signedTxs.map(
             (tx) => _sender
                 .send(tx, minContextSlot: BigInt.zero)
-                .letAsync((it) => it.maybeMap(orElse: F, sent: T)),
+                .letAsync(
+                  (it) => switch (it) {
+                    TxSendSent() => true,
+                    _ => false,
+                  },
+                ),
           ),
         );
 
         return results.any((e) => !e)
             ? SignaturesResult.invalidPayloads(valid: results)
             : SignaturesResult(
-              signatures:
-                  signedTxs.map((it) => it.signatures.first.bytes).map(Uint8List.fromList).toList(),
-            );
+                signatures: signedTxs
+                    .map((it) => it.signatures.first.bytes)
+                    .map(Uint8List.fromList)
+                    .toList(),
+              );
       });
 }
 

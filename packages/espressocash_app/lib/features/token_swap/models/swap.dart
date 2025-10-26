@@ -8,7 +8,7 @@ import 'swap_seed.dart';
 part 'swap.freezed.dart';
 
 @freezed
-class Swap with _$Swap {
+abstract class Swap with _$Swap {
   const factory Swap({
     required String id,
     required DateTime created,
@@ -18,7 +18,7 @@ class Swap with _$Swap {
 }
 
 @freezed
-class SwapData with _$SwapData {
+abstract class SwapData with _$SwapData {
   const factory SwapData({
     required CryptoAmount input,
     required CryptoAmount output,

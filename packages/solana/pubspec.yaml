@@ -6,7 +6,7 @@ description: >-
   Provides convenient interface for the RPC methods.
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.9.0
 
 dependencies:
   bip39: ^1.0.6
@@ -23,7 +23,7 @@ dependencies:
   web_socket_channel: ^3.0.0
 
 dev_dependencies:
-  borsh: ^0.3.2
+  borsh: ^0.3.3
   build_runner: ^2.4.7
   freezed: ^3.0.0
   json_serializable: ^6.0.0

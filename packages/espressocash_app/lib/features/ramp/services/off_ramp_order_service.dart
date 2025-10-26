@@ -30,26 +30,25 @@ import '../models/ramp_watcher.dart';
 import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
 import '../partners/kado/services/kado_off_ramp_order_watcher.dart';
 
-typedef OffRampOrder =
-    ({
-      String id,
-      DateTime created,
-      OffRampOrderStatus status,
-      CryptoAmount amount,
-      CryptoAmount? fee,
-      RampPartner partner,
-      DateTime? resolved,
-      FiatAmount? receiveAmount,
-      String partnerOrderId,
-      Ed25519HDPublicKey? depositAddress,
-      String? moreInfoUrl,
-      String? withdrawAnchorAccount,
-      String? withdrawUrl,
-      String? authToken,
-      String? referenceNumber,
-      CryptoAmount? bridgeAmount,
-      CryptoAmount? refundAmount,
-    });
+typedef OffRampOrder = ({
+  String id,
+  DateTime created,
+  OffRampOrderStatus status,
+  CryptoAmount amount,
+  CryptoAmount? fee,
+  RampPartner partner,
+  DateTime? resolved,
+  FiatAmount? receiveAmount,
+  String partnerOrderId,
+  Ed25519HDPublicKey? depositAddress,
+  String? moreInfoUrl,
+  String? withdrawAnchorAccount,
+  String? withdrawUrl,
+  String? authToken,
+  String? referenceNumber,
+  CryptoAmount? bridgeAmount,
+  CryptoAmount? refundAmount,
+});
 
 @Singleton(scope: authScope)
 class OffRampOrderService implements Disposable {
@@ -74,17 +73,17 @@ class OffRampOrderService implements Disposable {
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
-    final query = _db.select(_db.offRampOrderRows)..where(
-      (tbl) =>
-          tbl.status.isNotInValues([OffRampOrderStatus.completed, OffRampOrderStatus.cancelled]),
-    );
+    final query = _db.select(_db.offRampOrderRows)
+      ..where(
+        (tbl) =>
+            tbl.status.isNotInValues([OffRampOrderStatus.completed, OffRampOrderStatus.cancelled]),
+      );
 
     final orders = await query.get();
 
     for (final order in orders) {
       switch (order.partner) {
         case RampPartner.moneygram:
-        case RampPartner.brij:
           // ignore: avoid-unnecessary-continue, needed here
           continue;
         case RampPartner.kado:
@@ -98,11 +97,10 @@ class OffRampOrderService implements Disposable {
   }
 
   Stream<IList<({String id, DateTime created})>> watchPending() {
-    final query =
-        _db.select(_db.offRampOrderRows)
-          ..where((tbl) => tbl.status.equalsValue(OffRampOrderStatus.completed).not())
-          ..where((tbl) => tbl.status.equalsValue(OffRampOrderStatus.cancelled).not())
-          ..where((tbl) => tbl.status.equalsValue(OffRampOrderStatus.refunded).not());
+    final query = _db.select(_db.offRampOrderRows)
+      ..where((tbl) => tbl.status.equalsValue(OffRampOrderStatus.completed).not())
+      ..where((tbl) => tbl.status.equalsValue(OffRampOrderStatus.cancelled).not())
+      ..where((tbl) => tbl.status.equalsValue(OffRampOrderStatus.refunded).not());
 
     return query
         .watch()
@@ -125,7 +123,10 @@ class OffRampOrderService implements Disposable {
 
         if (token == null) return null;
 
-        return CryptoAmount(value: amount, cryptoCurrency: CryptoCurrency(token: token));
+        return CryptoAmount(
+          value: amount,
+          cryptoCurrency: CryptoCurrency(token: token),
+        );
       });
 
       final receiveAmount = row.receiveAmount?.let(
@@ -267,10 +268,9 @@ class OffRampOrderService implements Disposable {
       partnerOrderId: partnerOrderId,
       transaction: transaction?.$1.encode() ?? '',
       slot: transaction?.$2 ?? BigInt.zero,
-      status:
-          transaction == null
-              ? OffRampOrderStatus.depositTxRequired
-              : OffRampOrderStatus.depositTxReady,
+      status: transaction == null
+          ? OffRampOrderStatus.depositTxRequired
+          : OffRampOrderStatus.depositTxReady,
       depositAddress: depositAddress,
       partner: partner,
       receiveAmount: receiveAmount?.value,
@@ -324,7 +324,6 @@ class OffRampOrderService implements Disposable {
     _watchers[orderId] = switch (order.partner) {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
-      RampPartner.brij ||
       RampPartner.rampNetwork ||
       RampPartner.moneygram || // moneygram orders will not reach this point
       RampPartner.guardarian => throw ArgumentError('Not implemented'),
@@ -332,58 +331,60 @@ class OffRampOrderService implements Disposable {
   }
 
   void _subscribe(String orderId) {
-    _subscriptions[orderId] = (_db.select(_db.offRampOrderRows)
-          ..where((tbl) => tbl.id.equals(orderId)))
-        .watchSingle()
-        .asyncExpand<OffRampOrderRowsCompanion>((order) {
-          switch (order.status) {
-            case OffRampOrderStatus.depositTxRequired:
-            case OffRampOrderStatus.depositError:
-            case OffRampOrderStatus.depositTxConfirmError:
-            case OffRampOrderStatus.preProcessing:
-            case OffRampOrderStatus.postProcessing:
-            case OffRampOrderStatus.ready:
-            case OffRampOrderStatus.insufficientFunds:
-            case OffRampOrderStatus.waitingForPartner:
-              return const Stream.empty();
-            case OffRampOrderStatus.creatingDepositTx:
-              return Stream.fromFuture(
-                _createTx(
-                  amount: _amount(order),
-                  receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
-                ),
-              ).onErrorReturn(
-                const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositError)),
-              );
-            case OffRampOrderStatus.sendingDepositTx:
-              final tx = SignedTx.decode(order.transaction).let((it) => (it, order.slot));
+    _subscriptions[orderId] =
+        (_db.select(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(orderId)))
+            .watchSingle()
+            .asyncExpand<OffRampOrderRowsCompanion>((order) {
+              switch (order.status) {
+                case OffRampOrderStatus.depositTxRequired:
+                case OffRampOrderStatus.depositError:
+                case OffRampOrderStatus.depositTxConfirmError:
+                case OffRampOrderStatus.preProcessing:
+                case OffRampOrderStatus.postProcessing:
+                case OffRampOrderStatus.ready:
+                case OffRampOrderStatus.insufficientFunds:
+                case OffRampOrderStatus.waitingForPartner:
+                  return const Stream.empty();
+                case OffRampOrderStatus.creatingDepositTx:
+                  return Stream.fromFuture(
+                    _createTx(
+                      amount: _amount(order),
+                      receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
+                    ),
+                  ).onErrorReturn(
+                    const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositError)),
+                  );
+                case OffRampOrderStatus.sendingDepositTx:
+                  final tx = SignedTx.decode(order.transaction).let((it) => (it, order.slot));
 
-              return Stream.fromFuture(_sendTx(tx));
-            case OffRampOrderStatus.depositTxReady:
-              return Stream.value(
-                const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.sendingDepositTx)),
-              );
-            case OffRampOrderStatus.cancelled:
-            case OffRampOrderStatus.failure:
-            case OffRampOrderStatus.processingRefund:
-            case OffRampOrderStatus.waitingForRefundBridge:
-            case OffRampOrderStatus.refunded:
-            case OffRampOrderStatus.completed:
-            case OffRampOrderStatus.waitingPartnerReview:
-            case OffRampOrderStatus.rejected:
-              _subscriptions.remove(orderId)?.cancel();
+                  return Stream.fromFuture(_sendTx(tx));
+                case OffRampOrderStatus.depositTxReady:
+                  return Stream.value(
+                    const OffRampOrderRowsCompanion(
+                      status: Value(OffRampOrderStatus.sendingDepositTx),
+                    ),
+                  );
+                case OffRampOrderStatus.cancelled:
+                case OffRampOrderStatus.failure:
+                case OffRampOrderStatus.processingRefund:
+                case OffRampOrderStatus.waitingForRefundBridge:
+                case OffRampOrderStatus.refunded:
+                case OffRampOrderStatus.completed:
+                case OffRampOrderStatus.waitingPartnerReview:
+                case OffRampOrderStatus.rejected:
+                  _subscriptions.remove(orderId)?.cancel();
 
-              _watchers[orderId]?.close();
-              _watchers.remove(orderId);
+                  _watchers[orderId]?.close();
+                  _watchers.remove(orderId);
 
-              return const Stream.empty();
-          }
-        })
-        .listen(
-          (event) =>
-              (_db.update(_db.offRampOrderRows)
-                ..where((tbl) => tbl.id.equals(orderId))).write(event),
-        );
+                  return const Stream.empty();
+              }
+            })
+            .listen(
+              (event) => (_db.update(
+                _db.offRampOrderRows,
+              )..where((tbl) => tbl.id.equals(orderId))).write(event),
+            );
   }
 
   @override
@@ -442,10 +443,9 @@ class OffRampOrderService implements Disposable {
         );
       case TxSendFailure(:final reason):
         return OffRampOrderRowsCompanion(
-          status:
-              reason == TxFailureReason.insufficientFunds
-                  ? const Value(OffRampOrderStatus.insufficientFunds)
-                  : const Value(OffRampOrderStatus.depositError),
+          status: reason == TxFailureReason.insufficientFunds
+              ? const Value(OffRampOrderStatus.insufficientFunds)
+              : const Value(OffRampOrderStatus.depositError),
           transaction: const Value(''),
           slot: Value(BigInt.zero),
         );
@@ -460,10 +460,9 @@ class OffRampOrderService implements Disposable {
         status: Value(OffRampOrderStatus.waitingForPartner),
       ),
       TxWaitFailure(:final reason) => OffRampOrderRowsCompanion(
-        status:
-            reason == TxFailureReason.insufficientFunds
-                ? const Value(OffRampOrderStatus.insufficientFunds)
-                : const Value(OffRampOrderStatus.depositTxConfirmError),
+        status: reason == TxFailureReason.insufficientFunds
+            ? const Value(OffRampOrderStatus.insufficientFunds)
+            : const Value(OffRampOrderStatus.depositTxConfirmError),
         transaction: const Value(''),
         slot: Value(BigInt.zero),
       ),

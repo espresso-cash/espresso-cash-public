@@ -8,7 +8,7 @@ import '../../transactions/models/tx_results.dart';
 part 'outgoing_link_payment.freezed.dart';
 
 @freezed
-class OutgoingLinkPayment with _$OutgoingLinkPayment {
+abstract class OutgoingLinkPayment with _$OutgoingLinkPayment {
   const factory OutgoingLinkPayment({
     required String id,
     required CryptoAmount amount,

@@ -10,7 +10,7 @@ part 'notification_message.freezed.dart';
 part 'notification_message.g.dart';
 
 @Freezed(unionKey: 'method', fallbackUnion: 'unsupported')
-class NotificationMessage with _$NotificationMessage implements SubscriptionMessage {
+sealed class NotificationMessage with _$NotificationMessage implements SubscriptionMessage {
   const NotificationMessage._();
 
   const factory NotificationMessage.unsupported() = _UnsupportedNotification;
@@ -38,21 +38,21 @@ class NotificationMessage with _$NotificationMessage implements SubscriptionMess
 
   /// Each of these objects has a `value` field and we want to
   /// use it to send it to the caller
-  dynamic get value => when<dynamic>(
-    accountNotification: (params) => params.result.value,
-    logsNotification: (params) => params.result.value,
-    programNotification: (params) => params.result.value,
-    signatureNotification: (params) => params.result.value,
-    slotNotification: (params) => params.result.value,
-    unsupported: () => null,
-  );
+  dynamic get value => switch (this) {
+    _UnsupportedNotification() => null,
+    AccountNotification(:final params) => params.result.value,
+    LogsNotification(:final params) => params.result.value,
+    ProgramNotification(:final params) => params.result.value,
+    SignatureNotification(:final params) => params.result.value,
+    SlotNotification(:final params) => params.result.value,
+  };
 
-  int get subscription => when(
-    accountNotification: (params) => params.subscription,
-    logsNotification: (params) => params.subscription,
-    programNotification: (params) => params.subscription,
-    signatureNotification: (params) => params.subscription,
-    slotNotification: (params) => params.subscription,
-    unsupported: () => -1,
-  );
+  int get subscription => switch (this) {
+    _UnsupportedNotification() => -1,
+    AccountNotification(:final params) => params.subscription,
+    LogsNotification(:final params) => params.subscription,
+    ProgramNotification(:final params) => params.subscription,
+    SignatureNotification(:final params) => params.subscription,
+    SlotNotification(:final params) => params.subscription,
+  };
 }

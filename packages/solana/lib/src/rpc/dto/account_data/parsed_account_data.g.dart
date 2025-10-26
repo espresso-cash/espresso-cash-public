@@ -6,46 +6,57 @@ part of 'parsed_account_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ParsedSplTokenProgramAccountDataImpl _$$ParsedSplTokenProgramAccountDataImplFromJson(
+ParsedSplTokenProgramAccountData _$ParsedSplTokenProgramAccountDataFromJson(
   Map<String, dynamic> json,
-) => _$ParsedSplTokenProgramAccountDataImpl(
+) => ParsedSplTokenProgramAccountData(
   SplTokenProgramAccountData.fromJson(json['parsed'] as Map<String, dynamic>),
   $type: json['program'] as String?,
 );
 
-Map<String, dynamic> _$$ParsedSplTokenProgramAccountDataImplToJson(
-  _$ParsedSplTokenProgramAccountDataImpl instance,
-) => <String, dynamic>{'parsed': instance.parsed.toJson(), 'program': instance.$type};
+Map<String, dynamic> _$ParsedSplTokenProgramAccountDataToJson(
+  ParsedSplTokenProgramAccountData instance,
+) => <String, dynamic>{
+  'parsed': instance.parsed.toJson(),
+  'program': instance.$type,
+};
 
-_$ParsedSplToken2022ProgramAccountDataImpl _$$ParsedSplToken2022ProgramAccountDataImplFromJson(
+ParsedSplToken2022ProgramAccountData
+_$ParsedSplToken2022ProgramAccountDataFromJson(Map<String, dynamic> json) =>
+    ParsedSplToken2022ProgramAccountData(
+      SplTokenProgramAccountData.fromJson(
+        json['parsed'] as Map<String, dynamic>,
+      ),
+      $type: json['program'] as String?,
+    );
+
+Map<String, dynamic> _$ParsedSplToken2022ProgramAccountDataToJson(
+  ParsedSplToken2022ProgramAccountData instance,
+) => <String, dynamic>{
+  'parsed': instance.parsed.toJson(),
+  'program': instance.$type,
+};
+
+ParsedStakeProgramAccountData _$ParsedStakeProgramAccountDataFromJson(
   Map<String, dynamic> json,
-) => _$ParsedSplToken2022ProgramAccountDataImpl(
-  SplTokenProgramAccountData.fromJson(json['parsed'] as Map<String, dynamic>),
-  $type: json['program'] as String?,
-);
-
-Map<String, dynamic> _$$ParsedSplToken2022ProgramAccountDataImplToJson(
-  _$ParsedSplToken2022ProgramAccountDataImpl instance,
-) => <String, dynamic>{'parsed': instance.parsed.toJson(), 'program': instance.$type};
-
-_$ParsedStakeProgramAccountDataImpl _$$ParsedStakeProgramAccountDataImplFromJson(
-  Map<String, dynamic> json,
-) => _$ParsedStakeProgramAccountDataImpl(
+) => ParsedStakeProgramAccountData(
   StakeProgramAccountData.fromJson(json['parsed'] as Map<String, dynamic>),
   $type: json['program'] as String?,
 );
 
-Map<String, dynamic> _$$ParsedStakeProgramAccountDataImplToJson(
-  _$ParsedStakeProgramAccountDataImpl instance,
-) => <String, dynamic>{'parsed': instance.parsed.toJson(), 'program': instance.$type};
+Map<String, dynamic> _$ParsedStakeProgramAccountDataToJson(
+  ParsedStakeProgramAccountData instance,
+) => <String, dynamic>{
+  'parsed': instance.parsed.toJson(),
+  'program': instance.$type,
+};
 
-_$UnsupportedProgramAccountDataImpl _$$UnsupportedProgramAccountDataImplFromJson(
+UnsupportedProgramAccountData _$UnsupportedProgramAccountDataFromJson(
   Map<String, dynamic> json,
-) => _$UnsupportedProgramAccountDataImpl(
+) => UnsupportedProgramAccountData(
   json['parsed'] as Map<String, dynamic>,
   $type: json['program'] as String?,
 );
 
-Map<String, dynamic> _$$UnsupportedProgramAccountDataImplToJson(
-  _$UnsupportedProgramAccountDataImpl instance,
+Map<String, dynamic> _$UnsupportedProgramAccountDataToJson(
+  UnsupportedProgramAccountData instance,
 ) => <String, dynamic>{'parsed': instance.parsed, 'program': instance.$type};

@@ -9,7 +9,7 @@ part 'parsed_spl_token_instruction.g.dart';
 ///
 /// [spl token]: https://spl.solana.com/token
 @Freezed(unionKey: 'type', fallbackUnion: 'generic')
-class ParsedSplTokenInstruction with _$ParsedSplTokenInstruction {
+sealed class ParsedSplTokenInstruction with _$ParsedSplTokenInstruction {
   const factory ParsedSplTokenInstruction.transfer({
     required SplTokenTransferInfo info,
     required String type,

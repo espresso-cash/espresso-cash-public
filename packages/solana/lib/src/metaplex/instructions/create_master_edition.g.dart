@@ -34,7 +34,9 @@ class BCreateMasterEditionV3Data implements BType<CreateMasterEditionV3Data> {
 
   @override
   CreateMasterEditionV3Data read(BinaryReader reader) {
-    return CreateMasterEditionV3Data(maxSupply: const BOption(BU64()).read(reader));
+    return CreateMasterEditionV3Data(
+      maxSupply: const BOption(BU64()).read(reader),
+    );
   }
 }
 

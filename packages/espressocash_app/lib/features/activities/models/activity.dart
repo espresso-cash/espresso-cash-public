@@ -9,7 +9,7 @@ import '../../transaction_request/models/transaction_request.dart';
 part 'activity.freezed.dart';
 
 @freezed
-class Activity with _$Activity {
+sealed class Activity with _$Activity {
   const factory Activity.outgoingPaymentRequest({required String id, required DateTime created}) =
       OPRActivity;
 

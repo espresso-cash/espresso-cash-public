@@ -5,16 +5,14 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../accounts/auth_scope.dart';
-import '../../ambassador/data/ambassador_service.dart';
 
 @Singleton(scope: authScope)
 class FeatureFlagsManager implements Disposable {
-  FeatureFlagsManager(this._ambassadorService) {
+  FeatureFlagsManager() {
     _init();
   }
 
   final _remoteConfig = FirebaseRemoteConfig.instance;
-  final AmbassadorService _ambassadorService;
 
   StreamSubscription<void>? _subscription;
 
@@ -31,15 +29,10 @@ class FeatureFlagsManager implements Disposable {
 
   bool isMoneygramAccessEnabled() => _remoteConfig.getBool(FeatureFlag.moneygram.name);
 
-  bool isBrijEnabled() =>
-      _remoteConfig.getBool(FeatureFlag.brij.name) || _ambassadorService.value.isAmbassador;
-
-  bool isBrijDemoEnabled() => _remoteConfig.getBool(FeatureFlag.brijDemo.name);
-
   @override
   void onDispose() {
     _subscription?.cancel();
   }
 }
 
-enum FeatureFlag { moneygram, brij, brijDemo }
+enum FeatureFlag { moneygram }

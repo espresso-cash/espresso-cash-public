@@ -9,7 +9,7 @@ import 'package:solana/src/solana_pay/constants.dart';
 part 'solana_transaction_request.freezed.dart';
 
 @freezed
-class SolanaTransactionRequest with _$SolanaTransactionRequest {
+abstract class SolanaTransactionRequest with _$SolanaTransactionRequest {
   const factory SolanaTransactionRequest({required Uri link, String? label, String? message}) =
       _SolanaTransactionRequest;
 

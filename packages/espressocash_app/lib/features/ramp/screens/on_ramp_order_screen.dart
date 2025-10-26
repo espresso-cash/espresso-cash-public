@@ -79,7 +79,10 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final theme = isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.black();
 
     if (order.status == OnRampOrderStatus.pending) {
-      return CpTheme(theme: theme, child: TransferProgress(onBack: () => Navigator.pop(context)));
+      return CpTheme(
+        theme: theme,
+        child: TransferProgress(onBack: () => Navigator.pop(context)),
+      );
     }
 
     if (order.status == OnRampOrderStatus.waitingForDeposit && isManualBankTransfer) {
@@ -101,8 +104,9 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final locale = DeviceLocale.localeOf(context);
     final amount = order.receiveAmount ?? order.submittedAmount;
 
-    final String? statusTitle =
-        order.status == OnRampOrderStatus.completed ? context.l10n.transferSuccessTitle : null;
+    final String? statusTitle = order.status == OnRampOrderStatus.completed
+        ? context.l10n.transferSuccessTitle
+        : null;
 
     final String statusContent = switch (order.status) {
       OnRampOrderStatus.pending ||
@@ -133,8 +137,9 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.completed => null,
     };
 
-    final Widget? primaryButton =
-        order.status == OnRampOrderStatus.failure ? const _ContactUsButton() : null;
+    final Widget? primaryButton = order.status == OnRampOrderStatus.failure
+        ? const _ContactUsButton()
+        : null;
 
     final depositAmount = manualDeposit?.transferAmount ?? order.submittedAmount;
 
@@ -199,16 +204,15 @@ class _CancelButton extends StatelessWidget {
     child: CpTextButton(
       text: context.l10n.onRampCancelTitle,
       variant: CpTextButtonVariant.light,
-      onPressed:
-          () => showConfirmationDialog(
-            context,
-            title: context.l10n.onRampCancelTitle.toUpperCase(),
-            message: context.l10n.onRampCancelSubtitle,
-            onConfirm: () {
-              sl<OnRampOrderService>().delete(orderId);
-              Navigator.pop(context);
-            },
-          ),
+      onPressed: () => showConfirmationDialog(
+        context,
+        title: context.l10n.onRampCancelTitle.toUpperCase(),
+        message: context.l10n.onRampCancelSubtitle,
+        onConfirm: () {
+          sl<OnRampOrderService>().delete(orderId);
+          Navigator.pop(context);
+        },
+      ),
     ),
   );
 }
@@ -252,19 +256,18 @@ class _MgAdditionalInfo extends StatelessWidget {
                   decoration: TextDecoration.underline,
                   fontWeight: FontWeight.bold,
                 ),
-                recognizer:
-                    TapGestureRecognizer()
-                      ..onTap = () {
-                        WebViewScreen.push(
-                          context,
-                          url: Uri.parse(moreInfoUrl),
-                          title: context.l10n.depositTitle.toUpperCase(),
-                          theme: const CpThemeData.light(),
-                          onLoaded: (controller) async {
-                            await controller.evaluateJavascript(source: await loadMoneygramStyle());
-                          },
-                        );
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    WebViewScreen.push(
+                      context,
+                      url: Uri.parse(moreInfoUrl),
+                      title: context.l10n.depositTitle.toUpperCase(),
+                      theme: const CpThemeData.light(),
+                      onLoaded: (controller) async {
+                        await controller.evaluateJavascript(source: await loadMoneygramStyle());
                       },
+                    );
+                  },
               ),
             ],
           ),
@@ -306,28 +309,21 @@ class _Timeline extends StatelessWidget {
       subtitle: context.formatDate(created),
     );
 
-    final isBrij = partner == RampPartner.brij;
-    final brijAmountArriving = CpTimelineItem(title: context.l10n.scalexBrijOnrampArriving);
-
-    final amountReceived =
-        isBrij
-            ? brijAmountArriving
-            : CpTimelineItem(
-              title: context.l10n.onRampDepositReceived,
-              trailing: receiveAmount?.format(context.locale, maxDecimals: 2),
-            );
+    final amountReceived = CpTimelineItem(
+      title: context.l10n.onRampDepositReceived,
+      trailing: receiveAmount?.format(context.locale, maxDecimals: 2),
+    );
 
     CpTimelineItem? deposited;
     if (isManualBankTransfer) {
       deposited = CpTimelineItem(
-        title:
-            partner == RampPartner.moneygram
-                ? 'Deposited to MoneyGram'
-                : context.l10n.onRampLocalTransferTile(
-                  manualDeposit.transferAmount.format(context.locale),
-                  manualDeposit.bankName,
-                  manualDeposit.bankAccount,
-                ),
+        title: partner == RampPartner.moneygram
+            ? 'Deposited to MoneyGram'
+            : context.l10n.onRampLocalTransferTile(
+                manualDeposit.transferAmount.format(context.locale),
+                manualDeposit.bankName,
+                manualDeposit.bankAccount,
+              ),
       );
     }
 

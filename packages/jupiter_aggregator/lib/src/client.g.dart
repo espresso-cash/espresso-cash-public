@@ -26,7 +26,12 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<QuoteResponseDto>(
       Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(_dio.options, '/quote', queryParameters: queryParameters, data: _data)
+          .compose(
+            _dio.options,
+            '/quote',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -41,7 +46,9 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
   }
 
   @override
-  Future<JupiterSwapResponseDto> getSwapTransactions(JupiterSwapRequestDto swapRequestDto) async {
+  Future<JupiterSwapResponseDto> getSwapTransactions(
+    JupiterSwapRequestDto swapRequestDto,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -49,7 +56,12 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
     _data.addAll(swapRequestDto.toJson());
     final _options = _setStreamType<JupiterSwapResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(_dio.options, '/swap', queryParameters: queryParameters, data: _data)
+          .compose(
+            _dio.options,
+            '/swap',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -111,7 +123,12 @@ class _JupiterPriceClient implements JupiterPriceClient {
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<PriceResponseDto>(
       Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(_dio.options, '/price/v2', queryParameters: queryParameters, data: _data)
+          .compose(
+            _dio.options,
+            '/price/v2',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);

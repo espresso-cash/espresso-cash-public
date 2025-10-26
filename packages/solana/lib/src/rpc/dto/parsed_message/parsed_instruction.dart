@@ -8,7 +8,7 @@ part 'parsed_instruction.g.dart';
 
 /// An instruction which is part of a `ParsedMessage`.
 @Freezed(unionKey: 'program', fallbackUnion: 'unsupported')
-class ParsedInstruction with _$ParsedInstruction implements Instruction {
+sealed class ParsedInstruction with _$ParsedInstruction implements Instruction {
   const factory ParsedInstruction.system({
     required String programId,
     required ParsedSystemInstruction parsed,

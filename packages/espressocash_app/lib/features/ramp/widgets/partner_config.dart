@@ -19,13 +19,6 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
     partners.add(RampPartner.kado);
   }
 
-  final isBrijPartnerEnabled =
-      sl<FeatureFlagsManager>().isBrijEnabled() && sl<FeatureFlagsManager>().isBrijDemoEnabled();
-
-  if (isBrijPartnerEnabled && _brijCountries.contains(countryCode)) {
-    partners.add(RampPartner.brij);
-  }
-
   partners.add(RampPartner.rampNetwork);
 
   if (_guardarianCountries.contains(countryCode)) {
@@ -48,13 +41,6 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
 
   if (_coinflowCountries.contains(countryCode)) {
     partners.add(RampPartner.coinflow);
-  }
-
-  final isBrijPartnerEnabled =
-      sl<FeatureFlagsManager>().isBrijEnabled() && sl<FeatureFlagsManager>().isBrijDemoEnabled();
-
-  if (isBrijPartnerEnabled && _brijCountries.contains(countryCode)) {
-    partners.add(RampPartner.brij);
   }
 
   return IList(partners);

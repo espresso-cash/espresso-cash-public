@@ -8,7 +8,7 @@ part 'ambassador_referral.freezed.dart';
 part 'ambassador_referral.g.dart';
 
 @freezed
-class AmbassadorReferral with _$AmbassadorReferral {
+abstract class AmbassadorReferral with _$AmbassadorReferral {
   const factory AmbassadorReferral({
     @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey address,
   }) = _AmbassadorReferral;

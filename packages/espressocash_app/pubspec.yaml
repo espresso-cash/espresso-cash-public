@@ -4,7 +4,7 @@ publish_to: "none"
 version: 1.155.0
 
 environment:
-  sdk: ">=3.7.0 <4.0.0"
+  sdk: ">=3.9.0 <4.0.0"
 
 dependencies:
   app_links: ^6.4.0
@@ -49,7 +49,7 @@ dependencies:
   get_it: ^7.6.4
   http: ^1.1.2
   image_picker: ^1.1.1
-  injectable: ^2.3.2
+  injectable: ^2.5.2
   intercom_flutter: ^9.2.9
   intl: ^0.20.2
   json_annotation: ^4.8.1
@@ -98,7 +98,7 @@ dev_dependencies:
     sdk: flutter
   freezed: ^3.2.3
   golden_toolkit: ^0.15.0
-  injectable_generator: ^2.4.1
+  injectable_generator: ^2.9.0
   integration_test:
     sdk: flutter
   json_serializable: ^6.7.1
@@ -177,3 +177,4 @@ dependency_overrides:
   jupiter_aggregator:
     path: ../jupiter_aggregator/
   pinenacl: ^0.6.0
+  test_api: 0.7.6

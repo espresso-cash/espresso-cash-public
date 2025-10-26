@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 import '../../../di.dart';
 import '../data/repository.dart';
+import '../models/notification.dart';
 import '../screens/remote_request_screen.dart';
 
 class MobileWalletListener extends StatefulWidget {
@@ -33,12 +34,11 @@ class _MobileWalletListenerState extends State<MobileWalletListener> {
 
   void _handleUpdate() {
     sl<MobileWalletRepository>().processNotification(
-      (notification) => notification.when(
-        initialized: ignore,
-        sessionTerminated: SystemNavigator.pop,
-        deauthorized: SystemNavigator.pop,
-        request: (r) => RemoteRequestScreen.push(context, request: r),
-      ),
+      (notification) => switch (notification) {
+        Initialized() => null,
+        SessionTerminated() || Deauthorized() => SystemNavigator.pop(),
+        RemoteRequsest(:final request) => RemoteRequestScreen.push(context, request: request),
+      },
     );
   }
 

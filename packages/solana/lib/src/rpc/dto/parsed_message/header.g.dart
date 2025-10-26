@@ -9,7 +9,8 @@ part of 'header.dart';
 Header _$HeaderFromJson(Map<String, dynamic> json) => Header(
   numRequiredSignatures: (json['numRequiredSignatures'] as num).toInt(),
   numReadonlySignedAccounts: (json['numReadonlySignedAccounts'] as num).toInt(),
-  numReadonlyUnsignedAccounts: (json['numReadonlyUnsignedAccounts'] as num).toInt(),
+  numReadonlyUnsignedAccounts: (json['numReadonlyUnsignedAccounts'] as num)
+      .toInt(),
 );
 
 Map<String, dynamic> _$HeaderToJson(Header instance) => <String, dynamic>{

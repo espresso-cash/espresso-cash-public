@@ -1,5 +1,5 @@
-// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 part of 'client.dart';
 
@@ -21,13 +21,12 @@ class _RpcClient implements RpcClient {
     DataSlice? dataSlice,
     num? minContextSlot,
   }) async {
-    final config =
-        GetAccountInfoConfig(
-          commitment: commitment,
-          encoding: encoding,
-          dataSlice: dataSlice,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetAccountInfoConfig(
+      commitment: commitment,
+      encoding: encoding,
+      dataSlice: dataSlice,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getAccountInfo',
       params: <dynamic>[pubKey, if (config.isNotEmpty) config],
@@ -43,11 +42,10 @@ class _RpcClient implements RpcClient {
     Commitment? commitment,
     num? minContextSlot,
   }) async {
-    final config =
-        GetBalanceConfig(
-          commitment: commitment,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetBalanceConfig(
+      commitment: commitment,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getBalance',
       params: <dynamic>[pubKey, if (config.isNotEmpty) config],
@@ -66,14 +64,13 @@ class _RpcClient implements RpcClient {
     Commitment? commitment = Commitment.finalized,
     num? maxSupportedTransactionVersion = 0,
   }) async {
-    final config =
-        GetBlockConfig(
-          encoding: encoding,
-          transactionDetails: transactionDetails,
-          rewards: rewards,
-          commitment: commitment,
-          maxSupportedTransactionVersion: maxSupportedTransactionVersion,
-        ).toJson();
+    final config = GetBlockConfig(
+      encoding: encoding,
+      transactionDetails: transactionDetails,
+      rewards: rewards,
+      commitment: commitment,
+      maxSupportedTransactionVersion: maxSupportedTransactionVersion,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getBlock',
       params: <dynamic>[slot, if (config.isNotEmpty) config],
@@ -90,11 +87,10 @@ class _RpcClient implements RpcClient {
     Commitment? commitment,
     num? minContextSlot,
   }) async {
-    final config =
-        GetBlockHeightConfig(
-          commitment: commitment,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetBlockHeightConfig(
+      commitment: commitment,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getBlockHeight',
       params: <dynamic>[if (config.isNotEmpty) config],
@@ -110,12 +106,11 @@ class _RpcClient implements RpcClient {
     Range? range,
     String? identity,
   }) async {
-    final config =
-        GetBlockProductionConfig(
-          commitment: commitment,
-          range: range,
-          identity: identity,
-        ).toJson();
+    final config = GetBlockProductionConfig(
+      commitment: commitment,
+      range: range,
+      identity: identity,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getBlockProduction',
       params: <dynamic>[if (config.isNotEmpty) config],
@@ -207,11 +202,10 @@ class _RpcClient implements RpcClient {
     Commitment? commitment,
     num? minContextSlot,
   }) async {
-    final config =
-        GetEpochInfoConfig(
-          commitment: commitment,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetEpochInfoConfig(
+      commitment: commitment,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getEpochInfo',
       params: <dynamic>[if (config.isNotEmpty) config],
@@ -239,11 +233,10 @@ class _RpcClient implements RpcClient {
     Commitment? commitment,
     num? minContextSlot,
   }) async {
-    final config =
-        GetFeeForMessageConfig(
-          commitment: commitment,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetFeeForMessageConfig(
+      commitment: commitment,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getFeeForMessage',
       params: <dynamic>[message, if (config.isNotEmpty) config],
@@ -346,12 +339,11 @@ class _RpcClient implements RpcClient {
     int? epoch,
     num? minContextSlot,
   }) async {
-    final config =
-        GetInflationRewardConfig(
-          commitment: commitment,
-          epoch: epoch,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetInflationRewardConfig(
+      commitment: commitment,
+      epoch: epoch,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getInflationReward',
       params: <dynamic>[addresses, if (config.isNotEmpty) config],
@@ -369,11 +361,10 @@ class _RpcClient implements RpcClient {
     Commitment? commitment = Commitment.finalized,
     CirculationStatus? filter,
   }) async {
-    final config =
-        GetLargestAccountsConfig(
-          commitment: commitment,
-          filter: filter,
-        ).toJson();
+    final config = GetLargestAccountsConfig(
+      commitment: commitment,
+      filter: filter,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getLargestAccounts',
       params: <dynamic>[if (config.isNotEmpty) config],
@@ -388,11 +379,10 @@ class _RpcClient implements RpcClient {
     Commitment? commitment,
     num? minContextSlot,
   }) async {
-    final config =
-        GetLatestBlockhashConfig(
-          commitment: commitment,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetLatestBlockhashConfig(
+      commitment: commitment,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getLatestBlockhash',
       params: <dynamic>[if (config.isNotEmpty) config],
@@ -408,11 +398,10 @@ class _RpcClient implements RpcClient {
     Commitment? commitment = Commitment.finalized,
     String? identity,
   }) async {
-    final config =
-        GetLeaderScheduleConfig(
-          commitment: commitment,
-          identity: identity,
-        ).toJson();
+    final config = GetLeaderScheduleConfig(
+      commitment: commitment,
+      identity: identity,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getLeaderSchedule',
       params: <dynamic>[if (slot != null) slot, if (config.isNotEmpty) config],
@@ -455,10 +444,9 @@ class _RpcClient implements RpcClient {
     int accountDataLength, {
     Commitment? commitment,
   }) async {
-    final config =
-        GetMinimumBalanceForRentExemptionConfig(
-          commitment: commitment,
-        ).toJson();
+    final config = GetMinimumBalanceForRentExemptionConfig(
+      commitment: commitment,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getMinimumBalanceForRentExemption',
       params: <dynamic>[accountDataLength, if (config.isNotEmpty) config],
@@ -476,13 +464,12 @@ class _RpcClient implements RpcClient {
     DataSlice? dataSlice,
     num? minContextSlot,
   }) async {
-    final config =
-        GetMultipleAccountsConfig(
-          commitment: commitment,
-          encoding: encoding,
-          dataSlice: dataSlice,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetMultipleAccountsConfig(
+      commitment: commitment,
+      encoding: encoding,
+      dataSlice: dataSlice,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getMultipleAccounts',
       params: <dynamic>[pubKeys, if (config.isNotEmpty) config],
@@ -502,15 +489,14 @@ class _RpcClient implements RpcClient {
     bool? withContext,
     num? minContextSlot,
   }) async {
-    final config =
-        GetProgramAccountsConfig(
-          commitment: commitment,
-          encoding: encoding,
-          dataSlice: dataSlice,
-          filters: filters,
-          withContext: withContext,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetProgramAccountsConfig(
+      commitment: commitment,
+      encoding: encoding,
+      dataSlice: dataSlice,
+      filters: filters,
+      withContext: withContext,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getProgramAccounts',
       params: <dynamic>[pubKey, if (config.isNotEmpty) config],
@@ -550,14 +536,13 @@ class _RpcClient implements RpcClient {
     Commitment? commitment = Commitment.finalized,
     num? minContextSlot,
   }) async {
-    final config =
-        GetSignaturesForAddressConfig(
-          limit: limit,
-          before: before,
-          until: until,
-          commitment: commitment,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetSignaturesForAddressConfig(
+      limit: limit,
+      before: before,
+      until: until,
+      commitment: commitment,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getSignaturesForAddress',
       params: <dynamic>[pubKey, if (config.isNotEmpty) config],
@@ -576,10 +561,9 @@ class _RpcClient implements RpcClient {
     List<String> signatures, {
     bool? searchTransactionHistory,
   }) async {
-    final config =
-        GetSignatureStatusesConfig(
-          searchTransactionHistory: searchTransactionHistory,
-        ).toJson();
+    final config = GetSignatureStatusesConfig(
+      searchTransactionHistory: searchTransactionHistory,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getSignatureStatuses',
       params: <dynamic>[signatures, if (config.isNotEmpty) config],
@@ -591,11 +575,10 @@ class _RpcClient implements RpcClient {
 
   @override
   Future<int> getSlot({Commitment? commitment, num? minContextSlot}) async {
-    final config =
-        GetSlotConfig(
-          commitment: commitment,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetSlotConfig(
+      commitment: commitment,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getSlot',
       params: <dynamic>[if (config.isNotEmpty) config],
@@ -610,11 +593,10 @@ class _RpcClient implements RpcClient {
     Commitment? commitment,
     num? minContextSlot,
   }) async {
-    final config =
-        GetSlotLeaderConfig(
-          commitment: commitment,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetSlotLeaderConfig(
+      commitment: commitment,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getSlotLeader',
       params: <dynamic>[if (config.isNotEmpty) config],
@@ -640,8 +622,9 @@ class _RpcClient implements RpcClient {
   Future<StakeMinimumDelegationResult> getStakeMinimumDelegation({
     Commitment? commitment,
   }) async {
-    final config =
-        GetStakeMinimumDelegationConfig(commitment: commitment).toJson();
+    final config = GetStakeMinimumDelegationConfig(
+      commitment: commitment,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getStakeMinimumDelegation',
       params: <dynamic>[if (config.isNotEmpty) config],
@@ -656,11 +639,10 @@ class _RpcClient implements RpcClient {
     Commitment commitment = Commitment.finalized,
     bool? excludeNonCirculatingAccountsList,
   }) async {
-    final config =
-        GetSupplyConfig(
-          commitment: commitment,
-          excludeNonCirculatingAccountsList: excludeNonCirculatingAccountsList,
-        ).toJson();
+    final config = GetSupplyConfig(
+      commitment: commitment,
+      excludeNonCirculatingAccountsList: excludeNonCirculatingAccountsList,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getSupply',
       params: <dynamic>[if (config.isNotEmpty) config],
@@ -675,8 +657,9 @@ class _RpcClient implements RpcClient {
     String pubKey, {
     Commitment? commitment,
   }) async {
-    final config =
-        GetTokenAccountBalanceConfig(commitment: commitment).toJson();
+    final config = GetTokenAccountBalanceConfig(
+      commitment: commitment,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getTokenAccountBalance',
       params: <dynamic>[pubKey, if (config.isNotEmpty) config],
@@ -695,13 +678,12 @@ class _RpcClient implements RpcClient {
     DataSlice? dataSlice,
     num? minContextSlot,
   }) async {
-    final config =
-        GetTokenAccountsByDelegateConfig(
-          commitment: commitment,
-          encoding: encoding,
-          dataSlice: dataSlice,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetTokenAccountsByDelegateConfig(
+      commitment: commitment,
+      encoding: encoding,
+      dataSlice: dataSlice,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getTokenAccountsByDelegate',
       params: <dynamic>[pubKey, filter.toJson(), if (config.isNotEmpty) config],
@@ -720,13 +702,12 @@ class _RpcClient implements RpcClient {
     DataSlice? dataSlice,
     num? minContextSlot,
   }) async {
-    final config =
-        GetTokenAccountsByOwnerConfig(
-          commitment: commitment,
-          encoding: encoding,
-          dataSlice: dataSlice,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetTokenAccountsByOwnerConfig(
+      commitment: commitment,
+      encoding: encoding,
+      dataSlice: dataSlice,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getTokenAccountsByOwner',
       params: <dynamic>[pubKey, filter.toJson(), if (config.isNotEmpty) config],
@@ -741,8 +722,9 @@ class _RpcClient implements RpcClient {
     String pubKey, {
     Commitment? commitment,
   }) async {
-    final config =
-        GetTokenLargestAccountsConfig(commitment: commitment).toJson();
+    final config = GetTokenLargestAccountsConfig(
+      commitment: commitment,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getTokenLargestAccounts',
       params: <dynamic>[pubKey, if (config.isNotEmpty) config],
@@ -774,12 +756,11 @@ class _RpcClient implements RpcClient {
     Commitment? commitment = Commitment.finalized,
     num? maxSupportedTransactionVersion = 0,
   }) async {
-    final config =
-        GetTransactionConfig(
-          encoding: encoding,
-          commitment: commitment,
-          maxSupportedTransactionVersion: maxSupportedTransactionVersion,
-        ).toJson();
+    final config = GetTransactionConfig(
+      encoding: encoding,
+      commitment: commitment,
+      maxSupportedTransactionVersion: maxSupportedTransactionVersion,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getTransaction',
       params: <dynamic>[signature, if (config.isNotEmpty) config],
@@ -796,11 +777,10 @@ class _RpcClient implements RpcClient {
     Commitment? commitment,
     num? minContextSlot,
   }) async {
-    final config =
-        GetTransactionCountConfig(
-          commitment: commitment,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = GetTransactionCountConfig(
+      commitment: commitment,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getTransactionCount',
       params: <dynamic>[if (config.isNotEmpty) config],
@@ -829,13 +809,12 @@ class _RpcClient implements RpcClient {
     bool? keepUnstakedDelinquents,
     int? delinquentSlotDistance,
   }) async {
-    final config =
-        GetVoteAccountsConfig(
-          commitment: commitment,
-          votePubKey: votePubKey,
-          keepUnstakedDelinquents: keepUnstakedDelinquents,
-          delinquentSlotDistance: delinquentSlotDistance,
-        ).toJson();
+    final config = GetVoteAccountsConfig(
+      commitment: commitment,
+      votePubKey: votePubKey,
+      keepUnstakedDelinquents: keepUnstakedDelinquents,
+      delinquentSlotDistance: delinquentSlotDistance,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'getVoteAccounts',
       params: <dynamic>[if (config.isNotEmpty) config],
@@ -851,11 +830,10 @@ class _RpcClient implements RpcClient {
     Commitment? commitment,
     num? minContextSlot,
   }) async {
-    final config =
-        IsBlockhashValidConfig(
-          commitment: commitment,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = IsBlockhashValidConfig(
+      commitment: commitment,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'isBlockhashValid',
       params: <dynamic>[blockhash, if (config.isNotEmpty) config],
@@ -902,14 +880,13 @@ class _RpcClient implements RpcClient {
     int? maxRetries,
     num? minContextSlot,
   }) async {
-    final config =
-        SendTransactionConfig(
-          encoding: encoding,
-          preflightCommitment: preflightCommitment,
-          skipPreflight: skipPreflight,
-          maxRetries: maxRetries,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = SendTransactionConfig(
+      encoding: encoding,
+      preflightCommitment: preflightCommitment,
+      skipPreflight: skipPreflight,
+      maxRetries: maxRetries,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'sendTransaction',
       params: <dynamic>[transaction, if (config.isNotEmpty) config],
@@ -929,15 +906,14 @@ class _RpcClient implements RpcClient {
     SimulateTransactionAccounts? accounts,
     num? minContextSlot,
   }) async {
-    final config =
-        SimulateTransactionConfig(
-          sigVerify: sigVerify,
-          encoding: encoding,
-          commitment: commitment,
-          replaceRecentBlockhash: replaceRecentBlockhash,
-          accounts: accounts,
-          minContextSlot: minContextSlot,
-        ).toJson();
+    final config = SimulateTransactionConfig(
+      sigVerify: sigVerify,
+      encoding: encoding,
+      commitment: commitment,
+      replaceRecentBlockhash: replaceRecentBlockhash,
+      accounts: accounts,
+      minContextSlot: minContextSlot,
+    ).toJson();
     final response = await _jsonRpcClient.request(
       'simulateTransaction',
       params: <dynamic>[transaction, if (config.isNotEmpty) config],

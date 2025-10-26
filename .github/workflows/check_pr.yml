@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.29.3"
+  FLUTTER_VERSION: "3.35.7"
   DART_VERSION: "3.7.2"
   DCM_VERSION: "1.28.2"
 

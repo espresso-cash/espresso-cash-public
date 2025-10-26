@@ -39,7 +39,7 @@ class _OnRampOrderDetailsState extends State<OnRampOrderDetails> {
 
     _watcher = switch (onRamp.partner) {
       RampPartner.kado => sl<KadoOnRampOrderWatcher>(),
-      RampPartner.brij || RampPartner.moneygram => null,
+      RampPartner.moneygram => null,
       RampPartner.rampNetwork ||
       RampPartner.coinflow ||
       RampPartner.guardarian => throw ArgumentError('Not implemented'),

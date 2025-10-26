@@ -14,10 +14,11 @@ Delegation _$DelegationFromJson(Map<String, dynamic> json) => Delegation(
   warmupCooldownRate: (json['warmupCooldownRate'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$DelegationToJson(Delegation instance) => <String, dynamic>{
-  'activationEpoch': instance.activationEpoch,
-  'deactivationEpoch': instance.deactivationEpoch,
-  'stake': instance.stake,
-  'voter': instance.voter,
-  'warmupCooldownRate': instance.warmupCooldownRate,
-};
+Map<String, dynamic> _$DelegationToJson(Delegation instance) =>
+    <String, dynamic>{
+      'activationEpoch': instance.activationEpoch,
+      'deactivationEpoch': instance.deactivationEpoch,
+      'stake': instance.stake,
+      'voter': instance.voter,
+      'warmupCooldownRate': instance.warmupCooldownRate,
+    };
