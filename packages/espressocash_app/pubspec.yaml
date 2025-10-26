@@ -13,10 +13,6 @@ dependencies:
   bip39: ^1.0.6
   bloc_concurrency: ^0.2.3
   borsh_annotation: ^0.3.2
-  brij_client:
-    git:
-      url: https://github.com/espresso-cash/kyc_client_dart.git
-      ref: v1.0.9
   cached_network_image: ^3.3.1
   camera: ^0.11.1
   collection: # Implied by integration_test.
@@ -49,7 +45,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   flutter_svg: ^2.0.9
   flutter_svg_provider: ^1.0.7
-  freezed_annotation: ^2.4.1
+  freezed_annotation: ^3.1.0
   get_it: ^7.6.4
   http: ^1.1.2
   image_picker: ^1.1.1
@@ -90,7 +86,8 @@ dependencies:
 
 dev_dependencies:
   bloc_test: ^9.1.5
-  borsh: ^0.3.2
+  borsh:
+    path: ../borsh/
   build_runner: ^2.4.7
   drift_dev: ^2.15.0
   flutter_driver:
@@ -99,15 +96,15 @@ dev_dependencies:
   flutter_native_splash: ^2.3.7
   flutter_test:
     sdk: flutter
-  freezed: ^2.4.6
+  freezed: ^3.2.3
   golden_toolkit: ^0.15.0
   injectable_generator: ^2.4.1
   integration_test:
     sdk: flutter
   json_serializable: ^6.7.1
   mews_pedantic: ^0.38.0
-  mockito: ^5.4.4
-  retrofit_generator: ^9.2.0
+  mockito: ^5.5.1
+  retrofit_generator: ^10.0.0
 
 flutter_gen:
   integrations:
