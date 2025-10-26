@@ -28,7 +28,7 @@ abstract class SwapData with _$SwapData {
 }
 
 @freezed
-class SwapStatus with _$SwapStatus {
+sealed class SwapStatus with _$SwapStatus {
   /// Tx is successfully created and ready to be sent.
   const factory SwapStatus.txCreated(SignedTx tx, {required BigInt slot}) = SwapStatusTxCreated;
 

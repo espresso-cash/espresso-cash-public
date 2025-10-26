@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
@@ -6,6 +5,7 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../outgoing_dln_payments/models/outgoing_payment.dart';
 import '../../outgoing_dln_payments/screens/details_screen.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
@@ -25,14 +25,14 @@ class OutgoingDlnTile extends StatelessWidget {
       DeviceLocale.localeOf(context),
       maxDecimals: 2,
     ),
-    status: activity.data.status.map(
-      txCreated: always(CpActivityTileStatus.inProgress),
-      txSent: always(CpActivityTileStatus.inProgress),
-      success: always(CpActivityTileStatus.inProgress),
-      txFailure: always(CpActivityTileStatus.failure),
-      fulfilled: always(CpActivityTileStatus.success),
-      unfulfilled: always(CpActivityTileStatus.failure),
-    ),
+    status: switch (activity.data.status) {
+      OutgoingDlnPaymentStatusTxCreated() ||
+      OutgoingDlnPaymentStatusTxSent() ||
+      OutgoingDlnPaymentStatusSuccess() => CpActivityTileStatus.inProgress,
+      OutgoingDlnPaymentStatusTxFailure() ||
+      OutgoingDlnPaymentStatusUnFulfilled() => CpActivityTileStatus.failure,
+      OutgoingDlnPaymentStatusFulfilled() => CpActivityTileStatus.success,
+    },
     onTap: () => OutgoingDlnPaymentDetailsScreen.push(context, id: activity.id),
     showIcon: showIcon,
   );

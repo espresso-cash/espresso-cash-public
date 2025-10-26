@@ -113,6 +113,7 @@ class OLPService implements Disposable {
     final status = payment.status;
 
     final OLPStatus newStatus;
+    // ignore: prefer-switch-with-sealed-classes, fix later
     if (status is OLPStatusTxFailure) {
       newStatus = OLPStatus.canceled(txId: null, timestamp: DateTime.now());
     } else {
@@ -197,8 +198,8 @@ class OLPService implements Disposable {
 
       final OLPStatus? newStatus = tx.map(
         sent: (_) => OLPStatus.txSent(status.tx, escrow: status.escrow, slot: status.slot),
-        invalidBlockhash:
-            (_) => const OLPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
+        invalidBlockhash: (_) =>
+            const OLPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
         failure: (it) => OLPStatus.txFailure(reason: it.reason),
         networkError: (_) => const OLPStatus.txFailure(reason: TxFailureReason.unknown),
       );
@@ -256,7 +257,9 @@ class OLPService implements Disposable {
 
     _refreshBalance();
 
-    return payment.copyWith(status: OLPStatus.linkReady(link: link, escrow: status.escrow));
+    return payment.copyWith(
+      status: OLPStatus.linkReady(link: link, escrow: status.escrow),
+    );
   }
 
   Future<OutgoingLinkPayment?> _sendCanceled(OutgoingLinkPayment payment) async {
@@ -270,15 +273,13 @@ class OLPService implements Disposable {
 
       final OLPStatus? newStatus = tx.map(
         sent: (_) => OLPStatus.cancelTxSent(status.tx, escrow: status.escrow, slot: status.slot),
-        invalidBlockhash:
-            (_) => OLPStatus.cancelTxFailure(
-              reason: TxFailureReason.invalidBlockhashSending,
-              escrow: status.escrow,
-            ),
+        invalidBlockhash: (_) => OLPStatus.cancelTxFailure(
+          reason: TxFailureReason.invalidBlockhashSending,
+          escrow: status.escrow,
+        ),
         failure: (it) => OLPStatus.cancelTxFailure(reason: it.reason, escrow: status.escrow),
-        networkError:
-            (_) =>
-                OLPStatus.cancelTxFailure(reason: TxFailureReason.unknown, escrow: status.escrow),
+        networkError: (_) =>
+            OLPStatus.cancelTxFailure(reason: TxFailureReason.unknown, escrow: status.escrow),
       );
 
       return newStatus == null ? payment : payment.copyWith(status: newStatus);

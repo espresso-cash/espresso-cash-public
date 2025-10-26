@@ -83,5 +83,3 @@ const _moneygramOffRampCountries = {
   'TL', 'TG', 'TO', 'TT', 'TC', 'TV', 'UG', 'UA', 'AE', 'GB', 'US', 'UY', //
   'UZ', 'VU', 'VE', 'VN', 'VG', 'VI', 'ZM',
 };
-
-const _brijCountries = {'NG', 'ES'};

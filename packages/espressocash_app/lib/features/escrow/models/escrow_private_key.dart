@@ -15,6 +15,7 @@ abstract class EscrowPrivateKey with _$EscrowPrivateKey {
     return EscrowPrivateKey(data.bytes);
   }
 
+  @override
   late final Future<Ed25519HDKeyPair> keyPair = Ed25519HDKeyPair.fromPrivateKeyBytes(
     privateKey: bytes,
   );

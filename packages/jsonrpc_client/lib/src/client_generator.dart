@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, avoid-type-casts
+// ignore_for_file: deprecated_member_use, avoid-type-casts, avoid-nullable-interpolation
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
@@ -186,7 +186,6 @@ extension on FormalParameterElement {
   }
 
   String asFormalInitializer() {
-    // ignore: avoid-nullable-interpolation, should be non-nullable
     final defaultValue = hasDefaultValue ? ' = $defaultValueCode' : '';
 
     return isRequiredNamed ? 'required this.$name$defaultValue' : 'this.$name$defaultValue';

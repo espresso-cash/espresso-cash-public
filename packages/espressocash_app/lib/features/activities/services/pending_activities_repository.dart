@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../data/db/db.dart';
-import '../../kyc_sharing/services/pending_kyc_service.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
@@ -22,24 +21,21 @@ class PendingActivitiesRepository {
     this._onRampOrderService,
     this._offRampOrderService,
     this._trService,
-    this._pendingKycService,
   );
 
   final MyDatabase _db;
   final OnRampOrderService _onRampOrderService;
   final OffRampOrderService _offRampOrderService;
   final TRService _trService;
-  final PendingKycService _pendingKycService;
 
   Stream<IList<Activity>> watchAll() {
     final opr = _db.select(_db.paymentRequestRows)
       ..where((tbl) => tbl.state.equalsValue(PaymentRequestStateDto.completed).not());
     final odp = _db.select(_db.oDPRows)
       ..where((tbl) => tbl.status.equalsValue(ODPStatusDto.success).not());
-    final olp =
-        _db.select(_db.oLPRows)
-          ..where((tbl) => tbl.status.equalsValue(OLPStatusDto.withdrawn).not())
-          ..where((tbl) => tbl.status.equalsValue(OLPStatusDto.canceled).not());
+    final olp = _db.select(_db.oLPRows)
+      ..where((tbl) => tbl.status.equalsValue(OLPStatusDto.withdrawn).not())
+      ..where((tbl) => tbl.status.equalsValue(OLPStatusDto.canceled).not());
 
     final outgoingDlnPayment = _db.select(_db.outgoingDlnPaymentRows)
       ..where((tbl) => tbl.status.equalsValue(ODLNPaymentStatusDto.fulfilled).not());
@@ -64,27 +60,10 @@ class PendingActivitiesRepository {
 
     final trStream = _trService.watchPending().map((rows) => rows.map((it) => it.toActivity()));
 
-    final pendingKycStream = _pendingKycService.pendingKycStream.map(
-      (date) => date == null ? const <Activity>[] : [Activity.kyc(created: date)],
-    );
-
     return Rx.combineLatest<Iterable<Activity>, IList<Activity>>(
-      [
-        oprStream,
-        odpStream,
-        onRampStream,
-        outgoingDlnStream,
-        olpStream,
-        offRampStream,
-        trStream,
-        pendingKycStream,
-      ],
-      (values) => values.expand(identity).toIList().sortOrdered((a, b) {
-        if (a is KycActivity) return -1;
-        if (b is KycActivity) return 1;
-
-        return b.created.compareTo(a.created);
-      }),
+      [oprStream, odpStream, onRampStream, outgoingDlnStream, olpStream, offRampStream, trStream],
+      (values) =>
+          values.expand(identity).toIList().sortOrdered((a, b) => b.created.compareTo(a.created)),
     );
   }
 }

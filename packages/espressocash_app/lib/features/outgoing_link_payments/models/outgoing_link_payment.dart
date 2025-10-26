@@ -21,7 +21,7 @@ abstract class OutgoingLinkPayment with _$OutgoingLinkPayment {
 }
 
 @freezed
-class OLPStatus with _$OLPStatus {
+sealed class OLPStatus with _$OLPStatus {
   /// Tx created, but not sent yet. At this stage, it's safe to cancel/recreate
   /// it.
   const factory OLPStatus.txCreated(

@@ -5,6 +5,7 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../token_swap/models/swap.dart';
 import '../../token_swap/screens/swap_details_screen.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
@@ -36,12 +37,11 @@ class SwapTile extends StatelessWidget {
       incomingAmount: swapTo,
       timestamp: context.formatDate(activity.created),
       icon: _SwapIcon(input: inputToken, output: outputToken),
-      status: activity.data.status.map(
-        txCreated: always(CpActivityTileStatus.inProgress),
-        txSent: always(CpActivityTileStatus.inProgress),
-        success: always(CpActivityTileStatus.success),
-        txFailure: always(CpActivityTileStatus.failure),
-      ),
+      status: switch (activity.data.status) {
+        SwapStatusTxCreated() || SwapStatusTxSent() => CpActivityTileStatus.inProgress,
+        SwapStatusSuccess() => CpActivityTileStatus.success,
+        SwapStatusTxFailure() => CpActivityTileStatus.failure,
+      },
       onTap: () => SwapDetailsScreen.push(context, id: activity.id),
       showIcon: showIcon,
     );
@@ -59,12 +59,18 @@ class _SwapIcon extends StatelessWidget {
     dimension: 42,
     child: Stack(
       children: [
-        Align(alignment: Alignment.topLeft, child: TokenIcon(token: input, size: 30)),
+        Align(
+          alignment: Alignment.topLeft,
+          child: TokenIcon(token: input, size: 30),
+        ),
         const Align(
           alignment: Alignment.bottomRight,
           child: CircleAvatar(backgroundColor: Colors.white, maxRadius: 16),
         ),
-        Align(alignment: Alignment.bottomRight, child: TokenIcon(token: output, size: 30)),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: TokenIcon(token: output, size: 30),
+        ),
       ],
     ),
   );

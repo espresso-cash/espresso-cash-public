@@ -12,7 +12,6 @@ import '../../../di.dart';
 import '../../../ui/clipboard.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
-import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/profile_repository.dart';
 import '../widgets/ambassador_section.dart';
 import '../widgets/help_section.dart';

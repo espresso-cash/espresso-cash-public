@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-nullable-interpolation
+
 import 'package:analyzer/dart/element/element.dart';
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:build/build.dart';

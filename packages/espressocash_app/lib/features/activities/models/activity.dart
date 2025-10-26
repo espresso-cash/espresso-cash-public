@@ -41,8 +41,6 @@ sealed class Activity with _$Activity {
     required TransactionRequestPayment data,
   }) = TransactionRequestActivity;
 
-  const factory Activity.kyc({required DateTime created}) = KycActivity;
-
   const factory Activity.swap({required String id, required DateTime created, required Swap data}) =
       SwapActivity;
 }
