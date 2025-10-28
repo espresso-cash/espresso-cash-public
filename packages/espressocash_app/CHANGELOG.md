@@ -1,3 +1,9 @@
+## 1.156.1
+
+ - **FIX**: brij redirect wallet format (#1768).
+ - **FIX**: update Dart SDK version to 3.9.2 across multiple packages.
+ - **FIX**: enable use_frameworks! in Podfile for improved compatibility.
+
 ## 1.156.0
 
  - **FIX**: token swap fixes (#1757).
