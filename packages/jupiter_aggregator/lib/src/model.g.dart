@@ -54,13 +54,15 @@ _QuoteResponseDto _$QuoteResponseDtoFromJson(Map<String, dynamic> json) => _Quot
   otherAmountThreshold: json['otherAmountThreshold'] as String,
   swapMode: $enumDecodeNullable(_$SwapModeEnumMap, json['swapMode']) ?? SwapMode.exactIn,
   slippageBps: (json['slippageBps'] as num).toInt(),
-  platformFee: json['platformFee'] == null
-      ? null
-      : JupiterMarketFee.fromJson(json['platformFee'] as Map<String, dynamic>),
+  platformFee:
+      json['platformFee'] == null
+          ? null
+          : JupiterMarketFee.fromJson(json['platformFee'] as Map<String, dynamic>),
   priceImpactPct: json['priceImpactPct'] as String,
-  routePlan: (json['routePlan'] as List<dynamic>)
-      .map((e) => RoutePlan.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  routePlan:
+      (json['routePlan'] as List<dynamic>)
+          .map((e) => RoutePlan.fromJson(e as Map<String, dynamic>))
+          .toList(),
   contextSlot: json['contextSlot'] as num?,
   timeTaken: (json['timeTaken'] as num?)?.toDouble(),
 );
@@ -135,9 +137,10 @@ _JupiterSwapRequestDto _$JupiterSwapRequestDtoFromJson(Map<String, dynamic> json
       dynamicComputeUnitLimit: json['dynamicComputeUnitLimit'] as bool?,
       skipUserAccountsRpcCalls: json['skipUserAccountsRpcCalls'] as bool?,
       trackingAccount: json['trackingAccount'] as String?,
-      dynamicSlippage: json['dynamicSlippage'] == null
-          ? null
-          : DynamicSlippage.fromJson(json['dynamicSlippage'] as Map<String, dynamic>),
+      dynamicSlippage:
+          json['dynamicSlippage'] == null
+              ? null
+              : DynamicSlippage.fromJson(json['dynamicSlippage'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$JupiterSwapRequestDtoToJson(
@@ -176,9 +179,12 @@ _JupiterSwapResponseDto _$JupiterSwapResponseDtoFromJson(Map<String, dynamic> js
       swapTransaction: json['swapTransaction'] as String,
       lastValidBlockHeight: (json['lastValidBlockHeight'] as num).toInt(),
       prioritizationFeeLamports: (json['prioritizationFeeLamports'] as num?)?.toInt(),
-      dynamicSlippageReport: json['dynamicSlippageReport'] == null
-          ? null
-          : DynamicSlippageReport.fromJson(json['dynamicSlippageReport'] as Map<String, dynamic>),
+      dynamicSlippageReport:
+          json['dynamicSlippageReport'] == null
+              ? null
+              : DynamicSlippageReport.fromJson(
+                json['dynamicSlippageReport'] as Map<String, dynamic>,
+              ),
     );
 
 Map<String, dynamic> _$JupiterSwapResponseDtoToJson(

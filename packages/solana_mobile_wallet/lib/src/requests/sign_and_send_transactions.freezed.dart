@@ -74,34 +74,41 @@ class _$SignAndSendTransactionsRequestCopyWithImpl<
   }) {
     return _then(
       _value.copyWith(
-            identityName: freezed == identityName
-                ? _value.identityName
-                : identityName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            identityUri: freezed == identityUri
-                ? _value.identityUri
-                : identityUri // ignore: cast_nullable_to_non_nullable
-                      as Uri?,
-            iconRelativeUri: freezed == iconRelativeUri
-                ? _value.iconRelativeUri
-                : iconRelativeUri // ignore: cast_nullable_to_non_nullable
-                      as Uri?,
-            cluster: null == cluster
-                ? _value.cluster
-                : cluster // ignore: cast_nullable_to_non_nullable
-                      as String,
-            authorizationScope: null == authorizationScope
-                ? _value.authorizationScope
-                : authorizationScope // ignore: cast_nullable_to_non_nullable
-                      as Uint8List,
-            transactions: null == transactions
-                ? _value.transactions
-                : transactions // ignore: cast_nullable_to_non_nullable
-                      as List<Uint8List>,
-            minContextSlot: freezed == minContextSlot
-                ? _value.minContextSlot
-                : minContextSlot // ignore: cast_nullable_to_non_nullable
-                      as int?,
+            identityName:
+                freezed == identityName
+                    ? _value.identityName
+                    : identityName // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            identityUri:
+                freezed == identityUri
+                    ? _value.identityUri
+                    : identityUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+            iconRelativeUri:
+                freezed == iconRelativeUri
+                    ? _value.iconRelativeUri
+                    : iconRelativeUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+            cluster:
+                null == cluster
+                    ? _value.cluster
+                    : cluster // ignore: cast_nullable_to_non_nullable
+                        as String,
+            authorizationScope:
+                null == authorizationScope
+                    ? _value.authorizationScope
+                    : authorizationScope // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
+            transactions:
+                null == transactions
+                    ? _value.transactions
+                    : transactions // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
+            minContextSlot:
+                freezed == minContextSlot
+                    ? _value.minContextSlot
+                    : minContextSlot // ignore: cast_nullable_to_non_nullable
+                        as int?,
           )
           as $Val,
     );
@@ -150,34 +157,41 @@ class __$$SignAndSendTransactionsRequestImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$SignAndSendTransactionsRequestImpl(
-        identityName: freezed == identityName
-            ? _value.identityName
-            : identityName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        identityUri: freezed == identityUri
-            ? _value.identityUri
-            : identityUri // ignore: cast_nullable_to_non_nullable
-                  as Uri?,
-        iconRelativeUri: freezed == iconRelativeUri
-            ? _value.iconRelativeUri
-            : iconRelativeUri // ignore: cast_nullable_to_non_nullable
-                  as Uri?,
-        cluster: null == cluster
-            ? _value.cluster
-            : cluster // ignore: cast_nullable_to_non_nullable
-                  as String,
-        authorizationScope: null == authorizationScope
-            ? _value.authorizationScope
-            : authorizationScope // ignore: cast_nullable_to_non_nullable
-                  as Uint8List,
-        transactions: null == transactions
-            ? _value._transactions
-            : transactions // ignore: cast_nullable_to_non_nullable
-                  as List<Uint8List>,
-        minContextSlot: freezed == minContextSlot
-            ? _value.minContextSlot
-            : minContextSlot // ignore: cast_nullable_to_non_nullable
-                  as int?,
+        identityName:
+            freezed == identityName
+                ? _value.identityName
+                : identityName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        identityUri:
+            freezed == identityUri
+                ? _value.identityUri
+                : identityUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        iconRelativeUri:
+            freezed == iconRelativeUri
+                ? _value.iconRelativeUri
+                : iconRelativeUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        cluster:
+            null == cluster
+                ? _value.cluster
+                : cluster // ignore: cast_nullable_to_non_nullable
+                    as String,
+        authorizationScope:
+            null == authorizationScope
+                ? _value.authorizationScope
+                : authorizationScope // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        transactions:
+            null == transactions
+                ? _value._transactions
+                : transactions // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+        minContextSlot:
+            freezed == minContextSlot
+                ? _value.minContextSlot
+                : minContextSlot // ignore: cast_nullable_to_non_nullable
+                    as int?,
       ),
     );
   }
@@ -393,10 +407,11 @@ class __$$SignaturesResultImplCopyWithImpl<$Res>
   $Res call({Object? signatures = null}) {
     return _then(
       _$SignaturesResultImpl(
-        signatures: null == signatures
-            ? _value._signatures
-            : signatures // ignore: cast_nullable_to_non_nullable
-                  as List<Uint8List>,
+        signatures:
+            null == signatures
+                ? _value._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
       ),
     );
   }
@@ -690,10 +705,11 @@ class __$$InvalidPayloadsImplCopyWithImpl<$Res>
   $Res call({Object? valid = null}) {
     return _then(
       _$InvalidPayloadsImpl(
-        valid: null == valid
-            ? _value._valid
-            : valid // ignore: cast_nullable_to_non_nullable
-                  as List<bool>,
+        valid:
+            null == valid
+                ? _value._valid
+                : valid // ignore: cast_nullable_to_non_nullable
+                    as List<bool>,
       ),
     );
   }
@@ -1113,10 +1129,11 @@ class __$$NotSubmittedImplCopyWithImpl<$Res>
   $Res call({Object? signatures = null}) {
     return _then(
       _$NotSubmittedImpl(
-        signatures: null == signatures
-            ? _value._signatures
-            : signatures // ignore: cast_nullable_to_non_nullable
-                  as List<Uint8List>,
+        signatures:
+            null == signatures
+                ? _value._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
       ),
     );
   }

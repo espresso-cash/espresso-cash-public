@@ -62,22 +62,26 @@ class _$ImplementationLimitsCopyWithImpl<$Res, $Val extends ImplementationLimits
   }) {
     return _then(
       _value.copyWith(
-            maxBip32PathDepth: null == maxBip32PathDepth
-                ? _value.maxBip32PathDepth
-                : maxBip32PathDepth // ignore: cast_nullable_to_non_nullable
-                      as int,
-            maxSigningRequests: null == maxSigningRequests
-                ? _value.maxSigningRequests
-                : maxSigningRequests // ignore: cast_nullable_to_non_nullable
-                      as int,
-            maxRequestedSignatures: null == maxRequestedSignatures
-                ? _value.maxRequestedSignatures
-                : maxRequestedSignatures // ignore: cast_nullable_to_non_nullable
-                      as int,
-            maxRequestedPublicKeys: null == maxRequestedPublicKeys
-                ? _value.maxRequestedPublicKeys
-                : maxRequestedPublicKeys // ignore: cast_nullable_to_non_nullable
-                      as int,
+            maxBip32PathDepth:
+                null == maxBip32PathDepth
+                    ? _value.maxBip32PathDepth
+                    : maxBip32PathDepth // ignore: cast_nullable_to_non_nullable
+                        as int,
+            maxSigningRequests:
+                null == maxSigningRequests
+                    ? _value.maxSigningRequests
+                    : maxSigningRequests // ignore: cast_nullable_to_non_nullable
+                        as int,
+            maxRequestedSignatures:
+                null == maxRequestedSignatures
+                    ? _value.maxRequestedSignatures
+                    : maxRequestedSignatures // ignore: cast_nullable_to_non_nullable
+                        as int,
+            maxRequestedPublicKeys:
+                null == maxRequestedPublicKeys
+                    ? _value.maxRequestedPublicKeys
+                    : maxRequestedPublicKeys // ignore: cast_nullable_to_non_nullable
+                        as int,
           )
           as $Val,
     );
@@ -120,22 +124,26 @@ class __$$ImplementationLimitsImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$ImplementationLimitsImpl(
-        maxBip32PathDepth: null == maxBip32PathDepth
-            ? _value.maxBip32PathDepth
-            : maxBip32PathDepth // ignore: cast_nullable_to_non_nullable
-                  as int,
-        maxSigningRequests: null == maxSigningRequests
-            ? _value.maxSigningRequests
-            : maxSigningRequests // ignore: cast_nullable_to_non_nullable
-                  as int,
-        maxRequestedSignatures: null == maxRequestedSignatures
-            ? _value.maxRequestedSignatures
-            : maxRequestedSignatures // ignore: cast_nullable_to_non_nullable
-                  as int,
-        maxRequestedPublicKeys: null == maxRequestedPublicKeys
-            ? _value.maxRequestedPublicKeys
-            : maxRequestedPublicKeys // ignore: cast_nullable_to_non_nullable
-                  as int,
+        maxBip32PathDepth:
+            null == maxBip32PathDepth
+                ? _value.maxBip32PathDepth
+                : maxBip32PathDepth // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxSigningRequests:
+            null == maxSigningRequests
+                ? _value.maxSigningRequests
+                : maxSigningRequests // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxRequestedSignatures:
+            null == maxRequestedSignatures
+                ? _value.maxRequestedSignatures
+                : maxRequestedSignatures // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxRequestedPublicKeys:
+            null == maxRequestedPublicKeys
+                ? _value.maxRequestedPublicKeys
+                : maxRequestedPublicKeys // ignore: cast_nullable_to_non_nullable
+                    as int,
       ),
     );
   }

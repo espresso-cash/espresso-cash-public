@@ -159,9 +159,10 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     required AuthToken authToken,
     required Account account,
     required String name,
-  }) => SeedVault.instance
-      .updateAccountName(authToken: authToken, accountId: account.id, name: name)
-      .toEither();
+  }) =>
+      SeedVault.instance
+          .updateAccountName(authToken: authToken, accountId: account.id, name: name)
+          .toEither();
 
   Future<void> deathorizeSeed(AuthToken authToken) async {
     await SeedVault.instance.deauthorizeSeed(authToken);
@@ -260,22 +261,22 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     return Future.wait(
       List.generate(
         payloadCount,
-        (i) =>
-            List.generate(
-              signatureCount,
-              (j) => Bip44DerivationPath.toUri([
-                BipLevel(index: i * maxRequestedSignatures + j, hardened: true),
-              ]),
-            ).let(
-              (it) => getPublicKeysFromPaths(authToken, it).letAsync(
-                (signers) => SigningRequest(
-                  payload: payloadType == _PayloadType.message
+        (i) => List.generate(
+          signatureCount,
+          (j) => Bip44DerivationPath.toUri([
+            BipLevel(index: i * maxRequestedSignatures + j, hardened: true),
+          ]),
+        ).let(
+          (it) => getPublicKeysFromPaths(authToken, it).letAsync(
+            (signers) => SigningRequest(
+              payload:
+                  payloadType == _PayloadType.message
                       ? generateFakeMessage(signers.map((it) => it.toBase58()).toList())
                       : generateFakeTransaction(signers.map((it) => it.toBase58()).toList()),
-                  requestedSignatures: it,
-                ),
-              ),
+              requestedSignatures: it,
             ),
+          ),
+        ),
       ),
     );
   }

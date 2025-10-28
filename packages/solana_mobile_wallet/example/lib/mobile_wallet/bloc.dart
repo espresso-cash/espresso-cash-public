@@ -71,16 +71,18 @@ class MobileWalletBloc extends Cubit<MobileWalletState> implements ScenarioCallb
 
     final transactions = await Future.wait(
       request.map(
-        transactions: (request) => payloads.map((e) async {
-          final tx = SignedTx.fromBytes(e);
+        transactions:
+            (request) => payloads.map((e) async {
+              final tx = SignedTx.fromBytes(e);
 
-          return SignedTx(
-            compiledMessage: tx.compiledMessage,
-            signatures: [await _keyPair.sign(tx.compiledMessage.toByteArray())],
-          ).toByteArray().toList();
-        }),
-        messages: (request) =>
-            payloads.map((e) async => e + await _keyPair.sign(e).then((value) => value.bytes)),
+              return SignedTx(
+                compiledMessage: tx.compiledMessage,
+                signatures: [await _keyPair.sign(tx.compiledMessage.toByteArray())],
+              ).toByteArray().toList();
+            }),
+        messages:
+            (request) =>
+                payloads.map((e) async => e + await _keyPair.sign(e).then((value) => value.bytes)),
       ),
     );
 
@@ -146,14 +148,10 @@ class MobileWalletBloc extends Cubit<MobileWalletState> implements ScenarioCallb
       MobileWalletState.remote(
         RemoteRequest.sendTransactions(
           request: request,
-          signatures: transactions
-              .map((e) => e.signatures.first.bytes)
-              .map(Uint8List.fromList)
-              .toList(),
-          signedTransactions: transactions
-              .map((e) => e.toByteArray().toList())
-              .map(Uint8List.fromList)
-              .toList(),
+          signatures:
+              transactions.map((e) => e.signatures.first.bytes).map(Uint8List.fromList).toList(),
+          signedTransactions:
+              transactions.map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList(),
         ),
       ),
     );
@@ -231,9 +229,10 @@ class MobileWalletBloc extends Cubit<MobileWalletState> implements ScenarioCallb
           .map((e) => _client.sendTransaction(e).then((_) => true, onError: (_) => false)),
     );
 
-    final result = results.any((e) => !e)
-        ? SignaturesResult.invalidPayloads(valid: results)
-        : SignaturesResult(signatures: request.signatures);
+    final result =
+        results.any((e) => !e)
+            ? SignaturesResult.invalidPayloads(valid: results)
+            : SignaturesResult(signatures: request.signatures);
 
     _completer?.complete(result);
   }

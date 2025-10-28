@@ -6,9 +6,10 @@ class Bip32DerivationPath {
       '',
       WalletContractV1.bip32UriMasterKeyIndicator,
       ...bipLevels.map(
-        (it) => it.hardened
-            ? '${it.index}${WalletContractV1.bipUriHardenedIndexIdentifier}'
-            : it.index.toString(),
+        (it) =>
+            it.hardened
+                ? '${it.index}${WalletContractV1.bipUriHardenedIndexIdentifier}'
+                : it.index.toString(),
       ),
     ];
 

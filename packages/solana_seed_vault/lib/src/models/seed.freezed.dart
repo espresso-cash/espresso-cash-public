@@ -52,22 +52,26 @@ class _$SeedCopyWithImpl<$Res, $Val extends Seed> implements $SeedCopyWith<$Res>
   }) {
     return _then(
       _value.copyWith(
-            authToken: null == authToken
-                ? _value.authToken
-                : authToken // ignore: cast_nullable_to_non_nullable
-                      as int,
-            name: null == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String,
-            purpose: null == purpose
-                ? _value.purpose
-                : purpose // ignore: cast_nullable_to_non_nullable
-                      as Purpose,
-            accounts: null == accounts
-                ? _value.accounts
-                : accounts // ignore: cast_nullable_to_non_nullable
-                      as List<Account>,
+            authToken:
+                null == authToken
+                    ? _value.authToken
+                    : authToken // ignore: cast_nullable_to_non_nullable
+                        as int,
+            name:
+                null == name
+                    ? _value.name
+                    : name // ignore: cast_nullable_to_non_nullable
+                        as String,
+            purpose:
+                null == purpose
+                    ? _value.purpose
+                    : purpose // ignore: cast_nullable_to_non_nullable
+                        as Purpose,
+            accounts:
+                null == accounts
+                    ? _value.accounts
+                    : accounts // ignore: cast_nullable_to_non_nullable
+                        as List<Account>,
           )
           as $Val,
     );
@@ -99,22 +103,26 @@ class __$$SeedImplCopyWithImpl<$Res> extends _$SeedCopyWithImpl<$Res, _$SeedImpl
   }) {
     return _then(
       _$SeedImpl(
-        authToken: null == authToken
-            ? _value.authToken
-            : authToken // ignore: cast_nullable_to_non_nullable
-                  as int,
-        name: null == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String,
-        purpose: null == purpose
-            ? _value.purpose
-            : purpose // ignore: cast_nullable_to_non_nullable
-                  as Purpose,
-        accounts: null == accounts
-            ? _value._accounts
-            : accounts // ignore: cast_nullable_to_non_nullable
-                  as List<Account>,
+        authToken:
+            null == authToken
+                ? _value.authToken
+                : authToken // ignore: cast_nullable_to_non_nullable
+                    as int,
+        name:
+            null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                    as String,
+        purpose:
+            null == purpose
+                ? _value.purpose
+                : purpose // ignore: cast_nullable_to_non_nullable
+                    as Purpose,
+        accounts:
+            null == accounts
+                ? _value._accounts
+                : accounts // ignore: cast_nullable_to_non_nullable
+                    as List<Account>,
       ),
     );
   }

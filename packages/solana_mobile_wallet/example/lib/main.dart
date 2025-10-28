@@ -38,16 +38,19 @@ class MyApp extends StatelessWidget {
       appBar: AppBar(title: const Text('Plugin example app')),
       body: BlocConsumer<MobileWalletBloc, MobileWalletState>(
         listener: (context, state) => state.whenOrNull(sessionTerminated: SystemNavigator.pop),
-        builder: (context, state) => state.when(
-          none: () => const Center(child: Text('Running...')),
-          sessionTerminated: () => const Center(child: Text('Running...')),
-          remote: (r) => r.map(
-            authorizeDapp: (r) => AuthScreen(request: r.request),
-            signPayloads: (r) => SignPayloadsScreen(request: r.request),
-            signTransactionsForSending: (r) => SignTransactionsForSendingScreen(request: r.request),
-            sendTransactions: (r) => SendTransactionsScreen(request: r),
-          ),
-        ),
+        builder:
+            (context, state) => state.when(
+              none: () => const Center(child: Text('Running...')),
+              sessionTerminated: () => const Center(child: Text('Running...')),
+              remote:
+                  (r) => r.map(
+                    authorizeDapp: (r) => AuthScreen(request: r.request),
+                    signPayloads: (r) => SignPayloadsScreen(request: r.request),
+                    signTransactionsForSending:
+                        (r) => SignTransactionsForSendingScreen(request: r.request),
+                    sendTransactions: (r) => SendTransactionsScreen(request: r),
+                  ),
+            ),
       ),
     ),
   );

@@ -105,16 +105,17 @@ class MobileWalletAdapterClient {
       final result = await api.signMessages(_scenarioId, messages, addresses);
 
       return SignMessagesResult(
-        signedMessages: result.messages
-            .whereType<SignedMessageDto>()
-            .map(
-              (it) => SignedMessage(
-                message: it.message,
-                addresses: it.addresses.whereType<Uint8List>().toList(),
-                signatures: it.signatures.whereType<Uint8List>().toList(),
-              ),
-            )
-            .toList(),
+        signedMessages:
+            result.messages
+                .whereType<SignedMessageDto>()
+                .map(
+                  (it) => SignedMessage(
+                    message: it.message,
+                    addresses: it.addresses.whereType<Uint8List>().toList(),
+                    signatures: it.signatures.whereType<Uint8List>().toList(),
+                  ),
+                )
+                .toList(),
       );
     } on PlatformException {
       return const SignMessagesResult(signedMessages: []);

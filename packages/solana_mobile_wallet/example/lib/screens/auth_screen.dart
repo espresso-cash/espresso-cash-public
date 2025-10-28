@@ -47,19 +47,21 @@ class _AuthScreenState extends State<AuthScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
-                onPressed: () => context.read<MobileWalletBloc>().authorizeDapp(
-                  isAuthorized: true,
-                  scopeTag: 'app',
-                  qualifier: null,
-                ),
+                onPressed:
+                    () => context.read<MobileWalletBloc>().authorizeDapp(
+                      isAuthorized: true,
+                      scopeTag: 'app',
+                      qualifier: null,
+                    ),
                 child: const Text('Authorize'),
               ),
               ElevatedButton(
-                onPressed: () => context.read<MobileWalletBloc>().authorizeDapp(
-                  isAuthorized: false,
-                  scopeTag: 'app',
-                  qualifier: null,
-                ),
+                onPressed:
+                    () => context.read<MobileWalletBloc>().authorizeDapp(
+                      isAuthorized: false,
+                      scopeTag: 'app',
+                      qualifier: null,
+                    ),
                 child: const Text('Decline'),
               ),
             ],

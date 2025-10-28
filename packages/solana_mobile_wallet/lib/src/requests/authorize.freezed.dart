@@ -52,18 +52,21 @@ class _$AuthorizeRequestCopyWithImpl<$Res, $Val extends AuthorizeRequest>
   }) {
     return _then(
       _value.copyWith(
-            identityName: freezed == identityName
-                ? _value.identityName
-                : identityName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            identityUri: freezed == identityUri
-                ? _value.identityUri
-                : identityUri // ignore: cast_nullable_to_non_nullable
-                      as Uri?,
-            iconUri: freezed == iconUri
-                ? _value.iconUri
-                : iconUri // ignore: cast_nullable_to_non_nullable
-                      as Uri?,
+            identityName:
+                freezed == identityName
+                    ? _value.identityName
+                    : identityName // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            identityUri:
+                freezed == identityUri
+                    ? _value.identityUri
+                    : identityUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+            iconUri:
+                freezed == iconUri
+                    ? _value.iconUri
+                    : iconUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
           )
           as $Val,
     );
@@ -99,18 +102,21 @@ class __$$AuthorizeRequestImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$AuthorizeRequestImpl(
-        identityName: freezed == identityName
-            ? _value.identityName
-            : identityName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        identityUri: freezed == identityUri
-            ? _value.identityUri
-            : identityUri // ignore: cast_nullable_to_non_nullable
-                  as Uri?,
-        iconUri: freezed == iconUri
-            ? _value.iconUri
-            : iconUri // ignore: cast_nullable_to_non_nullable
-                  as Uri?,
+        identityName:
+            freezed == identityName
+                ? _value.identityName
+                : identityName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        identityUri:
+            freezed == identityUri
+                ? _value.identityUri
+                : identityUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        iconUri:
+            freezed == iconUri
+                ? _value.iconUri
+                : iconUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
       ),
     );
   }
@@ -215,22 +221,26 @@ class _$AuthorizeResultCopyWithImpl<$Res, $Val extends AuthorizeResult>
   }) {
     return _then(
       _value.copyWith(
-            publicKey: null == publicKey
-                ? _value.publicKey
-                : publicKey // ignore: cast_nullable_to_non_nullable
-                      as Uint8List,
-            accountLabel: freezed == accountLabel
-                ? _value.accountLabel
-                : accountLabel // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            walletUriBase: freezed == walletUriBase
-                ? _value.walletUriBase
-                : walletUriBase // ignore: cast_nullable_to_non_nullable
-                      as Uri?,
-            scope: freezed == scope
-                ? _value.scope
-                : scope // ignore: cast_nullable_to_non_nullable
-                      as Uint8List?,
+            publicKey:
+                null == publicKey
+                    ? _value.publicKey
+                    : publicKey // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
+            accountLabel:
+                freezed == accountLabel
+                    ? _value.accountLabel
+                    : accountLabel // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            walletUriBase:
+                freezed == walletUriBase
+                    ? _value.walletUriBase
+                    : walletUriBase // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+            scope:
+                freezed == scope
+                    ? _value.scope
+                    : scope // ignore: cast_nullable_to_non_nullable
+                        as Uint8List?,
           )
           as $Val,
     );
@@ -267,22 +277,26 @@ class __$$AuthorizeResultImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$AuthorizeResultImpl(
-        publicKey: null == publicKey
-            ? _value.publicKey
-            : publicKey // ignore: cast_nullable_to_non_nullable
-                  as Uint8List,
-        accountLabel: freezed == accountLabel
-            ? _value.accountLabel
-            : accountLabel // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        walletUriBase: freezed == walletUriBase
-            ? _value.walletUriBase
-            : walletUriBase // ignore: cast_nullable_to_non_nullable
-                  as Uri?,
-        scope: freezed == scope
-            ? _value.scope
-            : scope // ignore: cast_nullable_to_non_nullable
-                  as Uint8List?,
+        publicKey:
+            null == publicKey
+                ? _value.publicKey
+                : publicKey // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        accountLabel:
+            freezed == accountLabel
+                ? _value.accountLabel
+                : accountLabel // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        walletUriBase:
+            freezed == walletUriBase
+                ? _value.walletUriBase
+                : walletUriBase // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        scope:
+            freezed == scope
+                ? _value.scope
+                : scope // ignore: cast_nullable_to_non_nullable
+                    as Uint8List?,
       ),
     );
   }

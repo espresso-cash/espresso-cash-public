@@ -62,22 +62,26 @@ class _$GetCapabilitiesResultCopyWithImpl<$Res, $Val extends GetCapabilitiesResu
   }) {
     return _then(
       _value.copyWith(
-            supportsCloneAuthorization: null == supportsCloneAuthorization
-                ? _value.supportsCloneAuthorization
-                : supportsCloneAuthorization // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            supportsSignAndSendTransactions: null == supportsSignAndSendTransactions
-                ? _value.supportsSignAndSendTransactions
-                : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            maxTransactionsPerSigningRequest: null == maxTransactionsPerSigningRequest
-                ? _value.maxTransactionsPerSigningRequest
-                : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
-                      as int,
-            maxMessagesPerSigningRequest: null == maxMessagesPerSigningRequest
-                ? _value.maxMessagesPerSigningRequest
-                : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
-                      as int,
+            supportsCloneAuthorization:
+                null == supportsCloneAuthorization
+                    ? _value.supportsCloneAuthorization
+                    : supportsCloneAuthorization // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            supportsSignAndSendTransactions:
+                null == supportsSignAndSendTransactions
+                    ? _value.supportsSignAndSendTransactions
+                    : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            maxTransactionsPerSigningRequest:
+                null == maxTransactionsPerSigningRequest
+                    ? _value.maxTransactionsPerSigningRequest
+                    : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                        as int,
+            maxMessagesPerSigningRequest:
+                null == maxMessagesPerSigningRequest
+                    ? _value.maxMessagesPerSigningRequest
+                    : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                        as int,
           )
           as $Val,
     );
@@ -120,22 +124,26 @@ class __$$GetCapabilitiesResultImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$GetCapabilitiesResultImpl(
-        supportsCloneAuthorization: null == supportsCloneAuthorization
-            ? _value.supportsCloneAuthorization
-            : supportsCloneAuthorization // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        supportsSignAndSendTransactions: null == supportsSignAndSendTransactions
-            ? _value.supportsSignAndSendTransactions
-            : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        maxTransactionsPerSigningRequest: null == maxTransactionsPerSigningRequest
-            ? _value.maxTransactionsPerSigningRequest
-            : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
-                  as int,
-        maxMessagesPerSigningRequest: null == maxMessagesPerSigningRequest
-            ? _value.maxMessagesPerSigningRequest
-            : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
-                  as int,
+        supportsCloneAuthorization:
+            null == supportsCloneAuthorization
+                ? _value.supportsCloneAuthorization
+                : supportsCloneAuthorization // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        supportsSignAndSendTransactions:
+            null == supportsSignAndSendTransactions
+                ? _value.supportsSignAndSendTransactions
+                : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        maxTransactionsPerSigningRequest:
+            null == maxTransactionsPerSigningRequest
+                ? _value.maxTransactionsPerSigningRequest
+                : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                    as int,
+        maxMessagesPerSigningRequest:
+            null == maxMessagesPerSigningRequest
+                ? _value.maxMessagesPerSigningRequest
+                : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                    as int,
       ),
     );
   }
@@ -260,22 +268,26 @@ class _$AuthorizationResultCopyWithImpl<$Res, $Val extends AuthorizationResult>
   }) {
     return _then(
       _value.copyWith(
-            authToken: null == authToken
-                ? _value.authToken
-                : authToken // ignore: cast_nullable_to_non_nullable
-                      as String,
-            publicKey: null == publicKey
-                ? _value.publicKey
-                : publicKey // ignore: cast_nullable_to_non_nullable
-                      as Uint8List,
-            accountLabel: freezed == accountLabel
-                ? _value.accountLabel
-                : accountLabel // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            walletUriBase: freezed == walletUriBase
-                ? _value.walletUriBase
-                : walletUriBase // ignore: cast_nullable_to_non_nullable
-                      as Uri?,
+            authToken:
+                null == authToken
+                    ? _value.authToken
+                    : authToken // ignore: cast_nullable_to_non_nullable
+                        as String,
+            publicKey:
+                null == publicKey
+                    ? _value.publicKey
+                    : publicKey // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
+            accountLabel:
+                freezed == accountLabel
+                    ? _value.accountLabel
+                    : accountLabel // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            walletUriBase:
+                freezed == walletUriBase
+                    ? _value.walletUriBase
+                    : walletUriBase // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
           )
           as $Val,
     );
@@ -313,22 +325,26 @@ class __$$AuthorizationResultImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$AuthorizationResultImpl(
-        authToken: null == authToken
-            ? _value.authToken
-            : authToken // ignore: cast_nullable_to_non_nullable
-                  as String,
-        publicKey: null == publicKey
-            ? _value.publicKey
-            : publicKey // ignore: cast_nullable_to_non_nullable
-                  as Uint8List,
-        accountLabel: freezed == accountLabel
-            ? _value.accountLabel
-            : accountLabel // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        walletUriBase: freezed == walletUriBase
-            ? _value.walletUriBase
-            : walletUriBase // ignore: cast_nullable_to_non_nullable
-                  as Uri?,
+        authToken:
+            null == authToken
+                ? _value.authToken
+                : authToken // ignore: cast_nullable_to_non_nullable
+                    as String,
+        publicKey:
+            null == publicKey
+                ? _value.publicKey
+                : publicKey // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        accountLabel:
+            freezed == accountLabel
+                ? _value.accountLabel
+                : accountLabel // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        walletUriBase:
+            freezed == walletUriBase
+                ? _value.walletUriBase
+                : walletUriBase // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
       ),
     );
   }
@@ -442,10 +458,11 @@ class _$SignPayloadsResultCopyWithImpl<$Res, $Val extends SignPayloadsResult>
   $Res call({Object? signedPayloads = null}) {
     return _then(
       _value.copyWith(
-            signedPayloads: null == signedPayloads
-                ? _value.signedPayloads
-                : signedPayloads // ignore: cast_nullable_to_non_nullable
-                      as List<Uint8List>,
+            signedPayloads:
+                null == signedPayloads
+                    ? _value.signedPayloads
+                    : signedPayloads // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
           )
           as $Val,
     );
@@ -478,10 +495,11 @@ class __$$SignPayloadsResultImplCopyWithImpl<$Res>
   $Res call({Object? signedPayloads = null}) {
     return _then(
       _$SignPayloadsResultImpl(
-        signedPayloads: null == signedPayloads
-            ? _value._signedPayloads
-            : signedPayloads // ignore: cast_nullable_to_non_nullable
-                  as List<Uint8List>,
+        signedPayloads:
+            null == signedPayloads
+                ? _value._signedPayloads
+                : signedPayloads // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
       ),
     );
   }
@@ -571,10 +589,11 @@ class _$SignAndSendTransactionsResultCopyWithImpl<$Res, $Val extends SignAndSend
   $Res call({Object? signatures = null}) {
     return _then(
       _value.copyWith(
-            signatures: null == signatures
-                ? _value.signatures
-                : signatures // ignore: cast_nullable_to_non_nullable
-                      as List<Uint8List>,
+            signatures:
+                null == signatures
+                    ? _value.signatures
+                    : signatures // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
           )
           as $Val,
     );
@@ -607,10 +626,11 @@ class __$$SignAndSendTransactionsResultImplCopyWithImpl<$Res>
   $Res call({Object? signatures = null}) {
     return _then(
       _$SignAndSendTransactionsResultImpl(
-        signatures: null == signatures
-            ? _value._signatures
-            : signatures // ignore: cast_nullable_to_non_nullable
-                  as List<Uint8List>,
+        signatures:
+            null == signatures
+                ? _value._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
       ),
     );
   }
@@ -701,18 +721,21 @@ class _$SignedMessageCopyWithImpl<$Res, $Val extends SignedMessage>
   $Res call({Object? message = null, Object? addresses = null, Object? signatures = null}) {
     return _then(
       _value.copyWith(
-            message: null == message
-                ? _value.message
-                : message // ignore: cast_nullable_to_non_nullable
-                      as Uint8List,
-            addresses: null == addresses
-                ? _value.addresses
-                : addresses // ignore: cast_nullable_to_non_nullable
-                      as List<Uint8List>,
-            signatures: null == signatures
-                ? _value.signatures
-                : signatures // ignore: cast_nullable_to_non_nullable
-                      as List<Uint8List>,
+            message:
+                null == message
+                    ? _value.message
+                    : message // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
+            addresses:
+                null == addresses
+                    ? _value.addresses
+                    : addresses // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
+            signatures:
+                null == signatures
+                    ? _value.signatures
+                    : signatures // ignore: cast_nullable_to_non_nullable
+                        as List<Uint8List>,
           )
           as $Val,
     );
@@ -744,18 +767,21 @@ class __$$SignedMessageImplCopyWithImpl<$Res>
   $Res call({Object? message = null, Object? addresses = null, Object? signatures = null}) {
     return _then(
       _$SignedMessageImpl(
-        message: null == message
-            ? _value.message
-            : message // ignore: cast_nullable_to_non_nullable
-                  as Uint8List,
-        addresses: null == addresses
-            ? _value._addresses
-            : addresses // ignore: cast_nullable_to_non_nullable
-                  as List<Uint8List>,
-        signatures: null == signatures
-            ? _value._signatures
-            : signatures // ignore: cast_nullable_to_non_nullable
-                  as List<Uint8List>,
+        message:
+            null == message
+                ? _value.message
+                : message // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        addresses:
+            null == addresses
+                ? _value._addresses
+                : addresses // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
+        signatures:
+            null == signatures
+                ? _value._signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uint8List>,
       ),
     );
   }
@@ -872,10 +898,11 @@ class _$SignMessagesResultCopyWithImpl<$Res, $Val extends SignMessagesResult>
   $Res call({Object? signedMessages = null}) {
     return _then(
       _value.copyWith(
-            signedMessages: null == signedMessages
-                ? _value.signedMessages
-                : signedMessages // ignore: cast_nullable_to_non_nullable
-                      as List<SignedMessage>,
+            signedMessages:
+                null == signedMessages
+                    ? _value.signedMessages
+                    : signedMessages // ignore: cast_nullable_to_non_nullable
+                        as List<SignedMessage>,
           )
           as $Val,
     );
@@ -908,10 +935,11 @@ class __$$SignMessagesResultImplCopyWithImpl<$Res>
   $Res call({Object? signedMessages = null}) {
     return _then(
       _$SignMessagesResultImpl(
-        signedMessages: null == signedMessages
-            ? _value._signedMessages
-            : signedMessages // ignore: cast_nullable_to_non_nullable
-                  as List<SignedMessage>,
+        signedMessages:
+            null == signedMessages
+                ? _value._signedMessages
+                : signedMessages // ignore: cast_nullable_to_non_nullable
+                    as List<SignedMessage>,
       ),
     );
   }

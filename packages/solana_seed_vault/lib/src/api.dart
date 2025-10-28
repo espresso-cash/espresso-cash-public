@@ -46,8 +46,8 @@ class SigningResponseDto {
     final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
     return SigningResponseDto(
       signatures: (pigeonMap['signatures'] as List<Object?>?)!.cast<Uint8List?>(),
-      resolvedDerivationPaths: (pigeonMap['resolvedDerivationPaths'] as List<Object?>?)!
-          .cast<String?>(),
+      resolvedDerivationPaths:
+          (pigeonMap['resolvedDerivationPaths'] as List<Object?>?)!.cast<String?>(),
     );
   }
 }

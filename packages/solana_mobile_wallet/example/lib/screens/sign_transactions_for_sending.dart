@@ -23,8 +23,8 @@ class SignTransactionsForSendingScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ElevatedButton(
-              onPressed: () =>
-                  context.read<MobileWalletBloc>().signAndSendTransactionsSimulateSign(),
+              onPressed:
+                  () => context.read<MobileWalletBloc>().signAndSendTransactionsSimulateSign(),
               child: const Text('Authorize'),
             ),
             ElevatedButton(
@@ -35,20 +35,25 @@ class SignTransactionsForSendingScreen extends StatelessWidget {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
-          onPressed: () =>
-              context.read<MobileWalletBloc>().signAndSendTransactionsSimulateAuthTokenInvalid(),
+          onPressed:
+              () =>
+                  context
+                      .read<MobileWalletBloc>()
+                      .signAndSendTransactionsSimulateAuthTokenInvalid(),
           child: const Text('Simulate auth token invalid'),
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
-          onPressed: () =>
-              context.read<MobileWalletBloc>().signAndSendTransactionsSimulateInvalidPayloads(),
+          onPressed:
+              () =>
+                  context.read<MobileWalletBloc>().signAndSendTransactionsSimulateInvalidPayloads(),
           child: const Text('Simulate first payload invalid'),
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
-          onPressed: () =>
-              context.read<MobileWalletBloc>().signAndSendTransactionsSimulateTooManyPayloads(),
+          onPressed:
+              () =>
+                  context.read<MobileWalletBloc>().signAndSendTransactionsSimulateTooManyPayloads(),
           child: const Text('Simulate too many payloads'),
         ),
       ],

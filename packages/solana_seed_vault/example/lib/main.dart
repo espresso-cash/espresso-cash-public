@@ -41,22 +41,23 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) => MaterialApp(
     home: BlocBuilder<SeedVaultBloc, SeedVaultState>(
-      builder: (context, state) => Scaffold(
-        appBar: AppBar(
-          title: const Text('FakeWallet'),
-          actions: [IconButton(onPressed: _bloc.refreshUI, icon: const Icon(Icons.refresh))],
-        ),
-        body: Center(
-          child: state.map(
-            none: always(const CircularProgressIndicator()),
-            loaded: always(const SeedVaultContent()),
-            error: (state) => Text(state.err),
-            unauthorized: always(
-              ElevatedButton(onPressed: _bloc.init, child: const Text('Request permission')),
+      builder:
+          (context, state) => Scaffold(
+            appBar: AppBar(
+              title: const Text('FakeWallet'),
+              actions: [IconButton(onPressed: _bloc.refreshUI, icon: const Icon(Icons.refresh))],
+            ),
+            body: Center(
+              child: state.map(
+                none: always(const CircularProgressIndicator()),
+                loaded: always(const SeedVaultContent()),
+                error: (state) => Text(state.err),
+                unauthorized: always(
+                  ElevatedButton(onPressed: _bloc.init, child: const Text('Request permission')),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
     ),
   );
 }

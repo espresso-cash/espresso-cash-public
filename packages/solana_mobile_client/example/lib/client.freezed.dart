@@ -66,22 +66,26 @@ class _$ClientStateCopyWithImpl<$Res, $Val extends ClientState>
   }) {
     return _then(
       _value.copyWith(
-            capabilities: freezed == capabilities
-                ? _value.capabilities
-                : capabilities // ignore: cast_nullable_to_non_nullable
-                      as GetCapabilitiesResult?,
-            authorizationResult: freezed == authorizationResult
-                ? _value.authorizationResult
-                : authorizationResult // ignore: cast_nullable_to_non_nullable
-                      as AuthorizationResult?,
-            isRequestingAirdrop: null == isRequestingAirdrop
-                ? _value.isRequestingAirdrop
-                : isRequestingAirdrop // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            isMainnet: null == isMainnet
-                ? _value.isMainnet
-                : isMainnet // ignore: cast_nullable_to_non_nullable
-                      as bool,
+            capabilities:
+                freezed == capabilities
+                    ? _value.capabilities
+                    : capabilities // ignore: cast_nullable_to_non_nullable
+                        as GetCapabilitiesResult?,
+            authorizationResult:
+                freezed == authorizationResult
+                    ? _value.authorizationResult
+                    : authorizationResult // ignore: cast_nullable_to_non_nullable
+                        as AuthorizationResult?,
+            isRequestingAirdrop:
+                null == isRequestingAirdrop
+                    ? _value.isRequestingAirdrop
+                    : isRequestingAirdrop // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            isMainnet:
+                null == isMainnet
+                    ? _value.isMainnet
+                    : isMainnet // ignore: cast_nullable_to_non_nullable
+                        as bool,
           )
           as $Val,
     );
@@ -156,22 +160,26 @@ class __$$ClientStateImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$ClientStateImpl(
-        capabilities: freezed == capabilities
-            ? _value.capabilities
-            : capabilities // ignore: cast_nullable_to_non_nullable
-                  as GetCapabilitiesResult?,
-        authorizationResult: freezed == authorizationResult
-            ? _value.authorizationResult
-            : authorizationResult // ignore: cast_nullable_to_non_nullable
-                  as AuthorizationResult?,
-        isRequestingAirdrop: null == isRequestingAirdrop
-            ? _value.isRequestingAirdrop
-            : isRequestingAirdrop // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        isMainnet: null == isMainnet
-            ? _value.isMainnet
-            : isMainnet // ignore: cast_nullable_to_non_nullable
-                  as bool,
+        capabilities:
+            freezed == capabilities
+                ? _value.capabilities
+                : capabilities // ignore: cast_nullable_to_non_nullable
+                    as GetCapabilitiesResult?,
+        authorizationResult:
+            freezed == authorizationResult
+                ? _value.authorizationResult
+                : authorizationResult // ignore: cast_nullable_to_non_nullable
+                    as AuthorizationResult?,
+        isRequestingAirdrop:
+            null == isRequestingAirdrop
+                ? _value.isRequestingAirdrop
+                : isRequestingAirdrop // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        isMainnet:
+            null == isMainnet
+                ? _value.isMainnet
+                : isMainnet // ignore: cast_nullable_to_non_nullable
+                    as bool,
       ),
     );
   }

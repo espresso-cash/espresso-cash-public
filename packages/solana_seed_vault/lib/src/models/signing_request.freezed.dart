@@ -47,14 +47,16 @@ class _$SigningRequestCopyWithImpl<$Res, $Val extends SigningRequest>
   $Res call({Object? payload = null, Object? requestedSignatures = null}) {
     return _then(
       _value.copyWith(
-            payload: null == payload
-                ? _value.payload
-                : payload // ignore: cast_nullable_to_non_nullable
-                      as Uint8List,
-            requestedSignatures: null == requestedSignatures
-                ? _value.requestedSignatures
-                : requestedSignatures // ignore: cast_nullable_to_non_nullable
-                      as List<Uri>,
+            payload:
+                null == payload
+                    ? _value.payload
+                    : payload // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
+            requestedSignatures:
+                null == requestedSignatures
+                    ? _value.requestedSignatures
+                    : requestedSignatures // ignore: cast_nullable_to_non_nullable
+                        as List<Uri>,
           )
           as $Val,
     );
@@ -86,14 +88,16 @@ class __$$SigningRequestImplCopyWithImpl<$Res>
   $Res call({Object? payload = null, Object? requestedSignatures = null}) {
     return _then(
       _$SigningRequestImpl(
-        payload: null == payload
-            ? _value.payload
-            : payload // ignore: cast_nullable_to_non_nullable
-                  as Uint8List,
-        requestedSignatures: null == requestedSignatures
-            ? _value._requestedSignatures
-            : requestedSignatures // ignore: cast_nullable_to_non_nullable
-                  as List<Uri>,
+        payload:
+            null == payload
+                ? _value.payload
+                : payload // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
+        requestedSignatures:
+            null == requestedSignatures
+                ? _value._requestedSignatures
+                : requestedSignatures // ignore: cast_nullable_to_non_nullable
+                    as List<Uri>,
       ),
     );
   }

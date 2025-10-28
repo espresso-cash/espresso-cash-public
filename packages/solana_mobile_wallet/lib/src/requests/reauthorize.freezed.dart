@@ -65,26 +65,31 @@ class _$ReauthorizeRequestCopyWithImpl<$Res, $Val extends ReauthorizeRequest>
   }) {
     return _then(
       _value.copyWith(
-            identityName: freezed == identityName
-                ? _value.identityName
-                : identityName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            identityUri: freezed == identityUri
-                ? _value.identityUri
-                : identityUri // ignore: cast_nullable_to_non_nullable
-                      as Uri?,
-            iconRelativeUri: freezed == iconRelativeUri
-                ? _value.iconRelativeUri
-                : iconRelativeUri // ignore: cast_nullable_to_non_nullable
-                      as Uri?,
-            cluster: null == cluster
-                ? _value.cluster
-                : cluster // ignore: cast_nullable_to_non_nullable
-                      as String,
-            authorizationScope: null == authorizationScope
-                ? _value.authorizationScope
-                : authorizationScope // ignore: cast_nullable_to_non_nullable
-                      as Uint8List,
+            identityName:
+                freezed == identityName
+                    ? _value.identityName
+                    : identityName // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            identityUri:
+                freezed == identityUri
+                    ? _value.identityUri
+                    : identityUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+            iconRelativeUri:
+                freezed == iconRelativeUri
+                    ? _value.iconRelativeUri
+                    : iconRelativeUri // ignore: cast_nullable_to_non_nullable
+                        as Uri?,
+            cluster:
+                null == cluster
+                    ? _value.cluster
+                    : cluster // ignore: cast_nullable_to_non_nullable
+                        as String,
+            authorizationScope:
+                null == authorizationScope
+                    ? _value.authorizationScope
+                    : authorizationScope // ignore: cast_nullable_to_non_nullable
+                        as Uint8List,
           )
           as $Val,
     );
@@ -129,26 +134,31 @@ class __$$ReauthorizeRequestImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$ReauthorizeRequestImpl(
-        identityName: freezed == identityName
-            ? _value.identityName
-            : identityName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        identityUri: freezed == identityUri
-            ? _value.identityUri
-            : identityUri // ignore: cast_nullable_to_non_nullable
-                  as Uri?,
-        iconRelativeUri: freezed == iconRelativeUri
-            ? _value.iconRelativeUri
-            : iconRelativeUri // ignore: cast_nullable_to_non_nullable
-                  as Uri?,
-        cluster: null == cluster
-            ? _value.cluster
-            : cluster // ignore: cast_nullable_to_non_nullable
-                  as String,
-        authorizationScope: null == authorizationScope
-            ? _value.authorizationScope
-            : authorizationScope // ignore: cast_nullable_to_non_nullable
-                  as Uint8List,
+        identityName:
+            freezed == identityName
+                ? _value.identityName
+                : identityName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        identityUri:
+            freezed == identityUri
+                ? _value.identityUri
+                : identityUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        iconRelativeUri:
+            freezed == iconRelativeUri
+                ? _value.iconRelativeUri
+                : iconRelativeUri // ignore: cast_nullable_to_non_nullable
+                    as Uri?,
+        cluster:
+            null == cluster
+                ? _value.cluster
+                : cluster // ignore: cast_nullable_to_non_nullable
+                    as String,
+        authorizationScope:
+            null == authorizationScope
+                ? _value.authorizationScope
+                : authorizationScope // ignore: cast_nullable_to_non_nullable
+                    as Uint8List,
       ),
     );
   }

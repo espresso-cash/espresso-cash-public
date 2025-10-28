@@ -50,14 +50,16 @@ class _$SeedVaultNotificationCopyWithImpl<$Res, $Val extends SeedVaultNotificati
   $Res call({Object? uris = null, Object? flags = null}) {
     return _then(
       _value.copyWith(
-            uris: null == uris
-                ? _value.uris
-                : uris // ignore: cast_nullable_to_non_nullable
-                      as List<Uri>,
-            flags: null == flags
-                ? _value.flags
-                : flags // ignore: cast_nullable_to_non_nullable
-                      as int,
+            uris:
+                null == uris
+                    ? _value.uris
+                    : uris // ignore: cast_nullable_to_non_nullable
+                        as List<Uri>,
+            flags:
+                null == flags
+                    ? _value.flags
+                    : flags // ignore: cast_nullable_to_non_nullable
+                        as int,
           )
           as $Val,
     );
@@ -90,14 +92,16 @@ class __$$SeedVaultNotificationImplCopyWithImpl<$Res>
   $Res call({Object? uris = null, Object? flags = null}) {
     return _then(
       _$SeedVaultNotificationImpl(
-        uris: null == uris
-            ? _value._uris
-            : uris // ignore: cast_nullable_to_non_nullable
-                  as List<Uri>,
-        flags: null == flags
-            ? _value.flags
-            : flags // ignore: cast_nullable_to_non_nullable
-                  as int,
+        uris:
+            null == uris
+                ? _value._uris
+                : uris // ignore: cast_nullable_to_non_nullable
+                    as List<Uri>,
+        flags:
+            null == flags
+                ? _value.flags
+                : flags // ignore: cast_nullable_to_non_nullable
+                    as int,
       ),
     );
   }

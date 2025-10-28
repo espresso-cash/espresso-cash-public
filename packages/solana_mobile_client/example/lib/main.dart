@@ -20,88 +20,91 @@ class MyApp extends StatelessWidget {
             print(state.capabilities);
           },
           listenWhen: (previous, current) => previous.capabilities != current.capabilities,
-          builder: (context, state) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const NetworkToggleButtons(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: Text(
-                  'Public key: ${state.address ?? '<none>'}',
-                  style: Theme.of(context).textTheme.labelMedium,
-                ),
-              ),
-              Button(
-                onPressed: () async {
-                  final result = await context.read<ClientBloc>().isWalletAvailable();
-
-                  // ignore: use_build_context_synchronously, checked for mounted
-                  if (!context.mounted) return;
-
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text('Wallet available: $result')));
-                },
-                text: 'Is wallet available?',
-              ),
-              Button(
-                onPressed: () => context.read<ClientBloc>().requestCapabilities(),
-                text: 'Get capabilities',
-              ),
-              Button(onPressed: () => context.read<ClientBloc>().authorize(), text: 'Authorize'),
-              Button(
-                onPressed: state.isAuthorized
-                    ? () => context.read<ClientBloc>().reauthorize()
-                    : null,
-                text: 'Reauthorize',
-              ),
-              Button(
-                onPressed: state.isAuthorized
-                    ? () => context.read<ClientBloc>().deauthorize()
-                    : null,
-                text: 'Deauthorize',
-              ),
-              Button(
-                onPressed: state.canRequestAirdrop
-                    ? () => context.read<ClientBloc>().requestAirdrop()
-                    : null,
-                text: 'Request airdrop',
-              ),
-              const Row(
+          builder:
+              (context, state) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(flex: 3, child: SignTxButton(count: 1, text: 'Sign txn x1')),
-                  Expanded(child: SignTxButton(count: 3, text: 'x3')),
-                  Expanded(child: SignTxButton(count: 20, text: 'x20')),
-                ],
-              ),
-              Button(
-                onPressed: () => context.read<ClientBloc>().authorizeAndSignTransactions(),
-                text: 'Combined authorize and sign txn x1',
-              ),
-              const Row(
-                children: [
-                  Expanded(flex: 3, child: SignMsgButton(count: 1, text: 'Sign msg x1')),
-                  Expanded(child: SignMsgButton(count: 3, text: 'x3')),
-                  Expanded(child: SignMsgButton(count: 20, text: 'x20')),
-                ],
-              ),
-              const Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: SignAndSendTxButton(count: 1, text: 'Sign and send txn x1'),
+                  const NetworkToggleButtons(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: Text(
+                      'Public key: ${state.address ?? '<none>'}',
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
                   ),
-                  Expanded(child: SignAndSendTxButton(count: 3, text: 'x3')),
-                  Expanded(child: SignAndSendTxButton(count: 20, text: 'x20')),
+                  Button(
+                    onPressed: () async {
+                      final result = await context.read<ClientBloc>().isWalletAvailable();
+
+                      // ignore: use_build_context_synchronously, checked for mounted
+                      if (!context.mounted) return;
+
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text('Wallet available: $result')));
+                    },
+                    text: 'Is wallet available?',
+                  ),
+                  Button(
+                    onPressed: () => context.read<ClientBloc>().requestCapabilities(),
+                    text: 'Get capabilities',
+                  ),
+                  Button(
+                    onPressed: () => context.read<ClientBloc>().authorize(),
+                    text: 'Authorize',
+                  ),
+                  Button(
+                    onPressed:
+                        state.isAuthorized ? () => context.read<ClientBloc>().reauthorize() : null,
+                    text: 'Reauthorize',
+                  ),
+                  Button(
+                    onPressed:
+                        state.isAuthorized ? () => context.read<ClientBloc>().deauthorize() : null,
+                    text: 'Deauthorize',
+                  ),
+                  Button(
+                    onPressed:
+                        state.canRequestAirdrop
+                            ? () => context.read<ClientBloc>().requestAirdrop()
+                            : null,
+                    text: 'Request airdrop',
+                  ),
+                  const Row(
+                    children: [
+                      Expanded(flex: 3, child: SignTxButton(count: 1, text: 'Sign txn x1')),
+                      Expanded(child: SignTxButton(count: 3, text: 'x3')),
+                      Expanded(child: SignTxButton(count: 20, text: 'x20')),
+                    ],
+                  ),
+                  Button(
+                    onPressed: () => context.read<ClientBloc>().authorizeAndSignTransactions(),
+                    text: 'Combined authorize and sign txn x1',
+                  ),
+                  const Row(
+                    children: [
+                      Expanded(flex: 3, child: SignMsgButton(count: 1, text: 'Sign msg x1')),
+                      Expanded(child: SignMsgButton(count: 3, text: 'x3')),
+                      Expanded(child: SignMsgButton(count: 20, text: 'x20')),
+                    ],
+                  ),
+                  const Row(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: SignAndSendTxButton(count: 1, text: 'Sign and send txn x1'),
+                      ),
+                      Expanded(child: SignAndSendTxButton(count: 3, text: 'x3')),
+                      Expanded(child: SignAndSendTxButton(count: 20, text: 'x20')),
+                    ],
+                  ),
+                  Footer(
+                    hasAuthToken: state.isAuthorized,
+                    accountName: state.authorizationResult?.accountLabel,
+                    walletUriPrefix: state.authorizationResult?.walletUriBase,
+                  ),
                 ],
               ),
-              Footer(
-                hasAuthToken: state.isAuthorized,
-                accountName: state.authorizationResult?.accountLabel,
-                walletUriPrefix: state.authorizationResult?.walletUriBase,
-              ),
-            ],
-          ),
         ),
       ),
     ),
@@ -138,9 +141,10 @@ class SignAndSendTxButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Button(
-    onPressed: context.watch<ClientBloc>().state.isAuthorized
-        ? () => context.read<ClientBloc>().signAndSendTransactions(count)
-        : null,
+    onPressed:
+        context.watch<ClientBloc>().state.isAuthorized
+            ? () => context.read<ClientBloc>().signAndSendTransactions(count)
+            : null,
     text: text,
   );
 }
@@ -153,9 +157,10 @@ class SignMsgButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Button(
-    onPressed: context.watch<ClientBloc>().state.isAuthorized
-        ? () => context.read<ClientBloc>().signMessages(count)
-        : null,
+    onPressed:
+        context.watch<ClientBloc>().state.isAuthorized
+            ? () => context.read<ClientBloc>().signMessages(count)
+            : null,
     text: text,
   );
 }
@@ -168,9 +173,10 @@ class SignTxButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Button(
-    onPressed: context.watch<ClientBloc>().state.isAuthorized
-        ? () => context.read<ClientBloc>().signTransactions(count)
-        : null,
+    onPressed:
+        context.watch<ClientBloc>().state.isAuthorized
+            ? () => context.read<ClientBloc>().signTransactions(count)
+            : null,
     text: text,
   );
 }

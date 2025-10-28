@@ -259,7 +259,7 @@ class __$$AccountFilterIdImplCopyWithImpl<$Res>
         null == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
-                  as int,
+                as int,
       ),
     );
   }
@@ -424,7 +424,7 @@ class __$$AccountFilterNameImplCopyWithImpl<$Res>
         null == name
             ? _value.name
             : name // ignore: cast_nullable_to_non_nullable
-                  as String,
+                as String,
       ),
     );
   }
@@ -589,7 +589,7 @@ class __$$AccountFilterDerivationPathImplCopyWithImpl<$Res>
         null == derivationPath
             ? _value.derivationPath
             : derivationPath // ignore: cast_nullable_to_non_nullable
-                  as Uri,
+                as Uri,
       ),
     );
   }
@@ -759,7 +759,7 @@ class __$$AccountFilterPublicKeyEncodedImplCopyWithImpl<$Res>
         null == publicKeyEncoded
             ? _value.publicKeyEncoded
             : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
-                  as String,
+                as String,
       ),
     );
   }
@@ -929,7 +929,7 @@ class __$$AccountFilterIsUserWalletImplCopyWithImpl<$Res>
         null == isUserWallet
             ? _value.isUserWallet
             : isUserWallet // ignore: cast_nullable_to_non_nullable
-                  as bool,
+                as bool,
       ),
     );
   }
@@ -1098,7 +1098,7 @@ class __$$AccountFilterIsValidImplCopyWithImpl<$Res>
         null == isValid
             ? _value.isValid
             : isValid // ignore: cast_nullable_to_non_nullable
-                  as bool,
+                as bool,
       ),
     );
   }
