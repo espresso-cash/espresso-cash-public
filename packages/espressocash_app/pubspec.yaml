@@ -68,7 +68,7 @@ dependencies:
   rxdart: ^0.27.7
   sealed_countries: ^1.5.1
   sealed_currencies: ^1.5.1
-  sentry_flutter: ^8.14.2
+  sentry_flutter: ^9.7.0
   share_plus: ^11.0.0
   shared_preferences: ^2.2.2
   sliver_tools: ^0.2.12
