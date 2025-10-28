@@ -20,7 +20,6 @@ import '../partners/coinflow/widgets/launch.dart';
 import '../partners/guardarian/widgets/launch.dart';
 import '../partners/kado/widgets/launch.dart';
 import '../partners/moneygram/widgets/launch.dart';
-import '../partners/ramp_network/widgets/launch.dart';
 import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
 
@@ -180,8 +179,6 @@ extension RampBuildContextExt on BuildContext {
     required String address,
   }) {
     switch (partner) {
-      case RampPartner.rampNetwork:
-        launchRampNetworkOnRamp(profile: profile, address: address);
       case RampPartner.kado:
         launchKadoOnRamp(profile: profile, address: address);
       case RampPartner.guardarian:
@@ -211,7 +208,6 @@ extension RampBuildContextExt on BuildContext {
         launchMoneygramOffRamp(profile: profile);
       case RampPartner.brijRedirect:
         launchBrijRedirect(type: RampType.offRamp, profile: profile, address: address);
-      case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');
     }

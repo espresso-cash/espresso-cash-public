@@ -19,8 +19,6 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
     partners.add(RampPartner.kado);
   }
 
-  partners.add(RampPartner.rampNetwork);
-
   if (_guardarianCountries.contains(countryCode)) {
     partners.add(RampPartner.guardarian);
   }

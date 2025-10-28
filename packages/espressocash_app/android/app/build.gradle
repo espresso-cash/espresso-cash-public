@@ -40,8 +40,8 @@ if (project.hasProperty('dart-defines')) {
 }
 
 android {
-    compileSdkVersion 35
-    ndkVersion "26.3.11579264"
+    compileSdkVersion 36
+    ndkVersion "27.0.12077973"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'

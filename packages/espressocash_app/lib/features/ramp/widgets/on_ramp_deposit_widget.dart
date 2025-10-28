@@ -49,7 +49,6 @@ class OnRampDepositWidget extends StatelessWidget {
       ),
       RampPartner.kado ||
       RampPartner.brijRedirect ||
-      RampPartner.rampNetwork ||
       RampPartner.coinflow ||
       RampPartner.guardarian => const SizedBox.shrink(),
     };

@@ -89,7 +89,6 @@ class OffRampOrderService implements Disposable {
         case RampPartner.kado:
         case RampPartner.coinflow:
         case RampPartner.guardarian:
-        case RampPartner.rampNetwork:
         case RampPartner.brijRedirect:
           _subscribe(order.id);
           unawaited(_watch(order.id));
@@ -326,7 +325,6 @@ class OffRampOrderService implements Disposable {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
       RampPartner.brijRedirect ||
-      RampPartner.rampNetwork ||
       RampPartner.moneygram || // moneygram orders will not reach this point
       RampPartner.guardarian => throw ArgumentError('Not implemented'),
     }..watch(orderId);

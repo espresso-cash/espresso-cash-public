@@ -18,18 +18,6 @@ enum RampPartner {
     ],
   ),
 
-  rampNetwork(
-    title: 'Ramp Network',
-    minimumAmount: r'$7',
-    paymentMethods: [
-      PaymentMethod.visa,
-      PaymentMethod.mastercard,
-      PaymentMethod.applePay,
-      PaymentMethod.googlePay,
-      PaymentMethod.bank,
-    ],
-  ),
-
   coinflow(
     title: 'Coinflow',
     minimumAmount: r'$20',
@@ -80,7 +68,6 @@ enum RampPartner {
 extension RampPartnerAssets on RampPartner {
   AssetGenImage get logo => switch (this) {
     RampPartner.kado => Assets.brands.kado,
-    RampPartner.rampNetwork => Assets.brands.ramp,
     RampPartner.coinflow => Assets.brands.coinflow,
     RampPartner.guardarian => Assets.brands.guardarian,
     RampPartner.moneygram => Assets.brands.moneygram,

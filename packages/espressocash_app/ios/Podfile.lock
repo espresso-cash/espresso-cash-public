@@ -140,9 +140,6 @@ PODS:
     - Flutter
   - PromisesObjC (2.4.0)
   - Ramp (4.0.1)
-  - ramp_flutter (1.0.1):
-    - Flutter
-    - Ramp
   - rive_common (0.0.1):
     - Flutter
   - Sentry/HybridSDK (8.46.0)
@@ -208,7 +205,6 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - Ramp (from `https://github.com/RampNetwork/ramp-sdk-ios`, tag `4.0.1`)
-  - ramp_flutter (from `.symlinks/plugins/ramp_flutter/ios`)
   - rive_common (from `.symlinks/plugins/rive_common/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
@@ -288,8 +284,6 @@ EXTERNAL SOURCES:
   Ramp:
     :git: https://github.com/RampNetwork/ramp-sdk-ios
     :tag: 4.0.1
-  ramp_flutter:
-    :path: ".symlinks/plugins/ramp_flutter/ios"
   rive_common:
     :path: ".symlinks/plugins/rive_common/ios"
   sentry_flutter:
@@ -354,7 +348,6 @@ SPEC CHECKSUMS:
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   Ramp: 3f843fb75cac12ad40842afa3226bae36dc93521
-  ramp_flutter: aac85dee8bc93b5f7563c909ba15a37727fe3fe8
   rive_common: 4743dbfd2911c99066547a3c6454681e0fa907df
   Sentry: da60d980b197a46db0b35ea12cb8f39af48d8854
   sentry_flutter: 2df8b0aab7e4aba81261c230cbea31c82a62dd1b
