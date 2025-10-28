@@ -26,7 +26,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 62;
+const int latestVersion = 63;
 
 const _tables = [
   OutgoingTransferRows,
@@ -159,6 +159,15 @@ class MyDatabase extends _$MyDatabase {
       }
       if (from < 62) {
         await m.createTable(tokenSwapRows);
+      }
+      if (from < 63) {
+        // Remove rows with deleted enum values 'brij' and 'rampNetwork'
+        await customStatement(
+          "DELETE FROM ${onRampOrderRows.actualTableName} WHERE partner IN ('brij', 'rampNetwork')",
+        );
+        await customStatement(
+          "DELETE FROM ${offRampOrderRows.actualTableName} WHERE partner IN ('brij', 'rampNetwork')",
+        );
       }
     },
   );
