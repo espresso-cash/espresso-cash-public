@@ -50,11 +50,10 @@ class _$GasFeeRequestDtoCopyWithImpl<$Res, $Val extends GasFeeRequestDto>
   $Res call({Object? network = null}) {
     return _then(
       _value.copyWith(
-            network:
-                null == network
-                    ? _value.network
-                    : network // ignore: cast_nullable_to_non_nullable
-                        as String,
+            network: null == network
+                ? _value.network
+                : network // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -88,11 +87,10 @@ class __$$GasFeeRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? network = null}) {
     return _then(
       _$GasFeeRequestDtoImpl(
-        network:
-            null == network
-                ? _value.network
-                : network // ignore: cast_nullable_to_non_nullable
-                    as String,
+        network: null == network
+            ? _value.network
+            : network // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -202,31 +200,26 @@ class _$GasFeeResponseDtoCopyWithImpl<$Res, $Val extends GasFeeResponseDto>
   }) {
     return _then(
       _value.copyWith(
-            low:
-                null == low
-                    ? _value.low
-                    : low // ignore: cast_nullable_to_non_nullable
-                        as GasFeeEstimate,
-            medium:
-                null == medium
-                    ? _value.medium
-                    : medium // ignore: cast_nullable_to_non_nullable
-                        as GasFeeEstimate,
-            high:
-                null == high
-                    ? _value.high
-                    : high // ignore: cast_nullable_to_non_nullable
-                        as GasFeeEstimate,
-            estimatedBaseFee:
-                null == estimatedBaseFee
-                    ? _value.estimatedBaseFee
-                    : estimatedBaseFee // ignore: cast_nullable_to_non_nullable
-                        as String,
-            networkCongestion:
-                null == networkCongestion
-                    ? _value.networkCongestion
-                    : networkCongestion // ignore: cast_nullable_to_non_nullable
-                        as double,
+            low: null == low
+                ? _value.low
+                : low // ignore: cast_nullable_to_non_nullable
+                      as GasFeeEstimate,
+            medium: null == medium
+                ? _value.medium
+                : medium // ignore: cast_nullable_to_non_nullable
+                      as GasFeeEstimate,
+            high: null == high
+                ? _value.high
+                : high // ignore: cast_nullable_to_non_nullable
+                      as GasFeeEstimate,
+            estimatedBaseFee: null == estimatedBaseFee
+                ? _value.estimatedBaseFee
+                : estimatedBaseFee // ignore: cast_nullable_to_non_nullable
+                      as String,
+            networkCongestion: null == networkCongestion
+                ? _value.networkCongestion
+                : networkCongestion // ignore: cast_nullable_to_non_nullable
+                      as double,
           )
           as $Val,
     );
@@ -309,31 +302,26 @@ class __$$GasFeeResponseDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$GasFeeResponseDtoImpl(
-        low:
-            null == low
-                ? _value.low
-                : low // ignore: cast_nullable_to_non_nullable
-                    as GasFeeEstimate,
-        medium:
-            null == medium
-                ? _value.medium
-                : medium // ignore: cast_nullable_to_non_nullable
-                    as GasFeeEstimate,
-        high:
-            null == high
-                ? _value.high
-                : high // ignore: cast_nullable_to_non_nullable
-                    as GasFeeEstimate,
-        estimatedBaseFee:
-            null == estimatedBaseFee
-                ? _value.estimatedBaseFee
-                : estimatedBaseFee // ignore: cast_nullable_to_non_nullable
-                    as String,
-        networkCongestion:
-            null == networkCongestion
-                ? _value.networkCongestion
-                : networkCongestion // ignore: cast_nullable_to_non_nullable
-                    as double,
+        low: null == low
+            ? _value.low
+            : low // ignore: cast_nullable_to_non_nullable
+                  as GasFeeEstimate,
+        medium: null == medium
+            ? _value.medium
+            : medium // ignore: cast_nullable_to_non_nullable
+                  as GasFeeEstimate,
+        high: null == high
+            ? _value.high
+            : high // ignore: cast_nullable_to_non_nullable
+                  as GasFeeEstimate,
+        estimatedBaseFee: null == estimatedBaseFee
+            ? _value.estimatedBaseFee
+            : estimatedBaseFee // ignore: cast_nullable_to_non_nullable
+                  as String,
+        networkCongestion: null == networkCongestion
+            ? _value.networkCongestion
+            : networkCongestion // ignore: cast_nullable_to_non_nullable
+                  as double,
       ),
     );
   }
@@ -469,26 +457,22 @@ class _$GasFeeEstimateCopyWithImpl<$Res, $Val extends GasFeeEstimate>
   }) {
     return _then(
       _value.copyWith(
-            suggestedMaxPriorityFeePerGas:
-                null == suggestedMaxPriorityFeePerGas
-                    ? _value.suggestedMaxPriorityFeePerGas
-                    : suggestedMaxPriorityFeePerGas // ignore: cast_nullable_to_non_nullable
-                        as String,
-            suggestedMaxFeePerGas:
-                null == suggestedMaxFeePerGas
-                    ? _value.suggestedMaxFeePerGas
-                    : suggestedMaxFeePerGas // ignore: cast_nullable_to_non_nullable
-                        as String,
-            minWaitTimeEstimate:
-                null == minWaitTimeEstimate
-                    ? _value.minWaitTimeEstimate
-                    : minWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
-                        as int,
-            maxWaitTimeEstimate:
-                null == maxWaitTimeEstimate
-                    ? _value.maxWaitTimeEstimate
-                    : maxWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
-                        as int,
+            suggestedMaxPriorityFeePerGas: null == suggestedMaxPriorityFeePerGas
+                ? _value.suggestedMaxPriorityFeePerGas
+                : suggestedMaxPriorityFeePerGas // ignore: cast_nullable_to_non_nullable
+                      as String,
+            suggestedMaxFeePerGas: null == suggestedMaxFeePerGas
+                ? _value.suggestedMaxFeePerGas
+                : suggestedMaxFeePerGas // ignore: cast_nullable_to_non_nullable
+                      as String,
+            minWaitTimeEstimate: null == minWaitTimeEstimate
+                ? _value.minWaitTimeEstimate
+                : minWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
+                      as int,
+            maxWaitTimeEstimate: null == maxWaitTimeEstimate
+                ? _value.maxWaitTimeEstimate
+                : maxWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -532,26 +516,22 @@ class __$$GasFeeEstimateImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$GasFeeEstimateImpl(
-        suggestedMaxPriorityFeePerGas:
-            null == suggestedMaxPriorityFeePerGas
-                ? _value.suggestedMaxPriorityFeePerGas
-                : suggestedMaxPriorityFeePerGas // ignore: cast_nullable_to_non_nullable
-                    as String,
-        suggestedMaxFeePerGas:
-            null == suggestedMaxFeePerGas
-                ? _value.suggestedMaxFeePerGas
-                : suggestedMaxFeePerGas // ignore: cast_nullable_to_non_nullable
-                    as String,
-        minWaitTimeEstimate:
-            null == minWaitTimeEstimate
-                ? _value.minWaitTimeEstimate
-                : minWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
-                    as int,
-        maxWaitTimeEstimate:
-            null == maxWaitTimeEstimate
-                ? _value.maxWaitTimeEstimate
-                : maxWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
-                    as int,
+        suggestedMaxPriorityFeePerGas: null == suggestedMaxPriorityFeePerGas
+            ? _value.suggestedMaxPriorityFeePerGas
+            : suggestedMaxPriorityFeePerGas // ignore: cast_nullable_to_non_nullable
+                  as String,
+        suggestedMaxFeePerGas: null == suggestedMaxFeePerGas
+            ? _value.suggestedMaxFeePerGas
+            : suggestedMaxFeePerGas // ignore: cast_nullable_to_non_nullable
+                  as String,
+        minWaitTimeEstimate: null == minWaitTimeEstimate
+            ? _value.minWaitTimeEstimate
+            : minWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
+                  as int,
+        maxWaitTimeEstimate: null == maxWaitTimeEstimate
+            ? _value.maxWaitTimeEstimate
+            : maxWaitTimeEstimate // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }

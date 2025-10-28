@@ -69,31 +69,26 @@ class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res, $Val extends CreateDirec
   }) {
     return _then(
       _value.copyWith(
-            senderAccount:
-                null == senderAccount
-                    ? _value.senderAccount
-                    : senderAccount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            receiverAccount:
-                null == receiverAccount
-                    ? _value.receiverAccount
-                    : receiverAccount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            referenceAccount:
-                freezed == referenceAccount
-                    ? _value.referenceAccount
-                    : referenceAccount // ignore: cast_nullable_to_non_nullable
-                        as String?,
-            amount:
-                null == amount
-                    ? _value.amount
-                    : amount // ignore: cast_nullable_to_non_nullable
-                        as int,
-            mintAddress:
-                null == mintAddress
-                    ? _value.mintAddress
-                    : mintAddress // ignore: cast_nullable_to_non_nullable
-                        as String,
+            senderAccount: null == senderAccount
+                ? _value.senderAccount
+                : senderAccount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            receiverAccount: null == receiverAccount
+                ? _value.receiverAccount
+                : receiverAccount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            referenceAccount: freezed == referenceAccount
+                ? _value.referenceAccount
+                : referenceAccount // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            mintAddress: null == mintAddress
+                ? _value.mintAddress
+                : mintAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -140,31 +135,26 @@ class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$CreateDirectPaymentRequestDtoImpl(
-        senderAccount:
-            null == senderAccount
-                ? _value.senderAccount
-                : senderAccount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        receiverAccount:
-            null == receiverAccount
-                ? _value.receiverAccount
-                : receiverAccount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        referenceAccount:
-            freezed == referenceAccount
-                ? _value.referenceAccount
-                : referenceAccount // ignore: cast_nullable_to_non_nullable
-                    as String?,
-        amount:
-            null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                    as int,
-        mintAddress:
-            null == mintAddress
-                ? _value.mintAddress
-                : mintAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
+        senderAccount: null == senderAccount
+            ? _value.senderAccount
+            : senderAccount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        receiverAccount: null == receiverAccount
+            ? _value.receiverAccount
+            : receiverAccount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        referenceAccount: freezed == referenceAccount
+            ? _value.referenceAccount
+            : referenceAccount // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        mintAddress: null == mintAddress
+            ? _value.mintAddress
+            : mintAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -305,21 +295,18 @@ class _$CreateDirectPaymentResponseDtoCopyWithImpl<
   $Res call({Object? fee = null, Object? transaction = null, Object? slot = null}) {
     return _then(
       _value.copyWith(
-            fee:
-                null == fee
-                    ? _value.fee
-                    : fee // ignore: cast_nullable_to_non_nullable
-                        as int,
-            transaction:
-                null == transaction
-                    ? _value.transaction
-                    : transaction // ignore: cast_nullable_to_non_nullable
-                        as String,
-            slot:
-                null == slot
-                    ? _value.slot
-                    : slot // ignore: cast_nullable_to_non_nullable
-                        as BigInt,
+            fee: null == fee
+                ? _value.fee
+                : fee // ignore: cast_nullable_to_non_nullable
+                      as int,
+            transaction: null == transaction
+                ? _value.transaction
+                : transaction // ignore: cast_nullable_to_non_nullable
+                      as String,
+            slot: null == slot
+                ? _value.slot
+                : slot // ignore: cast_nullable_to_non_nullable
+                      as BigInt,
           )
           as $Val,
     );
@@ -354,21 +341,18 @@ class __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? fee = null, Object? transaction = null, Object? slot = null}) {
     return _then(
       _$CreateDirectPaymentResponseDtoImpl(
-        fee:
-            null == fee
-                ? _value.fee
-                : fee // ignore: cast_nullable_to_non_nullable
-                    as int,
-        transaction:
-            null == transaction
-                ? _value.transaction
-                : transaction // ignore: cast_nullable_to_non_nullable
-                    as String,
-        slot:
-            null == slot
-                ? _value.slot
-                : slot // ignore: cast_nullable_to_non_nullable
-                    as BigInt,
+        fee: null == fee
+            ? _value.fee
+            : fee // ignore: cast_nullable_to_non_nullable
+                  as int,
+        transaction: null == transaction
+            ? _value.transaction
+            : transaction // ignore: cast_nullable_to_non_nullable
+                  as String,
+        slot: null == slot
+            ? _value.slot
+            : slot // ignore: cast_nullable_to_non_nullable
+                  as BigInt,
       ),
     );
   }
@@ -483,21 +467,18 @@ class _$CreatePaymentRequestDtoCopyWithImpl<$Res, $Val extends CreatePaymentRequ
   $Res call({Object? senderAccount = null, Object? escrowAccount = null, Object? amount = null}) {
     return _then(
       _value.copyWith(
-            senderAccount:
-                null == senderAccount
-                    ? _value.senderAccount
-                    : senderAccount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            escrowAccount:
-                null == escrowAccount
-                    ? _value.escrowAccount
-                    : escrowAccount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            amount:
-                null == amount
-                    ? _value.amount
-                    : amount // ignore: cast_nullable_to_non_nullable
-                        as int,
+            senderAccount: null == senderAccount
+                ? _value.senderAccount
+                : senderAccount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            escrowAccount: null == escrowAccount
+                ? _value.escrowAccount
+                : escrowAccount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -532,21 +513,18 @@ class __$$CreatePaymentRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? senderAccount = null, Object? escrowAccount = null, Object? amount = null}) {
     return _then(
       _$CreatePaymentRequestDtoImpl(
-        senderAccount:
-            null == senderAccount
-                ? _value.senderAccount
-                : senderAccount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        escrowAccount:
-            null == escrowAccount
-                ? _value.escrowAccount
-                : escrowAccount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        amount:
-            null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                    as int,
+        senderAccount: null == senderAccount
+            ? _value.senderAccount
+            : senderAccount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        escrowAccount: null == escrowAccount
+            ? _value.escrowAccount
+            : escrowAccount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -658,16 +636,14 @@ class _$CreatePaymentResponseDtoCopyWithImpl<$Res, $Val extends CreatePaymentRes
   $Res call({Object? transaction = null, Object? slot = null}) {
     return _then(
       _value.copyWith(
-            transaction:
-                null == transaction
-                    ? _value.transaction
-                    : transaction // ignore: cast_nullable_to_non_nullable
-                        as String,
-            slot:
-                null == slot
-                    ? _value.slot
-                    : slot // ignore: cast_nullable_to_non_nullable
-                        as BigInt,
+            transaction: null == transaction
+                ? _value.transaction
+                : transaction // ignore: cast_nullable_to_non_nullable
+                      as String,
+            slot: null == slot
+                ? _value.slot
+                : slot // ignore: cast_nullable_to_non_nullable
+                      as BigInt,
           )
           as $Val,
     );
@@ -702,16 +678,14 @@ class __$$CreatePaymentResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? transaction = null, Object? slot = null}) {
     return _then(
       _$CreatePaymentResponseDtoImpl(
-        transaction:
-            null == transaction
-                ? _value.transaction
-                : transaction // ignore: cast_nullable_to_non_nullable
-                    as String,
-        slot:
-            null == slot
-                ? _value.slot
-                : slot // ignore: cast_nullable_to_non_nullable
-                    as BigInt,
+        transaction: null == transaction
+            ? _value.transaction
+            : transaction // ignore: cast_nullable_to_non_nullable
+                  as String,
+        slot: null == slot
+            ? _value.slot
+            : slot // ignore: cast_nullable_to_non_nullable
+                  as BigInt,
       ),
     );
   }
@@ -814,16 +788,14 @@ class _$ReceivePaymentRequestDtoCopyWithImpl<$Res, $Val extends ReceivePaymentRe
   $Res call({Object? receiverAccount = null, Object? escrowAccount = null}) {
     return _then(
       _value.copyWith(
-            receiverAccount:
-                null == receiverAccount
-                    ? _value.receiverAccount
-                    : receiverAccount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            escrowAccount:
-                null == escrowAccount
-                    ? _value.escrowAccount
-                    : escrowAccount // ignore: cast_nullable_to_non_nullable
-                        as String,
+            receiverAccount: null == receiverAccount
+                ? _value.receiverAccount
+                : receiverAccount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            escrowAccount: null == escrowAccount
+                ? _value.escrowAccount
+                : escrowAccount // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -858,16 +830,14 @@ class __$$ReceivePaymentRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? receiverAccount = null, Object? escrowAccount = null}) {
     return _then(
       _$ReceivePaymentRequestDtoImpl(
-        receiverAccount:
-            null == receiverAccount
-                ? _value.receiverAccount
-                : receiverAccount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        escrowAccount:
-            null == escrowAccount
-                ? _value.escrowAccount
-                : escrowAccount // ignore: cast_nullable_to_non_nullable
-                    as String,
+        receiverAccount: null == receiverAccount
+            ? _value.receiverAccount
+            : receiverAccount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        escrowAccount: null == escrowAccount
+            ? _value.escrowAccount
+            : escrowAccount // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -975,16 +945,14 @@ class _$ReceivePaymentResponseDtoCopyWithImpl<$Res, $Val extends ReceivePaymentR
   $Res call({Object? transaction = null, Object? slot = null}) {
     return _then(
       _value.copyWith(
-            transaction:
-                null == transaction
-                    ? _value.transaction
-                    : transaction // ignore: cast_nullable_to_non_nullable
-                        as String,
-            slot:
-                null == slot
-                    ? _value.slot
-                    : slot // ignore: cast_nullable_to_non_nullable
-                        as BigInt,
+            transaction: null == transaction
+                ? _value.transaction
+                : transaction // ignore: cast_nullable_to_non_nullable
+                      as String,
+            slot: null == slot
+                ? _value.slot
+                : slot // ignore: cast_nullable_to_non_nullable
+                      as BigInt,
           )
           as $Val,
     );
@@ -1019,16 +987,14 @@ class __$$ReceivePaymentResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? transaction = null, Object? slot = null}) {
     return _then(
       _$ReceivePaymentResponseDtoImpl(
-        transaction:
-            null == transaction
-                ? _value.transaction
-                : transaction // ignore: cast_nullable_to_non_nullable
-                    as String,
-        slot:
-            null == slot
-                ? _value.slot
-                : slot // ignore: cast_nullable_to_non_nullable
-                    as BigInt,
+        transaction: null == transaction
+            ? _value.transaction
+            : transaction // ignore: cast_nullable_to_non_nullable
+                  as String,
+        slot: null == slot
+            ? _value.slot
+            : slot // ignore: cast_nullable_to_non_nullable
+                  as BigInt,
       ),
     );
   }
@@ -1131,16 +1097,14 @@ class _$CancelPaymentRequestDtoCopyWithImpl<$Res, $Val extends CancelPaymentRequ
   $Res call({Object? senderAccount = null, Object? escrowAccount = null}) {
     return _then(
       _value.copyWith(
-            senderAccount:
-                null == senderAccount
-                    ? _value.senderAccount
-                    : senderAccount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            escrowAccount:
-                null == escrowAccount
-                    ? _value.escrowAccount
-                    : escrowAccount // ignore: cast_nullable_to_non_nullable
-                        as String,
+            senderAccount: null == senderAccount
+                ? _value.senderAccount
+                : senderAccount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            escrowAccount: null == escrowAccount
+                ? _value.escrowAccount
+                : escrowAccount // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -1175,16 +1139,14 @@ class __$$CancelPaymentRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? senderAccount = null, Object? escrowAccount = null}) {
     return _then(
       _$CancelPaymentRequestDtoImpl(
-        senderAccount:
-            null == senderAccount
-                ? _value.senderAccount
-                : senderAccount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        escrowAccount:
-            null == escrowAccount
-                ? _value.escrowAccount
-                : escrowAccount // ignore: cast_nullable_to_non_nullable
-                    as String,
+        senderAccount: null == senderAccount
+            ? _value.senderAccount
+            : senderAccount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        escrowAccount: null == escrowAccount
+            ? _value.escrowAccount
+            : escrowAccount // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -1286,16 +1248,14 @@ class _$CancelPaymentResponseDtoCopyWithImpl<$Res, $Val extends CancelPaymentRes
   $Res call({Object? transaction = null, Object? slot = null}) {
     return _then(
       _value.copyWith(
-            transaction:
-                null == transaction
-                    ? _value.transaction
-                    : transaction // ignore: cast_nullable_to_non_nullable
-                        as String,
-            slot:
-                null == slot
-                    ? _value.slot
-                    : slot // ignore: cast_nullable_to_non_nullable
-                        as BigInt,
+            transaction: null == transaction
+                ? _value.transaction
+                : transaction // ignore: cast_nullable_to_non_nullable
+                      as String,
+            slot: null == slot
+                ? _value.slot
+                : slot // ignore: cast_nullable_to_non_nullable
+                      as BigInt,
           )
           as $Val,
     );
@@ -1330,16 +1290,14 @@ class __$$CancelPaymentResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? transaction = null, Object? slot = null}) {
     return _then(
       _$CancelPaymentResponseDtoImpl(
-        transaction:
-            null == transaction
-                ? _value.transaction
-                : transaction // ignore: cast_nullable_to_non_nullable
-                    as String,
-        slot:
-            null == slot
-                ? _value.slot
-                : slot // ignore: cast_nullable_to_non_nullable
-                    as BigInt,
+        transaction: null == transaction
+            ? _value.transaction
+            : transaction // ignore: cast_nullable_to_non_nullable
+                  as String,
+        slot: null == slot
+            ? _value.slot
+            : slot // ignore: cast_nullable_to_non_nullable
+                  as BigInt,
       ),
     );
   }

@@ -53,11 +53,10 @@ class _$AmbassadorReferralRequestDtoCopyWithImpl<$Res, $Val extends AmbassadorRe
   $Res call({Object? ambassadorAddress = null}) {
     return _then(
       _value.copyWith(
-            ambassadorAddress:
-                null == ambassadorAddress
-                    ? _value.ambassadorAddress
-                    : ambassadorAddress // ignore: cast_nullable_to_non_nullable
-                        as String,
+            ambassadorAddress: null == ambassadorAddress
+                ? _value.ambassadorAddress
+                : ambassadorAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -92,11 +91,10 @@ class __$$AmbassadorReferralRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? ambassadorAddress = null}) {
     return _then(
       _$AmbassadorReferralRequestDtoImpl(
-        ambassadorAddress:
-            null == ambassadorAddress
-                ? _value.ambassadorAddress
-                : ambassadorAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
+        ambassadorAddress: null == ambassadorAddress
+            ? _value.ambassadorAddress
+            : ambassadorAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -192,11 +190,10 @@ class _$AmbassadorStatsResponseDtoCopyWithImpl<$Res, $Val extends AmbassadorStat
   $Res call({Object? referralCount = null}) {
     return _then(
       _value.copyWith(
-            referralCount:
-                null == referralCount
-                    ? _value.referralCount
-                    : referralCount // ignore: cast_nullable_to_non_nullable
-                        as int,
+            referralCount: null == referralCount
+                ? _value.referralCount
+                : referralCount // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -231,11 +228,10 @@ class __$$AmbassadorStatsResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? referralCount = null}) {
     return _then(
       _$AmbassadorStatsResponseDtoImpl(
-        referralCount:
-            null == referralCount
-                ? _value.referralCount
-                : referralCount // ignore: cast_nullable_to_non_nullable
-                    as int,
+        referralCount: null == referralCount
+            ? _value.referralCount
+            : referralCount // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -335,16 +331,14 @@ class _$AmbassadorVerificationResponseDtoCopyWithImpl<
   $Res call({Object? isAmbassador = null, Object? isReferral = null}) {
     return _then(
       _value.copyWith(
-            isAmbassador:
-                null == isAmbassador
-                    ? _value.isAmbassador
-                    : isAmbassador // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            isReferral:
-                null == isReferral
-                    ? _value.isReferral
-                    : isReferral // ignore: cast_nullable_to_non_nullable
-                        as bool,
+            isAmbassador: null == isAmbassador
+                ? _value.isAmbassador
+                : isAmbassador // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isReferral: null == isReferral
+                ? _value.isReferral
+                : isReferral // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -383,16 +377,14 @@ class __$$AmbassadorVerificationResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? isAmbassador = null, Object? isReferral = null}) {
     return _then(
       _$AmbassadorVerificationResponseDtoImpl(
-        isAmbassador:
-            null == isAmbassador
-                ? _value.isAmbassador
-                : isAmbassador // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        isReferral:
-            null == isReferral
-                ? _value.isReferral
-                : isReferral // ignore: cast_nullable_to_non_nullable
-                    as bool,
+        isAmbassador: null == isAmbassador
+            ? _value.isAmbassador
+            : isAmbassador // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isReferral: null == isReferral
+            ? _value.isReferral
+            : isReferral // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -434,9 +426,10 @@ class _$AmbassadorVerificationResponseDtoImpl implements _AmbassadorVerification
   @override
   @pragma('vm:prefer-inline')
   _$$AmbassadorVerificationResponseDtoImplCopyWith<_$AmbassadorVerificationResponseDtoImpl>
-  get copyWith => __$$AmbassadorVerificationResponseDtoImplCopyWithImpl<
-    _$AmbassadorVerificationResponseDtoImpl
-  >(this, _$identity);
+  get copyWith =>
+      __$$AmbassadorVerificationResponseDtoImplCopyWithImpl<
+        _$AmbassadorVerificationResponseDtoImpl
+      >(this, _$identity);
 }
 
 abstract class _AmbassadorVerificationResponseDto implements AmbassadorVerificationResponseDto {

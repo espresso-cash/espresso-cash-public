@@ -53,11 +53,10 @@ class _$GetTokensMetaResponseDtoCopyWithImpl<$Res, $Val extends GetTokensMetaRes
   $Res call({Object? md5 = null}) {
     return _then(
       _value.copyWith(
-            md5:
-                null == md5
-                    ? _value.md5
-                    : md5 // ignore: cast_nullable_to_non_nullable
-                        as String,
+            md5: null == md5
+                ? _value.md5
+                : md5 // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -92,11 +91,10 @@ class __$$GetTokensMetaResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? md5 = null}) {
     return _then(
       _$GetTokensMetaResponseDtoImpl(
-        md5:
-            null == md5
-                ? _value.md5
-                : md5 // ignore: cast_nullable_to_non_nullable
-                    as String,
+        md5: null == md5
+            ? _value.md5
+            : md5 // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
