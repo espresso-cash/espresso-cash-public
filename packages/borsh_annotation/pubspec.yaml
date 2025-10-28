@@ -5,7 +5,7 @@ description: >-
   Annotation used to make a Dart object borsh serializable.
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.9.2
 
 dev_dependencies:
   mews_pedantic: ^0.38.0

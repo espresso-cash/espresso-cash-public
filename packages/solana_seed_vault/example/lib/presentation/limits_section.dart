@@ -52,30 +52,28 @@ class _LimitsSectionState extends State<LimitsSection> {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<SeedVaultBloc, SeedVaultState>(
-    builder:
-        (context, state) => state.maybeMap(
-          orElse: () => const SizedBox.shrink(),
-          loaded:
-              (state) => ExpansionTile(
-                initiallyExpanded: false,
-                title: const Text('Implementation Limits', style: _style),
-                children: [
-                  _LimitTile(
-                    title: 'maxRequestedPublicKeys=${state.limits.maxRequestedPublicKeys}',
-                    onExceeded: _handleMaxRequestedPublicKeysExceeded,
-                  ),
-                  _LimitTile(
-                    title: 'maxSigningRequests=${state.limits.maxSigningRequests}',
-                    onExceeded: _handleMaxSigningRequestsExceeded,
-                  ),
-                  _LimitTile(
-                    title: 'maxRequestedSignatures=${state.limits.maxRequestedSignatures}',
-                    onExceeded: _handleMaxRequestedSignaturesExceeded,
-                  ),
-                  _LimitTile(title: 'maxBip32PathDepth=${state.limits.maxBip32PathDepth}'),
-                ],
-              ),
-        ),
+    builder: (context, state) => state.maybeMap(
+      orElse: () => const SizedBox.shrink(),
+      loaded: (state) => ExpansionTile(
+        initiallyExpanded: false,
+        title: const Text('Implementation Limits', style: _style),
+        children: [
+          _LimitTile(
+            title: 'maxRequestedPublicKeys=${state.limits.maxRequestedPublicKeys}',
+            onExceeded: _handleMaxRequestedPublicKeysExceeded,
+          ),
+          _LimitTile(
+            title: 'maxSigningRequests=${state.limits.maxSigningRequests}',
+            onExceeded: _handleMaxSigningRequestsExceeded,
+          ),
+          _LimitTile(
+            title: 'maxRequestedSignatures=${state.limits.maxRequestedSignatures}',
+            onExceeded: _handleMaxRequestedSignaturesExceeded,
+          ),
+          _LimitTile(title: 'maxBip32PathDepth=${state.limits.maxBip32PathDepth}'),
+        ],
+      ),
+    ),
   );
 }
 
@@ -88,10 +86,9 @@ class _LimitTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListTile(
     title: Text(title, style: const TextStyle(fontSize: 18)),
-    subtitle:
-        onExceeded == null
-            ? const SizedBox.shrink()
-            : ElevatedButton(onPressed: onExceeded, child: const Text('Exceed limit by 1')),
+    subtitle: onExceeded == null
+        ? const SizedBox.shrink()
+        : ElevatedButton(onPressed: onExceeded, child: const Text('Exceed limit by 1')),
   );
 }
 

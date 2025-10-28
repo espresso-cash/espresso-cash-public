@@ -16,7 +16,11 @@ void showSnackBar(BuildContext context, Either<Exception, String> result) {
       // ignore: avoid-single-child-column-or-row
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Expanded(child: Text(message, style: const TextStyle(color: Colors.white)))],
+        children: [
+          Expanded(
+            child: Text(message, style: const TextStyle(color: Colors.white)),
+          ),
+        ],
       ),
     ),
   );

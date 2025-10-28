@@ -17,9 +17,10 @@ class ClientGenerator extends GeneratorForAnnotation<SolanaRpcClient> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    final methods = (element as ClassElement) //
-        .methods
-        .where((m) => m.isAbstract);
+    final methods =
+        (element as ClassElement) //
+            .methods
+            .where((m) => m.isAbstract);
 
     return '''
 class _${element.name} implements ${element.name} {
@@ -55,18 +56,18 @@ class ${name}Config {
   }
 
   String _generateMethod(MethodElement method) {
-    final params =
-        method.formalParameters
-            .where((p) => p.isPositional)
-            .map((p) => p.type.isNullableType ? 'if (${p.name} != null) ${p.toJson()}' : p.toJson())
-            .toList();
+    final params = method.formalParameters
+        .where((p) => p.isPositional)
+        .map((p) => p.type.isNullableType ? 'if (${p.name} != null) ${p.toJson()}' : p.toJson())
+        .toList();
     final isWithContext = const TypeChecker.typeNamed(WithContextResult).hasAnnotationOf(method);
     final configParams = method.formalParameters.where((p) => p.isNamed);
     final String configParamsString;
     if (configParams.isNotEmpty) {
       final configName = method.name?.capitalized ?? '';
       final parameters = configParams.map((p) => '${p.name}: ${p.name}').join(', ');
-      configParamsString = '''
+      configParamsString =
+          '''
           ${configName}Config($parameters).toJson()
 ''';
     } else {

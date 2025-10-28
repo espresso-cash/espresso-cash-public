@@ -3,7 +3,7 @@ description: Demonstrates how to use the solana_mobile_client plugin.
 publish_to: "none"
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.9.2
 
 dependencies:
   cupertino_icons: ^1.0.2

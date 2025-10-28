@@ -16,8 +16,8 @@ class AccountList extends StatelessWidget {
     shrinkWrap: true,
     physics: const NeverScrollableScrollPhysics(),
     itemCount: accounts.length,
-    itemBuilder:
-        (context, index) => AccountItem(account: accounts.elementAt(index), authToken: authToken),
+    itemBuilder: (context, index) =>
+        AccountItem(account: accounts.elementAt(index), authToken: authToken),
   );
 }
 

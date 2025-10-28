@@ -314,7 +314,7 @@ class __$$RemoteImplCopyWithImpl<$Res> extends _$MobileWalletStateCopyWithImpl<$
         null == request
             ? _value.request
             : request // ignore: cast_nullable_to_non_nullable
-                as RemoteRequest,
+                  as RemoteRequest,
       ),
     );
   }
@@ -542,11 +542,10 @@ class __$$AuthorizeDappImplCopyWithImpl<$Res>
   $Res call({Object? request = null}) {
     return _then(
       _$AuthorizeDappImpl(
-        request:
-            null == request
-                ? _value.request
-                : request // ignore: cast_nullable_to_non_nullable
-                    as AuthorizeRequest,
+        request: null == request
+            ? _value.request
+            : request // ignore: cast_nullable_to_non_nullable
+                  as AuthorizeRequest,
       ),
     );
   }
@@ -716,11 +715,10 @@ class __$$SignPayloadsImplCopyWithImpl<$Res>
   $Res call({Object? request = null}) {
     return _then(
       _$SignPayloadsImpl(
-        request:
-            null == request
-                ? _value.request
-                : request // ignore: cast_nullable_to_non_nullable
-                    as SignPayloadsRequest,
+        request: null == request
+            ? _value.request
+            : request // ignore: cast_nullable_to_non_nullable
+                  as SignPayloadsRequest,
       ),
     );
   }
@@ -890,11 +888,10 @@ class __$$SignTransactionsForSendingImplCopyWithImpl<$Res>
   $Res call({Object? request = null}) {
     return _then(
       _$SignTransactionsForSendingImpl(
-        request:
-            null == request
-                ? _value.request
-                : request // ignore: cast_nullable_to_non_nullable
-                    as SignAndSendTransactionsRequest,
+        request: null == request
+            ? _value.request
+            : request // ignore: cast_nullable_to_non_nullable
+                  as SignAndSendTransactionsRequest,
       ),
     );
   }
@@ -1077,21 +1074,18 @@ class __$$SendTransactionsImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$SendTransactionsImpl(
-        request:
-            null == request
-                ? _value.request
-                : request // ignore: cast_nullable_to_non_nullable
-                    as SignAndSendTransactionsRequest,
-        signatures:
-            null == signatures
-                ? _value._signatures
-                : signatures // ignore: cast_nullable_to_non_nullable
-                    as List<Uint8List>,
-        signedTransactions:
-            null == signedTransactions
-                ? _value._signedTransactions
-                : signedTransactions // ignore: cast_nullable_to_non_nullable
-                    as List<Uint8List>,
+        request: null == request
+            ? _value.request
+            : request // ignore: cast_nullable_to_non_nullable
+                  as SignAndSendTransactionsRequest,
+        signatures: null == signatures
+            ? _value._signatures
+            : signatures // ignore: cast_nullable_to_non_nullable
+                  as List<Uint8List>,
+        signedTransactions: null == signedTransactions
+            ? _value._signedTransactions
+            : signedTransactions // ignore: cast_nullable_to_non_nullable
+                  as List<Uint8List>,
       ),
     );
   }

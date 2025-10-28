@@ -65,31 +65,26 @@ class _$MobileWalletAdapterConfigCopyWithImpl<$Res, $Val extends MobileWalletAda
   }) {
     return _then(
       _value.copyWith(
-            supportsSignAndSendTransactions:
-                null == supportsSignAndSendTransactions
-                    ? _value.supportsSignAndSendTransactions
-                    : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            maxTransactionsPerSigningRequest:
-                null == maxTransactionsPerSigningRequest
-                    ? _value.maxTransactionsPerSigningRequest
-                    : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
-                        as int,
-            maxMessagesPerSigningRequest:
-                null == maxMessagesPerSigningRequest
-                    ? _value.maxMessagesPerSigningRequest
-                    : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
-                        as int,
-            supportedTransactionVersions:
-                null == supportedTransactionVersions
-                    ? _value.supportedTransactionVersions
-                    : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
-                        as List<Object>,
-            noConnectionWarningTimeout:
-                null == noConnectionWarningTimeout
-                    ? _value.noConnectionWarningTimeout
-                    : noConnectionWarningTimeout // ignore: cast_nullable_to_non_nullable
-                        as Duration,
+            supportsSignAndSendTransactions: null == supportsSignAndSendTransactions
+                ? _value.supportsSignAndSendTransactions
+                : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            maxTransactionsPerSigningRequest: null == maxTransactionsPerSigningRequest
+                ? _value.maxTransactionsPerSigningRequest
+                : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                      as int,
+            maxMessagesPerSigningRequest: null == maxMessagesPerSigningRequest
+                ? _value.maxMessagesPerSigningRequest
+                : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                      as int,
+            supportedTransactionVersions: null == supportedTransactionVersions
+                ? _value.supportedTransactionVersions
+                : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
+                      as List<Object>,
+            noConnectionWarningTimeout: null == noConnectionWarningTimeout
+                ? _value.noConnectionWarningTimeout
+                : noConnectionWarningTimeout // ignore: cast_nullable_to_non_nullable
+                      as Duration,
           )
           as $Val,
     );
@@ -134,31 +129,26 @@ class __$$MobileWalletAdapterConfigImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$MobileWalletAdapterConfigImpl(
-        supportsSignAndSendTransactions:
-            null == supportsSignAndSendTransactions
-                ? _value.supportsSignAndSendTransactions
-                : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        maxTransactionsPerSigningRequest:
-            null == maxTransactionsPerSigningRequest
-                ? _value.maxTransactionsPerSigningRequest
-                : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
-                    as int,
-        maxMessagesPerSigningRequest:
-            null == maxMessagesPerSigningRequest
-                ? _value.maxMessagesPerSigningRequest
-                : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
-                    as int,
-        supportedTransactionVersions:
-            null == supportedTransactionVersions
-                ? _value._supportedTransactionVersions
-                : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
-                    as List<Object>,
-        noConnectionWarningTimeout:
-            null == noConnectionWarningTimeout
-                ? _value.noConnectionWarningTimeout
-                : noConnectionWarningTimeout // ignore: cast_nullable_to_non_nullable
-                    as Duration,
+        supportsSignAndSendTransactions: null == supportsSignAndSendTransactions
+            ? _value.supportsSignAndSendTransactions
+            : supportsSignAndSendTransactions // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        maxTransactionsPerSigningRequest: null == maxTransactionsPerSigningRequest
+            ? _value.maxTransactionsPerSigningRequest
+            : maxTransactionsPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                  as int,
+        maxMessagesPerSigningRequest: null == maxMessagesPerSigningRequest
+            ? _value.maxMessagesPerSigningRequest
+            : maxMessagesPerSigningRequest // ignore: cast_nullable_to_non_nullable
+                  as int,
+        supportedTransactionVersions: null == supportedTransactionVersions
+            ? _value._supportedTransactionVersions
+            : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
+                  as List<Object>,
+        noConnectionWarningTimeout: null == noConnectionWarningTimeout
+            ? _value.noConnectionWarningTimeout
+            : noConnectionWarningTimeout // ignore: cast_nullable_to_non_nullable
+                  as Duration,
       ),
     );
   }
