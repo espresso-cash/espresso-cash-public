@@ -49,7 +49,20 @@ enum RampPartner {
     ],
   ),
 
-  moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []);
+  moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []),
+
+  brijRedirect(
+    title: 'Brij Network',
+    minimumAmount: r'$5',
+    paymentMethods: [
+      PaymentMethod.visa,
+      PaymentMethod.mastercard,
+      PaymentMethod.applePay,
+      PaymentMethod.googlePay,
+      PaymentMethod.sepa,
+      PaymentMethod.swift,
+    ],
+  );
 
   const RampPartner({
     required this.title,
@@ -71,5 +84,6 @@ extension RampPartnerAssets on RampPartner {
     RampPartner.coinflow => Assets.brands.coinflow,
     RampPartner.guardarian => Assets.brands.guardarian,
     RampPartner.moneygram => Assets.brands.moneygram,
+    RampPartner.brijRedirect => Assets.brands.brij,
   };
 }

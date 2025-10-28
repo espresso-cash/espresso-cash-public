@@ -1,3 +1,8 @@
+## 1.156.0
+
+ - **FIX**: token swap fixes (#1757).
+ - **FEAT**: add brij redirect partner (#1767).
+
 ## 1.155.0
 
  - **FIX**: update jupiter price api (#1755).
