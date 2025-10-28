@@ -104,7 +104,7 @@ jobs:
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_analyze
 
       - name: Test
-        run: melos exec -c 1 ${{ env.SCOPE }} -- dart run test --coverage=coverage
+        run: melos exec -c 1 ${{ env.SCOPE }} -- dart run test --concurrency=1 --coverage=coverage
 
       - name: Coverage
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_coverage
