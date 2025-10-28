@@ -54,21 +54,18 @@ class _$PublicKeyResponseCopyWithImpl<$Res, $Val extends PublicKeyResponse>
   }) {
     return _then(
       _value.copyWith(
-            publicKey:
-                freezed == publicKey
-                    ? _value.publicKey
-                    : publicKey // ignore: cast_nullable_to_non_nullable
-                        as Uint8List?,
-            publicKeyEncoded:
-                freezed == publicKeyEncoded
-                    ? _value.publicKeyEncoded
-                    : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
-                        as String?,
-            resolvedDerivationPath:
-                null == resolvedDerivationPath
-                    ? _value.resolvedDerivationPath
-                    : resolvedDerivationPath // ignore: cast_nullable_to_non_nullable
-                        as Uri,
+            publicKey: freezed == publicKey
+                ? _value.publicKey
+                : publicKey // ignore: cast_nullable_to_non_nullable
+                      as Uint8List?,
+            publicKeyEncoded: freezed == publicKeyEncoded
+                ? _value.publicKeyEncoded
+                : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            resolvedDerivationPath: null == resolvedDerivationPath
+                ? _value.resolvedDerivationPath
+                : resolvedDerivationPath // ignore: cast_nullable_to_non_nullable
+                      as Uri,
           )
           as $Val,
     );
@@ -104,21 +101,18 @@ class __$$PublicKeyResponseImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$PublicKeyResponseImpl(
-        publicKey:
-            freezed == publicKey
-                ? _value.publicKey
-                : publicKey // ignore: cast_nullable_to_non_nullable
-                    as Uint8List?,
-        publicKeyEncoded:
-            freezed == publicKeyEncoded
-                ? _value.publicKeyEncoded
-                : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
-                    as String?,
-        resolvedDerivationPath:
-            null == resolvedDerivationPath
-                ? _value.resolvedDerivationPath
-                : resolvedDerivationPath // ignore: cast_nullable_to_non_nullable
-                    as Uri,
+        publicKey: freezed == publicKey
+            ? _value.publicKey
+            : publicKey // ignore: cast_nullable_to_non_nullable
+                  as Uint8List?,
+        publicKeyEncoded: freezed == publicKeyEncoded
+            ? _value.publicKeyEncoded
+            : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        resolvedDerivationPath: null == resolvedDerivationPath
+            ? _value.resolvedDerivationPath
+            : resolvedDerivationPath // ignore: cast_nullable_to_non_nullable
+                  as Uri,
       ),
     );
   }
