@@ -22,7 +22,7 @@ extension BuildContextExt on BuildContext {
         'country': _getCountryCode3Letter(profile.country.code),
         'chains': 'SOLANA',
         'mode': mode,
-        'wallet-addresses': 'SOL:$address',
+        'wallet-addresses': 'SOLANA:$address',
       },
     );
 
