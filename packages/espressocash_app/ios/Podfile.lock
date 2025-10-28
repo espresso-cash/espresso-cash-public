@@ -95,10 +95,10 @@ PODS:
     - Flutter
   - integration_test (0.0.1):
     - Flutter
-  - Intercom (19.2.1)
+  - Intercom (19.3.0)
   - intercom_flutter (9.0.0):
     - Flutter
-    - Intercom (= 19.2.1)
+    - Intercom (= 19.3.0)
   - Mixpanel-swift (5.1.0):
     - Mixpanel-swift/Complete (= 5.1.0)
   - Mixpanel-swift/Complete (5.1.0)
@@ -338,8 +338,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   image_picker_ios: 4f2f91b01abdb52842a8e277617df877e40f905b
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
-  Intercom: 6922723f79e2a2fb2e48b35837b56785214cf526
-  intercom_flutter: a671dcd5f5b115fc6172311f7d817556c93c3115
+  Intercom: b76ea04e249eabbf7af17b3c5c909c2edd3f2b48
+  intercom_flutter: 8a329a400328f542a93ed03dffd35c54a077e1b5
   Mixpanel-swift: 7b26468fc0e2e521104e51d65c4bbf7cab8162f8
   mixpanel_flutter: c2bb8345c90bef15512a1b812ec800b52f8614b6
   MLImage: 0ad1c5f50edd027672d8b26b0fee78a8b4a0fc56
