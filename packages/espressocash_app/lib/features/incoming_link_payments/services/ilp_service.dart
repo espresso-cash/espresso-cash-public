@@ -123,8 +123,8 @@ class ILPService implements Disposable {
 
       final ILPStatus? newStatus = tx.map(
         sent: (_) => ILPStatus.txSent(status.tx, slot: status.slot, fee: fee),
-        invalidBlockhash:
-            (_) => const ILPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
+        invalidBlockhash: (_) =>
+            const ILPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
         failure: (it) => ILPStatus.txFailure(reason: it.reason),
         networkError: (_) {
           Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
@@ -165,8 +165,8 @@ class ILPService implements Disposable {
           return null;
         }
       },
-      failure:
-          (_) => Future.value(const ILPStatus.txFailure(reason: TxFailureReason.escrowFailure)),
+      failure: (_) =>
+          Future.value(const ILPStatus.txFailure(reason: TxFailureReason.escrowFailure)),
       networkError: (_) async {
         await Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
       },
@@ -196,19 +196,17 @@ class ILPService implements Disposable {
 
       final accountIndex = tx.compiledMessage.accountKeys.indexWhere((e) => e == usdcTokenAddress);
 
-      final postTokenBalance =
-          details.meta?.postTokenBalances
-              .where((e) => e.mint == Token.usdc.address)
-              .where((e) => e.accountIndex == accountIndex)
-              .firstOrNull;
+      final postTokenBalance = details.meta?.postTokenBalances
+          .where((e) => e.mint == Token.usdc.address)
+          .where((e) => e.accountIndex == accountIndex)
+          .firstOrNull;
 
       if (postTokenBalance == null) return null;
 
-      final preTokenBalance =
-          details.meta?.preTokenBalances
-              .where((e) => e.mint == Token.usdc.address)
-              .where((e) => e.accountIndex == accountIndex)
-              .firstOrNull;
+      final preTokenBalance = details.meta?.preTokenBalances
+          .where((e) => e.mint == Token.usdc.address)
+          .where((e) => e.accountIndex == accountIndex)
+          .firstOrNull;
 
       final preAmount = preTokenBalance?.uiTokenAmount.amount ?? '0';
       final postAmount = postTokenBalance.uiTokenAmount.amount;

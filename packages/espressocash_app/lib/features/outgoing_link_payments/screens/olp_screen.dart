@@ -107,26 +107,24 @@ class _OLPScreenState extends State<OLPScreen> {
       );
 
       final List<Widget> actions = payment.status.maybeMap(
-        linkReady:
-            (s) => [
-              CpButton(
-                size: CpButtonSize.big,
-                width: double.infinity,
-                text: context.l10n.resendLink,
-                onPressed: () => ShareLinkScreen.push(context, amount: payment.amount, status: s),
-              ),
-              cancelButton,
-            ],
+        linkReady: (s) => [
+          CpButton(
+            size: CpButtonSize.big,
+            width: double.infinity,
+            text: context.l10n.resendLink,
+            onPressed: () => ShareLinkScreen.push(context, amount: payment.amount, status: s),
+          ),
+          cancelButton,
+        ],
         txFailure: (s) => [cancelButton],
-        cancelTxFailure:
-            (s) => [
-              CpButton(
-                size: CpButtonSize.big,
-                width: double.infinity,
-                text: context.l10n.retry,
-                onPressed: handleCanceled,
-              ),
-            ],
+        cancelTxFailure: (s) => [
+          CpButton(
+            size: CpButtonSize.big,
+            width: double.infinity,
+            text: context.l10n.retry,
+            onPressed: handleCanceled,
+          ),
+        ],
         orElse: () => const [],
       );
 
@@ -150,20 +148,18 @@ class _OLPScreenState extends State<OLPScreen> {
       final String statusContent = payment.status.maybeMap(
         withdrawn: always(context.l10n.splitKeySuccessMessage2),
         canceled: always(context.l10n.splitKeyCanceledMessage1(payment.amount.format(locale))),
-        txFailure:
-            (it) => [
-              context.l10n.splitKeyErrorMessage2,
-              if (it.reason == TxFailureReason.insufficientFunds)
-                context.l10n.errorMessageInsufficientFunds,
-            ].join(' '),
+        txFailure: (it) => [
+          context.l10n.splitKeyErrorMessage2,
+          if (it.reason == TxFailureReason.insufficientFunds)
+            context.l10n.errorMessageInsufficientFunds,
+        ].join(' '),
         cancelTxCreated: always(context.l10n.splitKeyProgressCanceling),
         cancelTxSent: always(context.l10n.splitKeyProgressCanceling),
-        cancelTxFailure:
-            (it) => [
-              context.l10n.splitKeyCancelErrorMessage,
-              if (it.reason == TxFailureReason.insufficientFunds)
-                context.l10n.outgoingSplitKeyPayments_lblMoneyWithdrawn,
-            ].join(' '),
+        cancelTxFailure: (it) => [
+          context.l10n.splitKeyCancelErrorMessage,
+          if (it.reason == TxFailureReason.insufficientFunds)
+            context.l10n.outgoingSplitKeyPayments_lblMoneyWithdrawn,
+        ].join(' '),
         orElse: always(context.l10n.splitKeyProgressOngoing(payment.amount.format(locale))),
       );
 

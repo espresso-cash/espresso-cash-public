@@ -53,15 +53,14 @@ class PinKeypad extends StatelessWidget {
         crossAxisCount: 3,
         crossAxisSpacing: 5,
         mainAxisSpacing: 5,
-        children:
-            _keys
-                .map(
-                  (KeypadKey child) => InkWell(
-                    onTap: () => _handleKeyTapped(child.value),
-                    child: Center(child: child),
-                  ),
-                )
-                .toList(),
+        children: _keys
+            .map(
+              (KeypadKey child) => InkWell(
+                onTap: () => _handleKeyTapped(child.value),
+                child: Center(child: child),
+              ),
+            )
+            .toList(),
       ),
     ),
   );

@@ -122,12 +122,11 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
             _lastNameController,
             _emailController,
           ]),
-          builder:
-              (context, child) => CpButton(
-                width: double.infinity,
-                text: context.l10n.next,
-                onPressed: _isValid ? _handleSubmitted : null,
-              ),
+          builder: (context, child) => CpButton(
+            width: double.infinity,
+            text: context.l10n.next,
+            onPressed: _isValid ? _handleSubmitted : null,
+          ),
         ),
       ],
     ),

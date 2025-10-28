@@ -59,15 +59,14 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
             else ...[
               _Card(
                 child: Column(
-                  children:
-                      data
-                          .map(
-                            (e) => _KeepAlive(
-                              key: ValueKey(e),
-                              child: CpTheme.black(child: TransactionItem(tx: e, showIcon: false)),
-                            ),
-                          )
-                          .toList(),
+                  children: data
+                      .map(
+                        (e) => _KeepAlive(
+                          key: ValueKey(e),
+                          child: CpTheme.black(child: TransactionItem(tx: e, showIcon: false)),
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
               const SizedBox(height: 8),

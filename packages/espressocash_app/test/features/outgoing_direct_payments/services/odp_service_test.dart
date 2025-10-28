@@ -163,23 +163,21 @@ class MemoryRepository implements ODPRepository {
 
   @override
   Stream<OutgoingDirectPayment> watch(String id) =>
-  // ignore: avoid-non-null-assertion, should fail if not existent
-  _data.stream.map((it) => it[id]!);
+      // ignore: avoid-non-null-assertion, should fail if not existent
+      _data.stream.map((it) => it[id]!);
 
   @override
-  Future<IList<String>> getNonCompletedPaymentIds() =>
-      _data.stream
-          .map(
-            (it) =>
-                it.values
-                    .where(
-                      (it) => switch (it.status) {
-                        ODPStatusTxCreated() || ODPStatusTxSent() => true,
-                        ODPStatusSuccess() || ODPStatusTxFailure() => false,
-                      },
-                    )
-                    .map((e) => e.id)
-                    .toIList(),
-          )
-          .first;
+  Future<IList<String>> getNonCompletedPaymentIds() => _data.stream
+      .map(
+        (it) => it.values
+            .where(
+              (it) => switch (it.status) {
+                ODPStatusTxCreated() || ODPStatusTxSent() => true,
+                ODPStatusSuccess() || ODPStatusTxFailure() => false,
+              },
+            )
+            .map((e) => e.id)
+            .toIList(),
+      )
+      .first;
 }

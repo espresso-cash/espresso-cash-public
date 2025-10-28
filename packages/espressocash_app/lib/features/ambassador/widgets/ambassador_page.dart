@@ -37,13 +37,12 @@ class AmbassadorPage extends StatelessWidget {
                       BoxShadow(color: Colors.white, offset: Offset(0, constraints.maxHeight - 2)),
                     ],
                   ),
-                  child:
-                      isTablet
-                          ? Assets.images.ambassadorTab.svg(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.bottomCenter,
-                          )
-                          : Assets.images.ambassador.svg(fit: BoxFit.fill),
+                  child: isTablet
+                      ? Assets.images.ambassadorTab.svg(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.bottomCenter,
+                        )
+                      : Assets.images.ambassador.svg(fit: BoxFit.fill),
                 );
               },
             ),

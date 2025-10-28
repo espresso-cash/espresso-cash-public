@@ -13,19 +13,18 @@ class AppLockScreen extends StatelessWidget {
   Widget build(BuildContext context) => PopScope(
     canPop: false,
     child: BlocBuilder<AppLockBloc, AppLockState>(
-      builder:
-          (context, state) => DecoratedWindow(
-            hasLogo: true,
-            backgroundStyle: BackgroundStyle.dark,
-            child: PinInputDisplayWidget(
-              message: switch (state) {
-                AppLockStateLocked() =>
-                  state.isRetrying ? context.l10n.incorrectPasscode : context.l10n.enterPasscode,
-                _ => context.l10n.enterPasscode,
-              },
-              onCompleted: (pin) => context.read<AppLockBloc>().add(AppLockEvent.unlock(pin)),
-            ),
-          ),
+      builder: (context, state) => DecoratedWindow(
+        hasLogo: true,
+        backgroundStyle: BackgroundStyle.dark,
+        child: PinInputDisplayWidget(
+          message: switch (state) {
+            AppLockStateLocked() =>
+              state.isRetrying ? context.l10n.incorrectPasscode : context.l10n.enterPasscode,
+            _ => context.l10n.enterPasscode,
+          },
+          onCompleted: (pin) => context.read<AppLockBloc>().add(AppLockEvent.unlock(pin)),
+        ),
+      ),
     ),
   );
 }

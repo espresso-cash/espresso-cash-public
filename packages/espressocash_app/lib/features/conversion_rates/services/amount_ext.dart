@@ -32,6 +32,10 @@ extension FiatAmountExt on FiatAmount {
     final inverted = rate.inverse.toDecimal(scaleOnInfinitePrecision: token.decimals);
 
     // ignore: avoid-type-casts, controlled type
-    return convert(rate: inverted, to: CryptoCurrency(token: token)) as CryptoAmount;
+    return convert(
+          rate: inverted,
+          to: CryptoCurrency(token: token),
+        )
+        as CryptoAmount;
   }
 }

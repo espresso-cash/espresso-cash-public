@@ -89,10 +89,9 @@ extension on ILPStatusDto {
         return ILPStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
       case ILPStatusDto.txSent:
         final feeAmount = row.feeAmount;
-        final fee =
-            feeAmount != null
-                ? CryptoAmount(value: feeAmount, cryptoCurrency: Currency.usdc)
-                : null;
+        final fee = feeAmount != null
+            ? CryptoAmount(value: feeAmount, cryptoCurrency: Currency.usdc)
+            : null;
 
         return ILPStatus.txSent(tx ?? StubSignedTx(txId!), slot: slot ?? BigInt.zero, fee: fee);
       case ILPStatusDto.success:
@@ -101,14 +100,12 @@ extension on ILPStatusDto {
 
         return ILPStatus.success(
           tx: tx ?? StubSignedTx(txId!),
-          fee:
-              feeAmount != null
-                  ? CryptoAmount(value: feeAmount, cryptoCurrency: Currency.usdc)
-                  : null,
-          receiveAmount:
-              receiveAmount != null
-                  ? CryptoAmount(value: receiveAmount, cryptoCurrency: Currency.usdc)
-                  : null,
+          fee: feeAmount != null
+              ? CryptoAmount(value: feeAmount, cryptoCurrency: Currency.usdc)
+              : null,
+          receiveAmount: receiveAmount != null
+              ? CryptoAmount(value: receiveAmount, cryptoCurrency: Currency.usdc)
+              : null,
         );
       case ILPStatusDto.txFailure:
         return ILPStatus.txFailure(reason: row.txFailureReason ?? TxFailureReason.unknown);

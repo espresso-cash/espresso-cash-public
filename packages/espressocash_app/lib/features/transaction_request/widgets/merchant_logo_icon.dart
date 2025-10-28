@@ -16,23 +16,21 @@ class MerchantLogoIcon extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: borderRadius,
-      child:
-          extension(logoUrl) == '.svg'
-              ? SvgPicture.network(logoUrl, width: size / 2, height: size / 2)
-              : CachedNetworkImage(
-                cacheKey: logoUrl,
-                height: size,
-                width: size,
-                errorWidget: (BuildContext context, String url, dynamic error) => Container(),
-                imageUrl: logoUrl,
-                imageBuilder:
-                    (context, provider) => DecoratedBox(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(image: provider),
-                      ),
-                    ),
+      child: extension(logoUrl) == '.svg'
+          ? SvgPicture.network(logoUrl, width: size / 2, height: size / 2)
+          : CachedNetworkImage(
+              cacheKey: logoUrl,
+              height: size,
+              width: size,
+              errorWidget: (BuildContext context, String url, dynamic error) => Container(),
+              imageUrl: logoUrl,
+              imageBuilder: (context, provider) => DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(image: provider),
+                ),
               ),
+            ),
     );
   }
 }

@@ -32,17 +32,17 @@ class _VersionSectionState extends State<VersionSection> {
       return version == null
           ? const SizedBox.shrink()
           : SizedBox(
-            height: kToolbarHeight,
-            child: Center(
-              child: GestureDetector(
-                onLongPress: _copyFID,
-                child: Text(
-                  context.l10n.version(version, buildNumber ?? ''),
-                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+              height: kToolbarHeight,
+              child: Center(
+                child: GestureDetector(
+                  onLongPress: _copyFID,
+                  child: Text(
+                    context.l10n.version(version, buildNumber ?? ''),
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
                 ),
               ),
-            ),
-          );
+            );
     },
   );
 }

@@ -33,18 +33,18 @@ class StatusScreen extends StatelessWidget {
     final title = this.title;
     final onBackButtonPressed = this.onBackButtonPressed;
 
-    final logo =
-        theme == const CpThemeData.black()
-            ? Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter)
-            : Assets.icons.logoBgLight.svg(alignment: Alignment.bottomCenter);
+    final logo = theme == const CpThemeData.black()
+        ? Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter)
+        : Assets.icons.logoBgLight.svg(alignment: Alignment.bottomCenter);
 
     return CpTheme(
       theme: theme,
       child: Scaffold(
         appBar: CpAppBar(
           title: title != null ? Text(title, style: _titleStyle) : null,
-          leading:
-              onBackButtonPressed != null ? CpBackButton(onPressed: onBackButtonPressed) : null,
+          leading: onBackButtonPressed != null
+              ? CpBackButton(onPressed: onBackButtonPressed)
+              : null,
           automaticallyImplyLeading: onBackButtonPressed != null,
         ),
         body: Stack(

@@ -43,8 +43,9 @@ class _State extends State<CpInfoList> with SingleTickerProviderStateMixin {
 
       final indicatorColor = widget.items[index].variant.backgroundColor;
 
-      final connectorColor =
-          isLast ? indicatorColor : widget.items[index + 1].variant.backgroundColor;
+      final connectorColor = isLast
+          ? indicatorColor
+          : widget.items[index + 1].variant.backgroundColor;
 
       return Row(
         key: ValueKey(index),

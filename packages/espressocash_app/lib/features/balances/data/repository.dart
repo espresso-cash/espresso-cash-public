@@ -26,7 +26,10 @@ class TokenBalancesRepository {
 
     return row == null
         ? CryptoAmount(value: 0, cryptoCurrency: CryptoCurrency(token: token))
-        : CryptoAmount(value: row.amount, cryptoCurrency: CryptoCurrency(token: token));
+        : CryptoAmount(
+            value: row.amount,
+            cryptoCurrency: CryptoCurrency(token: token),
+          );
   }
 
   Future<ISet<Token>> readUserTokens() {
@@ -40,12 +43,12 @@ class TokenBalancesRepository {
   }
 
   Stream<ISet<Token>> watchUserTokens({Iterable<Token> ignoreTokens = const []}) {
-    final query =
-        _db.tokenBalanceRows.select()..where(
-          (tbl) =>
-              tbl.amount.isBiggerThanValue(0) &
-              tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
-        );
+    final query = _db.tokenBalanceRows.select()
+      ..where(
+        (tbl) =>
+            tbl.amount.isBiggerThanValue(0) &
+            tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
+      );
 
     return query.watch().asyncMap(
       (rows) => Future.wait(
@@ -55,12 +58,12 @@ class TokenBalancesRepository {
   }
 
   Stream<IList<CryptoAmount>> watchTokenBalances({Iterable<Token> ignoreTokens = const []}) {
-    final query =
-        _db.tokenBalanceRows.select()..where(
-          (tbl) =>
-              tbl.amount.isBiggerThanValue(0) &
-              tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
-        );
+    final query = _db.tokenBalanceRows.select()
+      ..where(
+        (tbl) =>
+            tbl.amount.isBiggerThanValue(0) &
+            tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
+      );
 
     return query.watch().asyncMap(
       (rows) => Future.wait(
@@ -69,7 +72,10 @@ class TokenBalancesRepository {
               .getToken(row.token)
               .letAsync(
                 (token) => token?.let(
-                  (t) => CryptoAmount(value: row.amount, cryptoCurrency: CryptoCurrency(token: t)),
+                  (t) => CryptoAmount(
+                    value: row.amount,
+                    cryptoCurrency: CryptoCurrency(token: t),
+                  ),
                 ),
               ),
         ),
@@ -82,10 +88,9 @@ class TokenBalancesRepository {
     final currency = CryptoCurrency(token: token);
 
     return query.watchSingleOrNull().map(
-      (row) =>
-          row == null
-              ? CryptoAmount(value: 0, cryptoCurrency: currency)
-              : CryptoAmount(value: row.amount, cryptoCurrency: currency),
+      (row) => row == null
+          ? CryptoAmount(value: 0, cryptoCurrency: currency)
+          : CryptoAmount(value: row.amount, cryptoCurrency: currency),
     );
   }
 

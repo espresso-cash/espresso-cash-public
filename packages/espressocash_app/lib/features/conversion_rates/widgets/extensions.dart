@@ -62,10 +62,9 @@ String formatAmount({
 }) {
   final minimumDigits = roundInteger && value.isInteger ? 0 : 2;
 
-  final formatter =
-      NumberFormat.decimalPattern(locale.languageCode)
-        ..minimumFractionDigits = minimumDigits
-        ..maximumFractionDigits = decimals;
+  final formatter = NumberFormat.decimalPattern(locale.languageCode)
+    ..minimumFractionDigits = minimumDigits
+    ..maximumFractionDigits = decimals;
 
   final formatted = formatter.format(value.toDouble());
 

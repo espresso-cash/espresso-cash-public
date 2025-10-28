@@ -12,13 +12,11 @@ class QuizIntroScreen extends StatelessWidget {
 
   static void push(BuildContext context) => Navigator.of(context).push<void>(
     MaterialPageRoute(
-      builder:
-          (context) => QuizIntroScreen(
-            onConfirmed:
-                () => Navigator.of(context).pushReplacement(
-                  MaterialPageRoute<void>(builder: (context) => const QuizScreen()),
-                ),
-          ),
+      builder: (context) => QuizIntroScreen(
+        onConfirmed: () => Navigator.of(
+          context,
+        ).pushReplacement(MaterialPageRoute<void>(builder: (context) => const QuizScreen())),
+      ),
     ),
   );
 

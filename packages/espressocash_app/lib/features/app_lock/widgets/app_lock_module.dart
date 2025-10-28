@@ -14,11 +14,9 @@ class AppLockModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-    create:
-        (_) =>
-            sl<AppLockBloc>()
-              ..add(const AppLockEvent.init())
-              ..add(const AppLockEvent.lock()),
+    create: (_) => sl<AppLockBloc>()
+      ..add(const AppLockEvent.init())
+      ..add(const AppLockEvent.lock()),
     child: _Content(child: child),
   );
 }

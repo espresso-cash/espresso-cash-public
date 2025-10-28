@@ -21,65 +21,71 @@ import '../screens/tr_details_screen.dart';
 import '../service/tr_service.dart';
 import 'solana_client_ext.dart';
 
-typedef TransactionRequestResult =
-    ({CryptoAmount amount, BigInt slot, TransactionRequestInfo info, SignedTx tx, String? message});
+typedef TransactionRequestResult = ({
+  CryptoAmount amount,
+  BigInt slot,
+  TransactionRequestInfo info,
+  SignedTx tx,
+  String? message,
+});
 
 extension BuildContextExt on BuildContext {
   Future<void> processSolanaTransactionRequest(SolanaTransactionRequest request) async {
-    final response = await runWithLoader<TransactionRequestResult?>(this, () async {
-      final info = await request.get();
+    final response =
+        await runWithLoader<TransactionRequestResult?>(this, () async {
+          final info = await request.get();
 
-      final wallet = sl<MyAccount>().wallet.publicKey;
-      final client = sl<SolanaClient>();
+          final wallet = sl<MyAccount>().wallet.publicKey;
+          final client = sl<SolanaClient>();
 
-      final postResponse = await request.post(account: wallet.toBase58());
+          final postResponse = await request.post(account: wallet.toBase58());
 
-      final isUsdcTransfer = postResponse.transaction
-          .let(SignedTx.decode)
-          .let(_checkIfUsdcTransfer);
+          final isUsdcTransfer = postResponse.transaction
+              .let(SignedTx.decode)
+              .let(_checkIfUsdcTransfer);
 
-      if (!isUsdcTransfer) {
-        showCpErrorSnackbar(this, message: 'Error. Can only transfer USDC');
+          if (!isUsdcTransfer) {
+            showCpErrorSnackbar(this, message: 'Error. Can only transfer USDC');
 
-        return null;
-      }
+            return null;
+          }
 
-      final hasUsdcAccount = await client.hasUsdcAccount(wallet);
+          final hasUsdcAccount = await client.hasUsdcAccount(wallet);
 
-      if (!hasUsdcAccount) {
-        showCpErrorSnackbar(this, message: l10n.errorMessageInsufficientFunds);
+          if (!hasUsdcAccount) {
+            showCpErrorSnackbar(this, message: l10n.errorMessageInsufficientFunds);
 
-        return null;
-      }
+            return null;
+          }
 
-      final tx = await client.processSolanaPayTransactionRequest(
-        transaction: postResponse.transaction,
-        signer: wallet,
-        ignoreSignerVerification: true,
-      );
+          final tx = await client.processSolanaPayTransactionRequest(
+            transaction: postResponse.transaction,
+            signer: wallet,
+            ignoreSignerVerification: true,
+          );
 
-      final simulate = await client.simulateTransfer(
-        tx: tx,
-        account: wallet,
-        currency: Currency.usdc,
-      );
+          final simulate = await client.simulateTransfer(
+            tx: tx,
+            account: wallet,
+            currency: Currency.usdc,
+          );
 
-      if (simulate == null) {
-        showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+          if (simulate == null) {
+            showCpErrorSnackbar(this, message: l10n.tryAgainLater);
 
-        return null;
-      }
+            return null;
+          }
 
-      return (
-        amount: CryptoAmount(value: simulate.amountTransferred, cryptoCurrency: Currency.usdc),
-        slot: simulate.slot,
-        info: info,
-        tx: tx,
-        message: postResponse.message,
-      );
-    }).onError((_, _) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-    });
+          return (
+            amount: CryptoAmount(value: simulate.amountTransferred, cryptoCurrency: Currency.usdc),
+            slot: simulate.slot,
+            info: info,
+            tx: tx,
+            message: postResponse.message,
+          );
+        }).onError((_, _) {
+          showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+        });
 
     if (response == null) return;
 

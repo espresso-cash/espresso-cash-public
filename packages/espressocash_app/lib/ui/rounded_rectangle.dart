@@ -44,22 +44,21 @@ class _CpRoundedRectangleState extends State<CpRoundedRectangle> {
         topLeft: _radius,
       ),
     ),
-    child:
-        widget.scrollable
-            ? RawScrollbar(
-              thumbVisibility: true,
-              thickness: 8,
-              thumbColor: const Color(0xff525252),
-              crossAxisMargin: -24,
-              radius: const Radius.circular(9),
+    child: widget.scrollable
+        ? RawScrollbar(
+            thumbVisibility: true,
+            thickness: 8,
+            thumbColor: const Color(0xff525252),
+            crossAxisMargin: -24,
+            radius: const Radius.circular(9),
+            controller: _scrollController,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.zero,
               controller: _scrollController,
-              child: SingleChildScrollView(
-                padding: EdgeInsets.zero,
-                controller: _scrollController,
-                child: widget.child,
-              ),
-            )
-            : widget.child,
+              child: widget.child,
+            ),
+          )
+        : widget.child,
   );
 }
 

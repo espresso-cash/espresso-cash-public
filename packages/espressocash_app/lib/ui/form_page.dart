@@ -38,26 +38,27 @@ class FormPage extends StatelessWidget {
         extendBodyBehindAppBar: true,
         body: Stack(
           children: [
-            Center(child: backgroundImage?.image(fit: BoxFit.fitHeight, height: double.infinity)),
+            Center(
+              child: backgroundImage?.image(fit: BoxFit.fitHeight, height: double.infinity),
+            ),
             LayoutBuilder(
-              builder:
-                  (context, constraints) => SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          children: [
-                            _Header(
-                              colorTheme: colorTheme,
-                              content: header,
-                              showImage: backgroundImage == null,
-                            ),
-                            _Content(child: child),
-                          ],
+              builder: (context, constraints) => SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        _Header(
+                          colorTheme: colorTheme,
+                          content: header,
+                          showImage: backgroundImage == null,
                         ),
-                      ),
+                        _Content(child: child),
+                      ],
                     ),
                   ),
+                ),
+              ),
             ),
           ],
         ),
@@ -83,7 +84,9 @@ class FormPageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
     children: [
-      Expanded(child: Align(alignment: iconAlignment, child: icon.image())),
+      Expanded(
+        child: Align(alignment: iconAlignment, child: icon.image()),
+      ),
       const SizedBox(height: 25),
       DefaultTextStyle(
         style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w500),

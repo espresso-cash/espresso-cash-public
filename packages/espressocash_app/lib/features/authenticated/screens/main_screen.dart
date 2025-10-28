@@ -37,14 +37,12 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.dark(
     child: ValueStreamBuilder<bool>(
       create: () => (sl<TokenBalancesRepository>().watchUserTokens().map((it) => it.isEmpty), true),
-      builder:
-          (context, isEmpty) =>
-              isEmpty
-                  ? const HomeAddCashContent()
-                  : _MainContent(
-                    onSendMoneyPressed: onSendMoneyPressed,
-                    onTransactionsPressed: onTransactionsPressed,
-                  ),
+      builder: (context, isEmpty) => isEmpty
+          ? const HomeAddCashContent()
+          : _MainContent(
+              onSendMoneyPressed: onSendMoneyPressed,
+              onTransactionsPressed: onTransactionsPressed,
+            ),
     ),
   );
 }
@@ -57,35 +55,34 @@ class _MainContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RefreshBalancesWrapper(
-    builder:
-        (context, onRefresh) => RefreshIndicator(
-          displacement: 80,
-          onRefresh: () => Future.wait([onRefresh(), sl<TxUpdater>().call()]),
-          color: CpColors.primaryColor,
-          backgroundColor: Colors.white,
-          child: Scaffold(
-            backgroundColor: CpColors.darkSandColor,
-            appBar: const HomeScaffoldAppBar(),
-            body: Stack(
-              children: <Widget>[
-                Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [CpColors.darkSandColor, CpColors.deepGreyColor],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [0.49, 0.51],
-                    ),
-                  ),
+    builder: (context, onRefresh) => RefreshIndicator(
+      displacement: 80,
+      onRefresh: () => Future.wait([onRefresh(), sl<TxUpdater>().call()]),
+      color: CpColors.primaryColor,
+      backgroundColor: Colors.white,
+      child: Scaffold(
+        backgroundColor: CpColors.darkSandColor,
+        appBar: const HomeScaffoldAppBar(),
+        body: Stack(
+          children: <Widget>[
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [CpColors.darkSandColor, CpColors.deepGreyColor],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.49, 0.51],
                 ),
-                _HomeScrollableRegion(
-                  onSendMoneyPressed: onSendMoneyPressed,
-                  onTransactionsPressed: onTransactionsPressed,
-                ),
-              ],
+              ),
             ),
-          ),
+            _HomeScrollableRegion(
+              onSendMoneyPressed: onSendMoneyPressed,
+              onTransactionsPressed: onTransactionsPressed,
+            ),
+          ],
         ),
+      ),
+    ),
   );
 }
 
@@ -117,16 +114,13 @@ class _HomeScrollableRegion extends StatelessWidget {
           ),
           const _HomeDivider(),
           ValueStreamBuilder<IList<CryptoAmount>>(
-            create:
-                () => (
-                  sl<TokenBalancesRepository>().watchTokenBalances(ignoreTokens: [Token.usdc]),
-                  const IListConst([]),
-                ),
-            builder:
-                (context, tokens) =>
-                    tokens.isNotEmpty
-                        ? const SizedBox.shrink()
-                        : HomeCarouselWidget(onSendMoneyPressed: onSendMoneyPressed),
+            create: () => (
+              sl<TokenBalancesRepository>().watchTokenBalances(ignoreTokens: [Token.usdc]),
+              const IListConst([]),
+            ),
+            builder: (context, tokens) => tokens.isNotEmpty
+                ? const SizedBox.shrink()
+                : HomeCarouselWidget(onSendMoneyPressed: onSendMoneyPressed),
           ),
           const PortfolioWidget(),
           RecentActivityWidget(

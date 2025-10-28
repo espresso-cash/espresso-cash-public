@@ -48,28 +48,25 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
       return payment == null
           ? TransferProgress(onBack: () => Navigator.pop(context))
           : payment.status.maybeMap(
-            success: (e) {
-              final receiveAmount = e.receiveAmount?.let(
-                (e) => e.format(context.locale, maxDecimals: 2),
-              );
+              success: (e) {
+                final receiveAmount = e.receiveAmount?.let(
+                  (e) => e.format(context.locale, maxDecimals: 2),
+                );
 
-              return TransferSuccess(
-                onBack: () => Navigator.pop(context),
-                onOkPressed: () => Navigator.pop(context),
-                content: e.fee?.let(_FeeNotice.new),
-                statusContent:
-                    receiveAmount != null
-                        ? context.l10n.moneyReceivedAmount(receiveAmount)
-                        : context.l10n.moneyReceived,
-              );
-            },
-            txFailure:
-                (it) =>
-                    it.reason == TxFailureReason.escrowFailure
-                        ? const InvalidEscrowErrorWidget()
-                        : TransferError(onBack: () => Navigator.pop(context)),
-            orElse: () => TransferProgress(onBack: () => Navigator.pop(context)),
-          );
+                return TransferSuccess(
+                  onBack: () => Navigator.pop(context),
+                  onOkPressed: () => Navigator.pop(context),
+                  content: e.fee?.let(_FeeNotice.new),
+                  statusContent: receiveAmount != null
+                      ? context.l10n.moneyReceivedAmount(receiveAmount)
+                      : context.l10n.moneyReceived,
+                );
+              },
+              txFailure: (it) => it.reason == TxFailureReason.escrowFailure
+                  ? const InvalidEscrowErrorWidget()
+                  : TransferError(onBack: () => Navigator.pop(context)),
+              orElse: () => TransferProgress(onBack: () => Navigator.pop(context)),
+            );
     },
   );
 }

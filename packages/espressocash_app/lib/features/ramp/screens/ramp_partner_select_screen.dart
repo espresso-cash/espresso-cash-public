@@ -32,8 +32,8 @@ class RampPartnerSelectScreen extends StatefulWidget {
     required ValueSetter<RampPartner> onPartnerSelected,
   }) => Navigator.of(context).push<void>(
     MaterialPageRoute(
-      builder:
-          (context) => RampPartnerSelectScreen(type: type, onPartnerSelected: onPartnerSelected),
+      builder: (context) =>
+          RampPartnerSelectScreen(type: type, onPartnerSelected: onPartnerSelected),
     ),
   );
 

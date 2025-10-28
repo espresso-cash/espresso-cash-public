@@ -60,7 +60,10 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
     top: (iconSize * ratio) - iconSize + 8,
     left: 0,
     right: 0,
-    child: Opacity(opacity: ratio, child: TokenIcon(token: token, size: iconSize)),
+    child: Opacity(
+      opacity: ratio,
+      child: TokenIcon(token: token, size: iconSize),
+    ),
   );
 
   Widget _buildText(double ratio, double iconSize) => Positioned.fill(

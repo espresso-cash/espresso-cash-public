@@ -22,29 +22,28 @@ class CpNavigationButton extends StatelessWidget {
     final badge = this.badge;
 
     return LayoutBuilder(
-      builder:
-          (context, constraints) => Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: onPressed,
-              child: Stack(
-                alignment: Alignment.center,
-                clipBehavior: Clip.none,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: icon.svg(color: active ? CpColors.yellowColor : Colors.white),
-                  ),
-                  if (badge != null && badge > 0)
-                    Positioned(
-                      top: 15,
-                      left: constraints.maxWidth / 2 + 30 / 2,
-                      child: _Badge(value: badge),
-                    ),
-                ],
+      builder: (context, constraints) => Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          child: Stack(
+            alignment: Alignment.center,
+            clipBehavior: Clip.none,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: icon.svg(color: active ? CpColors.yellowColor : Colors.white),
               ),
-            ),
+              if (badge != null && badge > 0)
+                Positioned(
+                  top: 15,
+                  left: constraints.maxWidth / 2 + 30 / 2,
+                  child: _Badge(value: badge),
+                ),
+            ],
           ),
+        ),
+      ),
     );
   }
 }

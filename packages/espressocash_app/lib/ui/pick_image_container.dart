@@ -25,11 +25,10 @@ class PickImageContainer extends StatelessWidget {
           color: Colors.black,
           image: DecorationImage(
             fit: BoxFit.cover,
-            image:
-                image == null
-                    // ignore: avoid-unnecessary-type-casts, avoid-type-casts, needed here
-                    ? Svg(Assets.images.imagePickerIcon.path) as ImageProvider<Object>
-                    : FileImage(image),
+            image: image == null
+                // ignore: avoid-unnecessary-type-casts, avoid-type-casts, needed here
+                ? Svg(Assets.images.imagePickerIcon.path) as ImageProvider<Object>
+                : FileImage(image),
           ),
         ),
       ),

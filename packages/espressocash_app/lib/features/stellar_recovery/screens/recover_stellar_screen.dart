@@ -43,7 +43,9 @@ class RecoverStellarScreen extends StatelessWidget {
     ),
     body: Stack(
       children: [
-        Center(child: Assets.images.dollarBg.image(fit: BoxFit.fitHeight, height: double.infinity)),
+        Center(
+          child: Assets.images.dollarBg.image(fit: BoxFit.fitHeight, height: double.infinity),
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(

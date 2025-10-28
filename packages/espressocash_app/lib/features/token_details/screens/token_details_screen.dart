@@ -63,51 +63,50 @@ class _TokenDetailsBody extends StatelessWidget {
       ),
     ),
     child: LayoutBuilder(
-      builder:
-          (BuildContext context, BoxConstraints viewportConstraints) => RefreshIndicator(
-            onRefresh: () => sl<TxUpdater>().call(),
-            color: CpColors.primaryColor,
-            backgroundColor: Colors.white,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(
-                decelerationRate: ScrollDecelerationRate.fast,
-                parent: ClampingScrollPhysics(),
-              ),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: viewportConstraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 4),
-                      const _TokenHeader(),
-                      const SizedBox(height: 24),
-                      if (token.isUsdcToken) const _RampButtons() else _ActionButtons(token: token),
-                      const SizedBox(height: 24),
-                      Expanded(
-                        child: DecoratedBox(
-                          decoration: const BoxDecoration(
-                            color: CpColors.deepGreyColor,
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(31)),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 41),
-                              child: Column(
-                                children: [
-                                  TokenInfo(tokenAddress: token.address),
-                                  RecentTokenActivityWidget(tokenAddress: token.address),
-                                ],
-                              ),
-                            ),
+      builder: (BuildContext context, BoxConstraints viewportConstraints) => RefreshIndicator(
+        onRefresh: () => sl<TxUpdater>().call(),
+        color: CpColors.primaryColor,
+        backgroundColor: Colors.white,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(
+            decelerationRate: ScrollDecelerationRate.fast,
+            parent: ClampingScrollPhysics(),
+          ),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: viewportConstraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Column(
+                children: [
+                  const SizedBox(height: 4),
+                  const _TokenHeader(),
+                  const SizedBox(height: 24),
+                  if (token.isUsdcToken) const _RampButtons() else _ActionButtons(token: token),
+                  const SizedBox(height: 24),
+                  Expanded(
+                    child: DecoratedBox(
+                      decoration: const BoxDecoration(
+                        color: CpColors.deepGreyColor,
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(31)),
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 41),
+                          child: Column(
+                            children: [
+                              TokenInfo(tokenAddress: token.address),
+                              RecentTokenActivityWidget(tokenAddress: token.address),
+                            ],
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
+        ),
+      ),
     ),
   );
 }
@@ -126,16 +125,15 @@ class _TokenHeader extends StatelessWidget {
         Decimal.zero;
 
     return ValueStreamBuilder<CryptoFiatAmount>(
-      create:
-          () => (
-            sl<TokenFiatBalanceService>().readInvestmentBalance(token),
-            (
-              // ignore: avoid-type-casts, controlled type
-              Amount.zero(currency: Currency.usdc) as CryptoAmount,
-              // ignore: avoid-type-casts, controlled type
-              Amount.zero(currency: Currency.usd) as FiatAmount,
-            ),
-          ),
+      create: () => (
+        sl<TokenFiatBalanceService>().readInvestmentBalance(token),
+        (
+          // ignore: avoid-type-casts, controlled type
+          Amount.zero(currency: Currency.usdc) as CryptoAmount,
+          // ignore: avoid-type-casts, controlled type
+          Amount.zero(currency: Currency.usd) as FiatAmount,
+        ),
+      ),
       builder: (context, value) {
         final crypto = value.$1;
         final fiat = value.$2;
@@ -230,8 +228,8 @@ class _ActionButtons extends StatelessWidget {
 extension CryptoAmountFormatting on BuildContext {
   String formatWithMinAmount(CryptoAmount cryptoAmount) =>
       cryptoAmount.decimal < Decimal.parse(_minCryptoAmount.toString())
-          ? '<${Amount.fromDecimal(value: Decimal.parse(_minCryptoAmount.toString()), currency: cryptoAmount.currency).format(locale)}'
-          : cryptoAmount.format(locale, maxDecimals: 4);
+      ? '<${Amount.fromDecimal(value: Decimal.parse(_minCryptoAmount.toString()), currency: cryptoAmount.currency).format(locale)}'
+      : cryptoAmount.format(locale, maxDecimals: 4);
 }
 
 const double _minCryptoAmount = 0.0001;

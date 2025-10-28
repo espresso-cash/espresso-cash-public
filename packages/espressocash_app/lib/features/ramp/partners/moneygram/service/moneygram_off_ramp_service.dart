@@ -75,15 +75,16 @@ class MoneygramOffRampOrderService implements Disposable {
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
-    final query = _db.select(_db.offRampOrderRows)..where(
-      (tbl) =>
-          tbl.status.isNotInValues([
-            OffRampOrderStatus.completed,
-            OffRampOrderStatus.cancelled,
-            OffRampOrderStatus.refunded,
-          ]) &
-          tbl.partner.equalsValue(RampPartner.moneygram),
-    );
+    final query = _db.select(_db.offRampOrderRows)
+      ..where(
+        (tbl) =>
+            tbl.status.isNotInValues([
+              OffRampOrderStatus.completed,
+              OffRampOrderStatus.cancelled,
+              OffRampOrderStatus.refunded,
+            ]) &
+            tbl.partner.equalsValue(RampPartner.moneygram),
+      );
 
     final orders = await query.get();
 
@@ -164,9 +165,9 @@ class MoneygramOffRampOrderService implements Disposable {
         })
         .whereNotNull()
         .listen(
-          (event) =>
-              (_db.update(_db.offRampOrderRows)
-                ..where((tbl) => tbl.id.equals(orderId))).write(event),
+          (event) => (_db.update(
+            _db.offRampOrderRows,
+          )..where((tbl) => tbl.id.equals(orderId))).write(event),
         );
   }
 
@@ -381,12 +382,11 @@ class MoneygramOffRampOrderService implements Disposable {
 
     if (send != const TxSendSent()) {
       final status = send.maybeMap(
-        failure:
-            (reason) => switch (reason.reason) {
-              TxFailureReason.insufficientFunds => OffRampOrderStatus.insufficientFunds,
-              // ignore: avoid-wildcard-cases-with-enums, check if needed
-              _ => OffRampOrderStatus.depositError,
-            },
+        failure: (reason) => switch (reason.reason) {
+          TxFailureReason.insufficientFunds => OffRampOrderStatus.insufficientFunds,
+          // ignore: avoid-wildcard-cases-with-enums, check if needed
+          _ => OffRampOrderStatus.depositError,
+        },
         orElse: () => OffRampOrderStatus.depositError,
       );
 
@@ -655,10 +655,10 @@ class MoneygramOffRampOrderService implements Disposable {
     return hash == null
         ? const OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.processingRefund))
         : OffRampOrderRowsCompanion(
-          stellarTxHash: Value(hash),
-          status: const Value(OffRampOrderStatus.waitingForRefundBridge),
-          refundAmount: Value(amount.value),
-        );
+            stellarTxHash: Value(hash),
+            status: const Value(OffRampOrderStatus.waitingForRefundBridge),
+            refundAmount: Value(amount.value),
+          );
   }
 
   void _watchRefundBridge(OffRampOrderRow order) {

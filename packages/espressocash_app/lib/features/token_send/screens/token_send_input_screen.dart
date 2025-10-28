@@ -90,7 +90,10 @@ class _TokenSendInputScreenState extends State<TokenSendInputScreen> {
 
     final cryptoAmount =
         // ignore: avoid-type-casts, controlled cast
-        Amount.fromDecimal(value: confirmedAmount, currency: Currency.crypto(token: widget.token))
+        Amount.fromDecimal(
+              value: confirmedAmount,
+              currency: Currency.crypto(token: widget.token),
+            )
             as CryptoAmount;
 
     if (!mounted) return;
@@ -113,14 +116,13 @@ class _TokenSendInputScreenState extends State<TokenSendInputScreen> {
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<CryptoFiatAmount>(
-    create:
-        () => (
-          sl<TokenFiatBalanceService>().readInvestmentBalance(widget.token),
-          (
-            const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
-            const FiatAmount(value: 0, fiatCurrency: Currency.usd),
-          ),
-        ),
+    create: () => (
+      sl<TokenFiatBalanceService>().readInvestmentBalance(widget.token),
+      (
+        const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
+        const FiatAmount(value: 0, fiatCurrency: Currency.usd),
+      ),
+    ),
     builder: (context, value) {
       final crypto = value.$1;
 
@@ -163,12 +165,11 @@ class _TokenSendInputScreenState extends State<TokenSendInputScreen> {
                 const Spacer(),
                 ListenableBuilder(
                   listenable: Listenable.merge([_quantityController, _recipientController]),
-                  builder:
-                      (context, child) => CpBottomButton(
-                        horizontalPadding: 16,
-                        text: context.l10n.next,
-                        onPressed: _isValid ? _handlePressed : null,
-                      ),
+                  builder: (context, child) => CpBottomButton(
+                    horizontalPadding: 16,
+                    text: context.l10n.next,
+                    onPressed: _isValid ? _handlePressed : null,
+                  ),
                 ),
               ],
             ),

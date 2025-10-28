@@ -49,9 +49,10 @@ Future<void> _openCountryPicker({
     navigator: navigator,
     title: context.l10n.selectCountryTitle,
     items: Country.all,
-    itemBuilder:
-        (context, country, {required bool selected}) =>
-            Text(country.name, style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white)),
+    itemBuilder: (context, country, {required bool selected}) => Text(
+      country.name,
+      style: TextStyle(fontSize: selected ? 19 : 17, color: Colors.white),
+    ),
     onTap: _updateCountry,
   );
 }

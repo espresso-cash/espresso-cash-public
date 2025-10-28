@@ -22,7 +22,10 @@ class CpChip extends StatelessWidget {
       color: backgroundColor ?? CpColors.deepGreyColor,
       shape: const StadiumBorder(),
     ),
-    child: Center(widthFactor: 1, child: Padding(padding: padding.value, child: child)),
+    child: Center(
+      widthFactor: 1,
+      child: Padding(padding: padding.value, child: child),
+    ),
   );
 }
 

@@ -11,9 +11,8 @@ class WatchInvestments {
 
   final TokenBalancesRepository _balancesRepository;
 
-  Stream<IList<Token>> call() =>
-      _balancesRepository
-          .watchUserTokens()
-          .map((event) => event.sortedBy((element) => element.name).toIList())
-          .distinct();
+  Stream<IList<Token>> call() => _balancesRepository
+      .watchUserTokens()
+      .map((event) => event.sortedBy((element) => element.name).toIList())
+      .distinct();
 }

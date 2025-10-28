@@ -113,8 +113,8 @@ class TokenSwapService {
 
     final SwapStatus? newStatus = tx.map(
       sent: (_) => SwapStatus.txSent(status.tx, slot: status.slot),
-      invalidBlockhash:
-          (_) => const SwapStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
+      invalidBlockhash: (_) =>
+          const SwapStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
       failure: (it) => SwapStatus.txFailure(reason: it.reason),
       networkError: (_) => null,
     );

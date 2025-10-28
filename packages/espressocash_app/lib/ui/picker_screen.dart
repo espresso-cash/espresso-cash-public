@@ -37,16 +37,15 @@ class CustomPickerScreen<T> extends StatelessWidget {
     String? searchPlaceholder,
   }) => (navigator ?? Navigator.of(context, rootNavigator: true)).pushAndRemoveUntil<T>(
     PageRouteBuilder(
-      pageBuilder:
-          (context, _, _) => CustomPickerScreen<T>(
-            title: title,
-            items: items,
-            itemBuilder: itemBuilder,
-            initial: initial,
-            onTap: onTap,
-            filterItem: filterItem,
-            searchPlaceholder: searchPlaceholder,
-          ),
+      pageBuilder: (context, _, _) => CustomPickerScreen<T>(
+        title: title,
+        items: items,
+        itemBuilder: itemBuilder,
+        initial: initial,
+        onTap: onTap,
+        filterItem: filterItem,
+        searchPlaceholder: searchPlaceholder,
+      ),
       transitionDuration: Duration.zero,
     ),
     F,
@@ -63,16 +62,15 @@ class CustomPickerScreen<T> extends StatelessWidget {
     String? searchPlaceholder,
   }) => Navigator.of(context).push<void>(
     MaterialPageRoute(
-      builder:
-          (context) => CustomPickerScreen<T>(
-            title: title,
-            items: items,
-            itemBuilder: itemBuilder,
-            initial: initial,
-            onTap: onTap,
-            filterItem: filterItem,
-            searchPlaceholder: searchPlaceholder,
-          ),
+      builder: (context) => CustomPickerScreen<T>(
+        title: title,
+        items: items,
+        itemBuilder: itemBuilder,
+        initial: initial,
+        onTap: onTap,
+        filterItem: filterItem,
+        searchPlaceholder: searchPlaceholder,
+      ),
     ),
   );
 
@@ -161,14 +159,13 @@ class _ContentState<T> extends State<_Content<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredItems =
-        widget.items.where((item) {
-          final filter = widget.filterItem;
+    final filteredItems = widget.items.where((item) {
+      final filter = widget.filterItem;
 
-          return filter != null
-              ? filter(item, _searchText)
-              : item.toString().toLowerCase().contains(_searchText.toLowerCase());
-        }).toList();
+      return filter != null
+          ? filter(item, _searchText)
+          : item.toString().toLowerCase().contains(_searchText.toLowerCase());
+    }).toList();
 
     return Column(
       children: [
@@ -211,13 +208,12 @@ class _ContentState<T> extends State<_Content<T>> {
                 final selected = item == _selectedItem;
 
                 return DecoratedBox(
-                  decoration:
-                      selected
-                          ? const ShapeDecoration(
-                            color: CpColors.blackTextFieldBackgroundColor,
-                            shape: StadiumBorder(),
-                          )
-                          : const BoxDecoration(),
+                  decoration: selected
+                      ? const ShapeDecoration(
+                          color: CpColors.blackTextFieldBackgroundColor,
+                          shape: StadiumBorder(),
+                        )
+                      : const BoxDecoration(),
                   child: ListTile(
                     dense: true,
                     title: widget.itemBuilder(context, item, selected: selected),

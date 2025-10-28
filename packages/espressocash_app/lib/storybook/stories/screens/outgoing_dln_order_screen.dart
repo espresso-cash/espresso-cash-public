@@ -12,31 +12,29 @@ import '../../../features/transactions/models/tx_results.dart';
 
 final outgoingDlnScreenStory = Story(
   name: 'Screens/OutgoingDlnOrderScreen',
-  builder:
-      (context) => OutgoingDlnOrderScreenContent(
-        order: OutgoingDlnPayment(
-          id: dummyOrderId,
-          amount: const CryptoAmount(value: 10_000_000, cryptoCurrency: Currency.usdc),
-          created: DateTime.now(),
-          status: context.knobs.options(
-            label: 'Status',
-            initial: txSent,
-            options:
-                [
-                  txSent,
-                  success,
-                  txFailure,
-                  fulfilled,
-                  unfulfilled,
-                ].map((e) => Option(label: e.name, value: e)).toList(),
-          ),
-          payment: const DlnPayment(
-            inputAmount: CryptoAmount(value: 10_000_000, cryptoCurrency: Currency.usdc),
-            receiverAddress: 'receiverAddress',
-            receiverBlockchain: Blockchain.arbitrum,
-          ),
-        ),
+  builder: (context) => OutgoingDlnOrderScreenContent(
+    order: OutgoingDlnPayment(
+      id: dummyOrderId,
+      amount: const CryptoAmount(value: 10_000_000, cryptoCurrency: Currency.usdc),
+      created: DateTime.now(),
+      status: context.knobs.options(
+        label: 'Status',
+        initial: txSent,
+        options: [
+          txSent,
+          success,
+          txFailure,
+          fulfilled,
+          unfulfilled,
+        ].map((e) => Option(label: e.name, value: e)).toList(),
       ),
+      payment: const DlnPayment(
+        inputAmount: CryptoAmount(value: 10_000_000, cryptoCurrency: Currency.usdc),
+        receiverAddress: 'receiverAddress',
+        receiverBlockchain: Blockchain.arbitrum,
+      ),
+    ),
+  ),
 );
 
 const dummyOrderId = 'ORDER_ID';

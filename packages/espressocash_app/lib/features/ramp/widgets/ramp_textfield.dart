@@ -28,11 +28,11 @@ class RampTextField extends StatelessWidget {
       FiatCurrency(:final countryCode) =>
         countryCode != null
             ? CountryFlag.fromCountryCode(
-              countryCode,
-              shape: const Circle(),
-              width: 36.w,
-              height: 36.h,
-            )
+                countryCode,
+                shape: const Circle(),
+                width: 36.w,
+                height: 36.h,
+              )
             : _defaultLogo,
       CryptoCurrency(:final Token token) => TokenIcon(token: token, size: 40.w),
       _ => _defaultLogo,
@@ -50,7 +50,10 @@ class RampTextField extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(left: 16.w, bottom: 6.h),
-            child: Text(label, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
+            child: Text(
+              label,
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+            ),
           ),
           if (controller == null)
             LoadingTextField(prefix: logo, suffix: symbol)
@@ -69,7 +72,10 @@ class RampTextField extends StatelessWidget {
               fontWeight: FontWeight.w700,
               prefix: Padding(padding: const EdgeInsets.only(left: 16), child: logo),
               readOnly: true,
-              suffix: Padding(padding: EdgeInsets.only(right: 24.w), child: symbol),
+              suffix: Padding(
+                padding: EdgeInsets.only(right: 24.w),
+                child: symbol,
+              ),
             ),
         ],
       ),

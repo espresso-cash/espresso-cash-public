@@ -64,22 +64,20 @@ class PortfolioTile extends StatelessWidget {
               const SizedBox(width: 8),
               ValueStreamBuilder<Amount?>(
                 create: () => (sl<TokenFiatBalanceService>().watchTotalInvestmentsBalance(), null),
-                builder:
-                    (context, balance) =>
-                        balance != null
-                            // ignore: avoid-flexible-outside-flex, inside ValueStreamBuilder
-                            ? Flexible(
-                              child: FittedBox(
-                                child: Text(
-                                  balance.format(DeviceLocale.localeOf(context)),
-                                  style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            )
-                            : const SizedBox.shrink(),
+                builder: (context, balance) => balance != null
+                    // ignore: avoid-flexible-outside-flex, inside ValueStreamBuilder
+                    ? Flexible(
+                        child: FittedBox(
+                          child: Text(
+                            balance.format(DeviceLocale.localeOf(context)),
+                            style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ),
             ],
           ),
@@ -98,17 +96,16 @@ class _PortfolioWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final children =
-        balances
-            .map(
-              (balance) => _TokenItem(
-                key: ValueKey(balance.$1.token),
-                cryptoAmount: balance.$1,
-                fiatAmount: balance.$2,
-              ),
-            )
-            .expand((widget) => [widget, const SizedBox(height: 8)])
-            .toList();
+    final children = balances
+        .map(
+          (balance) => _TokenItem(
+            key: ValueKey(balance.$1.token),
+            cryptoAmount: balance.$1,
+            fiatAmount: balance.$2,
+          ),
+        )
+        .expand((widget) => [widget, const SizedBox(height: 8)])
+        .toList();
 
     return Column(children: children);
   }

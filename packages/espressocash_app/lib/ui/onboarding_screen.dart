@@ -20,24 +20,23 @@ class OnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) => SafeArea(
     top: false,
     child: LayoutBuilder(
-      builder:
-          (context, constraints) => SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: constraints.copyWith(
-                minHeight: constraints.maxHeight,
-                maxHeight: double.infinity,
-              ),
-              child: IntrinsicHeight(
-                child: Column(
-                  crossAxisAlignment: crossAxisAlignment,
-                  children: [
-                    ...children,
-                    footer?.let((f) => Expanded(child: f)) ?? const SizedBox.shrink(),
-                  ],
-                ),
-              ),
+      builder: (context, constraints) => SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: constraints.copyWith(
+            minHeight: constraints.maxHeight,
+            maxHeight: double.infinity,
+          ),
+          child: IntrinsicHeight(
+            child: Column(
+              crossAxisAlignment: crossAxisAlignment,
+              children: [
+                ...children,
+                footer?.let((f) => Expanded(child: f)) ?? const SizedBox.shrink(),
+              ],
             ),
           ),
+        ),
+      ),
     ),
   );
 }
@@ -52,8 +51,10 @@ class OnboardingPadding extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) =>
-      Padding(padding: EdgeInsets.symmetric(horizontal: context.isSmall ? 16 : 32), child: child);
+  Widget build(BuildContext context) => Padding(
+    padding: EdgeInsets.symmetric(horizontal: context.isSmall ? 16 : 32),
+    child: child,
+  );
 }
 
 class OnboardingTitle extends StatelessWidget {

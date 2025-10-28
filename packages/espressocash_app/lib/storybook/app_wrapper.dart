@@ -14,15 +14,14 @@ class AppWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.light(
     child: Builder(
-      builder:
-          (context) => MaterialApp(
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            debugShowCheckedModeBanner: false,
-            title: 'Espresso Cash',
-            theme: context.watch<CpThemeData>().toMaterialTheme(),
-            home: child,
-          ),
+      builder: (context) => MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        debugShowCheckedModeBanner: false,
+        title: 'Espresso Cash',
+        theme: context.watch<CpThemeData>().toMaterialTheme(),
+        home: child,
+      ),
     ),
   );
 }

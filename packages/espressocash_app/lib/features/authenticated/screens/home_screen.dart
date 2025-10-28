@@ -70,31 +70,29 @@ class _HomeScreenState extends State<HomeScreen> {
               child: AmbassadorLinkListener(
                 child: ValueListenableBuilder(
                   valueListenable: _navigationService.tabNotifier,
-                  builder:
-                      (context, value, _) => Scaffold(
-                        backgroundColor: Colors.white,
-                        extendBody: true,
-                        body: PageView(
-                          controller: _pageController,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: _pages.map((e) => e.builder(context)).toList(),
-                        ),
-                        bottomNavigationBar: CPNavigationBar(
-                          items:
-                              _pages
-                                  .mapIndexed(
-                                    (i, p) => CpNavigationButton(
-                                      icon: p.icon,
-                                      active: value == i,
-                                      onPressed: () {
-                                        _navigationService.tabNotifier.value = i;
-                                        _pageController.jumpToPage(i);
-                                      },
-                                    ),
-                                  )
-                                  .toList(),
-                        ),
-                      ),
+                  builder: (context, value, _) => Scaffold(
+                    backgroundColor: Colors.white,
+                    extendBody: true,
+                    body: PageView(
+                      controller: _pageController,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: _pages.map((e) => e.builder(context)).toList(),
+                    ),
+                    bottomNavigationBar: CPNavigationBar(
+                      items: _pages
+                          .mapIndexed(
+                            (i, p) => CpNavigationButton(
+                              icon: p.icon,
+                              active: value == i,
+                              onPressed: () {
+                                _navigationService.tabNotifier.value = i;
+                                _pageController.jumpToPage(i);
+                              },
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -125,21 +123,19 @@ class LinkLoader extends StatelessWidget {
 final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
   (
     icon: Assets.icons.home,
-    builder:
-        (context) => PageSpacerWrapper(
-          child: MainScreen(
-            onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
-            onTransactionsPressed:
-                () => HomeScreen.openActivitiesTab(context, tab: ActivitiesTab.transactions),
-          ),
-        ),
+    builder: (context) => PageSpacerWrapper(
+      child: MainScreen(
+        onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
+        onTransactionsPressed: () =>
+            HomeScreen.openActivitiesTab(context, tab: ActivitiesTab.transactions),
+      ),
+    ),
   ),
   (icon: Assets.icons.wallet, builder: (context) => const WalletScreen()),
   (icon: Assets.icons.swap, builder: (context) => const TokenSwapInputScreen()),
   (
     icon: Assets.icons.notifications,
-    builder:
-        (context) =>
-            ActivitiesScreen(initialTab: sl<HomeNavigationService>().activitiesTabNotifier.value),
+    builder: (context) =>
+        ActivitiesScreen(initialTab: sl<HomeNavigationService>().activitiesTabNotifier.value),
   ),
 ];

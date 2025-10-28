@@ -36,18 +36,17 @@ class ProfileButton extends StatelessWidget {
         textAlign: centerText ? TextAlign.center : TextAlign.start,
         style: TextStyle(color: textColor, fontSize: 17, fontWeight: FontWeight.bold),
       ),
-      subtitle:
-          description != null
-              ? Text(
-                description,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: CpColors.greyColor,
-                  fontWeight: FontWeight.w400,
-                ),
-              )
-              : null,
+      subtitle: description != null
+          ? Text(
+              description,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 14,
+                color: CpColors.greyColor,
+                fontWeight: FontWeight.w400,
+              ),
+            )
+          : null,
       trailing: showIcon ? Icon(Icons.chevron_right, color: iconColor) : null,
     );
   }

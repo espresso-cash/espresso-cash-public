@@ -33,9 +33,8 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
     on<Confirmed>(_onConfirmed);
     on<Invalidated>(
       _onInvalidated,
-      transformer:
-          (events, mapper) =>
-              events.debounceTime(const Duration(milliseconds: 500)).switchMap(mapper),
+      transformer: (events, mapper) =>
+          events.debounceTime(const Duration(milliseconds: 500)).switchMap(mapper),
     );
   }
 

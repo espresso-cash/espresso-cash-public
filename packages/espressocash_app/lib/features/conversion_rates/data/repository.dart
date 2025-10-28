@@ -61,59 +61,60 @@ class ConversionRatesRepository {
     return query.watchSingleOrNull().map((row) => row?.rate.let(Decimal.tryParse));
   }
 
-  AsyncResult<void> _fetchTokens(FiatCurrency currency, Iterable<Token> tokens) => tryEitherAsync((
-    _,
-  ) async {
-    final addresses = await Stream.fromIterable(tokens.addresses).bufferCount(_maxIds).toList();
+  AsyncResult<void> _fetchTokens(FiatCurrency currency, Iterable<Token> tokens) =>
+      tryEitherAsync((_) async {
+        final addresses = await Stream.fromIterable(tokens.addresses).bufferCount(_maxIds).toList();
 
-    final results = await Future.wait(
-      addresses.map((ids) {
-        final request = TokenRateRequestDto(ids: ids.lock);
+        final results = await Future.wait(
+          addresses.map((ids) {
+            final request = TokenRateRequestDto(ids: ids.lock);
 
-        return _jupiterClient.getPrice(request);
-      }),
-    );
+            return _jupiterClient.getPrice(request);
+          }),
+        );
 
-    final Map<String, TokenPricesMapDto?> conversionRates = {};
-    for (final element in results) {
-      conversionRates.addAll(element.data);
-    }
-
-    if (conversionRates.containsKey(Token.wrappedSol.address)) {
-      conversionRates[Token.sol.address] = conversionRates[Token.wrappedSol.address];
-    }
-
-    final usdcRateQuery = _db.select(_db.conversionRatesRows)..where(
-      (tbl) =>
-          tbl.token.equals(Currency.usdc.token.address) & tbl.fiatCurrency.equals(currency.symbol),
-    );
-    final usdcRateRow = await usdcRateQuery.getSingleOrNull();
-    if (usdcRateRow == null) return;
-
-    final usdcRate = Decimal.parse(usdcRateRow.rate);
-
-    await _db.transaction(() async {
-      for (final entry in conversionRates.entries) {
-        final matchingTokens = tokens.where((t) => t.address == entry.key);
-
-        final rate = Decimal.parse(entry.value?.price ?? '0') * usdcRate;
-
-        for (final token in matchingTokens) {
-          await _db
-              .into(_db.conversionRatesRows)
-              .insert(
-                ConversionRatesRowsCompanion.insert(
-                  token: token.address,
-                  fiatCurrency: currency.symbol,
-                  rate: rate.toString(),
-                  updatedAt: DateTime.now(),
-                ),
-                mode: InsertMode.replace,
-              );
+        final Map<String, TokenPricesMapDto?> conversionRates = {};
+        for (final element in results) {
+          conversionRates.addAll(element.data);
         }
-      }
-    });
-  });
+
+        if (conversionRates.containsKey(Token.wrappedSol.address)) {
+          conversionRates[Token.sol.address] = conversionRates[Token.wrappedSol.address];
+        }
+
+        final usdcRateQuery = _db.select(_db.conversionRatesRows)
+          ..where(
+            (tbl) =>
+                tbl.token.equals(Currency.usdc.token.address) &
+                tbl.fiatCurrency.equals(currency.symbol),
+          );
+        final usdcRateRow = await usdcRateQuery.getSingleOrNull();
+        if (usdcRateRow == null) return;
+
+        final usdcRate = Decimal.parse(usdcRateRow.rate);
+
+        await _db.transaction(() async {
+          for (final entry in conversionRates.entries) {
+            final matchingTokens = tokens.where((t) => t.address == entry.key);
+
+            final rate = Decimal.parse(entry.value?.price ?? '0') * usdcRate;
+
+            for (final token in matchingTokens) {
+              await _db
+                  .into(_db.conversionRatesRows)
+                  .insert(
+                    ConversionRatesRowsCompanion.insert(
+                      token: token.address,
+                      fiatCurrency: currency.symbol,
+                      rate: rate.toString(),
+                      updatedAt: DateTime.now(),
+                    ),
+                    mode: InsertMode.replace,
+                  );
+            }
+          }
+        });
+      });
 
   AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) =>
       _cache.fetchEither(() async {

@@ -3,7 +3,10 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../ui/switch.dart';
 
-final cpSwitch = Story(name: 'CpSwitch', builder: (context) => const SafeArea(child: _Content()));
+final cpSwitch = Story(
+  name: 'CpSwitch',
+  builder: (context) => const SafeArea(child: _Content()),
+);
 
 class _Content extends StatefulWidget {
   const _Content();

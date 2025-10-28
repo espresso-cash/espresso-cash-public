@@ -48,51 +48,50 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
   @override
   Widget build(BuildContext context) => BlocBuilder<SignInBloc, SignInState>(
     bloc: widget.bloc,
-    builder:
-        (context, state) => CpLoader(
-          isLoading: state.processingState.isProcessing,
-          child: CpTheme.black(
-            child: Scaffold(
-              body: OnboardingScreen(
-                footer: OnboardingFooterButton(
-                  text: context.l10n.next,
-                  onPressed: _mnemonicIsValid ? _restoreAccount : null,
-                ),
-                children: [
-                  const CpAppBar(),
-                  const OnboardingLogo(),
-                  OnboardingTitle(text: context.l10n.enterYourSecretWords),
-                  OnboardingDescription(text: context.l10n.toRestoreYourAccount),
-                  OnboardingPadding(
-                    child: TextField(
-                      key: keyRecoverMnemonic,
-                      controller: _controller,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.all(24),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          borderSide: BorderSide.none,
-                        ),
-                        fillColor: Colors.black,
-                        filled: true,
-                      ),
-                      inputFormatters: [MnemonicInputFormatter()],
-                      textCapitalization: TextCapitalization.none,
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      textInputAction: TextInputAction.done,
-                      keyboardType: TextInputType.visiblePassword,
-                      spellCheckConfiguration: const SpellCheckConfiguration.disabled(),
-                      style: twelveWordsTextStyle,
-                      maxLines: 3,
-                      minLines: 3,
-                    ),
-                  ),
-                ],
-              ),
+    builder: (context, state) => CpLoader(
+      isLoading: state.processingState.isProcessing,
+      child: CpTheme.black(
+        child: Scaffold(
+          body: OnboardingScreen(
+            footer: OnboardingFooterButton(
+              text: context.l10n.next,
+              onPressed: _mnemonicIsValid ? _restoreAccount : null,
             ),
+            children: [
+              const CpAppBar(),
+              const OnboardingLogo(),
+              OnboardingTitle(text: context.l10n.enterYourSecretWords),
+              OnboardingDescription(text: context.l10n.toRestoreYourAccount),
+              OnboardingPadding(
+                child: TextField(
+                  key: keyRecoverMnemonic,
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(24),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      borderSide: BorderSide.none,
+                    ),
+                    fillColor: Colors.black,
+                    filled: true,
+                  ),
+                  inputFormatters: [MnemonicInputFormatter()],
+                  textCapitalization: TextCapitalization.none,
+                  autocorrect: false,
+                  enableSuggestions: false,
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.visiblePassword,
+                  spellCheckConfiguration: const SpellCheckConfiguration.disabled(),
+                  style: twelveWordsTextStyle,
+                  maxLines: 3,
+                  minLines: 3,
+                ),
+              ),
+            ],
           ),
         ),
+      ),
+    ),
   );
 }
 

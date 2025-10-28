@@ -94,12 +94,11 @@ class _CpSliderState extends State<CpSlider> with SingleTickerProviderStateMixin
                 _Background(text: widget.text, enabled: enabled),
                 AnimatedBuilder(
                   animation: _positionNotifier,
-                  builder:
-                      (context, child) => Positioned(
-                        left: _exposedBarPosition(_positionNotifier.value),
-                        // ignore: avoid-non-null-assertion, child is declared below
-                        child: child!,
-                      ),
+                  builder: (context, child) => Positioned(
+                    left: _exposedBarPosition(_positionNotifier.value),
+                    // ignore: avoid-non-null-assertion, child is declared below
+                    child: child!,
+                  ),
                   child: AbsorbPointer(
                     absorbing: !enabled,
                     child: GestureDetector(

@@ -74,14 +74,13 @@ extension BuildContextExt on BuildContext {
 
         controller.addJavaScriptHandler(
           handlerName: 'init',
-          callback:
-              (args) => {
-                'publicKey': address,
-                'email': profile.email,
-                'cluster': isProd ? 'mainnet' : 'staging',
-                'rpcUrl': solanaRpcUrl,
-                'token': Token.usdc.address,
-              },
+          callback: (args) => {
+            'publicKey': address,
+            'email': profile.email,
+            'cluster': isProd ? 'mainnet' : 'staging',
+            'rpcUrl': solanaRpcUrl,
+            'token': Token.usdc.address,
+          },
         );
 
         hasLoaded = true;
@@ -161,8 +160,11 @@ extension BuildContextExt on BuildContext {
   Uri _buildKycUrl({required String address, required String email}) {
     final baseUrl = Uri.parse(coinflowKycUrl);
 
-    final coinflowDeepLinkUrl =
-        Uri(scheme: espressoCashLinkProtocol, host: '', path: 'coinflow').toString();
+    final coinflowDeepLinkUrl = Uri(
+      scheme: espressoCashLinkProtocol,
+      host: '',
+      path: 'coinflow',
+    ).toString();
 
     return baseUrl.replace(
       queryParameters: {

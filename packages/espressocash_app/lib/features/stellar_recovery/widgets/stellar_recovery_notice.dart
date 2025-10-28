@@ -41,24 +41,23 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      _isVisible
-          ? ListenableBuilder(
-            listenable: sl<StellarRecoveryService>(),
-            builder: (context, child) {
-              Widget notice(Widget child) =>
-                  _RecoveryNoticeContent(onClosePressed: _handleHideNoticePressed, child: child);
+  Widget build(BuildContext context) => _isVisible
+      ? ListenableBuilder(
+          listenable: sl<StellarRecoveryService>(),
+          builder: (context, child) {
+            Widget notice(Widget child) =>
+                _RecoveryNoticeContent(onClosePressed: _handleHideNoticePressed, child: child);
 
-              return switch (sl<StellarRecoveryService>().value) {
-                RecoveryNone() || RecoveryDismissed() => const SizedBox.shrink(),
-                RecoveryPending() => notice(_Pending(onRecoverPressed: _handleRecoverPressed)),
-                RecoveryProcessing() => notice(const _Processing()),
-                RecoveryCompleted(:final amount) => notice(_Completed(amount: amount)),
-                RecoveryFailed() => notice(_Failed(onRecoverPressed: _handleRecoverPressed)),
-              };
-            },
-          )
-          : const SizedBox.shrink();
+            return switch (sl<StellarRecoveryService>().value) {
+              RecoveryNone() || RecoveryDismissed() => const SizedBox.shrink(),
+              RecoveryPending() => notice(_Pending(onRecoverPressed: _handleRecoverPressed)),
+              RecoveryProcessing() => notice(const _Processing()),
+              RecoveryCompleted(:final amount) => notice(_Completed(amount: amount)),
+              RecoveryFailed() => notice(_Failed(onRecoverPressed: _handleRecoverPressed)),
+            };
+          },
+        )
+      : const SizedBox.shrink();
 }
 
 class _Pending extends StatelessWidget {

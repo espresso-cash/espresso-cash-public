@@ -20,8 +20,9 @@ class AccountRepository {
 
   Future<String?> loadAuthToken() => _storage.read(key: authTokenKey);
 
-  Future<void> saveAccountSource(AccountSource source) =>
-      source.when(local: (it) => _storage.write(key: mnemonicKey, value: it.phrase));
+  Future<void> saveAccountSource(AccountSource source) => source.when(
+    local: (it) => _storage.write(key: mnemonicKey, value: it.phrase),
+  );
 
   /// Loads existing account if wallet data exists in [FlutterSecureStorage].
   Future<MyAccount?> loadAccount() async {

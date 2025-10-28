@@ -42,19 +42,19 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
       return (data == null)
           ? SizedBox.shrink(key: ValueKey(widget.id))
           : CpActivityTile(
-            key: ValueKey(widget.id),
-            title: context.l10n.paymentRequestTitle,
-            icon: Assets.icons.paymentIcon.svg(),
-            timestamp: context.formatDate(data.$1.created),
-            incomingAmount: data.$2,
-            status: switch (data.$1.state) {
-              PaymentRequestState.initial => CpActivityTileStatus.inProgress,
-              PaymentRequestState.completed => CpActivityTileStatus.success,
-              PaymentRequestState.error => CpActivityTileStatus.failure,
-            },
-            onTap: () => PaymentRequestScreen.push(context, id: data.$1.id),
-            showIcon: widget.showIcon,
-          );
+              key: ValueKey(widget.id),
+              title: context.l10n.paymentRequestTitle,
+              icon: Assets.icons.paymentIcon.svg(),
+              timestamp: context.formatDate(data.$1.created),
+              incomingAmount: data.$2,
+              status: switch (data.$1.state) {
+                PaymentRequestState.initial => CpActivityTileStatus.inProgress,
+                PaymentRequestState.completed => CpActivityTileStatus.success,
+                PaymentRequestState.error => CpActivityTileStatus.failure,
+              },
+              onTap: () => PaymentRequestScreen.push(context, id: data.$1.id),
+              showIcon: widget.showIcon,
+            );
     },
   );
 }

@@ -37,14 +37,13 @@ class ODPConfirmationScreen extends StatefulWidget {
     required bool isEnabled,
   }) => Navigator.of(context).push(
     MaterialPageRoute(
-      builder:
-          (context) => ODPConfirmationScreen(
-            initialAmount: initialAmount,
-            recipient: recipient,
-            label: label,
-            token: token,
-            isEnabled: isEnabled,
-          ),
+      builder: (context) => ODPConfirmationScreen(
+        initialAmount: initialAmount,
+        recipient: recipient,
+        label: label,
+        token: token,
+        isEnabled: isEnabled,
+      ),
     ),
   );
 
@@ -125,11 +124,9 @@ class _ScreenState extends State<ODPConfirmationScreen> {
               const SizedBox(height: 16),
               Expanded(
                 child: LayoutBuilder(
-                  builder:
-                      (context, constraints) =>
-                          widget.isEnabled
-                              ? AmountKeypad(controller: _amountController, maxDecimals: 2)
-                              : SizedBox(height: constraints.maxHeight),
+                  builder: (context, constraints) => widget.isEnabled
+                      ? AmountKeypad(controller: _amountController, maxDecimals: 2)
+                      : SizedBox(height: constraints.maxHeight),
                 ),
               ),
               const SizedBox(height: 16),

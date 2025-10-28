@@ -62,10 +62,9 @@ class TokenRepository {
   }
 
   Future<Token?> getToken(String address) {
-    final query =
-        _db.select(_db.tokenRows)
-          ..where((token) => token.address.equals(address))
-          ..limit(1);
+    final query = _db.select(_db.tokenRows)
+      ..where((token) => token.address.equals(address))
+      ..limit(1);
 
     return query.getSingleOrNull().letAsync((token) => token?.toModel());
   }
@@ -81,11 +80,12 @@ class TokenRepository {
 
     final primaryMatches =
         await (_db.select(_db.tokenRows)..where(
-          (token) =>
-              token.symbol.lower().equals(searchQuery) |
-              token.symbol.lower().like(startsWithPattern) |
-              token.name.lower().like(startsWithPattern),
-        )).get();
+              (token) =>
+                  token.symbol.lower().equals(searchQuery) |
+                  token.symbol.lower().like(startsWithPattern) |
+                  token.name.lower().like(startsWithPattern),
+            ))
+            .get();
 
     if (primaryMatches.isNotEmpty) {
       final result = <Token>[];
@@ -99,9 +99,11 @@ class TokenRepository {
 
     final secondaryMatches =
         await (_db.select(_db.tokenRows)..where(
-          (token) =>
-              token.symbol.lower().like(containsPattern) | token.name.lower().like(containsPattern),
-        )).get();
+              (token) =>
+                  token.symbol.lower().like(containsPattern) |
+                  token.name.lower().like(containsPattern),
+            ))
+            .get();
 
     final result = <Token>[];
     for (final token in secondaryMatches) {
@@ -115,9 +117,9 @@ class TokenRepository {
   Future<List<Token>> fetchBySymbols(List<String> symbols) async {
     if (symbols.isEmpty) return [];
 
-    final tokens =
-        await (_db.select(_db.tokenRows)
-          ..where((t) => t.symbol.lower().isIn(symbols.map((s) => s.toLowerCase())))).get();
+    final tokens = await (_db.select(
+      _db.tokenRows,
+    )..where((t) => t.symbol.lower().isIn(symbols.map((s) => s.toLowerCase())))).get();
 
     final symbolToToken = {for (final token in tokens) token.symbol.toLowerCase(): token.toModel()};
 

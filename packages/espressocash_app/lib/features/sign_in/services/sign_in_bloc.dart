@@ -58,12 +58,11 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       final wallet = await state.source.when(local: (it) => createLocalWallet(mnemonic: it.phrase));
 
       final accessMode = state.source.when(
-        local:
-            (it) => it.when(
-              typed: always(const AccessMode.seedInputted()),
-              generated: always(const AccessMode.created()),
-              empty: () => throw StateError('Seed is empty during submission.'),
-            ),
+        local: (it) => it.when(
+          typed: always(const AccessMode.seedInputted()),
+          generated: always(const AccessMode.created()),
+          empty: () => throw StateError('Seed is empty during submission.'),
+        ),
       );
 
       final myAccount = MyAccount(wallet: wallet, accessMode: accessMode);

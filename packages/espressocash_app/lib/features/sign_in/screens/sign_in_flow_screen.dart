@@ -53,25 +53,23 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
   @override
   Widget build(BuildContext context) => BlocConsumer<SignInBloc, SignInState>(
     bloc: _bloc,
-    listener:
-        (context, state) => switch (state.processingState) {
-          FlowFailure(:final error) => error.when(
-            seedVaultActionCanceled: ignore,
-            generic: (e) => showErrorDialog(context, 'Error', e),
-          ),
-          FlowSuccess(:final result) => runWithLoader(
-            context,
-            () => sl<AccountService>().logIn(source: state.source, account: result),
-          ),
-          _ => null,
-        },
-    builder:
-        (context, state) => CpLoader(
-          isLoading: state.processingState.isProcessing,
-          child: GetStartedScreen(
-            onSignInPressed: _handleSignInPressed,
-            onLocalPressed: _handleCreateLocalPressed,
-          ),
-        ),
+    listener: (context, state) => switch (state.processingState) {
+      FlowFailure(:final error) => error.when(
+        seedVaultActionCanceled: ignore,
+        generic: (e) => showErrorDialog(context, 'Error', e),
+      ),
+      FlowSuccess(:final result) => runWithLoader(
+        context,
+        () => sl<AccountService>().logIn(source: state.source, account: result),
+      ),
+      _ => null,
+    },
+    builder: (context, state) => CpLoader(
+      isLoading: state.processingState.isProcessing,
+      child: GetStartedScreen(
+        onSignInPressed: _handleSignInPressed,
+        onLocalPressed: _handleCreateLocalPressed,
+      ),
+    ),
   );
 }

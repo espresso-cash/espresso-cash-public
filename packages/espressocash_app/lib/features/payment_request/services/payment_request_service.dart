@@ -77,11 +77,10 @@ class PaymentRequestService implements Disposable {
       return const Stream<void>.empty().listen(null);
     }
 
-    Stream<TransactionId> solanaPayTransaction() =>
-        _solanaClient
-            .findSolanaPayTransaction(reference: reference, commitment: Commitment.confirmed)
-            .asStream()
-            .whereType<TransactionId>();
+    Stream<TransactionId> solanaPayTransaction() => _solanaClient
+        .findSolanaPayTransaction(reference: reference, commitment: Commitment.confirmed)
+        .asStream()
+        .whereType<TransactionId>();
 
     return Stream<void>.periodic(interval)
         .flatMap((a) => solanaPayTransaction())

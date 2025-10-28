@@ -26,8 +26,8 @@ class TRConfirmationScreen extends StatelessWidget {
     String? message,
   }) => Navigator.of(context).push<bool>(
     MaterialPageRoute(
-      builder:
-          (context) => TRConfirmationScreen(request: request, amount: amount, message: message),
+      builder: (context) =>
+          TRConfirmationScreen(request: request, amount: amount, message: message),
     ),
   );
 

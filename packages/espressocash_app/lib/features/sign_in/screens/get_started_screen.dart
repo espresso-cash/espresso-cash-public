@@ -44,57 +44,54 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   @override
   Widget build(BuildContext context) => FutureBuilder(
     future: _imagesCache,
-    builder:
-        (context, snapshot) =>
-            snapshot.connectionState == ConnectionState.done
-                ? CpTheme.dark(
-                  child: Scaffold(
-                    backgroundColor: CpColors.lightSandColor,
-                    body: Stack(
-                      children: [
-                        Center(
-                          child: Assets.images.dollarBg.image(
-                            fit: BoxFit.fitHeight,
-                            height: double.infinity,
-                          ),
-                        ),
-                        SafeArea(
-                          minimum: EdgeInsets.only(top: 70.h),
-                          child: LayoutBuilder(
-                            builder:
-                                (context, constraints) => SingleChildScrollView(
-                                  child: ConstrainedBox(
-                                    constraints: constraints.copyWith(
-                                      minHeight: constraints.maxHeight,
-                                      maxHeight: double.infinity,
-                                    ),
-                                    child: IntrinsicHeight(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          const Expanded(child: Center(child: SplashLogo())),
-                                          Column(
-                                            children: [
-                                              const _Body(),
-                                              24.verticalSpace,
-                                              _Footer(
-                                                onSignInPressed: widget.onSignInPressed,
-                                                onLocalPressed: widget.onLocalPressed,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                          ),
-                        ),
-                      ],
+    builder: (context, snapshot) => snapshot.connectionState == ConnectionState.done
+        ? CpTheme.dark(
+            child: Scaffold(
+              backgroundColor: CpColors.lightSandColor,
+              body: Stack(
+                children: [
+                  Center(
+                    child: Assets.images.dollarBg.image(
+                      fit: BoxFit.fitHeight,
+                      height: double.infinity,
                     ),
                   ),
-                )
-                : const SplashScreen(),
+                  SafeArea(
+                    minimum: EdgeInsets.only(top: 70.h),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) => SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: constraints.copyWith(
+                            minHeight: constraints.maxHeight,
+                            maxHeight: double.infinity,
+                          ),
+                          child: IntrinsicHeight(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                const Expanded(child: Center(child: SplashLogo())),
+                                Column(
+                                  children: [
+                                    const _Body(),
+                                    24.verticalSpace,
+                                    _Footer(
+                                      onSignInPressed: widget.onSignInPressed,
+                                      onLocalPressed: widget.onLocalPressed,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        : const SplashScreen(),
   );
 }
 
@@ -128,7 +125,10 @@ class _Footer extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
         ),
         67.verticalSpace,
-        Padding(padding: EdgeInsets.symmetric(horizontal: 19.w), child: const TermsDisclaimer()),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 19.w),
+          child: const TermsDisclaimer(),
+        ),
         SizedBox(height: 12.h),
       ],
     ),
@@ -155,39 +155,37 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: sl<DynamicLinksNotifier>(),
-    builder:
-        (context, _) => Padding(
-          padding: EdgeInsets.only(left: 30.w, right: 40.w),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children:
-                sl<DynamicLinksNotifier>().link.let(_parseUri)
-                    ? [
-                      Text(
-                        context.l10n.onboardingWithPaymentTitle.toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 46.sp,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.25,
-                        ),
-                      ),
-                      Text(
-                        context.l10n.onboardingWithPaymentSubtitle.toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.25,
-                        ),
-                      ),
-                    ]
-                    : [
-                      Text(
-                        context.l10n.onboardingIntro.toUpperCase(),
-                        style: TextStyle(fontWeight: FontWeight.w900, fontSize: 46.sp, height: 0.9),
-                      ),
-                    ],
-          ),
-        ),
+    builder: (context, _) => Padding(
+      padding: EdgeInsets.only(left: 30.w, right: 40.w),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: sl<DynamicLinksNotifier>().link.let(_parseUri)
+            ? [
+                Text(
+                  context.l10n.onboardingWithPaymentTitle.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 46.sp,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0.25,
+                  ),
+                ),
+                Text(
+                  context.l10n.onboardingWithPaymentSubtitle.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0.25,
+                  ),
+                ),
+              ]
+            : [
+                Text(
+                  context.l10n.onboardingIntro.toUpperCase(),
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 46.sp, height: 0.9),
+                ),
+              ],
+      ),
+    ),
   );
 }
 

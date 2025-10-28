@@ -72,16 +72,15 @@ class _ShimmerEffectState extends State<_ShimmerEffect> with SingleTickerProvide
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
     animation: _controller,
-    builder:
-        (context, child) => Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: const [Color(0xFF2A2A2A), Color(0xFF3A3A3A)],
-              stops: const [0.0, 1.0],
-              begin: Alignment(-1.0 + (2 * _controller.value), 0.0),
-              end: Alignment(1.0 + (2 * _controller.value), 0.0),
-            ),
-          ),
+    builder: (context, child) => Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: const [Color(0xFF2A2A2A), Color(0xFF3A3A3A)],
+          stops: const [0.0, 1.0],
+          begin: Alignment(-1.0 + (2 * _controller.value), 0.0),
+          end: Alignment(1.0 + (2 * _controller.value), 0.0),
         ),
+      ),
+    ),
   );
 }

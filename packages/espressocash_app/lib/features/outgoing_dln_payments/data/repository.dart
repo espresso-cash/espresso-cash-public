@@ -36,13 +36,14 @@ class OutgoingDlnPaymentRepository implements Disposable {
   }
 
   Future<IList<String>> getAllPending() async {
-    final query = _db.select(_db.outgoingDlnPaymentRows)..where(
-      (p) => p.status.isNotInValues([
-        ODLNPaymentStatusDto.fulfilled,
-        ODLNPaymentStatusDto.txFailure,
-        ODLNPaymentStatusDto.unfulfilled,
-      ]),
-    );
+    final query = _db.select(_db.outgoingDlnPaymentRows)
+      ..where(
+        (p) => p.status.isNotInValues([
+          ODLNPaymentStatusDto.fulfilled,
+          ODLNPaymentStatusDto.txFailure,
+          ODLNPaymentStatusDto.unfulfilled,
+        ]),
+      );
 
     final rows = await query.get();
 

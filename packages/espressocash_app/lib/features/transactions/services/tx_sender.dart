@@ -20,12 +20,11 @@ class TxSender {
     Future<TxSendResult> checkSubmittedTx(String txId) => _client.rpcClient
         .getSignatureStatuses([txId], searchTransactionHistory: true)
         .then(
-          (statuses) =>
-              statuses.value.first == null
-                  ? (statuses.context.slot >= minContextSlot
-                      ? const TxSendResult.invalidBlockhash()
-                      : const TxSendResult.networkError())
-                  : const TxSendResult.sent(),
+          (statuses) => statuses.value.first == null
+              ? (statuses.context.slot >= minContextSlot
+                    ? const TxSendResult.invalidBlockhash()
+                    : const TxSendResult.networkError())
+              : const TxSendResult.sent(),
           onError: (_) => const TxSendResult.networkError(),
         );
 

@@ -20,8 +20,9 @@ Future<void> main() async {
 
   test('Sends tx', () async {
     final message = Message.only(MemoInstruction(signers: [sender.publicKey], memo: 'Sends tx'));
-    final latestBlockhash =
-        await client.rpcClient.getLatestBlockhash(commitment: Commitment.confirmed).value;
+    final latestBlockhash = await client.rpcClient
+        .getLatestBlockhash(commitment: Commitment.confirmed)
+        .value;
     final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     final result = await service.send(tx, minContextSlot: BigInt.zero);
@@ -47,8 +48,9 @@ Future<void> main() async {
 
   test('Duplicate', () async {
     final message = Message.only(MemoInstruction(signers: [sender.publicKey], memo: 'Duplicate'));
-    final latestBlockhash =
-        await client.rpcClient.getLatestBlockhash(commitment: Commitment.confirmed).value;
+    final latestBlockhash = await client.rpcClient
+        .getLatestBlockhash(commitment: Commitment.confirmed)
+        .value;
     final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     await service.send(tx, minContextSlot: BigInt.zero);
@@ -77,8 +79,9 @@ Future<void> main() async {
     final message = Message.only(
       MemoInstruction(signers: [sender.publicKey], memo: 'Wait for confirmation'),
     );
-    final latestBlockhash =
-        await client.rpcClient.getLatestBlockhash(commitment: Commitment.confirmed).value;
+    final latestBlockhash = await client.rpcClient
+        .getLatestBlockhash(commitment: Commitment.confirmed)
+        .value;
     final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     await service.send(tx, minContextSlot: BigInt.zero);
@@ -94,8 +97,9 @@ Future<void> main() async {
         memo: 'Wait for confirmation if already confirmed',
       ),
     );
-    final latestBlockhash =
-        await client.rpcClient.getLatestBlockhash(commitment: Commitment.confirmed).value;
+    final latestBlockhash = await client.rpcClient
+        .getLatestBlockhash(commitment: Commitment.confirmed)
+        .value;
     final tx = await signTransaction(latestBlockhash, message, [sender]);
 
     await service.send(tx, minContextSlot: BigInt.zero);
