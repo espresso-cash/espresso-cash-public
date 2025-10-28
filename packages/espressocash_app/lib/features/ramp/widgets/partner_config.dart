@@ -19,15 +19,6 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
     partners.add(RampPartner.kado);
   }
 
-  final isBrijPartnerEnabled =
-      sl<FeatureFlagsManager>().isBrijEnabled() && sl<FeatureFlagsManager>().isBrijDemoEnabled();
-
-  if (isBrijPartnerEnabled && _brijCountries.contains(countryCode)) {
-    partners.add(RampPartner.brij);
-  }
-
-  partners.add(RampPartner.rampNetwork);
-
   if (_guardarianCountries.contains(countryCode)) {
     partners.add(RampPartner.guardarian);
   }
@@ -50,13 +41,6 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
 
   if (_coinflowCountries.contains(countryCode)) {
     partners.add(RampPartner.coinflow);
-  }
-
-  final isBrijPartnerEnabled =
-      sl<FeatureFlagsManager>().isBrijEnabled() && sl<FeatureFlagsManager>().isBrijDemoEnabled();
-
-  if (isBrijPartnerEnabled && _brijCountries.contains(countryCode)) {
-    partners.add(RampPartner.brij);
   }
 
   partners.add(RampPartner.brijRedirect);
@@ -101,5 +85,3 @@ const _moneygramOffRampCountries = {
   'TL', 'TG', 'TO', 'TT', 'TC', 'TV', 'UG', 'UA', 'AE', 'GB', 'US', 'UY', //
   'UZ', 'VU', 'VE', 'VN', 'VG', 'VI', 'ZM',
 };
-
-const _brijCountries = {'NG', 'ES'};

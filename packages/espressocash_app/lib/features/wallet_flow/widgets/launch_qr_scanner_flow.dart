@@ -71,10 +71,9 @@ extension BuildContextExt on BuildContext {
             ratesRepository: sl<ConversionRatesRepository>(),
           ) ??
           defaultFiatAmount;
-      final formatted =
-          initialAmount.value == 0
-              ? ''
-              : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
+      final formatted = initialAmount.value == 0
+          ? ''
+          : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
 
       if (request is QrScannerSolanaPayRequest) {
         final isPaid = await isSolanaPayRequestPaid(request: request.request);

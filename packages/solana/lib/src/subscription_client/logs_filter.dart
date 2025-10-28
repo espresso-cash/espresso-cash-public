@@ -1,12 +1,13 @@
+// @dart=3.9
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'logs_filter.freezed.dart';
 
 @freezed
-class LogsFilter with _$LogsFilter {
-  const factory LogsFilter.all() = _LogsFilterAll;
+sealed class LogsFilter with _$LogsFilter {
+  const factory LogsFilter.all() = LogsFilterAll;
 
-  const factory LogsFilter.allWithVotes() = _LosgFilterAllWithVotes;
+  const factory LogsFilter.allWithVotes() = LosgFilterAllWithVotes;
 
-  const factory LogsFilter.mentions(List<String> pubKeys) = _LogsFilterMentions;
+  const factory LogsFilter.mentions(List<String> pubKeys) = LogsFilterMentions;
 }

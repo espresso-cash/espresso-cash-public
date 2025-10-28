@@ -4,7 +4,7 @@ import 'package:solana/solana.dart';
 part 'escrow_private_key.freezed.dart';
 
 @freezed
-class EscrowPrivateKey with _$EscrowPrivateKey {
+abstract class EscrowPrivateKey with _$EscrowPrivateKey {
   factory EscrowPrivateKey(List<int> bytes) = _EscrowPrivateKey;
 
   EscrowPrivateKey._();
@@ -15,6 +15,7 @@ class EscrowPrivateKey with _$EscrowPrivateKey {
     return EscrowPrivateKey(data.bytes);
   }
 
+  @override
   late final Future<Ed25519HDKeyPair> keyPair = Ed25519HDKeyPair.fromPrivateKeyBytes(
     privateKey: bytes,
   );

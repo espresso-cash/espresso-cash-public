@@ -38,24 +38,23 @@ class _GridPhraseState extends State<GridPhrase> {
     builder: (context, constraints) {
       const double spacing = 12;
       const int columns = 3;
-      final itemWidth =
-          ((constraints.maxWidth - (columns - 1) * spacing) / columns).floorToDouble();
+      final itemWidth = ((constraints.maxWidth - (columns - 1) * spacing) / columns)
+          .floorToDouble();
 
       return Wrap(
         alignment: WrapAlignment.spaceBetween,
         spacing: spacing,
-        children:
-            _options.mapIndexed((int position, String word) {
-              final bool selected = _data.containsKey(position);
+        children: _options.mapIndexed((int position, String word) {
+          final bool selected = _data.containsKey(position);
 
-              return CpButton(
-                width: itemWidth,
-                size: CpButtonSize.micro,
-                onPressed: () => _handlePressed(position, word),
-                variant: selected ? CpButtonVariant.dark : CpButtonVariant.black,
-                text: word,
-              );
-            }).toList(),
+          return CpButton(
+            width: itemWidth,
+            size: CpButtonSize.micro,
+            onPressed: () => _handlePressed(position, word),
+            variant: selected ? CpButtonVariant.dark : CpButtonVariant.black,
+            text: word,
+          );
+        }).toList(),
       );
     },
   );

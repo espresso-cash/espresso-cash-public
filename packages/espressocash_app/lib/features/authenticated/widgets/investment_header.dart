@@ -157,14 +157,13 @@ class _HeaderSwitcherState extends State<_HeaderSwitcher> {
         duration: const Duration(milliseconds: 100),
         switchInCurve: Curves.easeInOut,
         switchOutCurve: Curves.easeInOut,
-        child:
-            !widget.showMore
-                ? widget.first
-                : SizedBox(
-                  key: const ValueKey('second'),
-                  height: _firstChildHeight,
-                  child: widget.second,
-                ),
+        child: !widget.showMore
+            ? widget.first
+            : SizedBox(
+                key: const ValueKey('second'),
+                height: _firstChildHeight,
+                child: widget.second,
+              ),
       );
     },
   );

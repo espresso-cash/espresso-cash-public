@@ -53,10 +53,9 @@ class FadeGradient extends StatelessWidget {
         gradient: LinearGradient(
           begin: direction.begin,
           end: direction.end,
-          colors:
-              color == FadeGradientColor.white
-                  ? [Colors.white, Colors.white.withOpacity(0)]
-                  : [CpColors.deepGreyColor, CpColors.deepGreyColor.withOpacity(0)],
+          colors: color == FadeGradientColor.white
+              ? [Colors.white, Colors.white.withOpacity(0)]
+              : [CpColors.deepGreyColor, CpColors.deepGreyColor.withOpacity(0)],
         ),
       ),
     ),

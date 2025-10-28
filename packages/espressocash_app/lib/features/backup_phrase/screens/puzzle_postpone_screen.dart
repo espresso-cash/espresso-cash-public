@@ -95,18 +95,16 @@ class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
                   });
                 },
                 value: _duration,
-                selectedItemBuilder:
-                    (context) =>
-                        _dropdownItems
-                            .map(
-                              (e) => Center(
-                                child: Text(
-                                  context.l10n.setReminder(_textDuration),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            )
-                            .toList(),
+                selectedItemBuilder: (context) => _dropdownItems
+                    .map(
+                      (e) => Center(
+                        child: Text(
+                          context.l10n.setReminder(_textDuration),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
             ),
           ),

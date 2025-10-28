@@ -1,3 +1,5 @@
+// @dart=3.9
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/curve25519/edwards_point.dart';
 import 'package:solana/src/curve25519/extensions.dart';

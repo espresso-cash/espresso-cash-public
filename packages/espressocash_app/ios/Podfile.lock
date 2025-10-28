@@ -1,52 +1,52 @@
 PODS:
-  - app_links (0.0.2):
+  - app_links (6.4.1):
     - Flutter
   - camera_avfoundation (0.0.1):
     - Flutter
   - face_camera (0.0.1):
     - Flutter
-  - Firebase/CoreOnly (11.7.0):
-    - FirebaseCore (~> 11.7.0)
-  - Firebase/Installations (11.7.0):
+  - Firebase/CoreOnly (12.4.0):
+    - FirebaseCore (~> 12.4.0)
+  - Firebase/Installations (12.4.0):
     - Firebase/CoreOnly
-    - FirebaseInstallations (~> 11.7.0)
-  - Firebase/RemoteConfig (11.7.0):
+    - FirebaseInstallations (~> 12.4.0)
+  - Firebase/RemoteConfig (12.4.0):
     - Firebase/CoreOnly
-    - FirebaseRemoteConfig (~> 11.7.0)
-  - firebase_app_installations (0.3.2-2):
-    - Firebase/Installations (= 11.7.0)
+    - FirebaseRemoteConfig (~> 12.4.0)
+  - firebase_app_installations (0.4.0-3):
+    - Firebase/Installations (= 12.4.0)
     - firebase_core
     - Flutter
-  - firebase_core (3.11.0):
-    - Firebase/CoreOnly (= 11.7.0)
+  - firebase_core (4.2.0):
+    - Firebase/CoreOnly (= 12.4.0)
     - Flutter
-  - firebase_remote_config (5.4.0):
-    - Firebase/RemoteConfig (= 11.7.0)
+  - firebase_remote_config (6.1.0):
+    - Firebase/RemoteConfig (= 12.4.0)
     - firebase_core
     - Flutter
-  - FirebaseABTesting (11.7.0):
-    - FirebaseCore (~> 11.7.0)
-  - FirebaseCore (11.7.0):
-    - FirebaseCoreInternal (~> 11.7.0)
-    - GoogleUtilities/Environment (~> 8.0)
-    - GoogleUtilities/Logger (~> 8.0)
-  - FirebaseCoreInternal (11.7.0):
-    - "GoogleUtilities/NSData+zlib (~> 8.0)"
-  - FirebaseInstallations (11.7.0):
-    - FirebaseCore (~> 11.7.0)
-    - GoogleUtilities/Environment (~> 8.0)
-    - GoogleUtilities/UserDefaults (~> 8.0)
+  - FirebaseABTesting (12.4.0):
+    - FirebaseCore (~> 12.4.0)
+  - FirebaseCore (12.4.0):
+    - FirebaseCoreInternal (~> 12.4.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/Logger (~> 8.1)
+  - FirebaseCoreInternal (12.4.0):
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+  - FirebaseInstallations (12.4.0):
+    - FirebaseCore (~> 12.4.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/UserDefaults (~> 8.1)
     - PromisesObjC (~> 2.4)
-  - FirebaseRemoteConfig (11.7.0):
-    - FirebaseABTesting (~> 11.0)
-    - FirebaseCore (~> 11.7.0)
-    - FirebaseInstallations (~> 11.0)
-    - FirebaseRemoteConfigInterop (~> 11.0)
-    - FirebaseSharedSwift (~> 11.0)
-    - GoogleUtilities/Environment (~> 8.0)
-    - "GoogleUtilities/NSData+zlib (~> 8.0)"
-  - FirebaseRemoteConfigInterop (11.9.0)
-  - FirebaseSharedSwift (11.9.0)
+  - FirebaseRemoteConfig (12.4.0):
+    - FirebaseABTesting (~> 12.4.0)
+    - FirebaseCore (~> 12.4.0)
+    - FirebaseInstallations (~> 12.4.0)
+    - FirebaseRemoteConfigInterop (~> 12.4.0)
+    - FirebaseSharedSwift (~> 12.4.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+  - FirebaseRemoteConfigInterop (12.4.0)
+  - FirebaseSharedSwift (12.4.0)
   - Flutter (1.0.0)
   - flutter_inappwebview_ios (0.0.1):
     - Flutter
@@ -69,9 +69,6 @@ PODS:
   - GoogleDataTransport (10.1.0):
     - nanopb (~> 3.30910.0)
     - PromisesObjC (~> 2.4)
-  - GoogleMLKit/BarcodeScanning (7.0.0):
-    - GoogleMLKit/MLKitCore
-    - MLKitBarcodeScanning (~> 6.0.0)
   - GoogleMLKit/FaceDetection (7.0.0):
     - GoogleMLKit/MLKitCore
     - MLKitFaceDetection (~> 6.0.0)
@@ -82,15 +79,15 @@ PODS:
     - GoogleToolboxForMac/Defines (= 4.2.1)
   - "GoogleToolboxForMac/NSData+zlib (4.2.1)":
     - GoogleToolboxForMac/Defines (= 4.2.1)
-  - GoogleUtilities/Environment (8.0.2):
+  - GoogleUtilities/Environment (8.1.0):
     - GoogleUtilities/Privacy
-  - GoogleUtilities/Logger (8.0.2):
+  - GoogleUtilities/Logger (8.1.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Privacy
-  - "GoogleUtilities/NSData+zlib (8.0.2)":
+  - "GoogleUtilities/NSData+zlib (8.1.0)":
     - GoogleUtilities/Privacy
-  - GoogleUtilities/Privacy (8.0.2)
-  - GoogleUtilities/UserDefaults (8.0.2):
+  - GoogleUtilities/Privacy (8.1.0)
+  - GoogleUtilities/UserDefaults (8.1.0):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - GTMSessionFetcher/Core (3.5.0)
@@ -98,20 +95,17 @@ PODS:
     - Flutter
   - integration_test (0.0.1):
     - Flutter
-  - Intercom (18.6.4)
+  - Intercom (19.3.0)
   - intercom_flutter (9.0.0):
     - Flutter
-    - Intercom (= 18.6.4)
-  - Mixpanel-swift (4.4.0):
-    - Mixpanel-swift/Complete (= 4.4.0)
-  - Mixpanel-swift/Complete (4.4.0)
-  - mixpanel_flutter (2.4.0):
+    - Intercom (= 19.3.0)
+  - Mixpanel-swift (5.1.0):
+    - Mixpanel-swift/Complete (= 5.1.0)
+  - Mixpanel-swift/Complete (5.1.0)
+  - mixpanel_flutter (2.4.4):
     - Flutter
-    - Mixpanel-swift (= 4.4.0)
+    - Mixpanel-swift (= 5.1.0)
   - MLImage (1.0.0-beta6)
-  - MLKitBarcodeScanning (6.0.0):
-    - MLKitCommon (~> 12.0)
-    - MLKitVision (~> 8.0)
   - MLKitCommon (12.0.0):
     - GoogleDataTransport (~> 10.0)
     - GoogleToolboxForMac/Logger (< 5.0, >= 4.2.1)
@@ -128,14 +122,16 @@ PODS:
     - GTMSessionFetcher/Core (< 4.0, >= 3.3.2)
     - MLImage (= 1.0.0-beta6)
     - MLKitCommon (~> 12.0)
-  - mobile_scanner (6.0.2):
+  - mobile_scanner (7.0.0):
     - Flutter
-    - GoogleMLKit/BarcodeScanning (~> 7.0.0)
+    - FlutterMacOS
   - nanopb (3.30910.0):
     - nanopb/decode (= 3.30910.0)
     - nanopb/encode (= 3.30910.0)
   - nanopb/decode (3.30910.0)
   - nanopb/encode (3.30910.0)
+  - objective_c (0.0.1):
+    - Flutter
   - OrderedSet (6.0.3)
   - package_info_plus (0.4.5):
     - Flutter
@@ -146,16 +142,13 @@ PODS:
     - Flutter
   - PromisesObjC (2.4.0)
   - Ramp (4.0.1)
-  - ramp_flutter (1.0.1):
-    - Flutter
-    - Ramp
   - rive_common (0.0.1):
     - Flutter
-  - Sentry/HybridSDK (8.46.0)
-  - sentry_flutter (8.14.2):
+  - Sentry/HybridSDK (8.56.2)
+  - sentry_flutter (9.7.0):
     - Flutter
     - FlutterMacOS
-    - Sentry/HybridSDK (= 8.46.0)
+    - Sentry/HybridSDK (= 8.56.2)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -164,25 +157,31 @@ PODS:
   - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
-  - sqlite3 (3.49.1):
-    - sqlite3/common (= 3.49.1)
-  - sqlite3/common (3.49.1)
-  - sqlite3/dbstatvtab (3.49.1):
+  - sqlite3 (3.50.4):
+    - sqlite3/common (= 3.50.4)
+  - sqlite3/common (3.50.4)
+  - sqlite3/dbstatvtab (3.50.4):
     - sqlite3/common
-  - sqlite3/fts5 (3.49.1):
+  - sqlite3/fts5 (3.50.4):
     - sqlite3/common
-  - sqlite3/perf-threadsafe (3.49.1):
+  - sqlite3/math (3.50.4):
     - sqlite3/common
-  - sqlite3/rtree (3.49.1):
+  - sqlite3/perf-threadsafe (3.50.4):
+    - sqlite3/common
+  - sqlite3/rtree (3.50.4):
+    - sqlite3/common
+  - sqlite3/session (3.50.4):
     - sqlite3/common
   - sqlite3_flutter_libs (0.0.1):
     - Flutter
     - FlutterMacOS
-    - sqlite3 (~> 3.49.0)
+    - sqlite3 (~> 3.50.4)
     - sqlite3/dbstatvtab
     - sqlite3/fts5
+    - sqlite3/math
     - sqlite3/perf-threadsafe
     - sqlite3/rtree
+    - sqlite3/session
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -203,12 +202,12 @@ DEPENDENCIES:
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - intercom_flutter (from `.symlinks/plugins/intercom_flutter/ios`)
   - mixpanel_flutter (from `.symlinks/plugins/mixpanel_flutter/ios`)
-  - mobile_scanner (from `.symlinks/plugins/mobile_scanner/ios`)
+  - mobile_scanner (from `.symlinks/plugins/mobile_scanner/darwin`)
+  - objective_c (from `.symlinks/plugins/objective_c/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - Ramp (from `https://github.com/RampNetwork/ramp-sdk-ios`, tag `4.0.1`)
-  - ramp_flutter (from `.symlinks/plugins/ramp_flutter/ios`)
   - rive_common (from `.symlinks/plugins/rive_common/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
@@ -235,7 +234,6 @@ SPEC REPOS:
     - Intercom
     - Mixpanel-swift
     - MLImage
-    - MLKitBarcodeScanning
     - MLKitCommon
     - MLKitFaceDetection
     - MLKitVision
@@ -279,7 +277,9 @@ EXTERNAL SOURCES:
   mixpanel_flutter:
     :path: ".symlinks/plugins/mixpanel_flutter/ios"
   mobile_scanner:
-    :path: ".symlinks/plugins/mobile_scanner/ios"
+    :path: ".symlinks/plugins/mobile_scanner/darwin"
+  objective_c:
+    :path: ".symlinks/plugins/objective_c/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -289,8 +289,6 @@ EXTERNAL SOURCES:
   Ramp:
     :git: https://github.com/RampNetwork/ramp-sdk-ios
     :tag: 4.0.1
-  ramp_flutter:
-    :path: ".symlinks/plugins/ramp_flutter/ios"
   rive_common:
     :path: ".symlinks/plugins/rive_common/ios"
   sentry_flutter:
@@ -312,61 +310,60 @@ CHECKOUT OPTIONS:
     :tag: 4.0.1
 
 SPEC CHECKSUMS:
-  app_links: f3e17e4ee5e357b39d8b95290a9b2c299fca71c6
-  camera_avfoundation: dd002b0330f4981e1bbcb46ae9b62829237459a4
+  app_links: 585674be3c6661708e6cd794ab4f39fb9d8356f9
+  camera_avfoundation: 281867ff09f1da66f031a184ecfbc6f2e625c9f5
   face_camera: 787c50bc183b37c9b6f9777a1416e5b384b5c234
-  Firebase: a64bf6a8546e6eab54f1c715cd6151f39d2329f4
-  firebase_app_installations: 5104365b0715793fcedf3296504caf55b3a73eeb
-  firebase_core: aa979ae726f00b3ef4ccf59dfb96170af84efbd4
-  firebase_remote_config: 91ee99e3404c50ce0e10afb2acdfb4142f701f70
-  FirebaseABTesting: 08b3e19b28504632a9cd03e7a796b355c5d39b27
-  FirebaseCore: 3227e35f4197a924206fbcdc0349325baf4f5de4
-  FirebaseCoreInternal: d6c17dafc8dc33614733a8b52df78fcb4394c881
-  FirebaseInstallations: 9347e719c3d52d8d7b9074b2c32407dd027305e9
-  FirebaseRemoteConfig: aa1d4cb05ef4caad203448dfc87842de12f1ea8d
-  FirebaseRemoteConfigInterop: 710954a00e956c5fe5144a8e46164f0361389203
-  FirebaseSharedSwift: 574e6a5602afe4397a55c8d4f767382d620285de
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  Firebase: f07b15ae5a6ec0f93713e30b923d9970d144af3e
+  firebase_app_installations: 7abc32fe11eed22ef05967dfda5447b4c2d8e99f
+  firebase_core: 49ffe9d2c7a2659f6e9e8d4a406e966bc084268e
+  firebase_remote_config: 945e5059840ab3088c0254fa03fb81a684d8b50b
+  FirebaseABTesting: c05b5ec9f1d9f21a65909525de301d375032d9a4
+  FirebaseCore: bb595f3114953664e3c1dc032f008a244147cfd3
+  FirebaseCoreInternal: d7f5a043c2cd01a08103ab586587c1468047bca6
+  FirebaseInstallations: ae9f4902cb5bf1d0c5eaa31ec1f4e5495a0714e2
+  FirebaseRemoteConfig: 28e071a214ec66cdb113ed9ff4ce63e9abe018db
+  FirebaseRemoteConfigInterop: 1e31ec72b89c9924367c59bfb5ec9ab60d1d6766
+  FirebaseSharedSwift: 93426a1de92f19e1199fac5295a4f8df16458daa
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_inappwebview_ios: 6f63631e2c62a7c350263b13fa5427aedefe81d4
-  flutter_native_splash: f71420956eb811e6d310720fee915f1d42852e7a
+  flutter_native_splash: df59bb2e1421aa0282cb2e95618af4dcb0c56c29
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   google_mlkit_commons: 384e4e206e122b6dad430d3158205e0b2fac6789
   google_mlkit_face_detection: ff627695d8eba051db7e0f13f7b20d802df1f84c
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleMLKit: eff9e23ec1d90ea4157a1ee2e32a4f610c5b3318
   GoogleToolboxForMac: d1a2cbf009c453f4d6ded37c105e2f67a32206d8
-  GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
+  GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
-  image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
+  image_picker_ios: 4f2f91b01abdb52842a8e277617df877e40f905b
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
-  Intercom: baf5b7c5107289aa4e503130ca5fffca92d5a2ae
-  intercom_flutter: 79ff92772f59368512fb205bb5d67a02012abae2
-  Mixpanel-swift: 478ff46d19de4a251244a9c9a582070d4bb94cf9
-  mixpanel_flutter: c2e55a95a2ae23cf27c065115ecee6226e0e0718
+  Intercom: b76ea04e249eabbf7af17b3c5c909c2edd3f2b48
+  intercom_flutter: 8a329a400328f542a93ed03dffd35c54a077e1b5
+  Mixpanel-swift: 7b26468fc0e2e521104e51d65c4bbf7cab8162f8
+  mixpanel_flutter: c2bb8345c90bef15512a1b812ec800b52f8614b6
   MLImage: 0ad1c5f50edd027672d8b26b0fee78a8b4a0fc56
-  MLKitBarcodeScanning: 0a3064da0a7f49ac24ceb3cb46a5bc67496facd2
   MLKitCommon: 07c2c33ae5640e5380beaaa6e4b9c249a205542d
   MLKitFaceDetection: 2a593db4837db503ad3426b565e7aab045cefea5
   MLKitVision: 45e79d68845a2de77e2dd4d7f07947f0ed157b0e
-  mobile_scanner: fd0054c52ede661e80bf5a4dea477a2467356bee
+  mobile_scanner: 77265f3dc8d580810e91849d4a0811a90467ed5e
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
+  objective_c: 77e887b5ba1827970907e10e832eec1683f3431d
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  path_provider_foundation: 0b743cbb62d8e47eab856f09262bb8c1ddcfe6ba
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   Ramp: 3f843fb75cac12ad40842afa3226bae36dc93521
-  ramp_flutter: aac85dee8bc93b5f7563c909ba15a37727fe3fe8
   rive_common: 4743dbfd2911c99066547a3c6454681e0fa907df
-  Sentry: da60d980b197a46db0b35ea12cb8f39af48d8854
-  sentry_flutter: 2df8b0aab7e4aba81261c230cbea31c82a62dd1b
+  Sentry: b53951377b78e21a734f5dc8318e333dbfc682d7
+  sentry_flutter: b71c80b7a071cc42af82576046ff2db19fc12f57
   share_plus: 8b6f8b3447e494cca5317c8c3073de39b3600d1f
-  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
+  shared_preferences_foundation: 5086985c1d43c5ba4d5e69a4e8083a389e2909e6
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
-  sqlite3: fc1400008a9b3525f5914ed715a5d1af0b8f4983
-  sqlite3_flutter_libs: 069c435986dd4b63461aecd68f4b30be4a9e9daa
-  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
+  sqlite3: 73513155ec6979715d3904ef53a8d68892d4032b
+  sqlite3_flutter_libs: 86f82662868ee26ff3451f73cac9c5fc2a1f57fa
+  url_launcher_ios: bb13df5870e8c4234ca12609d04010a21be43dfa
 
-PODFILE CHECKSUM: 60da2c54a0965affd3e61826f29c5eeb311efd00
+PODFILE CHECKSUM: 45a12dd43c8fc9d80b58d3b019e446b8103fcf84
 
 COCOAPODS: 1.16.2

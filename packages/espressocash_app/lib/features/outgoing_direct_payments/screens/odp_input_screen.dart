@@ -99,14 +99,9 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
                   maxLines: 1,
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
-                trailing:
-                    _showNetworkPicker
-                        ? const Icon(
-                          Icons.keyboard_arrow_down_outlined,
-                          color: Colors.white,
-                          size: 34,
-                        )
-                        : null,
+                trailing: _showNetworkPicker
+                    ? const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white, size: 34)
+                    : null,
               ),
             ),
             const SizedBox(height: 36),
@@ -126,12 +121,11 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
             const Spacer(),
             ListenableBuilder(
               listenable: _walletAddressController,
-              builder:
-                  (context, child) => CpBottomButton(
-                    horizontalPadding: 16,
-                    text: context.l10n.next,
-                    onPressed: _isValid ? _handleSubmitted : null,
-                  ),
+              builder: (context, child) => CpBottomButton(
+                horizontalPadding: 16,
+                text: context.l10n.next,
+                onPressed: _isValid ? _handleSubmitted : null,
+              ),
             ),
           ],
         ),

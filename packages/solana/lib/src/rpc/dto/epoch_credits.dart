@@ -1,3 +1,4 @@
+// @dart=3.9
 class EpochCredits {
   const EpochCredits({required this.epoch, required this.credits, required this.previousCredits});
 

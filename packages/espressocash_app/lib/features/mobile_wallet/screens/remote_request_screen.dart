@@ -48,48 +48,46 @@ class _ContentState extends State<_Content> {
       appBar: CpAppBar(title: Text(context.l10n.mobileWalletTitle)),
       body: BlocConsumer<RemoteRequestBloc, RemoteRequestState>(
         listener: (context, state) => state.whenOrNull(result: (r) => Navigator.pop(context, r)),
-        builder:
-            (context, state) => state.when(
-              loading: always(const Center(child: CircularProgressIndicator())),
-              result: always(const Center(child: CircularProgressIndicator())),
-              requested: (request) {
-                final content = request.when(
-                  authorizeDapp: (it) => _AuthorizeRequestWidget(request: it),
-                  signPayloads: (it) => _SignPayloadsWidget(request: it),
-                  signTransactionsForSending: (it) => _SignAndSendPayloadsWidget(request: it),
-                );
+        builder: (context, state) => state.when(
+          loading: always(const Center(child: CircularProgressIndicator())),
+          result: always(const Center(child: CircularProgressIndicator())),
+          requested: (request) {
+            final content = request.when(
+              authorizeDapp: (it) => _AuthorizeRequestWidget(request: it),
+              signPayloads: (it) => _SignPayloadsWidget(request: it),
+              signTransactionsForSending: (it) => _SignAndSendPayloadsWidget(request: it),
+            );
 
-                final acceptLabel = request.when(
-                  authorizeDapp: always(context.l10n.mobileWalletAcceptAuthorization),
-                  signTransactionsForSending: always(
-                    context.l10n.mobileWalletAcceptSignAndSendPayloads,
-                  ),
-                  signPayloads:
-                      (it) => it.map(
-                        messages: always(context.l10n.mobileWalletAcceptSignMessages),
-                        transactions: always(context.l10n.mobileWalletAcceptSignTransactions),
-                      ),
-                );
+            final acceptLabel = request.when(
+              authorizeDapp: always(context.l10n.mobileWalletAcceptAuthorization),
+              signTransactionsForSending: always(
+                context.l10n.mobileWalletAcceptSignAndSendPayloads,
+              ),
+              signPayloads: (it) => it.map(
+                messages: always(context.l10n.mobileWalletAcceptSignMessages),
+                transactions: always(context.l10n.mobileWalletAcceptSignTransactions),
+              ),
+            );
 
-                return SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        content,
-                        const Spacer(),
-                        _Buttons(
-                          acceptLabel: acceptLabel,
-                          onAccept: _handleAccepted,
-                          onDecline: _handleDeclined,
-                        ),
-                      ],
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    content,
+                    const Spacer(),
+                    _Buttons(
+                      acceptLabel: acceptLabel,
+                      onAccept: _handleAccepted,
+                      onDecline: _handleDeclined,
                     ),
-                  ),
-                );
-              },
-            ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     ),
   );
@@ -161,16 +159,14 @@ class _SignPayloadsWidget extends StatelessWidget {
       const SizedBox(height: 8),
       Text(
         request.map(
-          transactions:
-              (it) => context.l10n.mobileWalletSignTransactionsRequest(
-                it.identityName ?? '',
-                it.payloads.length,
-              ),
-          messages:
-              (it) => context.l10n.mobileWalletSignMessagesRequest(
-                it.identityName ?? '',
-                it.payloads.length,
-              ),
+          transactions: (it) => context.l10n.mobileWalletSignTransactionsRequest(
+            it.identityName ?? '',
+            it.payloads.length,
+          ),
+          messages: (it) => context.l10n.mobileWalletSignMessagesRequest(
+            it.identityName ?? '',
+            it.payloads.length,
+          ),
         ),
       ),
     ],

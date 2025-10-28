@@ -53,11 +53,10 @@ class _$ShortenLinkRequestDtoCopyWithImpl<$Res, $Val extends ShortenLinkRequestD
   $Res call({Object? fullLink = null}) {
     return _then(
       _value.copyWith(
-            fullLink:
-                null == fullLink
-                    ? _value.fullLink
-                    : fullLink // ignore: cast_nullable_to_non_nullable
-                        as String,
+            fullLink: null == fullLink
+                ? _value.fullLink
+                : fullLink // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -92,11 +91,10 @@ class __$$ShortenLinkRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? fullLink = null}) {
     return _then(
       _$ShortenLinkRequestDtoImpl(
-        fullLink:
-            null == fullLink
-                ? _value.fullLink
-                : fullLink // ignore: cast_nullable_to_non_nullable
-                    as String,
+        fullLink: null == fullLink
+            ? _value.fullLink
+            : fullLink // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -188,11 +186,10 @@ class _$ShortenLinkResponseDtoCopyWithImpl<$Res, $Val extends ShortenLinkRespons
   $Res call({Object? shortLink = null}) {
     return _then(
       _value.copyWith(
-            shortLink:
-                null == shortLink
-                    ? _value.shortLink
-                    : shortLink // ignore: cast_nullable_to_non_nullable
-                        as String,
+            shortLink: null == shortLink
+                ? _value.shortLink
+                : shortLink // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -227,11 +224,10 @@ class __$$ShortenLinkResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? shortLink = null}) {
     return _then(
       _$ShortenLinkResponseDtoImpl(
-        shortLink:
-            null == shortLink
-                ? _value.shortLink
-                : shortLink // ignore: cast_nullable_to_non_nullable
-                    as String,
+        shortLink: null == shortLink
+            ? _value.shortLink
+            : shortLink // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -323,11 +319,10 @@ class _$UnshortenLinkRequestDtoCopyWithImpl<$Res, $Val extends UnshortenLinkRequ
   $Res call({Object? shortLink = null}) {
     return _then(
       _value.copyWith(
-            shortLink:
-                null == shortLink
-                    ? _value.shortLink
-                    : shortLink // ignore: cast_nullable_to_non_nullable
-                        as String,
+            shortLink: null == shortLink
+                ? _value.shortLink
+                : shortLink // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -362,11 +357,10 @@ class __$$UnshortenLinkRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? shortLink = null}) {
     return _then(
       _$UnshortenLinkRequestDtoImpl(
-        shortLink:
-            null == shortLink
-                ? _value.shortLink
-                : shortLink // ignore: cast_nullable_to_non_nullable
-                    as String,
+        shortLink: null == shortLink
+            ? _value.shortLink
+            : shortLink // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -458,11 +452,10 @@ class _$UnshortenLinkResponseDtoCopyWithImpl<$Res, $Val extends UnshortenLinkRes
   $Res call({Object? fullLink = null}) {
     return _then(
       _value.copyWith(
-            fullLink:
-                null == fullLink
-                    ? _value.fullLink
-                    : fullLink // ignore: cast_nullable_to_non_nullable
-                        as String,
+            fullLink: null == fullLink
+                ? _value.fullLink
+                : fullLink // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -497,11 +490,10 @@ class __$$UnshortenLinkResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? fullLink = null}) {
     return _then(
       _$UnshortenLinkResponseDtoImpl(
-        fullLink:
-            null == fullLink
-                ? _value.fullLink
-                : fullLink // ignore: cast_nullable_to_non_nullable
-                    as String,
+        fullLink: null == fullLink
+            ? _value.fullLink
+            : fullLink // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }

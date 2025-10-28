@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/rpc/dto/account_data/account_data.dart';
 import 'package:solana/src/rpc/dto/context.dart';
@@ -9,7 +10,7 @@ part 'account.g.dart';
 
 /// An account
 @freezed
-class Account with _$Account {
+abstract class Account with _$Account {
   const factory Account({
     /// Number of lamports assigned to this account, as a u64
     required int lamports,

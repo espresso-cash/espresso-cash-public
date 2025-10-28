@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'dart:async';
 import 'dart:convert';
 
@@ -75,11 +76,11 @@ class SubscriptionClient {
   Stream<Logs> logsSubscribe(LogsFilter filter, {Commitment? commitment}) => _subscribe<Logs>(
     'logs',
     params: <dynamic>[
-      filter.when(
-        all: () => 'all',
-        allWithVotes: () => 'allWithVotes',
-        mentions: (pubKeys) => <String, List<String>>{'mentions': pubKeys},
-      ),
+      switch (filter) {
+        LogsFilterAll() => 'all',
+        LosgFilterAllWithVotes() => 'allWithVotes',
+        LogsFilterMentions(:final pubKeys) => <String, List<String>>{'mentions': pubKeys},
+      },
       if (commitment != null) <String, String>{'commitment': commitment.value},
     ],
   );

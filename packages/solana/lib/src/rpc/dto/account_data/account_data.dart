@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/rpc/dto/account_data/binary_account_data.dart';
 import 'package:solana/src/rpc/dto/account_data/empty_account_data.dart';
 import 'package:solana/src/rpc/dto/account_data/parsed_account_data.dart';
@@ -18,11 +19,9 @@ abstract class AccountData {
     data,
     fromEncoded: AccountData.binary,
     fromParsed: ParsedAccountData.fromJson,
-    onUnknownEncoding:
-        (String encoding) =>
-            encoding.isEmpty
-                ? const AccountData.empty()
-                : throw FormatException('unknown encoding $encoding'),
+    onUnknownEncoding: (String encoding) => encoding.isEmpty
+        ? const AccountData.empty()
+        : throw FormatException('unknown encoding $encoding'),
   );
 
   dynamic toJson();

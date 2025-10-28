@@ -47,16 +47,14 @@ class _$SigningResponseCopyWithImpl<$Res, $Val extends SigningResponse>
   $Res call({Object? signatures = null, Object? resolvedDerivationPaths = null}) {
     return _then(
       _value.copyWith(
-            signatures:
-                null == signatures
-                    ? _value.signatures
-                    : signatures // ignore: cast_nullable_to_non_nullable
-                        as List<Uint8List>,
-            resolvedDerivationPaths:
-                null == resolvedDerivationPaths
-                    ? _value.resolvedDerivationPaths
-                    : resolvedDerivationPaths // ignore: cast_nullable_to_non_nullable
-                        as List<Uri>,
+            signatures: null == signatures
+                ? _value.signatures
+                : signatures // ignore: cast_nullable_to_non_nullable
+                      as List<Uint8List>,
+            resolvedDerivationPaths: null == resolvedDerivationPaths
+                ? _value.resolvedDerivationPaths
+                : resolvedDerivationPaths // ignore: cast_nullable_to_non_nullable
+                      as List<Uri>,
           )
           as $Val,
     );
@@ -88,16 +86,14 @@ class __$$SigningResponseImplCopyWithImpl<$Res>
   $Res call({Object? signatures = null, Object? resolvedDerivationPaths = null}) {
     return _then(
       _$SigningResponseImpl(
-        signatures:
-            null == signatures
-                ? _value._signatures
-                : signatures // ignore: cast_nullable_to_non_nullable
-                    as List<Uint8List>,
-        resolvedDerivationPaths:
-            null == resolvedDerivationPaths
-                ? _value._resolvedDerivationPaths
-                : resolvedDerivationPaths // ignore: cast_nullable_to_non_nullable
-                    as List<Uri>,
+        signatures: null == signatures
+            ? _value._signatures
+            : signatures // ignore: cast_nullable_to_non_nullable
+                  as List<Uint8List>,
+        resolvedDerivationPaths: null == resolvedDerivationPaths
+            ? _value._resolvedDerivationPaths
+            : resolvedDerivationPaths // ignore: cast_nullable_to_non_nullable
+                  as List<Uri>,
       ),
     );
   }

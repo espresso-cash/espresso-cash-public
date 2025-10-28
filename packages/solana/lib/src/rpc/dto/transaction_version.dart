@@ -1,3 +1,4 @@
+// @dart=3.9
 abstract class TransactionVersion {
   factory TransactionVersion.fromJson(dynamic value) =>
       // ignore: avoid-type-casts, controlled type

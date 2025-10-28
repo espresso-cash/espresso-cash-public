@@ -69,31 +69,26 @@ class _$SwapRouteRequestDtoCopyWithImpl<$Res, $Val extends SwapRouteRequestDto>
   }) {
     return _then(
       _value.copyWith(
-            inputToken:
-                null == inputToken
-                    ? _value.inputToken
-                    : inputToken // ignore: cast_nullable_to_non_nullable
-                        as String,
-            outputToken:
-                null == outputToken
-                    ? _value.outputToken
-                    : outputToken // ignore: cast_nullable_to_non_nullable
-                        as String,
-            amount:
-                null == amount
-                    ? _value.amount
-                    : amount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            match:
-                null == match
-                    ? _value.match
-                    : match // ignore: cast_nullable_to_non_nullable
-                        as SwapMatchDto,
-            slippage:
-                null == slippage
-                    ? _value.slippage
-                    : slippage // ignore: cast_nullable_to_non_nullable
-                        as SwapSlippageDto,
+            inputToken: null == inputToken
+                ? _value.inputToken
+                : inputToken // ignore: cast_nullable_to_non_nullable
+                      as String,
+            outputToken: null == outputToken
+                ? _value.outputToken
+                : outputToken // ignore: cast_nullable_to_non_nullable
+                      as String,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            match: null == match
+                ? _value.match
+                : match // ignore: cast_nullable_to_non_nullable
+                      as SwapMatchDto,
+            slippage: null == slippage
+                ? _value.slippage
+                : slippage // ignore: cast_nullable_to_non_nullable
+                      as SwapSlippageDto,
           )
           as $Val,
     );
@@ -140,31 +135,26 @@ class __$$SwapRouteRequestDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$SwapRouteRequestDtoImpl(
-        inputToken:
-            null == inputToken
-                ? _value.inputToken
-                : inputToken // ignore: cast_nullable_to_non_nullable
-                    as String,
-        outputToken:
-            null == outputToken
-                ? _value.outputToken
-                : outputToken // ignore: cast_nullable_to_non_nullable
-                    as String,
-        amount:
-            null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        match:
-            null == match
-                ? _value.match
-                : match // ignore: cast_nullable_to_non_nullable
-                    as SwapMatchDto,
-        slippage:
-            null == slippage
-                ? _value.slippage
-                : slippage // ignore: cast_nullable_to_non_nullable
-                    as SwapSlippageDto,
+        inputToken: null == inputToken
+            ? _value.inputToken
+            : inputToken // ignore: cast_nullable_to_non_nullable
+                  as String,
+        outputToken: null == outputToken
+            ? _value.outputToken
+            : outputToken // ignore: cast_nullable_to_non_nullable
+                  as String,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        match: null == match
+            ? _value.match
+            : match // ignore: cast_nullable_to_non_nullable
+                  as SwapMatchDto,
+        slippage: null == slippage
+            ? _value.slippage
+            : slippage // ignore: cast_nullable_to_non_nullable
+                  as SwapSlippageDto,
       ),
     );
   }
@@ -318,56 +308,46 @@ class _$SwapRouteResponseDtoCopyWithImpl<$Res, $Val extends SwapRouteResponseDto
   }) {
     return _then(
       _value.copyWith(
-            inAmount:
-                null == inAmount
-                    ? _value.inAmount
-                    : inAmount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            outAmount:
-                null == outAmount
-                    ? _value.outAmount
-                    : outAmount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            amount:
-                null == amount
-                    ? _value.amount
-                    : amount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            encodedTx:
-                null == encodedTx
-                    ? _value.encodedTx
-                    : encodedTx // ignore: cast_nullable_to_non_nullable
-                        as String,
-            feeInUsdc:
-                null == feeInUsdc
-                    ? _value.feeInUsdc
-                    : feeInUsdc // ignore: cast_nullable_to_non_nullable
-                        as int,
-            slot:
-                null == slot
-                    ? _value.slot
-                    : slot // ignore: cast_nullable_to_non_nullable
-                        as BigInt,
-            slippageBps:
-                null == slippageBps
-                    ? _value.slippageBps
-                    : slippageBps // ignore: cast_nullable_to_non_nullable
-                        as int,
-            platformFeeBps:
-                null == platformFeeBps
-                    ? _value.platformFeeBps
-                    : platformFeeBps // ignore: cast_nullable_to_non_nullable
-                        as int,
-            priceImpact:
-                null == priceImpact
-                    ? _value.priceImpact
-                    : priceImpact // ignore: cast_nullable_to_non_nullable
-                        as String,
-            providerLabel:
-                null == providerLabel
-                    ? _value.providerLabel
-                    : providerLabel // ignore: cast_nullable_to_non_nullable
-                        as String,
+            inAmount: null == inAmount
+                ? _value.inAmount
+                : inAmount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            outAmount: null == outAmount
+                ? _value.outAmount
+                : outAmount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            encodedTx: null == encodedTx
+                ? _value.encodedTx
+                : encodedTx // ignore: cast_nullable_to_non_nullable
+                      as String,
+            feeInUsdc: null == feeInUsdc
+                ? _value.feeInUsdc
+                : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                      as int,
+            slot: null == slot
+                ? _value.slot
+                : slot // ignore: cast_nullable_to_non_nullable
+                      as BigInt,
+            slippageBps: null == slippageBps
+                ? _value.slippageBps
+                : slippageBps // ignore: cast_nullable_to_non_nullable
+                      as int,
+            platformFeeBps: null == platformFeeBps
+                ? _value.platformFeeBps
+                : platformFeeBps // ignore: cast_nullable_to_non_nullable
+                      as int,
+            priceImpact: null == priceImpact
+                ? _value.priceImpact
+                : priceImpact // ignore: cast_nullable_to_non_nullable
+                      as String,
+            providerLabel: null == providerLabel
+                ? _value.providerLabel
+                : providerLabel // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -424,56 +404,46 @@ class __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$SwapRouteResponseDtoImpl(
-        inAmount:
-            null == inAmount
-                ? _value.inAmount
-                : inAmount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        outAmount:
-            null == outAmount
-                ? _value.outAmount
-                : outAmount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        amount:
-            null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        encodedTx:
-            null == encodedTx
-                ? _value.encodedTx
-                : encodedTx // ignore: cast_nullable_to_non_nullable
-                    as String,
-        feeInUsdc:
-            null == feeInUsdc
-                ? _value.feeInUsdc
-                : feeInUsdc // ignore: cast_nullable_to_non_nullable
-                    as int,
-        slot:
-            null == slot
-                ? _value.slot
-                : slot // ignore: cast_nullable_to_non_nullable
-                    as BigInt,
-        slippageBps:
-            null == slippageBps
-                ? _value.slippageBps
-                : slippageBps // ignore: cast_nullable_to_non_nullable
-                    as int,
-        platformFeeBps:
-            null == platformFeeBps
-                ? _value.platformFeeBps
-                : platformFeeBps // ignore: cast_nullable_to_non_nullable
-                    as int,
-        priceImpact:
-            null == priceImpact
-                ? _value.priceImpact
-                : priceImpact // ignore: cast_nullable_to_non_nullable
-                    as String,
-        providerLabel:
-            null == providerLabel
-                ? _value.providerLabel
-                : providerLabel // ignore: cast_nullable_to_non_nullable
-                    as String,
+        inAmount: null == inAmount
+            ? _value.inAmount
+            : inAmount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        outAmount: null == outAmount
+            ? _value.outAmount
+            : outAmount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        encodedTx: null == encodedTx
+            ? _value.encodedTx
+            : encodedTx // ignore: cast_nullable_to_non_nullable
+                  as String,
+        feeInUsdc: null == feeInUsdc
+            ? _value.feeInUsdc
+            : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                  as int,
+        slot: null == slot
+            ? _value.slot
+            : slot // ignore: cast_nullable_to_non_nullable
+                  as BigInt,
+        slippageBps: null == slippageBps
+            ? _value.slippageBps
+            : slippageBps // ignore: cast_nullable_to_non_nullable
+                  as int,
+        platformFeeBps: null == platformFeeBps
+            ? _value.platformFeeBps
+            : platformFeeBps // ignore: cast_nullable_to_non_nullable
+                  as int,
+        priceImpact: null == priceImpact
+            ? _value.priceImpact
+            : priceImpact // ignore: cast_nullable_to_non_nullable
+                  as String,
+        providerLabel: null == providerLabel
+            ? _value.providerLabel
+            : providerLabel // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }

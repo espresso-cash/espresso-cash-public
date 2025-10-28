@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'simulate_transaction_accounts.dart';
@@ -14,8 +15,8 @@ SimulateTransactionAccounts _$SimulateTransactionAccountsFromJson(Map<String, dy
 
 Map<String, dynamic> _$SimulateTransactionAccountsToJson(SimulateTransactionAccounts instance) =>
     <String, dynamic>{
-      if (_$EncodingEnumMap[instance.encoding] case final value?) 'encoding': value,
-      if (instance.addresses case final value?) 'addresses': value,
+      'encoding': ?_$EncodingEnumMap[instance.encoding],
+      'addresses': ?instance.addresses,
     };
 
 const _$EncodingEnumMap = {

@@ -16,24 +16,22 @@ class AppLockDisableScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocConsumer<AppLockBloc, AppLockState>(
-    listener:
-        (context, state) => switch (state) {
-          AppLockStateDisabled() => Navigator.pop(context),
-          _ => null,
+    listener: (context, state) => switch (state) {
+      AppLockStateDisabled() => Navigator.pop(context),
+      _ => null,
+    },
+    builder: (context, state) => DecoratedWindow(
+      backButton: const CpBackButton(),
+      hasLogo: true,
+      backgroundStyle: BackgroundStyle.dark,
+      child: PinInputDisplayWidget(
+        message: switch (state) {
+          AppLockStateEnabled() =>
+            state.disableFailed ? context.l10n.incorrectPasscode : context.l10n.enterPasscode,
+          _ => context.l10n.enterPasscode,
         },
-    builder:
-        (context, state) => DecoratedWindow(
-          backButton: const CpBackButton(),
-          hasLogo: true,
-          backgroundStyle: BackgroundStyle.dark,
-          child: PinInputDisplayWidget(
-            message: switch (state) {
-              AppLockStateEnabled() =>
-                state.disableFailed ? context.l10n.incorrectPasscode : context.l10n.enterPasscode,
-              _ => context.l10n.enterPasscode,
-            },
-            onCompleted: (pin) => context.read<AppLockBloc>().add(AppLockEvent.disable(pin)),
-          ),
-        ),
+        onCompleted: (pin) => context.read<AppLockBloc>().add(AppLockEvent.disable(pin)),
+      ),
+    ),
   );
 }

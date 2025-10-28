@@ -21,8 +21,8 @@ Future<List<Ed25519HDPublicKey>> getPublicKeysFromPaths(
         )
         .letAsync(
           (it) =>
-          // ignore: avoid-type-casts, controlled type
-          it.singleOrNull?.let((it) => it[WalletContractV1.accountsPublicKeyRaw] as Uint8List),
+              // ignore: avoid-type-casts, controlled type
+              it.singleOrNull?.let((it) => it[WalletContractV1.accountsPublicKeyRaw] as Uint8List),
         )
         .letAsync((it) => it?.let(Ed25519HDPublicKey.new)),
   ),

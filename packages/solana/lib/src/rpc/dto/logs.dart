@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: no-object-declaration
 
 import 'package:json_annotation/json_annotation.dart';

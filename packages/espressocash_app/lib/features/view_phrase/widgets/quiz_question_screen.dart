@@ -58,16 +58,15 @@ class QuizQuestionView extends StatelessWidget {
         ),
       ],
     ),
-    footer:
-        question.options
-            .mapIndexed(
-              (i, entry) => CpButton(
-                text: entry,
-                onPressed: () => onButtonPressed(i == question.correctAnswer),
-                size: CpButtonSize.big,
-                width: 350,
-              ),
-            )
-            .toList(),
+    footer: question.options
+        .mapIndexed(
+          (i, entry) => CpButton(
+            text: entry,
+            onPressed: () => onButtonPressed(i == question.correctAnswer),
+            size: CpButtonSize.big,
+            width: 350,
+          ),
+        )
+        .toList(),
   );
 }

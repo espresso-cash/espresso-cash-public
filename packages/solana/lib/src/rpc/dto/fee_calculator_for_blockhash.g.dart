@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'fee_calculator_for_blockhash.dart';
@@ -18,10 +19,9 @@ FeeCalculatorForBlockhashResult _$FeeCalculatorForBlockhashResultFromJson(
   Map<String, dynamic> json,
 ) => FeeCalculatorForBlockhashResult(
   context: Context.fromJson(json['context'] as Map<String, dynamic>),
-  value:
-      json['value'] == null
-          ? null
-          : FeeCalculatorForBlockhash.fromJson(json['value'] as Map<String, dynamic>),
+  value: json['value'] == null
+      ? null
+      : FeeCalculatorForBlockhash.fromJson(json['value'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$FeeCalculatorForBlockhashResultToJson(

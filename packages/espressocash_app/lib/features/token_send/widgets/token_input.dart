@@ -102,20 +102,18 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
 
   String get _buttonText => _isMax ? 'Clear' : 'Max';
 
-  VoidCallback get _callback =>
-      _isMax
-          ? widget._quantityController.clear
-          : () {
-            final amount =
-                widget.crypto.cryptoCurrency == Currency.sol
-                    ? widget.crypto - solTransferFee
-                    : widget.crypto;
+  VoidCallback get _callback => _isMax
+      ? widget._quantityController.clear
+      : () {
+          final amount = widget.crypto.cryptoCurrency == Currency.sol
+              ? widget.crypto - solTransferFee
+              : widget.crypto;
 
-            widget._quantityController.text = amount.format(
-              DeviceLocale.localeOf(context),
-              skipSymbol: true,
-            );
-          };
+          widget._quantityController.text = amount.format(
+            DeviceLocale.localeOf(context),
+            skipSymbol: true,
+          );
+        };
 }
 
 extension on String {

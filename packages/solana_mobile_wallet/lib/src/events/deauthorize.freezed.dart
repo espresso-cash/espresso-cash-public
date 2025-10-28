@@ -52,21 +52,18 @@ class _$DeauthorizeEventCopyWithImpl<$Res, $Val extends DeauthorizeEvent>
   }) {
     return _then(
       _value.copyWith(
-            identityName:
-                freezed == identityName
-                    ? _value.identityName
-                    : identityName // ignore: cast_nullable_to_non_nullable
-                        as String?,
-            identityUri:
-                freezed == identityUri
-                    ? _value.identityUri
-                    : identityUri // ignore: cast_nullable_to_non_nullable
-                        as Uri?,
-            iconUri:
-                freezed == iconUri
-                    ? _value.iconUri
-                    : iconUri // ignore: cast_nullable_to_non_nullable
-                        as Uri?,
+            identityName: freezed == identityName
+                ? _value.identityName
+                : identityName // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            identityUri: freezed == identityUri
+                ? _value.identityUri
+                : identityUri // ignore: cast_nullable_to_non_nullable
+                      as Uri?,
+            iconUri: freezed == iconUri
+                ? _value.iconUri
+                : iconUri // ignore: cast_nullable_to_non_nullable
+                      as Uri?,
           )
           as $Val,
     );
@@ -102,21 +99,18 @@ class __$$DeauthorizeEventImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$DeauthorizeEventImpl(
-        identityName:
-            freezed == identityName
-                ? _value.identityName
-                : identityName // ignore: cast_nullable_to_non_nullable
-                    as String?,
-        identityUri:
-            freezed == identityUri
-                ? _value.identityUri
-                : identityUri // ignore: cast_nullable_to_non_nullable
-                    as Uri?,
-        iconUri:
-            freezed == iconUri
-                ? _value.iconUri
-                : iconUri // ignore: cast_nullable_to_non_nullable
-                    as Uri?,
+        identityName: freezed == identityName
+            ? _value.identityName
+            : identityName // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        identityUri: freezed == identityUri
+            ? _value.identityUri
+            : identityUri // ignore: cast_nullable_to_non_nullable
+                  as Uri?,
+        iconUri: freezed == iconUri
+            ? _value.iconUri
+            : iconUri // ignore: cast_nullable_to_non_nullable
+                  as Uri?,
       ),
     );
   }

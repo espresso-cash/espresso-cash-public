@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: prefer-typedefs-for-callbacks
 
 part of 'client.dart';
@@ -208,18 +209,14 @@ extension RpcClientExt on RpcClient {
     addressTableLookups.map((lookup) => getAddressLookupTable(lookup.accountKey)).toList(),
   );
 
-  Future<Message> getMessageFromEncodedTx(String encodedTx) {
+  Future<Message> getMessageFromEncodedTx(String encodedTx) async {
     final tx = SignedTx.decode(encodedTx);
 
-    return tx.compiledMessage.map(
-      legacy: (_) async => tx.decompileMessage(),
-      v0: (compiledMessage) async {
-        final addressTableLookups = compiledMessage.addressTableLookups;
-
-        final lookUpTables = await getAddressLookUpTableAccounts(addressTableLookups);
-
-        return tx.decompileMessage(addressLookupTableAccounts: lookUpTables);
-      },
-    );
+    return switch (tx.compiledMessage) {
+      CompiledMessageLegacy() => tx.decompileMessage(),
+      CompiledMessageV0(:final addressTableLookups) => tx.decompileMessage(
+        addressLookupTableAccounts: await getAddressLookUpTableAccounts(addressTableLookups),
+      ),
+    };
   }
 }

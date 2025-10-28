@@ -245,22 +245,21 @@ class MemoryTokenRepository implements TokenRepository {
         'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
         'So00000000000,101,SOL,Solana,18,https://example.com,,\n';
     final lines = chunk.split('\n');
-    final List<TokenRow> rows =
-        lines.skip(1).where((line) => line.trim().isNotEmpty).map((line) {
-          final values = line.split(',');
-          if (values.length >= 8) {
-            return TokenRow(
-              address: values[0],
-              chainId: int.parse(values[1]),
-              symbol: values[2],
-              name: values[3],
-              decimals: int.parse(values[4]),
-              logoURI: values[5],
-              isStablecoin: false,
-            );
-          }
-          throw Exception('Invalid line format');
-        }).toList();
+    final List<TokenRow> rows = lines.skip(1).where((line) => line.trim().isNotEmpty).map((line) {
+      final values = line.split(',');
+      if (values.length >= 8) {
+        return TokenRow(
+          address: values[0],
+          chainId: int.parse(values[1]),
+          symbol: values[2],
+          name: values[3],
+          decimals: int.parse(values[4]),
+          logoURI: values[5],
+          isStablecoin: false,
+        );
+      }
+      throw Exception('Invalid line format');
+    }).toList();
 
     final tokenMap = Map.fromEntries(rows.map((row) => MapEntry(row.address, row)));
     data.add(data.value.addAll(tokenMap.lock));

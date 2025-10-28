@@ -52,27 +52,25 @@ class StorybookApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Storybook(
-    wrapperBuilder:
-        (context, child) => MaterialApp(
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Builder(
-            builder: (context) {
-              final brightness = Theme.of(context).brightness;
+    wrapperBuilder: (context, child) => MaterialApp(
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Builder(
+        builder: (context) {
+          final brightness = Theme.of(context).brightness;
 
-              return CpTheme(
-                theme:
-                    brightness == Brightness.dark
-                        ? const CpThemeData.dark()
-                        : const CpThemeData.light(),
-                child: Scaffold(body: Center(child: child)),
-              );
-            },
-          ),
-        ),
+          return CpTheme(
+            theme: brightness == Brightness.dark
+                ? const CpThemeData.dark()
+                : const CpThemeData.light(),
+            child: Scaffold(body: Center(child: child)),
+          );
+        },
+      ),
+    ),
     stories: [
       offRampAmountScreenStory,
       offRampOrderScreenStory,

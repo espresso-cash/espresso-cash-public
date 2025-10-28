@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'parsed_message.dart';
@@ -9,15 +10,13 @@ part of 'parsed_message.dart';
 ParsedMessage _$ParsedMessageFromJson(Map<String, dynamic> json) => ParsedMessage(
   accountKeys: (json['accountKeys'] as List<dynamic>).map(AccountKey.fromJson).toList(),
   recentBlockhash: json['recentBlockhash'] as String,
-  instructions:
-      (json['instructions'] as List<dynamic>)
-          .map((e) => Instruction.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  instructions: (json['instructions'] as List<dynamic>)
+      .map((e) => Instruction.fromJson(e as Map<String, dynamic>))
+      .toList(),
   header: json['header'] == null ? null : Header.fromJson(json['header']),
-  addressTableLookups:
-      (json['addressTableLookups'] as List<dynamic>?)
-          ?.map((e) => AddressTableLookups.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  addressTableLookups: (json['addressTableLookups'] as List<dynamic>?)
+      ?.map((e) => AddressTableLookups.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$ParsedMessageToJson(ParsedMessage instance) => <String, dynamic>{

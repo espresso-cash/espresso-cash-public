@@ -142,14 +142,13 @@ const dashboardSectionTitleTextStyle = TextStyle(
 );
 
 extension on Brightness {
-  SystemUiOverlayStyle get systemOverlayStyle =>
-      this == Brightness.dark
-          ? SystemUiOverlayStyle.light.copyWith(
-            statusBarColor: Colors.transparent,
-            systemNavigationBarColor: Colors.transparent,
-          )
-          : SystemUiOverlayStyle.dark.copyWith(
-            statusBarColor: Colors.transparent,
-            systemNavigationBarColor: Colors.transparent,
-          );
+  SystemUiOverlayStyle get systemOverlayStyle => this == Brightness.dark
+      ? SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent,
+        )
+      : SystemUiOverlayStyle.dark.copyWith(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent,
+        );
 }

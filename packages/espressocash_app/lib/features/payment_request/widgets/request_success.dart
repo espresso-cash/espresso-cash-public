@@ -52,13 +52,12 @@ class _RequestSuccessState extends State<RequestSuccess> {
           children: [
             FutureBuilder(
               future: _cryptoAmountFuture,
-              builder:
-                  (context, snapshot) => CpTimeline(
-                    status: CpTimelineStatus.success,
-                    items: [_requestCreated(context, snapshot), moneyReceived],
-                    active: 1,
-                    animated: false,
-                  ),
+              builder: (context, snapshot) => CpTimeline(
+                status: CpTimelineStatus.success,
+                items: [_requestCreated(context, snapshot), moneyReceived],
+                active: 1,
+                animated: false,
+              ),
             ),
             const Spacer(),
             if (widget.request.payRequest.invoice case final reference?)

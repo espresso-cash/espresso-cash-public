@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:collection/collection.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

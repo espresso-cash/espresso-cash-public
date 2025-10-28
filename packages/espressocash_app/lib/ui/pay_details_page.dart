@@ -28,25 +28,24 @@ class PayDetailsPage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: backgroundColor,
       body: LayoutBuilder(
-        builder:
-            (context, viewportConstraints) => SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: viewportConstraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Stack(
+        builder: (context, viewportConstraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: viewportConstraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Stack(
+                children: [
+                  _Header(icon: headerIcon, background: headerBackground),
+                  Column(
                     children: [
-                      _Header(icon: headerIcon, background: headerBackground),
-                      Column(
-                        children: [
-                          SizedBox(height: viewportConstraints.maxHeight * 0.4),
-                          Expanded(child: content),
-                        ],
-                      ),
+                      SizedBox(height: viewportConstraints.maxHeight * 0.4),
+                      Expanded(child: content),
                     ],
                   ),
-                ),
+                ],
               ),
             ),
+          ),
+        ),
       ),
     ),
   );

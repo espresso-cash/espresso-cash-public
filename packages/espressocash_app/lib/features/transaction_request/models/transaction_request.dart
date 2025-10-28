@@ -5,7 +5,7 @@ import '../../currency/models/amount.dart';
 part 'transaction_request.freezed.dart';
 
 @freezed
-class TransactionRequestPayment with _$TransactionRequestPayment {
+abstract class TransactionRequestPayment with _$TransactionRequestPayment {
   const factory TransactionRequestPayment({
     required String id,
     required DateTime created,

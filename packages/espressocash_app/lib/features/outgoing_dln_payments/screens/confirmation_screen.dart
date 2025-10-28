@@ -27,12 +27,11 @@ class OutgoingDlnPaymentConfirmationScreen extends StatefulWidget {
     required Blockchain blockchain,
   }) => Navigator.of(context).push<void>(
     MaterialPageRoute(
-      builder:
-          (context) => OutgoingDlnPaymentConfirmationScreen(
-            amount: amount,
-            receiverAddress: receiverAddress,
-            blockchain: blockchain,
-          ),
+      builder: (context) => OutgoingDlnPaymentConfirmationScreen(
+        amount: amount,
+        receiverAddress: receiverAddress,
+        blockchain: blockchain,
+      ),
     ),
   );
 

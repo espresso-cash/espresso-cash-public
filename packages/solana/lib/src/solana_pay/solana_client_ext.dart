@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:solana/dto.dart' show FutureContextResultExt, ParsedTransaction, TransactionDetails;
@@ -31,8 +32,9 @@ extension SolanaClientSolanaPay on SolanaClient {
       throw const CreateTransactionException('Payer not found.');
     }
 
-    final recipientInfo =
-        await rpcClient.getAccountInfo(recipient.toBase58(), commitment: commitment).value;
+    final recipientInfo = await rpcClient
+        .getAccountInfo(recipient.toBase58(), commitment: commitment)
+        .value;
     if (recipientInfo == null) {
       throw const CreateTransactionException('Recipient not found.');
     }
@@ -134,7 +136,10 @@ extension SolanaClientSolanaPay on SolanaClient {
     }
 
     return Message(
-      instructions: [if (memo != null) MemoInstruction(signers: const [], memo: memo), instruction],
+      instructions: [
+        if (memo != null) MemoInstruction(signers: const [], memo: memo),
+        instruction,
+      ],
     );
   }
 
@@ -293,10 +298,10 @@ extension SolanaClientSolanaPay on SolanaClient {
     CompiledMessage compiledMessage = tx.compiledMessage;
 
     if (signatures.isEmpty || (signatures.length == 1 && signatures.first.publicKey == signer)) {
-      final addressTableLookups = compiledMessage.map(
-        legacy: (_) => <MessageAddressTableLookup>[],
-        v0: (v0) => v0.addressTableLookups,
-      );
+      final addressTableLookups = switch (compiledMessage) {
+        CompiledMessageLegacy() => <MessageAddressTableLookup>[],
+        CompiledMessageV0() => compiledMessage.addressTableLookups,
+      };
 
       final lookUpTables = await rpcClient.getAddressLookUpTableAccounts(addressTableLookups);
 
@@ -306,14 +311,13 @@ extension SolanaClientSolanaPay on SolanaClient {
 
       final latestBlockhash = await rpcClient.getLatestBlockhash(commitment: commitment);
 
-      compiledMessage =
-          isLegacyTx
-              ? message.compile(recentBlockhash: latestBlockhash.value.blockhash, feePayer: signer)
-              : message.compileV0(
-                recentBlockhash: latestBlockhash.value.blockhash,
-                feePayer: signer,
-                addressLookupTableAccounts: lookUpTables,
-              );
+      compiledMessage = isLegacyTx
+          ? message.compile(recentBlockhash: latestBlockhash.value.blockhash, feePayer: signer)
+          : message.compileV0(
+              recentBlockhash: latestBlockhash.value.blockhash,
+              feePayer: signer,
+              addressLookupTableAccounts: lookUpTables,
+            );
 
       signatures = [Signature(List.filled(64, 0), publicKey: signer)];
     } else {

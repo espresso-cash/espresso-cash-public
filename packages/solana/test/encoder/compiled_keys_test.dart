@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/message/compiled_key_meta.dart';
@@ -227,9 +228,8 @@ void _setMapEntry(
   bool isSigner,
   bool isWriteable,
   bool isInvoked,
-) =>
-    map[pubKey.toString()] = CompiledKeyMeta(
-      isSigner: isSigner,
-      isWritable: isWriteable,
-      isInvoked: isInvoked,
-    );
+) => map[pubKey.toString()] = CompiledKeyMeta(
+  isSigner: isSigner,
+  isWritable: isWriteable,
+  isInvoked: isInvoked,
+);

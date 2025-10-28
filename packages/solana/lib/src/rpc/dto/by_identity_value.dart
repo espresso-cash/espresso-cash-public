@@ -1,3 +1,4 @@
+// @dart=3.9
 class ByIdentityValue {
   const ByIdentityValue({required this.leaderSlots, required this.blocksProduced});
 

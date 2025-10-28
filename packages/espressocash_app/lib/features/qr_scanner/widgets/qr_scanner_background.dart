@@ -33,11 +33,10 @@ class _QrScannerBackgroundState extends State<QrScannerBackground> {
   @override
   Widget build(BuildContext context) => FutureBuilder<PictureInfo?>(
     future: _info,
-    builder:
-        (context, snapshot) => CustomPaint(
-          foregroundPainter: _Painter(frame: snapshot.data, dimension: 350),
-          child: widget.child,
-        ),
+    builder: (context, snapshot) => CustomPaint(
+      foregroundPainter: _Painter(frame: snapshot.data, dimension: 350),
+      child: widget.child,
+    ),
   );
 }
 
@@ -74,9 +73,8 @@ class _Painter extends CustomPainter {
       ..translate(center.dx, center.dy);
 
     final Size svgSize = frame.size;
-    final matrix =
-        Matrix4.identity()
-          ..scale(frameSize.width / svgSize.width, frameSize.height / svgSize.height);
+    final matrix = Matrix4.identity()
+      ..scale(frameSize.width / svgSize.width, frameSize.height / svgSize.height);
 
     canvas
       ..transform(matrix.storage)

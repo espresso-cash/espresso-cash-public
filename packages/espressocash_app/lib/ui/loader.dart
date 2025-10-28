@@ -23,11 +23,14 @@ class _CpLoaderState extends State<CpLoader> {
 
     return widget.isLoading
         ? PopScope(
-          canPop: false,
-          child: Stack(
-            children: [child, const ColoredBox(color: Colors.black38, child: LoadingIndicator())],
-          ),
-        )
+            canPop: false,
+            child: Stack(
+              children: [
+                child,
+                const ColoredBox(color: Colors.black38, child: LoadingIndicator()),
+              ],
+            ),
+          )
         : child;
   }
 }
@@ -54,9 +57,10 @@ Future<T> runWithLoader<T>(
   await showDialog<T>(
     barrierDismissible: false,
     context: context,
-    builder:
-        (context) =>
-            PopScope(canPop: false, child: LoadingDialog<T>(future: future, onError: onError)),
+    builder: (context) => PopScope(
+      canPop: false,
+      child: LoadingDialog<T>(future: future, onError: onError),
+    ),
   );
 
   return future;

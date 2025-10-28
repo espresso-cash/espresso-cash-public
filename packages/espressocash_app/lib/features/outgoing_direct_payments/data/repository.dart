@@ -28,14 +28,15 @@ class ODPRepository implements Disposable {
   final MyDatabase _db;
 
   Future<IList<String>> getNonCompletedPaymentIds() async {
-    final query = _db.select(_db.oDPRows)..where(
-      (p) => p.status.isNotInValues([
-        ODPStatusDto.success,
-        ODPStatusDto.txFailure,
-        ODPStatusDto.txSendFailure,
-        ODPStatusDto.txWaitFailure,
-      ]),
-    );
+    final query = _db.select(_db.oDPRows)
+      ..where(
+        (p) => p.status.isNotInValues([
+          ODPStatusDto.success,
+          ODPStatusDto.txFailure,
+          ODPStatusDto.txSendFailure,
+          ODPStatusDto.txWaitFailure,
+        ]),
+      );
 
     final rows = await query.get();
 

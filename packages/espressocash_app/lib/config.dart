@@ -46,10 +46,9 @@ const _devNetChainId = 103;
 
 /// Although this depends on the environment the only difference is
 /// PROD vs non-PROD
-const _solanaHost =
-    isProd
-        ? '' // mainnet URL should be provided via environment variable
-        : 'api.devnet.solana.com';
+const _solanaHost = isProd
+    ? '' // mainnet URL should be provided via environment variable
+    : 'api.devnet.solana.com';
 
 const espressoCashLinkDomain = 'pay.espressocash.com';
 const espressoCashLinkProtocol = 'espressocash';
@@ -66,13 +65,13 @@ const guardarianApiKey = String.fromEnvironment('GUARDARIAN_API_KEY');
 const brijBaseUrl = isProd ? 'https://widget.brij.fi/quote' : 'https://widget-demo.brij.fi/quote';
 const brijApiKey = String.fromEnvironment('BRIJ_API_KEY');
 
-const coinflowApiUrl =
-    isProd ? 'https://api.coinflow.cash/api/' : 'https://api-sandbox.coinflow.cash/api/';
+const coinflowApiUrl = isProd
+    ? 'https://api.coinflow.cash/api/'
+    : 'https://api-sandbox.coinflow.cash/api/';
 
-const coinflowKycUrl =
-    isProd
-        ? 'https://coinflow.cash/withdraw/espresso'
-        : 'https://sandbox.coinflow.cash/withdraw/espresso';
+const coinflowKycUrl = isProd
+    ? 'https://coinflow.cash/withdraw/espresso'
+    : 'https://sandbox.coinflow.cash/withdraw/espresso';
 
 const maxPayloadsPerSigningRequest = 10;
 

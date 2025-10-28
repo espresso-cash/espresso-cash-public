@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/encoder/byte_array.dart';
 
 enum TransactionVersion {

@@ -26,10 +26,9 @@ class StellarClient {
       wallet.accountId,
       [wallet],
       clientDomain: clientDomain,
-      clientDomainSigningDelegate:
-          (transactionXdr) => _ecClient
-              .signChallenge(MoneygramChallengeSignRequestDto(signedTx: transactionXdr))
-              .then((e) => e.signedTx),
+      clientDomainSigningDelegate: (transactionXdr) => _ecClient
+          .signChallenge(MoneygramChallengeSignRequestDto(signedTx: transactionXdr))
+          .then((e) => e.signedTx),
     );
   }
 
@@ -103,9 +102,8 @@ class StellarClient {
     final usdc = AssetTypeCreditAlphaNum4('USDC', moneygramAssetIssuer);
     final ctob = ChangeTrustOperationBuilder(usdc, limit.toString());
 
-    final transaction =
-        TransactionBuilder(account).addOperation(ctob.build()).build()
-          ..sign(wallet, stellarNetwork);
+    final transaction = TransactionBuilder(account).addOperation(ctob.build()).build()
+      ..sign(wallet, stellarNetwork);
 
     final response = await _sdk.submitTransaction(transaction);
 
@@ -152,10 +150,9 @@ class StellarClient {
 
     final Asset usdcAsset = Asset.createNonNativeAsset('USDC', moneygramAssetIssuer);
 
-    final transactionBuilder =
-        TransactionBuilder(sourceAccount)
-          ..addOperation(PaymentOperationBuilder(destinationAddress, usdcAsset, amount).build())
-          ..addMemo(Memo.text(memo));
+    final transactionBuilder = TransactionBuilder(sourceAccount)
+      ..addOperation(PaymentOperationBuilder(destinationAddress, usdcAsset, amount).build())
+      ..addMemo(Memo.text(memo));
 
     final transaction = transactionBuilder.build()..sign(_stellarWallet.keyPair, stellarNetwork);
 

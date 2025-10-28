@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/metaplex/file.dart';
 
@@ -5,7 +6,7 @@ part 'properties.freezed.dart';
 part 'properties.g.dart';
 
 @Freezed(unionKey: 'category', fallbackUnion: 'unknown')
-class Properties with _$Properties {
+sealed class Properties with _$Properties {
   const factory Properties.unknown() = Unknown;
 
   const factory Properties.video({required List<File> files}) = Video;

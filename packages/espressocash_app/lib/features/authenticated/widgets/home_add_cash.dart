@@ -22,36 +22,35 @@ class HomeAddCashContent extends StatelessWidget {
   Widget build(BuildContext context) => ColoredBox(
     color: CpColors.sandColor,
     child: RefreshBalancesWrapper(
-      builder:
-          (context, onRefresh) => RefreshIndicator(
-            displacement: 80,
-            onRefresh: () => Future.wait([onRefresh(), sl<TxUpdater>().call()]),
-            color: CpColors.primaryColor,
-            backgroundColor: Colors.white,
-            child: const Stack(
-              children: [
-                _Background(),
-                CustomScrollView(
-                  physics: NeverScrollableScrollPhysics(),
-                  slivers: [
-                    HomeAppBar(backgroundColor: Colors.transparent),
-                    SliverFillRemaining(
-                      child: IntrinsicHeight(
-                        child: Column(
-                          children: [
-                            Spacer(flex: 3),
-                            _NoticeContent(),
-                            Spacer(flex: 2),
-                            _BottomBalance(),
-                          ],
-                        ),
-                      ),
+      builder: (context, onRefresh) => RefreshIndicator(
+        displacement: 80,
+        onRefresh: () => Future.wait([onRefresh(), sl<TxUpdater>().call()]),
+        color: CpColors.primaryColor,
+        backgroundColor: Colors.white,
+        child: const Stack(
+          children: [
+            _Background(),
+            CustomScrollView(
+              physics: NeverScrollableScrollPhysics(),
+              slivers: [
+                HomeAppBar(backgroundColor: Colors.transparent),
+                SliverFillRemaining(
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        Spacer(flex: 3),
+                        _NoticeContent(),
+                        Spacer(flex: 2),
+                        _BottomBalance(),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
+          ],
+        ),
+      ),
     ),
   );
 }
@@ -123,7 +122,10 @@ class _NoticeContent extends StatelessWidget {
           },
           width: double.infinity,
           size: CpButtonSize.big,
-          trailing: Padding(padding: EdgeInsets.only(right: 8.h), child: const Arrow()),
+          trailing: Padding(
+            padding: EdgeInsets.only(right: 8.h),
+            child: const Arrow(),
+          ),
         ),
       ],
     ),

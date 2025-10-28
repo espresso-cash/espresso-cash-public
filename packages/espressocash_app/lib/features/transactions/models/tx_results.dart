@@ -6,6 +6,7 @@ part 'tx_results.freezed.dart';
 
 // TODO(KB): should be removed after full migration to waiting status with
 // SignedTx
+// ignore: avoid_implementing_value_types
 class StubSignedTx implements SignedTx {
   const StubSignedTx(this.id);
 

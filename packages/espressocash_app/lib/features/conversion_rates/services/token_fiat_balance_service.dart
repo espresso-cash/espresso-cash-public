@@ -66,45 +66,43 @@ class TokenFiatBalanceService {
         }
       });
 
-  Stream<IList<CryptoFiatAmount>> watchInvestmentBalances() =>
-      _balancesRepository
-          .watchTokenBalances(ignoreTokens: [Token.usdc])
-          .flatMap(
-            (cryptoAmounts) => Rx.combineLatest(
-              cryptoAmounts.map((c) => watch(c.token).map((fiat) => (c, fiat))),
-              (values) => values.map((e) => (e.$1, e.$2)).toList(),
-            ),
-          )
-          .map((amount) => amount.toIList())
-          .map(
-            (amounts) => amounts.sort((a, b) {
-              final aValue = a.$2?.value ?? 0;
-              final bValue = b.$2?.value ?? 0;
+  Stream<IList<CryptoFiatAmount>> watchInvestmentBalances() => _balancesRepository
+      .watchTokenBalances(ignoreTokens: [Token.usdc])
+      .flatMap(
+        (cryptoAmounts) => Rx.combineLatest(
+          cryptoAmounts.map((c) => watch(c.token).map((fiat) => (c, fiat))),
+          (values) => values.map((e) => (e.$1, e.$2)).toList(),
+        ),
+      )
+      .map((amount) => amount.toIList())
+      .map(
+        (amounts) => amounts.sort((a, b) {
+          final aValue = a.$2?.value ?? 0;
+          final bValue = b.$2?.value ?? 0;
 
-              return bValue.compareTo(aValue);
-            }),
-          )
-          .distinct();
+          return bValue.compareTo(aValue);
+        }),
+      )
+      .distinct();
 
-  Stream<IList<CryptoFiatAmount>> watchAllBalances() =>
-      _balancesRepository
-          .watchTokenBalances()
-          .flatMap(
-            (cryptoAmounts) => Rx.combineLatest(
-              cryptoAmounts.map((c) => watch(c.token).map((fiat) => (c, fiat))),
-              (values) => values.map((e) => (e.$1, e.$2)).toList(),
-            ),
-          )
-          .map((amount) => amount.toIList())
-          .map(
-            (amounts) => amounts.sort((a, b) {
-              final aValue = a.$2?.value ?? 0;
-              final bValue = b.$2?.value ?? 0;
+  Stream<IList<CryptoFiatAmount>> watchAllBalances() => _balancesRepository
+      .watchTokenBalances()
+      .flatMap(
+        (cryptoAmounts) => Rx.combineLatest(
+          cryptoAmounts.map((c) => watch(c.token).map((fiat) => (c, fiat))),
+          (values) => values.map((e) => (e.$1, e.$2)).toList(),
+        ),
+      )
+      .map((amount) => amount.toIList())
+      .map(
+        (amounts) => amounts.sort((a, b) {
+          final aValue = a.$2?.value ?? 0;
+          final bValue = b.$2?.value ?? 0;
 
-              return bValue.compareTo(aValue);
-            }),
-          )
-          .distinct();
+          return bValue.compareTo(aValue);
+        }),
+      )
+      .distinct();
 
   Stream<CryptoFiatAmount> readInvestmentBalance(Token token) => _balancesRepository
       .watch(token)

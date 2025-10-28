@@ -121,10 +121,8 @@ class OutgoingDlnPaymentService implements Disposable {
     final tx = await _sender.send(status.tx, minContextSlot: status.slot);
     final OutgoingDlnPaymentStatus? newStatus = tx.map(
       sent: (_) => OutgoingDlnPaymentStatus.txSent(status.tx, slot: status.slot),
-      invalidBlockhash:
-          (_) => const OutgoingDlnPaymentStatus.txFailure(
-            reason: TxFailureReason.invalidBlockhashSending,
-          ),
+      invalidBlockhash: (_) =>
+          const OutgoingDlnPaymentStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
       failure: (it) => OutgoingDlnPaymentStatus.txFailure(reason: it.reason),
       networkError: (_) => null,
     );
@@ -181,8 +179,8 @@ class OutgoingDlnPaymentService implements Disposable {
 
     return isStale
         ? order.copyWith(
-          status: OutgoingDlnPaymentStatus.unfulfilled(status.tx, orderId: orderId ?? ''),
-        )
+            status: OutgoingDlnPaymentStatus.unfulfilled(status.tx, orderId: orderId ?? ''),
+          )
         : order.copyWith(status: status.copyWith(orderId: orderId));
   }
 

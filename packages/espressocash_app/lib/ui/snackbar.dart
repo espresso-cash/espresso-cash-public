@@ -13,7 +13,9 @@ void showCpSnackbar(BuildContext context, {required String message, Widget? icon
         children: [
           if (icon != null)
             Container(height: 24, margin: const EdgeInsets.only(right: 16), child: icon),
-          Expanded(child: Text(message, style: const TextStyle(color: Colors.white))),
+          Expanded(
+            child: Text(message, style: const TextStyle(color: Colors.white)),
+          ),
         ],
       ),
     ),
@@ -22,8 +24,11 @@ void showCpSnackbar(BuildContext context, {required String message, Widget? icon
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }
 
-void showCpErrorSnackbar(BuildContext context, {required String message}) =>
-    showCpSnackbar(context, message: message, icon: const Icon(Icons.error, color: Colors.red));
+void showCpErrorSnackbar(BuildContext context, {required String message}) => showCpSnackbar(
+  context,
+  message: message,
+  icon: const Icon(Icons.error, color: Colors.red),
+);
 
 void showClipboardSnackbar(BuildContext context) => showCpSnackbar(
   context,

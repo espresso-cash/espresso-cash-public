@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'signature_status.dart';
@@ -29,10 +30,9 @@ const _$CommitmentEnumMap = {
 SignatureStatusesResult _$SignatureStatusesResultFromJson(Map<String, dynamic> json) =>
     SignatureStatusesResult(
       context: Context.fromJson(json['context'] as Map<String, dynamic>),
-      value:
-          (json['value'] as List<dynamic>)
-              .map((e) => e == null ? null : SignatureStatus.fromJson(e as Map<String, dynamic>))
-              .toList(),
+      value: (json['value'] as List<dynamic>)
+          .map((e) => e == null ? null : SignatureStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$SignatureStatusesResultToJson(SignatureStatusesResult instance) =>

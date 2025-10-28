@@ -32,12 +32,11 @@ class TokenSendConfirmationScreen extends StatefulWidget {
     required Token token,
   }) => Navigator.of(context).push(
     MaterialPageRoute(
-      builder:
-          (context) => TokenSendConfirmationScreen(
-            initialAmount: initialAmount,
-            recipient: recipient,
-            token: token,
-          ),
+      builder: (context) => TokenSendConfirmationScreen(
+        initialAmount: initialAmount,
+        recipient: recipient,
+        token: token,
+      ),
     ),
   );
 
@@ -92,14 +91,9 @@ class _ScreenState extends State<TokenSendConfirmationScreen> {
         SafeArea(
           minimum: const EdgeInsets.only(bottom: 40),
           child: NestedScrollView(
-            headerSliverBuilder:
-                (context, _) => [
-                  TokenAppBar(
-                    token: widget.token,
-                    color: CpColors.deepGreyColor,
-                    displayText: false,
-                  ),
-                ],
+            headerSliverBuilder: (context, _) => [
+              TokenAppBar(token: widget.token, color: CpColors.deepGreyColor, displayText: false),
+            ],
             physics: const NeverScrollableScrollPhysics(),
             body: ClipRRect(
               borderRadius: const BorderRadius.only(
@@ -107,50 +101,48 @@ class _ScreenState extends State<TokenSendConfirmationScreen> {
                 topRight: Radius.circular(31),
               ),
               child: LayoutBuilder(
-                builder:
-                    (BuildContext context, BoxConstraints viewportConstraints) => DecoratedBox(
-                      decoration: const BoxDecoration(),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 36),
-                            Expanded(
-                              child: DecoratedBox(
-                                decoration: const BoxDecoration(
-                                  color: CpColors.deepGreyColor,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(31),
-                                    topRight: Radius.circular(31),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      AmountWithEquivalent(
-                                        inputController: _amountController,
-                                        token: widget.token,
-                                        collapsed: false,
-                                        backgroundColor: CpColors.deepGreyColor,
-                                      ),
-                                      const SizedBox(height: 72),
-                                      FutureBuilder(
-                                        future: _feeAmount,
-                                        builder:
-                                            (context, fee) => _InfoTable(
-                                              walletAddress: widget.recipient.toString().shortened,
-                                              fees: context.feeStatus(fee),
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                builder: (BuildContext context, BoxConstraints viewportConstraints) => DecoratedBox(
+                  decoration: const BoxDecoration(),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 36),
+                        Expanded(
+                          child: DecoratedBox(
+                            decoration: const BoxDecoration(
+                              color: CpColors.deepGreyColor,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(31),
+                                topRight: Radius.circular(31),
                               ),
                             ),
-                            CpBottomButton(text: context.l10n.send, onPressed: _handleSubmitted),
-                          ],
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  AmountWithEquivalent(
+                                    inputController: _amountController,
+                                    token: widget.token,
+                                    collapsed: false,
+                                    backgroundColor: CpColors.deepGreyColor,
+                                  ),
+                                  const SizedBox(height: 72),
+                                  FutureBuilder(
+                                    future: _feeAmount,
+                                    builder: (context, fee) => _InfoTable(
+                                      walletAddress: widget.recipient.toString().shortened,
+                                      fees: context.feeStatus(fee),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        CpBottomButton(text: context.l10n.send, onPressed: _handleSubmitted),
+                      ],
                     ),
+                  ),
+                ),
               ),
             ),
           ),

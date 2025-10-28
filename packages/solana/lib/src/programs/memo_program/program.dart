@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
 export 'instruction.dart';

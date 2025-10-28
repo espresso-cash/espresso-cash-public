@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'parsed_system_instruction.dart';
@@ -6,46 +7,46 @@ part of 'parsed_system_instruction.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ParsedSystemTransferInstructionImpl _$$ParsedSystemTransferInstructionImplFromJson(
+ParsedSystemTransferInstruction _$ParsedSystemTransferInstructionFromJson(
   Map<String, dynamic> json,
-) => _$ParsedSystemTransferInstructionImpl(
+) => ParsedSystemTransferInstruction(
   info: ParsedSystemTransferInformation.fromJson(json['info'] as Map<String, dynamic>),
   type: json['type'] as String,
 );
 
-Map<String, dynamic> _$$ParsedSystemTransferInstructionImplToJson(
-  _$ParsedSystemTransferInstructionImpl instance,
+Map<String, dynamic> _$ParsedSystemTransferInstructionToJson(
+  ParsedSystemTransferInstruction instance,
 ) => <String, dynamic>{'info': instance.info.toJson(), 'type': instance.type};
 
-_$ParsedSystemTransferCheckedInstructionImpl _$$ParsedSystemTransferCheckedInstructionImplFromJson(
+ParsedSystemTransferCheckedInstruction _$ParsedSystemTransferCheckedInstructionFromJson(
   Map<String, dynamic> json,
-) => _$ParsedSystemTransferCheckedInstructionImpl(
+) => ParsedSystemTransferCheckedInstruction(
   info: ParsedSystemTransferInformation.fromJson(json['info'] as Map<String, dynamic>),
   type: json['type'] as String,
 );
 
-Map<String, dynamic> _$$ParsedSystemTransferCheckedInstructionImplToJson(
-  _$ParsedSystemTransferCheckedInstructionImpl instance,
+Map<String, dynamic> _$ParsedSystemTransferCheckedInstructionToJson(
+  ParsedSystemTransferCheckedInstruction instance,
 ) => <String, dynamic>{'info': instance.info.toJson(), 'type': instance.type};
 
-_$ParsedSystemUnsupportedInstructionImpl _$$ParsedSystemUnsupportedInstructionImplFromJson(
+ParsedSystemUnsupportedInstruction _$ParsedSystemUnsupportedInstructionFromJson(
   Map<String, dynamic> json,
-) => _$ParsedSystemUnsupportedInstructionImpl(type: json['type'] as String);
+) => ParsedSystemUnsupportedInstruction(type: json['type'] as String);
 
-Map<String, dynamic> _$$ParsedSystemUnsupportedInstructionImplToJson(
-  _$ParsedSystemUnsupportedInstructionImpl instance,
+Map<String, dynamic> _$ParsedSystemUnsupportedInstructionToJson(
+  ParsedSystemUnsupportedInstruction instance,
 ) => <String, dynamic>{'type': instance.type};
 
-_$ParsedSystemTransferInformationImpl _$$ParsedSystemTransferInformationImplFromJson(
+_ParsedSystemTransferInformation _$ParsedSystemTransferInformationFromJson(
   Map<String, dynamic> json,
-) => _$ParsedSystemTransferInformationImpl(
+) => _ParsedSystemTransferInformation(
   lamports: (json['lamports'] as num).toInt(),
   source: json['source'] as String,
   destination: json['destination'] as String,
 );
 
-Map<String, dynamic> _$$ParsedSystemTransferInformationImplToJson(
-  _$ParsedSystemTransferInformationImpl instance,
+Map<String, dynamic> _$ParsedSystemTransferInformationToJson(
+  _ParsedSystemTransferInformation instance,
 ) => <String, dynamic>{
   'lamports': instance.lamports,
   'source': instance.source,

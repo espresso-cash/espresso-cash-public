@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 

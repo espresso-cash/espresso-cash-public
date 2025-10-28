@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';

@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'token_account_data_info.dart';
@@ -14,10 +15,9 @@ SplTokenAccountDataInfo _$SplTokenAccountDataInfoFromJson(Map<String, dynamic> j
       mint: json['mint'] as String,
       owner: json['owner'] as String,
       delegate: json['delegate'] as String?,
-      delegateAmount:
-          json['delegateAmount'] == null
-              ? null
-              : TokenAmount.fromJson(json['delegateAmount'] as Map<String, dynamic>),
+      delegateAmount: json['delegateAmount'] == null
+          ? null
+          : TokenAmount.fromJson(json['delegateAmount'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$SplTokenAccountDataInfoToJson(SplTokenAccountDataInfo instance) =>
@@ -27,6 +27,6 @@ Map<String, dynamic> _$SplTokenAccountDataInfoToJson(SplTokenAccountDataInfo ins
       'isNative': instance.isNative,
       'mint': instance.mint,
       'owner': instance.owner,
-      if (instance.delegate case final value?) 'delegate': value,
-      if (instance.delegateAmount?.toJson() case final value?) 'delegateAmount': value,
+      'delegate': ?instance.delegate,
+      'delegateAmount': ?instance.delegateAmount?.toJson(),
     };

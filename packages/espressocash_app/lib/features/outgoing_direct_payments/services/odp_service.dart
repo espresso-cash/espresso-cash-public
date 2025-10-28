@@ -55,20 +55,19 @@ class ODPService {
   }) async {
     final id = const Uuid().v4();
 
-    final status =
-        amount.token.isSolana
-            ? await _createSolTx(
-              account: account,
-              receiver: receiver,
-              amount: amount,
-              reference: reference,
-            )
-            : await _createTokenTx(
-              account: account,
-              receiver: receiver,
-              amount: amount,
-              reference: reference,
-            );
+    final status = amount.token.isSolana
+        ? await _createSolTx(
+            account: account,
+            receiver: receiver,
+            amount: amount,
+            reference: reference,
+          )
+        : await _createTokenTx(
+            account: account,
+            receiver: receiver,
+            amount: amount,
+            reference: reference,
+          );
 
     final payment = OutgoingDirectPayment(
       id: id,
@@ -190,8 +189,8 @@ class ODPService {
 
     final ODPStatus? newStatus = tx.map(
       sent: (_) => ODPStatus.txSent(status.tx, slot: status.slot),
-      invalidBlockhash:
-          (_) => const ODPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
+      invalidBlockhash: (_) =>
+          const ODPStatus.txFailure(reason: TxFailureReason.invalidBlockhashSending),
       failure: (it) => ODPStatus.txFailure(reason: it.reason),
       networkError: (_) => null,
     );

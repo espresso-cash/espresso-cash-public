@@ -1,3 +1,4 @@
+// @dart=3.9
 enum StakeActivationState {
   /// Stake is activating
   activating,

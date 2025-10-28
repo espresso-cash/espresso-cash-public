@@ -40,8 +40,8 @@ if (project.hasProperty('dart-defines')) {
 }
 
 android {
-    compileSdkVersion 35
-    ndkVersion "26.3.11579264"
+    compileSdkVersion 36
+    ndkVersion "27.0.12077973"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -53,8 +53,8 @@ android {
 
     defaultConfig {
         applicationId "com.pleasecrypto.flutter"
-        minSdkVersion 23
-        targetSdkVersion 35
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
@@ -97,8 +97,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.RampNetwork:ramp-sdk-android:3.+'
-
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'androidx.test:runner:1.2.0'

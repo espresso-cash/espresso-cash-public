@@ -1,3 +1,4 @@
+// @dart=3.9
 part of 'address_lookup_table.dart';
 
 @freezed

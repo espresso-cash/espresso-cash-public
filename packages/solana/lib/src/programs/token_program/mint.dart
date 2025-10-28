@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
@@ -5,7 +6,7 @@ part 'mint.freezed.dart';
 
 /// Information about a mint.
 @freezed
-class Mint with _$Mint {
+abstract class Mint with _$Mint {
   const factory Mint({
     /// Address of the mint
     required Ed25519HDPublicKey address,

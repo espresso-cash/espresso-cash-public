@@ -46,14 +46,13 @@ class WebViewScreen extends StatefulWidget {
     CpThemeData? theme,
   }) => Navigator.of(context).push<void>(
     MaterialPageRoute(
-      builder:
-          (context) => WebViewScreen(
-            url: url,
-            title: title,
-            onLoaded: onLoaded,
-            theme: theme,
-            onClosed: onClosed,
-          ),
+      builder: (context) => WebViewScreen(
+        url: url,
+        title: title,
+        onLoaded: onLoaded,
+        theme: theme,
+        onClosed: onClosed,
+      ),
     ),
   );
 
@@ -116,8 +115,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
         appBar: CpAppBar(title: Text(_title ?? context.l10n.loading)),
         body: InAppWebView(
           initialUrlRequest: URLRequest(url: WebUri.uri(widget.url)),
-          onPermissionRequest:
-              (_, permissionRequest) => _handlePermissionRequest(permissionRequest.resources),
+          onPermissionRequest: (_, permissionRequest) =>
+              _handlePermissionRequest(permissionRequest.resources),
           onLoadStop: (controller, _) => _handleLoaded(controller),
           onCloseWindow: (_) => _handleWindowClosed(),
           onConsoleMessage: (controller, consoleMessage) async {
@@ -129,11 +128,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
             _handleError('Console', consoleMessage.message, url?.toString());
           },
-          onReceivedError:
-              (_, request, error) =>
-                  _handleError('JavaScript', error.toString(), request.url.toString()),
-          onReceivedHttpError:
-              (_, request, error) => _handleError('HTTP', error.toString(), request.url.toString()),
+          onReceivedError: (_, request, error) =>
+              _handleError('JavaScript', error.toString(), request.url.toString()),
+          onReceivedHttpError: (_, request, error) =>
+              _handleError('HTTP', error.toString(), request.url.toString()),
           initialSettings: InAppWebViewSettings(
             iframeAllowFullscreen: false,
             allowsInlineMediaPlayback: true,

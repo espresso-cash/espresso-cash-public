@@ -5,12 +5,12 @@ import 'remote_request.dart';
 part 'notification.freezed.dart';
 
 @freezed
-class MobileWalletNotification with _$MobileWalletNotification {
-  const factory MobileWalletNotification.initialized() = _Initialized;
+sealed class MobileWalletNotification with _$MobileWalletNotification {
+  const factory MobileWalletNotification.initialized() = Initialized;
 
-  const factory MobileWalletNotification.sessionTerminated() = _SessionTerminated;
+  const factory MobileWalletNotification.sessionTerminated() = SessionTerminated;
 
-  const factory MobileWalletNotification.deauthorized() = _Deauthorized;
+  const factory MobileWalletNotification.deauthorized() = Deauthorized;
 
-  const factory MobileWalletNotification.request(RemoteRequest request) = _RemoteRequsest;
+  const factory MobileWalletNotification.request(RemoteRequest request) = RemoteRequsest;
 }

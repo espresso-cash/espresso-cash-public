@@ -60,24 +60,23 @@ class CpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle =
-        (() {
-          // ignore: avoid-non-null-assertion, the style should be there
-          final style = Theme.of(
-            context,
-          ).textTheme.labelLarge!.copyWith(overflow: TextOverflow.ellipsis);
-          switch (size) {
-            case CpButtonSize.normal:
-              return style;
-            case CpButtonSize.big:
-              return style.copyWith(fontSize: 17.sp);
-            case CpButtonSize.small:
-              return style.copyWith(fontSize: 14.sp, height: 0);
-            case CpButtonSize.wide:
-            case CpButtonSize.micro:
-              return style.copyWith(fontSize: 16.sp, height: 0);
-          }
-        })();
+    final textStyle = (() {
+      // ignore: avoid-non-null-assertion, the style should be there
+      final style = Theme.of(
+        context,
+      ).textTheme.labelLarge!.copyWith(overflow: TextOverflow.ellipsis);
+      switch (size) {
+        case CpButtonSize.normal:
+          return style;
+        case CpButtonSize.big:
+          return style.copyWith(fontSize: 17.sp);
+        case CpButtonSize.small:
+          return style.copyWith(fontSize: 14.sp, height: 0);
+        case CpButtonSize.wide:
+        case CpButtonSize.micro:
+          return style.copyWith(fontSize: 16.sp, height: 0);
+      }
+    })();
 
     final double horizontalPadding;
     switch (size) {
@@ -102,10 +101,9 @@ class CpButton extends StatelessWidget {
         overlayColor: WidgetStateProperty.all(CpColors.translucentYellowColor),
         padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: horizontalPadding)),
         backgroundColor: WidgetStateProperty.resolveWith(
-          (states) =>
-              states.contains(WidgetState.disabled)
-                  ? _backgroundColor.withOpacity(_disabledOpacity)
-                  : _backgroundColor,
+          (states) => states.contains(WidgetState.disabled)
+              ? _backgroundColor.withOpacity(_disabledOpacity)
+              : _backgroundColor,
         ),
         foregroundColor: WidgetStateProperty.all(_foregroundColor),
         textStyle: WidgetStateProperty.all(textStyle),

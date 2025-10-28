@@ -112,6 +112,8 @@ class _DateInputFormatter extends TextInputFormatter {
     return _updateText(currentText);
   }
 
-  TextEditingValue _updateText(String text) =>
-      TextEditingValue(text: text, selection: TextSelection.collapsed(offset: text.length));
+  TextEditingValue _updateText(String text) => TextEditingValue(
+    text: text,
+    selection: TextSelection.collapsed(offset: text.length),
+  );
 }

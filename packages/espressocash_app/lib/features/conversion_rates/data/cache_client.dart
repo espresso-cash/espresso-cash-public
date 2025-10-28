@@ -21,13 +21,12 @@ class DioCacheClient {
       policy: CachePolicy.refreshForceCache,
     );
 
-    final dio =
-        Dio()
-          ..interceptors.addAll([
-            CacheInterceptor(options: options),
-            DioCacheInterceptor(options: options),
-          ])
-          ..options.listFormat = ListFormat.csv;
+    final dio = Dio()
+      ..interceptors.addAll([
+        CacheInterceptor(options: options),
+        DioCacheInterceptor(options: options),
+      ])
+      ..options.listFormat = ListFormat.csv;
 
     return DioCacheClient._(dio, options);
   }

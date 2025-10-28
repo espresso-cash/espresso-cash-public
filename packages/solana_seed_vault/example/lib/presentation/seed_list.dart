@@ -10,17 +10,15 @@ class SeedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<SeedVaultBloc, SeedVaultState>(
-    builder:
-        (context, state) => state.maybeMap(
-          orElse: () => const SizedBox.shrink(),
-          loaded:
-              (state) => ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: state.seeds.length,
-                itemBuilder: (context, index) => SeedItem(seed: state.seeds.elementAt(index)),
-              ),
-        ),
+    builder: (context, state) => state.maybeMap(
+      orElse: () => const SizedBox.shrink(),
+      loaded: (state) => ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: state.seeds.length,
+        itemBuilder: (context, index) => SeedItem(seed: state.seeds.elementAt(index)),
+      ),
+    ),
   );
 }
 

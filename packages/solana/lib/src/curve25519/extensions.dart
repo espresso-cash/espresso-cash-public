@@ -1,3 +1,4 @@
+// @dart=3.9
 extension IntegerListExt on List<BigInt> {
   BigInt bit(int offset) => (this[offset >> 3] >> (offset & 7)) & BigInt.one;
 

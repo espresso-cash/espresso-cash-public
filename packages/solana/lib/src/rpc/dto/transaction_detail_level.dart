@@ -1,3 +1,4 @@
+// @dart=3.9
 enum TransactionDetailLevel {
   /// No details
   none,

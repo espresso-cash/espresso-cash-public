@@ -50,29 +50,28 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
   void _showPicker(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
-      builder:
-          (BuildContext bc) => ColoredBox(
-            color: Colors.white,
-            child: SafeArea(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  _getListItem(
-                    context,
-                    context.l10n.photoLibrary,
-                    const Icon(Icons.photo_library),
-                    () => _onImageButtonPressed(context, ImageSource.gallery),
-                  ),
-                  _getListItem(
-                    context,
-                    context.l10n.profile_lblCamera,
-                    const Icon(Icons.photo_camera),
-                    () => _onImageButtonPressed(context, ImageSource.camera),
-                  ),
-                ],
+      builder: (BuildContext bc) => ColoredBox(
+        color: Colors.white,
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _getListItem(
+                context,
+                context.l10n.photoLibrary,
+                const Icon(Icons.photo_library),
+                () => _onImageButtonPressed(context, ImageSource.gallery),
               ),
-            ),
+              _getListItem(
+                context,
+                context.l10n.profile_lblCamera,
+                const Icon(Icons.photo_camera),
+                () => _onImageButtonPressed(context, ImageSource.camera),
+              ),
+            ],
           ),
+        ),
+      ),
     );
   }
 

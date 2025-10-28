@@ -55,21 +55,18 @@ class _$DirectPaymentQuoteRequestDtoCopyWithImpl<$Res, $Val extends DirectPaymen
   $Res call({Object? receiverAccount = null, Object? amount = null, Object? mintAddress = null}) {
     return _then(
       _value.copyWith(
-            receiverAccount:
-                null == receiverAccount
-                    ? _value.receiverAccount
-                    : receiverAccount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            amount:
-                null == amount
-                    ? _value.amount
-                    : amount // ignore: cast_nullable_to_non_nullable
-                        as int,
-            mintAddress:
-                null == mintAddress
-                    ? _value.mintAddress
-                    : mintAddress // ignore: cast_nullable_to_non_nullable
-                        as String,
+            receiverAccount: null == receiverAccount
+                ? _value.receiverAccount
+                : receiverAccount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            mintAddress: null == mintAddress
+                ? _value.mintAddress
+                : mintAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -104,21 +101,18 @@ class __$$DirectPaymentQuoteRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? receiverAccount = null, Object? amount = null, Object? mintAddress = null}) {
     return _then(
       _$DirectPaymentQuoteRequestDtoImpl(
-        receiverAccount:
-            null == receiverAccount
-                ? _value.receiverAccount
-                : receiverAccount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        amount:
-            null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                    as int,
-        mintAddress:
-            null == mintAddress
-                ? _value.mintAddress
-                : mintAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
+        receiverAccount: null == receiverAccount
+            ? _value.receiverAccount
+            : receiverAccount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        mintAddress: null == mintAddress
+            ? _value.mintAddress
+            : mintAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -232,16 +226,14 @@ class _$DirectPaymentQuoteResponseDtoCopyWithImpl<$Res, $Val extends DirectPayme
   $Res call({Object? fee = null, Object? totalAmount = null}) {
     return _then(
       _value.copyWith(
-            fee:
-                null == fee
-                    ? _value.fee
-                    : fee // ignore: cast_nullable_to_non_nullable
-                        as int,
-            totalAmount:
-                null == totalAmount
-                    ? _value.totalAmount
-                    : totalAmount // ignore: cast_nullable_to_non_nullable
-                        as int,
+            fee: null == fee
+                ? _value.fee
+                : fee // ignore: cast_nullable_to_non_nullable
+                      as int,
+            totalAmount: null == totalAmount
+                ? _value.totalAmount
+                : totalAmount // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -276,16 +268,14 @@ class __$$DirectPaymentQuoteResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? fee = null, Object? totalAmount = null}) {
     return _then(
       _$DirectPaymentQuoteResponseDtoImpl(
-        fee:
-            null == fee
-                ? _value.fee
-                : fee // ignore: cast_nullable_to_non_nullable
-                    as int,
-        totalAmount:
-            null == totalAmount
-                ? _value.totalAmount
-                : totalAmount // ignore: cast_nullable_to_non_nullable
-                    as int,
+        fee: null == fee
+            ? _value.fee
+            : fee // ignore: cast_nullable_to_non_nullable
+                  as int,
+        totalAmount: null == totalAmount
+            ? _value.totalAmount
+            : totalAmount // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -387,11 +377,10 @@ class _$EscrowPaymentQuoteResponseDtoCopyWithImpl<$Res, $Val extends EscrowPayme
   $Res call({Object? fee = null}) {
     return _then(
       _value.copyWith(
-            fee:
-                null == fee
-                    ? _value.fee
-                    : fee // ignore: cast_nullable_to_non_nullable
-                        as int,
+            fee: null == fee
+                ? _value.fee
+                : fee // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -426,11 +415,10 @@ class __$$EscrowPaymentQuoteResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? fee = null}) {
     return _then(
       _$EscrowPaymentQuoteResponseDtoImpl(
-        fee:
-            null == fee
-                ? _value.fee
-                : fee // ignore: cast_nullable_to_non_nullable
-                    as int,
+        fee: null == fee
+            ? _value.fee
+            : fee // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }

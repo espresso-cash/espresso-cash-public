@@ -78,8 +78,9 @@ class TxUpdater implements Disposable {
   Future<TransactionUpdateResult> _fetchNonUsdcTransactions(String? mostRecentTxId) async {
     final tokenAccounts = await _getAllTokenAccounts(_wallet.publicKey);
 
-    final nonUsdcTokenAccounts =
-        tokenAccounts.where((account) => account.mintAddress != Token.usdc.address).toList();
+    final nonUsdcTokenAccounts = tokenAccounts
+        .where((account) => account.mintAddress != Token.usdc.address)
+        .toList();
 
     final allAddresses = [_wallet.publicKey, ...nonUsdcTokenAccounts.map((a) => a.account)];
 
@@ -135,20 +136,19 @@ class TxUpdater implements Disposable {
         const TokenAccountsFilter.byProgramId(TokenProgram.programId),
       )
       .letAsync(
-        (response) =>
-            response.value.map((account) {
-              final data = account.account.data as BinaryAccountData?;
-              if (data == null) {
-                throw Exception('Account info or data is null');
-              }
-              final mintAddressBytes = data.data.sublist(0, 32);
-              final mintAddress = base58encode(mintAddressBytes);
+        (response) => response.value.map((account) {
+          final data = account.account.data as BinaryAccountData?;
+          if (data == null) {
+            throw Exception('Account info or data is null');
+          }
+          final mintAddressBytes = data.data.sublist(0, 32);
+          final mintAddress = base58encode(mintAddressBytes);
 
-              return _TokenAccountInfo(
-                account: Ed25519HDPublicKey.fromBase58(account.pubkey),
-                mintAddress: mintAddress,
-              );
-            }).toList(),
+          return _TokenAccountInfo(
+            account: Ed25519HDPublicKey.fromBase58(account.pubkey),
+            mintAddress: mintAddress,
+          );
+        }).toList(),
       );
 
   @override
@@ -177,17 +177,15 @@ extension on TransactionDetails {
       List<TokenBalance>? preBalances,
       List<TokenBalance>? postBalances,
     ) {
-      final preBalance =
-          preBalances
-              ?.firstWhereOrNull((e) => e.mint == tokenAddress && e.accountIndex == accountIndex)
-              ?.uiTokenAmount
-              .amount;
+      final preBalance = preBalances
+          ?.firstWhereOrNull((e) => e.mint == tokenAddress && e.accountIndex == accountIndex)
+          ?.uiTokenAmount
+          .amount;
 
-      final postBalance =
-          postBalances
-              ?.firstWhereOrNull((e) => e.mint == tokenAddress && e.accountIndex == accountIndex)
-              ?.uiTokenAmount
-              .amount;
+      final postBalance = postBalances
+          ?.firstWhereOrNull((e) => e.mint == tokenAddress && e.accountIndex == accountIndex)
+          ?.uiTokenAmount
+          .amount;
 
       final preReturnValue = preBalance != null ? int.parse(preBalance) : 0;
       final postReturnValue = postBalance != null ? int.parse(postBalance) : 0;
@@ -197,21 +195,19 @@ extension on TransactionDetails {
       return postReturnValue - preReturnValue;
     }
 
-    final rawAmount =
-        tokenAddress == Token.sol.address
-            ? getBalanceDifference(meta?.preBalances, meta?.postBalances)
-            : getTokenBalanceDifference(meta?.preTokenBalances, meta?.postTokenBalances);
+    final rawAmount = tokenAddress == Token.sol.address
+        ? getBalanceDifference(meta?.preBalances, meta?.postBalances)
+        : getTokenBalanceDifference(meta?.preTokenBalances, meta?.postTokenBalances);
 
     if (rawAmount == null || rawAmount == 0) return null;
 
     final amount = await rawAmount.let((amount) async {
       final tokenRepository = GetIt.I<TokenRepository>();
-      final cryptoCurrency =
-          tokenAddress != null
-              ? tokenAddress == Token.sol.address
-                  ? const CryptoCurrency(token: Token.sol)
-                  : CryptoCurrency(token: await tokenRepository.getToken(tokenAddress) ?? Token.unk)
-              : const CryptoCurrency(token: Token.unk);
+      final cryptoCurrency = tokenAddress != null
+          ? tokenAddress == Token.sol.address
+                ? const CryptoCurrency(token: Token.sol)
+                : CryptoCurrency(token: await tokenRepository.getToken(tokenAddress) ?? Token.unk)
+          : const CryptoCurrency(token: Token.unk);
 
       return CryptoAmount(value: amount, cryptoCurrency: cryptoCurrency);
     });

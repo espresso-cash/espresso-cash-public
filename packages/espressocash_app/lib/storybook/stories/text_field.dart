@@ -6,15 +6,14 @@ import '../utils.dart';
 
 final cpTextField = Story(
   name: 'CpTextField',
-  builder:
-      (context) => Padding(
-        padding: const EdgeInsets.all(16),
-        child: CpTextField(
-          border: context.knobs.options(
-            label: 'Border',
-            initial: CpTextFieldBorder.rounded,
-            options: CpTextFieldBorder.values.toOptions(),
-          ),
-        ),
+  builder: (context) => Padding(
+    padding: const EdgeInsets.all(16),
+    child: CpTextField(
+      border: context.knobs.options(
+        label: 'Border',
+        initial: CpTextFieldBorder.rounded,
+        options: CpTextFieldBorder.values.toOptions(),
       ),
+    ),
+  ),
 );

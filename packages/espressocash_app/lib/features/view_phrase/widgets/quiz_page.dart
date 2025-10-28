@@ -41,40 +41,38 @@ class QuizPage extends StatelessWidget {
       appBar: CpAppBar(title: title?.let(Text.new), leading: backButton ?? const SizedBox.shrink()),
       body: SafeArea(
         child: LayoutBuilder(
-          builder:
-              (context, constraint) => SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraint.maxHeight),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      children: <Widget>[
-                        AspectRatio(
-                          aspectRatio: 0.73,
-                          child: Column(
-                            children: [
-                              Expanded(child: content),
-                              if (indicator case final indicator?) indicator,
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ...footer.map(
-                                (button) =>
-                                    Padding(padding: const EdgeInsets.all(8.0), child: button),
-                              ),
-                              const SizedBox(height: 32),
-                            ],
-                          ),
-                        ),
-                      ],
+          builder: (context, constraint) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraint.maxHeight),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: <Widget>[
+                    AspectRatio(
+                      aspectRatio: 0.73,
+                      child: Column(
+                        children: [
+                          Expanded(child: content),
+                          if (indicator case final indicator?) indicator,
+                        ],
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 16),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ...footer.map(
+                            (button) => Padding(padding: const EdgeInsets.all(8.0), child: button),
+                          ),
+                          const SizedBox(height: 32),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
+            ),
+          ),
         ),
       ),
     ),

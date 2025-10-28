@@ -36,19 +36,17 @@ class TransactionRepository {
   }
 
   Stream<IList<String>> watchByAddress(String tokenAddress) {
-    final query =
-        _db.select(_db.transactionRows)
-          ..where((t) => t.token.equals(tokenAddress))
-          ..orderBy([(t) => OrderingTerm.desc(t.created)]);
+    final query = _db.select(_db.transactionRows)
+      ..where((t) => t.token.equals(tokenAddress))
+      ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.map((row) => row.id).watch().map((event) => event.toIList());
   }
 
   Stream<Map<String, IList<TxCommon>>> watchGroupedByDate(String tokenAddress) {
-    final query =
-        _db.select(_db.transactionRows)
-          ..where((t) => t.token.equals(tokenAddress))
-          ..orderBy([(t) => OrderingTerm.desc(t.created)]);
+    final query = _db.select(_db.transactionRows)
+      ..where((t) => t.token.equals(tokenAddress))
+      ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.watch().asyncMap((rows) async {
       final grouped = <String, IList<TxCommon>>{};
@@ -66,10 +64,9 @@ class TransactionRepository {
   }
 
   Stream<IList<String>> watchCount(int count) {
-    final query =
-        _db.select(_db.transactionRows)
-          ..limit(count)
-          ..orderBy([(t) => OrderingTerm.desc(t.created)]);
+    final query = _db.select(_db.transactionRows)
+      ..limit(count)
+      ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.map((row) => row.id).watch().map((event) => event.toIList());
   }
@@ -93,17 +90,16 @@ class TransactionRepository {
 
     return clear
         ? _db.transaction(() async {
-          await _db.delete(_db.transactionRows).go();
-          await save();
-        })
+            await _db.delete(_db.transactionRows).go();
+            await save();
+          })
         : save();
   }
 
   Future<String?> mostRecentTxId() async {
-    final query =
-        _db.select(_db.transactionRows)
-          ..orderBy([(t) => OrderingTerm.desc(t.created)])
-          ..limit(1);
+    final query = _db.select(_db.transactionRows)
+      ..orderBy([(t) => OrderingTerm.desc(t.created)])
+      ..limit(1);
 
     final result = await query.getSingleOrNull();
 
@@ -133,8 +129,8 @@ class TransactionRepository {
     final olp = _db.oLPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
       builder: (pr) => pr.toActivity(),
-      ignoreWhen:
-          (row) => const [OLPStatusDto.withdrawn, OLPStatusDto.canceled].contains(row.status).not(),
+      ignoreWhen: (row) =>
+          const [OLPStatusDto.withdrawn, OLPStatusDto.canceled].contains(row.status).not(),
     );
 
     final onRamp = _db.onRampOrderRows.findActivityOrNull(
@@ -146,14 +142,12 @@ class TransactionRepository {
     final offRamp = _db.offRampOrderRows.findActivityOrNull(
       where: (row) => row.transaction.equals(tx.encode()) | row.solanaBridgeTx.equals(txId),
       builder: (pr) => Activity.offRamp(id: pr.id, created: pr.created),
-      ignoreWhen:
-          (row) =>
-              const [
-                OffRampOrderStatus.completed,
-                OffRampOrderStatus.cancelled,
-                OffRampOrderStatus.failure,
-                OffRampOrderStatus.refunded,
-              ].contains(row.status).not(),
+      ignoreWhen: (row) => const [
+        OffRampOrderStatus.completed,
+        OffRampOrderStatus.cancelled,
+        OffRampOrderStatus.failure,
+        OffRampOrderStatus.refunded,
+      ].contains(row.status).not(),
     );
 
     final oDlnP = _db.outgoingDlnPaymentRows.findActivityOrNull(
@@ -189,7 +183,10 @@ extension TransactionRowExt on TransactionRow {
       created: created,
       status: status,
       amount: amount?.let(
-        (it) => CryptoAmount(value: it, cryptoCurrency: CryptoCurrency(token: token ?? Token.unk)),
+        (it) => CryptoAmount(
+          value: it,
+          cryptoCurrency: CryptoCurrency(token: token ?? Token.unk),
+        ),
       ),
     );
   }
@@ -212,10 +209,9 @@ extension Q<Tbl extends HasResultSet, D> on ResultSetImplementation<Tbl, D> {
     required Func1<D, FutureOr<Activity>> builder,
     Func1<D, bool> ignoreWhen = T,
   }) {
-    final query =
-        select()
-          ..where(where)
-          ..limit(1);
+    final query = select()
+      ..where(where)
+      ..limit(1);
 
     return query
         .watchSingle()

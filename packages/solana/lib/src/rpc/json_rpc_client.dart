@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'dart:async';
 import 'dart:convert';
 
@@ -51,15 +52,12 @@ class JsonRpcClient {
   Future<_JsonRpcResponse> _postRequest(JsonRpcRequest request) async {
     final body = request.toJson();
     // Perform the POST request
-    final Response response = await post(
-      Uri.parse(_url),
-      headers: _headers,
-      body: json.encode(body),
-    ).timeout(
-      _timeout,
-      onTimeout:
-          () => throw RpcTimeoutException(method: request.method, body: body, timeout: _timeout),
-    );
+    final Response response =
+        await post(Uri.parse(_url), headers: _headers, body: json.encode(body)).timeout(
+          _timeout,
+          onTimeout: () =>
+              throw RpcTimeoutException(method: request.method, body: body, timeout: _timeout),
+        );
     // Handle the response
     if (response.statusCode == 200) {
       return _JsonRpcResponse._parse(json.decode(response.body));

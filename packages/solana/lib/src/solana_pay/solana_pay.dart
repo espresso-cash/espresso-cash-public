@@ -1,3 +1,4 @@
+// @dart=3.9
 export 'accounts/transaction_request.dart';
 export 'exceptions.dart';
 export 'solana_client_ext.dart';

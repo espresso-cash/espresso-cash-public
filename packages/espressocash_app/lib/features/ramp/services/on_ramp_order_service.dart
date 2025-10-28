@@ -18,22 +18,25 @@ import '../../ramp_partner/models/ramp_type.dart';
 import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
 
-typedef OnRampOrder =
-    ({
-      String id,
-      DateTime created,
-      Amount submittedAmount,
-      CryptoAmount? receiveAmount,
-      RampPartner partner,
-      OnRampOrderStatus status,
-      String partnerOrderId,
-      DepositDetails? manualDeposit,
-      String? authToken,
-      AdditionalDetails additionalDetails,
-    });
+typedef OnRampOrder = ({
+  String id,
+  DateTime created,
+  Amount submittedAmount,
+  CryptoAmount? receiveAmount,
+  RampPartner partner,
+  OnRampOrderStatus status,
+  String partnerOrderId,
+  DepositDetails? manualDeposit,
+  String? authToken,
+  AdditionalDetails additionalDetails,
+});
 
-typedef DepositDetails =
-    ({String bankAccount, String bankName, DateTime transferExpiryDate, FiatAmount transferAmount});
+typedef DepositDetails = ({
+  String bankAccount,
+  String bankName,
+  DateTime transferExpiryDate,
+  FiatAmount transferAmount,
+});
 
 typedef AdditionalDetails = ({FiatAmount? fee, String? referenceNumber, String? moreInfoUrl});
 
@@ -57,13 +60,11 @@ class OnRampOrderService implements Disposable {
     for (final order in orders) {
       switch (order.partner) {
         case RampPartner.moneygram:
-        case RampPartner.brij:
           // ignore: avoid-unnecessary-continue, needed here
           continue;
         case RampPartner.kado:
         case RampPartner.coinflow:
         case RampPartner.guardarian:
-        case RampPartner.rampNetwork:
         case RampPartner.brijRedirect:
           _subscribe(order.id);
       }
@@ -199,15 +200,10 @@ class OnRampOrderService implements Disposable {
             Amount(value: it, currency: currencyFromString(fiatSymbol ?? 'USD')) as FiatAmount,
       );
 
-      final isFiat = row.partner == RampPartner.brij;
-
-      final submittedAmount =
-          isFiat
-              ? FiatAmount(value: row.amount, fiatCurrency: currencyFromString(fiatSymbol ?? 'USD'))
-              : CryptoAmount(
-                value: row.amount,
-                cryptoCurrency: CryptoCurrency(token: token ?? Token.unk),
-              );
+      final submittedAmount = CryptoAmount(
+        value: row.amount,
+        cryptoCurrency: CryptoCurrency(token: token ?? Token.unk),
+      );
 
       return (
         id: row.id,
@@ -222,18 +218,17 @@ class OnRampOrderService implements Disposable {
         partner: row.partner,
         status: row.status,
         partnerOrderId: row.partnerOrderId,
-        manualDeposit:
-            isManualDeposit
-                ? (
-                  bankAccount: bankAccount ?? '',
-                  bankName: bankName,
-                  transferExpiryDate: transferExpiryDate ?? DateTime.now(),
-                  transferAmount: FiatAmount(
-                    value: transferAmount,
-                    fiatCurrency: currencyFromString(fiatSymbol),
-                  ),
-                )
-                : null,
+        manualDeposit: isManualDeposit
+            ? (
+                bankAccount: bankAccount ?? '',
+                bankName: bankName,
+                transferExpiryDate: transferExpiryDate ?? DateTime.now(),
+                transferAmount: FiatAmount(
+                  value: transferAmount,
+                  fiatCurrency: currencyFromString(fiatSymbol),
+                ),
+              )
+            : null,
         authToken: row.authToken,
         additionalDetails: (
           fee: feeAmount,
@@ -257,9 +252,9 @@ class OnRampOrderService implements Disposable {
   void _subscribe(String orderId) {
     _subscriptions[orderId] = Stream<void>.periodic(const Duration(seconds: 5))
         .asyncMap((_) async {
-          final order =
-              await (_db.select(_db.onRampOrderRows)
-                ..where((tbl) => tbl.id.equals(orderId))).getSingle();
+          final order = await (_db.select(
+            _db.onRampOrderRows,
+          )..where((tbl) => tbl.id.equals(orderId))).getSingle();
 
           if (order.status != OnRampOrderStatus.waitingForDeposit) {
             await _subscriptions.remove(orderId)?.cancel();
@@ -279,8 +274,9 @@ class OnRampOrderService implements Disposable {
         .listen((event) async {
           await _subscriptions.remove(orderId)?.cancel();
 
-          await (_db.update(_db.onRampOrderRows)
-            ..where((tbl) => tbl.id.equals(orderId))).write(event);
+          await (_db.update(
+            _db.onRampOrderRows,
+          )..where((tbl) => tbl.id.equals(orderId))).write(event);
         });
   }
 

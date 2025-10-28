@@ -1,3 +1,4 @@
+// @dart=3.9
 enum Encoding {
   /// Binary data encoded as base64
   base64,

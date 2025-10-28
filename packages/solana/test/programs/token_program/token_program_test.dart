@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: avoid-unnecessary-late
 
 import 'package:solana/dto.dart';
@@ -217,14 +218,13 @@ void main() {
 
     await sendMessage(Message.only(instruction), [mintAuthority]);
 
-    final accountInfo =
-        await client.rpcClient
-            .getAccountInfo(
-              mint.publicKey.toBase58(),
-              commitment: Commitment.confirmed,
-              encoding: Encoding.jsonParsed,
-            )
-            .value;
+    final accountInfo = await client.rpcClient
+        .getAccountInfo(
+          mint.publicKey.toBase58(),
+          commitment: Commitment.confirmed,
+          encoding: Encoding.jsonParsed,
+        )
+        .value;
 
     expect(accountInfo?.data, _hasMintAuthority(newAuthority.address));
   });
@@ -238,14 +238,13 @@ void main() {
 
     await sendMessage(Message.only(instruction), [newAuthority]);
 
-    final accountInfo =
-        await client.rpcClient
-            .getAccountInfo(
-              mint.publicKey.toBase58(),
-              commitment: Commitment.confirmed,
-              encoding: Encoding.jsonParsed,
-            )
-            .value;
+    final accountInfo = await client.rpcClient
+        .getAccountInfo(
+          mint.publicKey.toBase58(),
+          commitment: Commitment.confirmed,
+          encoding: Encoding.jsonParsed,
+        )
+        .value;
 
     expect(accountInfo?.data, _hasMintAuthority(null));
   });

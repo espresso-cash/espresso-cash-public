@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/encoder/compact_u16.dart';
 import 'package:test/test.dart';
 

@@ -23,8 +23,10 @@ sealed class Amount with _$Amount {
 
   factory Amount.zero({required Currency currency}) => Amount(value: 0, currency: currency);
 
-  factory Amount.fromToken({required int value, required Token token}) =>
-      Amount(value: value, currency: Currency.crypto(token: token));
+  factory Amount.fromToken({required int value, required Token token}) => Amount(
+    value: value,
+    currency: Currency.crypto(token: token),
+  );
 
   factory Amount.sol({required int value}) =>
       Amount.crypto(value: value, cryptoCurrency: Currency.sol);

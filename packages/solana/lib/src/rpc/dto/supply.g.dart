@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'supply.dart';
@@ -10,8 +11,9 @@ Supply _$SupplyFromJson(Map<String, dynamic> json) => Supply(
   total: (json['total'] as num).toInt(),
   circulating: (json['circulating'] as num).toInt(),
   nonCirculating: (json['nonCirculating'] as num).toInt(),
-  nonCirculatingAccounts:
-      (json['nonCirculatingAccounts'] as List<dynamic>).map((e) => e as String).toList(),
+  nonCirculatingAccounts: (json['nonCirculatingAccounts'] as List<dynamic>)
+      .map((e) => e as String)
+      .toList(),
 );
 
 Map<String, dynamic> _$SupplyToJson(Supply instance) => <String, dynamic>{

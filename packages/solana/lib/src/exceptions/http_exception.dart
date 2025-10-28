@@ -1,3 +1,4 @@
+// @dart=3.9
 class HttpException implements Exception {
   const HttpException(this._code, this._message);
 

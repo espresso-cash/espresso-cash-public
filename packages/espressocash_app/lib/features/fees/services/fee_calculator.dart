@@ -26,27 +26,25 @@ class FeeCalculator {
   Future<CryptoAmount> _getDirectPaymentFee({
     required Ed25519HDPublicKey address,
     required Token token,
-  }) =>
-      token.isSolana
-          ? Future.value(solTransferFee)
-          : _ecClient
-              .getDirectPaymentQuote(
-                DirectPaymentQuoteRequestDto(
-                  receiverAccount: address.toBase58(),
-                  amount: 0,
-                  mintAddress: token.address,
-                ),
-              )
-              .then((quote) => CryptoAmount(value: quote.fee, cryptoCurrency: Currency.usdc));
+  }) => token.isSolana
+      ? Future.value(solTransferFee)
+      : _ecClient
+            .getDirectPaymentQuote(
+              DirectPaymentQuoteRequestDto(
+                receiverAccount: address.toBase58(),
+                amount: 0,
+                mintAddress: token.address,
+              ),
+            )
+            .then((quote) => CryptoAmount(value: quote.fee, cryptoCurrency: Currency.usdc));
 
   Future<CryptoAmount> _getLinkPaymentFee() => _ecClient.getOutgoingEscrowPaymentQuote().then(
     (quote) => CryptoAmount(value: quote.fee, cryptoCurrency: Currency.usdc),
   );
 
-  Future<CryptoAmount> _getWithdrawFee(Ed25519HDPublicKey? address) =>
-      address == null
-          ? Future.value(const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc))
-          : _getDirectPaymentFee(address: address, token: Token.usdc);
+  Future<CryptoAmount> _getWithdrawFee(Ed25519HDPublicKey? address) => address == null
+      ? Future.value(const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc))
+      : _getDirectPaymentFee(address: address, token: Token.usdc);
 }
 
 const solTransferFee = CryptoAmount(value: 1 * lamportsPerSignature, cryptoCurrency: Currency.sol);

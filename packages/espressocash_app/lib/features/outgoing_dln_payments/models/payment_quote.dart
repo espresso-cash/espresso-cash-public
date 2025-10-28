@@ -6,7 +6,7 @@ import 'dln_payment.dart';
 part 'payment_quote.freezed.dart';
 
 @freezed
-class PaymentQuote with _$PaymentQuote {
+abstract class PaymentQuote with _$PaymentQuote {
   const factory PaymentQuote({
     required DlnPayment payment,
     required CryptoAmount inputAmount,

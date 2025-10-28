@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'dart:convert';
 
 import 'package:borsh_annotation/borsh_annotation.dart';
@@ -15,7 +16,7 @@ part 'signed_tx.freezed.dart';
 /// the solana convention for the set of addresses that they belong to within
 /// the message.
 @freezed
-class SignedTx with _$SignedTx {
+abstract class SignedTx with _$SignedTx {
   const factory SignedTx({
     @Default(<Signature>[]) List<Signature> signatures,
     required CompiledMessage compiledMessage,
@@ -43,10 +44,9 @@ class SignedTx with _$SignedTx {
 
     final compiledMessage = CompiledMessage(ByteArray(messageBytes));
 
-    final signatures =
-        signaturesData
-            .mapIndexed((i, s) => Signature(s, publicKey: compiledMessage.accountKeys[i]))
-            .toList();
+    final signatures = signaturesData
+        .mapIndexed((i, s) => Signature(s, publicKey: compiledMessage.accountKeys[i]))
+        .toList();
 
     return SignedTx(signatures: signatures, compiledMessage: compiledMessage);
   }

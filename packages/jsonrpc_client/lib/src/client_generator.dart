@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, avoid-type-casts
+// ignore_for_file: deprecated_member_use, avoid-type-casts, avoid-nullable-interpolation
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
@@ -17,9 +17,10 @@ class ClientGenerator extends GeneratorForAnnotation<SolanaRpcClient> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    final methods = (element as ClassElement) //
-        .methods
-        .where((m) => m.isAbstract);
+    final methods =
+        (element as ClassElement) //
+            .methods
+            .where((m) => m.isAbstract);
 
     return '''
 class _${element.name} implements ${element.name} {
@@ -37,10 +38,10 @@ ${methods.map(_generateConfig).join('\n\n')}
   }
 
   String _generateConfig(MethodElement method) {
-    final fields = method.parameters.where((p) => p.isNamed);
+    final fields = method.formalParameters.where((p) => p.isNamed);
     if (fields.isEmpty) return '';
 
-    final name = method.name.capitalized;
+    final name = method.name?.capitalized ?? '';
 
     return '''
 @JsonSerializable(createFactory: false, includeIfNull: false, explicitToJson: true)
@@ -55,18 +56,18 @@ class ${name}Config {
   }
 
   String _generateMethod(MethodElement method) {
-    final params =
-        method.parameters
-            .where((p) => p.isPositional)
-            .map((p) => p.type.isNullableType ? 'if (${p.name} != null) ${p.toJson()}' : p.toJson())
-            .toList();
-    final isWithContext = const TypeChecker.fromRuntime(WithContextResult).hasAnnotationOf(method);
-    final configParams = method.parameters.where((p) => p.isNamed);
+    final params = method.formalParameters
+        .where((p) => p.isPositional)
+        .map((p) => p.type.isNullableType ? 'if (${p.name} != null) ${p.toJson()}' : p.toJson())
+        .toList();
+    final isWithContext = const TypeChecker.typeNamed(WithContextResult).hasAnnotationOf(method);
+    final configParams = method.formalParameters.where((p) => p.isNamed);
     final String configParamsString;
     if (configParams.isNotEmpty) {
-      final configName = method.name.capitalized;
+      final configName = method.name?.capitalized ?? '';
       final parameters = configParams.map((p) => '${p.name}: ${p.name}').join(', ');
-      configParamsString = '''
+      configParamsString =
+          '''
           ${configName}Config($parameters).toJson()
 ''';
     } else {
@@ -78,7 +79,7 @@ class ${name}Config {
 
     return '''
 @override
-${method.getDisplayString(withNullability: true)} async {
+${method.displayString()} async {
   final config = $configParamsString;
   final response = await _jsonRpcClient.request(
       '${method.name}',
@@ -178,7 +179,7 @@ extension on DartType {
   String get nullSuffix => nullabilitySuffix != NullabilitySuffix.none ? '?' : '';
 }
 
-extension on ParameterElement {
+extension on FormalParameterElement {
   String asField() {
     final t = type.getDisplayString(withNullability: true);
 
@@ -186,7 +187,6 @@ extension on ParameterElement {
   }
 
   String asFormalInitializer() {
-    // ignore: avoid-nullable-interpolation, should be non-nullable
     final defaultValue = hasDefaultValue ? ' = $defaultValueCode' : '';
 
     return isRequiredNamed ? 'required this.$name$defaultValue' : 'this.$name$defaultValue';
@@ -194,7 +194,7 @@ extension on ParameterElement {
 
   String toJson() {
     if (type.isPrimitive) {
-      return name;
+      return name ?? '';
     } else if (type.element is EnumElement) {
       return '$name.value';
     } else if (!type.isDartCoreList) {

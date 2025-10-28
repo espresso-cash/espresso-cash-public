@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/rpc/rpc.dart';
 import 'package:solana/src/subscription_client/subscription_client.dart';
 

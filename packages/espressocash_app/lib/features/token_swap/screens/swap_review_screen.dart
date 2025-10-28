@@ -90,35 +90,34 @@ class _TokenSwapReviewScreenState extends State<TokenSwapReviewScreen> {
             SafeArea(
               minimum: EdgeInsets.only(bottom: 40.h),
               child: LayoutBuilder(
-                builder:
-                    (BuildContext context, BoxConstraints viewportConstraints) => Column(
-                      children: [
-                        SizedBox(height: 24.h),
-                        _TokensInfo(payAmount: input, receiveAmount: output),
-                        SizedBox(height: 36.h),
-                        _SwapInfo(
-                          provider: provider,
-                          bestPrice: bestPrice,
-                          fees: feesInUsdc,
-                          slippage: '$slippage%',
-                          priceImpact: '$priceImpact%',
-                        ),
-                        SizedBox(height: 16.h),
-                        Text(
-                          context.l10n.espressoCashFee(platformFeePercent),
-                          style: TextStyle(
-                            fontSize: 13.sp,
-                            color: CpColors.greyColor,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const Spacer(),
-                        CpBottomButton(
-                          text: context.l10n.swap,
-                          onPressed: isLoading ? null : _handleConfirmSwap,
-                        ),
-                      ],
+                builder: (BuildContext context, BoxConstraints viewportConstraints) => Column(
+                  children: [
+                    SizedBox(height: 24.h),
+                    _TokensInfo(payAmount: input, receiveAmount: output),
+                    SizedBox(height: 36.h),
+                    _SwapInfo(
+                      provider: provider,
+                      bestPrice: bestPrice,
+                      fees: feesInUsdc,
+                      slippage: '$slippage%',
+                      priceImpact: '$priceImpact%',
                     ),
+                    SizedBox(height: 16.h),
+                    Text(
+                      context.l10n.espressoCashFee(platformFeePercent),
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        color: CpColors.greyColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const Spacer(),
+                    CpBottomButton(
+                      text: context.l10n.swap,
+                      onPressed: isLoading ? null : _handleConfirmSwap,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -164,7 +163,10 @@ class _TokenRow extends StatelessWidget {
         children: [
           SizedBox(
             width: MediaQuery.sizeOf(context).width / 3,
-            child: Text(label, style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w500)),
+            child: Text(
+              label,
+              style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w500),
+            ),
           ),
           Expanded(
             child: Row(
@@ -249,7 +251,10 @@ class _InfoItem extends StatelessWidget {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
+        Text(
+          label,
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+        ),
         Text(
           value,
           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, color: CpColors.greyColor),

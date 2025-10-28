@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: avoid-unnecessary-late
 
 import 'package:solana/dto.dart' hide Instruction;
@@ -95,14 +96,13 @@ void main() {
     });
 
     test('Create an associated token account', () async {
-      List<ProgramAccount> accounts =
-          await solanaClient.rpcClient
-              .getTokenAccountsByOwner(
-                owner.address,
-                TokenAccountsFilter.byMint(newToken.address.toBase58()),
-                commitment: Commitment.confirmed,
-              )
-              .value;
+      List<ProgramAccount> accounts = await solanaClient.rpcClient
+          .getTokenAccountsByOwner(
+            owner.address,
+            TokenAccountsFilter.byMint(newToken.address.toBase58()),
+            commitment: Commitment.confirmed,
+          )
+          .value;
       expect(accounts, isNot(null));
       expect(accounts.length, equals(0));
 
@@ -112,15 +112,14 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      accounts =
-          await solanaClient.rpcClient
-              .getTokenAccountsByOwner(
-                owner.address,
-                TokenAccountsFilter.byMint(newToken.address.toBase58()),
-                encoding: Encoding.jsonParsed,
-                commitment: Commitment.confirmed,
-              )
-              .value;
+      accounts = await solanaClient.rpcClient
+          .getTokenAccountsByOwner(
+            owner.address,
+            TokenAccountsFilter.byMint(newToken.address.toBase58()),
+            encoding: Encoding.jsonParsed,
+            commitment: Commitment.confirmed,
+          )
+          .value;
       // ignore: avoid-duplicate-test-assertions, accounts have changed
       expect(accounts, isNot(null));
       expect(accounts.length, equals(1));
@@ -128,15 +127,14 @@ void main() {
     });
 
     test('Mint the newly created token and account', () async {
-      final accounts =
-          await solanaClient.rpcClient
-              .getTokenAccountsByOwner(
-                owner.address,
-                TokenAccountsFilter.byMint(newToken.address.toBase58()),
-                encoding: Encoding.jsonParsed,
-                commitment: Commitment.confirmed,
-              )
-              .value;
+      final accounts = await solanaClient.rpcClient
+          .getTokenAccountsByOwner(
+            owner.address,
+            TokenAccountsFilter.byMint(newToken.address.toBase58()),
+            encoding: Encoding.jsonParsed,
+            commitment: Commitment.confirmed,
+          )
+          .value;
       await solanaClient.mintTo(
         destination: Ed25519HDPublicKey.fromBase58(accounts.first.pubkey),
         amount: _totalSupply,
@@ -145,10 +143,9 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      final TokenAmount tokenSupply =
-          await solanaClient.rpcClient
-              .getTokenSupply(newToken.address.toBase58(), commitment: Commitment.confirmed)
-              .value;
+      final TokenAmount tokenSupply = await solanaClient.rpcClient
+          .getTokenSupply(newToken.address.toBase58(), commitment: Commitment.confirmed)
+          .value;
 
       expect(int.parse(tokenSupply.amount), equals(_totalSupply));
     });
@@ -171,10 +168,9 @@ void main() {
         mint: newToken.address,
         commitment: Commitment.confirmed,
       );
-      final balance =
-          await solanaClient.rpcClient
-              .getTokenAccountBalance(account.pubkey, commitment: Commitment.confirmed)
-              .value;
+      final balance = await solanaClient.rpcClient
+          .getTokenAccountBalance(account.pubkey, commitment: Commitment.confirmed)
+          .value;
 
       expect(balance.amount, '100');
     });

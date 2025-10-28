@@ -12,11 +12,9 @@ import '../../../di.dart';
 import '../../../ui/clipboard.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
-import '../../feature_flags/data/feature_flags_manager.dart';
 import '../data/profile_repository.dart';
 import '../widgets/ambassador_section.dart';
 import '../widgets/help_section.dart';
-import '../widgets/kyc_section.dart';
 import '../widgets/profile_section.dart';
 import '../widgets/security_section.dart';
 
@@ -55,14 +53,13 @@ class ProfileScreen extends StatelessWidget {
                           Center(
                             child: ListenableBuilder(
                               listenable: sl<ProfileRepository>(),
-                              builder:
-                                  (context, child) => CpUserAvatar(
-                                    radius: _imageSize / 2,
-                                    image: sl<ProfileRepository>().photoPath?.let(
-                                      (it) => FileImage(File(it)),
-                                    ),
-                                    userName: sl<ProfileRepository>().initials.ifEmpty(() => 'MW'),
-                                  ),
+                              builder: (context, child) => CpUserAvatar(
+                                radius: _imageSize / 2,
+                                image: sl<ProfileRepository>().photoPath?.let(
+                                  (it) => FileImage(File(it)),
+                                ),
+                                userName: sl<ProfileRepository>().initials.ifEmpty(() => 'MW'),
+                              ),
                             ),
                           ),
                           Positioned(
@@ -81,35 +78,33 @@ class ProfileScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       child: ListenableBuilder(
                         listenable: sl<ProfileRepository>(),
-                        builder:
-                            (context, child) => Text(
-                              sl<ProfileRepository>().fullName.ifEmpty(() => 'My Wallet'),
-                              style: Theme.of(context).textTheme.displaySmall,
-                            ),
+                        builder: (context, child) => Text(
+                          sl<ProfileRepository>().fullName.ifEmpty(() => 'My Wallet'),
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),
                     ListenableBuilder(
                       listenable: sl<ProfileRepository>(),
-                      builder:
-                          (context, child) => _QrCodeWidget(address: sl<MyAccount>().publicKey),
+                      builder: (context, child) =>
+                          _QrCodeWidget(address: sl<MyAccount>().publicKey),
                     ),
                     const SizedBox(height: 12),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 child: Column(
                   children: [
-                    const EditProfileSection(),
-                    if (sl<FeatureFlagsManager>().isBrijEnabled()) ...[const KycSection()],
-                    const AmbassadorSection(),
-                    const SecuritySection(),
-                    const HelpSection(),
-                    const DangerSection(),
-                    const ShareSection(),
-                    const VersionSection(),
+                    EditProfileSection(),
+                    AmbassadorSection(),
+                    SecuritySection(),
+                    HelpSection(),
+                    DangerSection(),
+                    ShareSection(),
+                    VersionSection(),
                   ],
                 ),
               ),

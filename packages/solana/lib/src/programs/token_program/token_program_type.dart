@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/solana.dart';
 
 enum TokenProgramType { tokenProgram, token2022Program }

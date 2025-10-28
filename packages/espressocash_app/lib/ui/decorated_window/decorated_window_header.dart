@@ -39,15 +39,14 @@ class DecoratedWindowHeader extends StatelessWidget {
         if (message != null)
           Padding(
             padding: const EdgeInsets.only(top: 16),
-            child:
-                markdownMessage
-                    ? Markdown(
-                      data: message,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      styleSheet: MarkdownStyleSheet(p: messageStyle),
-                    )
-                    : Text(message, textAlign: TextAlign.center, style: messageStyle),
+            child: markdownMessage
+                ? Markdown(
+                    data: message,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    styleSheet: MarkdownStyleSheet(p: messageStyle),
+                  )
+                : Text(message, textAlign: TextAlign.center, style: messageStyle),
           ),
       ],
     );

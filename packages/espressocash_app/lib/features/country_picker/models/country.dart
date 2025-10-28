@@ -6,17 +6,16 @@ part 'country.freezed.dart';
 part 'country.g.dart';
 
 @freezed
-class Country with _$Country {
+abstract class Country with _$Country {
   const factory Country({required String name, required String code, required String dialCode}) =
       _Country;
 
   factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
 
-  static List<Country> get all =>
-      country.WorldCountry.list
-          .where((c) => !_excludedCountries.contains(c.codeShort))
-          .map((e) => e.toCountry)
-          .toList();
+  static List<Country> get all => country.WorldCountry.list
+      .where((c) => !_excludedCountries.contains(c.codeShort))
+      .map((e) => e.toCountry)
+      .toList();
 
   static Country? findByCode(String code) {
     if (code.isEmpty) return null;

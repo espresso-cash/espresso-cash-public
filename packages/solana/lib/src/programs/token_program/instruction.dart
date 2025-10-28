@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/byte_array.dart';

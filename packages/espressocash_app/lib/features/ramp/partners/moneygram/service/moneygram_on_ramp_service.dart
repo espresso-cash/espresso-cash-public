@@ -64,11 +64,12 @@ class MoneygramOnRampOrderService implements Disposable {
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
-    final query = _db.select(_db.onRampOrderRows)..where(
-      (tbl) =>
-          tbl.status.isNotInValues([OnRampOrderStatus.completed, OnRampOrderStatus.failure]) &
-          tbl.partner.equalsValue(RampPartner.moneygram),
-    );
+    final query = _db.select(_db.onRampOrderRows)
+      ..where(
+        (tbl) =>
+            tbl.status.isNotInValues([OnRampOrderStatus.completed, OnRampOrderStatus.failure]) &
+            tbl.partner.equalsValue(RampPartner.moneygram),
+      );
 
     final orders = await query.get();
 
@@ -82,57 +83,57 @@ class MoneygramOnRampOrderService implements Disposable {
   }
 
   void _subscribe(String orderId) {
-    _subscriptions[orderId] = (_db.select(_db.onRampOrderRows)
-          ..where((tbl) => tbl.id.equals(orderId)))
-        .watchSingleOrNull()
-        .whereNotNull()
-        .asyncExpand<OnRampOrderRowsCompanion?>((order) {
-          if (order.shouldReportToSentry) {
-            logMessage(message: 'MGOnRampOrderStatusChange', data: order.toSentry());
-          }
+    _subscriptions[orderId] =
+        (_db.select(_db.onRampOrderRows)..where((tbl) => tbl.id.equals(orderId)))
+            .watchSingleOrNull()
+            .whereNotNull()
+            .asyncExpand<OnRampOrderRowsCompanion?>((order) {
+              if (order.shouldReportToSentry) {
+                logMessage(message: 'MGOnRampOrderStatusChange', data: order.toSentry());
+              }
 
-          switch (order.status) {
-            case OnRampOrderStatus.pending:
-              return Stream.fromFuture(_pendingOrder(order));
+              switch (order.status) {
+                case OnRampOrderStatus.pending:
+                  return Stream.fromFuture(_pendingOrder(order));
 
-            case OnRampOrderStatus.preProcessing:
-              return Stream.fromFuture(_preProcessingOrder(order));
+                case OnRampOrderStatus.preProcessing:
+                  return Stream.fromFuture(_preProcessingOrder(order));
 
-            case OnRampOrderStatus.waitingForPartner:
-              _waitingPartnerWatcher(order);
+                case OnRampOrderStatus.waitingForPartner:
+                  _waitingPartnerWatcher(order);
 
-              return const Stream.empty();
+                  return const Stream.empty();
 
-            case OnRampOrderStatus.postProcessing:
-              return Stream.fromFuture(_postProcessingOrder(order));
+                case OnRampOrderStatus.postProcessing:
+                  return Stream.fromFuture(_postProcessingOrder(order));
 
-            case OnRampOrderStatus.waitingForBridge:
-              _watchBridge(order);
+                case OnRampOrderStatus.waitingForBridge:
+                  _watchBridge(order);
 
-              return const Stream.empty();
+                  return const Stream.empty();
 
-            case OnRampOrderStatus.completed:
-            case OnRampOrderStatus.failure:
-              _subscriptions.remove(orderId)?.cancel();
+                case OnRampOrderStatus.completed:
+                case OnRampOrderStatus.failure:
+                  _subscriptions.remove(orderId)?.cancel();
 
-              _watchers[orderId]?.cancel();
-              _watchers.remove(orderId);
+                  _watchers[orderId]?.cancel();
+                  _watchers.remove(orderId);
 
-              return const Stream.empty();
+                  return const Stream.empty();
 
-            case OnRampOrderStatus.waitingForDeposit:
-            case OnRampOrderStatus.waitingPartnerReview:
-            case OnRampOrderStatus.depositExpired:
-            case OnRampOrderStatus.rejected:
-              return const Stream.empty();
-          }
-        })
-        .whereNotNull()
-        .listen(
-          (event) =>
-              (_db.update(_db.onRampOrderRows)
-                ..where((tbl) => tbl.id.equals(orderId))).write(event),
-        );
+                case OnRampOrderStatus.waitingForDeposit:
+                case OnRampOrderStatus.waitingPartnerReview:
+                case OnRampOrderStatus.depositExpired:
+                case OnRampOrderStatus.rejected:
+                  return const Stream.empty();
+              }
+            })
+            .whereNotNull()
+            .listen(
+              (event) => (_db.update(
+                _db.onRampOrderRows,
+              )..where((tbl) => tbl.id.equals(orderId))).write(event),
+            );
   }
 
   AsyncResult<String> createPendingMoneygram({
@@ -283,9 +284,9 @@ class MoneygramOnRampOrderService implements Disposable {
     return hash == null
         ? const OnRampOrderRowsCompanion(status: Value(OnRampOrderStatus.postProcessing))
         : OnRampOrderRowsCompanion(
-          stellarTxHash: Value(hash),
-          status: const Value(OnRampOrderStatus.waitingForBridge),
-        );
+            stellarTxHash: Value(hash),
+            status: const Value(OnRampOrderStatus.waitingForBridge),
+          );
   }
 
   void _watchBridge(OnRampOrderRow order) {

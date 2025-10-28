@@ -20,10 +20,9 @@ class PuzzleScreen extends StatelessWidget {
       child: Scaffold(
         appBar: CpAppBar(
           leading: backButton,
-          title:
-              title != null
-                  ? Text(title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700))
-                  : null,
+          title: title != null
+              ? Text(title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700))
+              : null,
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

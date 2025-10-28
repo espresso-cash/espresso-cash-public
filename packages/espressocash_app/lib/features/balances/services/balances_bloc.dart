@@ -55,16 +55,11 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> with DisposableBlo
 
           if (data is ParsedAccountData) {
             return data.maybeWhen<Future<_MainTokenAccount?>>(
-              splToken:
-                  (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
-                    account:
-                        (a) => _MainTokenAccount.create(
-                          programAccount.pubkey,
-                          a.info,
-                          _tokenRepository,
-                        ),
-                    orElse: () async => null,
-                  ),
+              splToken: (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
+                account: (a) =>
+                    _MainTokenAccount.create(programAccount.pubkey, a.info, _tokenRepository),
+                orElse: () async => null,
+              ),
               orElse: () async => null,
             );
           }
@@ -145,13 +140,12 @@ extension on SolanaClient {
     return CryptoAmount(value: lamports, cryptoCurrency: Currency.sol);
   }
 
-  Future<Iterable<ProgramAccount>> getSplAccounts(String address) =>
-      rpcClient
-          .getTokenAccountsByOwner(
-            address,
-            const TokenAccountsFilter.byProgramId(TokenProgram.programId),
-            commitment: Commitment.confirmed,
-            encoding: Encoding.jsonParsed,
-          )
-          .value;
+  Future<Iterable<ProgramAccount>> getSplAccounts(String address) => rpcClient
+      .getTokenAccountsByOwner(
+        address,
+        const TokenAccountsFilter.byProgramId(TokenProgram.programId),
+        commitment: Commitment.confirmed,
+        encoding: Encoding.jsonParsed,
+      )
+      .value;
 }

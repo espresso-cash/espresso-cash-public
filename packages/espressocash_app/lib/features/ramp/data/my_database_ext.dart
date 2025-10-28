@@ -11,19 +11,21 @@ extension MyDatabaseExt on MyDatabase {
   }
 
   Future<OnRampOrderRow?> getWaitingForPartnerOnRampOrder(String orderId) {
-    final query = select(onRampOrderRows)..where(
-      (tbl) =>
-          tbl.id.equals(orderId) & tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
-    );
+    final query = select(onRampOrderRows)
+      ..where(
+        (tbl) =>
+            tbl.id.equals(orderId) & tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
+      );
 
     return query.getSingleOrNull();
   }
 
   Future<OffRampOrderRow?> getWaitingForPartnerOffRampOrder(String orderId) {
-    final query = select(offRampOrderRows)..where(
-      (tbl) =>
-          tbl.id.equals(orderId) & tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
-    );
+    final query = select(offRampOrderRows)
+      ..where(
+        (tbl) =>
+            tbl.id.equals(orderId) & tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
+      );
 
     return query.getSingleOrNull();
   }

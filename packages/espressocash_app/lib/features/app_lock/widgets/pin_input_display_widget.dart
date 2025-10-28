@@ -55,9 +55,8 @@ class _PinInputDisplayWidgetState extends State<PinInputDisplayWidget> {
         ],
         ValueListenableBuilder<TextEditingValue>(
           valueListenable: _controller,
-          builder:
-              (context, value, _) =>
-                  PinDisplay(maxDigits: _maxDigits, currentDigits: value.text.length),
+          builder: (context, value, _) =>
+              PinDisplay(maxDigits: _maxDigits, currentDigits: value.text.length),
         ),
         const SizedBox(height: 16),
         Align(

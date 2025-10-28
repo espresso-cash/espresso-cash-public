@@ -56,11 +56,10 @@ class _$MoneygramChallengeSignRequestDtoCopyWithImpl<
   $Res call({Object? signedTx = null}) {
     return _then(
       _value.copyWith(
-            signedTx:
-                null == signedTx
-                    ? _value.signedTx
-                    : signedTx // ignore: cast_nullable_to_non_nullable
-                        as String,
+            signedTx: null == signedTx
+                ? _value.signedTx
+                : signedTx // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -96,11 +95,10 @@ class __$$MoneygramChallengeSignRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? signedTx = null}) {
     return _then(
       _$MoneygramChallengeSignRequestDtoImpl(
-        signedTx:
-            null == signedTx
-                ? _value.signedTx
-                : signedTx // ignore: cast_nullable_to_non_nullable
-                    as String,
+        signedTx: null == signedTx
+            ? _value.signedTx
+            : signedTx // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -199,11 +197,10 @@ class _$MoneygramChallengeSignResponseDtoCopyWithImpl<
   $Res call({Object? signedTx = null}) {
     return _then(
       _value.copyWith(
-            signedTx:
-                null == signedTx
-                    ? _value.signedTx
-                    : signedTx // ignore: cast_nullable_to_non_nullable
-                        as String,
+            signedTx: null == signedTx
+                ? _value.signedTx
+                : signedTx // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -242,11 +239,10 @@ class __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? signedTx = null}) {
     return _then(
       _$MoneygramChallengeSignResponseDtoImpl(
-        signedTx:
-            null == signedTx
-                ? _value.signedTx
-                : signedTx // ignore: cast_nullable_to_non_nullable
-                    as String,
+        signedTx: null == signedTx
+            ? _value.signedTx
+            : signedTx // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -282,9 +278,10 @@ class _$MoneygramChallengeSignResponseDtoImpl implements _MoneygramChallengeSign
   @override
   @pragma('vm:prefer-inline')
   _$$MoneygramChallengeSignResponseDtoImplCopyWith<_$MoneygramChallengeSignResponseDtoImpl>
-  get copyWith => __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl<
-    _$MoneygramChallengeSignResponseDtoImpl
-  >(this, _$identity);
+  get copyWith =>
+      __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl<
+        _$MoneygramChallengeSignResponseDtoImpl
+      >(this, _$identity);
 }
 
 abstract class _MoneygramChallengeSignResponseDto implements MoneygramChallengeSignResponseDto {
@@ -353,26 +350,22 @@ class _$SwapToStellarRequestDtoCopyWithImpl<$Res, $Val extends SwapToStellarRequ
   }) {
     return _then(
       _value.copyWith(
-            solanaSenderAddress:
-                null == solanaSenderAddress
-                    ? _value.solanaSenderAddress
-                    : solanaSenderAddress // ignore: cast_nullable_to_non_nullable
-                        as String,
-            stellarReceiverAddress:
-                null == stellarReceiverAddress
-                    ? _value.stellarReceiverAddress
-                    : stellarReceiverAddress // ignore: cast_nullable_to_non_nullable
-                        as String,
-            amount:
-                null == amount
-                    ? _value.amount
-                    : amount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            priorityFee:
-                freezed == priorityFee
-                    ? _value.priorityFee
-                    : priorityFee // ignore: cast_nullable_to_non_nullable
-                        as int?,
+            solanaSenderAddress: null == solanaSenderAddress
+                ? _value.solanaSenderAddress
+                : solanaSenderAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
+            stellarReceiverAddress: null == stellarReceiverAddress
+                ? _value.stellarReceiverAddress
+                : stellarReceiverAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            priorityFee: freezed == priorityFee
+                ? _value.priorityFee
+                : priorityFee // ignore: cast_nullable_to_non_nullable
+                      as int?,
           )
           as $Val,
     );
@@ -417,26 +410,22 @@ class __$$SwapToStellarRequestDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$SwapToStellarRequestDtoImpl(
-        solanaSenderAddress:
-            null == solanaSenderAddress
-                ? _value.solanaSenderAddress
-                : solanaSenderAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
-        stellarReceiverAddress:
-            null == stellarReceiverAddress
-                ? _value.stellarReceiverAddress
-                : stellarReceiverAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
-        amount:
-            null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        priorityFee:
-            freezed == priorityFee
-                ? _value.priorityFee
-                : priorityFee // ignore: cast_nullable_to_non_nullable
-                    as int?,
+        solanaSenderAddress: null == solanaSenderAddress
+            ? _value.solanaSenderAddress
+            : solanaSenderAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
+        stellarReceiverAddress: null == stellarReceiverAddress
+            ? _value.stellarReceiverAddress
+            : stellarReceiverAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        priorityFee: freezed == priorityFee
+            ? _value.priorityFee
+            : priorityFee // ignore: cast_nullable_to_non_nullable
+                  as int?,
       ),
     );
   }
@@ -561,21 +550,18 @@ class _$SwapToSolanaRequestDtoCopyWithImpl<$Res, $Val extends SwapToSolanaReques
   }) {
     return _then(
       _value.copyWith(
-            stellarSenderAddress:
-                null == stellarSenderAddress
-                    ? _value.stellarSenderAddress
-                    : stellarSenderAddress // ignore: cast_nullable_to_non_nullable
-                        as String,
-            solanaReceiverAddress:
-                null == solanaReceiverAddress
-                    ? _value.solanaReceiverAddress
-                    : solanaReceiverAddress // ignore: cast_nullable_to_non_nullable
-                        as String,
-            amount:
-                null == amount
-                    ? _value.amount
-                    : amount // ignore: cast_nullable_to_non_nullable
-                        as String,
+            stellarSenderAddress: null == stellarSenderAddress
+                ? _value.stellarSenderAddress
+                : stellarSenderAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
+            solanaReceiverAddress: null == solanaReceiverAddress
+                ? _value.solanaReceiverAddress
+                : solanaReceiverAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -614,21 +600,18 @@ class __$$SwapToSolanaRequestDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$SwapToSolanaRequestDtoImpl(
-        stellarSenderAddress:
-            null == stellarSenderAddress
-                ? _value.stellarSenderAddress
-                : stellarSenderAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
-        solanaReceiverAddress:
-            null == solanaReceiverAddress
-                ? _value.solanaReceiverAddress
-                : solanaReceiverAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
-        amount:
-            null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                    as String,
+        stellarSenderAddress: null == stellarSenderAddress
+            ? _value.stellarSenderAddress
+            : stellarSenderAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
+        solanaReceiverAddress: null == solanaReceiverAddress
+            ? _value.solanaReceiverAddress
+            : solanaReceiverAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -739,11 +722,10 @@ class _$MoneygramSwapResponseDtoCopyWithImpl<$Res, $Val extends MoneygramSwapRes
   $Res call({Object? encodedTx = null}) {
     return _then(
       _value.copyWith(
-            encodedTx:
-                null == encodedTx
-                    ? _value.encodedTx
-                    : encodedTx // ignore: cast_nullable_to_non_nullable
-                        as String,
+            encodedTx: null == encodedTx
+                ? _value.encodedTx
+                : encodedTx // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -778,11 +760,10 @@ class __$$MoneygramSwapResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? encodedTx = null}) {
     return _then(
       _$MoneygramSwapResponseDtoImpl(
-        encodedTx:
-            null == encodedTx
-                ? _value.encodedTx
-                : encodedTx // ignore: cast_nullable_to_non_nullable
-                    as String,
+        encodedTx: null == encodedTx
+            ? _value.encodedTx
+            : encodedTx // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -878,16 +859,14 @@ class _$MoneygramFeeRequestDtoCopyWithImpl<$Res, $Val extends MoneygramFeeReques
   $Res call({Object? amount = null, Object? type = null}) {
     return _then(
       _value.copyWith(
-            amount:
-                null == amount
-                    ? _value.amount
-                    : amount // ignore: cast_nullable_to_non_nullable
-                        as String,
-            type:
-                null == type
-                    ? _value.type
-                    : type // ignore: cast_nullable_to_non_nullable
-                        as RampTypeDto,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as String,
+            type: null == type
+                ? _value.type
+                : type // ignore: cast_nullable_to_non_nullable
+                      as RampTypeDto,
           )
           as $Val,
     );
@@ -922,16 +901,14 @@ class __$$MoneygramFeeRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? amount = null, Object? type = null}) {
     return _then(
       _$MoneygramFeeRequestDtoImpl(
-        amount:
-            null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                    as String,
-        type:
-            null == type
-                ? _value.type
-                : type // ignore: cast_nullable_to_non_nullable
-                    as RampTypeDto,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as String,
+        type: null == type
+            ? _value.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as RampTypeDto,
       ),
     );
   }
@@ -1038,26 +1015,22 @@ class _$MoneygramFeeResponseDtoCopyWithImpl<$Res, $Val extends MoneygramFeeRespo
   }) {
     return _then(
       _value.copyWith(
-            bridgeFee:
-                null == bridgeFee
-                    ? _value.bridgeFee
-                    : bridgeFee // ignore: cast_nullable_to_non_nullable
-                        as String,
-            moneygramFee:
-                null == moneygramFee
-                    ? _value.moneygramFee
-                    : moneygramFee // ignore: cast_nullable_to_non_nullable
-                        as String,
-            gasFeeInUsdc:
-                freezed == gasFeeInUsdc
-                    ? _value.gasFeeInUsdc
-                    : gasFeeInUsdc // ignore: cast_nullable_to_non_nullable
-                        as String?,
-            priorityFee:
-                freezed == priorityFee
-                    ? _value.priorityFee
-                    : priorityFee // ignore: cast_nullable_to_non_nullable
-                        as int?,
+            bridgeFee: null == bridgeFee
+                ? _value.bridgeFee
+                : bridgeFee // ignore: cast_nullable_to_non_nullable
+                      as String,
+            moneygramFee: null == moneygramFee
+                ? _value.moneygramFee
+                : moneygramFee // ignore: cast_nullable_to_non_nullable
+                      as String,
+            gasFeeInUsdc: freezed == gasFeeInUsdc
+                ? _value.gasFeeInUsdc
+                : gasFeeInUsdc // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            priorityFee: freezed == priorityFee
+                ? _value.priorityFee
+                : priorityFee // ignore: cast_nullable_to_non_nullable
+                      as int?,
           )
           as $Val,
     );
@@ -1097,26 +1070,22 @@ class __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$MoneygramFeeResponseDtoImpl(
-        bridgeFee:
-            null == bridgeFee
-                ? _value.bridgeFee
-                : bridgeFee // ignore: cast_nullable_to_non_nullable
-                    as String,
-        moneygramFee:
-            null == moneygramFee
-                ? _value.moneygramFee
-                : moneygramFee // ignore: cast_nullable_to_non_nullable
-                    as String,
-        gasFeeInUsdc:
-            freezed == gasFeeInUsdc
-                ? _value.gasFeeInUsdc
-                : gasFeeInUsdc // ignore: cast_nullable_to_non_nullable
-                    as String?,
-        priorityFee:
-            freezed == priorityFee
-                ? _value.priorityFee
-                : priorityFee // ignore: cast_nullable_to_non_nullable
-                    as int?,
+        bridgeFee: null == bridgeFee
+            ? _value.bridgeFee
+            : bridgeFee // ignore: cast_nullable_to_non_nullable
+                  as String,
+        moneygramFee: null == moneygramFee
+            ? _value.moneygramFee
+            : moneygramFee // ignore: cast_nullable_to_non_nullable
+                  as String,
+        gasFeeInUsdc: freezed == gasFeeInUsdc
+            ? _value.gasFeeInUsdc
+            : gasFeeInUsdc // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        priorityFee: freezed == priorityFee
+            ? _value.priorityFee
+            : priorityFee // ignore: cast_nullable_to_non_nullable
+                  as int?,
       ),
     );
   }
@@ -1231,11 +1200,10 @@ class _$FundXlmRequestDtoCopyWithImpl<$Res, $Val extends FundXlmRequestDto>
   $Res call({Object? accountId = null}) {
     return _then(
       _value.copyWith(
-            accountId:
-                null == accountId
-                    ? _value.accountId
-                    : accountId // ignore: cast_nullable_to_non_nullable
-                        as String,
+            accountId: null == accountId
+                ? _value.accountId
+                : accountId // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -1269,11 +1237,10 @@ class __$$FundXlmRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? accountId = null}) {
     return _then(
       _$FundXlmRequestDtoImpl(
-        accountId:
-            null == accountId
-                ? _value.accountId
-                : accountId // ignore: cast_nullable_to_non_nullable
-                    as String,
+        accountId: null == accountId
+            ? _value.accountId
+            : accountId // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }

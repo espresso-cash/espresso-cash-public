@@ -53,11 +53,10 @@ class _$CryptoRateResponseDtoCopyWithImpl<$Res, $Val extends CryptoRateResponseD
   $Res call({Object? usdc = null}) {
     return _then(
       _value.copyWith(
-            usdc:
-                null == usdc
-                    ? _value.usdc
-                    : usdc // ignore: cast_nullable_to_non_nullable
-                        as double,
+            usdc: null == usdc
+                ? _value.usdc
+                : usdc // ignore: cast_nullable_to_non_nullable
+                      as double,
           )
           as $Val,
     );
@@ -92,11 +91,10 @@ class __$$CryptoRateResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? usdc = null}) {
     return _then(
       _$CryptoRateResponseDtoImpl(
-        usdc:
-            null == usdc
-                ? _value.usdc
-                : usdc // ignore: cast_nullable_to_non_nullable
-                    as double,
+        usdc: null == usdc
+            ? _value.usdc
+            : usdc // ignore: cast_nullable_to_non_nullable
+                  as double,
       ),
     );
   }
@@ -188,16 +186,14 @@ class _$FiatRateRequestDtoCopyWithImpl<$Res, $Val extends FiatRateRequestDto>
   $Res call({Object? base = null, Object? target = null}) {
     return _then(
       _value.copyWith(
-            base:
-                null == base
-                    ? _value.base
-                    : base // ignore: cast_nullable_to_non_nullable
-                        as String,
-            target:
-                null == target
-                    ? _value.target
-                    : target // ignore: cast_nullable_to_non_nullable
-                        as String,
+            base: null == base
+                ? _value.base
+                : base // ignore: cast_nullable_to_non_nullable
+                      as String,
+            target: null == target
+                ? _value.target
+                : target // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -232,16 +228,14 @@ class __$$FiatRateRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? base = null, Object? target = null}) {
     return _then(
       _$FiatRateRequestDtoImpl(
-        base:
-            null == base
-                ? _value.base
-                : base // ignore: cast_nullable_to_non_nullable
-                    as String,
-        target:
-            null == target
-                ? _value.target
-                : target // ignore: cast_nullable_to_non_nullable
-                    as String,
+        base: null == base
+            ? _value.base
+            : base // ignore: cast_nullable_to_non_nullable
+                  as String,
+        target: null == target
+            ? _value.target
+            : target // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -338,11 +332,10 @@ class _$FiatRateResponseDtoCopyWithImpl<$Res, $Val extends FiatRateResponseDto>
   $Res call({Object? rate = null}) {
     return _then(
       _value.copyWith(
-            rate:
-                null == rate
-                    ? _value.rate
-                    : rate // ignore: cast_nullable_to_non_nullable
-                        as double,
+            rate: null == rate
+                ? _value.rate
+                : rate // ignore: cast_nullable_to_non_nullable
+                      as double,
           )
           as $Val,
     );
@@ -377,11 +370,10 @@ class __$$FiatRateResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? rate = null}) {
     return _then(
       _$FiatRateResponseDtoImpl(
-        rate:
-            null == rate
-                ? _value.rate
-                : rate // ignore: cast_nullable_to_non_nullable
-                    as double,
+        rate: null == rate
+            ? _value.rate
+            : rate // ignore: cast_nullable_to_non_nullable
+                  as double,
       ),
     );
   }

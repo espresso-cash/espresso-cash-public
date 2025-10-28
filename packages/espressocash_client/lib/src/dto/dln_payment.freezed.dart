@@ -59,21 +59,18 @@ class _$OutgoingQuoteRequestDtoCopyWithImpl<$Res, $Val extends OutgoingQuoteRequ
   }) {
     return _then(
       _value.copyWith(
-            amount:
-                null == amount
-                    ? _value.amount
-                    : amount // ignore: cast_nullable_to_non_nullable
-                        as int,
-            receiverAddress:
-                null == receiverAddress
-                    ? _value.receiverAddress
-                    : receiverAddress // ignore: cast_nullable_to_non_nullable
-                        as String,
-            receiverBlockchain:
-                null == receiverBlockchain
-                    ? _value.receiverBlockchain
-                    : receiverBlockchain // ignore: cast_nullable_to_non_nullable
-                        as String,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            receiverAddress: null == receiverAddress
+                ? _value.receiverAddress
+                : receiverAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
+            receiverBlockchain: null == receiverBlockchain
+                ? _value.receiverBlockchain
+                : receiverBlockchain // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -112,21 +109,18 @@ class __$$OutgoingQuoteRequestDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$OutgoingQuoteRequestDtoImpl(
-        amount:
-            null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                    as int,
-        receiverAddress:
-            null == receiverAddress
-                ? _value.receiverAddress
-                : receiverAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
-        receiverBlockchain:
-            null == receiverBlockchain
-                ? _value.receiverBlockchain
-                : receiverBlockchain // ignore: cast_nullable_to_non_nullable
-                    as String,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        receiverAddress: null == receiverAddress
+            ? _value.receiverAddress
+            : receiverAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
+        receiverBlockchain: null == receiverBlockchain
+            ? _value.receiverBlockchain
+            : receiverBlockchain // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -247,31 +241,26 @@ class _$OutgoingQuoteResponseDtoCopyWithImpl<$Res, $Val extends OutgoingQuoteRes
   }) {
     return _then(
       _value.copyWith(
-            inputAmount:
-                null == inputAmount
-                    ? _value.inputAmount
-                    : inputAmount // ignore: cast_nullable_to_non_nullable
-                        as int,
-            receiverAmount:
-                null == receiverAmount
-                    ? _value.receiverAmount
-                    : receiverAmount // ignore: cast_nullable_to_non_nullable
-                        as int,
-            encodedTx:
-                null == encodedTx
-                    ? _value.encodedTx
-                    : encodedTx // ignore: cast_nullable_to_non_nullable
-                        as String,
-            feeInUsdc:
-                null == feeInUsdc
-                    ? _value.feeInUsdc
-                    : feeInUsdc // ignore: cast_nullable_to_non_nullable
-                        as int,
-            slot:
-                null == slot
-                    ? _value.slot
-                    : slot // ignore: cast_nullable_to_non_nullable
-                        as BigInt,
+            inputAmount: null == inputAmount
+                ? _value.inputAmount
+                : inputAmount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            receiverAmount: null == receiverAmount
+                ? _value.receiverAmount
+                : receiverAmount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            encodedTx: null == encodedTx
+                ? _value.encodedTx
+                : encodedTx // ignore: cast_nullable_to_non_nullable
+                      as String,
+            feeInUsdc: null == feeInUsdc
+                ? _value.feeInUsdc
+                : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                      as int,
+            slot: null == slot
+                ? _value.slot
+                : slot // ignore: cast_nullable_to_non_nullable
+                      as BigInt,
           )
           as $Val,
     );
@@ -312,31 +301,26 @@ class __$$OutgoingQuoteResponseDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$OutgoingQuoteResponseDtoImpl(
-        inputAmount:
-            null == inputAmount
-                ? _value.inputAmount
-                : inputAmount // ignore: cast_nullable_to_non_nullable
-                    as int,
-        receiverAmount:
-            null == receiverAmount
-                ? _value.receiverAmount
-                : receiverAmount // ignore: cast_nullable_to_non_nullable
-                    as int,
-        encodedTx:
-            null == encodedTx
-                ? _value.encodedTx
-                : encodedTx // ignore: cast_nullable_to_non_nullable
-                    as String,
-        feeInUsdc:
-            null == feeInUsdc
-                ? _value.feeInUsdc
-                : feeInUsdc // ignore: cast_nullable_to_non_nullable
-                    as int,
-        slot:
-            null == slot
-                ? _value.slot
-                : slot // ignore: cast_nullable_to_non_nullable
-                    as BigInt,
+        inputAmount: null == inputAmount
+            ? _value.inputAmount
+            : inputAmount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        receiverAmount: null == receiverAmount
+            ? _value.receiverAmount
+            : receiverAmount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        encodedTx: null == encodedTx
+            ? _value.encodedTx
+            : encodedTx // ignore: cast_nullable_to_non_nullable
+                  as String,
+        feeInUsdc: null == feeInUsdc
+            ? _value.feeInUsdc
+            : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                  as int,
+        slot: null == slot
+            ? _value.slot
+            : slot // ignore: cast_nullable_to_non_nullable
+                  as BigInt,
       ),
     );
   }
@@ -464,11 +448,10 @@ class _$OrderStatusDlnRequestDtoCopyWithImpl<$Res, $Val extends OrderStatusDlnRe
   $Res call({Object? orderId = null}) {
     return _then(
       _value.copyWith(
-            orderId:
-                null == orderId
-                    ? _value.orderId
-                    : orderId // ignore: cast_nullable_to_non_nullable
-                        as String,
+            orderId: null == orderId
+                ? _value.orderId
+                : orderId // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -503,11 +486,10 @@ class __$$OrderStatusDlnRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? orderId = null}) {
     return _then(
       _$OrderStatusDlnRequestDtoImpl(
-        orderId:
-            null == orderId
-                ? _value.orderId
-                : orderId // ignore: cast_nullable_to_non_nullable
-                    as String,
+        orderId: null == orderId
+            ? _value.orderId
+            : orderId // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -602,11 +584,10 @@ class _$OrderStatusDlnResponseDtoCopyWithImpl<$Res, $Val extends OrderStatusDlnR
   $Res call({Object? status = null}) {
     return _then(
       _value.copyWith(
-            status:
-                null == status
-                    ? _value.status
-                    : status // ignore: cast_nullable_to_non_nullable
-                        as DlnOrderStatus,
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as DlnOrderStatus,
           )
           as $Val,
     );
@@ -641,11 +622,10 @@ class __$$OrderStatusDlnResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? status = null}) {
     return _then(
       _$OrderStatusDlnResponseDtoImpl(
-        status:
-            null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                    as DlnOrderStatus,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as DlnOrderStatus,
       ),
     );
   }
@@ -740,11 +720,10 @@ class _$OrderIdDlnRequestDtoCopyWithImpl<$Res, $Val extends OrderIdDlnRequestDto
   $Res call({Object? txId = null}) {
     return _then(
       _value.copyWith(
-            txId:
-                null == txId
-                    ? _value.txId
-                    : txId // ignore: cast_nullable_to_non_nullable
-                        as String,
+            txId: null == txId
+                ? _value.txId
+                : txId // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -779,11 +758,10 @@ class __$$OrderIdDlnRequestDtoImplCopyWithImpl<$Res>
   $Res call({Object? txId = null}) {
     return _then(
       _$OrderIdDlnRequestDtoImpl(
-        txId:
-            null == txId
-                ? _value.txId
-                : txId // ignore: cast_nullable_to_non_nullable
-                    as String,
+        txId: null == txId
+            ? _value.txId
+            : txId // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -874,11 +852,10 @@ class _$OrderIdDlnResponseDtoCopyWithImpl<$Res, $Val extends OrderIdDlnResponseD
   $Res call({Object? orderId = freezed}) {
     return _then(
       _value.copyWith(
-            orderId:
-                freezed == orderId
-                    ? _value.orderId
-                    : orderId // ignore: cast_nullable_to_non_nullable
-                        as String?,
+            orderId: freezed == orderId
+                ? _value.orderId
+                : orderId // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -913,11 +890,10 @@ class __$$OrderIdDlnResponseDtoImplCopyWithImpl<$Res>
   $Res call({Object? orderId = freezed}) {
     return _then(
       _$OrderIdDlnResponseDtoImpl(
-        orderId:
-            freezed == orderId
-                ? _value.orderId
-                : orderId // ignore: cast_nullable_to_non_nullable
-                    as String?,
+        orderId: freezed == orderId
+            ? _value.orderId
+            : orderId // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -1025,31 +1001,26 @@ class _$IncomingQuoteRequestDtoCopyWithImpl<$Res, $Val extends IncomingQuoteRequ
   }) {
     return _then(
       _value.copyWith(
-            amount:
-                null == amount
-                    ? _value.amount
-                    : amount // ignore: cast_nullable_to_non_nullable
-                        as int,
-            senderAddress:
-                null == senderAddress
-                    ? _value.senderAddress
-                    : senderAddress // ignore: cast_nullable_to_non_nullable
-                        as String,
-            senderBlockchain:
-                null == senderBlockchain
-                    ? _value.senderBlockchain
-                    : senderBlockchain // ignore: cast_nullable_to_non_nullable
-                        as String,
-            receiverAddress:
-                null == receiverAddress
-                    ? _value.receiverAddress
-                    : receiverAddress // ignore: cast_nullable_to_non_nullable
-                        as String,
-            solanaReferenceAddress:
-                freezed == solanaReferenceAddress
-                    ? _value.solanaReferenceAddress
-                    : solanaReferenceAddress // ignore: cast_nullable_to_non_nullable
-                        as String?,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            senderAddress: null == senderAddress
+                ? _value.senderAddress
+                : senderAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
+            senderBlockchain: null == senderBlockchain
+                ? _value.senderBlockchain
+                : senderBlockchain // ignore: cast_nullable_to_non_nullable
+                      as String,
+            receiverAddress: null == receiverAddress
+                ? _value.receiverAddress
+                : receiverAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
+            solanaReferenceAddress: freezed == solanaReferenceAddress
+                ? _value.solanaReferenceAddress
+                : solanaReferenceAddress // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -1096,31 +1067,26 @@ class __$$IncomingQuoteRequestDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$IncomingQuoteRequestDtoImpl(
-        amount:
-            null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                    as int,
-        senderAddress:
-            null == senderAddress
-                ? _value.senderAddress
-                : senderAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
-        senderBlockchain:
-            null == senderBlockchain
-                ? _value.senderBlockchain
-                : senderBlockchain // ignore: cast_nullable_to_non_nullable
-                    as String,
-        receiverAddress:
-            null == receiverAddress
-                ? _value.receiverAddress
-                : receiverAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
-        solanaReferenceAddress:
-            freezed == solanaReferenceAddress
-                ? _value.solanaReferenceAddress
-                : solanaReferenceAddress // ignore: cast_nullable_to_non_nullable
-                    as String?,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        senderAddress: null == senderAddress
+            ? _value.senderAddress
+            : senderAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
+        senderBlockchain: null == senderBlockchain
+            ? _value.senderBlockchain
+            : senderBlockchain // ignore: cast_nullable_to_non_nullable
+                  as String,
+        receiverAddress: null == receiverAddress
+            ? _value.receiverAddress
+            : receiverAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
+        solanaReferenceAddress: freezed == solanaReferenceAddress
+            ? _value.solanaReferenceAddress
+            : solanaReferenceAddress // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -1273,31 +1239,26 @@ class _$IncomingQuoteResponseDtoCopyWithImpl<$Res, $Val extends IncomingQuoteRes
   }) {
     return _then(
       _value.copyWith(
-            tx:
-                null == tx
-                    ? _value.tx
-                    : tx // ignore: cast_nullable_to_non_nullable
-                        as QuoteTx,
-            usdcInfo:
-                null == usdcInfo
-                    ? _value.usdcInfo
-                    : usdcInfo // ignore: cast_nullable_to_non_nullable
-                        as QuoteUsdcInfo,
-            inputAmount:
-                null == inputAmount
-                    ? _value.inputAmount
-                    : inputAmount // ignore: cast_nullable_to_non_nullable
-                        as int,
-            receiverAmount:
-                null == receiverAmount
-                    ? _value.receiverAmount
-                    : receiverAmount // ignore: cast_nullable_to_non_nullable
-                        as int,
-            feeInUsdc:
-                null == feeInUsdc
-                    ? _value.feeInUsdc
-                    : feeInUsdc // ignore: cast_nullable_to_non_nullable
-                        as int,
+            tx: null == tx
+                ? _value.tx
+                : tx // ignore: cast_nullable_to_non_nullable
+                      as QuoteTx,
+            usdcInfo: null == usdcInfo
+                ? _value.usdcInfo
+                : usdcInfo // ignore: cast_nullable_to_non_nullable
+                      as QuoteUsdcInfo,
+            inputAmount: null == inputAmount
+                ? _value.inputAmount
+                : inputAmount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            receiverAmount: null == receiverAmount
+                ? _value.receiverAmount
+                : receiverAmount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            feeInUsdc: null == feeInUsdc
+                ? _value.feeInUsdc
+                : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -1369,31 +1330,26 @@ class __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$IncomingQuoteResponseDtoImpl(
-        tx:
-            null == tx
-                ? _value.tx
-                : tx // ignore: cast_nullable_to_non_nullable
-                    as QuoteTx,
-        usdcInfo:
-            null == usdcInfo
-                ? _value.usdcInfo
-                : usdcInfo // ignore: cast_nullable_to_non_nullable
-                    as QuoteUsdcInfo,
-        inputAmount:
-            null == inputAmount
-                ? _value.inputAmount
-                : inputAmount // ignore: cast_nullable_to_non_nullable
-                    as int,
-        receiverAmount:
-            null == receiverAmount
-                ? _value.receiverAmount
-                : receiverAmount // ignore: cast_nullable_to_non_nullable
-                    as int,
-        feeInUsdc:
-            null == feeInUsdc
-                ? _value.feeInUsdc
-                : feeInUsdc // ignore: cast_nullable_to_non_nullable
-                    as int,
+        tx: null == tx
+            ? _value.tx
+            : tx // ignore: cast_nullable_to_non_nullable
+                  as QuoteTx,
+        usdcInfo: null == usdcInfo
+            ? _value.usdcInfo
+            : usdcInfo // ignore: cast_nullable_to_non_nullable
+                  as QuoteUsdcInfo,
+        inputAmount: null == inputAmount
+            ? _value.inputAmount
+            : inputAmount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        receiverAmount: null == receiverAmount
+            ? _value.receiverAmount
+            : receiverAmount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        feeInUsdc: null == feeInUsdc
+            ? _value.feeInUsdc
+            : feeInUsdc // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -1519,21 +1475,18 @@ class _$QuoteTxCopyWithImpl<$Res, $Val extends QuoteTx> implements $QuoteTxCopyW
   $Res call({Object? to = null, Object? data = null, Object? value = null}) {
     return _then(
       _value.copyWith(
-            to:
-                null == to
-                    ? _value.to
-                    : to // ignore: cast_nullable_to_non_nullable
-                        as String,
-            data:
-                null == data
-                    ? _value.data
-                    : data // ignore: cast_nullable_to_non_nullable
-                        as String,
-            value:
-                null == value
-                    ? _value.value
-                    : value // ignore: cast_nullable_to_non_nullable
-                        as int,
+            to: null == to
+                ? _value.to
+                : to // ignore: cast_nullable_to_non_nullable
+                      as String,
+            data: null == data
+                ? _value.data
+                : data // ignore: cast_nullable_to_non_nullable
+                      as String,
+            value: null == value
+                ? _value.value
+                : value // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -1562,21 +1515,18 @@ class __$$QuoteTxImplCopyWithImpl<$Res> extends _$QuoteTxCopyWithImpl<$Res, _$Qu
   $Res call({Object? to = null, Object? data = null, Object? value = null}) {
     return _then(
       _$QuoteTxImpl(
-        to:
-            null == to
-                ? _value.to
-                : to // ignore: cast_nullable_to_non_nullable
-                    as String,
-        data:
-            null == data
-                ? _value.data
-                : data // ignore: cast_nullable_to_non_nullable
-                    as String,
-        value:
-            null == value
-                ? _value.value
-                : value // ignore: cast_nullable_to_non_nullable
-                    as int,
+        to: null == to
+            ? _value.to
+            : to // ignore: cast_nullable_to_non_nullable
+                  as String,
+        data: null == data
+            ? _value.data
+            : data // ignore: cast_nullable_to_non_nullable
+                  as String,
+        value: null == value
+            ? _value.value
+            : value // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -1678,16 +1628,14 @@ class _$QuoteUsdcInfoCopyWithImpl<$Res, $Val extends QuoteUsdcInfo>
   $Res call({Object? usdcAddress = null, Object? approvalAmount = null}) {
     return _then(
       _value.copyWith(
-            usdcAddress:
-                null == usdcAddress
-                    ? _value.usdcAddress
-                    : usdcAddress // ignore: cast_nullable_to_non_nullable
-                        as String,
-            approvalAmount:
-                null == approvalAmount
-                    ? _value.approvalAmount
-                    : approvalAmount // ignore: cast_nullable_to_non_nullable
-                        as int,
+            usdcAddress: null == usdcAddress
+                ? _value.usdcAddress
+                : usdcAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
+            approvalAmount: null == approvalAmount
+                ? _value.approvalAmount
+                : approvalAmount // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -1721,16 +1669,14 @@ class __$$QuoteUsdcInfoImplCopyWithImpl<$Res>
   $Res call({Object? usdcAddress = null, Object? approvalAmount = null}) {
     return _then(
       _$QuoteUsdcInfoImpl(
-        usdcAddress:
-            null == usdcAddress
-                ? _value.usdcAddress
-                : usdcAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
-        approvalAmount:
-            null == approvalAmount
-                ? _value.approvalAmount
-                : approvalAmount // ignore: cast_nullable_to_non_nullable
-                    as int,
+        usdcAddress: null == usdcAddress
+            ? _value.usdcAddress
+            : usdcAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
+        approvalAmount: null == approvalAmount
+            ? _value.approvalAmount
+            : approvalAmount // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }

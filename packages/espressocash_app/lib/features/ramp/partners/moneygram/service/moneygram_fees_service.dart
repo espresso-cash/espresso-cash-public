@@ -8,14 +8,13 @@ import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 
-typedef MoneygramFees =
-    ({
-      Amount receiveAmount,
-      Amount moneygramFee,
-      Amount bridgeFee,
-      Amount gasFeeInUsdc,
-      int? priorityFee,
-    });
+typedef MoneygramFees = ({
+  Amount receiveAmount,
+  Amount moneygramFee,
+  Amount bridgeFee,
+  Amount gasFeeInUsdc,
+  int? priorityFee,
+});
 
 @Singleton(scope: authScope)
 class MoneygramFeesService {

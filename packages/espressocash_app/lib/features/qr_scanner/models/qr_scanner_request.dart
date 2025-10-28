@@ -61,11 +61,10 @@ class QrScannerRequest with _$QrScannerRequest {
 
   Ed25519HDPublicKey? get recipient => this.map(
     solanaPay: (r) => r.request.recipient,
-    address:
-        (r) => switch (r.addressData) {
-          QrAddressDataSolana(:final address) => address,
-          QrAddressDataEvm() => null,
-        },
+    address: (r) => switch (r.addressData) {
+      QrAddressDataSolana(:final address) => address,
+      QrAddressDataEvm() => null,
+    },
     linkPayment: always(null),
     transactionRequest: always(null),
     ambassador: (r) => r.referral.address,

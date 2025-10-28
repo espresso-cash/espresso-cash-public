@@ -60,28 +60,26 @@ class _SwapDetailsScreenState extends State<SwapDetailsScreen> {
       return swap == null
           ? TransferProgress(onBack: () => Navigator.pop(context))
           : swap.status.map(
-            success:
-                (status) => TransferSuccess(
-                  onBack: () => Navigator.pop(context),
-                  onOkPressed: () => Navigator.pop(context),
-                  statusContent: context.l10n.swapSuccess(
-                    swap.data.input.format(context.locale, maxDecimals: 2),
-                    swap.data.output.format(context.locale, maxDecimals: 2),
-                  ),
-                  onMoreDetailsPressed: () {
-                    final link = status.tx.id.let(createTransactionLink).let(Uri.parse).toString();
-                    context.openLink(link);
-                  },
+              success: (status) => TransferSuccess(
+                onBack: () => Navigator.pop(context),
+                onOkPressed: () => Navigator.pop(context),
+                statusContent: context.l10n.swapSuccess(
+                  swap.data.input.format(context.locale, maxDecimals: 2),
+                  swap.data.output.format(context.locale, maxDecimals: 2),
                 ),
-            txFailure:
-                (it) => TransferError(
-                  onBack: () => Navigator.pop(context),
-                  onCancel: () => _handleCancel(swap.id),
-                  reason: it.reason,
-                ),
-            txCreated: (_) => TransferProgress(onBack: () => Navigator.pop(context)),
-            txSent: (_) => TransferProgress(onBack: () => Navigator.pop(context)),
-          );
+                onMoreDetailsPressed: () {
+                  final link = status.tx.id.let(createTransactionLink).let(Uri.parse).toString();
+                  context.openLink(link);
+                },
+              ),
+              txFailure: (it) => TransferError(
+                onBack: () => Navigator.pop(context),
+                onCancel: () => _handleCancel(swap.id),
+                reason: it.reason,
+              ),
+              txCreated: (_) => TransferProgress(onBack: () => Navigator.pop(context)),
+              txSent: (_) => TransferProgress(onBack: () => Navigator.pop(context)),
+            );
     },
   );
 }

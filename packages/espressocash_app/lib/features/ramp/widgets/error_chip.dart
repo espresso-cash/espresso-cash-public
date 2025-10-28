@@ -12,23 +12,22 @@ class ErrorChip extends StatelessWidget {
   final EdgeInsets margin;
 
   @override
-  Widget build(BuildContext context) =>
-      visible
-          ? Padding(
-            padding: margin,
-            child: SizedBox(
-              height: 55.h,
-              child: CpChip(
-                padding: CpChipPadding.small,
-                backgroundColor: CpColors.alertRedColor,
-                child: Text(
-                  text.toUpperCase(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-                ),
+  Widget build(BuildContext context) => visible
+      ? Padding(
+          padding: margin,
+          child: SizedBox(
+            height: 55.h,
+            child: CpChip(
+              padding: CpChipPadding.small,
+              backgroundColor: CpColors.alertRedColor,
+              child: Text(
+                text.toUpperCase(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
               ),
             ),
-          )
-          : const SizedBox.shrink();
+          ),
+        )
+      : const SizedBox.shrink();
 }

@@ -40,7 +40,9 @@ class CpActivityTile extends StatelessWidget {
       leading: showIcon ? SizedBox.square(dimension: 42, child: icon) : null,
       title: Row(
         children: [
-          Expanded(child: Text(title, style: _titleStyle, overflow: TextOverflow.ellipsis)),
+          Expanded(
+            child: Text(title, style: _titleStyle, overflow: TextOverflow.ellipsis),
+          ),
           if (incomingAmount != null)
             Padding(
               padding: const EdgeInsets.only(left: 8),

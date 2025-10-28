@@ -58,10 +58,9 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final lastIconIndex =
-        widget.status == CpTimelineStatus.inProgress && widget.animated
-            ? widget.active - 1
-            : widget.active;
+    final lastIconIndex = widget.status == CpTimelineStatus.inProgress && widget.animated
+        ? widget.active - 1
+        : widget.active;
 
     return ListView.builder(
       shrinkWrap: true,
@@ -105,17 +104,15 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                       width: _indicatorSize,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color:
-                            isHighlighted || index > widget.active
-                                ? Colors.white
-                                : CpColors.deepGreyColor,
+                        color: isHighlighted || index > widget.active
+                            ? Colors.white
+                            : CpColors.deepGreyColor,
                       ),
-                      child:
-                          index <= lastIconIndex
-                              ? isActive
-                                  ? widget.status.icon
-                                  : _successIcon
-                              : null,
+                      child: index <= lastIconIndex
+                          ? isActive
+                                ? widget.status.icon
+                                : _successIcon
+                          : null,
                     ),
                   ),
                 ),
@@ -201,13 +198,12 @@ class _IndicatorBackground extends StatelessWidget {
     decoration: BoxDecoration(
       color: backgroundColor,
       border: Border.all(color: backgroundColor, width: 2),
-      borderRadius:
-          (isFirst || isLast)
-              ? BorderRadius.vertical(
-                top: isFirst ? _timelineRadius : Radius.zero,
-                bottom: isLast ? _timelineRadius : Radius.zero,
-              )
-              : null,
+      borderRadius: (isFirst || isLast)
+          ? BorderRadius.vertical(
+              top: isFirst ? _timelineRadius : Radius.zero,
+              bottom: isLast ? _timelineRadius : Radius.zero,
+            )
+          : null,
       boxShadow: [
         BoxShadow(
           color: backgroundColor,
@@ -217,10 +213,9 @@ class _IndicatorBackground extends StatelessWidget {
         ),
       ],
     ),
-    padding:
-        (isFirst || isLast)
-            ? EdgeInsets.only(top: isFirst ? 16 : 2, bottom: isLast ? 16 : 2)
-            : EdgeInsets.zero,
+    padding: (isFirst || isLast)
+        ? EdgeInsets.only(top: isFirst ? 16 : 2, bottom: isLast ? 16 : 2)
+        : EdgeInsets.zero,
     margin: EdgeInsets.zero,
     child: SizedBox(height: _indicatorSize + _indicatorBounceOffset, child: child),
   );
@@ -274,13 +269,12 @@ class _Animation extends StatelessWidget {
         if (transformer != null)
           AnimatedBuilder(
             animation: controller,
-            builder:
-                (context, child) => Positioned(
-                  bottom: center ? 0 : null,
-                  top: controller.value.let(_sinoidalTransformer).let(transformer),
-                  // ignore: avoid-non-null-assertion, child is mandatory for parent
-                  child: child!,
-                ),
+            builder: (context, child) => Positioned(
+              bottom: center ? 0 : null,
+              top: controller.value.let(_sinoidalTransformer).let(transformer),
+              // ignore: avoid-non-null-assertion, child is mandatory for parent
+              child: child!,
+            ),
             child: child,
           )
         else

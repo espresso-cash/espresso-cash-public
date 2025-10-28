@@ -73,10 +73,9 @@ class _ContentState extends State<_Content> {
             final selected = network == _selectedNetwork;
 
             return DecoratedBox(
-              decoration:
-                  selected
-                      ? const ShapeDecoration(color: Color(0xff404040), shape: StadiumBorder())
-                      : const BoxDecoration(),
+              decoration: selected
+                  ? const ShapeDecoration(color: Color(0xff404040), shape: StadiumBorder())
+                  : const BoxDecoration(),
               child: ListTile(
                 dense: true,
                 title: Text(network.displayName, style: TextStyle(fontSize: selected ? 19 : 17)),

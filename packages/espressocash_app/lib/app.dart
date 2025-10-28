@@ -54,21 +54,19 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
   Widget build(BuildContext context) => CpTheme(
     theme: const CpThemeData.dark(),
     child: Builder(
-      builder:
-          (context) => MaterialApp(
-            home: const SplashScreen(),
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            debugShowCheckedModeBanner: false,
-            title: 'Espresso Cash',
-            theme: context.watch<CpThemeData>().toMaterialTheme(),
-            builder:
-                (context, child) => AppLockModule(
-                  // ignore: avoid-non-null-assertion, should not be null
-                  child: child!,
-                ),
-            navigatorKey: _navigator,
-          ),
+      builder: (context) => MaterialApp(
+        home: const SplashScreen(),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        debugShowCheckedModeBanner: false,
+        title: 'Espresso Cash',
+        theme: context.watch<CpThemeData>().toMaterialTheme(),
+        builder: (context, child) => AppLockModule(
+          // ignore: avoid-non-null-assertion, should not be null
+          child: child!,
+        ),
+        navigatorKey: _navigator,
+      ),
     ),
   );
 }

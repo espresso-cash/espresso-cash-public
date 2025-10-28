@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/inner_instruction.dart';
 import 'package:solana/src/rpc/dto/loaded_addresses.dart';

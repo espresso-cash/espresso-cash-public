@@ -23,7 +23,11 @@ void testGoldensWidget(
   testGoldens(name, skip: skip, (tester) async {
     await setUp?.call();
 
-    final builder = DeviceBuilder()..addScenario(widget: Wrapper(child: widget), name: snakeName);
+    final builder = DeviceBuilder()
+      ..addScenario(
+        widget: Wrapper(child: widget),
+        name: snakeName,
+      );
 
     await tester.pumpDeviceBuilder(builder);
     await screenMatchesGolden(tester, snakeName, customPump: customPump);

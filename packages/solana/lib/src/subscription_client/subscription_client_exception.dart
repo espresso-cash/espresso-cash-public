@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/subscription_client/subscribe_error.dart';
 
 class SubscriptionClientException implements Exception {

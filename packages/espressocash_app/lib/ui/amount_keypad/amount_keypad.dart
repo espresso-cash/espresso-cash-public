@@ -73,22 +73,21 @@ class AmountKeypad extends StatelessWidget {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children:
-          keys
-              .map(
-                (child) => Expanded(
-                  child: Center(
-                    child: Opacity(
-                      opacity: isEnabled ? 1 : 0.5,
-                      child: InkWell(
-                        onTap: isEnabled ? () => _manageKey(child.value, decimalSeparator) : null,
-                        child: Center(child: child),
-                      ),
-                    ),
+      children: keys
+          .map(
+            (child) => Expanded(
+              child: Center(
+                child: Opacity(
+                  opacity: isEnabled ? 1 : 0.5,
+                  child: InkWell(
+                    onTap: isEnabled ? () => _manageKey(child.value, decimalSeparator) : null,
+                    child: Center(child: child),
                   ),
                 ),
-              )
-              .toList(),
+              ),
+            ),
+          )
+          .toList(),
     ),
   );
 

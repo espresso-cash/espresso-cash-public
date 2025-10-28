@@ -106,17 +106,15 @@ class _ShareRequestPaymentState extends State<ShareRequestPayment> {
                   child: CpTextButton(
                     text: context.l10n.requestDeletePaymentTitle,
                     variant: CpTextButtonVariant.grey,
-                    onPressed:
-                        () => showConfirmationDialog(
-                          context,
-                          title:
-                              context.l10n.paymentRequest_lblCancelConfirmationTitle.toUpperCase(),
-                          message: context.l10n.paymentRequest_lblCancelConfirmationSubtitle,
-                          onConfirm: () {
-                            sl<PaymentRequestService>().cancel(widget.request.id);
-                            Navigator.of(context).pop();
-                          },
-                        ),
+                    onPressed: () => showConfirmationDialog(
+                      context,
+                      title: context.l10n.paymentRequest_lblCancelConfirmationTitle.toUpperCase(),
+                      message: context.l10n.paymentRequest_lblCancelConfirmationSubtitle,
+                      onConfirm: () {
+                        sl<PaymentRequestService>().cancel(widget.request.id);
+                        Navigator.of(context).pop();
+                      },
+                    ),
                   ),
                 ),
               ],

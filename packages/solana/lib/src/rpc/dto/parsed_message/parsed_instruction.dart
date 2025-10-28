@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/rpc/dto/instruction.dart';
 import 'package:solana/src/rpc/dto/parsed_message/parsed_spl_token_instruction.dart';
@@ -8,7 +9,7 @@ part 'parsed_instruction.g.dart';
 
 /// An instruction which is part of a `ParsedMessage`.
 @Freezed(unionKey: 'program', fallbackUnion: 'unsupported')
-class ParsedInstruction with _$ParsedInstruction implements Instruction {
+sealed class ParsedInstruction with _$ParsedInstruction implements Instruction {
   const factory ParsedInstruction.system({
     required String programId,
     required ParsedSystemInstruction parsed,

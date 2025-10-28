@@ -111,7 +111,10 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
     if (amount == Decimal.zero) return;
 
     final inputAmount =
-        Amount.fromDecimal(value: amount, currency: CryptoCurrency(token: _inputToken))
+        Amount.fromDecimal(
+              value: amount,
+              currency: CryptoCurrency(token: _inputToken),
+            )
             as CryptoAmount;
 
     _quoteService.updateInput(
@@ -225,14 +228,13 @@ class _TokenSwapInputScreenState extends State<TokenSwapInputScreen> {
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<CryptoFiatAmount>(
     key: ValueKey(_inputToken),
-    create:
-        () => (
-          sl<TokenFiatBalanceService>().readInvestmentBalance(_inputToken),
-          (
-            Amount.zero(currency: Currency.usdc) as CryptoAmount,
-            Amount.zero(currency: Currency.usd) as FiatAmount,
-          ),
-        ),
+    create: () => (
+      sl<TokenFiatBalanceService>().readInvestmentBalance(_inputToken),
+      (
+        Amount.zero(currency: Currency.usdc) as CryptoAmount,
+        Amount.zero(currency: Currency.usd) as FiatAmount,
+      ),
+    ),
     builder: (context, value) {
       final cryptoForMaxButton = value.$1;
 
@@ -569,31 +571,30 @@ class _TokenAmountInputState extends State<_TokenAmountInput> {
         decoration: const ShapeDecoration(color: CpColors.blackGreyColor, shape: StadiumBorder()),
         child: ValueListenableBuilder<TextEditingValue>(
           valueListenable: widget.controller,
-          builder:
-              (context, controllerValue, child) => Row(
-                children: [
-                  Expanded(
-                    child: ScalingText(
-                      text: controllerValue.text.isEmpty ? '0' : controllerValue.text,
-                      style: TextStyle(
-                        fontSize: 34.sp,
-                        fontWeight: FontWeight.w700,
-                        height: _textHeight,
-                      ),
-                    ),
+          builder: (context, controllerValue, child) => Row(
+            children: [
+              Expanded(
+                child: ScalingText(
+                  text: controllerValue.text.isEmpty ? '0' : controllerValue.text,
+                  style: TextStyle(
+                    fontSize: 34.sp,
+                    fontWeight: FontWeight.w700,
+                    height: _textHeight,
                   ),
-                  if (widget.showMaxButton) ...[
-                    SizedBox(width: 12.w),
-                    CpButton(
-                      onPressed: _handleMaxPress,
-                      text: _isMax ? context.l10n.clear : context.l10n.max,
-                      minWidth: 54,
-                      size: CpButtonSize.small,
-                      variant: CpButtonVariant.inverted,
-                    ),
-                  ],
-                ],
+                ),
               ),
+              if (widget.showMaxButton) ...[
+                SizedBox(width: 12.w),
+                CpButton(
+                  onPressed: _handleMaxPress,
+                  text: _isMax ? context.l10n.clear : context.l10n.max,
+                  minWidth: 54,
+                  size: CpButtonSize.small,
+                  variant: CpButtonVariant.inverted,
+                ),
+              ],
+            ],
+          ),
         ),
       ),
       Visibility(
@@ -626,9 +627,8 @@ class _LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: quoteService,
-    builder:
-        (context, _) =>
-            quoteService.value.isProcessing ? const LoadingIndicator() : const SizedBox.shrink(),
+    builder: (context, _) =>
+        quoteService.value.isProcessing ? const LoadingIndicator() : const SizedBox.shrink(),
   );
 }
 

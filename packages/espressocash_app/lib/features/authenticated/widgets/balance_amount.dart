@@ -17,11 +17,8 @@ class BalanceAmount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
-    create:
-        () => (
-          sl<TokenFiatBalanceService>().watchMainBalance(),
-          Amount.zero(currency: Currency.usd),
-        ),
+    create: () =>
+        (sl<TokenFiatBalanceService>().watchMainBalance(), Amount.zero(currency: Currency.usd)),
     builder: (context, amount) {
       final formattedAmount = amount.format(
         DeviceLocale.localeOf(context),

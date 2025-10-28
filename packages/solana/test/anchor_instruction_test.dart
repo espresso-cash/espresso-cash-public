@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'dart:io';
 
 import 'package:solana/anchor.dart';
@@ -78,10 +79,9 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final account =
-        await client.rpcClient
-            .getAccountInfo(updater.address, commitment: Commitment.confirmed)
-            .value;
+    final account = await client.rpcClient
+        .getAccountInfo(updater.address, commitment: Commitment.confirmed)
+        .value;
 
     expect(account, isNotNull);
     final rawData = account?.data;
@@ -113,10 +113,9 @@ void main() {
     );
 
     final discriminator = await computeDiscriminator('account', 'MyAccount');
-    final account =
-        await client.rpcClient
-            .getAccountInfo(updater.address, commitment: Commitment.confirmed)
-            .value;
+    final account = await client.rpcClient
+        .getAccountInfo(updater.address, commitment: Commitment.confirmed)
+        .value;
 
     expect(account, isNotNull);
     final rawData = account?.data;

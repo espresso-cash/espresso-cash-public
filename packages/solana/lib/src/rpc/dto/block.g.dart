@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'block.dart';
@@ -13,10 +14,9 @@ Block _$BlockFromJson(Map<String, dynamic> json) => Block(
   transactions: (json['transactions'] as List<dynamic>).map(Transaction.fromJson).toList(),
   meta: json['meta'] == null ? null : Meta.fromJson(json['meta'] as Map<String, dynamic>),
   signatures: (json['signatures'] as List<dynamic>).map((e) => e as String).toList(),
-  rewards:
-      (json['rewards'] as List<dynamic>)
-          .map((e) => Reward.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  rewards: (json['rewards'] as List<dynamic>)
+      .map((e) => Reward.fromJson(e as Map<String, dynamic>))
+      .toList(),
   blockTime: (json['blockTime'] as num?)?.toInt(),
   blockHeight: (json['blockHeight'] as num?)?.toInt(),
 );

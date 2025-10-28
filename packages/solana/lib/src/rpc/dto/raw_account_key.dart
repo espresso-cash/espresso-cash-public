@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/rpc/dto/account_key.dart';
 
 class RawAccountKey implements AccountKey {

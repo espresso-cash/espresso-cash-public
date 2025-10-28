@@ -107,7 +107,9 @@ class _ContentState extends State<_Content> with CompositeSubscriptionController
         body: Stack(
           children: [
             if (_cameraEnabled)
-              QrScannerBackground(child: MobileScanner(key: _qrKey, controller: _qrViewController)),
+              QrScannerBackground(
+                child: MobileScanner(key: _qrKey, controller: _qrViewController),
+              ),
             if (_cameraEnabled)
               Align(
                 alignment: const Alignment(0, -0.7),

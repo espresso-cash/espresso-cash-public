@@ -6,7 +6,7 @@ import 'swap_seed.dart';
 part 'swap_route.freezed.dart';
 
 @freezed
-class SwapRoute with _$SwapRoute {
+abstract class SwapRoute with _$SwapRoute {
   const factory SwapRoute({
     required SwapSeed seed,
     required CryptoAmount fee,

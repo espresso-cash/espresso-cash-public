@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
@@ -7,7 +8,7 @@ part 'message_header.freezed.dart';
 ///
 /// [message header format]: https://docs.solana.com/developing/programming-model/transactions#message-header-format
 @freezed
-class MessageHeader with _$MessageHeader {
+abstract class MessageHeader with _$MessageHeader {
   const factory MessageHeader({
     required int numRequiredSignatures,
     required int numReadonlySignedAccounts,

@@ -46,13 +46,13 @@ class TxReadyWatcher implements Disposable {
 
           final newStatus =
               await destinationAccounts.let(
-                    (accounts) => findAssociatedTokenAddress(
-                      owner: _userPublicKey,
-                      mint: payment.amount.cryptoCurrency.token.publicKey,
-                    ).then((it) => it.toBase58()).then(accounts.contains),
-                  )
-                  ? OLPStatus.canceled(txId: txId, timestamp: timestamp)
-                  : OLPStatus.withdrawn(txId: txId, timestamp: timestamp);
+                (accounts) => findAssociatedTokenAddress(
+                  owner: _userPublicKey,
+                  mint: payment.amount.cryptoCurrency.token.publicKey,
+                ).then((it) => it.toBase58()).then(accounts.contains),
+              )
+              ? OLPStatus.canceled(txId: txId, timestamp: timestamp)
+              : OLPStatus.withdrawn(txId: txId, timestamp: timestamp);
 
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions.remove(payment.id)?.cancel();
@@ -88,10 +88,9 @@ class TxReadyWatcher implements Disposable {
         )
         .asStream()
         .map(
-          (txs) =>
-              txs
-                  .where((details) => details.transaction.getSignatureAccounts().contains(account))
-                  .toIList(),
+          (txs) => txs
+              .where((details) => details.transaction.getSignatureAccounts().contains(account))
+              .toIList(),
         );
 
     Stream<void> retryWhen(void _, void _) async* {

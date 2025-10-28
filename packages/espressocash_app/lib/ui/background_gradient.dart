@@ -8,6 +8,8 @@ class CpBackgroundGradient extends StatelessWidget {
   final Widget? child;
 
   @override
-  Widget build(BuildContext context) =>
-      DecoratedBox(decoration: const BoxDecoration(gradient: bgGradient), child: child);
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: const BoxDecoration(gradient: bgGradient),
+    child: child,
+  );
 }

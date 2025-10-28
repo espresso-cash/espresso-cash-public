@@ -8,14 +8,6 @@ import '../../../ui/home_tile.dart';
 import '../../../ui/theme.dart';
 import '../services/token_activities_repository.dart';
 import 'common_tile.dart';
-import 'odp_tile.dart';
-import 'off_ramp_tile.dart';
-import 'olp_tile.dart';
-import 'on_ramp_tile.dart';
-import 'outgoing_dln_tile.dart';
-import 'payment_request_tile.dart';
-import 'swap_tile.dart';
-import 'tr_tile.dart';
 
 class RecentTokenActivityWidget extends StatefulWidget {
   const RecentTokenActivityWidget({super.key, required this.tokenAddress});
@@ -48,17 +40,17 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
       return groups == null || groups.isEmpty
           ? const Center(child: _NoActivity())
           : HomeTile(
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                const SizedBox(height: 16),
-                ...groups.map((group) => _ActivityGroupWidget(group: group)),
-                const SizedBox(height: 8),
-              ],
-            ),
-          );
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const SizedBox(height: 16),
+                  ...groups.map((group) => _ActivityGroupWidget(group: group)),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            );
     },
   );
 }
@@ -84,53 +76,9 @@ class _ActivityGroupWidget extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-                group.transactions
-                    .map(
-                      (tx) => tx.map(
-                        common:
-                            (t) => CommonTile(key: ValueKey(t.tx.id), txCommon: t, showIcon: false),
-                        activity:
-                            (txActivity) => txActivity.activity.map(
-                              outgoingPaymentRequest:
-                                  (p) => PaymentRequestTile(
-                                    key: ValueKey(p.id),
-                                    id: p.id,
-                                    showIcon: false,
-                                  ),
-                              outgoingDirectPayment:
-                                  (p) => ODPTile(key: ValueKey(p.id), activity: p, showIcon: false),
-                              outgoingLinkPayment:
-                                  (p) => OLPTile(key: ValueKey(p.id), activity: p, showIcon: false),
-                              onRamp:
-                                  (it) => OnRampTile(
-                                    key: ValueKey(it.id),
-                                    activity: it,
-                                    showIcon: false,
-                                  ),
-                              offRamp:
-                                  (it) => OffRampTile(
-                                    key: ValueKey(it.id),
-                                    activity: it,
-                                    showIcon: false,
-                                  ),
-                              outgoingDlnPayment:
-                                  (it) => OutgoingDlnTile(
-                                    key: ValueKey(it.id),
-                                    activity: it,
-                                    showIcon: false,
-                                  ),
-                              transactionRequest:
-                                  (it) =>
-                                      TrTile(key: ValueKey(it.id), activity: it, showIcon: false),
-                              kyc: (it) => const SizedBox.shrink(),
-                              swap:
-                                  (it) =>
-                                      SwapTile(key: ValueKey(it.id), activity: it, showIcon: false),
-                            ),
-                      ),
-                    )
-                    .toList(),
+            children: group.transactions
+                .map((tx) => CommonTile(key: ValueKey(tx.tx.id), txCommon: tx, showIcon: false))
+                .toList(),
           ),
         ),
       ),
@@ -141,6 +89,7 @@ class _ActivityGroupWidget extends StatelessWidget {
 
 class _Card extends StatelessWidget {
   const _Card({required this.child});
+
   final Widget child;
 
   @override
@@ -178,8 +127,8 @@ extension ActivityDateFormatting on BuildContext {
             parsedDate.day == now.day)
         ? l10n.today
         : (parsedDate.year == yesterday.year &&
-            parsedDate.month == yesterday.month &&
-            parsedDate.day == yesterday.day)
+              parsedDate.month == yesterday.month &&
+              parsedDate.day == yesterday.day)
         ? l10n.yesterday
         : DateFormat('MMM d, yyyy').format(parsedDate);
   }

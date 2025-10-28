@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:json_annotation/json_annotation.dart';
 
 part 'json_rpc_exception.g.dart';
@@ -49,10 +50,9 @@ class JsonRpcException implements Exception {
   Map<String, dynamic> toJson() => _$JsonRpcExceptionToJson(this);
 
   @override
-  String toString() =>
-      data != null
-          ? 'jsonrpc-2.0 error ($code): $message\n\t$data'
-          : 'jsonrpc-2.0 error ($code): $message';
+  String toString() => data != null
+      ? 'jsonrpc-2.0 error ($code): $message\n\t$data'
+      : 'jsonrpc-2.0 error ($code): $message';
 }
 
 @JsonEnum(fieldRename: FieldRename.pascal)

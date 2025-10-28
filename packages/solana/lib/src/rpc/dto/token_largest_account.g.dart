@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'token_largest_account.dart';
@@ -23,10 +24,9 @@ Map<String, dynamic> _$TokenLargestAccountToJson(TokenLargestAccount instance) =
 TokenLargestAccountsResult _$TokenLargestAccountsResultFromJson(Map<String, dynamic> json) =>
     TokenLargestAccountsResult(
       context: Context.fromJson(json['context'] as Map<String, dynamic>),
-      value:
-          (json['value'] as List<dynamic>)
-              .map((e) => TokenLargestAccount.fromJson(e as Map<String, dynamic>))
-              .toList(),
+      value: (json['value'] as List<dynamic>)
+          .map((e) => TokenLargestAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$TokenLargestAccountsResultToJson(TokenLargestAccountsResult instance) =>

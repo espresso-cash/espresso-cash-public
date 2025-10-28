@@ -3,15 +3,15 @@ description: Demonstrates how to use the solana_mobile_client plugin.
 publish_to: "none"
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.9.2
 
 dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
-  freezed_annotation: ^2.1.0
-  solana: ^0.31.2
+  freezed_annotation: ^3.0.0
+  solana: ^0.32.0
   solana_mobile_client:
     path: ../
 
@@ -19,7 +19,7 @@ dev_dependencies:
   build_runner: ^2.2.0
   flutter_test:
     sdk: flutter
-  freezed: ^2.1.0+1
+  freezed: ^3.0.0
   mews_pedantic: ^0.38.0
 
 flutter:

@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: avoid-accessing-collections-by-constant-index
 
 import 'package:convert/convert.dart';

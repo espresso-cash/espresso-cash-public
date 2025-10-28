@@ -1,3 +1,4 @@
+// @dart=3.9
 class CreateTransactionException implements Exception {
   const CreateTransactionException(this.message);
 

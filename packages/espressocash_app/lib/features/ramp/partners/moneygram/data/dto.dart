@@ -6,7 +6,7 @@ part 'dto.freezed.dart';
 part 'dto.g.dart';
 
 @freezed
-class MgWithdrawRequestDto with _$MgWithdrawRequestDto {
+abstract class MgWithdrawRequestDto with _$MgWithdrawRequestDto {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory MgWithdrawRequestDto({
     required String assetCode,
@@ -20,7 +20,7 @@ class MgWithdrawRequestDto with _$MgWithdrawRequestDto {
 }
 
 @freezed
-class MgWithdrawResponseDto with _$MgWithdrawResponseDto {
+abstract class MgWithdrawResponseDto with _$MgWithdrawResponseDto {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory MgWithdrawResponseDto({required String id, required String url}) =
       _MgWithdrawResponseDto;
@@ -30,7 +30,7 @@ class MgWithdrawResponseDto with _$MgWithdrawResponseDto {
 }
 
 @freezed
-class MgFetchTransactionResponseDto with _$MgFetchTransactionResponseDto {
+abstract class MgFetchTransactionResponseDto with _$MgFetchTransactionResponseDto {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory MgFetchTransactionResponseDto({required TransactionStatus transaction}) =
       _MgFetchTransactionResponseDto;
@@ -40,7 +40,7 @@ class MgFetchTransactionResponseDto with _$MgFetchTransactionResponseDto {
 }
 
 @freezed
-class TransactionStatus with _$TransactionStatus {
+abstract class TransactionStatus with _$TransactionStatus {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TransactionStatus({
     required String id,

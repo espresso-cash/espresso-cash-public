@@ -21,12 +21,11 @@ class SecuritySection extends StatelessWidget {
       const AppLockMenuItem(),
       ValueListenableBuilder(
         valueListenable: sl<AccountService>(),
-        builder:
-            (context, value, child) => ProfileButton(
-              label: context.l10n.viewRecoveryPhrase,
-              description: context.l10n.viewRecoveryPhraseDescription,
-              onPressed: () => context.launchViewRecoveryPhraseFlow(),
-            ),
+        builder: (context, value, child) => ProfileButton(
+          label: context.l10n.viewRecoveryPhrase,
+          description: context.l10n.viewRecoveryPhraseDescription,
+          onPressed: () => context.launchViewRecoveryPhraseFlow(),
+        ),
       ),
       ProfileButton(label: context.l10n.termsOfUse, onPressed: () => TermsScreen.push(context)),
       ProfileButton(

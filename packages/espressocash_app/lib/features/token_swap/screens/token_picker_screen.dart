@@ -48,12 +48,8 @@ class TokenPickerScreen extends StatelessWidget {
     bool showOnlyUserTokens = false,
   }) => Navigator.of(context).push<Token?>(
     MaterialPageRoute(
-      builder:
-          (context) => TokenPickerScreen(
-            initial: initial,
-            title: title,
-            showOnlyUserTokens: showOnlyUserTokens,
-          ),
+      builder: (context) =>
+          TokenPickerScreen(initial: initial, title: title, showOnlyUserTokens: showOnlyUserTokens),
     ),
   );
 
@@ -159,16 +155,16 @@ class _ContentState extends State<_Content> with DebounceMixin {
 
     return widget.showOnlyUserTokens
         ? filteredTokens.where((token) {
-          final query = _searchText.toLowerCase();
-          final name = token.name.toLowerCase();
-          final symbol = token.symbol.toLowerCase();
+            final query = _searchText.toLowerCase();
+            final name = token.name.toLowerCase();
+            final symbol = token.symbol.toLowerCase();
 
-          if (query.isEmpty) return true;
+            if (query.isEmpty) return true;
 
-          return symbol == query || symbol.startsWith(query) || name.startsWith(query)
-              ? true
-              : symbol.contains(query) || name.contains(query);
-        }).toList()
+            return symbol == query || symbol.startsWith(query) || name.startsWith(query)
+                ? true
+                : symbol.contains(query) || name.contains(query);
+          }).toList()
         : (_searchResults ?? filteredTokens);
   }
 
@@ -220,48 +216,43 @@ class _ContentState extends State<_Content> with DebounceMixin {
 
             return displayTokens.isEmpty
                 ? Center(
-                  child: Text(
-                    context.l10n.noResultsFound,
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                )
+                    child: Text(
+                      context.l10n.noResultsFound,
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  )
                 : ValueStreamBuilder<IList<CryptoFiatAmount>>(
-                  create: () => (_balanceService.watchAllBalances(), const IListConst([])),
-                  builder:
-                      (context, balances) => ListView.separated(
-                        padding: EdgeInsets.only(
-                          left: 20,
-                          right: 20,
-                          top: 20,
-                          bottom: MediaQuery.paddingOf(context).bottom,
-                        ),
-                        itemCount: displayTokens.length,
-                        separatorBuilder: (context, index) => const SizedBox(height: _tilePadding),
-                        itemBuilder: (BuildContext context, int index) {
-                          final token = displayTokens[index];
-                          final selected = token.address == _selectedToken?.address;
-
-                          final balance = balances.firstWhere(
-                            (b) => b.$1.token.address == token.address,
-                            orElse:
-                                () => (
-                                  CryptoAmount(
-                                    value: 0,
-                                    cryptoCurrency: CryptoCurrency(token: token),
-                                  ),
-                                  null,
-                                ),
-                          );
-
-                          return _TokenItem(
-                            key: ValueKey(balance.$1.token),
-                            isSelected: selected,
-                            cryptoAmount: balance.$1,
-                            fiatAmount: balance.$2,
-                          );
-                        },
+                    create: () => (_balanceService.watchAllBalances(), const IListConst([])),
+                    builder: (context, balances) => ListView.separated(
+                      padding: EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: MediaQuery.paddingOf(context).bottom,
                       ),
-                );
+                      itemCount: displayTokens.length,
+                      separatorBuilder: (context, index) => const SizedBox(height: _tilePadding),
+                      itemBuilder: (BuildContext context, int index) {
+                        final token = displayTokens[index];
+                        final selected = token.address == _selectedToken?.address;
+
+                        final balance = balances.firstWhere(
+                          (b) => b.$1.token.address == token.address,
+                          orElse: () => (
+                            CryptoAmount(value: 0, cryptoCurrency: CryptoCurrency(token: token)),
+                            null,
+                          ),
+                        );
+
+                        return _TokenItem(
+                          key: ValueKey(balance.$1.token),
+                          isSelected: selected,
+                          cryptoAmount: balance.$1,
+                          fiatAmount: balance.$2,
+                        );
+                      },
+                    ),
+                  );
           },
         ),
       ),

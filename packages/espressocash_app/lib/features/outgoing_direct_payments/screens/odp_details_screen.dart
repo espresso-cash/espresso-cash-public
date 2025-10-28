@@ -59,26 +59,24 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
       return payment == null
           ? TransferProgress(onBack: () => Navigator.pop(context))
           : payment.status.maybeMap(
-            success:
-                (status) => TransferSuccess(
-                  onBack: () => Navigator.pop(context),
-                  onOkPressed: () => Navigator.pop(context),
-                  statusContent: context.l10n.outgoingTransferSuccess(
-                    payment.amount.format(DeviceLocale.localeOf(context)),
-                  ),
-                  onMoreDetailsPressed: () {
-                    final link = status.txId.let(createTransactionLink).let(Uri.parse).toString();
-                    context.openLink(link);
-                  },
+              success: (status) => TransferSuccess(
+                onBack: () => Navigator.pop(context),
+                onOkPressed: () => Navigator.pop(context),
+                statusContent: context.l10n.outgoingTransferSuccess(
+                  payment.amount.format(DeviceLocale.localeOf(context)),
                 ),
-            txFailure:
-                (it) => TransferError(
-                  onBack: () => Navigator.pop(context),
-                  onCancel: () => _handleCancel(payment.id),
-                  reason: it.reason,
-                ),
-            orElse: () => TransferProgress(onBack: () => Navigator.pop(context)),
-          );
+                onMoreDetailsPressed: () {
+                  final link = status.txId.let(createTransactionLink).let(Uri.parse).toString();
+                  context.openLink(link);
+                },
+              ),
+              txFailure: (it) => TransferError(
+                onBack: () => Navigator.pop(context),
+                onCancel: () => _handleCancel(payment.id),
+                reason: it.reason,
+              ),
+              orElse: () => TransferProgress(onBack: () => Navigator.pop(context)),
+            );
     },
   );
 }

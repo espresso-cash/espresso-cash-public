@@ -1,3 +1,4 @@
+// @dart=3.9
 enum ExtensionType {
   uninitialized(0),
   transferFeeConfig(1),

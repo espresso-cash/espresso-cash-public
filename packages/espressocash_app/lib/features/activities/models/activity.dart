@@ -9,7 +9,7 @@ import '../../transaction_request/models/transaction_request.dart';
 part 'activity.freezed.dart';
 
 @freezed
-class Activity with _$Activity {
+sealed class Activity with _$Activity {
   const factory Activity.outgoingPaymentRequest({required String id, required DateTime created}) =
       OPRActivity;
 
@@ -40,8 +40,6 @@ class Activity with _$Activity {
     required DateTime created,
     required TransactionRequestPayment data,
   }) = TransactionRequestActivity;
-
-  const factory Activity.kyc({required DateTime created}) = KycActivity;
 
   const factory Activity.swap({required String id, required DateTime created, required Swap data}) =
       SwapActivity;

@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/curve25519/edwards_point.dart';
 import 'package:solana/src/curve25519/field_element.dart';
 import 'package:solana/src/curve25519/projective_point.dart';

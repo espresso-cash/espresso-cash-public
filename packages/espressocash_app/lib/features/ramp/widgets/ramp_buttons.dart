@@ -15,13 +15,11 @@ import '../../profile/data/profile_repository.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 import '../models/profile_data.dart';
-import '../partners/brij/widgets/launch.dart';
 import '../partners/brij_redirect/widgets/launch.dart';
 import '../partners/coinflow/widgets/launch.dart';
 import '../partners/guardarian/widgets/launch.dart';
 import '../partners/kado/widgets/launch.dart';
 import '../partners/moneygram/widgets/launch.dart';
-import '../partners/ramp_network/widgets/launch.dart';
 import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
 
@@ -181,14 +179,10 @@ extension RampBuildContextExt on BuildContext {
     required String address,
   }) {
     switch (partner) {
-      case RampPartner.rampNetwork:
-        launchRampNetworkOnRamp(profile: profile, address: address);
       case RampPartner.kado:
         launchKadoOnRamp(profile: profile, address: address);
       case RampPartner.guardarian:
         launchGuardarianOnRamp(profile: profile, address: address);
-      case RampPartner.brij:
-        launchBrijOnRamp(partner: partner, profile: profile);
       case RampPartner.brijRedirect:
         launchBrijRedirect(type: RampType.onRamp, profile: profile, address: address);
       case RampPartner.moneygram:
@@ -212,11 +206,8 @@ extension RampBuildContextExt on BuildContext {
         launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.moneygram:
         launchMoneygramOffRamp(profile: profile);
-      case RampPartner.brij:
-        launchBrijOffRamp(partner: partner, profile: profile);
       case RampPartner.brijRedirect:
         launchBrijRedirect(type: RampType.offRamp, profile: profile, address: address);
-      case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');
     }

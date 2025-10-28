@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
@@ -7,7 +8,7 @@ import 'package:solana/src/solana_pay/exceptions.dart';
 part 'solana_pay_request.freezed.dart';
 
 @freezed
-class SolanaPayRequest with _$SolanaPayRequest {
+abstract class SolanaPayRequest with _$SolanaPayRequest {
   const factory SolanaPayRequest({
     required Ed25519HDPublicKey recipient,
     Decimal? amount,

@@ -24,13 +24,12 @@ class QuizIndicator extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 2.0),
       child: ValueListenableBuilder(
         valueListenable: controller,
-        builder:
-            (context, offset, _) => SmoothIndicator(
-              size: effect.calculateSize(_count),
-              offset: offset,
-              count: _count,
-              effect: effect,
-            ),
+        builder: (context, offset, _) => SmoothIndicator(
+          size: effect.calculateSize(_count),
+          offset: offset,
+          count: _count,
+          effect: effect,
+        ),
       ),
     );
   }

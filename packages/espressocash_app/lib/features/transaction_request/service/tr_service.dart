@@ -80,32 +80,32 @@ class TRService {
   }
 
   void _subscribe(String paymentId) {
-    _subscriptions[paymentId] = (_db.select(_db.transactionRequestRows)
-          ..where((tbl) => tbl.id.equals(paymentId)))
-        .watchSingle()
-        .asyncExpand<TransactionRequestRowsCompanion?>((payment) {
-          switch (payment.status) {
-            case TRStatusDto.created:
-              final tx = SignedTx.decode(payment.transaction).let((it) => (it, payment.slot));
+    _subscriptions[paymentId] =
+        (_db.select(_db.transactionRequestRows)..where((tbl) => tbl.id.equals(paymentId)))
+            .watchSingle()
+            .asyncExpand<TransactionRequestRowsCompanion?>((payment) {
+              switch (payment.status) {
+                case TRStatusDto.created:
+                  final tx = SignedTx.decode(payment.transaction).let((it) => (it, payment.slot));
 
-              return Stream.fromFuture(_send(tx));
-            case TRStatusDto.sent:
-              final tx = SignedTx.decode(payment.transaction).let((it) => (it, payment.slot));
+                  return Stream.fromFuture(_send(tx));
+                case TRStatusDto.sent:
+                  final tx = SignedTx.decode(payment.transaction).let((it) => (it, payment.slot));
 
-              return Stream.fromFuture(_wait(tx));
-            case TRStatusDto.success:
-            case TRStatusDto.failure:
-              _subscriptions.remove(paymentId)?.cancel();
+                  return Stream.fromFuture(_wait(tx));
+                case TRStatusDto.success:
+                case TRStatusDto.failure:
+                  _subscriptions.remove(paymentId)?.cancel();
 
-              return null;
-          }
-        })
-        .whereNotNull()
-        .listen(
-          (event) =>
-              (_db.update(_db.transactionRequestRows)
-                ..where((tbl) => tbl.id.equals(paymentId))).write(event),
-        );
+                  return null;
+              }
+            })
+            .whereNotNull()
+            .listen(
+              (event) => (_db.update(
+                _db.transactionRequestRows,
+              )..where((tbl) => tbl.id.equals(paymentId))).write(event),
+            );
   }
 
   Future<TransactionRequestRowsCompanion?> _send((SignedTx, BigInt) tx) async {
@@ -139,7 +139,10 @@ extension TransactionRequestRowExt on TransactionRequestRow {
     id: id,
     created: created,
     status: toStatusModel,
-    amount: CryptoAmount(value: amount, cryptoCurrency: const CryptoCurrency(token: Token.usdc)),
+    amount: CryptoAmount(
+      value: amount,
+      cryptoCurrency: const CryptoCurrency(token: Token.usdc),
+    ),
     label: label,
     txId: SignedTx.decode(transaction).id,
   );

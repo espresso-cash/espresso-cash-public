@@ -58,20 +58,19 @@ class RampAmountScreen extends StatefulWidget {
     bool isEstimatedRate = false,
   }) => Navigator.of(context).push<void>(
     MaterialPageRoute(
-      builder:
-          (context) => RampAmountScreen(
-            onSubmitted: onSubmitted,
-            minAmount: minAmount,
-            currency: currency,
-            calculateEquivalent: calculateEquivalent,
-            type: type,
-            partner: partner,
-            calculateFee: calculateFee,
-            exchangeRate: exchangeRate,
-            receiveCurrency: receiveCurrency,
-            initialAmount: initialAmount,
-            isEstimatedRate: isEstimatedRate,
-          ),
+      builder: (context) => RampAmountScreen(
+        onSubmitted: onSubmitted,
+        minAmount: minAmount,
+        currency: currency,
+        calculateEquivalent: calculateEquivalent,
+        type: type,
+        partner: partner,
+        calculateFee: calculateFee,
+        exchangeRate: exchangeRate,
+        receiveCurrency: receiveCurrency,
+        initialAmount: initialAmount,
+        isEstimatedRate: isEstimatedRate,
+      ),
     ),
   );
 
@@ -174,38 +173,35 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                   ),
                   ValueListenableBuilder(
                     valueListenable: _controller,
-                    builder:
-                        (context, value, child) => _ReceiveTextField(
-                          label: _outputLabel,
-                          amount: _amount,
-                          calculateEquivalent: widget.calculateEquivalent,
-                          minAmount: widget.minAmount,
-                          type: widget.type,
-                          receiveCurrency: widget.receiveCurrency,
-                        ),
+                    builder: (context, value, child) => _ReceiveTextField(
+                      label: _outputLabel,
+                      amount: _amount,
+                      calculateEquivalent: widget.calculateEquivalent,
+                      minAmount: widget.minAmount,
+                      type: widget.type,
+                      receiveCurrency: widget.receiveCurrency,
+                    ),
                   ),
                   SizedBox(height: 14.h),
                   ValueListenableBuilder(
                     valueListenable: _controller,
-                    builder:
-                        (context, value, child) => _AdditionalInfoLabel(
-                          feeCalculator: widget.calculateFee,
-                          amount: _amount,
-                          exchangeRate: widget.exchangeRate,
-                          minAmount: widget.minAmount,
-                          showExchangeRateDisclaimer: widget.isEstimatedRate,
-                        ),
+                    builder: (context, value, child) => _AdditionalInfoLabel(
+                      feeCalculator: widget.calculateFee,
+                      amount: _amount,
+                      exchangeRate: widget.exchangeRate,
+                      minAmount: widget.minAmount,
+                      showExchangeRateDisclaimer: widget.isEstimatedRate,
+                    ),
                   ),
                   ValueListenableBuilder(
                     valueListenable: _controller,
-                    builder:
-                        (context, value, child) => _MinimumAmountNotice(
-                          key: _minimumAmountNoticeKey,
-                          currency: widget.currency,
-                          amount: _amount,
-                          minAmount: widget.minAmount,
-                          type: widget.type,
-                        ),
+                    builder: (context, value, child) => _MinimumAmountNotice(
+                      key: _minimumAmountNoticeKey,
+                      currency: widget.currency,
+                      amount: _amount,
+                      minAmount: widget.minAmount,
+                      type: widget.type,
+                    ),
                   ),
                 ],
               ),
@@ -219,9 +215,8 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                   SizedBox(height: 16.h),
                   ValueListenableBuilder(
                     valueListenable: _controller,
-                    builder:
-                        (context, value, child) =>
-                            CpBottomButton(text: context.l10n.next, onPressed: _onSubmit),
+                    builder: (context, value, child) =>
+                        CpBottomButton(text: context.l10n.next, onPressed: _onSubmit),
                   ),
                 ],
               ),
@@ -286,15 +281,18 @@ class _MinimumAmountNoticeState extends State<_MinimumAmountNotice> with Debounc
       currency: widget.currency,
     ).format(context.locale, roundInteger: true, maxDecimals: 0);
 
-    final message =
-        switch (widget.type) {
-          RampType.onRamp => context.l10n.minAmountToOnRamp(amount),
-          RampType.offRamp => context.l10n.minAmountToOffRamp(amount),
-        }.toUpperCase();
+    final message = switch (widget.type) {
+      RampType.onRamp => context.l10n.minAmountToOnRamp(amount),
+      RampType.offRamp => context.l10n.minAmountToOffRamp(amount),
+    }.toUpperCase();
 
     return Shake(
       key: _shakeKey,
-      child: ErrorChip(text: message, visible: _visible, margin: EdgeInsets.only(top: 32.h)),
+      child: ErrorChip(
+        text: message,
+        visible: _visible,
+        margin: EdgeInsets.only(top: 32.h),
+      ),
     );
   }
 }
@@ -355,26 +353,26 @@ class _ReceiveTextFieldState extends State<_ReceiveTextField> with DebounceMixin
   @override
   Widget build(BuildContext context) =>
       widget.amount.decimal < widget.minAmount || widget.calculateEquivalent == null
-          ? const SizedBox.shrink()
-          : Column(
-            children: [
-              SizedBox(height: 16.h),
-              FutureBuilder(
-                future: _result,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState != ConnectionState.done) {
-                    return RampTextField(
-                      label: widget.label,
-                      controller: null,
-                      currency: widget.receiveCurrency,
-                    );
-                  }
+      ? const SizedBox.shrink()
+      : Column(
+          children: [
+            SizedBox(height: 16.h),
+            FutureBuilder(
+              future: _result,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return RampTextField(
+                    label: widget.label,
+                    controller: null,
+                    currency: widget.receiveCurrency,
+                  );
+                }
 
-                  final data = snapshot.data;
+                final data = snapshot.data;
 
-                  return data == null
-                      ? const SizedBox.shrink()
-                      : data.fold(
+                return data == null
+                    ? const SizedBox.shrink()
+                    : data.fold(
                         (_) => const SizedBox.shrink(),
                         (data) => RampTextField(
                           label: widget.label,
@@ -384,10 +382,10 @@ class _ReceiveTextFieldState extends State<_ReceiveTextField> with DebounceMixin
                           currency: data.currency,
                         ),
                       );
-                },
-              ),
-            ],
-          );
+              },
+            ),
+          ],
+        );
 }
 
 class _AdditionalInfoLabel extends StatefulWidget {
@@ -472,36 +470,34 @@ class _AdditionalInfoLabelState extends State<_AdditionalInfoLabel> with Debounc
   );
 
   @override
-  Widget build(BuildContext context) =>
-      widget.exchangeRate == null && widget.feeCalculator == null
-          ? const SizedBox.shrink()
-          : FutureBuilder(
-            future: _result,
-            builder: (context, snapshot) {
-              final fees =
-                  widget.amount.decimal < widget.minAmount
-                      ? _empty
-                      : snapshot.connectionState == ConnectionState.waiting
-                      ? null
-                      : snapshot.data?.fold((_) => null, (data) => data);
+  Widget build(BuildContext context) => widget.exchangeRate == null && widget.feeCalculator == null
+      ? const SizedBox.shrink()
+      : FutureBuilder(
+          future: _result,
+          builder: (context, snapshot) {
+            final fees = widget.amount.decimal < widget.minAmount
+                ? _empty
+                : snapshot.connectionState == ConnectionState.waiting
+                ? null
+                : snapshot.data?.fold((_) => null, (data) => data);
 
-              return Column(
-                children: [
-                  _RampContainer(
-                    content: Column(
-                      children: [
-                        if (widget.exchangeRate case final exchangeRate?)
-                          _InfoRow(title: context.l10n.exchangeRateTitle, value: exchangeRate),
-                        if (widget.feeCalculator != null) _buildFeeRows(fees),
-                      ],
-                    ),
+            return Column(
+              children: [
+                _RampContainer(
+                  content: Column(
+                    children: [
+                      if (widget.exchangeRate case final exchangeRate?)
+                        _InfoRow(title: context.l10n.exchangeRateTitle, value: exchangeRate),
+                      if (widget.feeCalculator != null) _buildFeeRows(fees),
+                    ],
                   ),
-                  if (widget.showExchangeRateDisclaimer && fees?.totalFee != null)
-                    const _ExchangeRateDisclaimer(),
-                ],
-              );
-            },
-          );
+                ),
+                if (widget.showExchangeRateDisclaimer && fees?.totalFee != null)
+                  const _ExchangeRateDisclaimer(),
+              ],
+            );
+          },
+        );
 }
 
 class _RampContainer extends StatelessWidget {
@@ -535,7 +531,10 @@ class _InfoRow extends StatelessWidget {
     padding: EdgeInsets.symmetric(vertical: 4.h),
     child: Row(
       children: [
-        Text(title, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
+        Text(
+          title,
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+        ),
         const Spacer(),
         if (isLoading)
           LoaderAnimation(height: 18.h, width: 95.w)

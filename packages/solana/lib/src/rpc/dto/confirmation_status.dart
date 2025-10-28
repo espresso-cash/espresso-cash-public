@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/rpc/dto/commitment.dart';
 
 /// A convenient alias for the confirmation status. Values are

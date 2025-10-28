@@ -100,11 +100,10 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
             _lastNameController,
             _emailController,
           ]),
-          builder:
-              (context, child) => OnboardingFooterButton(
-                text: context.l10n.save,
-                onPressed: _isValid ? _handleSubmitted : null,
-              ),
+          builder: (context, child) => OnboardingFooterButton(
+            text: context.l10n.save,
+            onPressed: _isValid ? _handleSubmitted : null,
+          ),
         ),
         children: [
           SizedBox(height: MediaQuery.paddingOf(context).top + 24),

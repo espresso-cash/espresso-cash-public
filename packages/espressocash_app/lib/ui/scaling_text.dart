@@ -25,16 +25,16 @@ class ScalingText extends StatelessWidget {
 
       return textScaleFactor >= minTextScaleFactor
           ? FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.centerLeft,
-            child: Text(text, style: style),
-          )
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(text, style: style),
+            )
           : Text(
-            text,
-            style: style.copyWith(fontSize: fontSize * minTextScaleFactor),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          );
+              text,
+              style: style.copyWith(fontSize: fontSize * minTextScaleFactor),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            );
     },
   );
 }

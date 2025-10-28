@@ -8,7 +8,7 @@ import '../../transactions/models/tx_results.dart';
 part 'outgoing_direct_payment.freezed.dart';
 
 @freezed
-class OutgoingDirectPayment with _$OutgoingDirectPayment {
+abstract class OutgoingDirectPayment with _$OutgoingDirectPayment {
   const factory OutgoingDirectPayment({
     required String id,
     required Ed25519HDPublicKey receiver,

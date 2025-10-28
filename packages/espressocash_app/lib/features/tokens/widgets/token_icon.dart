@@ -21,9 +21,9 @@ class TokenIcon extends StatelessWidget {
     return url == '' || url == null
         ? _DefaultIcon(size: size)
         : ClipRRect(
-          borderRadius: borderRadius,
-          child: _TokenIconImage(url: url, cacheKey: token.symbol, size: size),
-        );
+            borderRadius: borderRadius,
+            child: _TokenIconImage(url: url, cacheKey: token.symbol, size: size),
+          );
   }
 }
 
@@ -31,23 +31,21 @@ class _TokenIconImage extends StatelessWidget {
   const _TokenIconImage({required this.url, required this.cacheKey, required this.size});
 
   @override
-  Widget build(BuildContext context) =>
-      extension(url) == '.svg'
-          ? SvgPicture.network(url, width: size, height: size)
-          : CachedNetworkImage(
-            cacheKey: cacheKey,
-            height: size,
-            width: size,
-            errorWidget: (BuildContext context, String url, dynamic error) => const _DefaultIcon(),
-            imageUrl: url,
-            imageBuilder:
-                (context, provider) => DecoratedBox(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(image: provider),
-                  ),
-                ),
-          );
+  Widget build(BuildContext context) => extension(url) == '.svg'
+      ? SvgPicture.network(url, width: size, height: size)
+      : CachedNetworkImage(
+          cacheKey: cacheKey,
+          height: size,
+          width: size,
+          errorWidget: (BuildContext context, String url, dynamic error) => const _DefaultIcon(),
+          imageUrl: url,
+          imageBuilder: (context, provider) => DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(image: provider),
+            ),
+          ),
+        );
 
   final double size;
   final String cacheKey;

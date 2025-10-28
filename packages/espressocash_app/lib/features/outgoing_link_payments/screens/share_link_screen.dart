@@ -19,7 +19,9 @@ class ShareLinkScreen extends StatelessWidget {
     required CryptoAmount amount,
     required OLPStatusLinkReady status,
   }) => Navigator.of(context).push<void>(
-    MaterialPageRoute(builder: (context) => ShareLinkScreen(amount: amount, status: status)),
+    MaterialPageRoute(
+      builder: (context) => ShareLinkScreen(amount: amount, status: status),
+    ),
   );
 
   final CryptoAmount amount;

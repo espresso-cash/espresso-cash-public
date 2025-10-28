@@ -63,16 +63,14 @@ extension BuildContextExt on BuildContext {
       currency: inputCurrency,
       receiveCurrency: receiveCurrency,
       type: type,
-      calculateEquivalent:
-          (amount) => _calculateReceiveAmount(
-            amount: amount,
-            type: type,
-            currency: receiveCurrency,
-            rate: rate,
-          ),
-      calculateFee:
-          (amount) =>
-              _calculateFees(amount: amount, type: type, currency: receiveCurrency, rate: rate),
+      calculateEquivalent: (amount) => _calculateReceiveAmount(
+        amount: amount,
+        type: type,
+        currency: receiveCurrency,
+        rate: rate,
+      ),
+      calculateFee: (amount) =>
+          _calculateFees(amount: amount, type: type, currency: receiveCurrency, rate: rate),
       exchangeRate: _formatExchangeRate(from: inputCurrency, to: receiveCurrency, rate: rate),
       isEstimatedRate: isEstimatedRate,
     );
@@ -203,16 +201,14 @@ window.addEventListener("message", (event) => {
       currency: inputCurrency,
       receiveCurrency: receiveCurrency,
       type: type,
-      calculateEquivalent:
-          (amount) => _calculateReceiveAmount(
-            amount: amount,
-            type: type,
-            currency: receiveCurrency,
-            rate: rate,
-          ),
-      calculateFee:
-          (amount) =>
-              _calculateFees(amount: amount, type: type, currency: receiveCurrency, rate: rate),
+      calculateEquivalent: (amount) => _calculateReceiveAmount(
+        amount: amount,
+        type: type,
+        currency: receiveCurrency,
+        rate: rate,
+      ),
+      calculateFee: (amount) =>
+          _calculateFees(amount: amount, type: type, currency: receiveCurrency, rate: rate),
       exchangeRate: _formatExchangeRate(from: inputCurrency, to: receiveCurrency, rate: rate),
       isEstimatedRate: isEstimatedRate,
     );
@@ -316,8 +312,9 @@ window.addEventListener("message", (event) => {
       RampType.offRamp => fees.moneygramFee + fees.bridgeFee + fees.gasFeeInUsdc,
     };
 
-    final convertedTotalFees =
-        totalFees.currency != currency ? totalFees.convert(rate: rate, to: currency) : totalFees;
+    final convertedTotalFees = totalFees.currency != currency
+        ? totalFees.convert(rate: rate, to: currency)
+        : totalFees;
 
     return Either.right((
       ourFee: null,

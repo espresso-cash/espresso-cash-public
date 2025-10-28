@@ -1,5 +1,6 @@
-// coverage:ignore-file
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,651 +10,441 @@ part of 'token_program_account_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+SplTokenProgramAccountData _$SplTokenProgramAccountDataFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['type']) {
+                  case 'account':
+          return TokenAccountData.fromJson(
+            json
+          );
+                case 'mint':
+          return MintAccountData.fromJson(
+            json
+          );
+        
+          default:
+            return UnknownAccountData.fromJson(
+  json
 );
-
-SplTokenProgramAccountData _$SplTokenProgramAccountDataFromJson(Map<String, dynamic> json) {
-  switch (json['type']) {
-    case 'account':
-      return TokenAccountData.fromJson(json);
-    case 'mint':
-      return MintAccountData.fromJson(json);
-
-    default:
-      return UnknownAccountData.fromJson(json);
-  }
+        }
+      
 }
 
 /// @nodoc
 mixin _$SplTokenProgramAccountData {
-  String get type => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)
-    account,
-    required TResult Function(MintAccountDataInfo info, String type, String? accountType) mint,
-    required TResult Function(String type) unknown,
-  }) => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
-    TResult? Function(MintAccountDataInfo info, String type, String? accountType)? mint,
-    TResult? Function(String type)? unknown,
-  }) => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
-    TResult Function(MintAccountDataInfo info, String type, String? accountType)? mint,
-    TResult Function(String type)? unknown,
-    required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TokenAccountData value) account,
-    required TResult Function(MintAccountData value) mint,
-    required TResult Function(UnknownAccountData value) unknown,
-  }) => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TokenAccountData value)? account,
-    TResult? Function(MintAccountData value)? mint,
-    TResult? Function(UnknownAccountData value)? unknown,
-  }) => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TokenAccountData value)? account,
-    TResult Function(MintAccountData value)? mint,
-    TResult Function(UnknownAccountData value)? unknown,
-    required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+
+ String get type;
+/// Create a copy of SplTokenProgramAccountData
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SplTokenProgramAccountDataCopyWith<SplTokenProgramAccountData> get copyWith => _$SplTokenProgramAccountDataCopyWithImpl<SplTokenProgramAccountData>(this as SplTokenProgramAccountData, _$identity);
 
   /// Serializes this SplTokenProgramAccountData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of SplTokenProgramAccountData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $SplTokenProgramAccountDataCopyWith<SplTokenProgramAccountData> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SplTokenProgramAccountData&&(identical(other.type, type) || other.type == type));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type);
+
+@override
+String toString() {
+  return 'SplTokenProgramAccountData(type: $type)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $SplTokenProgramAccountDataCopyWith<$Res> {
-  factory $SplTokenProgramAccountDataCopyWith(
-    SplTokenProgramAccountData value,
-    $Res Function(SplTokenProgramAccountData) then,
-  ) = _$SplTokenProgramAccountDataCopyWithImpl<$Res, SplTokenProgramAccountData>;
-  @useResult
-  $Res call({String type});
-}
+abstract mixin class $SplTokenProgramAccountDataCopyWith<$Res>  {
+  factory $SplTokenProgramAccountDataCopyWith(SplTokenProgramAccountData value, $Res Function(SplTokenProgramAccountData) _then) = _$SplTokenProgramAccountDataCopyWithImpl;
+@useResult
+$Res call({
+ String type
+});
 
+
+
+
+}
 /// @nodoc
-class _$SplTokenProgramAccountDataCopyWithImpl<$Res, $Val extends SplTokenProgramAccountData>
+class _$SplTokenProgramAccountDataCopyWithImpl<$Res>
     implements $SplTokenProgramAccountDataCopyWith<$Res> {
-  _$SplTokenProgramAccountDataCopyWithImpl(this._value, this._then);
+  _$SplTokenProgramAccountDataCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final SplTokenProgramAccountData _self;
+  final $Res Function(SplTokenProgramAccountData) _then;
 
-  /// Create a copy of SplTokenProgramAccountData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? type = null}) {
-    return _then(
-      _value.copyWith(
-            type:
-                null == type
-                    ? _value.type
-                    : type // ignore: cast_nullable_to_non_nullable
-                        as String,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of SplTokenProgramAccountData
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,}) {
+  return _then(_self.copyWith(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-abstract class _$$TokenAccountDataImplCopyWith<$Res>
-    implements $SplTokenProgramAccountDataCopyWith<$Res> {
-  factory _$$TokenAccountDataImplCopyWith(
-    _$TokenAccountDataImpl value,
-    $Res Function(_$TokenAccountDataImpl) then,
-  ) = __$$TokenAccountDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({SplTokenAccountDataInfo info, String type, String? accountType});
 }
 
-/// @nodoc
-class __$$TokenAccountDataImplCopyWithImpl<$Res>
-    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$TokenAccountDataImpl>
-    implements _$$TokenAccountDataImplCopyWith<$Res> {
-  __$$TokenAccountDataImplCopyWithImpl(
-    _$TokenAccountDataImpl _value,
-    $Res Function(_$TokenAccountDataImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of SplTokenProgramAccountData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? info = null, Object? type = null, Object? accountType = freezed}) {
-    return _then(
-      _$TokenAccountDataImpl(
-        info:
-            null == info
-                ? _value.info
-                : info // ignore: cast_nullable_to_non_nullable
-                    as SplTokenAccountDataInfo,
-        type:
-            null == type
-                ? _value.type
-                : type // ignore: cast_nullable_to_non_nullable
-                    as String,
-        accountType:
-            freezed == accountType
-                ? _value.accountType
-                : accountType // ignore: cast_nullable_to_non_nullable
-                    as String?,
-      ),
-    );
-  }
+/// Adds pattern-matching-related methods to [SplTokenProgramAccountData].
+extension SplTokenProgramAccountDataPatterns on SplTokenProgramAccountData {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TokenAccountData value)?  account,TResult Function( MintAccountData value)?  mint,TResult Function( UnknownAccountData value)?  unknown,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case TokenAccountData() when account != null:
+return account(_that);case MintAccountData() when mint != null:
+return mint(_that);case UnknownAccountData() when unknown != null:
+return unknown(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TokenAccountData value)  account,required TResult Function( MintAccountData value)  mint,required TResult Function( UnknownAccountData value)  unknown,}){
+final _that = this;
+switch (_that) {
+case TokenAccountData():
+return account(_that);case MintAccountData():
+return mint(_that);case UnknownAccountData():
+return unknown(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TokenAccountData value)?  account,TResult? Function( MintAccountData value)?  mint,TResult? Function( UnknownAccountData value)?  unknown,}){
+final _that = this;
+switch (_that) {
+case TokenAccountData() when account != null:
+return account(_that);case MintAccountData() when mint != null:
+return mint(_that);case UnknownAccountData() when unknown != null:
+return unknown(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( SplTokenAccountDataInfo info,  String type,  String? accountType)?  account,TResult Function( MintAccountDataInfo info,  String type,  String? accountType)?  mint,TResult Function( String type)?  unknown,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case TokenAccountData() when account != null:
+return account(_that.info,_that.type,_that.accountType);case MintAccountData() when mint != null:
+return mint(_that.info,_that.type,_that.accountType);case UnknownAccountData() when unknown != null:
+return unknown(_that.type);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( SplTokenAccountDataInfo info,  String type,  String? accountType)  account,required TResult Function( MintAccountDataInfo info,  String type,  String? accountType)  mint,required TResult Function( String type)  unknown,}) {final _that = this;
+switch (_that) {
+case TokenAccountData():
+return account(_that.info,_that.type,_that.accountType);case MintAccountData():
+return mint(_that.info,_that.type,_that.accountType);case UnknownAccountData():
+return unknown(_that.type);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( SplTokenAccountDataInfo info,  String type,  String? accountType)?  account,TResult? Function( MintAccountDataInfo info,  String type,  String? accountType)?  mint,TResult? Function( String type)?  unknown,}) {final _that = this;
+switch (_that) {
+case TokenAccountData() when account != null:
+return account(_that.info,_that.type,_that.accountType);case MintAccountData() when mint != null:
+return mint(_that.info,_that.type,_that.accountType);case UnknownAccountData() when unknown != null:
+return unknown(_that.type);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$TokenAccountDataImpl implements TokenAccountData {
-  const _$TokenAccountDataImpl({required this.info, required this.type, this.accountType});
 
-  factory _$TokenAccountDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TokenAccountDataImplFromJson(json);
+class TokenAccountData implements SplTokenProgramAccountData {
+  const TokenAccountData({required this.info, required this.type, this.accountType});
+  factory TokenAccountData.fromJson(Map<String, dynamic> json) => _$TokenAccountDataFromJson(json);
 
-  @override
-  final SplTokenAccountDataInfo info;
-  @override
-  final String type;
-  @override
-  final String? accountType;
+ final  SplTokenAccountDataInfo info;
+@override final  String type;
+ final  String? accountType;
 
-  @override
-  String toString() {
-    return 'SplTokenProgramAccountData.account(info: $info, type: $type, accountType: $accountType)';
-  }
+/// Create a copy of SplTokenProgramAccountData
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TokenAccountDataCopyWith<TokenAccountData> get copyWith => _$TokenAccountDataCopyWithImpl<TokenAccountData>(this, _$identity);
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TokenAccountDataImpl &&
-            (identical(other.info, info) || other.info == info) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.accountType, accountType) || other.accountType == accountType));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, info, type, accountType);
-
-  /// Create a copy of SplTokenProgramAccountData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TokenAccountDataImplCopyWith<_$TokenAccountDataImpl> get copyWith =>
-      __$$TokenAccountDataImplCopyWithImpl<_$TokenAccountDataImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)
-    account,
-    required TResult Function(MintAccountDataInfo info, String type, String? accountType) mint,
-    required TResult Function(String type) unknown,
-  }) {
-    return account(info, type, accountType);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
-    TResult? Function(MintAccountDataInfo info, String type, String? accountType)? mint,
-    TResult? Function(String type)? unknown,
-  }) {
-    return account?.call(info, type, accountType);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
-    TResult Function(MintAccountDataInfo info, String type, String? accountType)? mint,
-    TResult Function(String type)? unknown,
-    required TResult orElse(),
-  }) {
-    if (account != null) {
-      return account(info, type, accountType);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TokenAccountData value) account,
-    required TResult Function(MintAccountData value) mint,
-    required TResult Function(UnknownAccountData value) unknown,
-  }) {
-    return account(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TokenAccountData value)? account,
-    TResult? Function(MintAccountData value)? mint,
-    TResult? Function(UnknownAccountData value)? unknown,
-  }) {
-    return account?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TokenAccountData value)? account,
-    TResult Function(MintAccountData value)? mint,
-    TResult Function(UnknownAccountData value)? unknown,
-    required TResult orElse(),
-  }) {
-    if (account != null) {
-      return account(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TokenAccountDataImplToJson(this);
-  }
+@override
+Map<String, dynamic> toJson() {
+  return _$TokenAccountDataToJson(this, );
 }
 
-abstract class TokenAccountData implements SplTokenProgramAccountData {
-  const factory TokenAccountData({
-    required final SplTokenAccountDataInfo info,
-    required final String type,
-    final String? accountType,
-  }) = _$TokenAccountDataImpl;
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TokenAccountData&&(identical(other.info, info) || other.info == info)&&(identical(other.type, type) || other.type == type)&&(identical(other.accountType, accountType) || other.accountType == accountType));
+}
 
-  factory TokenAccountData.fromJson(Map<String, dynamic> json) = _$TokenAccountDataImpl.fromJson;
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,info,type,accountType);
 
-  SplTokenAccountDataInfo get info;
-  @override
-  String get type;
-  String? get accountType;
+@override
+String toString() {
+  return 'SplTokenProgramAccountData.account(info: $info, type: $type, accountType: $accountType)';
+}
 
-  /// Create a copy of SplTokenProgramAccountData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TokenAccountDataImplCopyWith<_$TokenAccountDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+
 }
 
 /// @nodoc
-abstract class _$$MintAccountDataImplCopyWith<$Res>
-    implements $SplTokenProgramAccountDataCopyWith<$Res> {
-  factory _$$MintAccountDataImplCopyWith(
-    _$MintAccountDataImpl value,
-    $Res Function(_$MintAccountDataImpl) then,
-  ) = __$$MintAccountDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({MintAccountDataInfo info, String type, String? accountType});
+abstract mixin class $TokenAccountDataCopyWith<$Res> implements $SplTokenProgramAccountDataCopyWith<$Res> {
+  factory $TokenAccountDataCopyWith(TokenAccountData value, $Res Function(TokenAccountData) _then) = _$TokenAccountDataCopyWithImpl;
+@override @useResult
+$Res call({
+ SplTokenAccountDataInfo info, String type, String? accountType
+});
+
+
+
+
+}
+/// @nodoc
+class _$TokenAccountDataCopyWithImpl<$Res>
+    implements $TokenAccountDataCopyWith<$Res> {
+  _$TokenAccountDataCopyWithImpl(this._self, this._then);
+
+  final TokenAccountData _self;
+  final $Res Function(TokenAccountData) _then;
+
+/// Create a copy of SplTokenProgramAccountData
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? info = null,Object? type = null,Object? accountType = freezed,}) {
+  return _then(TokenAccountData(
+info: null == info ? _self.info : info // ignore: cast_nullable_to_non_nullable
+as SplTokenAccountDataInfo,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,accountType: freezed == accountType ? _self.accountType : accountType // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
 }
 
-/// @nodoc
-class __$$MintAccountDataImplCopyWithImpl<$Res>
-    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$MintAccountDataImpl>
-    implements _$$MintAccountDataImplCopyWith<$Res> {
-  __$$MintAccountDataImplCopyWithImpl(
-    _$MintAccountDataImpl _value,
-    $Res Function(_$MintAccountDataImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of SplTokenProgramAccountData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? info = null, Object? type = null, Object? accountType = freezed}) {
-    return _then(
-      _$MintAccountDataImpl(
-        info:
-            null == info
-                ? _value.info
-                : info // ignore: cast_nullable_to_non_nullable
-                    as MintAccountDataInfo,
-        type:
-            null == type
-                ? _value.type
-                : type // ignore: cast_nullable_to_non_nullable
-                    as String,
-        accountType:
-            freezed == accountType
-                ? _value.accountType
-                : accountType // ignore: cast_nullable_to_non_nullable
-                    as String?,
-      ),
-    );
-  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$MintAccountDataImpl implements MintAccountData {
-  const _$MintAccountDataImpl({required this.info, required this.type, this.accountType});
 
-  factory _$MintAccountDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MintAccountDataImplFromJson(json);
+class MintAccountData implements SplTokenProgramAccountData {
+  const MintAccountData({required this.info, required this.type, this.accountType});
+  factory MintAccountData.fromJson(Map<String, dynamic> json) => _$MintAccountDataFromJson(json);
 
-  @override
-  final MintAccountDataInfo info;
-  @override
-  final String type;
-  @override
-  final String? accountType;
+ final  MintAccountDataInfo info;
+@override final  String type;
+ final  String? accountType;
 
-  @override
-  String toString() {
-    return 'SplTokenProgramAccountData.mint(info: $info, type: $type, accountType: $accountType)';
-  }
+/// Create a copy of SplTokenProgramAccountData
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MintAccountDataCopyWith<MintAccountData> get copyWith => _$MintAccountDataCopyWithImpl<MintAccountData>(this, _$identity);
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MintAccountDataImpl &&
-            (identical(other.info, info) || other.info == info) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.accountType, accountType) || other.accountType == accountType));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, info, type, accountType);
-
-  /// Create a copy of SplTokenProgramAccountData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MintAccountDataImplCopyWith<_$MintAccountDataImpl> get copyWith =>
-      __$$MintAccountDataImplCopyWithImpl<_$MintAccountDataImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)
-    account,
-    required TResult Function(MintAccountDataInfo info, String type, String? accountType) mint,
-    required TResult Function(String type) unknown,
-  }) {
-    return mint(info, type, accountType);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
-    TResult? Function(MintAccountDataInfo info, String type, String? accountType)? mint,
-    TResult? Function(String type)? unknown,
-  }) {
-    return mint?.call(info, type, accountType);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
-    TResult Function(MintAccountDataInfo info, String type, String? accountType)? mint,
-    TResult Function(String type)? unknown,
-    required TResult orElse(),
-  }) {
-    if (mint != null) {
-      return mint(info, type, accountType);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TokenAccountData value) account,
-    required TResult Function(MintAccountData value) mint,
-    required TResult Function(UnknownAccountData value) unknown,
-  }) {
-    return mint(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TokenAccountData value)? account,
-    TResult? Function(MintAccountData value)? mint,
-    TResult? Function(UnknownAccountData value)? unknown,
-  }) {
-    return mint?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TokenAccountData value)? account,
-    TResult Function(MintAccountData value)? mint,
-    TResult Function(UnknownAccountData value)? unknown,
-    required TResult orElse(),
-  }) {
-    if (mint != null) {
-      return mint(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MintAccountDataImplToJson(this);
-  }
+@override
+Map<String, dynamic> toJson() {
+  return _$MintAccountDataToJson(this, );
 }
 
-abstract class MintAccountData implements SplTokenProgramAccountData {
-  const factory MintAccountData({
-    required final MintAccountDataInfo info,
-    required final String type,
-    final String? accountType,
-  }) = _$MintAccountDataImpl;
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MintAccountData&&(identical(other.info, info) || other.info == info)&&(identical(other.type, type) || other.type == type)&&(identical(other.accountType, accountType) || other.accountType == accountType));
+}
 
-  factory MintAccountData.fromJson(Map<String, dynamic> json) = _$MintAccountDataImpl.fromJson;
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,info,type,accountType);
 
-  MintAccountDataInfo get info;
-  @override
-  String get type;
-  String? get accountType;
+@override
+String toString() {
+  return 'SplTokenProgramAccountData.mint(info: $info, type: $type, accountType: $accountType)';
+}
 
-  /// Create a copy of SplTokenProgramAccountData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MintAccountDataImplCopyWith<_$MintAccountDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+
 }
 
 /// @nodoc
-abstract class _$$UnknownAccountDataImplCopyWith<$Res>
-    implements $SplTokenProgramAccountDataCopyWith<$Res> {
-  factory _$$UnknownAccountDataImplCopyWith(
-    _$UnknownAccountDataImpl value,
-    $Res Function(_$UnknownAccountDataImpl) then,
-  ) = __$$UnknownAccountDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String type});
+abstract mixin class $MintAccountDataCopyWith<$Res> implements $SplTokenProgramAccountDataCopyWith<$Res> {
+  factory $MintAccountDataCopyWith(MintAccountData value, $Res Function(MintAccountData) _then) = _$MintAccountDataCopyWithImpl;
+@override @useResult
+$Res call({
+ MintAccountDataInfo info, String type, String? accountType
+});
+
+
+
+
+}
+/// @nodoc
+class _$MintAccountDataCopyWithImpl<$Res>
+    implements $MintAccountDataCopyWith<$Res> {
+  _$MintAccountDataCopyWithImpl(this._self, this._then);
+
+  final MintAccountData _self;
+  final $Res Function(MintAccountData) _then;
+
+/// Create a copy of SplTokenProgramAccountData
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? info = null,Object? type = null,Object? accountType = freezed,}) {
+  return _then(MintAccountData(
+info: null == info ? _self.info : info // ignore: cast_nullable_to_non_nullable
+as MintAccountDataInfo,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,accountType: freezed == accountType ? _self.accountType : accountType // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
 }
 
-/// @nodoc
-class __$$UnknownAccountDataImplCopyWithImpl<$Res>
-    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$UnknownAccountDataImpl>
-    implements _$$UnknownAccountDataImplCopyWith<$Res> {
-  __$$UnknownAccountDataImplCopyWithImpl(
-    _$UnknownAccountDataImpl _value,
-    $Res Function(_$UnknownAccountDataImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of SplTokenProgramAccountData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? type = null}) {
-    return _then(
-      _$UnknownAccountDataImpl(
-        type:
-            null == type
-                ? _value.type
-                : type // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
-  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$UnknownAccountDataImpl implements UnknownAccountData {
-  const _$UnknownAccountDataImpl({required this.type});
 
-  factory _$UnknownAccountDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UnknownAccountDataImplFromJson(json);
+class UnknownAccountData implements SplTokenProgramAccountData {
+  const UnknownAccountData({required this.type});
+  factory UnknownAccountData.fromJson(Map<String, dynamic> json) => _$UnknownAccountDataFromJson(json);
 
-  @override
-  final String type;
+@override final  String type;
 
-  @override
-  String toString() {
-    return 'SplTokenProgramAccountData.unknown(type: $type)';
-  }
+/// Create a copy of SplTokenProgramAccountData
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UnknownAccountDataCopyWith<UnknownAccountData> get copyWith => _$UnknownAccountDataCopyWithImpl<UnknownAccountData>(this, _$identity);
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UnknownAccountDataImpl &&
-            (identical(other.type, type) || other.type == type));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, type);
-
-  /// Create a copy of SplTokenProgramAccountData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UnknownAccountDataImplCopyWith<_$UnknownAccountDataImpl> get copyWith =>
-      __$$UnknownAccountDataImplCopyWithImpl<_$UnknownAccountDataImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)
-    account,
-    required TResult Function(MintAccountDataInfo info, String type, String? accountType) mint,
-    required TResult Function(String type) unknown,
-  }) {
-    return unknown(type);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
-    TResult? Function(MintAccountDataInfo info, String type, String? accountType)? mint,
-    TResult? Function(String type)? unknown,
-  }) {
-    return unknown?.call(type);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SplTokenAccountDataInfo info, String type, String? accountType)? account,
-    TResult Function(MintAccountDataInfo info, String type, String? accountType)? mint,
-    TResult Function(String type)? unknown,
-    required TResult orElse(),
-  }) {
-    if (unknown != null) {
-      return unknown(type);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TokenAccountData value) account,
-    required TResult Function(MintAccountData value) mint,
-    required TResult Function(UnknownAccountData value) unknown,
-  }) {
-    return unknown(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TokenAccountData value)? account,
-    TResult? Function(MintAccountData value)? mint,
-    TResult? Function(UnknownAccountData value)? unknown,
-  }) {
-    return unknown?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TokenAccountData value)? account,
-    TResult Function(MintAccountData value)? mint,
-    TResult Function(UnknownAccountData value)? unknown,
-    required TResult orElse(),
-  }) {
-    if (unknown != null) {
-      return unknown(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UnknownAccountDataImplToJson(this);
-  }
+@override
+Map<String, dynamic> toJson() {
+  return _$UnknownAccountDataToJson(this, );
 }
 
-abstract class UnknownAccountData implements SplTokenProgramAccountData {
-  const factory UnknownAccountData({required final String type}) = _$UnknownAccountDataImpl;
-
-  factory UnknownAccountData.fromJson(Map<String, dynamic> json) =
-      _$UnknownAccountDataImpl.fromJson;
-
-  @override
-  String get type;
-
-  /// Create a copy of SplTokenProgramAccountData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UnknownAccountDataImplCopyWith<_$UnknownAccountDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnknownAccountData&&(identical(other.type, type) || other.type == type));
 }
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,type);
+
+@override
+String toString() {
+  return 'SplTokenProgramAccountData.unknown(type: $type)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UnknownAccountDataCopyWith<$Res> implements $SplTokenProgramAccountDataCopyWith<$Res> {
+  factory $UnknownAccountDataCopyWith(UnknownAccountData value, $Res Function(UnknownAccountData) _then) = _$UnknownAccountDataCopyWithImpl;
+@override @useResult
+$Res call({
+ String type
+});
+
+
+
+
+}
+/// @nodoc
+class _$UnknownAccountDataCopyWithImpl<$Res>
+    implements $UnknownAccountDataCopyWith<$Res> {
+  _$UnknownAccountDataCopyWithImpl(this._self, this._then);
+
+  final UnknownAccountData _self;
+  final $Res Function(UnknownAccountData) _then;
+
+/// Create a copy of SplTokenProgramAccountData
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,}) {
+  return _then(UnknownAccountData(
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+// dart format on
