@@ -1,3 +1,15 @@
+## 0.32.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: upgrade linter (#1737).
+ - **REFACTOR**: migrate to Flutter 3.29.0 (#1705).
+ - **FEAT**: add idempotent account creation for associated token accounts (#1753).
+ - **FEAT**: add `Ed25519HDPublicKey.isValidFromBase58` (#1749).
+ - **FEAT**: Allow parsing big number from string value (#1684).
+ - **FEAT**: Update SDK constraints and upgrade deps (#1683).
+ - **BREAKING** **FEAT**: Gracefully fetch external json (#1685).
+
 ## 0.31.2
 
  - **FIX**: SetComputeUnitPrice test (#1667).
