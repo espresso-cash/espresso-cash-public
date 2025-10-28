@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:decimal/decimal.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';

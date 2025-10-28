@@ -1190,10 +1190,10 @@ packages:
     dependency: "direct main"
     description:
       name: intercom_flutter
-      sha256: "433cfa1e9636c84f07aff00752f0cb439b234b1c6f1b64ef561744b11668420f"
+      sha256: f9c1488d43fea356f496bd9c20685d6f9ec93edc45064e88e6d9fb29e71db825
       url: "https://pub.dev"
     source: hosted
-    version: "9.4.11"
+    version: "9.4.12"
   intercom_flutter_platform_interface:
     dependency: transitive
     description:
@@ -1685,10 +1685,10 @@ packages:
     dependency: "direct main"
     description:
       name: retrofit
-      sha256: be571b11e3d7c62d0894fc193d1199864f761fc84bf8ccca5efe0bb0b6b0c38b
+      sha256: "661ec56ecb891dfb8bbfad40827ad012daca7c69d6693b1703d72eb1ae1a5ec5"
       url: "https://pub.dev"
     source: hosted
-    version: "4.7.3"
+    version: "4.8.0"
   retrofit_generator:
     dependency: "direct dev"
     description:

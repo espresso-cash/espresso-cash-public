@@ -260,7 +260,7 @@ class __$$ErrorImplCopyWithImpl<$Res> extends _$SeedVaultStateCopyWithImpl<$Res,
         null == err
             ? _value.err
             : err // ignore: cast_nullable_to_non_nullable
-                as String,
+                  as String,
       ),
     );
   }
@@ -584,31 +584,26 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$SeedVaultStateCopyWithImpl<$Res
   }) {
     return _then(
       _$LoadedImpl(
-        seeds:
-            null == seeds
-                ? _value._seeds
-                : seeds // ignore: cast_nullable_to_non_nullable
-                    as List<Seed>,
-        limits:
-            null == limits
-                ? _value.limits
-                : limits // ignore: cast_nullable_to_non_nullable
-                    as ImplementationLimits,
-        hasUnauthorizedSeeds:
-            null == hasUnauthorizedSeeds
-                ? _value.hasUnauthorizedSeeds
-                : hasUnauthorizedSeeds // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        firstRequestedPublicKey:
-            freezed == firstRequestedPublicKey
-                ? _value.firstRequestedPublicKey
-                : firstRequestedPublicKey // ignore: cast_nullable_to_non_nullable
-                    as Uri?,
-        lastRequestedPublicKey:
-            freezed == lastRequestedPublicKey
-                ? _value.lastRequestedPublicKey
-                : lastRequestedPublicKey // ignore: cast_nullable_to_non_nullable
-                    as Uri?,
+        seeds: null == seeds
+            ? _value._seeds
+            : seeds // ignore: cast_nullable_to_non_nullable
+                  as List<Seed>,
+        limits: null == limits
+            ? _value.limits
+            : limits // ignore: cast_nullable_to_non_nullable
+                  as ImplementationLimits,
+        hasUnauthorizedSeeds: null == hasUnauthorizedSeeds
+            ? _value.hasUnauthorizedSeeds
+            : hasUnauthorizedSeeds // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        firstRequestedPublicKey: freezed == firstRequestedPublicKey
+            ? _value.firstRequestedPublicKey
+            : firstRequestedPublicKey // ignore: cast_nullable_to_non_nullable
+                  as Uri?,
+        lastRequestedPublicKey: freezed == lastRequestedPublicKey
+            ? _value.lastRequestedPublicKey
+            : lastRequestedPublicKey // ignore: cast_nullable_to_non_nullable
+                  as Uri?,
       ),
     );
   }

@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: avoid_positional_boolean_parameters, more readable
 
 import 'package:solana/solana.dart';

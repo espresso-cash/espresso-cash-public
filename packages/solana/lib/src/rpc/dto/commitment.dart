@@ -1,3 +1,4 @@
+// @dart=3.9
 enum Commitment {
   /// The node will query its most recent block. Note that the
   /// block may not be complete.

@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/metaplex/file.dart';
 

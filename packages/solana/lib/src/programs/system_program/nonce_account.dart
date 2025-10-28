@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/solana.dart';
 

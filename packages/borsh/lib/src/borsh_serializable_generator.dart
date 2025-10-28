@@ -24,7 +24,8 @@ class BorshSerializableGenerator extends GeneratorForAnnotation<BorshSerializabl
     final className = name?.replaceFirst(r'$', '') ?? '';
     final parameters = element.constructors.firstWhere((c) => c.name == 'new').formalParameters;
 
-    final generatedMixin = '''
+    final generatedMixin =
+        '''
 mixin _\$$className {
   ${_generateFields(parameters).join('\n')}
 
@@ -32,7 +33,8 @@ mixin _\$$className {
 }
 ''';
 
-    final privateClass = '''
+    final privateClass =
+        '''
 class _$className extends $className {
   _$className({
     ${_generateConstructor(parameters).join('\n')}
@@ -42,7 +44,8 @@ class _$className extends $className {
 }
 ''';
 
-    final scheme = '''
+    final scheme =
+        '''
 class B$className implements BType<$className> {
   const B$className();
   
@@ -51,7 +54,8 @@ class B$className implements BType<$className> {
 }
 ''';
 
-    final fromBorsh = '''
+    final fromBorsh =
+        '''
 $className _\$${className}FromBorsh(Uint8List data) {
   final reader = BinaryReader(data.buffer.asByteData());
 

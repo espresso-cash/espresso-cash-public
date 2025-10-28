@@ -62,31 +62,26 @@ class _$AuthIssuerConfigCopyWithImpl<$Res, $Val extends AuthIssuerConfig>
   }) {
     return _then(
       _value.copyWith(
-            name:
-                null == name
-                    ? _value.name
-                    : name // ignore: cast_nullable_to_non_nullable
-                        as String,
-            maxOutstandingTokensPerIdentity:
-                null == maxOutstandingTokensPerIdentity
-                    ? _value.maxOutstandingTokensPerIdentity
-                    : maxOutstandingTokensPerIdentity // ignore: cast_nullable_to_non_nullable
-                        as int,
-            authorizationValidity:
-                null == authorizationValidity
-                    ? _value.authorizationValidity
-                    : authorizationValidity // ignore: cast_nullable_to_non_nullable
-                        as Duration,
-            reauthorizationValidity:
-                null == reauthorizationValidity
-                    ? _value.reauthorizationValidity
-                    : reauthorizationValidity // ignore: cast_nullable_to_non_nullable
-                        as Duration,
-            reauthorizationNopDuration:
-                null == reauthorizationNopDuration
-                    ? _value.reauthorizationNopDuration
-                    : reauthorizationNopDuration // ignore: cast_nullable_to_non_nullable
-                        as Duration,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            maxOutstandingTokensPerIdentity: null == maxOutstandingTokensPerIdentity
+                ? _value.maxOutstandingTokensPerIdentity
+                : maxOutstandingTokensPerIdentity // ignore: cast_nullable_to_non_nullable
+                      as int,
+            authorizationValidity: null == authorizationValidity
+                ? _value.authorizationValidity
+                : authorizationValidity // ignore: cast_nullable_to_non_nullable
+                      as Duration,
+            reauthorizationValidity: null == reauthorizationValidity
+                ? _value.reauthorizationValidity
+                : reauthorizationValidity // ignore: cast_nullable_to_non_nullable
+                      as Duration,
+            reauthorizationNopDuration: null == reauthorizationNopDuration
+                ? _value.reauthorizationNopDuration
+                : reauthorizationNopDuration // ignore: cast_nullable_to_non_nullable
+                      as Duration,
           )
           as $Val,
     );
@@ -130,31 +125,26 @@ class __$$AuthIssuerConfigImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$AuthIssuerConfigImpl(
-        name:
-            null == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                    as String,
-        maxOutstandingTokensPerIdentity:
-            null == maxOutstandingTokensPerIdentity
-                ? _value.maxOutstandingTokensPerIdentity
-                : maxOutstandingTokensPerIdentity // ignore: cast_nullable_to_non_nullable
-                    as int,
-        authorizationValidity:
-            null == authorizationValidity
-                ? _value.authorizationValidity
-                : authorizationValidity // ignore: cast_nullable_to_non_nullable
-                    as Duration,
-        reauthorizationValidity:
-            null == reauthorizationValidity
-                ? _value.reauthorizationValidity
-                : reauthorizationValidity // ignore: cast_nullable_to_non_nullable
-                    as Duration,
-        reauthorizationNopDuration:
-            null == reauthorizationNopDuration
-                ? _value.reauthorizationNopDuration
-                : reauthorizationNopDuration // ignore: cast_nullable_to_non_nullable
-                    as Duration,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        maxOutstandingTokensPerIdentity: null == maxOutstandingTokensPerIdentity
+            ? _value.maxOutstandingTokensPerIdentity
+            : maxOutstandingTokensPerIdentity // ignore: cast_nullable_to_non_nullable
+                  as int,
+        authorizationValidity: null == authorizationValidity
+            ? _value.authorizationValidity
+            : authorizationValidity // ignore: cast_nullable_to_non_nullable
+                  as Duration,
+        reauthorizationValidity: null == reauthorizationValidity
+            ? _value.reauthorizationValidity
+            : reauthorizationValidity // ignore: cast_nullable_to_non_nullable
+                  as Duration,
+        reauthorizationNopDuration: null == reauthorizationNopDuration
+            ? _value.reauthorizationNopDuration
+            : reauthorizationNopDuration // ignore: cast_nullable_to_non_nullable
+                  as Duration,
       ),
     );
   }

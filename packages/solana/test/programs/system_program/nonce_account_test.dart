@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: avoid-duplicate-collection-elements
 
 import 'dart:typed_data';

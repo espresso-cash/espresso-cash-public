@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'dart:convert';
 
 import 'package:borsh_annotation/borsh_annotation.dart';
@@ -43,10 +44,9 @@ abstract class SignedTx with _$SignedTx {
 
     final compiledMessage = CompiledMessage(ByteArray(messageBytes));
 
-    final signatures =
-        signaturesData
-            .mapIndexed((i, s) => Signature(s, publicKey: compiledMessage.accountKeys[i]))
-            .toList();
+    final signatures = signaturesData
+        .mapIndexed((i, s) => Signature(s, publicKey: compiledMessage.accountKeys[i]))
+        .toList();
 
     return SignedTx(signatures: signatures, compiledMessage: compiledMessage);
   }

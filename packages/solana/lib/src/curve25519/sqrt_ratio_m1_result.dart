@@ -1,3 +1,5 @@
+// @dart=3.9
+
 import 'package:solana/src/curve25519/field_element.dart';
 
 final FieldElement sqrtM1 = FieldElement.fromConstList(

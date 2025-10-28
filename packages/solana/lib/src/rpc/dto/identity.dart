@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:json_annotation/json_annotation.dart';
 
 part 'identity.g.dart';

@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: avoid-future-ignore
 
 import 'dart:async';
@@ -22,10 +23,9 @@ void main() {
 
     final subscriptionClient = SubscriptionClient.connect(devnetWebsocketUrl);
 
-    final result =
-        await subscriptionClient
-            .signatureSubscribe(signature, commitment: Commitment.confirmed)
-            .first;
+    final result = await subscriptionClient
+        .signatureSubscribe(signature, commitment: Commitment.confirmed)
+        .first;
     expect(result.err, isNull);
 
     // System program

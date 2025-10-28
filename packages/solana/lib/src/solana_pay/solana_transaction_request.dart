@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -49,10 +50,9 @@ abstract class SolanaTransactionRequest with _$SolanaTransactionRequest {
   }
 
   String toUrl() {
-    final pathname =
-        link.query.isNotEmpty
-            ? Uri.encodeComponent(link.toString().replaceFirst('/?', '?'))
-            : link.toString().replaceFirst(RegExp(r'/$'), '');
+    final pathname = link.query.isNotEmpty
+        ? Uri.encodeComponent(link.toString().replaceFirst('/?', '?'))
+        : link.toString().replaceFirst(RegExp(r'/$'), '');
 
     final queryParameters = <String, dynamic>{
       if (label != null) 'label': label,
@@ -62,10 +62,9 @@ abstract class SolanaTransactionRequest with _$SolanaTransactionRequest {
     return Uri(
       scheme: solanaPayScheme,
       path: pathname,
-      queryParameters:
-          queryParameters.isNotEmpty
-              ? Map<String, dynamic>.fromEntries(queryParameters.entries)
-              : null,
+      queryParameters: queryParameters.isNotEmpty
+          ? Map<String, dynamic>.fromEntries(queryParameters.entries)
+          : null,
     ).toString();
   }
 

@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/rpc/dto/account_data/spl_token_program/mint_account_data_info.dart';
 import 'package:solana/src/rpc/dto/account_data/spl_token_program/token_account_data_info.dart';

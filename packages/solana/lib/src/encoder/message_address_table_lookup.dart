@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 

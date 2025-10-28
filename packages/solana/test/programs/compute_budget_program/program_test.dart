@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: avoid-non-null-assertion
 
 import 'dart:convert' hide Encoding;

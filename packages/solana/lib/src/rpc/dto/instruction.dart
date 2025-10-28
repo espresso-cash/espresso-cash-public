@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/rpc/dto/parsed_message/parsed_instruction.dart';
 import 'package:solana/src/rpc/dto/raw_instruction.dart';
 import 'package:solana/src/rpc/dto/simple_instruction.dart';

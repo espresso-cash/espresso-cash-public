@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'dart:convert';
 
 import 'package:solana/src/rpc/dto/account_data/account_data.dart';

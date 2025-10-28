@@ -46,16 +46,14 @@ class _$BipLevelCopyWithImpl<$Res, $Val extends BipLevel> implements $BipLevelCo
   $Res call({Object? index = null, Object? hardened = null}) {
     return _then(
       _value.copyWith(
-            index:
-                null == index
-                    ? _value.index
-                    : index // ignore: cast_nullable_to_non_nullable
-                        as int,
-            hardened:
-                null == hardened
-                    ? _value.hardened
-                    : hardened // ignore: cast_nullable_to_non_nullable
-                        as bool,
+            index: null == index
+                ? _value.index
+                : index // ignore: cast_nullable_to_non_nullable
+                      as int,
+            hardened: null == hardened
+                ? _value.hardened
+                : hardened // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -82,16 +80,14 @@ class __$$BipLevelImplCopyWithImpl<$Res> extends _$BipLevelCopyWithImpl<$Res, _$
   $Res call({Object? index = null, Object? hardened = null}) {
     return _then(
       _$BipLevelImpl(
-        index:
-            null == index
-                ? _value.index
-                : index // ignore: cast_nullable_to_non_nullable
-                    as int,
-        hardened:
-            null == hardened
-                ? _value.hardened
-                : hardened // ignore: cast_nullable_to_non_nullable
-                    as bool,
+        index: null == index
+            ? _value.index
+            : index // ignore: cast_nullable_to_non_nullable
+                  as int,
+        hardened: null == hardened
+            ? _value.hardened
+            : hardened // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -180,21 +176,18 @@ class _$Bip44DataCopyWithImpl<$Res, $Val extends Bip44Data> implements $Bip44Dat
   $Res call({Object? account = null, Object? change = freezed, Object? addressIndex = freezed}) {
     return _then(
       _value.copyWith(
-            account:
-                null == account
-                    ? _value.account
-                    : account // ignore: cast_nullable_to_non_nullable
-                        as BipLevel,
-            change:
-                freezed == change
-                    ? _value.change
-                    : change // ignore: cast_nullable_to_non_nullable
-                        as BipLevel?,
-            addressIndex:
-                freezed == addressIndex
-                    ? _value.addressIndex
-                    : addressIndex // ignore: cast_nullable_to_non_nullable
-                        as BipLevel?,
+            account: null == account
+                ? _value.account
+                : account // ignore: cast_nullable_to_non_nullable
+                      as BipLevel,
+            change: freezed == change
+                ? _value.change
+                : change // ignore: cast_nullable_to_non_nullable
+                      as BipLevel?,
+            addressIndex: freezed == addressIndex
+                ? _value.addressIndex
+                : addressIndex // ignore: cast_nullable_to_non_nullable
+                      as BipLevel?,
           )
           as $Val,
     );
@@ -260,21 +253,18 @@ class __$$Bip44DataImplCopyWithImpl<$Res> extends _$Bip44DataCopyWithImpl<$Res, 
   $Res call({Object? account = null, Object? change = freezed, Object? addressIndex = freezed}) {
     return _then(
       _$Bip44DataImpl(
-        account:
-            null == account
-                ? _value.account
-                : account // ignore: cast_nullable_to_non_nullable
-                    as BipLevel,
-        change:
-            freezed == change
-                ? _value.change
-                : change // ignore: cast_nullable_to_non_nullable
-                    as BipLevel?,
-        addressIndex:
-            freezed == addressIndex
-                ? _value.addressIndex
-                : addressIndex // ignore: cast_nullable_to_non_nullable
-                    as BipLevel?,
+        account: null == account
+            ? _value.account
+            : account // ignore: cast_nullable_to_non_nullable
+                  as BipLevel,
+        change: freezed == change
+            ? _value.change
+            : change // ignore: cast_nullable_to_non_nullable
+                  as BipLevel?,
+        addressIndex: freezed == addressIndex
+            ? _value.addressIndex
+            : addressIndex // ignore: cast_nullable_to_non_nullable
+                  as BipLevel?,
       ),
     );
   }

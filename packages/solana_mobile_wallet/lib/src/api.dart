@@ -117,8 +117,9 @@ class SignedPayloadsResultDto {
     result as List<Object?>;
     return SignedPayloadsResultDto(
       payloads: (result[0] as List<Object?>?)?.cast<Uint8List?>(),
-      error:
-          result[1] != null ? MobileWalletAdapterServerException.values[result[1]! as int] : null,
+      error: result[1] != null
+          ? MobileWalletAdapterServerException.values[result[1]! as int]
+          : null,
       validPayloads: (result[2] as List<Object?>?)?.cast<bool?>(),
     );
   }
@@ -289,8 +290,9 @@ class SignaturesResultDto {
     result as List<Object?>;
     return SignaturesResultDto(
       signatures: (result[0] as List<Object?>?)?.cast<Uint8List?>(),
-      error:
-          result[1] != null ? MobileWalletAdapterServerException.values[result[1]! as int] : null,
+      error: result[1] != null
+          ? MobileWalletAdapterServerException.values[result[1]! as int]
+          : null,
       validSignatures: (result[2] as List<Object?>?)?.cast<bool?>(),
     );
   }

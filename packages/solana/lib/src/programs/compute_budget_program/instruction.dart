@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/encoder.dart';
 import 'package:solana/src/programs/compute_budget_program/program.dart';
 

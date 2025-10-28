@@ -1,3 +1,4 @@
+// @dart=3.9
 abstract class JsonRpcRequest {
   const factory JsonRpcRequest.bulk(List<JsonRpcSingleRequest> list) = JsonRpcBulkRequest;
 

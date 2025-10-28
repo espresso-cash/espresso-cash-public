@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'cluster_node.dart';
@@ -16,13 +17,12 @@ ClusterNode _$ClusterNodeFromJson(Map<String, dynamic> json) => ClusterNode(
   shredVersion: (json['shredVersion'] as num?)?.toInt(),
 );
 
-Map<String, dynamic> _$ClusterNodeToJson(ClusterNode instance) =>
-    <String, dynamic>{
-      'pubkey': instance.pubkey,
-      'gossip': instance.gossip,
-      'tpu': instance.tpu,
-      'rpc': instance.rpc,
-      'version': instance.version,
-      'featureSet': instance.featureSet,
-      'shredVersion': instance.shredVersion,
-    };
+Map<String, dynamic> _$ClusterNodeToJson(ClusterNode instance) => <String, dynamic>{
+  'pubkey': instance.pubkey,
+  'gossip': instance.gossip,
+  'tpu': instance.tpu,
+  'rpc': instance.rpc,
+  'version': instance.version,
+  'featureSet': instance.featureSet,
+  'shredVersion': instance.shredVersion,
+};

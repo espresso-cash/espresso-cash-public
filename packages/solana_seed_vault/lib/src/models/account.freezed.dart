@@ -67,41 +67,34 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account> implements $AccountCopyW
   }) {
     return _then(
       _value.copyWith(
-            id:
-                null == id
-                    ? _value.id
-                    : id // ignore: cast_nullable_to_non_nullable
-                        as int,
-            name:
-                null == name
-                    ? _value.name
-                    : name // ignore: cast_nullable_to_non_nullable
-                        as String,
-            derivationPath:
-                null == derivationPath
-                    ? _value.derivationPath
-                    : derivationPath // ignore: cast_nullable_to_non_nullable
-                        as Uri,
-            publicKeyEncoded:
-                null == publicKeyEncoded
-                    ? _value.publicKeyEncoded
-                    : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
-                        as String,
-            publicKeyRaw:
-                null == publicKeyRaw
-                    ? _value.publicKeyRaw
-                    : publicKeyRaw // ignore: cast_nullable_to_non_nullable
-                        as Uint8List,
-            isUserWallet:
-                null == isUserWallet
-                    ? _value.isUserWallet
-                    : isUserWallet // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            isValid:
-                null == isValid
-                    ? _value.isValid
-                    : isValid // ignore: cast_nullable_to_non_nullable
-                        as bool,
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            derivationPath: null == derivationPath
+                ? _value.derivationPath
+                : derivationPath // ignore: cast_nullable_to_non_nullable
+                      as Uri,
+            publicKeyEncoded: null == publicKeyEncoded
+                ? _value.publicKeyEncoded
+                : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
+                      as String,
+            publicKeyRaw: null == publicKeyRaw
+                ? _value.publicKeyRaw
+                : publicKeyRaw // ignore: cast_nullable_to_non_nullable
+                      as Uint8List,
+            isUserWallet: null == isUserWallet
+                ? _value.isUserWallet
+                : isUserWallet // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isValid: null == isValid
+                ? _value.isValid
+                : isValid // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -144,41 +137,34 @@ class __$$AccountImplCopyWithImpl<$Res> extends _$AccountCopyWithImpl<$Res, _$Ac
   }) {
     return _then(
       _$AccountImpl(
-        id:
-            null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                    as int,
-        name:
-            null == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                    as String,
-        derivationPath:
-            null == derivationPath
-                ? _value.derivationPath
-                : derivationPath // ignore: cast_nullable_to_non_nullable
-                    as Uri,
-        publicKeyEncoded:
-            null == publicKeyEncoded
-                ? _value.publicKeyEncoded
-                : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
-                    as String,
-        publicKeyRaw:
-            null == publicKeyRaw
-                ? _value.publicKeyRaw
-                : publicKeyRaw // ignore: cast_nullable_to_non_nullable
-                    as Uint8List,
-        isUserWallet:
-            null == isUserWallet
-                ? _value.isUserWallet
-                : isUserWallet // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        isValid:
-            null == isValid
-                ? _value.isValid
-                : isValid // ignore: cast_nullable_to_non_nullable
-                    as bool,
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        derivationPath: null == derivationPath
+            ? _value.derivationPath
+            : derivationPath // ignore: cast_nullable_to_non_nullable
+                  as Uri,
+        publicKeyEncoded: null == publicKeyEncoded
+            ? _value.publicKeyEncoded
+            : publicKeyEncoded // ignore: cast_nullable_to_non_nullable
+                  as String,
+        publicKeyRaw: null == publicKeyRaw
+            ? _value.publicKeyRaw
+            : publicKeyRaw // ignore: cast_nullable_to_non_nullable
+                  as Uint8List,
+        isUserWallet: null == isUserWallet
+            ? _value.isUserWallet
+            : isUserWallet // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isValid: null == isValid
+            ? _value.isValid
+            : isValid // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }

@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'subscribed_message.dart';
@@ -7,10 +8,9 @@ part of 'subscribed_message.dart';
 // **************************************************************************
 
 SubscribedMessage _$SubscribedMessageFromJson(Map<String, dynamic> json) =>
-    SubscribedMessage(
-      result: (json['result'] as num).toInt(),
-      id: (json['id'] as num).toInt(),
-    );
+    SubscribedMessage(result: (json['result'] as num).toInt(), id: (json['id'] as num).toInt());
 
-Map<String, dynamic> _$SubscribedMessageToJson(SubscribedMessage instance) =>
-    <String, dynamic>{'result': instance.result, 'id': instance.id};
+Map<String, dynamic> _$SubscribedMessageToJson(SubscribedMessage instance) => <String, dynamic>{
+  'result': instance.result,
+  'id': instance.id,
+};

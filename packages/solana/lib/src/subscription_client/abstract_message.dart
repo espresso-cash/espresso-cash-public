@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/subscription_client/error_message.dart';
 import 'package:solana/src/subscription_client/notification_message.dart';
 import 'package:solana/src/subscription_client/subscribed_message.dart';

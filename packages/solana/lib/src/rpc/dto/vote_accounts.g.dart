@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'vote_accounts.dart';
@@ -15,8 +16,7 @@ VoteAccounts _$VoteAccountsFromJson(Map<String, dynamic> json) => VoteAccounts(
       .toList(),
 );
 
-Map<String, dynamic> _$VoteAccountsToJson(VoteAccounts instance) =>
-    <String, dynamic>{
-      'current': instance.current.map((e) => e.toJson()).toList(),
-      'delinquent': instance.delinquent.map((e) => e.toJson()).toList(),
-    };
+Map<String, dynamic> _$VoteAccountsToJson(VoteAccounts instance) => <String, dynamic>{
+  'current': instance.current.map((e) => e.toJson()).toList(),
+  'delinquent': instance.delinquent.map((e) => e.toJson()).toList(),
+};

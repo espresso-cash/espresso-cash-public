@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:solana/src/crypto/crypto.dart';

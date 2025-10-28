@@ -1,3 +1,5 @@
+// @dart=3.9
+
 import 'package:solana/src/crypto/crypto.dart';
 
 export 'dto.dart' show Commitment;

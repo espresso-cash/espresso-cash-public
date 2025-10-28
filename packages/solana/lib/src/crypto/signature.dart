@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:cryptography/cryptography.dart';
 import 'package:solana/base58.dart';
 

@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'optional_error.dart';
@@ -6,8 +7,8 @@ part of 'optional_error.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OptionalError _$OptionalErrorFromJson(Map<String, dynamic> json) =>
-    OptionalError(err: json['err']);
+OptionalError _$OptionalErrorFromJson(Map<String, dynamic> json) => OptionalError(err: json['err']);
 
-Map<String, dynamic> _$OptionalErrorToJson(OptionalError instance) =>
-    <String, dynamic>{'err': instance.err};
+Map<String, dynamic> _$OptionalErrorToJson(OptionalError instance) => <String, dynamic>{
+  'err': instance.err,
+};

@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: avoid-duplicate-collection-elements
 
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';

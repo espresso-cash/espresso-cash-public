@@ -1,3 +1,4 @@
+// @dart=3.9
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'json_rpc_exception.dart';
@@ -7,32 +8,21 @@ part of 'json_rpc_exception.dart';
 // **************************************************************************
 
 JsonRpcException _$JsonRpcExceptionFromJson(Map<String, dynamic> json) =>
-    JsonRpcException(
-      json['message'] as String,
-      (json['code'] as num).toInt(),
-      json['data'],
+    JsonRpcException(json['message'] as String, (json['code'] as num).toInt(), json['data']);
+
+Map<String, dynamic> _$JsonRpcExceptionToJson(JsonRpcException instance) => <String, dynamic>{
+  'message': instance.message,
+  'code': instance.code,
+  'data': instance.data,
+};
+
+_TransactionErrorData _$TransactionErrorDataFromJson(Map<String, dynamic> json) =>
+    _TransactionErrorData(
+      $enumDecode(_$TransactionErrorEnumMap, json['err'], unknownValue: TransactionError.other),
     );
 
-Map<String, dynamic> _$JsonRpcExceptionToJson(JsonRpcException instance) =>
-    <String, dynamic>{
-      'message': instance.message,
-      'code': instance.code,
-      'data': instance.data,
-    };
-
-_TransactionErrorData _$TransactionErrorDataFromJson(
-  Map<String, dynamic> json,
-) => _TransactionErrorData(
-  $enumDecode(
-    _$TransactionErrorEnumMap,
-    json['err'],
-    unknownValue: TransactionError.other,
-  ),
-);
-
-Map<String, dynamic> _$TransactionErrorDataToJson(
-  _TransactionErrorData instance,
-) => <String, dynamic>{'err': _$TransactionErrorEnumMap[instance.err]!};
+Map<String, dynamic> _$TransactionErrorDataToJson(_TransactionErrorData instance) =>
+    <String, dynamic>{'err': _$TransactionErrorEnumMap[instance.err]!};
 
 const _$TransactionErrorEnumMap = {
   TransactionError.accountInUse: 'AccountInUse',

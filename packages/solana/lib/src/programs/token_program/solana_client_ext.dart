@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: cast_nullable_to_non_nullable, avoid-type-casts
 
 import 'dart:typed_data';
@@ -14,10 +15,9 @@ extension SolanaClientTokenProgram on SolanaClient {
     required Ed25519HDPublicKey address,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final info =
-        await rpcClient
-            .getAccountInfo(address.toBase58(), commitment: commitment, encoding: Encoding.base64)
-            .value;
+    final info = await rpcClient
+        .getAccountInfo(address.toBase58(), commitment: commitment, encoding: Encoding.base64)
+        .value;
 
     if (info == null) throw const TokenAccountNotFoundException();
 

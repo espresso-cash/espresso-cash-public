@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/rpc/dto/instruction.dart';
 import 'package:solana/src/rpc/dto/parsed_message/parsed_spl_token_instruction.dart';

@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: avoid-self-assignment, avoid-duplicate-collection-elements, avoid-unnecessary-reassignment
 
 import 'package:freezed_annotation/freezed_annotation.dart';

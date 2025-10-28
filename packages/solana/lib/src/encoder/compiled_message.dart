@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: use-existing-variable
 
 import 'package:borsh_annotation/borsh_annotation.dart';
@@ -82,11 +83,10 @@ CompiledMessageLegacy _decompileLegacy(ByteArray data) {
 
   final accountsLength = reader.readCompactU16Value();
 
-  final accountKeys =
-      reader
-          .readFixedArray(accountsLength, () => reader.readFixedArray(32, reader.readU8))
-          .map(Ed25519HDPublicKey.new)
-          .toList();
+  final accountKeys = reader
+      .readFixedArray(accountsLength, () => reader.readFixedArray(32, reader.readU8))
+      .map(Ed25519HDPublicKey.new)
+      .toList();
 
   final blockhash = reader.readFixedArray(32, reader.readU8);
 
@@ -142,11 +142,10 @@ CompiledMessageV0 _decodeV0(ByteArray data) {
   );
 
   final accountsLength = reader.readCompactU16Value();
-  final accounts =
-      reader
-          .readFixedArray(accountsLength, () => reader.readFixedArray(32, reader.readU8))
-          .map(Ed25519HDPublicKey.new)
-          .toList();
+  final accounts = reader
+      .readFixedArray(accountsLength, () => reader.readFixedArray(32, reader.readU8))
+      .map(Ed25519HDPublicKey.new)
+      .toList();
 
   final blockhash = reader.readFixedArray(32, reader.readU8);
 

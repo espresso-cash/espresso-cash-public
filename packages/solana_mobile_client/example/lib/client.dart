@@ -110,11 +110,10 @@ class ClientBloc extends Cubit<ClientState> {
       final signer = state.publicKey as Ed25519HDPublicKey;
 
       final addresses = [signer.bytes].map(Uint8List.fromList).toList();
-      final messages =
-          _generateMessages(number: number, signer: signer)
-              .map((e) => e.compile(recentBlockhash: '', feePayer: signer).toByteArray().toList())
-              .map(Uint8List.fromList)
-              .toList();
+      final messages = _generateMessages(number: number, signer: signer)
+          .map((e) => e.compile(recentBlockhash: '', feePayer: signer).toByteArray().toList())
+          .map(Uint8List.fromList)
+          .toList();
 
       await client.signMessages(messages: messages, addresses: addresses);
     }
@@ -133,12 +132,11 @@ class ClientBloc extends Cubit<ClientState> {
       final blockhash = await _solanaClient.rpcClient.getLatestBlockhash().then(
         (it) => it.value.blockhash,
       );
-      final txs =
-          _generateTransactions(
-            number: number,
-            signer: signer,
-            blockhash: blockhash,
-          ).map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList();
+      final txs = _generateTransactions(
+        number: number,
+        signer: signer,
+        blockhash: blockhash,
+      ).map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList();
 
       await client.signAndSendTransactions(transactions: txs);
     }
@@ -175,12 +173,11 @@ class ClientBloc extends Cubit<ClientState> {
     final blockhash = await _solanaClient.rpcClient.getLatestBlockhash().then(
       (it) => it.value.blockhash,
     );
-    final txs =
-        _generateTransactions(
-          number: number,
-          signer: signer,
-          blockhash: blockhash,
-        ).map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList();
+    final txs = _generateTransactions(
+      number: number,
+      signer: signer,
+      blockhash: blockhash,
+    ).map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList();
 
     await client.signTransactions(transactions: txs);
   }

@@ -1,3 +1,4 @@
+// @dart=3.9
 part of 'decode.dart';
 
 const List<int> _reverseMap = [

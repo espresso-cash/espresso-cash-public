@@ -1,3 +1,4 @@
+// @dart=3.9
 // ignore_for_file: avoid-adjacent-strings
 
 import 'package:decimal/decimal.dart';
@@ -72,17 +73,15 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final balanceSender =
-        await client.rpcClient
-            .getBalance(sender.publicKey.toBase58(), commitment: Commitment.confirmed)
-            .value;
+    final balanceSender = await client.rpcClient
+        .getBalance(sender.publicKey.toBase58(), commitment: Commitment.confirmed)
+        .value;
     final balanceDecimalSender = Decimal.fromInt(balanceSender).shift(-solDecimalPlaces);
     expect(balanceDecimalSender, Decimal.one - amount - transactionFee);
 
-    final balanceRecipient =
-        await client.rpcClient
-            .getBalance(recipient.publicKey.toBase58(), commitment: Commitment.confirmed)
-            .value;
+    final balanceRecipient = await client.rpcClient
+        .getBalance(recipient.publicKey.toBase58(), commitment: Commitment.confirmed)
+        .value;
     final balanceDecimalRecipient = Decimal.fromInt(balanceRecipient).shift(-solDecimalPlaces);
     expect(balanceDecimalRecipient, Decimal.one + amount);
   }, timeout: const Timeout(Duration(minutes: 1)));
@@ -139,17 +138,15 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final balanceSender =
-        await client.rpcClient
-            .getBalance(sender.publicKey.toBase58(), commitment: Commitment.confirmed)
-            .value;
+    final balanceSender = await client.rpcClient
+        .getBalance(sender.publicKey.toBase58(), commitment: Commitment.confirmed)
+        .value;
     final balanceDecimalSender = Decimal.fromInt(balanceSender).shift(-solDecimalPlaces);
     expect(balanceDecimalSender.round(), (Decimal.one - amount).round());
 
-    final balanceRecipient =
-        await client.rpcClient
-            .getBalance(recipient.publicKey.toBase58(), commitment: Commitment.confirmed)
-            .value;
+    final balanceRecipient = await client.rpcClient
+        .getBalance(recipient.publicKey.toBase58(), commitment: Commitment.confirmed)
+        .value;
     final balanceDecimalRecipient = Decimal.fromInt(balanceRecipient).shift(-solDecimalPlaces);
     expect(balanceDecimalRecipient, Decimal.one + amount);
   }, timeout: const Timeout(Duration(minutes: 1)));

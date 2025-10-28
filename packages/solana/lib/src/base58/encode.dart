@@ -1,3 +1,4 @@
+// @dart=3.9
 part 'base58_alphabet.dart';
 
 // Base58 encode the byte array [bytes]

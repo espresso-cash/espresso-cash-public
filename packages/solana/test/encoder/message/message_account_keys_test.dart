@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/encoder.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message/message_account_keys.dart';

@@ -1,3 +1,4 @@
+// @dart=3.9
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/compiled_instruction.dart';
 import 'package:solana/src/encoder/instruction.dart';
@@ -60,8 +61,9 @@ class MessageAccountKeys {
         .map(
           (instruction) => CompiledInstruction(
             programIdIndex: findKeyIndex(instruction.programId),
-            accountKeyIndexes:
-                instruction.accounts.map((meta) => findKeyIndex(meta.pubKey)).toList(),
+            accountKeyIndexes: instruction.accounts
+                .map((meta) => findKeyIndex(meta.pubKey))
+                .toList(),
             data: instruction.data,
           ),
         )
