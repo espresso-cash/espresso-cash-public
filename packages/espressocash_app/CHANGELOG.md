@@ -1,3 +1,7 @@
+## 1.156.2
+
+ - **FIX**: camera scanner not showing (#1770).
+
 ## 1.156.1
 
  - **FIX**: brij redirect wallet format (#1768).
