@@ -169,21 +169,6 @@ runs:
         echo "SOLANA_FEATURES=$(scfsd -c ${{ inputs.cluster }} -k -t )" >>
         $GITHUB_ENV
 
-    - name: Verify solana-test-validator binary exists
-      shell: bash
-      run: |
-        echo "=== Checking for solana-test-validator ==="
-        if command -v solana-test-validator; then
-          echo "✓ Binary found"
-          which solana-test-validator
-          ls -lh $(which solana-test-validator)
-        else
-          echo "✗ solana-test-validator NOT FOUND in PATH"
-          echo "Contents of bin directory:"
-          ls -lh $HOME/.local/share/solana/install/active_release/bin/ | grep -E "(test|validator)" || echo "No test/validator binaries found"
-          exit 1
-        fi
-
     # Run
     - name: Start Local Validator
       shell: bash
