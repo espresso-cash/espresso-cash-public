@@ -163,11 +163,6 @@ runs:
         echo "DEFAULT_SOLANA_PUBLIC_KEY=$(solana-keygen pubkey ~/.config/solana/id.json)" >> $GITHUB_ENV
 
     # Setup Local Validator Config
-    - name: Optional Quiet Flag
-      shell: bash
-      run:
-        echo "SOLANA_QUIET_FLAG=$(${{ inputs.quiet }} && echo -q )" >>
-        $GITHUB_ENV
     - name: Get Cluster Feature Set
       shell: bash
       run:
@@ -178,5 +173,39 @@ runs:
     - name: Start Local Validator
       shell: bash
       run: |
-        solana-test-validator ${{ env.SOLANA_QUIET_FLAG }} -r --bind-address 0.0.0.0 --rpc-port 8899 ${{ env.SOLANA_FEATURES }} ${{ inputs.args }} &
-        for attempt in {1..30}; do sleep 1; if curl -sS http://localhost:8899 -X POST -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","id":1, "method":"getBlockHeight"}'; then echo ready; break; fi; echo waiting...; done
+        # Start validator and capture PID
+        solana-test-validator -r --rpc-port 8899 ${{ env.SOLANA_FEATURES }} ${{ inputs.args }} > /tmp/validator.log 2>&1 &
+        VALIDATOR_PID=$!
+        echo "Validator PID: $VALIDATOR_PID"
+
+        # Wait for validator to be ready
+        SUCCESS=false
+        for attempt in {1..30}; do
+          sleep 1
+
+          # Check if process still running
+          if ! kill -0 $VALIDATOR_PID 2>/dev/null; then
+            echo "ERROR: Validator process died!"
+            echo "Last 50 lines of validator log:"
+            tail -50 test-ledger/validator.log 2>/dev/null || echo "Log file not found"
+            exit 1
+          fi
+
+          # Check if RPC is responding
+          if curl -sS http://localhost:8899 -X POST -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","id":1, "method":"getBlockHeight"}' > /dev/null 2>&1; then
+            echo "Validator ready after $attempt seconds"
+            SUCCESS=true
+            break
+          fi
+
+          echo "Waiting for validator... (attempt $attempt/30)"
+        done
+
+        # Fail if validator never became ready
+        if [ "$SUCCESS" = false ]; then
+          echo "ERROR: Validator failed to become ready after 30 seconds"
+          echo "Last 100 lines of validator log:"
+          tail -100 test-ledger/validator.log 2>/dev/null || echo "Log file not found"
+          kill $VALIDATOR_PID 2>/dev/null || true
+          exit 1
+        fi

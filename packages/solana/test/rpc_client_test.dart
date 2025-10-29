@@ -462,7 +462,7 @@ void main() {
     test('Call to getVersion() succeeds and parses the response correctly', () async {
       final version = await client.rpcClient.getVersion();
 
-      expect(version.solanaCore.codeUnitAt(0), anyOf(equals(49), equals(50)));
+      expect(version.solanaCore.codeUnitAt(0), anyOf(equals(50), equals(51)));
       expect(version.solanaCore.codeUnitAt(1), equals(46));
     });
 
