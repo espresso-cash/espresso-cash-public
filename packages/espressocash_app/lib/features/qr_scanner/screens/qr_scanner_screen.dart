@@ -40,7 +40,7 @@ class _ContentState extends State<_Content> with CompositeSubscriptionController
   void initState() {
     super.initState();
     context.read<QrScannerBloc>().add(const QrScannerEvent.initialized());
-    _qrViewController = MobileScannerController(formats: [BarcodeFormat.qrCode])..start();
+    _qrViewController = MobileScannerController(formats: [BarcodeFormat.qrCode]);
 
     _qrViewController.barcodes.listen(_handleDetected).addTo(subscriptions);
     _qrViewController.addListener(() {
@@ -106,10 +106,12 @@ class _ContentState extends State<_Content> with CompositeSubscriptionController
       child: Scaffold(
         body: Stack(
           children: [
-            if (_cameraEnabled)
-              QrScannerBackground(
+            Opacity(
+              opacity: _cameraEnabled ? 1 : 0,
+              child: QrScannerBackground(
                 child: MobileScanner(key: _qrKey, controller: _qrViewController),
               ),
+            ),
             if (_cameraEnabled)
               Align(
                 alignment: const Alignment(0, -0.7),
