@@ -189,7 +189,7 @@ runs:
       shell: bash
       run: |
         # Start validator and capture PID
-        solana-test-validator -r --bind-address 0.0.0.0 --rpc-port 8899 ${{ env.SOLANA_FEATURES }} ${{ inputs.args }} > /tmp/validator.log 2>&1 &
+        solana-test-validator -r --rpc-port 8899 ${{ env.SOLANA_FEATURES }} ${{ inputs.args }} > /tmp/validator.log 2>&1 &
         VALIDATOR_PID=$!
         echo "Validator PID: $VALIDATOR_PID"
 
