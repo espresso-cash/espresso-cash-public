@@ -163,11 +163,6 @@ runs:
         echo "DEFAULT_SOLANA_PUBLIC_KEY=$(solana-keygen pubkey ~/.config/solana/id.json)" >> $GITHUB_ENV
 
     # Setup Local Validator Config
-    - name: Optional Quiet Flag
-      shell: bash
-      run:
-        echo "SOLANA_QUIET_FLAG=$(${{ inputs.quiet }} && echo -q )" >>
-        $GITHUB_ENV
     - name: Get Cluster Feature Set
       shell: bash
       run:
@@ -194,7 +189,7 @@ runs:
       shell: bash
       run: |
         # Start validator and capture PID
-        solana-test-validator ${{ env.SOLANA_QUIET_FLAG }} -r --bind-address 0.0.0.0 --rpc-port 8899 ${{ env.SOLANA_FEATURES }} ${{ inputs.args }} > /tmp/validator.log 2>&1 &
+        solana-test-validator -r --bind-address 0.0.0.0 --rpc-port 8899 ${{ env.SOLANA_FEATURES }} ${{ inputs.args }} > /tmp/validator.log 2>&1 &
         VALIDATOR_PID=$!
         echo "Validator PID: $VALIDATOR_PID"
 
