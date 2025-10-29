@@ -103,8 +103,25 @@ jobs:
       - name: Analyze
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_analyze
 
+      - name: Verify Validator Health
+        run: |
+          echo "Checking validator health before running tests..."
+          if ! curl -sS http://localhost:8899 -X POST -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","id":1,"method":"getHealth"}'; then
+            echo "ERROR: Validator is not responding!"
+            exit 1
+          fi
+          echo "Validator is healthy"
+
       - name: Test
         run: melos exec -c 1 ${{ env.SCOPE }} -- dart run test --concurrency=1 --coverage=coverage
+
+      - name: Upload Validator Logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validator-logs-${{ matrix.solanaVersion }}
+          path: /tmp/validator.log
+          if-no-files-found: ignore
 
       - name: Coverage
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_coverage
