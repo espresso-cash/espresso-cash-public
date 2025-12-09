@@ -62,13 +62,14 @@ class _CpCryptoHeaderState extends State<CpCryptoHeader> {
         child: SizedBox(
           height: 120,
           child: RepaintBoundary(
-            child: _controller == null
-                ? const SizedBox.shrink()
-                : RiveWidget(
-                    controller: _controller!,
-                    fit: Fit.contain,
-                    alignment: Alignment.center,
-                  ),
+            child: switch (_controller) {
+              final controller? => RiveWidget(
+                controller: controller,
+                fit: Fit.contain,
+                alignment: Alignment.center,
+              ),
+              _ => const SizedBox.shrink(),
+            },
           ),
         ),
       ),
