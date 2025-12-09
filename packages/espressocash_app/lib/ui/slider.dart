@@ -214,11 +214,7 @@ class _SlideBarState extends State<_SlideBar> {
     height: _maxBarHeight,
     child: _isLoading || _controller == null
         ? const SizedBox.shrink()
-        : RiveWidget(
-            controller: _controller!,
-            fit: Fit.contain,
-            alignment: Alignment.centerLeft,
-          ),
+        : RiveWidget(controller: _controller!, fit: Fit.contain, alignment: Alignment.centerLeft),
   );
 }
 
