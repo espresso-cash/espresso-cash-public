@@ -1,3 +1,7 @@
+## 1.156.3
+
+ - **REFACTOR**: bump Flutter to 3.38.3 and Dart to 3.10.1 across configs and workflows.
+
 ## 1.156.2
 
  - **FIX**: camera scanner not showing (#1770).
