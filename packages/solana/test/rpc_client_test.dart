@@ -730,7 +730,9 @@ void main() {
       final programAccounts = await client.rpcClient.getProgramAccounts(
         TokenProgram.programId,
         encoding: Encoding.jsonParsed,
-        filters: [ProgramDataFilter.memcmp(offset: 0, bytes: 'FAIL'.codeUnits)],
+        filters: [
+          ProgramDataFilter.memcmpBase58(offset: 0, bytes: '11111111111111111111111111111111'),
+        ],
       );
 
       expect(programAccounts.length, equals(0));
