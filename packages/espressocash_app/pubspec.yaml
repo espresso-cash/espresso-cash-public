@@ -64,7 +64,7 @@ dependencies:
   provider: ^6.1.5
   recase: ^4.1.0
   retrofit: ^4.0.3
-  rive: ^0.13.2
+  rive: ^0.14.0
   rxdart: ^0.27.7
   sealed_countries: ^1.5.1
   sealed_currencies: ^1.5.1
@@ -77,7 +77,7 @@ dependencies:
     path: ../solana/
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
-  sqlite3_flutter_libs: ^0.5.18
+  sqlite3_flutter_libs: ^0.5.41
   stellar_flutter_sdk: ^1.8.4
   storybook_flutter: ^0.14.0
   url_launcher: ^6.2.2
@@ -108,7 +108,7 @@ dev_dependencies:
 flutter_gen:
   integrations:
     flutter_svg: true
-    rive: true
+    rive: false
 
 flutter:
   generate: true

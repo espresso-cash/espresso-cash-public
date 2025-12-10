@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 
-import '../gen/assets.gen.dart';
 import 'colors.dart';
 
 class CpSlider extends StatefulWidget {
@@ -163,14 +163,31 @@ class _SlideBar extends StatefulWidget {
 }
 
 class _SlideBarState extends State<_SlideBar> {
-  SMIInput<bool>? _enabledInput;
+  RiveWidgetController? _controller;
+  File? _file;
+  bool _isLoading = true;
 
-  void _onInit(Artboard artboard) {
-    final ctrl = StateMachineController.fromArtboard(artboard, 'StateMachine');
-    if (ctrl == null) return;
-    artboard.addController(ctrl..isActive = true);
-    final input = ctrl.findInput<bool>('enabled');
-    setState(() => _enabledInput = input);
+  @override
+  void initState() {
+    super.initState();
+    _loadRiveFile();
+  }
+
+  Future<void> _loadRiveFile() async {
+    final data = await rootBundle.load('assets/rive/slider.riv');
+    final file = await File.decode(data.buffer.asUint8List(), riveFactory: Factory.rive);
+    if (!mounted || file == null) return;
+
+    final controller = RiveWidgetController(
+      file,
+      stateMachineSelector: StateMachineSelector.byName('StateMachine'),
+    );
+
+    setState(() {
+      _file = file;
+      _controller = controller;
+      _isLoading = false;
+    });
     _updateEnabled();
   }
 
@@ -180,17 +197,29 @@ class _SlideBarState extends State<_SlideBar> {
     _updateEnabled();
   }
 
-  void _updateEnabled() => _enabledInput?.value = widget.enabled;
+  void _updateEnabled() {
+    _controller?.stateMachine.boolean('enabled')?.value = widget.enabled;
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    _file?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => SizedBox(
     width: _maxBarWidth,
     height: _maxBarHeight,
-    child: Assets.rive.slider.rive(
-      fit: BoxFit.contain,
-      alignment: Alignment.centerLeft,
-      onInit: _onInit,
-    ),
+    child: switch (_controller) {
+      final controller? when !_isLoading => RiveWidget(
+        controller: controller,
+        fit: Fit.contain,
+        alignment: Alignment.centerLeft,
+      ),
+      _ => const SizedBox.shrink(),
+    },
   );
 }
 

@@ -727,10 +727,12 @@ void main() {
     });
 
     test('Call to getProgramAccounts() with memcmp filter succeeds', () async {
+      final nonExistentMint = (await Ed25519HDKeyPair.random()).publicKey.bytes;
+
       final programAccounts = await client.rpcClient.getProgramAccounts(
         TokenProgram.programId,
         encoding: Encoding.jsonParsed,
-        filters: [ProgramDataFilter.memcmp(offset: 0, bytes: 'FAIL'.codeUnits)],
+        filters: [ProgramDataFilter.memcmp(offset: 0, bytes: nonExistentMint)],
       );
 
       expect(programAccounts.length, equals(0));

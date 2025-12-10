@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:rive/rive.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -52,6 +53,8 @@ Future<void> _init([ISentrySpan? span]) async {
   setUpLogging();
 
   await FaceCamera.initialize();
+
+  await RiveNative.init();
 
   final sharedPreferences = sl<SharedPreferences>();
   final hasPassedFirstRun = sharedPreferences.getBool(_firstRunKey) ?? false;
