@@ -1,3 +1,7 @@
+## 1.156.4
+
+ - **FIX**: android webview keyboard dismiss layout bug (#1773).
+
 ## 1.156.3
 
  - **REFACTOR**: bump Flutter to 3.38.3 and Dart to 3.10.1 across configs and workflows.
