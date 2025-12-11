@@ -5,7 +5,8 @@ formatter:
 
 linter:
   rules:
-    - prefer_relative_imports
+    prefer_relative_imports: true
+    always_use_package_imports: false
 
 analyzer:
   exclude:
