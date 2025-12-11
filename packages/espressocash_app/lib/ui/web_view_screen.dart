@@ -66,10 +66,37 @@ class WebViewScreen extends StatefulWidget {
   State<WebViewScreen> createState() => _WebViewScreenState();
 }
 
-class _WebViewScreenState extends State<WebViewScreen> {
+class _WebViewScreenState extends State<WebViewScreen> with WidgetsBindingObserver {
   String? _title;
+  InAppWebViewController? _controller;
+  double _lastBottomInset = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    final view = WidgetsBinding.instance.platformDispatcher.views.first;
+    final bottomInset = view.viewInsets.bottom / view.devicePixelRatio;
+
+    if (_lastBottomInset > 0 && bottomInset == 0) {
+      _controller?.evaluateJavascript(source: 'document.activeElement?.blur();');
+    }
+    _lastBottomInset = bottomInset;
+  }
 
   Future<void> _handleLoaded(InAppWebViewController controller) async {
+    _controller = controller;
     widget.onLoaded?.call(controller);
 
     final title = widget.title ?? await controller.getTitle() ?? '';
