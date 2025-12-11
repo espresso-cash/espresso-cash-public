@@ -79,6 +79,7 @@ class _WebViewScreenState extends State<WebViewScreen> with WidgetsBindingObserv
 
   @override
   void dispose() {
+    _controller?.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
