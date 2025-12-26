@@ -27,17 +27,6 @@ const lamportsPerSignature = 5000;
 const termsUrl = 'https://espressocash.com/docs/legal/terms';
 const privacyUrl = 'https://espressocash.com/docs/legal/privacy';
 
-/// Currently, the rent cost is fixed at the genesis. However, it's anticipated
-/// to be dynamic, reflecting the underlying hardware storage cost at the time.
-/// So the price is generally expected to decrease as the hardware cost declines
-/// as the technology advances.
-///
-/// For calculating **max** fee it's ok to use this hard-coded value,
-/// since it's not expected to grow.
-///
-/// It's pre-calculated for `TokenProgram.neededAccountSpace = 165`.
-const int tokenProgramRent = 2_039_280;
-
 const Duration waitForSignatureDefaultTimeout = Duration(seconds: 90);
 const Duration pingDefaultInterval = Duration(seconds: 1);
 
@@ -53,15 +42,10 @@ const _solanaHost = isProd
 const espressoCashLinkDomain = 'pay.espressocash.com';
 const espressoCashLinkProtocol = 'espressocash';
 
-const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
-
 const brijBaseUrl = 'https://widget-demo.brij.fi/quote';
 const brijApiKey = 'demo-integrator';
 
 const maxPayloadsPerSigningRequest = 10;
-
-const playstoreName = 'com.pleasecrypto.flutter';
-const appstoreId = '1559625715';
 
 const intercomAppId = String.fromEnvironment('INTERCOM_APP_ID');
 const intercomIosKey = String.fromEnvironment('INTERCOM_IOS_KEY');
