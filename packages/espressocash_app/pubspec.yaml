@@ -14,11 +14,9 @@ dependencies:
   bloc_concurrency: ^0.2.3
   borsh_annotation: ^0.3.2
   cached_network_image: ^3.3.1
-  camera: ^0.11.1
   collection: # Implied by integration_test.
   country_flags: ^3.0.0
   crypto: ^3.0.2
-  dart_jsonwebtoken: ^2.14.0
   decimal: ^3.0.2
   device_preview: ^1.1.0
   dfunc: ^0.10.0
@@ -46,7 +44,6 @@ dependencies:
   flutter_svg_provider: ^1.0.7
   freezed_annotation: ^3.1.0
   get_it: ^7.6.4
-  http: ^1.1.2
   image_picker: ^1.1.1
   injectable: ^2.5.2
   intercom_flutter: ^9.2.9
@@ -70,7 +67,6 @@ dependencies:
   sentry_flutter: ^9.7.0
   share_plus: ^11.0.0
   shared_preferences: ^2.2.2
-  sliver_tools: ^0.2.12
   smooth_page_indicator: ^1.1.0
   solana:
     path: ../solana/
