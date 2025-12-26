@@ -67,30 +67,30 @@ class _HomeScreenState extends State<HomeScreen> {
           child: TRLinkListener(
             child: AmbassadorLinkListener(
               child: ValueListenableBuilder(
-                  valueListenable: _navigationService.tabNotifier,
-                  builder: (context, value, _) => Scaffold(
-                    backgroundColor: Colors.white,
-                    extendBody: true,
-                    body: PageView(
-                      controller: _pageController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: _pages.map((e) => e.builder(context)).toList(),
-                    ),
-                    bottomNavigationBar: CPNavigationBar(
-                      items: _pages
-                          .mapIndexed(
-                            (i, p) => CpNavigationButton(
-                              icon: p.icon,
-                              active: value == i,
-                              onPressed: () {
-                                _navigationService.tabNotifier.value = i;
-                                _pageController.jumpToPage(i);
-                              },
-                            ),
-                          )
-                          .toList(),
-                    ),
+                valueListenable: _navigationService.tabNotifier,
+                builder: (context, value, _) => Scaffold(
+                  backgroundColor: Colors.white,
+                  extendBody: true,
+                  body: PageView(
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: _pages.map((e) => e.builder(context)).toList(),
                   ),
+                  bottomNavigationBar: CPNavigationBar(
+                    items: _pages
+                        .mapIndexed(
+                          (i, p) => CpNavigationButton(
+                            icon: p.icon,
+                            active: value == i,
+                            onPressed: () {
+                              _navigationService.tabNotifier.value = i;
+                              _pageController.jumpToPage(i);
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
               ),
             ),
           ),
