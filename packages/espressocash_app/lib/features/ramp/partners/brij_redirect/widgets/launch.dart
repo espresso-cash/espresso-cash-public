@@ -23,6 +23,22 @@ extension BuildContextExt on BuildContext {
         'chains': 'SOLANA',
         'mode': mode,
         'wallet-addresses': 'SOLANA:$address',
+        // Theme customization
+        'theme-mode': 'light',
+        'content-bg': 'FFFFFF',
+        'page-bg': 'F5F5F5',
+        'input-field-bg': 'F5F5F5',
+        'text': '231f20',
+        'footer-text': '909090',
+        'primary-brand': 'FCC829',
+        'primary-cta-bg-active': 'FCC829',
+        'primary-cta-bg-inactive': 'C2C2C2',
+        'primary-cta-text-active': '231f20',
+        'primary-cta-text-inactive': '909090',
+        'secondary-cta-bg': 'F5F5F5',
+        'secondary-cta-text': '231f20',
+        'menu-button': '231f20',
+        'logo-url': 'https://www.espressocash.com/images/Espresso-Logo-Large_1.png',
       },
     );
 
