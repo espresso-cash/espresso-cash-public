@@ -116,11 +116,6 @@ flutter:
     - assets/brands/
     - assets/tokens/
     - assets/partners/
-    - assets/partners/moneygram/
-    - assets/partners/coinflow/
-    - assets/partners/coinflow/static/
-    - assets/partners/coinflow/static/js/
-    - assets/partners/coinflow/static/css/
 
   fonts:
     - family: RobotoApp
