@@ -22,7 +22,7 @@ final offRampOrderScreenStory = Story(
       receiveAmount: null,
       partner: context.knobs.options(
         label: 'Partner',
-        initial: RampPartner.moneygram,
+        initial: RampPartner.brijRedirect,
         options: RampPartner.values.toOptions(),
       ),
       resolved: null,

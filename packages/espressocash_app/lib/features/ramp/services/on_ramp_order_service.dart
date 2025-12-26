@@ -58,13 +58,7 @@ class OnRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
-      switch (order.partner) {
-        case RampPartner.moneygram:
-          // ignore: avoid-unnecessary-continue, needed here
-          continue;
-        case RampPartner.brijRedirect:
-          _subscribe(order.id);
-      }
+      _subscribe(order.id);
     }
   }
 

@@ -27,12 +27,8 @@ class FeatureFlagsManager implements Disposable {
     _subscription = _remoteConfig.onConfigUpdated.listen((_) => _remoteConfig.activate());
   }
 
-  bool isMoneygramAccessEnabled() => _remoteConfig.getBool(FeatureFlag.moneygram.name);
-
   @override
   void onDispose() {
     _subscription?.cancel();
   }
 }
-
-enum FeatureFlag { moneygram }

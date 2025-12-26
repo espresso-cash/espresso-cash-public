@@ -5,8 +5,6 @@ import '../../../gen/assets.gen.dart';
 import 'payment_methods.dart';
 
 enum RampPartner {
-  moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []),
-
   brijRedirect(
     title: 'Brij Network',
     minimumAmount: r'$5',
@@ -35,7 +33,6 @@ enum RampPartner {
 
 extension RampPartnerAssets on RampPartner {
   AssetGenImage get logo => switch (this) {
-    RampPartner.moneygram => Assets.brands.moneygram,
     RampPartner.brijRedirect => Assets.brands.brij,
   };
 }

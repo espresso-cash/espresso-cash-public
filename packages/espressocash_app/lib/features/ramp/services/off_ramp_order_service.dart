@@ -76,13 +76,7 @@ class OffRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
-      switch (order.partner) {
-        case RampPartner.moneygram:
-          // ignore: avoid-unnecessary-continue, needed here
-          continue;
-        case RampPartner.brijRedirect:
-          _subscribe(order.id);
-      }
+      _subscribe(order.id);
     }
   }
 
@@ -216,9 +210,6 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.failure:
         await updateQuery.write(_cancelled);
       case OffRampOrderStatus.ready:
-        if (order.partner == RampPartner.moneygram) {
-          await updateQuery.write(_processRefund);
-        }
       case OffRampOrderStatus.depositTxRequired:
       case OffRampOrderStatus.creatingDepositTx:
       case OffRampOrderStatus.depositTxReady:
@@ -448,10 +439,6 @@ class OffRampOrderService implements Disposable {
 
   static const _depositError = OffRampOrderRowsCompanion(
     status: Value(OffRampOrderStatus.depositTxConfirmError),
-  );
-
-  static const _processRefund = OffRampOrderRowsCompanion(
-    status: Value(OffRampOrderStatus.processingRefund),
   );
 }
 
