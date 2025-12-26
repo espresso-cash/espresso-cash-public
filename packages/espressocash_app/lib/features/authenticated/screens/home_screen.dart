@@ -13,7 +13,6 @@ import '../../ambassador/widgets/ambassador_link_listener.dart';
 import '../../dynamic_links/services/dynamic_links_notifier.dart';
 import '../../incoming_link_payments/widgets/pending_ilp_listener.dart';
 import '../../outgoing_direct_payments/widgets/link_listener.dart';
-import '../../ramp/partners/coinflow/widgets/coinflow_link_listener.dart';
 import '../../router/models/activities_tab.dart';
 import '../../router/service/navigation_service.dart';
 import '../../token_swap/screens/swap_input_screen.dart';
@@ -66,32 +65,30 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ODPLinkListener(
         child: PendingILPListener(
           child: TRLinkListener(
-            child: CoinflowLinkListener(
-              child: AmbassadorLinkListener(
-                child: ValueListenableBuilder(
-                  valueListenable: _navigationService.tabNotifier,
-                  builder: (context, value, _) => Scaffold(
-                    backgroundColor: Colors.white,
-                    extendBody: true,
-                    body: PageView(
-                      controller: _pageController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: _pages.map((e) => e.builder(context)).toList(),
-                    ),
-                    bottomNavigationBar: CPNavigationBar(
-                      items: _pages
-                          .mapIndexed(
-                            (i, p) => CpNavigationButton(
-                              icon: p.icon,
-                              active: value == i,
-                              onPressed: () {
-                                _navigationService.tabNotifier.value = i;
-                                _pageController.jumpToPage(i);
-                              },
-                            ),
-                          )
-                          .toList(),
-                    ),
+            child: AmbassadorLinkListener(
+              child: ValueListenableBuilder(
+                valueListenable: _navigationService.tabNotifier,
+                builder: (context, value, _) => Scaffold(
+                  backgroundColor: Colors.white,
+                  extendBody: true,
+                  body: PageView(
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: _pages.map((e) => e.builder(context)).toList(),
+                  ),
+                  bottomNavigationBar: CPNavigationBar(
+                    items: _pages
+                        .mapIndexed(
+                          (i, p) => CpNavigationButton(
+                            icon: p.icon,
+                            active: value == i,
+                            onPressed: () {
+                              _navigationService.tabNotifier.value = i;
+                              _pageController.jumpToPage(i);
+                            },
+                          ),
+                        )
+                        .toList(),
                   ),
                 ),
               ),

@@ -1,5 +1,4 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/db/db.dart';
@@ -15,14 +14,12 @@ import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
-import '../../../ui/web_view_screen.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../transactions/widgets/transfer_progress.dart';
-import '../partners/moneygram/widgets/style.dart';
 import '../services/on_ramp_order_service.dart';
 import '../widgets/on_ramp_deposit_widget.dart';
 
@@ -74,9 +71,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final manualDeposit = order.manualDeposit;
     final bool isManualBankTransfer = manualDeposit != null;
-    final isMoneygramOrder = order.partner == RampPartner.moneygram;
 
-    final theme = isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.black();
+    const theme = CpThemeData.black();
 
     if (order.status == OnRampOrderStatus.pending) {
       return CpTheme(
@@ -172,11 +168,6 @@ class OnRampOrderScreenContent extends StatelessWidget {
               partner: order.partner,
             ),
             const Spacer(flex: 4),
-            if (isMoneygramOrder)
-              _MgAdditionalInfo(
-                details: order.additionalDetails,
-                status: order.status.toMoneygramStatus(),
-              ),
             PartnerOrderIdWidget(orderId: order.partnerOrderId),
             if (primaryButton != null) ...[const SizedBox(height: 12), primaryButton],
             Visibility(
@@ -229,55 +220,6 @@ class _ContactUsButton extends StatelessWidget {
   );
 }
 
-class _MgAdditionalInfo extends StatelessWidget {
-  const _MgAdditionalInfo({required this.details, required this.status});
-  final AdditionalDetails details;
-  final String status;
-
-  @override
-  Widget build(BuildContext context) => Column(
-    children: [
-      if (details.fee case final fee?)
-        Text(
-          'MoneyGram Fee: ${fee.format(context.locale, maxDecimals: 2)}',
-          style: _additionalInfoTextStyle,
-        ),
-      Text('Status: ${status.toUpperCase()}', style: _additionalInfoTextStyle),
-      if (details.moreInfoUrl case final moreInfoUrl?)
-        Text.rich(
-          TextSpan(
-            style: _additionalInfoTextStyle,
-            children: <TextSpan>[
-              const TextSpan(text: 'Additional info: '),
-              TextSpan(
-                text: 'Click here',
-                style: const TextStyle(
-                  color: Color(0xffCB6E00),
-                  decoration: TextDecoration.underline,
-                  fontWeight: FontWeight.bold,
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    WebViewScreen.push(
-                      context,
-                      url: Uri.parse(moreInfoUrl),
-                      title: context.l10n.depositTitle.toUpperCase(),
-                      theme: const CpThemeData.light(),
-                      onLoaded: (controller) async {
-                        await controller.evaluateJavascript(source: await loadMoneygramStyle());
-                      },
-                    );
-                  },
-              ),
-            ],
-          ),
-        ),
-      if (details.referenceNumber case final referenceNumber?)
-        Text('Reference number: $referenceNumber', style: _additionalInfoTextStyle),
-    ],
-  );
-}
-
 class _Timeline extends StatelessWidget {
   const _Timeline({
     required this.status,
@@ -317,13 +259,11 @@ class _Timeline extends StatelessWidget {
     CpTimelineItem? deposited;
     if (isManualBankTransfer) {
       deposited = CpTimelineItem(
-        title: partner == RampPartner.moneygram
-            ? 'Deposited to MoneyGram'
-            : context.l10n.onRampLocalTransferTile(
-                manualDeposit.transferAmount.format(context.locale),
-                manualDeposit.bankName,
-                manualDeposit.bankAccount,
-              ),
+        title: context.l10n.onRampLocalTransferTile(
+          manualDeposit.transferAmount.format(context.locale),
+          manualDeposit.bankName,
+          manualDeposit.bankAccount,
+        ),
       );
     }
 
@@ -380,19 +320,6 @@ extension on OnRampOrderStatus {
     OnRampOrderStatus.failure ||
     OnRampOrderStatus.completed => 1,
   };
-
-  String toMoneygramStatus() => switch (this) {
-    OnRampOrderStatus.pending ||
-    OnRampOrderStatus.preProcessing ||
-    OnRampOrderStatus.waitingForBridge ||
-    OnRampOrderStatus.waitingPartnerReview ||
-    OnRampOrderStatus.waitingForDeposit ||
-    OnRampOrderStatus.postProcessing ||
-    OnRampOrderStatus.waitingForPartner => 'Pending',
-    OnRampOrderStatus.depositExpired => 'Expired',
-    OnRampOrderStatus.rejected || OnRampOrderStatus.failure => 'Failed',
-    OnRampOrderStatus.completed => 'Completed',
-  };
 }
 
 const _contentSubtitleTextStyle = TextStyle(
@@ -400,5 +327,3 @@ const _contentSubtitleTextStyle = TextStyle(
   fontWeight: FontWeight.w400,
   letterSpacing: 0.23,
 );
-
-const _additionalInfoTextStyle = TextStyle(color: Color(0xFF979593), fontSize: 14);

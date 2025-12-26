@@ -14,7 +14,7 @@ final offRampAmountScreenStory = Story(
   builder: (context) => RampAmountScreen(
     partner: context.knobs.options(
       label: 'Partner',
-      initial: RampPartner.kado,
+      initial: RampPartner.brijRedirect,
       options: RampPartner.values.toOptions(),
     ),
     onSubmitted: ignore,
