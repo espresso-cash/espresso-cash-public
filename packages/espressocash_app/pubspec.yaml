@@ -78,7 +78,6 @@ dependencies:
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
   sqlite3_flutter_libs: ^0.5.41
-  stellar_flutter_sdk: ^1.8.4
   storybook_flutter: ^0.14.0
   url_launcher: ^6.2.2
   uuid: ^4.2.2

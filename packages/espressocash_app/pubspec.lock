@@ -2027,14 +2027,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.1"
-  stellar_flutter_sdk:
-    dependency: "direct main"
-    description:
-      name: stellar_flutter_sdk
-      sha256: da17b290a8224a0bfdbdda58450139b843b466f03987cbf359d73a47cd658561
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.4"
   storybook_flutter:
     dependency: "direct main"
     description:
@@ -2123,14 +2115,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.5"
-  toml:
-    dependency: transitive
-    description:
-      name: toml
-      sha256: d968d149c8bd06dc14e09ea3a140f90a3f2ba71949e7a91df4a46f3107400e71
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.16.0"
   typed_data:
     dependency: transitive
     description:
@@ -2147,14 +2131,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
-  unorm_dart:
-    dependency: transitive
-    description:
-      name: unorm_dart
-      sha256: "0c69186b03ca6addab0774bcc0f4f17b88d4ce78d9d4d8f0619e30a99ead58e7"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.2"
   url_launcher:
     dependency: "direct main"
     description:

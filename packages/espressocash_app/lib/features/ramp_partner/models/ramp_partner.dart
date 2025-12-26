@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-duplicate-constant-values
-
 import 'package:decimal/decimal.dart';
 import '../../../gen/assets.gen.dart';
 import 'payment_methods.dart';
