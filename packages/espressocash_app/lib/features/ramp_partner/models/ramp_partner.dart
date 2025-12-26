@@ -24,19 +24,6 @@ enum RampPartner {
     paymentMethods: [PaymentMethod.visa, PaymentMethod.mastercard, PaymentMethod.bank],
   ),
 
-  guardarian(
-    title: 'Guardarian',
-    minimumAmount: r'$5',
-    paymentMethods: [
-      PaymentMethod.visa,
-      PaymentMethod.mastercard,
-      PaymentMethod.applePay,
-      PaymentMethod.googlePay,
-      PaymentMethod.sepa,
-      PaymentMethod.swift,
-    ],
-  ),
-
   moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []),
 
   brijRedirect(
@@ -69,7 +56,6 @@ extension RampPartnerAssets on RampPartner {
   AssetGenImage get logo => switch (this) {
     RampPartner.kado => Assets.brands.kado,
     RampPartner.coinflow => Assets.brands.coinflow,
-    RampPartner.guardarian => Assets.brands.guardarian,
     RampPartner.moneygram => Assets.brands.moneygram,
     RampPartner.brijRedirect => Assets.brands.brij,
   };

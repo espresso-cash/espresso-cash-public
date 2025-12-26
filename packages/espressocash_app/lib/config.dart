@@ -59,11 +59,8 @@ const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
 
 const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
 
-const guardarianBaseUrl = 'https://guardarian.com/calculator/v1';
-const guardarianApiKey = String.fromEnvironment('GUARDARIAN_API_KEY');
-
-const brijBaseUrl = isProd ? 'https://widget.brij.fi/quote' : 'https://widget-demo.brij.fi/quote';
-const brijApiKey = String.fromEnvironment('BRIJ_API_KEY');
+const brijBaseUrl = 'https://widget-demo.brij.fi/quote';
+const brijApiKey = 'demo-integrator';
 
 const coinflowApiUrl = isProd
     ? 'https://api.coinflow.cash/api/'

@@ -163,11 +163,10 @@ packages:
   borsh_annotation:
     dependency: "direct main"
     description:
-      name: borsh_annotation
-      sha256: dc73a7fdc6fe4505535657daf8ab3cebe382311fae63a0faaf9315ea1bc30bff
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.2"
+      path: "../borsh_annotation"
+      relative: true
+    source: path
+    version: "0.3.1+5"
   build:
     dependency: transitive
     description:

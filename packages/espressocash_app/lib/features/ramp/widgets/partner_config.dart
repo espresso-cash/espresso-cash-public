@@ -19,10 +19,6 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
     partners.add(RampPartner.kado);
   }
 
-  if (_guardarianCountries.contains(countryCode)) {
-    partners.add(RampPartner.guardarian);
-  }
-
   partners.add(RampPartner.brijRedirect);
 
   return IList(partners);
@@ -49,12 +45,6 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
 }
 
 const _kadoCountries = {'US'};
-
-const _guardarianCountries = {
-  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
-  'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
-  'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'CH',
-};
 
 const _coinflowCountries = {
   'AD', 'AT', 'BE', 'BR', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', //
