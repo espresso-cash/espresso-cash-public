@@ -42,8 +42,8 @@ const _solanaHost = isProd
 const espressoCashLinkDomain = 'pay.espressocash.com';
 const espressoCashLinkProtocol = 'espressocash';
 
-const brijBaseUrl = 'https://widget-demo.brij.fi/quote';
-const brijApiKey = 'demo-integrator';
+const brijBaseUrl = isProd ? 'https://widget.brij.fi/quote' : 'https://widget-demo.brij.fi/quote';
+const brijApiKey = String.fromEnvironment('BRIJ_API_KEY');
 
 const maxPayloadsPerSigningRequest = 10;
 
