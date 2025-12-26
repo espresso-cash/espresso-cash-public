@@ -13,7 +13,6 @@ import '../../ambassador/widgets/ambassador_link_listener.dart';
 import '../../dynamic_links/services/dynamic_links_notifier.dart';
 import '../../incoming_link_payments/widgets/pending_ilp_listener.dart';
 import '../../outgoing_direct_payments/widgets/link_listener.dart';
-import '../../ramp/partners/coinflow/widgets/coinflow_link_listener.dart';
 import '../../router/models/activities_tab.dart';
 import '../../router/service/navigation_service.dart';
 import '../../token_swap/screens/swap_input_screen.dart';
@@ -66,9 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ODPLinkListener(
         child: PendingILPListener(
           child: TRLinkListener(
-            child: CoinflowLinkListener(
-              child: AmbassadorLinkListener(
-                child: ValueListenableBuilder(
+            child: AmbassadorLinkListener(
+              child: ValueListenableBuilder(
                   valueListenable: _navigationService.tabNotifier,
                   builder: (context, value, _) => Scaffold(
                     backgroundColor: Colors.white,
@@ -93,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           .toList(),
                     ),
                   ),
-                ),
               ),
             ),
           ),

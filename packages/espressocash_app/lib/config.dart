@@ -58,14 +58,6 @@ const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
 const brijBaseUrl = 'https://widget-demo.brij.fi/quote';
 const brijApiKey = 'demo-integrator';
 
-const coinflowApiUrl = isProd
-    ? 'https://api.coinflow.cash/api/'
-    : 'https://api-sandbox.coinflow.cash/api/';
-
-const coinflowKycUrl = isProd
-    ? 'https://coinflow.cash/withdraw/espresso'
-    : 'https://sandbox.coinflow.cash/withdraw/espresso';
-
 const maxPayloadsPerSigningRequest = 10;
 
 const playstoreName = 'com.pleasecrypto.flutter';

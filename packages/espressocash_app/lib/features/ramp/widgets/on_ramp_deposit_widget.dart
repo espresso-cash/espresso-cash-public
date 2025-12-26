@@ -47,8 +47,7 @@ class OnRampDepositWidget extends StatelessWidget {
         formattedTransferAmount: formattedTransferAmount,
         onConfirmPress: _handleConfirmPress,
       ),
-      RampPartner.brijRedirect ||
-      RampPartner.coinflow => const SizedBox.shrink(),
+      RampPartner.brijRedirect => const SizedBox.shrink(),
     };
   }
 }

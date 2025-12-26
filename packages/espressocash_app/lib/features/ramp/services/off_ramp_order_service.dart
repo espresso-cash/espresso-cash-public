@@ -13,7 +13,6 @@ import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../data/db/db.dart';
-import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
@@ -26,9 +25,6 @@ import '../../tokens/token.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
-import '../models/ramp_watcher.dart';
-import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
-
 typedef OffRampOrder = ({
   String id,
   DateTime created,
@@ -61,7 +57,6 @@ class OffRampOrderService implements Disposable {
   );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
-  final Map<String, RampWatcher?> _watchers = {};
 
   final ECWallet _account;
   final EspressoCashClient _client;
@@ -85,10 +80,8 @@ class OffRampOrderService implements Disposable {
         case RampPartner.moneygram:
           // ignore: avoid-unnecessary-continue, needed here
           continue;
-        case RampPartner.coinflow:
         case RampPartner.brijRedirect:
           _subscribe(order.id);
-          unawaited(_watch(order.id));
       }
     }
   }
@@ -278,7 +271,6 @@ class OffRampOrderService implements Disposable {
 
     await _db.into(_db.offRampOrderRows).insert(order);
     _subscribe(order.id);
-    await _watch(order.id);
 
     _analytics.rampInitiated(
       partnerName: partner.name,
@@ -312,18 +304,6 @@ class OffRampOrderService implements Disposable {
       countryCode: countryCode,
     ).letAsync(bind);
   });
-
-  Future<void> _watch(String orderId) async {
-    final query = _db.select(_db.offRampOrderRows)..where((tbl) => tbl.id.equals(orderId));
-
-    final order = await query.getSingle();
-
-    _watchers[orderId] = switch (order.partner) {
-      RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
-      RampPartner.brijRedirect ||
-      RampPartner.moneygram => throw ArgumentError('Not implemented'),
-    }..watch(orderId);
-  }
 
   void _subscribe(String orderId) {
     _subscriptions[orderId] =
@@ -369,9 +349,6 @@ class OffRampOrderService implements Disposable {
                 case OffRampOrderStatus.rejected:
                   _subscriptions.remove(orderId)?.cancel();
 
-                  _watchers[orderId]?.close();
-                  _watchers.remove(orderId);
-
                   return const Stream.empty();
               }
             })
@@ -385,7 +362,6 @@ class OffRampOrderService implements Disposable {
   @override
   Future<void> onDispose() async {
     await Future.wait(_subscriptions.values.map((it) => it.cancel()));
-    _watchers.values.map((it) => it?.close());
     await _db.delete(_db.offRampOrderRows).go();
   }
 

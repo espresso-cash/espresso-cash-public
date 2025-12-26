@@ -31,20 +31,10 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
     partners.add(RampPartner.moneygram);
   }
 
-  if (_coinflowCountries.contains(countryCode)) {
-    partners.add(RampPartner.coinflow);
-  }
-
   partners.add(RampPartner.brijRedirect);
 
   return IList(partners);
 }
-
-const _coinflowCountries = {
-  'AD', 'AT', 'BE', 'BR', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', //
-  'DE', 'GR', 'HU', 'IS', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT', 'MC',
-  'NL', 'NO', 'PL', 'PT', 'RO', 'SM', 'SK', 'SI', 'ES', 'SE', 'CH', 'US',
-};
 
 const _moneygramOnRampCountries = {
   'AO', 'AR', 'AU', 'BH', 'BF', 'KH', 'CA', 'CV', 'CL', 'CD', 'CI', 'DK', //
