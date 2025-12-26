@@ -1,9 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 import '../../../di.dart';
-import '../../ramp_partner/models/ramp_partner.dart';
-import '../models/ramp_watcher.dart';
-import '../partners/kado/services/kado_on_ramp_order_watcher.dart';
 import '../services/on_ramp_order_service.dart';
 
 export '../services/on_ramp_order_service.dart' show OnRampOrder;
@@ -22,32 +19,11 @@ class OnRampOrderDetails extends StatefulWidget {
 
 class _OnRampOrderDetailsState extends State<OnRampOrderDetails> {
   late final Stream<OnRampOrder> _stream;
-  RampWatcher? _watcher;
 
   @override
   void initState() {
     super.initState();
     _stream = sl<OnRampOrderService>().watch(widget.orderId);
-
-    _initWatcher();
-  }
-
-  Future<void> _initWatcher() async {
-    if (_watcher != null) return;
-
-    final onRamp = await _stream.first;
-
-    _watcher = switch (onRamp.partner) {
-      RampPartner.kado => sl<KadoOnRampOrderWatcher>(),
-      RampPartner.brijRedirect || RampPartner.moneygram => null,
-      RampPartner.coinflow => throw ArgumentError('Not implemented'),
-    }?..watch(widget.orderId);
-  }
-
-  @override
-  void dispose() {
-    _watcher?.close();
-    super.dispose();
   }
 
   @override

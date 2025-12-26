@@ -53,10 +53,6 @@ const _solanaHost = isProd
 const espressoCashLinkDomain = 'pay.espressocash.com';
 const espressoCashLinkProtocol = 'espressocash';
 
-const kadoBaseUrl = 'https://app.kado.money/';
-const kadoApiBaseUrl = 'https://api.kado.money';
-const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
-
 const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
 
 const brijBaseUrl = 'https://widget-demo.brij.fi/quote';

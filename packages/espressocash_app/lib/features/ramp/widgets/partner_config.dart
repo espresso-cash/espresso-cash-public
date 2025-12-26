@@ -15,10 +15,6 @@ IList<RampPartner> getOnRampPartners(String? countryCode) {
     partners.add(RampPartner.moneygram);
   }
 
-  if (_kadoCountries.contains(countryCode)) {
-    partners.add(RampPartner.kado);
-  }
-
   partners.add(RampPartner.brijRedirect);
 
   return IList(partners);
@@ -43,8 +39,6 @@ IList<RampPartner> getOffRampPartners(String? countryCode) {
 
   return IList(partners);
 }
-
-const _kadoCountries = {'US'};
 
 const _coinflowCountries = {
   'AD', 'AT', 'BE', 'BR', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', //

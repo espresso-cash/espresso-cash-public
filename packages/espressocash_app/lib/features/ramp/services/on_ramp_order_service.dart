@@ -62,7 +62,6 @@ class OnRampOrderService implements Disposable {
         case RampPartner.moneygram:
           // ignore: avoid-unnecessary-continue, needed here
           continue;
-        case RampPartner.kado:
         case RampPartner.coinflow:
         case RampPartner.brijRedirect:
           _subscribe(order.id);

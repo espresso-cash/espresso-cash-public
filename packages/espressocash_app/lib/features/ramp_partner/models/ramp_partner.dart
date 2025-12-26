@@ -5,19 +5,6 @@ import '../../../gen/assets.gen.dart';
 import 'payment_methods.dart';
 
 enum RampPartner {
-  kado(
-    title: 'Kado Money',
-    minimumAmount: r'$10',
-    paymentMethods: [
-      PaymentMethod.visa,
-      PaymentMethod.mastercard,
-      PaymentMethod.applePay,
-      PaymentMethod.bank,
-      PaymentMethod.sepa,
-      PaymentMethod.pix,
-    ],
-  ),
-
   coinflow(
     title: 'Coinflow',
     minimumAmount: r'$20',
@@ -54,7 +41,6 @@ enum RampPartner {
 
 extension RampPartnerAssets on RampPartner {
   AssetGenImage get logo => switch (this) {
-    RampPartner.kado => Assets.brands.kado,
     RampPartner.coinflow => Assets.brands.coinflow,
     RampPartner.moneygram => Assets.brands.moneygram,
     RampPartner.brijRedirect => Assets.brands.brij,

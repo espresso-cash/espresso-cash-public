@@ -28,7 +28,6 @@ import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../models/ramp_watcher.dart';
 import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
-import '../partners/kado/services/kado_off_ramp_order_watcher.dart';
 
 typedef OffRampOrder = ({
   String id,
@@ -86,7 +85,6 @@ class OffRampOrderService implements Disposable {
         case RampPartner.moneygram:
           // ignore: avoid-unnecessary-continue, needed here
           continue;
-        case RampPartner.kado:
         case RampPartner.coinflow:
         case RampPartner.brijRedirect:
           _subscribe(order.id);
@@ -321,7 +319,6 @@ class OffRampOrderService implements Disposable {
     final order = await query.getSingle();
 
     _watchers[orderId] = switch (order.partner) {
-      RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
       RampPartner.brijRedirect ||
       RampPartner.moneygram => throw ArgumentError('Not implemented'),
