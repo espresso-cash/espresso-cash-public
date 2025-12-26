@@ -29,7 +29,6 @@ dependencies:
   ec_client_dart:
     path: ../espressocash_client
   ethereum_addresses: ^1.0.2
-  face_camera: ^0.1.2
   fast_immutable_collections: ^10.2.2
   firebase_app_installations: ^0.4.0
   firebase_core: ^4.2.0

@@ -1,5 +1,4 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:face_camera/face_camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -51,8 +50,6 @@ Future<void> _init([ISentrySpan? span]) async {
   Bloc.observer = Observer();
 
   setUpLogging();
-
-  await FaceCamera.initialize();
 
   await RiveNative.init();
 
