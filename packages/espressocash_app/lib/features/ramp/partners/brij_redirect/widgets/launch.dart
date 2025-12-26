@@ -3,6 +3,7 @@ import 'package:sealed_countries/sealed_countries.dart' as country;
 
 import '../../../../../config.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../ramp_partner/models/ramp_type.dart';
 import '../../../models/profile_data.dart';
@@ -42,7 +43,13 @@ extension BuildContextExt on BuildContext {
       },
     );
 
-    WebViewScreen.push(this, url: uri, onLoaded: null, title: title.toUpperCase(), theme: null);
+    WebViewScreen.push(
+      this,
+      url: uri,
+      onLoaded: null,
+      title: title.toUpperCase(),
+      theme: const CpThemeData.light(),
+    );
   }
 }
 
