@@ -45,6 +45,11 @@ const espressoCashLinkProtocol = 'espressocash';
 const brijBaseUrl = isProd ? 'https://widget.brij.fi/quote' : 'https://widget-demo.brij.fi/quote';
 const brijApiKey = String.fromEnvironment('BRIJ_API_KEY');
 
+const kadoApiBaseUrl = 'https://api.kado.money';
+const coinflowApiUrl = isProd
+    ? 'https://api.coinflow.cash/api/'
+    : 'https://api-sandbox.coinflow.cash/api/';
+
 const maxPayloadsPerSigningRequest = 10;
 
 const intercomAppId = String.fromEnvironment('INTERCOM_APP_ID');

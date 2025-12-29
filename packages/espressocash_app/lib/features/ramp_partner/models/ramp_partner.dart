@@ -1,8 +1,18 @@
+// ignore_for_file: avoid-duplicate-constant-values
+
 import 'package:decimal/decimal.dart';
 import '../../../gen/assets.gen.dart';
 import 'payment_methods.dart';
 
 enum RampPartner {
+  kado(title: 'Kado Money', minimumAmount: r'$10', paymentMethods: []),
+
+  coinflow(title: 'Coinflow', minimumAmount: r'$20', paymentMethods: []),
+
+  guardarian(title: 'Guardarian', minimumAmount: r'$5', paymentMethods: []),
+
+  moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []),
+
   brijRedirect(
     title: 'Brij Network',
     minimumAmount: r'$5',
@@ -31,6 +41,10 @@ enum RampPartner {
 
 extension RampPartnerAssets on RampPartner {
   AssetGenImage get logo => switch (this) {
+    RampPartner.kado ||
+    RampPartner.coinflow ||
+    RampPartner.guardarian ||
+    RampPartner.moneygram ||
     RampPartner.brijRedirect => Assets.brands.brij,
   };
 }
