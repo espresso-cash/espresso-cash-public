@@ -320,9 +320,7 @@ class OffRampOrderService implements Disposable {
     _watchers[orderId] = switch (order.partner) {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
-      RampPartner.brijRedirect ||
-      RampPartner.moneygram ||
-      RampPartner.guardarian => null,
+      RampPartner.brijRedirect || RampPartner.moneygram || RampPartner.guardarian => null,
     }?..watch(orderId);
   }
 
