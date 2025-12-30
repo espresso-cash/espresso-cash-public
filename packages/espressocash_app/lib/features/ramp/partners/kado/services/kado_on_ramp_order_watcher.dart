@@ -18,6 +18,7 @@ import '../data/kado_api_client.dart';
 class KadoOnRampOrderWatcher implements RampWatcher {
   KadoOnRampOrderWatcher(this._db, this._client, this._analytics);
 
+  // ignore: dispose-class-fields, false positive
   final MyDatabase _db;
   final KadoApiClient _client;
   final AnalyticsManager _analytics;
@@ -32,6 +33,7 @@ class KadoOnRampOrderWatcher implements RampWatcher {
         .whereNotNull()
         .asyncMap((order) => _client.getOrderStatus(order.partnerOrderId))
         .listen((event) async {
+          // ignore: prefer-early-return, cannot use
           if (event.data case final data?) {
             final statement = _db.update(_db.onRampOrderRows)
               ..where((tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false));

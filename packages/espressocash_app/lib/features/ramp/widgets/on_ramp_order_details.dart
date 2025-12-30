@@ -39,8 +39,10 @@ class _OnRampOrderDetailsState extends State<OnRampOrderDetails> {
 
     _watcher = switch (onRamp.partner) {
       RampPartner.kado => sl<KadoOnRampOrderWatcher>(),
-      RampPartner.brijRedirect || RampPartner.moneygram => null,
-      RampPartner.coinflow || RampPartner.guardarian => null,
+      RampPartner.brijRedirect ||
+      RampPartner.moneygram ||
+      RampPartner.coinflow ||
+      RampPartner.guardarian => null,
     }?..watch(widget.orderId);
   }
 
