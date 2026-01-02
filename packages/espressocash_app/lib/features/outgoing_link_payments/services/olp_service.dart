@@ -168,7 +168,6 @@ class OLPService implements Disposable {
     required Ed25519HDKeyPair escrow,
     required ECWallet account,
   }) async {
-    // ignore: move-variable-closer-to-its-usage, used in catch block
     final privateKey = await EscrowPrivateKey.fromKeyPair(escrow);
 
     try {
