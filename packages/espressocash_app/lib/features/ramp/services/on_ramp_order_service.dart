@@ -60,8 +60,7 @@ class OnRampOrderService implements Disposable {
     for (final order in orders) {
       switch (order.partner) {
         case RampPartner.moneygram:
-          // ignore: avoid-unnecessary-continue, needed here
-          continue;
+          break;
         case RampPartner.kado:
         case RampPartner.coinflow:
         case RampPartner.guardarian:

@@ -5,7 +5,7 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../../../data/db/db.dart';
+import '../../../../../data/db/db.dart';
 import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';

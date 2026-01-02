@@ -14,11 +14,9 @@ dependencies:
   bloc_concurrency: ^0.2.3
   borsh_annotation: ^0.3.2
   cached_network_image: ^3.3.1
-  camera: ^0.11.1
   collection: # Implied by integration_test.
   country_flags: ^3.0.0
   crypto: ^3.0.2
-  dart_jsonwebtoken: ^2.14.0
   decimal: ^3.0.2
   device_preview: ^1.1.0
   dfunc: ^0.10.0
@@ -29,7 +27,6 @@ dependencies:
   ec_client_dart:
     path: ../espressocash_client
   ethereum_addresses: ^1.0.2
-  face_camera: ^0.1.2
   fast_immutable_collections: ^10.2.2
   firebase_app_installations: ^0.4.0
   firebase_core: ^4.2.0
@@ -47,7 +44,6 @@ dependencies:
   flutter_svg_provider: ^1.0.7
   freezed_annotation: ^3.1.0
   get_it: ^7.6.4
-  http: ^1.1.2
   image_picker: ^1.1.1
   injectable: ^2.5.2
   intercom_flutter: ^9.2.9
@@ -71,14 +67,12 @@ dependencies:
   sentry_flutter: ^9.7.0
   share_plus: ^11.0.0
   shared_preferences: ^2.2.2
-  sliver_tools: ^0.2.12
   smooth_page_indicator: ^1.1.0
   solana:
     path: ../solana/
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
   sqlite3_flutter_libs: ^0.5.41
-  stellar_flutter_sdk: ^1.8.4
   storybook_flutter: ^0.14.0
   url_launcher: ^6.2.2
   uuid: ^4.2.2
@@ -122,11 +116,6 @@ flutter:
     - assets/brands/
     - assets/tokens/
     - assets/partners/
-    - assets/partners/moneygram/
-    - assets/partners/coinflow/
-    - assets/partners/coinflow/static/
-    - assets/partners/coinflow/static/js/
-    - assets/partners/coinflow/static/css/
 
   fonts:
     - family: RobotoApp

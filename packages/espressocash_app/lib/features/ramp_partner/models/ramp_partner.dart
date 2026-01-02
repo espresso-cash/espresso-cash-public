@@ -5,37 +5,11 @@ import '../../../gen/assets.gen.dart';
 import 'payment_methods.dart';
 
 enum RampPartner {
-  kado(
-    title: 'Kado Money',
-    minimumAmount: r'$10',
-    paymentMethods: [
-      PaymentMethod.visa,
-      PaymentMethod.mastercard,
-      PaymentMethod.applePay,
-      PaymentMethod.bank,
-      PaymentMethod.sepa,
-      PaymentMethod.pix,
-    ],
-  ),
+  kado(title: 'Kado Money', minimumAmount: r'$10', paymentMethods: []),
 
-  coinflow(
-    title: 'Coinflow',
-    minimumAmount: r'$20',
-    paymentMethods: [PaymentMethod.visa, PaymentMethod.mastercard, PaymentMethod.bank],
-  ),
+  coinflow(title: 'Coinflow', minimumAmount: r'$20', paymentMethods: []),
 
-  guardarian(
-    title: 'Guardarian',
-    minimumAmount: r'$5',
-    paymentMethods: [
-      PaymentMethod.visa,
-      PaymentMethod.mastercard,
-      PaymentMethod.applePay,
-      PaymentMethod.googlePay,
-      PaymentMethod.sepa,
-      PaymentMethod.swift,
-    ],
-  ),
+  guardarian(title: 'Guardarian', minimumAmount: r'$5', paymentMethods: []),
 
   moneygram(title: 'MoneyGram', minimumAmount: r'$10', paymentMethods: []),
 
@@ -67,10 +41,10 @@ enum RampPartner {
 
 extension RampPartnerAssets on RampPartner {
   AssetGenImage get logo => switch (this) {
-    RampPartner.kado => Assets.brands.kado,
-    RampPartner.coinflow => Assets.brands.coinflow,
-    RampPartner.guardarian => Assets.brands.guardarian,
-    RampPartner.moneygram => Assets.brands.moneygram,
+    RampPartner.kado ||
+    RampPartner.coinflow ||
+    RampPartner.guardarian ||
+    RampPartner.moneygram ||
     RampPartner.brijRedirect => Assets.brands.brij,
   };
 }

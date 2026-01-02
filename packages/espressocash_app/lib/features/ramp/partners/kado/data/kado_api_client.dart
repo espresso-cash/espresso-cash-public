@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../../../../../config.dart';
+import '../../../../../config.dart';
 
 part 'kado_api_client.freezed.dart';
 part 'kado_api_client.g.dart';

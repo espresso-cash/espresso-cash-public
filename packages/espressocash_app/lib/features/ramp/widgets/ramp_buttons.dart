@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
@@ -9,19 +7,12 @@ import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../accounts/models/account.dart';
-import '../../analytics/analytics_manager.dart';
 import '../../country_picker/models/country.dart';
 import '../../profile/data/profile_repository.dart';
-import '../../ramp_partner/models/ramp_partner.dart';
 import '../../ramp_partner/models/ramp_type.dart';
 import '../models/profile_data.dart';
 import '../partners/brij_redirect/widgets/launch.dart';
-import '../partners/coinflow/widgets/launch.dart';
-import '../partners/guardarian/widgets/launch.dart';
-import '../partners/kado/widgets/launch.dart';
-import '../partners/moneygram/widgets/launch.dart';
 import '../screens/ramp_onboarding_screen.dart';
-import '../screens/ramp_partner_select_screen.dart';
 
 class PayOrRequestButton extends StatelessWidget {
   const PayOrRequestButton({
@@ -143,75 +134,13 @@ extension RampBuildContextExt on BuildContext {
     return (country: country, email: email);
   }
 
-  void launchOnRampFlow() {
+  void launchOnRampFlow() => _launchRamp(RampType.onRamp);
+
+  void launchOffRampFlow() => _launchRamp(RampType.offRamp);
+
+  void _launchRamp(RampType type) {
     final address = sl<MyAccount>().wallet.publicKey.toBase58();
-
-    RampPartnerSelectScreen.push(
-      this,
-      type: RampType.onRamp,
-      onPartnerSelected: (RampPartner partner) {
-        Navigator.pop(this);
-
-        final profile = getProfileData();
-        _launchOnRampPartner(partner, profile: profile, address: address);
-      },
-    );
-  }
-
-  void launchOffRampFlow() {
-    final address = sl<MyAccount>().wallet.publicKey.toBase58();
-
-    RampPartnerSelectScreen.push(
-      this,
-      type: RampType.offRamp,
-      onPartnerSelected: (RampPartner partner) {
-        Navigator.pop(this);
-
-        final profile = getProfileData();
-        _launchOffRampPartner(partner, profile: profile, address: address);
-      },
-    );
-  }
-
-  void _launchOnRampPartner(
-    RampPartner partner, {
-    required ProfileData profile,
-    required String address,
-  }) {
-    switch (partner) {
-      case RampPartner.kado:
-        launchKadoOnRamp(profile: profile, address: address);
-      case RampPartner.guardarian:
-        launchGuardarianOnRamp(profile: profile, address: address);
-      case RampPartner.brijRedirect:
-        launchBrijRedirect(type: RampType.onRamp, profile: profile, address: address);
-      case RampPartner.moneygram:
-        launchMoneygramOnRamp(profile: profile);
-      case RampPartner.coinflow:
-        throw UnimplementedError('Not implemented for $partner');
-    }
-
-    sl<AnalyticsManager>().rampOpened(partnerName: partner.name, rampType: RampType.onRamp.name);
-  }
-
-  void _launchOffRampPartner(
-    RampPartner partner, {
-    required ProfileData profile,
-    required String address,
-  }) {
-    switch (partner) {
-      case RampPartner.kado:
-        launchKadoOffRamp(address: address, profile: profile);
-      case RampPartner.coinflow:
-        launchCoinflowOffRamp(address: address, profile: profile);
-      case RampPartner.moneygram:
-        launchMoneygramOffRamp(profile: profile);
-      case RampPartner.brijRedirect:
-        launchBrijRedirect(type: RampType.offRamp, profile: profile, address: address);
-      case RampPartner.guardarian:
-        throw UnimplementedError('Not implemented for $partner');
-    }
-
-    sl<AnalyticsManager>().rampOpened(partnerName: partner.name, rampType: RampType.offRamp.name);
+    final profile = getProfileData();
+    launchBrijRedirect(type: type, profile: profile, address: address);
   }
 }

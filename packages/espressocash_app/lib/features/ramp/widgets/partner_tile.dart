@@ -45,12 +45,6 @@ class PartnerTile extends StatelessWidget {
               method.logo.svg(width: 30.w),
               SizedBox(width: 4.w),
             ],
-            if (partner == RampPartner.moneygram) ...[
-              Text(switch (type) {
-                RampType.onRamp => context.l10n.moneygramPaymentMethodOnRamp,
-                RampType.offRamp => context.l10n.moneygramPaymentMethodOffRamp,
-              }, style: _subtitleStyle),
-            ],
             const Spacer(),
             Text(
               context.l10n.rampMinimumTransferAmount(partner.minimumAmount),

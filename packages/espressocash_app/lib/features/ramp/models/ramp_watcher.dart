@@ -1,6 +1,4 @@
-abstract class RampWatcher {
-  const RampWatcher();
-
+abstract interface class RampWatcher {
   void watch(String orderId);
 
   void close();

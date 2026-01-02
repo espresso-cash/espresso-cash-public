@@ -21,10 +21,6 @@ abstract class CoinflowClient {
   Future<WithdrawHistoryResponseDto> getWithdrawalHistory(
     @Header('x-coinflow-auth-wallet') String walletId,
   );
-
-  @GET('/withdraw')
-  @Headers(<String, dynamic>{'x-coinflow-auth-blockchain': 'solana'})
-  Future<WithdrawerResponseDto> getWithdrawer(@Header('x-coinflow-auth-wallet') String walletId);
 }
 
 @freezed
@@ -47,30 +43,6 @@ abstract class WithdrawHistoryResponseDataDto with _$WithdrawHistoryResponseData
 
   factory WithdrawHistoryResponseDataDto.fromJson(Map<String, dynamic> data) =>
       _$WithdrawHistoryResponseDataDtoFromJson(data);
-}
-
-@freezed
-abstract class WithdrawerResponseDto with _$WithdrawerResponseDto {
-  const factory WithdrawerResponseDto({required WithdrawerDto withdrawer}) = _WithdrawerResponseDto;
-  factory WithdrawerResponseDto.fromJson(Map<String, dynamic> data) =>
-      _$WithdrawerResponseDtoFromJson(data);
-}
-
-@freezed
-abstract class WithdrawerDto with _$WithdrawerDto {
-  const factory WithdrawerDto({
-    required String currency,
-    String? email,
-    @Default([]) List<dynamic> bankAccounts,
-    @Default([]) List<dynamic> cards,
-    @Default([]) List<dynamic> ibans,
-  }) = _WithdrawerDto;
-
-  const WithdrawerDto._();
-
-  factory WithdrawerDto.fromJson(Map<String, dynamic> data) => _$WithdrawerDtoFromJson(data);
-
-  bool get hasLinkedAccounts => bankAccounts.isNotEmpty || cards.isNotEmpty || ibans.isNotEmpty;
 }
 
 @JsonEnum()

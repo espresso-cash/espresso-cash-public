@@ -27,17 +27,6 @@ const lamportsPerSignature = 5000;
 const termsUrl = 'https://espressocash.com/docs/legal/terms';
 const privacyUrl = 'https://espressocash.com/docs/legal/privacy';
 
-/// Currently, the rent cost is fixed at the genesis. However, it's anticipated
-/// to be dynamic, reflecting the underlying hardware storage cost at the time.
-/// So the price is generally expected to decrease as the hardware cost declines
-/// as the technology advances.
-///
-/// For calculating **max** fee it's ok to use this hard-coded value,
-/// since it's not expected to grow.
-///
-/// It's pre-calculated for `TokenProgram.neededAccountSpace = 165`.
-const int tokenProgramRent = 2_039_280;
-
 const Duration waitForSignatureDefaultTimeout = Duration(seconds: 90);
 const Duration pingDefaultInterval = Duration(seconds: 1);
 
@@ -53,30 +42,15 @@ const _solanaHost = isProd
 const espressoCashLinkDomain = 'pay.espressocash.com';
 const espressoCashLinkProtocol = 'espressocash';
 
-const kadoBaseUrl = 'https://app.kado.money/';
-const kadoApiBaseUrl = 'https://api.kado.money';
-const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
-
-const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
-
-const guardarianBaseUrl = 'https://guardarian.com/calculator/v1';
-const guardarianApiKey = String.fromEnvironment('GUARDARIAN_API_KEY');
-
 const brijBaseUrl = isProd ? 'https://widget.brij.fi/quote' : 'https://widget-demo.brij.fi/quote';
 const brijApiKey = String.fromEnvironment('BRIJ_API_KEY');
 
+const kadoApiBaseUrl = 'https://api.kado.money';
 const coinflowApiUrl = isProd
     ? 'https://api.coinflow.cash/api/'
     : 'https://api-sandbox.coinflow.cash/api/';
 
-const coinflowKycUrl = isProd
-    ? 'https://coinflow.cash/withdraw/espresso'
-    : 'https://sandbox.coinflow.cash/withdraw/espresso';
-
 const maxPayloadsPerSigningRequest = 10;
-
-const playstoreName = 'com.pleasecrypto.flutter';
-const appstoreId = '1559625715';
 
 const intercomAppId = String.fromEnvironment('INTERCOM_APP_ID');
 const intercomIosKey = String.fromEnvironment('INTERCOM_IOS_KEY');
