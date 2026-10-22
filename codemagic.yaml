@@ -10,7 +10,7 @@
 #                   APP_STORE_CONNECT_PRIVATE_KEY (.p8 contents), CERTIFICATE_PRIVATE_KEY,
 #                   APP_STORE_APPLE_ID (numeric Apple ID of the app)
 #
-# Both workflows run on a pushed `v*` tag, or manually from the Codemagic UI / API.
+# The release workflows run on a pushed `v*` tag, or manually from the Codemagic UI / API.
 
 definitions:
   triggering: &release_trigger
@@ -39,6 +39,14 @@ definitions:
         done
         echo "--dart-define=PROD=true" >> "$DEFINES_FILE"
         echo "--dart-define=STELLAR_PROD=true" >> "$DEFINES_FILE"
+    - &android_local_properties
+      name: Set up local.properties
+      script: echo "flutter.sdk=$HOME/programs/flutter" > "android/local.properties"
+    - &android_keystore
+      name: Set up keystore
+      script: |
+        echo "$CM_KEYSTORE" | base64 --decode > "$CM_BUILD_DIR/upload.jks"
+        echo "CM_KEYSTORE_PATH=$CM_BUILD_DIR/upload.jks" >> "$CM_ENV"
     - &get_packages
       name: Get Flutter packages
       script: flutter packages pub get
@@ -64,12 +72,8 @@ workflows:
     triggering: *release_trigger
 
     scripts:
-      - name: Set up local.properties
-        script: echo "flutter.sdk=$HOME/programs/flutter" > "android/local.properties"
-      - name: Set up keystore
-        script: |
-          echo "$CM_KEYSTORE" | base64 --decode > "$CM_BUILD_DIR/upload.jks"
-          echo "CM_KEYSTORE_PATH=$CM_BUILD_DIR/upload.jks" >> "$CM_ENV"
+      - *android_local_properties
+      - *android_keystore
       - *prepare_dart_defines
       - *get_packages
       - *generate_code
@@ -96,6 +100,44 @@ workflows:
         credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
         track: alpha
         submit_as_draft: false
+
+  # Signed AAB without Google Play access (no upload). Start it manually and pass
+  # ANDROID_BUILD_NUMBER, which must be higher than the latest build on Google Play.
+  android-build:
+    name: Android build (no upload)
+    max_build_duration: 60
+    instance_type: linux_x2
+    working_directory: packages/espressocash_app
+    environment:
+      groups:
+        - common
+        - android_signing
+      flutter: 3.38.3
+      java: 17
+
+    scripts:
+      - *android_local_properties
+      - *android_keystore
+      - *prepare_dart_defines
+      - *get_packages
+      - *generate_code
+      - name: Build AAB with Flutter
+        script: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+          if [ -z "${ANDROID_BUILD_NUMBER:-}" ]; then
+            echo "Set ANDROID_BUILD_NUMBER when starting this workflow" >&2
+            exit 1
+          fi
+          DART_DEFINES=()
+          while IFS= read -r line; do DART_DEFINES+=("$line"); done < "$CM_BUILD_DIR/dart_defines.txt"
+          flutter build appbundle --release \
+            --build-number="$ANDROID_BUILD_NUMBER" \
+            "${DART_DEFINES[@]}"
+
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
 
   ios-release:
     name: iOS release
