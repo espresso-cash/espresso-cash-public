@@ -170,14 +170,21 @@ workflows:
         script: |
           #!/usr/bin/env bash
           set -euo pipefail
-          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID")
+          # TestFlight alone can report a stale train (e.g. an old 2.0.0 prerelease), so take
+          # the highest build number across App Store and TestFlight.
+          APP_STORE_LATEST=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
+          TESTFLIGHT_LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID")
+          LATEST=$(( APP_STORE_LATEST > TESTFLIGHT_LATEST ? APP_STORE_LATEST : TESTFLIGHT_LATEST ))
           BUILD_NUMBER=$((LATEST + 1))
-          echo "Latest TestFlight build number: $LATEST, building $BUILD_NUMBER"
+          echo "Latest build number: $LATEST (App Store $APP_STORE_LATEST, TestFlight $TESTFLIGHT_LATEST), building $BUILD_NUMBER"
           DART_DEFINES=()
           while IFS= read -r line; do DART_DEFINES+=("$line"); done < "$CM_BUILD_DIR/dart_defines.txt"
+          # APP_VERSION optionally overrides the pubspec version, e.g. for a test build when the
+          # pubspec version is already released.
           flutter build ipa --release \
             --export-options-plist=/Users/builder/export_options.plist \
             --build-number="$BUILD_NUMBER" \
+            ${APP_VERSION:+--build-name="$APP_VERSION"} \
             "${DART_DEFINES[@]}"
 
     artifacts:
